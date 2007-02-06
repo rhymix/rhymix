@@ -1,0 +1,21 @@
+<table>
+<tr>
+  <th>{$lang->no}</th>
+  <th>{$lang->module_name}</th>
+  <th>{$lang->module_version}</th>
+  <th>{$lang->module_table_count}</th>
+  <th>{$lang->module_installed_path}</th>
+  <th>{$lang->author}</th>
+</tr>
+<!--@foreach($installed_module_list as $no => $module_obj)-->
+<tr>
+  <td>{$no+1}</td>
+  <td>{$module_obj->title}</td>
+  <td>{$module_obj->version}</td>
+  <td>{$module_obj->created_table_count} / {$module_obj->table_count}</td>
+  <td>{$module_obj->path}</td>
+  <td><a href="mailto:{$module_obj->author->email_address}">{$module_obj->author->name}</a></td>
+</tr>
+<!--@end-->
+</table>
+

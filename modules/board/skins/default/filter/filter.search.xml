@@ -1,0 +1,15 @@
+<filter id="search">
+  <field>
+    <item target="search_target" required="true" />
+    <item target="keyword" minlegnth="2" maxlength="40" required="true" />
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="search_target" target="search_target" />
+    <item param="keyword" target="keyword" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+  </response>
+</filter>

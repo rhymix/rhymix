@@ -1,0 +1,18 @@
+<filter id="insert" confirm_msg_code="confirm_submit">
+  <field>
+    <item target="document_srl" required="true" />
+    <item target="user_name" required="true" />
+    <item target="password" required="true" />
+    <item target="email_address" maxlength="250" />
+    <item target="homepage" maxlength="250"/>
+    <item target="title" required="true" minlength="1" maxlength="250" />
+    <item target="content" required="true" />
+  </field>
+  <response>
+    <item name="error" />
+    <item name="message" />
+    <item name="mid" />
+    <item name="document_srl" />
+    <item name="category_srl" />
+  </response>
+</filter>

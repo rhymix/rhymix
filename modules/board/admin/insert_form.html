@@ -1,0 +1,99 @@
+<!--%import("filter/filter.insert.xml")-->
+<!--%import("js/admin.js")-->
+
+<div>
+  <!--@if(!$module_srl)-->
+    {$lang->msg_new_module}
+  <!--@else-->
+    {$lang->msg_update_module}
+  <!--@end-->
+</div>
+
+<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert, procInsert)" enctype="multipart/form-data">
+<input type="hidden" name="sid" value="{$sid}" />
+<input type="hidden" name="act" value="procInsert" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<!--@if($module_info->is_default=='Y')-->
+<input type="hidden" name="is_default" value="Y" />
+<!--@end-->
+  <table>
+  <tr>
+    <th rowspan="2">{$lang->mid}</th>
+    <td><input type="text" name="mid" value="{$module_info->mid}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_mid}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->skin}</th>
+    <td>
+      <select name="skin">
+        <!--@foreach($skins as $key=>$val)-->
+        <option value="{$val}">{$val}</option>
+        <!--@end-->
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_skin}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->use_category}</th>
+    <td><input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="true"<!--@end--> /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_use_category}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->browser_title}</th>
+    <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_browser_title}</td>
+  </tr>
+  <!--@if($module_info->is_default!='Y')-->
+  <tr>
+    <th rowspan="2">{$lang->is_default}</th>
+    <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_default}</td>
+  </tr>
+  <!--@end-->
+  <tr>
+    <th rowspan="2">{$lang->description}</th>
+    <td><textarea name="description">{htmlspecialchars($module_info->description)}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_description}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->header_text}</th>
+    <td><textarea name="header_text">{htmlspecialchars($module_info->header_text)}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_header_text}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->footer_text}</th>
+    <td><textarea name="footer_text">{htmlspecialchars($module_info->footer_text)}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_footer_text}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->admin_id}</th>
+    <td><textarea name="admin_id">{$module_info->admin_id}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_admin_id}</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispInfo')}'" />
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>
+  </tr>
+  </table>
+</form>

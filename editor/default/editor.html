@@ -1,0 +1,59 @@
+<!--%import("editor.js")-->
+<!--%import("editor.css")-->
+
+<!-- 에디터 활성화 -->
+<script type="text/javascript">
+  var editor_path = "{$editor_path}";
+  editorInit("{$document_srl}");
+</script>
+
+<!-- 에디터 -->
+<div class="editor_content">
+  <div class="editor_fontbox">
+    <select onChange="editorChangeFontName(this,'{$document_srl}')" id="editor_font_{$document_srl}">
+      <option value="">{$lang->edit->fontname}</option>
+      <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+      <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+      <!--@end-->
+    </select>
+    <select onChange="editorChangeFontSize(this,'{$document_srl}')" id="editor_fontsize_{$document_srl}">
+      <option value="" selected>{$lang->edit->fontsize}</option>
+      <option value="1">8pt</option>
+      <option value="2">10pt</option>
+      <option value="3">12pt</option>
+      <option value="4">14pt</option>
+      <option value="5">18pt</option>
+      <option value="6">24pt</option>
+      <option value="7">36pt</option>
+    </select>
+  </div>
+  <div class="editor_iconbox">
+    <img src="./images/font_color.gif" alt="{$lang->edit->help_fontcolor}" class="editor_icon" id="editor_ForeColor_{$document_srl}" />
+    <img src="./images/font_bg_color.gif" alt="{$lang->edit->help_fontbgcolor}" class="editor_icon" id="editor_BackColor_{$document_srl}" />
+    <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="editor_Bold_{$document_srl}" />
+    <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="editor_Italic_{$document_srl}" />
+    <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="editor_Underline_{$document_srl}" />
+    <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="editor_StrikeThrough_{$document_srl}" />
+    <img src="./images/add_url.gif" alt="{$lang->edit->help_add_url}" class="editor_icon" id="editor_addurl_{$document_srl}" />
+    <img src="./images/add_image.gif" alt="{$lang->edit->help_add_image}" class="editor_icon" id="editor_addimage_{$document_srl}" />
+    <img src="./images/add_multi.gif" alt="{$lang->edit->help_add_multimedia}" class="editor_icon" id="editor_addmultimedia_{$document_srl}" />
+    <img src="./images/emoticon.gif" alt="{$lang->edit->help_add_emoticon}" class="editor_icon" id="editor_addemoticon_{$document_srl}" />
+    <img src="./images/quotation.gif" alt="{$lang->edit->help_add_quotation}" class="editor_icon" id="editor_quotation_{$document_srl}" />
+    <img src="./images/html_add.gif" alt="{$lang->edit->help_add_html}" class="editor_icon" id="editor_addhtml_{$document_srl}" />
+  </div>
+  <div id="editor_paragraph_{$document_srl}" class="editor_iconbox" style="display:none">
+    <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="editor_justifyleft_{$document_srl}" />
+    <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="editor_justifycenter_{$document_srl}" />
+    <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="editor_justifyright_{$document_srl}" />
+    <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="editor_outdent_{$document_srl}" />
+    <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="editor_indent_{$document_srl}" />
+    <img src="./images/list_number.gif" alt="list number" id="editor_insertorderedlist_{$document_srl}" />
+    <img src="./images/list_bullet.gif" alt="list bullet" id="editor_insertunorderedlist_{$document_srl}" />
+  </div>
+  <div class="editor_parabox" id="editor_use_paragraph_box_{$document_srl}">
+    <input type="checkbox" name="use_paragraph" id="editor_use_paragraph_{$document_srl}" onclick="editorUseParagraph(this,'{$document_srl}');" />
+    <label for="editor_use_paragraph_{$document_srl}">{$lang->edit->use_paragraph}</label>
+  </div>
+    
+  <div class="editor_iframe_box"><iframe id="editor_iframe_{$document_srl}" frameBorder="0" style="border:0px;width:99%;height:300px;margin:0px;"></iframe><div class="editor_drag_down_area" id="editor_drag_bar_{$document_srl}"></div></div>
+</div>

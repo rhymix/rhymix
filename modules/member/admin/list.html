@@ -1,0 +1,58 @@
+<!--#include("header.html")-->
+
+<!-- 정보 -->
+<div>
+  {number_format($total_count)}, 
+  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+</div>
+
+
+<!-- 목록 -->
+<div>
+  <table>
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->user_id}</th>
+    <th>{$lang->user_name}</th>
+    <th>{$lang->nick_name}</th>
+    <th>{$lang->allow_mailing}</th>
+    <th>{$lang->denied}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->last_login}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($member_list as $no => $val)-->
+  <tr>
+    <td>{$val->member_srl}</td>
+    <td><a href="{getUrl('act','dispInfo','member_srl',$val->member_srl)}">{$val->user_id}</a></td>
+    <td>{$val->user_name}</td>
+    <td>{$val->nick_name}</td>
+    <td>{$val->allow_mailing}</td>
+    <td>{$val->denied}</td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td>{zdate($val->last_login,"Y-m-d H:i:s")}</td>
+    <td><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+  [<a href="{getUrl('act','dispInsert','member_srl','')}">{$lang->cmd_make}</a>]
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+  <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
+
+  <!--@while($page_no = $page_navigation->getNextPage())-->
+  <!--@if($page == $page_no)-->
+    {$page_no}
+  <!--@else-->
+    <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+  <!--@end-->
+  <!--@end-->
+
+  <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
+</div>

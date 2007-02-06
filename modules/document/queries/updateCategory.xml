@@ -1,0 +1,13 @@
+<query id="updateCategory" action="update">
+  <tables>
+    <table name="categories" />
+  </tables>
+  <columns>
+    <column name="title" var="title" />
+    <column name="list_order" var="list_order" />
+    <column name="last_update" var="last_update" default="curdate()" />
+  </columns>
+  <conditions>
+    <condition operation="equal" column="category_srl" var="category_srl" filter="number" notnull="notnull" />
+  </conditions>
+</query>

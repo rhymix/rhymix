@@ -1,0 +1,21 @@
+<!--%import("filter/filter.logout.xml")-->
+<!--%import("js/admin.js")-->
+
+<form action="./admin.php" method="get" onsubmit="return procFormFilter(this, logout, procLogout)">
+  <input type="hidden" name="act" value="procLogout" />
+  <table>
+  <tr>
+    <th>{$lang->cmd_logout}</th>
+  </tr>
+  <tr>
+    <td>{$lang->confirm_logout}</td>
+  </tr>
+  <tr>
+    <td>
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
+      <input type="submit" value="{$lang->cmd_logout}" />
+    </td>
+  </tr>
+  </table>
+
+</form>

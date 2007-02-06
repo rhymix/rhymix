@@ -1,0 +1,42 @@
+#waitingforserverresponse {
+  display:inline;
+  border:2px solid #444444;
+  background-color:#FFFFFF;
+  padding:15px 20px 13px 20px;
+  font-weight:bold;
+  font-size:9pt;
+  color:#444444;
+  top:40px;
+  left:40px;
+  position:absolute;
+  z-index:100;
+  visibility:hidden;
+}
+
+A.bold {
+  font-weight:bold;
+}
+
+A.editor_blue_text:link { color: #17B1B7; text-decoration:none; border-bottom:2px solid #17B1B7;}
+A.editor_blue_text:visited { color: #17B1B7; text-decoration:none; border-bottom:2px solid #17B1B7;}
+A.editor_blue_text:active { color: #17B1B7; text-decoration:none; border-bottom:2px solid #17B1B7;}
+A.editor_blue_text:hover { color: #17B1B7; text-decoration:none; border-bottom:2px solid #17B1B7;}
+
+A.editor_red_text:link { color: #B71717; text-decoration:none; border-bottom:2px solid #B71717; }
+A.editor_red_text:visited { color: #B71717; text-decoration:none; border-bottom:2px solid #B71717;}
+A.editor_red_text:active { color: #B71717; text-decoration:none; border-bottom:2px solid #B71717;}
+A.editor_red_text:hover { color: #B71717; text-decoration:none; border-bottom:2px solid #B71717;}
+
+A.editor_yellow_text:link { color: #6A8308; text-decoration:none; border-bottom:2px solid #6A8308; }
+A.editor_yellow_text:visited { color: #6A8308; text-decoration:none; border-bottom:2px solid #6A8308;}
+A.editor_yellow_text:active { color: #6A8308; text-decoration:none; border-bottom:2px solid #6A8308;}
+A.editor_yellow_text:hover { color: #6A8308; text-decoration:none; border-bottom:2px solid #6A8308;}
+
+A.editor_green_text:link { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
+A.editor_green_text:visited { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
+A.editor_green_text:active { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
+A.editor_green_text:hover { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
+
+.folder_opener { display: block; }
+.folder_closer { display: none; }
+.folder_area { display: none; }

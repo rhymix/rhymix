@@ -1,0 +1,14 @@
+<filter id="logout">
+  <field>
+    <item target="mid" required="true" />
+    <item target="act" required="true" />
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+  </response>
+</filter>

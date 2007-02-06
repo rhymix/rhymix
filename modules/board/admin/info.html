@@ -1,0 +1,37 @@
+<!--#include("header.html")-->
+
+<table>
+<tr>
+  <th>{$lang->skin}</th>
+  <td>{$module_info->skin}</td>
+</tr>
+<tr>
+  <th>{$lang->use_category}</th>
+  <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+</tr>
+<tr>
+  <th>{$lang->browser_title}</th>
+  <td>{$module_info->browser_title}</td>
+</tr>
+<tr>
+  <th>{$lang->description}</th>
+  <td>{nl2br($module_info->description)}</td>
+</tr>
+<tr>
+  <th>{$lang->header_text}</th>
+  <td>{$module_info->header_text}</td>
+</tr>
+<tr>
+  <th>{$lang->footer_text}</th>
+  <td>{$module_info->footer_text}</td>
+</tr>
+<tr>
+  <th>{$lang->admin_id}</th>
+  <td>{$module_info->admin_id}</td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispInsert')}'" />
+  </td>
+</tr>
+</table>

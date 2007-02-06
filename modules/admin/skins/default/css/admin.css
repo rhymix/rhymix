@@ -1,0 +1,22 @@
+#admin_title {
+  font-weight:bold;
+  float:left;
+  height:30px;
+}
+
+#admin_info {
+  float:right;
+  height:30px;
+}
+
+#admin_module_list {
+  clear:both;
+  float:left;
+}
+
+#admin_module_content {
+  position:relative;
+  margin-left:150px;
+  left:0px;
+  top:30px;
+}

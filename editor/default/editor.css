@@ -1,0 +1,176 @@
+div.editor_content {
+  margin:3px;
+}
+
+div.editor_fontbox {
+  margin : 3px 3px 3px 0px;
+  float:left;
+}
+
+div.editor_fontbox select {
+  width:70px;
+  height:18px;
+}
+
+div.editor_iconbox {
+  margin : 3px 3px 3px 0px;
+  white-space:nowrap;
+  font-size:1pt;
+  float:left;
+}
+
+div.editor_iconbox img {
+  width : 16px;
+  height : 16px;
+  border : 1px solid #EEEEEE;
+  background-color : #FFFFFF;
+  padding:1px;
+  cursor : pointer;
+  margin-right:1px;
+}
+
+div.editor_parabox {
+  margin : 3px 3px 3px 0px;
+  font-size:9pt;
+  text-align:right;
+  display:none;
+  float:right;
+}
+
+div.editor_iframe_box {
+  clear:left;
+  border:1px solid #EFEFEF; 
+  margin:3px 0px 0px 0px;
+}
+
+div.editor_drag_down_area {
+  width:100%;
+  height:15px;
+  background:url(./images/icon_drag_down.gif) no-repeat center;
+  background-color:#EFEFEF;
+  cursor:s-resize;
+  position:relative;
+  margin-top:10px;
+}
+
+.editor_pop_body {
+  padding:4px 4px 4px 4px;
+  margin:0px;
+  border:0px;
+  background-color:#FFFFFF;
+}
+
+.editor_window {
+  background-color : #EFEFEF;
+}
+
+textarea.editor_small_textarea {
+  font-family:tahoma;
+  border : 1px solid #CCCCCC;
+  background-color : #FFFFFF;
+  font-size : 8pt;
+  width:99%;
+  height:100px;
+}
+
+textarea.editor_textarea {
+  font-family:tahoma;
+  border : 1px solid #CCCCCC;
+  background-color : #FFFFFF;
+  font-size : 8pt;
+  width:100%;
+  height:450px;
+}
+
+input.editor_submit {
+  border : 1px solid #555555;
+  background-color : #AAAAAA;
+  color : #000000;
+  font-weight:bold;
+  font-family:verdana;
+  width : 100%;
+  height : 20px;
+  font-size : 8pt;
+}
+
+div.quotation_box {
+  font-size:8pt;
+  font-family:tahoma;
+  margin-bottom:8px;
+  padding-bottom:5px;
+  border-bottom:1px dotted #AAAAAA;
+}
+
+#quotation th { width:80px; font-size:8pt; font-family:tahoma; }
+
+img.color_icon {
+  width:15px;
+  height:15px;
+  border:1px solid #FFFFFF;
+}
+
+img.color_icon_over {
+  width:15px;
+  height:15px;
+  border:1px solid #000000;
+  cursor:pointer;
+}
+
+td.editor_field {
+  font-family:tahoma;
+  font-size:8pt;
+  font-weight:bold;
+  background-color : #CCCCCC;
+  text-align : center;
+}
+
+input.editor_input {
+  font-family:tahoma;
+  border : 1px solid #CCCCCC;
+  background-color : #FFFFFF;
+  width : 330px;
+  height : 18px;
+  padding : 1px;
+  font-size : 8pt;
+}
+
+.editor_uploader_box {
+  margin:0px;
+  border:0px;
+  padding:0px;
+}
+
+.editor_uploader_box table {
+  border:0px;
+  margin:0px;
+  padding:2px;
+  table-layout:fixed;
+  width:100%;
+}
+
+.uploaded_file_preview_box {
+  border:1px solid #EEEEEE;
+  width:120px;
+  height:120px;
+}
+
+.uploaded_file_list {
+  width:100%;
+  height:120px;
+}
+
+.editor_align_icon {
+  margin:0px 0px 6px 5px;
+  font-size:9pt;
+}
+
+.editor_align_icon img {
+  vertical-align:middle;
+  cursor:pointer;
+}
+
+img.editor_multimedia {
+  background:url(./images/multimedia_icon.gif) no-repeat center;
+  background-color:#FFFFFF;
+  border:2px dotted #B7AD10;
+}

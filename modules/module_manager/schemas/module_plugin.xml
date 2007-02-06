@@ -1,0 +1,7 @@
+<table name="module_plugin">
+  <column name="module_plugin_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" />
+  <column name="plugin" type="varchar" size="80" notnull="notnull" />
+  <column name="config" type="text" />
+  <column name="regdate" type="date" />
+</table>

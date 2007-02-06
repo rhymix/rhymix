@@ -1,0 +1,14 @@
+<!--%import("js/admin.js")-->
+
+<div style="margin-bottom:20px;">
+    <span>[<a href="{getUrl('act','','module_srl','')}">{$lang->cmd_list}</a>]</span>
+    <span <!--@if($act=='dispInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispInfo')}">{$lang->cmd_view_info}</a>]</span>
+    <span <!--@if($act=='dispCategoryInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispCategoryInfo')}">{$lang->cmd_manage_category}</a>]</span>
+    <span <!--@if($act=='dispGrantInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispGrantInfo')}">{$lang->cmd_manage_grant}</a>]</span>
+    <span <!--@if($act=='dispSkinInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispSkinInfo')}">{$lang->cmd_manage_skin}</a>]</span>
+</div>
+<div style="margin-bottom:20px;font-weight:bold;">
+    {$lang->mid} : {$module_info->mid}
+    (<a href="./?mid={$module_info->mid}" target="_blank">{$lang->cmd_move}</a>)
+    <!--@if($module_info->is_default=='Y')-->[{$lang->is_default}]<!--@end-->
+</div>

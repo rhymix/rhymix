@@ -1,0 +1,12 @@
+<table name="trackbacks">
+  <column name="trackback_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+  <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
+  <column name="url" type="varchar" size="250" notnull="notnull" />
+  <column name="title" type="varchar" size="250" notnull="notnull" />
+  <column name="blog_name" type="varchar" size="250" notnull="notnull" />
+  <column name="excerpt" type="text" notnull="notnull" />
+  <column name="regdate" type="date" index="idx_regdate" />
+  <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
+  <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+</table>

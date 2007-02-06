@@ -1,0 +1,26 @@
+<query id="insertMember" action="insert">
+  <tables>
+    <table name="member" />
+  </tables>
+  <columns>
+    <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+    <column name="user_id" var="user_id" filter="userid" notnull="notnull" />
+    <column name="email_address" var="email_address" filter="email" notnull="notnull" />
+    <column name="password" var="password" notnull="notnull" />
+    <column name="email_id" var="email_id" notnull="notnull" />
+    <column name="email_host" var="email_host" notnull="notnull" />
+    <column name="user_name" var="user_name" notnull="notnull" minlength="2" maxlength="40" />
+    <column name="nick_name" var="nick_name" notnull="notnull" minlength="2" maxlength="40" />
+    <column name="image_nick" var="image_nick" />
+    <column name="image_mark" var="image_mark" />
+    <column name="profile_image" var="profile_image" />
+    <column name="signature" var="signature" />
+    <column name="allow_mailing" var="allow_mailing" default="Y" />
+    <column name="unread_message" var="unread_message" default="0" />
+    <column name="denied" var="denied" default="N" />
+    <column name="regdate" var="regdate" default="curdate()" />
+    <column name="last_login" var="last_login" />
+    <column name="is_admin" var="is_admin" default="N" />
+    <column name="description" var="description" />
+  </columns>
+</query>

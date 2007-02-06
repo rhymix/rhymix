@@ -1,0 +1,21 @@
+<!--%import("css/admin.css")-->
+<!--%import("js/admin.js")-->
+
+<!--#include("./common/tpl/common_header.html")-->
+
+<div id="admin_title"><a href="./admin.php">zeroboard5</a></div>
+<div id="admin_info">
+  <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
+</div>
+<div id="admin_module_list">
+  <!--@foreach($module_list as $module_name => $module_title)-->
+    <div <!--@if($module_name==$sid)-->style="font-weight:bold;"<!--@end-->>
+      <a href="{getUrl('sid',$module_name,'act','','module_srl','','page','')}">{$module_title}</a>
+    </div>
+  <!--@end-->
+</div>
+<div id="admin_module_content">
+  {$content}
+</div>
+
+<!--#include("./common/tpl/common_footer.html")-->

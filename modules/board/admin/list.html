@@ -1,0 +1,58 @@
+<!--%import("js/admin.js")-->
+
+<!-- 게시판 정보 -->
+<div>
+  {number_format($total_count)}, 
+  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+</div>
+
+
+<!-- 목록 -->
+<div>
+  <table>
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->mid}</th>
+    <th>{$lang->browser_title}</th>
+    <th>{$lang->is_default}</th>
+    <th>{$lang->skin}</th>
+    <th>{$lang->admin_id}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->cmd_move}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($board_list as $no => $val)-->
+  <tr>
+    <td>{$no}</td>
+    <td><a href="{getUrl('act','dispInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
+    <td>{$val->browser_title}</td>
+    <td>{$val->is_default}</td>
+    <td>{$val->skin}</td>
+    <td>{$val->admin_id}</td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td><a href="./?mid={$val->mid}" target="_blank">{$lang->cmd_move}</a></td>
+    <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispDeleteForm','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+  [<a href="{getUrl('act','dispInsert','module_srl','')}">{$lang->cmd_make}</a>]
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+  <a href="{getUrl('page','','module_srl','')}">[{$lang->first_page}]</a>
+
+  <!--@while($page_no = $page_navigation->getNextPage())-->
+  <!--@if($page == $page_no)-->
+    {$page_no}
+  <!--@else-->
+    <a href="{getUrl('page',$page_no,'module_srl','')}">[{$page_no}]</a>
+  <!--@end-->
+  <!--@end-->
+
+  <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}">[{$lang->last_page}]</a>
+</div>

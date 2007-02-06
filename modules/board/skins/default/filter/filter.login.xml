@@ -1,0 +1,16 @@
+<filter id="login">
+  <field>
+    <item target="user_id" required="true" filter="user_id"/>
+    <item target="password" required="true" />
+  </field>
+  <parameter>
+    <item param="user_id" target="user_id" />
+    <item param="password" target="password" />
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+  </response>
+</filter>

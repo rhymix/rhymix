@@ -1,0 +1,49 @@
+<!--#include("header.html")-->
+
+<table>
+<tr>
+  <th>{$lang->user_id}</th>
+  <td>{$member_info->user_id}</td>
+</tr>
+<tr>
+  <th>{$lang->user_name}</th>
+  <td>{$member_info->user_name}</td>
+</tr>
+<tr>
+  <th>{$lang->nick_name}</th>
+  <td>{$member_info->nick_name}</td>
+</tr>
+<tr>
+  <th>{$lang->email_address}</th>
+  <td>{$member_info->email_address}</td>
+</tr>
+<tr>
+  <th>{$lang->allow_mailing}</th>
+  <td>{$member_info->allow_mailing}</td>
+</tr>
+<tr>
+  <th>{$lang->denied}</th>
+  <td>{$member_info->denied}</td>
+</tr>
+<tr>
+  <th>{$lang->is_admin}</th>
+  <td>{$member_info->is_admin}</td>
+</tr>
+<tr>
+  <th>{$lang->group}</th>
+  <td>
+    <!--@foreach($member_info->group_list as $key => $val)-->
+      {$val}
+    <!--@end-->
+  </td>
+</tr>
+<tr>
+  <th>{$lang->description}</th>
+  <td>{$member_info->description}</td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispInsert')}'" />
+  </td>
+</tr>
+</table>

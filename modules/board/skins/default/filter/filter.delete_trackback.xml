@@ -1,0 +1,19 @@
+<filter id="delete_trackback">
+  <field>
+    <item target="trackback_srl" required="true" />
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+    <item param="page" target="page" />
+    <item param="document_srl" target="document_srl" />
+    <item param="trackback_srl" target="trackback_srl" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+    <item name="mid" />
+    <item name="document_srl" />
+    <item name="page" />
+  </response>
+</filter>

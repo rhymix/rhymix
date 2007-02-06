@@ -1,0 +1,35 @@
+<filter id='install_filter'>
+  <field>
+    <item target="db_type" required="true" />
+    <item target="db_hostname" required="true" minlength="1" maxlength="250" />
+    <item target="db_userid" required="true" minlength="1" maxlength="250"/>
+    <item target="db_password" required="true" minlength="1" maxlength="250" />
+    <item target="db_database" required="true" minlength="1" maxlength="250" />
+    <item target="db_table_prefix" required="true" minlength="2" maxlength="20" filter="alpha"/>
+    <item target="user_id" required="true" minlength="3" maxlength="20" filter="alpha,userid" />
+    <item target="password1" required="true" minlength="1" maxlength="20" />
+    <item target="password2" required="true" equalto="password1" minlength="1" maxlegnth="20" />
+    <item target="user_name" required="true" minlength="3" maxlength="20" />
+    <item target="nick_name" required="true" minlength="3" maxlength="20" />
+    <item target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+    <item param="db_type" target="db_type" />
+    <item param="db_hostname" target="db_hostname" />
+    <item param="db_userid" target="db_userid" />
+    <item param="db_password" target="db_password" />
+    <item param="db_database" target="db_database" />
+    <item param="db_table_prefix" target="db_table_prefix" />
+    <item param="user_id" target="user_id" />
+    <item param="password" target="password1" />
+    <item param="user_name" target="user_name" />
+    <item param="nick_name" target="nick_name" />
+    <item param="email_address" target="email_address" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+  </response>
+</filter>

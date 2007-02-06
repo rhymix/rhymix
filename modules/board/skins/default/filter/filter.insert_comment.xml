@@ -1,0 +1,29 @@
+<filter id="insert_comment" confirm_msg_code="confirm_submit">
+  <field>
+    <item target="document_srl" required="true" />
+    <item target="user_name" required="true" />
+    <item target="password" required="true" />
+    <item target="email_address" maxlength="250" />
+    <item target="homepage" maxlength="250"/>
+    <item target="content" required="true" minlength="1" />
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+    <item param="document_srl" target="document_srl" />
+    <item param="comment_srl" target="comment_srl" />
+    <item param="parent_srl" target="parent_srl" />
+    <item param="user_name" target="user_name" />
+    <item param="password" target="password" />
+    <item param="email_address" target="email_address" />
+    <item param="homepage" target="homepage" />
+    <item param="content" target="content" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+    <item name="mid" />
+    <item name="document_srl" />
+    <item name="comment_srl" />
+  </response>
+</filter>

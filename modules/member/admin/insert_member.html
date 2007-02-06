@@ -1,0 +1,111 @@
+<!--#include("header.html")-->
+<!--%import("filter/filter.insert.xml")-->
+
+<div>
+  <!--@if(!$member_srl)-->
+    {$lang->msg_new_member}
+  <!--@else-->
+    {$lang->msg_update_member}
+  <!--@end-->
+</div>
+
+<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert, procInsert)" enctype="multipart/form-data">
+<input type="hidden" name="sid" value="{$sid}" />
+<input type="hidden" name="act" value="procInsert" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="member_srl" value="{$member_srl}" />
+<!--@if($member_info->member_srl)-->
+<input type="hidden" name="user_id" value="{$member_info->user_id}" />
+<!--@end-->
+  <table>
+  <tr>
+    <th rowspan="2">{$lang->user_id}</th>
+    <td>
+      <!--@if($member_info->member_srl)-->
+      {$member_info->user_id}
+      <!--@else-->
+      <input type="text" name="user_id" value="" />
+      <!--@end-->
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_user_id}</td>
+  </tr>
+  <tr>
+    <th>{$lang->password}</th>
+    <td>
+      <input type="password" name="password" value="" />
+    </td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->user_name}</th>
+    <td>
+      <input type="text" name="user_name" value="{$member_info->user_name}" />
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_user_name}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->nick_name}</th>
+    <td>
+      <input type="text" name="nick_name" value="{$member_info->nick_name}" />
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_nick_name}</td>
+  </tr>
+  <tr>
+    <th>{$lang->email_address}</th>
+    <td>
+      <input type="text" name="email_address" value="{$member_info->email_address}" />
+    </td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->allow_mailing}</th>
+    <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_allow_mailing}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->denied}</th>
+    <td><input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_denied}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->is_admin}</th>
+    <td><input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_is_admin}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->description}</th>
+    <td><textarea name="description">{htmlspecialchars($member_info->description)}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_description}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->group}</th>
+    <td>
+      <!--@foreach($group_list as $key=>$val)-->
+        <input type="checkbox" name="group_srl_list" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="true"<!--@end-->/>
+        <label for="group_{$key}">{$val->title}</label>
+      <!--@end-->
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_group}</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}'" />
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>
+  </tr>
+  </table>
+</form>

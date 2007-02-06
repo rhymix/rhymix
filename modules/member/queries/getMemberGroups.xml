@@ -1,0 +1,14 @@
+<query id="getMemberGroups" action="select">
+  <tables>
+    <table name="member_group" alias="a"/>
+    <table name="member_group_member" alias="b"/>
+  </tables>
+  <columns>
+    <column name="a.title" alias="title" />
+    <column name="a.group_srl" alias="group_srl" />
+  </columns>
+  <conditions>
+    <condition operation="equal" column="b.member_srl" var="member_srl" filter="number" notnull="notnull" />
+    <condition operation="equal" column="b.group_srl" var="a.group_srl" pipe="and" />
+  </conditions>
+</query>

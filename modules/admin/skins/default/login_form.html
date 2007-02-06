@@ -1,0 +1,30 @@
+<!--%import("filter/filter.login.xml")-->
+<!--%import("js/admin.js")-->
+
+<form action="./" method="get" onsubmit="return procFormFilter(this, login, procReload)">
+  <input type="hidden" name="sid" value="{$sid}" />
+  <input type="hidden" name="act" value="procLogin" />
+  <table>
+  <col width="120" />
+  <col width="*" />
+  <tr>
+    <th>{$lang->user_id}</th>
+    <td><input type="text" name="user_id" id="user_id" /></td>
+  </tr>
+  <tr>
+    <th>{$lang->password}</th>
+    <td><input type="password" name="password" value="" /></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
+      <input type="submit" value="{$lang->cmd_login}" />
+    </td>
+  </tr>
+  </table>
+
+</form>
+
+<script type="text/javascript">
+  xAddEventListener(window, 'load', procAdminLoginFocus);
+</script>

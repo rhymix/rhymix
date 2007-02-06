@@ -1,0 +1,119 @@
+<!--#include("./header.html")-->
+
+<form action="./admin.php" method="post" enctype="multipart/form-data">
+<input type="hidden" name="sid" value="{$sid}" />
+<input type="hidden" name="act" value="procUpdateSkinInfo" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="page" value="{$page}" />
+
+  <div style="margin-bottom:10px;">
+    <table>
+    <tr>
+      <th colspan="2">{$lang->skin_default_info}</th>
+    </tr>
+    <tr>
+      <th>{$lang->skin}</th>
+      <td>{$skin_info->title}</td>
+    </tr>
+    <tr>
+      <th>{$lang->skin_maker}</th>
+      <td>{$skin_info->maker->name} (<a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->email_address}</a>)</td>
+    </tr>
+    <tr>
+      <th>{$lang->skin_maker_homepage}</th>
+      <td><a href="{$skin_info->maker->homepage}" target="_blank">{$skin_info->maker->homepage}</a></td>
+    </tr>
+    <tr>
+      <th>{$lang->date}</th>
+      <td>{$skin_info->maker->date}</td>
+    </tr>
+    <tr>
+      <th>{$lang->description}</th>
+      <td>{nl2br($skin_info->maker->description)}</td>
+    </tr>
+    <tr valign="top">
+      <th>{$lang->colorset}</th>
+      <td>
+        <!--@foreach($skin_info->colorset as $key => $val)-->
+        <div>
+          <!--@if($val->screenshot)-->
+          <img src="{$val->screenshot}" align="left" alt="{$val->title}" />
+          <!--@end-->
+          <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="true"<!--@end-->/>  
+          <label for="colorset_{$key}">{$val->title}</label>
+        </div>
+        <!--@end-->
+      </td>
+    </tr>
+    </table>
+  </div>
+
+  <!--@if($skin_info->extra_vars)-->
+  <div>
+    <table>
+    <tr>
+      <th colspan="2">{$lang->extra_vars}</th>
+    </tr>
+    <!--@foreach($skin_info->extra_vars as $key => $val)-->
+
+    <tr>
+      <th <!--@if($val->description)-->rowspan="2"<!--@end-->>{$val->title}</th>
+      <td>
+        <!--@if($val->type=="text")-->
+          <input type="text" name="{$val->name}" value="{$val->value}" />
+
+        <!--@elseif($val->type=="textarea")-->
+          <textarea name="{$val->name}">{$val->value}</textarea>
+
+        <!--@elseif($val->type=="select")-->
+          <select name="{$val->name}">
+            <!--@foreach($val->default as $k=>$v)-->
+            <option value="{$v}" <!--@if($v==$val->value)-->selected="true"<!--@end-->>{$v}</option>
+            <!--@end-->
+          </select>
+
+        <!--@elseif($val->type=="checkbox")-->
+          <!--@foreach($val->default as $k=>$v)-->
+          <span>
+            <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="true"<!--@end-->/> 
+            <label for="ch_{$key}_{$k}">{$v}</label>
+          </span>
+          <!--@end-->
+
+        <!--@elseif($val->type=="radio")-->
+          <!--@foreach($val->default as $k=>$v)-->
+          <span>
+            <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="true"<!--@end-->/> 
+            <label for="ch_{$key}_{$k}">{$v}</label>
+          </span>
+          <!--@end-->
+
+        <!--@elseif($val->type=="image")-->
+          <!--@if($val->value)-->
+          <div>
+            <img src="{$val->value}" /><br />
+            <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" />
+            <label for="del_{$val->name}">{$lang->cmd_delete}</label>
+          </div>
+          <!--@end-->
+          <input type="file" name="{$val->name}" value="" />
+        <!--@end-->
+        
+      </td>
+    </tr>
+    <!--@if($val->description)-->
+    <tr>
+      <td>{nl2br($val->description)}</td>
+    </tr>
+    <!--@end-->
+
+    <!--@end-->
+    </table>
+  </div>
+  <!--@end-->
+
+  <div>
+    <input type="submit" value="{$lang->cmd_registration}" />
+  </div>
+
+</form>

@@ -1,0 +1,14 @@
+<query id="getCommentList" action="select">
+  <tables>
+    <table name="comments" />
+  </tables>
+  <columns>
+    <column name="*" />
+  </columns>
+  <conditions>
+    <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+  </conditions>
+  <navigation>
+    <index var="list_order" order="asc" />
+  </navigation>
+</query>

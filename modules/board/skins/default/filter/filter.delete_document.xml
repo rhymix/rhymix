@@ -1,0 +1,17 @@
+<filter id="delete_document">
+  <field>
+    <item target="document_srl" required="true" />
+  </field>
+  <parameter>
+    <item param="mid" target="mid" />
+    <item param="act" target="act" />
+    <item param="page" target="page" />
+    <item param="document_srl" target="document_srl" />
+  </parameter>
+  <response>
+    <item name="error" />
+    <item name="message" />
+    <item name="mid" />
+    <item name="page" />
+  </response>
+</filter>
