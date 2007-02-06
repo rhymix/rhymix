@@ -265,7 +265,7 @@
     function _fetch($compiled_tpl_file, $buff = NULL) {
       $__Context = &$GLOBALS['__Context__'];
 
-      if($_SESSION['is_logged']) $__Context->logged_info->$_SESSION['logged_info'];
+      if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
 
       // ob_start를 시킨후 컴파일된 tpl파일을 include하고 결과를 return
       ob_start();
