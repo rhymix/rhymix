@@ -111,6 +111,60 @@
       return new Output();
     }/*}}}*/
 
+    // 사용자 정보 
+    // public object getLoggedInfo()/*{{{*/
+    // user_id에 해당하는 사용자 정보 return
+    function getLoggedInfo() {
+      // 로그인 되어 있고 세션 정보를 요청하면 세션 정보를 return
+      if($this->isLogged()) return $_SESSION['logged_info'];
+    }/*}}}*/
+
+    // public object getMemberInfo($user_id)/*{{{*/
+    // user_id에 해당하는 사용자 정보 return
+    function getMemberInfo($user_id) {
+      // DB에서 가져오기
+      $oDB = &DB::getInstance();
+      $args->user_id = $user_id;
+      $output = $oDB->executeQuery('member.getMemberInfo', $args);
+      if(!$output) return $output;
+
+      $member_info = $output->data;
+      $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+
+      return $member_info;
+    }/*}}}*/
+
+    // public object getMemberInfoByMemberSrl($member_srl)/*{{{*/
+    // user_id에 해당하는 사용자 정보 return
+    function getMemberInfoByMemberSrl($member_srl) {
+      // DB에서 가져오기
+      $oDB = &DB::getInstance();
+      $args->member_srl = $member_srl;
+      $output = $oDB->executeQuery('member.getMemberInfoByMemberSrl', $args);
+      if(!$output) return $output;
+
+      $member_info = $output->data;
+      $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+
+      return $member_info;
+    }/*}}}*/
+
+    // public int getMemberSrl() /*{{{*/
+    // 현재 접속자의 member_srl을 return
+    function getMemberSrl() {
+      if(!$this->isLogged()) return;
+      return $_SESSION['member_srl'];
+    }/*}}}*/
+
+    // public int getUserID() /*{{{*/
+    // 현재 접속자의 user_id을 return
+    function getUserID() {
+      if(!$this->isLogged()) return;
+      $logged_info = $_SESSION['logged_info'];
+      return $logged_info->user_id;
+    }/*}}}*/
+
+
     // member 정보 입출력 관련 
     // public void insertAdmin($args)/*{{{*/
     // 관리자를 추가한다
@@ -232,50 +286,6 @@
       $_SESSION['is_logged'] = false;
       $_SESSION['logged_info'] = '';
       return false;
-    }/*}}}*/
-
-    // public object getLoggedInfo()/*{{{*/
-    // user_id에 해당하는 사용자 정보 return
-    function getLoggedInfo() {
-      // 로그인 되어 있고 세션 정보를 요청하면 세션 정보를 return
-      if($this->isLogged()) return $_SESSION['logged_info'];
-    }/*}}}*/
-
-    // public object getMemberInfo($user_id)/*{{{*/
-    // user_id에 해당하는 사용자 정보 return
-    function getMemberInfo($user_id) {
-      // DB에서 가져오기
-      $oDB = &DB::getInstance();
-      $args->user_id = $user_id;
-      $output = $oDB->executeQuery('member.getMemberInfo', $args);
-      if(!$output) return $output;
-
-      $member_info = $output->data;
-      $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
-
-      return $member_info;
-    }/*}}}*/
-
-    // public object getMemberInfoByMemberSrl($member_srl)/*{{{*/
-    // user_id에 해당하는 사용자 정보 return
-    function getMemberInfoByMemberSrl($member_srl) {
-      // DB에서 가져오기
-      $oDB = &DB::getInstance();
-      $args->member_srl = $member_srl;
-      $output = $oDB->executeQuery('member.getMemberInfoByMemberSrl', $args);
-      if(!$output) return $output;
-
-      $member_info = $output->data;
-      $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
-
-      return $member_info;
-    }/*}}}*/
-
-    // public int getMemberSrl() /*{{{*/
-    // 현재 접속자의 member_srl을 return
-    function getMemberSrl() {
-      if(!$this->isLogged()) return;
-      return $_SESSION['member_srl'];
     }/*}}}*/
 
     // group 관련

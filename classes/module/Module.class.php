@@ -47,6 +47,47 @@
         $template_path = $this->module_path.'skins/'.$this->skin;
         $this->setTemplatePath($template_path);
       }
+
+      $oMember = getModule('member');
+      $user_id = $oMember->getUserID();
+      $logged_info = $oMember->getLoggedInfo();
+      $user_group = $logged_info->group_list;
+      $user_group_count = count($user_group);
+
+      // 로그인되어 있다면 admin 체크
+      if($oMember->isLogged() && ($logged_info->is_admin == 'Y' || in_array($user_id, $this->module_info->admin_id) )) {
+        $grant->is_admin = true;
+      } else {
+        $grant->is_admin = false;
+      }
+
+      // 권한 설정
+      if($this->grant_list) {
+
+        foreach($this->grant_list as $grant_name) {
+          $grant->{$grant_name} = false;
+
+          if($grant->is_admin || !$this->module_info->grant[$grant_name]) {
+            $grant->{$grant_name} = true;
+            continue;
+          }
+
+          if($user_group_count) {
+            foreach($user_group as $group_srl) {
+              if(in_array($group_srl, $this->module_info->grant[$grant_name])) {
+                $grant->{$grant_name} = true;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      // 권한변수 설정
+      Context::set('grant',$grant);
+
+      // 모듈의 init method 실행
+      $this->init();
     }/*}}}*/
 
     // public boolean isExistsAct($act)/*{{{*/

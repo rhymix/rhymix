@@ -52,12 +52,12 @@
 
     // 초기화
     function init() {/*{{{*/
+      // lang
+      Context::loadLang($this->template_path.'lang/');
     }/*}}}*/
 
     // disp 초기화
     function dispInit() {/*{{{*/
-      // lang
-      Context::loadLang($this->template_path.'lang/');
 
       // 카테고리를 사용한다면 카테고리 목록을 구해옴
       if($this->module_info->use_category=='Y') {
@@ -77,9 +77,6 @@
     
     // proc 초기화
     function procInit() {/*{{{*/
-      // lang
-      Context::loadLang($this->template_path.'lang/');
-
       // 파일 업로드일 경우 $act값을 procUploadFile() 로 변경
       if(Context::isUploaded()) $this->act = 'procUploadFile';
 

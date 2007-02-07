@@ -92,9 +92,9 @@
       $output = $oDB->executeQuery('module_manager.getMidInfo', $args);
       if(!$output->data) return;
       return module_manager::arrangeModuleInfo($output->data);
-    }
+    }/*}}}*/
 
-    // public object arrangeModuleInfo($source_module_info)
+    // public object arrangeModuleInfo($source_module_info)/*{{{*/
     // grant, extraVar등의 정리
     function arrangeModuleInfo($source_module_info) {
       if(!$source_module_info) return;
@@ -118,6 +118,11 @@
 
       // 권한의 정리
       if($grant) $module_info->grant = unserialize($grant);
+
+      // 관리자 아이디의 정리
+      if($module_info->admin_id) {
+        $module_info->admin_id = explode(',',$module_info->admin_id);
+      }
 
       return $module_info;
     }/*}}}*/
@@ -143,7 +148,6 @@
       $eval_str = sprintf('$oModule = new %s();', $module);
       eval($eval_str);
       $oModule->setModulePath($class_path);
-      $oModule->init();
 
       // 언어파일 읽기
       Context::loadLang($class_path.'lang');

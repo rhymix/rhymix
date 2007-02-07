@@ -64,7 +64,9 @@
     <th>{$lang->content}</th>
     <td>
       <!--#include("$editor_path/editor.html")-->
+      <!--@if($grant->fileupload)-->
       <!--#include("$editor_path/editor_uploader.html")-->
+      <!--@end-->
     </td>
   </tr>
   <tr>

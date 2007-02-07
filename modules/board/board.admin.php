@@ -381,7 +381,8 @@
 
       if(count($grant_list)) {
         foreach($grant_list as $grant) {
-          $arr_grant[$grant] = explode(',',Context::get($grant));
+          $group_srls = Context::get($grant);
+          if($group_srls) $arr_grant[$grant] = explode(',',Context::get($grant));
         }
         $grant = serialize($arr_grant);
       }
