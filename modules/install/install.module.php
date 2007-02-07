@@ -124,6 +124,7 @@
       $oMember->insertDeniedID('root','');
       $oMember->insertDeniedID('admin','');
       $oMember->insertDeniedID('administrator','');
+      $oMember->insertDeniedID('telnet','');
       $oMember->insertDeniedID('ftp','');
       $oMember->insertDeniedID('http','');
 
