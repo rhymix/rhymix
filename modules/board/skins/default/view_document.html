@@ -103,6 +103,6 @@
 <!--@end-->
 
 <!-- 댓글 파일 include -->
-<!--@if($document->allow_comment=='Y')-->
+<!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
   <!--#include("./comment.html")-->
 <!--@end-->

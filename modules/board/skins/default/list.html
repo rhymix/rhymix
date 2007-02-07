@@ -23,7 +23,9 @@
 <div>
   {$lang->document_count} : {number_format($total_count)}, 
   {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+  <!--@if($grant->view)-->
   <a href="./rss.php?mid={$mid}">rss</a>
+  <!--@end-->
   <!--@if($is_logged)-->
     <a href="{getUrl('act','dispLogout')}">[{$lang->cmd_logout}]</a>
   <!--@else-->
@@ -35,7 +37,7 @@
 </div>
 
 <!-- 게시물 내용 include -->
-  <!--@if($document)-->
+  <!--@if($document && $grant->view)-->
     <!--#include("./view_document.html")-->
   <!--@end-->
 
@@ -69,7 +71,11 @@
     <td>{$category_list[$val->category_srl]->title}</td>
     <!--@end-->
     <td>
+      <!--@if($grant->view)-->
       <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
+      <!--@else-->
+      {$val->title}
+      <!--@end-->
       <!--@if($val->comment_count>0)-->
       [{$val->comment_count}]
       <!--@end-->
@@ -88,8 +94,12 @@
 
 <!-- 버튼 -->
 <div>
+  <!--@if($grant->write_document)-->
   <a href="{getUrl('act','dispWriteForm','document_srl','')}">[{$lang->cmd_write}]</a> 
+  <!--@end-->
 </div>
+
+<!--@if($grant->view)-->
 
 <!-- 검색 -->
 <div>
@@ -120,5 +130,7 @@
 
   <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
 </div>
+
+<!--@end-->
 
 {$module_info->footer_text}

@@ -85,6 +85,7 @@
 
       // 권한변수 설정
       Context::set('grant',$grant);
+      $this->grant = $grant;
 
       // 모듈의 init method 실행
       $this->init();

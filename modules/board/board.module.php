@@ -32,7 +32,6 @@
           'write_document',
           'write_comment',
           'fileupload',
-          'management',
         );
 
     // 에디터
@@ -78,7 +77,7 @@
     // proc 초기화
     function procInit() {/*{{{*/
       // 파일 업로드일 경우 $act값을 procUploadFile() 로 변경
-      if(Context::isUploaded()) $this->act = 'procUploadFile';
+      if(Context::isUploaded() && $this->grant->fileupload) $this->act = 'procUploadFile';
 
       return true;
     }/*}}}*/
@@ -93,6 +92,9 @@
 
     // 출력 부분
     function dispContent() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
+
       // 목록 구현에 필요한 변수들을 가져온다
       $document_srl = Context::get('document_srl');
       $page = Context::get('page');
@@ -101,7 +103,7 @@
       $oDocument = getModule('document');
 
       // document_srl이 있다면 해당 글을 구해오자
-      if($document_srl) {
+      if($this->grant->view && $document_srl) {
         $document = $oDocument->getDocument($document_srl);
 
         // 글이 찾아지지 않으면 무효화
@@ -198,6 +200,9 @@
     }/*}}}*/
 
     function dispWriteForm() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
+
       // 목록 구현에 필요한 변수들을 가져온다
       $document_srl = Context::get('document_srl');
 
@@ -228,6 +233,9 @@
     }/*}}}*/
 
     function dispDeleteForm() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
+
       // 삭제할 문서번호를 가져온다
       $document_srl = Context::get('document_srl');
 
@@ -249,6 +257,9 @@
     }/*}}}*/
 
     function dispCommentModifyForm() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+
       // 목록 구현에 필요한 변수들을 가져온다
       $document_srl = Context::get('document_srl');
       $comment_srl = Context::get('comment_srl');
@@ -275,6 +286,9 @@
     }/*}}}*/
     
     function dispCommentDeleteForm() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+
       // 삭제할 댓글번호를 가져온다
       $comment_srl = Context::get('comment_srl');
 
@@ -296,6 +310,9 @@
     }/*}}}*/
 
     function dispCommentReplyForm() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+
       // 목록 구현에 필요한 변수들을 가져온다
       $document_srl = Context::get('document_srl');
       $parent_srl = Context::get('comment_srl');
@@ -346,10 +363,17 @@
       $this->setTemplateFile('logout');
     }/*}}}*/
 
-    function dispError() {/*{{{*/
+    function dispMessage($msg_code) {/*{{{*/
+      $msg = Context::getLang($msg_code);
+      if(!$msg) $msg = $msg_code;
+      Context::set('message', $msg);
+      $this->setTemplateFile('message');
     }/*}}}*/
 
     function dispRss() {/*{{{*/
+      // 권한 체크
+      if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
+
       $page = Context::get('page');
 
       // rss 제목 및 정보등을 추출
@@ -368,10 +392,6 @@
       $oRss = getModule('rss');
       $oRss->printRssDocument($info, $document_list);
       exit();
-    }/*}}}*/
-
-    function dispAdminIndex() {/*{{{*/
-      $this->setTemplateFile('module_list');
     }/*}}}*/
 
     // 실행 부분

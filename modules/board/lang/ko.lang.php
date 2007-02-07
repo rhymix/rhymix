@@ -34,8 +34,8 @@
     'write_document' => "게시물 작성 권한",
     'write_comment' => "코멘트 작성 권한",
     'fileupload' => "파일첨부 권한",
-    'management' => "관리 권한",
   );
+  $lang->msg_not_permitted = "권한이 없습니다";
 
   // 주절 주절..
   $lang->about_mid = "모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+숫자만 가능)";
