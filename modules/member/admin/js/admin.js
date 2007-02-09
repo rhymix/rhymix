@@ -79,3 +79,14 @@ function doUpdateDeniedID(user_id, mode, message) {
   fo_obj.mode.value = mode;
   procFormFilter(fo_obj, update_denied_id, procReload);
 }
+
+/* 가입폼 관련 */
+function procInsertJoinForm(ret_obj, response_tags) {
+  var error = ret_obj['error'];
+  var message = ret_obj['message'];
+  var sid = ret_obj['sid'];
+  var act = ret_obj['act'];
+  alert(message);
+  url =  "./admin.php?sid="+sid+"&act="+act;
+  location.href = url;
+}

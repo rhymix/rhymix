@@ -1,0 +1,16 @@
+<filter id="insert_join_form" confirm_msg_code="confirm_submit">
+  <field>
+    <item target="sid" required="true" />
+    <item target="act" required="true" />
+    <item target="form_type" required="true" />
+    <item target="join_form_column_name" required="true" filter="alpha"/>
+    <item target="join_form_column_title" required="true" />
+  </field>
+  <response>
+    <item name="error" />
+    <item name="message" />
+    <item name="sid" />
+    <item name="act" />
+    <item name="page" />
+  </response>
+</filter>

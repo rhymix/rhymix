@@ -124,6 +124,11 @@
       
     }/*}}}*/
 
+    function dispJoinForm() {/*{{{*/
+      // 템플릿 파일 지정
+      $this->setTemplateFile('join_form');
+    }/*}}}*/
+
     function dispDeniedID() {/*{{{*/
       // 사용금지 목록 가져오기
       $oMember = getModule('member');
@@ -225,6 +230,12 @@
       $this->add('group_srl','');
       $this->add('page',Context::get('page'));
       $this->setMessage($msg_code);
+    }/*}}}*/
+
+    function procInsertJoinForm() {/*{{{*/
+      $this->add('sid','member');
+      $this->add('act','dispJoinForm');
+      $this->setMessage('success_registed');
     }/*}}}*/
 
     function procInsertDeniedID() {/*{{{*/

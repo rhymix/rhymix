@@ -20,4 +20,5 @@
   <column name="level" type="number" size="11" default="1" />
   <column name="exp" type="number" size="11" default="0" />
   <column name="description" type="text" />
+  <column name="extra_vars" type="text" />
 </table>

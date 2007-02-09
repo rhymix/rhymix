@@ -24,6 +24,19 @@
   $lang->group_title = "그룹제목";
   $lang->group_srl = "그룹번호";
 
+  $lang->join_form_type = "형식";
+  $lang->join_form->text = "한줄 입력칸";
+  $lang->join_form->homepage = "홈페이지 형식";
+  $lang->join_form->email_address = "이메일 형식";
+  $lang->join_form->tel = "전화번호 형식";
+  $lang->join_form->textarea = "여러줄 입력칸";
+  $lang->join_form->checkbox = "다중 선택";
+  $lang->join_form->radio = "단일 선택";
+  $lang->join_form->kr_zip = "한국주소";
+  $lang->join_form->jp_zip = "일본주소";
+  $lang->join_form_column_name = "입력항목 이름";
+  $lang->join_form_column_title = "입력항목 제목";
+
   $lang->msg_new_member = "회원 추가";
   $lang->msg_update_member = "회원 정보 수정";
   $lang->msg_group_is_null = "등록된 그룹이 없습니다";
@@ -42,4 +55,8 @@
   $lang->about_is_admin = "체크시 최고 관리자 권한을 가지게 됩니다";
   $lang->about_description = "회원에 대한 관리자 메모입니다";
   $lang->about_group = "한 아이디는 여러개의 group에 속할 수 있습니다";
+
+  $lang->about_join_form_type = "추가하실 가입폼의 형식을 지정해주세요";
+  $lang->about_join_form_column_name = "템플릿에서 사용할수 있는 영문으로 된 이름을 적어주세요 (변수명)";
+  $lang->about_join_form_column_title = "가입 또는 정보 수정/조회시에 표시될 제목입니다";
 ?>
