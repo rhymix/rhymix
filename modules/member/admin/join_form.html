@@ -1,0 +1,52 @@
+<!--#include("header.html")-->
+<!--%import("filter/filter.insert_join_form.xml")-->
+
+<div>
+  {$lang->cmd_manage_form}
+</div>
+
+<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert_join_form, procInsertJoinForm)">
+<input type="hidden" name="sid" value="{$sid}" />
+<input type="hidden" name="act" value="procInsertJoinForm" />
+
+  <table>
+  <tr>
+    <th rowspan="2">{$lang->join_form_type}</th>
+    <td>
+      <select name="form_type">
+        <option value="text">{$lang->join_form->text}</option>
+        <option value="homepage">{$lang->join_form->homepage}</option>
+        <option value="email_address">{$lang->join_form->email_address}</option>
+        <option value="tel">{$lang->join_form->tel}</option>
+        <option value="textarea">{$lang->join_form->textarea}</option>
+        <option value="checkbox">{$lang->join_form->checkbox}</option>
+        <option value="radio">{$lang->join_form->radio}</option>
+        <option value="kr_zip">{$lang->join_form->kr_zip}</option>
+        <option value="jp_zip">{$lang->join_form->jp_zip}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_join_form_type}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->join_form_column_name}</th>
+    <td><input type="text" name="join_form_column_name" value="" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_join_form_column_name}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->join_form_column_title}</th>
+    <td><input type="text" name="join_form_column_title" value="" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_join_form_column_title}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" value="{$lang->cmd_registration}" />
+  </tr>
+  </table>
+
+</form>
+
