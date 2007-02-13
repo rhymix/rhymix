@@ -11,37 +11,37 @@
 
   <table>
   <tr>
-    <th rowspan="2">{$lang->join_form_type}</th>
+    <th rowspan="2">{$lang->column_type}</th>
     <td>
-      <select name="form_type">
-        <option value="text">{$lang->join_form->text}</option>
-        <option value="homepage">{$lang->join_form->homepage}</option>
-        <option value="email_address">{$lang->join_form->email_address}</option>
-        <option value="tel">{$lang->join_form->tel}</option>
-        <option value="textarea">{$lang->join_form->textarea}</option>
-        <option value="checkbox">{$lang->join_form->checkbox}</option>
-        <option value="radio">{$lang->join_form->radio}</option>
-        <option value="kr_zip">{$lang->join_form->kr_zip}</option>
-        <option value="jp_zip">{$lang->join_form->jp_zip}</option>
+      <select name="column_type">
+        <option value="text">{$lang->column_type_list->text}</option>
+        <option value="homepage">{$lang->column_type_list->homepage}</option>
+        <option value="email_address">{$lang->column_type_list->email_address}</option>
+        <option value="tel">{$lang->column_type_list->tel}</option>
+        <option value="textarea">{$lang->column_type_list->textarea}</option>
+        <option value="checkbox">{$lang->column_type_list->checkbox}</option>
+        <option value="radio">{$lang->column_type_list->radio}</option>
+        <option value="kr_zip">{$lang->column_type_list->kr_zip}</option>
+        <option value="jp_zip">{$lang->column_type_list->jp_zip}</option>
       </select>
     </td>
   </tr>
   <tr>
-    <td>{$lang->about_join_form_type}</td>
+    <td>{$lang->about_column_type}</td>
   </tr>
   <tr>
-    <th rowspan="2">{$lang->join_form_column_name}</th>
-    <td><input type="text" name="join_form_column_name" value="" /></td>
+    <th rowspan="2">{$lang->column_name}</th>
+    <td><input type="text" name="column_name" value="" /></td>
   </tr>
   <tr>
-    <td>{$lang->about_join_form_column_name}</td>
+    <td>{$lang->about_column_name}</td>
   </tr>
   <tr>
-    <th rowspan="2">{$lang->join_form_column_title}</th>
-    <td><input type="text" name="join_form_column_title" value="" /></td>
+    <th rowspan="2">{$lang->column_title}</th>
+    <td><input type="text" name="column_title" value="" /></td>
   </tr>
   <tr>
-    <td>{$lang->about_join_form_column_title}</td>
+    <td>{$lang->about_column_title}</td>
   </tr>
   <tr>
     <td colspan="2"><input type="submit" value="{$lang->cmd_registration}" />

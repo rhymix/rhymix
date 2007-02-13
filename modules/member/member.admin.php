@@ -233,6 +233,14 @@
     }/*}}}*/
 
     function procInsertJoinForm() {/*{{{*/
+      $args->column_type = Context::get('column_type');
+      $args->column_name = Context::get('column_name');
+      $args->column_title = Context::get('column_title');
+
+      $oDB = &DB::getInstance();
+      $output = $oDB->executeQuery('member.insertJoinForm', $args);
+      if(!$output->toBool()) return $output;
+
       $this->add('sid','member');
       $this->add('act','dispJoinForm');
       $this->setMessage('success_registed');
