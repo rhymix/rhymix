@@ -2,7 +2,8 @@
     /**
     * @class DBMysql
     * @author zero (zero@nzeo.com)
-    * @brief mysql handling class
+    * @brief MySQL DBMS를 이용하기 위한 class
+    * mysql handling class
     **/
 
     class DBMysql extends DB {
