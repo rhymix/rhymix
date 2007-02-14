@@ -60,7 +60,7 @@
         /**
          * @brief 설치 시도
          **/
-        function procInstall() {
+        function doInstall() {
             // 설치가 되어 있는지에 대한 체크
             if(Context::isInstalled()) {
                 return $this->doError('msg_already_installed');

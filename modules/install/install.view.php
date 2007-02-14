@@ -16,7 +16,7 @@
          **/
         function init() {
             // template 경로를 지정
-            $this->setTemplatePath($this->module_path."skins/default");
+            $this->setTemplatePath($this->module_path."tpl");
 
             // 컨트롤러 생성
             $oController = getModule('install','controller');

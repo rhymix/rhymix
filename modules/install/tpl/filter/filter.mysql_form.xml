@@ -1,4 +1,4 @@
-<filter id='install_filter'>
+<filter id="install_filter" action="controller" method="install">
   <field>
     <item target="db_type" required="true" />
     <item target="db_hostname" required="true" minlength="1" maxlength="250" />
