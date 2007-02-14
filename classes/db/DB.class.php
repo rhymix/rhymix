@@ -3,6 +3,7 @@
     * @class DB
     * @author zero (zero@nzeo.com)
     * @brief  DB*의 상위 클래스
+    * @version 0.1
     *
     * 제로보드5의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.\n
     * xml의 종류에는 query xml, schema xml이 있다.\n

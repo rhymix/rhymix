@@ -3,6 +3,7 @@
     * @class XmlParser 
     * @author zero (zero@nzeo.com)
     * @brief xmlrpc를 해석하여 object로 return 하는 simple xml parser
+    * @version 0.1
     *
     * xml 데이터의 attribute중에 xml:lang=""이 있을 경우 지정된 lang\n
     * 값에 해당하는 것만 남기는 트릭이 적용됨.\n

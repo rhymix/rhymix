@@ -3,6 +3,7 @@
     * @class XmlJsFilter
     * @author zero (zero@nzeo.com)
     * @brief filter xml문서를 해석하여 js파일로 만듬
+    * @version 0.1
     *
     * filter xml은 tpl 파일과 같은 위치에 있어야 함
     *           <filter id='js function 이름'>

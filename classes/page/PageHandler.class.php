@@ -3,6 +3,7 @@
      * @class PageHandler
      * @author zero (zero@nzeo.com)
      * @brief 페이지 네비게이션 담당
+     * @version 0.1
      *
      * 전체갯수, 전체페이지, 현재페이지, 페이지당 목록의 수를 넘겨주면 \n
      * 페이지 네비게이션에 필요한 variables와 method를 구현\n
