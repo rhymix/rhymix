@@ -32,7 +32,7 @@
          * @brief license 및 설치 환경에 대한 메세지 보여줌
          **/
         function viewIntroduce() {
-            $this->setTemplateFile('disp_license');
+            $this->setTemplateFile('introduce');
         }
 
         /**
@@ -43,7 +43,7 @@
             if(!Context::get('db_type')) return $this->viewIntroduce();
 
             // disp_db_info_form.html 파일 출력
-            $tpl_filename = sprintf('db_form.%s', Context::get('db_type'));
+            $tpl_filename = sprintf('form.%s', Context::get('db_type'));
             $this->setTemplateFile($tpl_filename);
         }
 

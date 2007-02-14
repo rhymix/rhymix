@@ -52,6 +52,7 @@
 
             // 체크 결과를 Context에 저장
             Context::set('checklist', $checklist);
+            Context::set('install_enable', $install_enable);
             return $install_enable;
         }
 
