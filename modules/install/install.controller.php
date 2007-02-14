@@ -17,7 +17,7 @@
         }
 
         /**
-         * $brief 인스톨 환경을 체크하여 결과 return 
+         * @brief 인스톨 환경을 체크하여 결과 return 
          **/
         function checkInstallEnv() {
             // 각 필요한 항목 체크
@@ -63,7 +63,7 @@
         function procInstall() {
             // 설치가 되어 있는지에 대한 체크
             if(Context::isInstalled()) {
-            return $this->doError('msg_already_installed');
+                return $this->doError('msg_already_installed');
             }
 
             // DB와 관련된 변수를 받음
@@ -77,7 +77,7 @@
 
             // DB접속이 가능한지 체크
             if(!$oDB->isConnected()) {
-            return $this->doError('msg_dbconnect_failed');
+                return $this->doError('msg_dbconnect_failed');
             }
 
             // 모든 모듈의 테이블 생성
@@ -132,20 +132,20 @@
          **/
         function makeDefaultDirectory() {
             $directory_list = array(
-            './files',
-            './files/modules',
-            './files/plugins',
-            './files/addons',
-            './files/layouts',
-            './files/queries',
-            './files/schemas',
-            './files/js_filter_compiled',
-            './files/template_compiled',
-            './files/config',
-            './files/attach',
-            './files/attach/images',
-            './files/attach/binaries',
-            );
+                    './files',
+                    './files/modules',
+                    './files/plugins',
+                    './files/addons',
+                    './files/layouts',
+                    './files/queries',
+                    './files/schemas',
+                    './files/js_filter_compiled',
+                    './files/template_compiled',
+                    './files/config',
+                    './files/attach',
+                    './files/attach/images',
+                    './files/attach/binaries',
+                );
 
             foreach($directory_list as $dir) {
                 if(is_dir($dir)) continue;
@@ -168,19 +168,19 @@
             $module_list_2 = FileHandler::readDir('./files/modules/', NULL, false, true);
             $module_list = array_merge($module_list_1, $module_list_2);
             foreach($module_list as $module_path) {
-            $schema_dir = sprintf('%s/schemas/', $module_path);
-            $schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
-            $file_cnt = count($schema_files);
-            if(!$file_cnt) continue;
+                $schema_dir = sprintf('%s/schemas/', $module_path);
+                $schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
+                $file_cnt = count($schema_files);
+                if(!$file_cnt) continue;
 
-            for($i=0;$i<$file_cnt;$i++) {
-            $file = trim($schema_files[$i]);
-            if(!$file || substr($file,-4)!='.xml') continue;
-            $output = $oDB->createTableByXmlFile($file);
-            if($oDB->isError()) return $oDB->getError();
+                for($i=0;$i<$file_cnt;$i++) {
+                    $file = trim($schema_files[$i]);
+                    if(!$file || substr($file,-4)!='.xml') continue;
+                    $output = $oDB->createTableByXmlFile($file);
+                    if($oDB->isError()) return $oDB->getError();
+                }
             }
-            }
-            return new Output();
+            return new Object();
         }
 
         /**
