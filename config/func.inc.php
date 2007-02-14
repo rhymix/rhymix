@@ -17,13 +17,13 @@
     }
 
     /**
-     * @brief module_manager::getModuleObject($module_name, $act_type)을 쓰기 쉽게 함수로 선언
+     * @brief ModuleHandler::getModuleObject($module_name, $act_type)을 쓰기 쉽게 함수로 선언
      * @param module_name 모듈이름
      * @param act_type disp, proc, lib(기본), admin
      * @return module instance
      **/
-    function getModule($module_name, $act_type = 'lib') {
-        return module_manager::getModuleObject($module_name, $act_type);
+    function getModule($module_name, $act_type = 'view') {
+        return ModuleHandler::getModuleInstance($module_name, $act_type);
     }
 
 

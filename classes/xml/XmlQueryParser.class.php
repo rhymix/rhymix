@@ -155,7 +155,7 @@
         function _getNotNullCode($name, $var='column') {
             return 
                 sprintf(
-                    'if(!$%s->%s) return new Output(-1, sprintf($lang->filter->isnull, $lang->%s?$lang->%s:\'%s\'));'."\n",
+                    'if(!$%s->%s) return new Object(-1, sprintf($lang->filter->isnull, $lang->%s?$lang->%s:\'%s\'));'."\n",
                     $var,
                     $name,
                     $name,

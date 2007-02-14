@@ -1,21 +1,14 @@
 <?php
     /**
-     * @class Output
+     * @class Object
      * @author zero (zero@nzeo.com)
-     * @brief 결과 데이터를 담당하는 class
+     * @brief 모듈간의 데이터를 주고 받기 위한 클래스
      *
-     * 모듈이나 DB등의 모든 행위의 결과를 담당.\n
-     * 에러 코드를 보관하고 기타 추가 정보가 있을 시에 add/get을 통해\n
-     * parameter를 넘길때도 사용....\n
-     *
-     * @todo 설명이 영.. 안 좋음.. 수정 요망! 
-     * @todo result 객체로 사용하면 되는데 왠지 구조적으로 덜 다듬어졌음. 차후 다듬어야 함
+     * Model, Controller, View로 이루어지는 모듈은\n
+     * Object class를 상속받는다.
      **/
 
-    class Output {
-
-        var $template_path = NULL; ///< template path 지정
-        var $template_file = NULL; ///< template 파일 지정
+    class Object {
 
         var $error = 0; ///< 에러 코드 (0이면 에러 아님)
         var $message = 'success'; ///< 에러 메세지 (success이면 에러 아님)
@@ -25,7 +18,7 @@
         /**
          * @brief constructor
          **/
-        function Output($error = 0, $message = 'success') {
+        function Object($error = 0, $message = 'success') {
             $this->error = $error;
             $this->message = $message;
         }
@@ -95,33 +88,5 @@
         return $this->toBool();
         }
 
-        /**
-         * @brief tpl 경로을 지정
-         **/
-        function setTemplatePath($path) {
-            if(!substr($path,-1)!='/') $path .= '/';
-            $this->template_path = $path;
-        }
-
-        /**
-         * @brief tpl 경로를 return
-         **/
-        function getTemplatePath() {
-            return $this->template_path;
-        }
-
-        /**
-         * @brief tpl 파일을 지정
-         **/
-        function setTemplateFile($filename) {
-            $this->template_file = $filename;
-        }
-
-        /**
-         * @brief tpl 파일을 지정
-         **/
-        function getTemplateFile() {
-            return $this->template_file;
-        }
     }
 ?>

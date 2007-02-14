@@ -35,12 +35,12 @@
          **/
         function &getInstance($db_type = NULL) {
             if(!$db_type) $db_type = Context::getDBType();
-            if(!$db_type) return new Output(-1, 'msg_db_not_setted');
+            if(!$db_type) return new Object(-1, 'msg_db_not_setted');
 
             if(!$GLOBALS['__DB__']) {
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
                 $class_file = sprintf("./classes/db/%s.class.php", $class_name);
-                if(!file_exists($class_file)) new Output(-1, 'msg_db_not_setted');
+                if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
 
                 require_once($class_file);
                 $eval_str = sprintf('$GLOBALS[\'__DB__\'] = new %s();', $class_name);
@@ -103,10 +103,10 @@
         }
 
         /**
-         * @brief 에러결과를 Output 객체로 return
+         * @brief 에러결과를 Object 객체로 return
          **/
         function getError() {
-            return new Output($this->errno, $this->errstr);
+            return new Object($this->errno, $this->errstr);
         }
 
         /**
@@ -116,15 +116,15 @@
          * query_id에 해당하는 xml문(or 캐싱파일)을 찾아서 컴파일 후 실행
          **/
         function executeQuery($query_id, $args = NULL) {
-            if(!$query_id) return new Output(-1, 'msg_invalid_queryid');
+            if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 
             list($module, $id) = explode('.',$query_id);
-            if(!$module||!$id) return new Output(-1, 'msg_invalid_queryid');
+            if(!$module||!$id) return new Object(-1, 'msg_invalid_queryid');
 
             $xml_file = sprintf('./modules/%s/queries/%s.xml', $module, $id);
             if(!file_exists($xml_file)) {
                 $xml_file = sprintf('./files/modules/%s/queries/%s.xml', $module, $id);
-                if(!file_exists($xml_file)) return new Output(-1, 'msg_invalid_queryid');
+                if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
             }
 
             // 일단 cache 파일을 찾아본다
@@ -147,14 +147,14 @@
         function _executeQuery($cache_file, $source_args, $query_id) {
             global $lang;
 
-            if(!file_exists($cache_file)) return new Output(-1, 'msg_invalid_queryid');
+            if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
             if(__DEBUG__) $query_start = getMicroTime();
 
             if($source_args) $args = clone($source_args);
             $output = include($cache_file);
 
-            if( (is_a($output, 'Output')||is_subclass_of($output,'Output'))&&!$output->toBool()) return $output;
+            if( (is_a($output, 'Object')||is_subclass_of($output,'Object'))&&!$output->toBool()) return $output;
 
             // action값에 따라서 쿼리 생성으로 돌입
             switch($action) {
@@ -179,9 +179,9 @@
                 $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.4f sec)\n\t    %s\n", ++$GLOBALS['__dbcnt'], $query_id, $elapsed_time, $this->query);
             }
 
-            if($this->errno!=0) return  new Output($this->errno, $this->errstr);
-            if(is_a($output, 'Output') || is_subclass_of($output, 'Output')) return $output;
-            return new Output();
+            if($this->errno!=0) return  new Object($this->errno, $this->errstr);
+            if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return $output;
+            return new Object();
         }
 
         /**
@@ -191,33 +191,33 @@
             global $lang;
 
             $length = strlen($val);
-            if($minlength && $length < $minlength) return new Output(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
-            if($maxlength && $length > $maxlength) return new Output(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
+            if($minlength && $length < $minlength) return new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
+            if($maxlength && $length > $maxlength) return new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
 
             switch($filter_type) {
                 case 'email' :
                 case 'email_adderss' :
-                        if(!eregi('^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$', $val)) return new Output(-1, sprintf($lang->filter->invalid_email, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'homepage' :
-                        if(!eregi('^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$', $val)) return new Output(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'userid' :
                 case 'user_id' :
-                        if(!eregi('^[a-zA-Z]+([_0-9a-zA-Z]+)*$', $val)) return new Output(-1, sprintf($lang->filter->invalid_userid, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^[a-zA-Z]+([_0-9a-zA-Z]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'number' :
-                        if(!eregi('^[0-9]+$', $val)) return new Output(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^[0-9]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha' :
-                        if(!eregi('^[a-z]+$', $val)) return new Output(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^[a-z]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha_number' :
-                        if(!eregi('^[0-9a-z]+$', $val)) return new Output(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!eregi('^[0-9a-z]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
             }
 
-            return new Output();
+            return new Object();
         }
 
         /**

@@ -355,7 +355,7 @@
             if($this->errno!=0) return;
             $data = $this->_fetch($result);
 
-            $buff = new Output();
+            $buff = new Object();
             $buff->data = $data;
             return $buff;
         }
@@ -394,7 +394,7 @@
                 $data[$virtual_no--] = $tmp;
             }
 
-            $buff = new Output();
+            $buff = new Object();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
             $buff->page = $page;

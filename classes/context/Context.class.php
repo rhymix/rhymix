@@ -61,13 +61,6 @@
             $this->context = &$GLOBALS['__Context__'];
             $this->context->lang = &$GLOBALS['lang'];
 
-            // 인증관련 데이터를 Context에 설정
-            $oMember = getModule('member');
-            if($oMember->isLogged()) {
-                $this->_set('is_logged', true);
-                $this->_set('logged_info', $_SESSION['logged_info']);
-            }
-
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
@@ -82,6 +75,16 @@
             $this->_setXmlRpcArgument();
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
+
+            // 인증관련 데이터를 Context에 설정
+            $oMember = getModule('member','model');
+            if($oMember->isLogged()) {
+                $this->_set('is_logged', true);
+                $this->_set('logged_info', $_SESSION['logged_info']);
+            } else {
+                $this->_set('is_logged', false);
+                $this->_set('logged_info', NULL);
+            }
         }
 
         /**
