@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file  ./index.php
+     * @file  index.php
      * @author zero (zero@zeroboard.com)
      * @brief 시작 페이지
      *

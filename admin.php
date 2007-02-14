@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ./admin.php
+     * @file   admin.php
      * @author zero <zero@nzeo.com>
      * @brief  관리자 페이지 
      *

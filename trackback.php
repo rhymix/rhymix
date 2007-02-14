@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ./trackback.php
+     * @file   trackback.php
      * @author zero (zero@nzeo.com)
      * @brief  트랙백을 받기 위한 파일. 파일이름때문에.. index.php와 거의 동일하나 act를 procReceiveTrackback로 고정
      **/

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ./rss.php
+     * @file   rss.php
      * @author zero (zero@nzeo.com)
      * @brief  rss를 출력하기 위한 파일. index.php와 거의 동일하나 act를 dispRss 로 고정시키는 것만 다름
      **/
