@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
-    <action name="viewIntroduce" type="view" default="true" />
-    <action name="viewDBInfoForm" type="view" />
-    <action name="doInstall" type="controller" />
+<module default_action="viewIntroduce" manage_action="">
+    <action name="viewIntroduce" type="view" grant="" />
+    <action name="viewDBInfoForm" type="view" grant="" />
+    <action name="doInstall" type="controller" grant="" />
 </module>

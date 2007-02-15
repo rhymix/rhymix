@@ -54,8 +54,18 @@
                 Context::set('message', Context::getLang('msg_mid_not_exists'));
             }
 
-            // 해당 모듈의 conf/action.xml 을 분석하여 act 값을 체크
-            $type = $this->getActionType($module, $act);
+            // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
+            $action_info = $this->getActionInfo($module);
+
+            // 현재 요청된 act가 있으면 $action_info에서 type을 찾음, 없다면 기본 action을 이용
+            if(!$act || !$action_info->{$act}) $act = $action_info->default_action;
+
+            // type, grant 값 구함
+            $type = $action_info->{$act}->type;
+            $grant = $action_info->{$act}->grant;
+
+            // act값을 Context에 세팅
+            Context::set('act', $act, true);
 
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($module, $type, $module_info);
@@ -127,26 +137,31 @@
         /**
          * @brief module의 conf/action.xml 을 통해 act값에 해당하는 action type을 return
          **/
-        function getActionType($module, &$act) {
+        function getActionInfo($module) {
             $class_path = $this->getModulePath($module);
             if(!$class_path) return;
 
             $action_xml_file = sprintf("%sconf/action.xml", $class_path);
             if(!file_exists($action_xml_file)) return;
 
-            $oXml = XmlParser::loadXmlFile($action_xml_file);
+            $xml_obj = XmlParser::loadXmlFile($action_xml_file);
+            if(!count($xml_obj->module)) return;
 
-            if(!count($oXml->module->action)) return;
+            $output->default_action = $xml_obj->module->attrs->default_action;
+            $output->manage_action = $xml_obj->module->attrs->manage_action;
 
-            foreach($oXml->module->action as $action) {
-                if($action->attrs->default) $default_act = $action;
-                if($action->attrs->name == $act) return $action->attrs->type;
+            if(is_array($xml_obj->module->action)) $action_list = $xml_obj->module->action;
+            else $action_list[] = $xml_obj->module->action;
+
+            foreach($action_list as $action) {
+                $name = $action->attrs->name;
+                $type = $action->attrs->type;
+                $grant = $action->attrs->grant;
+                $output->{$name}->type = $type;
+                $output->{$name}->grant = $grant;
             }
 
-            if($default_act) {
-                $act = $default_act->attrs->name;
-                return $default_act->attrs->type;
-            }
+            return $output;
         }
 
         /**
