@@ -435,16 +435,17 @@
         /**
          * @brief 게시판 관리 목록 보여줌
          **/
-        function dispContent() {
+        function dispAdminContent() {
             // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
             $module_srl = Context::get('module_srl');
             if($module_srl) {
-            $oModule = getModule('module_manager');
-            $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
-            if(!$module_info) {
-            Context::set('module_srl','');
-            $this->act = 'dispContent';
-            } else Context::set('module_info',$module_info);
+                $oModule = getModule('module_manager');
+                $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
+                if(!$module_info) {
+                    Context::set('module_srl','');
+                    $this->act = 'dispContent';
+                } else Context::set('module_info',$module_info);
+            }
 
             // 등록된 board 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
