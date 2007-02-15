@@ -1,41 +1,43 @@
 <?php
     /**
-    * @class XmlJsFilter
-    * @author zero (zero@nzeo.com)
-    * @brief filter xml문서를 해석하여 js파일로 만듬
-    * @version 0.1
-    *
-    * filter xml은 tpl 파일과 같은 위치에 있어야 함
-    *           <filter id='js function 이름'>
-    *            <field> <-- 폼 항목의 체크
-    *              <item target="name" required="true" minlength="1" maxlength="5" 
-    *                    filter="email,userid,alpha,number" reualto="target" />
-    *            </field>
-    *            <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수
-    *              <item param="key" value="target" concat="'@',target2..." />
-    *            </parameter>
-    *            <response> <-- 서버에 ajax로 전송하여 받을 결과값
-    *              <item name="error" /> <-- error이름의 결과값을 받겠다는 것
-    *            </response>
-    *           </filter>
-    *
-    *           - field
-    *             target = 폼 element의 이름
-    *             required = true/ false 꼭 있어야 하는지에 대한 체크
-    *             minlength, maxlength = 최소/최대 길이
-    *             filter = javascript로 체크하기 위한 체크 필터
-    *                      email : email의 형식 ( aaa.aaa@aaa.com)
-    *                      userid : 영문+숫자+_, 첫 글자는 영문, 소문자
-    *                      alpha : 영문값만 허용
-    *                      number : 숫자만 허용
-    *             equalto = target , 현재 폼과 지정 target의 값이 동일해야 함
-    *           - parameter
-    *             param = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성
-    *             value = target : target form element의 값을 가져옴
-    *             concat = str1,str2,target2... : 값들의 string 또는 form element value를 연결
-    *            - response
-    *              name = key : return받을 결과값의 변수명
-    **/
+     * @class XmlJsFilter
+     * @author zero (zero@nzeo.com)
+     * @brief filter xml문서를 해석하여 js파일로 만듬
+     * @version 0.1
+     *
+     * xml filter 파일은 js script로 컴파일 되어 캐싱됨\n
+     * \n
+     * <filter name="js function 이름" method_name="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >\n
+     *   <form> <-- 폼 항목의 체크\n
+     *     <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />\n
+     *   </form>\n
+     *   <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수\n
+     *     <param param="key" value="target" concat="'@',target2..." />\n
+     *   </parameter>\n
+     *   <response callback_func="callback 받게 될 js function 이름 지정" > <-- 서버에 ajax로 전송하여 받을 결과값\n
+     *     <tag name="error" /> <-- error이름의 결과값을 받겠다는 것\n
+     *   </response>\n
+     * </filter>\n
+     * \n
+     * - form - node\n
+     *   target = 폼 element의 이름\n
+     *   required = true/ false 꼭 있어야 하는지에 대한 체크\n
+     *   minlength, maxlength = 최소/최대 길이\n
+     *   filter = javascript로 체크하기 위한 체크 필터\n
+     *   email : email의 형식 ( aaa.aaa@aaa.com)\n
+     *   userid : 영문+숫자+_, 첫 글자는 영문, 소문자\n
+     *   alpha : 영문값만 허용\n
+     *   number : 숫자만 허용\n
+     *   equalto = target , 현재 폼과 지정 target의 값이 동일해야 함\n
+     * \n
+     * - parameter - param\n
+     *   param = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성\n
+     *   value = target : target form element의 값을 가져옴\n
+     *   concat = str1,str2,target2... : 값들의 string 또는 form element value를 연결\n
+     * \n
+     * - response\n
+     *   tag = key : return받을 결과값의 변수명\n
+     **/
 
     class XmlJsFilter {
         var $compiled_path = './files/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
@@ -74,25 +76,33 @@
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($buff);
 
-            // XmlJsFilter는 filter_id, field, parameter 3개의 데이터를 핸들링
-            $filter_id = $xml_obj->filter->attrs->id;
+            // XmlJsFilter는 filter_name, field, parameter 3개의 데이터를 핸들링
+            $filter_name = $xml_obj->filter->attrs->name;
             $confirm_msg_code = $xml_obj->filter->attrs->confirm_msg_code;
-            $field_item = $xml_obj->filter->field->item;
-            $parameter_item = $xml_obj->filter->parameter->item;
-            $response_item = $xml_obj->filter->response->item;
+            $module = $xml_obj->filter->attrs->module;
+            $method_name = $xml_obj->filter->attrs->method_name;
+
+            $field_node = $xml_obj->filter->form->node;
+
+            $parameter_param = $xml_obj->filter->parameter->param;
+
+            $response_tag = $xml_obj->filter->response->tag;
+
+            $callback_func = $xml_obj->filter->response->attrs->callback_func;
+            if(!$callback_func) $callback_func = "filterAlertMessage";
 
             // 언어 입력을 위한 사용되는 필드 조사
             $target_list = array();
 
             // js function 을 만들기 시작
-            $js_doc  = sprintf("function %s(fo_obj, callback_user_func) {\n", $filter_id);
-            $js_doc .= "\tvar oFilter = new XmlJsFilter(fo_obj, callback_user_func);\n";
+            $js_doc  = sprintf("function %s(fo_obj) {\n", $filter_name);
+            $js_doc .= sprintf("\tvar oFilter = new XmlJsFilter(fo_obj, \"%s\", \"%s\", %s);\n", $module, $method_name, $callback_func);
 
             // field, 즉 체크항목의 script 생성
-            $field_cnt = count($field_item);
-            if($field_cnt) {
-                foreach($field_item as $key =>$field_obj) {
-                    $attrs = $field_obj->attrs;
+            $node_count = count($field_node);
+            if($node_count) {
+                foreach($field_node as $key =>$node) {
+                    $attrs = $node->attrs;
                     $target = trim($attrs->target);
                     if(!$target) continue;
                     $required = $attrs->required=='true'?'true':'false';
@@ -111,26 +121,26 @@
             }
 
             // 데이터를 만들기 위한 parameter script 생성
-            $parameter_cnt = count($parameter_item);
-            if($parameter_cnt) {
-                foreach($parameter_item as $key =>$parameter_obj) {
-                    $attrs = $parameter_obj->attrs;
-                    $param = trim($attrs->param);
+            $parameter_count = count($parameter_param);
+            if($parameter_count) {
+                foreach($parameter_param as $key =>$param) {
+                    $attrs = $param->attrs;
+                    $name = trim($attrs->name);
                     $target = trim($attrs->target);
-                    if(!$param || !$target) continue;
+                    if(!$name || !$target) continue;
                     $target = htmlentities($target,ENT_QUOTES);
                     $js_doc .= sprintf(
                     "\toFilter.addParameterItem(\"%s\",\"%s\");\n",
-                    $param, $target
+                    $name, $target
                     );
-                    if(!in_array($param, $target_list)) $target_list[] = $param;
+                    if(!in_array($name, $target_list)) $target_list[] = $name;
                 }
             }
 
             // response script 생성
-            $response_cnt = count($response_item);
-            for($i=0;$i<$response_cnt;$i++) {
-                $attrs = $response_item[$i]->attrs;
+            $response_count = count($response_tag);
+            for($i=0;$i<$response_count;$i++) {
+                $attrs = $response_tag[$i]->attrs;
                 $name = $attrs->name;
                 $js_doc .= sprintf("\toFilter.addResponseItem(\"%s\");\n", $name);
             }

@@ -22,7 +22,9 @@
          * Request Argument에서 $mid, $act값으로 객체를 찾는다.\n
          * 단 유연한 처리를 위해 $document_srl 을 이용하기도 한다.
          **/
-        function ModuleHandler($module = NULL, $act = NULL) {
+        function ModuleHandler() {
+            $module = Context::get('module');
+            $act = Context::get('act');
 
             // 설치가 안되어 있다면 설치를 위한 준비를 한다
             if(!Context::isInstalled()) {
@@ -53,7 +55,6 @@
             }
 
             // 해당 모듈의 conf/action.xml 을 분석하여 act 값을 체크
-            if(!$act) $act = Context::get('act');
             $type = $this->getActionType($module, $act);
 
             // 모듈 객체 생성

@@ -6,16 +6,23 @@
 
 var alertMsg = new Array();
 
-// filtering
-function XmlJsFilter(form_object, callback_user_func) {
+function filterAlertMessage(ret_obj) {
+  var error = ret_obj["error"];
+  var message = ret_obj["message"];
+  if(typeof(message)!='undefined'&&message) alert(message);
+  location.href = location.href;
+}
 
-  this.fo_obj = null;
-  this.user_func = null;
+// filtering
+function XmlJsFilter(form_object, module, act, callback_user_func) {
+
   this.field = new Array();
   this.parameter = new Array();
   this.response = new Array();
 
   this.fo_obj = form_object;
+  this.module = module;
+  this.act = act;
   this.user_func = callback_user_func;
 
   this.addFieldItem = XmlJsFilterAddFieldItem;
@@ -210,21 +217,19 @@ function XmlJsFilterProc(confirm_msg) {
 
   var params = this.getParameterParam();
   var response = this.response;
-  var mid = params['mid'];
-  var act = params['act'];
 
   if(confirm_msg && !confirm(confirm_msg)) return false;
 
-  if(!act) {
+  if(!this.act) {
     this.user_func(this.fo_obj, params);
     return true;
   }
 
-  exec_xml(mid, act, params, this.user_func, response, params);
+  exec_xml(this.module, this.act, params, this.user_func, response, params);
 }
 
 // form proc
-function procFormFilter(fo_obj, filter_func, user_func) {
-  filter_func(fo_obj, user_func);
+function procFilter(fo_obj, filter_func) {
+  filter_func(fo_obj);
   return false;
 }

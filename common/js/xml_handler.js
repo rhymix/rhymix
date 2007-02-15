@@ -5,15 +5,15 @@
  **/
 
 // xml handler을 이용하는 user function
-function exec_xml(method_name, act, params, callback_func, response_tags, callback_func_arg) {
+function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg) {
   var oXml = new xml_handler();
   oXml.reset();
-  oXml.setMethod(method_name);
-  oXml.addParam('act', act);
   for(var key in params) {
     var val = params[key];
     oXml.addParam(key, val);
   }
+  oXml.addParam('module', module);
+  oXml.addParam('act', act);
 
   var waiting_obj = document.getElementById('waitingforserverresponse');
   waiting_obj.style.visibility = 'visible';
@@ -49,7 +49,6 @@ function xml_handler() {
     this.getXmlHttp = zGetXmlHttp;
     this.request = xml_handlerRequest;
     this.setPath = xml_handlerSetPath;
-    this.setMethod = xml_handlerSetMethod;
     this.addParam = xml_handlerAddParam;
     this.getResponseXml = xml_handlerGetResponseXML;
     this.toZMsgObject = xml_handlerToZMsgObject;
@@ -74,7 +73,6 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
     var rd = "";
     rd += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
        +  "<methodCall>\n"
-       +  "<methodName>"+this.method_name+"</methodName>\n"
        +  "<params>\n"
 
     for (var key in this.params) {
@@ -97,9 +95,6 @@ function xml_handlerSetPath(path) {
     this.xml_path = "./"+path;
 }
 
-function xml_handlerSetMethod(method_name) {
-    this.method_name = method_name;
-}
 
 function xml_handlerReset() {
     this.obj_xmlHttp = this.getXmlHttp();

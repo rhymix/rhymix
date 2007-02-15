@@ -318,7 +318,6 @@
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse();
 
-            $method_name = $xml_obj->methodcall->methodname->body;
             $params = $xml_obj->methodcall->params;
             unset($params->node_name);
 

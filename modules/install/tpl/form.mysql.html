@@ -1,7 +1,7 @@
 <!--%import("js/install.js")-->
-<!--%import("filter/filter.mysql_form.xml")-->
+<!--%import("filter/mysql.xml")-->
 
-<form action="./" method="post" onsubmit="return procFormFilter(this, install_filter, procInstall)">
+<form action="./" method="post" onsubmit="return procFilter(this, install)">
 <input type="hidden" name="db_type" value="{$db_type}" />
   <table border="1">
   <tr>
