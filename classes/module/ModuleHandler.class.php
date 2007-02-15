@@ -70,7 +70,10 @@
             Context::set('act', $act, true);
 
             // 모듈 객체 생성
-            $oModule = $this->getModuleInstance($module, $type, $module_info);
+            $oModule = $this->getModuleInstance($module, $type);
+
+            // 모듈 정보 세팅
+            $oModule->setModuleInfo($module_info);
 
             if(!is_object($oModule)) return;
 
@@ -95,7 +98,7 @@
         /**
          * @brief 모듈 객체를 생성함
          **/
-        function getModuleInstance($module, $type = 'view', $module_info = NULL) {
+        function getModuleInstance($module, $type = 'view') {
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return NULL;
 
@@ -136,9 +139,6 @@
 
                 // 생성된 객체에 자신이 호출된 위치를 세팅해줌
                 $oModule->setModulePath($class_path);
-
-                // 모듈 정보 세팅
-                $oModule->setModuleInfo($module_info);
 
                 // 해당 위치에 속한 lang 파일을 읽음
                 Context::loadLang($class_path.'lang');

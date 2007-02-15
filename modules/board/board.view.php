@@ -42,6 +42,8 @@
             Context::loadLang($editor_path);
 
             // 스킨 디렉토리 세팅
+            $skin_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            $this->setTemplatePath($skin_path);
 
             return true;
         }
