@@ -54,7 +54,7 @@ function displayMultimedia(type, src, style) {/*{{{*/
       break;
   }
 
-  return html;
+  document.writeln(html);
 }/*}}}*/
 
 // 화면내에서 이미지 리사이즈 및 클릭할 수 있도록 
