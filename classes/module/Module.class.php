@@ -118,20 +118,13 @@
          *
          * $act값에 의해서 $action_list에 선언된 것들을 실행한다
          **/
-        function proc($act = null) {
-
-            // 별도로 요청한 act가 없으면 주어진 act를 이용
-            if($act) $this->act = $act;
-            else $this->act = Context::get('act');
-
-            // act값이 없거나 존재하지 않는 method를 호출시에 default_act를 지정
-            if(!$this->act || !method_exists($this, $this->act)) $this->act = $this->default_act;
+        function proc($act) {
 
             // 기본 act조차 없으면 return
-            if(!method_exists($this, $this->act)) return false;
+            if(!method_exists($this, $act)) return false;
 
             // act값으로 method 실행
-            $output = call_user_method($this->act, $this);
+            $output = call_user_method($act, $this);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());

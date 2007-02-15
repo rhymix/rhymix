@@ -7,10 +7,6 @@
 
     class installView extends Module {
 
-        var $default_act = 'viewIntroduce'; ///< 별도의 act가 없으면 기본으로 사용될 act
-
-        var $install_enable = false; ///< 설치 가능한지에 대한 flag
-
         /**
          * @brief 초기화
          **/

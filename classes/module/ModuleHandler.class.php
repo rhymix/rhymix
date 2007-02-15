@@ -22,7 +22,7 @@
          * Request Argument에서 $mid, $act값으로 객체를 찾는다.\n
          * 단 유연한 처리를 위해 $document_srl 을 이용하기도 한다.
          **/
-        function ModuleHandler($module = NULL, $act_type = NULL) {
+        function ModuleHandler($module = NULL, $act = NULL) {
 
             // 설치가 안되어 있다면 설치를 위한 준비를 한다
             if(!Context::isInstalled()) {
@@ -49,28 +49,28 @@
             // 만약 모듈이 없다면 잘못된 모듈 호출에 대한 오류를 message 모듈을 통해 호출
             if(!$module) {
                 $module = 'message';
-                $act_type = 'view';
                 Context::set('message', Context::getLang('msg_mid_not_exists'));
             }
 
-            // actType을 정함 (없으면 view를 기본 actType으로 정의)
-            if(!$act_type) {
-                $act = Context::get('act');
-                if(!$act) $act_type = 'view';
-                else  {
-                    $act_type = substr($act, 0, 4);
-                    if(!$act_type or !in_array(strtolower($act_type), array('view','model','controller'))) $act_type = 'view';
-                }
-            }
-
-            // module_info가 없으면 기본적인 값들로 작성
-            if(!$module_info) {
-                $module_info->module = $module;
-                $module_info->module_srl = 0;
-            }
+            // 해당 모듈의 conf/action.xml 을 분석하여 act 값을 체크
+            if(!$act) $act = Context::get('act');
+            $type = $this->getActionType($module, $act);
 
             // 모듈 객체 생성
-            $this->oModule = &$this->getModuleInstance($module, $act_type, $module_info);
+            $oModule = &$this->getModuleInstance($module, $type, $module_info);
+
+            if(!is_object($oModule)) return;
+
+            $oModule->proc($act);
+
+            $this->oModule = $oModule;
+        }
+
+        /**
+         * @brief constructor에서 생성한 oModule를 return
+         **/
+        function getModule() {
+            return $this->oModule;
         }
 
         /**
@@ -111,12 +111,49 @@
         }
 
         /**
+         * @brief module의 위치를 찾아서 return
+         **/
+        function getModulePath($module) {
+            $class_path = sprintf('./files/modules/%s/', $module);
+            if(is_dir($class_path)) return $class_path;
+
+            $class_path = sprintf('./modules/%s/', $module);
+            if(is_dir($class_path)) return $class_path;
+
+            return "";
+        }
+
+        /**
+         * @brief module의 conf/action.xml 을 통해 act값에 해당하는 action type을 return
+         **/
+        function getActionType($module, &$act) {
+            $class_path = $this->getModulePath($module);
+            if(!$class_path) return;
+
+            $action_xml_file = sprintf("%sconf/action.xml", $class_path);
+            if(!file_exists($action_xml_file)) return;
+
+            $oXml = XmlParser::loadXmlFile($action_xml_file);
+
+            if(!count($oXml->module->action)) return;
+
+            foreach($oXml->module->action as $action) {
+                if($action->attrs->default) $default_act = $action;
+                if($action->attrs->name == $act) return $action->attrs->type;
+            }
+
+            if($default_act) {
+                $act = $default_act->attrs->name;
+                return $default_act->attrs->type;
+            }
+        }
+
+        /**
          * @brief 모듈 객체를 생성함
          **/
         function getModuleInstance($module, $type = 'view', $module_info = NULL) {
-            // 요청받은 모듈이 있는지 확인
-            $module = strtolower($module);
-            if(!$module) return;
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!$class_path) return NULL;
 
             // global 변수에 미리 생성해 둔 객체가 없으면 새로 생성
             if(!$GLOBALS['_loaded_module'][$module][$type]) {
@@ -126,9 +163,6 @@
                  * 기본적으로는 ./modules/* 에 있지만 웹업데이트나 웹설치시 ./files/modules/* 에 있음
                  * ./files/modules/* 의 클래스 파일을 우선으로 처리해야 함
                  **/
-                $class_path = sprintf('./files/modules/%s/', $module);
-                if(!is_dir($class_path)) $class_path = sprintf('./modules/%s/', $module);
-                if(!is_dir($class_path)) return NULL;
 
                 // 객체의 이름을 구함
                 switch($type) {
@@ -167,24 +201,10 @@
 
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type] = $oModule;
-
             }
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type];
-        }
-
-        /**
-         * @brief mid로 생성한 모듈 객체에 모듈 정보를 세팅하고 실행
-         *
-         * 모듈을 실행후에 그 모듈 객체를 return하여 DisplayHandler로 넘겨줌
-         **/
-        function proc() {
-            if(!is_object($this->oModule)) return;
-
-            $this->oModule->proc();
-
-            return $this->oModule;
         }
     }
 ?>

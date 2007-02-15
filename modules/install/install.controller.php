@@ -10,8 +10,6 @@
 
         /**
          * @brief 초기화
-         *
-         * 설치가능한지에 대한 체크
          **/
         function init() {
         }
@@ -62,9 +60,7 @@
          **/
         function doInstall() {
             // 설치가 되어 있는지에 대한 체크
-            if(Context::isInstalled()) {
-                return $this->doError('msg_already_installed');
-            }
+            if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
 
             // DB와 관련된 변수를 받음
             $db_info = Context::gets('db_type','db_hostname','db_userid','db_password','db_database','db_table_prefix');
@@ -76,9 +72,7 @@
             $oDB = &DB::getInstance();
 
             // DB접속이 가능한지 체크
-            if(!$oDB->isConnected()) {
-                return $this->doError('msg_dbconnect_failed');
-            }
+            if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
 
             // 모든 모듈의 테이블 생성
             $output = $this->makeTable();
@@ -119,7 +113,7 @@
             $oModule->makeDefaultModule();
 
             // config 파일 생성
-            if(!$this->makeConfigFile()) return $this->doError('msg_install_failed');
+            if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
 
             // 설치 완료 메세지 출력
             $this->setMessage('msg_install_completed');
