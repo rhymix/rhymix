@@ -77,7 +77,7 @@
             $this->_setUploadedArgument();
 
             // 인증관련 데이터를 Context에 설정
-            $oMember = getModule('member','model');
+            $oMember = getModel('member');
             if($oMember->isLogged()) {
                 $this->_set('is_logged', true);
                 $this->_set('logged_info', $_SESSION['logged_info']);

@@ -2,7 +2,7 @@
     /**
      * @class  memberController
      * @author zero (zero@nzeo.com)
-     * @biref  member module의 Controller class
+     * @brief  member module의 Controller class
      **/
 
     class memberController extends Module {
@@ -29,7 +29,7 @@
             $oDB = &DB::getInstance();
 
             // member model 객체 생성
-            $oMemberModel = getModule('member','model');
+            $oMemberModel = getModel('member');
 
             // user_id 에 따른 정보 가져옴
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
@@ -84,7 +84,7 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 모델 객체 생성
-            $oMemberModel = getModule('member','model');
+            $oMemberModel = getModel('member');
 
             // 금지 아이디인지 체크
             if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
@@ -126,7 +126,7 @@
          **/
         function updateMember($args) {
             // 모델 객체 생성
-            $oMemberModel = getModule('member','model');
+            $oMemberModel = getModel('member');
 
             // 수정하려는 대상의 원래 정보 가져오기
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -178,7 +178,7 @@
         function deleteMember($member_srl) {
 
             // 모델 객체 생성
-            $oMemberModel = getModule('member','model');
+            $oMemberModel = getModel('member');
 
             // 해당 사용자의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
@@ -263,7 +263,7 @@
          **/
         function deleteGroup($group_srl) {
             // 멤버모델 객체 생성
-            $oMemberModel = getModule('member','model');
+            $oMemberModel = getModel('member');
 
             // 삭제 대상 그룹을 가져와서 체크 (is_default == 'Y'일 경우 삭제 불가)
             $group_info = $oMemberModel->getGroup($group_srl);
@@ -317,7 +317,7 @@
             // member_srl이 넘어오면 원 회원이 있는지 확인
             if($args->member_srl) {
                 // 멤버 모델 객체 생성
-                $oMemberModel = getModule('member','model');
+                $oMemberModel = getModel('member');
 
                 // 회원 정보 구하기
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -425,8 +425,8 @@
         function procInsertDeniedID() {
             $user_id = Context::get('user_id');
             $description = Context::get('description');
-            $oMember = getModule('member');
-            $output = $oMember->insertDeniedID($user_id, $description);
+            $oMemberModel = getModel('member');
+            $output = $oMemberModel->insertDeniedID($user_id, $description);
             if(!$output->toBool()) return $output;
 
             $this->add('sid','member');
@@ -443,11 +443,11 @@
             $user_id = Context::get('user_id');
             $mode = Context::get('mode');
 
-            $oMember = getModule('member');
+            $oMemberController = getController('member');
 
             switch($mode) {
                 case 'delete' :
-                        $output = $oMember->deleteDeniedID($user_id);
+                        $output = $oMemberController->deleteDeniedID($user_id);
                         if(!$output->toBool()) return $output;
                         $msg_code = 'success_deleted';
                     break;

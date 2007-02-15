@@ -30,7 +30,7 @@
             $document_srl = Context::get('document_srl');
 
             // ModuleModel 객체 생성
-            $oModuleModel = getModule('module','model');
+            $oModuleModel = getModel('module');
 
             // 설치가 안되어 있다면 install module을 지정
             if(!Context::isInstalled()) {

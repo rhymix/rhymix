@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   : modules/member/member.admin.php
-     * @author : zero <zero@nzeo.com>
-     * @desc   : member module의 View class
+     * @class  memberView
+     * @author zero (zero@nzeo.com)
+     * @brief  member module의 View class
      **/
 
     class memberView extends Module {
@@ -15,7 +15,7 @@
          **/
         function dispInit() {
             // 멤버모델 객체 생성
-            $oMemberModel = getModule('member', 'model');
+            $oMemberModel = getModel('member');
 
             // member_srl이 있으면 미리 체크하여 member_info 세팅
             $member_srl = Context::get('member_srl');
@@ -104,7 +104,7 @@
          **/
         function dispDeniedID() {
             // 멤버모델 객체 생성
-            $oMemberModel = getModule('member', 'model');
+            $oMemberModel = getModel('member');
 
             // 사용금지 목록 가져오기
             $output = $oMemberModel->getDeniedIDList();

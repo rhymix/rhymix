@@ -79,7 +79,7 @@
             if(!$output->toBool()) return $output;
 
             // 멤버 컨트롤러 객체 생성
-            $oMemberController = getModule('member', 'controller');
+            $oMemberController = getController('member');
 
             // 그룹을 입력
             $group_args->title = Context::getLang('default_group_1');
@@ -110,7 +110,7 @@
             if(!$output) return $output;
 
             // 기본 모듈을 생성
-            $oModule = getModule('module', 'controller');
+            $oModule = getController('module');
             $oModule->makeDefaultModule();
 
             // config 파일 생성
