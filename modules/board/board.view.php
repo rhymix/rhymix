@@ -41,6 +41,8 @@
             Context::set('editor_path', $editor_path);
             Context::loadLang($editor_path);
 
+            // 스킨 디렉토리 세팅
+
             return true;
         }
 
