@@ -2,7 +2,7 @@
     /**
      * @file   config/func.inc.php
      * @author zero (zero@nzeo.com)
-     * @desc   편의 목적으로 만든 함수라이브러리 파일
+     * @brief  편의 목적으로 만든 함수라이브러리 파일
     **/
 
     /**
@@ -49,6 +49,7 @@
 
 
     /**
+     * @function getUrl()
      * @brief Context::getUrl($args_list)를 쓰기 쉽게 함수로 선언
      * @param args_list 제한없는 args
      * @return string

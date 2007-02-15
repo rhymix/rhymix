@@ -499,7 +499,7 @@
         }
 
         /**
-         * @breif 카테고리의 내용 수정
+         * @brief 카테고리의 내용 수정
          **/
         function procUpdateCategory() {
             $category_srl = Context::get('category_srl');
