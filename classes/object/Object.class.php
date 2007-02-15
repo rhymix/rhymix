@@ -82,7 +82,7 @@
         }
 
         /**
-         * @brief error값이 0이 아니면 오류 (Output::toBool()의 aliasing)
+         * @brief error값이 0이 아니면 오류 (Object::toBool()의 aliasing)
          **/
         function toBoolean() {
         return $this->toBool();

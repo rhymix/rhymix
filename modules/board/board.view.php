@@ -14,13 +14,13 @@
         var $page_count = 10; ///< 페이지의 수
         var $category_list = NULL; ///< 카테고리 목록
 
-        var $grant_list = array( ///< 권한의 종류를 미리 설정
-            'list',
-            'view',
-            'write_document',
-            'write_comment',
-            'fileupload',
-        );
+        var $grant_list = array( 
+                'list',
+                'view',
+                'write_document',
+                'write_comment',
+                'fileupload',
+            );   ///< 권한의 종류를 미리 설정
 
         var $editor = 'default'; ///< 에디터 종류
 
@@ -129,46 +129,46 @@
             $search_target = Context::get('search_target');
             $keyword = Context::get('keyword');
             if($search_target && $keyword) {
-            $keyword = str_replace(' ','%',$keyword);
-            switch($search_target) {
-                case 'title' :
-                        $search_obj->s_title = $keyword;
-                    break;
-                case 'content' :
-                        $search_obj->s_content = $keyword;
-                    break;
-                case 'title_content' :
-                        $search_obj->s_title = $keyword;
-                        $search_obj->s_content = $keyword;
-                    break;
-                case 'user_name' :
-                        $search_obj->s_user_name = $keyword;
-                    break;
+                $keyword = str_replace(' ','%',$keyword);
+                switch($search_target) {
+                    case 'title' :
+                            $search_obj->s_title = $keyword;
+                        break;
+                    case 'content' :
+                            $search_obj->s_content = $keyword;
+                        break;
+                    case 'title_content' :
+                            $search_obj->s_title = $keyword;
+                            $search_obj->s_content = $keyword;
+                        break;
+                    case 'user_name' :
+                            $search_obj->s_user_name = $keyword;
+                        break;
+                }
             }
-        }
 
-        // 카테고리
-        $category = Context::get('category');
-        if($category) $search_obj->category_srl = $category;
+            // 카테고리
+            $category = Context::get('category');
+            if($category) $search_obj->category_srl = $category;
 
-        // 목록의 경우 document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
-        $output = $oDocument->getDocumentList($this->module_srl, 'list_order', $page, $this->list_count, $this->page_count, $search_obj);
+            // 목록의 경우 document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
+            $output = $oDocument->getDocumentList($this->module_srl, 'list_order', $page, $this->list_count, $this->page_count, $search_obj);
 
-        // 템플릿에 쓰기 위해서 context::set
-        Context::set('total_count', $output->total_count);
-        Context::set('total_page', $output->total_page);
-        Context::set('page', $output->page);
-        Context::set('document_list', $output->data);
-        Context::set('page_navigation', $output->page_navigation);
+            // 템플릿에 쓰기 위해서 context::set
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('document_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
 
-        // 템플릿에서 사용할 검색옵션 세팅
-        $count_search_option = count($this->search_option);
-        for($i=0;$i<$count_search_option;$i++) {
-            $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
-        }
-        Context::set('search_option', $search_option);
+            // 템플릿에서 사용할 검색옵션 세팅
+            $count_search_option = count($this->search_option);
+            for($i=0;$i<$count_search_option;$i++) {
+                $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
+            }
+            Context::set('search_option', $search_option);
 
-        $this->setTemplateFile('list');
+            $this->setTemplateFile('list');
         }
 
         /**
@@ -246,14 +246,14 @@
             $parent_srl = Context::get('comment_srl');
 
             // 지정된 원 댓글이 없다면 오류
-            if(!$parent_srl) return new Output(-1, 'msg_invalid_request');
+            if(!$parent_srl) return new Object(-1, 'msg_invalid_request');
 
             // 해당 댓글를 찾아본다
             $oComment = getModule('comment');
             $source_comment = $oComment->getComment($parent_srl);
 
             // 댓글이 없다면 오류
-            if(!$source_comment) return new Output(-1, 'msg_invalid_request');
+            if(!$source_comment) return new Object(-1, 'msg_invalid_request');
 
             // 필요한 정보들 세팅
             Context::set('document_srl',$document_srl);
@@ -276,14 +276,14 @@
             $comment_srl = Context::get('comment_srl');
 
             // 지정된 댓글이 없다면 오류
-            if(!$comment_srl) return new Output(-1, 'msg_invalid_request');
+            if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
             // 해당 댓글를 찾아본다
             $oComment = getModule('comment');
             $comment = $oComment->getComment($comment_srl);
 
             // 댓글이 없다면 오류
-            if(!$comment) return new Output(-1, 'msg_invalid_request');
+            if(!$comment) return new Object(-1, 'msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$_SESSION['own_comment'][$comment_srl]) return $this->setTemplateFile('input_password_form');

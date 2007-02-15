@@ -133,7 +133,7 @@
                 // parent_srl이 있으면 답변으로
                 if($obj->parent_srl) {
                     $comment = $oComment->getComment($obj->parent_srl);
-                    if(!$comment) return new Output(-1, 'msg_invalid_request');
+                    if(!$comment) return new Object(-1, 'msg_invalid_request');
                     $output = $oComment->insertComment($obj);
                     $comment_srl = $output->get('comment_srl');
                     // 없으면 신규
@@ -144,7 +144,7 @@
             // comment_srl이 있으면 수정으로
             } else {
                 $comment = $oComment->getComment($obj->comment_srl);
-                if(!$comment) return new Output(-1, 'msg_invalid_request');
+                if(!$comment) return new Object(-1, 'msg_invalid_request');
 
                 $obj->parent_srl = $comment->parent_srl;
                 $output = $oComment->updateComment($obj);
