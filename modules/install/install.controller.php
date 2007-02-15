@@ -79,7 +79,7 @@
             if(!$output->toBool()) return $output;
 
             // 관리자 정보 입력 (member 모듈을 찾아서 method 실행)
-            $oMember = getModule('member');
+            $oMember = getModule('member', 'controller');
 
             // 그룹을 입력
             $group_args->title = Context::getLang('default_group_1');
@@ -109,7 +109,7 @@
             $oMember->doLogin($admin_info->user_id, $admin_info->password);
 
             // 기본 모듈을 생성
-            $oModule = getModule('module_manager');
+            $oModule = getModule('module_manager', 'controller');
             $oModule->makeDefaultModule();
 
             // config 파일 생성
@@ -190,7 +190,7 @@
 
             $buff = '<?php if(!__ZB5__) exit();'."\n";
             foreach($db_info as $key => $val) {
-            $buff .= sprintf("\$db_info->%s = \"%s\";\n", $key, $val);
+                $buff .= sprintf("\$db_info->%s = \"%s\";\n", $key, $val);
             }
             $buff .= "?>";
 
