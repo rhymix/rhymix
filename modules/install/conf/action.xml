@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="viewIntroduce" manage_action="">
+<module default_action="dispIntroduce" manage_action="">
     <action name="dispIntroduce" type="view" grant="" />
     <action name="dispInstallForm" type="view" grant="" />
     <action name="procInstall" type="controller" grant="" />

@@ -6,11 +6,17 @@
 
 var alertMsg = new Array();
 
+/**
+ * @function filterAlertMessage
+ * @brief ajax로 서버에 요청후 결과를 처리할 callback_function을 지정하지 않았을 시 호출되는 기본 함수
 function filterAlertMessage(ret_obj) {
   var error = ret_obj["error"];
   var message = ret_obj["message"];
+  var redirect_url = ret_obj["redirect_url"];
+  var url = location.href;
   if(typeof(message)!='undefined'&&message) alert(message);
-  location.href = location.href;
+  if(typeof(redirect_url)!='undefined'&&redirect_url) url = redirect_url;
+  location.href = url;
 }
 
 // filtering

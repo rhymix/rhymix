@@ -14,8 +14,6 @@
     <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
   </form>
   <parameter>
-    <param name="mid" target="mid" />
-    <param name="act" target="act" />
     <param name="db_type" target="db_type" />
     <param name="db_hostname" target="db_hostname" />
     <param name="db_userid" target="db_userid" />
@@ -28,7 +26,7 @@
     <param name="nick_name" target="nick_name" />
     <param name="email_address" target="email_address" />
   </parameter>
-  <response callback_func="installCompleted">
+  <response>
     <tag name="error" />
     <tag name="message" />
   </response>
