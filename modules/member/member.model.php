@@ -1,9 +1,9 @@
 <?php
     /**
-    * @class memberModel
-    * @author zero (zero@nzeo.com)
-    * @desc   기본 모듈중의 하나인 member module의 Model
-    **/
+     * @class memberModel
+     * @author zero (zero@nzeo.com)
+     * @desc   기본 모듈중의 하나인 member module의 Model
+     **/
 
     class memberModel extends Module {
 
