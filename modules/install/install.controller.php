@@ -56,7 +56,7 @@
 
 
         /**
-         * @brief 설치 시도
+         * @brief 입력받은 정보로 설치를 함
          **/
         function procInstall() {
             // 설치가 되어 있는지에 대한 체크
@@ -90,6 +90,12 @@
             $group_args->is_default = 'N';
             $oMemberController->insertGroup($group_args);
 
+            // 관리자 정보 세팅
+            $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
+
+            // 관리자 정보 입력
+            $oMemberController->insertAdmin($admin_info);
+
             // 금지 아이디 등록
             $oMemberController->insertDeniedID('www','');
             $oMemberController->insertDeniedID('root','');
@@ -99,14 +105,9 @@
             $oMemberController->insertDeniedID('ftp','');
             $oMemberController->insertDeniedID('http','');
 
-            // 관리자 정보 세팅
-            $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
-
-            // 관리자 정보 입력
-            $oMemberController->insertAdmin($admin_info);
-
             // 로그인 처리시킴
-            $oMemberController->doLogin($admin_info->user_id, $admin_info->password);
+            $output = $oMemberController->doLogin($admin_info->user_id, $admin_info->password);
+            if(!$output) return $output;
 
             // 기본 모듈을 생성
             $oModule = getModule('module', 'controller');

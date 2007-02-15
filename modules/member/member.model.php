@@ -146,7 +146,7 @@
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
-            $output = $odB->executeQuery('member.getDefaultGroup');
+            $output = $oDB->executeQuery('member.getDefaultGroup');
             return $output->data;
         }
 

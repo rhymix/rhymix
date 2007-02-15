@@ -104,7 +104,7 @@
         /**
          * @brief mid로 모듈의 정보를 구함
          **/
-        function getModuleInfo($mid='') {
+        function getModuleInfoByMid($mid='') {
             // DB 객체 생성후 데이터를 DB에서 가져옴
             $oDB = &DB::getInstance();
 
