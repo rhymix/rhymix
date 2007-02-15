@@ -129,7 +129,7 @@
             // db에서 데이터를 가져옴
             $oDB = &DB::getInstance();
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('module_manager.getMidInfo', $args);
+            $output = $oDB->executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
         
             return $this->arrangeModuleInfo($output->data);

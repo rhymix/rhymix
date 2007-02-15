@@ -109,7 +109,7 @@
             $oMemberController->doLogin($admin_info->user_id, $admin_info->password);
 
             // 기본 모듈을 생성
-            $oModule = getModule('module_manager', 'controller');
+            $oModule = getModule('module', 'controller');
             $oModule->makeDefaultModule();
 
             // config 파일 생성

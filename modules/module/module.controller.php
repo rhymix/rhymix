@@ -20,7 +20,7 @@
             $oDB = &DB::getInstance();
 
             // 설치된 기본 모듈이 있는지 확인
-            $output = $oDB->executeQuery('module_manager.getDefaultMidInfo');
+            $output = $oDB->executeQuery('module.getDefaultMidInfo');
             if($output->data) return;
 
             // 기본 모듈 입력
@@ -51,7 +51,7 @@
             $oDB = &DB::getInstance();
             $args->module_srl = $oDB->getNextSequence();
             $args->extra_vars = serialize($extra_vars);
-            $output = $oDB->executeQuery('module_manager.insertModule', $args);
+            $output = $oDB->executeQuery('module.insertModule', $args);
             $output->add('module_srl',$args->module_srl);
             return $output;
         }
@@ -61,7 +61,7 @@
          **/
         function updateModule($args) {
             $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('module_manager.updateModule', $args);
+            $output = $oDB->executeQuery('module.updateModule', $args);
             $output->add('module_srl',$args->module_srl);
             return $output;
         }
@@ -73,7 +73,7 @@
             $oDB = &DB::getInstance();
             $args->module_srl = $module_srl;
             $args->extra_vars = $extra_vars;
-            $output = $oDB->executeQuery('module_manager.updateModuleExtraVars', $args);
+            $output = $oDB->executeQuery('module.updateModuleExtraVars', $args);
             return $output;
         }
 
@@ -84,7 +84,7 @@
             $oDB = &DB::getInstance();
             $args->module_srl = $module_srl;
             $args->grant = $grant;
-            $output = $oDB->executeQuery('module_manager.updateModuleGrant', $args);
+            $output = $oDB->executeQuery('module.updateModuleGrant', $args);
             return $output;
         }
 
@@ -129,7 +129,7 @@
 
             // module 정보 삭제
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('module_manager.deleteModule', $args);
+            $output = $oDB->executeQuery('module.deleteModule', $args);
 
             return $output;
         }
@@ -139,7 +139,7 @@
          **/
         function clearDefaultModule() {
             $oDB = &DB::getInstance();
-            return  $oDB->executeQuery('module_manager.clearDefaultModule');
+            return  $oDB->executeQuery('module.clearDefaultModule');
         }
 
     }
