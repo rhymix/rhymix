@@ -6,10 +6,7 @@
     * @todo 미구현
     **/
 
-    class sample_layout extends LayoutHandler {
-        function proc(&$oModule, $oModuleInfo) {
-            $oModule->setHtml('레이아웃');
-        }
+    class sample_layout extends Layout {
     } 
 
 ?>
