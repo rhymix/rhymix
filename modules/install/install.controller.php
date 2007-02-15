@@ -2,7 +2,7 @@
     /**
      * @class  installController
      * @author zero (zero@nzeo.com)
-     * @desc   install module의 Controller class
+     * @brief  install module의 Controller class
      **/
 
     class installController extends Module {

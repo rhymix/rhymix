@@ -2,7 +2,7 @@
     /**
      * @class  trackbackController
      * @author zero (zero@nzeo.com)
-     * @desc   trackback모듈의 Controller class
+     * @brief  trackback모듈의 Controller class
      **/
 
     class trackbackController extends Module {

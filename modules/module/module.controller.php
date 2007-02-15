@@ -1,6 +1,6 @@
 <?php
     /**
-     * @class  moduleModel
+     * @class  moduleController
      * @author zero (zero@nzeo.com)
      * @brief  module 모듈의 Controller class
      **/
