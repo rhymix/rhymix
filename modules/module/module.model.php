@@ -257,7 +257,7 @@
          **/
         function loadModuleXml($module_path) {
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $xml_file = sprintf("%s/module.xml", $module_path);
+            $xml_file = sprintf("%s/conf/info.xml", $module_path);
             if(!file_exists($xml_file)) return;
 
             $oXmlParser = new XmlParser();
