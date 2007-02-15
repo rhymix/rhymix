@@ -27,14 +27,14 @@
         /**
          * @brief license 및 설치 환경에 대한 메세지 보여줌
          **/
-        function viewIntroduce() {
+        function dispIntroduce() {
             $this->setTemplateFile('introduce');
         }
 
         /**
-         * @brief DB 정보 입력 화면을 보여줌
+         * @brief DB 정보/ 최고 관리자 정보 입력 화면을 보여줌
          **/
-        function viewDBInfoForm() {
+        function dispInstallForm() {
             // db_type이 지정되지 않았다면 다시 초기화면 출력
             if(!Context::get('db_type')) return $this->viewIntroduce();
 

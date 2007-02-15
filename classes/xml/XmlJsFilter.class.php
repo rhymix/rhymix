@@ -7,7 +7,7 @@
      *
      * xml filter 파일은 js script로 컴파일 되어 캐싱됨\n
      * \n
-     * <filter name="js function 이름" method_name="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >\n
+     * <filter name="js function 이름" act="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >\n
      *   <form> <-- 폼 항목의 체크\n
      *     <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />\n
      *   </form>\n
@@ -80,7 +80,7 @@
             $filter_name = $xml_obj->filter->attrs->name;
             $confirm_msg_code = $xml_obj->filter->attrs->confirm_msg_code;
             $module = $xml_obj->filter->attrs->module;
-            $method_name = $xml_obj->filter->attrs->method_name;
+            $act = $xml_obj->filter->attrs->act;
 
             $field_node = $xml_obj->filter->form->node;
 
@@ -96,7 +96,7 @@
 
             // js function 을 만들기 시작
             $js_doc  = sprintf("function %s(fo_obj) {\n", $filter_name);
-            $js_doc .= sprintf("\tvar oFilter = new XmlJsFilter(fo_obj, \"%s\", \"%s\", %s);\n", $module, $method_name, $callback_func);
+            $js_doc .= sprintf("\tvar oFilter = new XmlJsFilter(fo_obj, \"%s\", \"%s\", %s);\n", $module, $act, $callback_func);
 
             // field, 즉 체크항목의 script 생성
             $node_count = count($field_node);

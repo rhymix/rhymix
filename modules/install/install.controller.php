@@ -58,7 +58,7 @@
         /**
          * @brief 설치 시도
          **/
-        function doInstall() {
+        function procInstall() {
             // 설치가 되어 있는지에 대한 체크
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
 

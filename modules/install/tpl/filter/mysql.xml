@@ -1,4 +1,4 @@
-<filter name="install" module="install" method_name="doInstall">
+<filter name="install" module="install" act="procInstall">
   <form>
     <node target="db_type" required="true" />
     <node target="db_hostname" required="true" minlength="1" maxlength="250" />
