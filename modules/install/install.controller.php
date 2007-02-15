@@ -84,7 +84,7 @@
             // 그룹을 입력
             $group_args->title = Context::getLang('default_group_1');
             $group_args->is_default = 'Y';
-            $oMemberController->insertGroup($group_args);
+            $output = $oMemberController->insertGroup($group_args);
 
             $group_args->title = Context::getLang('default_group_2');
             $group_args->is_default = 'N';

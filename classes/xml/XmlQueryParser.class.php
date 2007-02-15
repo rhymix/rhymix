@@ -30,7 +30,7 @@
         function parse($query_id, $xml_file, $cache_file) {
             // query xml 파일을 찾아서 파싱, 결과가 없으면 return
             $buff = FileHandler::readFile($xml_file);
-            $xml_obj = $this->parse($buff);
+            $xml_obj = parent::parse($buff);
             if(!$xml_obj) return;
 
             // 쿼리 스크립트를 만들때 필요한 변수들

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispIntroduce" manage_action="">
-    <action name="dispIntroduce" type="view" grant="" />
-    <action name="dispInstallForm" type="view" grant="" />
-    <action name="procInstall" type="controller" grant="" />
+<module default_action="dispContent" manage_action="dispAdminContent">
+    <action name="dispContent" type="view" grant="" />
+    <action name="dispWrite" type="view" grant="" />
+    <action name="dispDelete" type="view" grant="" />
+    <action name="dispCommentReply" type="view" grant="" />
+    <action name="dispCommentModify" type="view" grant="" />
+    <action name="dispCommentDelete" type="view" grant="" />
+    <action name="dispTrackbackDelete" type="view" grant="" />
+    <action name="dispLogin" type="view" grant="" />
+    <action name="dispLogout" type="view" grant="" />
+    <action name="dispMessage" type="view" grant="" />
+    <action name="dispRss" type="view" grant="" />
+    <action name="dispAdminContent" type="view" grant="admin" />
+    <action name="dispAdminBoardInfo" type="view" grant="admin" />
+    <action name="dispAdminInsertBoard" type="view" grant="admin" />
+    <action name="dispAdminDeleteBoard" type="view" grant="admin" />
+    <action name="dispAdminSkinInfo" type="view" grant="admin" />
+    <action name="dispAdminCategoryInfo" type="view" grant="admin" />
+    <action name="dispAdminGrantInfo" type="view" grant="admin" />
 </module>

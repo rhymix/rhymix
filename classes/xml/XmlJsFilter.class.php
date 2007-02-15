@@ -73,7 +73,7 @@
             $buff = FileHandler::readFile($this->xml_file);
 
             // xml parsing
-            $xml_obj = $this->parse($buff);
+            $xml_obj = parent::parse($buff);
 
             // XmlJsFilter는 filter_name, field, parameter 3개의 데이터를 핸들링
             $filter_name = $xml_obj->filter->attrs->name;

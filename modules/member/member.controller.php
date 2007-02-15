@@ -233,8 +233,9 @@
             $oDB = &DB::getInstance();
 
             // is_default값을 체크, Y일 경우 일단 모든 is_default에 대해서 N 처리
-            if($args->is_default!='Y') $args->is_default = 'N';
-            else {
+            if($args->is_default!='Y') {
+                $args->is_default = 'N';
+            } else {
                 $output = $oDB->executeQuery('member.updateGroupDefaultClear');
                 if(!$output->toBool()) return $output;
             }

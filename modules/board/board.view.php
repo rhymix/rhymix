@@ -30,8 +30,8 @@
         function init() {
             // 카테고리를 사용한다면 카테고리 목록을 구해옴
             if($this->module_info->use_category=='Y') {
-                $oDocument = getModule('document');
-                $this->category_list = $oDocument->getCategoryList($this->module_srl);
+                $oDocumentModel = getModel('document');
+                $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
                 Context::set('category_list', $this->category_list);
             }
 
@@ -42,22 +42,6 @@
             Context::loadLang($editor_path);
 
             return true;
-        }
-        
-        /**
-         * @brief 로그인 폼 출력
-         **/
-        function dispLogin() {
-            if(Context::get('is_logged')) return $this->dispContent();
-            $this->setTemplateFile('login_form');
-        }
-
-        /**
-         * @brief 로그아웃 화면 출력
-         **/
-        function dispLogout() {
-            if(!Context::get('is_logged')) return $this->dispContent();
-            $this->setTemplateFile('logout');
         }
 
         /**
@@ -152,7 +136,8 @@
             if($category) $search_obj->category_srl = $category;
 
             // 목록의 경우 document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
-            $output = $oDocument->getDocumentList($this->module_srl, 'list_order', $page, $this->list_count, $this->page_count, $search_obj);
+            $oDocumentModel = getModel('document');
+            $output = $oDocumentModel->getDocumentList($this->module_srl, 'list_order', $page, $this->list_count, $this->page_count, $search_obj);
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -167,14 +152,13 @@
                 $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
             }
             Context::set('search_option', $search_option);
-
             $this->setTemplateFile('list');
         }
-
+        
         /**
          * @brief 글 작성 화면 출력
          **/
-        function dispWriteForm() {
+        function dispWrite() {
             // 권한 체크
             if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
 
@@ -210,7 +194,7 @@
         /**
          * @brief 문서 삭제 화면 출력
          **/
-        function dispDeleteForm() {
+        function dispDelete() {
             // 권한 체크
             if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
 
@@ -224,7 +208,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$document) return $this->dispContent();
+            if(!$document) return $this->list();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
@@ -237,7 +221,7 @@
         /**
          * @brief 댓글의 답글 화면 출력
          **/
-        function dispCommentReplyForm() {
+        function dispCommentReply() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -267,7 +251,7 @@
         /**
          * @brief 댓글 수정 폼 출력
          **/
-        function dispCommentModifyForm() {
+        function dispCommentModify() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -299,7 +283,7 @@
         /**
          * @brief 댓글 삭제 화면 출력
          **/
-        function dispCommentDeleteForm() {
+        function dispCommentDelete() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -313,7 +297,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$comment) return $this->dispContent();
+            if(!$comment) return $this->list();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$_SESSION['own_comment'][$comment_srl]) return $this->setTemplateFile('input_password_form');
@@ -324,6 +308,23 @@
         }
 
         /**
+         * @brief 로그인 폼 출력
+         **/
+        function dispLogin() {
+            if(Context::get('is_logged')) return $this->list();
+            $this->setTemplateFile('login_form');
+        }
+
+        /**
+         * @brief 로그아웃 화면 출력
+         **/
+        function dispLogout() {
+            if(!Context::get('is_logged')) return $this->list();
+            $this->setTemplateFile('logout');
+        }
+
+
+        /**
          * @brief 메세지 출력
          **/
         function dispMessage($msg_code) {
@@ -331,6 +332,26 @@
             if(!$msg) $msg = $msg_code;
             Context::set('message', $msg);
             $this->setTemplateFile('message');
+        }
+
+        /**
+         * @brief 엮인글 삭제 화면 출력
+         **/
+        function dispTrackbackDelete() {
+            // 삭제할 댓글번호를 가져온다
+            $trackback_srl = Context::get('trackback_srl');
+
+            // 삭제하려는 댓글가 있는지 확인
+            $oTrackback = getModule('trackback');
+            $output = $oTrackback->getTrackback($trackback_srl);
+            $trackback = $output->data;
+
+            // 삭제하려는 글이 없으면 에러
+            if(!$trackback) return $this->list();
+
+            Context::set('trackback',$trackback);
+
+            $this->setTemplateFile('delete_trackback_form');
         }
 
         /**
@@ -361,78 +382,6 @@
         }
 
         /**
-         * @brief 엮인글 삭제 화면 출력
-         **/
-        function dispTrackbackDeleteForm() {
-            // 삭제할 댓글번호를 가져온다
-            $trackback_srl = Context::get('trackback_srl');
-
-            // 삭제하려는 댓글가 있는지 확인
-            $oTrackback = getModule('trackback');
-            $output = $oTrackback->getTrackback($trackback_srl);
-            $trackback = $output->data;
-
-            // 삭제하려는 글이 없으면 에러
-            if(!$trackback) return $this->dispContent();
-
-            Context::set('trackback',$trackback);
-
-            $this->setTemplateFile('delete_trackback_form');
-        }
-
-        /**
-         * @brief 게시판 추가 폼 출력
-         **/
-        function dispBoardInsert() {
-            // 템플릿 파일 지정
-            $this->setTemplateFile('insert_form');
-        }
-
-        /**
-         * @brief 게시판 삭제 화면 출력
-         **/
-        function dispBoardDeleteForm() {
-            if(!Context::get('module_srl')) return $this->dispContent();
-
-            $module_info = Context::get('module_info');
-
-            $oDocument = getModule('document');
-            $document_count = $oDocument->getDocumentCount($module_info->module_srl);
-            $module_info->document_count = $document_count;
-
-            Context::set('module_info',$module_info);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('delete_form');
-        }
-
-        /**
-         * @brief 스킨 정보 보여줌
-         **/
-        function dispSkinInfo() {
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $module_info = Context::get('module_info');
-            $skin = $module_info->skin;
-
-            $oModule = getModule('module_manager');
-            $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
-
-            // skin_info에 extra_vars 값을 지정
-            if(count($skin_info->extra_vars)) {
-                foreach($skin_info->extra_vars as $key => $val) {
-                    $name = $val->name;
-                    $type = $val->type;
-                    $value = $module_info->{$name};
-                    if($type=="checkbox"&&!$value) $value = array();
-                    $skin_info->extra_vars[$key]->value= $value;
-                }
-            }
-
-            Context::set('skin_info', $skin_info);
-            $this->setTemplateFile('skin_info');
-        }
-
-        /**
          * @brief 게시판 관리 목록 보여줌
          **/
         function dispAdminContent() {
@@ -443,7 +392,7 @@
                 $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
                 if(!$module_info) {
                     Context::set('module_srl','');
-                    $this->act = 'dispContent';
+                    $this->act = 'list';
                 } else Context::set('module_info',$module_info);
             }
 
@@ -469,17 +418,69 @@
         /**
          * @brief 게시판의 정보 출력
          **/
-        function dispBoardInfo() {
-            if(!Context::get('module_srl')) return $this->dispContent();
+        function dispAdminBoardInfo() {
+            if(!Context::get('module_srl')) return $this->list();
 
             // 템플릿 파일 지정
             $this->setTemplateFile('info');
         }
 
         /**
+         * @brief 게시판 추가 폼 출력
+         **/
+        function dispAdminInsertBoard() {
+            // 템플릿 파일 지정
+            $this->setTemplateFile('insert_form');
+        }
+
+        /**
+         * @brief 게시판 삭제 화면 출력
+         **/
+        function dispAdminDeleteBoard() {
+            if(!Context::get('module_srl')) return $this->list();
+
+            $module_info = Context::get('module_info');
+
+            $oDocument = getModule('document');
+            $document_count = $oDocument->getDocumentCount($module_info->module_srl);
+            $module_info->document_count = $document_count;
+
+            Context::set('module_info',$module_info);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('delete_form');
+        }
+
+        /**
+         * @brief 스킨 정보 보여줌
+         **/
+        function dispAdminSkinInfo() {
+            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
+            $module_info = Context::get('module_info');
+            $skin = $module_info->skin;
+
+            $oModule = getModule('module_manager');
+            $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
+
+            // skin_info에 extra_vars 값을 지정
+            if(count($skin_info->extra_vars)) {
+                foreach($skin_info->extra_vars as $key => $val) {
+                    $name = $val->name;
+                    $type = $val->type;
+                    $value = $module_info->{$name};
+                    if($type=="checkbox"&&!$value) $value = array();
+                    $skin_info->extra_vars[$key]->value= $value;
+                }
+            }
+
+            Context::set('skin_info', $skin_info);
+            $this->setTemplateFile('skin_info');
+        }
+
+        /**
          * @brief 카테고리의 정보 출력
          **/
-        function dispCategoryInfo() {
+        function dispAdminCategoryInfo() {
             $module_srl = Context::get('module_srl');
 
             // 카테고리의 목록을 구해옴
@@ -502,7 +503,7 @@
         /**
          * @brief 권한 목록 출력
          **/
-        function dispGrantInfo() {
+        function dispAdminGrantInfo() {
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
