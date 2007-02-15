@@ -2,7 +2,7 @@
     /**
      * @class  memberController
      * @author zero (zero@nzeo.com)
-     * @biref  기본 모듈중의 하나인 member module
+     * @biref  member module의 Controller class
      **/
 
     class memberController extends Module {
