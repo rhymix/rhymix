@@ -31,6 +31,15 @@
         }
 
         /**
+         * @brief redirect_url을 정함 
+         *
+         * redirect_url의 경우 ajax로 request를 받았을 경우에 사용하면 됨...
+         **/
+        function setRedirectUrl($url='./') {
+            $this->add('redirect_url', $url);
+        }
+
+        /**
          * @brief 모듈의 정보 세팅
          **/
         function setModuleInfo($module_info) {

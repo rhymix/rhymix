@@ -28,9 +28,11 @@
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            // member model 객체 생성
+            $oMemberModel = getModule('member','model');
+
             // user_id 에 따른 정보 가져옴
-            $args->user_id = $user_id;
-            $member_info = $this->getMemberInfo($user_id, false);
+            $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 
             // return 값이 없거나 비밀번호가 틀릴 경우
             if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');

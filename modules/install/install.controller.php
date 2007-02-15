@@ -116,8 +116,8 @@
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
 
             // 설치 완료 메세지 출력
-            $this->add('redirect_url','./');
             $this->setMessage('msg_install_completed');
+            $this->setRedirectUrl('./');
         }
 
         /**
