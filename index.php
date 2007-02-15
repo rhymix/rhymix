@@ -23,8 +23,8 @@
     require_once("./config/config.inc.php");
 
     /** 
-     * @brief Context 객체를 생성하여 초기화\n
-     *        모든 Request Argument/ 환경변수등을 세팅
+     * @brief Context 객체를 생성하여 초기화
+     * 모든 Request Argument/ 환경변수등을 세팅
      **/
     $oContext = &Context::getInstance(); 
     $oContext->init(); 
