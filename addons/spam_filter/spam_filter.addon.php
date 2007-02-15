@@ -6,7 +6,7 @@
     * @todo 미구현
     **/
 
-    class spam_filter {
+    class spam_filter extends AddOnHandler {
 
         function proc(&$oModule, $oModuleInfo) {
             $oModule->setError(-1);
