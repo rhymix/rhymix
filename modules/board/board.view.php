@@ -15,11 +15,11 @@
         var $category_list = NULL; ///< 카테고리 목록
 
         var $grant_list = array( ///< 권한의 종류를 미리 설정
-        'list',
-        'view',
-        'write_document',
-        'write_comment',
-        'fileupload',
+            'list',
+            'view',
+            'write_document',
+            'write_comment',
+            'fileupload',
         );
 
         var $editor = 'default'; ///< 에디터 종류
