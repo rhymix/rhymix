@@ -5,7 +5,7 @@
      * @brief  message모듈의 view class
      **/
 
-    class message extends Module {
+    class messageView extends Module {
 
         /**
          * @brief 초기화
