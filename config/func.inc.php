@@ -26,6 +26,27 @@
         return ModuleHandler::getModuleInstance($module_name, $act_type);
     }
 
+    /**
+     * @brief module의 controller 객체 생성용
+     **/
+    function getController($module_name) {
+        return getModule($module_name, 'controller'); 
+    }
+
+    /**
+     * @brief module의 view 객체 생성용
+     **/
+    function getView($module_name) {
+        return getModule($module_name, 'view'); 
+    }
+
+    /**
+     * @brief module의 model 객체 생성용
+     **/
+    function getModel($module_name) {
+        return getModule($module_name, 'model'); 
+    }
+
 
     /**
      * @brief Context::getUrl($args_list)를 쓰기 쉽게 함수로 선언
