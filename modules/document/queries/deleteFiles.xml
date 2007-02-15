@@ -1,8 +1,0 @@
-<query id="deleteFiles" action="delete">
-  <tables>
-    <table name="files" />
-  </tables>
-  <conditions>
-    <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
-  </conditions>
-</query>

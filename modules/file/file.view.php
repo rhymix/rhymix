@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  documentView
+     * @class  fileView
      * @author zero (zero@nzeo.com)
-     * @brief  document 모듈의 view 클래스
+     * @brief  file 모듈의 view 클래스
      **/
 
-    class documentView extends Module {
+    class fileView extends Module {
 
         /**
          * @brief 초기화
