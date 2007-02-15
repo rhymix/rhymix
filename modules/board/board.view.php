@@ -60,11 +60,11 @@
             $page = Context::get('page');
 
             // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
-            $oDocument = getModule('document');
+            $oDocumentModel = getModel('document');
 
             // document_srl이 있다면 해당 글을 구해오자
             if($this->grant->view && $document_srl) {
-                $document = $oDocument->getDocument($document_srl);
+                $document = $oDocumentModel->getDocument($document_srl);
 
                 // 글이 찾아지지 않으면 무효화
                 if(!$document) {
@@ -85,8 +85,8 @@
 
                 // 댓글 가져오기
                 if($document->comment_count && $document->allow_comment == 'Y') {
-                    $oComment = getModule('comment');
-                    $comment_list = $oComment->getCommentList($document_srl);
+                    $oCommentModel = getModel('comment');
+                    $comment_list = $oCommentModel->getCommentList($document_srl);
                     Context::set('comment_list', $comment_list);
                 }
 
