@@ -95,7 +95,7 @@
 <!-- 버튼 -->
 <div>
   <!--@if($grant->write_document)-->
-  <a href="{getUrl('act','dispWriteForm','document_srl','')}">[{$lang->cmd_write}]</a> 
+  <a href="{getUrl('act','dispWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
   <!--@end-->
 </div>
 
@@ -103,7 +103,7 @@
 
 <!-- 검색 -->
 <div>
-  <form action="./" method="get" onsubmit="return procFormFilter(this, search, procSearch)">
+  <form action="./" method="get" onsubmit="return procFilter(this, search)">
     <input type="hidden" name="mid" value="{$mid}" />
     <select name="search_target">
       <!--@foreach($search_option as $key => $val)-->
