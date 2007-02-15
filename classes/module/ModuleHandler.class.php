@@ -23,26 +23,28 @@
          * 단 유연한 처리를 위해 $document_srl 을 이용하기도 한다.
          **/
         function ModuleHandler() {
+            // Request Argument중 모듈을 찾을 수 있는 변수를 구함
             $module = Context::get('module');
             $act = Context::get('act');
+            $mid = Context::get('mid');
+            $document_srl = Context::get('document_srl');
 
-            // 설치가 안되어 있다면 설치를 위한 준비를 한다
+            // ModuleModel 객체 생성
+            $oModuleModel = getModule('module','model');
+
+            // 설치가 안되어 있다면 install module을 지정
             if(!Context::isInstalled()) {
-                // install 모듈로 강제 지정
                 $module = 'install';
                 $mid = NULL;
 
-            // Request Argument의 mid값으로 모듈 객체 생성
             // mid가 없이 document_srl만 있다면 document_srl로 mid를 찾음
             } elseif(!$module) {
-                $mid = Context::get('mid');
-                $document_srl = Context::get('document_srl');
 
                 // document_srl만 있다면 mid를 구해옴
-                if(!$mid && $document_srl) $module_info = $this->getModuleInfoByDocumentSrl($document_srl);
+                if(!$mid && $document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 
                 // mid 값에 대한 모듈 정보를 추출
-                if(!$module_info) $module_info = $this->getModuleInfoByMid($mid);
+                if(!$module_info) $module_info = $oModuleModel->getModuleInfoByMid($mid);
 
                 // 모듈 정보에서 module 이름을 구해움
                 $module = $module_info->module;
@@ -55,7 +57,7 @@
             }
 
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
-            $action_info = $this->getActionInfo($module);
+            $action_info = $oModuleModel->getActionInfo($module);
 
             // 현재 요청된 act가 있으면 $action_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$act || !$action_info->{$act}) $act = $action_info->default_action;
@@ -68,57 +70,13 @@
             Context::set('act', $act, true);
 
             // 모듈 객체 생성
-            $oModule = &$this->getModuleInstance($module, $type, $module_info);
+            $oModule = $this->getModuleInstance($module, $type, $module_info);
 
             if(!is_object($oModule)) return;
 
             $oModule->proc($act);
 
             $this->oModule = $oModule;
-        }
-
-        /**
-         * @brief constructor에서 생성한 oModule를 return
-         **/
-        function getModule() {
-            return $this->oModule;
-        }
-
-        /**
-         * @brief document_srl로 모듈의 정보르 구함
-         **/
-        function getModuleInfoByDocumentSrl($document_srl) {
-            // DB 객체 생성후 데이터를 DB에서 가져옴
-            $oDB = &DB::getInstance();
-            $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('module_manager.getModuleInfoByDocument', $args);
-
-            // extra_vars의 정리
-            $module_info = module_manager::extractExtraVar($output->data);
-            return $module_info;
-        }
-
-        /**
-         * @brief mid로 모듈의 정보를 구함
-         **/
-        function getModuleInfo($mid='') {
-            // DB 객체 생성후 데이터를 DB에서 가져옴
-            $oDB = &DB::getInstance();
-
-            // $mid값이 인자로 주어질 경우 $mid로 모듈의 정보를 구함
-            if($mid) {
-                $args->mid = $mid;
-                $output = $oDB->executeQuery('module_manager.getMidInfo', $args);
-            }
-
-            // 모듈의 정보가 없다면($mid가 잘못이거나 없었을 경우) 기본 모듈을 가져옴
-            if(!$output->data) {
-                $output = $oDB->executeQuery('module_manager.getDefaultMidInfo');
-            }
-
-            // extra_vars의 정리
-            $module_info = module_manager::extractExtraVar($output->data);
-            return $module_info;
         }
 
         /**
@@ -135,36 +93,6 @@
         }
 
         /**
-         * @brief module의 conf/action.xml 을 통해 act값에 해당하는 action type을 return
-         **/
-        function getActionInfo($module) {
-            $class_path = $this->getModulePath($module);
-            if(!$class_path) return;
-
-            $action_xml_file = sprintf("%sconf/action.xml", $class_path);
-            if(!file_exists($action_xml_file)) return;
-
-            $xml_obj = XmlParser::loadXmlFile($action_xml_file);
-            if(!count($xml_obj->module)) return;
-
-            $output->default_action = $xml_obj->module->attrs->default_action;
-            $output->manage_action = $xml_obj->module->attrs->manage_action;
-
-            if(is_array($xml_obj->module->action)) $action_list = $xml_obj->module->action;
-            else $action_list[] = $xml_obj->module->action;
-
-            foreach($action_list as $action) {
-                $name = $action->attrs->name;
-                $type = $action->attrs->type;
-                $grant = $action->attrs->grant;
-                $output->{$name}->type = $type;
-                $output->{$name}->grant = $grant;
-            }
-
-            return $output;
-        }
-
-        /**
          * @brief 모듈 객체를 생성함
          **/
         function getModuleInstance($module, $type = 'view', $module_info = NULL) {
@@ -175,7 +103,7 @@
             if(!$GLOBALS['_loaded_module'][$module][$type]) {
 
                 /**
-                 * 모듈의 위치를 파악 
+                 * 모듈의 위치를 파악
                  * 기본적으로는 ./modules/* 에 있지만 웹업데이트나 웹설치시 ./files/modules/* 에 있음
                  * ./files/modules/* 의 클래스 파일을 우선으로 처리해야 함
                  **/
@@ -221,6 +149,13 @@
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type];
+        }
+
+        /**
+         * @brief constructor에서 생성한 oModule를 return
+         **/
+        function getModule() {
+            return $this->oModule;
         }
     }
 ?>
