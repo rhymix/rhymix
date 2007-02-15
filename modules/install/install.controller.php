@@ -78,35 +78,35 @@
             $output = $this->makeTable();
             if(!$output->toBool()) return $output;
 
-            // 관리자 정보 입력 (member 모듈을 찾아서 method 실행)
-            $oMember = getModule('member', 'controller');
+            // 멤버 컨트롤러 객체 생성
+            $oMemberController = getModule('member', 'controller');
 
             // 그룹을 입력
             $group_args->title = Context::getLang('default_group_1');
             $group_args->is_default = 'Y';
-            $oMember->insertGroup($group_args);
+            $oMemberController->insertGroup($group_args);
 
             $group_args->title = Context::getLang('default_group_2');
             $group_args->is_default = 'N';
-            $oMember->insertGroup($group_args);
+            $oMemberController->insertGroup($group_args);
 
             // 금지 아이디 등록
-            $oMember->insertDeniedID('www','');
-            $oMember->insertDeniedID('root','');
-            $oMember->insertDeniedID('admin','');
-            $oMember->insertDeniedID('administrator','');
-            $oMember->insertDeniedID('telnet','');
-            $oMember->insertDeniedID('ftp','');
-            $oMember->insertDeniedID('http','');
+            $oMemberController->insertDeniedID('www','');
+            $oMemberController->insertDeniedID('root','');
+            $oMemberController->insertDeniedID('admin','');
+            $oMemberController->insertDeniedID('administrator','');
+            $oMemberController->insertDeniedID('telnet','');
+            $oMemberController->insertDeniedID('ftp','');
+            $oMemberController->insertDeniedID('http','');
 
             // 관리자 정보 세팅
             $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
 
             // 관리자 정보 입력
-            $oMember->insertAdmin($admin_info);
+            $oMemberController->insertAdmin($admin_info);
 
             // 로그인 처리시킴
-            $oMember->doLogin($admin_info->user_id, $admin_info->password);
+            $oMemberController->doLogin($admin_info->user_id, $admin_info->password);
 
             // 기본 모듈을 생성
             $oModule = getModule('module_manager', 'controller');
@@ -116,9 +116,9 @@
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
 
             // 설치 완료 메세지 출력
+            $this->add('redirect_url','./');
             $this->setMessage('msg_install_completed');
         }
-
 
         /**
          * @brief files 및 하위 디렉토리 생성
