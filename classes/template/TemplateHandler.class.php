@@ -9,7 +9,7 @@
     * 이 파일을 caching하여 사용할 수 있도록 하는 템플릿 컴파일러\n
     **/
 
-    class TemplateHandler {
+    class TemplateHandler extends Handler {
 
         var $compiled_path = './files/template_compiled/'; ///< 컴파일된 캐쉬 파일이 놓일 위치
 

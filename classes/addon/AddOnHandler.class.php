@@ -6,7 +6,7 @@
     * @todo 미구현
     **/
 
-    class AddOnHandler {
+    class AddOnHandler extends Handler {
 
         var $addon_name; ///< 실행하고자 하는 addon의 이름
 

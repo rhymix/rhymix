@@ -12,7 +12,7 @@
     * 모듈 객체에 전달하고 실행까지 진행을 한다.
     **/
 
-    class ModuleHandler { 
+    class ModuleHandler extends Handler {
 
         var $oModule = NULL; ///< 모듈 객체
 

@@ -9,7 +9,7 @@
      * 페이지 네비게이션에 필요한 variables와 method를 구현\n
      **/
 
-    class PageHandler {
+    class PageHandler extends Handler {
 
         var $total_count = 0; ///< 전체 item의 갯수
         var $total_page = 0; ///< 전체 페이지 수

@@ -10,7 +10,7 @@
     *        plugin이나 layout의 html과 연동하여 출력\n
     **/
 
-    class DisplayHandler {
+    class DisplayHandler extends Handler {
 
         var $content_size = 0; ///< 출력하는 컨텐츠의 사이즈
 

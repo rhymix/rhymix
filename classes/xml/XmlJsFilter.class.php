@@ -39,7 +39,7 @@
      *   tag = key : return받을 결과값의 변수명\n
      **/
 
-    class XmlJsFilter {
+    class XmlJsFilter extends XmlParser {
         var $compiled_path = './files/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
         var $xml_file = NULL; ///< 대상 xml 파일
         var $js_file = NULL; ///< 컴파일된 js 파일
@@ -73,8 +73,7 @@
             $buff = FileHandler::readFile($this->xml_file);
 
             // xml parsing
-            $oXml = new XmlParser();
-            $xml_obj = $oXml->parse($buff);
+            $xml_obj = $this->parse($buff);
 
             // XmlJsFilter는 filter_name, field, parameter 3개의 데이터를 핸들링
             $filter_name = $xml_obj->filter->attrs->name;

@@ -6,7 +6,7 @@
     * @todo 미구현
     **/
 
-    class LayoutHandler {
+    class LayoutHandler extends Handler {
 
         var $layout_name; ///< 레이아웃의 이름
         var $layout_info; ///< 레이아웃의 정보

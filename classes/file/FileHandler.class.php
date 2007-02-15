@@ -7,7 +7,7 @@
     * 굳이 class로 만들필요는 없는데.. 소스 코드의 관리를 위하여..
     **/
 
-    class FileHandler {
+    class FileHandler extends Handler {
 
         /**
          * @brief 파일의 내용을 읽어서 return

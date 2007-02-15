@@ -8,7 +8,7 @@
     * @todo subquery나 union등의 확장 쿼리에 대한 지원이 필요
     **/
 
-    class XmlQueryParser {
+    class XmlQueryParser extends XmlParser {
 
         /**
          * @brief 조건문에서 조건을 등호로 표시하는 변수
@@ -30,8 +30,7 @@
         function parse($query_id, $xml_file, $cache_file) {
             // query xml 파일을 찾아서 파싱, 결과가 없으면 return
             $buff = FileHandler::readFile($xml_file);
-            $oXml = new XmlParser();
-            $xml_obj = $oXml->parse($buff);
+            $xml_obj = $this->parse($buff);
             if(!$xml_obj) return;
 
             // 쿼리 스크립트를 만들때 필요한 변수들

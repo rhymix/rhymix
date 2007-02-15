@@ -33,6 +33,7 @@
      * php5 기반으로 바꾸게 되면 _autoload를 이용할 수 있기에 제거 대상
      **/
     if(__DEBUG__) define('__RequireClassStartTime__', getMicroTime());
+    require_once("./classes/handler/Handler.class.php");
     require_once("./classes/xml/XmlParser.class.php");
     require_once("./classes/context/Context.class.php");
     require_once("./classes/db/DB.class.php");
