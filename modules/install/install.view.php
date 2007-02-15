@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   installView
+     * @class  installView
      * @author zero (zero@nzeo.com)
      * @brief  기본 모듈중의 하나인 install module의 View
      **/

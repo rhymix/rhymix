@@ -19,8 +19,8 @@
          * @brief constructor
          **/
         function Object($error = 0, $message = 'success') {
-            $this->error = $error;
-            $this->message = $message;
+            $this->setError($error);
+            $this->setMessage($message);
         }
 
         /**
