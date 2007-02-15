@@ -1,12 +1,12 @@
 <?php
     /**
-    * @class LayoutHandler
+    * @class Layout
     * @author zero (zero@nzeo.com)
     * @brief 레이아웃 관리
     * @todo 미구현
     **/
 
-    class LayoutHandler extends Handler {
+    class Layout extends Object {
 
         var $layout_name; ///< 레이아웃의 이름
         var $layout_info; ///< 레이아웃의 정보
@@ -18,7 +18,7 @@
             if($oModule->getActType() != 'disp') return;
             if(!$oModuleInfo->isLayoutExists()) return;
 
-            $oLayout = new LayoutHandler();
+            $oLayout = new Layout();
             $oLayout->proc($oModule, $oModuleInfo);
         }
 
