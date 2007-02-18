@@ -287,11 +287,12 @@
             $document_srl = Context::get('document_srl');
             $module_srl = $this->module_srl;
 
-            // document모듈 객체 생성후 걍 넘겨버림
-            $oDocumentController = getModule('document','controller');
-            $output = $oDocumentController->insertFile($module_srl, $document_srl);
-            print $this->getUploadedFileList($document_srl);
-            exit();
+            // file class의 controller 객체 생성
+            $oFileController = getController('file');
+            $output = $oFileController->insertFile($module_srl, $document_srl);
+
+            // 첨부파일의 목록을 java script로 출력
+            $oFileController->printUploadedFileList($document_srl);
         }
 
         /**
@@ -306,8 +307,8 @@
             $sid = Context::get('sid');
 
             // document module 객체 생성후 해당 파일의 정보를 체크
-            $oDocumentModel = getModule('document','model');
-            $file_obj = $oDocumentModel->getFile($file_srl);
+            $oFileModel = getModel('file');
+            $file_obj = $oFileModel->getFile($file_srl);
             if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();
 
             // 이상이 없으면 download_count 증가
@@ -351,12 +352,13 @@
             $document_srl = Context::get('document_srl');
 
             // document_srl의 글이 등록되어 있다면 pass
-            $oDocument = getModule('document');
-            $data = $oDocument->getDocument($document_srl);
+            $oDocumentModel = getModel('document');
+            $data = $oDocumentModel->getDocument($document_srl);
             if($data) exit();
 
             // 등록되어 있지 않다면 첨부파일 삭제
-            $oDocument->deleteFiles($this->module_srl, $document_srl);
+            $oFileController = getController('file');
+            $oFileController->deleteFiles($this->module_srl, $document_srl);
         }
 
         /**
@@ -366,8 +368,8 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoard = getModule('board');
-            $grant_list = $oBoard->grant_list;
+            $oBoardView = getModule('view');
+            $grant_list = $oBoardView->grant_list;
 
             if(count($grant_list)) {
                 foreach($grant_list as $grant) {
