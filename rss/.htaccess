@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([a-zA-Z0-9\_\-]*)$ ../index.php?mid=$1&act=dispRss 
