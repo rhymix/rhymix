@@ -230,7 +230,6 @@ function XmlJsFilterProc(confirm_msg) {
     var response = this.response;
 
     if(confirm_msg && !confirm(confirm_msg)) return false;
-
     if(!this.act) {
       this.user_func(this.fo_obj, params);
       return true;

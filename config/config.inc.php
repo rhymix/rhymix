@@ -19,7 +19,16 @@
      * @brief debug mode = true 일때 files/_debug_message.php 에 디버그 내용이 쌓임
      **/
     define('__DEBUG__', true);
-    if(__DEBUG__) define('__StartTime__', getMicroTime());
+    if(__DEBUG__) {
+        
+        // php5이상이면 error handling을 handleError() 로 set
+        if (version_compare(phpversion(), '5.0') > 0) {
+            set_error_handler("handleError");
+        }
+
+        // 여기서부터 시작 시간으로 설정
+        define('__StartTime__', getMicroTime());
+    }
 
     /**
      * @brief 세션 설정

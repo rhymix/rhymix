@@ -17,8 +17,6 @@
          * @brief 첨부파일 추가
          **/
         function insertFile($module_srl, $document_srl) {
-            $oDB = &DB::getInstance();
-
             $file_info = Context::get('file');
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
@@ -43,7 +41,10 @@
 
             // 사용자 정보를 구함
             $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getMemberSrl();
+            $member_srl = $oMemberModel->getLoggedMemberSrl();
+
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
 
             // 파일 정보를 정리
             $args->file_srl = $oDB->getNextSequence();
@@ -55,9 +56,9 @@
             $args->file_size = filesize($filename);
             $args->comment = NULL;
             $args->member_srl = $member_srl;
-            $args->sid = md5($args->source_filename);
+            $args->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
 
-            $output = $oDB->executeQuery('document.insertFile', $args);
+            $output = $oDB->executeQuery('file.insertFile', $args);
             if(!$output->toBool()) return $output;
 
             $output->add('file_srl', $args->file_srl);
@@ -74,7 +75,7 @@
 
             // 파일 정보를 가져옴
             $args->file_srl = $file_srl;
-            $output = $oDB->executeQuery('document.getFile', $args);
+            $output = $oDB->executeQuery('file.getFile', $args);
             if(!$output->toBool()) return $output;
             $file_info = $output->data;
             if(!$file_info) return new Object(-1, 'file_not_founded');
@@ -83,7 +84,7 @@
             $uploaded_filename = $output->data->uploaded_filename;
 
             // DB에서 삭제
-            $output = $oDB->executeQuery('document.deleteFile', $args);
+            $output = $oDB->executeQuery('file.deleteFile', $args);
             if(!$output->toBool()) return $output;
 
             // 삭제 성공하면 파일 삭제
@@ -99,7 +100,7 @@
             $oDB = &DB::getInstance();
 
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.deleteFiles', $args);
+            $output = $oDB->executeQuery('file.deleteFiles', $args);
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
@@ -119,7 +120,7 @@
             $oDB = &DB::getInstance();
 
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('document.deleteModuleFiles', $args);
+            $output = $oDB->executeQuery('file.deleteModuleFiles', $args);
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제

@@ -5,7 +5,7 @@
  **/
 
 /* 글쓰기 작성후 */
-function procInsert(ret_obj, response_tags) {
+function completeDocumentInserted(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
   var mid = ret_obj['mid'];
@@ -16,6 +16,13 @@ function procInsert(ret_obj, response_tags) {
   if(category_srl) url += '&category='+category_srl;
   location.href = url;
 }
+
+
+
+
+
+
+
 
 /* 글 삭제 */
 function procDeleteDocument(ret_obj, response_tags) {

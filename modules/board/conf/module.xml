@@ -35,7 +35,7 @@
         <action name="dispCommentDelete" type="view" />
         <action name="dispTrackbackDelete" type="view" />
         <action name="dispLogin" type="view" />
-        <action name="dispLogout" type="view" />
+        <action name="dispLogout" type="view" grant="member" />
         <action name="dispMessage" type="view" />
         <action name="dispRss" type="view" />
         <action name="dispAdminContent" type="view" grant="root" />
@@ -45,5 +45,25 @@
         <action name="dispAdminSkinInfo" type="view" grant="root" />
         <action name="dispAdminCategoryInfo" type="view" grant="root" />
         <action name="dispAdminGrantInfo" type="view" grant="root" />
+        <action name="procLogin" type="controller" />
+        <action name="procLogout" type="controller" grant="member" />
+        <action name="procInsertDocument" type="controller" />
+        <action name="procDeleteDocument" type="controller" />
+        <action name="procVoteDocument" type="controller" />
+        <action name="procInsertComment" type="controller" />
+        <action name="procDeleteComment" type="controller" />
+        <action name="procReceiveTrackback" type="controller" />
+        <action name="procDeleteTrackback" type="controller" />
+        <action name="procVerificationPassword" type="controller" />
+        <action name="procDeleteFile" type="controller" />
+        <action name="procUploadFile" type="controller" />
+        <action name="procDownload" type="controller" />
+        <action name="procClearFile" type="controller" />
+        <action name="procInsertGrant" type="controller" grant="root"/>
+        <action name="procUpdateSkinInfo" type="controller" grant="root"/>
+        <action name="procInsertBoard" type="controller" grant="root"/>
+        <action name="procDeleteBoard" type="controller" grant="root"/>
+        <action name="procInsertCategory" type="controller" grant="root"/>
+        <action name="procUpdateCategory" type="controller" grant="root"/>
     </actions>
 </module>

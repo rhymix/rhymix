@@ -48,6 +48,7 @@
 
                 // 모듈 정보에서 module 이름을 구해움
                 $module = $module_info->module;
+                $mid = $module_info->mid;
             }
 
             // 만약 모듈이 없다면 잘못된 모듈 호출에 대한 오류를 message 모듈을 통해 호출
@@ -68,6 +69,7 @@
 
             // act값을 Context에 세팅
             Context::set('act', $act, true);
+            Context::set('mid', $mid, true);
 
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($module, $type);
@@ -77,6 +79,7 @@
 
             if(!is_object($oModule)) return;
 
+            $act = Context::get('act');
             $oModule->proc($act);
 
             $this->oModule = $oModule;

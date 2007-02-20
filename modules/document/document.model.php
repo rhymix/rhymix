@@ -23,28 +23,61 @@
         /**
          * @brief 문서 가져오기
          **/
-        function getDocument($document_srl) {
+        function getDocument($document_srl, $is_admin=false, $get_extra_info=false) {
             // DB에서 가져옴
             $oDB = &DB::getInstance();
             $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('document.getDocument', $args);
             $document = $output->data;
 
+            if(!$get_extra_info) return $document;
+
+            // document controller 객체 생성
+            $oDocumentController = &getController('document');
+
+            // 조회수 업데이트
+            $oDocumentController->updateReadedCount($document);
+
             // 이 문서에 대한 권한이 있는지 확인
-            if($this->isGranted($document->document_srl)) {
+            if($this->isGranted($document->document_srl) || $is_admin) {
                 $document->is_granted = true;
             } elseif($document->member_srl) {
                 $oMemberModel = &getMemberModel('member');
                 $member_srl = $oMemberModel->getMemberSrl();
                 if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
             } 
+
+            // 비밀글이고 권한이 없을 경우 제목과 내용을 숨김
+            if($document->is_secret=='Y' && !$document->is_granted) {
+                $document->title =  $document->content = Context::getLang('msg_is_secret');
+            }
+
+            // 댓글 가져오기
+            if($document->comment_count && $document->allow_comment == 'Y') {
+                $oCommentModel = &getModel('comment');
+                $document->comment_list = $oCommentModel->getCommentList($document_srl);
+            }
+
+            // 트랙백 가져오기
+            if($document->trackback_count && $document->allow_trackback == 'Y') {
+                $oTrackback = &getModule('trackback');
+                $document->trackback_list = $oTrackback->getTrackbackList($document_srl);
+            }
+
+            // 첨부파일 가져오기
+            if($document->uploaded_count) {
+                $oFileModel = &getModel('file');
+                $file_list = $oFileModel->getFiles($document_srl);
+                $document->uploaded_list = $file_list;
+            }
+            
             return $document;
         }
 
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
          **/
-        function getDocuments($document_srl_list) {
+        function getDocuments($document_srl_list, $is_admin=false) {
             if(is_array($document_srl_list)) $document_srls = implode(',',$document_srl_list);
 
             // DB에서 가져옴
@@ -63,7 +96,7 @@
                 $document = $document_list[$i];
                 $is_granted = false;
 
-                if($this->isGranted($document->document_srl)) {
+                if($this->isGranted($document->document_srl) || $is_admin) {
                     $is_granted = true;
                 } elseif($member_srl && $member_srl == $document->member_srl) {
                     $is_granted = true;
@@ -74,29 +107,78 @@
         }
 
         /**
+         * @brief module_srl값을 가지는 문서의 목록을 가져옴
+         **/
+        function getDocumentList($obj) {
+
+            // 검색 키워드가 있으면 공백을 % 로 변경하여 키워드 or 연산이 되도록 수정
+            if($obj->keyword) $obj->keyword = str_replace(' ','%',$obj->keyword);
+
+
+            if($obj->search_target && $obj->keyword) {
+                switch($obj->search_target) {
+                    case 'title' :
+                            $search_obj->s_title = $obj->keyword;
+                        break;
+                    case 'content' :
+                            $search_obj->s_content = $obj->keyword;
+                        break;
+                    case 'title_content' :
+                            $search_obj->s_title = $obj->keyword;
+                            $search_obj->s_content = $obj->keyword;
+                        break;
+                    case 'user_name' :
+                            $search_obj->s_user_name = $obj->keyword;
+                        break;
+                }
+            }
+
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            // 변수 설정
+            $args->module_srl = $obj->module_srl;
+            $args->s_title = $obj->search_target=='title'?$obj->keyword:'';
+            $args->s_content = $obj->search_target=='content'?$obj->keyword:'';
+            $args->s_user_name = $obj->search_target=='user_name'?$obj->keyword:'';
+            $args->s_member_srl = $obj->search_target=='member'?$obj->keyword:'';
+            $args->s_ipaddress = $obj->search_target=='ipaddress'?$obj->keyword:'';
+            $args->s_regdate = $obj->search_target=='regdate'?$obj->keyword:'';
+            $args->category_srl = $obj->category_srl?$obj->category_srl:'';
+
+            $args->sort_index = $obj->sort_index;
+            $args->page = $obj->page?$obj->page:1;
+            $args->list_count = $obj->list_count?$obj->list_count:20;
+            $args->page_count = $obj->page_count?$obj->page_count:10;
+
+            // document.getDocumentList 쿼리 실행
+            $output = $oDB->executeQuery('document.getDocumentList', $args);
+
+            // 결과가 없거나 오류 발생시 그냥 return
+            if(!$output->toBool()||!count($output->data)) return $output;
+
+            // 권한 체크
+            $oMemberModel = &getModel('member');
+            $member_srl = $oMemberModel->getMemberSrl();
+
+            foreach($output->data as $key => $document) {
+                $is_granted = false;
+
+                if($this->isGranted($document->document_srl) || $is_admin) $is_granted = true;
+                elseif($member_srl && $member_srl == $document->member_srl) $is_granted = true;
+
+                $output->data[$key]->is_granted = $is_granted;
+            }
+            return $output;
+        }
+        /**
          * @brief module_srl에 해당하는 문서의 전체 갯수를 가져옴
          **/
         function getDocumentCount($module_srl, $search_obj = NULL) {
+            // DB 객체 생성
             $oDB = &DB::getInstance();
 
-            $args->module_srl = $module_srl;
-            $args->s_title = $search_obj->s_title;
-            $args->s_content = $search_obj->s_content;
-            $args->s_user_name = $search_obj->s_user_name;
-            $args->s_member_srl = $search_obj->s_member_srl;
-            $args->s_ipaddress = $search_obj->s_ipaddress;
-            $args->s_regdate = $search_obj->s_regdate;
-            $output = $oDB->executeQuery('document.getDocumentCount', $args);
-            $total_count = $output->data->count;
-            return (int)$total_count;
-        }
-
-        /**
-         * @brief module_srl값을 가지는 문서의 목록을 가져옴
-         **/
-        function getDocumentList($module_srl, $sort_index = 'list_order', $page = 1, $list_count = 20, $page_count = 10, $search_obj = NULL) {
-            $oDB = &DB::getInstance();
-
+            // 검색 옵션 추가
             $args->module_srl = $module_srl;
             $args->s_title = $search_obj->s_title;
             $args->s_content = $search_obj->s_content;
@@ -106,39 +188,25 @@
             $args->s_regdate = $search_obj->s_regdate;
             $args->category_srl = $search_obj->category_srl;
 
-            $args->sort_index = $sort_index;
-            $args->page = $page;
-            $args->list_count = $list_count;
-            $args->page_count = $page_count;
-            $output = $oDB->executeQuery('document.getDocumentList', $args);
+            $output = $oDB->executeQuery('document.getDocumentCount', $args);
 
-            if(!count($output->data)) return $output;
-
-            // 권한 체크
-            $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getMemberSrl();
-
-            foreach($output->data as $key => $document) {
-                $is_granted = false;
-
-                if($this->isGranted($document->document_srl)) $is_granted = true;
-                elseif($member_srl && $member_srl == $document->member_srl) $is_granted = true;
-
-                $output->data[$key]->is_granted = $is_granted;
-            }
-            return $output;
+            // 전체 갯수를 return
+            $total_count = $output->data->count;
+            return (int)$total_count;
         }
-
         /**
          * @brief 해당 document의 page 가져오기, module_srl이 없으면 전체에서..
          **/
         function getDocumentPage($document_srl, $module_srl=0, $list_count) {
+            // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            // 변수 설정
             $args->document_srl = $document_srl;
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('document.getDocumentPage', $args);
 
+            // 전체 갯수를 구한후 해당 글의 페이지를 검색
+            $output = $oDB->executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
             $page = (int)(($count-1)/$list_count)+1;
             return $page;

@@ -142,4 +142,22 @@
 
         return $var;
     }
+
+    /** 
+     * @brief php5 이상에서 error_handing을 debugPrint로 변경
+     * @param errno 
+     * @param errstr
+     * @return file
+     * @return line
+     **/
+    function handleError($errno, $errstr, $file, $line) {
+        if(!__DEBUG__) return;
+        $errors = array(E_USER_ERROR, E_ERROR, E_PARSE);
+        if(!in_array($errno,$errors)) return;
+
+        $output  = sprintf("Fatal error : %s - %d", $file, $line);
+        $output .= sprintf("%d - %s", $errno, $errstr);
+
+        debugPrint($output);
+    }
 ?>

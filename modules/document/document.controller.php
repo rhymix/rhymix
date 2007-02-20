@@ -185,14 +185,41 @@
         /**
          * @brief 해당 document의 조회수 증가
          **/
-        function updateReadedCount($document_srl) {
-            if($_SESSION['readed_document'][$document_srl]) return false;
+        function updateReadedCount($document) {
+            $document_srl = $document->document_srl;
 
+            // session에 정보로 조회수를 증가하였다고 생각하면 패스
+            if($_SESSION['readed_document'][$document_srl]) return;
+
+            // member model 객체 생성
+            $oMemberModel = &getModel('member');
+            $member_srl = $oMemberModel->getLoggedMemberSrl();
+
+            // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
+            if($member_srl && $member_srl == $document->member_srl) return $_SESSION['readed_document'][$document_srl] = true;
+
+            // DB 객체 생성
             $oDB = &DB::getInstance();
 
-            $args->document_srl = $document_srl;
+            // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
+            if($member_srl) {
+                $args->member_srl = $member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+            $output = $oDB->executeQuery('document.getDocumentReadedLogInfo', $args);
+
+            // 로그 정보에 조회 로그가 있으면 세션 등록후 패스
+            if($output->data->count) return $_SESSION['readed_document'][$document_srl] = true;
+
+            // 조회수 업데이트
             $output = $oDB->executeQuery('document.updateReadedCount', $args);
-            return $_SESSION['readed_document'][$document_srl] = true;
+
+            // 로그 남기기
+            $output = $oDB->executeQuery('document.insertDocumentReadedLog', $args);
+
+            // 세션 정보에 남김
+            $_SESSION['readed_document'][$document_srl] = true;
         }
 
         /**

@@ -12,7 +12,7 @@
          **/
         function init() {
             // 파일 업로드일 경우 $act값을 procUploadFile() 로 변경
-            if(Context::isUploaded() && $this->grant->fileupload) $this->act = 'procUploadFile';
+            if(Context::isUploaded() && $this->grant->fileupload) Context::set('act', 'procUploadFile');
         }
         
         /**
@@ -433,7 +433,7 @@
         /**
          * @brief 게시판 추가
          **/
-        function procBoardInsert() {
+        function procInsertBoard() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $args = Context::gets('module_srl','mid','skin','use_category','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'board';
@@ -483,7 +483,7 @@
         /**
          * @brief 게시판 삭제
          **/
-        function procBoardDelete() {
+        function procDeleteBoard() {
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다

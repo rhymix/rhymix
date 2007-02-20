@@ -5,20 +5,20 @@
 var iframe_id = 'editor_iframe_';
 
 // srl값에 해당하는 iframe의 object를 return
-function editorGetIFrame(document_srl) {/*{{{*/
+function editorGetIFrame(document_srl) {
   var obj_id = iframe_id+document_srl;
   return xGetElementById(obj_id);
-}/*}}}*/
+}
 
 // editor 초기화를 onload이벤트 후에 시작시킴
-function editorInit(document_srl) {/*{{{*/
+function editorInit(document_srl) {
   var start_func = function _editorStart() { editorStart(document_srl); }
   var init_func = function _editorInit() { setTimeout(start_func, 300); }
   xAddEventListener(window, 'load', init_func);
-}/*}}}*/
+}
 
 // editor 초기화 (document_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
-function editorStart(document_srl) {/*{{{*/
+function editorStart(document_srl) {
   // iframe obj를 찾음
   var iframe_obj = editorGetIFrame(document_srl);
   if(!iframe_obj) return;
@@ -82,14 +82,14 @@ function editorStart(document_srl) {/*{{{*/
 
   // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
   editorSyncContent(fo_obj.content, document_srl);
-}/*}}}*/
+}
 
-var _editorSyncList = new Array(); /*{{{*/
+var _editorSyncList = new Array(); 
 function editorSyncContent(obj, document_srl) {
   _editorSyncList[_editorSyncList.length] = {field:obj, document_srl:document_srl}
-}/*}}}*/
+}
 
-function _editorSync() {/*{{{*/
+function _editorSync() {
   for(var i=0;i<_editorSyncList.length;i++) {
     var field = _editorSyncList[i].field;
     var document_srl = _editorSyncList[i].document_srl;
@@ -98,26 +98,26 @@ function _editorSync() {/*{{{*/
     field.value = content;
   }
   setTimeout(_editorSync, 1000);
-}/*}}}*/
+}
 xAddEventListener(window, 'load', _editorSync);
 
 // 문단기능 toggle
-function editorUseParagraph(obj, document_srl) { /*{{{*/
+function editorUseParagraph(obj, document_srl) { 
   toggleDisplay('editor_paragraph_'+document_srl);
-}/*}}}*/
+}
 
 // 에디터의 내용 return
-function editorGetContent(document_srl) {/*{{{*/
+function editorGetContent(document_srl) {
   var iframe_obj = editorGetIFrame(document_srl);
   if(!iframe_obj) return;
   var html = '';
   html = xInnerHtml(iframe_obj.contentWindow.document.body);
   if(!html) return;
   return html.trim();
-}/*}}}*/
+}
 
 // 에디터 내의 선택된 부분의 html 코드를 return
-function editorGetSelectedHtml(document_srl) {/*{{{*/
+function editorGetSelectedHtml(document_srl) {
   var iframe_obj = editorGetIFrame(document_srl);
   if(xIE4Up) {
     var range = iframe_obj.contentWindow.document.selection.createRange();
@@ -131,10 +131,10 @@ function editorGetSelectedHtml(document_srl) {/*{{{*/
     var html = xInnerHtml(dummy);
     return html;
   }
-}/*}}}*/
+}
 
 // 에디터 내의 선택된 부분의 html코드를 변경
-function editorReplaceHTML(iframe_obj, html) {/*{{{*/
+function editorReplaceHTML(iframe_obj, html) {
   iframe_obj.contentWindow.focus();
   if(xIE4Up) {
     var range = iframe_obj.contentWindow.document.selection.createRange();
@@ -144,10 +144,10 @@ function editorReplaceHTML(iframe_obj, html) {/*{{{*/
     range.deleteContents();
     range.insertNode(range.createContextualFragment(html));
   }
-}/*}}}*/
+}
 
 // 입력 키에 대한 이벤트 체크
-function editorKeyPress(evt) {/*{{{*/
+function editorKeyPress(evt) {
   var e = new xEvent(evt);
   if (e.keyCode == 13) {
     if(xIE4Up && e.shiftKey == false && !xGetElementById("use_paragraph").checked ) {
@@ -186,10 +186,10 @@ function editorKeyPress(evt) {/*{{{*/
         break;
     }
   }
-}/*}}}*/
+}
 
 // 에디터 상단의 버튼 클릭시 action 처리
-var editorPrevObj = null;/*{{{*/
+var editorPrevObj = null;
 var editorPrevSrl = null;
 function editorEventCheck(evt) {
   var e = new xEvent(evt);
@@ -269,38 +269,38 @@ function editorEventCheck(evt) {
     }
   }
   return;
-}/*}}}*/
+}
 
 // focus
-function editorFocus(document_srl) {/*{{{*/
+function editorFocus(document_srl) {
   var iframe_obj = editorGetIFrame(document_srl);
   iframe_obj.contentWindow.focus();
 }
-/*}}}*/
+
 
 // 편집 기능 실행
-function editorDo(name, value, target) {/*{{{*/
+function editorDo(name, value, target) {
   if(typeof(target)=='object') _editorDoObject(name, value, target);
   else _editorDoSrl(name, value, target);
-}/*}}}*/
+}
 
-function _editorDoSrl(name, value, document_srl) {/*{{{*/
+function _editorDoSrl(name, value, document_srl) {
   var iframe_obj = editorGetIFrame(document_srl);
   editorFocus(document_srl);
   if(xIE4Up) iframe_obj.contentWindow.document.execCommand(name, false, value);
   else iframe_obj.contentWindow.document.execCommand(name, false, value);
   editorFocus(document_srl);
-}/*}}}*/
+}
 
-function _editorDoObject(name, value, obj) {/*{{{*/
+function _editorDoObject(name, value, obj) {
   if(xIE4Up) {
     obj.parentElement.document.execCommand(name, false, value);
   } else {
     obj.parentNode.execCommand(name, false, value);
   }
-}/*}}}*/
+}
 
-function editorHideObject(evt) {/*{{{*/
+function editorHideObject(evt) {
   if(!editorPrevObj) return;
   var e = new xEvent(evt);
   var tobj = e.target;
@@ -313,47 +313,47 @@ function editorHideObject(evt) {/*{{{*/
   editorPrevObj.style.visibility = 'hidden';
   editorPrevObj = null;
   return;
-}/*}}}*/
+}
 
-function editorChangeFontName(obj,srl) {/*{{{*/
+function editorChangeFontName(obj,srl) {
   var value = obj.options[obj.selectedIndex].value;
   if(!value) return;
   editorDo('FontName',value,srl);
   obj.selectedIndex = 0;
-}/*}}}*/
+}
 
-function editorChangeFontSize(obj,srl) {/*{{{*/
+function editorChangeFontSize(obj,srl) {
   var value = obj.options[obj.selectedIndex].value;
   if(!value) return;
   editorDo('FontSize',value,srl);
   obj.selectedIndex = 0;
-}/*}}}*/
+}
 
-function editorSetForeColor(color_code) {/*{{{*/
+function editorSetForeColor(color_code) {
   editorDo("ForeColor",color_code,editorPrevSrl);
   editorPrevObj.style.visibility = 'hidden';
   editorFocus(editorPrevSrl);
-}/*}}}*/
+}
 
-function editorSetBackColor(color_code) {/*{{{*/
+function editorSetBackColor(color_code) {
   if(xIE4Up) editorDo("BackColor",color_code,editorPrevSrl);
   else editorDo("hilitecolor",color_code,editorPrevSrl);
   editorFocus(editorPrevSrl);
-}/*}}}*/
+}
 
-function editorInsertEmoticon(obj) {/*{{{*/
+function editorInsertEmoticon(obj) {
   editorFocus(editorPrevSrl);
   editorDo("InsertImage",obj.src,editorPrevSrl);
   editorFocus(editorPrevSrl);
-}/*}}}*/
+}
 
-function editorDoInsertUrl(link, document_srl) {/*{{{*/
+function editorDoInsertUrl(link, document_srl) {
   editorFocus(document_srl);
   var iframe_obj = editorGetIFrame(srl);
   editorReplaceHTML(iframe_obj, link);
-}/*}}}*/
+}
 
-function editorInsertUrl(text, url, link_type) {/*{{{*/
+function editorInsertUrl(text, url, link_type) {
   if(!text || !url) return;
   //if(!/^(http|ftp)/i.test(url)) url = 'http://'+url;
 
@@ -364,9 +364,9 @@ function editorInsertUrl(text, url, link_type) {/*{{{*/
   editorFocus(editorPrevSrl);
   var obj = editorGetIFrame(editorPrevSrl)
   editorReplaceHTML(obj, link);
-}/*}}}*/
+}
 
-function editorInsertImage(url, src_align) {/*{{{*/
+function editorInsertImage(url, src_align) {
   if(!url) return;
   //if(!/^(http|ftp)/i.test(url)) url = 'http://'+url;
 
@@ -377,9 +377,9 @@ function editorInsertImage(url, src_align) {/*{{{*/
   html += " />";
   var obj = editorGetIFrame(editorPrevSrl);
   editorReplaceHTML(obj, html);
-}/*}}}*/
+}
 
-function editorGetMultimediaHtml(url, width, height, source_filename) {/*{{{*/
+function editorGetMultimediaHtml(url, width, height, source_filename) {
   if(typeof(width)=='undefined'||!width) width = 540;
   if(typeof(height)=='undefined'||!height) height= 420;
 
@@ -396,9 +396,9 @@ function editorGetMultimediaHtml(url, width, height, source_filename) {/*{{{*/
   }
   var html = "<embed src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" autostart=\"0\"  type=\""+type+"\" pluginspage=\""+pluginspace+"\"></embed><BR />";
   return html;
-}/*}}}*/
+}
 
-function editorInsertMultimedia(url, width, height) {/*{{{*/
+function editorInsertMultimedia(url, width, height) {
   if(url) {
     var html = editorGetMultimediaHtml(url, width, height);
     editorFocus(editorPrevSrl);
@@ -406,18 +406,18 @@ function editorInsertMultimedia(url, width, height) {/*{{{*/
     editorReplaceHTML(obj, html);
     editorFocus(editorPrevSrl);
   }
-}/*}}}*/
+}
 
-function editorInsertHTML(html) {/*{{{*/
+function editorInsertHTML(html) {
   if(!html) return;
 
   editorFocus(editorPrevSrl);
   var obj = editorGetIFrame(editorPrevSrl)
   editorReplaceHTML(obj, html);
   editorFocus(editorPrevSrl);
-}/*}}}*/
+}
 
-function editorInsertQuotation(html) {/*{{{*/
+function editorInsertQuotation(html) {
   if(!html) return;
 
   if(!xIE4Up) html += "<br />";
@@ -425,14 +425,14 @@ function editorInsertQuotation(html) {/*{{{*/
   var obj = editorGetIFrame(editorPrevSrl)
   editorReplaceHTML(obj, html);
   editorFocus(editorPrevSrl);
-}/*}}}*/
+}
 
-function editorHighlight(ret_obj, response_tags, obj) {/*{{{*/
+function editorHighlight(ret_obj, response_tags, obj) {
   var html = ret_obj['html'];
   html = "<div class='php_code'>"+html+"</div>";
   if(!xIE4Up) html += "<br />";
   editorReplaceHTML(obj, html);
-}/*}}}*/
+}
 
 /**
  * iframe 드래그 관련
@@ -443,7 +443,7 @@ var editorDragObj = null;
 var editorDragID = '';
 xAddEventListener(document, 'mousedown', editorDragStart);
 xAddEventListener(document, 'mouseup', editorDragStop);
-function editorDragStart(evt) {/*{{{*/
+function editorDragStart(evt) {
   var e = new xEvent(evt);
   var obj = e.target;
   if(typeof(obj.id)=='undefined'||!obj.id) return;
@@ -459,9 +459,9 @@ function editorDragStart(evt) {/*{{{*/
 
   var iframe_obj = editorGetIFrame(editorDragID);
   xAddEventListener(iframe_obj, 'mousemove', editorDragMove);
-}/*}}}*/
+}
 
-function editorDragStop(evt) {/*{{{*/
+function editorDragStop(evt) {
   var iframe_obj = editorGetIFrame(editorDragID);
   xRemoveEventListener(document, 'mousemove', editorDragMove);
   xRemoveEventListener(iframe_obj, 'mousemove', editorDragMove);
@@ -470,9 +470,9 @@ function editorDragStop(evt) {/*{{{*/
   editorDragY = 0;
   editorDragObj = null;
   editorDragID = '';
-}/*}}}*/
+}
 
-function editorDragMove(evt) {/*{{{*/
+function editorDragMove(evt) {
   if(typeof(editorIsDrag)=='undefined'||!editorIsDrag) return;
   var e = new xEvent(evt);
   var iframe_obj = editorGetIFrame(editorDragID);
@@ -484,7 +484,7 @@ function editorDragMove(evt) {/*{{{*/
 
   var editorHeight = xHeight(iframe_obj);
   xHeight(iframe_obj, editorHeight+yy);
-}/*}}}*/
+}
 
 /**
  * 파일 업로드 관련
@@ -493,12 +493,12 @@ var uploading_file = false;
 var uploaded_files = new Array();
 
 // 업로드를 하기 위한 준비 시작
-function editor_upload_init(document_srl) {/*{{{*/
+function editor_upload_init(document_srl) {
   xAddEventListener(window,'load',function _change_form_target() {editor_upload_form_set(document_srl);} );
-}/*}}}*/
+}
 
 // document_srl에 해당하는 form의 action을 iframe으로 변경
-function editor_upload_form_set(document_srl) {/*{{{*/
+function editor_upload_form_set(document_srl) {
   // 업로드용 iframe을 생성
   if(!xGetElementById('tmp_upload_iframe')) {
     if(xIE4Up) {
@@ -533,10 +533,10 @@ function editor_upload_form_set(document_srl) {/*{{{*/
   if(!iframe_obj) return;
 
   iframe_obj.contentWindow.document.location.href=url;
-}/*}}}*/
+}
 
 // 파일 업로드
-function editor_file_upload(field_obj, document_srl) {/*{{{*/
+function editor_file_upload(field_obj, document_srl) {
     if(uploading_file) return;
 
     var fo_obj = field_obj.parentNode;
@@ -550,20 +550,20 @@ function editor_file_upload(field_obj, document_srl) {/*{{{*/
     var string = 'wait for uploading...';
     var opt_obj = new Option(string, '', true, true);
     sel_obj.options[sel_obj.options.length] = opt_obj;
-}/*}}}*/
+}
 
 // 업로드된 파일 목록을 삭제
-function editor_upload_clear_list(document_srl) {/*{{{*/
+function editor_upload_clear_list(document_srl) {
   var obj = xGetElementById('uploaded_file_list_'+document_srl);
   while(obj.options.length) {
     obj.remove(0);
   }
   var preview_obj = xGetElementById('uploaded_file_preview_box_'+document_srl);
   xInnerHtml(preview_obj,'')
-}/*}}}*/
+}
 
 // 업로드된 파일 정보를 목록에 추가
-function editor_insert_uploaded_file(document_srl, file_srl, filename, file_size, disp_file_size, uploaded_filename, sid) {/*{{{*/
+function editor_insert_uploaded_file(document_srl, file_srl, filename, file_size, disp_file_size, uploaded_filename, sid) {
   var obj = xGetElementById('uploaded_file_list_'+document_srl);
   var string = filename+' ('+disp_file_size+')';
   var opt_obj = new Option(string, file_srl, true, true);
@@ -573,10 +573,10 @@ function editor_insert_uploaded_file(document_srl, file_srl, filename, file_size
   uploaded_files[file_srl] = file_obj;
 
   editor_preview(obj, document_srl);
-}/*}}}*/
+}
 
 // 파일 목록창에서 클릭 되었을 경우 미리 보기
-function editor_preview(sel_obj, document_srl) {/*{{{*/
+function editor_preview(sel_obj, document_srl) {
   if(sel_obj.options.length<1) return;
   var file_srl = sel_obj.options[sel_obj.selectedIndex].value;
   var obj = uploaded_files[file_srl];
@@ -605,10 +605,10 @@ function editor_preview(sel_obj, document_srl) {/*{{{*/
     html = "<img src=\""+uploaded_filename+"\" border=\"0\" width=\"120\" height=\"120\" />";
   }
   xInnerHtml(preview_obj, html);
-}/*}}}*/
+}
 
 // 업로드된 파일 삭제
-function editor_remove_file(document_srl) {/*{{{*/
+function editor_remove_file(document_srl) {
   var obj = xGetElementById('uploaded_file_list_'+document_srl);
   if(obj.options.length<1) return;
   var file_srl = obj.options[obj.selectedIndex].value;
@@ -626,10 +626,10 @@ function editor_remove_file(document_srl) {/*{{{*/
   if(!iframe_obj) return;
 
   iframe_obj.contentWindow.document.location.href=url;
-}/*}}}*/
+}
 
 // 업로드 목록의 선택된 파일을 내용에 추가
-function editor_insert_file(document_srl, align) {/*{{{*/
+function editor_insert_file(document_srl, align) {
   var obj = xGetElementById('uploaded_file_list_'+document_srl);
   if(obj.options.length<1) return;
   var file_srl = obj.options[obj.selectedIndex].value;
@@ -691,16 +691,16 @@ function editor_insert_file(document_srl, align) {/*{{{*/
     if(editor_popup) editor_popup.focus();
   } 
 
-}/*}}}*/
+}
 
 /**
  * 글을 쓰다가 페이지 이동시 첨부파일에 대한 정리
  **/
-function editorRemoveAttachFiles(mid, document_srl) {/*{{{*/
+function editorRemoveAttachFiles(mid, document_srl) {
   var obj = xGetElementById('uploaded_file_list_'+document_srl);
   if(obj.options.length<1) return;
 
   var params = new Array();
   params['document_srl'] = document_srl;
   exec_xml(mid, 'procClearFile', params, null, null, null);
-}/*}}}*/
+}

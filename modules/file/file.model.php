@@ -20,7 +20,7 @@
             $oDB = &DB::getInstance();
 
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.getFilesCount', $args);
+            $output = $oDB->executeQuery('file.getFilesCount', $args);
             return (int)$output->data->count;
         }
 
@@ -31,7 +31,7 @@
             $oDB = &DB::getInstance();
 
             $args->file_srl = $file_srl;
-            $output = $oDB->executeQuery('document.getFile', $args);
+            $output = $oDB->executeQuery('file.getFile', $args);
             return $output->data;
         }
 
@@ -43,7 +43,7 @@
 
             $args->document_srl = $document_srl;
             $args->sort_index = 'file_srl';
-            $output = $oDB->executeQuery('document.getFiles', $args);
+            $output = $oDB->executeQuery('file.getFiles', $args);
 
             $file_list = $output->data;
 
@@ -73,7 +73,7 @@
             // 이상이 없으면 download_count 증가
             $args->file_srl = $file_srl;
             $oDB = &DB::getInstance();
-            $oDB->executeQuery('document.updateFileDownloadCount', $args);
+            $oDB->executeQuery('file.updateFileDownloadCount', $args);
 
             // 파일 출력
             $filename = $file_obj->source_filename;

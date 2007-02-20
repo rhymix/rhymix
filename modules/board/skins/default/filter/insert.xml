@@ -1,4 +1,4 @@
-<filter name="insert" module="board" act="procInsert" confirm_msg_code="confirm_submit">
+<filter name="insert" module="board" act="procInsertDocument" confirm_msg_code="confirm_submit">
   <form>
     <node target="document_srl" required="true" />
     <node target="user_name" required="true" />
@@ -8,7 +8,7 @@
     <node target="title" required="true" minlength="1" maxlength="250" />
     <node target="content" required="true" />
   </form>
-  <response>
+  <response callback_func="completeDocumentInserted">
     <tag name="error" />
     <tag name="message" />
     <tag name="mid" />

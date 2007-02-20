@@ -14,6 +14,7 @@
      * - 공식홈페이지 : http://www.zeroboard.com
      * - 개발자 포험  : http://dev.zeroboard.com
      * - 이슈트래킹   : http://www.zeroboard.com/trac
+     * - pdf 문서     : http://dev.zeroboard.com/doc/zeroboard.pdf
      *
      **/
 
