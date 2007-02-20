@@ -17,16 +17,20 @@
          * @brief 엮인글 입력
          **/
         function insertTrackback($obj) {
+            // dispMessage()를 위해 미리 View 객체 생성
+            $oTrackbackView = &getView('trackback');
+
+            // GET으로 넘어온 document_srl을 참조, 없으면 오류~
             $document_srl = $obj->document_srl;
-            if(!$document_srl) $this->dispMessage(-1, 'fail');
+            if(!$document_srl) $oTrackbackView->dispMessage(-1, 'fail');
 
             // document model 객체 생성후 원본글을 가져옴
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
             $document = $oDocumentModel->getDocument($document_srl);
 
             // 원본글이 없거나 트랙백 허용을 하지 않으면 오류 표시
-            if(!$document_srl) $this->dispMessage(-1,'fail');
-            if($document->allow_trackback=='N') $this->dispMessage(-1,'fail');
+            if(!$document_srl) $oTrackbackView->dispMessage(-1,'fail');
+            if($document->allow_trackback=='N') $oTrackbackView->dispMessage(-1,'fail');
 
             // 엮인글 정리
             $obj = Context::convertEncoding($obj);
@@ -40,22 +44,23 @@
             $output = $oDB->executeQuery('trackback.insertTrackback', $obj);
 
             // 입력에 이상이 없으면 해당 글의 엮인글 수를 올림
-            if(!$output->toBool()) $this->dispMessage(-1, 'fail');
+            if(!$output->toBool()) $oTrackbackView->dispMessage(-1, 'fail');
 
             // trackback model 객체 생성
-            $oTrackbackModel = getModel('trackback');
+            $oTrackbackModel = &getModel('trackback');
 
             // 해당 글의 전체 엮인글 수를 구해옴
             $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
 
             // document controller 객체 생성
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
 
             // 해당글의 엮인글 수를 업데이트
             $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
 
-            if(!$output->toBool()) $this->dispMessage(-1,'fail');
-            else $this->dispMessage(0,'success');
+            // 결과 return
+            if(!$output->toBool()) $oTrackbackView->dispMessage(-1,'fail');
+            else $oTrackbackView->dispMessage(0,'success');
         }
 
         /**
@@ -63,7 +68,7 @@
          **/
         function deleteTrackback($trackback_srl) {
             // trackback model 객체 생성
-            $oTrackbackModel = getModel('trackback');
+            $oTrackbackModel = &getModel('trackback');
 
             // 삭제하려는 엮인글이 있는지 확인
             $trackback = $oTrackbackModel->getTrackback($trackback_srl);
@@ -71,7 +76,7 @@
             $document_srl = $trackback->data->document_srl;
 
             // document model 객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 권한이 있는지 확인
             if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
@@ -86,11 +91,12 @@
             $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
 
             // document controller 객체 생성
-            $oDocumentController = getController('document','controller');
+            $oDocumentController = &getController('document','controller');
 
             // 해당글의 엮인글 수를 업데이트
             $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
             $output->add('document_srl', $document_srl);
+
             return $output;
         }
 
@@ -98,9 +104,13 @@
          * @brief 글에 속한 모든 트랙백 삭제
          **/
         function deleteTrackbacks($document_srl) {
+            // DB객체 생성
             $oDB = &DB::getInstance();
+
+            // 삭제
             $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('trackback.deleteTrackbacks', $args);
+
             return $output;
         }
 
@@ -108,15 +118,20 @@
          * @brief 모듈에 속한 모든 트랙백 삭제
          **/
         function deleteModuleTrackbacks($module_srl) {
-            // 삭제
+            // DB객체 생성
             $oDB = &DB::getInstance();
+
+            // 삭제
             $args->module_srl = $module_srl;
             $output = $oDB->executeQuery('trackback.deleteModuleTrackbacks', $args);
+
             return $output;
         }
 
         /**
          * @brief 엮인글을 발송
+         *
+         * 발송 후 결과처리는 하지 않는 구조임
          **/
         function sendTrackback($document, $trackback_url, $charset) {
             // 발송할 정보를 정리
@@ -151,6 +166,7 @@
             if($http['query']) $content .= '&'.$http['query'];
             $content_length = strlen($content);
 
+            // header 정리
             $header =
             sprintf(
                 "POST %s HTTP/1.1\r\n".
@@ -166,16 +182,20 @@
             );
             if(!$http['host']||!$http['port']) return;
 
+            // 발송하려는 대상 서버의 socket을 연다
             $fp = @fsockopen($http['host'], $http['port'], $errno, $errstr, 5);
             if(!$fp) return;
 
+            // 작성한 헤더 정보를 발송
             fputs($fp, $header);
 
+            // 결과를 기다림 (특정 서버의 경우 EOF가 떨어지지 않을 수가 있음
             while(!feof($fp)) {
                 $line = trim(fgets($fp, 4096));
                 if(eregi("^<error>",$line)) break;
             }
 
+            // socket 닫음
             fclose($fp);
         }
     }

@@ -7,5 +7,7 @@
 
     class rss extends ModuleObject {
 
+        var $rss_type = "rss2.0";
+
     }
 ?>

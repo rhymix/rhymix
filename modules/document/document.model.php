@@ -34,7 +34,7 @@
             if($this->isGranted($document->document_srl)) {
                 $document->is_granted = true;
             } elseif($document->member_srl) {
-                $oMemberModel = getMemberModel('member');
+                $oMemberModel = &getMemberModel('member');
                 $member_srl = $oMemberModel->getMemberSrl();
                 if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
             } 
@@ -55,7 +55,7 @@
             if(!$document_list) return;
 
             // 권한 체크
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getMemberSrl();
 
             $document_count = count($document_list);
@@ -115,7 +115,7 @@
             if(!count($output->data)) return $output;
 
             // 권한 체크
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getMemberSrl();
 
             foreach($output->data as $key => $document) {

@@ -21,7 +21,7 @@
             $password = Context::get('password');
 
             // member controller 객체 생성
-            $oMemberController = getController('member');
+            $oMemberController = &getController('member');
             return $oMemberController->doLogin($user_id, $password);
         }
 
@@ -30,7 +30,7 @@
          **/
         function procLogout() {
             // member controller 객체 생성
-            $oMemberController = getController('member');
+            $oMemberController = &getController('member');
             return $oMemberController->doLogout();
         }
     }

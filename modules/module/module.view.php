@@ -18,7 +18,7 @@
          **/
         function dispContent() {
             // 모듈모델 객체를 구함
-            $oModuleModel = getModel('module');
+            $oModuleModel = &getModel('module');
 
             // 등록된 모듈의 목록을 구해옴
             $installed_module_list = $oModuleModel->getModulesInfo();

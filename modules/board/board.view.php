@@ -13,7 +13,7 @@
         function init() {
             // 카테고리를 사용한다면 카테고리 목록을 구해옴
             if($this->module_info->use_category=='Y') {
-                $oDocumentModel = getModel('document');
+                $oDocumentModel = &getModel('document');
                 $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
                 Context::set('category_list', $this->category_list);
             }
@@ -43,7 +43,7 @@
             $page = Context::get('page');
 
             // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // document_srl이 있다면 해당 글을 구해오자
             if($this->grant->view && $document_srl) {
@@ -68,14 +68,14 @@
 
                 // 댓글 가져오기
                 if($document->comment_count && $document->allow_comment == 'Y') {
-                    $oCommentModel = getModel('comment');
+                    $oCommentModel = &getModel('comment');
                     $comment_list = $oCommentModel->getCommentList($document_srl);
                     Context::set('comment_list', $comment_list);
                 }
 
                 // 트랙백 가져오기
                 if($document->trackback_count && $document->allow_trackback == 'Y') {
-                    $oTrackback = getModule('trackback');
+                    $oTrackback = &getModule('trackback');
                     $trackback_list = $oTrackback->getTrackbackList($document_srl);
                     Context::set('trackback_list', $trackback_list);
                 }
@@ -123,7 +123,7 @@
             if($category) $search_obj->category_srl = $category;
 
             // 목록의 경우 document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($this->module_srl, 'list_order', $page, $this->list_count, $this->page_count, $search_obj);
 
             // 템플릿에 쓰기 위해서 context::set
@@ -153,7 +153,7 @@
             $document_srl = Context::get('document_srl');
 
             // document 모듈 객체 생성
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
 
             // 지정된 글이 없다면 (신규) 새로운 번호를 만든다
             if(!$document_srl) {
@@ -190,7 +190,7 @@
 
             // 지정된 글이 있는지 확인
             if($document_srl) {
-                $oDocument = getModule('document');
+                $oDocument = &getModule('document');
                 $document = $oDocument->getDocument($document_srl);
             }
 
@@ -220,7 +220,7 @@
             if(!$parent_srl) return new Object(-1, 'msg_invalid_request');
 
             // 해당 댓글를 찾아본다
-            $oComment = getModule('comment');
+            $oComment = &getModule('comment');
             $source_comment = $oComment->getComment($parent_srl);
 
             // 댓글이 없다면 오류
@@ -250,7 +250,7 @@
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
             // 해당 댓글를 찾아본다
-            $oComment = getModule('comment');
+            $oComment = &getModule('comment');
             $comment = $oComment->getComment($comment_srl);
 
             // 댓글이 없다면 오류
@@ -279,7 +279,7 @@
 
             // 삭제하려는 댓글가 있는지 확인
             if($comment_srl) {
-                $oComment = getModule('comment');
+                $oComment = &getModule('comment');
                 $comment = $oComment->getComment($comment_srl);
             }
 
@@ -329,7 +329,7 @@
             $trackback_srl = Context::get('trackback_srl');
 
             // 삭제하려는 댓글가 있는지 확인
-            $oTrackback = getModule('trackback');
+            $oTrackback = &getModule('trackback');
             $output = $oTrackback->getTrackback($trackback_srl);
             $trackback = $output->data;
 
@@ -358,14 +358,13 @@
             $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
 
             // 컨텐츠 추출
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
             $output = $oDocument->getDocumentList($this->module_srl, 'update_order', $page, 20, 20, NULL);
             $document_list = $output->data;
 
             // 출력하고 끝내기
-            $oRss = getModule('rss');
-            $oRss->printRssDocument($info, $document_list);
-            exit();
+            $oRss = &getView('rss');
+            $oRss->dispRss($info, $document_list);
         }
 
         /**
@@ -375,7 +374,7 @@
             // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
             $module_srl = Context::get('module_srl');
             if($module_srl) {
-                $oModule = getModule('module_manager');
+                $oModule = &getModule('module_manager');
                 $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
                 if(!$module_info) {
                     Context::set('module_srl','');
@@ -428,7 +427,7 @@
 
             $module_info = Context::get('module_info');
 
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
             $document_count = $oDocument->getDocumentCount($module_info->module_srl);
             $module_info->document_count = $document_count;
 
@@ -446,7 +445,7 @@
             $module_info = Context::get('module_info');
             $skin = $module_info->skin;
 
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
 
             // skin_info에 extra_vars 값을 지정
@@ -471,7 +470,7 @@
             $module_srl = Context::get('module_srl');
 
             // 카테고리의 목록을 구해옴
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
             $category_list = $oDocument->getCategoryList($module_srl);
             Context::set('category_list', $category_list);
 
@@ -494,14 +493,14 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoard = getModule('board');
+            $oBoard = &getModule('board');
             $grant_list = $oBoard->grant_list;
 
             // 권한 목록 세팅
             Context::set('grant_list', $grant_list);
 
             // 권한 그룹의 목록을 가져온다
-            $oMember = getModule('member');
+            $oMember = &getModule('member');
             $group_list = $oMember->getGroups();
             Context::set('group_list', $group_list);
 

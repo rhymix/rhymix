@@ -18,6 +18,7 @@
          **/
         function getTrackback($trackback_srl) {
             $oDB = &DB::getInstance();
+
             $args->trackback_srl = $trackback_srl;
             return $oDB->executeQuery('trackback.getTrackback', $args);
         }
@@ -27,9 +28,11 @@
          **/
         function getTrackbackCount($document_srl) {
             $oDB = &DB::getInstance();
+
             $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('trackback.getTrackbackCount', $args);
             $total_count = $output->data->count;
+
             return (int)$total_count;
         }
 

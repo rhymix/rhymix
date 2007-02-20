@@ -10,7 +10,7 @@
   <column name="use_category" type="char" size="1" default="N"/>
   <column name="extra_vars" type="text" />
   <column name="layout_file" type="varchar" size="250" />
-  <column name="grant_list" type="text" />
+  <column name="grants" type="text" />
   <column name="admin_id" type="text" />
   <column name="header_text" type="text" />
   <column name="footer_text" type="text" />

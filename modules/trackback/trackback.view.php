@@ -15,6 +15,7 @@
 
         /**
          * @brief 메세지 출력
+         * 메세지를 출력하고 그냥 종료 시켜 버림
          **/
         function dispMessage($error, $message) {
             // 헤더 출력

@@ -23,14 +23,15 @@
             $output = $oDB->executeQuery('module.getDefaultMidInfo');
             if($output->data) return;
 
-            // 기본 모듈 입력
+            // extra_vars 데이터 세팅
+            $extra_vars->colorset = 'normal';
+
+            // 기본 데이터 세팅
             $args->mid = 'board';
             $args->browser_title = '테스트 모듈';
             $args->is_default = 'Y';
             $args->module = 'board';
             $args->skin = 'default';
-
-            $extra_vars->colorset = 'normal';
             $args->extra_vars = serialize($extra_vars);
 
             return $this->insertModule($args);
@@ -41,17 +42,20 @@
          **/
         function insertModule($args) {
             // module model 객체 생성
-            $oModuleModel = getModel('module');
+            $oModuleModel = &getModel('module');
 
             // 선택된 스킨정보에서 colorset을 구함
             $skin_info = $oModuleModel->loadSkinInfo($args->module, $args->skin);
             $extra_vars->colorset = $skin_info->colorset[0]->name;
 
-            // db에 입력
+            // DB 객체 생성
             $oDB = &DB::getInstance();
+
+            // 변수 정리후 query 실행
             $args->module_srl = $oDB->getNextSequence();
             $args->extra_vars = serialize($extra_vars);
             $output = $oDB->executeQuery('module.insertModule', $args);
+
             $output->add('module_srl',$args->module_srl);
             return $output;
         }
@@ -61,6 +65,7 @@
          **/
         function updateModule($args) {
             $oDB = &DB::getInstance();
+
             $output = $oDB->executeQuery('module.updateModule', $args);
             $output->add('module_srl',$args->module_srl);
             return $output;
@@ -71,6 +76,7 @@
          **/
         function updateModuleExtraVars($module_srl, $extra_vars) {
             $oDB = &DB::getInstance();
+
             $args->module_srl = $module_srl;
             $args->extra_vars = $extra_vars;
             $output = $oDB->executeQuery('module.updateModuleExtraVars', $args);
@@ -82,6 +88,7 @@
          **/
         function updateModuleGrant($module_srl, $grant) {
             $oDB = &DB::getInstance();
+
             $args->module_srl = $module_srl;
             $args->grant = $grant;
             $output = $oDB->executeQuery('module.updateModuleGrant', $args);
@@ -97,10 +104,11 @@
             $oDB = &DB::getInstance();
 
             // addon 삭제
+
             // plugin 삭제
 
             // document 삭제
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
             $output = $oDocumentController->deleteModuleDocument($module_srl);
             if(!$output->toBool()) return $output;
 
@@ -109,25 +117,26 @@
             if(!$output->toBool()) return $output;
 
             // trackbacks 삭제
-            $oTrackbackController = getController('trackback');
+            $oTrackbackController = &getController('trackback');
             $output = $oTrackbackController->deleteModuleTrackbacks($module_srl);
             if(!$output->toBool()) return $output;
 
             // comments 삭제
-            $oCommentController = getController('comment');
+            $oCommentController = &getController('comment');
             $output = $oCommentController->deleteModuleComments($module_srl);
             if(!$output->toBool()) return $output;
 
             // tags 삭제
-            $oTagController = getController('tag');
+            $oTagController = &getController('tag');
             $output = $oTagController->deleteModuleTags($module_srl);
             if(!$output->toBool()) return $output;
 
-            // files 삭제
-            $output = $oDocumentController->deleteModuleFiles($module_srl);
+            // 첨부 파일 삭제
+            $oFileController = &getController('file');
+            $output = $oFileController->deleteModuleFiles($module_srl);
             if(!$output->toBool()) return $output;
 
-            // module 정보 삭제
+            // module 정보를 DB에서 삭제
             $args->module_srl = $module_srl;
             $output = $oDB->executeQuery('module.deleteModule', $args);
 
@@ -139,6 +148,7 @@
          **/
         function clearDefaultModule() {
             $oDB = &DB::getInstance();
+
             return  $oDB->executeQuery('module.clearDefaultModule');
         }
 

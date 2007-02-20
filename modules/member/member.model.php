@@ -30,6 +30,7 @@
         function getLoggedInfo() {
             // 로그인 되어 있고 세션 정보를 요청하면 세션 정보를 return
             if($this->isLogged()) return $_SESSION['logged_info'];
+            return NULL;
         }
 
         /**

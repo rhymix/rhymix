@@ -12,12 +12,12 @@
          **/
         function init() {
             // 관리자 모듈 목록을 세팅
-            $oModuleModel = getModel('module');
+            $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getAdminModuleList();
             Context::set('module_list', $module_list);
 
             // 접속 사용자에 대한 체크
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
             $logged_info = $oMemberModel->getLoggedInfo();
 
             // 로그인 하지 않았다면 로그인 폼 출력
@@ -30,9 +30,8 @@
             }
 
             // 관리자용 레이아웃으로 변경
-            $this->setLayoutPath($this->getLayoutPath());
-            $this->setLayoutTpl($this->getLayoutTpl());
-
+            //$this->setLayoutPath($this->getLayoutPath());
+            //$this->setLayoutTpl($this->getLayoutTpl());
 
             // 로그인/로그아웃 act의 경우는 패스~
             if(in_array($this->act, array('procLogin', 'procLogout'))) return true;

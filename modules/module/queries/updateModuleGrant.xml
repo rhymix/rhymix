@@ -3,7 +3,7 @@
     <table name="modules" />
   </tables>
   <columns>
-    <column name="grant" var="grant" />
+    <column name="grants" var="grants" />
   </columns>
   <conditions>
     <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>

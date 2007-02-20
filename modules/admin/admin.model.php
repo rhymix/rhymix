@@ -13,18 +13,5 @@
         function init() {
         }
 
-        /**
-         * @brief 레이아웃 경로를 return
-         **/
-        function getLayoutPath() {
-            return $this->template_path;
-        }
-
-        /**
-         * @brief 레이아웃 파일을 return
-         **/
-        function getLayoutTpl() {
-            return "layout.html";
-        }
     }
 ?>

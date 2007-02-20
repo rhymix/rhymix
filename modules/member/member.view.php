@@ -13,9 +13,9 @@
         /**
          * @brief 초기화
          **/
-        function dispInit() {
+        function init() {
             // 멤버모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // member_srl이 있으면 미리 체크하여 member_info 세팅
             $member_srl = Context::get('member_srl');
@@ -104,7 +104,7 @@
          **/
         function dispDeniedID() {
             // 멤버모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // 사용금지 목록 가져오기
             $output = $oMemberModel->getDeniedIDList();

@@ -17,10 +17,20 @@
         function init() {
         }
 
+        function dispRss($info, $content, $type="rss2.0") { 
+            switch($type) {
+                case "rss2.0" :
+                        $this->dispRss20($info, $content);
+                    break;
+            }
+
+            exit();
+        }
+
         /**
          * @brief content를 받아서 rss 형식으로 출력
          **/
-        function printRssDocument($info, $content, $type="2.0") { 
+        function dispRss20($info, $content) {
             header("Content-Type: text/xml; charset=UTF-8");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");

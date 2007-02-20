@@ -25,11 +25,8 @@
             if(!$user_id) return new Object(-1,'null_user_id');
             if(!$password) return new Object(-1,'null_password');
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // member model 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // user_id 에 따른 정보 가져옴
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
@@ -47,6 +44,9 @@
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['member_srl'] = $member_info->member_srl;
             $_SESSION['logged_info'] = $member_info;
+
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
 
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;
@@ -84,7 +84,7 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // 금지 아이디인지 체크
             if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
@@ -126,7 +126,7 @@
          **/
         function updateMember($args) {
             // 모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // 수정하려는 대상의 원래 정보 가져오기
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -178,7 +178,7 @@
         function deleteMember($member_srl) {
 
             // 모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // 해당 사용자의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
@@ -264,7 +264,7 @@
          **/
         function deleteGroup($group_srl) {
             // 멤버모델 객체 생성
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
 
             // 삭제 대상 그룹을 가져와서 체크 (is_default == 'Y'일 경우 삭제 불가)
             $group_info = $oMemberModel->getGroup($group_srl);
@@ -318,7 +318,7 @@
             // member_srl이 넘어오면 원 회원이 있는지 확인
             if($args->member_srl) {
                 // 멤버 모델 객체 생성
-                $oMemberModel = getModel('member');
+                $oMemberModel = &getModel('member');
 
                 // 회원 정보 구하기
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
@@ -426,7 +426,8 @@
         function procInsertDeniedID() {
             $user_id = Context::get('user_id');
             $description = Context::get('description');
-            $oMemberModel = getModel('member');
+
+            $oMemberModel = &getModel('member');
             $output = $oMemberModel->insertDeniedID($user_id, $description);
             if(!$output->toBool()) return $output;
 
@@ -444,7 +445,7 @@
             $user_id = Context::get('user_id');
             $mode = Context::get('mode');
 
-            $oMemberController = getController('member');
+            $oMemberController = &getController('member');
 
             switch($mode) {
                 case 'delete' :

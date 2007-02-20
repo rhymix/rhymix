@@ -15,7 +15,7 @@
             $this->setTemplatePath($this->module_path."tpl");
 
             // 컨트롤러 생성
-            $oController = getController('install');
+            $oController = &getController('install');
 
             // 설치 불가능하다면 introduce를 출력
             if(!$oController->checkInstallEnv()) $this->act = $this->default_act;

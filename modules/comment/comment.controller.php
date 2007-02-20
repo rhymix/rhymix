@@ -30,7 +30,7 @@
             if(!$document_srl) return new Object(-1,'msg_invalid_document');
 
             // document model 객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 원본글을 가져옴
             $document = $oDocumentModel->getDocument($document_srl);
@@ -50,7 +50,7 @@
             if(!$output->toBool()) return $output;
 
             // comment model객체 생성
-            $oCommentModel = getModel('comment');
+            $oCommentModel = &getModel('comment');
 
             // 해당 글의 전체 댓글 수를 구해옴
             $comment_count = $oCommentModel->getCommentCount($document_srl);
@@ -70,7 +70,7 @@
          **/
         function updateComment($obj) {
             // comment model 객체 생성
-            $oCommentModel = getModel('comment');
+            $oCommentModel = &getModel('comment');
 
             // 권한이 있는지 확인
             if(!$oCommentModel->isGranted($obj->comment_srl)) return new Object(-1, 'msg_not_permitted');
@@ -90,7 +90,7 @@
          **/
         function deleteComment($comment_srl) {
             // comment model 객체 생성
-            $oCommentModel = getModel('comment');
+            $oCommentModel = &getModel('comment');
 
             // 기존 댓글이 있는지 확인
             $comment = $oCommentModel->getComment($comment_srl);
@@ -115,7 +115,7 @@
             $comment_count = $oCommentModel->getCommentCount($document_srl);
 
             // document의 controller 객체 생성
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
 
             // 해당글의 댓글 수를 업데이트
             $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
@@ -129,7 +129,7 @@
          **/
         function deleteComments($document_srl) {
             // document model객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 권한이 있는지 확인
             if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');

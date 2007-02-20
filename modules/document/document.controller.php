@@ -35,7 +35,7 @@
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 
             // file의 Model객체 생성
-            $oFileModel = getModel('file');
+            $oFileModel = &getModel('file');
 
             // 첨부 파일의 갯수를 구함
             $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
@@ -47,7 +47,7 @@
             }
 
             // 태그 처리
-            $oTagController = getController('tag');
+            $oTagController = &getController('tag');
             $obj->tags = $oTagController->insertTag($obj->module_srl, $obj->document_srl, $obj->tags);
 
             // 글 입력
@@ -84,7 +84,7 @@
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 
             // file의 Model객체 생성
-            $oFileModel = getModel('file');
+            $oFileModel = &getModel('file');
 
             // 첨부 파일의 갯수를 구함
             $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
@@ -96,7 +96,7 @@
             }
 
             // 태그 처리
-            $oTagController = getController('tag');
+            $oTagController = &getController('tag');
             $obj->tags = $oTagController->insertTag($obj->module_srl, $obj->document_srl, $obj->tags);
 
             // 수정
@@ -133,7 +133,7 @@
             $category_srl = $obj->category_srl;
 
             // document의 model 객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 기존 문서가 있는지 확인
             $document = $oDocumentModel->getDocument($document_srl);
@@ -150,19 +150,19 @@
             if(!$output->toBool()) return $output;
 
             // 댓글 삭제
-            $oCommentController = getController('comment');
+            $oCommentController = &getController('comment');
             $output = $oCommentController->deleteComments($document_srl);
 
             // 엮인글 삭제
-            $oTrackbackController = getController('trackback');
+            $oTrackbackController = &getController('trackback');
             $output = $oTrackbackController->deleteTrackbacks($document_srl);
 
             // 태그 삭제
-            $oTagController = getController('tag');
+            $oTagController = &getController('tag');
             $oTagController->deleteTag($document_srl);
 
             // 첨부 파일 삭제
-            $oFileController = getController('file');
+            $oFileController = &getController('file');
             if($document->uploaded_count) $oFileController->deleteFiles($document->module_srl, $document_srl);
 
             // 카테고리가 있으면 카테고리 정보 변경
@@ -262,7 +262,7 @@
          **/
         function updateCategoryCount($category_srl, $document_count = 0) {
             // document model 객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
             if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($category_srl);
 
             $oDB = &DB::getInstance();
@@ -309,7 +309,7 @@
          **/
         function moveCategoryUp($category_srl) {
             $oDB = &DB::getInstance();
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 선택된 카테고리의 정보를 구한다
             $args->category_srl = $category_srl;
@@ -356,7 +356,7 @@
          **/
         function moveCategoryDown($category_srl) {
             $oDB = &DB::getInstance();
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // 선택된 카테고리의 정보를 구한다
             $args->category_srl = $category_srl;

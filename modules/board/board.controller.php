@@ -24,7 +24,7 @@
             $password = Context::get('password');
 
             // member모듈 controller 객체 생성
-            $oMemberController = getController('member');
+            $oMemberController = &getController('member');
             return $oMemberController->doLogin($user_id, $password);
         }
 
@@ -33,7 +33,7 @@
          **/
         function procLogout() {
             // member모듈 controller 객체 생성
-            $oMemberController = getController('member');
+            $oMemberController = &getController('member');
             return $oMemberController->doLogout();
         }
 
@@ -47,10 +47,10 @@
             if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 
             // document module의 model 객체 생성
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
 
             // document module의 controller 객체 생성
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
 
             // 이미 존재하는 글인지 체크
             $document = $oDocumentModel->getDocument($obj->document_srl);
@@ -71,7 +71,7 @@
             $trackback_url = Context::get('trackback_url');
             $trackback_charset = Context::get('trackback_charset');
             if($trackback_url) {
-                $oTrackbackController = getController('trackback');
+                $oTrackbackController = &getController('trackback');
                 $oTrackbackController->sendTrackback($obj, $trackback_url, $trackback_charset);
             }
 
@@ -90,7 +90,7 @@
             if(!$document_srl) return $this->doError('msg_invalid_document');
 
             // document module model 객체 생성
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
 
             // 삭제 시도
             $output = $oDocumentController->deleteDocument($document_srl);
@@ -106,7 +106,7 @@
          **/
         function procVoteDocument() {
             // document module controller 객체 생성
-            $oDocumentController = getController('document');
+            $oDocumentController = &getController('document');
 
             $document_srl = Context::get('document_srl');
             return $oDocumentController->updateVotedCount($document_srl);
@@ -121,10 +121,10 @@
             $obj->module_srl = $this->module_srl;
 
             // comment 모듈의 model 객체 생성
-            $oCommentModel = getModel('comment');
+            $oCommentModel = &getModel('comment');
 
             // comment 모듈의 controller 객체 생성
-            $oCommentController = getController('comment');
+            $oCommentController = &getController('comment');
 
             // comment_srl이 없을 경우 신규 입력
             if(!$obj->comment_srl) {
@@ -171,7 +171,7 @@
 
             // 삭제
             // comment 모듈의 controller 객체 생성
-            $oCommentController = getController('comment');
+            $oCommentController = &getController('comment');
 
             $output = $oCommentController->deleteComment($comment_srl);
             if(!$output->toBool()) return $output;
@@ -189,7 +189,7 @@
             $obj = Context::gets('document_srl','url','title','excerpt');
 
             // trackback module의 controller 객체 생성
-            $oTrackbackController = getController('trackback');
+            $oTrackbackController = &getController('trackback');
             $oTrackbackController->insertTrackback($obj);
         }
 
@@ -200,7 +200,7 @@
             $trackback_srl = Context::get('trackback_srl');
 
             // trackback module의 controller 객체 생성
-            $oTrackbackController = getController('trackback');
+            $oTrackbackController = &getController('trackback');
             $output = $oTrackbackController->deleteTrackback($trackback_srl);
             if(!$output->toBool()) return $output;
 
@@ -222,12 +222,12 @@
             // comment_srl이 있을 경우 댓글이 대상
             if($comment_srl) {
                 // 문서번호에 해당하는 글이 있는지 확인
-                $oCommentModel = getModel('comment');
+                $oCommentModel = &getModel('comment');
                 $data = $oCommentModel->getComment($comment_srl);
                 // comment_srl이 없으면 문서가 대상
             } else {
                 // 문서번호에 해당하는 글이 있는지 확인
-                $oDocumentModel = getModel('document');
+                $oDocumentModel = &getModel('document');
                 $data = $oDocumentModel->getDocument($document_srl);
             }
 
@@ -239,11 +239,11 @@
 
             // 해당 글에 대한 권한 부여
             if($comment_srl) {
-                $oCommentController = getController('comment');
+                $oCommentController = &getController('comment');
                 $oCommentController->addGrant($comment_srl);
             } else {
                 $_SESSION['own_document'][$document_srl] = true;
-                $oDocumentController = getController('document');
+                $oDocumentController = &getController('document');
                 $oDocumentController->addGrant($document_srl);
             }
         }
@@ -259,7 +259,7 @@
             $file_srl = Context::get('file_srl');
 
             // file class의 controller 객체 생성
-            $oFileController = getController('file');
+            $oFileController = &getController('file');
             $output = $oFileController->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
@@ -275,7 +275,7 @@
             $module_srl = $this->module_srl;
 
             // file class의 controller 객체 생성
-            $oFileController = getController('file');
+            $oFileController = &getController('file');
             $output = $oFileController->insertFile($module_srl, $document_srl);
 
             // 첨부파일의 목록을 java script로 출력
@@ -294,7 +294,7 @@
             $sid = Context::get('sid');
 
             // document module 객체 생성후 해당 파일의 정보를 체크
-            $oFileModel = getModel('file');
+            $oFileModel = &getModel('file');
             $oFileModel->procDownload($file_srl, $sid);
         }
 
@@ -308,12 +308,12 @@
             $document_srl = Context::get('document_srl');
 
             // document_srl의 글이 등록되어 있다면 pass
-            $oDocumentModel = getModel('document');
+            $oDocumentModel = &getModel('document');
             $data = $oDocumentModel->getDocument($document_srl);
             if($data) exit();
 
             // 등록되어 있지 않다면 첨부파일 삭제
-            $oFileController = getController('file');
+            $oFileController = &getController('file');
             $oFileController->deleteFiles($this->module_srl, $document_srl);
         }
 
@@ -324,7 +324,7 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoardView = getModule('view');
+            $oBoardView = &getModule('view');
             $grant_list = $oBoardView->grant_list;
 
             if(count($grant_list)) {
@@ -335,7 +335,7 @@
                 $grant = serialize($arr_grant);
             }
 
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $oModule->updateModuleGrant($module_srl, $grant);
 
             $this->add('sid','board');
@@ -351,12 +351,12 @@
         function procUpdateSkinInfo() {
             // module_srl에 해당하는 정보들을 가져오기
             $module_srl = Context::get('module_srl');
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
             $skin = $module_info->skin;
 
             // 스킨의 정볼르 구해옴 (extra_vars를 체크하기 위해서)
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
 
             // 입력받은 변수들을 체크 (sid, act, module_srl, page등 기본적인 변수들 없앰)
@@ -422,7 +422,7 @@
             // serialize하여 저장
             $extra_vars = serialize($obj);
 
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $oModule->updateModuleExtraVars($module_srl, $extra_vars);
 
             $url = sprintf("./admin.php?sid=%s&module_srl=%s&act=dispSkinInfo&page=%s", 'board', $module_srl, Context::get('page'));
@@ -447,7 +447,7 @@
             unset($extra_var->page);
 
             // module_srl이 있으면 원본을 구해온다
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
@@ -487,7 +487,7 @@
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
-            $oModule = getModule('module_manager');
+            $oModule = &getModule('module_manager');
             $output = $oModule->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
@@ -506,7 +506,7 @@
             $category_title = Context::get('category_title');
 
             // module_srl이 있으면 원본을 구해온다
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
             $output = $oDocument->insertCategory($module_srl, $category_title);
             if(!$output->toBool()) return $output;
 
@@ -524,7 +524,7 @@
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
 
-            $oDocument = getModule('document');
+            $oDocument = &getModule('document');
 
             switch($mode) {
                 case 'up' :

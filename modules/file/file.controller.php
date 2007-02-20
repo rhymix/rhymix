@@ -42,7 +42,7 @@
             if(!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
 
             // 사용자 정보를 구함
-            $oMemberModel = getModel('member');
+            $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getMemberSrl();
 
             // 파일 정보를 정리
@@ -136,7 +136,7 @@
          **/
         function printUploadedFileList($document_srl) {
             // file의 Model객체 생성
-            $oFileModel = getModel('file');
+            $oFileModel = &getModel('file');
 
             // 첨부파일 목록을 구함
             $file_list = $oFileModel->getFiles($document_srl);

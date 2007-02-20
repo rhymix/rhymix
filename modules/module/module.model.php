@@ -20,10 +20,10 @@
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;
 
-            $action_xml_file = sprintf("%sconf/module.xml", $class_path);
-            if(!file_exists($action_xml_file)) return;
+            $xml_file = sprintf("%sconf/module.xml", $class_path);
+            if(!file_exists($xml_file)) return;
 
-            $xml_obj = XmlParser::loadXmlFile($action_xml_file);
+            $xml_obj = XmlParser::loadXmlFile($xml_file);
             if(!count($xml_obj->module)) return;
 
             $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
@@ -112,8 +112,10 @@
          * @brief document_srl로 모듈의 정보르 구함
          **/
         function getModuleInfoByDocumentSrl($document_srl) {
-            // DB 객체 생성후 데이터를 DB에서 가져옴
+            // DB 객체 생성
             $oDB = &DB::getInstance();
+
+            // 데이터를 DB에서 가져옴
             $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('module.getModuleInfoByDocument', $args);
 
@@ -124,7 +126,7 @@
          * @brief mid로 모듈의 정보를 구함
          **/
         function getModuleInfoByMid($mid='') {
-            // DB 객체 생성후 데이터를 DB에서 가져옴
+            // DB 객체 생성
             $oDB = &DB::getInstance();
 
             // $mid값이 인자로 주어질 경우 $mid로 모듈의 정보를 구함
@@ -145,8 +147,10 @@
          * @brief module_srl에 해당하는 모듈의 정보를 구함
          **/
         function getModuleInfoByModuleSrl($module_srl='') {
-            // db에서 데이터를 가져옴
+            // db객체 생성
             $oDB = &DB::getInstance();
+
+            // 데이터를 가져옴
             $args->module_srl = $module_srl;
             $output = $oDB->executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
@@ -162,11 +166,11 @@
 
             // serialize되어 있는 변수들 추출
             $extra_vars = $source_module_info->extra_vars;
-            $grant = $source_module_info->grant;
+            $grants = $source_module_info->grants;
             $admin_id = $source_module_info->admin_id;
 
             unset($source_module_info->extra_vars);
-            unset($source_module_info->grant);
+            unset($source_module_info->grants);
             unset($source_module_info->admin_id);
 
             $module_info = clone($source_module_info);
@@ -178,7 +182,7 @@
             }
 
             // 권한의 정리
-            if($grant) $module_info->grant = unserialize($grant);
+            if($grants) $module_info->grants = unserialize($grants);
 
             // 관리자 아이디의 정리
             if($module_info->admin_id) {
