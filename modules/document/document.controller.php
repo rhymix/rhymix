@@ -77,6 +77,8 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
+            $oDB = &DB::getInstance();
+
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
@@ -91,16 +93,18 @@
 
             // 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
             if($source_obj->category_srl!=$obj->category_srl) {
-                $category_list = $this->getCategoryList($obj->module_srl);
+                $oDocumentModel = &getModel('document');
+                $category_list = $oDocumentModel->getCategoryList($obj->module_srl);
                 if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
             }
 
             // 태그 처리
-            $oTagController = &getController('tag');
-            $obj->tags = $oTagController->insertTag($obj->module_srl, $obj->document_srl, $obj->tags);
+            if($source_obj->tags != $obj->tags) {
+                $oTagController = &getController('tag');
+                $obj->tags = $oTagController->insertTag($obj->module_srl, $obj->document_srl, $obj->tags);
+            }
 
             // 수정
-            $oDB = &DB::getInstance();
             $obj->update_order = $oDB->getNextSequence() * -1;
 
             // 공지사항일 경우 list_order에 무지막지한 값을, 그렇지 않으면 document_srl*-1값을
@@ -111,7 +115,6 @@
 
             // DB에 입력
             $output = $oDB->executeQuery('document.updateDocument', $obj);
-
             if(!$output->toBool()) return $output;
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
@@ -189,14 +192,26 @@
             $document_srl = $document->document_srl;
 
             // session에 정보로 조회수를 증가하였다고 생각하면 패스
-            if($_SESSION['readed_document'][$document_srl]) return;
+            if($_SESSION['readed_document'][$document_srl]) return false;
 
-            // member model 객체 생성
-            $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getLoggedMemberSrl();
+            // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
+            if($document->ipaddress == $_SERVER['REMOTE_ADDR']) {
+                $_SESSION['readed_document'][$document_srl] = true;
+                return false;
+            }
 
-            // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
-            if($member_srl && $member_srl == $document->member_srl) return $_SESSION['readed_document'][$document_srl] = true;
+            // document의 작성자가 회원일때 조사
+            if($document->member_srl) {
+                // member model 객체 생성
+                $oMemberModel = &getModel('member');
+                $member_srl = $oMemberModel->getLoggedMemberSrl();
+
+                // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
+                if($member_srl && $member_srl == $document->member_srl) {
+                    $_SESSION['readed_document'][$document_srl] = true;
+                    return false;
+                }
+            }
 
             // DB 객체 생성
             $oDB = &DB::getInstance();
@@ -207,6 +222,7 @@
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
+            $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('document.getDocumentReadedLogInfo', $args);
 
             // 로그 정보에 조회 로그가 있으면 세션 등록후 패스
@@ -219,7 +235,7 @@
             $output = $oDB->executeQuery('document.insertDocumentReadedLog', $args);
 
             // 세션 정보에 남김
-            $_SESSION['readed_document'][$document_srl] = true;
+            return $_SESSION['readed_document'][$document_srl] = true;
         }
 
         /**

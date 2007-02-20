@@ -37,14 +37,20 @@
                 $module = 'install';
                 $mid = NULL;
 
-            // mid가 없이 document_srl만 있다면 document_srl로 mid를 찾음
-            } elseif(!$module) {
+            // 설치가 되어 있을시에 요청받은 모듈을 확인 (없으면 기본 모듈, 기본 모듈도 없으면 에러 출력)
+            } else {
 
                 // document_srl만 있다면 mid를 구해옴
                 if(!$mid && $document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 
-                // mid 값에 대한 모듈 정보를 추출
-                if(!$module_info) $module_info = $oModuleModel->getModuleInfoByMid($mid);
+                // document_srl에 의한 모듈 찾기가 안되었거나 document_srl이 없을시 처리
+                if(!$module_info) {
+                    // mid 값이 있으면 모듈을 찾기
+                    if($mid) $module_info = $oModuleModel->getModuleInfoByMid($mid);
+
+                    // mid값이 없고 module지정이 없을시
+                    elseif(!$module) $module_info = $oModuleModel->getModuleInfoByMid($mid);
+                }
 
                 // 모듈 정보에서 module 이름을 구해움
                 $module = $module_info->module;

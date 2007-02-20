@@ -104,7 +104,7 @@
 
             // 지정된 글이 없다면 (신규) 새로운 번호를 만든다
             if($document_srl) {
-                $document = $oDocumentModel->getDocument($document_srl);
+                $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
                 if(!$document) {
                    unset($document_srl);
                    Context::set('document_srl','');

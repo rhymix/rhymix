@@ -11,8 +11,6 @@
          * @brief 초기화
          **/
         function init() {
-            // 파일 업로드일 경우 $act값을 procUploadFile() 로 변경
-            if(Context::isUploaded() && $this->grant->fileupload) Context::set('act', 'procUploadFile');
         }
         
         /**
@@ -25,7 +23,8 @@
 
             // member모듈 controller 객체 생성
             $oMemberController = &getController('member');
-            return $oMemberController->doLogin($user_id, $password);
+            $output = $oMemberController->doLogin($user_id, $password);
+            if(!$output->toBool()) return $output;
         }
 
         /**
@@ -41,6 +40,7 @@
          * @brief 문서 입력
          **/
         function procInsertDocument() {
+
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
@@ -53,7 +53,7 @@
             $oDocumentController = &getController('document');
 
             // 이미 존재하는 글인지 체크
-            $document = $oDocumentModel->getDocument($obj->document_srl);
+            $document = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
             // 이미 존재하는 경우 수정
             if($document->document_srl == $obj->document_srl) {
@@ -66,6 +66,7 @@
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
             }
+            if(!$output->toBool()) return $output;
 
             // 트랙백 발송
             $trackback_url = Context::get('trackback_url');
@@ -75,10 +76,9 @@
                 $oTrackbackController->sendTrackback($obj, $trackback_url, $trackback_charset);
             }
 
-            if(!$output->toBool()) return $output;
-            $this->setMessage($msg_code);
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $output->get('document_srl'));
+            $this->setMessage($msg_code);
         }
 
         /**
@@ -270,6 +270,9 @@
          * @brief 첨부파일 업로드
          **/
         function procUploadFile() {
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            if(!Context::isUploaded() || !$this->grant->fileupload) exit();
+
             // 기본적으로 필요한 변수인 document_srl, module_srl을 설정
             $document_srl = Context::get('document_srl');
             $module_srl = $this->module_srl;

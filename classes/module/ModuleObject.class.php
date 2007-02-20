@@ -43,7 +43,6 @@
          * @brief 모듈의 정보 세팅
          **/
         function setModuleInfo($module_info, $xml_info) {
-
             // 기본 변수 설정
             $this->mid = $module_info->mid;
             $this->module = $module_info->module;

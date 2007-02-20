@@ -30,20 +30,12 @@
             $output = $oDB->executeQuery('document.getDocument', $args);
             $document = $output->data;
 
-            if(!$get_extra_info) return $document;
-
-            // document controller 객체 생성
-            $oDocumentController = &getController('document');
-
-            // 조회수 업데이트
-            $oDocumentController->updateReadedCount($document);
-
             // 이 문서에 대한 권한이 있는지 확인
             if($this->isGranted($document->document_srl) || $is_admin) {
                 $document->is_granted = true;
             } elseif($document->member_srl) {
                 $oMemberModel = &getMemberModel('member');
-                $member_srl = $oMemberModel->getMemberSrl();
+                $member_srl = $oMemberModel->getLoggedMemberSrl();
                 if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
             } 
 
@@ -51,6 +43,18 @@
             if($document->is_secret=='Y' && !$document->is_granted) {
                 $document->title =  $document->content = Context::getLang('msg_is_secret');
             }
+            
+            // 내용 변경
+            $document->content = $this->transContent($document->content);
+
+            // 확장 정보(코멘트나 기타 등등) 플래그가 false이면 기본 문서 정보만 return
+            if(!$get_extra_info) return $document;
+
+            // document controller 객체 생성
+            $oDocumentController = &getController('document');
+
+            // 조회수 업데이트
+            if($buff = $oDocumentController->updateReadedCount($document)) $document->readed_count++;
 
             // 댓글 가져오기
             if($document->comment_count && $document->allow_comment == 'Y') {
@@ -89,7 +93,7 @@
 
             // 권한 체크
             $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getMemberSrl();
+            $member_srl = $oMemberModel->getLoggedMemberSrl();
 
             $document_count = count($document_list);
             for($i=0;$i<$document_count;$i++) {
@@ -159,7 +163,7 @@
 
             // 권한 체크
             $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getMemberSrl();
+            $member_srl = $oMemberModel->getLoggedMemberSrl();
 
             foreach($output->data as $key => $document) {
                 $is_granted = false;

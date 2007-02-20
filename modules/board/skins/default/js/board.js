@@ -17,13 +17,6 @@ function completeDocumentInserted(ret_obj) {
   location.href = url;
 }
 
-
-
-
-
-
-
-
 /* 글 삭제 */
 function procDeleteDocument(ret_obj, response_tags) {
   var error = ret_obj['error'];

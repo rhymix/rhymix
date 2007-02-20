@@ -15,7 +15,7 @@ function filterAlertMessage(ret_obj) {
     var message = ret_obj["message"];
     var redirect_url = ret_obj["redirect_url"];
     var url = location.href;
-    if(typeof(message)!='undefined'&&message) alert(message);
+    if(typeof(message)!='undefined'&&message&&message!='success') alert(message);
     if(typeof(redirect_url)!='undefined'&&redirect_url) url = redirect_url;
     location.href = url;
 }

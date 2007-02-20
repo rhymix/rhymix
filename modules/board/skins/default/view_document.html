@@ -41,7 +41,7 @@
   </tr>
   <tr>
     <th>{$lang->content}</th>
-    <td height="100" valign="top">{Document::transContent($document->content)}</td>
+    <td height="100" valign="top">{$document->content}</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -92,8 +92,8 @@
 <div>
   <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
   <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
-  <a href="{getUrl('act','dispWriteForm')}">[{$lang->cmd_modify}]</a> 
-  <a href="{getUrl('act','dispDeleteForm')}">[{$lang->cmd_delete}]</a> 
+  <a href="{getUrl('act','dispWrite')}">[{$lang->cmd_modify}]</a> 
+  <a href="{getUrl('act','dispDelete')}">[{$lang->cmd_delete}]</a> 
 </div>
 
 

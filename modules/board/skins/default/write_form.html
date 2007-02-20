@@ -3,7 +3,7 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
 <input type="hidden" name="mid" value="{$mid}" />
-<input type="hidden" name="act" value="procInsertDocument" />
+<input type="hidden" name="act" value="procUploadFile" />
 <input type="hidden" name="content" value="{htmlspecialchars($document->content)}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
   <table width="100%">
