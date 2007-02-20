@@ -1,6 +1,6 @@
 <?php
     /**
-    * @class Module
+    * @class ModuleObject
     * @author zero (zero@nzeo.com)
     * @brief module의 abstract class
     **/
