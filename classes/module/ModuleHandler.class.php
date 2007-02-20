@@ -67,9 +67,10 @@
             $type = $xml_info->action->{$act}->type;
             $grant = $xml_info->action->{$act}->grant;
 
-            // act값을 Context에 세팅
-            Context::set('act', $act, true);
+            // module, act, mid값을 Context에 세팅
+            Context::set('module', $module);
             Context::set('mid', $mid, true);
+            Context::set('act', $act, true);
 
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($module, $type);
