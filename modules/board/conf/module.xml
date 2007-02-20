@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispContent" manage_action="dispAdminContent">
+<module default_action="dispContent" management_action="dispAdminContent">
     <grants>
         <grant name="list" default="guest">
             <title xml:lang="ko">목록</title>

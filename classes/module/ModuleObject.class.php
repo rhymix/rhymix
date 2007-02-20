@@ -85,14 +85,14 @@
                         }
                     } else {
                         switch($default) {
-                            case 'guest' :
-                                    $grant->{$grant_name} = true;
-                                break;
                             case 'member' :
                                     if($is_logged) $grant->{$grant_name} = true;
                                 break;
                             case 'root' :
                                     if($grant->is_admin) $grant->{$grant_name} = true;
+                                break;
+                            default :
+                                    $grant->{$grant_name} = true;
                                 break;
                         }
                     }

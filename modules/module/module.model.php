@@ -27,7 +27,7 @@
             if(!count($xml_obj->module)) return;
 
             $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
-            $output->manage_action = $xml_obj->module->attrs->manage_action; ///< 관리자용으로 사용될 기본 action
+            $output->management_action = $xml_obj->module->attrs->management_action; ///< 관리자용으로 사용될 기본 action
 
             $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
             $actions = $xml_obj->module->actions->action; ///< action list (필수)
