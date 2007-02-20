@@ -17,7 +17,7 @@
         /**
          * @brief 모듈객체를 받아서 content 출력
          **/
-        function printContent($oModule) {
+        function printContent(&$oModule) {
             // header 출력
             $this->_printHeader();
 
@@ -47,14 +47,14 @@
         /**
          * @brief 모듈 객체의 content return
          **/
-        function getContent($oModule) {
+        function getContent(&$oModule) {
             return $this->_toDoc($oModule);
         }
 
         /**
          * @brief 모듈 객체의 content return
          **/
-        function _toDoc($oModule) {
+        function _toDoc(&$oModule) {
             if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
             else $content = $this->_toHTMLDoc($oModule);
             return $content;
@@ -63,7 +63,7 @@
         /**
          * @brief RequestMethod가 XML이면 XML 데이터로 컨텐츠 생성
          **/
-        function _toXmlDoc($oModule) {
+        function _toXmlDoc(&$oModule) {
             $xmlDoc  = "<response>\n";
             $xmlDoc .= sprintf("<error>%s</error>\n",$oModule->getError());
             $xmlDoc .= sprintf("<message>%s</message>\n",$oModule->getMessage());
@@ -85,7 +85,7 @@
         /**
          * @brief RequestMethod가 XML이 아니면 html 컨텐츠 생성
          **/
-        function _toHTMLDoc($oModule) {
+        function _toHTMLDoc(&$oModule) {
             // template handler 객체 생성
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();

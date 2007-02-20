@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule ^rss/([a-zA-Z0-9\_\-]*)$ ./index.php?mid=$1&act=dispRss 
+RewriteRule ^trackback/([0-9]*)$ ./index.php?document_srl=$1&act=procReceiveTrackback
+RewriteRule ^([0-9]*)$ ./index.php?document_srl=$1 

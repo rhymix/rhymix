@@ -81,6 +81,7 @@
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($module, $type);
 
+
             // 모듈 정보 세팅
             $oModule->setModuleInfo($module_info, $xml_info);
 
