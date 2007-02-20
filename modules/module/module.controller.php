@@ -5,7 +5,7 @@
      * @brief  module 모듈의 Controller class
      **/
 
-    class moduleController extends ModuleObject {
+    class moduleController extends module {
 
         /**
          * @brief 초기화
