@@ -5,7 +5,7 @@
     * @brief module의 abstract class
     **/
 
-    class Module extends Object {
+    class ModuleObject extends Object {
 
         var $mid = NULL; ///< module로 생성한 instance(관리상)의 값 
         var $module = NULL; ///< mid로 찾아서 생성한 모듈 class 이름
@@ -121,6 +121,38 @@
         function getTemplatePath() {
             return $this->template_path;
         }
+
+        /**
+         * @brief layout 파일 지정
+         **/
+        function setLayoutFile($filename) {
+            if(substr($filename,-5)!='.html') $filename .= '.html';
+            $this->layout_file = $filename;
+        }
+
+        /**
+         * @brief layout 파일 return
+         **/
+        function getLayoutFile() {
+            return $this->layout_file;
+        }
+
+        /**
+         * @brief layout 경로 지정
+         **/
+        function setLayoutPath($path) {
+            if(substr($path,-1)!='/') $path .= '/';
+            if(substr($path,0,2)!='./') $path = './'.$path;
+            $this->layout_path = $path;
+        }
+
+        /**
+         * @brief layout 경로 return
+         **/
+        function getLayoutPath() {
+            return $this->layout_path;
+        }
+
 
         /**
          * @brief 모듈의 action에 해당하는 method를 실행

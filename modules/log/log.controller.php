@@ -6,7 +6,7 @@
      * @todo   미구현
      **/
 
-    class logController extends Module {
+    class logController extends log {
 
         /**
          * @brief 초기화

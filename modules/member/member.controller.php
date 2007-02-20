@@ -5,7 +5,7 @@
      * @brief  member module의 Controller class
      **/
 
-    class memberController extends Module {
+    class memberController extends member {
 
         /**
          * @brief 초기화

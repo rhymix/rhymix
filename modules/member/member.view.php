@@ -5,7 +5,7 @@
      * @brief  member module의 View class
      **/
 
-    class memberView extends Module {
+    class memberView extends member {
 
         var $group_list = NULL; ///< 그룹 목록 정보
         var $member_info = NULL; ///< 선택된 사용자의 정보

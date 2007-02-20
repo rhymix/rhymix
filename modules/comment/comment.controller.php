@@ -5,7 +5,7 @@
      * @brief  comment 모듈의 controller class
      **/
 
-    class commentController extends Module {
+    class commentController extends comment {
 
         /**
          * @brief 초기화

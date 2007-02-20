@@ -5,7 +5,7 @@
      * @brief  install module의 Controller class
      **/
 
-    class installController extends Module {
+    class installController extends install {
 
 
         /**

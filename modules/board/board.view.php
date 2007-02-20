@@ -5,24 +5,7 @@
      * @brief  board 모듈의 View class
      **/
 
-    class boardView extends Module {
-
-        var $search_option = array('title','content','title_content','user_name'); ///< 검색 옵션
-
-        var $skin = "default"; ///< 스킨 이름
-        var $list_count = 3; ///< 한 페이지에 나타날 글의 수
-        var $page_count = 10; ///< 페이지의 수
-        var $category_list = NULL; ///< 카테고리 목록
-
-        var $grant_list = array( 
-                'list',
-                'view',
-                'write_document',
-                'write_comment',
-                'fileupload',
-            );   ///< 권한의 종류를 미리 설정
-
-        var $editor = 'default'; ///< 에디터 종류
+    class boardView extends board {
 
         /**
          * @brief 초기화

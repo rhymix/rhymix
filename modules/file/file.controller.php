@@ -5,7 +5,7 @@
      * @brief  file 모듈의 controller 클래스
      **/
 
-    class fileController extends Module {
+    class fileController extends file {
 
         /**
          * @brief 초기화

@@ -5,7 +5,7 @@
      * @brief  admin 모듈의 controller class
      **/
 
-    class adminController extends Module {
+    class adminController extends admin {
         /**
          * @brief 초기화
          **/

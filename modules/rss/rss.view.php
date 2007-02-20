@@ -9,7 +9,7 @@
      *
      **/
 
-    class rssView extends Module {
+    class rssView extends rss {
 
         /**
          * @brief 초기화

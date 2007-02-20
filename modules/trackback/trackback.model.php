@@ -5,7 +5,7 @@
      * @brief  trackback 모듈의 model class
      **/
 
-    class trackbackModel extends Module {
+    class trackbackModel extends trackback {
 
         /**
          * @brief 초기화

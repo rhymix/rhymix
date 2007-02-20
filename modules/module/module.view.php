@@ -5,7 +5,7 @@
      * @brief  module 모듈의 View class
      **/
 
-    class moduleView extends Module {
+    class moduleView extends module {
 
         /**
          * @brief 초기화
@@ -18,7 +18,7 @@
          **/
         function dispContent() {
             // 모듈모델 객체를 구함
-            $oModuleModel = getModule('module','model');
+            $oModuleModel = getModel('module');
 
             // 등록된 모듈의 목록을 구해옴
             $installed_module_list = $oModuleModel->getModulesInfo();

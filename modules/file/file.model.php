@@ -5,7 +5,7 @@
      * @brief  file 모듈의 model 클래스
      **/
 
-    class fileModel extends Module {
+    class fileModel extends file {
 
         /**
          * @brief 초기화

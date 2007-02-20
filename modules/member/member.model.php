@@ -5,7 +5,7 @@
      * @brief  member module의 Model class
      **/
 
-    class memberModel extends Module {
+    class memberModel extends member {
 
         /**
          * @brief 초기화

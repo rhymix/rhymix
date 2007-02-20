@@ -5,7 +5,7 @@
      * @brief  document 모듈의 controller 클래스
      **/
 
-    class documentController extends Module {
+    class documentController extends document {
 
         /**
          * @brief 초기화

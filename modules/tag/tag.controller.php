@@ -5,7 +5,7 @@
      * @brief  tag 모듈의 controller class
      **/
 
-    class tagController extends Module {
+    class tagController extends tag {
 
         /**
          * @brief 초기화

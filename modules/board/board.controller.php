@@ -5,7 +5,7 @@
      * @brief  board 모듈의 Controller class
      **/
 
-    class boardController extends Module {
+    class boardController extends board {
 
         /**
          * @brief 초기화

@@ -5,7 +5,7 @@
      * @brief  module 모듈의 Controller class
      **/
 
-    class moduleController extends Module {
+    class moduleController extends ModuleObject {
 
         /**
          * @brief 초기화
@@ -41,7 +41,7 @@
          **/
         function insertModule($args) {
             // module model 객체 생성
-            $oModuleModel = getModule('module','model');
+            $oModuleModel = getModel('module');
 
             // 선택된 스킨정보에서 colorset을 구함
             $skin_info = $oModuleModel->loadSkinInfo($args->module, $args->skin);
@@ -100,7 +100,7 @@
             // plugin 삭제
 
             // document 삭제
-            $oDocumentController = getModule('document', 'controller');
+            $oDocumentController = getController('document');
             $output = $oDocumentController->deleteModuleDocument($module_srl);
             if(!$output->toBool()) return $output;
 
@@ -109,17 +109,17 @@
             if(!$output->toBool()) return $output;
 
             // trackbacks 삭제
-            $oTrackbackController = getModule('trackback','controller');
+            $oTrackbackController = getController('trackback');
             $output = $oTrackbackController->deleteModuleTrackbacks($module_srl);
             if(!$output->toBool()) return $output;
 
             // comments 삭제
-            $oCommentController = getModule('comment','controller');
+            $oCommentController = getController('comment');
             $output = $oCommentController->deleteModuleComments($module_srl);
             if(!$output->toBool()) return $output;
 
             // tags 삭제
-            $oTagController = getModule('tag','controller');
+            $oTagController = getController('tag');
             $output = $oTagController->deleteModuleTags($module_srl);
             if(!$output->toBool()) return $output;
 

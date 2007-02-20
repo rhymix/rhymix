@@ -5,7 +5,7 @@
      * @brief  document 모듈의 model 클래스
      **/
 
-    class documentModel extends Module {
+    class documentModel extends document {
 
         /**
          * @brief 초기화
@@ -34,8 +34,8 @@
             if($this->isGranted($document->document_srl)) {
                 $document->is_granted = true;
             } elseif($document->member_srl) {
-                $oMember = getModule('member');
-                $member_srl = $oMember->getMemberSrl();
+                $oMemberModel = getMemberModel('member');
+                $member_srl = $oMemberModel->getMemberSrl();
                 if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
             } 
             return $document;

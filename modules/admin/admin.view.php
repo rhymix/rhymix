@@ -5,7 +5,7 @@
      * @brief  admin 모듈의 view class
      **/
 
-    class adminView extends Module {
+    class adminView extends admin {
 
         /**
          * @brief 초기화

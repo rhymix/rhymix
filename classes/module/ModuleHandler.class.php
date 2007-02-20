@@ -70,7 +70,7 @@
             Context::set('act', $act, true);
 
             // 모듈 객체 생성
-            $oModule = $this->getModuleInstance($module, $type);
+            $oModule = &$this->getModuleInstance($module, $type);
 
             // 모듈 정보 세팅
             $oModule->setModuleInfo($module_info);
@@ -111,6 +111,11 @@
                  * ./files/modules/* 의 클래스 파일을 우선으로 처리해야 함
                  **/
 
+                // 상위 클래스명 구함
+                $high_class_file = sprintf('%s%s.class.php', $class_path, $module);
+                if(!file_exists($high_class_file)) return NULL;
+                require_once($high_class_file);
+
                 // 객체의 이름을 구함
                 switch($type) {
                     case 'controller' :
@@ -137,11 +142,11 @@
                 @eval($eval_str);
                 if(!is_object($oModule)) return NULL;
 
-                // 생성된 객체에 자신이 호출된 위치를 세팅해줌
-                $oModule->setModulePath($class_path);
-
                 // 해당 위치에 속한 lang 파일을 읽음
                 Context::loadLang($class_path.'lang');
+
+                // 생성된 객체에 자신이 호출된 위치를 세팅해줌
+                $oModule->setModulePath($class_path);
 
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type] = $oModule;

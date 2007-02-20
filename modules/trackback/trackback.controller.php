@@ -5,7 +5,7 @@
      * @brief  trackback모듈의 Controller class
      **/
 
-    class trackbackController extends Module {
+    class trackbackController extends trackback {
 
         /**
          * @brief 초기화

@@ -5,7 +5,7 @@
      * @brief  install module의 View class
      **/
 
-    class installView extends Module {
+    class installView extends install {
 
         /**
          * @brief 초기화

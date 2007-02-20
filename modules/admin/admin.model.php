@@ -5,7 +5,7 @@
      * @brief  admin 모듈의 model class
      **/
 
-    class adminModel extends Module {
+    class adminModel extends admin {
 
         /**
          * @brief 초기화
