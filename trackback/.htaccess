@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([0-9]*)$ ../index.php?document_srl=$1&act=procReceiveTrackback
