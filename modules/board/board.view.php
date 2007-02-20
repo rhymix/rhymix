@@ -47,8 +47,13 @@
             if($this->grant->view && $document_srl) {
 
                 $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager, true);
-                Context::set('document', $document);
+                if($document->document_srl != $document_srl) {
+                    unset($document);
+                    unset($document_srl);
+                    Context::set('document_srl','',true);
+                }
 
+                Context::set('document', $document);
             }
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
