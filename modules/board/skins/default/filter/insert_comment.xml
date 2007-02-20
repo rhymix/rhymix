@@ -19,7 +19,7 @@
     <param name="homepage" target="homepage" />
     <param name="content" target="content" />
   </parameter>
-  <response>
+  <response callback_func="completeInsertComment">
     <tag name="error" />
     <tag name="message" />
     <tag name="mid" />

@@ -1,4 +1,4 @@
-<!--%import("filter/filter.insert_comment.xml")-->
+<!--%import("filter/insert_comment.xml")-->
 <!--#include("header.html")-->
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
@@ -34,7 +34,6 @@
 <!-- 글쓰기 폼 -->
 <form action="./" method="get" onsubmit="return procFilter(this, insert_comment)">
 <input type="hidden" name="mid" value="{$mid}" />
-<input type="hidden" name="act" value="procInsertComment" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="comment_srl" value="{$comment_srl}" />
 <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />

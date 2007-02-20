@@ -319,7 +319,6 @@
             $info->date = gmdate("D, d M Y H:i:s");
             $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
             $info->total_count = $output->total_count;
-            $info->total_page = $output->total_page;
 
             // 출력하고 끝내기
             $oRssView = &getView('rss');

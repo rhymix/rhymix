@@ -47,6 +47,7 @@
 <description><![CDATA[<?=$info->description?>]]></description>
 <language><?=$info->language?></language>
 <pubDate><?=$info->date?></pubDate>
+<totalCount><?=$info->total_count?></totalCount>
 <?
             if(count($content)) {
                 foreach($content as $item) {

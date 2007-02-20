@@ -2,15 +2,15 @@
 
 <!-- 엮인글 정보 출력 -->
 <div>
-  {$lang->trackback} : {count($trackback_list)}
+  {$lang->trackback} : {count($document->trackback_list)}
 </div>
 
 <!-- 엮인글 출력 -->
 <div>
   <!-- 엮인글 목록 -->
 
-  <!--@if($trackback_list)-->
-    <!--@foreach($trackback_list as $key => $val)-->
+  <!--@if($document->trackback_list)-->
+    <!--@foreach($document->trackback_list as $key => $val)-->
       <a name="trackback_{$key}"></a>
       <div style="margin-left:{$val->depth*15}px" >
         <table>

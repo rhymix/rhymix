@@ -2,15 +2,15 @@
 
 <!-- 댓글 정보 출력 -->
 <div>
-  {$lang->comment} : {count($comment_list)}
+  {$lang->comment} : {count($document->comment_list)}
 </div>
 
 <!-- 댓글 출력 -->
 <div>
   <!-- 댓글 목록 -->
 
-  <!--@if($comment_list)-->
-    <!--@foreach($comment_list as $key => $val)-->
+  <!--@if($document->comment_list)-->
+    <!--@foreach($document->comment_list as $key => $val)-->
       <a name="comment_{$key}"></a>
       <div style="margin-left:{$val->depth*15}px" >
         <table>

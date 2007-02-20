@@ -64,8 +64,8 @@
 
             // 트랙백 가져오기
             if($document->trackback_count && $document->allow_trackback == 'Y') {
-                $oTrackback = &getModule('trackback');
-                $document->trackback_list = $oTrackback->getTrackbackList($document_srl);
+                $oTrackbackModel = &getModel('trackback');
+                $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl);
             }
 
             // 첨부파일 가져오기

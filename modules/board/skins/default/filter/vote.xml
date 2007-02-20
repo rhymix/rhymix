@@ -7,7 +7,7 @@
     <param name="act" target="act" />
     <param name="document_srl" target="document_srl" />
   </parameter>
-  <response>
+  <response callback_func="completeVote">
     <tag name="error" />
     <tag name="message" />
   </response>
