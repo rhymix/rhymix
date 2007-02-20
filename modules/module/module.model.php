@@ -14,30 +14,49 @@
         }
 
         /**
-         * @brief module의 conf/action.xml 을 통해 act값에 해당하는 action type을 return
+         * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
          **/
-        function getActionInfo($module) {
+        function getModuleXmlInfo($module) {
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;
 
-            $action_xml_file = sprintf("%sconf/action.xml", $class_path);
+            $action_xml_file = sprintf("%sconf/module.xml", $class_path);
             if(!file_exists($action_xml_file)) return;
 
             $xml_obj = XmlParser::loadXmlFile($action_xml_file);
             if(!count($xml_obj->module)) return;
 
-            $output->default_action = $xml_obj->module->attrs->default_action;
-            $output->manage_action = $xml_obj->module->attrs->manage_action;
+            $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
+            $output->manage_action = $xml_obj->module->attrs->manage_action; ///< 관리자용으로 사용될 기본 action
 
-            if(is_array($xml_obj->module->action)) $action_list = $xml_obj->module->action;
-            else $action_list[] = $xml_obj->module->action;
+            $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
+            $actions = $xml_obj->module->actions->action; ///< action list (필수)
+
+            // 권한 정보의 정리
+            if(is_array($grants)) $grant_list = $grants;
+            else $grant_list[] = $grants;
+
+            foreach($grant_list as $grant) {
+                $name = $grant->attrs->name;
+                $default = $grant->attrs->default;
+                $title = $grant->title->body;
+                if(!$default) $default = 'guest';
+
+                $output->grant->{$name}->title = $title;
+                $output->grant->{$name}->default = $default;
+            }
+
+            // actions 정리
+            if(is_array($actions)) $action_list = $actions;
+            else $action_list[] = $actions;
 
             foreach($action_list as $action) {
                 $name = $action->attrs->name;
                 $type = $action->attrs->type;
                 $grant = $action->attrs->grant;
-                $output->{$name}->type = $type;
-                $output->{$name}->grant = $grant;
+                if(!$grant) $grant = 'guest';
+                $output->action->{$name}->type = $type;
+                $output->action->{$name}->grant = $grant;
             }
 
             return $output;

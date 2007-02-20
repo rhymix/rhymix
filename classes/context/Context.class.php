@@ -88,6 +88,15 @@
         }
 
         /**
+         * @brief DB및 기타 자원들의 close
+         **/
+        function close() {
+            // DB close
+            $oDB = &DB::getInstance();
+            if($oDB) $oDB->close();
+        }
+
+        /**
          * @brief DB 정보를 설정하고 DB Type과 DB 정보를 return
          **/
         function _loadDBInfo() {

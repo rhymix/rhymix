@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module default_action="dispContent" manage_action="">
-    <action name="dispContent" type="view" grant="" />
+    <actions>
+        <action name="dispContent" type="view" grant="guest" />
+    </actions>
 </module>

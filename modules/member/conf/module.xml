@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1" default_action="viewIntroduce" >
+    <actions>
+        <action name="viewIntroduce" type="view" />
+        <action name="viewDBInfoForm" type="view" />
+        <action name="doInstall" type="controller" />
+    </actions>
+</module>

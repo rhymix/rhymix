@@ -51,4 +51,9 @@
      **/
     $oDisplayHandler = new DisplayHandler();
     $oDisplayHandler->printContent($oModule);
+
+    /**
+     * @brief Context::close()를 통해서 DB및 기타 사용된 자원들의 처리
+     **/
+    $oContext->close();
 ?>

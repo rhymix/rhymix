@@ -128,7 +128,8 @@
             if($GLOBALS['__db_elapsed_time__']) $buff .= sprintf("\tDB queries elapsed time\t\t: %0.5f sec\n", $GLOBALS['__db_elapsed_time__']);
             $buff .= sprintf("\tclass file load elapsed time \t: %0.5f sec\n", __RequireClassEndTime__-__RequireClassStartTime__);
             $buff .= sprintf("\tTemplate compile elapsed time\t: %0.5f sec\n", $GLOBALS['__template_elapsed__']);
-            $buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__db_elapsed_time__']-(__RequireClassEndTime__-__RequireClassStartTime__));
+            $buff .= sprintf("\tXmlParse compile elapsed time\t: %0.5f sec\n", $GLOBALS['__xmlparse_elapsed__']);
+            $buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__xmlparse_elapsed__']-$GLOBALS['__db_elapsed_time__']-(__RequireClassEndTime__-__RequireClassStartTime__));
             $buff .= sprintf("\tTotal elapsed time \t\t: %0.5f sec", $end-__StartTime__);
 
             debugPrint($buff, false);

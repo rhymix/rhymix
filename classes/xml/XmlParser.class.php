@@ -35,6 +35,9 @@
          * @brief xml 파싱
          **/
         function parse($input = '') {
+            // 디버그를 위한 컴파일 시작 시간 저장
+            if(__DEBUG__) $start = getMicroTime();
+
             $this->lang = Context::getLangType();
 
             $this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
@@ -68,7 +71,16 @@
             xml_parser_free($this->oParser);
 
             if(!count($this->output)) return;
-            return array_shift($this->output);
+
+            $output = array_shift($this->output);
+
+            // 디버그를 위한 컴파일 시작 시간 저장
+            if(__DEBUG__) {
+                $parsing_elapsed = getMicroTime() - $start;
+                $GLOBALS['__xmlparse_elapsed__'] += $parsing_elapsed;
+            }
+
+            return $output;
         }
 
         /**

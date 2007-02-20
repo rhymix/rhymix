@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module default_action="dispAdminIndex" manage_action="">
-    <action name="dispAdminIndex" type="view" grant="" />
+    <actions>
+        <action name="dispAdminIndex" type="view" grant="root" />
+    <actions>
 </module>

@@ -42,7 +42,8 @@
         /**
          * @brief 모듈의 정보 세팅
          **/
-        function setModuleInfo($module_info) {
+        function setModuleInfo($module_info, $xml_info) {
+
             // 기본 변수 설정
             $this->mid = $module_info->mid;
             $this->module = $module_info->module;
@@ -63,21 +64,36 @@
             }
 
             // 권한 설정
-            if($this->grant_list) {
-                foreach($this->grant_list as $grant_name) {
+            if($xml_info->grant) {
+                foreach($xml_info->grant as $grant_name => $grant_item) {
+                    $title = $grant_item->title;
+                    $default = $grant_item->default;
+
                     $grant->{$grant_name} = false;
 
-                    if($grant->is_admin || !$this->module_info->grant[$grant_name]) {
+                    if($grant->is_admin) {
                         $grant->{$grant_name} = true;
                         continue;
                     }
 
                     if(count($user_group)) {
                         foreach($user_group as $group_srl) {
-                            if(in_array($group_srl, $this->module_info->grant[$grant_name])) {
+                            if(in_array($group_srl, $this->module_info->grants[$grant_name])) {
                                 $grant->{$grant_name} = true;
                                 break;
                             }
+                        }
+                    } else {
+                        switch($default) {
+                            case 'guest' :
+                                    $grant->{$grant_name} = true;
+                                break;
+                            case 'member' :
+                                    if($is_logged) $grant->{$grant_name} = true;
+                                break;
+                            case 'root' :
+                                    if($grant->is_admin) $grant->{$grant_name} = true;
+                                break;
                         }
                     }
                 }
@@ -85,7 +101,6 @@
 
             // 권한변수 설정
             $this->grant = $grant;
-            Context::set('grant',$this->grant);
 
             // 모듈의 init method 실행
             $this->init();

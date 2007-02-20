@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module default_action="dispContent" manage_action="dispAdminContent">
+    <grants>
+        <grant name="list" default="guest">
+            <title xml:lang="ko">목록</title>
+            <title xml:lang="en">list</title>
+        </grant>
+        <grant name="view" default="guest">
+            <title xml:lang="ko">열람</title>
+            <title xml:lang="en">view</title>
+        </grant>
+        <grant name="write_document" default="guest">
+            <title xml:lang="ko">글 작성</title>
+            <title xml:lang="en">write document</title>
+        </grant>
+        <grant name="write_comment" default="guest">
+            <title xml:lang="ko">댓글 작성</title>
+            <title xml:lang="en">write comment</title>
+        </grant>
+        <grant name="fileupload" default="guest">
+            <title xml:lang="ko">파일 첨부</title>
+            <title xml:lang="en">file upload</title>
+        </grant>
+        <grant name="management" default="root">
+            <title xml:lang="ko">관리</title>
+            <title xml:lang="en">management</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispContent" type="view" />
+        <action name="dispWrite" type="view" />
+        <action name="dispDelete" type="view" />
+        <action name="dispCommentReply" type="view" />
+        <action name="dispCommentModify" type="view" />
+        <action name="dispCommentDelete" type="view" />
+        <action name="dispTrackbackDelete" type="view" />
+        <action name="dispLogin" type="view" />
+        <action name="dispLogout" type="view" />
+        <action name="dispMessage" type="view" />
+        <action name="dispRss" type="view" />
+        <action name="dispAdminContent" type="view" grant="root" />
+        <action name="dispAdminBoardInfo" type="view" grant="root" />
+        <action name="dispAdminInsertBoard" type="view" grant="root" />
+        <action name="dispAdminDeleteBoard" type="view" grant="root" />
+        <action name="dispAdminSkinInfo" type="view" grant="root" />
+        <action name="dispAdminCategoryInfo" type="view" grant="root" />
+        <action name="dispAdminGrantInfo" type="view" grant="root" />
+    </actions>
+</module>

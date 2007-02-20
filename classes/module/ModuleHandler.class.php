@@ -57,14 +57,14 @@
             }
 
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
-            $action_info = $oModuleModel->getActionInfo($module);
+            $xml_info = $oModuleModel->getModuleXmlInfo($module);
 
-            // 현재 요청된 act가 있으면 $action_info에서 type을 찾음, 없다면 기본 action을 이용
-            if(!$act || !$action_info->{$act}) $act = $action_info->default_action;
+            // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
+            if(!$act || !$xml_info->{$act}) $act = $xml_info->default_action;
 
             // type, grant 값 구함
-            $type = $action_info->{$act}->type;
-            $grant = $action_info->{$act}->grant;
+            $type = $xml_info->action->{$act}->type;
+            $grant = $xml_info->action->{$act}->grant;
 
             // act값을 Context에 세팅
             Context::set('act', $act, true);
@@ -73,7 +73,7 @@
             $oModule = &$this->getModuleInstance($module, $type);
 
             // 모듈 정보 세팅
-            $oModule->setModuleInfo($module_info);
+            $oModule->setModuleInfo($module_info, $xml_info);
 
             if(!is_object($oModule)) return;
 
