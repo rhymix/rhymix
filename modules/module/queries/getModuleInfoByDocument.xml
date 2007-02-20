@@ -11,8 +11,11 @@
     <column name="modules.module" alias="module" />
     <column name="modules.is_default" alias="is_default" />
     <column name="modules.menu_srl" alias="menu_srl" />
-    <column name="modules.config" alias="config" />
+    <column name="modules.use_category" alias="use_category" />
+    <column name="modules.extra_vars" alias="extra_vars" />
     <column name="modules.layout_file" alias="layout_file" />
+    <column name="modules.grant" alias="grant" />
+    <column name="modules.admin_id" alias="admin_id" />
     <column name="modules.header_text" alias="header_text" />
     <column name="modules.footer_text" alias="footer_text" />
     <column name="modules.regdate" alias="regdate" />
