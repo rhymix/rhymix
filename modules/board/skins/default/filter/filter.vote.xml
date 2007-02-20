@@ -1,14 +1,14 @@
-<filter id="vote" confirm_msg_code="confirm_vote">
-  <field>
-    <item target="document_srl" required="true" />
-  </field>
+<filter name="vote" module="board" act="procVote" confirm_msg_code="confirm_vote">
+  <form>
+    <node target="document_srl" required="true" />
+  </form>
   <parameter>
-    <item param="mid" target="mid" />
-    <item param="act" target="act" />
-    <item param="document_srl" target="document_srl" />
+    <param name="mid" target="mid" />
+    <param name="act" target="act" />
+    <param name="document_srl" target="document_srl" />
   </parameter>
   <response>
-    <item name="error" />
-    <item name="message" />
+    <tag name="error" />
+    <tag name="message" />
   </response>
 </filter>

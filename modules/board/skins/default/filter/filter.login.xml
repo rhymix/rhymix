@@ -1,16 +1,16 @@
-<filter id="login">
-  <field>
-    <item target="user_id" required="true" filter="user_id"/>
-    <item target="password" required="true" />
-  </field>
+<filter name="login" module="board" act="procLogin">
+  <form>
+    <node target="user_id" required="true" filter="user_id"/>
+    <node target="password" required="true" />
+  </form>
   <parameter>
-    <item param="user_id" target="user_id" />
-    <item param="password" target="password" />
-    <item param="mid" target="mid" />
-    <item param="act" target="act" />
+    <param name="user_id" target="user_id" />
+    <param name="password" target="password" />
+    <param name="mid" target="mid" />
+    <param name="act" target="act" />
   </parameter>
   <response>
-    <item name="error" />
-    <item name="message" />
+    <tag name="error" />
+    <tag name="message" />
   </response>
 </filter>

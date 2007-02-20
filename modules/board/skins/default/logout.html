@@ -1,7 +1,7 @@
 <!--%import("filter/filter.logout.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFormFilter(this, logout, procReload)">
+<form action="./" method="get" onsubmit="return procFilter(this, logout)">
   <input type="hidden" name="mid" value="{$mid}" />
   <input type="hidden" name="act" value="procLogout" />
   <table>

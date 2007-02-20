@@ -1,7 +1,7 @@
 <!--%import("filter/filter.insert.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="post" onsubmit="return procFormFilter(this, insert, procInsert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
+<form action="./" method="post" onsubmit="return procFilter(this, insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procInsertDocument" />
 <input type="hidden" name="content" value="{htmlspecialchars($document->content)}" />

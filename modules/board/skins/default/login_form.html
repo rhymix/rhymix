@@ -1,7 +1,7 @@
 <!--%import("filter/filter.login.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFormFilter(this, login, procReload)">
+<form action="./" method="get" onsubmit="return procFilter(this, login)">
   <input type="hidden" name="mid" value="{$mid}" />
   <input type="hidden" name="act" value="procLogin" />
   <table>

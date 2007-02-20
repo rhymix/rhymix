@@ -1,7 +1,7 @@
 <!--%import("filter/filter.delete_comment.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFormFilter(this, delete_comment, procDeleteComment)">
+<form action="./" method="get" onsubmit="return procFilter(this, delete_comment)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procDeleteComment" />
 <input type="hidden" name="page" value="{$page}" />

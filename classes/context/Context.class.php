@@ -93,7 +93,7 @@
         function close() {
             // DB close
             $oDB = &DB::getInstance();
-            if($oDB) $oDB->close();
+            if(is_object($oDB)&&method_exists($oDB, 'close')) $oDB->close();
         }
 
         /**

@@ -33,30 +33,34 @@
             $actions = $xml_obj->module->actions->action; ///< action list (필수)
 
             // 권한 정보의 정리
-            if(is_array($grants)) $grant_list = $grants;
-            else $grant_list[] = $grants;
+            if($grants) {
+                if(is_array($grants)) $grant_list = $grants;
+                else $grant_list[] = $grants;
 
-            foreach($grant_list as $grant) {
-                $name = $grant->attrs->name;
-                $default = $grant->attrs->default;
-                $title = $grant->title->body;
-                if(!$default) $default = 'guest';
+                foreach($grant_list as $grant) {
+                    $name = $grant->attrs->name;
+                    $default = $grant->attrs->default;
+                    $title = $grant->title->body;
+                    if(!$default) $default = 'guest';
 
-                $output->grant->{$name}->title = $title;
-                $output->grant->{$name}->default = $default;
+                    $output->grant->{$name}->title = $title;
+                    $output->grant->{$name}->default = $default;
+                }
             }
 
             // actions 정리
-            if(is_array($actions)) $action_list = $actions;
-            else $action_list[] = $actions;
+            if($actions) {
+                if(is_array($actions)) $action_list = $actions;
+                else $action_list[] = $actions;
 
-            foreach($action_list as $action) {
-                $name = $action->attrs->name;
-                $type = $action->attrs->type;
-                $grant = $action->attrs->grant;
-                if(!$grant) $grant = 'guest';
-                $output->action->{$name}->type = $type;
-                $output->action->{$name}->grant = $grant;
+                foreach($action_list as $action) {
+                    $name = $action->attrs->name;
+                    $type = $action->attrs->type;
+                    $grant = $action->attrs->grant;
+                    if(!$grant) $grant = 'guest';
+                    $output->action->{$name}->type = $type;
+                    $output->action->{$name}->grant = $grant;
+                }
             }
 
             return $output;

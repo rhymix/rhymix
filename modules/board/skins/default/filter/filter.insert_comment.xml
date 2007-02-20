@@ -1,29 +1,29 @@
-<filter id="insert_comment" confirm_msg_code="confirm_submit">
-  <field>
-    <item target="document_srl" required="true" />
-    <item target="user_name" required="true" />
-    <item target="password" required="true" />
-    <item target="email_address" maxlength="250" />
-    <item target="homepage" maxlength="250"/>
-    <item target="content" required="true" minlength="1" />
-  </field>
+<filter name="insert_comment" module="board" action="procInsertComment" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="document_srl" required="true" />
+    <node target="user_name" required="true" />
+    <node target="password" required="true" />
+    <node target="email_address" maxlength="250" />
+    <node target="homepage" maxlength="250"/>
+    <node target="content" required="true" minlength="1" />
+  </form>
   <parameter>
-    <item param="mid" target="mid" />
-    <item param="act" target="act" />
-    <item param="document_srl" target="document_srl" />
-    <item param="comment_srl" target="comment_srl" />
-    <item param="parent_srl" target="parent_srl" />
-    <item param="user_name" target="user_name" />
-    <item param="password" target="password" />
-    <item param="email_address" target="email_address" />
-    <item param="homepage" target="homepage" />
-    <item param="content" target="content" />
+    <param name="mid" target="mid" />
+    <param name="act" target="act" />
+    <param name="document_srl" target="document_srl" />
+    <param name="comment_srl" target="comment_srl" />
+    <param name="parent_srl" target="parent_srl" />
+    <param name="user_name" target="user_name" />
+    <param name="password" target="password" />
+    <param name="email_address" target="email_address" />
+    <param name="homepage" target="homepage" />
+    <param name="content" target="content" />
   </parameter>
   <response>
-    <item name="error" />
-    <item name="message" />
-    <item name="mid" />
-    <item name="document_srl" />
-    <item name="comment_srl" />
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="document_srl" />
+    <tag name="comment_srl" />
   </response>
 </filter>

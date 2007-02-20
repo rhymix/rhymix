@@ -32,7 +32,7 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<form action="./" method="get" onsubmit="return procFormFilter(this, insert_comment, procInsertComment)">
+<form action="./" method="get" onsubmit="return procFilter(this, insert_comment)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procInsertComment" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
