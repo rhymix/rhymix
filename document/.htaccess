@@ -1,2 +1,0 @@
-RewriteEngine on
-RewriteRule ^([a-zA-Z0-9\_\-]*)$ ../index.php?document_srl=$1 
