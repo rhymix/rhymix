@@ -3,6 +3,9 @@
     * @class ModuleObject
     * @author zero (zero@nzeo.com)
     * @brief module의 abstract class
+    *
+    * @todo 모듈에서 mid가 꼭 필요한지를 체크하는 단계가 필요 (admin은 mid불필요, board는 필요.., 미설정시 필요함으로.. 기본)
+    *    
     **/
 
     class ModuleObject extends Object {
