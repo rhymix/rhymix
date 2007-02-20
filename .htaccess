@@ -1,5 +1,6 @@
-RewriteEngine on
-RewriteRule ^rss/([a-zA-Z0-9\_\-]*)$ ./index.php?mid=$1&act=dispRss 
-RewriteRule ^trackback/([0-9]*)$ ./index.php?document_srl=$1&act=procReceiveTrackback
-RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 
-RewriteRule ^([a-zA-Z\_]+)$ ./index.php?mid=$1 
+RewriteEngine On
+RewriteRule ^rss/([[:alnum:]]+)$ ./index.php?mid=$1&act=dispRss [L]
+RewriteRule ^trackback/([[:digit:]]+)$ ./index.php?document_srl=$1&act=procReceiveTrackback [L]
+RewriteRule ^admin ./index.php?module=admin [L]
+RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
+RewriteRule ^([[:alnum:]]+)$ ./index.php?mid=$1 [L]

@@ -53,8 +53,10 @@
                 }
 
                 // 모듈 정보에서 module 이름을 구해움
-                $module = $module_info->module;
-                $mid = $module_info->mid;
+                if($module_info) {
+                    $module = $module_info->module;
+                    $mid = $module_info->mid;
+                }
             }
 
             // 만약 모듈이 없다면 잘못된 모듈 호출에 대한 오류를 message 모듈을 통해 호출
