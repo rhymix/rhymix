@@ -42,7 +42,8 @@
 
             // 카테고리가 있나 검사하여 없는 카테고리면 0으로 세팅
             if($obj->category_srl) {
-                $category_list = $this->getCategoryList($obj->module_srl);
+                $oDocumentModel = &getModel('document');
+                $category_list = $oDocumentModel->getCategoryList($obj->module_srl);
                 if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
             }
 
@@ -130,20 +131,17 @@
         /**
          * @brief 문서 삭제
          **/
-        function deleteDocument($obj) {
-            // 변수 세팅
-            $document_srl = $obj->document_srl;
-            $category_srl = $obj->category_srl;
+        function deleteDocument($document_srl, $is_admin = false) {
 
             // document의 model 객체 생성
             $oDocumentModel = &getModel('document');
 
             // 기존 문서가 있는지 확인
-            $document = $oDocumentModel->getDocument($document_srl);
+            $document = $oDocumentModel->getDocument($document_srl, $is_admin);
             if($document->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 
             // 권한이 있는지 확인
-            if(!$document->is_granted) return new Object(-1, 'msg_not_permitted');
+            if(!$document->is_granted&&!$is_admin) return new Object(-1, 'msg_not_permitted');
 
             $oDB = &DB::getInstance();
 
@@ -242,16 +240,61 @@
          * @brief 해당 document의 추천수 증가
          **/
         function updateVotedCount($document_srl) {
+            // 세션 정보에 추천 정보가 있으면 중단
             if($_SESSION['voted_document'][$document_srl]) return new Object(-1, 'failed_voted');
 
+            // 문서 원본을 가져옴
+            $oDocumentModel = &getModel('document');
+            $document = $oDocumentModel->getDocument($document_srl, false, false);
+
+            // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
+            if($document->ipaddress == $_SERVER['REMOTE_ADDR']) {
+                $_SESSION['voted_document'][$document_srl] = true;
+                return new Object(-1, 'failed_voted');
+            }
+
+            // document의 작성자가 회원일때 조사
+            if($document->member_srl) {
+                // member model 객체 생성
+                $oMemberModel = &getModel('member');
+                $member_srl = $oMemberModel->getLoggedMemberSrl();
+
+                // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
+                if($member_srl && $member_srl == $document->member_srl) {
+                    $_SESSION['voted_document'][$document_srl] = true;
+                    return new Object(-1, 'failed_voted');
+                }
+            }
+
+            // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
+            if($member_srl) {
+                $args->member_srl = $member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
             $args->document_srl = $document_srl;
+            $output = $oDB->executeQuery('document.getDocumentVotedLogInfo', $args);
+
+            // 로그 정보에 추천 로그가 있으면 세션 등록후 패스
+            if($output->data->count) {
+                $_SESSION['voted_document'][$document_srl] = true;
+                return new Object(-1, 'failed_voted');
+            }
+
+            // 추천수 업데이트
             $output = $oDB->executeQuery('document.updateVotedCount', $args);
 
+            // 로그 남기기
+            $output = $oDB->executeQuery('document.insertDocumentVotedLog', $args);
+
+            // 세션 정보에 남김
             $_SESSION['voted_document'][$document_srl] = true;
 
-            return $output;
+            // 결과 리턴
+            return new Object(0, 'success_voted');
         }
 
         /**

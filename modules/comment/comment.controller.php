@@ -35,7 +35,7 @@
             // 원본글을 가져옴
             $document = $oDocumentModel->getDocument($document_srl);
 
-            if(!$document_srl) return new Object(-1,'msg_invalid_document');
+            if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
             if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
 
             // 댓글를 입력
@@ -55,13 +55,16 @@
             // 해당 글의 전체 댓글 수를 구해옴
             $comment_count = $oCommentModel->getCommentCount($document_srl);
 
+            // document의 controller 객체 생성
+            $oDocumentController = &getController('document');
+
             // 해당글의 댓글 수를 업데이트
-            $output = $this->updateCommentCount($document_srl, $comment_count);
+            $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
 
             // 댓글의 권한을 부여
             $this->addGrant($obj->comment_srl);
-            $output->add('comment_srl', $obj->comment_srl);
 
+            $output->add('comment_srl', $obj->comment_srl);
             return $output;
         }
 

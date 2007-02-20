@@ -35,10 +35,11 @@
         /**
          * @brief 댓글 가져오기
          **/
-        function getComment($comment_srl) {
+        function getComment($comment_srl, $is_admin = false) {
             $oDB = &DB::getInstance();
             $args->comment_srl = $comment_srl;
             $output = $oDB->executeQuery('comment.getComment', $args);
+            if($is_admin || $this->isGranted($comment_srl)) $output->data->is_granted = true;
             return $output->data;
         }
 
@@ -68,7 +69,7 @@
         /** 
          * @brief document_srl에 해당하는 문서의 댓글 목록을 가져옴
          **/
-        function getCommentList($document_srl) {
+        function getCommentList($document_srl, $is_admin = false) {
             $oDB = &DB::getInstance();
 
             $args->document_srl = $document_srl;

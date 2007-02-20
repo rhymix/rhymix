@@ -143,7 +143,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$document) return $this->list();
+            if(!$document) return $this->dispContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
@@ -169,7 +169,7 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $source_comment = $oCommentModel->getComment($parent_srl);
+            $source_comment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
             if(!$source_comment) return $this->dispMessage('msg_invalid_request');
@@ -199,7 +199,7 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $comment = $oCommentModel->getComment($comment_srl);
+            $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
             if(!$comment) return $this->dispMessage('msg_invalid_request');
@@ -228,11 +228,11 @@
             // 삭제하려는 댓글가 있는지 확인
             if($comment_srl) {
                 $oCommentModel = &getModel('comment');
-                $comment = $oCommentModel->getComment($comment_srl);
+                $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$comment) return $this->list();
+            if(!$comment) return $this->dispContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
@@ -364,7 +364,7 @@
          * @brief 게시판의 정보 출력
          **/
         function dispAdminBoardInfo() {
-            if(!Context::get('module_srl')) return $this->list();
+            if(!Context::get('module_srl')) return $this->dispContent();
 
             // 템플릿 파일 지정
             $this->setTemplateFile('info');
@@ -382,7 +382,7 @@
          * @brief 게시판 삭제 화면 출력
          **/
         function dispAdminDeleteBoard() {
-            if(!Context::get('module_srl')) return $this->list();
+            if(!Context::get('module_srl')) return $this->dispContent();
 
             $module_info = Context::get('module_info');
 

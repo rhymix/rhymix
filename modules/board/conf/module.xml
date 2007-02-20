@@ -57,7 +57,7 @@
         <action name="procVerificationPassword" type="controller" />
         <action name="procDeleteFile" type="controller" />
         <action name="procUploadFile" type="controller" />
-        <action name="procDownload" type="controller" />
+        <action name="procDownloadFile" type="controller" />
         <action name="procClearFile" type="controller" />
         <action name="procInsertGrant" type="controller" grant="root"/>
         <action name="procUpdateSkinInfo" type="controller" grant="root"/>

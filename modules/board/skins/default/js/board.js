@@ -30,7 +30,7 @@ function completeDeleteDocument(ret_obj) {
 }
 
 /* 검색 실행 */
-function completeSearch(fo_obj, args) {
+function completeSearch(fo_obj, params) {
   fo_obj.submit();
 }
 
@@ -44,7 +44,6 @@ function completeVote(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
   alert(message);
-
   location.href = location.href;
 }
 
@@ -99,7 +98,7 @@ function completeDeleteTrackback(ret_obj) {
 }
 
 /* 카테고리 이동 */
-function completeChangeCategory(sel_obj, url) {
+function doChangeCategory(sel_obj, url) {
   var category_srl = sel_obj.options[sel_obj.selectedIndex].value;
   if(!category_srl) location.href=url;
   else location.href=url+'&category='+category_srl;

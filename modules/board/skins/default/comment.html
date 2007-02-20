@@ -46,7 +46,7 @@
   <!--@end-->
 
   <!-- 댓글 입력 폼 -->
-  <!--@if($document->lock_comment == 'N')-->
+  <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
   <!--#include("./comment_form.html")-->
   <!--@end-->
 

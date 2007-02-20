@@ -1,10 +1,9 @@
-<filter name="vote" module="board" act="procVote" confirm_msg_code="confirm_vote">
+<filter name="vote" module="board" act="procVoteDocument" confirm_msg_code="confirm_vote">
   <form>
     <node target="document_srl" required="true" />
   </form>
   <parameter>
     <param name="mid" target="mid" />
-    <param name="act" target="act" />
     <param name="document_srl" target="document_srl" />
   </parameter>
   <response callback_func="completeVote">

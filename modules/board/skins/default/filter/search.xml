@@ -1,14 +1,14 @@
-<filter name="search" module="board" act="procSearch">
+<filter name="search" module="board">
   <form>
     <node target="search_target" required="true" />
-    <node target="keyword" minlegnth="2" maxlength="40" required="true" />
+    <node target="search_keyword" minlegnth="2" maxlength="40" required="true" />
   </form>
   <parameter>
     <param name="mid" target="mid" />
     <param name="search_target" target="search_target" />
-    <param name="keyword" target="keyword" />
+    <param name="search_keyword" target="search_keyword" />
   </parameter>
-  <response>
+  <response callback_func="completeSearch">
     <tag name="error" />
     <tag name="message" />
   </response>

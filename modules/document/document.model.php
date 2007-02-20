@@ -116,23 +116,23 @@
         function getDocumentList($obj) {
 
             // 검색 키워드가 있으면 공백을 % 로 변경하여 키워드 or 연산이 되도록 수정
-            if($obj->keyword) $obj->keyword = str_replace(' ','%',$obj->keyword);
+            if($obj->search_keyword) $obj->search_keyword = str_replace(' ','%',$obj->search_keyword);
 
 
-            if($obj->search_target && $obj->keyword) {
+            if($obj->search_target && $obj->search_keyword) {
                 switch($obj->search_target) {
                     case 'title' :
-                            $search_obj->s_title = $obj->keyword;
+                            $search_obj->s_title = $obj->search_keyword;
                         break;
                     case 'content' :
-                            $search_obj->s_content = $obj->keyword;
+                            $search_obj->s_content = $obj->search_keyword;
                         break;
                     case 'title_content' :
-                            $search_obj->s_title = $obj->keyword;
-                            $search_obj->s_content = $obj->keyword;
+                            $search_obj->s_title = $obj->search_keyword;
+                            $search_obj->s_content = $obj->search_keyword;
                         break;
                     case 'user_name' :
-                            $search_obj->s_user_name = $obj->keyword;
+                            $search_obj->s_user_name = $obj->search_keyword;
                         break;
                 }
             }
@@ -142,12 +142,12 @@
 
             // 변수 설정
             $args->module_srl = $obj->module_srl;
-            $args->s_title = $obj->search_target=='title'?$obj->keyword:'';
-            $args->s_content = $obj->search_target=='content'?$obj->keyword:'';
-            $args->s_user_name = $obj->search_target=='user_name'?$obj->keyword:'';
-            $args->s_member_srl = $obj->search_target=='member'?$obj->keyword:'';
-            $args->s_ipaddress = $obj->search_target=='ipaddress'?$obj->keyword:'';
-            $args->s_regdate = $obj->search_target=='regdate'?$obj->keyword:'';
+            $args->s_title = $obj->search_target=='title'?$obj->search_keyword:'';
+            $args->s_content = $obj->search_target=='content'?$obj->search_keyword:'';
+            $args->s_user_name = $obj->search_target=='user_name'?$obj->search_keyword:'';
+            $args->s_member_srl = $obj->search_target=='member'?$obj->search_keyword:'';
+            $args->s_ipaddress = $obj->search_target=='ipaddress'?$obj->search_keyword:'';
+            $args->s_regdate = $obj->search_target=='regdate'?$obj->search_keyword:'';
             $args->category_srl = $obj->category_srl?$obj->category_srl:'';
 
             $args->sort_index = $obj->sort_index;
@@ -266,7 +266,7 @@
          **/
         function transContent($content) {
             // 멀티미디어 코드의 변환
-            $content = preg_replace_callback('!<img([^\>]*)editor_multimedia([^\>]*?)>!is', array('Document','_transMultimedia'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_multimedia([^\>]*?)>!is', array($this,'_transMultimedia'), $content);
 
             // <br> 코드 변환
             $content = str_replace(array("<BR>","<br>","<Br>"),"<br />", $content);
