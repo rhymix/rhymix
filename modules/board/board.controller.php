@@ -44,32 +44,25 @@
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
-            if($obj->is_notice!='Y') $obj->is_notice = 'N';
-            if($obj->is_secret!='Y') $obj->is_secret = 'N';
-            if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-            if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
-            if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+            if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 
-            // file의 Model객체 생성
-            $oFileModel = getModel('file');
+            // document module의 model 객체 생성
+            $oDocumentModel = getModel('document');
 
-            // 첨부 파일의 갯수를 구함
-            $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
-
-            // document module controller 객체 생성
+            // document module의 controller 객체 생성
             $oDocumentController = getController('document');
 
             // 이미 존재하는 글인지 체크
-            $document = $oDocumentController->getDocument($obj->document_srl);
+            $document = $oDocumentModel->getDocument($obj->document_srl);
 
             // 이미 존재하는 경우 수정
             if($document->document_srl == $obj->document_srl) {
-                $output = $oDocument->updateDocument($document, $obj);
+                $output = $oDocumentController->updateDocument($document, $obj);
                 $msg_code = 'success_updated';
 
             // 그렇지 않으면 신규 등록
             } else {
-                $output = $oDocument->insertDocument($obj);
+                $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
             }
@@ -97,17 +90,10 @@
             if(!$document_srl) return $this->doError('msg_invalid_document');
 
             // document module model 객체 생성
-            $oDocumentModel = getModel('document');
-
-            // 문서가 있는지 확인
-            $document = $oDocumentModel->getDocument($document_srl);
-            if($document->document_srl!=$document_srl) return $this->doError('msg_invalid_document');
-
-            // document module controller 객체 생성
             $oDocumentController = getController('document');
 
-            // 글 삭제
-            $output = $oDocumentController->deleteDocument($document);
+            // 삭제 시도
+            $output = $oDocumentController->deleteDocument($document_srl);
             if(!$output->toBool()) return $output;
 
             $this->add('mid', Context::get('mid'));
@@ -134,11 +120,11 @@
             $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','user_name','member_srl','email_address','homepage');
             $obj->module_srl = $this->module_srl;
 
-            // comment 모듈의 controller 객체 생성
-            $oCommentController = getController('comment');
-
             // comment 모듈의 model 객체 생성
             $oCommentModel = getModel('comment');
+
+            // comment 모듈의 controller 객체 생성
+            $oCommentController = getController('comment');
 
             // comment_srl이 없을 경우 신규 입력
             if(!$obj->comment_srl) {
@@ -216,6 +202,7 @@
             // trackback module의 controller 객체 생성
             $oTrackbackController = getController('trackback');
             $output = $oTrackbackController->deleteTrackback($trackback_srl);
+            if(!$output->toBool()) return $output;
 
             $this->add('mid', Context::get('mid'));
             $this->add('page', Context::get('page'));
@@ -308,38 +295,7 @@
 
             // document module 객체 생성후 해당 파일의 정보를 체크
             $oFileModel = getModel('file');
-            $file_obj = $oFileModel->getFile($file_srl);
-            if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();
-
-            // 이상이 없으면 download_count 증가
-            $args->file_srl = $file_srl;
-            $oDB = &DB::getInstance();
-            $oDB->executeQuery('document.updateFileDownloadCount', $args);
-
-            // 파일 출력
-            $filename = $file_obj->source_filename;
-
-            if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
-                $filename = urlencode($filename);
-                $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
-            }
-
-            $uploaded_filename = $file_obj->uploaded_filename;
-            if(!file_exists($uploaded_filename)) exit();
-
-            $fp = fopen($uploaded_filename, 'rb');
-            if(!$fp) exit();
-
-            header("Cache-Control: ");
-            header("Pragma: ");
-            header("Content-Type: application/octet-stream");
-
-            header("Content-Length: " .(string)($file_obj->file_size));
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
-            header("Content-Transfer-Encoding: binary\n");
-
-            fpassthru($fp);
-            exit();
+            $oFileModel->procDownload($file_srl, $sid);
         }
 
         /**

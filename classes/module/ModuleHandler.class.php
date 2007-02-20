@@ -60,7 +60,7 @@
             $xml_info = $oModuleModel->getModuleXmlInfo($module);
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
-            if(!$act || !$xml_info->{$act}) $act = $xml_info->default_action;
+            if(!$act || !$xml_info->action->{$act}) $act = $xml_info->default_action;
 
             // type, grant 값 구함
             $type = $xml_info->action->{$act}->type;

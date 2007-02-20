@@ -49,6 +49,7 @@
             $this->module = $module_info->module;
             $this->module_srl = $module_info->module_srl;
             $this->module_info = $module_info;
+            $this->xml_info = $xml_info;
 
             // 웹서비스에서 꼭 필요한 인증 정보와 권한 설정 체크
             $is_logged = Context::get('is_logged');

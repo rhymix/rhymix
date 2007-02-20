@@ -61,5 +61,45 @@
             return $file_list;
         }
 
+        /**
+         * @brief 파일 출력
+         * 이미지나 멀티미디어등이 아닌 download를 받을 때 사용하는 method
+         **/
+        function procDownload($file_srl, $sid) {
+            // 파일의 정보를 DB에서 받아옴
+            $file_obj = $this->getFile($file_srl);
+            if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();
+
+            // 이상이 없으면 download_count 증가
+            $args->file_srl = $file_srl;
+            $oDB = &DB::getInstance();
+            $oDB->executeQuery('document.updateFileDownloadCount', $args);
+
+            // 파일 출력
+            $filename = $file_obj->source_filename;
+
+            if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+                $filename = urlencode($filename);
+                $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+            }
+
+            $uploaded_filename = $file_obj->uploaded_filename;
+            if(!file_exists($uploaded_filename)) exit();
+
+            $fp = fopen($uploaded_filename, 'rb');
+            if(!$fp) exit();
+
+            header("Cache-Control: ");
+            header("Pragma: ");
+            header("Content-Type: application/octet-stream");
+
+            header("Content-Length: " .(string)($file_obj->file_size));
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header("Content-Transfer-Encoding: binary\n");
+
+            fpassthru($fp);
+            exit();
+        }
+
     }
 ?>

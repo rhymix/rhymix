@@ -25,7 +25,20 @@
          * @brief 문서 입력
          **/
         function insertDocument($obj) {
+            // DB 객체 생성
             $oDB = &DB::getInstance();
+
+            // 기본 변수들 정리
+            if($obj->is_secret!='Y') $obj->is_secret = 'N';
+            if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
+            if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+            if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+
+            // file의 Model객체 생성
+            $oFileModel = getModel('file');
+
+            // 첨부 파일의 갯수를 구함
+            $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
 
             // 카테고리가 있나 검사하여 없는 카테고리면 0으로 세팅
             if($obj->category_srl) {
@@ -64,6 +77,18 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
+            // 기본 변수들 정리
+            if($obj->is_secret!='Y') $obj->is_secret = 'N';
+            if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
+            if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+            if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+
+            // file의 Model객체 생성
+            $oFileModel = getModel('file');
+
+            // 첨부 파일의 갯수를 구함
+            $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
+
             // 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
             if($source_obj->category_srl!=$obj->category_srl) {
                 $category_list = $this->getCategoryList($obj->module_srl);
@@ -112,7 +137,7 @@
 
             // 기존 문서가 있는지 확인
             $document = $oDocumentModel->getDocument($document_srl);
-            if($document->document_srl != $document_srl) return false;
+            if($document->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 
             // 권한이 있는지 확인
             if(!$document->is_granted) return new Object(-1, 'msg_not_permitted');
