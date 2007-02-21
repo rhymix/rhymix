@@ -8,9 +8,9 @@
   <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
 </div>
 <div id="admin_module_list">
-  <!--@foreach($module_list as $module_name => $module_title)-->
-    <div <!--@if($module_name==$sid)-->style="font-weight:bold;"<!--@end-->>
-      <a href="{getUrl('sid',$module_name,'act','','module_srl','','page','')}">{$module_title}</a>
+  <!--@foreach($module_list as $module_item)-->
+    <div <!--@if($module_item->module==$sid)-->style="font-weight:bold;"<!--@end-->>
+      <a href="{getUrl('sid',$module_item->module,'act','','module_srl','','page','')}">{$module_item->title}</a>
     </div>
   <!--@end-->
 </div>
