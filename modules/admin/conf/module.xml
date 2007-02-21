@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispAdminIndex" management_action="">
+<module standalone="true" default_action="dispAdminIndex" management_action="">
     <actions>
         <action name="dispAdminIndex" type="view" grant="root" />
         <action name="dispLogin" type="view" grant="guest" />

@@ -14,6 +14,9 @@
             // template 경로를 지정
             $this->setTemplatePath($this->module_path."tpl");
 
+            // 설치가 되어 있으면 오류
+            if(Context::isInstalled()) return $this->dispMessage('msg_already_installed');
+
             // 컨트롤러 생성
             $oController = &getController('install');
 

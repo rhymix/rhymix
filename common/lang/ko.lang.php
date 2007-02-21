@@ -109,6 +109,7 @@
   $lang->msg_call_server = '서버에 요청중입니다. 잠시만 기다려주세요.';
   $lang->msg_db_not_setted = 'DB설정이 되어 있지 않습니다';
   $lang->msg_mid_not_exists = '설정이 되어 있지 않습니다. 관리자 페이지에서 기본 설정을 해주시기 바랍니다.';
+  $lang->msg_invalid_request_module = '잘못된 모듈 요청입니다';
   $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다';
   $lang->msg_not_permitted = '권한이 없습니다';
   $lang->msg_input_password = '비밀번호를 입력하여 주세요';

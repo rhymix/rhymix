@@ -26,6 +26,7 @@
             $xml_obj = XmlParser::loadXmlFile($xml_file);
             if(!count($xml_obj->module)) return;
 
+            $output->standalone = $xml_obj->module->attrs->standalone=='true'?true:false; ///< 모듈 자체적으로 실행이 가능한지에 대한 값 (기본=false)
             $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
             $output->management_action = $xml_obj->module->attrs->management_action; ///< 관리자용으로 사용될 기본 action
 

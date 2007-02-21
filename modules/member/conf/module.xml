@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" default_action="viewIntroduce" management_action="" >
+<module standalone="false" version="0.1" default_action="viewIntroduce" management_action="" >
     <actions>
         <action name="viewIntroduce" type="view" />
         <action name="viewDBInfoForm" type="view" />

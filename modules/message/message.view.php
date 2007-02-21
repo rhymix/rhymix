@@ -11,7 +11,7 @@
          * @brief 초기화
          **/
         function init() {
-            $this->setTemplatePath(
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**

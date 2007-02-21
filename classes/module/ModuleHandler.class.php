@@ -68,6 +68,13 @@
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
             $xml_info = $oModuleModel->getModuleXmlInfo($module);
 
+            // module_info가 없고(mid가 없다는 의미) standalone이 false이면 오류 표시
+            if(!$module_info&&!$xml_info->standalone) {
+                $module = 'message';
+                Context::set('message', Context::getLang('msg_invalid_request_module'));
+                $xml_info = $oModuleModel->getModuleXmlInfo($module);
+            }
+
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$act || !$xml_info->action->{$act}) $act = $xml_info->default_action;
 
@@ -83,14 +90,15 @@
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($module, $type);
 
+            // 모듈에 act값을 세팅
+            $oModule->setAct($act);
 
             // 모듈 정보 세팅
             $oModule->setModuleInfo($module_info, $xml_info);
 
             if(!is_object($oModule)) return;
 
-            $act = Context::get('act');
-            $oModule->proc($act);
+            $oModule->proc();
 
             $this->oModule = $oModule;
         }
@@ -160,6 +168,7 @@
 
                 // 생성된 객체에 자신이 호출된 위치를 세팅해줌
                 $oModule->setModulePath($class_path);
+                $oModule->init();
 
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type] = $oModule;

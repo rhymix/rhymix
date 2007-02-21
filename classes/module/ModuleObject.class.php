@@ -3,9 +3,6 @@
     * @class ModuleObject
     * @author zero (zero@nzeo.com)
     * @brief module의 abstract class
-    *
-    * @todo 모듈에서 mid가 꼭 필요한지를 체크하는 단계가 필요 (admin은 mid불필요, board는 필요.., 미설정시 필요함으로.. 기본)
-    *    
     **/
 
     class ModuleObject extends Object {
@@ -25,6 +22,8 @@
         var $layout_path = './common/tpl/'; ///< 레이아웃 경로
         var $layout_file = 'default_layout.html'; ///< 레이아웃 파일
 
+        var $stop_proc = false; ///< action 수행중 dispMessage를 호출하면 ModuleObject::proc()를 수행하지 않음
+
         /**
          * @brief 현재 모듈의 path를 지정
          **/
@@ -40,6 +39,13 @@
          **/
         function setRedirectUrl($url='./') {
             $this->add('redirect_url', $url);
+        }
+
+        /**
+         * @brief act값 지정
+         **/
+        function setAct($act) {
+            $this->act = $act;
         }
 
         /**
@@ -111,6 +117,26 @@
         }
 
         /**
+         * @brief 메세지 출력
+         **/
+        function dispMessage($msg_code) {
+            // proc 수행을 중지 시키기 위한 플래그 세팅
+            $this->stop_proc = true;
+
+            // RequestMethod가 XMLRPC일 경우를 대비
+            if(Context::getRequestMethod()=='XMLRPC') {
+                $this->setError(-1);
+                $this->setMessage($msg_code);
+            } else {
+                Context::set('message', Context::getLang($msg_code));
+                $oMessageView = &getView('message');
+                $oMessageView->dispMessage();
+                $this->setTemplatePath($oMessageView->getTemplatePath());
+                $this->setTemplateFile($oMessageView->getTemplateFile());
+            }
+        }
+
+        /**
          * @brief template 파일 지정
          **/
         function setTemplateFile($filename) {
@@ -129,8 +155,8 @@
          * @brief template 경로 지정
          **/
         function setTemplatePath($path) {
-            if(substr($path,-1)!='/') $path .= '/';
             if(substr($path,0,2)!='./') $path = './'.$path;
+            if(substr($path,-1)!='/') $path .= '/';
             $this->template_path = $path;
         }
 
@@ -178,13 +204,15 @@
          *
          * $act값에 의해서 $action_list에 선언된 것들을 실행한다
          **/
-        function proc($act) {
+        function proc() {
+            // stop_proc==true이면 그냥 패스
+            if($this->stop_proc==true) return;
 
             // 기본 act조차 없으면 return
-            if(!method_exists($this, $act)) return false;
+            if(!method_exists($this, $this->act)) return;
 
-            // act값으로 method 실행
-            $output = call_user_method($act, $this);
+            // this->act값으로 method 실행
+            $output = call_user_method($this->act, $this);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
