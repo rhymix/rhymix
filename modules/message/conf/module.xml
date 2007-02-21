@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module standalone="true" default_action="dispMessage">
+    <actions>
+        <action name="dispMessage" type="view" />
+    </actions>
+</module>
