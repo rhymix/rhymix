@@ -18,16 +18,11 @@
             $oMemberModel = &getModel('member');
             $logged_info = $oMemberModel->getLoggedInfo();
 
-
             // 로그인 하지 않았다면 로그인 폼 출력
-            if(!$oMemberModel->isLogged()) return Context::set('act','dispLogin');
+            if(!$oMemberModel->isLogged()) return $this->act = 'dispLogin';
 
             // 로그인되었는데 관리자(member->is_admin!=1)가 아니면 오류 표시
-            if($logged_info->is_admin != 'Y') {
-                Context::set('msg_code', 'msg_is_not_administrator');
-                Context::set('act','dispError');
-                return;
-            }
+            if($logged_info->is_admin != 'Y') return $this->dispMessage('msg_is_not_administrator');
 
             // 관리자 모듈 목록을 세팅
             $oModuleModel = &getModel('module');
@@ -61,14 +56,5 @@
             if(!Context::get('is_logged')) return $this->dispAdminIndex();
             $this->setTemplateFile('logout');
         }
-
-        /**
-         * @brief 에러 출력
-         **/
-        function dispError() {
-            Context::set('error_msg', Context::getLang( Context::get('msg_code') ) );
-            $this->setTemplateFile('error');
-        }
-
     }
 ?>

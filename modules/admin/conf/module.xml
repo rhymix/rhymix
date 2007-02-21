@@ -4,6 +4,5 @@
         <action name="dispAdminIndex" type="view" grant="root" />
         <action name="dispLogin" type="view" grant="guest" />
         <action name="dispLogout" type="view" grant="root" />
-        <action name="dispError" type="view" grant="guest" />
     </actions>
 </module>
