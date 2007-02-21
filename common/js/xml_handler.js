@@ -15,6 +15,8 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
   oXml.addParam('module', module);
   oXml.addParam('act', act);
 
+  response_tags[response_tags.length] = 'redirect_url';
+
   var waiting_obj = document.getElementById('waitingforserverresponse');
   waiting_obj.style.visibility = 'visible';
   oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg);

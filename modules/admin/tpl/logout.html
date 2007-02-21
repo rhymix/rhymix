@@ -1,8 +1,7 @@
-<!--%import("filter/filter.logout.xml")-->
+<!--%import("filter/logout.xml")-->
 <!--%import("js/admin.js")-->
 
-<form action="./admin.php" method="get" onsubmit="return procFormFilter(this, logout, procLogout)">
-  <input type="hidden" name="act" value="procLogout" />
+<form action="./admin.php" method="get" onsubmit="return procFilter(this, logout)">
   <table>
   <tr>
     <th>{$lang->cmd_logout}</th>

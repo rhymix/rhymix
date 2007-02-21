@@ -1,0 +1,7 @@
+<filter name="logout" module="admin" act="procLogout">
+  <form />
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

@@ -1,9 +1,8 @@
-<!--%import("filter/filter.login.xml")-->
+<!--%import("filter/login.xml")-->
 <!--%import("js/admin.js")-->
 
-<form action="./" method="get" onsubmit="return procFormFilter(this, login, procReload)">
+<form action="./" method="get" onsubmit="return procFilter(this, login)">
   <input type="hidden" name="sid" value="{$sid}" />
-  <input type="hidden" name="act" value="procLogin" />
   <table>
   <col width="120" />
   <col width="*" />
@@ -26,5 +25,5 @@
 </form>
 
 <script type="text/javascript">
-  xAddEventListener(window, 'load', procAdminLoginFocus);
+  xAddEventListener(window, 'load', doAdminLoginFocus);
 </script>
