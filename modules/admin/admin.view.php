@@ -38,6 +38,20 @@
          * @brief 관리자 메인 페이지 출력
          **/
         function dispAdminIndex() {
+            // 선택된 모듈이 있는지 확인
+            $sid = Context::get('sid');
+
+            // 있다면 해당 모듈의 xml_info를 구함
+            if($sid) {
+                $oModuleModel = &getModel('module');
+                $xml_info = $oModuleModel->getModuleXmlInfo($sid);
+
+                // management_action이 있는지 확인
+                $management_action = $xml_info->management_action;
+
+                Context::set('tetete', $management_action);
+            }
+            
             $this->setTemplateFile('index');
         }
 
