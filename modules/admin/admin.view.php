@@ -40,19 +40,21 @@
         function dispAdminIndex() {
             // 선택된 모듈이 있는지 확인
             $sid = Context::get('sid');
+            $act = Context::get('act');
 
             // 있다면 해당 모듈의 xml_info를 구함
             if($sid) {
-                $oModuleModel = &getModel('module');
-                $xml_info = $oModuleModel->getModuleXmlInfo($sid);
+                $oModuleHandler = new ModuleHandler($sid, $act);
+                $oModule = &$oModuleHandler->getModule();
 
-                // management_action이 있는지 확인
-                $management_action = $xml_info->management_action;
+                // 내용을 요청받은 모듈의 것으로 변경
+                $this->setTemplatePath($oModule->getTemplatePath());
+                $this->setTemplateFile($oModule->getTemplateFile());
 
-                Context::set('tetete', $management_action);
+            // 없으면 관리자 메인 페이지 출력
+            } else {
+                $this->setTemplateFile('index');
             }
-            
-            $this->setTemplateFile('index');
         }
 
         /**

@@ -27,6 +27,9 @@
             // 스킨 디렉토리 세팅
             $skin_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
             $this->setTemplatePath($skin_path);
+
+            // 몇가지 템플릿에서 사용할 변수를 Context::set()
+            if($this->module_srl) Context::set('module_srl',$this->module_srl);
         }
 
         /**
@@ -370,6 +373,8 @@
          **/
         function dispAdminBoardInfo() {
             if(!Context::get('module_srl')) return $this->dispContent();
+
+            $module_info = Context::get('module_info');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('info');

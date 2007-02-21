@@ -16,91 +16,116 @@
 
         var $oModule = NULL; ///< 모듈 객체
 
+        var $module = NULL; ///< 모듈
+        var $act = NULL; ///< action
+        var $mid = NULL; ///< 모듈의 객체명
+        var $document_srl = NULL; ///< 문서 번호
+
+        var $module_info = NULL; ///< 모듈의 정보
+
         /**
          * @brief constructor
          *
-         * Request Argument에서 $mid, $act값으로 객체를 찾는다.\n
-         * 단 유연한 처리를 위해 $document_srl 을 이용하기도 한다.
+         * ModuleHandler에서 사용할 변수를 미리 세팅
          **/
-        function ModuleHandler() {
+        function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '') {
             // Request Argument중 모듈을 찾을 수 있는 변수를 구함
-            $module = Context::get('module');
-            $act = Context::get('act');
-            $mid = Context::get('mid');
-            $document_srl = Context::get('document_srl');
+            if(!$module) $this->module = Context::get('module');
+            else $this->module = $module;
 
-            // ModuleModel 객체 생성
-            $oModuleModel = getModel('module');
+            if(!$act) $this->act = Context::get('act');
+            else $this->act = $act;
+
+            if(!$mid) $this->mid = Context::get('mid');
+            else $this->mid = $mid;
+
+            if(!$document_srl) $this->document_srl = Context::get('document_srl');
+            else $this->document_srl = $document_srl;
 
             // 설치가 안되어 있다면 install module을 지정
-            if(!Context::isInstalled()) {
-                $module = 'install';
-                $mid = NULL;
+            if(!Context::isInstalled()) return $this->module = 'install';
+        }
 
-            // 설치가 되어 있을시에 요청받은 모듈을 확인 (없으면 기본 모듈, 기본 모듈도 없으면 에러 출력)
-            } else {
+        /**
+         * @brief 
+         * module, mid, document_srl을 이용하여 모듈을 찾고 act를 실행하기 위한 준비를 함
+         **/
+        function init() {
+            // ModuleModel 객체 생성
+            $oModuleModel = &getModel('module');
 
-                // document_srl만 있다면 mid를 구해옴
-                if(!$mid && $document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+            // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
+            if($this->document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 
-                // document_srl에 의한 모듈 찾기가 안되었거나 document_srl이 없을시 처리
-                if(!$module_info) {
-                    // mid 값이 있으면 모듈을 찾기
-                    if($mid) $module_info = $oModuleModel->getModuleInfoByMid($mid);
+            // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
+            if(!$module_info && $this->mid) $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
 
-                    // mid값이 없고 module지정이 없을시
-                    elseif(!$module) $module_info = $oModuleModel->getModuleInfoByMid($mid);
-                }
+            // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
+            if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();
 
-                // 모듈 정보에서 module 이름을 구해움
-                if($module_info) {
-                    $module = $module_info->module;
-                    $mid = $module_info->mid;
-                }
+            // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함
+            // 모듈 정보에서 module 이름을 구해움
+            if($module_info) {
+                $this->module = $module_info->module;
+                $this->mid = $module_info->mid;
+                $this->module_info = $module_info;
             }
 
-            // 만약 모듈이 없다면 잘못된 모듈 호출에 대한 오류를 message 모듈을 통해 호출
-            if(!$module) {
-                $module = 'message';
-                Context::set('message', Context::getLang('msg_mid_not_exists'));
+            // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
+            if(!$this->module) {
+                $this->module = 'message';
+                Context::set('system_message', Context::getLang('msg_mid_not_exists'));
             }
+
+            // mid값이 있을 경우 mid값을 세팅
+            if($this->mid) Context::set('mid', $this->mid, true);
+            if($this->module) Context::set('module', $this->module, true);
+        }
+
+        /**
+         * @brief 모듈과 관련된 정보를 이용하여 객체를 구하고 act 실행까지 진행시킴
+         **/
+        function getModule() {
+            // $module이 세팅되어 있지 않다면 return NULL, 이럴 경우가 없어야 함
+            if(!$this->module) return;
+
+            // ModuleModel 객체 생성
+            $oModuleModel = &getModel('module');
 
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
-            $xml_info = $oModuleModel->getModuleXmlInfo($module);
+            $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
 
             // module_info가 없고(mid가 없다는 의미) standalone이 false이면 오류 표시
-            if(!$module_info&&!$xml_info->standalone) {
-                $module = 'message';
-                Context::set('message', Context::getLang('msg_invalid_request_module'));
+            // @todo standalone에 대해 조금 더 고민 필요
+            /*
+            if(!$this->module_info && !$xml_info->standalone) {
+                $this->module = 'message';
+                Context::set('system_message', Context::getLang('msg_invalid_request_module'));
                 $xml_info = $oModuleModel->getModuleXmlInfo($module);
             }
+            */
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
-            if(!$act || !$xml_info->action->{$act}) $act = $xml_info->default_action;
+            if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_action;
 
             // type, grant 값 구함
-            $type = $xml_info->action->{$act}->type;
-            $grant = $xml_info->action->{$act}->grant;
-
-            // module, act, mid값을 Context에 세팅
-            Context::set('module', $module);
-            Context::set('mid', $mid, true);
-            Context::set('act', $act, true);
+            $type = $xml_info->action->{$this->act}->type;
+            $grant = $xml_info->action->{$this->act}->grant;
 
             // 모듈 객체 생성
-            $oModule = &$this->getModuleInstance($module, $type);
+            $oModule = &$this->getModuleInstance($this->module, $type);
 
             // 모듈에 act값을 세팅
-            $oModule->setAct($act);
+            $oModule->setAct($this->act);
 
             // 모듈 정보 세팅
-            $oModule->setModuleInfo($module_info, $xml_info);
+            $oModule->setModuleInfo($this->module_info, $xml_info);
 
             if(!is_object($oModule)) return;
 
             $oModule->proc();
 
-            $this->oModule = $oModule;
+            return $oModule;
         }
 
         /**
@@ -167,6 +192,7 @@
                 Context::loadLang($class_path.'lang');
 
                 // 생성된 객체에 자신이 호출된 위치를 세팅해줌
+                $oModule->setModule($module);
                 $oModule->setModulePath($class_path);
                 $oModule->init();
 
@@ -176,13 +202,6 @@
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type];
-        }
-
-        /**
-         * @brief constructor에서 생성한 oModule를 return
-         **/
-        function getModule() {
-            return $this->oModule;
         }
     }
 ?>

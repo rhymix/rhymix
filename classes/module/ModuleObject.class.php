@@ -25,6 +25,13 @@
         var $stop_proc = false; ///< action 수행중 dispMessage를 호출하면 ModuleObject::proc()를 수행하지 않음
 
         /**
+         * @brief 현재 모듈의 이름을 지정
+         **/
+        function setModule($module) {
+            $this->module = $module;
+        }
+
+        /**
          * @brief 현재 모듈의 path를 지정
          **/
         function setModulePath($path) {
@@ -54,7 +61,6 @@
         function setModuleInfo($module_info, $xml_info) {
             // 기본 변수 설정
             $this->mid = $module_info->mid;
-            $this->module = $module_info->module;
             $this->module_srl = $module_info->module_srl;
             $this->module_info = $module_info;
             $this->xml_info = $xml_info;
@@ -128,7 +134,7 @@
                 $this->setError(-1);
                 $this->setMessage($msg_code);
             } else {
-                Context::set('message', Context::getLang($msg_code));
+                Context::set('system_message', Context::getLang($msg_code));
                 $oMessageView = &getView('message');
                 $oMessageView->dispMessage();
                 $this->setTemplatePath($oMessageView->getTemplatePath());

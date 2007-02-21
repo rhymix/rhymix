@@ -41,6 +41,7 @@
      * 이 모듈 객체는 DisplayHandler에 의해 content 출력시 사용된다.
      **/
     $oModuleHandler = new ModuleHandler();
+    $oModuleHandler->init();
     $oModule = &$oModuleHandler->getModule();
 
     /**
