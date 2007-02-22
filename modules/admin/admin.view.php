@@ -22,7 +22,7 @@
             if(!$oMemberModel->isLogged()) return $this->act = 'dispLogin';
 
             // 로그인되었는데 관리자(member->is_admin!=1)가 아니면 오류 표시
-            if($logged_info->is_admin != 'Y') return $this->dispMessage('msg_is_not_administrator');
+            if($logged_info->is_admin != 'Y') return $this->stop('msg_is_not_administrator');
 
             // 관리자 모듈 목록을 세팅
             $oModuleModel = &getModel('module');
@@ -48,8 +48,10 @@
                 $oModule = &$oModuleHandler->procModule();
 
                 // 내용을 요청받은 모듈의 것으로 변경
-                $this->setTemplatePath($oModule->getTemplatePath());
-                $this->setTemplateFile($oModule->getTemplateFile());
+                if($oModule) {
+                    $this->setTemplatePath($oModule->getTemplatePath());
+                    $this->setTemplateFile($oModule->getTemplateFile());
+                }
 
             // 없으면 관리자 메인 페이지 출력
             } else {

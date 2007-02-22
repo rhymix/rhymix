@@ -9,9 +9,11 @@
 </div>
 <div id="admin_module_list">
   <!--@foreach($module_list as $module_item)-->
+    <!--@if($module_item->module != $module)-->
     <div <!--@if($module_item->module==$sid)-->style="font-weight:bold;"<!--@end-->>
       <a href="{getUrl('sid',$module_item->module,'act','','module_srl','','page','')}">{$module_item->title}</a>
     </div>
+    <!--@end-->
   <!--@end-->
 </div>
 <div id="admin_module_content">

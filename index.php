@@ -41,6 +41,6 @@
      **/
     $oModuleHandler = new ModuleHandler();
     $oModuleHandler->init();
-    $oModuleHandler->procModule();
-    $oModuleHandler->displayContent();
+    $oModule = &$oModuleHandler->procModule();
+    $oModuleHandler->displayContent($oModule);
 ?>
