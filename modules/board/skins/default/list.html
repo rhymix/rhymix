@@ -24,7 +24,7 @@
   {$lang->document_count} : {number_format($total_count)}, 
   {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
   <!--@if($grant->view)-->
-  <a href="./rss.php?mid={$mid}">rss</a>
+  <a href="{getUrl('act','dispRss')}">rss</a>
   <!--@end-->
   <!--@if($is_logged)-->
     <a href="{getUrl('act','dispLogout')}">[{$lang->cmd_logout}]</a>

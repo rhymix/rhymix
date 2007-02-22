@@ -77,7 +77,7 @@
 
             // mid값이 있을 경우 mid값을 세팅
             if($this->mid) Context::set('mid', $this->mid, true);
-            if($this->module) Context::set('module', $this->module, true);
+            //if($this->module) Context::set('module', $this->module, true);
         }
 
         /**
