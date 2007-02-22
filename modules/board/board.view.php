@@ -375,9 +375,6 @@
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispAdminContent();
 
-            // template 경로를 변경
-            $this->setTemplatePath(
-
             // 요청받은 모듈의 정보를 구함
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module standalone="true" default_action="dispAdminIndex" management_action="">
+<module default_action="dispAdminIndex">
     <actions>
-        <action name="dispAdminIndex" type="view" grant="root" />
-        <action name="dispLogin" type="view" grant="guest" />
-        <action name="dispLogout" type="view" grant="root" />
-        <action name="procLogin" type="controller" grant="guest" />
-        <action name="procLogout" type="controller" grant="guest" />
+        <action name="dispAdminIndex" type="view" standalone="true" />
+        <action name="dispLogin" type="view" standalone="true" />
+        <action name="dispLogout" type="view" standalone="true" />
+        <action name="procLogin" type="controller" standalone="true" />
+        <action name="procLogout" type="controller" standalone="true" />
     </actions>
 </module>

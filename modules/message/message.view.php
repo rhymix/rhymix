@@ -11,13 +11,15 @@
          * @brief 초기화
          **/
         function init() {
+            // 템플릿 경로를 지정
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
          * @brief 메세지 출력 
          **/
-        function dispMessage() {
+        function dispContent() {
+            Context::set('system_message', $this->getMessage());
             $this->setTemplateFile('system_message');
         }
     }

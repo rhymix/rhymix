@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module standalone="true" default_action="dispIntroduce">
+<module default_action="dispIntroduce">
     <grants />
     <actions>
-        <action name="dispIntroduce" type="view" grant="guest" />
-        <action name="dispInstallForm" type="view" grant="guest" />
-        <action name="procInstall" type="controller" grant="guest" />
+        <action name="dispIntroduce" type="view" standalone="true" />
+        <action name="dispInstallForm" type="view" standalone="true" />
+        <action name="procInstall" type="controller" standalone="true" />
     </actions>
 </module>

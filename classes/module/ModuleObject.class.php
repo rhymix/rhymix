@@ -23,7 +23,7 @@
         var $layout_path = './common/tpl/'; ///< 레이아웃 경로
         var $layout_file = 'default_layout.html'; ///< 레이아웃 파일
 
-        var $stop_proc = false; ///< action 수행중 dispMessage를 호출하면 ModuleObject::proc()를 수행하지 않음
+        var $stop_proc = false; ///< action 수행중 stop()를 호출하면 ModuleObject::proc()를 수행하지 않음
 
         /**
          * @brief 현재 모듈의 이름을 지정
@@ -126,21 +126,13 @@
         /**
          * @brief 메세지 출력
          **/
-        function dispMessage($msg_code) {
+        function stop($msg_code) {
             // proc 수행을 중지 시키기 위한 플래그 세팅
             $this->stop_proc = true;
 
-            // RequestMethod가 XMLRPC일 경우를 대비
-            if(Context::getRequestMethod()=='XMLRPC') {
-                $this->setError(-1);
-                $this->setMessage($msg_code);
-            } else {
-                Context::set('system_message', Context::getLang($msg_code));
-                $oMessageView = &getView('message');
-                $oMessageView->dispMessage();
-                $this->setTemplatePath($oMessageView->getTemplatePath());
-                $this->setTemplateFile($oMessageView->getTemplateFile());
-            }
+            // 에러 처리
+            $this->setError(-1);
+            $this->setMessage($msg_code);
         }
 
         /**
@@ -213,10 +205,10 @@
          **/
         function proc() {
             // stop_proc==true이면 그냥 패스
-            if($this->stop_proc==true) return;
+            if($this->stop_proc==true) return false;
 
             // 기본 act조차 없으면 return
-            if(!method_exists($this, $this->act)) return;
+            if(!method_exists($this, $this->act)) return false;
 
             // this->act값으로 method 실행
             $output = call_user_method($this->act, $this);
@@ -224,7 +216,10 @@
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
                 $this->setMessage($output->getMessage());
+                return false;
             }
+
+            return true;
         }
     }
 ?>

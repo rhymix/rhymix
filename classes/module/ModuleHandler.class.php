@@ -21,7 +21,7 @@
 
         var $module_info = NULL; ///< 모듈의 정보
 
-        var $check_standalone = false; ///< 요청된 모듈의 standalone을 체크할 것인지에 설정
+        var $error = NULL; ///< 진행 도중 에러 발생시 에러 코드를 정의, message 모듈을 호출시 사용
 
         /**
          * @brief constructor
@@ -52,9 +52,6 @@
          * @brief module, mid, document_srl을 이용하여 모듈을 찾고 act를 실행하기 위한 준비를 함
          **/
         function init() {
-            // 일반적인 요청으로 간주 standalone를 체크하도록 설정
-            $this->check_standalone = true;
-
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
@@ -76,10 +73,7 @@
             }
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
-            if(!$this->module) {
-                $this->module = 'message';
-                Context::set('system_message', Context::getLang('msg_mid_not_exists'));
-            }
+            if(!$this->module) $this->error = 'msg_module_is_not_exists';
 
             // mid값이 있을 경우 mid값을 세팅
             if($this->mid) Context::set('mid', $this->mid, true);
@@ -90,8 +84,8 @@
          * @brief 모듈과 관련된 정보를 이용하여 객체를 구하고 act 실행까지 진행시킴
          **/
         function procModule() {
-            // $module이 세팅되어 있지 않다면 return NULL, 이럴 경우가 없어야 함
-            if(!$this->module) return;
+            // 에러가 있으면 return
+            if($this->error) return;
 
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
@@ -99,33 +93,64 @@
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
             $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
 
-            // module_info가 없고(mid가 없다는 의미) standalone이 false이면 오류 표시
-            if($this->check_standalone && !$this->mid && !$xml_info->standalone) {
-                $this->module = 'message';
-                Context::set('system_message', Context::getLang('msg_invalid_request_module'));
-                $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
-            }
-
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_action;
+
+            // 설정된 mid가 없을 경우 요청된 act의 standalone 여부 체크
+            if(!$this->mid && !$xml_info->action->{$this->act}->standalone) return $this->error = 'msg_module_is_not_standalone';
 
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
             $grant = $xml_info->action->{$this->act}->grant;
 
             // 모듈 객체 생성
-            $oModule = &$this->getModuleInstance($this->module, $type);
-            if(!is_object($oModule)) return;
+            $this->oModule = &$this->getModuleInstance($this->module, $type);
+            if(!is_object($this->oModule)) return $this->error = 'msg_module_is_not_exists';
 
             // 모듈에 act값을 세팅
-            $oModule->setAct($this->act);
+            $this->oModule->setAct($this->act);
 
             // 모듈 정보 세팅
-            $oModule->setModuleInfo($this->module_info, $xml_info);
+            $this->oModule->setModuleInfo($this->module_info, $xml_info);
 
-            $oModule->proc();
+            // 모듈을 수행하고 결과가 false이면 message 모듈 호출 지정
+            if(!$this->oModule->proc()) $this->error = $this->oModule->getMessage();
+        }
 
-            return $oModule;
+        /**
+         * @ 실행된 모듈의 컨텐츠를 출력
+         **/
+        function displayContent() {
+            // 설정된 모듈이 정상이지 않을 경우 message 모듈 객체 생성
+            if(!$this->oModule || !is_object($this->oModule)) {
+                $this->error = 'msg_module_is_not_exists';
+            }
+
+            // 에러가 발생하였을시 처리
+            if($this->error) {
+                // message 모듈 객체를 생성해서 컨텐츠 생성
+                $oModule = &getView('message');
+                $oModule->setError(-1);
+                $oModule->setMessage($this->error);
+                $oModule->dispContent();
+
+                // 정상적으로 호출된 객체가 있을 경우 해당 객체의 template를 변경
+                if($this->oModule) {
+                    $this->oModule->setTemplatePath($oModule->getTemplatePath());
+                    $this->oModule->setTemplateFile($oModule->getTemplateFile());
+
+                // 그렇지 않으면 message 객체를 호출된 객체로 지정
+                } else {
+                    $this->oModule = $oModule;
+                }
+            }
+
+            // 컨텐츠 출력
+            $oDisplayHandler = new DisplayHandler();
+            $oDisplayHandler->printContent($this->oModule);
+
+            // DB 및 기타 자원의 종결 처리
+            Context::close();
         }
 
         /**

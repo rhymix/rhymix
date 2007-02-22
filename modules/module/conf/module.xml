@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module standalone="false" default_action="dispContent" management_action="">
+<module default_action="dispContent">
     <actions>
-        <action name="dispContent" type="view" grant="root" />
+        <action name="dispContent" type="view" standalone="true" />
     </actions>
 </module>

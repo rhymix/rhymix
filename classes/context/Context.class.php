@@ -244,6 +244,7 @@
          * 만약 code에 해당하는 문자열이 없다면 code를 그대로 리턴
          **/
         function getLang($code) {
+            if(!$code) return;
             if($GLOBALS['lang']->{$code}) return $GLOBALS['lang']->{$code};
             return $code;
         }

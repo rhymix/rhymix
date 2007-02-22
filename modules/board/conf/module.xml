@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module standalone="false" default_action="dispContent" management_action="dispAdminContent">
+<module default_action="dispContent">
     <grants>
         <grant name="list" default="guest">
             <title xml:lang="ko">목록</title>
@@ -35,18 +35,9 @@
         <action name="dispCommentDelete" type="view" />
         <action name="dispTrackbackDelete" type="view" />
         <action name="dispLogin" type="view" />
-        <action name="dispLogout" type="view" grant="member" />
+        <action name="dispLogout" type="view" />
         <action name="dispMessage" type="view" />
         <action name="dispRss" type="view" />
-        <action name="dispAdminContent" type="view" grant="root" />
-        <action name="dispAdminBoardInfo" type="view" grant="root" />
-        <action name="dispAdminInsertBoard" type="view" grant="root" />
-        <action name="dispAdminDeleteBoard" type="view" grant="root" />
-        <action name="dispAdminSkinInfo" type="view" grant="root" />
-        <action name="dispAdminCategoryInfo" type="view" grant="root" />
-        <action name="dispAdminGrantInfo" type="view" grant="root" />
-        <action name="procLogin" type="controller" />
-        <action name="procLogout" type="controller" grant="member" />
         <action name="procInsertDocument" type="controller" />
         <action name="procDeleteDocument" type="controller" />
         <action name="procVoteDocument" type="controller" />
@@ -59,11 +50,20 @@
         <action name="procUploadFile" type="controller" />
         <action name="procDownloadFile" type="controller" />
         <action name="procClearFile" type="controller" />
-        <action name="procInsertGrant" type="controller" grant="root"/>
-        <action name="procUpdateSkinInfo" type="controller" grant="root"/>
-        <action name="procInsertBoard" type="controller" grant="root"/>
-        <action name="procDeleteBoard" type="controller" grant="root"/>
-        <action name="procInsertCategory" type="controller" grant="root"/>
-        <action name="procUpdateCategory" type="controller" grant="root"/>
+        <action name="dispAdminContent" type="view" standalone="true" />
+        <action name="dispAdminBoardInfo" type="view" standalone="true" />
+        <action name="dispAdminInsertBoard" type="view" standalone="true" />
+        <action name="dispAdminDeleteBoard" type="view" standalone="true" />
+        <action name="dispAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispAdminCategoryInfo" type="view" standalone="true" />
+        <action name="dispAdminGrantInfo" type="view" standalone="true" />
+        <action name="procLogin" type="controller" standalone="true" />
+        <action name="procLogout" type="controller" standalone="true" />
+        <action name="procInsertGrant" type="controller" standalone="true" />
+        <action name="procUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procInsertBoard" type="controller" standalone="true" />
+        <action name="procDeleteBoard" type="controller" standalone="true" />
+        <action name="procInsertCategory" type="controller" standalone="true" />
+        <action name="procUpdateCategory" type="controller" standalone="true" />
     </actions>
 </module>

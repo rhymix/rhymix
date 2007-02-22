@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module standalone="true" default_action="dispMessage">
+<module default_action="dispMessage">
+    <grants />
     <actions>
-        <action name="dispMessage" type="view" />
+        <action name="dispMessage" type="view" standalone="true" />
     </actions>
 </module>

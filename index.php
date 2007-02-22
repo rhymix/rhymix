@@ -34,28 +34,13 @@
      * @brief ModuleHandler 객체를 생성/ 실행
      *
      * 모듈 핸들러는 Request Argument를 바탕으로 모듈을 찾아서\n
-     * 객체를 생성하고 기본 정보를 setting 해줌\n
+     * 객체를 생성하고 기본 정보를 setting 해준다.\n
      * ModuleHandler는 이 외에도 설치가 되어 있는지에 대한 체크를\n
      * 하여 미설치시 Install 모듈을 실행하도록 한다\n
-     * 그리고 해당 모듈을 실행후 모듈 객체를 return한다
-     * 이 모듈 객체는 DisplayHandler에 의해 content 출력시 사용된다.
+     * 그리고 해당 모듈을 실행후 컨텐츠를 출력한다\n
      **/
     $oModuleHandler = new ModuleHandler();
     $oModuleHandler->init();
-    $oModule = &$oModuleHandler->procModule();
-
-    /**
-     * @brief DisplayHandler 객체를 생성하여 모듈의 처리 결과를 출력
-     *
-     * ModuleHandler에 의해 주어진 모듈 객체는 Object 클래스의 상속을 받으므로\n
-     * RequestMethod의 종류(GET/POST/XML)에 따라 적절한 헤더 정보를 발송하고\n
-     * XML 데이터 혹은 HTML 데이터를 출력한다
-     **/
-    $oDisplayHandler = new DisplayHandler();
-    $oDisplayHandler->printContent($oModule);
-
-    /**
-     * @brief Context::close()를 통해서 DB및 기타 사용된 자원들의 처리
-     **/
-    $oContext->close();
+    $oModuleHandler->procModule();
+    $oModuleHandler->displayContent();
 ?>

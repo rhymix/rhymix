@@ -26,9 +26,7 @@
             $xml_obj = XmlParser::loadXmlFile($xml_file);
             if(!count($xml_obj->module)) return;
 
-            $output->standalone = $xml_obj->module->attrs->standalone=='true'?true:false; ///< 모듈 자체적으로 실행이 가능한지에 대한 값 (기본=false)
             $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
-            $output->management_action = $xml_obj->module->attrs->management_action; ///< 관리자용으로 사용될 기본 action
 
             $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
             $actions = $xml_obj->module->actions->action; ///< action list (필수)
@@ -40,9 +38,8 @@
 
                 foreach($grant_list as $grant) {
                     $name = $grant->attrs->name;
-                    $default = $grant->attrs->default;
+                    $default = $grant->attrs->default?$grant->attrs->default:'guest';
                     $title = $grant->title->body;
-                    if(!$default) $default = 'guest';
 
                     $output->grant->{$name}->title = $title;
                     $output->grant->{$name}->default = $default;
@@ -56,11 +53,14 @@
 
                 foreach($action_list as $action) {
                     $name = $action->attrs->name;
+
                     $type = $action->attrs->type;
-                    $grant = $action->attrs->grant;
-                    if(!$grant) $grant = 'guest';
+                    $grant = $action->attrs->grant?$action->attrs->grant:'guest';
+                    $standalone = $action->attrs->standalone=='true'?true:false;
+
                     $output->action->{$name}->type = $type;
                     $output->action->{$name}->grant = $grant;
+                    $output->action->{$name}->standalone= $standalone;
                 }
             }
 
