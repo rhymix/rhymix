@@ -21,7 +21,7 @@
             $oModuleModel = &getModel('module');
 
             // 등록된 모듈의 목록을 구해옴
-            $installed_module_list = $oModuleModel->getModulesInfo();
+            //$installed_module_list = $oModuleModel->getModulesInfo();
             Context::set('installed_module_list', $installed_module_list);
 
             // 템플릿 파일 지정
