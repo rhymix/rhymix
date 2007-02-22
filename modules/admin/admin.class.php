@@ -11,12 +11,6 @@
          * @brief MVC 에서 공통으로 사용되는 설정등을 모아 놓은것..
          **/
         function init() {
-            // 관리자용 레이아웃으로 변경
-            $this->setLayoutPath($this->getTemplatePath());
-            $this->setLayoutFile('layout.html');
-
-            // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl');
 
             // 메뉴 아이템 지정
             $menu_item->module->title = Context::getLang('item_module');
