@@ -69,51 +69,6 @@
 
 
         /**
-         * @brief 모듈의 종류와 정보를 구함
-         **/
-        function getModuleList() {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
-            // 다운받은 모듈과 설치된 모듈의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/modules');
-            $installed_list = FileHandler::readDir('./modules');
-            $searched_list = array_merge($downloaded_list, $installed_list);
-            if(!count($searched_list)) return;
-
-            for($i=0;$i<count($searched_list);$i++) {
-                // 모듈의 이름
-                $module_name = $searched_list[$i];
-
-                // 모듈의 경로 (files/modules가 우선)
-                $path = ModuleHandler::getModulePath($module_name);
-
-                // schemas내의 테이블 생성 xml파일수를 구함
-                $tmp_files = FileHandler::readDir($path."schemas");
-                $table_count = count($tmp_files);
-
-                // 테이블이 설치되어 있는지 체크
-                $created_table_count = 0;
-                for($j=0;$j<count($tmp_files);$j++) {
-                    list($table_name) = explode(".",$tmp_files[$j]);
-                    if($oDB->isTableExists($table_name)) $created_table_count ++;
-                }
-
-                // 해당 모듈의 정보를 구함
-                $info = $this->loadModuleXml($path);
-                unset($obj);
-
-                $info->module = $module_name;
-                $info->created_table_count = $created_table_count;
-                $info->table_count = $table_count;
-                $info->path = $path;
-
-                $list[] = $info;
-            }
-            return $list;
-        }
-
-        /**
          * @brief document_srl로 모듈의 정보르 구함
          **/
         function getModuleInfoByDocumentSrl($document_srl) {

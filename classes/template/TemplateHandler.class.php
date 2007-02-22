@@ -154,8 +154,8 @@
                             $tmp_str = substr($code,8);
                             $tmp_arr = explode(' ', $tmp_str);
                             $var_name = $tmp_arr[0];
-                            if(substr($var_name,0,1)=='$') $prefix = sprintf('if(is_array($__Context->%s)) ', substr($var_name,1));
-                            else $prefix = sprintf('if(is_array(%s)) ', $var_name);
+                            if(substr($var_name,0,1)=='$') $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name,1));
+                            else $prefix = sprintf('if(count(%s)) ', $var_name);
                         } 
                         $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i','$__Context->\\1', $code).'{';
                     break;

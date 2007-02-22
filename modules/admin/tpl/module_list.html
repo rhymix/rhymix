@@ -1,0 +1,26 @@
+<table border="1" width="100%">
+<tr>
+  <td>{$lang->module_name}</td>
+  <td>{$lang->module_version}</td>
+  <td>{$lang->module_author}</td>
+  <td>{$lang->module_table_count}</td>
+  <td>{$lang->module_installed_path}</td>
+  <td>{$lang->cmd_management}</td>
+</tr>
+<!--@foreach($module_list as $key => $val)-->
+<tr>
+  <td rowspan="2">{$val->title} <br /> ({$val->module})</td>
+  <td>{$val->version}</td>
+  <td><a href="#" onclick="window.open('{$val->homepage}')">{$val->author}</a></td>
+  <td>{$val->created_table_count}/{$val->table_count}</td>
+  <td>{$val->path}</td>
+  <td rowspan="2">{$lang->cmd_management}</td>
+</tr>
+<tr>
+  <td colspan="4">
+    {$val->author->date}
+    {nl2br($val->author->description)}
+  </td>
+</tr>
+<!--@end-->
+</table>

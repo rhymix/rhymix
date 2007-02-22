@@ -11,8 +11,8 @@
          * @brief 초기화
          **/
         function init() {
-            // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl');
+            // admin class의 init
+            parent::init();
 
             // 접속 사용자에 대한 체크
             $oMemberModel = &getModel('member');
@@ -23,47 +23,32 @@
 
             // 로그인되었는데 관리자(member->is_admin!=1)가 아니면 오류 표시
             if($logged_info->is_admin != 'Y') return $this->stop('msg_is_not_administrator');
-
-            // 관리자 모듈 목록을 세팅
-            $oModuleModel = &getModel('module');
-            $module_list = $oModuleModel->getModuleList();
-            Context::set('module_list', $module_list);
-
-            // 관리자용 레이아웃으로 변경
-            $this->setLayoutPath($this->getTemplatePath());
-            $this->setLayoutFile('layout.html');
         }
 
         /**
          * @brief 관리자 메인 페이지 출력
          **/
-        function dispAdminIndex() {
-            // 선택된 모듈이 있는지 확인
-            $sid = Context::get('sid');
-            $act = Context::get('act');
+        function dispIndex() {
+            $this->setTemplateFile('index');
+        }
 
-            // 있다면 해당 모듈의 xml_info를 구함
-            if($sid) {
-                $oModuleHandler = new ModuleHandler($sid, $act);
-                $oModule = &$oModuleHandler->procModule();
+        /**
+         * @brief 모듈의 목록을 보여줌
+         **/
+        function dispModuleList() {
+            // 관리자 모듈 목록을 세팅
+            $oAdminModel = &getModel('admin');
+            $module_list = $oAdminModel->getModuleList();
+            Context::set('module_list', $module_list);
 
-                // 내용을 요청받은 모듈의 것으로 변경
-                if($oModule) {
-                    $this->setTemplatePath($oModule->getTemplatePath());
-                    $this->setTemplateFile($oModule->getTemplateFile());
-                }
-
-            // 없으면 관리자 메인 페이지 출력
-            } else {
-                $this->setTemplateFile('index');
-            }
+            $this->setTemplateFile('module_list');
         }
 
         /**
          * @brief 관리자 로그인 페이지 출력
          **/
         function dispLogin() {
-            if(Context::get('is_logged')) return $this->dispAdminIndex();
+            if(Context::get('is_logged')) return $this->dispIndex();
             $this->setTemplateFile('login_form');
         }
 
@@ -71,7 +56,7 @@
          * @brief 관리자 로그아웃 페이지 출력
          **/
         function dispLogout() {
-            if(!Context::get('is_logged')) return $this->dispAdminIndex();
+            if(!Context::get('is_logged')) return $this->dispIndex();
             $this->setTemplateFile('logout');
         }
     }

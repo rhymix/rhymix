@@ -1,4 +1,5 @@
 #admin_title {
+  font-size:20pt;
   font-weight:bold;
   float:left;
   height:30px;
@@ -9,14 +10,15 @@
   height:30px;
 }
 
-#admin_module_list {
+#admin_main_menu {
   clear:both;
-  float:left;
+  text-align:right;
 }
 
-#admin_module_content {
-  position:relative;
-  margin-left:150px;
-  left:0px;
-  top:30px;
+#admin_main_menu .selected {
+  font-weight:bold;
+}
+
+#admin_content {
+  clear:both;
 }

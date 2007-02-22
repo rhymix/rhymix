@@ -3,20 +3,23 @@
 
 <!--#include("./common/tpl/common_header.html")-->
 
-<div id="admin_title"><a href="./?module=admin">zeroboard5</a></div>
+<div id="admin_title">
+  <a href="./?module=admin">zeroboard5</a>
+</div>
+
 <div id="admin_info">
   <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
 </div>
-<div id="admin_module_list">
-  <!--@foreach($module_list as $module_item)-->
-    <!--@if($module_item->module != $module)-->
-    <div <!--@if($module_item->module==$sid)-->style="font-weight:bold;"<!--@end-->>
-      <a href="{getUrl('sid',$module_item->module,'act','','module_srl','','page','')}">{$module_item->title}</a>
-    </div>
-    <!--@end-->
+
+<div id="admin_main_menu">
+  <!--@foreach($menu_item as $key => $val)-->
+  <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
+    <a href="#" onclick="location.href='{getUrl('act',$val->act)}'">{$val->title}</a>
+  </span>
   <!--@end-->
 </div>
-<div id="admin_module_content">
+
+<div id="admin_content">
   {$content}
 </div>
 
