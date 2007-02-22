@@ -42,7 +42,7 @@
      **/
     $oModuleHandler = new ModuleHandler();
     $oModuleHandler->init();
-    $oModule = &$oModuleHandler->getModule();
+    $oModule = &$oModuleHandler->procModule();
 
     /**
      * @brief DisplayHandler 객체를 생성하여 모듈의 처리 결과를 출력

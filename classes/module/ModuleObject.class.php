@@ -10,7 +10,8 @@
         var $mid = NULL; ///< module로 생성한 instance(관리상)의 값 
         var $module = NULL; ///< mid로 찾아서 생성한 모듈 class 이름
         var $module_srl = NULL; ///< 모듈 객체의 고유값인 module_srl 
-        var $module_info = NULL; ///< 모듈의 정보 
+        var $module_info = NULL; ///< 모듈의 설정 정보 
+        var $xml_info = NULL; ///< 모듈 자체 정보
 
         var $module_path = NULL; ///< 모듈 class file의 실행 위치
 

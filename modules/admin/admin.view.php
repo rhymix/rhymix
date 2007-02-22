@@ -45,7 +45,7 @@
             // 있다면 해당 모듈의 xml_info를 구함
             if($sid) {
                 $oModuleHandler = new ModuleHandler($sid, $act);
-                $oModule = &$oModuleHandler->getModule();
+                $oModule = &$oModuleHandler->procModule();
 
                 // 내용을 요청받은 모듈의 것으로 변경
                 $this->setTemplatePath($oModule->getTemplatePath());

@@ -2,14 +2,12 @@
     /**
     * @class ModuleHandler
     * @author zero (zero@nzeo.com)
-    * @brief mid의 값으로 모듈을 찾아 객체 생성 & 모듈 정보 세팅
+    * @brief 모듈 핸들링을 위한 Handler
     *
-    * ModuleHandler는 RequestArgument중 $mid 값을 이용하여\n
-    * 모듈을 찾아서 객체를 생성한다.\n
-    * 단 act 값을 이용하여 actType(view, controller)을 판단하여\n
-    * 객체를 생성해야 한다.\n
-    * 그리고 $mid값을 이용 해당 모듈의 config를 읽어와 생성된\n
-    * 모듈 객체에 전달하고 실행까지 진행을 한다.
+    * 모듈을 실행시키기 위한 클래스.
+    * constructor에 아무 인자 없이 객체를 생성하면 현재 요청받은 
+    * 상태를 바탕으로 적절한 모듈을 찾게 되고,
+    * 별도의 인자 값을 줄 경우 그에 맞는 모듈을 찾아서 실행한다.
     **/
 
     class ModuleHandler extends Handler {
@@ -23,10 +21,14 @@
 
         var $module_info = NULL; ///< 모듈의 정보
 
+        var $check_standalone = false; ///< 요청된 모듈의 standalone을 체크할 것인지에 설정
+
         /**
          * @brief constructor
          *
          * ModuleHandler에서 사용할 변수를 미리 세팅
+         * 인자를 넘겨주지 않으면 현 페이지 요청받은 Request Arguments를 이용하여
+         * 변수를 세팅한다.
          **/
         function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '') {
             // Request Argument중 모듈을 찾을 수 있는 변수를 구함
@@ -43,14 +45,16 @@
             else $this->document_srl = $document_srl;
 
             // 설치가 안되어 있다면 install module을 지정
-            if(!Context::isInstalled()) return $this->module = 'install';
+            if(!Context::isInstalled()) $this->module = 'install';
         }
 
         /**
-         * @brief 
-         * module, mid, document_srl을 이용하여 모듈을 찾고 act를 실행하기 위한 준비를 함
+         * @brief module, mid, document_srl을 이용하여 모듈을 찾고 act를 실행하기 위한 준비를 함
          **/
         function init() {
+            // 일반적인 요청으로 간주 standalone를 체크하도록 설정
+            $this->check_standalone = true;
+
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
@@ -85,7 +89,7 @@
         /**
          * @brief 모듈과 관련된 정보를 이용하여 객체를 구하고 act 실행까지 진행시킴
          **/
-        function getModule() {
+        function procModule() {
             // $module이 세팅되어 있지 않다면 return NULL, 이럴 경우가 없어야 함
             if(!$this->module) return;
 
@@ -96,14 +100,11 @@
             $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
 
             // module_info가 없고(mid가 없다는 의미) standalone이 false이면 오류 표시
-            // @todo standalone에 대해 조금 더 고민 필요
-            /*
-            if(!$this->module_info && !$xml_info->standalone) {
+            if($this->check_standalone && !$this->mid && !$xml_info->standalone) {
                 $this->module = 'message';
                 Context::set('system_message', Context::getLang('msg_invalid_request_module'));
-                $xml_info = $oModuleModel->getModuleXmlInfo($module);
+                $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
             }
-            */
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_action;
@@ -114,14 +115,13 @@
 
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($this->module, $type);
+            if(!is_object($oModule)) return;
 
             // 모듈에 act값을 세팅
             $oModule->setAct($this->act);
 
             // 모듈 정보 세팅
             $oModule->setModuleInfo($this->module_info, $xml_info);
-
-            if(!is_object($oModule)) return;
 
             $oModule->proc();
 

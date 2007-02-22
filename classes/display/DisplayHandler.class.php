@@ -18,6 +18,13 @@
          * @brief 모듈객체를 받아서 content 출력
          **/
         function printContent(&$oModule) {
+
+            // 모듈이 정상적이지 않으면 system message 출력
+            if(!is_object($oModule)) {
+                $oModule = &getView('message');
+                Context::set('system_message', Context::getLang('msg_invalid_request_module'));
+            }
+
             // header 출력
             $this->_printHeader();
 
