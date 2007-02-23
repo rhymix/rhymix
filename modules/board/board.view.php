@@ -168,7 +168,7 @@
         /**
          * @brief 댓글의 답글 화면 출력
          **/
-        function dispCommentReply() {
+        function dispReplyComment() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -198,7 +198,7 @@
         /**
          * @brief 댓글 수정 폼 출력
          **/
-        function dispCommentModify() {
+        function dispModifyComment() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -230,7 +230,7 @@
         /**
          * @brief 댓글 삭제 화면 출력
          **/
-        function dispCommentDelete() {
+        function dispDeleteComment() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -257,7 +257,7 @@
         /**
          * @brief 엮인글 삭제 화면 출력
          **/
-        function dispTrackbackDelete() {
+        function dispDeleteTrackback() {
             // 삭제할 댓글번호를 가져온다
             $trackback_srl = Context::get('trackback_srl');
 

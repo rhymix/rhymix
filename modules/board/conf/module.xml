@@ -30,10 +30,10 @@
         <action name="dispContent" type="view" index="true" />
         <action name="dispWrite" type="view" />
         <action name="dispDelete" type="view" />
-        <action name="dispCommentReply" type="view" />
-        <action name="dispCommentModify" type="view" />
-        <action name="dispCommentDelete" type="view" />
-        <action name="dispTrackbackDelete" type="view" />
+        <action name="dispReplyComment" type="view" />
+        <action name="dispModifyComment" type="view" />
+        <action name="dispDeleteComment" type="view" />
+        <action name="dispDeleteTrackback" type="view" />
         <action name="dispLogin" type="view" />
         <action name="dispLogout" type="view" />
         <action name="dispMessage" type="view" />
