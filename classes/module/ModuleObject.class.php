@@ -197,7 +197,6 @@
             return $this->layout_path;
         }
 
-
         /**
          * @brief 모듈의 action에 해당하는 method를 실행
          *

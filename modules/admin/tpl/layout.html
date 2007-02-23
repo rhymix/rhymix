@@ -7,17 +7,23 @@
   <a href="./?module=admin">zeroboard5</a>
 </div>
 
-<div id="admin_info">
+<div id="admin_sub_menu">
   <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
 </div>
 
 <div id="admin_main_menu">
   <!--@foreach($menu_item as $key => $val)-->
   <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
-    <a href="#" onclick="location.href='{getUrl('act',$val->act)}'">{$val->title}</a>
+    <a href="#" onclick="location.href='{getUrl('act',$val->act,'mo','','module_srl','')}'">{$val->title}</a>
   </span>
   <!--@end-->
 </div>
+
+<!--@if($mo && $module_info)-->
+<div id="admin_module_info">
+  <a href="#" onclick="location.href='{getUrl('mo', $mo, 'act', $module_info->admin_index_act)}'">{$module_info->title}</a> (ver {$module_info->version})
+</div>
+<!--@end-->
 
 <div id="admin_content">
   {$content}

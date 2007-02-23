@@ -49,8 +49,14 @@
             if(!$oModule || !is_object($oModule)) {
                 $this->setTemplateFile('index');
 
-            // oModule이 정상이라면 해당 모듈의 template path, file을 가로챔
+            // oModule이 정상이라면 
             } else {
+                // 모듈의 타이틀 값을 구해옴
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoXml($mo);
+                Context::set('module_info', $module_info);
+
+                // 해당 모듈의 template path, file을 가로챔
                 $this->setTemplatePath($oModule->getTemplatePath());
                 $this->setTemplateFile($oModule->getTemplateFile());
             }

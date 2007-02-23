@@ -5,7 +5,7 @@
   height:30px;
 }
 
-#admin_info {
+#admin_sub_menu{
   float:right;
   height:30px;
 }
@@ -13,10 +13,23 @@
 #admin_main_menu {
   clear:both;
   text-align:right;
+  margin-bottom:10px;
 }
 
 #admin_main_menu .selected {
   font-weight:bold;
+}
+
+#admin_module_info {
+  border:1px solid #EEEEEE;
+  padding:5px;
+  margin-bottom:20px;
+}
+
+#admin_module_info a {
+  color:#000000;
+  font-weight:bold;
+  text-decoration:none;
 }
 
 #admin_content {
