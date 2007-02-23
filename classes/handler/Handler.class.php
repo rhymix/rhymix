@@ -7,11 +7,5 @@
 
     class Handler {
 
-        /**
-         * @brief constructor
-         **/
-        function Handler() {
-        }
-
     }
 ?>

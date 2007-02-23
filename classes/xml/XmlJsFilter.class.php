@@ -40,7 +40,7 @@
      **/
 
     class XmlJsFilter extends XmlParser {
-        var $compiled_path = './files/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
+        var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
         var $xml_file = NULL; ///< 대상 xml 파일
         var $js_file = NULL; ///< 컴파일된 js 파일
 

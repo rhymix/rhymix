@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispContent">
+<module>
     <grants>
         <grant name="list" default="guest">
             <title xml:lang="ko">목록</title>
@@ -27,7 +27,7 @@
         </grant>
     </grants>
     <actions>
-        <action name="dispContent" type="view" />
+        <action name="dispContent" type="view" index="true" />
         <action name="dispWrite" type="view" />
         <action name="dispDelete" type="view" />
         <action name="dispCommentReply" type="view" />
@@ -50,7 +50,7 @@
         <action name="procUploadFile" type="controller" />
         <action name="procDownloadFile" type="controller" />
         <action name="procClearFile" type="controller" />
-        <action name="dispAdminContent" type="view" standalone="true" />
+        <action name="dispAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispAdminBoardInfo" type="view" standalone="true" />
         <action name="dispAdminInsertBoard" type="view" standalone="true" />
         <action name="dispAdminDeleteBoard" type="view" standalone="true" />

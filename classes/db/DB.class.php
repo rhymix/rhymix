@@ -30,6 +30,8 @@
 
         var $supported_list = array(); ///< 지원하는 DB의 종류, classes/DB/DB***.class.php 를 이용하여 동적으로 작성됨
 
+        var $cache_file = './files/cache/queries/';
+
         /**
          * @brief DB를 상속받는 특정 db type의 instance를 생성 후 return
          **/
@@ -128,7 +130,7 @@
             }
 
             // 일단 cache 파일을 찾아본다
-            $cache_file = sprintf('./files/queries/%s.cache.php', $query_id);
+            $cache_file = sprintf('%s%s.cache.php', $this->cache_file, $query_id);
 
             // 없으면 원본 쿼리 xml파일을 찾아서 파싱을 한다
             if(!file_exists($cache_file)||filectime($cache_file)<filectime($xml_file)) {

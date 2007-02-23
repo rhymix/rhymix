@@ -15,56 +15,88 @@
 
         /**
          * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
+         *
+         * module.xml 파일의 경우 파싱하는데 시간이 걸리기에 캐싱을 한다...
+         * 캐싱을 할때 바로 include 할 수 있도록 역시 코드까지 추가하여 캐싱을 한다.
+         * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
          **/
         function getModuleXmlInfo($module) {
+            $module = "board";
+            // 요청된 모듈의 경로를 구한다. 없으면 return
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;
 
+            // 해당 경로에 module.xml 파일이 있는지 체크한다. 없으면 return
             $xml_file = sprintf("%sconf/module.xml", $class_path);
             if(!file_exists($xml_file)) return;
 
-            $xml_obj = XmlParser::loadXmlFile($xml_file);
-            if(!count($xml_obj->module)) return;
+            // 캐시된 파일이 있는지 확인
+            $cache_file = sprintf("./files/cache/module_info/%s.php", $module);
 
-            $output->default_action = $xml_obj->module->attrs->default_action; ///< 별도의 action이 지정되지 않으면 호출될 action
+            // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
+            if(!file_exists($cache_file) || filectime($cache_file)<filectime($xml_file)) {
 
-            $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
-            $actions = $xml_obj->module->actions->action; ///< action list (필수)
+                $buff = ""; ///< 캐시 파일에 쓸 buff 변수 설정
 
-            // 권한 정보의 정리
-            if($grants) {
-                if(is_array($grants)) $grant_list = $grants;
-                else $grant_list[] = $grants;
+                $xml_obj = XmlParser::loadXmlFile($xml_file); ///< xml 파일을 읽어서 xml object로 변환
 
-                foreach($grant_list as $grant) {
-                    $name = $grant->attrs->name;
-                    $default = $grant->attrs->default?$grant->attrs->default:'guest';
-                    $title = $grant->title->body;
+                if(!count($xml_obj->module)) return; ///< xml 내용중에 module 태그가 없다면 오류;;
 
-                    $output->grant->{$name}->title = $title;
-                    $output->grant->{$name}->default = $default;
+                $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
+                $actions = $xml_obj->module->actions->action; ///< action list (필수)
+
+                $default_index = $admin_index = '';
+
+                // 권한 정보의 정리
+                if($grants) {
+                    if(is_array($grants)) $grant_list = $grants;
+                    else $grant_list[] = $grants;
+
+                    foreach($grant_list as $grant) {
+                        $name = $grant->attrs->name;
+                        $default = $grant->attrs->default?$grant->attrs->default:'guest';
+                        $title = $grant->title->body;
+
+                        $buff .= sprintf('$info->grant->%s->title=\'%s\';%s', $name, $title, chr(13));
+                        $buff .= sprintf('$info->grant->%s->default=\'%s\';%s', $name, $default, chr(13));
+                    }
                 }
+
+                // actions 정리
+                if($actions) {
+                    if(is_array($actions)) $action_list = $actions;
+                    else $action_list[] = $actions;
+
+                    foreach($action_list as $action) {
+                        $name = $action->attrs->name;
+
+                        $type = $action->attrs->type;
+                        $grant = $action->attrs->grant?$action->attrs->grant:'guest';
+                        $standalone = $action->attrs->standalone=='true'?'true':'false';
+
+                        $index = $action->attrs->index;
+                        $admin_index = $action->attrs->admin_index;
+
+                        $output->action->{$name}->type = $type;
+                        $output->action->{$name}->grant = $grant;
+                        $output->action->{$name}->standalone= $standalone;
+
+                        $buff .= sprintf('$info->action->%s->type=\'%s\';%s', $name, $type, chr(13));
+                        $buff .= sprintf('$info->action->%s->grant=\'%s\';%s', $name, $grant, chr(13));
+                        $buff .= sprintf('$info->action->%s->standalone=%s;%s', $name, $standalone, chr(13));
+
+                        if($index=='true') $default_index_act = $name;
+                        if($admin_index=='true') $admin_index_act = $name;
+                    }
+                }
+                $buff = sprintf('<?php%sif(!__ZB5__) exit();%s$info->default_index = \'%s\';%s$info->admin_index = \'%s\';%s%s?>', chr(13), chr(13), $default_index_act, chr(13), $admin_index_act, chr(13), $buff);
+
+                FileHandler::writeFile($cache_file, $buff);
             }
 
-            // actions 정리
-            if($actions) {
-                if(is_array($actions)) $action_list = $actions;
-                else $action_list[] = $actions;
+            if(file_exists($cache_file)) include $cache_file; 
 
-                foreach($action_list as $action) {
-                    $name = $action->attrs->name;
-
-                    $type = $action->attrs->type;
-                    $grant = $action->attrs->grant?$action->attrs->grant:'guest';
-                    $standalone = $action->attrs->standalone=='true'?true:false;
-
-                    $output->action->{$name}->type = $type;
-                    $output->action->{$name}->grant = $grant;
-                    $output->action->{$name}->standalone= $standalone;
-                }
-            }
-
-            return $output;
+            return $info;
         }
 
 

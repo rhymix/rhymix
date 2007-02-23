@@ -11,7 +11,7 @@
 
     class TemplateHandler extends Handler {
 
-        var $compiled_path = './files/template_compiled/'; ///< 컴파일된 캐쉬 파일이 놓일 위치
+        var $compiled_path = './files/cache/template_compiled/'; ///< 컴파일된 캐쉬 파일이 놓일 위치
 
         var $tpl_path = ''; ///< 컴파일 대상 경로
         var $tpl_file = ''; ///< 컴파일 대상 파일

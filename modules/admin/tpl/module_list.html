@@ -10,7 +10,7 @@
 <tr>
   <td rowspan="2"><a href="#" onclick="location.href='{getUrl('mo',$val->module)}'">{$val->title}</a> <br /> ({$val->module})</td>
   <td>{$val->version}</td>
-  <td><a href="#" onclick="window.open('{$val->homepage}')">{$val->author}</a></td>
+  <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
   <td>{$val->created_table_count}/{$val->table_count}</td>
   <td>{$val->path}</td>
 </tr>
