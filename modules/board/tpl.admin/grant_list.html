@@ -1,9 +1,7 @@
 <!--#include("./header.html")-->
-<!--%import("filter/filter.insert_grant.xml")-->
+<!--%import("filter/insert_grant.xml")-->
 
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert_grant, procInsertGrant)">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsertGrant" />
+<form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
@@ -29,8 +27,8 @@
     <!--@end-->
     </div>
     <div>
-      <input type="button" value="{$lang->cmd_select_all}" onclick="procSelectAll(this, '{$val}')"/>
-      <input type="button" value="{$lang->cmd_unselect_all}" onclick="procUnSelectAll(this, '{$val}')"/>
+      <input type="button" value="{$lang->cmd_select_all}" onclick="doSelectAll(this, '{$val}')"/>
+      <input type="button" value="{$lang->cmd_unselect_all}" onclick="doUnSelectAll(this, '{$val}')"/>
     </div>
   </td>
 </tr>

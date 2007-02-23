@@ -1,11 +1,10 @@
-<!--%import("filter/filter.insert_category.xml")-->
-<!--%import("filter/filter.update_category.xml")-->
+<!--%import("filter/insert_category.xml")-->
+<!--%import("filter/update_category.xml")-->
 
 <!--#include("./header.html")-->
 
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
-<form id="fo_category_info" action="./admin.php" method="post">
-<input type="hidden" name="sid" value="{$sid}" />
+<form id="fo_category_info" action="./" method="post">
 <input type="hidden" name="act" value="procUpdateCategory" />
 <input type="hidden" name="category_srl" value="" />
 <input type="hidden" name="mode" value="" />
@@ -41,9 +40,7 @@
 </div>
 
 <!-- 카테고리 추가 -->
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert_category, procInsert)" enctype="multipart/form-data">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsertCategory" />
+<form action="./admin.php" method="post" onsubmit="return procFilter(this, insert_category)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="category_srl" value="" />

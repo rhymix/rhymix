@@ -1,7 +1,8 @@
 <!--#include("./header.html")-->
 
-<form action="./admin.php" method="post" enctype="multipart/form-data">
-<input type="hidden" name="sid" value="{$sid}" />
+<form action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="module" value="admin" />
+<input type="hidden" name="mo" value="board" />
 <input type="hidden" name="act" value="procUpdateSkinInfo" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="page" value="{$page}" />

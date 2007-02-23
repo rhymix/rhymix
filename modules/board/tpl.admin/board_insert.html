@@ -1,4 +1,4 @@
-<!--%import("filter/filter.insert.xml")-->
+<!--%import("filter/insert_board.xml")-->
 <!--%import("js/admin.js")-->
 
 <div>
@@ -9,9 +9,7 @@
   <!--@end-->
 </div>
 
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert, procInsert)" enctype="multipart/form-data">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsert" />
+<form action="./" method="post" onsubmit="return procFilter(this, insert_board)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <!--@if($module_info->is_default=='Y')-->
@@ -91,7 +89,7 @@
   </tr>
   <tr>
     <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispInfo')}'" />
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispAdminContent')}'" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
     </td>
   </tr>

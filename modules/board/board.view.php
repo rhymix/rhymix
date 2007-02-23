@@ -406,8 +406,8 @@
 
             $module_info = Context::get('module_info');
 
-            $oDocument = &getModule('document');
-            $document_count = $oDocument->getDocumentCount($module_info->module_srl);
+            $oDocumentModel = &getModel('document');
+            $document_count = $oDocumentModel->getDocumentCount($module_info->module_srl);
             $module_info->document_count = $document_count;
 
             Context::set('module_info',$module_info);
@@ -424,8 +424,8 @@
             $module_info = Context::get('module_info');
             $skin = $module_info->skin;
 
-            $oModule = &getModule('module_manager');
-            $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
+            $oModuleModel = &getModel('module');
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {
@@ -449,8 +449,8 @@
             $module_srl = Context::get('module_srl');
 
             // 카테고리의 목록을 구해옴
-            $oDocument = &getModule('document');
-            $category_list = $oDocument->getCategoryList($module_srl);
+            $oDocumentModel = &getModel('document');
+            $category_list = $oDocumentModel->getCategoryList($module_srl);
             Context::set('category_list', $category_list);
 
             // 수정하려는 카테고리가 있다면해당 카테고리의 정보를 가져옴
@@ -472,15 +472,15 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoard = &getModule('board');
-            $grant_list = $oBoard->grant_list;
+            $oBoardModel = &getModel('board');
+            $grant_list = $oBoardModel->grant_list;
 
             // 권한 목록 세팅
             Context::set('grant_list', $grant_list);
 
             // 권한 그룹의 목록을 가져온다
-            $oMember = &getModule('member');
-            $group_list = $oMember->getGroups();
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
 
             $this->setTemplateFile('grant_list');
