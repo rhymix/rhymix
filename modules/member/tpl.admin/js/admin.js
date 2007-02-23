@@ -84,7 +84,31 @@ function doUpdateDeniedID(user_id, mode, message) {
   procFilter(fo_obj, update_denied_id);
 }
 
-/* 가입폼 관련 */
+/* 가입폼 관련 작업들 */
+function doUpdateJoinForm(member_join_form_srl, mode, message) {
+  if(typeof(message)!='undefined'&&!confirm(message)) return;
+
+  var fo_obj = xGetElementById('fo_join_form_info');
+  fo_obj.member_join_form_srl.value = member_join_form_srl;
+  fo_obj.mode.value = mode;
+
+  procFilter(fo_obj, update_member_join_form);
+}
+
+function completeUpdateJoinForm(ret_obj) {
+  var error = ret_obj['error'];
+  var message = ret_obj['message'];
+  var page = ret_obj['page'];
+
+  alert(message);
+
+  var url =  "./?module=admin&mo=member&act=dispJoinFormList";
+  if(page) url += "&page="+page;
+
+  location.href = url;
+}
+
+/* 가입폼 추가 */
 function completeInsertJoinForm(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];

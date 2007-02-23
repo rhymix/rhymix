@@ -170,6 +170,34 @@
         }
 
         /**
+         * @brief 가입 항목의 상/하 이동 및 내용 수정
+         **/
+        function procUpdateJoinForm() {
+            $member_join_form_srl = Context::get('member_join_form_srl');
+            $mode = Context::get('mode');
+
+            switch($mode) {
+                case 'up' :
+                        $output = $this->moveJoinFormUp($member_join_form_srl);
+                        $msg_code = 'success_moved';
+                    break;
+                case 'down' :
+                        $output = $this->moveJoinFormDown($member_join_form_srl);
+                        $msg_code = 'success_moved';
+                    break;
+                case 'delete' :
+                        $output = $this->deleteJoinForm($member_join_form_srl);
+                        $msg_code = 'success_deleted';
+                    break;
+                case 'update' :
+                    break;
+            }
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage($msg_code);
+        }
+
+        /**
          * @brief 금지 아이디 추가
          **/
         function procInsertDeniedID() {
@@ -447,6 +475,121 @@
 
             $args->user_id = $user_id;
             return $oDB->executeQuery('member.deleteDeniedID', $args);
+        }
+
+        /**
+         * @brief 가입폼 항목을 삭제
+         **/
+        function deleteJoinForm($member_join_form_srl) {
+            $oDB = &DB::getInstance();
+
+            $args->member_join_form_srl = $member_join_form_srl;
+            $output = $oDB->executeQuery('member.deleteJoinForm', $args);
+            return $output;
+        }
+
+        /**
+         * @brief 가입항목을 상단으로 이동
+         **/
+        function moveJoinFormUp($member_join_form_srl) {
+            $oDB = &DB::getInstance();
+
+            $oMemberModel = &getModel('member');
+
+            // 선택된 가입항목의 정보를 구한다
+            $args->member_join_form_srl = $member_join_form_srl;
+            $output = $oDB->executeQuery('member.getJoinForm', $args);
+
+            $join_form = $output->data;
+            $list_order = $join_form->list_order;
+
+            // 전체 가입항목 목록을 구한다
+            $join_form_list = $oMemberModel->getJoinFormList();
+            if(count($join_form_list->data)) {
+                foreach($join_form_list->data as $key => $val) {
+                    $join_form_srl_list[] = $val->member_join_form_srl;
+                }
+            }
+            if(count($join_form_srl_list)<2) return new Object();
+
+            $prev_category = NULL;
+            if(count($join_form_list->data)) {
+                foreach($join_form_list->data as $key => $val) {
+                    if($val->member_join_form_srl == $member_join_form_srl) break;
+                    $prev_member_join_form = $val;
+                }
+            }
+
+            // 이전 가입항목가 없으면 그냥 return
+            if(!$prev_member_join_form) return new Object();
+
+            // 선택한 가입항목의 정보
+            $cur_args->member_join_form_srl = $member_join_form_srl;
+            $cur_args->list_order = $prev_member_join_form->list_order;
+            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            // 대상 가입항목의 정보
+            $prev_args->member_join_form_srl = $prev_member_join_form->member_join_form_srl;
+            $prev_args->list_order = $list_order;
+            $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            return new Object();
+        }
+
+        /**
+         * @brief 가입항목을 하단으로 이동
+         **/
+        function moveJoinFormDown($member_join_form_srl) {
+            $oDB = &DB::getInstance();
+
+            $oMemberModel = &getModel('member');
+
+            // 선택된 가입항목의 정보를 구한다
+            $args->member_join_form_srl = $member_join_form_srl;
+            $output = $oDB->executeQuery('member.getJoinForm', $args);
+
+            $join_form = $output->data;
+            $list_order = $join_form->list_order;
+
+            // 전체 가입항목 목록을 구한다
+            $join_form_list = $oMemberModel->getJoinFormList();
+            if(count($join_form_list->data)) {
+                foreach($join_form_list->data as $key => $val) {
+                    $join_form_srl_list[] = $val->member_join_form_srl;
+                }
+            }
+            if(count($join_form_srl_list)<2) return new Object();
+
+            for($i=0;$i<count($join_form_srl_list);$i++) {
+                if($join_form_srl_list[$i]==$member_join_form_srl) break;
+            }
+
+            $next_member_join_form_srl = $join_form_srl_list[$i+1];
+
+            // 이전 가입항목가 없으면 그냥 return
+            if(!$next_member_join_form_srl) return new Object();
+            foreach($join_form_list->data as $key => $val) {
+                if($val->member_join_form_srl == $next_member_join_form_srl) {
+                    $next_member_join_form = $val;
+                    break;
+                }
+            }
+
+            // 선택한 가입항목의 정보
+            $cur_args->member_join_form_srl = $member_join_form_srl;
+            $cur_args->list_order = $next_member_join_form->list_order;
+            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            // 대상 가입항목의 정보
+            $next_args->member_join_form_srl = $next_member_join_form->member_join_form_srl;
+            $next_args->list_order = $list_order;
+            $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            return new Object();
         }
 
     }

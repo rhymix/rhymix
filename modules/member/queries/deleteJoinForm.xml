@@ -1,0 +1,8 @@
+<query id="deleteJoinForm" action="delete">
+  <tables>
+    <table name="member_join_form" />
+  </tables>
+  <conditions>
+    <condition operation="equal" column="member_join_form_srl" var="member_join_form_srl" notnull="notnull" filter="number" />
+  </conditions>
+</query>

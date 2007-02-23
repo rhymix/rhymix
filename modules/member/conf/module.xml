@@ -17,6 +17,7 @@
         <action name="procInsertGroup" type="controller" standalone="true" />
         <action name="procUpdateGroup" type="controller" standalone="true" />
         <action name="procInsertJoinForm" type="controller" standalone="true" />
+        <action name="procUpdateJoinForm" type="controller" standalone="true" />
         <action name="procInsertDeniedID" type="controller" standalone="true" />
         <action name="procUpdateDeniedID" type="controller" standalone="true" />
     </actions>
