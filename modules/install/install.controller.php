@@ -99,17 +99,21 @@
             // 관리자 정보 입력
             $oMemberController->insertAdmin($admin_info);
 
-            // 금지 아이디 등록
+            // 금지 아이디 등록 (기본 + 모듈명)
+            $oAdminModel = &getModel('admin');
+            $module_list = $oAdminModel->getModuleList();
+            foreach($module_list as $key => $val) {
+                $oMemberController->insertDeniedID($val->module,'');
+            }
             $oMemberController->insertDeniedID('www','');
             $oMemberController->insertDeniedID('root','');
-            $oMemberController->insertDeniedID('admin','');
             $oMemberController->insertDeniedID('administrator','');
             $oMemberController->insertDeniedID('telnet','');
             $oMemberController->insertDeniedID('ftp','');
             $oMemberController->insertDeniedID('http','');
 
             // 로그인 처리시킴
-            $output = $oMemberController->doLogin($admin_info->user_id, $admin_info->password);
+            $output = $oMemberController->procLogin($admin_info->user_id, $admin_info->password);
             if(!$output) return $output;
 
             // 기본 모듈을 생성

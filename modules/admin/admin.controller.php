@@ -31,7 +31,7 @@
 
             // member controller 객체 생성
             $oMemberController = &getController('member');
-            return $oMemberController->doLogin($user_id, $password);
+            return $oMemberController->procLogin($user_id, $password);
         }
 
         /**

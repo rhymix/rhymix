@@ -23,7 +23,7 @@
 
             // member모듈 controller 객체 생성
             $oMemberController = &getController('member');
-            $output = $oMemberController->doLogin($user_id, $password);
+            $output = $oMemberController->procLogin($user_id, $password);
             if(!$output->toBool()) return $output;
         }
 
