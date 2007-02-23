@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispIntroduce">
+<module>
     <grants />
     <actions>
-        <action name="dispIntroduce" type="view" standalone="true" />
+        <action name="dispIntroduce" type="view" standalone="true" index="true" />
         <action name="dispInstallForm" type="view" standalone="true" />
         <action name="procInstall" type="controller" standalone="true" />
     </actions>

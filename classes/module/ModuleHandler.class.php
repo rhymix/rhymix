@@ -93,14 +93,13 @@
             $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
-            if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_action;
+            if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
 
             // 설정된 mid가 없을 경우 요청된 act의 standalone 여부 체크
             if(!$this->mid && !$xml_info->action->{$this->act}->standalone) {
                 $this->error = 'msg_module_is_not_standalone';
                 return;
             }
-
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
             $grant = $xml_info->action->{$this->act}->grant;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispMessage">
+<module>
     <grants />
     <actions>
-        <action name="dispMessage" type="view" standalone="true" />
+        <action name="dispMessage" type="view" standalone="true" index="true"/>
     </actions>
 </module>

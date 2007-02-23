@@ -21,7 +21,6 @@
          * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
          **/
         function getModuleXmlInfo($module) {
-            $module = "board";
             // 요청된 모듈의 경로를 구한다. 없으면 return
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;
@@ -57,8 +56,11 @@
                         $default = $grant->attrs->default?$grant->attrs->default:'guest';
                         $title = $grant->title->body;
 
-                        $buff .= sprintf('$info->grant->%s->title=\'%s\';%s', $name, $title, chr(13));
-                        $buff .= sprintf('$info->grant->%s->default=\'%s\';%s', $name, $default, chr(13));
+                        $info->grant->{$name}->title = $title;
+                        $info->grant->{$name}->default = $default;
+
+                        $buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
+                        $buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
                     }
                 }
 
@@ -81,20 +83,32 @@
                         $output->action->{$name}->grant = $grant;
                         $output->action->{$name}->standalone= $standalone;
 
-                        $buff .= sprintf('$info->action->%s->type=\'%s\';%s', $name, $type, chr(13));
-                        $buff .= sprintf('$info->action->%s->grant=\'%s\';%s', $name, $grant, chr(13));
-                        $buff .= sprintf('$info->action->%s->standalone=%s;%s', $name, $standalone, chr(13));
+                        $info->action->{$name}->type = $type;
+                        $info->action->{$name}->grant = $grant;
+                        $info->action->{$name}->standalone = $standalone=='true'?true:false;
 
-                        if($index=='true') $default_index_act = $name;
-                        if($admin_index=='true') $admin_index_act = $name;
+                        $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
+                        $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
+                        $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
+
+                        if($index=='true') {
+                            $default_index_act = $name;
+                            $info->default_index_act = $name;
+                        }
+                        if($admin_index=='true') {
+                            $admin_index_act = $name;
+                            $info->admin_index_act = $name;
+                        }
                     }
                 }
-                $buff = sprintf('<?php%sif(!__ZB5__) exit();%s$info->default_index = \'%s\';%s$info->admin_index = \'%s\';%s%s?>', chr(13), chr(13), $default_index_act, chr(13), $admin_index_act, chr(13), $buff);
+                $buff = sprintf('<?php if(!__ZB5__) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
 
                 FileHandler::writeFile($cache_file, $buff);
+
+                return $info;
             }
 
-            if(file_exists($cache_file)) include $cache_file; 
+            include $cache_file; 
 
             return $info;
         }

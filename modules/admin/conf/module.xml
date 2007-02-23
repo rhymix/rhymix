@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module default_action="dispIndex">
+<module>
     <actions>
-        <action name="dispIndex" type="view" standalone="true" />
+        <action name="dispIndex" type="view" standalone="true" index="true"/>
         <action name="dispModuleList" type="view" standalone="true" />
 
         <action name="dispLogin" type="view" standalone="true" />
