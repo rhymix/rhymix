@@ -36,7 +36,24 @@
          * @brief 관리자 메인 페이지 출력
          **/
         function dispIndex() {
-            $this->setTemplateFile('index');
+            // mo(module), act 변수값이 넘어오면 해당 모듈을 실행
+            $mo = Context::get('mo');
+            $act = Context::get('act');
+
+            if($mo && $mo != 'admin' && $act) {
+                $oAdminController = &getController('admin');
+                $oModule = &$oAdminController->procOtherModule($mo, $act);
+            }
+
+            // 만약 oModule이 없으면 관리자 초기 페이지 출력
+            if(!$oModule || !is_object($oModule)) {
+                $this->setTemplateFile('index');
+
+            // oModule이 정상이라면 해당 모듈의 template path, file을 가로챔
+            } else {
+                $this->setTemplatePath($oModule->getTemplatePath());
+                $this->setTemplateFile($oModule->getTemplateFile());
+            }
         }
 
         /**

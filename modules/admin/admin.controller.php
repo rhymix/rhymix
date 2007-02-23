@@ -13,6 +13,15 @@
         }
 
         /**
+         * @brief admin 모듈내에서 다른 모듈을 실행하는 부분
+         **/
+        function procOtherModule($module, $act) {
+            $oModuleHandler = new ModuleHandler($module, $act);
+            $oModule = &$oModuleHandler->procModule();
+            return $oModule;
+        }
+
+        /**
          * @brief 로그인 시킴
          **/
         function procLogin() {

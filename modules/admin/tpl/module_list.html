@@ -11,7 +11,7 @@
 <tr>
   <td rowspan="2">
     <!--@if($val->admin_index_act)-->
-      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'ac',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
+      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
     <!--@else-->
       {$val->title} <br />
       ({$val->module})

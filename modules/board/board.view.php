@@ -24,9 +24,13 @@
             Context::set('editor_path', $editor_path);
             Context::loadLang($editor_path);
 
-            // 스킨 디렉토리 세팅
-            $skin_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
-            $this->setTemplatePath($skin_path);
+            // act 값에 dispAdmin이 있으면 tpl.admin 으로 템플릿 경로 지정
+            if(substr($this->act,0,9)=='dispAdmin') {
+                $template_path = sprintf("%stpl.admin/",$this->module_path);
+            } else {
+                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+            }
+            $this->setTemplatePath($template_path);
 
             // 몇가지 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
