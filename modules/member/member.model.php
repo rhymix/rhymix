@@ -204,12 +204,18 @@
             $oDB = &DB::getInstance();
 
             $args->sort_index = "list_order";
-            $args->page = Context::get('page');
-            $args->list_count = 40;
-            $args->page_count = 10;
-
             $output = $oDB->executeQuery('member.getJoinFormList', $args);
-            return $output;
+            $join_form_list = $output->data;
+
+            if(!$join_form_list) return NULL;
+
+            if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
+            $join_form_count = count($join_form_list);
+            for($i=0;$i<$join_form_count;$i++) {
+                $member_join_form_srl = $join_form_list[$i]->member_join_form_srl;
+                $list[$member_join_form_srl] = $join_form_list[$i];
+            }
+            return $list;
         }
 
         /**

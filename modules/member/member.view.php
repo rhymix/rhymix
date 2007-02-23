@@ -101,13 +101,8 @@
             $oMemberModel = &getModel('member');
 
             // 사용금지 목록 가져오기
-            $output = $oMemberModel->getJoinFormList();
-
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('form_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
+            $form_list = $oMemberModel->getJoinFormList();
+            Context::set('form_list', $form_list);
 
             $this->setTemplateFile('join_form_list');
         }

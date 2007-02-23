@@ -506,19 +506,13 @@
 
             // 전체 가입항목 목록을 구한다
             $join_form_list = $oMemberModel->getJoinFormList();
-            if(count($join_form_list->data)) {
-                foreach($join_form_list->data as $key => $val) {
-                    $join_form_srl_list[] = $val->member_join_form_srl;
-                }
-            }
+            $join_form_srl_list = array_keys($join_form_list);
             if(count($join_form_srl_list)<2) return new Object();
 
-            $prev_category = NULL;
-            if(count($join_form_list->data)) {
-                foreach($join_form_list->data as $key => $val) {
-                    if($val->member_join_form_srl == $member_join_form_srl) break;
-                    $prev_member_join_form = $val;
-                }
+            $prev_member_join_form = NULL;
+            foreach($join_form_list as $key => $val) {
+                if($val->member_join_form_srl == $member_join_form_srl) break;
+                $prev_member_join_form = $val;
             }
 
             // 이전 가입항목가 없으면 그냥 return
@@ -527,13 +521,16 @@
             // 선택한 가입항목의 정보
             $cur_args->member_join_form_srl = $member_join_form_srl;
             $cur_args->list_order = $prev_member_join_form->list_order;
-            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
-            if(!$output->toBool()) return $output;
 
             // 대상 가입항목의 정보
             $prev_args->member_join_form_srl = $prev_member_join_form->member_join_form_srl;
             $prev_args->list_order = $list_order;
-            $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+
+            // DB 처리
+            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            $oDB->executeQuery('member.updateMemberJoinFormListorder', $prev_args);
             if(!$output->toBool()) return $output;
 
             return new Object();
@@ -556,11 +553,7 @@
 
             // 전체 가입항목 목록을 구한다
             $join_form_list = $oMemberModel->getJoinFormList();
-            if(count($join_form_list->data)) {
-                foreach($join_form_list->data as $key => $val) {
-                    $join_form_srl_list[] = $val->member_join_form_srl;
-                }
-            }
+            $join_form_srl_list = array_keys($join_form_list);
             if(count($join_form_srl_list)<2) return new Object();
 
             for($i=0;$i<count($join_form_srl_list);$i++) {
@@ -571,23 +564,21 @@
 
             // 이전 가입항목가 없으면 그냥 return
             if(!$next_member_join_form_srl) return new Object();
-            foreach($join_form_list->data as $key => $val) {
-                if($val->member_join_form_srl == $next_member_join_form_srl) {
-                    $next_member_join_form = $val;
-                    break;
-                }
-            }
+            $next_member_join_form = $join_form_list[$next_member_join_form_srl];
 
             // 선택한 가입항목의 정보
             $cur_args->member_join_form_srl = $member_join_form_srl;
             $cur_args->list_order = $next_member_join_form->list_order;
-            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
-            if(!$output->toBool()) return $output;
 
             // 대상 가입항목의 정보
             $next_args->member_join_form_srl = $next_member_join_form->member_join_form_srl;
             $next_args->list_order = $list_order;
-            $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+
+            // DB 처리
+            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            if(!$output->toBool()) return $output;
+
+            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $next_args);
             if(!$output->toBool()) return $output;
 
             return new Object();
