@@ -9,14 +9,14 @@ function completeBoardInsert(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
 
-  var mo = ret_obj['mo'];
+  var module = ret_obj['module'];
   var act = ret_obj['act'];
   var page = ret_obj['page'];
   var module_srl = ret_obj['module_srl'];
 
   alert(message);
 
-  var url =  "./?module=admin&mo="+mo+"&module_srl="+module_srl+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo="+module+"&module_srl="+module_srl+"&page="+page+"&act="+act;
   location.href = url;
 }
 

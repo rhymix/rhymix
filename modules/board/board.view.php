@@ -9,31 +9,55 @@
 
         /**
          * @brief 초기화
+         *
+         * board 모듈은 일반 사용과 관리자용으로 나누어진다.\n
+         * act값의 앞에 dispAdmin이 있으면 관리자용 action으로 취급해버림
          **/
         function init() {
-            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
-            if($this->module_info->use_category=='Y') {
-                $oDocumentModel = &getModel('document');
-                $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
-                Context::set('category_list', $this->category_list);
-            }
 
-            // 에디터 세팅
-            Context::set('editor', $this->editor);
-            $editor_path = sprintf("./editor/%s/", $this->editor);
-            Context::set('editor_path', $editor_path);
-            Context::loadLang($editor_path);
-
-            // act 값에 dispAdmin이 있으면 tpl.admin 으로 템플릿 경로 지정
+            // 관리자용 action일때
             if(substr($this->act,0,9)=='dispAdmin') {
-                $template_path = sprintf("%stpl.admin/",$this->module_path);
-            } else {
-                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
-            }
-            $this->setTemplatePath($template_path);
 
-            // 몇가지 템플릿에서 사용할 변수를 Context::set()
-            if($this->module_srl) Context::set('module_srl',$this->module_srl);
+                // 템플릿 경로 지정 (board의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
+                $template_path = sprintf("%stpl.admin/",$this->module_path);
+
+                // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
+                $module_srl = Context::get('module_srl');
+
+                if($module_srl) {
+                    $oModuleModel = &getModel('module');
+                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                    if(!$module_info) {
+                        Context::set('module_srl','');
+                        $this->act = 'list';
+                    } else Context::set('module_info',$module_info);
+                }
+
+            // 일반 action일 경우
+            } else {
+
+                // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+                if($this->module_info->use_category=='Y') {
+                    $oDocumentModel = &getModel('document');
+                    $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
+                    Context::set('category_list', $this->category_list);
+                }
+
+                // 에디터 세팅
+                Context::set('editor', $this->editor);
+                $editor_path = sprintf("./editor/%s/", $this->editor);
+                Context::set('editor_path', $editor_path);
+                Context::loadLang($editor_path);
+
+                // 스킨 템플릿 경로 구함
+                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+
+                // 템플릿에서 사용할 변수를 Context::set()
+                if($this->module_srl) Context::set('module_srl',$this->module_srl);
+            }
+
+            // 템플릿 경로 지정
+            $this->setTemplatePath($template_path);
         }
 
         /**
@@ -341,18 +365,6 @@
          * @brief 게시판 관리 목록 보여줌
          **/
         function dispAdminContent() {
-            // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
-            $module_srl = Context::get('module_srl');
-
-            if($module_srl) {
-                $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info) {
-                    Context::set('module_srl','');
-                    $this->act = 'list';
-                } else Context::set('module_info',$module_info);
-            }
-
             // 등록된 board 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
             $args->sort_index = "module_srl";
@@ -394,6 +406,11 @@
          * @brief 게시판 추가 폼 출력
          **/
         function dispAdminInsertBoard() {
+            // 스킨 목록을 구해옴
+            $oModuleModel = &getModel('module');
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list',$skin_list);
+            
             // 템플릿 파일 지정
             $this->setTemplateFile('board_insert');
         }
@@ -425,7 +442,10 @@
             $skin = $module_info->skin;
 
             $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+            $skin_info = $oModuleModel->loadSkinInfo($this->module, $skin);
+            print "<pre>";
+            print_r($skin_info);
+            print "</pre>";
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {
@@ -446,6 +466,7 @@
          * @brief 카테고리의 정보 출력
          **/
         function dispAdminCategoryInfo() {
+            // module_srl을 구함
             $module_srl = Context::get('module_srl');
 
             // 카테고리의 목록을 구해옴
@@ -455,13 +476,20 @@
 
             // 수정하려는 카테고리가 있다면해당 카테고리의 정보를 가져옴
             $category_srl = Context::get('category_srl');
+
             if($category_srl) {
-                $selected_category = $oDocument->getCategory($category_srl);
+
+                $selected_category = $oDocumentModel->getCategory($category_srl);
+
                 if(!$selected_category) Context::set('category_srl','');
-            else Context::set('selected_category',$selected_category);
+                else Context::set('selected_category',$selected_category);
+
                 $this->setTemplateFile('category_update_form');
+
             } else {
+
                 $this->setTemplateFile('category_list');
+
             }
         }
 
@@ -469,11 +497,11 @@
          * @brief 권한 목록 출력
          **/
         function dispAdminGrantInfo() {
+            // module_srl을 구함
             $module_srl = Context::get('module_srl');
 
-            // 현 모듈의 권한 목록을 가져옴
-            $oBoardModel = &getModel('board');
-            $grant_list = $oBoardModel->grant_list;
+            // module.xml에서 권한 관련 목록을 구해옴
+            $grant_list = $this->xml_info->grant;
 
             // 권한 목록 세팅
             Context::set('grant_list', $grant_list);

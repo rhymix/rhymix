@@ -27,8 +27,8 @@
     <th rowspan="2">{$lang->skin}</th>
     <td>
       <select name="skin">
-        <!--@foreach($skins as $key=>$val)-->
-        <option value="{$val}">{$val}</option>
+        <!--@foreach($skin_list as $key=>$val)-->
+        <option value="{$val}" <!--@if($module_info->skin==$val)-->selected="true"<!--@end-->>{$val}</option>
         <!--@end-->
       </select>
     </td>

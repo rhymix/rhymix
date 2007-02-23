@@ -326,8 +326,8 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoardView = &getModule('view');
-            $grant_list = $oBoardView->grant_list;
+            $oBoardModel = &getModel('board');
+            $grant_list = $oBoardModel->grant_list;
 
             if(count($grant_list)) {
                 foreach($grant_list as $grant) {
@@ -337,11 +337,11 @@
                 $grant = serialize($arr_grant);
             }
 
-            $oModule = &getModule('module_manager');
-            $oModule->updateModuleGrant($module_srl, $grant);
+            $oModuleController = &getController('module');
+            $oModuleController->updateModuleGrant($module_srl, $grant);
 
-            $this->add('mo','board');
-            $this->add('act','dispGrantInfo');
+            $this->add('module','board');
+            $this->add('act','dispAdminGrantInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',Context::get('module_srl'));
             $this->setMessage('success_registed');
@@ -353,13 +353,12 @@
         function procUpdateSkinInfo() {
             // module_srl에 해당하는 정보들을 가져오기
             $module_srl = Context::get('module_srl');
-            $oModule = &getModule('module_manager');
-            $module_info = $oModule->getModuleInfoByModuleSrl($module_srl);
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             $skin = $module_info->skin;
 
-            // 스킨의 정볼르 구해옴 (extra_vars를 체크하기 위해서)
-            $oModule = &getModule('module_manager');
-            $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
+            // 스킨의 정보르 구해옴 (extra_vars를 체크하기 위해서)
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 
             // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
             $obj = Context::getRequestVars();
@@ -424,10 +423,10 @@
             // serialize하여 저장
             $extra_vars = serialize($obj);
 
-            $oModule = &getModule('module_manager');
-            $oModule->updateModuleExtraVars($module_srl, $extra_vars);
+            $oModuleController = &getController('module');
+            $oModuleController->updateModuleExtraVars($module_srl, $extra_vars);
 
-            $url = sprintf("./admin.php?mo=%s&module_srl=%s&act=dispSkinInfo&page=%s", 'board', $module_srl, Context::get('page'));
+            $url = sprintf("./?module=admin&mo=board&module_srl=%s&act=dispAdminSkinInfo&page=%s", $module_srl, Context::get('page'));
             print "<script type=\"text/javascript\">location.href=\"".$url."\";</script>";
             exit();
         }
@@ -449,11 +448,11 @@
             unset($extra_var->page);
 
             // module_srl이 있으면 원본을 구해온다
-            $oModule = &getModule('module_manager');
+            $oModuleModel = &getModel('model');
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
-                $module_info = $oModule->getModuleInfoByModuleSrl($args->module_srl);
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
                 // 만약 원래 모듈이 없으면 새로 입력하기 위한 처리
                 if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
@@ -475,8 +474,8 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->add('mo','board');
-            $this->add('act','dispInfo');
+            $this->add('module','board');
+            $this->add('act','dispAdminBoardInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);
@@ -489,12 +488,12 @@
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
-            $oModule = &getModule('module_manager');
-            $output = $oModule->deleteModule($module_srl);
+            $oModuleModel = &getModel('module');
+            $output = $oModuleModel->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('mo','board');
-            $this->add('act','dispContent');
+            $this->add('module','board');
+            $this->add('act','dispAdminContent');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
@@ -508,12 +507,12 @@
             $category_title = Context::get('category_title');
 
             // module_srl이 있으면 원본을 구해온다
-            $oDocument = &getModule('document');
-            $output = $oDocument->insertCategory($module_srl, $category_title);
+            $oDocumentModel = &getModel('document');
+            $output = $oDocumentModel->insertCategory($module_srl, $category_title);
             if(!$output->toBool()) return $output;
 
-            $this->add('mo','board');
-            $this->add('act','dispCategoryInfo');
+            $this->add('module','board');
+            $this->add('act','dispAdminCategoryInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$module_srl);
             $this->setMessage('success_registed');
@@ -526,27 +525,28 @@
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
 
-            $oDocument = &getModule('document');
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
 
             switch($mode) {
                 case 'up' :
-                        $output = $oDocument->moveCategoryUp($category_srl);
+                        $output = $oDocumentController->moveCategoryUp($category_srl);
                         $msg_code = 'success_moved';
                     break;
                 case 'down' :
-                        $output = $oDocument->moveCategoryDown($category_srl);
+                        $output = $oDocumentController->moveCategoryDown($category_srl);
                         $msg_code = 'success_moved';
                     break;
                 case 'delete' :
-                        $output = $oDocument->deleteCategory($category_srl);
+                        $output = $oDocumentController->deleteCategory($category_srl);
                         $msg_code = 'success_deleted';
                     break;
                 case 'update' :
-                        $selected_category = $oDocument->getCategory($category_srl);
+                        $selected_category = $oDocumentModel->getCategory($category_srl);
                         $args->category_srl = $selected_category->category_srl;
                         $args->title = Context::get('category_title');
                         $args->list_order = $selected_category->list_order;
-                        $output = $oDocument->updateCategory($args);
+                        $output = $oDocumentController->updateCategory($args);
                         $msg_code = 'success_updated';
                     break;
             }

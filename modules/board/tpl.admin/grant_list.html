@@ -16,19 +16,19 @@
 </tr>
 <!--@foreach($grant_list as $key => $val)-->
 <tr>
-  <td>{$lang->grant_title[$val]}</td>
+  <td>{$val->title}</td>
   <td>
     <div>
     <!--@foreach($group_list as $k => $v)-->
       <span>
-        <input type="checkbox" name="{$val}" value="{$v->group_srl}" id="grant_{$val}_{$v->group_srl}" <!--@if(is_array($module_info->grant)&&in_array($v->group_srl,$module_info->grant[$val]))-->checked="true"<!--@end-->/> 
-        <label for="grant_{$val}_{$v->group_srl}">{$v->title}</label>
+        <input type="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grant)&&in_array($v->group_srl,$module_info->grant[$key]))-->checked="true"<!--@end-->/> 
+        <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
       </span>
     <!--@end-->
     </div>
     <div>
-      <input type="button" value="{$lang->cmd_select_all}" onclick="doSelectAll(this, '{$val}')"/>
-      <input type="button" value="{$lang->cmd_unselect_all}" onclick="doUnSelectAll(this, '{$val}')"/>
+      <input type="button" value="{$lang->cmd_select_all}" onclick="doSelectAll(this, '{$key}')"/>
+      <input type="button" value="{$lang->cmd_unselect_all}" onclick="doUnSelectAll(this, '{$key}')"/>
     </div>
   </td>
 </tr>

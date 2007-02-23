@@ -104,7 +104,7 @@
         function loadSkinInfo($module, $skin) {
 
             // 등록하려는 모듈의 path를 구함
-            $module_path = ModuleHandler::getModulePath($args->module);
+            $module_path = ModuleHandler::getModulePath($module);
 
             // 모듈의 스킨의 정보 xml 파일을 읽음
             $skin_xml_file = sprintf("%sskins/%s/skin.xml", $module_path, $skin);

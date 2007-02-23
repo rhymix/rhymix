@@ -19,9 +19,9 @@
   <!--@end-->
 </div>
 
-<!--@if($mo && $module_info)-->
+<!--@if($selected_module_info)-->
 <div id="admin_module_info">
-  <a href="#" onclick="location.href='{getUrl('mo', $mo, 'act', $module_info->admin_index_act)}'">{$module_info->title}</a> (ver {$module_info->version})
+  <a href="#" onclick="location.href='{getUrl('mo', $mo, 'act', $module_info->admin_index_act)}'">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
 </div>
 <!--@end-->
 
