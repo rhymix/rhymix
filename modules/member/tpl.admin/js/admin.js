@@ -92,7 +92,7 @@ function completeInsertJoinForm(ret_obj) {
 
   alert(message);
 
-  var url =  "./?module=admin&mo=member&act=dispJoinForm";
+  var url =  "./?module=admin&mo=member&act=dispJoinFormList";
   if(page) url += "&page="+page;
 
   location.href = url;

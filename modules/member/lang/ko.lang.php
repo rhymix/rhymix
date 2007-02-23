@@ -25,15 +25,15 @@
     $lang->group_srl = "그룹번호";
 
     $lang->column_type = "형식";
-    $lang->column_type_list->text = "한줄 입력칸";
-    $lang->column_type_list->homepage = "홈페이지 형식";
-    $lang->column_type_list->email_address = "이메일 형식";
-    $lang->column_type_list->tel = "전화번호 형식";
-    $lang->column_type_list->textarea = "여러줄 입력칸";
-    $lang->column_type_list->checkbox = "다중 선택";
-    $lang->column_type_list->radio = "단일 선택";
-    $lang->column_type_list->kr_zip = "한국주소";
-    $lang->column_type_list->jp_zip = "일본주소";
+    $lang->column_type_list['text'] = "한줄 입력칸";
+    $lang->column_type_list['homepage'] = "홈페이지 형식";
+    $lang->column_type_list['email_address'] = "이메일 형식";
+    $lang->column_type_list['tel'] = "전화번호 형식";
+    $lang->column_type_list['textarea'] = "여러줄 입력칸";
+    $lang->column_type_list['checkbox'] = "다중 선택";
+    $lang->column_type_list['radio'] = "단일 선택";
+    $lang->column_type_list['kr_zip'] = "한국주소";
+    $lang->column_type_list['jp_zip'] = "일본주소";
     $lang->column_name = "입력항목 이름";
     $lang->column_title = "입력항목 제목";
 

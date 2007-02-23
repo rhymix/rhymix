@@ -6,7 +6,8 @@
         <action name="dispMemberInsert" type="view" standalone="true" />
         <action name="dispDeleteForm" type="view" standalone="true" />
         <action name="dispGroupList" type="view" standalone="true" />
-        <action name="dispJoinForm" type="view" standalone="true" />
+        <action name="dispJoinFormList" type="view" standalone="true" />
+        <action name="dispInsertJoinForm" type="view" standalone="true" />
         <action name="dispDeniedIDList" type="view" standalone="true" />
 
         <action name="procLogin" type="controller" standalone="true" />

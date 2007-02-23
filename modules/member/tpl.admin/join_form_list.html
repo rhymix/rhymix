@@ -1,0 +1,59 @@
+<!--#include("header.html")-->
+<!--%import("filter/update_join_form.xml")-->
+
+<!-- 정보 -->
+<div>
+  {number_format($total_count)}, 
+  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+</div>
+
+<!-- 목록 -->
+<div>
+  <table>
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->column_type}</th>
+    <th>{$lang->column_title}</th>
+    <th>{$lang->column_name}</th>
+    <th>{$lang->regdate}</th>
+    <th colspan="2">{$lang->cmd_move}</th>
+    <th>{$lang->cmd_modify}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($form_list as $no => $val)-->
+  <tr>
+    <td>{$no}</td>
+    <td>{$lang->column_type_list[$val->column_type]}</td>
+    <td>{$val->column_title}</td>
+    <td>{$val->column_name}</td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td><a href="#" onclick="doUpdateJoinForm('{$val->user_id}','up','{$lang->confirm_delete}');return false;">{$lang->cmd_move_up}</a></td>
+    <td><a href="#" onclick="doUpdateJoinForm('{$val->user_id}','down','{$lang->confirm_delete}');return false;">{$lang->cmd_move_down}</a></td>
+    <td><a href="#" onclick="doUpdateJoinForm('{$val->user_id}','modify','{$lang->confirm_delete}');return false;">{$lang->cmd_modify}</a></td>
+    <td><a href="#" onclick="doUpdateJoinForm('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 가입폼 추가 -->
+<div>
+
+  [<a href="#" onclick="location.href='{getUrl('act','dispInsertJoinForm')}';return false;">{$lang->cmd_make}</a>]
+
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+  <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
+
+  <!--@while($page_no = $page_navigation->getNextPage())-->
+    <!--@if($page == $page_no)-->
+      {$page_no}
+    <!--@else-->
+      <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+    <!--@end-->
+  <!--@end-->
+
+  <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
+</div>

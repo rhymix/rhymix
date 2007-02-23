@@ -197,6 +197,22 @@
         }
 
         /**
+         * @brief 회원 가입폼 추가 확장 목록 가져오기
+         **/
+        function getJoinFormList() {
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            $args->sort_index = "list_order";
+            $args->page = Context::get('page');
+            $args->list_count = 40;
+            $args->page_count = 10;
+
+            $output = $oDB->executeQuery('member.getJoinFormList', $args);
+            return $output;
+        }
+
+        /**
          * @brief 금지 아이디 목록 가져오기
          **/
         function getDeniedIDList() {
