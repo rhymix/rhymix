@@ -27,9 +27,10 @@
             $downloaded_list = FileHandler::readDir('./files/modules');
             $installed_list = FileHandler::readDir('./modules');
             $searched_list = array_merge($downloaded_list, $installed_list);
-            if(!count($searched_list)) return;
+            $searched_count = count($searched_list);
+            if(!$searched_count) return;
 
-            for($i=0;$i<count($searched_list);$i++) {
+            for($i=0;$i<$searched_count;$i++) {
                 // 모듈의 이름
                 $module_name = $searched_list[$i];
 
@@ -48,13 +49,14 @@
                 }
 
                 // 해당 모듈의 정보를 구함
-                $info = $oModuleModel->loadModuleXml($path);
+                $info = $oModuleModel->getModuleInfoXml($module_name);
                 unset($obj);
 
                 $info->module = $module_name;
                 $info->created_table_count = $created_table_count;
                 $info->table_count = $table_count;
                 $info->path = $path;
+                $info->admin_index_act = $info->admin_index_act;
 
                 $list[] = $info;
             }

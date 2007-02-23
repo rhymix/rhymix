@@ -3,20 +3,28 @@
   <td>{$lang->module_name}</td>
   <td>{$lang->module_version}</td>
   <td>{$lang->module_author}</td>
+  <td>{$lang->module_date}</td>
   <td>{$lang->module_table_count}</td>
   <td>{$lang->module_installed_path}</td>
 </tr>
 <!--@foreach($module_list as $key => $val)-->
 <tr>
-  <td rowspan="2"><a href="#" onclick="location.href='{getUrl('mo',$val->module)}'">{$val->title}</a> <br /> ({$val->module})</td>
+  <td rowspan="2">
+    <!--@if($val->admin_index_act)-->
+      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'ac',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
+    <!--@else-->
+      {$val->title} <br />
+      ({$val->module})
+    <!--@end-->
+  </td>
   <td>{$val->version}</td>
   <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+  <td>{$val->author->date}</td>
   <td>{$val->created_table_count}/{$val->table_count}</td>
   <td>{$val->path}</td>
 </tr>
 <tr>
-  <td colspan="4">
-    {$val->author->date}
+  <td colspan="5">
     {nl2br($val->author->description)}
   </td>
 </tr>

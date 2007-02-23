@@ -90,7 +90,7 @@
             $oModuleModel = &getModel('module');
 
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
-            $xml_info = $oModuleModel->getModuleXmlInfo($this->module);
+            $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
