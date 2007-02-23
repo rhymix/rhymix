@@ -1,8 +1,7 @@
-<!--%import("filter/filter.delete_module.xml")-->
+<!--%import("filter.delete_module.xml")-->
 <!--%import("js/admin.js")-->
 
 <form action="./admin.php" method="get" onsubmit="return procFormFilter(this, delete_module, procDelete)">
-<input type="hidden" name="sid" value="{$sid}" />
 <input type="hidden" name="act" value="procDelete" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />

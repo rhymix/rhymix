@@ -1,0 +1,15 @@
+<filter name="insert_board" module="board" act="procInsertboard" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="act" required="true" />
+    <node target="mid" required="true" filter="alpha_number" />
+    <node target="browser_title" required="true" maxlength="250" />
+  </form>
+  <response callback_func="completeBoardInsert">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="module" />
+    <tag name="act" />
+    <tag name="page" />
+    <tag name="module_srl" />
+  </response>
+</filter>

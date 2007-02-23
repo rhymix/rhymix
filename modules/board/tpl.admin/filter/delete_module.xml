@@ -1,0 +1,13 @@
+<filter name="delete_board" module="board" act="procDeleteBoard">
+  <form>
+    <node target="act" required="true" />
+    <node target="module_srl" required="true" />
+  </form>
+  <response callback_func="completeBoardDelete">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="sid" />
+    <tag name="act" />
+    <tag name="page" />
+  </response>
+</filter>

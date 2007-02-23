@@ -5,29 +5,31 @@
  **/
 
 /* 모듈 생성 후 */
-function procInsert(ret_obj, response_tags) {
+function completeBoardInsert(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
+
+  var mo = ret_obj['mo'];
   var act = ret_obj['act'];
   var page = ret_obj['page'];
   var module_srl = ret_obj['module_srl'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&module_srl="+module_srl+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo="+mo+"&module_srl="+module_srl+"&page="+page+"&act="+act;
   location.href = url;
 }
 
 /* 모듈 삭제 후 */
-function procDelete(ret_obj, response_tags) {
+function completeBoardDelet(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
+  var mo = ret_obj['mo'];
   var act = ret_obj['act'];
   var page = ret_obj['page'];
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo="+mo+"&page="+page+"&act="+act;
   location.href = url;
 }
 
@@ -39,30 +41,23 @@ function doUpdateCategory(category_srl, mode, message) {
   fo_obj.category_srl.value = category_srl;
   fo_obj.mode.value = mode;
 
-  procFormFilter(fo_obj, update_category, procReload);
+  procFilter(fo_obj, update_category);
 }
 
 /* 카테고리 정보 수정 후 */
-function procUpdateCategory(ret_obj, response_tags) {
+function completCategoryUpdate(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
   var module_srl = ret_obj['module_srl'];
+
   alert(message);
 
-  var url = "./admin.php?sid=board&module_srl="+module_srl+"&act=dispCategoryInfo";
+  var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminCategoryInfo";
   location.href = url;
 }
 
-/* 메세지 출력후 현페이지 리로드 */
-function procReload(ret_obj, response_tags) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
-  if(message) alert(message);
-  location.href = location.href;
-}
-
 /* 권한 관련 */
-function procSelectAll(obj, key) {
+function doSelectAll(obj, key) {
   var fo_obj = obj.parentNode;
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
   for(var i=0;i<fo_obj.length;i++) {
@@ -71,7 +66,7 @@ function procSelectAll(obj, key) {
   }
 }
 
-function procUnSelectAll(obj, key) {
+function doUnSelectAll(obj, key) {
   var fo_obj = obj.parentNode;
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
   for(var i=0;i<fo_obj.length;i++) {
@@ -80,16 +75,17 @@ function procUnSelectAll(obj, key) {
   }
 }
 
-function procInsertGrant(ret_obj, response_tags) {
+function completedInsertGrant(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
+  var mo = ret_obj['mo'];
   var act = ret_obj['act'];
   var page = ret_obj['page'];
   var module_srl = ret_obj['module_srl'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&module_srl="+module_srl+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo="+mo+"&module_srl="+module_srl+"&page="+page+"&act="+act;
   location.href = url;
 }
 

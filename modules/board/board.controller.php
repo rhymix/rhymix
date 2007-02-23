@@ -340,7 +340,7 @@
             $oModule = &getModule('module_manager');
             $oModule->updateModuleGrant($module_srl, $grant);
 
-            $this->add('sid','board');
+            $this->add('mo','board');
             $this->add('act','dispGrantInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',Context::get('module_srl'));
@@ -361,9 +361,9 @@
             $oModule = &getModule('module_manager');
             $skin_info = $oModule->loadSkinInfo($this->module_path, $skin);
 
-            // 입력받은 변수들을 체크 (sid, act, module_srl, page등 기본적인 변수들 없앰)
+            // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
             $obj = Context::getRequestVars();
-            unset($obj->sid);
+            unset($obj->mo);
             unset($obj->act);
             unset($obj->module_srl);
             unset($obj->page);
@@ -427,7 +427,7 @@
             $oModule = &getModule('module_manager');
             $oModule->updateModuleExtraVars($module_srl, $extra_vars);
 
-            $url = sprintf("./admin.php?sid=%s&module_srl=%s&act=dispSkinInfo&page=%s", 'board', $module_srl, Context::get('page'));
+            $url = sprintf("./admin.php?mo=%s&module_srl=%s&act=dispSkinInfo&page=%s", 'board', $module_srl, Context::get('page'));
             print "<script type=\"text/javascript\">location.href=\"".$url."\";</script>";
             exit();
         }
@@ -444,7 +444,7 @@
 
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
-            unset($extra_var->sid);
+            unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
 
@@ -475,7 +475,7 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','board');
+            $this->add('mo','board');
             $this->add('act','dispInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
@@ -493,7 +493,7 @@
             $output = $oModule->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','board');
+            $this->add('mo','board');
             $this->add('act','dispContent');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
@@ -512,7 +512,7 @@
             $output = $oDocument->insertCategory($module_srl, $category_title);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','board');
+            $this->add('mo','board');
             $this->add('act','dispCategoryInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$module_srl);
