@@ -31,19 +31,19 @@
          * 변수를 세팅한다.
          **/
         function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '') {
-            // act값 설정
-            if(!$act) $this->act = Context::get('act');
-            else $this->act = $act;
-
             // 설치가 안되어 있다면 install module을 지정
             if(!Context::isInstalled()) {
                 $this->module = 'install';
+                $this->act = Context::get('act');
                 return;
             }
 
             // Request Argument중 모듈을 찾을 수 있는 변수를 구함
             if(!$module) $this->module = Context::get('module');
             else $this->module = $module;
+
+            if(!$act) $this->act = Context::get('act');
+            else $this->act = $act;
 
             if(!$mid) $this->mid = Context::get('mid');
             else $this->mid = $mid;
