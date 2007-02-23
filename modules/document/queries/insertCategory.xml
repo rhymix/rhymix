@@ -1,6 +1,6 @@
 <query id="insertCategory" action="insert">
   <tables>
-    <table name="categories" />
+    <table name="document_categoryes" />
   </tables>
   <columns>
     <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />

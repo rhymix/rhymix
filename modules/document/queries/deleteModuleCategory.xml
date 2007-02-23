@@ -1,6 +1,6 @@
 <query id="deleteCategory" action="delete">
   <tables>
-    <table name="categories" />
+    <table name="document_categoryes" />
   </tables>
   <conditions>
     <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />

@@ -1,6 +1,6 @@
 <query id="getCategoryList" action="select">
   <tables>
-    <table name="categories" />
+    <table name="document_categoryes" />
   </tables>
   <conditions>
     <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
