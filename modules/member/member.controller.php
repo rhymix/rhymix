@@ -95,9 +95,7 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','member');
             $this->add('member_srl',$output->get('member_srl'));
-            $this->add('act','dispInfo');
             $this->add('page',Context::get('page'));
             $this->setMessage($msg_code);
         }
@@ -112,7 +110,6 @@
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','member');
             $this->add('page',Context::get('page'));
             $this->setMessage("success_deleted");
         }
@@ -125,8 +122,6 @@
             $output = $this->insertGroup($args);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','member');
-            $this->add('act','dispGroup');
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_registed');
@@ -153,8 +148,6 @@
                     break;
             }
 
-            $this->add('sid','member');
-            $this->add('act','dispGroup');
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
             $this->setMessage($msg_code);
@@ -172,7 +165,6 @@
             $output = $oDB->executeQuery('member.insertJoinForm', $args);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','member');
             $this->add('act','dispJoinForm');
             $this->setMessage('success_registed');
         }
@@ -184,12 +176,10 @@
             $user_id = Context::get('user_id');
             $description = Context::get('description');
 
-            $oMemberModel = &getModel('member');
-            $output = $oMemberModel->insertDeniedID($user_id, $description);
+            $oMemberController = &getController('member');
+            $output = $oMemberController->insertDeniedID($user_id, $description);
             if(!$output->toBool()) return $output;
 
-            $this->add('sid','member');
-            $this->add('act','dispDeniedID');
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_registed');
@@ -212,8 +202,6 @@
                     break;
             }
 
-            $this->add('sid','member');
-            $this->add('act','dispDeniedID');
             $this->add('page',Context::get('page'));
             $this->setMessage($msg_code);
         }

@@ -1,9 +1,9 @@
 <!--%import("js/admin.js")-->
 
 <div style="margin-bottom:20px;">
-    <span>[<a href="{getUrl('act','','member_srl','')}">{$lang->cmd_list}</a>]</span>
-    <span <!--@if($act=='dispGroup')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispGroup')}">{$lang->cmd_member_group}</a>]</span>
+    <span>[<a href="{getUrl('act','dispMemberList','member_srl','')}">{$lang->cmd_list}</a>]</span>
+    <span <!--@if($act=='dispGroupList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispGroupList')}">{$lang->cmd_member_group}</a>]</span>
     <span <!--@if($act=='dispJoinForm')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispJoinForm')}">{$lang->cmd_manage_form}</a>]</span>
     <span <!--@if($act=='dispMailing')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMailing')}">{$lang->cmd_send_mail}</a>]</span>
-    <span <!--@if($act=='dispDeniedID')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispDeniedID')}">{$lang->cmd_manage_id}</a>]</span>
+    <span <!--@if($act=='dispDeniedIDList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispDeniedIDList')}">{$lang->cmd_manage_id}</a>]</span>
 </div>

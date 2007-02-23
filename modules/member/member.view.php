@@ -14,6 +14,7 @@
          * @brief 초기화
          **/
         function init() {
+
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -22,12 +23,15 @@
             if($member_srl) {
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
                 if(!$member_info) Context::set('member_srl','');
-                else Context::set('member_info',$this->member_info);
+                else Context::set('member_info',$member_info);
             }
 
             // group 목록 가져오기
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
+
+            // template path 지정
+            $this->setTemplatePath($this->module_path.'tpl.admin');
 
             return true;
         }
@@ -36,13 +40,10 @@
          * @brief 회원 목록 출력
          **/
         function dispMemberList() {
-            // 등록된 member 모듈을 불러와 세팅
-            $oDB = &DB::getInstance();
-            $args->sort_index = "member_srl";
-            $args->page = Context::get('page');
-            $args->list_count = 40;
-            $args->page_count = 10;
-            $output = $oDB->executeQuery('member.getMemberList', $args);
+
+            // member model 객체 생성후 목록을 구해옴
+            $oMemberModel = &getModel('member');
+            $output = $oMemberModel->getMemberList();
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);

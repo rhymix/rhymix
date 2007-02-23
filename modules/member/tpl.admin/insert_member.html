@@ -9,7 +9,7 @@
   <!--@end-->
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert)" enctype="multipart/form-data">
+<form action="./" method="get" onsubmit="return procFilter(this, insert)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_srl}" />
 <!--@if($member_info->member_srl)-->
@@ -101,7 +101,7 @@
   </tr>
   <tr>
     <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}'" />
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}';return false;" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
     </td>
   </tr>

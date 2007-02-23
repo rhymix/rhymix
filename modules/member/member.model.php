@@ -121,6 +121,20 @@
         }
 
         /**
+         * @brief 회원 목록을 구함
+         **/
+        function getMemberList() {
+            // 등록된 member 모듈을 불러와 세팅
+            $oDB = &DB::getInstance();
+
+            $args->sort_index = "member_srl";
+            $args->page = Context::get('page');
+            $args->list_count = 40;
+            $args->page_count = 10;
+            return $oDB->executeQuery('member.getMemberList', $args);
+        }
+
+        /**
          * @brief member_srl이 속한 group 목록을 가져옴
          **/
         function getMemberGroups($member_srl) {

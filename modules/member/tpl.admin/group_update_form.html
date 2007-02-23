@@ -19,7 +19,7 @@
   {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
   <!--@end-->
   {$lang->description} :<input type="text" name="description" value="{$selected_group->description}" /><br />
-  <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('group_srl','')}'" />
+  <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('group_srl','')}';return false;" />
   <input type="submit" value="{$lang->cmd_modify}" accesskey="s" />
 </div>
 

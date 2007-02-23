@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 <!--%import("filter/insert_denied_id.xml")-->
-<!--%import("filter/filter.update_denied_id.xml")-->
+<!--%import("filter/update_denied_id.xml")-->
 
 <!-- 정보 -->
 <div>
@@ -40,11 +40,11 @@
   <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
 
   <!--@while($page_no = $page_navigation->getNextPage())-->
-  <!--@if($page == $page_no)-->
-    {$page_no}
-  <!--@else-->
-    <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
-  <!--@end-->
+    <!--@if($page == $page_no)-->
+      {$page_no}
+    <!--@else-->
+      <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+    <!--@end-->
   <!--@end-->
 
   <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
@@ -52,8 +52,6 @@
 
 <!-- 금지 아이디 추가 -->
 <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_id)">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsertDeniedID" />
 <input type="hidden" name="page" value="{$page}" />
 
 <div>

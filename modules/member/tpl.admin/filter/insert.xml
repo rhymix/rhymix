@@ -1,16 +1,14 @@
-<filter id="insert">
-  <field>
-    <item target="user_id" required="true" minlength="3" maxlength="20" filter="userid" />
-    <item target="user_name" required="true" minlength="2" maxlength="20" />
-    <item target="nick_name" required="true" minlength="2" maxlength="20" />
-    <item target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
-  </field>
-  <response>
-    <item name="error" />
-    <item name="message" />
-    <item name="sid" />
-    <item name="member_srl" />
-    <item name="act" />
-    <item name="page" />
+<filter name="insert" module="member" act="procInsert">
+  <form>
+    <node target="user_id" required="true" minlength="3" maxlength="20" filter="userid" />
+    <node target="user_name" required="true" minlength="2" maxlength="20" />
+    <node target="nick_name" required="true" minlength="2" maxlength="20" />
+    <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
+  </form>
+  <response callback_func="completeInsert">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="member_srl" />
+    <tag name="page" />
   </response>
 </filter>

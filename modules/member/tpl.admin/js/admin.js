@@ -1,48 +1,43 @@
-/* 메세지 출력후 현페이지 리로드 */
-function procReload(ret_obj, response_tags) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
-  if(message) alert(message);
-
-  location.href = location.href;
-}
-
 /* 사용자 추가 */
-function procInsert(ret_obj, response_tags) {
+function completeInsert(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
   var member_srl = ret_obj['member_srl'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&member_srl="+member_srl+"&page="+page+"&act="+act;
+  var url = "./?module=admin&mo=member&act=dispMemberInfo&member_srl="+member_srl;
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
 /* 사용자 삭제 */
-function procDelete(ret_obj, response_tags) {
+function completeDelete(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
   var page = ret_obj['page'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&page="+page;
+  var url =  "./?module=admin&mo=member&act=dispMemberList";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
 /* 그룹 추가 */
-function procInsertGroup(ret_obj, response_tags) {
+function completeInsertGroup(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo=member&act=dispGroupList";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
@@ -53,20 +48,29 @@ function doUpdateGroup(group_srl, mode, message) {
   var fo_obj = xGetElementById('fo_group_info');
   fo_obj.group_srl.value = group_srl;
   fo_obj.mode.value = mode;
-  procFormFilter(fo_obj, update_group, procReload);
+  procFilter(fo_obj, update_group);
+}
+
+function completeUpdateGroup(ret_obj) {
+  var page = ret_obj['page'];
+  var url =  "./?module=admin&mo=member&act=dispGroupList";
+  if(page) url += "&page="+page;
+
+  location.href = url;
 }
 
 
 /* 금지아이디 추가 */
-function procInsertDeniedID(ret_obj, response_tags) {
+function completeInsertDeniedID(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
+
   alert(message);
 
-  url =  "./admin.php?sid="+sid+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo=member&act=dispDeniedIDList";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
@@ -77,16 +81,19 @@ function doUpdateDeniedID(user_id, mode, message) {
   var fo_obj = xGetElementById('fo_denied_id_info');
   fo_obj.user_id.value = user_id;
   fo_obj.mode.value = mode;
-  procFormFilter(fo_obj, update_denied_id, procReload);
+  procFilter(fo_obj, update_denied_id);
 }
 
 /* 가입폼 관련 */
-function procInsertJoinForm(ret_obj, response_tags) {
+function completeInsertJoinForm(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var sid = ret_obj['sid'];
-  var act = ret_obj['act'];
+  var page = ret_obj['page'];
+
   alert(message);
-  url =  "./admin.php?sid="+sid+"&act="+act;
+
+  var url =  "./?module=admin&mo=member&act=dispJoinForm";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }

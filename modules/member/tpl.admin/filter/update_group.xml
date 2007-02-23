@@ -1,14 +1,10 @@
-<filter id="update_group">
-  <field>
-    <item target="sid" required="true" />
-    <item target="act" required="true" />
-    <item target="group_srl" required="true" />
-  </field>
-  <response>
-    <item name="error" />
-    <item name="message" />
-    <item name="sid" />
-    <item name="act" />
-    <item name="page" />
+<filter name="update_group" module="member" act="procUpdateGroup">
+  <form>
+    <node target="group_srl" required="true" />
+  </form>
+  <response callback_func="completeUpdateGroup">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="page" />
   </response>
 </filter>

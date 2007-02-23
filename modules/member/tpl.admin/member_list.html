@@ -24,7 +24,7 @@
   <!--@foreach($member_list as $no => $val)-->
   <tr>
     <td>{$val->member_srl}</td>
-    <td><a href="{getUrl('act','dispInfo','member_srl',$val->member_srl)}">{$val->user_id}</a></td>
+    <td><a href="{getUrl('act','dispMemberInfo','member_srl',$val->member_srl)}">{$val->user_id}</a></td>
     <td>{$val->user_name}</td>
     <td>{$val->nick_name}</td>
     <td>{$val->allow_mailing}</td>
@@ -39,7 +39,7 @@
 
 <!-- 버튼 -->
 <div>
-  [<a href="{getUrl('act','dispInsert','member_srl','')}">{$lang->cmd_make}</a>]
+  [<a href="{getUrl('act','dispMemberInsert','member_srl','')}">{$lang->cmd_make}</a>]
 </div>
 
 <!-- 페이지 네비게이션 -->
@@ -47,11 +47,11 @@
   <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
 
   <!--@while($page_no = $page_navigation->getNextPage())-->
-  <!--@if($page == $page_no)-->
-    {$page_no}
-  <!--@else-->
-    <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
-  <!--@end-->
+    <!--@if($page == $page_no)-->
+      {$page_no}
+    <!--@else-->
+      <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+    <!--@end-->
   <!--@end-->
 
   <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>

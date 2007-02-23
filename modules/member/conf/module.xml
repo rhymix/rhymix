@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
+        <action name="dispMemberList" type="view" standalone="true" index="true" admin_index="true" />
+        <action name="dispMemberInfo" type="view" standalone="true" />
+        <action name="dispMemberInsert" type="view" standalone="true" />
+        <action name="dispDeleteForm" type="view" standalone="true" />
+        <action name="dispGroupList" type="view" standalone="true" />
+        <action name="dispJoinForm" type="view" standalone="true" />
+        <action name="dispDeniedIDList" type="view" standalone="true" />
+
+        <action name="procLogin" type="controller" standalone="true" />
+        <action name="procLogout" type="controller" standalone="true" />
+        <action name="procInsert" type="controller" standalone="true" />
+        <action name="procDelete" type="controller" standalone="true" />
+        <action name="procInsertGroup" type="controller" standalone="true" />
+        <action name="procUpdateGroup" type="controller" standalone="true" />
+        <action name="procInsertJoinForm" type="controller" standalone="true" />
+        <action name="procInsertDeniedID" type="controller" standalone="true" />
+        <action name="procUpdateDeniedID" type="controller" standalone="true" />
     </actions>
 </module>
