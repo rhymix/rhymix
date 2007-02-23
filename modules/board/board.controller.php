@@ -457,10 +457,11 @@
             // $extra_var를 serialize
             $args->extra_var = serialize($extra_var);
 
-            // is_default=='Y' 이면
-            if($args->is_default=='Y') $oModule->clearDefaultModule();
-
+            // module 모듈의 controller 객체 생성
             $oModuleController = &getController('module');
+
+            // is_default=='Y' 이면
+            if($args->is_default=='Y') $oModuleController->clearDefaultModule();
 
             // module_srl의 값에 따라 insert/update
             if(!$args->module_srl) {
@@ -485,8 +486,8 @@
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
-            $oModuleModel = &getModel('module');
-            $output = $oModuleModel->deleteModule($module_srl);
+            $oModuleController = &getController('module');
+            $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
             $this->add('module','board');
