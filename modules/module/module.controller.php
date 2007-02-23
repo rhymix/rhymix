@@ -86,11 +86,11 @@
         /**
          * @brief 모듈의 권한 정보 변경
          **/
-        function updateModuleGrant($module_srl, $grant) {
+        function updateModuleGrant($module_srl, $grants) {
             $oDB = &DB::getInstance();
 
             $args->module_srl = $module_srl;
-            $args->grant = $grant;
+            $args->grants = $grants;
             $output = $oDB->executeQuery('module.updateModuleGrant', $args);
             return $output;
         }

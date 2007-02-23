@@ -86,7 +86,7 @@
   </tr>
   <tr>
     <th rowspan="2">{$lang->admin_id}</th>
-    <td><textarea name="admin_id">{$module_info->admin_id}</textarea></td>
+    <td><textarea name="admin_id">{implode(",",$module_info->admin_id)}</textarea></td>
   </tr>
   <tr>
     <td>{$lang->about_admin_id}</td>

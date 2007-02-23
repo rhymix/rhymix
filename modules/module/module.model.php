@@ -52,7 +52,7 @@
         /**
          * @brief module_srl에 해당하는 모듈의 정보를 구함
          **/
-        function getModuleInfoByModuleSrl($module_srl='') {
+        function getModuleInfoByModuleSrl($module_srl) {
             // db객체 생성
             $oDB = &DB::getInstance();
 
@@ -60,7 +60,7 @@
             $args->module_srl = $module_srl;
             $output = $oDB->executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
-        
+
             return $this->arrangeModuleInfo($output->data);
         }
 
@@ -68,7 +68,7 @@
          * @brief DB에서 가져온 원 모듈 정보에서 grant, extraVar등의 정리
          **/
         function arrangeModuleInfo($source_module_info) {
-            if(!$source_module_info) return;
+            if(!$source_module_info || !is_object($source_module_info) ) return;
 
             // serialize되어 있는 변수들 추출
             $extra_vars = $source_module_info->extra_vars;
@@ -91,9 +91,7 @@
             if($grants) $module_info->grants = unserialize($grants);
 
             // 관리자 아이디의 정리
-            if($module_info->admin_id) {
-                $module_info->admin_id = explode(',',$module_info->admin_id);
-            }
+            if($admin_id) $module_info->admin_id = explode(',',$admin_id);
 
             return $module_info;
         }

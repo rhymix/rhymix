@@ -81,24 +81,37 @@
 
             // 권한 설정
             if($xml_info->grant) {
+
+                // 이 모듈에 action.xml에서 선언된 권한 목록을 루프
                 foreach($xml_info->grant as $grant_name => $grant_item) {
+
+                    // 제목과 기타 설정 없을 경우의 기본 권한(guest, member, root)에 대한 변수 설정
                     $title = $grant_item->title;
                     $default = $grant_item->default;
 
-                    $grant->{$grant_name} = false;
-
+                    // 관리자이면 모든 권한에 대해 true 설정
                     if($grant->is_admin) {
                         $grant->{$grant_name} = true;
                         continue;
                     }
 
-                    if(count($user_group)) {
-                        foreach($user_group as $group_srl) {
-                            if(in_array($group_srl, $this->module_info->grants[$grant_name])) {
-                                $grant->{$grant_name} = true;
-                                break;
+                    // 일단 현재 권한에 대해 false 지정
+                    $grant->{$grant_name} = false;
+
+                    // 모듈의 개별 설정에서 이 권한에 대한 그룹 지정이 있으면 체크
+                    if(count($this->module_info->grants[$grant_name])) {
+                        $group_srls = $this->module_info->grants[$grang_name];
+
+                        if(count($user_group)) {
+                            foreach($user_group as $group_srl) {
+                                if(in_array($group_srl, $group_srls)) {
+                                    $grant->{$grant_name} = true;
+                                    break;
+                                }
                             }
-                        }
+                        } 
+
+                    // 별도의 지정이 없으면 default값으로 권한 체크
                     } else {
                         switch($default) {
                             case 'member' :
@@ -111,6 +124,7 @@
                                     $grant->{$grant_name} = true;
                                 break;
                         }
+
                     }
                 }
             }

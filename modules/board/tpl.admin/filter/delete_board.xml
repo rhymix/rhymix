@@ -3,7 +3,7 @@
     <node target="act" required="true" />
     <node target="module_srl" required="true" />
   </form>
-  <response callback_func="completeBoardDelete">
+  <response callback_func="completeDeleteBoard">
     <tag name="error" />
     <tag name="message" />
     <tag name="sid" />

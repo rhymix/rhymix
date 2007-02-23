@@ -5,31 +5,31 @@
  **/
 
 /* 모듈 생성 후 */
-function completeBoardInsert(ret_obj) {
+function completeInsertBoard(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
 
-  var module = ret_obj['module'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
   var module_srl = ret_obj['module_srl'];
 
   alert(message);
 
-  var url =  "./?module=admin&mo="+module+"&module_srl="+module_srl+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminBoardInfo";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
 /* 모듈 삭제 후 */
-function completeBoardDelet(ret_obj) {
+function completeDeleteBoard(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var mo = ret_obj['mo'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
   alert(message);
 
-  var url =  "./?module=admin&mo="+mo+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo=board&act=dispAdminContent";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
@@ -45,14 +45,16 @@ function doUpdateCategory(category_srl, mode, message) {
 }
 
 /* 카테고리 정보 수정 후 */
-function completCategoryUpdate(ret_obj) {
+function completeUpdateCategory(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
   var module_srl = ret_obj['module_srl'];
-
+  var page = ret_obj['page'];
   alert(message);
 
   var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminCategoryInfo";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 
@@ -75,17 +77,17 @@ function doUnSelectAll(obj, key) {
   }
 }
 
-function completedInsertGrant(ret_obj) {
+function completeInsertGrant(ret_obj) {
   var error = ret_obj['error'];
   var message = ret_obj['message'];
-  var mo = ret_obj['mo'];
-  var act = ret_obj['act'];
   var page = ret_obj['page'];
   var module_srl = ret_obj['module_srl'];
 
   alert(message);
 
-  var url =  "./?module=admin&mo="+mo+"&module_srl="+module_srl+"&page="+page+"&act="+act;
+  var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminGrantInfo";
+  if(page) url += "&page="+page;
+
   location.href = url;
 }
 

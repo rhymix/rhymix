@@ -1,13 +1,11 @@
-<filter id="update_category">
-  <field>
-    <item target="sid" required="true" />
-    <item target="act" required="true" />
-    <item target="category_srl" required="true" />
-    <item target="mode" required="true" />
-  </field>
-  <response>
-    <item name="error" />
-    <item name="message" />
-    <item name="module_srl" />
+<filter name="update_category" module="board" act="procUpdateCategory">
+  <form>
+    <node target="category_srl" required="true" />
+    <node target="mode" required="true" />
+  </form>
+  <response callback_func="completeUpdateCategory">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="module_srl" />
   </response>
 </filter>

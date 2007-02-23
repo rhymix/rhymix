@@ -5,6 +5,7 @@
 <!-- 카테고리 수정 -->
 <!--@if($selected_category)-->
 <form action="./" method="post" onsubmit="return procFilter(this, update_category)" enctype="multipart/form-data">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="category_srl" value="{$selected_category->category_srl}" />
 <input type="hidden" name="mode" value="update" />
 

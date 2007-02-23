@@ -18,7 +18,7 @@
     /**
      * @brief debug mode = true 일때 files/_debug_message.php 에 디버그 내용이 쌓임
      **/
-    define('__DEBUG__', false);
+    define('__DEBUG__', true);
     if(__DEBUG__) {
         
         // php5이상이면 error handling을 handleError() 로 set

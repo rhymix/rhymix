@@ -326,23 +326,19 @@
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
-            $oBoardModel = &getModel('board');
-            $grant_list = $oBoardModel->grant_list;
+            $grant_list = $this->xml_info->grant;
 
             if(count($grant_list)) {
-                foreach($grant_list as $grant) {
-                    $group_srls = Context::get($grant);
-                    if($group_srls) $arr_grant[$grant] = explode(',',Context::get($grant));
+                foreach($grant_list as $key => $val) {
+                    $group_srls = Context::get($key);
+                    if($group_srls) $arr_grant[$key] = explode(',',$group_srls);
                 }
-                $grant = serialize($arr_grant);
+                $grants = serialize($arr_grant);
             }
 
             $oModuleController = &getController('module');
-            $oModuleController->updateModuleGrant($module_srl, $grant);
+            $oModuleController->updateModuleGrant($module_srl, $grants);
 
-            $this->add('module','board');
-            $this->add('act','dispAdminGrantInfo');
-            $this->add('page',Context::get('page'));
             $this->add('module_srl',Context::get('module_srl'));
             $this->setMessage('success_registed');
         }
@@ -436,8 +432,10 @@
          **/
         function procInsertBoard() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','mid','skin','use_category','browser_title','description','is_default','header_text','footer_text','admin_id');
+            $args = Context::gets('module_srl','board_name','skin','use_category','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'board';
+            $args->mid = $args->board_name;
+            unset($args->board_name);
             if($args->is_default!='Y') $args->is_default = 'N';
             if($args->use_category!='Y') $args->use_category = 'N';
 
@@ -447,12 +445,11 @@
             unset($extra_var->act);
             unset($extra_var->page);
 
-            // module_srl이 있으면 원본을 구해온다
-            $oModuleModel = &getModel('model');
-
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
+                $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+
                 // 만약 원래 모듈이 없으면 새로 입력하기 위한 처리
                 if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
@@ -463,19 +460,19 @@
             // is_default=='Y' 이면
             if($args->is_default=='Y') $oModule->clearDefaultModule();
 
+            $oModuleController = &getController('module');
+
             // module_srl의 값에 따라 insert/update
             if(!$args->module_srl) {
-                $output = $oModule->insertModule($args);
+                $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
             } else {
-                $output = $oModule->updateModule($args);
+                $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
             }
 
             if(!$output->toBool()) return $output;
 
-            $this->add('module','board');
-            $this->add('act','dispAdminBoardInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);
@@ -493,7 +490,6 @@
             if(!$output->toBool()) return $output;
 
             $this->add('module','board');
-            $this->add('act','dispAdminContent');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
@@ -507,12 +503,10 @@
             $category_title = Context::get('category_title');
 
             // module_srl이 있으면 원본을 구해온다
-            $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->insertCategory($module_srl, $category_title);
+            $oDocumentController = &getController('document');
+            $output = $oDocumentController->insertCategory($module_srl, $category_title);
             if(!$output->toBool()) return $output;
 
-            $this->add('module','board');
-            $this->add('act','dispAdminCategoryInfo');
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$module_srl);
             $this->setMessage('success_registed');
@@ -522,6 +516,7 @@
          * @brief 카테고리의 내용 수정
          **/
         function procUpdateCategory() {
+            $module_srl = Context::get('module_srl');
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
 
@@ -551,7 +546,8 @@
                     break;
             }
             if(!$output->toBool()) return $output;
-            $this->add('module_srl', $selected_category->module_srl);
+
+            $this->add('module_srl', $module_srl);
             $this->setMessage($msg_code);
         }
     }

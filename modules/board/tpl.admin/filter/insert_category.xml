@@ -1,15 +1,12 @@
 <filter name="insert_category" module="board" act="procInsertCategory" confirm_msg_code="confirm_submit">
   <form>
-    <node target="sid" required="true" />
-    <node target="act" required="true" />
     <node target="module_srl" required="true" />
     <node target="category_title" required="true" />
   </form>
-  <response callback_func="completeCategoryUpdate">
-    <item name="error" />
-    <item name="message" />
-    <item name="act" />
-    <item name="page" />
-    <item name="module_srl" />
+  <response callback_func="completeUpdateCategory">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="page" />
+    <tag name="module_srl" />
   </response>
 </filter>

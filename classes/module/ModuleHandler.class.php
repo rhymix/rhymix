@@ -50,7 +50,6 @@
 
             if(!$document_srl) $this->document_srl = Context::get('document_srl');
             else $this->document_srl = $document_srl;
-
         }
 
         /**

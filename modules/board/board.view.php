@@ -30,7 +30,10 @@
                     if(!$module_info) {
                         Context::set('module_srl','');
                         $this->act = 'list';
-                    } else Context::set('module_info',$module_info);
+                    } else {
+                        $this->module_info = $module_info;
+                        Context::set('module_info',$module_info);
+                    }
                 }
 
             // 일반 action일 경우
@@ -391,13 +394,6 @@
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispAdminContent();
 
-            // 요청받은 모듈의 정보를 구함
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-            // template에서 사용하기 위해 설정
-            Context::set('module_info',$module_info);
-
             // 템플릿 파일 지정
             $this->setTemplateFile('board_info');
         }
@@ -499,8 +495,6 @@
 
             // module.xml에서 권한 관련 목록을 구해옴
             $grant_list = $this->xml_info->grant;
-
-            // 권한 목록 세팅
             Context::set('grant_list', $grant_list);
 
             // 권한 그룹의 목록을 가져온다
