@@ -157,11 +157,12 @@
          * @brief 가입 항목 추가
          **/
         function procInsertJoinForm() {
+            $oDB = &DB::getInstance();
             $args->column_type = Context::get('column_type');
             $args->column_name = Context::get('column_name');
             $args->column_title = Context::get('column_title');
+            $args->list_order = $oDB->getNextSequence();
 
-            $oDB = &DB::getInstance();
             $output = $oDB->executeQuery('member.insertJoinForm', $args);
             if(!$output->toBool()) return $output;
 
