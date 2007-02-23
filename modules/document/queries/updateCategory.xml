@@ -1,6 +1,6 @@
 <query id="updateCategory" action="update">
   <tables>
-    <table name="document_categoryes" />
+    <table name="document_categories" />
   </tables>
   <columns>
     <column name="title" var="title" />
