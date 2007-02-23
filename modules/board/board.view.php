@@ -369,7 +369,7 @@
             Context::set('page_navigation', $output->page_navigation);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('list');
+            $this->setTemplateFile('index');
         }
 
         /**
@@ -387,7 +387,7 @@
             Context::set('module_info',$module_info);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('info');
+            $this->setTemplateFile('board_info');
         }
 
         /**
@@ -395,7 +395,7 @@
          **/
         function dispAdminInsertBoard() {
             // 템플릿 파일 지정
-            $this->setTemplateFile('insert_form');
+            $this->setTemplateFile('board_insert');
         }
 
         /**
@@ -413,7 +413,7 @@
             Context::set('module_info',$module_info);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('delete_form');
+            $this->setTemplateFile('board_delete');
         }
 
         /**
