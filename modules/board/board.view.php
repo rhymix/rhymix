@@ -443,9 +443,6 @@
 
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module, $skin);
-            print "<pre>";
-            print_r($skin_info);
-            print "</pre>";
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {
