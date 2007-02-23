@@ -1,13 +1,11 @@
 <!--#include("header.html")-->
-<!--%import("filter/filter.insert_join_form.xml")-->
+<!--%import("filter/insert_join_form.xml")-->
 
 <div>
   {$lang->cmd_manage_form}
 </div>
 
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert_join_form, procInsertJoinForm)">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsertJoinForm" />
+<form action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
 
   <table>
   <tr>

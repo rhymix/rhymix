@@ -16,7 +16,7 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function doLogin($user_id, $password) {
+        function procLogin($user_id, $password) {
             // 변수 정리
             $user_id = trim($user_id);
             $password = trim($password);
@@ -58,11 +58,164 @@
         /**
          * @brief 로그아웃
          **/
-        function doLogout() {
+        function procLogout() {
             $_SESSION['is_logged'] = false;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['logged_info'] = NULL;
             return new Object();
+        }
+
+        /**
+         * @brief 사용자 추가 (관리자용)
+         **/
+        function procInsert() {
+            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','signature','profile_image','image_nick','image_mark','description','group_srl_list');
+
+            // member_srl이 넘어오면 원 회원이 있는지 확인
+            if($args->member_srl) {
+                // 멤버 모델 객체 생성
+                $oMemberModel = &getModel('member');
+
+                // 회원 정보 구하기
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+
+                // 만약 원래 회원이 없으면 새로 입력하기 위한 처리
+                if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
+            }
+
+            // member_srl의 값에 따라 insert/update
+            if(!$args->member_srl) {
+                $output = $this->insertMember($args);
+                $msg_code = 'success_registed';
+            } else {
+                $output = $this->updateMember($args);
+                $msg_code = 'success_updated';
+            }
+
+            if(!$output->toBool()) return $output;
+
+            $this->add('sid','member');
+            $this->add('member_srl',$output->get('member_srl'));
+            $this->add('act','dispInfo');
+            $this->add('page',Context::get('page'));
+            $this->setMessage($msg_code);
+        }
+
+        /**
+         * @brief 사용자 삭제 (관리자용)
+         **/
+        function procDelete() {
+            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
+            $member_srl = Context::get('member_srl');
+
+            $output = $this->deleteMember($member_srl);
+            if(!$output->toBool()) return $output;
+
+            $this->add('sid','member');
+            $this->add('page',Context::get('page'));
+            $this->setMessage("success_deleted");
+        }
+
+        /**
+         * @brief 사용자 그룹 추가
+         **/
+        function procInsertGroup() {
+            $args = Context::gets('title','description','is_default');
+            $output = $this->insertGroup($args);
+            if(!$output->toBool()) return $output;
+
+            $this->add('sid','member');
+            $this->add('act','dispGroup');
+            $this->add('group_srl','');
+            $this->add('page',Context::get('page'));
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 사용자 그룹 정보 수정
+         **/
+        function procUpdateGroup() {
+            $group_srl = Context::get('group_srl');
+            $mode = Context::get('mode');
+
+            switch($mode) {
+                case 'delete' :
+                        $output = $this->deleteGroup($group_srl);
+                        if(!$output->toBool()) return $output;
+                        $msg_code = 'success_deleted';
+                    break;
+                case 'update' :
+                        $args = Context::gets('group_srl','title','description','is_default');
+                        $output = $this->updateGroup($args);
+                        if(!$output->toBool()) return $output;
+                        $msg_code = 'success_updated';
+                    break;
+            }
+
+            $this->add('sid','member');
+            $this->add('act','dispGroup');
+            $this->add('group_srl','');
+            $this->add('page',Context::get('page'));
+            $this->setMessage($msg_code);
+        }
+
+        /**
+         * @brief 가입 항목 추가
+         **/
+        function procInsertJoinForm() {
+            $args->column_type = Context::get('column_type');
+            $args->column_name = Context::get('column_name');
+            $args->column_title = Context::get('column_title');
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('member.insertJoinForm', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->add('sid','member');
+            $this->add('act','dispJoinForm');
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 금지 아이디 추가
+         **/
+        function procInsertDeniedID() {
+            $user_id = Context::get('user_id');
+            $description = Context::get('description');
+
+            $oMemberModel = &getModel('member');
+            $output = $oMemberModel->insertDeniedID($user_id, $description);
+            if(!$output->toBool()) return $output;
+
+            $this->add('sid','member');
+            $this->add('act','dispDeniedID');
+            $this->add('group_srl','');
+            $this->add('page',Context::get('page'));
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 금지 아이디 업데이트
+         **/
+        function procUpdateDeniedID() {
+            $user_id = Context::get('user_id');
+            $mode = Context::get('mode');
+
+            $oMemberController = &getController('member');
+
+            switch($mode) {
+                case 'delete' :
+                        $output = $oMemberController->deleteDeniedID($user_id);
+                        if(!$output->toBool()) return $output;
+                        $msg_code = 'success_deleted';
+                    break;
+            }
+
+            $this->add('sid','member');
+            $this->add('act','dispDeniedID');
+            $this->add('page',Context::get('page'));
+            $this->setMessage($msg_code);
         }
 
         /**
@@ -308,157 +461,5 @@
             return $oDB->executeQuery('member.deleteDeniedID', $args);
         }
 
-        /**
-         * @brief 사용자 추가 (관리자용)
-         **/
-        function procInsert() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','signature','profile_image','image_nick','image_mark','description','group_srl_list');
-
-            // member_srl이 넘어오면 원 회원이 있는지 확인
-            if($args->member_srl) {
-                // 멤버 모델 객체 생성
-                $oMemberModel = &getModel('member');
-
-                // 회원 정보 구하기
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-
-                // 만약 원래 회원이 없으면 새로 입력하기 위한 처리
-                if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
-            }
-
-            // member_srl의 값에 따라 insert/update
-            if(!$args->member_srl) {
-                $output = $this->insertMember($args);
-                $msg_code = 'success_registed';
-            } else {
-                $output = $this->updateMember($args);
-                $msg_code = 'success_updated';
-            }
-
-            if(!$output->toBool()) return $output;
-
-            $this->add('sid','member');
-            $this->add('member_srl',$output->get('member_srl'));
-            $this->add('act','dispInfo');
-            $this->add('page',Context::get('page'));
-            $this->setMessage($msg_code);
-        }
-
-        /**
-         * @brief 사용자 삭제 (관리자용)
-         **/
-        function procDelete() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $member_srl = Context::get('member_srl');
-
-            $output = $this->deleteMember($member_srl);
-            if(!$output->toBool()) return $output;
-
-            $this->add('sid','member');
-            $this->add('page',Context::get('page'));
-            $this->setMessage("success_deleted");
-        }
-
-        /**
-         * @brief 사용자 그룹 추가
-         **/
-        function procInsertGroup() {
-            $args = Context::gets('title','description','is_default');
-            $output = $this->insertGroup($args);
-            if(!$output->toBool()) return $output;
-
-            $this->add('sid','member');
-            $this->add('act','dispGroup');
-            $this->add('group_srl','');
-            $this->add('page',Context::get('page'));
-            $this->setMessage('success_registed');
-        }
-
-        /**
-         * @brief 사용자 그룹 정보 수정
-         **/
-        function procUpdateGroup() {
-            $group_srl = Context::get('group_srl');
-            $mode = Context::get('mode');
-
-            switch($mode) {
-                case 'delete' :
-                        $output = $this->deleteGroup($group_srl);
-                        if(!$output->toBool()) return $output;
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $args = Context::gets('group_srl','title','description','is_default');
-                        $output = $this->updateGroup($args);
-                        if(!$output->toBool()) return $output;
-                        $msg_code = 'success_updated';
-                    break;
-            }
-
-            $this->add('sid','member');
-            $this->add('act','dispGroup');
-            $this->add('group_srl','');
-            $this->add('page',Context::get('page'));
-            $this->setMessage($msg_code);
-        }
-
-        /**
-         * @brief 가입 항목 추가
-         **/
-        function procInsertJoinForm() {
-            $args->column_type = Context::get('column_type');
-            $args->column_name = Context::get('column_name');
-            $args->column_title = Context::get('column_title');
-
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('member.insertJoinForm', $args);
-            if(!$output->toBool()) return $output;
-
-            $this->add('sid','member');
-            $this->add('act','dispJoinForm');
-            $this->setMessage('success_registed');
-        }
-
-        /**
-         * @brief 금지 아이디 추가
-         **/
-        function procInsertDeniedID() {
-            $user_id = Context::get('user_id');
-            $description = Context::get('description');
-
-            $oMemberModel = &getModel('member');
-            $output = $oMemberModel->insertDeniedID($user_id, $description);
-            if(!$output->toBool()) return $output;
-
-            $this->add('sid','member');
-            $this->add('act','dispDeniedID');
-            $this->add('group_srl','');
-            $this->add('page',Context::get('page'));
-            $this->setMessage('success_registed');
-        }
-
-        /**
-         * @brief 금지 아이디 업데이트
-         **/
-        function procUpdateDeniedID() {
-            $user_id = Context::get('user_id');
-            $mode = Context::get('mode');
-
-            $oMemberController = &getController('member');
-
-            switch($mode) {
-                case 'delete' :
-                        $output = $oMemberController->deleteDeniedID($user_id);
-                        if(!$output->toBool()) return $output;
-                        $msg_code = 'success_deleted';
-                    break;
-            }
-
-            $this->add('sid','member');
-            $this->add('act','dispDeniedID');
-            $this->add('page',Context::get('page'));
-            $this->setMessage($msg_code);
-        }
     }
 ?>

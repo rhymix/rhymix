@@ -1,5 +1,5 @@
 <!--#include("header.html")-->
-<!--%import("filter/filter.insert_denied_id.xml")-->
+<!--%import("filter/insert_denied_id.xml")-->
 <!--%import("filter/filter.update_denied_id.xml")-->
 
 <!-- 정보 -->
@@ -9,9 +9,7 @@
 </div>
 
 <!-- 금지아이디의 삭제와 관련된 form -->
-<form id="fo_denied_id_info" action="./admin.php" method="post">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procUpdateDeniedID" />
+<form id="fo_denied_id_info" action="./" method="get">
 <input type="hidden" name="user_id" value="" />
 <input type="hidden" name="mode" value="" />
 </form>
@@ -53,7 +51,7 @@
 </div>
 
 <!-- 금지 아이디 추가 -->
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert_denied_id, procInsertDeniedID)" enctype="multipart/form-data">
+<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_id)">
 <input type="hidden" name="sid" value="{$sid}" />
 <input type="hidden" name="act" value="procInsertDeniedID" />
 <input type="hidden" name="page" value="{$page}" />

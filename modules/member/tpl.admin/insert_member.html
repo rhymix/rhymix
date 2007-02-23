@@ -1,5 +1,5 @@
 <!--#include("header.html")-->
-<!--%import("filter/filter.insert.xml")-->
+<!--%import("filter/insert.xml")-->
 
 <div>
   <!--@if(!$member_srl)-->
@@ -9,9 +9,7 @@
   <!--@end-->
 </div>
 
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, insert, procInsert)" enctype="multipart/form-data">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procInsert" />
+<form action="./" method="get" onsubmit="return procFilter(this, insert)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_srl}" />
 <!--@if($member_info->member_srl)-->

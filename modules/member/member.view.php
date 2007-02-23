@@ -35,7 +35,7 @@
         /**
          * @brief 회원 목록 출력
          **/
-        function dispContent() {
+        function dispMemberList() {
             // 등록된 member 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
             $args->sort_index = "member_srl";
@@ -52,20 +52,20 @@
             Context::set('page_navigation', $output->page_navigation);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('list');
+            $this->setTemplateFile('member_list');
         }
 
         /**
          * @brief 회원 정보 출력
          **/
-        function dispInfo() {
+        function dispMemberInfo() {
             $this->setTemplateFile('member_info');
         }
 
         /**
          * @brief 회원 정보 입력 화면 출력
          **/
-        function dispInsert() {
+        function dispMemberInsert() {
             // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');
         }
@@ -81,7 +81,7 @@
         /**
          * @brief 그룹 목록 출력
          **/
-        function dispGroup() {
+        function dispGroupList() {
             $group_srl = Context::get('group_srl');
 
             if($group_srl && $this->group_list[$group_srl]) {
@@ -102,7 +102,7 @@
         /**
          * @brief 금지 목록 아이디 출력
          **/
-        function dispDeniedID() {
+        function dispDeniedIDList() {
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -115,7 +115,7 @@
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
-            $this->setTemplateFile('denied_list');
+            $this->setTemplateFile('denied_id_list');
         }
     }
 ?>

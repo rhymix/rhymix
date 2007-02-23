@@ -1,9 +1,7 @@
-<!--%import("filter/filter.delete.xml")-->
+<!--%import("filter/delete.xml")-->
 <!--%import("js/admin.js")-->
 
-<form action="./admin.php" method="get" onsubmit="return procFormFilter(this, delete_member, procDelete)">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procDelete" />
+<form action="./" method="get" onsubmit="return procFilter(this, delete_member)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
   <table>
@@ -24,7 +22,7 @@
   </tr>
   <tr>
     <td colspan="2">
-      <input type="button" value="{$lang->cmd_back}" onclick="location.href='{@getUrl('act','')}'" />
+      <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispContent')}'" />
       <input type="submit" value="{$lang->cmd_delete}" />
     </td>
   </tr>

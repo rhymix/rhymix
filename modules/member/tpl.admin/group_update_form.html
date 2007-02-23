@@ -1,5 +1,5 @@
 <!--#include("header.html")-->
-<!--%import("filter/filter.update_group.xml")-->
+<!--%import("filter/update_group.xml")-->
 
 <!-- 게시판 정보 -->
 <div>
@@ -8,9 +8,7 @@
 
 <!-- 그룹 수정 -->
 <!--@if($selected_group)-->
-<form action="./admin.php" method="post" onsubmit="return procFormFilter(this, update_group, procInsertGroup)" enctype="multipart/form-data">
-<input type="hidden" name="sid" value="{$sid}" />
-<input type="hidden" name="act" value="procUpdateGroup" />
+<form action="./" method="get" onsubmit="return procFilter(this, update_group)">
 <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
 <input type="hidden" name="mode" value="update" />
 <!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
