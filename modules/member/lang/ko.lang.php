@@ -36,6 +36,7 @@
     $lang->column_type_list['jp_zip'] = "일본주소";
     $lang->column_name = "입력항목 이름";
     $lang->column_title = "입력항목 제목";
+    $lang->is_active = "활성";
 
     $lang->msg_new_member = "회원 추가";
     $lang->msg_update_member = "회원 정보 수정";
@@ -59,4 +60,5 @@
     $lang->about_column_type = "추가하실 가입폼의 형식을 지정해주세요";
     $lang->about_column_name = "템플릿에서 사용할수 있는 영문으로 된 이름을 적어주세요 (변수명)";
     $lang->about_column_title = "가입 또는 정보 수정/조회시에 표시될 제목입니다";
+    $lang->about_active = "활성 항목에 체크를 하셔야 가입시 정상적으로 노출됩니다";
 ?>

@@ -5,6 +5,7 @@
   <column name="column_title" type="varchar" size="60" notnull="notnull" />
   <column name="required" type="char" size="1" default="N" notnull="notnull" />
   <column name="default_value" type="text" />
+  <column name="is_active" type="char" size="1" default="Y" />
   <column name="list_order" type="number" size="11" notnull="notnull" default="1" index="idx_list_order" />
   <column name="regdate" type="date" />
 </table>

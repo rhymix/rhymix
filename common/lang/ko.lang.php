@@ -86,7 +86,7 @@
   $lang->first_page = '첫페이지';
   $lang->last_page = '끝페이지';
   $lang->search_target = '검색대상';
-  $lang->keyword = '검색어';
+  $lang->search_keyword = '검색어';
   $lang->is_default = "기본";
 
   $lang->use = "사용";
