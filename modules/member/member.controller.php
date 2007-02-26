@@ -161,6 +161,8 @@
             $args->column_type = Context::get('column_type');
             $args->column_name = Context::get('column_name');
             $args->column_title = Context::get('column_title');
+            $args->is_active = Context::get('is_active');
+            if(!in_array(strtoupper($args->is_active), array('Y','N'))) $args->is_active = 'N';
             $args->list_order = $oDB->getNextSequence();
 
             $output = $oDB->executeQuery('member.insertJoinForm', $args);
