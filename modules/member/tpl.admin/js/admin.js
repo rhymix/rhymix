@@ -121,3 +121,17 @@ function completeInsertJoinForm(ret_obj) {
 
   location.href = url;
 }
+
+/* 가입폼의 기본 값 관리 */
+function doShowJoinFormValue(sel_obj) {
+  var val = sel_obj.options[sel_obj.selectedIndex].value;
+  switch(val) {
+    case 'checkbox' :
+    case 'select' :
+        xGetElementById('zone_default_value').style.display = 'block';
+      break;
+    default :
+        xGetElementById('zone_default_value').style.display = 'none';
+      break;
+  }
+}

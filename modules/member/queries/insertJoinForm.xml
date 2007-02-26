@@ -9,6 +9,7 @@
     <column name="column_title" var="column_title" />
     <column name="required" var="required" default="N" />
     <column name="is_active" var="is_active" default="N" />
+    <column name="description" var="description" />
     <column name="regdate" default="curdate()" />
     <column name="list_order" var="list_order" default="1" />
   </columns>
