@@ -111,6 +111,14 @@
          * @brief 회원 가입 폼 관리 화면 출력
          **/
         function dispInsertJoinForm() {
+            // 수정일 경우 대상 join_form의 값을 구함
+            $member_join_form_srl = Context::get('member_join_form_srl');
+            if($member_join_form_srl) {
+                $oMemberModel = &getModel('member');
+                $join_form = $oMemberModel->getJoinForm($member_join_form_srl);
+                if(!$join_form) Context::set('member_join_form_srl','',true);
+                else Context::set('join_form', $join_form);
+            }
             $this->setTemplateFile('insert_join_form');
         }
 

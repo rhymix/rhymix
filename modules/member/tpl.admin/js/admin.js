@@ -172,4 +172,12 @@ function doEditDefaultValue(obj, cmd) {
         else listup_obj.selectedIndex = idx-1;
       break;
   }
+
+  var value_list = new Array();
+  for(var i=0;i<listup_obj.options.length;i++) {
+    value_list[value_list.length] = listup_obj.options[i].value;
+  }
+
+  xGetElementById('fo_join_form').default_value.value = value_list.join('|@|');
+
 }

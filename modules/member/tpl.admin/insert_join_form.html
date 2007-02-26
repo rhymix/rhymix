@@ -5,8 +5,9 @@
   {$lang->cmd_manage_form}
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
+<form id="fo_join_form" action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
   <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
+  <input type="hidden" name="default_value" value="{implode($join_form->default_value,'|@|')}" />
 
   <table>
   <tr id="zone_column_type">
@@ -19,7 +20,7 @@
           <!--@end-->
         </select>
       </div>
-      <div id="zone_default_value" style="display:none">
+      <div id="zone_default_value" style="<!--@if($join_form->default_value)-->display:block;<!--@else-->display:none<!--@end-->">
         <table>
         <tr>
           <td>{$lang->default_value}</td>
@@ -27,7 +28,12 @@
         <tr>
           <td>
             <div>
-              <select name="default_value" size="8" style="width:200px;" id="default_value_listup">
+              <select name="default_value_list" size="8" style="width:200px;" id="default_value_listup">
+                <!--@foreach($join_form->default_value as $value_key => $value_val)-->
+                  <!--@if($value_val)-->
+                <option value="{$value_val}">{$value_val}</option>
+                  <!--@end-->
+                <!--@end-->
               </select>
             </div>
             <div>
@@ -73,6 +79,13 @@
     <td>{$lang->about_active}</td>
   </tr>
   <tr>
+    <th rowspan="2">{$lang->is_required}</th>
+    <td><input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_required}</td>
+  </tr>
+  <tr>
     <th rowspan="2">{$lang->description}</th>
     <td><textarea name="description">{$join_form->description}</textarea></td>
   </tr>
@@ -80,7 +93,9 @@
     <td>{$lang->about_form_description}</td>
   </tr>
   <tr>
-    <td colspan="2"><input type="submit" value="{$lang->cmd_registration}" />
+    <td colspan="2">
+      <input type="submit" value="{$lang->cmd_registration}" />
+    </td>
   </tr>
   </table>
 

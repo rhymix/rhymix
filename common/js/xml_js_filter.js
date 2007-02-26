@@ -95,7 +95,9 @@ function XmlJsFilterGetValue(target_name) {
           break;
       case 'select' :
       case 'select-one' :
-            value = obj.options[obj.selectedIndex].value;
+            if(obj.options.length>0) {
+                value = obj.options[obj.selectedIndex].value;
+            }
           break;
       default :
             value = obj.value;

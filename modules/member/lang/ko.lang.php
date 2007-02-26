@@ -38,6 +38,7 @@
     $lang->column_title = "입력항목 제목";
     $lang->default_value = "기본 값";
     $lang->is_active = "활성";
+    $lang->is_required = "필수항목";
 
     $lang->msg_new_member = "회원 추가";
     $lang->msg_update_member = "회원 정보 수정";
@@ -64,4 +65,5 @@
     $lang->about_default_value = "기본으로 입력될 값을 정하실 수 있습니다";
     $lang->about_active = "활성 항목에 체크를 하셔야 가입시 정상적으로 노출됩니다";
     $lang->about_form_description = "설명란에 입력을 하시면 가입시 표시가 됩니다";
+    $lang->about_required = "체크하시면 회원가입시 필수항목으로 입력하도록 됩니다";
 ?>

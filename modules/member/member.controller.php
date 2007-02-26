@@ -158,15 +158,31 @@
          **/
         function procInsertJoinForm() {
             $oDB = &DB::getInstance();
+
+            $args->member_join_form_srl = Context::get('member_join_form_srl');
+
             $args->column_type = Context::get('column_type');
             $args->column_name = Context::get('column_name');
             $args->column_title = Context::get('column_title');
+            $args->default_value = explode('|@|', Context::get('default_value'));
             $args->is_active = Context::get('is_active');
             if(!in_array(strtoupper($args->is_active), array('Y','N'))) $args->is_active = 'N';
+            $args->required = Context::get('required');
+            if(!in_array(strtoupper($args->required), array('Y','N'))) $args->required = 'N';
             $args->description = Context::get('description');
             $args->list_order = $oDB->getNextSequence();
 
-            $output = $oDB->executeQuery('member.insertJoinForm', $args);
+            // 기본값의 정리
+            if(in_array($args->column_type, array('checkbox','select')) && count($args->default_value) ) {
+                $args->default_value = serialize($args->default_value);
+            } else {
+                $args->default_value = '';
+            }
+
+            // member_join_form_srl이 있으면 수정, 없으면 추가
+            if(!$args->member_join_form_srl) $output = $oDB->executeQuery('member.insertJoinForm', $args);
+            else $output = $oDB->executeQuery('member.updateJoinForm', $args);
+
             if(!$output->toBool()) return $output;
 
             $this->add('act','dispJoinForm');

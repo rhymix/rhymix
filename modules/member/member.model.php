@@ -213,9 +213,42 @@
             $join_form_count = count($join_form_list);
             for($i=0;$i<$join_form_count;$i++) {
                 $member_join_form_srl = $join_form_list[$i]->member_join_form_srl;
+                $column_type = $join_form_list[$i]->column_type;
+                $default_value = $join_form_list[$i]->default_value;
+
+                if(in_array($column_type, array('checkbox','select'))) {
+                    $join_form_list[$i]->default_value = unserialize($default_value);
+                    if(!$join_form_list[$i]->default_value[0]) $join_form_list[$i]->default_value = '';
+                } else {
+                    $join_form_list[$i]->default_value = '';
+                }
+
                 $list[$member_join_form_srl] = $join_form_list[$i];
             }
             return $list;
+        }
+
+        /**
+         * @brief 한개의 가입항목을 가져옴
+         **/
+        function getJoinForm($member_join_form_srl) {
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+            $args->member_join_form_srl = $member_join_form_srl;
+            $output = $oDB->executeQuery('member.getJoinForm', $args);
+            $join_form = $output->data;
+            if(!$join_form) return NULL;
+
+            $column_type = $join_form->column_type;
+            $default_value = $join_form->default_value;
+
+            if(in_array($column_type, array('checkbox','select'))) {
+                $join_form->default_value = unserialize($default_value);
+            } else {
+                $join_form->default_value = '';
+            }
+
+            return $join_form;
         }
 
         /**
