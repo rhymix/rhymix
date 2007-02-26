@@ -27,18 +27,17 @@
         <tr>
           <td>
             <div>
-              <select name="default_value" size="8" style="width:200px;">
-                <option value="" />
+              <select name="default_value" size="8" style="width:200px;" id="default_value_listup">
               </select>
             </div>
             <div>
-              <input type="text" name="default_value_item" />
-              <input type="button" value="{$lang->cmd_insert}" />
+              <input type="text" name="default_value_item" id="default_value_item" />
+              <input type="button" value="{$lang->cmd_insert}" onclick="doEditDefaultValue(this, 'insert');return false;" />
             </div>
             <div>
-              <input type="button" value="{$lang->cmd_move_up}" />
-              <input type="button" value="{$lang->cmd_move_down}" />
-              <input type="button" value="{$lang->cmd_delete}" />
+              <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up');return false;" />
+              <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down');return false;" />
+              <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete');return false;" />
             </div>
           </td>
         </tr>
