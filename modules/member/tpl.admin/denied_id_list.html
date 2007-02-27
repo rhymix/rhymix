@@ -16,7 +16,7 @@
 
 <!-- 목록 -->
 <div>
-  <table>
+  <table border="1">
   <tr>
     <th>{$lang->no}</th>
     <th>{$lang->user_id}</th>
@@ -29,6 +29,7 @@
     <td>{$no}</td>
     <td>{$val->user_id}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td>{$val->description}</td>
     <td><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
   </tr>
   <!--@end-->

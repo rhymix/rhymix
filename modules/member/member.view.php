@@ -67,6 +67,11 @@
          * @brief 회원 정보 입력 화면 출력
          **/
         function dispMemberInsert() {
+            // 추가 가입폼 목록을 받음
+            $oMemberModel = &getModel('member');
+            $extend_form_list = $oMemberModel->getJoinFormlist();
+            if($extend_form_list) Context::set('extend_form_list', $extend_form_list);
+
             // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');
         }

@@ -9,11 +9,11 @@
 
 <!-- 목록 -->
 <div>
-  <table>
+  <table border="1">
   <tr>
-    <th>{$lang->column_type}</th>
     <th>{$lang->column_title}</th>
     <th>{$lang->column_name}</th>
+    <th>{$lang->column_type}</th>
     <th>{$lang->is_active}</th>
     <th>{$lang->regdate}</th>
     <th>{$lang->cmd_modify}</th>
@@ -22,9 +22,9 @@
   </tr>
   <!--@foreach($form_list as $no => $val)-->
   <tr>
-    <td>{$lang->column_type_list[$val->column_type]}</td>
     <td>{$val->column_title}</td>
     <td>{$val->column_name}</td>
+    <td>{$lang->column_type_list[$val->column_type]}</td>
     <td>{$val->is_active}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
     <td><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispInsertJoinForm')}">{$lang->cmd_modify}</a></td>

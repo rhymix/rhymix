@@ -15,7 +15,10 @@
 <!--@if($member_info->member_srl)-->
 <input type="hidden" name="user_id" value="{$member_info->user_id}" />
 <!--@end-->
-  <table>
+  <div>
+    {$lang->member_default_info}
+  </div>
+  <table border="1">
   <tr>
     <th rowspan="2">{$lang->user_id}</th>
     <td>
@@ -99,6 +102,67 @@
   <tr>
     <td>{$lang->about_group}</td>
   </tr>
+  </table>
+
+  <!--@if($extend_form_list)-->
+  <div>
+    {$lang->member_extend_info}
+  </div>
+
+  <table border="1">
+  <!--@foreach($extend_form_list as $key => $val)-->
+    <!--@if($val->is_active=='Y')-->
+  <tr>
+    <th rowspan="2">
+      <!--@if($val->required)-->
+      *
+      <!--@end-->
+      {$val->column_title}
+    </th>
+    <td>
+      <!--@if($val->column_type == 'text')-->
+        <input type="text" name="{$val->column_name}" value="" />
+      <!--@elseif($val->column_type == 'homepage')-->
+        http://<input type="text" name="{$val->column_name}" value="" />
+      <!--@elseif($val->column_type == 'email_address')-->
+        <input type="text" name="{$val->column_name}_id" value="" />@<input type="text" name="{$val->column_name}_host" value="" />
+      <!--@elseif($val->column_type == 'tel')-->
+        <input type="text" name="{$val->column_name}[0]" value="" size="4" />-
+        <input type="text" name="{$val->column_name}[1]" value="" size="4" />-
+        <input type="text" name="{$val->column_name}[2]" value="" size="4" />
+      <!--@elseif($val->column_type == 'textarea')-->
+        <textarea name="{$val->column_name}"></textarea>
+      <!--@elseif($val->column_type == 'checkbox')-->
+        <!--@if($val->default_value)-->
+          <!--@foreach($val->default_value as $v)-->
+            <input type="checkbox" value="{$v}" />  {$v}
+          <!--@end-->
+        <!--@end-->
+      <!--@elseif($val->column_type == 'select')-->
+        <select name="{$val->column_name}">
+        <!--@if($val->default_value)-->
+          <!--@foreach($val->default_value as $v)-->
+            <option value="{$v}">{$v}</option>
+          <!--@end-->
+        <!--@end-->
+        </select>
+      <!--@elseif($val->column_type == 'kr_zip')-->
+        <input type="text" name="{$val->column_name}" value="" />
+      <!--@elseif($val->column_type == 'jp_zip')-->
+        <input type="text" name="{$val->column_name}" value="" />
+      <!--@end-->
+
+    </td>
+  </tr>
+  <tr>
+    <td>{$val->description}</td>
+  </tr>
+    <!--@end-->
+  <!--@end-->
+  </table>
+  <!--@end-->
+
+  <table border="1">
   <tr>
     <td colspan="2">
       <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}';return false;" />
