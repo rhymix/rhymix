@@ -37,6 +37,22 @@
     <!--@end-->
   </td>
 </tr>
+<!--@if($extend_form_list)-->
+<!--@foreach($extend_form_list as $key => $val)-->
+<tr>
+  <th>{$val->column_title}</th>
+  <td>
+    <!--@if($val->column_type=='tel')-->
+      {implode("-",$val->value)}
+    <!--@elseif($val->column_type=='checkbox')-->
+      {implode(",",$val->value)}
+    <!--@else-->
+      {$val->value}
+    <!--@end-->
+  </td>
+</tr>
+<!--@end-->
+<!--@end-->
 <tr>
   <th>{$lang->description}</th>
   <td>{$member_info->description}</td>

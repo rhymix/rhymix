@@ -21,9 +21,9 @@
             // member_srl이 있으면 미리 체크하여 member_info 세팅
             $member_srl = Context::get('member_srl');
             if($member_srl) {
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                if(!$member_info) Context::set('member_srl','');
-                else Context::set('member_info',$member_info);
+                $this->member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                if(!$this->member_info) Context::set('member_srl','');
+                else Context::set('member_info',$this->member_info);
             }
 
             // group 목록 가져오기
@@ -60,6 +60,17 @@
          * @brief 회원 정보 출력
          **/
         function dispMemberInfo() {
+            // 추가 가입폼 목록을 받음
+            $oMemberModel = &getModel('member');
+            $extend_form_list = $oMemberModel->getJoinFormlist();
+            if($extend_form_list) {
+                foreach($extend_form_list as $srl => $item) {
+                    $column_name = $item->column_name;
+                    $value = $this->member_info->{$column_name};
+                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
+                }
+                Context::set('extend_form_list', $extend_form_list);
+            }
             $this->setTemplateFile('member_info');
         }
 
@@ -70,7 +81,14 @@
             // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
             $extend_form_list = $oMemberModel->getJoinFormlist();
-            if($extend_form_list) Context::set('extend_form_list', $extend_form_list);
+            if($extend_form_list) {
+                foreach($extend_form_list as $srl => $item) {
+                    $column_name = $item->column_name;
+                    $value = $this->member_info->{$column_name};
+                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
+                }
+                Context::set('extend_form_list', $extend_form_list);
+            }
 
             // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');

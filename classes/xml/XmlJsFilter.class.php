@@ -88,12 +88,29 @@
 
             // extend_filter가 있을 경우 해당 method를 호출하여 결과를 받음
             if($extend_filter) {
+
+                // extend_filter는 module.method 로 지칭되어 이를 분리
                 list($module_name, $method) = explode('.',$extend_filter);
+
+                // 모듈 이름과 method가 있을 경우 진행
                 if($module_name&&$method) {
+                    // 해당 module의 model 객체를 받음
                     $oExtendFilter = &getModel($module_name);
+
+                    // method가 존재하면 실행
                     if(method_exists($oExtendFilter, $method)) {
-                        $extend_filter_obj = call_user_method($method, $oExtendFilter, true);
+                        // 결과를 받음
+                        $extend_filter_list = call_user_method($method, $oExtendFilter, true);
+                        $extend_filter_count = count($extend_filter_list);
+
+                        // 결과에서 lang값을 이용 문서 변수에 적용
+                        for($i=0;$i<$extend_filter_count;$i++) {
+                            $name = $extend_filter_list[$i]->name;
+                            $lang_value = $extend_filter_list[$i]->lang;
+                            if($lang_value) $lang->{$name} = $lang_value;
+                        }
                     } 
+
                 }
             }
 
@@ -102,6 +119,7 @@
 
             // 언어 입력을 위한 사용되는 필드 조사
             $target_list = array();
+            $target_type_list = array();
 
             // js function 을 만들기 시작
             $js_doc  = sprintf("function %s(fo_obj) {\n", $filter_name);
@@ -126,21 +144,69 @@
                     );
 
                     if(!in_array($target, $target_list)) $target_list[] = $target;
+                    if(!$target_type_list[$target]) $target_type_list[$target] = $filter;
                 }
+            }
+
+            // extend_filter_item 체크
+            for($i=0;$i<$extend_filter_count;$i++) {
+                $filter_item = $extend_filter_list[$i];
+                $target = trim($filter_item->name);
+                if(!$target) continue;
+                $type = $filter_item->type;
+                $required = $filter_item->required?'true':'false';
+
+                // extend filter item의 type으로 filter를 구함
+                switch($type) {
+                    case 'homepage' :
+                            $filter = 'homepage';
+                        break;
+                    case 'email_address' :
+                            $filter = 'email';
+                        break;
+                    default :
+                            $filter = '';
+                        break;
+                }
+
+                $js_doc .= sprintf(
+                    "\toFilter.addFieldItem(\"%s\",%s,%s,%s,\"%s\",\"%s\");\n",
+                    $target, $required, 0, 0, '', $filter
+                );
+
+                if(!in_array($target, $target_list)) $target_list[] = $target;
+                if(!$target_type_list[$target]) $target_type_list[$target] = $type;
+
             }
 
             // 데이터를 만들기 위한 parameter script 생성
             $parameter_count = count($parameter_param);
             if($parameter_count) {
+                // 기본 필터 내용의 parameter로 구성
                 foreach($parameter_param as $key =>$param) {
                     $attrs = $param->attrs;
                     $name = trim($attrs->name);
                     $target = trim($attrs->target);
                     if(!$name || !$target) continue;
                     $target = htmlentities($target,ENT_QUOTES);
+
                     $js_doc .= sprintf(
-                    "\toFilter.addParameterItem(\"%s\",\"%s\");\n",
-                    $name, $target
+                        "\toFilter.addParameterItem(\"%s\",\"%s\");\n",
+                        $name, $target
+                    );
+                    if(!in_array($name, $target_list)) $target_list[] = $name;
+                }
+
+                // extend_filter_item 체크
+                for($i=0;$i<$extend_filter_count;$i++) {
+                    $filter_item = $extend_filter_list[$i];
+                    $target = $name = trim($filter_item->name);
+                    if(!$name || !$target) continue;
+                    $target = htmlentities($target,ENT_QUOTES);
+
+                    $js_doc .= sprintf(
+                        "\toFilter.addParameterItem(\"%s\",\"%s\");\n",
+                        $name, $target
                     );
                     if(!in_array($name, $target_list)) $target_list[] = $name;
                 }
@@ -159,14 +225,24 @@
             $js_doc .= "}\n";
 
             // form 필드 lang 값을 기록
-            $target_cnt = count($target_list);
-            for($i=0;$i<$target_cnt;$i++) {
+            $target_count = count($target_list);
+            for($i=0;$i<$target_count;$i++) {
                 $target = $target_list[$i];
-                $js_doc .= sprintf("alertMsg[\"%s\"] = \"%s\"\n", $target, str_replace("\"","\\\"",$lang->{$target}));
+                if(!$lang->{$target}) $lang->{$target} = $target;
+                $js_doc .= sprintf("alertMsg[\"%s\"] = \"%s\";\n", $target, str_replace("\"","\\\"",$lang->{$target}));
+            }
+
+            // target type을 기록
+            $target_type_count = count($target_type_list);
+            if($target_type_count) {
+                foreach($target_type_list as $target => $type) {
+                    $js_doc .= sprintf("target_type_list[\"%s\"] = \"%s\";\n", $target, $type);
+                }
             }
 
             // 에러 메세지를 기록
             foreach($lang->filter as $key => $val) {
+                if(!$val) $val = $key;
                 $js_doc .= sprintf("alertMsg[\"%s\"] = \"%s\";\n", $key, str_replace("\"","\\\"",$val));
             }
 

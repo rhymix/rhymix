@@ -5,6 +5,7 @@
  **/
 
 var alertMsg = new Array();
+var target_type_list = new Array();
 
 /**
  * @function filterAlertMessage
@@ -26,7 +27,6 @@ function filterAlertMessage(ret_obj) {
  * @brief form elements, module/act, callback_user_func을 이용하여 서버에 ajax로 form 데이터를 넘기고 결과를 받아오는 js class
  **/
 function XmlJsFilter(form_object, module, act, callback_user_func) {
-
     this.field = new Array();
     this.parameter = new Array();
     this.response = new Array();
@@ -36,6 +36,7 @@ function XmlJsFilter(form_object, module, act, callback_user_func) {
     this.act = act;
     this.user_func = callback_user_func;
 
+    this.setFocus = XmlJsFilterSetFocus;
     this.addFieldItem = XmlJsFilterAddFieldItem;
     this.addParameterItem = XmlJsFilterAddParameterItem;
     this.addResponseItem = XmlJsFilterAddResponseItem;
@@ -45,6 +46,21 @@ function XmlJsFilter(form_object, module, act, callback_user_func) {
     this.getParameterParam = XmlJsFilterGetParameterParam;
     this.alertMsg = XmlJsFilterAlertMsg;
     this.proc = XmlJsFilterProc;
+}
+
+function XmlJsFilterSetFocus(target_name) {
+    var obj = this.fo_obj[target_name];
+    if(typeof(obj)=='undefined' || !obj) return;
+    
+    var length = obj.length;
+    try {
+        if(typeof(length)!='undefined') {
+            obj[0].focus();
+        } else {
+            obj.focus();
+        }
+    } catch(e) {
+    }
 }
 
 function XmlJsFilterAddFieldItem(target, required, minlength, maxlength, equalto, filter) {
@@ -63,84 +79,97 @@ function XmlJsFilterAddResponseItem(name) {
 
 function XmlJsFilterGetValue(target_name) {
     var obj = this.fo_obj[target_name];
-    if(typeof(obj)=='undefined') return '';
+    if(typeof(obj)=='undefined' || !obj) return '';
     var value = '';
     var length = obj.length;
     var type = obj.type;
-
-    if(length) type = obj[0].type;
+    if((typeof(type)=='undefined'||!type) && typeof(length)!='undefined' && typeof(obj[0])!='undefined' && length>0) type = obj[0].type;
+    else length = 0;
 
     switch(type) {
-      case 'checkbox' :
-            if(typeof(length)!='undefined') {
-              value_list = new Array();
-              for(var i=0;i<obj.length;i++) {
-                if(obj[i].checked) value_list[value_list.length] = obj[i].value;
-              }
-              value = value_list.join(",");
-            } else {
-              if(obj.checked) value = obj.value;
-              else value = '';
-            }
-          break;
-      case 'radio' :
-            if(typeof(length)!='undefined') {
-              for(var i=0;i<obj.length;i++) {
-                if(obj[i].checked) value = obj[i].value;
-              }
-            } else {
-              if(obj.checked) value = obj.value;
-              else value = '';
-            }
-          break;
-      case 'select' :
-      case 'select-one' :
-            if(obj.options.length>0) {
-                value = obj.options[obj.selectedIndex].value;
-            }
-          break;
-      default :
-            value = obj.value;
-          break;
+        case 'checkbox' :
+                if(length>0) {
+                    value_list = new Array();
+                    for(var i=0;i<length;i++) {
+                        if(obj[i].checked) value_list[value_list.length] = obj[i].value;
+                    }
+                    value = value_list.join('|@|');
+                } else {
+                    if(obj.checked) value = obj.value;
+                    else value = '';
+                }
+            break;
+        case 'radio' :
+                if(length>0) {
+                    for(var i=0;i<length;i++) {
+                        if(obj[i].checked) value = obj[i].value;
+                    }
+                } else {
+                    if(obj.checked) value = obj.value;
+                    else value = '';
+                }
+            break;
+        case 'select' :
+        case 'select-one' :
+                if(obj.selectedIndex>=0) value = obj.options[obj.selectedIndex].value;
+            break;
+        default :
+                if(length>0 && target_type_list[target_name]) {
+                    switch(target_type_list[target_name]) {
+                        case 'tel' :
+                                var val1 = obj[0].value;
+                                var val2 = obj[1].value;
+                                var val3 = obj[2].value;
+                                if(val1&&val2&&val3) {
+                                    value = val1+'|@|'+val2+'|@|'+val3;
+                                }
+                            break;
+                    }
+
+                } else {
+                    value = obj.value;
+                }
+            break;
     }
+
     if(typeof(value)=='undefined'||!value) return '';
     return value.trim();
 }
 
 function XmlJsFilterExecuteFilter(filter, value) {
     switch(filter) {
-      case "email" :
-      case "email_address" :
-          var regx = /^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$/;
-          return regx.test(value);
-        break;
-      case "userid" :
-      case "user_id" :
-          var regx = /^[a-zA-Z]+([_0-9a-zA-Z]+)*$/;
-          return regx.test(value);
-        break;
-      case "homepage" :
-          var regx = /(^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$)/;
-          return regx.test(value);
-        break;
-      case "korean" :
-          var regx = /^[가-힣]*$/; 
-          return regx.test(value);
-        break;
-      case "korean_number" :
-          var regx = /^[가-힣0-9]*$/; 
-          return regx.test(value);
-        break;
-      case "alpha" :
-          var regx = /^[a-zA-Z]*$/; 
-          return regx.test(value);
-        break;
-      case "alpha_number" :
-          var regx = /^[a-zA-Z0-9]*$/; 
-          return regx.test(value);
-        break;
-      case "number" :
-          return !isNaN(value);
+        case "email" :
+        case "email_address" :
+                var regx = /^[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+)*@[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*$/;
+                return regx.test(value);
+            break;
+        case "userid" :
+        case "user_id" :
+                var regx = /^[a-zA-Z]+([_0-9a-zA-Z]+)*$/;
+                return regx.test(value);
+            break;
+        case "homepage" :
+                var regx = /^(http|https|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-\/\~]+)+(:[0-9]{2,4})*$/;       
+                return regx.test(value);
+            break;
+        case "korean" :
+                var regx = /^[가-힣]*$/; 
+                return regx.test(value);
+            break;
+        case "korean_number" :
+                var regx = /^[가-힣0-9]*$/; 
+                return regx.test(value);
+            break;
+        case "alpha" :
+                var regx = /^[a-zA-Z]*$/; 
+                return regx.test(value);
+            break;
+        case "alpha_number" :
+                var regx = /^[a-zA-Z0-9]*$/; 
+                return regx.test(value);
+            break;
+        case "number" :
+            return !isNaN(value);
         break;
     }
 }
@@ -153,49 +182,47 @@ function XmlJsFilterAlertMsg(target, msg_code, minlength, maxlength) {
 
     var msg = "";
     if(typeof(alertMsg[msg_code])!='undefined') {
-      if(alertMsg[msg_code].indexOf('%s')>=0) msg = alertMsg[msg_code].replace('%s',target_msg);
-      else msg = target_msg+alertMsg[msg_code];
+        if(alertMsg[msg_code].indexOf('%s')>=0) msg = alertMsg[msg_code].replace('%s',target_msg);
+        else msg = target_msg+alertMsg[msg_code];
     } else {
-      msg = msg_code;
+        msg = msg_code;
     }
 
     if(typeof(minlength)!='undefined' && typeof(maxlength)!='undefined') msg += "("+minlength+"~"+maxlength+")";
 
     alert(msg);
-    try {
-      this.fo_obj[target].focus();
-    } catch(e) {
-    }
+    this.setFocus(target);
+
     return false;
 }
 
 function XmlJsFilterCheckFieldItem() {
     for(var i=0; i<this.field.length;i++) {
-      var item = this.field[i];
-      var target = item[0];
-      var required = item[1];
-      var minlength = item[2];
-      var maxlength = item[3];
-      var equalto = item[4];
-      var filter = item[5].split(",");
+        var item = this.field[i];
+        var target = item[0];
+        var required = item[1];
+        var minlength = item[2];
+        var maxlength = item[3];
+        var equalto = item[4];
+        var filter = item[5].split(",");
 
-      var value = this.getValue(target);
-      if(!required && !value) return true;
-      if(required && !value) return this.alertMsg(target,'isnull');
+        var value = this.getValue(target);
+        if(!required && !value) return true;
+        if(required && !value) return this.alertMsg(target,'isnull');
 
-      if(minlength>0 && maxlength>0 && (value.length < minlength || value.length > maxlength)) return this.alertMsg(target, 'outofrange', minlength, maxlength);
+        if(minlength>0 && maxlength>0 && (value.length < minlength || value.length > maxlength)) return this.alertMsg(target, 'outofrange', minlength, maxlength);
 
-      if(equalto) {
-        var equalto_value = this.getValue(equalto);
-        if(equalto_value != value) return this.alertMsg(target, 'equalto');
-      }
-
-      if(filter.length && filter[0]) {
-        for(var j=0;j<filter.length;j++) {
-          var filter_item = filter[j];
-          if(!this.executeFilter(filter_item, value)) return this.alertMsg(target, "invalid_"+filter_item);
+        if(equalto) {
+            var equalto_value = this.getValue(equalto);
+            if(equalto_value != value) return this.alertMsg(target, 'equalto');
         }
-      }
+
+        if(filter.length && filter[0]) {
+            for(var j=0;j<filter.length;j++) {
+                var filter_item = filter[j];
+                if(!this.executeFilter(filter_item, value)) return this.alertMsg(target, "invalid_"+filter_item);
+            }
+        }
     }
     return true;
 } 
@@ -203,21 +230,21 @@ function XmlJsFilterCheckFieldItem() {
 function XmlJsFilterGetParameterParam() {
     var prev_name = '';
     if(this.parameter.length<1) {
-      for(var i=0;i<this.fo_obj.length;i++) {
-        var name = this.fo_obj[i].name;
-        if(typeof(name)=='undefined'||!name||name==prev_name) continue;
-        this.addParameterItem(name, name);
-        prev_name = name;
-      }
+        for(var i=0;i<this.fo_obj.length;i++) {
+            var name = this.fo_obj[i].name;
+            if(typeof(name)=='undefined'||!name||name==prev_name) continue;
+            this.addParameterItem(name, name);
+            prev_name = name;
+        }
     }
 
     var params = new Array();
     for(var i=0; i<this.parameter.length;i++) {
-      var item = this.parameter[i];
-      var param = item[0];
-      var target = item[1];
-      var value = this.getValue(target);
-      params[param] = value;
+        var item = this.parameter[i];
+        var param = item[0];
+        var target = item[1];
+        var value = this.getValue(target);
+        params[param] = value;
     }
     return params;
 }
@@ -232,10 +259,9 @@ function XmlJsFilterProc(confirm_msg) {
     var response = this.response;
     if(confirm_msg && !confirm(confirm_msg)) return false;
     if(!this.act) {
-      this.user_func(this.fo_obj, params);
-      return true;
+        this.user_func(this.fo_obj, params);
+        return true;
     }
-
     exec_xml(this.module, this.act, params, this.user_func, response, params);
 }
 

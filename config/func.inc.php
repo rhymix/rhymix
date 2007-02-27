@@ -131,16 +131,25 @@
      * @return object
      **/
     function delObjectVars($target_obj, $del_obj) {
-        if(count(get_object_vars($target_obj))<1) return;
-        if(count(get_object_vars($del_obj))<1) clone($target_obj);
+        if(!is_object($target_obj)) return;
+        if(!is_object($del_obj)) return;
 
-        if(is_object($target_var)) $var = clone($target_var);
+        $target_vars = get_object_vars($target_obj);
+        $del_vars = get_object_vars($del_obj);
 
-        foreach($del_obj as $key => $val) {
-            unset($var->{$var_name});
+        $target = array_keys($target_vars);
+        $del = array_keys($del_vars);
+        if(!count($target)||!count($del)) return $target_obj;
+
+        $return_obj = NULL;
+
+        $target_count = count($target);
+        for($i=0;$i<$target_count;$i++) {
+            $target_key = $target[$i];
+            if(!in_array($target_key, $del)) $return_obj->{$target_key} = $target_obj->{$target_key};
         }
 
-        return $var;
+        return $return_obj;
     }
 
     /** 

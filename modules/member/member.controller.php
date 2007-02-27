@@ -71,6 +71,14 @@
         function procInsert() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','signature','profile_image','image_nick','image_mark','description','group_srl_list');
+            $all_args = Context::getRequestVars();
+            unset($all_args->page);
+            unset($all_args->module);
+            unset($all_args->act);
+
+            // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
+            $extra_vars = delObjectVars($all_args, $args);
+            $args->extra_vars = serialize($extra_vars);
 
             // member_srl이 넘어오면 원 회원이 있는지 확인
             if($args->member_srl) {
