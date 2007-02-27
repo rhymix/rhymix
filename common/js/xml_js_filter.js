@@ -207,7 +207,7 @@ function XmlJsFilterCheckFieldItem() {
         var filter = item[5].split(",");
 
         var value = this.getValue(target);
-        if(!required && !value) return true;
+        if(!required && !value) continue;
         if(required && !value) return this.alertMsg(target,'isnull');
 
         if(minlength>0 && maxlength>0 && (value.length < minlength || value.length > maxlength)) return this.alertMsg(target, 'outofrange', minlength, maxlength);
