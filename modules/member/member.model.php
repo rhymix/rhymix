@@ -198,17 +198,24 @@
 
         /**
          * @brief 회원 가입폼 추가 확장 목록 가져오기
+         *
+         * 이 메소드는 modules/member/tpl.admin/filter/insert.xml 의 extend_filter로 동작을 한다.
+         * extend_filter로 사용을 하기 위해서는 인자값으로 boolean값을 받도록 규정한다.
+         * 이 인자값이 true일 경우 filter 타입에 맞는 형태의 object로 결과를 return하여야 한다.
          **/
-        function getJoinFormList() {
+        function getJoinFormList($filter_response = false) {
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            // list_order 컬럼의 정렬을 위한 인자 세팅
             $args->sort_index = "list_order";
             $output = $oDB->executeQuery('member.getJoinFormList', $args);
-            $join_form_list = $output->data;
 
+            // 결과 데이터가 없으면 NULL return
+            $join_form_list = $output->data;
             if(!$join_form_list) return NULL;
 
+            // default_value의 경우 DB에 array가 serialize되어 입력되므로 unserialize가 필요
             if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
             $join_form_count = count($join_form_list);
             for($i=0;$i<$join_form_count;$i++) {
@@ -225,6 +232,13 @@
 
                 $list[$member_join_form_srl] = $join_form_list[$i];
             }
+
+            // filter_response가 true일 경우 object 스타일을 구함
+            if($filter_response) {
+            }
+
+
+            // 결과 리턴
             return $list;
         }
 

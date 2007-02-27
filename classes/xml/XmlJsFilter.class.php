@@ -32,7 +32,7 @@
      * \n
      * - parameter - param\n
      *   param = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성\n
-     *   value = target : target form element의 값을 가져옴\n
+     *   target = target_name : target form element의 값을 가져옴\n
      *   concat = str1,str2,target2... : 값들의 string 또는 form element value를 연결\n
      * \n
      * - response\n
@@ -80,12 +80,22 @@
             $confirm_msg_code = $xml_obj->filter->attrs->confirm_msg_code;
             $module = $xml_obj->filter->attrs->module;
             $act = $xml_obj->filter->attrs->act;
+            $extend_filter = $xml_obj->filter->attrs->extend_filter;
 
             $field_node = $xml_obj->filter->form->node;
-
             $parameter_param = $xml_obj->filter->parameter->param;
-
             $response_tag = $xml_obj->filter->response->tag;
+
+            // extend_filter가 있을 경우 해당 method를 호출하여 결과를 받음
+            if($extend_filter) {
+                list($module_name, $method) = explode('.',$extend_filter);
+                if($module_name&&$method) {
+                    $oExtendFilter = &getModel($module_name);
+                    if(method_exists($oExtendFilter, $method)) {
+                        $extend_filter_obj = call_user_method($method, $oExtendFilter, true);
+                    } 
+                }
+            }
 
             $callback_func = $xml_obj->filter->response->attrs->callback_func;
             if(!$callback_func) $callback_func = "filterAlertMessage";
