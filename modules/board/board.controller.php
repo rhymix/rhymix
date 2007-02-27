@@ -33,7 +33,7 @@
         function procLogout() {
             // member모듈 controller 객체 생성
             $oMemberController = &getController('member');
-            return $oMemberController->doLogout();
+            return $oMemberController->procLogout();
         }
 
         /**

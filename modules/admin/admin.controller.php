@@ -40,7 +40,7 @@
         function procLogout() {
             // member controller 객체 생성
             $oMemberController = &getController('member');
-            $output = $oMemberController->doLogout();
+            $output = $oMemberController->procLogout();
             if(!$output->toBool()) return $output;
 
             $this->setRedirectUrl('./?module=admin');

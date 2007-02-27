@@ -55,9 +55,9 @@
                 $member_info = $this->arrangeMemberInfo($output->data);
                 $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
 
-                $this->member_info[$$member_info->member_srl] = $member_info;
+                $this->member_info[$user_id] = $member_info;
             }
-            return $this->member_info[$member_srl];
+            return $this->member_info[$user_id];
         }
 
         /**
