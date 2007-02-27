@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="procSearchZipCode" type="model" index="true" standalone="true" />
+    </actions>
+</module>

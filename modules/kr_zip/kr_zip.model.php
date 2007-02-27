@@ -1,6 +1,6 @@
 <?php
     /**
-     * @class  tagController
+     * @class  kr_zip
      * @author zero (zero@nzeo.com)
      * @brief  tag 모듈의 controller class
      **/
