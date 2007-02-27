@@ -116,6 +116,13 @@ function XmlJsFilterGetValue(target_name) {
         default :
                 if(length>0 && target_type_list[target_name]) {
                     switch(target_type_list[target_name]) {
+                        case 'kr_zip' :
+                                var val1 = obj[0].value;
+                                var val2 = obj[1].value;
+                                if(val1&&val2) {
+                                    value = val1+'|@|'+val2;
+                                }
+                            break;
                         case 'tel' :
                                 var val1 = obj[0].value;
                                 var val2 = obj[1].value;

@@ -43,7 +43,9 @@
   <th>{$val->column_title}</th>
   <td>
     <!--@if($val->column_type=='tel')-->
-      {implode("-",$val->value)}
+      {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
+    <!--@elseif($val->column_type=='kr_zip')-->
+      {$val->value[0]} {$val->value[1]}
     <!--@elseif($val->column_type=='checkbox')-->
       {implode(",",$val->value)}
     <!--@else-->

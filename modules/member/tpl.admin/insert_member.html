@@ -9,7 +9,7 @@
   <!--@end-->
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert)">
+<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_srl}" />
 <!--@if($member_info->member_srl)-->
@@ -120,24 +120,37 @@
       {$val->column_title}
     </th>
     <td>
-      <!--@if($val->column_type == 'text')-->
+      <!-- 일반 text -->
+      <!--@if($val->column_type == 'text')--> 
         <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- 홈페이지 주소 -->
       <!--@elseif($val->column_type == 'homepage')-->
         <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- Email 주소 -->
       <!--@elseif($val->column_type == 'email_address')-->
         <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- 전화번호 -->
       <!--@elseif($val->column_type == 'tel')-->
         <input type="text" name="{$val->column_name}" value="{$val->value[0]}" size="4" />-
         <input type="text" name="{$val->column_name}" value="{$val->value[1]}" size="4" />-
         <input type="text" name="{$val->column_name}" value="{$val->value[2]}" size="4" />
+
+      <!-- textarea -->
       <!--@elseif($val->column_type == 'textarea')-->
         <textarea name="{$val->column_name}">{$val->value}</textarea>
+
+      <!-- 다중 선택 -->
       <!--@elseif($val->column_type == 'checkbox')-->
         <!--@if($val->default_value)-->
           <!--@foreach($val->default_value as $v)-->
             <input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>  {$v}
           <!--@end-->
         <!--@end-->
+
+      <!-- 단일 선택 -->
       <!--@elseif($val->column_type == 'select')-->
         <select name="{$val->column_name}">
         <!--@if($val->default_value)-->
@@ -146,10 +159,31 @@
           <!--@end-->
         <!--@end-->
         </select>
+
+      <!-- 한국 주소 검색 -->
       <!--@elseif($val->column_type == 'kr_zip')-->
-        <input type="text" name="{$val->column_name}" value="{$val->value}" />
+        <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
+          <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
+          <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+        </div>
+        <div id="zone_address_list_{$val->column_name}" style="display:none">
+          <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
+          <input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" />
+          <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+        </div>
+        <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
+          <input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
+          <input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" />
+        </div>
+
+        <div>
+          <input type="text" name="{$val->column_name}" value="{$val->value[1]}" />
+        </div>
+
+      <!-- 일본 주소 검색 -->
       <!--@elseif($val->column_type == 'jp_zip')-->
         <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
       <!--@end-->
 
     </td>

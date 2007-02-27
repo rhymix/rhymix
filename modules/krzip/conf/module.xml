@@ -2,6 +2,6 @@
 <module>
     <grants />
     <actions>
-        <action name="getSearchZipCode" type="model" index="true" standalone="true" />
+        <action name="getZipCodeList" type="model" index="true" standalone="true" />
     </actions>
 </module>
