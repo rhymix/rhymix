@@ -59,19 +59,19 @@
             // 댓글 가져오기
             if($document->comment_count && $document->allow_comment == 'Y') {
                 $oCommentModel = &getModel('comment');
-                $document->comment_list = $oCommentModel->getCommentList($document_srl);
+                $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
             }
 
             // 트랙백 가져오기
             if($document->trackback_count && $document->allow_trackback == 'Y') {
                 $oTrackbackModel = &getModel('trackback');
-                $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl);
+                $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
             }
 
             // 첨부파일 가져오기
             if($document->uploaded_count) {
                 $oFileModel = &getModel('file');
-                $file_list = $oFileModel->getFiles($document_srl);
+                $file_list = $oFileModel->getFiles($document_srl, $is_admin);
                 $document->uploaded_list = $file_list;
             }
             

@@ -82,7 +82,7 @@
         /**
          * @brief 댓글 수정
          **/
-        function updateComment($obj) {
+        function updateComment($obj, $is_admin = false) {
             // comment model 객체 생성
             $oCommentModel = &getModel('comment');
 
@@ -90,7 +90,7 @@
             $source_obj = $oCommentModel->getComment($obj->comment_srl);
 
             // 권한이 있는지 확인
-            if(!$source_obj->is_granted) return new Object(-1, 'msg_not_permitted');
+            if(!$is_admin && !$source_obj->is_granted) return new Object(-1, 'msg_not_permitted');
 
             $oDB = &DB::getInstance();
 
@@ -108,6 +108,15 @@
                 }
             }
 
+            // 로그인한 유저가 작성한 글인데 user_name이 없을 경우
+            if($source_obj->member_srl && !$obj->user_name) {
+                $obj->member_srl = $source_obj->member_srl;
+                $obj->user_name = $source_obj->user_name;
+                $obj->nick_name = $source_obj->nick_name;
+                $obj->email_address = $source_obj->email_address;
+                $obj->homepage = $source_obj->homepage;
+            }
+
             // 업데이트
             $output = $oDB->executeQuery('comment.updateComment', $obj);
 
@@ -118,7 +127,7 @@
         /**
          * @brief 댓글 삭제
          **/
-        function deleteComment($comment_srl) {
+        function deleteComment($comment_srl, $is_admin = false) {
             // comment model 객체 생성
             $oCommentModel = &getModel('comment');
 
@@ -132,7 +141,7 @@
             if($child_count>0) return new Object(-1, 'fail_to_delete_have_children');
 
             // 권한이 있는지 확인
-            if(!$oCommentModel->isGranted($comment_srl)) return new Object(-1, 'msg_not_permitted');
+            if(!$is_admin && !$comment->is_granted) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
             $oDB = &DB::getInstance();

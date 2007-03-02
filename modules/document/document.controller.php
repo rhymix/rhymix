@@ -136,6 +136,15 @@
                 }
             }
 
+            // 로그인한 유저가 작성한 글인데 user_name이 없을 경우
+            if($source_obj->member_srl && !$obj->user_name) {
+                $obj->member_srl = $source_obj->member_srl;
+                $obj->user_name = $source_obj->user_name;
+                $obj->nick_name = $source_obj->nick_name;
+                $obj->email_address = $source_obj->email_address;
+                $obj->homepage = $source_obj->homepage;
+            }
+
             // DB에 입력
             $output = $oDB->executeQuery('document.updateDocument', $obj);
             if(!$output->toBool()) return $output;
