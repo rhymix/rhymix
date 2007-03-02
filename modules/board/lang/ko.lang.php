@@ -6,6 +6,7 @@
      **/
 
     // 버튼에 사용되는 언어
+    $lang->cmd_board_list = "게시판 목록";
     $lang->cmd_module_config = "게시판  공통 설정";
     $lang->cmd_view_info = "게시판 정보";
     $lang->cmd_manage_category = "분류관리";
@@ -27,6 +28,10 @@
 
     $lang->colorset = "컬러셋";
     $lang->extra_vars = "확장변수";
+
+    $lang->test = "테스트";
+
+    $lang->about_test = "테스트는 블라블라...";
 
     // 권한의 명칭
     $lang->grant_title = array(

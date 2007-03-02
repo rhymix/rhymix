@@ -4,25 +4,11 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
   <table border="1">
   <tr>
-    <th rowspan="2">{$lang->enable_join}</th>
-    <td><input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end-->/></td>
+    <th rowspan="2">{$lang->test}</th>
+    <td><input type="text" name="test" value="{$config->test}" /></td>
   </tr>
   <tr>
-    <td>{$lang->about_enable_join}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->redirect_url}</th>
-    <td><input type="text" name="redirect_url" value="{$config->redirect_url}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_redirect_url}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->agreement}</th>
-    <td><textarea name="agreement">{$config->agreement}</textarea></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_agreement}</td>
+    <td>{$lang->about_test}</td>
   </tr>
   <tr>
     <td colspan="2">

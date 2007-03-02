@@ -557,12 +557,11 @@
          **/
         function procInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('enable_join','redirect_url','agreement');
-            if($args->enable_join!='Y') $args->enable_join = 'N';
+            $args = Context::gets('test');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('member',$args);
+            $output = $oModuleController->insertModuleConfig('board',$args);
             return $output;
         }
     }
