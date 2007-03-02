@@ -23,16 +23,12 @@
             $output = $oDB->executeQuery('module.getDefaultMidInfo');
             if($output->data) return;
 
-            // extra_vars 데이터 세팅
-            $extra_vars->colorset = 'normal';
-
             // 기본 데이터 세팅
             $args->mid = 'board';
             $args->browser_title = '테스트 모듈';
             $args->is_default = 'Y';
             $args->module = 'board';
             $args->skin = 'default';
-            $args->extra_vars = serialize($extra_vars);
 
             return $this->insertModule($args);
         }
@@ -69,14 +65,14 @@
 
             // 선택된 스킨정보에서 colorset을 구함
             $skin_info = $oModuleModel->loadSkinInfo($args->module, $args->skin);
-            $extra_vars->colorset = $skin_info->colorset[0]->name;
+            $skin_vars->colorset = $skin_info->colorset[0]->name;
 
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
             // 변수 정리후 query 실행
             $args->module_srl = $oDB->getNextSequence();
-            $args->extra_vars = serialize($extra_vars);
+            $args->skin_vars = serialize($skin_vars);
             $output = $oDB->executeQuery('module.insertModule', $args);
             if(!$output->toBool()) return $output;
 
@@ -100,13 +96,13 @@
         /**
          * @brief 모듈의 기타 정보를 변경
          **/
-        function updateModuleExtraVars($module_srl, $extra_vars) {
+        function updateModuleSkinVars($module_srl, $skin_vars) {
             $oDB = &DB::getInstance();
 
-            // extra_vars 정보 세팅
+            // skin_vars 정보 세팅
             $args->module_srl = $module_srl;
-            $args->extra_vars = $extra_vars;
-            $output = $oDB->executeQuery('module.updateModuleExtraVars', $args);
+            $args->skin_vars = $skin_vars;
+            $output = $oDB->executeQuery('module.updateModuleSkinVars', $args);
             if(!$output->toBool()) return $output;
 
             return $output;

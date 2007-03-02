@@ -12,6 +12,7 @@
     <column name="is_default" var="is_default" default="N" notnull="notnull" />
     <column name="menu_srl" var="menu_srl" filter="number" />
     <column name="extra_vars" var="extra_vars" />
+    <column name="skin_vars" var="skin_vars" />
     <column name="layout_file" var="layout_file" maxlength="250" />
     <column name="admin_id" var="admin_id" maxlength="80" />
     <column name="header_text" var="header_text" />

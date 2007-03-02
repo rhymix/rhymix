@@ -417,10 +417,10 @@
             }
 
             // serialize하여 저장
-            $extra_vars = serialize($obj);
+            $skin_vars = serialize($obj);
 
             $oModuleController = &getController('module');
-            $oModuleController->updateModuleExtraVars($module_srl, $extra_vars);
+            $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
 
             $url = sprintf("./?module=admin&mo=board&module_srl=%s&act=dispAdminSkinInfo&page=%s", $module_srl, Context::get('page'));
             print "<script type=\"text/javascript\">location.href=\"".$url."\";</script>";
@@ -444,6 +444,7 @@
             unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
+            unset($extra_var->board_name);
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {

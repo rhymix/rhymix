@@ -76,10 +76,12 @@
 
             // serialize되어 있는 변수들 추출
             $extra_vars = $source_module_info->extra_vars;
+            $skin_vars = $source_module_info->skin_vars;
             $grants = $source_module_info->grants;
             $admin_id = $source_module_info->admin_id;
 
             unset($source_module_info->extra_vars);
+            unset($source_module_info->skin_vars);
             unset($source_module_info->grants);
             unset($source_module_info->admin_id);
 
@@ -89,6 +91,12 @@
             if($extra_vars) {
                 $extra_vars = unserialize($extra_vars);
                 foreach($extra_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
+            }
+
+            // skin_vars의 정리
+            if($skin_vars) {
+                $skin_vars = unserialize($skin_vars);
+                foreach($skin_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
             }
 
             // 권한의 정리

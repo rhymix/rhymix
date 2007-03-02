@@ -8,6 +8,7 @@
   <column name="is_default" type="char" size="1" notnull="notnull" default="N" />
   <column name="menu_srl" type="number" size="11" default="0"/>
   <column name="extra_vars" type="text" />
+  <column name="skin_vars" type="text" />
   <column name="layout_file" type="varchar" size="250" />
   <column name="grants" type="text" />
   <column name="admin_id" type="text" />
