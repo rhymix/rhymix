@@ -78,6 +78,7 @@
             $args->module_srl = $oDB->getNextSequence();
             $args->extra_vars = serialize($extra_vars);
             $output = $oDB->executeQuery('module.insertModule', $args);
+            if(!$output->toBool()) return $output;
 
             $output->add('module_srl',$args->module_srl);
             return $output;
@@ -90,6 +91,8 @@
             $oDB = &DB::getInstance();
 
             $output = $oDB->executeQuery('module.updateModule', $args);
+            if(!$output->toBool()) return $output;
+
             $output->add('module_srl',$args->module_srl);
             return $output;
         }
@@ -100,9 +103,12 @@
         function updateModuleExtraVars($module_srl, $extra_vars) {
             $oDB = &DB::getInstance();
 
+            // extra_vars 정보 세팅
             $args->module_srl = $module_srl;
             $args->extra_vars = $extra_vars;
             $output = $oDB->executeQuery('module.updateModuleExtraVars', $args);
+            if(!$output->toBool()) return $output;
+
             return $output;
         }
 
@@ -115,6 +121,8 @@
             $args->module_srl = $module_srl;
             $args->grants = $grants;
             $output = $oDB->executeQuery('module.updateModuleGrant', $args);
+            if(!$output->toBool()) return $output;
+
             return $output;
         }
 
@@ -125,6 +133,8 @@
          **/
         function deleteModule($module_srl) {
             $oDB = &DB::getInstance();
+
+            $args->module_srl = $module_srl;
 
             // addon 삭제
 
@@ -160,7 +170,6 @@
             if(!$output->toBool()) return $output;
 
             // module 정보를 DB에서 삭제
-            $args->module_srl = $module_srl;
             $output = $oDB->executeQuery('module.deleteModule', $args);
 
             return $output;
@@ -172,7 +181,10 @@
         function clearDefaultModule() {
             $oDB = &DB::getInstance();
 
-            return  $oDB->executeQuery('module.clearDefaultModule');
+            $output = $oDB->executeQuery('module.clearDefaultModule');
+            if(!$output->toBool()) return $output;
+
+            return $output;
         }
 
     }

@@ -13,9 +13,10 @@
         function init() {
         }
 
-
         /**
          * @brief document_srl로 모듈의 정보르 구함
+         * 
+         * 이 경우는 캐시파일을 이용할 수가 없음
          **/
         function getModuleInfoByDocumentSrl($document_srl) {
             // DB 객체 생성
@@ -45,8 +46,9 @@
             if(!$output->data) {
                 $output = $oDB->executeQuery('module.getDefaultMidInfo');
             }
+            $module_info = $this->arrangeModuleInfo($output->data);
 
-            return $this->arrangeModuleInfo($output->data);
+            return $module_info;
         }
 
         /**
@@ -61,7 +63,9 @@
             $output = $oDB->executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
 
-            return $this->arrangeModuleInfo($output->data);
+            $module_info = $this->arrangeModuleInfo($output->data);
+
+            return $module_info;
         }
 
         /**
