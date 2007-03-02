@@ -1,7 +1,7 @@
 <!--%import("js/admin.js")-->
 
 <div style="margin-bottom:20px;">
-    <span>[<a href="{getUrl('act','dispMemberList','member_srl','')}">{$lang->cmd_member_list}</a>]</span>
+    <span <!--@if($act=='dispMemberList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberList','member_srl','')}">{$lang->cmd_member_list}</a>]</span>
     <span <!--@if($act=='dispModuleConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispModuleConfig')}">{$lang->cmd_module_config}</a>]</span>
     <span <!--@if($act=='dispGroupList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispGroupList')}">{$lang->cmd_member_group}</a>]</span>
     <span <!--@if($act=='dispJoinFormList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispJoinFormList')}">{$lang->cmd_manage_form}</a>]</span>

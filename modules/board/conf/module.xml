@@ -53,6 +53,7 @@
         <action name="procClearFile" type="controller" />
 
         <action name="dispAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispAdminModuleConfig" type="view" standalone="true" />
         <action name="dispAdminBoardInfo" type="view" standalone="true" />
         <action name="dispAdminInsertBoard" type="view" standalone="true" />
         <action name="dispAdminDeleteBoard" type="view" standalone="true" />
@@ -68,5 +69,6 @@
         <action name="procDeleteBoard" type="controller" standalone="true" />
         <action name="procInsertCategory" type="controller" standalone="true" />
         <action name="procUpdateCategory" type="controller" standalone="true" />
+        <action name="procInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>

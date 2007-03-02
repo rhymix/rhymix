@@ -551,5 +551,19 @@
             $this->add('module_srl', $module_srl);
             $this->setMessage($msg_code);
         }
+
+        /**
+         * @brief 게시판 기본 정보의 추가
+         **/
+        function procInsertConfig() {
+            // 기본 정보를 받음
+            $args = Context::gets('enable_join','redirect_url','agreement');
+            if($args->enable_join!='Y') $args->enable_join = 'N';
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('member',$args);
+            return $output;
+        }
     }
 ?>

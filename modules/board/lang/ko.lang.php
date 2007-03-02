@@ -6,7 +6,8 @@
      **/
 
     // 버튼에 사용되는 언어
-    $lang->cmd_view_info = "모듈정보";
+    $lang->cmd_module_config = "게시판  공통 설정";
+    $lang->cmd_view_info = "게시판 정보";
     $lang->cmd_manage_category = "분류관리";
     $lang->cmd_manage_grant = "권한관리";
     $lang->cmd_manage_skin = "스킨관리";
