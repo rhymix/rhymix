@@ -59,6 +59,10 @@
                 if($this->module_srl) Context::set('module_srl',$this->module_srl);
             }
 
+            // 기본 모듈 정보들 설정
+            $this->list_count = $this->module_info->list_count?$this->module_info->list_count:20;
+            $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
+
             // 템플릿 경로 지정
             $this->setTemplatePath($template_path);
         }

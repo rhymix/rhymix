@@ -2,13 +2,17 @@
   <form>
     <node target="mid" required="true" filter="alpha_number" />
     <node target="browser_title" required="true" maxlength="250" />
+    <node target="list_count" required="true" filter="number" />
+    <node target="page_count" required="true" filter="number" />
   </form>
   <parameter>
     <param name="board_name" target="mid" />
     <param name="module_srl" target="module_srl" />
     <param name="skin" target="skin" />
-    <param name="use_category" target="use_category" />
     <param name="browser_title" target="browser_title" />
+    <param name="use_category" target="use_category" />
+    <param name="list_count" target="list_count" />
+    <param name="page_count" target="page_count" />
     <param name="is_default" target="is_default" />
     <param name="description" target="description" />
     <param name="header_text" target="header_text" />

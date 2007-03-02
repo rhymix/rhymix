@@ -19,6 +19,8 @@
     $lang->footer_text = "하단 내용";
     $lang->skin = "스킨";
     $lang->use_category = "분류 사용";
+    $lang->list_count = "목록 수";
+    $lang->page_count = "페이지 수";
     $lang->category_title = "분류명";
     $lang->module = "모듈";
 
@@ -52,6 +54,9 @@
     $lang->about_footer_text = "모듈의 하단에 표시되는 내용입니다 (html 태그 사용 가능)";
     $lang->about_skin = "모듈의 스킨을 선택하실 수 있습니다";
     $lang->about_use_category = "선택하시면 분류기능을 사용할 수 있습니다";
+    $lang->about_list_count = "한페이지에 표시될 글의 수를 지정하실 수 있습니다. (기본 20개)";
+    $lang->about_page_count = "목록 하단 페이지 이동 하는 링크의 수를 지정하실 수 있습니다. (기본 10개)";
+
     $lang->about_admin_id = "해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다. ,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)";
     $lang->about_grant = "특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다";
 

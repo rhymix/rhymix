@@ -28,6 +28,13 @@
     <td>{$lang->about_mid}</td>
   </tr>
   <tr>
+    <th rowspan="2">{$lang->browser_title}</th>
+    <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_browser_title}</td>
+  </tr>
+  <tr>
     <th rowspan="2">{$lang->skin}</th>
     <td>
       <select name="skin">
@@ -48,12 +55,20 @@
     <td>{$lang->about_use_category}</td>
   </tr>
   <tr>
-    <th rowspan="2">{$lang->browser_title}</th>
-    <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
+    <th rowspan="2">{$lang->list_count}</th>
+    <td><input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}" /></td>
   </tr>
   <tr>
-    <td>{$lang->about_browser_title}</td>
+    <td>{$lang->about_list_count}</td>
   </tr>
+  <tr>
+    <th rowspan="2">{$lang->page_count}</th>
+    <td><input type="text" name="page_count" value="{$module_info->page_count?$module_info->page_count:10}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_page_count}</td>
+  </tr>
+
   <!--@if($module_info->is_default!='Y')-->
   <tr>
     <th rowspan="2">{$lang->is_default}</th>
