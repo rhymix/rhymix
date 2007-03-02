@@ -432,15 +432,15 @@
          **/
         function procInsertBoard() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','board_name','skin','use_category','browser_title','description','is_default','header_text','footer_text','admin_id');
+            $args = Context::gets('module_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'board';
             $args->mid = $args->board_name;
             unset($args->board_name);
             if($args->is_default!='Y') $args->is_default = 'N';
-            if($args->use_category!='Y') $args->use_category = 'N';
 
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
+            if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
             unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
@@ -455,7 +455,7 @@
             }
 
             // $extra_var를 serialize
-            $args->extra_var = serialize($extra_var);
+            $args->extra_vars = serialize($extra_var);
 
             // module 모듈의 controller 객체 생성
             $oModuleController = &getController('module');
