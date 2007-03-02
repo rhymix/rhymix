@@ -34,6 +34,7 @@
         <action name="dispModifyComment" type="view" />
         <action name="dispDeleteComment" type="view" />
         <action name="dispDeleteTrackback" type="view" />
+        <action name="dispSignUpForm" type="view" />
         <action name="dispLogin" type="view" />
         <action name="dispLogout" type="view" />
         <action name="dispMessage" type="view" />

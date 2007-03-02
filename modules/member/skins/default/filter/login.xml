@@ -1,0 +1,16 @@
+<filter name="login" module="board" act="procLogin">
+  <form>
+    <node target="user_id" required="true" filter="user_id"/>
+    <node target="password" required="true" />
+  </form>
+  <parameter>
+    <param name="user_id" target="user_id" />
+    <param name="password" target="password" />
+    <param name="mid" target="mid" />
+    <param name="act" target="act" />
+  </parameter>
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

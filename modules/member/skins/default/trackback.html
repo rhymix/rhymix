@@ -1,0 +1,50 @@
+<!--#include("header.html")-->
+
+<!-- 엮인글 정보 출력 -->
+<div>
+  {$lang->trackback} : {count($document->trackback_list)}
+</div>
+
+<!-- 엮인글 출력 -->
+<div>
+  <!-- 엮인글 목록 -->
+
+  <!--@if($document->trackback_list)-->
+    <!--@foreach($document->trackback_list as $key => $val)-->
+      <a name="trackback_{$key}"></a>
+      <div style="margin-left:{$val->depth*15}px" >
+        <table>
+        <col width="120" />
+        <col width="*" />
+        <tr>
+          <th>{$lang->title}</th>
+          <td>{$val->title}</td>
+        </tr>
+        <tr>
+          <th>{$lang->date}</th>
+          <td>{zdate($val->regdate, "Y-m-d H:i:s")}</td>
+        </tr>
+        <tr>
+          <th>{$lang->blog_name}</th>
+          <td><a href="{$val->url}">{$val->blog_name}</a></td>
+        </tr>
+        <tr>
+          <th>{$lang->excerpt}</th>
+          <td height="100" valign="top">{nl2br($val->excerpt)}</td>
+        </tr>
+        <tr>
+          <th>ipaddress</th>
+          <td>{$val->ipaddress}</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <a href="{getUrl('act','dispDeleteTrackback','trackback_srl',$val->trackback_srl)}">[{$lang->cmd_delete}]</a>
+          </td>
+        </tr>
+        </table>
+      </div>
+
+    <!--@end-->
+  <!--@end-->
+
+</div>

@@ -306,6 +306,21 @@
         }
 
         /**
+         * @brief 회원가입폼 
+         **/
+        function dispSignUpForm() {
+            // 이미 로그인되어 있으면 메인 컨텐츠 노출
+            if(Context::get('is_logged')) return $this->dispContent();
+
+            // member view 객체 생성후 dispSignUpForm method호출후 템플릿 가로챔
+            $oMemberView = &getView('member');
+            $oMemberView->dispSignUpForm();
+
+            $this->setTemplatePath($oMemberView->getTemplatePath());
+            $this->setTemplateFile($oMemberView->getTemplateFile());
+        }
+
+        /**
          * @brief 로그인 폼 출력
          **/
         function dispLogin() {

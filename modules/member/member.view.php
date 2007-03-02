@@ -37,6 +37,26 @@
         }
 
         /**
+         * @brief 회원 가입 폼 출력
+         **/
+        function dispSignUpForm() {
+            // 추가 가입폼 목록을 받음
+            $oMemberModel = &getModel('member');
+            $extend_form_list = $oMemberModel->getJoinFormlist();
+            if($extend_form_list) {
+                foreach($extend_form_list as $srl => $item) {
+                    $column_name = $item->column_name;
+                    $value = $this->member_info->{$column_name};
+                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
+                }
+                Context::set('extend_form_list', $extend_form_list);
+            }
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('insert_member');
+        }
+
+        /**
          * @brief 회원 목록 출력
          **/
         function dispMemberList() {
@@ -136,7 +156,7 @@
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
-            // 사용금지 목록 가져오기
+            // 추가로 설정한 가입 항목 가져오기
             $form_list = $oMemberModel->getJoinFormList();
             Context::set('form_list', $form_list);
 

@@ -1,0 +1,55 @@
+<!--#include("header.html")-->
+
+<!-- 댓글 정보 출력 -->
+<div>
+  {$lang->comment} : {count($document->comment_list)}
+</div>
+
+<!-- 댓글 출력 -->
+<div>
+  <!-- 댓글 목록 -->
+
+  <!--@if($document->comment_list)-->
+    <!--@foreach($document->comment_list as $key => $val)-->
+      <a name="comment_{$key}"></a>
+      <div style="margin-left:{$val->depth*15}px" >
+        <table>
+        <col width="120" />
+        <col width="*" />
+        <tr>
+          <th>{$lang->date}</th>
+          <td>{zdate($val->regdate, "Y-m-d H:i:s")}</td>
+        </tr>
+        <tr>
+          <th>{$lang->user_name}</th>
+          <td>{$val->user_name}</td>
+        </tr>
+        <tr>
+          <th>{$lang->content}</th>
+          <td height="100" valign="top">{nl2br($val->content)}</td>
+        </tr>
+        <tr>
+          <th>ipaddress</th>
+          <td>{$val->ipaddress}</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <a href="{getUrl('act','dispReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
+            <!--@if($val->is_granted)-->
+            <a href="{getUrl('act','dispModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
+            <a href="{getUrl('act','dispDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
+            <!--@end-->
+          </td>
+        </tr>
+        </table>
+      </div>
+
+    <!--@end-->
+  <!--@end-->
+
+  <!-- 댓글 입력 폼 -->
+  <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
+  <!--#include("./comment_form.html")-->
+  <!--@end-->
+
+</div>

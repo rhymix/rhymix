@@ -1,0 +1,18 @@
+<filter name="delete_trackback" module="board" act="procDeleteTrackback">
+  <form>
+    <node target="trackback_srl" required="true" />
+  </form>
+  <parameter>
+    <param name="mid" target="mid" />
+    <param name="page" target="page" />
+    <param name="document_srl" target="document_srl" />
+    <param name="trackback_srl" target="trackback_srl" />
+  </parameter>
+  <response callback_func="completeDeleteTrackback">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="document_srl" />
+    <tag name="page" />
+  </response>
+</filter>

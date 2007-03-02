@@ -1,0 +1,70 @@
+<!--%import("filter/insert_comment.xml")-->
+<!--#include("header.html")-->
+
+<!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
+<!--@if($source_comment)-->
+  <div>
+    <table>
+    <col width="120" />
+    <col width="*" />
+    <tr>
+      <th>{$lang->date}</th>
+      <td>{$source_comment->regdate}</td>
+    </tr>
+    <tr>
+      <th>{$lang->user_name}</th>
+      <td>{$source_comment->user_name}</td>
+    </tr>
+    <tr>
+      <th>{$lang->content}</th>
+      <td height="100" valign="top">{nl2br($source_comment->content)}</td>
+    </tr>
+    </table>
+  </div>
+<!--@end-->
+
+<!-- 글쓰기 폼 -->
+<form action="./" method="get" onsubmit="return procFilter(this, insert_comment)">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+<input type="hidden" name="comment_srl" value="{$comment_srl}" />
+<input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
+<input type="hidden" name="parent_srl" value="{$parent_srl}" />
+  <table width="100%">
+  <col width="120" />
+  <col width="*" />
+  <!--@if(!$is_logged)-->
+  <tr>
+    <th>{$lang->user_name}</th>
+    <td><input type="text" name="user_name" value="{$comment->user_name}" /></td>
+  </tr>
+  <tr>
+    <th>{$lang->password}</th>
+    <td><input type="password" name="password" value="" /></td>
+  </tr>
+  <tr>
+    <th>{$lang->email_address}</th>
+    <td><input type="text" name="email_address" value="{$comment->email_address}"/></td>
+  </tr>
+  <tr>
+    <th>{$lang->homepage}</th>
+    <td><input type="text" name="homepage" value="{$comment->homepage}" /></td>
+  </tr>
+  <!--@end-->
+  <tr>
+    <th>{$lang->content}</th>
+    <td><!--#include("$editor_path/editor.html")--></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+
+      <!--@if($act&&$act!='dispContent')-->
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
+      <!--@end-->
+
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+
+    </td>
+  </tr>
+  </table>
+</form>
