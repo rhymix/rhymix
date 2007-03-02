@@ -1,9 +1,9 @@
-<query id="updateModuleExtraVars" action="update">
+<query id="updateModuleSkinVars" action="update">
   <tables>
     <table name="modules" />
   </tables>
   <columns>
-    <column name="extra_vars" var="extra_vars" />
+    <column name="skin_vars" var="skin_vars" />
   </columns>
   <conditions>
     <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
