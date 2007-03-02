@@ -372,7 +372,7 @@
             $output = $oDB->executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) return $output;
 
-            $group_srl_list = explode(',', $args->group_srl_list);
+            $group_srl_list = explode('|@|', $args->group_srl_list);
             for($i=0;$i<count($group_srl_list);$i++) {
                 $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
 
