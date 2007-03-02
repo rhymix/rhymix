@@ -91,8 +91,10 @@
 <div>
   <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
   <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
+  <!--@if($document->is_granted)-->
   <a href="{getUrl('act','dispWrite')}">[{$lang->cmd_modify}]</a> 
   <a href="{getUrl('act','dispDelete')}">[{$lang->cmd_delete}]</a> 
+  <!--@end-->
 </div>
 
 

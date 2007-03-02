@@ -34,9 +34,11 @@
         </tr>
         <tr>
           <td colspan="2">
-            <a href="{getUrl('act','dispModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
             <a href="{getUrl('act','dispReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
+            <!--@if($comment->is_granted)-->
+            <a href="{getUrl('act','dispModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
             <a href="{getUrl('act','dispDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
+            <!--@end-->
           </td>
         </tr>
         </table>

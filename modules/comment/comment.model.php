@@ -36,11 +36,17 @@
          * @brief 댓글 가져오기
          **/
         function getComment($comment_srl, $is_admin = false) {
+            // DB에서 가져옴
             $oDB = &DB::getInstance();
             $args->comment_srl = $comment_srl;
             $output = $oDB->executeQuery('comment.getComment', $args);
-            if($is_admin || $this->isGranted($comment_srl)) $output->data->is_granted = true;
-            return $output->data;
+            $comment = $output->data;
+
+            // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
+            $logged_info = Context::get('logged_info');
+
+            if($is_admin || $this->isGranted($comment_srl) || $comment->member_srl == $logged_info->member_srl) $comment->is_granted = true;
+            return $comment;
         }
 
         /**
@@ -86,10 +92,16 @@
             $root = NULL;
             $list = NULL;
 
+            // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
+            $logged_info = Context::get('logged_info');
+
             for($i=$comment_count-1;$i>=0;$i--) {
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
+                $member_srl = $source_list[$i]->member_srl;
                 if(!$comment_srl) continue;
+
+                if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;
 
                 $list[$comment_srl] = $source_list[$i];
 

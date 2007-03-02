@@ -90,7 +90,7 @@
             $source_obj = $oCommentModel->getComment($obj->comment_srl);
 
             // 권한이 있는지 확인
-            if(!$oCommentModel->isGranted($obj->comment_srl)) return new Object(-1, 'msg_not_permitted');
+            if(!$source_obj->is_granted) return new Object(-1, 'msg_not_permitted');
 
             $oDB = &DB::getInstance();
 

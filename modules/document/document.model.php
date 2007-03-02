@@ -34,7 +34,7 @@
             if($this->isGranted($document->document_srl) || $is_admin) {
                 $document->is_granted = true;
             } elseif($document->member_srl) {
-                $oMemberModel = &getMemberModel('member');
+                $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
                 if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
             } 
