@@ -5,7 +5,6 @@
   <columns>
     <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40"/>
     <column name="skin" var="skin" notnull="notnull" minlength="1" maxlength="250" />
-    <column name="use_category" var="use_category" default="N" />
     <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
     <column name="description" var="description" />
     <column name="module" var="module" notnull="notnull" maxlength="80"/>

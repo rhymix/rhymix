@@ -7,7 +7,6 @@
   <column name="module" type="varchar" size="80" notnull="notnull" />
   <column name="is_default" type="char" size="1" notnull="notnull" default="N" />
   <column name="menu_srl" type="number" size="11" default="0"/>
-  <column name="use_category" type="char" size="1" default="N"/>
   <column name="extra_vars" type="text" />
   <column name="layout_file" type="varchar" size="250" />
   <column name="grants" type="text" />
