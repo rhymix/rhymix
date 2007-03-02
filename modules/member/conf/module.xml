@@ -2,6 +2,7 @@
 <module>
     <actions>
         <action name="dispMemberList" type="view" standalone="true" index="true" admin_index="true" />
+        <action name="dispModuleConfig" type="view" standalone="true" />
         <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispMemberInsert" type="view" standalone="true" />
         <action name="dispDeleteForm" type="view" standalone="true" />
@@ -14,6 +15,7 @@
         <action name="procLogout" type="controller" standalone="true" />
         <action name="procInsert" type="controller" standalone="true" />
         <action name="procDelete" type="controller" standalone="true" />
+        <action name="procInsertConfig" type="controller" standalone="true" />
         <action name="procInsertGroup" type="controller" standalone="true" />
         <action name="procUpdateGroup" type="controller" standalone="true" />
         <action name="procInsertJoinForm" type="controller" standalone="true" />

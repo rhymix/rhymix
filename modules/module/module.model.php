@@ -280,6 +280,31 @@
         }
 
         /**
+         * @brief 특정 모듈의 설정 정보 return
+         * 캐시된 설정 정보가 없으면 만들 후 캐시하고 return
+         **/
+        function getModuleConfig($module) {
+            $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
+            if(!file_exists($cache_file)) {
+                // DB 객체 생성
+                $oDB = &DB::getInstance();
+                $args->module = $module;
+                $output = $oDB->executeQuery('module.getModuleConfig', $args);
+
+                $config = $output->data;
+
+                $buff = sprintf('<?php if(!__ZB5__) exit(); $config = "%s"; ?>', $config);
+
+                FileHandler::writeFile($cache_file, $buff);
+            }
+
+            if(file_exists($cache_file)) @include($cache_file);
+
+            return unserialize($config);
+        }
+
+
+        /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          **/
         function getModuleInfoXml($module) {

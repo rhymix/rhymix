@@ -123,6 +123,20 @@
         }
 
         /**
+         * @brief 회원 관리용 기본 정보의 추가
+         **/
+        function procInsertSetup() {
+            // 기본 정보를 받음
+            $args = Context::gets('enable_join','redirect_url','agreement');
+            if($args->enable_join!='Y') $args->enable_join = 'N';
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('member',$args);
+            return $output;
+        }
+
+        /**
          * @brief 사용자 그룹 추가
          **/
         function procInsertGroup() {

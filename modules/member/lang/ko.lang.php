@@ -5,6 +5,7 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->cmd_module_config = '기본 설정';
     $lang->cmd_member_group = '그룹 관리';
     $lang->cmd_send_mail = '메일발송';
     $lang->cmd_manage_id = '금지아이디관리';
@@ -26,6 +27,10 @@
     $lang->group = '소속 그룹';
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
+
+    $lang->enable_join = '회원 가입 허가';
+    $lang->redirect_url = '회원 가입후 이동할 페이지';
+    $lang->agreement = '회원 가입 약관';
 
     $lang->column_type = '형식';
     $lang->column_type_list['text'] = '한줄 입력칸 (text)';
@@ -69,4 +74,8 @@
     $lang->about_active = '활성 항목에 체크를 하셔야 가입시 정상적으로 노출됩니다';
     $lang->about_form_description = '설명란에 입력을 하시면 가입시 표시가 됩니다';
     $lang->about_required = '체크하시면 회원가입시 필수항목으로 입력하도록 됩니다';
+
+    $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
+    $lang->about_redirect_url = '회원 가입후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다';
+    $lang->about_agreement = '회원가입약관이 없을 경우 표시되지 않습니다';
 ?>

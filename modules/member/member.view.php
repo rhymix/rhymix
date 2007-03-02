@@ -57,6 +57,19 @@
         }
 
         /**
+         * @brief 회원 관리에 필요한 기본 설정들
+         **/
+        function dispModuleConfig() {
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            Context::set('config',$config);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('member_config');
+        }
+
+        /**
          * @brief 회원 정보 출력
          **/
         function dispMemberInfo() {

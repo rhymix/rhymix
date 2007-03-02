@@ -38,6 +38,29 @@
         }
 
         /**
+         * @brief 모듈의 기본 정보 입력
+         * 모듈의 정보를 입력받은 데이터를 serialize하여 등록한다.
+         **/
+        function insertModuleConfig($module, $config) {
+            // 변수 정리
+            $args->module = $module;
+            $args->config = serialize($config);
+
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            // 일단 삭제 (캐쉬 파일도 지운다)
+            $output = $oDB->executeQuery('module.deleteModuleConfig', $args);
+            if(!$output->toBool()) return $output;
+
+            @unlink( sprintf('./files/cache/module_info/%s.config.php',$module) );
+
+            // 변수 정리후 query 실행
+            $output = $oDB->executeQuery('module.insertModuleConfig', $args);
+            return $output;
+        }
+
+        /**
          * @brief 모듈 입력
          **/
         function insertModule($args) {

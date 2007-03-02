@@ -227,7 +227,6 @@
 
                 // 해당 위치에 속한 lang 파일을 읽음
                 Context::loadLang($class_path.'lang');
-                debugPrint($class_path.'lang');
 
                 // 생성된 객체에 자신이 호출된 위치를 세팅해줌
                 $oModule->setModule($module);
