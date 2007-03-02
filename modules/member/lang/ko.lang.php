@@ -5,6 +5,7 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->cmd_member_list = '회원 목록';
     $lang->cmd_module_config = '기본 설정';
     $lang->cmd_member_group = '그룹 관리';
     $lang->cmd_send_mail = '메일발송';

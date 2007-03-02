@@ -285,22 +285,23 @@
          **/
         function getModuleConfig($module) {
             $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
+
             if(!file_exists($cache_file)) {
                 // DB 객체 생성
                 $oDB = &DB::getInstance();
                 $args->module = $module;
                 $output = $oDB->executeQuery('module.getModuleConfig', $args);
 
-                $config = $output->data;
+                $config = base64_encode($output->data->config);
 
                 $buff = sprintf('<?php if(!__ZB5__) exit(); $config = "%s"; ?>', $config);
 
-                FileHandler::writeFile($cache_file, $buff);
+                //FileHandler::writeFile($cache_file, $buff);
             }
 
-            if(file_exists($cache_file)) @include($cache_file);
+            if(!$config && file_exists($cache_file)) @include($cache_file);
 
-            return unserialize($config);
+            return unserialize(base64_decode($config));
         }
 
 

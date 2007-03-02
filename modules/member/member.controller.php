@@ -125,7 +125,7 @@
         /**
          * @brief 회원 관리용 기본 정보의 추가
          **/
-        function procInsertSetup() {
+        function procInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('enable_join','redirect_url','agreement');
             if($args->enable_join!='Y') $args->enable_join = 'N';
