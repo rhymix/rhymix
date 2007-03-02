@@ -33,6 +33,7 @@
   <table width="100%">
   <col width="120" />
   <col width="*" />
+  <!--@if(!$is_logged)-->
   <tr>
     <th>{$lang->user_name}</th>
     <td><input type="text" name="user_name" value="{$comment->user_name}" /></td>
@@ -49,6 +50,7 @@
     <th>{$lang->homepage}</th>
     <td><input type="text" name="homepage" value="{$comment->homepage}" /></td>
   </tr>
+  <!--@end-->
   <tr>
     <th>{$lang->content}</th>
     <td><!--#include("$editor_path/editor.html")--></td>

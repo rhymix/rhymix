@@ -38,12 +38,23 @@
             if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
             if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
 
-            // 댓글를 입력
             $oDB = &DB::getInstance();
 
             $obj->comment_srl = $oDB->getNextSequence();
             $obj->list_order = $obj->comment_srl * -1;
             if($obj->password) $obj->password = md5($obj->password);
+
+            // 로그인 된 회원일 경우 회원의 정보를 입력
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $obj->member_srl = $logged_info->member_srl;
+                $obj->user_name = $logged_info->user_name;
+                $obj->nick_name = $logged_info->nick_name;
+                $obj->email_address = $logged_info->email_address;
+                $obj->homepage = $logged_info->homepage;
+            }
+
+            // 댓글을 입력
             $output = $oDB->executeQuery('comment.insertComment', $obj);
 
             // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
@@ -75,13 +86,29 @@
             // comment model 객체 생성
             $oCommentModel = &getModel('comment');
 
+            // 원본 데이터를 가져옴
+            $source_obj = $oCommentModel->getComment($obj->comment_srl);
+
             // 권한이 있는지 확인
             if(!$oCommentModel->isGranted($obj->comment_srl)) return new Object(-1, 'msg_not_permitted');
 
-            // 업데이트
             $oDB = &DB::getInstance();
 
             if($obj->password) $obj->password = md5($obj->password);
+
+            // 로그인 되어 있고 작성자와 수정자가 동일하면 수정자의 정보를 세팅
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                if($source_obj->member_srl == $logged_info->member_srl) {
+                    $obj->member_srl = $logged_info->member_srl;
+                    $obj->user_name = $logged_info->user_name;
+                    $obj->nick_name = $logged_info->nick_name;
+                    $obj->email_address = $logged_info->email_address;
+                    $obj->homepage = $logged_info->homepage;
+                }
+            }
+
+            // 업데이트
             $output = $oDB->executeQuery('comment.updateComment', $obj);
 
             $output->add('comment_srl', $obj->comment_srl);

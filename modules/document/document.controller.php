@@ -59,6 +59,16 @@
             // 공지사항일 경우 list_order에 무지막지한 값;;을 입력
             if($obj->is_notice=='Y') $obj->list_order = $this->notice_list_order;
 
+            // 로그인 된 회원일 경우 회원의 정보를 입력
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $obj->member_srl = $logged_info->member_srl;
+                $obj->user_name = $logged_info->user_name;
+                $obj->nick_name = $logged_info->nick_name;
+                $obj->email_address = $logged_info->email_address;
+                $obj->homepage = $logged_info->homepage;
+            }
+
             // DB에 입력
             $output = $oDB->executeQuery('document.insertDocument', $obj);
 
@@ -113,6 +123,18 @@
             else $obj->list_order = $obj->document_srl*-1;
 
             if($obj->password) $obj->password = md5($obj->password);
+
+            // 원본 작성인과 수정하려는 수정인이 동일할 시에 로그인 회원의 정보를 입력
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                if($source_obj->member_srl==$logged_info->member_srl) {
+                    $obj->member_srl = $logged_info->member_srl;
+                    $obj->user_name = $logged_info->user_name;
+                    $obj->nick_name = $logged_info->nick_name;
+                    $obj->email_address = $logged_info->email_address;
+                    $obj->homepage = $logged_info->homepage;
+                }
+            }
 
             // DB에 입력
             $output = $oDB->executeQuery('document.updateDocument', $obj);
