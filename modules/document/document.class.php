@@ -7,5 +7,8 @@
 
     class document extends ModuleObject {
 
+        // 공지사항용 값
+        var $notice_list_order = -2100000000;
+
     }
 ?>

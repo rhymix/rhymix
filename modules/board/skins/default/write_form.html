@@ -47,8 +47,10 @@
   <tr>
     <td>&nbsp;</td>
     <td>
+      <!--@if($grant->manager)-->
       <input type="checkbox" name="is_notice" value="Y" <!--@if($document->is_notice== "Y")-->checked="true"<!--@end--> id="is_notice" />
       <label for="is_notice">{$lang->notice}</label>
+      <!--@end-->
 
       <input type="checkbox" name="is_secret" value="Y" <!--@if($document->is_secret== "Y")-->checked="true"<!--@end--> id="is_secret" />
       <label for="is_secret">{$lang->secret}</label>
