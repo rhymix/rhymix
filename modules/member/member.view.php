@@ -53,6 +53,7 @@
             }
 
             // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'skins/default');
             $this->setTemplateFile('insert_member');
         }
 

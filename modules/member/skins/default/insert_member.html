@@ -1,0 +1,210 @@
+<!--%import("filter/insert.xml")-->
+
+<div>
+  <!--@if(!$member_srl)-->
+    {$lang->msg_new_member}
+  <!--@else-->
+    {$lang->msg_update_member}
+  <!--@end-->
+</div>
+
+<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="member_srl" value="{$member_srl}" />
+<!--@if($member_info->member_srl)-->
+<input type="hidden" name="user_id" value="{$member_info->user_id}" />
+<!--@end-->
+  <div>
+    {$lang->member_default_info}
+  </div>
+  <table border="1">
+  <tr>
+    <th rowspan="2">{$lang->user_id}</th>
+    <td>
+      <!--@if($member_info->member_srl)-->
+      {$member_info->user_id}
+      <!--@else-->
+      <input type="text" name="user_id" value="" />
+      <!--@end-->
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_user_id}</td>
+  </tr>
+  <tr>
+    <th>{$lang->password}</th>
+    <td>
+      <input type="password" name="password" value="" />
+    </td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->user_name}</th>
+    <td>
+      <input type="text" name="user_name" value="{$member_info->user_name}" />
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_user_name}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->nick_name}</th>
+    <td>
+      <input type="text" name="nick_name" value="{$member_info->nick_name}" />
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_nick_name}</td>
+  </tr>
+  <tr>
+    <th>{$lang->email_address}</th>
+    <td>
+      <input type="text" name="email_address" value="{$member_info->email_address}" />
+    </td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->allow_mailing}</th>
+    <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_allow_mailing}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->denied}</th>
+    <td><input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_denied}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->is_admin}</th>
+    <td><input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="true"<!--@end-->/></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_is_admin}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->description}</th>
+    <td><textarea name="description">{htmlspecialchars($member_info->description)}</textarea></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_description}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->group}</th>
+    <td>
+      <!--@foreach($group_list as $key=>$val)-->
+        <input type="checkbox" name="group_srl_list" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="true"<!--@end-->/>
+        <label for="group_{$key}">{$val->title}</label>
+      <!--@end-->
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_group}</td>
+  </tr>
+  </table>
+
+  <!--@if($extend_form_list)-->
+  <div>
+    {$lang->member_extend_info}
+  </div>
+
+  <table border="1">
+  <!--@foreach($extend_form_list as $key => $val)-->
+    <!--@if($val->is_active=='Y')-->
+  <tr>
+    <th rowspan="2">
+      <!--@if($val->required=='Y')-->
+      *
+      <!--@end-->
+      {$val->column_title}
+    </th>
+    <td>
+      <!-- 일반 text -->
+      <!--@if($val->column_type == 'text')--> 
+        <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- 홈페이지 주소 -->
+      <!--@elseif($val->column_type == 'homepage')-->
+        <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- Email 주소 -->
+      <!--@elseif($val->column_type == 'email_address')-->
+        <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!-- 전화번호 -->
+      <!--@elseif($val->column_type == 'tel')-->
+        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" size="4" />-
+        <input type="text" name="{$val->column_name}" value="{$val->value[1]}" size="4" />-
+        <input type="text" name="{$val->column_name}" value="{$val->value[2]}" size="4" />
+
+      <!-- textarea -->
+      <!--@elseif($val->column_type == 'textarea')-->
+        <textarea name="{$val->column_name}">{$val->value}</textarea>
+
+      <!-- 다중 선택 -->
+      <!--@elseif($val->column_type == 'checkbox')-->
+        <!--@if($val->default_value)-->
+          <!--@foreach($val->default_value as $v)-->
+            <input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>  {$v}
+          <!--@end-->
+        <!--@end-->
+
+      <!-- 단일 선택 -->
+      <!--@elseif($val->column_type == 'select')-->
+        <select name="{$val->column_name}">
+        <!--@if($val->default_value)-->
+          <!--@foreach($val->default_value as $v)-->
+            <option value="{$v}" <!--@if($v == $val->value)-->selected="true"<!--@end-->>{$v}</option>
+          <!--@end-->
+        <!--@end-->
+        </select>
+
+      <!-- 한국 주소 검색 -->
+      <!--@elseif($val->column_type == 'kr_zip')-->
+        <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
+          <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
+          <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+        </div>
+        <div id="zone_address_list_{$val->column_name}" style="display:none">
+          <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
+          <input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" />
+          <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+        </div>
+        <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
+          <input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
+          <input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" />
+        </div>
+
+        <div>
+          <input type="text" name="{$val->column_name}" value="{$val->value[1]}" />
+        </div>
+
+      <!-- 일본 주소 검색 -->
+      <!--@elseif($val->column_type == 'jp_zip')-->
+        <input type="text" name="{$val->column_name}" value="{$val->value}" />
+
+      <!--@end-->
+
+    </td>
+  </tr>
+  <tr>
+    <td>{$val->description}</td>
+  </tr>
+    <!--@end-->
+  <!--@end-->
+  </table>
+  <!--@end-->
+
+  <table border="1">
+  <tr>
+    <td colspan="2">
+      <!--@if($member_srl)-->
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;" />
+      <!--@else-->
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberList')}';return false;" />
+      <!--@end-->
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>
+  </tr>
+  </table>
+</form>
