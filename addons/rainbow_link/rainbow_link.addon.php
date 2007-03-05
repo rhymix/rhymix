@@ -10,6 +10,14 @@
     * rainbow.js는 http://www.dynamicdrive.com에서 제작하였으며 저작권을 가지고 있습니다.
     **/
 
+    // admin 모듈의 경우 무조건 패스
+    /*
+    if(Context::get('module') == 'admin') {
+        $this->rainbow_link_is_called = true;
+        return;
+    }
+    */
+
     // 한번이라도 요청이 되었다면 패스
     if($this->rainbow_link_is_called) return;
     $this->rainbow_link_is_called = true;

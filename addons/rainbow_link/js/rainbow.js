@@ -41,6 +41,14 @@ var clrOrg;     // A color before the change
 var TimerID;    // Timer ID
 
 
+if(xIE4Up) {
+    xAddEventListener(document, 'mouseover', doRainbowAnchor);
+    xAddEventListener(document, 'mouseout', stopRainbowAnchor);
+} else {
+    xAddEventListener(document, 'mouseover', Mozilla_doRainbowAnchor);
+    xAddEventListener(document, 'mouseout', Mozilla_stopRainbowAnchor);
+}
+/*
 if (document.all) {
     document.onmouseover = doRainbowAnchor;
     document.onmouseout = stopRainbowAnchor;
@@ -50,6 +58,7 @@ else if (document.getElementById) {
     document.onmouseover = Mozilla_doRainbowAnchor;
     document.onmouseout = Mozilla_stopRainbowAnchor;
 }
+*/
 
 
 //=============================================================================
@@ -128,14 +137,15 @@ function stopRainbowAnchor()
 // Mozilla_doRainbowAnchor(for Netscape6 and Mozilla browser)
 //  This function begins to change a color. (of a anchor, automatically)
 //=============================================================================
-function Mozilla_doRainbowAnchor(e)
+function Mozilla_doRainbowAnchor(evt)
 {
+    var e = new xEvent(evt);
     if (act == 0) {
         obj = e.target;
         while (obj.nodeName != 'A' && obj.nodeName != 'BODY') {
             obj = obj.parentNode;
-            if (obj.nodeName == 'A' || obj.nodeName == 'BODY')
-                break;
+            if(typeof(obj)=='undefined'||!obj) return;
+            if (obj.nodeName == 'A' || obj.nodeName == 'BODY') break;
         }
 
         if (obj.nodeName == 'A' && obj.href != '') {

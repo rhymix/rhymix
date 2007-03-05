@@ -9,7 +9,7 @@
 
         var $hostname = 'kr.zip.zeroboard.com';
         var $port = 80;
-        var $query = '/server.php?addr3=%s';
+        var $query = '/server.php?addr3=';
 
     }
 ?>
