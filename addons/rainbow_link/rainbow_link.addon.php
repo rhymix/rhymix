@@ -10,8 +10,9 @@
     * rainbow.js는 http://www.dynamicdrive.com에서 제작하였으며 저작권을 가지고 있습니다.
     **/
 
-    // point가 before일때만 실행
-    if($this->point != 'before') return;
+    // 한번이라도 요청이 되었다면 패스
+    if($this->rainbow_link_is_called) return;
+    $this->rainbow_link_is_called = true;
 
     // 현재 애드온의 위치를 구함
     $oAddOnModel = &getModel('addon');
