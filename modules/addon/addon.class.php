@@ -7,5 +7,7 @@
 
     class addon extends ModuleObject {
 
+        var $cache_file = "./files/cache/activated_addons.cache.php";
+
     }
 ?>
