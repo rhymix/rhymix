@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispContent" type="view" admin_index="true" />
+
+        <action name="procInsertDeniedIP" type="controller" />
+        <action name="procDeleteDeniedIP" type="controller" />
+        <action name="procInsertDeniedWord" type="controller" />
+        <action name="procDeleteDeniedWord" type="controller" />
+    </actions>
+</module>

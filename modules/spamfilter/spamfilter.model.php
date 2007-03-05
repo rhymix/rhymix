@@ -2,7 +2,7 @@
     /**
      * @class  spamfilterModel
      * @author zero (zero@nzeo.com)
-     * @brief  spamfilter 모듈의 controller class
+     * @brief  spamfilter 모듈의 Model class
      **/
 
     class spamfilterModel extends spamfilter {
