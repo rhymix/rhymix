@@ -7,7 +7,7 @@
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">
         스팸 필터링을 담당합니다.
-        자세한 설정은 &lt;a href=&quot;./?module=admin&amp;mo=spamfiltet&quot;&gt;스팸필터 모듈&lt;/a&gt;에서 해주세요.
+        자세한 설정은 &lt;a href=&quot;./?module=admin&amp;mo=spamfilter&amp;act=dispContent&quot;&gt;스팸필터 모듈&lt;/a&gt;에서 해주세요.
     </description>
     <description xml:lang="en">do spam filtering</description>
   </author>

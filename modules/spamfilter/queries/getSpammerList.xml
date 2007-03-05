@@ -1,0 +1,17 @@
+<query id="getSpammerList" action="select">
+  <tables>
+    <table name="spamfilter_denied_ip" />
+  </tables>
+  <columns>
+    <column name="*" />
+  </columns>
+  <conditions>
+    <condition operation="equal" column="ipaddress" var="ipaddress" />
+  </conditions>
+  <navigation>
+    <index var="sort_index" order="desc" />
+    <list_count var="list_count" default="50" />
+    <page_count var="page_count" default="10" />
+    <page var="page" default="1" />
+  </navigation>
+</query>

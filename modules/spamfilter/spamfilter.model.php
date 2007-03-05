@@ -14,6 +14,17 @@
         }
 
         /**
+         * @brief 등록된 스패머의 목록을 return
+         **/
+        function getSpammerList() {
+            $oDB = &DB::getInstance();
+            $args->sort_index = "regdate";
+            $args->list_count = 50;
+            $args->page = Context::get('page')?Context::get('page'):1;
+            return $oDB->executeQuery('spamfilter.getSpammerList', $args);
+        }
+
+        /**
          * @brief 지정된 IPaddress의 특정 시간대 내의 로그 수를 return
          **/
         function getLogCount($time = 3600, $ipaddress='') {

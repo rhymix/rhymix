@@ -1,0 +1,48 @@
+<!--#include("header.html")-->
+
+<!-- 스패머 정보 -->
+<div>
+  {number_format($total_count)}, 
+  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+</div>
+
+
+<!-- 목록 -->
+<div>
+  <table>
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->ipaddress}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($spammer_list as $no => $val)-->
+  <tr>
+    <td>{$no}</td>
+    <td>{$val->ipaddress}</td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+  [<a href="{getUrl('act','dispAdminInsertBoard','module_srl','')}">{$lang->cmd_insert}</a>]
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+  <a href="{getUrl('page','','module_srl','')}">[{$lang->first_page}]</a>
+
+  <!--@while($page_no = $page_navigation->getNextPage())-->
+  <!--@if($page == $page_no)-->
+    {$page_no}
+  <!--@else-->
+    <a href="{getUrl('page',$page_no,'module_srl','')}">[{$page_no}]</a>
+  <!--@end-->
+  <!--@end-->
+
+  <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}">[{$lang->last_page}]</a>
+</div>
