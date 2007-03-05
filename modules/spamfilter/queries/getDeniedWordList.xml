@@ -1,6 +1,6 @@
-<query id="getDeniedIPList" action="select">
+<query id="getDeniedWordList" action="select">
   <tables>
-    <table name="spamfilter_denied_ip" />
+    <table name="spamfilter_denied_word" />
   </tables>
   <columns>
     <column name="*" />
