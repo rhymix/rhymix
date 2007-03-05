@@ -60,6 +60,7 @@
     $lang->msg_exists_nick_name = '이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요';
 
     $lang->about_user_id = '사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다';
+    $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
     $lang->about_user_name = '이름은 2~20자 이내여야 합니다';
     $lang->about_nick_name = '닉네임은 2~20자 이내여야 합니다';
     $lang->about_allow_mailing = '메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다';

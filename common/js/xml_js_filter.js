@@ -269,7 +269,7 @@ function XmlJsFilterProc(confirm_msg) {
         this.user_func(this.fo_obj, params);
         return true;
     }
-    exec_xml(this.module, this.act, params, this.user_func, response, params);
+    exec_xml(this.module, this.act, params, this.user_func, response, params, this.fo_obj);
 }
 
 // form proc

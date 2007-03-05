@@ -5,7 +5,7 @@
  **/
 
 // xml handler을 이용하는 user function
-function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg) {
+function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
   var oXml = new xml_handler();
   oXml.reset();
   for(var key in params) {
@@ -19,11 +19,11 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
   var waiting_obj = document.getElementById('waitingforserverresponse');
   waiting_obj.style.visibility = 'visible';
-  oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg);
+  oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg, fo_obj);
 }
 
 // 결과 처리 후 callback_func에 넘겨줌
-function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg) {
+function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg, fo_obj) {
   var xmlDoc = oXml.getResponseXml();
   if(!xmlDoc) return;
 
@@ -35,7 +35,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
     return;
   }
 
-  callback_func(ret_obj, response_tags, callback_func_arg);
+  callback_func(ret_obj, response_tags, callback_func_arg, fo_obj);
 }
 
 // xml handler
@@ -70,7 +70,7 @@ function zGetXmlHttp() {
     return null;
 }
 
-function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, callback_func_arg) {
+function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj) {
 
     var rd = "";
     rd += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
@@ -88,7 +88,7 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         this.obj_xmlHttp.abort();
         this.obj_xmlHttp = this.getXmlHttp();
     }
-    this.obj_xmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg)};
+    this.obj_xmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj)};
     this.obj_xmlHttp.open('POST', this.xml_path, true);
     this.obj_xmlHttp.send(rd);
 }

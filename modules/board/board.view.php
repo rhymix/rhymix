@@ -309,8 +309,10 @@
          * @brief 회원가입폼 
          **/
         function dispSignUpForm() {
-            // 이미 로그인되어 있으면 메인 컨텐츠 노출
-            if(Context::get('is_logged')) return $this->dispContent();
+            // 이미 로그인되어 있으면 로그인 한 회원의 정보를 세팅하여 정보 수정을 시킴
+            if(Context::get('is_logged')) {
+                Context::set('member_info', Context::get('logged_info'));
+            }
 
             // member view 객체 생성후 dispSignUpForm method호출후 템플릿 가로챔
             $oMemberView = &getView('member');

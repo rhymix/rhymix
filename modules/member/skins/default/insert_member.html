@@ -1,4 +1,5 @@
 <!--%import("filter/insert.xml")-->
+<!--%import("js/member.js")-->
 
 <div>
   <!--@if(!$member_srl)-->
@@ -9,8 +10,10 @@
 </div>
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="member_srl" value="{$member_srl}" />
+<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
 <!--@if($member_info->member_srl)-->
 <input type="hidden" name="user_id" value="{$member_info->user_id}" />
 <!--@end-->
@@ -32,10 +35,18 @@
     <td>{$lang->about_user_id}</td>
   </tr>
   <tr>
-    <th>{$lang->password}</th>
+    <th rowspan="3">{$lang->password1}</th>
     <td>
-      <input type="password" name="password" value="" />
+      <input type="password" name="password1" value="" />
     </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="password" name="password2" value="" /> {$lang->password2}
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_password}</td>
   </tr>
   <tr>
     <th rowspan="2">{$lang->user_name}</th>
@@ -67,39 +78,6 @@
   </tr>
   <tr>
     <td>{$lang->about_allow_mailing}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->denied}</th>
-    <td><input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_denied}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->is_admin}</th>
-    <td><input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_is_admin}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->description}</th>
-    <td><textarea name="description">{htmlspecialchars($member_info->description)}</textarea></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_description}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->group}</th>
-    <td>
-      <!--@foreach($group_list as $key=>$val)-->
-        <input type="checkbox" name="group_srl_list" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="true"<!--@end-->/>
-        <label for="group_{$key}">{$val->title}</label>
-      <!--@end-->
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_group}</td>
   </tr>
   </table>
 
@@ -198,11 +176,7 @@
   <table border="1">
   <tr>
     <td colspan="2">
-      <!--@if($member_srl)-->
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;" />
-      <!--@else-->
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberList')}';return false;" />
-      <!--@end-->
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
     </td>
   </tr>

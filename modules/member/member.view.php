@@ -40,17 +40,18 @@
          * @brief 회원 가입 폼 출력
          **/
         function dispSignUpForm() {
-            // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
-            $extend_form_list = $oMemberModel->getJoinFormlist();
-            if($extend_form_list) {
-                foreach($extend_form_list as $srl => $item) {
-                    $column_name = $item->column_name;
-                    $value = $this->member_info->{$column_name};
-                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
-                }
-                Context::set('extend_form_list', $extend_form_list);
+
+            // 로그인한 회원일 경우 해당 회원의 정보를 받음
+            if($oMemberModel->isLogged()) {
+                $logged_info = Context::get('logged_info');
+                $member_srl = $logged_info->member_srl;
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                Context::set('member_info',$member_info);
             }
+            
+            // 추가 가입폼 목록을 받음
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'skins/default');
@@ -95,16 +96,8 @@
          **/
         function dispMemberInfo() {
             // 추가 가입폼 목록을 받음
-            $oMemberModel = &getModel('member');
-            $extend_form_list = $oMemberModel->getJoinFormlist();
-            if($extend_form_list) {
-                foreach($extend_form_list as $srl => $item) {
-                    $column_name = $item->column_name;
-                    $value = $this->member_info->{$column_name};
-                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
-                }
-                Context::set('extend_form_list', $extend_form_list);
-            }
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+
             $this->setTemplateFile('member_info');
         }
 
@@ -113,16 +106,7 @@
          **/
         function dispMemberInsert() {
             // 추가 가입폼 목록을 받음
-            $oMemberModel = &getModel('member');
-            $extend_form_list = $oMemberModel->getJoinFormlist();
-            if($extend_form_list) {
-                foreach($extend_form_list as $srl => $item) {
-                    $column_name = $item->column_name;
-                    $value = $this->member_info->{$column_name};
-                    $extend_form_list[$srl]->value = $this->member_info->{$column_name};
-                }
-                Context::set('extend_form_list', $extend_form_list);
-            }
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
 
             // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');

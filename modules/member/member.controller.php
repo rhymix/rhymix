@@ -69,10 +69,11 @@
          * @brief 사용자 추가 (관리자용)
          **/
         function procInsert() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
+            // 필수 정보들을 미리 추출
             $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','signature','profile_image','image_nick','image_mark','description','group_srl_list');
+
+            // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
-            unset($all_args->page);
             unset($all_args->module);
             unset($all_args->act);
 
@@ -103,8 +104,6 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->add('member_srl',$output->get('member_srl'));
-            $this->add('page',Context::get('page'));
             $this->setMessage($msg_code);
         }
 
@@ -321,12 +320,23 @@
             $output = $oDB->executeQuery('member.insertMember', $args);
             if(!$output->toBool()) return $output;
 
-            // 기본 그룹을 입력
-            $default_group = $oMemberModel->getDefaultGroup();
+            // 입력된 그룹 값이 없으면 기본 그룹의 값을 등록
+            if(!$args->group_srl_list) {
+                $default_group = $oMemberModel->getDefaultGroup();
 
-            // 기본 그룹에 추가
-            $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
-            if(!$output->toBool()) return $output;
+                // 기본 그룹에 추가
+                $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
+                if(!$output->toBool()) return $output;
+
+            // 입력된 그룹 값이 있으면 해당 그룹의 값을 등록
+            } else {
+                $group_srl_list = explode('|@|', $args->group_srl_list);
+                for($i=0;$i<count($group_srl_list);$i++) {
+                    $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+
+                    if(!$output->toBool()) return $output;
+                }
+            }
 
             $output->add('member_srl', $args->member_srl);
             return $output;
@@ -368,15 +378,19 @@
             $output = $oDB->executeQuery('member.updateMember', $args);
             if(!$output->toBool()) return $output;
 
-            // 그룹에 추가
-            $output = $oDB->executeQuery('member.deleteMemberGroupMember', $args);
-            if(!$output->toBool()) return $output;
+            // 그룹 정보가 있으면 그룹 정보를 변경
+            if($args->group_srl_list) {
+                $group_srl_list = explode('|@|', $args->group_srl_list);
 
-            $group_srl_list = explode('|@|', $args->group_srl_list);
-            for($i=0;$i<count($group_srl_list);$i++) {
-                $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
-
+                // 일단 해당 회원의 모든 그룹 정보를 삭제
+                $output = $oDB->executeQuery('member.deleteMemberGroupMember', $args);
                 if(!$output->toBool()) return $output;
+
+                // 하나 하나 루프를 돌면서 입력
+                for($i=0;$i<count($group_srl_list);$i++) {
+                    $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+                    if(!$output->toBool()) return $output;
+                }
             }
 
             $output->add('member_srl', $args->member_srl);

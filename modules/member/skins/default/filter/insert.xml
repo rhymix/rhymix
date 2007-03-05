@@ -1,28 +1,23 @@
 <filter name="insert" module="member" act="procInsert" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
   <form>
     <node target="user_id" required="true" minlength="3" maxlength="20" filter="userid" />
+    <node target="password1" required="true" minlength="6" maxlength="20" />
+    <node target="password2" required="true" minlength="6" maxlength="20" equalto="password1" />
     <node target="user_name" required="true" minlength="2" maxlength="20" />
     <node target="nick_name" required="true" minlength="2" maxlength="20" />
     <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
   </form>
   <parameter>
-    <param name="page" target="page" />
     <param name="member_srl" target="member_srl" />
     <param name="user_id" target="user_id" />
-    <param name="password" target="password" />
+    <param name="password" target="password1" />
     <param name="user_name" target="user_name" />
     <param name="nick_name" target="nick_name" />
-    <param name="email_address" target="email_address" />
     <param name="allow_mailing" target="allow_mailing" />
-    <param name="denied" target="denied" />
-    <param name="is_admin" target="is_admin" />
-    <param name="description" target="description" />
-    <param name="group_srl_list" target="group_srl_list" />
+    <param name="email_address" target="email_address" />
   </parameter>
   <response callback_func="completeInsert">
     <tag name="error" />
     <tag name="message" />
-    <tag name="member_srl" />
-    <tag name="page" />
   </response>
 </filter>

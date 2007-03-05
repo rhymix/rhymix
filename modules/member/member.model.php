@@ -295,6 +295,37 @@
         }
 
         /**
+         * @brief 추가 회원가입폼과 특정 회원의 정보를 조합 (회원정보 수정등에 사용)
+         **/
+        function getCombineJoinForm($member_info) {
+            $extend_form_list = $this->getJoinFormlist();
+            if(!$extend_form_list) return;
+
+            foreach($extend_form_list as $srl => $item) {
+                $column_name = $item->column_name;
+                $value = $member_info->{$column_name};
+
+                // 추가 확장폼의 종류에 따라 값을 변경
+                switch($item->column_type) {
+                    case 'checkbox' :
+                            if($value && !is_array($value)) $value = array($value);
+                        break;
+                    case 'text' :
+                    case 'homepage' :
+                    case 'email_address' :
+                    case 'tel' :
+                    case 'textarea' :
+                    case 'select' :
+                    case 'kr_zip' :
+                        break;
+                }
+
+                $extend_form_list[$srl]->value = $value;
+            }
+            return $extend_form_list;
+        }
+
+        /**
          * @brief 한개의 가입항목을 가져옴
          **/
         function getJoinForm($member_join_form_srl) {
