@@ -18,6 +18,13 @@
     <td>{$lang->about_limit_count}</td>
   </tr>
   <tr>
+    <th rowspan="2">{$lang->check_trackback}</th>
+    <td><input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="true"<!--@end--> /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_check_trackback}</td>
+  </tr>
+  <tr>
     <td colspan="2">
       <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />

@@ -58,7 +58,12 @@
 
     // 스팸 간격을 체크하는 변수
     $interval = $config->interval?$config->interval:60;
+
+    // 스팸 간격내에 limit_count이상 작성을 시도하면 해당 ip를 금지 시킴
     $limit_count = $config->limit_count?$config->limit_count:5;
+
+    // 트랙백의 경우 한 글에 하나의 ip에서만 트랙백을 허용함
+    $check_trackback = $config->check_trackback=='Y'?true:false;
 
     // 스팸 IP에 등록되어 있는지 체크하여 등록되어 있으면 return
     $is_denied = $oSpamFilterModel->isDeniedIP($ipaddress);
@@ -66,6 +71,18 @@
         $output = new Object(-1, 'msg_alert_registered_denied_ip');
         $this->stop_proc = true;
         return;
+    }
+
+    // act==procReceiveTrackback (트랙백)일때 check_trackback==true이면 검사
+    if($this->act=='procReceiveTrackback' && $check_trackback){
+        $oTrackbackModel = &getModel('trackback');
+        $document_srl = Context::get('document_srl');
+        $count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $ipaddress);
+        if($count>0) {
+            $output = Object(-1, 'msg_alert_trackback_denied');
+            $this->stop_proc = true;
+            return;
+        }
     }
 
     // 정해진 시간내에 글 작성 시도를 하였는지 체크

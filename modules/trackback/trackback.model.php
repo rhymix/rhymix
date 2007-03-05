@@ -37,6 +37,22 @@
         }
 
         /**
+         * @brief 특정 document에 특정 ip로 기록된 트랙백의 갯수
+         * spamfilter 에서 사용할 method임
+         **/
+        function getTrackbackCountByIPAddress($document_srl, $ipaddress) {
+            $oDB = &DB::getInstance();
+
+            $args->document_srl = $document_srl;
+            $args->ipaddress = $ipaddress;
+            $output = $oDB->executeQuery('trackback.getTrackbackCountByIPAddress', $args);
+            debugPrint($output);
+            $total_count = $output->data->count;
+
+            return (int)$total_count;
+        }
+
+        /**
          * @brief 특정 문서에 속한 엮인글의 목록을 가져옴
          **/
         function getTrackbackList($document_srl) {
