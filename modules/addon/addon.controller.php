@@ -17,8 +17,19 @@
          * @brief 애드온의 활성/비활성 체인지
          **/
         function procToggleActivateAddon() {
+            // addon값을 받아옴
             $addon = Context::get('addon');
+            if($addon) {
+                $oAddonModel = &getModel('addon');
 
+                // 활성화 되어 있으면 비활성화 시킴
+                if($oAddonModel->isActivatedAddon($addon)) $this->doDeactivate($addon);
+
+                // 비활성화 되어 있으면 활성화 시킴
+                else $this->doActivate($addon);
+            }
+
+            // 페이지를 애드온 목록으로 이동
             $this->setRedirectUrl("./?module=admin&act=dispAddonList");
         }
 

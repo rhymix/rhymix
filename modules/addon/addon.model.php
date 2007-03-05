@@ -119,6 +119,7 @@
             $args->list_order = 'addon';
             $output = $oDB->executeQuery('addon.getAddons', $args);
             if(!$output->data) return array();
+            if(!is_array($output->data)) $output->data = array($output->data);
 
             $activated_count = count($output->data);
             for($i=0;$i<$activated_count;$i++) {
@@ -127,6 +128,18 @@
             }
             return $addon_list;
         }
+
+        /**
+         * @brief 애드온이 활성화 되어 있는지 체크
+         **/
+        function isActivatedAddon($addon) {
+            $oDB = &DB::getInstance();
+            $args->addon = $addon;
+            $output = $oDB->executeQuery('addon.getAddonIsActivated', $args);
+            if($output->data->count>0) return true;
+            return false;
+        }
+
 
     }
 ?>

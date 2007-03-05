@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="procToggleActivateAddon" type="controller" />
+        <action name="procToggleActivateAddon" type="controller" standalone="true" />
     </actions>
 </module>
