@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  tagController
+     * @class  spamfilterController
      * @author zero (zero@nzeo.com)
-     * @brief  tag 모듈의 controller class
+     * @brief  spamfilter 모듈의 controller class
      **/
 
-    class tagController extends tag {
+    class spamfilterController extends spamfilter {
 
         /**
          * @brief 초기화
@@ -14,60 +14,65 @@
         }
 
         /**
-         * @brief 태그 입력
-         * 태그 입력은 해당 글의 모든 태그를 삭제 후 재 입력하는 방식을 이용
+         * @brief IP 등록
+         * 등록된 IP는 스패머로 간주
          **/
-        function insertTag($module_srl, $document_srl, $tags) {
+        function insertIP($ipaddress = '') {
+            if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
 
-            // 해당 글의 tags를 모두 삭제
-            $this->deleteTag($document_srl);
-            if(!$tags) return;
-
-            // tags변수 정리
-            $tmp_tag_list = explode(',', $tags);
-            $tag_count = count($tmp_tag_list);
-            for($i=0;$i<$tag_count;$i++) {
-                $tag = trim($tmp_tag_list[$i]); 
-                if(!$tag) continue;
-                $tag_list[] = $tag;
-            }
-            if(!count($tag_list)) return;
-
-            // DB 객체 생성
             $oDB = &DB::getInstance();
-
-            // 다시 태그를 입력
-            $args->module_srl = $module_srl;
-            $args->document_srl = $document_srl;
-            $tag_count = count($tag_list);
-            for($i=0;$i<$tag_count;$i++) {
-                $args->tag = $tag_list[$i];
-                $oDB->executeQuery('tag.insertTag', $args);
-            }
-
-            return implode(',',$tag_list);
+            $args->ipaddress = $ipaddress;
+            return $oDB->executeQuery('spamfilter.insertDeniedIP', $args);
         }
 
         /**
-         * @brief 특정 문서의 태그 삭제
+         * @brief IP 제거
+         * 스패머로 등록된 IP를 제거
          **/
-        function deleteTag($document_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
+        function deleteIP($ipaddress) {
+            if(!$ipaddress) return;
 
-            $args->document_srl = $document_srl;
-            return $oDB->executeQuery('tag.deleteTag', $args);
+            $oDB = &DB::getInstance();
+            $args->ipaddress = $ipaddress;
+            return $oDB->executeQuery('spamfilter.deleteDeniedIP', $args);
         }
 
         /**
-         * @brief 특정 모듈의 태그 삭제
+         * @brief 스팸단어 등록
+         * 등록된 단어가 포함된 글은 스팸글로 간주
          **/
-        function deleteModuleTags($module_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
+        function insertWord($word) {
+            if(!$word) return;
 
-            $args->module_srl = $module_srl;
-            return $oDB->executeQuery('tag.deleteModuleTags', $args);
+            $oDB = &DB::getInstance();
+            $args->word = $word;
+            return $oDB->executeQuery('spamfilter.insertDeniedWord', $args);
         }
+
+        /**
+         * @brief 스팸단어 제거
+         * 스팸 단어로 등록된 단어 제거
+         **/
+        function deleteWord($word) {
+            if(!$word) return;
+
+            $oDB = &DB::getInstance();
+            $args->word = $word;
+            return $oDB->executeQuery('spamfilter.deleteDeniedWord', $args);
+        }
+
+        /**
+         * @brief 로그 등록
+         * 현 접속 IP를 로그에 등록, 로그의 간격이 특정 시간 이내일 경우 도배로 간주하여
+         * 스패머로 등록할 수 있음
+         **/
+        function insertLog() {
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+
+            $oDB = &DB::getInstance();
+            $args->word = $word;
+            return $oDB->executeQuery('spamfilter.insertLog', $args);
+        }
+
     }
 ?>

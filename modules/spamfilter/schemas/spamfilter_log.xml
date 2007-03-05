@@ -1,0 +1,5 @@
+<table name="spamfilter_log">
+  <column name="spamfilter_log_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="ipaddress" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="regdate" type="date" index="idx_regdate" />
+</table>
