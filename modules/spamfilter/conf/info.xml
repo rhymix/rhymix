@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1">
+  <title xml:lang="ko">꼬리표</title>
+  <title xml:lang="en">tag</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="en">zero</name>
+    <description xml:lang="ko">꼬리표 관리 모듈</description>
+    <description xml:lang="en">tag</description>
+  </author>
+</module>
