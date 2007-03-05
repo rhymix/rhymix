@@ -2,29 +2,52 @@
     if(!__ZB5__) exit();
 
     /**
-    * @file spam_filter.addon.php
+    * @file spamfilter.addon.php
     * @author zero (zero@nzeo.com)
     * @brief 스팸필터링 애드온
-    * @todo 미구현
     *
     * addOn은 ModuleObject 에서 모듈이 불러지기 전/후에 include되는 것으로 실행을 한다.
     * 즉 별도의 interface가 필요한 것이 아니고 모듈의 일부라고 판단하여 코드를 작성하면 된다.
     **/
 
-    $ipaddress = $_SERVER['REMOTE_ADDR'];
+    // point가 before일때만 실행
+    if($this->point != 'before') return;
 
+    // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
     $effecived_target = array(
         'board' => array('procInsertDocument', 'procInsertComment', 'procReceiveTrackback'),
     );
 
-    // point가 before일때만 실행
-    if($this->point != 'before') return;
+    // spam filter모듈이 적용될 module+act를 체크
+    if(!in_array($this->act, $effecived_target[$this->module])) return;
+
+    // 각 모듈별 act에 대해서도 피해갈 부분이 있으면 피해감
+    switch($this->act) {
+        // 게시물 작성시 신규 등록이 아니면 패스~
+        case 'procInsertDocument' :
+                // document module의 model 객체 생성
+                $oDocumentModel = &getModel('document');
+
+                // 이미 존재하는 글인지 체크
+                $document_srl = Context::get('document_srl');
+                $document = $oDocumentModel->getDocument($document_srl);
+
+                // 이미 존재하는 글이라면 return
+                if($document->document_srl == $document_srl) return;
+            break;
+        // 댓글 작성시 신규 등록이 아니면 패스~
+        case 'procInsertComment' :
+                // 이미 존재하는 댓글인지 체크
+                $comment_srl = Context::get('comment_srl');
+                if($comment_srl) return;
+            break;
+    }
 
     // 현재 모듈의 관리자이거나 그에 준하는 manager권한이면 그냥 패스~
     if($this->grant->is_admin || $this->grant->manager) return;
 
-    // spam filter모듈이 적용될 module+act를 체크
-    if(!in_array($this->act, $effecived_target[$this->module])) return;
+    // 현 접속자의 ip address를 변수화
+    $ipaddress = $_SERVER['REMOTE_ADDR'];
 
     // spamfilter 모듈 객체 생성
     $oSpamFilterController = &getController('spamfilter');
