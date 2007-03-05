@@ -66,12 +66,24 @@
          * @brief 모듈의 목록을 보여줌
          **/
         function dispModuleList() {
-            // 관리자 모듈 목록을 세팅
+            // 모듈 목록을 세팅
             $oAdminModel = &getModel('admin');
             $module_list = $oAdminModel->getModuleList();
             Context::set('module_list', $module_list);
 
             $this->setTemplateFile('module_list');
+        }
+
+        /**
+         * @brief 애드온의 목록을 보여줌
+         **/
+        function dispAddonList() {
+            // 애드온 목록을 세팅
+            $oAdminModel = &getModel('admin');
+            $addon_list = $oAdminModel->getAddonList();
+            Context::set('addon_list', $addon_list);
+
+            $this->setTemplateFile('addon_list');
         }
 
         /**

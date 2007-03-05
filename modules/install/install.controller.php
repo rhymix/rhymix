@@ -145,6 +145,7 @@
                     './files/cache/js_filter_compiled',
                     './files/cache/template_compiled',
                     './files/cache/module_info',
+                    './files/cache/addon_info',
                     './files/attach',
                     './files/attach/images',
                     './files/attach/binaries',

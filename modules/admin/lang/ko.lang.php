@@ -11,11 +11,12 @@
     $lang->item_layout = "레이아웃";
 
     $lang->module_name = "모듈 이름";
-    $lang->module_version = "버전";
-    $lang->module_author = "제작자";
-    $lang->module_table_count = "테이블수";
-    $lang->module_date = "제작일";
-    $lang->module_installed_path = "설치경로";
+    $lang->addon_name = "애드온 이름";
+    $lang->version = "버전";
+    $lang->author = "제작자";
+    $lang->table_count = "테이블수";
+    $lang->date = "제작일";
+    $lang->installed_path = "설치경로";
 
     $lang->msg_is_not_administrator = '관리자만 접속이 가능합니다';
 ?>
