@@ -62,9 +62,7 @@
          * @brief IP 등록
          * 등록된 IP는 스패머로 간주
          **/
-        function insertIP($ipaddress = '') {
-            if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
-
+        function insertIP($ipaddress) {
             $oDB = &DB::getInstance();
             $args->ipaddress = $ipaddress;
             return $oDB->executeQuery('spamfilter.insertDeniedIP', $args);

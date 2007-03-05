@@ -1,8 +1,9 @@
 <!--#include("header.html")-->
+<!--%import("filter/insert_denied_ip.xml")-->
 
 <!-- 스패머 정보 -->
 <div>
-  {$lang->total_count} : {number_format($total_count)}
+  {$lang->total_count} : {count($ip_list)}
 </div>
 
 
@@ -15,9 +16,9 @@
     <th>{$lang->regdate}</th>
     <th>{$lang->cmd_delete}</th>
   </tr>
-  <!--@foreach($spammer_list as $no => $val)-->
+  <!--@foreach($ip_list as $no => $val)-->
   <tr>
-    <td>{$no}</td>
+    <td>{count($ip_list)-$no}</td>
     <td>{$val->ipaddress}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
     <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
@@ -26,8 +27,17 @@
   </table>
 </div>
 
-<!-- 버튼 -->
+<!-- 수동 추가 -->
 <div>
-  [<a href="{getUrl('act','dispAdminInsertBoard','module_srl','')}">{$lang->cmd_insert}</a>]
+  <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
+    <div>
+      {$lang->denied_ip}
+      <input type="text" name="ipaddress" value="" />
+      <input type="submit" value="{$lang->cmd_insert}" />
+    </div>
+    <div>
+      {$lang->about_denied_ip}
+    </div>
+  </form>
 </div>
 

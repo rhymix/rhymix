@@ -72,6 +72,7 @@
     $lang->grant = "권한";
     $lang->target = "대상";
     $lang->total_count = "전체개수";
+    $lang->ipaddress = "IP 주소";
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';

@@ -12,7 +12,7 @@
      *     <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />\n
      *   </form>\n
      *   <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수\n
-     *     <param param="key" value="target" concat="'@',target2..." />\n
+     *     <param name="key" target="target" />\n
      *   </parameter>\n
      *   <response callback_func="callback 받게 될 js function 이름 지정" > <-- 서버에 ajax로 전송하여 받을 결과값\n
      *     <tag name="error" /> <-- error이름의 결과값을 받겠다는 것\n
@@ -31,9 +31,8 @@
      *   equalto = target , 현재 폼과 지정 target의 값이 동일해야 함\n
      * \n
      * - parameter - param\n
-     *   param = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성\n
+     *   name = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성\n
      *   target = target_name : target form element의 값을 가져옴\n
-     *   concat = str1,str2,target2... : 값들의 string 또는 form element value를 연결\n
      * \n
      * - response\n
      *   tag = key : return받을 결과값의 변수명\n
@@ -83,8 +82,13 @@
             $extend_filter = $xml_obj->filter->attrs->extend_filter;
 
             $field_node = $xml_obj->filter->form->node;
+            if($field_node && !is_array($field_node)) $field_node = array($field_node);
+
             $parameter_param = $xml_obj->filter->parameter->param;
+            if($parameter_param && !is_array($parameter_param)) $parameter_param = array($parameter_param);
+
             $response_tag = $xml_obj->filter->response->tag;
+            if($response_tag && !is_array($response_tag)) $response_tag = array($response_tag);
 
             // extend_filter가 있을 경우 해당 method를 호출하여 결과를 받음
             if($extend_filter) {

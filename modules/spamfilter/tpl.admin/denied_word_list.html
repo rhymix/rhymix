@@ -1,8 +1,9 @@
 <!--#include("header.html")-->
+<!--%import("filter/insert_denied_word.xml")-->
 
 <!-- 스패머 정보 -->
 <div>
-  {$lang->total_count} : {number_format($total_count)}
+  {$lang->total_count} : {count($word_list)}
 </div>
 
 
@@ -11,23 +12,33 @@
   <table border="1">
   <tr>
     <th>{$lang->no}</th>
-    <th>{$lang->ipaddress}</th>
+    <th>{$lang->word}</th>
     <th>{$lang->regdate}</th>
     <th>{$lang->cmd_delete}</th>
   </tr>
-  <!--@foreach($spammer_list as $no => $val)-->
+  <!--@foreach($word_list as $no => $val)-->
   <tr>
-    <td>{$no}</td>
-    <td>{$val->ipaddress}</td>
+    <td>{count($word_list)-$no}</td>
+    <td>{$val->word}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
+    <td><a href="{getUrl('act','dispAdminDeleteWord','word', $val->word)}">{$lang->cmd_delete}</a></td>
   </tr>
   <!--@end-->
   </table>
 </div>
 
-<!-- 버튼 -->
+<!-- 수동 추가 -->
 <div>
-  [<a href="{getUrl('act','dispAdminInsertBoard','module_srl','')}">{$lang->cmd_insert}</a>]
+  <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_word)">
+    <div>
+      {$lang->word}
+      <input type="text" name="word" value="" />
+      <input type="submit" value="{$lang->cmd_insert}" />
+    </div>
+    <div>
+      {$lang->about_denied_word}
+    </div>
+  </form>
 </div>
+
 
