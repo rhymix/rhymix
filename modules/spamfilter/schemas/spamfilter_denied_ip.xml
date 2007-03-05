@@ -1,7 +1,4 @@
-<table name="spamfilter_ip">
-  <column name="spamfilter_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
-  <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
-  <column name="tag" type="varchar" size="240" notnull="notnull" />
+<table name="spamfilter_denied_ip">
+  <column name="ipaddress" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
   <column name="regdate" type="date" index="idx_regdate" />
 </table>
