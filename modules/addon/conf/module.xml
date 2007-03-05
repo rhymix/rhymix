@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <actions />
+    <actions>
+        <action name="procActivate" type="controller" />
+        <action name="procDeactivate" type="controller" />
+    </actions>
 </module>

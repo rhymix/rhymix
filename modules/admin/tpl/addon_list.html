@@ -4,27 +4,29 @@
   <td>{$lang->version}</td>
   <td>{$lang->author}</td>
   <td>{$lang->date}</td>
-  <td>{$lang->table_count}</td>
   <td>{$lang->installed_path}</td>
+  <td>{$lang->use}</td>
 </tr>
 <!--@foreach($addon_list as $key => $val)-->
 <tr>
   <td rowspan="2">
-    <!--@if($val->admin_index_act)-->
-      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
-    <!--@else-->
       {$val->title} <br />
-      ({$val->module})
-    <!--@end-->
+      ({$val->addon})
   </td>
   <td>{$val->version}</td>
   <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
   <td>{$val->author->date}</td>
-  <td>{$val->created_table_count}/{$val->table_count}</td>
   <td>{$val->path}</td>
+  <td rowspan="2">
+    <!--@if($val->activated)-->
+      <a href="./?module=admin&mo=addon&addon={$val->addon}&act=procActivate">{$lang->notuse}</a>
+    <!--@else-->
+      <a href="./?module=admin&mo=addon&addon={$val->addon}&act=procDeactivate">{$lang->use}</a>
+    <!--@end-->
+  </td>
 </tr>
 <tr>
-  <td colspan="5">
+  <td colspan="4">
     {nl2br($val->author->description)}
   </td>
 </tr>

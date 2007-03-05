@@ -1,9 +1,0 @@
-<table name="module_addon">
-  <column name="module_addon_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" />
-  <column name="addon" type="varchar" size="80" notnull="notnull" />
-  <column name="act" type="varchar" size="40" notnull="notnull" />
-  <column name="mode" type="varchar" size="6" notnull="notnull" default="before" />
-  <column name="config" type="text" />
-  <column name="regdate" type="date" />
-</table>

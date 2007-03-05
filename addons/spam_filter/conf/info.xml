@@ -8,4 +8,4 @@
     <description xml:lang="ko">스팸 필터링을 담당합니다.</description>
     <description xml:lang="en">do spam filtering</description>
   </author>
-<addon>
+</addon>
