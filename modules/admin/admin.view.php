@@ -78,12 +78,11 @@
          * @brief 애드온의 목록을 보여줌
          **/
         function dispAddonList() {
-            // 애드온 목록을 세팅
-            $oAdminModel = &getModel('admin');
-            $addon_list = $oAdminModel->getAddonList();
-            Context::set('addon_list', $addon_list);
+            $oAddonView = &getView('addon');
+            $oAddonView->dispAddonList();
 
-            $this->setTemplateFile('addon_list');
+            $this->setTemplatePath($oAddonView->getTemplatePath());
+            $this->setTemplateFile($oAddonView->getTemplateFile());
         }
 
         /**

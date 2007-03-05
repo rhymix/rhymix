@@ -63,46 +63,5 @@
             return $list;
         }
 
-        /**
-         * @brief 애드온의 종류와 정보를 구함
-         **/
-        function getAddonList() {
-            // addon model 객체 생성
-            $oAddonModel = &getModel('addon');
-
-            // activated된 애드온 목록을 구함
-            $activated_addons = $oAddonModel->getActivatedAddons();
-
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
-            // 다운받은 애드온과 설치된 애드온의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/addons');
-            $installed_list = FileHandler::readDir('./addons');
-            $searched_list = array_merge($downloaded_list, $installed_list);
-            $searched_count = count($searched_list);
-            if(!$searched_count) return;
-
-            for($i=0;$i<$searched_count;$i++) {
-                // 애드온의 이름
-                $addon_name = $searched_list[$i];
-
-                // 애드온의 경로 (files/addons가 우선)
-                $path = $oAddonModel->getAddonPath($addon_name);
-
-                // 해당 애드온의 정보를 구함
-                $info = $oAddonModel->getAddonInfoXml($addon_name);
-                unset($obj);
-
-                $info->addon = $addon_name;
-                $info->path = $path;
-
-                if(in_array($addon_name, $activated_addons)) $info->activated = true;
-                else $info->activated = false;
-
-                $list[] = $info;
-            }
-            return $list;
-        }
     }
 ?>

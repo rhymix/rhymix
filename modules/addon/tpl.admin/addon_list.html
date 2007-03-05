@@ -1,3 +1,12 @@
+<!--%import("filter/toggle_activate_addon.xml")-->
+<!--%import("js/addon.js")-->
+
+<!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
+<form id="fo_addon" action="./" method="get">
+<input type="hidden" name="addon" value="" />
+</form>
+
+<!-- 애드온의 목록 -->
 <table border="1" width="100%">
 <tr>
   <td>{$lang->addon_name}</td>
@@ -19,9 +28,9 @@
   <td>{$val->path}</td>
   <td rowspan="2">
     <!--@if($val->activated)-->
-      <a href="./?module=admin&mo=addon&addon={$val->addon}&act=procActivate">{$lang->notuse}</a>
+      <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>
     <!--@else-->
-      <a href="./?module=admin&mo=addon&addon={$val->addon}&act=procDeactivate">{$lang->use}</a>
+      <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->use}</a>
     <!--@end-->
   </td>
 </tr>
