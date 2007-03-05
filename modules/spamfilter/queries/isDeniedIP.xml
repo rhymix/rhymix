@@ -1,0 +1,11 @@
+<query id="isDeniedIP" action="select">
+  <tables>
+    <table name="spamfilter_denied_ip" />
+  </tables>
+  <columns>
+    <column name="count(*)" alias="count" />
+  </columns>
+  <conditions>
+    <condition operation="equal" column="ipaddress" var="ipaddress" filter="number" notnull="notnull" />
+  </conditions>
+</query>

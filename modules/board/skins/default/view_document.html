@@ -44,10 +44,10 @@
   </tr>
   <tr>
     <td colspan="2">
-      {$lang->document_url} : {getUrl()}?document_srl={$document->document_srl}
+      {$lang->document_url} : {getUrl()}{$document->document_srl}
       <!--@if($document->allow_trackback=='Y')-->
       <br />
-      {$lang->trackback_url} : {getUrl()}trackback.php?document_srl={$document->document_srl}
+      {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
       <!--@end-->
     </td>
   </tr>

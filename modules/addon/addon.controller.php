@@ -37,7 +37,7 @@
                 $addon = trim($addon_list[$i]);
                 if(!$addon) continue;
 
-                $buff .= sprintf(' include("./files/addons/%s/%s.addon.php"); ', $addon, $addon);
+                $buff .= sprintf(' include("./addons/%s/%s.addon.php"); ', $addon, $addon);
             }
 
             $buff = sprintf('<?if(!__ZB5__)exit(); %s ?>', $buff);

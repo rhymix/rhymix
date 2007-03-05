@@ -18,7 +18,7 @@
          **/
         function procInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('interval');
+            $args = Context::gets('interval','limit_count');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
@@ -110,11 +110,9 @@
          * 스패머로 등록할 수 있음
          **/
         function insertLog() {
-            $ipaddress = $_SERVER['REMOTE_ADDR'];
-
             $oDB = &DB::getInstance();
-            $args->word = $word;
-            return $oDB->executeQuery('spamfilter.insertLog', $args);
+            $output = $oDB->executeQuery('spamfilter.insertLog');
+            return $output;
         }
 
     }

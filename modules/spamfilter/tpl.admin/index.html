@@ -11,6 +11,13 @@
     <td>{$lang->about_interval}</td>
   </tr>
   <tr>
+    <th rowspan="2">{$lang->limit_count}</th>
+    <td><input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_limit_count}</td>
+  </tr>
+  <tr>
     <td colspan="2">
       <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
