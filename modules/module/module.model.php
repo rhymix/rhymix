@@ -330,7 +330,8 @@
             if(!file_exists($xml_file)) return;
 
             $oXmlParser = new XmlParser();
-            $xml_obj = $oXmlParser->loadXmlFile($xml_file);
+            $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
+            $xml_obj = $tmp_xml_obj->module;
 
             if(!$xml_obj) return;
 

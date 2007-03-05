@@ -1,4 +1,6 @@
 <?php
+    if(!__ZB5__) exit();
+
     /**
     * @file spam_filter.addon.php
     * @author zero (zero@nzeo.com)
