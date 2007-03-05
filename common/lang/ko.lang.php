@@ -96,6 +96,14 @@
     $lang->use = "사용";
     $lang->notuse = "미사용";
 
+    $lang->unit_sec = "초";
+    $lang->unit_min = "분";
+    $lang->unit_hour = "시";
+    $lang->unit_day = "일";
+    $lang->unit_week = "주";
+    $lang->unit_month = "월";
+    $lang->unit_year = "년";
+
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s의 값을 입력해주세요';
     $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';

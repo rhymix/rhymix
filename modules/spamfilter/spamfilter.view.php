@@ -19,6 +19,11 @@
          * @brief 스팸필터의 설정 화면
          **/
         function dispConfig() {
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('spamfilter');
+            Context::set('config',$config);
+
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
         }

@@ -1,0 +1,33 @@
+<!--#include("header.html")-->
+
+<!-- 스패머 정보 -->
+<div>
+  {$lang->total_count} : {number_format($total_count)}
+</div>
+
+
+<!-- 목록 -->
+<div>
+  <table border="1">
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->ipaddress}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($spammer_list as $no => $val)-->
+  <tr>
+    <td>{$no}</td>
+    <td>{$val->ipaddress}</td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+  [<a href="{getUrl('act','dispAdminInsertBoard','module_srl','')}">{$lang->cmd_insert}</a>]
+</div>
+

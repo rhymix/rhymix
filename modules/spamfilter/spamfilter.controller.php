@@ -12,6 +12,19 @@
          **/
         function init() {
         }
+
+        /**
+         * @brief 스팸필터 설정
+         **/
+        function procInsertConfig() {
+            // 기본 정보를 받음
+            $args = Context::gets('interval');
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('spamfilter',$args);
+            return $output;
+        }
         
         /**
          * @brief 금지 IP등록

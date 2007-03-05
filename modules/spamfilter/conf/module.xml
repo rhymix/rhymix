@@ -6,6 +6,7 @@
         <action name="dispDeniedIPList" type="view" standalone="true" />
         <action name="dispDeniedWordList" type="view" standalone="true" />
 
+        <action name="procInsertConfig" type="controller" standalone="true" />
         <action name="procInsertDeniedIP" type="controller" standalone="true" />
         <action name="procDeleteDeniedIP" type="controller" standalone="true" />
         <action name="procInsertDeniedWord" type="controller" standalone="true" />

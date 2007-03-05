@@ -1,33 +1,19 @@
 <!--#include("header.html")-->
 
-<!-- 스패머 정보 -->
-<div>
-  {$lang->total_count} : {number_format($total_count)}
-</div>
-
-
-<!-- 목록 -->
-<div>
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
   <table border="1">
   <tr>
-    <th>{$lang->no}</th>
-    <th>{$lang->ipaddress}</th>
-    <th>{$lang->regdate}</th>
-    <th>{$lang->cmd_delete}</th>
+    <th rowspan="2">{$lang->interval}</th>
+    <td><input type="text" name="interval" value="{$config->interval?$config->interval:60}" /> {$lang->unit_sec}</td>
   </tr>
-  <!--@foreach($spammer_list as $no => $val)-->
   <tr>
-    <td>{$no}</td>
-    <td>{$val->ipaddress}</td>
-    <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
+    <td>{$lang->about_interval}</td>
   </tr>
-  <!--@end-->
-  </table>
-</div>
-
-<!-- 버튼 -->
-<div>
-  [<a href="{getUrl('act','dispAdminInsertBoard','module_srl','')}">{$lang->cmd_insert}</a>]
-</div>
-
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{@getUrl('act','')}'" />
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>   
+  </tr>
+  </table>  
+</form>
