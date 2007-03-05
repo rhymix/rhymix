@@ -12,6 +12,38 @@
          **/
         function init() {
         }
+        
+        /**
+         * @brief 금지 IP등록
+         **/
+        function procInsertDeniedIP() {
+            $ipaddress = Context::get('ipaddress');
+            return $this->insertIP($ipaddress);
+        }
+
+        /**
+         * @brief 금지 IP삭제
+         **/
+        function procDeleteDeniedIP() {
+            $ipaddress = Context::get('ipaddress');
+            return $this->deleteIP($ipaddress);
+        }
+        
+        /**
+         * @brief 금지 Word등록
+         **/
+        function procInsertDeniedWord() {
+            $word = Context::get('word');
+            return $this->insertWord($word);
+        }
+
+        /**
+         * @brief 금지 Word삭제
+         **/
+        function procDeleteDeniedWord() {
+            $word = Context::get('word');
+            return $this->deleteWord($word);
+        }
 
         /**
          * @brief IP 등록

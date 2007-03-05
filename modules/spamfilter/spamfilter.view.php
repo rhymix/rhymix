@@ -16,20 +16,39 @@
         }
 
         /**
-         * @brief 관리자 모드에서 보여줄 화면
+         * @brief 스팸필터의 설정 화면
          **/
-        function dispContent() {
-            // 등록된 스패머의 목록을 가져옴
-            $oSpamFilterModel = &getModel('spamfilter');
-            $spammer_list = $oSpamFilterModel->getSpammerList();
-
-            Context::set('spammer_list', $spammer_list);
-            Context::set('total_count', count($spammer_list));
-
+        function dispConfig() {
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
         }
 
+        /**
+         * @brief 금지 목록 출력
+         **/
+        function dispDeniedIPList() {
+            // 등록된 금지 IP 목록을 가져옴
+            $oSpamFilterModel = &getModel('spamfilter');
+            $ip_list = $oSpamFilterModel->getDeniedIPList();
 
+            Context::set('ip_list', $ip_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('denied_ip_list');
+        }
+
+        /**
+         * @brief 금지 목록 출력
+         **/
+        function dispDeniedWordList() {
+            // 등록된 금지 Word 목록을 가져옴
+            $oSpamFilterModel = &getModel('spamfilter');
+            $word_list = $oSpamFilterModel->getDeniedWordList();
+
+            Context::set('word_list', $word_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('denied_word_list');
+        }
     }
 ?>

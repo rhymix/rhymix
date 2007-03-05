@@ -1,4 +1,4 @@
-<query id="getSpammerList" action="select">
+<query id="getDeniedIPList" action="select">
   <tables>
     <table name="spamfilter_denied_ip" />
   </tables>

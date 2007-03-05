@@ -2,7 +2,9 @@
 <module>
     <grants />
     <actions>
-        <action name="dispContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispConfig" type="view" admin_index="true" standalone="true" />
+        <action name="dispDeniedIPList" type="view" standalone="true" />
+        <action name="dispDeniedWordList" type="view" standalone="true" />
 
         <action name="procInsertDeniedIP" type="controller" standalone="true" />
         <action name="procDeleteDeniedIP" type="controller" standalone="true" />
