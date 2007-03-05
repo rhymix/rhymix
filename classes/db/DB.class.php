@@ -164,7 +164,7 @@
                         $output = $this->_executeInsertAct($tables, $column, $pass_quotes);
                     break;
                 case 'update' :
-                        $output = $this->_executeUpdateAct($tables, $column, $condition, $pass_quotes);
+                        $output = $this->_executeUpdateAct($tables, $column, $args, $condition, $pass_quotes);
                     break;
                 case 'delete' :
                         $output = $this->_executeDeleteAct($tables, $condition, $pass_quotes);

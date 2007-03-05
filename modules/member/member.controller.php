@@ -104,6 +104,7 @@
 
             if(!$output->toBool()) return $output;
 
+            $this->add('member_srl', $args->member_srl);
             $this->setMessage($msg_code);
         }
 
@@ -353,9 +354,9 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             // 필수 변수들의 조절
-            if($args->allow_mailing!='Y') $args->is_default = 'N';
-            if($args->denied!='Y') $args->denied = 'N';
-            if($args->is_admin!='Y') $args->use_category = 'N';
+            if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
+            if(!$args->denied) unset($args->denied);
+            if(!$args->is_admin) unset($args->is_admin);
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 아이디, 닉네임, email address 의 중복 체크

@@ -287,10 +287,12 @@
         /**
          * @brief updateAct 처리
          **/
-        function _executeUpdateAct($tables, $column, $condition, $pass_quotes) {
+        function _executeUpdateAct($tables, $column, $args, $condition, $pass_quotes) {
             $table = array_pop($tables);
 
             foreach($column as $key => $val) {
+                // args에 아예 해당 key가 없으면 패스
+                if(!isset($args->{$key})) continue;
                 if(in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $this->addQuotes($val));
                 else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
             }
@@ -300,7 +302,8 @@
             if($condition) $condition = ' where '.$condition;
 
             $query = sprintf("update `%s%s` set %s %s;", $this->prefix, $table, $update_query, $condition);
-        return $this->_query($query);
+
+            return $this->_query($query);
         }
 
         /**
