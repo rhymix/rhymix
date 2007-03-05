@@ -1,0 +1,7 @@
+<filter name="delete_denied_ip" module="spamfilter" act="procDeleteDeniedIP" confirm_msg_code="confirm_delete">
+  <form />
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

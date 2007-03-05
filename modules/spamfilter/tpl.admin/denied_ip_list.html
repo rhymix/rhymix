@@ -1,11 +1,17 @@
 <!--#include("header.html")-->
 <!--%import("filter/insert_denied_ip.xml")-->
+<!--%import("filter/delete_denied_ip.xml")-->
+<!--%import("js/spamfilter.js")-->
 
 <!-- 스패머 정보 -->
 <div>
   {$lang->total_count} : {count($ip_list)}
 </div>
 
+<!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
+<form id="fo_denied_ip" action="./" method="get">
+<input type="hidden" name="ipaddress" value="" />
+</form>
 
 <!-- 목록 -->
 <div>
@@ -21,7 +27,7 @@
     <td>{count($ip_list)-$no}</td>
     <td>{$val->ipaddress}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td><a href="{getUrl('act','dispAdminDeleteBoard','ipaddress', $val->ipaddress)}">{$lang->cmd_delete}</a></td>
+    <td><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;">{$lang->cmd_delete}</a></td>
   </tr>
   <!--@end-->
   </table>
