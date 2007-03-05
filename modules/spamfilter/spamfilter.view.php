@@ -18,7 +18,6 @@
          * @brief 관리자 모드에서 보여줄 화면
          **/
         function dispContent() {
-            print 11;
         }
 
 

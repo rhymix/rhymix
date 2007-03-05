@@ -2,11 +2,11 @@
 <module>
     <grants />
     <actions>
-        <action name="dispContent" type="view" admin_index="true" />
+        <action name="dispContent" type="view" admin_index="true" standalone="true" />
 
-        <action name="procInsertDeniedIP" type="controller" />
-        <action name="procDeleteDeniedIP" type="controller" />
-        <action name="procInsertDeniedWord" type="controller" />
-        <action name="procDeleteDeniedWord" type="controller" />
+        <action name="procInsertDeniedIP" type="controller" standalone="true" />
+        <action name="procDeleteDeniedIP" type="controller" standalone="true" />
+        <action name="procInsertDeniedWord" type="controller" standalone="true" />
+        <action name="procDeleteDeniedWord" type="controller" standalone="true" />
     </actions>
 </module>
