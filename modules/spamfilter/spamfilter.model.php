@@ -19,9 +19,11 @@
         function getSpammerList() {
             $oDB = &DB::getInstance();
             $args->sort_index = "regdate";
-            $args->list_count = 50;
             $args->page = Context::get('page')?Context::get('page'):1;
-            return $oDB->executeQuery('spamfilter.getSpammerList', $args);
+            $output = $oDB->executeQuery('spamfilter.getSpammerList', $args);
+            if(!$output->data) return;
+            if(!is_array($output->data)) return array($output->data);
+            return $output->data;
         }
 
         /**

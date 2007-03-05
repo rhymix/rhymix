@@ -1,4 +1,5 @@
 <div style="margin-bottom:20px;">
-  <span <!--@if($act=='dispContent')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispContent')}">{$lang->cmd_spamer_list}</a>]</span>
-  <span <!--@if($act=='dispModuleConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispModuleConfig','module_srl','')}">{$lang->cmd_module_config}</a>]</span>
+  <span <!--@if($act=='dispConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispModuleConfig','module_srl','')}">{$lang->cmd_module_config}</a>]</span>
+  <span <!--@if($act=='dispDeniedIP')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispDeniedIP')}">{$lang->cmd_denied_ip}</a>]</span>
+  <span <!--@if($act=='dispDeniedWord')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispDeniedWord')}">{$lang->cmd_denied_word}</a>]</span>
 </div>

@@ -21,13 +21,10 @@
         function dispContent() {
             // 등록된 스패머의 목록을 가져옴
             $oSpamFilterModel = &getModel('spamfilter');
-            $output = $oSpamFilterModel->getSpammerList();
+            $spammer_list = $oSpamFilterModel->getSpammerList();
 
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('document_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
+            Context::set('spammer_list', $spammer_list);
+            Context::set('total_count', count($spammer_list));
 
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
