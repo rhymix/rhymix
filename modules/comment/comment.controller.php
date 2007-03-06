@@ -211,7 +211,5 @@
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $comment_count) );
         }
-
-
     }
 ?>

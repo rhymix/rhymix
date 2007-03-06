@@ -1,4 +1,4 @@
-<filter name="delete_checked" module="comment" act="procDeleteChecked" confirm_msg_code="confirm_delete">
+<filter name="delete_checked" module="file" act="procDeleteChecked" confirm_msg_code="confirm_delete">
   <form>
     <node target="cart" required="true" />
   </form>
