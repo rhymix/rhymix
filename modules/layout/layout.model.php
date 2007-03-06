@@ -126,5 +126,18 @@
 
             return $layout_info;
         }
+
+        /**
+         * @brief 메뉴 구성을 하기 위해 메뉴 srl을 return
+         **/
+        function getLayoutMenuSrl() {
+            $menu_id = Context::get('menu_id');
+
+            $oDB = &DB::getInstance();
+            $menu_srl = $oDB->getNextSequence();
+
+            $this->add('menu_id', $menu_id);
+            $this->add('menu_srl', $menu_srl);
+        }
     }
 ?>

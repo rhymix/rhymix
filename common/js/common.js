@@ -112,3 +112,25 @@ function svc_folder_close(id) {
     close_text_obj.style.display = "none";
     folder_obj.style.display = "none";
 }
+
+// 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 (모두 잘 되려나..)
+function setFixedPopupSize() {
+  var popup_content = xGetElementById('popup_content');
+  var ruler1 = xGetElementById('resize_ruler_1');
+  var ruler2 = xGetElementById('resize_ruler_2');
+  var ruler_box_1 = xGetElementById("ruler_box_1");
+  var ruler_box_2 = xGetElementById("ruler_box_2");
+  if(!xIE4Up) {
+    var width = xWidth(ruler1);
+    var height = xHeight(ruler2)+22;
+  } else {
+    var width = xWidth(popup_content)+15;
+    var height = xHeight(popup_content)+50;
+  }
+
+  window.resizeTo(width, height);
+
+  ruler_box_1.style.visibility = "hidden";
+  ruler_box_2.style.visibility = "hidden";
+  popup_content.style.position = "";
+}

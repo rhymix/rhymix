@@ -3,22 +3,33 @@ function doEditMenuInfo(sel_obj) {
   var obj = sel_obj.options[idx];
   if(typeof(obj)=='undefined'||!obj) return;
 
-  var value = obj.value;
-  var text = obj.text;
+  var menu_srl = obj.value;
+
+  var win = window.open("./?module=layout&act=dispLayoutMenuInfo&menu_srl="+menu_srl,"_LayoutMenu","toolbars=no,status=no,resizable=no,width=100,height=100");
+  win.focus();
+}
+
+function completeGetLayoutMenuSrl(ret_obj, response_tags) {
+  var menu_srl = ret_obj['menu_srl'];
+  var menu_id = ret_obj['menu_id'];
+  doEditInsertMenu(menu_id, menu_srl);
 }
 
 function doEditInsertMenu(menu_id, menu_srl) {
-  if(typeof(menu_srl)=='undefined'||!menu_srl) {
-
-    return;
-  }
-
   var item_obj = xGetElementById('default_value_item_'+menu_id);
   var listup_obj = xGetElementById('default_value_listup_'+menu_id);
 
   var text = item_obj.value;
+  if(!text) return;
 
-  if(!text || !menu_srl) return;
+  if(typeof(menu_srl)=='undefined'||!menu_srl) {
+    var params = new Array();
+    params['text'] = text;
+    params['menu_id'] = menu_id;
+    var response_tags = new Array('error','message','menu_id','menu_srl');
+    exec_xml('layout', 'getLayoutMenuSrl', params, completeGetLayoutMenuSrl, response_tags);
+    return;
+  }
 
   var opt = new Option(text, menu_srl, false, true);
   listup_obj.options[listup_obj.length] = opt;

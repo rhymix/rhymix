@@ -49,6 +49,17 @@
 
             $this->setTemplateFile('insert_layout2');
         }
+
+        /**
+         * @brief 레이아웃 메뉴의 개별 정보 출력
+         **/
+        function dispLayoutMenuInfo() {
+            // 팝업이기 때문에 팝업용 레이아웃을 지정
+            $this->setLayoutPath('./common/tpl/');
+            $this->setLayoutFile('popup_layout');
+
+            $this->setTemplateFile('layout_menu_info');
+        }
  
         /**
          * @brief 레이아웃 목록을 보여줌
