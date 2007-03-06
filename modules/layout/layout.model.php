@@ -14,6 +14,18 @@
         }
 
         /**
+         * @brief DB 에 생성된 레이아웃의 목록을 구함
+         **/
+        function getLayoutList() {
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('layout.getLayoutList');
+            if(!$output->data) return;
+
+            if(is_array($output->data)) return $output->data;
+            return array($output->data);
+        }
+
+        /**
          * @brief 레이아웃의 경로를 구함
          **/
         function getLayoutPath($layout_name) {

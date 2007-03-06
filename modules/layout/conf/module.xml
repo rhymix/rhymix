@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
+        <action name="dispContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispInsertLayout" type="view" standalone="true" />
+        <action name="dispInsertLayout2" type="view" standalone="true" />
         <action name="dispList" type="controller" standalone="true" />
     </actions>
 </module>

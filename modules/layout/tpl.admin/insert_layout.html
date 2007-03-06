@@ -1,0 +1,16 @@
+<form action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="module" value="admin" />
+<input type="hidden" name="mo" value="layout" />
+<input type="hidden" name="act" value="dispInsertLayout2" />
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+
+  <div style="margin-bottom:10px;">
+    {$lang->layout_name}
+    <select name="layout">
+    <!--@foreach($layout_list as $key => $val)-->
+      <option value="{$val->layout}">{$val->title} ({$val->layout})</option>
+    <!--@end-->
+    </select>
+    <input type="submit" value="{$lang->cmd_next}" />
+  </div>
+</form>

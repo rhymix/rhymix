@@ -1,0 +1,29 @@
+<div>
+  {$lang->total_count} {number_format(count($layout_list))}
+</div>
+
+
+<!-- 목록 -->
+<div>
+  <table>
+  <tr>
+    <th>{$lang->no}</th>
+    <th>{$lang->layout_name}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@foreach($layout_list as $no => $val)-->
+  <tr>
+    <td>{$no}</td>
+    <td><a href="#" onclick="location.href='{getUrl('act','dispInsertLayout','layout_srl',$val->layout_srl)}';return false;">{$val->layout_name}</a></td>
+    <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td><a href="{getUrl('act','dispAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+  [<a href="{getUrl('act','dispInsertLayout','layout_srl','')}">{$lang->cmd_make}</a>]
+</div>
