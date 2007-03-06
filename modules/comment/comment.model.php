@@ -147,7 +147,7 @@
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
 
-            // document.getDocumentList 쿼리 실행
+            // comment.getTotalCommentList 쿼리 실행
             $output = $oDB->executeQuery('comment.getTotalCommentList', $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
