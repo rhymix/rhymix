@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+  <title xml:lang="ko">견본 레이아웃</title>
+  <title xml:lang="en">sample layout</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="en">zero</name>
+    <description xml:lang="ko">
+        견본 레이아웃입니다.
+        가장 기본적인 기능으로 이루어져 있습니다.
+    </description>
+    <description xml:lang="en">sample layout</description>
+  </author>
+  <navigations>
+    <navigation id="main_menu">
+        <name xml:lang="ko">주메뉴</name>
+        <name xml:lang="en">main menu</name>
+        <maxdepth>2</maxdepth>
+    </navigation>
+    <navigation id="bottom_menu">
+        <name xml:lang="ko">하단 메뉴 </name>
+        <name xml:lang="en">bottom menu</name>
+        <maxdepth>1</maxdepth>
+    </navigation>
+  </navigations>
+</addon>

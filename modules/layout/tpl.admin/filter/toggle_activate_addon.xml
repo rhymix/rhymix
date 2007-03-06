@@ -1,0 +1,9 @@
+<filter name="toggle_activate_addon" module="addon" act="procToggleActivateAddon">
+  <form>
+    <node target="addon" required="true" />
+  </form>
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>
