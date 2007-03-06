@@ -1,0 +1,29 @@
+<!-- 레이아웃의 목록 -->
+<table border="1" width="100%">
+<tr>
+  <td>{$lang->layout_name}</td>
+  <td>{$lang->version}</td>
+  <td>{$lang->author}</td>
+  <td>{$lang->menu_count}</td>
+  <td>{$lang->date}</td>
+  <td>{$lang->installed_path}</td>
+</tr>
+<!--@foreach($layout_list as $key => $val)-->
+<tr>
+  <td rowspan="2">
+      {$val->title} <br />
+      ({$val->layout})
+  </td>
+  <td>{$val->version}</td>
+  <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+  <td>{count($val->navigations)}</td>
+  <td>{$val->author->date}</td>
+  <td>{$val->path}</td>
+</tr>
+<tr>
+  <td colspan="5">
+    {nl2br($val->author->description)}
+  </td>
+</tr>
+<!--@end-->
+</table>

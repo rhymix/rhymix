@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon version="0.1">
+<layout version="0.1">
   <title xml:lang="ko">견본 레이아웃</title>
   <title xml:lang="en">sample layout</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -23,4 +23,4 @@
         <maxdepth>1</maxdepth>
     </navigation>
   </navigations>
-</addon>
+</layout>

@@ -86,6 +86,17 @@
         }
 
         /**
+         * @brief 레이아웃의 목록을 보여줌
+         **/
+        function dispLayoutList() {
+            $oLayoutView = &getView('layout');
+            $oLayoutView->dispLayoutList();
+
+            $this->setTemplatePath($oLayoutView->getTemplatePath());
+            $this->setTemplateFile($oLayoutView->getTemplateFile());
+        }
+
+        /**
          * @brief 관리자 로그인 페이지 출력
          **/
         function dispLogin() {
