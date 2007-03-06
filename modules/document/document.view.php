@@ -18,7 +18,7 @@
          **/
         function dispList() {
             // 목록을 구하기 위한 옵션
-            $args->page = $page; ///< 페이지
+            $args->page = Context::get('page'); ///< 페이지
             $args->list_count = 50; ///< 한페이지에 보여줄 글 수
             $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
 
@@ -41,7 +41,7 @@
                 if(count($module_srl_list)) {
                     $oDB = &DB::getInstance();
                     $args->module_srls = implode(',',$module_srl_list);
-                    $mid_output = $oDB->executeQuery('document.getModuleInfoByModuleSrl', $args);
+                    $mid_output = $oDB->executeQuery('module.getModuleInfoByModuleSrl', $args);
                     if($mid_output->data && !is_array($mid_output->data)) $mid_output->data = array($mid_output->data);
                     for($i=0;$i<count($mid_output->data);$i++) {
                         $mid_info = $mid_output->data[$i];

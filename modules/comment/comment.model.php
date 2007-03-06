@@ -132,5 +132,28 @@
                 }
             }
         }
+
+        /**
+         * @brief 모든 코멘트를 시간 역순으로 가져옴 (관리자용)
+         **/
+        function getTotalCommentList($obj) {
+
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            // 변수 설정
+            $args->sort_index = $obj->sort_index;
+            $args->page = $obj->page?$obj->page:1;
+            $args->list_count = $obj->list_count?$obj->list_count:20;
+            $args->page_count = $obj->page_count?$obj->page_count:10;
+
+            // document.getDocumentList 쿼리 실행
+            $output = $oDB->executeQuery('comment.getTotalCommentList', $args);
+
+            // 결과가 없거나 오류 발생시 그냥 return
+            if(!$output->toBool()||!count($output->data)) return $output;
+
+            return $output;
+        }
     }
 ?>

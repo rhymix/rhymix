@@ -18,7 +18,7 @@
          **/
         function dispList() {
             // 목록을 구하기 위한 옵션
-            $args->page = $page; ///< 페이지
+            $args->page = Context::get('page'); ///< 페이지
             $args->list_count = 50; ///< 한페이지에 보여줄 글 수
             $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
 
@@ -26,7 +26,7 @@
 
             // 목록 구함, comment->getCommentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
             $oCommentModel = &getModel('comment');
-            $output = $oCommentModel->getCommentList($args);
+            $output = $oCommentModel->getTotalCommentList($args);
 
             // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
             $comment_count = count($output->data);
@@ -38,7 +38,7 @@
                 if(count($module_srl_list)) {
                     $oDB = &DB::getInstance();
                     $args->module_srls = implode(',',$module_srl_list);
-                    $mid_output = $oDB->executeQuery('comment.getModuleInfoByModuleSrl', $args);
+                    $mid_output = $oDB->executeQuery('module.getModuleInfoByModuleSrl', $args);
                     if($mid_output->data && !is_array($mid_output->data)) $mid_output->data = array($mid_output->data);
                     for($i=0;$i<count($mid_output->data);$i++) {
                         $mid_info = $mid_output->data[$i];
@@ -47,7 +47,7 @@
                 }
             }
 
-            // 템플릿에 쓰기 위해서 comment_model::getCommentList() 의 return object에 있는 값들을 세팅
+            // 템플릿에 쓰기 위해서 comment_model::getTotalCommentList() 의 return object에 있는 값들을 세팅
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);

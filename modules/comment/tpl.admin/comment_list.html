@@ -1,11 +1,11 @@
 <!--%import("filter/search.xml")-->
 <!--%import("filter/delete_checked.xml")-->
-<!--%import("js/document.js")-->
+<!--%import("js/comment.js")-->
 <!--#include("header.html")-->
 
 <!-- 게시판 정보 -->
 <div>
-  {$lang->document_count} : {number_format($total_count)}, 
+  {$lang->total_count} : {number_format($total_count)}, 
   {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
 
@@ -24,13 +24,13 @@
     <th>{$lang->voted_count}</th>
     <th>{$lang->date}</th>
   </tr>
-  <!--@foreach($document_list as $no => $val)-->
+  <!--@foreach($comment_list as $no => $val)-->
   <tr>
     <td>{$no}</td>
-    <td><input type="checkbox" name="cart" value="{$val->document_srl}" /></td>
+    <td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
     <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
     <td>
-      <a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$val->title}</a>
+      <a href="#" onclick="window.open('./?comment_srl={$val->comment_srl}');return false">{$val->title}</a>
       <!--@if($val->comment_count>0)-->
       [{$val->comment_count}]
       <!--@end-->
@@ -49,7 +49,7 @@
 
 <!-- 버튼 -->
 <div>
-  <input type="submit" value="{$lang->cmd_delete_checked_document}" />
+  <input type="submit" value="{$lang->cmd_delete_checked_comment}" />
 </div>
 
 </form>
@@ -58,7 +58,7 @@
 <div>
   <form action="./" method="get" onsubmit="return procFilter(this, search)">
     <input type="hidden" name="module" value="admin" />
-    <input type="hidden" name="mo" value="document" />
+    <input type="hidden" name="mo" value="comment" />
     <input type="hidden" name="act" value="dispList" />
     <select name="search_target">
       <!--@foreach($search_option as $key => $val)-->
@@ -67,21 +67,21 @@
     </select>
     <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
     <input type="submit" value="{$lang->cmd_search}" />
-    <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','document_srl','')}'"/>
+    <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','comment_srl','')}'"/>
   </form>
 </div>
 
 <!-- 페이지 네비게이션 -->
 <div>
-  <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
+  <a href="{getUrl('page','','comment_srl','')}">[{$lang->first_page}]</a>
 
   <!--@while($page_no = $page_navigation->getNextPage())-->
   <!--@if($page == $page_no)-->
     {$page_no}
   <!--@else-->
-    <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+    <a href="{getUrl('page',$page_no,'comment_srl','')}">[{$page_no}]</a>
   <!--@end-->
   <!--@end-->
 
-  <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+  <a href="{getUrl('page',$page_navigation->last_page,'comment_srl','')}">[{$lang->last_page}]</a>
 </div>
