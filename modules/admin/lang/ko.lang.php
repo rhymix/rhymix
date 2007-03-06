@@ -15,7 +15,7 @@
     $lang->version = "버전";
     $lang->author = "제작자";
     $lang->table_count = "테이블수";
-    $lang->date = "제작일";
+    $lang->date = "일자";
     $lang->installed_path = "설치경로";
 
     $lang->msg_is_not_administrator = '관리자만 접속이 가능합니다';

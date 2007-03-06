@@ -4,7 +4,6 @@
   </form>
   <parameter>
     <param name="cart" target="cart" />
-    <param name="search_keyword" target="search_keyword" />
   </parameter>
   <response>
     <tag name="error" />

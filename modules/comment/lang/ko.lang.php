@@ -10,5 +10,5 @@
     $lang->cmd_delete_checked_comment = '선택항목 삭제';
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';
-    $lang->msg_checked_comment_is_deleted = '%d개의 글이 삭제되었습니다';
+    $lang->msg_checked_comment_is_deleted = '%d개의 댓글이 삭제되었습니다';
 ?>
