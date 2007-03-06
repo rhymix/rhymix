@@ -15,7 +15,7 @@
         }
 
         /**
-         * @brief 애드온 목록을 보여줌
+         * @brief 설정
          **/
         function dispConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)

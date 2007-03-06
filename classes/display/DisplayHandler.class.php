@@ -26,7 +26,7 @@
             $content = $this->getContent($oModule);
 
             // 요청방식에 따라 출력을 별도로
-            if(Context::getRequestMethod()!="XMLRPC") {
+            if(Context::getResponseMethod()!="XMLRPC") {
                 Context::set('content', $content);
 
                 // content 래핑 (common/tpl/default.html)
@@ -119,6 +119,7 @@
             $buff .= "\n- Request/ Response info\n";
             $buff .= sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s\n", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']?'?':'', $_SERVER['QUERY_STRING']);
             $buff .= sprintf("\tRequest method \t\t\t: %s\n", $_SERVER['REQUEST_METHOD']);
+            $buff .= sprintf("\tResponse method \t\t: %s\n", Context::getResponseMethod());
             $buff .= sprintf("\tResponse contents size\t\t: %d byte\n", $this->getContentSize());
             if($GLOBALS['__db_queries__']) {
             $buff .= "\n- DB Queries\n";
@@ -140,7 +141,7 @@
          * @brief RequestMethod에 맞춰 헤더 출력
          ***/
         function _printHeader() {
-            if(Context::getRequestMethod() == 'XMLRPC') return $this->_printXMLHeader();
+            if(Context::getResponseMethod() == 'XMLRPC') return $this->_printXMLHeader();
             else return $this->_printHTMLHeader();
         }
 

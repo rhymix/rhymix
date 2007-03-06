@@ -380,9 +380,13 @@
             $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
             $info->total_count = $output->total_count;
 
-            // 출력하고 끝내기
+            // RSS 모듈을 불러서 출력할 내용을 지정
             $oRssView = &getView('rss');
             $oRssView->dispRss($info, $document_list);
+
+            // RSS 모듈의 tempate을 가져옴
+            $this->setTemplatePath($oRssView->getTemplatePath());
+            $this->setTemplateFile($oRssView->getTemplateFile());
         }
 
         /**

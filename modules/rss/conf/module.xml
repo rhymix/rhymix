@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispConfig" type="view" admin_index="true" standalone="true" />
+        <action name="procInsertConfig" type="controller" standalone="true" />
+    </actions>
+</module>

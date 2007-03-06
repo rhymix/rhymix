@@ -14,7 +14,7 @@
         }
 
         /**
-         * @brief 스팸필터 설정
+         * @brief 설정
          **/
         function procInsertConfig() {
             // 기본 정보를 받음

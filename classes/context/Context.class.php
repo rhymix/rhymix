@@ -13,6 +13,7 @@
     class Context {
 
         var $request_method = 'GET'; ///< @brief GET/POST/XMLRPC 중 어떤 방식으로 요청이 왔는지에 대한 값이 세팅. GET/POST/XML 3가지가 있음
+        var $response_method = ''; ///< @brief HTML/XMLRPC 중 어떤 방식으로 결과를 출력할지 결정. (강제 지정전까지는 request_method를 따름)
 
         var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수 
 
@@ -285,6 +286,38 @@
                     return $obj;
                 }
             }
+        }
+
+        /**
+         * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
+         *
+         * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음
+         **/
+        function setResponseMethod($method = "HTML") {
+            $oContext = &Context::getInstance();
+            return $oContext->_setResponseMethod($method);
+        }
+
+        function _setResponseMethod($method = "HTML") {
+            $this->response_method = $method;
+        }
+
+        /**
+         * @brief response method 값을 return
+         *
+         * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음
+         * 별도로 response method를 지정하지 않았다면 request method로 판단하여 결과 return
+         **/
+        function getResponseMethod() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getResponseMethod();
+        }
+
+        function _getResponseMethod() {
+            if($this->response_method) return $this->response_method;
+
+            if($this->_getRequestMethod()=="XMLRPC") return "XMLRPC";
+            return "HTML";
         }
 
         /**

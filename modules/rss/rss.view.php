@@ -3,7 +3,6 @@
      * @class  rssView
      * @author zero (zero@nzeo.com)
      * @brief  rss module의 view class
-     * @todo   다양한 형식의 format 및 제어 기능 추가
      *
      * RSS 2.0형식으로 문서 출력
      *
@@ -17,40 +16,38 @@
         function init() {
         }
 
-        function dispRss($info, $content, $type="rss2.0") { 
-            switch($type) {
-                case "rss2.0" :
-                        $this->dispRss20($info, $content);
-                    break;
-            }
+        /**
+         * @brief 설정 
+         **/
+        function dispConfig() {
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('rss');
+            Context::set('config',$config);
+            Context::set('rss_types',$this->rss_types);
 
-            exit();
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl.admin/');
+            $this->setTemplateFile('index');
         }
 
         /**
-         * @brief content를 받아서 rss 형식으로 출력
+         * @brief RSS 출력
          **/
-        function dispRss20($info, $content) {
-            header("Content-Type: text/xml; charset=UTF-8");
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
-            print '<?xml version="1.0" encoding="utf-8" ?>'."\n";
-            print "<!-- // RSS2.0 -->\n";
+        function dispRss($info, $content) {
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('rss');
 
-?><rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
-<channel>
-<title><![CDATA[<?=$info->title?>]]></title>
-<link><![CDATA[<?=$info->link?>]]></link>
-<description><![CDATA[<?=$info->description?>]]></description>
-<language><?=$info->language?></language>
-<pubDate><?=$info->date?></pubDate>
-<totalCount><?=$info->total_count?></totalCount>
-<?
+            // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
+            if($config->rss_disable=='Y') return $this->dispError();
+
+            // RSS 출력 형식을 체크
+            $rss_type = $config->rss_type;
+            if(!$this->rss_types->{$rss_type}) $rss_type = $this->default_rss_type;
+
             if(count($content)) {
-                foreach($content as $item) {
+                foreach($content as $key => $item) {
                     $year = substr($item->regdate,0,4);
                     $month = substr($item->regdate,4,2);
                     $day = substr($item->regdate,6,2);
@@ -59,26 +56,41 @@
                     $sec = substr($item->regdate,12,2);
                     $time = mktime($hour,$min,$sec,$month,$day,$year);
 
-                    $title = $item->title;
-                    $author = $item->user_name;
-                    $link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
-                    $description = $item->content;
-                    $date = gmdate("D, d M Y H:i:s", $time);
-?>
-<item>
-<title><![CDATA[<?=$title?>]]></title>
-<author><![CDATA[<?=$author?>]]></author>
-<link><![CDATA[<?=$link?>]]></link>
-<description><![CDATA[<?=$description?>]]></description>
-<pubDate><?=$date?></pubDate>
-</item>
-<?
+                    $item->author = $item->user_name;
+                    $item->link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
+                    $item->description = $item->content;
+                    $item->date = gmdate("D, d M Y H:i:s", $time);
+                    $content[$key] = $item;
                 }
             }
-?>
-</channel>
-</rss>
-<?
+
+            // RSS 출력물에서 사용될 변수 세팅
+            Context::set('info', $info);
+            Context::set('content', $content);
+
+            // 결과 출력을 XMLRPC로 강제 지정
+            Context::setResponseMethod("XMLRPC");
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl/');
+            $this->setTemplateFile($rss_type);
+        }
+
+        /**
+         * @brief 에러 출력
+         **/
+        function dispError() {
+
+            // 결과 출력을 XMLRPC로 강제 지정
+            Context::setResponseMethod("XMLRPC");
+
+            // 출력 메세지 작성
+            Context::set('error', -1);
+            Context::set('message', Context::getLang('msg_rss_is_disabled') );
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl.admin/');
+            $this->setTemplateFile("error");
         }
     }
 ?>
