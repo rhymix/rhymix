@@ -1,0 +1,13 @@
+<filter name="delete_checked" module="document" act="procDeleteChecked" confirm_msg_code="confirm_delete">
+  <form>
+    <node target="cart" required="true" />
+  </form>
+  <parameter>
+    <param name="cart" target="cart" />
+    <param name="search_keyword" target="search_keyword" />
+  </parameter>
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>
