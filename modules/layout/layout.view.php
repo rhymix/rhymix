@@ -58,6 +58,9 @@
             $this->setLayoutPath('./common/tpl/');
             $this->setLayoutFile('popup_layout');
 
+            // menu_srl에 해당하는 값을 가져옴
+
+            // 템플릿 지정
             $this->setTemplateFile('layout_menu_info');
         }
  

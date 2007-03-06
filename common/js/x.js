@@ -158,8 +158,6 @@ function xEvent(evt) // object prototype
   this.altKey = e.altKey;
 }
 
-
-
 function xFirstChild(e, t)
 {
   var c = e ? e.firstChild : null;

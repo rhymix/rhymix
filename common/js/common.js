@@ -113,24 +113,25 @@ function svc_folder_close(id) {
     folder_obj.style.display = "none";
 }
 
-// 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 (모두 잘 되려나..)
+// 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
+// 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
+// 혹시.. 제대로 된 소스 있으신 분은 헬프미.. ㅠ0ㅠ
 function setFixedPopupSize() {
-  var popup_content = xGetElementById('popup_content');
-  var ruler1 = xGetElementById('resize_ruler_1');
-  var ruler2 = xGetElementById('resize_ruler_2');
-  var ruler_box_1 = xGetElementById("ruler_box_1");
-  var ruler_box_2 = xGetElementById("ruler_box_2");
-  if(!xIE4Up) {
-    var width = xWidth(ruler1);
-    var height = xHeight(ruler2)+22;
-  } else {
-    var width = xWidth(popup_content)+15;
-    var height = xHeight(popup_content)+50;
-  }
+    var i=0;
+    while(i<2) {
+        window.scrollTo(03000,03000);
+        window.resizeBy(xScrollLeft(), xScrollTop());
+        i++;
+    }
+    window.scrollTo(0,0);
 
-  window.resizeTo(width, height);
-
-  ruler_box_1.style.visibility = "hidden";
-  ruler_box_2.style.visibility = "hidden";
-  popup_content.style.position = "";
+    // IE의 경우 한번더 해줘야 한다. (이게 맞는건지.. ㅡ.ㅜ)
+    if(xIE4Up) {
+        var i=0;
+        while(i<2) {
+            var height = xHeight(xGetElementById('popup_content'));
+            if(xGetBodyHeight()!=height) window.resizeBy(0, height-xGetBodyHeight());
+            i++;
+        }
+    }
 }

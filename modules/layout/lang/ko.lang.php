@@ -7,6 +7,8 @@
 
     $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
+    $lang->menu_name = '메뉴명';
+    $lang->menu_mid = '연결모듈';
     $lang->menu_management = '메뉴 관리';
     $lang->depth = '단계';
 

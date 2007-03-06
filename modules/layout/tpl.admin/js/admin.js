@@ -5,7 +5,8 @@ function doEditMenuInfo(sel_obj) {
 
   var menu_srl = obj.value;
 
-  var win = window.open("./?module=layout&act=dispLayoutMenuInfo&menu_srl="+menu_srl,"_LayoutMenu","toolbars=no,status=no,resizable=no,width=100,height=100");
+  var url = "./?module=layout&act=dispLayoutMenuInfo&menu_srl="+menu_srl;
+  var win = window.open(url,"_LayoutMenu","toolbars=no,status=no,resizable=no,width=10,height=10");
   win.focus();
 }
 
@@ -116,7 +117,7 @@ function doEditMenu(cmd, menu_id, max_depth) {
 function getDepth(obj) {
   var pl = obj.style.paddingLeft;
   if(!pl) return 0;
-  var depth = parseInt(pl);
+  var depth = parseInt(pl,10);
   return depth/20;
 }
 
