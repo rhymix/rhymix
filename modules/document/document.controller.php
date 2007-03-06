@@ -183,19 +183,21 @@
 
             // 댓글 삭제
             $oCommentController = &getController('comment');
-            $output = $oCommentController->deleteComments($document_srl);
+            $output = $oCommentController->deleteComments($document_srl, $is_admin);
 
             // 엮인글 삭제
             $oTrackbackController = &getController('trackback');
-            $output = $oTrackbackController->deleteTrackbacks($document_srl);
+            $output = $oTrackbackController->deleteTrackbacks($document_srl, $is_admin);
 
             // 태그 삭제
             $oTagController = &getController('tag');
-            $oTagController->deleteTag($document_srl);
+            $oTagController->deleteTag($document_srl, $is_admin);
 
             // 첨부 파일 삭제
-            $oFileController = &getController('file');
-            if($document->uploaded_count) $oFileController->deleteFiles($document->module_srl, $document_srl);
+            if($document->uploaded_count) {
+                $oFileController = &getController('file');
+                $oFileController->deleteFiles($document->module_srl, $document_srl);
+            }
 
             // 카테고리가 있으면 카테고리 정보 변경
             if($document->category_srl) $this->updateCategoryCount($document->category_srl);
@@ -509,6 +511,28 @@
             $this->updateCategory($next_args);
 
             return new Object();
+        }
+
+        /**
+         * @brief 관리자 페이지에서 선택된 문서들 삭제
+         **/
+        function procDeleteChecked() {
+            // 선택된 글이 없으면 오류 표시
+            $cart = Context::get('cart');
+            if(!$cart) return $this->stop('msg_cart_is_null');
+            $document_srl_list= explode('|@|', $cart);
+            $document_count = count($document_srl_list);
+            if(!$document_count) return $this->stop('msg_cart_is_null');
+
+            // 글삭제
+            for($i=0;$i<$document_count;$i++) {
+                $document_srl = trim($document_srl_list[$i]);
+                if(!$document_srl) continue;
+
+                $this->deleteDocument($document_srl, true);
+            }
+
+            $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
         }
 
     }

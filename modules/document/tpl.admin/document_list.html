@@ -1,4 +1,5 @@
 <!--%import("filter/search.xml")-->
+<!--%import("filter/delete_checked.xml")-->
 <!--%import("js/document.js")-->
 <!--#include("header.html")-->
 
@@ -7,6 +8,9 @@
   {$lang->document_count} : {number_format($total_count)}, 
   {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
 <div>
@@ -42,6 +46,13 @@
   <!--@end-->
   </table>
 </div>
+
+<!-- 버튼 -->
+<div>
+  <input type="submit" value="{$lang->cmd_delete_checked_document}" />
+</div>
+
+</form>
 
 <!-- 검색 -->
 <div>
