@@ -20,7 +20,15 @@
   <td>{$val->version}</td>
   <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
   <td>{$val->author->date}</td>
-  <td>{$val->created_table_count}/{$val->table_count}</td>
+  <td>
+    <!--@if($val->created_table_count != $val->table_count)-->
+      <span style="color:red">
+    <!--@else-->
+      <span>
+    <!--@end-->
+        {$val->created_table_count}/{$val->table_count}
+      </span>
+  </td>
   <td>{$val->path}</td>
 </tr>
 <tr>

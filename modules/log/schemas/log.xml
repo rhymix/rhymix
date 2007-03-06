@@ -1,8 +1,0 @@
-<table name="log">
-  <column name="log_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="mid" type="varchar" size="100" notnull="notnull" index="idx_mid" />
-  <column name="act" type="varchar" size="100" notnull="notnull" index="idx_act" />
-  <column name="srl" type="number" size="11" notnull="notnull" default="0" />
-  <column name="ipaddress" type="varchar" size="128" notnull="notnull" />
-  <column name="regdate" type="date" notnull="notnull" />
-</table>
