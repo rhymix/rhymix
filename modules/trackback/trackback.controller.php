@@ -66,7 +66,7 @@
         /**
          * @brief 단일 엮인글 삭제
          **/
-        function deleteTrackback($trackback_srl) {
+        function deleteTrackback($trackback_srl, $is_admin = false) {
             // trackback model 객체 생성
             $oTrackbackModel = &getModel('trackback');
 
@@ -79,7 +79,7 @@
             $oDocumentModel = &getModel('document');
 
             // 권한이 있는지 확인
-            if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
+            if(!$is_admin && !$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
             $oDB = &DB::getInstance();

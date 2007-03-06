@@ -173,7 +173,7 @@
             // comment 모듈의 controller 객체 생성
             $oCommentController = &getController('comment');
 
-            $output = $oCommentController->deleteComment($comment_srl);
+            $output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
             if(!$output->toBool()) return $output;
 
             $this->add('mid', Context::get('mid'));
@@ -201,7 +201,7 @@
 
             // trackback module의 controller 객체 생성
             $oTrackbackController = &getController('trackback');
-            $output = $oTrackbackController->deleteTrackback($trackback_srl);
+            $output = $oTrackbackController->deleteTrackback($trackback_srl, $this->grant->manager);
             if(!$output->toBool()) return $output;
 
             $this->add('mid', Context::get('mid'));
@@ -259,7 +259,7 @@
 
             // file class의 controller 객체 생성
             $oFileController = &getController('file');
-            $output = $oFileController->deleteFile($file_srl);
+            $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
 
             // 첨부파일의 목록을 java script로 출력
             $oFileController->printUploadedFileList($document_srl);
