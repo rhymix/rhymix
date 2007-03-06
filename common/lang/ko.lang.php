@@ -30,6 +30,8 @@
     $lang->cmd_move = '이동';
     $lang->cmd_move_up = '위로';
     $lang->cmd_move_down = '아래로';
+    $lang->cmd_add_indent = '들이기';
+    $lang->cmd_remove_indent = '빼내기';
     $lang->cmd_management = '관리';
     $lang->cmd_make = "생성";
     $lang->cmd_select = "선택";

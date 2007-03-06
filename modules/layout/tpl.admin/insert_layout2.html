@@ -46,6 +46,8 @@
         <div>
           <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up', '{$val->id}');return false;" />
           <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_add_indent}" onclick="doEditDefaultValue(this, 'add_indent', '{$val->id}',{$val->maxdepth});return false;" />
+          <input type="button" value="{$lang->cmd_remove_indent}" onclick="doEditDefaultValue(this, 'remove_indent', '{$val->id}');return false;" />
           <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete', '{$val->id}');return false;" />
         </div>
       </td>
@@ -53,8 +55,8 @@
     <!--@end-->
     <tr>
       <td colspan="2">
-        <input type="button" value="{$lang->cmd_back}" onclick="history.back()" />
-        <input type="submit" value="{$lang->cmd_next}" />
+        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispContent')}'" />
+        <input type="submit" value="{$lang->cmd_registration}" />
       </td>
     </tr>
   </div>
