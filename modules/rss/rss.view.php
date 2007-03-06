@@ -44,9 +44,10 @@
 
             // RSS 출력 형식을 체크
             $rss_type = $config->rss_type;
-            if(!$this->rss_types->{$rss_type}) $rss_type = $this->default_rss_type;
+            if(!$this->rss_types[$rss_type]) $rss_type = $this->default_rss_type;
 
             if(count($content)) {
+                $idx = 0;
                 foreach($content as $key => $item) {
                     $year = substr($item->regdate,0,4);
                     $month = substr($item->regdate,4,2);
@@ -60,13 +61,13 @@
                     $item->link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
                     $item->description = $item->content;
                     $item->date = gmdate("D, d M Y H:i:s", $time);
-                    $content[$key] = $item;
+                    $output[$idx++] = $item;
                 }
             }
 
             // RSS 출력물에서 사용될 변수 세팅
             Context::set('info', $info);
-            Context::set('content', $content);
+            Context::set('content', $output);
 
             // 결과 출력을 XMLRPC로 강제 지정
             Context::setResponseMethod("XMLRPC");
