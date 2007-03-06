@@ -11,7 +11,6 @@
         var $rss_types = array(
                 "rss20" => "rss 2.0",
                 "rss10" => "rss 1.0",
-                "atom03" => "atom 0.3",
             );
 
     }
