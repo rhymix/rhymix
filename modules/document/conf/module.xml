@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispList" type="view" admin_index="true" standalone="true" />
+    </actions>
+</module>
