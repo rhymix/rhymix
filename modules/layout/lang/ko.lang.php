@@ -7,7 +7,9 @@
 
     $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
+    $lang->menu_management = '메뉴 관리';
     $lang->depth = '단계';
 
     $lang->about_title = '모듈에 연결시 쉽게 구분할 수 있는 제목을 입력해주세요';
+    $lang->about_menu_management = "메뉴관리는 선택하신 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.\n정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 더블클릭하시면 상세 정보를 입력할 수 있습니다.\n각종 버튼을 이용해서 메뉴의 구성을 하시면 됩니다";
 ?>

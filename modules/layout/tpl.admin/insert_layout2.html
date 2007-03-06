@@ -28,6 +28,12 @@
     <tr>
       <td>{$lang->about_title}</td>
     </tr>
+    <tr>
+      <th colspan="2">{$lang->menu_management}</th>
+    </tr>
+    <tr>
+      <td colspan="2">{nl2br($lang->about_menu_management)}</td>
+    </tr>
     <!--@foreach($info->navigations as $key => $val)-->
     <tr>
       <th>
@@ -36,19 +42,19 @@
       </th>
       <td>
         <div>
-          <select name="{$val->main_menu}" size="15" style="width:100%;" id="default_value_listup_{$val->id}">
+          <select name="{$val->main_menu}" size="15" style="width:500px;" id="default_value_listup_{$val->id}" ondblclick="doEditMenuInfo(this)" >
           </select>
         </div>
         <div>
           <input type="text" name="default_value_item_{$val->id}" id="default_value_item_{$val->id}" />
-          <input type="button" value="{$lang->cmd_insert}" onclick="doEditDefaultValue(this, 'insert', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_insert}" onclick="doEditMenu('insert', '{$val->id}');return false;" />
         </div>
         <div>
-          <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_add_indent}" onclick="doEditDefaultValue(this, 'add_indent', '{$val->id}',{$val->maxdepth});return false;" />
-          <input type="button" value="{$lang->cmd_remove_indent}" onclick="doEditDefaultValue(this, 'remove_indent', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_move_up}" onclick="doEditMenu('up', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_move_down}" onclick="doEditMenu('down', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_add_indent}" onclick="doEditMenu('add_indent', '{$val->id}',{$val->maxdepth});return false;" />
+          <input type="button" value="{$lang->cmd_remove_indent}" onclick="doEditMenu('remove_indent', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_delete}" onclick="doEditMenu('delete', '{$val->id}');return false;" />
         </div>
       </td>
     </tr>

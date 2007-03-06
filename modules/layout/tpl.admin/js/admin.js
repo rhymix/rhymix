@@ -1,15 +1,25 @@
-function doEditDefaultValue(obj, cmd, menu_id, max_depth) {
+function doEditMenuInfo(sel_obj) {
+  var idx = sel_obj.selectedIndex; 
+  var obj = sel_obj.options[idx];
+  if(typeof(obj)=='undefined'||!obj) return;
+
+  var value = obj.value;
+  var text = obj.text;
+}
+
+function doEditMenu(cmd, menu_id, max_depth) {
   var listup_obj = xGetElementById('default_value_listup_'+menu_id);
   var item_obj = xGetElementById('default_value_item_'+menu_id);
   var idx = listup_obj.selectedIndex;
   var lng = listup_obj.options.length;
-  var val = 1;
   var text = item_obj.value;
+  var val = 1;
   switch(cmd) {
     case 'insert' :
         if(!text) return;
         var opt = new Option(text, val, false, true);
         listup_obj.options[listup_obj.length] = opt;
+        setDepth(listup_obj.options[listup_obj.length-1],0);
         item_obj.value = '';
         item_obj.focus();
       break;
@@ -48,6 +58,12 @@ function doEditDefaultValue(obj, cmd, menu_id, max_depth) {
         setDepth(listup_obj.options[idx+1], depth2);
       break;
     case 'delete' :
+        if(idx<lng-1) {
+          var below_depth = getDepth(listup_obj.options[idx+1]);
+          var cur_depth = getDepth(listup_obj.options[idx]);
+          if(below_depth>cur_depth) return;
+        }
+
         listup_obj.remove(idx);
         if(idx==0) listup_obj.selectedIndex = 0;
         else listup_obj.selectedIndex = idx-1;
@@ -87,7 +103,6 @@ function setDepth(obj, depth) {
 }
 
 function addDepth(obj, max_depth) {
-  max_depth=5;
   var depth = getDepth(obj);
   var depth = depth + 1;
   if(depth>=max_depth) return;
