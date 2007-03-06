@@ -134,7 +134,7 @@
         }
 
         /**
-         * @brief 모든 코멘트를 시간 역순으로 가져옴 (관리자용)
+         * @brief 모든 댓글를 시간 역순으로 가져옴 (관리자용)
          **/
         function getTotalCommentList($obj) {
 
