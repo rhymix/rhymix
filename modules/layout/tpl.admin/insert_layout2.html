@@ -1,0 +1,54 @@
+<!--%import("js/admin.js")-->
+
+<form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="module" value="admin" />
+<input type="hidden" name="mo" value="layout" />
+<input type="hidden" name="act" value="dispInsertLayout2" />
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<input type="hidden" name="layout" value="{$layout}" />
+
+  <div style="margin-bottom:10px;">
+    <table border="1">
+    <tr>  
+      <th>{$lang->layout_name}</th>
+      <td>{$info->title} ver {$info->version} ({$layout})</td>
+    </tr>
+    <tr>  
+      <th>{$lang->author}</th>
+      <td><a href="#" onclick="window.open('{$info->author->homepage}');return false;">{$info->author->name}</a></td>
+    </tr>
+    <tr>  
+      <th>{$lang->description}</th>
+      <td>{nl2br($info->author->description)}</td>
+    </tr>
+    <!--@foreach($info->navigations as $key => $val)-->
+    <tr>
+      <th>
+        {$val->name}  <br />
+        ({$val->maxdepth} {$lang->depth})
+      </th>
+      <td>
+        <div>
+          <select name="{$val->main_menu}" size="15" style="width:100%;" id="default_value_listup_{$val->id}">
+          </select>
+        </div>
+        <div>
+          <input type="text" name="default_value_item_{$val->id}" id="default_value_item_{$val->id}" />
+          <input type="button" value="{$lang->cmd_insert}" onclick="doEditDefaultValue(this, 'insert', '{$val->id}');return false;" />
+        </div>
+        <div>
+          <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete', '{$val->id}');return false;" />
+        </div>
+      </td>
+    </tr>
+    <!--@end-->
+    <tr>
+      <td colspan="2">
+        <input type="button" value="{$lang->cmd_back}" onclick="history.back()" />
+        <input type="submit" value="{$lang->cmd_next}" />
+      </td>
+    </tr>
+  </div>
+</form>

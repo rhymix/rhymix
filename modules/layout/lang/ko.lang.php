@@ -7,4 +7,5 @@
 
     $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
+    $lang->depth = '단계';
 ?>
