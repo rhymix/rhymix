@@ -31,12 +31,32 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args);
 
+            // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
+            $document_count = count($output->data);
+            if($document_count) {
+                foreach($output->data as $key => $val) {
+                    $module_srl = $val->module_srl;
+                    if(!in_array($module_srl, $module_srl_list)) $module_srl_list[] = $module_srl;
+                }
+                if(count($module_srl_list)) {
+                    $oDB = &DB::getInstance();
+                    $args->module_srls = implode(',',$module_srl_list);
+                    $mid_output = $oDB->executeQuery('document.getModuleInfoByModuleSrl', $args);
+                    if($mid_output->data && !is_array($mid_output->data)) $mid_output->data = array($mid_output->data);
+                    for($i=0;$i<count($mid_output->data);$i++) {
+                        $mid_info = $mid_output->data[$i];
+                        $module_list[$mid_info->module_srl] = $mid_info;
+                    }
+                }
+            }
+
             // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
+            Context::set('module_list', $module_list);
 
             // 템플릿에서 사용할 검색옵션 세팅
             $count_search_option = count($this->search_option);

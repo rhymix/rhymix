@@ -6,7 +6,7 @@
     <column name="*" />
   </columns>
   <conditions>
-    <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
     <condition operation="equal" column="category_srl" var="category_srl" />
     <group pipe="and">
       <condition operation="like" column="title" var="s_title" />
