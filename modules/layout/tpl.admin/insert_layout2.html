@@ -42,12 +42,12 @@
       </th>
       <td>
         <div>
-          <select name="{$val->main_menu}" size="15" style="width:500px;" id="default_value_listup_{$val->id}" ondblclick="doEditMenuInfo(this)" >
+          <select name="{$val->id}" size="15" style="width:500px;" id="default_value_listup_{$val->id}" ondblclick="doEditMenuInfo(this)" >
           </select>
         </div>
         <div>
           <input type="text" name="default_value_item_{$val->id}" id="default_value_item_{$val->id}" />
-          <input type="button" value="{$lang->cmd_insert}" onclick="doEditMenu('insert', '{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_insert}" onclick="doEditInsertMenu('{$val->id}');return false;" />
         </div>
         <div>
           <input type="button" value="{$lang->cmd_move_up}" onclick="doEditMenu('up', '{$val->id}');return false;" />
@@ -65,5 +65,6 @@
         <input type="submit" value="{$lang->cmd_registration}" />
       </td>
     </tr>
+    </table>
   </div>
 </form>

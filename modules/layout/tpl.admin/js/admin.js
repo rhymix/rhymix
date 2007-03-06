@@ -7,22 +7,33 @@ function doEditMenuInfo(sel_obj) {
   var text = obj.text;
 }
 
+function doEditInsertMenu(menu_id, menu_srl) {
+  if(typeof(menu_srl)=='undefined'||!menu_srl) {
+
+    return;
+  }
+
+  var item_obj = xGetElementById('default_value_item_'+menu_id);
+  var listup_obj = xGetElementById('default_value_listup_'+menu_id);
+
+  var text = item_obj.value;
+
+  if(!text || !menu_srl) return;
+
+  var opt = new Option(text, menu_srl, false, true);
+  listup_obj.options[listup_obj.length] = opt;
+
+  setDepth(listup_obj.options[listup_obj.length-1],0);
+
+  item_obj.value = '';
+  item_obj.focus();
+}
+
 function doEditMenu(cmd, menu_id, max_depth) {
   var listup_obj = xGetElementById('default_value_listup_'+menu_id);
-  var item_obj = xGetElementById('default_value_item_'+menu_id);
   var idx = listup_obj.selectedIndex;
   var lng = listup_obj.options.length;
-  var text = item_obj.value;
-  var val = 1;
   switch(cmd) {
-    case 'insert' :
-        if(!text) return;
-        var opt = new Option(text, val, false, true);
-        listup_obj.options[listup_obj.length] = opt;
-        setDepth(listup_obj.options[listup_obj.length-1],0);
-        item_obj.value = '';
-        item_obj.focus();
-      break;
     case 'up' :
         if(lng < 2 || idx<1) return;
 
