@@ -6,7 +6,8 @@
   <td>{$lang->author}</td>
   <td>{$lang->menu_count}</td>
   <td>{$lang->date}</td>
-  <td>{$lang->installed_path}</td>
+  <td>{$lang->date}</td>
+  <td>{$lang->cmd_make}</td>
 </tr>
 <!--@foreach($layout_list as $key => $val)-->
 <tr>
@@ -19,9 +20,10 @@
   <td>{count($val->navigations)}</td>
   <td>{$val->author->date}</td>
   <td>{$val->path}</td>
+  <td><a href="{getUrl('mo','layout','act','dispInsertLayout2','layout',$val->layout)}">{$lang->cmd_make}</a></td>
 </tr>
 <tr>
-  <td colspan="5">
+  <td colspan="6">
     {nl2br($val->author->description)}
   </td>
 </tr>
