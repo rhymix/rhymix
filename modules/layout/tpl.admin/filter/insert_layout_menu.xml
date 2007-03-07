@@ -9,8 +9,9 @@
   <response callback_func="completeInsertLayoutMenu">
     <tag name="error" />
     <tag name="message" />
+    <tag name="menu_srl" />
     <tag name="xml_file" />
     <tag name="menu_id" />
-    <tag name="name" />
+    <tag name="menu_title" />
   </response>
 </filter>

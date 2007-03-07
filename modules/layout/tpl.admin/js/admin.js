@@ -8,8 +8,9 @@ function completeInsertLayout(ret_obj) {
 function completeInsertLayoutMenu(ret_obj) {
   var menu_id = ret_obj['menu_id'];
   var xml_file = ret_obj['xml_file'];
-  var name = ret_obj['name'];
-  loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, name, doGetMenuInfo);
+  var menu_title = ret_obj['menu_title'];
+  var menu_srl = ret_obj['menu_srl'];
+  loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo);
 } 
 
 /* 레이아웃 메뉴에를 클릭시 적용할 함수 */

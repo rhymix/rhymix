@@ -52,6 +52,8 @@
             $args->active_btn = $source_args->menu_active_btn;
             $args->group_srls = $source_args->group_srls;
 
+            $layout = Context::get('layout');
+
             // 이미 존재하는지를 확인
             $oLayoutModel = &getModel('layout');
             $menu_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
@@ -68,11 +70,24 @@
                 $output = $oDB->executeQuery('layout.insertLayoutMenu', $args);
             }
 
+            // 해당 메뉴의 정보를 구함
+            $layout_info = $oLayoutModel->getLayoutInfoXml($layout);
+            $navigations = $layout_info->navigations;
+            if(count($navigations)) {
+                foreach($navigations as $key => $val) {
+                    if($args->menu_id == $val->id) {
+                        $menu_title = $val->name;
+                    }
+                }
+            }
+
+            // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->layout_srl);
 
             $this->add('xml_file', $xml_file[$args->menu_id]);
+            $this->add('menu_srl', $args->menu_srl);
             $this->add('menu_id', $args->menu_id);
-            $this->add('name', $args->name);
+            $this->add('menu_title', $menu_title);
         }
 
         /**
