@@ -99,13 +99,18 @@
             // 변수 정리 
             $args = Context::gets('layout_srl','layout','menu_srl','menu_id');
 
+            $oLayoutModel = &getModel('layout');
+
+            // 원정보를 가져옴 
+            $node_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
+            if($node_info->parent_srl) $parent_srl = $node_info->parent_srl;
+
             // DB에서 삭제
             $oDB = &DB::getInstance();
             $output = $oDB->executeQuery("layout.deleteLayoutMenu", $args);
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
-            $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfoXml($args->layout);
             $navigations = $layout_info->navigations;
             if(count($navigations)) {
@@ -122,6 +127,7 @@
             $this->add('xml_file', $xml_file);
             $this->add('menu_id', $args->menu_id);
             $this->add('menu_title', $menu_title);
+            $this->add('menu_srl', $parent_srl);
         }
 
         /**
