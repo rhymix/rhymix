@@ -37,6 +37,8 @@
     $lang->cmd_select = "선택";
     $lang->cmd_select_all = "모두선택";
     $lang->cmd_unselect_all = "모두해제";
+    $lang->cmd_close_all = "모두닫기";
+    $lang->cmd_open_all = "모두열기";
 
     $lang->enable = '가능';
     $lang->disable = '불가능';

@@ -41,21 +41,15 @@
         ({$val->maxdepth} {$lang->depth})
       </th>
       <td>
-        <div>
-          <select name="{$val->id}" size="15" style="width:500px;" id="default_value_listup_{$val->id}" ondblclick="doEditMenuInfo(this)" >
-          </select>
+        <div id="menu_zone_{$val->id}">
         </div>
         <div>
-          <input type="text" name="default_value_item_{$val->id}" id="default_value_item_{$val->id}" />
-          <input type="button" value="{$lang->cmd_insert}" onclick="doEditInsertMenu('{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$val->id}');return false;" />
+          <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$val->id}');return false;" />
         </div>
-        <div>
-          <input type="button" value="{$lang->cmd_move_up}" onclick="doEditMenu('up', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_move_down}" onclick="doEditMenu('down', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_add_indent}" onclick="doEditMenu('add_indent', '{$val->id}',{$val->maxdepth});return false;" />
-          <input type="button" value="{$lang->cmd_remove_indent}" onclick="doEditMenu('remove_indent', '{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_delete}" onclick="doEditMenu('delete', '{$val->id}');return false;" />
-        </div>
+        <script type="text/javascript">
+          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}"); });
+        </script>
       </td>
     </tr>
     <!--@end-->

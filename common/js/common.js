@@ -10,7 +10,7 @@ String.prototype.trim = function() {
 // 주어진 인자가 하나라도 defined되어 있지 않으면 false return
 function isDef() {
   for(var i=0; i<arguments.length; ++i) {
-    if(typeof(arguments[i])=='undefined') return false;
+    if(typeof(arguments[i])=="undefined") return false;
   }
   return true;
 }
@@ -18,31 +18,31 @@ function isDef() {
 // 특정 div(or span...)의 display옵션 토글
 function toggleDisplay(obj, opt) {
   obj = xGetElementById(obj);
-  if(typeof(opt)=='undefined') opt = 'inline';
-  if(obj.style.display == 'none') obj.style.display = opt;
-  else obj.style.display = 'none';
+  if(typeof(opt)=="undefined") opt = "inline";
+  if(obj.style.display == "none") obj.style.display = opt;
+  else obj.style.display = "none";
 }
 
 // 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
 function displayMultimedia(type, src, style) {
-  var clsid = '';
-  var codebase = '';
-  var html = '';
+  var clsid = "";
+  var codebase = "";
+  var html = "";
   switch(type) {
-    case 'flv' :
-    case 'swf' :
-        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
-        codebase = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0'; 
+    case "flv" :
+    case "swf" :
+        clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
+        codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0"; 
         html = ""+
-          "<object classid='"+clsid+"' codebase='"+codebase+"' "+style+">"+
-          "<param name='movie' value='"+src+"' />"+
-          "<param name='quality' value='high' />"+
-          "<embed src='"+src+"' autostart='0' "+style+"></embed>"+
+          "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" "+style+">"+
+          "<param name=\"movie\" value=\""+src+"\" />"+
+          "<param name=\"quality\" value=\"high\" />"+
+          "<embed src=\""+src+"\" autostart=\"0\" "+style+"></embed>"+
           "<\/object>";
       break;
     default : 
         html = ""+
-          "<embed src='"+src+"' autostart='0' "+style+"></embed>";
+          "<embed src=\""+src+"\" autostart=\"0\" "+style+"></embed>";
       break;
   }
 
@@ -51,7 +51,7 @@ function displayMultimedia(type, src, style) {
 
 // 화면내에서 이미지 리사이즈 및 클릭할 수 있도록 
 function resizeImageContents() {
-  var objs = xGetElementsByTagName('img');
+  var objs = xGetElementsByTagName("img");
   for(var i in objs) {
     var obj = objs[i];
     var parent = xParent(obj);
@@ -61,15 +61,15 @@ function resizeImageContents() {
     var obj_width = xWidth(obj);
     if(parent_width>=obj_width) continue;
 
-    obj.style.cursor = 'pointer';
+    obj.style.cursor = "pointer";
     obj.source_width = obj_width;
     obj.source_height = xHeight(obj);
     xWidth(obj, xWidth(parent)-1);
 
-    xAddEventListener(obj,'click', resizeImagePopup);
+    xAddEventListener(obj,"click", resizeImagePopup);
   }
 }
-xAddEventListener(window, 'load', resizeImageContents);
+xAddEventListener(window, "load", resizeImageContents);
 
 function resizeImagePopup(evt) {
   var e = new xEvent(evt);
@@ -129,7 +129,7 @@ function setFixedPopupSize() {
     if(xIE4Up) {
         var i=0;
         while(i<2) {
-            var height = xHeight(xGetElementById('popup_content'));
+            var height = xHeight(xGetElementById("popup_content"));
             if(xGetBodyHeight()!=height) window.resizeBy(0, height-xGetBodyHeight());
             i++;
         }

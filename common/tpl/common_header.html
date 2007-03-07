@@ -3,16 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{Context::getBrowserTitle()}</title>
-<script type='text/javascript' src='./common/js/x.js'></script>
-<script type='text/javascript' src='./common/js/common.js'></script>
-<script type='text/javascript' src='./common/js/xml_handler.js'></script>
-<script type='text/javascript' src='./common/js/xml_js_filter.js'></script>
+<script type="text/javascript" src="./common/js/x.js"></script>
+<script type="text/javascript" src="./common/js/common.js"></script>
+<script type="text/javascript" src="./common/js/xml_handler.js"></script>
+<script type="text/javascript" src="./common/js/xml_js_filter.js"></script>
+<script type="text/javascript" src="./common/js/tree_menu.js"></script>
 <!--@foreach(Context::getJsFile() as $key => $js_file)-->
-<script type='text/javascript' src='{$js_file}'></script>
+<script type="text/javascript" src="{$js_file}"></script>
 <!--@end-->
-<link rel='stylesheet' HREF='./common/css/default.css' type='text/css' />
+<link rel="stylesheet" HREF="./common/css/default.css" type="text/css" />
 <!--@foreach(Context::getCssFile() as $key => $css_file)-->
-<link rel='stylesheet' HREF='{$css_file}' type='text/css' />
+<link rel="stylesheet" HREF="{$css_file}" type="text/css" />
 <!--@end-->
 {Context::getHtmlHeader()}
 </head>
