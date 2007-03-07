@@ -185,15 +185,18 @@ function manualSelectNode(menu_id, node_srl) {
     selectNode(menu_id,node_srl,zone_id);
 
     var zone = xGetElementById(zone_id);
-    while(zone = zone.parentNode) {
-        if(!zone) break;
-        if(typeof(zone.id)=='undefined') continue;
-        var id = zone.id;
-        if(id.indexOf("menu_")<0 || id.indexOf("child")<0) continue;
+    try {
+        while(zone = zone.parentNode) {
+            if(!zone) break;
+            if(typeof(zone.id)=='undefined') continue;
+            var id = zone.id;
+            if(id.indexOf("menu_")<0 || id.indexOf("child")<0) continue;
 
-        var child_zone = xGetElementById(id);
-        child_zone.style.display = "block";
-        toggleFolder(zone_id);
+            var child_zone = xGetElementById(id);
+            child_zone.style.display = "block";
+            toggleFolder(zone_id);
+        }
+    } catch(e) {
     }
 }
 
