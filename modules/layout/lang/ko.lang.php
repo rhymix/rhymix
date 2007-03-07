@@ -11,6 +11,8 @@
     $lang->menu_management = '메뉴 관리';
     $lang->depth = '단계';
     $lang->menu_name = '메뉴명';
+    $lang->menu_srl = '메뉴의 고유 번호';
+    $lang->menu_id = '메뉴의 이름';
     $lang->menu_url = '연결 url';
     $lang->menu_open_window = '새창 열기';
     $lang->menu_img_btn = '이미지 버튼';

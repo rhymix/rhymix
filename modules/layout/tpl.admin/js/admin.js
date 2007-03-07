@@ -4,6 +4,14 @@ function completeInsertLayout(ret_obj) {
   location.href="./?module=admin&mo=layout&act=dispLayoutInfo&layout_srl="+layout_srl;
 } 
 
+/* 레이아웃메뉴 입력후 */ 
+function completeInsertLayoutMenu(ret_obj) {
+  var menu_id = ret_obj['menu_id'];
+  var xml_file = ret_obj['xml_file'];
+  var name = ret_obj['name'];
+  loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, name, doGetMenuInfo);
+} 
+
 /* 레이아웃 메뉴에를 클릭시 적용할 함수 */
 function doGetMenuInfo(menu_id, obj) {
   // layout, menu_id, node_srl을 추출
@@ -23,7 +31,7 @@ function doGetMenuInfo(menu_id, obj) {
 
   // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
   var response_tags = new Array('error','message','menu_id', 'tpl');
-  exec_xml('layout', 'getMenuInfo', params, completeGetMenuInfo, response_tags, params);
+  exec_xml('layout', 'getMenuTplInfo', params, completeGetMenuInfo, response_tags, params);
 }
 
 /* 빈 메뉴 추가시 사용 */

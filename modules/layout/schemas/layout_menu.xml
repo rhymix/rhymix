@@ -1,5 +1,7 @@
 <table name="layout_menu">
-  <column name="layout_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
+  <column name="menu_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
+  <column name="layout_srl" type="number" size="12" notnull="notnull" index="idx_layout_menu" />
+  <column name="menu_id" type="varchar" size="250" notnull="notnull" index="idx_layout_menu" />
   <column name="name" type="varchar" size="250" />
   <column name="url" type="varchar" size="250" />
   <column name="open_window" type="char" size="1" default="N" />

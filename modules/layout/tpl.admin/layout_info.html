@@ -3,7 +3,7 @@
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-<input type="hidden" name="layout" value="{$layout}" />
+<input type="hidden" name="layout" value="{$layout_info->layout}" />
 
   <div style="margin-bottom:10px;">
     <table border="1" width="100%">
@@ -35,21 +35,25 @@
   </div>
 </form>
 
-  <div style="margin-bottom:10px;">
-    <table border="1" width="100%">
-    <col width="140" />
-    <col width="*" />
-    <tr>
-      <th>{$lang->menu_management}</th>
-      <td>{nl2br($lang->about_menu_management)}</td>
-    </tr>
-    <!--@foreach($layout_info->navigations as $key => $val)-->
-    <tr>
-      <th>
-        {$val->name}  <br />
-        ({$val->maxdepth} {$lang->depth})
-      </th>
-      <td>
+<div style="margin-bottom:10px;">
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>
+    <th>{$lang->menu_management}</th>
+    <td>{nl2br($lang->about_menu_management)}</td>
+  </tr>
+  <!--@foreach($layout_info->navigations as $key => $val)-->
+  <tr>
+    <th>
+      {$val->name}  <br />
+      ({$val->maxdepth} {$lang->depth})
+    </th>
+    <td>
+      <form action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
+      <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+      <input type="hidden" name="layout" value="{$layout_info->layout}" />
+      <input type="hidden" name="menu_id" value="{$val->id}" />
         <table border="0">
         <tr valign="top">
           <td width="300">
@@ -66,11 +70,12 @@
           </td>
         </tr>
         </table>
-        <script type="text/javascript">
-          xAddEventListener(window,'load', function() { loadTreeMenu("{$val->xml_file}", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
-        </script>
-      </td>
-    </tr>
-    <!--@end-->
-    </table>
-  </div>
+      </form>
+      <script type="text/javascript">
+        xAddEventListener(window,'load', function() { loadTreeMenu("{$val->xml_file}", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
+      </script>
+    </td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>

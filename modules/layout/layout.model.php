@@ -145,22 +145,25 @@
         }
 
         /**
-         * @brief 메뉴 구성을 하기 위해 메뉴 srl을 return
+         * @brief 특정 menu_srl의 정보를 return
          **/
-        function getLayoutMenuSrl() {
-            $menu_id = Context::get('menu_id');
-
+        function getLayoutMenuInfo($menu_srl) {
             $oDB = &DB::getInstance();
-            $menu_srl = $oDB->getNextSequence();
 
-            $this->add('menu_id', $menu_id);
-            $this->add('menu_srl', $menu_srl);
+            // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
+            $args->menu_srl = $menu_srl;
+            $output = $oDB->executeQuery('layout.getLayoutMenu', $args);
+            if(!$output->toBool()) return $output;
+
+            $node = $output->data;
+            if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
+            return $node;
         }
 
         /**
          * @brief 특정 menu_srl의 정보를 이용하여 템플릿을 구한후 return
          **/
-        function getMenuInfo() {
+        function getMenuTplInfo() {
             // 해당 메뉴의 정보를 가져오기 위한 변수 설정
             $menu_id = Context::get('menu_id');
             $menu_srl = Context::get('menu_srl');
@@ -171,11 +174,22 @@
             $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
 
+            // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
+            if($menu_srl) $menu_info = $this->getLayoutMenuInfo($menu_srl);
+
+            if(!$menu_info->menu_srl) {
+                $oDB = &DB::getInstance();
+                $menu_info->menu_srl = $oDB->getNextSequence();
+            }
+            
+            Context::set('menu_info', $menu_info);
+
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
             $tpl = $oTemplate->compile($this->module_path.'tpl.admin', 'layout_menu_info');
 
+            // return 할 변수 설정
             $this->add('menu_id', $menu_id);
             $this->add('tpl', $tpl);
         }
