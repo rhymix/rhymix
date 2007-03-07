@@ -8,5 +8,6 @@
         <action name="dispList" type="controller" standalone="true" />
         <action name="getLayoutMenuSrl" type="model" standalone="true" />
         <action name="getMenuInfo" type="model" standalone="true" />
+        <action name="procInsertLayout" type="controller" standalone="true" />
     </actions>
 </module>

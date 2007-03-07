@@ -35,7 +35,6 @@ function XmlJsFilter(form_object, module, act, callback_user_func) {
     this.module = module;
     this.act = act;
     this.user_func = callback_user_func;
-
     this.setFocus = XmlJsFilterSetFocus;
     this.addFieldItem = XmlJsFilterAddFieldItem;
     this.addParameterItem = XmlJsFilterAddParameterItem;

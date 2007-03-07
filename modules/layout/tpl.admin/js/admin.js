@@ -1,3 +1,9 @@
+/* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
+function completeInsertLayout(ret_obj) {
+  var layout_srl = ret_obj['layout_srl'];
+  location.href="./module=admin&act=dispInsertLayout2&layout_srl="+layout_srl;
+} 
+
 /* 레이아웃 메뉴에를 클릭시 적용할 함수 */
 function doGetMenuInfo(menu_id, obj) {
   // layout, menu_id, node_srl을 추출

@@ -1,9 +1,7 @@
-<form action="./" method="get">
-<input type="hidden" name="module" value="admin" />
-<input type="hidden" name="mo" value="layout" />
-<input type="hidden" name="act" value="dispInsertLayout2" />
-<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<!--%import("js/admin.js")-->
+<!--%import("filter/insert_layout.xml")-->
 
+<form action="./" method="get" onsubmit="return procFilter(this, insert_layout)">
   <div style="margin-bottom:10px;">
     <table border="1" width="100%">
     <tr>
