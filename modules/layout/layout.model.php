@@ -181,7 +181,6 @@
                 $oDB = &DB::getInstance();
                 $menu_info->menu_srl = $oDB->getNextSequence();
             }
-            
             Context::set('menu_info', $menu_info);
 
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.

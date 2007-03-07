@@ -91,6 +91,37 @@
         }
 
         /**
+         * @brief 레이아웃 메뉴 삭제 
+         **/
+        function procDeleteLayoutMenu() {
+            // 변수 정리 
+            $args = Context::gets('layout_srl','layout','menu_srl','menu_id');
+
+            // DB에서 삭제
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery("layout.deleteLayoutMenu", $args);
+            if(!$output->toBool()) return $output;
+
+            // 해당 메뉴의 정보를 구함
+            $layout_info = $oLayoutModel->getLayoutInfoXml($args->layout);
+            $navigations = $layout_info->navigations;
+            if(count($navigations)) {
+                foreach($navigations as $key => $val) {
+                    if($args->menu_id == $val->id) {
+                        $menu_title = $val->name;
+                    }
+                }
+            }
+
+            // XML 파일을 갱신하고 위치을 넘겨 받음
+            $xml_file = $this->makeXmlFile($args->layout_srl);
+
+            $this->add('xml_file', $xml_file[$args->menu_id]);
+            $this->add('menu_id', $args->menu_id);
+            $this->add('menu_title', $menu_title);
+        }
+
+        /**
          * @brief 메뉴의 xml 파일을 만들고 위치를 return
          **/
         function makeXmlFile($layout_srl) {

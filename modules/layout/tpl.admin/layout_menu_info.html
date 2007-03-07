@@ -55,6 +55,9 @@
 <tr>
   <td colspan="2">
     <input type="submit" value="{$lang->cmd_submit}" />
+    <!--@if($menu_info->name)-->
+    <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteLayoutMenu('{$menu_srl}','{$menu_info->menu_id}');return false"/>
+    <!--@end-->
   </td>
 </tr>
 </table>

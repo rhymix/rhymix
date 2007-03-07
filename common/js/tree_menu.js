@@ -38,7 +38,7 @@ function moveTreeMenu(menu_id, node) {
 }
 
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
-function loadTreeMenu(url, menu_id, zone_id, title, callback_func) {
+function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select_node_srl) {
     // 일단 그릴 곳을 찾아서 사전 작업을 함 (그릴 곳이 없다면 아예 시도를 안함)
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
@@ -57,8 +57,10 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func) {
 
     node_callback_func[menu_id] = callback_func;
 
+    if(typeof(manual_select_node_srl)=='undefined') manual_select_node_srl = '';
+
     // menu_id, zone_id는 계속 달고 다녀야함 
-    var param = {menu_id:menu_id, zone_id:zone_id, title:title}
+    var param = {menu_id:menu_id, zone_id:zone_id, title:title, manual_select_node_srl:manual_select_node_srl}
 
     // 요청후 drawTreeMenu()함수를 호출
     oXml.request(drawTreeMenu, oXml, null, null, param);
@@ -70,6 +72,7 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
     var menu_id = param.menu_id;
     var zone_id = param.zone_id;
     var title = param.title;
+    var manual_select_node_srl = param.manual_select_node_srl;
     var zone = xGetElementById(zone_id);
     var html = "";
     html = '<div style="height:20px;"><img src="./common/tpl/images/folder.gif" alt="root" align="top" />'+title+'</div>';
@@ -89,6 +92,8 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
     }
 
     xInnerHtml(zone, html);
+
+    if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
 }
 
 // root부터 시작해서 recursive하게 노트를 표혐
@@ -174,6 +179,12 @@ function drawNode(parent_node, menu_id) {
     return html;
 }
 
+// 수동으로 메뉴를 선택하도록 함
+function manualSelectNode(menu_id, node_srl) {
+    var zone_id = "menu_"+menu_id+"_"+node_srl;
+    selectNode(menu_id,node_srl,zone_id);
+}
+
 // 노드의 폴더 아이콘 클릭시
 function toggleFolder(zone_id) {
     // 아이콘을 클릭한 대상을 찾아봄
@@ -214,7 +225,7 @@ function selectNode(menu_id, node_srl, zone_id) {
     if(!node_zone) return;
 
     // 선택된 노드의 글자를 변경
-    node_zone.style.backgroundColor = "#000000";
+    node_zone.style.backgroundColor = "#0e078f";
     node_zone.style.fontWeight = "bold";
     node_zone.style.color = "#FFFFFF";
     prev_selected_node = node_zone;
@@ -223,6 +234,16 @@ function selectNode(menu_id, node_srl, zone_id) {
     var func = node_callback_func[menu_id];
     func(menu_id, node_info_list[node_srl]);
 }
+
+// 선택된 노드의 표시를 없앰
+function deSelectNode() {
+    // 이전에 선택된 노드가 있었다면 원래데로 돌림
+    if(!prev_selected_node) return;
+    prev_selected_node.style.backgroundColor = "#ffffff";
+    prev_selected_node.style.fontWeight = "normal";
+    prev_selected_node.style.color = "#000000";
+}
+
 
 // 모두 닫기
 function closeAllTreeMenu(menu_id) {

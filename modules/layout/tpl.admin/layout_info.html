@@ -1,5 +1,6 @@
 <!--%import("js/admin.js")-->
 <!--%import("filter/insert_layout_menu.xml")-->
+<!--%import("filter/delete_layout_menu.xml")-->
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
@@ -50,7 +51,7 @@
       ({$val->maxdepth} {$lang->depth})
     </th>
     <td>
-      <form action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
+      <form id="fo_{$val->id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
       <input type="hidden" name="layout_srl" value="{$layout_srl}" />
       <input type="hidden" name="layout" value="{$layout_info->layout}" />
       <input type="hidden" name="menu_id" value="{$val->id}" />

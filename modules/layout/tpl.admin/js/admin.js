@@ -10,8 +10,16 @@ function completeInsertLayoutMenu(ret_obj) {
   var xml_file = ret_obj['xml_file'];
   var menu_title = ret_obj['menu_title'];
   var menu_srl = ret_obj['menu_srl'];
-  loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo);
+  loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
 } 
+
+/* 레이아웃 멘뉴 삭제 */
+function doDeleteLayoutMenu(menu_srl, menu_id) {
+  var fo_obj = xGetElementById("fo_"+menu_id);
+  if(!fo_obj) return;
+
+  procFilter(fo_obj, delete_layout_menu);
+}
 
 /* 레이아웃 메뉴에를 클릭시 적용할 함수 */
 function doGetMenuInfo(menu_id, obj) {
@@ -39,6 +47,7 @@ function doGetMenuInfo(menu_id, obj) {
 function doInsertLayoutMenu(menu_id) {
   var params = {node_srl:0}
   doGetMenuInfo(menu_id, params);
+  deSelectNode();
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */
