@@ -11,6 +11,10 @@ function completeInsertLayoutMenu(ret_obj) {
   var menu_title = ret_obj['menu_title'];
   var menu_srl = ret_obj['menu_srl'];
   loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
+
+  if(!menu_srl) {
+      xInnerHtml("menu_zone_info_"+menu_id, "");
+  }
 } 
 
 /* 레이아웃 멘뉴 삭제 */

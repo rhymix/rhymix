@@ -103,6 +103,7 @@
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
+            $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfoXml($args->layout);
             $navigations = $layout_info->navigations;
             if(count($navigations)) {
