@@ -26,6 +26,18 @@
         }
 
         /**
+         * @brief DB 에 생성된 한개의 레이아웃 정보를 구함
+         **/
+        function getLayout($layout_srl) {
+            $oDB = &DB::getInstance();
+            $args->layout_srl = $layout_srl;
+            $output = $oDB->executeQuery('layout.getLayout', $args);
+            if(!$output->data) return;
+
+            return $output->data;
+        }
+
+        /**
          * @brief 레이아웃의 경로를 구함
          **/
         function getLayoutPath($layout_name) {
@@ -71,7 +83,7 @@
         /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          **/
-        function getLayoutInfoXml($layout) {
+        function getLayoutInfoXml($layout, $layout_srl = 0) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
             $layout_path = $this->getLayoutPath($layout);
             if(!$layout_path) return;
@@ -121,6 +133,11 @@
                 $obj->id = $item->attrs->id;
                 $obj->name = $item->name->body;
                 $obj->maxdepth = $item->maxdepth->body;
+                $obj->xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $obj->id);
+                if($layout_srl && !file_exists($obj->xml_file)) {
+                    $buff = "<root />";
+                    FileHandler::writeFile($obj->xml_file, $buff);
+                }
                 $layout_info->navigations[] = $obj;
             }
 

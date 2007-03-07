@@ -23,7 +23,8 @@
             $args->layout = Context::get('layout');
             $args->title = Context::get('title');
 
-            $oDB->executeQuery("layout.insertLayout", $args);
+            $output = $oDB->executeQuery("layout.insertLayout", $args);
+            if(!$output->toBool()) return $output;
 
             $this->add('layout_srl', $args->layout_srl);
         }

@@ -13,15 +13,15 @@
     <col width="*" />
     <tr>  
       <th>{$lang->layout_name}</th>
-      <td>{$info->title} ver {$info->version} ({$layout})</td>
+      <td>{$layout_info->title} ver {$layout_info->version} ({$layout})</td>
     </tr>
     <tr>  
       <th>{$lang->author}</th>
-      <td><a href="#" onclick="window.open('{$info->author->homepage}');return false;">{$info->author->name}</a></td>
+      <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
     </tr>
     <tr>  
       <th>{$lang->description}</th>
-      <td>{nl2br($info->author->description)}</td>
+      <td>{nl2br($layout_info->author->description)}</td>
     </tr>
     <tr>
       <td colspan="2">
@@ -41,7 +41,7 @@
       <th>{$lang->menu_management}</th>
       <td>{nl2br($lang->about_menu_management)}</td>
     </tr>
-    <!--@foreach($info->navigations as $key => $val)-->
+    <!--@foreach($layout_info->navigations as $key => $val)-->
     <tr>
       <th>
         {$val->name}  <br />
@@ -65,7 +65,7 @@
         </tr>
         </table>
         <script type="text/javascript">
-          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
+          xAddEventListener(window,'load', function() { loadTreeMenu("{$val->xml_file}", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
         </script>
       </td>
     </tr>

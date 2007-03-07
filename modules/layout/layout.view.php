@@ -42,10 +42,22 @@
          **/
         function dispInsertLayout2() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
-            $layout = Context::get('layout');
+            $layout_srl = Context::get('layout_srl');
+
+            // DB에 등록된 레이아웃의 정보를 가져옴
             $oLayoutModel = &getModel('layout');
-            $info = $oLayoutModel->getLayoutInfoXml($layout);
-            Context::set('info', $info);
+            $layout_info = $oLayoutModel->getLayout($layout_srl);
+
+            // 등록된 레이아웃이 없으면 오류 표시
+            if(!$layout_info) return $this->dispContent();
+
+            // xml 정보를 가져옴 
+            $layout = $layout_info->layout;
+            $layout_info = $oLayoutModel->getLayoutInfoXml($layout, $layout_srl);
+            $layout_info->layout_srl = $layout_srl;
+            $layout_info->layout = $layout;
+
+            Context::set('layout_info', $layout_info);
 
             $this->setTemplateFile('insert_layout2');
         }
