@@ -23,13 +23,6 @@
       <th>{$lang->description}</th>
       <td>{nl2br($info->author->description)}</td>
     </tr>
-    <tr>  
-      <th rowspan="2">{$lang->title}</th>
-      <td><input type="text" name="title" value="{$info->title}" /></td>
-    </tr>
-    <tr>
-      <td>{$lang->about_title}</td>
-    </tr>
     <tr>
       <td colspan="2">
         <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispContent')}'" />

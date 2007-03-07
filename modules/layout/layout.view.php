@@ -41,7 +41,7 @@
          * @brief 레이아웃 등록 페이지 step 2
          **/
         function dispInsertLayout2() {
-            // 선택된 레이아웃의 정볼르 구해서 세팅 
+            // 선택된 레이아웃의 정보르 구해서 세팅 
             $layout = Context::get('layout');
             $oLayoutModel = &getModel('layout');
             $info = $oLayoutModel->getLayoutInfoXml($layout);
