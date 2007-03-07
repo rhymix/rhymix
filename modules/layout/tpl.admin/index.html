@@ -17,7 +17,7 @@
   <tr>
     <td>{$no+1}</td>
     <td>{$val->layout}</td>
-    <td><a href="#" onclick="location.href='{getUrl('act','dispInsertLayout2','layout_srl',$val->layout_srl)}';return false;">{$val->title}</a></td>
+    <td><a href="#" onclick="location.href='{getUrl('act','dispLayoutInfo','layout_srl',$val->layout_srl)}';return false;">{$val->title}</a></td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
     <td><a href="{getUrl('act','dispAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a></td>
   </tr>

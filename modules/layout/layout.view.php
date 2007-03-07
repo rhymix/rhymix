@@ -40,7 +40,7 @@
         /**
          * @brief 레이아웃 등록 페이지 step 2
          **/
-        function dispInsertLayout2() {
+        function dispLayoutInfo() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
             $layout_srl = Context::get('layout_srl');
 
@@ -50,16 +50,18 @@
 
             // 등록된 레이아웃이 없으면 오류 표시
             if(!$layout_info) return $this->dispContent();
+            $layout_title = $layout_info->title;
 
             // xml 정보를 가져옴 
             $layout = $layout_info->layout;
             $layout_info = $oLayoutModel->getLayoutInfoXml($layout, $layout_srl);
             $layout_info->layout_srl = $layout_srl;
+            $layout_info->layout_title = $layout_title;
             $layout_info->layout = $layout;
 
             Context::set('layout_info', $layout_info);
 
-            $this->setTemplateFile('insert_layout2');
+            $this->setTemplateFile('layout_info');
         }
 
         /**

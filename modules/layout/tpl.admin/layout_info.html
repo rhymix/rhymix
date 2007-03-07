@@ -1,19 +1,20 @@
 <!--%import("js/admin.js")-->
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
-<input type="hidden" name="module" value="admin" />
-<input type="hidden" name="mo" value="layout" />
-<input type="hidden" name="act" value="dispInsertLayout2" />
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="layout" value="{$layout}" />
 
   <div style="margin-bottom:10px;">
     <table border="1" width="100%">
-    <col width="100" />
+    <col width="140" />
     <col width="*" />
     <tr>  
+      <th>{$lang->title}</th>
+      <td>{$layout_info->layout_title}</td>
+    </tr>
+    <tr>  
       <th>{$lang->layout_name}</th>
-      <td>{$layout_info->title} ver {$layout_info->version} ({$layout})</td>
+      <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
     </tr>
     <tr>  
       <th>{$lang->author}</th>
@@ -35,7 +36,7 @@
 
   <div style="margin-bottom:10px;">
     <table border="1" width="100%">
-    <col width="100" />
+    <col width="140" />
     <col width="*" />
     <tr>
       <th>{$lang->menu_management}</th>
