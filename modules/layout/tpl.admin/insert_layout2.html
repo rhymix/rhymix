@@ -31,10 +31,22 @@
       <td>{$lang->about_title}</td>
     </tr>
     <tr>
-      <th colspan="2">{$lang->menu_management}</th>
+      <td colspan="2">
+        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispContent')}'" />
+        <input type="submit" value="{$lang->cmd_registration}" />
+      </td>
     </tr>
+    </table>
+  </div>
+</form>
+
+  <div style="margin-bottom:10px;">
+    <table border="1" width="100%">
+    <col width="100" />
+    <col width="*" />
     <tr>
-      <td colspan="2">{nl2br($lang->about_menu_management)}</td>
+      <th>{$lang->menu_management}</th>
+      <td>{nl2br($lang->about_menu_management)}</td>
     </tr>
     <!--@foreach($info->navigations as $key => $val)-->
     <tr>
@@ -65,12 +77,5 @@
       </td>
     </tr>
     <!--@end-->
-    <tr>
-      <td colspan="2">
-        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispContent')}'" />
-        <input type="submit" value="{$lang->cmd_registration}" />
-      </td>
-    </tr>
     </table>
   </div>
-</form>
