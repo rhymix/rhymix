@@ -183,6 +183,18 @@ function drawNode(parent_node, menu_id) {
 function manualSelectNode(menu_id, node_srl) {
     var zone_id = "menu_"+menu_id+"_"+node_srl;
     selectNode(menu_id,node_srl,zone_id);
+
+    var zone = xGetElementById(zone_id);
+    while(zone = zone.parentNode) {
+        if(!zone) break;
+        if(typeof(zone.id)=='undefined') continue;
+        var id = zone.id;
+        if(id.indexOf("menu_")<0 || id.indexOf("child")<0) continue;
+
+        var child_zone = xGetElementById(id);
+        child_zone.style.display = "block";
+        toggleFolder(zone_id);
+    }
 }
 
 // 노드의 폴더 아이콘 클릭시

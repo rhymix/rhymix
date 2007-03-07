@@ -62,10 +62,12 @@
 </tr>
 <tr>
   <td colspan="2">
-    <input type="submit" value="{$lang->cmd_submit}" />
     <!--@if($menu_info->name)-->
+    <input type="submit" value="{$lang->cmd_save}" />
     <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertLayoutMenu('{$menu_info->menu_id}','{$menu_info->menu_srl}');return false" />
     <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteLayoutMenu('{$menu_srl}','{$menu_info->menu_id}');return false" />
+    <!--@else-->
+    <input type="submit" value="{$lang->cmd_submit}" />
     <!--@end-->
   </td>
 </tr>
