@@ -84,9 +84,9 @@
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->layout_srl);
+            $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
 
-            $this->add('xml_file', $xml_file[$args->menu_id]);
+            $this->add('xml_file', $xml_file);
             $this->add('menu_srl', $args->menu_srl);
             $this->add('menu_id', $args->menu_id);
             $this->add('menu_title', $menu_title);
@@ -117,15 +117,15 @@
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->layout_srl);
+            $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
 
-            $this->add('xml_file', $xml_file[$args->menu_id]);
+            $this->add('xml_file', $xml_file);
             $this->add('menu_id', $args->menu_id);
             $this->add('menu_title', $menu_title);
         }
 
         /**
-         * @brief xml 파일을 갱싱
+         * @brief xml 파일을 갱신
          **/
         function procMakeXmlFile() {
             // 입력값을 체크 
@@ -146,47 +146,68 @@
             }
 
             // xml파일 재생성 
-            $xml_file = $this->makeXmlFile($layout_srl);
+            $xml_file = $this->makeXmlFile($layout_srl, $menu_id);
 
             // return 값 설정 
             $this->add('menu_id',$menu_id);
             $this->add('menu_title',$menu_title);
-            $this->add('xml_file',$xml_file[$menu_id]);
+            $this->add('xml_file',$xml_file);
         }
 
         /**
          * @brief 메뉴의 xml 파일을 만들고 위치를 return
          **/
-        function makeXmlFile($layout_srl) {
+        function makeXmlFile($layout_srl, $menu_id) {
+            if(!$layout_srl || !$menu_id) return;
+
+            // DB에서 layout_srl에 해당하는 메뉴 목록을 listorder순으로 구해옴 
             $oDB = &DB::getInstance();
             $args->layout_srl = $layout_srl;
+            $args->menu_id = $menu_id;
             $output = $oDB->executeQuery("layout.getLayoutMenuList", $args);
             if(!$output->toBool()) return;
 
+            // xml 파일의 이름을 지정
+            $xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $menu_id);
+
+            // 구해온 데이터가 없다면 걍 return
             $list = $output->data;
+            if(!$list) {
+                $xml_buff = "<root />";
+                FileHandler::writeFile($xml_file, $xml_buff);
+                return $xml_file;
+            }
+            if(!is_array($list)) $list = array($list);
+
+            // 루프를 돌면서 tree 구성
             $list_count = count($list);
-            for($i=0;$i<$list_count;$i++){
+            for($i=0;$i<$list_count;$i++) {
                 $node = $list[$i];
-                $menu_id = $node->menu_id;
-                $menu_list[$menu_id][] = $node;
-                $menu_id_list[] = $menu_id;
-            }
-            if(!count($menu_id_list)) return;
+                $menu_srl = $node->menu_srl;
+                $parent_srl = $node->parent_srl;
 
-            foreach($menu_id_list as $menu_id) {
-                unset($node_list);
-                $node_list = $menu_list[$menu_id];
-                $buff = "";
-                foreach($node_list as $node) {
-                    $buff .= sprintf('<node node_srl="%s" text="%s" />', $node->menu_srl, $node->name);
-                }
-                if($buff) $buff = "<root>".$buff."</root>";
-                else $buff = "<root />";
-
-                $xml_file[$menu_id] = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $menu_id);
-                FileHandler::writeFile($xml_file[$menu_id], $buff);
+                $tree[$parent_srl][$menu_srl] = $node;
             }
+            
+            $xml_buff = "<root>".$this->getXmlTree($tree[0], $tree)."</root>";
+            FileHandler::writeFile($xml_file, $xml_buff);
             return $xml_file;
+        }
+
+        /**
+         * @brief array로 정렬된 노드들을 parent_srl을 참조하면서 recursive하게 돌면서 xml 데이터 생성
+         **/
+        function getXmlTree($source_node, $tree) {
+            if(!$source_node) return;
+            foreach($source_node as $menu_srl => $node) {
+                $child_buff = "";
+
+                if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getXmlTree($tree[$menu_srl], $tree);
+                
+                if($child_buff) $buff .= sprintf('<node node_srl="%s" text="%s">%s</node>', $node->menu_srl, $node->name, $child_buff);
+                else $buff .=  sprintf('<node node_srl="%s" text="%s" />', $node->menu_srl, $node->name);
+            }
+            return $buff;
         }
     }
 ?>

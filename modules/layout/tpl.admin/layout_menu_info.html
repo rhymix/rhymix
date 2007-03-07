@@ -4,6 +4,12 @@
 <table border="1" width="100%">
 <col width="100" />
 <col width="*" />
+<!--@if($menu_info->parent_menu_name)-->
+<tr>
+  <th>{$lang->parent_menu_name}</th>
+  <td>{$menu_info->parent_menu_name}</td>
+</tr>
+<!--@end-->
 <tr>
   <th rowspan="2">{$lang->menu_name}</th>
   <td><input type="text" name="menu_name" value="{$menu_info->name}" /></td>

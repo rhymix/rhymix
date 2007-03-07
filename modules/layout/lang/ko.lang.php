@@ -11,6 +11,7 @@
     $lang->menu_count = '메뉴의 수';
     $lang->menu_management = '메뉴 관리';
     $lang->depth = '단계';
+    $lang->parent_menu_name = '상위  메뉴명';
     $lang->menu_name = '메뉴명';
     $lang->menu_srl = '메뉴의 고유 번호';
     $lang->menu_id = '메뉴의 이름';

@@ -177,9 +177,14 @@
 
             // parent_srl이 있고 menu_srl이 없으면 하부 메뉴 추가임
             if(!$menu_srl && $parent_srl) {
+                // 상위 메뉴의 정보를 가져옴
+                $parent_info = $this->getLayoutMenuInfo($parent_srl);
+
+                // 추가하려는 메뉴의 기본 변수 설정 
                 $oDB = &DB::getInstance();
                 $menu_info->menu_srl = $oDB->getNextSequence();
                 $menu_info->parent_srl = $parent_srl;
+                $menu_info->parent_menu_name = $parent_info->name;
             } else {
                 // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
                 if($menu_srl) $menu_info = $this->getLayoutMenuInfo($menu_srl);
