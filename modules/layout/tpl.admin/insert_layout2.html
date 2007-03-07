@@ -41,14 +41,18 @@
         ({$val->maxdepth} {$lang->depth})
       </th>
       <td>
-        <div id="menu_zone_{$val->id}">
-        </div>
+        <table border="0" width="100%">
+        <tr>
+          <td><div id="menu_zone_{$val->id}"></div></td>
+          <td><div id="menu_zone_info_{$val->id}"></div></td>
+        </tr>
+        </table>
         <div>
           <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$val->id}');return false;" />
           <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$val->id}');return false;" />
         </div>
         <script type="text/javascript">
-          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}"); });
+          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doDisplayMenuInfo); });
         </script>
       </td>
     </tr>

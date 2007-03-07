@@ -26,8 +26,19 @@ tree_plus_bottom_icon.src = "./common/tpl/images/plusbottom.gif";
 // 폴더를 모두 열고/닫기 위한 변수 설정
 var tree_menu_folder_list = new Array();
 
+// 노드의 정보를 가지고 있을 변수
+var node_info_list = new Array();
+
+// menu_id별로 요청된 callback_func
+var node_callback_func = new Array();
+
+// 메뉴 클릭시 기본으로 동작할 함수
+function moveTreeMenu(menu_id, node) {
+    alert(node.getAttribute("text"));
+}
+
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
-function loadTreeMenu(url, menu_id, zone_id, title) {
+function loadTreeMenu(url, menu_id, zone_id, title, callback_func) {
     // 일단 그릴 곳을 찾아서 사전 작업을 함 (그릴 곳이 없다면 아예 시도를 안함)
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
@@ -39,6 +50,12 @@ function loadTreeMenu(url, menu_id, zone_id, title) {
     var oXml = new xml_handler();
     oXml.reset();
     oXml.xml_path = url;
+
+    if(typeof(callback_func)=='undefined') {
+        callback_func = moveTreeMenu;
+    }
+
+    node_callback_func[menu_id] = callback_func;
 
     // menu_id, zone_id는 계속 달고 다녀야함 
     var param = {menu_id:menu_id, zone_id:zone_id, title:title}
@@ -58,7 +75,6 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
     html = '<div style="height:20px;"><img src="./common/tpl/images/folder.gif" alt="root" align="top" />'+title+'</div>';
 
     tree_menu_folder_list[menu_id] = new Array();
-
 
     // xml 정보가 들어올때까지 대기 (async)
     var xmlDoc = oXml.getResponseXml();
@@ -116,6 +132,8 @@ function drawNode(parent_node, menu_id) {
         var node_srl = node.getAttribute("node_srl");
         var text = node.getAttribute("text");
 
+        node_info_list[node_srl] = node;
+
         var zone_id = "menu_"+menu_id+"_"+node_srl;
         tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
 
@@ -135,7 +153,7 @@ function drawNode(parent_node, menu_id) {
                 '<img id="'+zone_id+'_line_icon" src="./common/tpl/images/'+line_icon+'.gif" alt="line" align="top" />'+
                 '<img id="'+zone_id+'_folder_icon" src="./common/tpl/images/'+folder_icon+'.gif" alt="folder" align="top" />'+
                 '</span>'+
-                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+zone_id+'\')">'+
+                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')">'+
                 text+
                 '</span>'+
                 '';
@@ -183,7 +201,7 @@ function toggleFolder(zone_id) {
 
 // 노드의 글자 선택시
 var prev_selected_node = null;
-function selectNode(zone_id) {
+function selectNode(menu_id, node_srl, zone_id) {
     // 이전에 선택된 노드가 있었다면 원래데로 돌림
     if(prev_selected_node) {
         prev_selected_node.style.backgroundColor = "#ffffff";
@@ -200,6 +218,10 @@ function selectNode(zone_id) {
     node_zone.style.fontWeight = "bold";
     node_zone.style.color = "#FFFFFF";
     prev_selected_node = node_zone;
+
+    // 함수 실행
+    var func = node_callback_func[menu_id];
+    func(menu_id, node_info_list[node_srl]);
 }
 
 // 모두 닫기
