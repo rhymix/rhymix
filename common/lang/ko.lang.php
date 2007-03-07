@@ -14,7 +14,7 @@
     $lang->cmd_prev = '이전';
     $lang->cmd_next = '다음';
     $lang->cmd_send_trackback = '엮인글발송';
-    $lang->cmd_registration = '등록';
+    $lang->cmd_registration = $lang->cmd_submit = '등록';
     $lang->cmd_insert = '추가';
     $lang->cmd_save = '저장';
     $lang->cmd_input = '입력';

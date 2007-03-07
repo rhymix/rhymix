@@ -1,41 +1,63 @@
+<form action="./" method="get" onsubmit="procFilter(this, insert_layout_menu)">
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<input type="hidden" name="layout" value="{$layout}" />
 <table border="1" width="100%">
-<col width="100" />
-<col width="*" />
-<tr>
-  <th rowspan="2">{$lang->menu_name}</th>
-  <td><input type="text" name="menu_name" value="{$info->name}" /></td>
-</tr>
-<tr>
-  <td>{$lang->about_menu_name}</td>
-</tr>
-<tr>
-  <th rowspan="2">{$lang->menu_url}</th>
-  <td><input type="text" name="menu_url" value="{$info->url}" /></td>
-</tr>
-<tr>
-  <td>{$lang->about_menu_url}</td>
-</tr>
-<tr>
-  <th rowspan="2">{$lang->menu_open_window}</th>
-  <td><input type="checkbox" name="menu_open_window" <!--@if($info->open_window=="Y")-->checked="true"<!--@end--> /></td>
-</tr>
-<tr>
-  <td>{$lang->about_menu_open_window}</td>
-</tr>
-<tr>
-  <th>{$lang->menu_img_btn}</th>
-  <td>{$lang->about_menu_img_btn}</td>
-</tr>
-<tr>
-  <td>{$lang->menu_normal_btn}</td>
-  <td>http://<input type="text" name="menu_normal_btn" value="{$info->normal_btn}" /></td>
-</tr>
-<tr>
-  <td>{$lang->menu_hover_btn}</td>
-  <td>http://<input type="text" name="menu_hover_btn" value="{$info->hover_btn}" /></td>
-</tr>
-<tr>
-  <td>{$lang->menu_active_btn}</td>
-  <td>http://<input type="text" name="menu_active_btn" value="{$info->active_btn}" /></td>
-</tr>
-</table>
+  <col width="100" />
+  <col width="*" />
+  <tr>
+    <th rowspan="2">{$lang->menu_name}</th>
+    <td><input type="text" name="menu_name" value="{$layout_info->name}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_menu_name}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->menu_url}</th>
+    <td><input type="text" name="menu_url" value="{$layout_info->url}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_menu_url}</td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->menu_open_window}</th>
+    <td><input type="checkbox" name="menu_open_window" <!--@if($layout_info->open_window=="Y")-->checked="true"<!--@end--> /></td>
+  </tr>
+  <tr>
+    <td>{$lang->about_menu_open_window}</td>
+  </tr>
+  <tr>
+    <th>{$lang->menu_img_btn}</th>
+    <td>{$lang->about_menu_img_btn}</td>
+  </tr>
+  <tr>
+    <td>{$lang->menu_normal_btn}</td>
+    <td>http://<input type="text" name="menu_normal_btn" value="{$layout_info->normal_btn}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->menu_hover_btn}</td>
+    <td>http://<input type="text" name="menu_hover_btn" value="{$layout_info->hover_btn}" /></td>
+  </tr>
+  <tr>
+    <td>{$lang->menu_active_btn}</td>
+    <td>http://<input type="text" name="menu_active_btn" value="{$layout_info->active_btn}" /></td>
+  </tr>
+  <tr>
+    <th rowspan="2">{$lang->menu_group_srls}</th>
+    <td>
+      <!--@foreach($group_list as $key=>$val)-->
+        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if($member_info->group_srls[$key])-->checked="true"<!--@end-->/>
+        <label for="group_{$key}">{$val->title}</label>
+      <!--@end-->
+
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_menu_group_srls}</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="submit" value="{$lang->cmd_submit}" />
+    </td>
+  </tr>
+  </table>
+</form>
