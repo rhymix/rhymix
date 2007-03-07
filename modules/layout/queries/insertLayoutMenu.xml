@@ -4,6 +4,7 @@
   </tables>
   <columns>
     <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+    <column name="parent_srl" var="parent_srl" filter="number" default="0" />
     <column name="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
     <column name="menu_id" var="menu_id" filter="number" notnull="notnull" />
     <column name="name" var="name" notnull="notnull" />

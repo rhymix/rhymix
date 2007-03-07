@@ -4,6 +4,7 @@
      * @author zero <zero@nzeo.com>
      * @brief  레이아웃(layout) 모듈의 기본 언어팩
      **/
+    $lang->cmd_make_child = '하부 메뉴 추가';
 
     $lang->layout = '레이아웃';
     $lang->layout_name = '레이아웃 이름';

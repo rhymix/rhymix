@@ -168,19 +168,28 @@
             $menu_id = Context::get('menu_id');
             $menu_srl = Context::get('menu_srl');
             $layuot = Context::get('layout');
+            $parent_srl = Context::get('parent_srl');
 
             // 회원 그룹의 목록을 가져옴
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
 
-            // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
-            if($menu_srl) $menu_info = $this->getLayoutMenuInfo($menu_srl);
-
-            if(!$menu_info->menu_srl) {
+            // parent_srl이 있고 menu_srl이 없으면 하부 메뉴 추가임
+            if(!$menu_srl && $parent_srl) {
                 $oDB = &DB::getInstance();
                 $menu_info->menu_srl = $oDB->getNextSequence();
+                $menu_info->parent_srl = $parent_srl;
+            } else {
+                // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
+                if($menu_srl) $menu_info = $this->getLayoutMenuInfo($menu_srl);
+
+                if(!$menu_info->menu_srl) {
+                    $oDB = &DB::getInstance();
+                    $menu_info->menu_srl = $oDB->getNextSequence();
+                }
             }
+
             Context::set('menu_info', $menu_info);
 
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
