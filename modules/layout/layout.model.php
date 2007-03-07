@@ -139,5 +139,21 @@
             $this->add('menu_id', $menu_id);
             $this->add('menu_srl', $menu_srl);
         }
+
+        /**
+         * @brief 특정 menu_srl의 정보를 이용하여 템플릿을 구한후 return
+         **/
+        function getMenuInfo() {
+            $menu_id = Context::get('menu_id');
+            $menu_srl = Context::get('menu_srl');
+            $layuot = Context::get('layout');
+
+            require_once("./classes/template/TemplateHandler.class.php");
+            $oTemplate = new TemplateHandler();
+            $tpl = $oTemplate->compile($this->module_path.'tpl.admin', 'layout_menu_info');
+
+            $this->add('menu_id', $menu_id);
+            $this->add('tpl', $tpl);
+        }
     }
 ?>

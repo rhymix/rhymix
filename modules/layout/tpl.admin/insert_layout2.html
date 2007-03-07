@@ -8,7 +8,9 @@
 <input type="hidden" name="layout" value="{$layout}" />
 
   <div style="margin-bottom:10px;">
-    <table border="1">
+    <table border="1" width="100%">
+    <col width="100" />
+    <col width="*" />
     <tr>  
       <th>{$lang->layout_name}</th>
       <td>{$info->title} ver {$info->version} ({$layout})</td>
@@ -41,18 +43,24 @@
         ({$val->maxdepth} {$lang->depth})
       </th>
       <td>
-        <table border="0" width="100%">
-        <tr>
-          <td><div id="menu_zone_{$val->id}"></div></td>
-          <td><div id="menu_zone_info_{$val->id}"></div></td>
+        <table border="0">
+        <tr valign="top">
+          <td width="300">
+            <div id="menu_zone_{$val->id}"></div>
+            <div>
+              <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$val->id}');return false;" />
+              <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$val->id}');return false;" />
+              <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$val->id}');return false;" />
+            </div>
+          </td>
+          <td>
+            <div id="menu_zone_info_{$val->id}">
+            </div>
+          </td>
         </tr>
         </table>
-        <div>
-          <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$val->id}');return false;" />
-          <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$val->id}');return false;" />
-        </div>
         <script type="text/javascript">
-          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doDisplayMenuInfo); });
+          xAddEventListener(window,'load', function() { loadTreeMenu("/tree_menu/a.xml", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
         </script>
       </td>
     </tr>
