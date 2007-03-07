@@ -105,8 +105,15 @@
             $node_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
             if($node_info->parent_srl) $parent_srl = $node_info->parent_srl;
 
-            // DB에서 삭제
             $oDB = &DB::getInstance();
+
+            // 자식 노드가 있는지 체크 
+            $output = $oDB->executeQuery('layout.getChildMenuCount', $args);
+            if(!$output->toBool()) return $output;
+
+            if($output->data->count>0) return new Object(-1, msg_cannot_delete_for_child);
+
+            // DB에서 삭제
             $output = $oDB->executeQuery("layout.deleteLayoutMenu", $args);
             if(!$output->toBool()) return $output;
 

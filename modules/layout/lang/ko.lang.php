@@ -31,4 +31,6 @@
     $lang->about_menu_open_window = '메뉴 선택시 새창으로 띄울 것인지를 정할 수 있습니다';
     $lang->about_menu_img_btn = '이미지 버튼을 등록하시면 레이아웃에서 자동으로 이미지 버튼으로 교체되어 표시가 됩니다.';
     $lang->about_menu_group_srls = '그룹을 선택하시면 해당 그룹의 사용자만 메뉴가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
+
+    $lang->msg_cannot_delete_for_child = '하부 메뉴가 있는 메뉴는 삭제하실 수 없습니다';
 ?>

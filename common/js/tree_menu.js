@@ -10,9 +10,9 @@
 
 // 아이콘을 미리 생성해 놓음
 var tree_folder_icon = new Image();
-tree_folder_icon.src = "./common/tpl/images/folder.gif";
+tree_folder_icon.src = "./common/tpl/images/page.gif";
 var tree_open_folder_icon = new Image();
-tree_open_folder_icon.src = "./common/tpl/images/imgfolder.gif";
+tree_open_folder_icon.src = "./common/tpl/images/page.gif";
 
 var tree_minus_icon = new Image();
 tree_minus_icon.src = "./common/tpl/images/minus.gif";
@@ -119,10 +119,10 @@ function drawNode(parent_node, menu_id) {
         if(hasChild) {
             if(!hasNextSibling) {
                 line_icon = "minus";
-                folder_icon = "folder";
+                folder_icon = "page";
             } else {
                 line_icon = "minusbottom";
-                folder_icon = "folder";
+                folder_icon = "page";
             }
         } else {
             if(hasNextSibling) {
