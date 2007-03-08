@@ -34,7 +34,34 @@ var node_callback_func = new Array();
 
 // 메뉴 클릭시 기본으로 동작할 함수
 function moveTreeMenu(menu_id, node) {
-    alert(node.getAttribute("text"));
+    // url과 open_window값을 구함
+    var node_srl = node.getAttribute("node_srl");
+    var url = node.getAttribute("url");
+    var open_window = node.getAttribute("open_window");
+    var hasChild = false;
+    if(node.hasChildNodes()) hasChild = true;
+
+    // url이 없고 child가 있으면 해당 폴더 토글한다 
+    if(!url && hasChild) {
+        var zone_id = "menu_"+menu_id+"_"+node_srl;
+        toggleFolder(zone_id);
+        return;
+    }
+
+    // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
+    if(url) {
+        // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
+        if(url.indexOf('://')==-1) {
+            url = "./?"+url;
+        }
+
+        // open_window에 따라서 처리
+        if(open_window != "Y") location.href=url;
+        else {
+            var win = window.open(url);
+            win.focus();
+        }
+    }
 }
 
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
