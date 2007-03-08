@@ -81,8 +81,8 @@
             // 이미지 태그 img의 src의 값이 ./ 로 시작하면 {$tpl_path}로 변경
             $buff = preg_replace_callback('!src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
-            // 함수를 변경
-            $buff = preg_replace_callback('/\{\@([^\}]+)\}/i', array($this, '_compileVarToFunc'), $buff);
+            // 결과를 출력하지 않는 구문 변경
+            $buff = preg_replace_callback('/\{\@([^\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
 
             // <!--@, --> 의 변경
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
@@ -126,8 +126,8 @@
         /**
          * @brief {@와 } 안의 @... 함수를 print func(..)로 변경
          **/
-        function _compileVarToFunc($matches) {
-            return '<?php print('.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', trim($matches[1])).');?>';
+        function _compileVarToSilenceExecute($matches) {
+            return '<?php @'.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', trim($matches[1])).';?>';
         }
 
         /**

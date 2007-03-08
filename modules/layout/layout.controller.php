@@ -249,7 +249,6 @@
             $php_buff = sprintf('<?php if(!__ZB5__) exit(); $menu->list = array(%s); ?>', $this->getPhpCacheCode($tree[0], $tree));
             FileHandler::writeFile($xml_file, $xml_buff);
             FileHandler::writeFile($php_file, $php_buff);
-
             return $xml_file;
         }
 
@@ -300,7 +299,7 @@
                 else $node->href = $node->url;
 
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),%s',
+                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),"list"=>array(%s)',
                         $node->menu_srl, 
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href),
@@ -313,7 +312,7 @@
                         $child_buff
                 );
                 
-                $buff .=  sprintf('%s=>array(%s),'."\n", $node->menu_srl, $attribute);
+                $buff .=  sprintf('%s=>array(%s),', $node->menu_srl, $attribute);
             }
             return $buff;
         }

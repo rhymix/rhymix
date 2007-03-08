@@ -162,6 +162,12 @@
                 }
             }
 
+            // 현재 페이지의 정보를 $zbfe_url이라는 변수로 등록 (common/tpl/common_header.tpl에서 javascript 변수로 설정함)
+            if($_REQUEST['mid']) $zbfe_url = sprintf('mid=%s',$_REQUEST['mid']);
+            elseif($_REQUEST['module']) $zbfe_url = sprintf('module=%s',$_REQUEST['module']);
+            else $zbfe_url = Context::getRequestUri();
+            Context::set('zbfe_url', $zbfe_url);
+
             // 해당 모듈에 layout_srl이 있는지 확인
             if($oModule->module_info->layout_srl) {
                 // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
@@ -190,12 +196,6 @@
                 $oModule->setLayoutPath($layout_info->path);
                 $oModule->setLayoutFile('layout');
             }
-
-            // 현재 페이지의 정보를 $zbfe_url이라는 변수로 등록 (common/tpl/common_header.tpl에서 javascript 변수로 설정함)
-            if($_REQUEST['mid']) $zbfe_url = sprintf('mid=%s',$_REQUEST['mid']);
-            elseif($_REQUEST['module']) $zbfe_url = sprintf('module=%s',$_REQUEST['module']);
-            else $zbfe_url = Context::getRequestUri();
-            Context::set('zbfe_url', $zbfe_url);
 
             // 컨텐츠 출력
             $oDisplayHandler = new DisplayHandler();

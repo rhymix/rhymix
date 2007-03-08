@@ -4,6 +4,41 @@
 </script>
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
   {$layout_info->top_title}
+
+  <div style="float:right">
+    <div>
+    <!-- 1차 메뉴 -->
+    <!--@foreach($main_menu->list as $key => $val)-->
+
+      <!--@if($zbfe_url==$val['url'])-->
+        {@ $selected_style = 'style="font-weight:bold;"'}
+        {@ $second_menu_list = $val['list']; }
+      <!--@else-->
+        {@ $selected_style = ''; }
+      <!--@end-->
+
+      <span {$selected_style}>
+        <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
+      </span>
+    <!--@end-->
+    </div>
+    <div>
+
+    <!-- 2차 메뉴 -->
+    <!--@foreach($second_menu_list as $key => $val)-->
+
+      <!--@if($zbfe_url==$val['url'])-->
+        {@ $selected_style = 'style="font-weight:bold;"'}
+      <!--@else-->
+        {@ $selected_style = ''; }
+      <!--@end-->
+
+      <span {$selected_style}>
+        <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
+      </span>
+    <!--@end-->
+    </div>
+  </div>
 </div>
 <div>
   <div id="menu" style="position:absolute;"></div>
