@@ -1,31 +1,37 @@
 <!-- 레이아웃의 목록 -->
-<table border="1" width="100%">
-<tr>
-  <td>{$lang->layout_name}</td>
-  <td>{$lang->version}</td>
-  <td>{$lang->author}</td>
-  <td>{$lang->menu_count}</td>
-  <td>{$lang->date}</td>
-  <td>{$lang->date}</td>
-  <td>{$lang->cmd_make}</td>
-</tr>
-<!--@foreach($layout_list as $key => $val)-->
-<tr>
-  <td rowspan="2">
-      {$val->title} <br />
-      ({$val->layout})
-  </td>
-  <td>{$val->version}</td>
-  <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-  <td>{count($val->navigations)}</td>
-  <td>{$val->author->date}</td>
-  <td>{$val->path}</td>
-  <td><a href="{getUrl('mo','layout','act','dispInsertLayout','layout',$val->layout)}">{$lang->cmd_make}</a></td>
-</tr>
-<tr>
-  <td colspan="6">
-    {nl2br($val->author->description)}
-  </td>
-</tr>
-<!--@end-->
-</table>
+<div>
+  {$lang->about_downloaded_layouts} |
+  <a href="#" onclick="location.href='./?module=admin&mo=layout&act=dispContent';return false;">{$lang->cmd_move_to_installed_list}</a>
+</div>
+<div>
+  <table border="1" width="100%">
+  <tr>
+    <td>{$lang->layout_name}</td>
+    <td>{$lang->version}</td>
+    <td>{$lang->author}</td>
+    <td>{$lang->menu_count}</td>
+    <td>{$lang->date}</td>
+    <td>{$lang->date}</td>
+    <td>{$lang->cmd_make}</td>
+  </tr>
+  <!--@foreach($layout_list as $key => $val)-->
+  <tr>
+    <td rowspan="2">
+        {$val->title} <br />
+        ({$val->layout})
+    </td>
+    <td>{$val->version}</td>
+    <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+    <td>{count($val->navigations)}</td>
+    <td>{$val->author->date}</td>
+    <td>{$val->path}</td>
+    <td><a href="{getUrl('mo','layout','act','dispInsertLayout','layout',$val->layout)}">{$lang->cmd_make}</a></td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      {nl2br($val->author->description)}
+    </td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
