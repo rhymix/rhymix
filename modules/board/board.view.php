@@ -433,6 +433,14 @@
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispAdminContent();
 
+            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
+            if($this->module_info->layout_srl) {
+                $oLayoutModel = &getModel('layout');
+                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
+                $this->module_info->layout = $layout_info->layout;
+                $this->module_info->layout_title = $layout_info->layout_title;
+            }
+
             // 템플릿 파일 지정
             $this->setTemplateFile('board_info');
         }
