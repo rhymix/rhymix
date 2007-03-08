@@ -17,10 +17,10 @@
       <name xml:lang="en">top title</name>
       <type>text</type>
     </var>
-    <var id="memo">
-      <name xml:lang="ko">간단한 내용</name>
-      <name xml:lang="en">memo</name>
-      <type>textarea</type>
+    <var id="main_menu_name">
+      <name xml:lang="ko">메인 메뉴 명</name>
+      <name xml:lang="en">main_menu_name</name>
+      <type>text</type>
     </var>
     <var id="colorset">
       <name xml:lang="ko">컬러셋</name>

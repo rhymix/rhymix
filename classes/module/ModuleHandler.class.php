@@ -184,6 +184,7 @@
 
                 // 레이아웃 정보를 Context::set
                 Context::set('layout_info', $layout_info);
+                debugPrint($layout_info);
 
                 $oModule->setLayoutPath($layout_info->path);
                 $oModule->setLayoutFile('layout');
