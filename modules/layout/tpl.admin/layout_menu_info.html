@@ -12,14 +12,14 @@
 <!--@end-->
 <tr>
   <th rowspan="2">{$lang->menu_name}</th>
-  <td><input type="text" name="menu_name" value="{$menu_info->name}" /></td>
+  <td><input type="text" name="menu_name" value="{htmlspecialchars($menu_info->name)}" /></td>
 </tr>
 <tr>
   <td>{$lang->about_menu_name}</td>
 </tr>
 <tr>
   <th rowspan="2">{$lang->menu_url}</th>
-  <td><input type="text" name="menu_url" value="{$menu_info->url}" /></td>
+  <td><input type="text" name="menu_url" value="{htmlspecialchars($menu_info->url)}" /></td>
 </tr>
 <tr>
   <td>{$lang->about_menu_url}</td>
@@ -37,15 +37,15 @@
 </tr>
 <tr>
   <td>{$lang->menu_normal_btn}</td>
-  <td><input type="text" name="menu_normal_btn" value="{$menu_info->normal_btn}" /></td>
+  <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($menu_info->normal_btn)}" /></td>
 </tr>
 <tr>
   <td>{$lang->menu_hover_btn}</td>
-  <td><input type="text" name="menu_hover_btn" value="{$menu_info->hover_btn}" /></td>
+  <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($menu_info->hover_btn)}" /></td>
 </tr>
 <tr>
   <td>{$lang->menu_active_btn}</td>
-  <td><input type="text" name="menu_active_btn" value="{$menu_info->active_btn}" /></td>
+  <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($menu_info->active_btn)}" /></td>
 </tr>
 <tr>
   <th rowspan="2">{$lang->menu_group_srls}</th>

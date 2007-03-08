@@ -162,9 +162,19 @@
                 }
             }
 
+            // 해당 모듈에 layout_srl이 있는지 확인
+            if($oModule->module_info->layout_srl) {
+                // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
+                $oLayoutModel = &getModel('layout');
+                $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
+                Context::set('layout_info', $layout_info);
+
+                $oModule->setLayoutPath($layout_info->path);
+                $oModule->setLayoutFile('layout');
+            }
+
             // 컨텐츠 출력
             $oDisplayHandler = new DisplayHandler();
-
             $oDisplayHandler->printContent($oModule);
 
             // DB 및 기타 자원의 종결 처리

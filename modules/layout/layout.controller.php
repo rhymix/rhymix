@@ -242,6 +242,7 @@
 
                 $tree[$parent_srl][$menu_srl] = $node;
             }
+
             
             // 파일 생성
             $xml_buff = "<root>".$this->getXmlTree($tree[0], $tree)."</root>";
@@ -261,9 +262,21 @@
                 $child_buff = "";
 
                 if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getXmlTree($tree[$menu_srl], $tree);
+
+                $attribute = sprintf(
+                        'node_srl="%s" text="%s" url="%s" open_window="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" group_srls="%s"',
+                        $node->menu_srl, 
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
+                        $node->open_window,
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),
+                        $node->group_srls
+                );
                 
-                if($child_buff) $buff .= sprintf('<node node_srl="%s" text="%s">%s</node>', $node->menu_srl, $node->name, $child_buff);
-                else $buff .=  sprintf('<node node_srl="%s" text="%s" />', $node->menu_srl, $node->name);
+                if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
+                else $buff .=  sprintf('<node %s />', $attribute);
             }
             return $buff;
         }

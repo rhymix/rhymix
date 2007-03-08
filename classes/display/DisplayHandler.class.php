@@ -33,7 +33,7 @@
                 require_once("./classes/template/TemplateHandler.class.php");
 
                 $oTemplate = new TemplateHandler();
-                $output = $oTemplate->compile($oModule->layout_path, $oModule->layout_file);
+                $output = $oTemplate->compile($oModule->getLayoutPath(), $oModule->getLayoutFile());
             } else {
                 $output = $content;
             }

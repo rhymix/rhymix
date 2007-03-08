@@ -1,0 +1,10 @@
+<!--#include("./common/tpl/common_header.html")-->
+
+<script type="text/javascript">
+  xAddEventListener(window,'load', function() { loadTreeMenu("{$layout_info->menu->main_menu->xml_file}", "main_menu", "menu", "haha"); });
+</script>
+
+<div id="menu" style="float:left;margin-right:20px;"></div>
+<div id="content" style="float:left;">{$content}</div>
+
+<!--#include("./common/tpl/common_footer.html")-->
