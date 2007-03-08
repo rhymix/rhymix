@@ -174,27 +174,30 @@
                 $oLayoutModel = &getModel('layout');
                 $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
 
-                // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
-                if($layout_info->extra_var_count) {
-                    foreach($layout_info->extra_var as $var_id => $val) {
-                        $layout_info->{$var_id} = $val->value;
-                    }
-                    unset($layout_info->extra_var);
-                }
-                
-                // 레이아웃 정보중 menu를 Context::set
-                if($layout_info->menu_count) {
-                    foreach($layout_info->menu as $menu_id => $menu) {
-                        if(file_exists($menu->php_file)) include($menu->php_file);
-                        Context::set($menu_id, $menu);
-                    }
-                }
+                if($layout_info) {
 
-                // 레이아웃 정보를 Context::set
-                Context::set('layout_info', $layout_info);
+                    // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
+                    if($layout_info->extra_var_count) {
+                        foreach($layout_info->extra_var as $var_id => $val) {
+                            $layout_info->{$var_id} = $val->value;
+                        }
+                        unset($layout_info->extra_var);
+                    }
+                    
+                    // 레이아웃 정보중 menu를 Context::set
+                    if($layout_info->menu_count) {
+                        foreach($layout_info->menu as $menu_id => $menu) {
+                            if(file_exists($menu->php_file)) include($menu->php_file);
+                            Context::set($menu_id, $menu);
+                        }
+                    }
 
-                $oModule->setLayoutPath($layout_info->path);
-                $oModule->setLayoutFile('layout');
+                    // 레이아웃 정보를 Context::set
+                    Context::set('layout_info', $layout_info);
+
+                    $oModule->setLayoutPath($layout_info->path);
+                    $oModule->setLayoutFile('layout');
+                }
             }
 
             // 컨텐츠 출력

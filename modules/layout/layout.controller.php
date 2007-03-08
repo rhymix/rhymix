@@ -244,9 +244,14 @@
                 $tree[$parent_srl][$menu_srl] = $node;
             }
 
-            // 파일 생성
+            // xml 캐시 파일 생성
             $xml_buff = sprintf('<root>%s</root>', $this->getXmlTree($tree[0], $tree));
-            $php_buff = sprintf('<?php if(!__ZB5__) exit(); $menu->list = array(%s); ?>', $this->getPhpCacheCode($tree[0], $tree));
+
+            // php 캐시 파일 생성
+            $php_output = $this->getPhpCacheCode($tree[0], $tree);
+            $php_buff = sprintf('<?php if(!__ZB5__) exit(); $menu->list = array(%s); ?>', $php_output['buff']);
+
+            // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
             FileHandler::writeFile($php_file, $php_buff);
             return $xml_file;
@@ -289,17 +294,27 @@
          * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
          **/
         function getPhpCacheCode($source_node, $tree) {
-            if(!$source_node) return;
+            $output = array("buff"=>"", "url_list"=>array());
+            if(!$source_node) return $output;
+
             foreach($source_node as $menu_srl => $node) {
-                $child_buff = "";
+                // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
+                if($menu_srl&&$tree[$menu_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_srl], $tree);
+                else $child_output = array("buff"=>"", "url_list"=>array());
 
-                if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getPhpCacheCode($tree[$menu_srl], $tree);
-
+                // 노드의 url에 ://가 있으면 바로 링크, 아니면 제로보드의 링크를 설정한다 ($node->href가 완성된 url)
                 if($node->url && !strpos($node->url, '://')) $node->href = "./?".$node->url;
                 else $node->href = $node->url;
 
+                // 현재 노드의 url값이 공란이 아니라면 url_list 배열값에 입력
+                if($node->url) {
+                    $child_output['url_list'][] = $node->url;
+                    $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
+                }
+
+                // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),"list"=>array(%s)',
+                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),"selected"=>(in_array(Context::get("zbfe_url"),array(%s))?1:0),"list"=>array(%s)',
                         $node->menu_srl, 
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href),
@@ -309,12 +324,14 @@
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),
                         $node->group_srls,
-                        $child_buff
+                        '"'.implode('","',$child_output['url_list']).'"',
+                        $child_output['buff']
                 );
                 
-                $buff .=  sprintf('%s=>array(%s),', $node->menu_srl, $attribute);
+                // buff 데이터를 생성한다
+                $output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_srl, $attribute);
             }
-            return $buff;
+            return $output;
         }
     }
 ?>

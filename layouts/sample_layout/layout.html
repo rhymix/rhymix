@@ -10,7 +10,7 @@
     <!-- 1차 메뉴 -->
     <!--@foreach($main_menu->list as $key => $val)-->
 
-      <!--@if($zbfe_url==$val['url'])-->
+      <!--@if($val['selected'])-->
         {@ $selected_style = 'style="font-weight:bold;"'}
         {@ $second_menu_list = $val['list']; }
       <!--@else-->
@@ -27,7 +27,23 @@
     <!-- 2차 메뉴 -->
     <!--@foreach($second_menu_list as $key => $val)-->
 
-      <!--@if($zbfe_url==$val['url'])-->
+      <!--@if($val['selected'])-->
+        {@ $selected_style = 'style="font-weight:bold;"'}
+        {@ $third_menu_list = $val['list']; }
+      <!--@else-->
+        {@ $selected_style = ''; }
+      <!--@end-->
+
+      <span {$selected_style}>
+        <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
+      </span>
+    <!--@end-->
+    </div>
+
+    <!-- 3차 메뉴 -->
+    <!--@foreach($third_menu_list as $key => $val)-->
+
+      <!--@if($val['selected'])-->
         {@ $selected_style = 'style="font-weight:bold;"'}
       <!--@else-->
         {@ $selected_style = ''; }
