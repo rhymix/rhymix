@@ -117,8 +117,18 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
         }
     }
 
-    xInnerHtml(zone, html);
+    // 출력하려는 zone이 없다면 load후에 출력하도록 함
+    if(!zone) {
+        xAddEventListener(window, 'load', function() { drawTeeMenu(zone_id, menu_id, html); });
+    } else {
+        xInnerHtml(zone, html);
+        if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
+    }
 
+}
+
+function drawTeeMenu(zone_id, menu_id, html) {
+    xInnerHtml(zone_id, html);
     if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
 }
 
@@ -134,7 +144,10 @@ function drawNode(parent_node, menu_id) {
         var url = node.getAttribute("url");
 
         // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가
-        if(node_callback_func[menu_id] == moveTreeMenu && url && location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
+        if(node_callback_func[menu_id] == moveTreeMenu && url) {
+            if(typeof(zbfe_url)!="undefined" && zbfe_url==url) manual_select_node_srl = node_srl;
+            else if(location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
+        }
 
         // 자식 노드가 있는지 확인
         var hasChild = false;
