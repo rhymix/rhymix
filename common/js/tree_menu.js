@@ -224,7 +224,6 @@ function drawNode(parent_node, menu_id) {
 function manualSelectNode(menu_id, node_srl) {
     var zone_id = "menu_"+menu_id+"_"+node_srl;
     selectNode(menu_id,node_srl,zone_id,false);
-
     var zone = xGetElementById(zone_id);
     try {
         while(zone = zone.parentNode) {
@@ -234,11 +233,12 @@ function manualSelectNode(menu_id, node_srl) {
             if(id.indexOf("menu_")<0 || id.indexOf("child")<0) continue;
 
             var child_zone = xGetElementById(id);
-            child_zone.style.display = "block";
-            toggleFolder(zone_id);
+            var p_id = id.replace("_child","");
+            toggleFolder(p_id);
         }
     } catch(e) {
     }
+    toggleFolder(zone_id);
 }
 
 // 노드의 폴더 아이콘 클릭시
