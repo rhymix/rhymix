@@ -296,12 +296,14 @@
 
                 if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getPhpCacheCode($tree[$menu_srl], $tree);
 
-                if($node->url && !strpos($node->url, '://')) $node->url = "./?".$node->url;
+                if($node->url && !strpos($node->url, '://')) $node->href = "./?".$node->url;
+                else $node->href = $node->url;
 
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),%s',
+                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),%s',
                         $node->menu_srl, 
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
                         $node->open_window,
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),

@@ -91,7 +91,7 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
 }
 
 // 트리메뉴 XML정보를 이용해서 정해진 zone에 출력
-var manual_select_node_srl = 0;
+var manual_select_node_srl = '';
 function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var xmlDoc = oXml.getResponseXml();
     if(!xmlDoc) return null;
@@ -144,7 +144,7 @@ function drawNode(parent_node, menu_id) {
         // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가
         if(node_callback_func[menu_id] == moveTreeMenu && url) {
             if(typeof(zbfe_url)!="undefined" && zbfe_url==url) manual_select_node_srl = node_srl;
-            else if(location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
+            else if(location.href == url) manual_select_node_srl = node_srl;
         }
 
         // 자식 노드가 있는지 확인

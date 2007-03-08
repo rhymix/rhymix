@@ -11,7 +11,9 @@
     {$content}
     <div style="margin-top:20px;">
       <!--@foreach($bottom_menu->list as $key => $val)-->
-        <a href="#" onclick="location.href='{$val['url']}';return false;">{$val['text']}</a>
+        <span <!--@if($zbfe_url==$val['url'])-->style="font-weight:bold;"<!--@end-->>
+          <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
+        </span>
       <!--@end-->
     </div>
   </div>
