@@ -40,18 +40,27 @@
     </div>
   </div>
 </div>
+
 <div>
-  <div id="menu" style="position:absolute;"></div>
-  <div id="content" style="margin-left:150px;">
-    {$content}
-    <div style="margin-top:20px;">
-      <!--@foreach($bottom_menu->list as $key => $val)-->
-        <span <!--@if($zbfe_url==$val['url'])-->style="font-weight:bold;"<!--@end-->>
-          <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
-        </span>
-      <!--@end-->
-    </div>
-  </div>
+  <table border="0" width="100%" style="table-layout:fixed">
+  <col width="150" />
+  <col width="*" />
+  <tr valign="top">
+    <td><div id="menu"></div></td>
+    <td>
+      <div id="content">
+        {$content}
+        <div style="margin-top:20px;">
+          <!--@foreach($bottom_menu->list as $key => $val)-->
+            <span <!--@if($zbfe_url==$val['url'])-->style="font-weight:bold;"<!--@end-->>
+              <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
+            </span>
+          <!--@end-->
+        </div>
+      </div>
+    </td>
+  </tr>
+  </table>
 </div>
 
 
