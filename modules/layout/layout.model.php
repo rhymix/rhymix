@@ -131,7 +131,6 @@
 
                 $buff .= sprintf('$layout_info->extra_var->{%s}->name = "%s";', $var->attrs->id, $var->name->body);
                 $buff .= sprintf('$layout_info->extra_var->{%s}->type = "%s";', $var->attrs->id, $var->type->body);
-                $buff .= sprintf('$layout_info->extra_var->{%s}->type = "%s";', $var->attrs->id, $var->type->body);
 
                 $options = $var->options->value;
                 if(!$options) continue;

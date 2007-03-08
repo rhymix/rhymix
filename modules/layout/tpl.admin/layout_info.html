@@ -2,43 +2,62 @@
 <!--%import("filter/insert_layout_menu.xml")-->
 <!--%import("filter/delete_layout_menu.xml")-->
 
-<form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
-<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-<input type="hidden" name="layout" value="{$layout_info->layout}" />
+<div style="margin-bottom:10px;">
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>  
+    <th>{$lang->layout}</th>
+    <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
+  </tr>
+  <tr>  
+    <th>{$lang->path}</th>
+    <td>{$layout_info->path}</td>
+  </tr>
+  <tr>  
+    <th>{$lang->author}</th>
+    <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
+  </tr>
+  <tr>  
+    <th>{$lang->description}</th>
+    <td>{nl2br($layout_info->author->description)}</td>
+  </tr>
+  </table>
+</div>
 
-  <div style="margin-bottom:10px;">
-    <table border="1" width="100%">
-    <col width="140" />
-    <col width="*" />
-    <tr>  
-      <th>{$lang->title}</th>
-      <td>{$layout_info->layout_title}</td>
-    </tr>
-    <tr>  
-      <th>{$lang->layout_name}</th>
-      <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
-    </tr>
-    <tr>  
-      <th>{$lang->path}</th>
-      <td>{$layout_info->path}</td>
-    </tr>
-    <tr>  
-      <th>{$lang->author}</th>
-      <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
-    </tr>
-    <tr>  
-      <th>{$lang->description}</th>
-      <td>{nl2br($layout_info->author->description)}</td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispContent')}'" />
-        <input type="submit" value="{$lang->cmd_registration}" />
-      </td>
-    </tr>
-    </table>
-  </div>
-</form>
+<div style="margin-bottom:10px;">
+  <form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+  <input type="hidden" name="layout" value="{$layout_info->layout}" />
+
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>
+    <th>{$lang->title}</th>
+    <td><input type="text" name="title" value="{$layout_info->layout_title}" /></td>
+  </tr>
+  <!--@foreach($layout_info->extra_var as $id => $var)-->
+  <tr>
+    <th>{$var->name}</th>
+    <!--@if($var->type == "text")-->
+    <td><input type="text" name="{$id}" value="" /></td>
+    <!--@elseif($var->type == "textarea")-->
+    <td><textarea name="{$id}"></textarea></td>
+    <!--@elseif($var->type == "select")-->
+    <td>
+      <select name="{$id}">
+        <!--@foreach($var->options as $key => $val)-->
+        <option value="{$val}">{$val}</option>
+        <!--@end-->
+      </select>
+    <!--@end-->
+  </tr>
+  <!--@end-->
+  </table>
+
+  </form>
+</div>
 
 <div style="margin-bottom:10px;">
   <table border="1" width="100%">
@@ -55,10 +74,10 @@
       ({$menu->maxdepth} {$lang->depth})
     </th>
     <td>
-      <form id="fo_{$menu->id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
+      <form id="fo_{$menu_id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
       <input type="hidden" name="layout_srl" value="{$layout_srl}" />
       <input type="hidden" name="layout" value="{$layout_info->layout}" />
-      <input type="hidden" name="menu_id" value="{$menu->id}" />
+      <input type="hidden" name="menu_id" value="{$menu_id}" />
         <table border="0">
         <tr valign="top">
           <td width="300">

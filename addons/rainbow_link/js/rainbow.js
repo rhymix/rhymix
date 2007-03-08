@@ -101,20 +101,23 @@ function stopRainbow()
 //=============================================================================
 function doRainbowAnchor()
 {
-    if (act == 0) {
-        var obj = event.srcElement;
-        while (obj.tagName != 'A' && obj.tagName != 'BODY') {
-            obj = obj.parentElement;
-            if (obj.tagName == 'A' || obj.tagName == 'BODY')
-                break;
-        }
+    try {
+        if (act == 0) {
+            var obj = event.srcElement;
+            while (obj.tagName != 'A' && obj.tagName != 'BODY') {
+                obj = obj.parentElement;
+                if (obj.tagName == 'A' || obj.tagName == 'BODY')
+                    break;
+            }
 
-        if (obj.tagName == 'A' && obj.href != '') {
-            objActive = obj;
-            act = 1;
-            clrOrg = objActive.style.color;
-            TimerID = setInterval("ChangeColor()",100);
+            if (obj.tagName == 'A' && obj.href != '') {
+                objActive = obj;
+                act = 1;
+                clrOrg = objActive.style.color;
+                TimerID = setInterval("ChangeColor()",100);
+            }
         }
+    } catch(e) {
     }
 }
 
