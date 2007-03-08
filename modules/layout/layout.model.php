@@ -2,6 +2,7 @@
     /**
      * @class  layoutModel
      * @author zero (zero@nzeo.com)
+     * @version 0.1
      * @brief  layout 모듈의 Model class
      **/
 
@@ -15,6 +16,7 @@
 
         /**
          * @brief DB 에 생성된 레이아웃의 목록을 구함
+         * 생성되었다는 것은 DB에 등록이 되었다는 것을 의미 
          **/
         function getLayoutList() {
             $oDB = &DB::getInstance();
@@ -27,6 +29,7 @@
 
         /**
          * @brief DB 에 생성된 한개의 레이아웃 정보를 구함
+         * 생성된 레이아웃의 DB정보를 return
          **/
         function getLayout($layout_srl) {
             $oDB = &DB::getInstance();
@@ -39,6 +42,7 @@
 
         /**
          * @brief 레이아웃의 경로를 구함
+         * 기본으로는 ./layouts에 있지만 웹관리기능으로 다운로드시 ./files/layouts에 존재함
          **/
         function getLayoutPath($layout_name) {
             $class_path = sprintf('./files/layouts/%s/', $layout_name);
@@ -52,6 +56,7 @@
 
         /**
          * @brief 레이아웃의 종류와 정보를 구함
+         * 다운로드되어 있는 레이아웃의 종류 (생성과 다른 의미)
          **/
         function getDownloadedLayoutList() {
             // 다운받은 레이아웃과 설치된 레이아웃의 목록을 구함
@@ -61,27 +66,22 @@
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
+            // 찾아진 레이아웃 목록을 loop돌면서 필요한 정보를 간추려 return
             for($i=0;$i<$searched_count;$i++) {
                 // 레이아웃의 이름
-                $layout_name = $searched_list[$i];
-
-                // 레이아웃의 경로 (files/layouts가 우선)
-                $path = $this->getLayoutPath($layout_name);
+                $layout = $searched_list[$i];
 
                 // 해당 레이아웃의 정보를 구함
-                $info = $this->getLayoutInfoXml($layout_name);
-                unset($obj);
+                $layout_info = $this->getLayoutInfoXml($layout);
 
-                $info->layout = $layout_name;
-                $info->path = $path;
-
-                $list[] = $info;
+                $list[] = $layout_info;
             }
             return $list;
         }
 
         /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
+         * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다.. 
          **/
         function getLayoutInfoXml($layout, $layout_srl = 0) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
@@ -92,60 +92,61 @@
             $xml_file = sprintf("%sconf/info.xml", $layout_path);
             if(!file_exists($xml_file)) return;
 
+            // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
+            $cache_file = sprintf('./files/cache/layout/%s.cache.php', $layout);
+            if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
+                include $cache_file;
+                return $layout_info;
+            }
+
+            // cache 파일이 없으면 xml parsing하고 변수화 한 후에 캐시 파일에 쓰고 변수 바로 return
             $oXmlParser = new XmlParser();
             $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
             $xml_obj = $tmp_xml_obj->layout;
-
             if(!$xml_obj) return;
 
-            $info->title = $xml_obj->title->body;
+            $buff = '';
+
+            // 레이아웃의 제목, 버전
+            $buff .= sprintf('$layout_info->layout = "%s";', $layout);
+            $buff .= sprintf('$layout_info->path = "%s";', $layout_path);
+            $buff .= sprintf('$layout_info->title = "%s";', $xml_obj->title->body);
+            $buff .= sprintf('$layout_info->version = "%s";', $xml_obj->attrs->version);
 
             // 작성자 정보
-            $layout_info->title = $xml_obj->title->body;
-            $layout_info->version = $xml_obj->attrs->version;
-            $layout_info->author->name = $xml_obj->author->name->body;
-            $layout_info->author->email_address = $xml_obj->author->attrs->email_address;
-            $layout_info->author->homepage = $xml_obj->author->attrs->link;
-            $layout_info->author->date = $xml_obj->author->attrs->date;
-            $layout_info->author->description = $xml_obj->author->description->body;
+            $buff .= sprintf('$layout_info->author->name = "%s";', $xml_obj->author->name->body);
+            $buff .= sprintf('$layout_info->author->email_address = "%s";', $xml_obj->author->attrs->email_address);
+            $buff .= sprintf('$layout_info->author->homepage = "%s";', $xml_obj->author->attrs->link);
+            $buff .= sprintf('$layout_info->author->date = "%s";', $xml_obj->author->attrs->date);
+            $buff .= sprintf('$layout_info->author->description = "%s";', $xml_obj->author->description->body);
 
-            // history 
-            if(!is_array($xml_obj->history->author)) $history[] = $xml_obj->history->author;
-            else $history = $xml_obj->history->author;
+            // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
 
-            foreach($history as $item) {
-                unset($obj);
-                $obj->name = $item->name->body;
-                $obj->email_address = $item->attrs->email_address;
-                $obj->homepage = $item->attrs->link;
-                $obj->date = $item->attrs->date;
-                $obj->description = $item->description->body;
-                $layout_info->history[] = $obj;
+            // 메뉴
+            if(!is_array($xml_obj->menus->menu)) $menus[] = $xml_obj->menus->menu;
+            else $menus = $xml_obj->menus->menu;
+
+            $menu_count = count($menus);
+            $buff .= sprintf('$layout_info->menu_count = "%s";', count($menus));
+            for($i=0;$i<$menu_count;$i++) {
+                $id = $menus[$i]->attrs->id;
+
+                $buff .= sprintf('$layout_info->menu->{%s}->id = "%s";',$id, $menus[$i]->attrs->id);
+                $buff .= sprintf('$layout_info->menu->{%s}->name = "%s";',$id, $menus[$i]->name->body);
+                $buff .= sprintf('$layout_info->menu->{%s}->maxdepth = "%s";',$id, $menus[$i]->maxdepth->body);
+                $buff .= sprintf('$layout_info->menu->{%s}->xml_file = "./files/cache/layout/".$layout_srl."_%s.xml";',$id, $id);
             }
 
-            // navigations
-            if(!is_array($xml_obj->navigations->navigation)) $navigations[] = $xml_obj->navigations->navigation;
-            else $navigations = $xml_obj->navigations->navigation;
+            $buff = '<?php if(!__ZB5__) exit(); '.$buff.' ?>';
+            FileHandler::writeFile($cache_file, $buff);
 
-            unset($item);
-            foreach($navigations as $item) {
-                unset($obj);
-                $obj->id = $item->attrs->id;
-                $obj->name = $item->name->body;
-                $obj->maxdepth = $item->maxdepth->body;
-                $obj->xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $obj->id);
-                if($layout_srl && !file_exists($obj->xml_file)) {
-                    $buff = "<root />";
-                    FileHandler::writeFile($obj->xml_file, $buff);
-                }
-                $layout_info->navigations[] = $obj;
-            }
-
+            if(file_exists($cache_file)) include $cache_file;
             return $layout_info;
         }
 
         /**
          * @brief 특정 menu_srl의 정보를 return
+         * 이 정보중에 group_srls의 경우는 , 로 연결되어 들어가며 사용시에는 explode를 통해 array로 변환 시킴
          **/
         function getLayoutMenuInfo($menu_srl) {
             $oDB = &DB::getInstance();
@@ -162,6 +163,7 @@
 
         /**
          * @brief 특정 menu_srl의 정보를 이용하여 템플릿을 구한후 return
+         * 관리자 페이지에서 특정 메뉴의 정보를 추가하기 위해 서버에서 tpl을 컴파일 한후 컴파일 된 html을 직접 return
          **/
         function getMenuTplInfo() {
             // 해당 메뉴의 정보를 가져오기 위한 변수 설정
@@ -185,10 +187,13 @@
                 $menu_info->menu_srl = $oDB->getNextSequence();
                 $menu_info->parent_srl = $parent_srl;
                 $menu_info->parent_menu_name = $parent_info->name;
+
+            // root에 메뉴 추가하거나 기존 메뉴의 수정일 경우
             } else {
                 // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
                 if($menu_srl) $menu_info = $this->getLayoutMenuInfo($menu_srl);
 
+                // 찾아진 값이 없다면 신규 메뉴 추가로 보고 menu_srl값만 구해줌
                 if(!$menu_info->menu_srl) {
                     $oDB = &DB::getInstance();
                     $menu_info->menu_srl = $oDB->getNextSequence();

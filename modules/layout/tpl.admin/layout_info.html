@@ -19,6 +19,10 @@
       <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
     </tr>
     <tr>  
+      <th>{$lang->path}</th>
+      <td>{$layout_info->path}</td>
+    </tr>
+    <tr>  
       <th>{$lang->author}</th>
       <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
     </tr>
@@ -44,37 +48,37 @@
     <th>{$lang->menu_management}</th>
     <td>{nl2br($lang->about_menu_management)}</td>
   </tr>
-  <!--@foreach($layout_info->navigations as $key => $val)-->
+  <!--@foreach($layout_info->menu as $menu_id => $menu)-->
   <tr>
     <th>
-      {$val->name}  <br />
-      ({$val->maxdepth} {$lang->depth})
+      {$menu->name}  <br />
+      ({$menu->maxdepth} {$lang->depth})
     </th>
     <td>
-      <form id="fo_{$val->id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
+      <form id="fo_{$menu->id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
       <input type="hidden" name="layout_srl" value="{$layout_srl}" />
       <input type="hidden" name="layout" value="{$layout_info->layout}" />
-      <input type="hidden" name="menu_id" value="{$val->id}" />
+      <input type="hidden" name="menu_id" value="{$menu->id}" />
         <table border="0">
         <tr valign="top">
           <td width="300">
-            <div id="menu_zone_{$val->id}"></div>
+            <div id="menu_zone_{$menu_id}"></div>
             <div>
-              <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$val->id}');return false;" />
-              <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$val->id}');return false;" />
-              <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$val->id}');return false;" />
-              <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$val->id}');return false;" />
+              <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$menu_id}');return false;" />
             </div>
           </td>
           <td>
-            <div id="menu_zone_info_{$val->id}">
+            <div id="menu_zone_info_{$menu_id}">
             </div>
           </td>
         </tr>
         </table>
       </form>
       <script type="text/javascript">
-        xAddEventListener(window,'load', function() { loadTreeMenu("{$val->xml_file}", "{$val->id}", "menu_zone_{$val->id}", "{$val->name}", doGetMenuInfo); });
+        xAddEventListener(window,'load', function() { loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name}", doGetMenuInfo); });
       </script>
     </td>
   </tr>

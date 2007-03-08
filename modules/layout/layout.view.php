@@ -26,7 +26,8 @@
         }
  
         /**
-         * @brief 레이아웃 등록 페이지 step 1
+         * @brief 레이아웃 등록 페이지 
+         * 1차적으로 레이아웃만 선택한 후 DB 에 빈 값을 넣고 그 후 상세 값 설정하는 단계를 거침
          **/
         function dispInsertLayout() {
             // 레이아웃 목록을 세팅
@@ -38,7 +39,7 @@
         }
 
         /**
-         * @brief 레이아웃 등록 페이지 step 2
+         * @brief 레이아웃 세부 정보 입력
          **/
         function dispLayoutInfo() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
@@ -55,9 +56,10 @@
             // xml 정보를 가져옴 
             $layout = $layout_info->layout;
             $layout_info = $oLayoutModel->getLayoutInfoXml($layout, $layout_srl);
+
+            // 기본 layout_info에 세부 정보를 입력할 layout_srl, layout_title을 추가
             $layout_info->layout_srl = $layout_srl;
             $layout_info->layout_title = $layout_title;
-            $layout_info->layout = $layout;
 
             Context::set('layout_info', $layout_info);
 
@@ -65,29 +67,15 @@
         }
 
         /**
-         * @brief 레이아웃 메뉴의 개별 정보 출력
-         **/
-        function dispLayoutMenuInfo() {
-            // 팝업이기 때문에 팝업용 레이아웃을 지정
-            $this->setLayoutPath('./common/tpl/');
-            $this->setLayoutFile('popup_layout');
-
-            // menu_srl에 해당하는 값을 가져옴
-
-            // 템플릿 지정
-            $this->setTemplateFile('layout_menu_info');
-        }
- 
-        /**
          * @brief 레이아웃 목록을 보여줌
          **/
-        function dispLayoutList() {
+        function dispDownloadedLayoutList() {
             // 레이아웃 목록을 세팅
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
             Context::set('layout_list', $layout_list);
 
-            $this->setTemplateFile('layout_list');
+            $this->setTemplateFile('downloaded_layout_list');
         }
 
 

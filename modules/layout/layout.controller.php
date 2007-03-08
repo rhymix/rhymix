@@ -15,6 +15,7 @@
 
         /**
          * @brief 레이아웃 신규 생성
+         * 레이아웃의 신규 생성은 제목만 받아서 layouts테이블에 입력함
          **/
         function procInsertLayout() {
             $oDB = &DB::getInstance();
@@ -30,7 +31,38 @@
         }
 
         /**
-         * @brief 레이아웃 메뉴 추가
+         * @brief 레이아웃 삭제
+         * 삭제시 메뉴 xml 캐시 파일도 삭제
+         **/
+        function procDeleteLayout() {
+            $layout_srl = Context::get('layout_srl');
+
+            // 캐시 파일 삭제 
+            $cache_list = FileHandler::readDir("./files/cache/layout","",false,true);
+            if(count($cache_list)) {
+                foreach($cache_list as $cache_file) {
+                    $pos = strpos($cache_file, $layout_srl.'_');
+                    if($pos>0) unlink($cache_file);
+                }
+            }
+
+            // DB에서 삭제
+            $oDB = &DB::getInstance();
+
+            // 레이아웃 메뉴 삭제
+            $args->layout_srl = $layout_srl;
+            $output = $oDB->executeQuery("layout.deleteLayoutMenus", $args);
+            if(!$output->toBool()) return $output;
+
+            // 레이아웃 삭제
+            $output = $oDB->executeQuery("layout.deleteLayout", $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 레이아웃에  메뉴 추가
          **/
         function procInsertLayoutMenu() {
             // 입력할 변수 정리
@@ -74,14 +106,7 @@
 
             // 해당 메뉴의 정보를 구함
             $layout_info = $oLayoutModel->getLayoutInfoXml($layout);
-            $navigations = $layout_info->navigations;
-            if(count($navigations)) {
-                foreach($navigations as $key => $val) {
-                    if($args->menu_id == $val->id) {
-                        $menu_title = $val->name;
-                    }
-                }
-            }
+            $menu_title = $layout_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
@@ -92,35 +117,6 @@
             $this->add('menu_title', $menu_title);
         }
 
-        /**
-         * @brief 레이아웃 삭제
-         **/
-        function procDeleteLayout() {
-            $layout_srl = Context::get('layout_srl');
-
-            // 캐시 파일 삭제 
-            $cache_list = FileHandler::readDir("./files/cache/layout","",false,true);
-            if(count($cache_list)) {
-                foreach($cache_list as $cache_file) {
-                    $pos = strpos($cache_file, $layout_srl.'_');
-                    if($pos>0) unlink($cache_file);
-                }
-            }
-
-            // DB에서 삭제
-            $oDB = &DB::getInstance();
-
-            // 레이아웃 메뉴 삭제
-            $args->layout_srl = $layout_srl;
-            $output = $oDB->executeQuery("layout.deleteLayoutMenus", $args);
-            if(!$output->toBool()) return $output;
-
-            // 레이아웃 삭제
-            $output = $oDB->executeQuery("layout.deleteLayout", $args);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage('success_deleted');
-        }
 
         /**
          * @brief 레이아웃 메뉴 삭제 
@@ -137,10 +133,9 @@
 
             $oDB = &DB::getInstance();
 
-            // 자식 노드가 있는지 체크 
+            // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
             $output = $oDB->executeQuery('layout.getChildMenuCount', $args);
             if(!$output->toBool()) return $output;
-
             if($output->data->count>0) return new Object(-1, msg_cannot_delete_for_child);
 
             // DB에서 삭제
@@ -149,14 +144,7 @@
 
             // 해당 메뉴의 정보를 구함
             $layout_info = $oLayoutModel->getLayoutInfoXml($args->layout);
-            $navigations = $layout_info->navigations;
-            if(count($navigations)) {
-                foreach($navigations as $key => $val) {
-                    if($args->menu_id == $val->id) {
-                        $menu_title = $val->name;
-                    }
-                }
-            }
+            $menu_title = $layout_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
@@ -169,6 +157,9 @@
 
         /**
          * @brief xml 파일을 갱신
+         * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
+         * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
+         * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
          **/
         function procMakeXmlFile() {
             // 입력값을 체크 
@@ -179,14 +170,7 @@
             // 해당 메뉴의 정보를 구함
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfoXml($layout);
-            $navigations = $layout_info->navigations;
-            if(count($navigations)) {
-                foreach($navigations as $key => $val) {
-                    if($menu_id == $val->id) {
-                        $menu_title = $val->name;
-                    }
-                }
-            }
+            $menu_title = $layout_info->menu->{$menu_id}->name;
 
             // xml파일 재생성 
             $xml_file = $this->makeXmlFile($layout_srl, $menu_id);
@@ -201,6 +185,7 @@
          * @brief 메뉴의 xml 파일을 만들고 위치를 return
          **/
         function makeXmlFile($layout_srl, $menu_id) {
+            // xml파일 생성시 필요한 정보가 없으면 그냥 return
             if(!$layout_srl || !$menu_id) return;
 
             // DB에서 layout_srl에 해당하는 메뉴 목록을 listorder순으로 구해옴 
@@ -213,13 +198,15 @@
             // xml 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $menu_id);
 
-            // 구해온 데이터가 없다면 걍 return
+            // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
             $list = $output->data;
             if(!$list) {
                 $xml_buff = "<root />";
                 FileHandler::writeFile($xml_file, $xml_buff);
                 return $xml_file;
             }
+
+            // 구해온 데이터가 하나라면 array로 바꾸어줌
             if(!is_array($list)) $list = array($list);
 
             // 루프를 돌면서 tree 구성
@@ -232,13 +219,17 @@
                 $tree[$parent_srl][$menu_srl] = $node;
             }
             
+            // 파일 생성
             $xml_buff = "<root>".$this->getXmlTree($tree[0], $tree)."</root>";
             FileHandler::writeFile($xml_file, $xml_buff);
+
             return $xml_file;
         }
 
         /**
          * @brief array로 정렬된 노드들을 parent_srl을 참조하면서 recursive하게 돌면서 xml 데이터 생성
+         * 메뉴 xml파일은 node라는 tag가 중첩으로 사용되며 이 xml doc으로 관리자 페이지에서 메뉴를 구성해줌\n
+         * (tree_menu.js 에서 xml파일을 바로 읽고 tree menu를 구현)
          **/
         function getXmlTree($source_node, $tree) {
             if(!$source_node) return;

@@ -90,7 +90,7 @@
          **/
         function dispLayoutList() {
             $oLayoutView = &getView('layout');
-            $oLayoutView->dispLayoutList();
+            $oLayoutView->dispDownloadedLayoutList();
 
             $this->setTemplatePath($oLayoutView->getTemplatePath());
             $this->setTemplateFile($oLayoutView->getTemplateFile());

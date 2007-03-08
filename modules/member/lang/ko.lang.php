@@ -33,22 +33,6 @@
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
 
-    $lang->column_type = '형식';
-    $lang->column_type_list['text'] = '한줄 입력칸 (text)';
-    $lang->column_type_list['homepage'] = '홈페이지 형식 (url)';
-    $lang->column_type_list['email_address'] = '이메일 형식 (email)';
-    $lang->column_type_list['tel'] = '전화번호 형식 (phone)';
-    $lang->column_type_list['textarea'] = '여러줄 입력칸 (textarea)';
-    $lang->column_type_list['checkbox'] = '다중 선택 (checkbox)';
-    $lang->column_type_list['select'] = '단일 선택 (select)';
-    $lang->column_type_list['kr_zip'] = '한국주소 (zip)';
-    //$lang->column_type_list['jp_zip'] = '일본주소 (zip)';
-    $lang->column_name = '입력항목 이름';
-    $lang->column_title = '입력항목 제목';
-    $lang->default_value = '기본 값';
-    $lang->is_active = '활성';
-    $lang->is_required = '필수항목';
-
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
     $lang->msg_group_is_null = '등록된 그룹이 없습니다';

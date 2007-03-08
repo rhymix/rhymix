@@ -79,6 +79,7 @@
     $lang->target = "대상";
     $lang->total_count = "전체개수";
     $lang->ipaddress = "IP 주소";
+    $lang->path = "경로";
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
@@ -152,4 +153,20 @@
     $lang->confirm_logout = '로그아웃하시겠습니까?';
     $lang->confirm_vote = '추천하시겠습니까?';
     $lang->confirm_delete = '삭제하시겠습니까?';
+
+    $lang->column_type = '형식';
+    $lang->column_type_list['text'] = '한줄 입력칸 (text)';
+    $lang->column_type_list['homepage'] = '홈페이지 형식 (url)';
+    $lang->column_type_list['email_address'] = '이메일 형식 (email)';
+    $lang->column_type_list['tel'] = '전화번호 형식 (phone)';
+    $lang->column_type_list['textarea'] = '여러줄 입력칸 (textarea)';
+    $lang->column_type_list['checkbox'] = '다중 선택 (checkbox)';
+    $lang->column_type_list['select'] = '단일 선택 (select)';
+    $lang->column_type_list['kr_zip'] = '한국주소 (zip)';
+    //$lang->column_type_list['jp_zip'] = '일본주소 (zip)';
+    $lang->column_name = '입력항목 이름';
+    $lang->column_title = '입력항목 제목';
+    $lang->default_value = '기본 값';
+    $lang->is_active = '활성';
+    $lang->is_required = '필수항목';
 ?>

@@ -11,7 +11,7 @@
     <td>{$lang->author}</td>
     <td>{$lang->menu_count}</td>
     <td>{$lang->date}</td>
-    <td>{$lang->date}</td>
+    <td>{$lang->path}</td>
     <td>{$lang->cmd_make}</td>
   </tr>
   <!--@foreach($layout_list as $key => $val)-->
@@ -22,7 +22,7 @@
     </td>
     <td>{$val->version}</td>
     <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-    <td>{count($val->navigations)}</td>
+    <td>{$val->menu_count}</td>
     <td>{$val->author->date}</td>
     <td>{$val->path}</td>
     <td><a href="{getUrl('mo','layout','act','dispInsertLayout','layout',$val->layout)}">{$lang->cmd_make}</a></td>

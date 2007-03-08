@@ -11,16 +11,39 @@
     </description>
     <description xml:lang="en">sample layout</description>
   </author>
-  <navigations>
-    <navigation id="main_menu">
+  <extra_vars>
+    <var id="title">
+      <name xml:lang="ko">상단 제목</name>
+      <name xml:lang="en">top title</name>
+      <type>text</type>
+    </var>
+    <var id="memo">
+      <name xml:lang="ko">간단한 내용</name>
+      <name xml:lang="en">memo</name>
+      <type>textarea</type>
+    </var>
+    <var id="colorset">
+      <name xml:lang="ko">컬러셋</name>
+      <name xml:lang="en">colorset</name>
+      <type>select</type>
+      <list>
+        <value>red</value>
+        <value>blue</value>
+        <value>green</value>
+        <value>rightred</value>
+      </list>
+    </var>
+  </extra_vars>
+  <menus>
+    <menu id="main_menu">
         <name xml:lang="ko">주메뉴</name>
         <name xml:lang="en">main menu</name>
         <maxdepth>2</maxdepth>
-    </navigation>
-    <navigation id="bottom_menu">
+    </menu>
+    <menu id="bottom_menu">
         <name xml:lang="ko">하단 메뉴 </name>
         <name xml:lang="en">bottom menu</name>
         <maxdepth>1</maxdepth>
-    </navigation>
-  </navigations>
+    </menu>
+  </menus>
 </layout>
