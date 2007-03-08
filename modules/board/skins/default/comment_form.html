@@ -1,5 +1,8 @@
 <!--%import("filter/insert_comment.xml")-->
-<!--#include("header.html")-->
+
+<!--@if($source_comment)-->
+  <!--#include("footer.html")-->
+<!--@end-->
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($source_comment)-->
@@ -68,3 +71,7 @@
   </tr>
   </table>
 </form>
+
+<!--@if($source_comment)-->
+  <!--#include("footer.html")-->
+<!--@end-->

@@ -57,6 +57,8 @@
 
                 // 템플릿에서 사용할 변수를 Context::set()
                 if($this->module_srl) Context::set('module_srl',$this->module_srl);
+
+                Context::set('module_info',$this->module_info);
             }
 
             // 기본 모듈 정보들 설정
