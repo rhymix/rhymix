@@ -1,9 +1,11 @@
 <!--#include("./common/tpl/common_header.html")-->
 
 <script type="text/javascript">
-  xAddEventListener(window,'load', function() { loadTreeMenu("{$layout_info->menu->main_menu->xml_file}", "main_menu", "menu", "menu"); });
+  xAddEventListener(window,'load', function() { loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "menu"); });
 </script>
-
+<div style="height:50px;border:1px solid;margin-bottom:10px;">
+  {$layout_info->top_title}
+</div>
 <div>
   <div id="menu" style="position:absolute;"></div>
   <div id="content" style="margin-left:150px;">{$content}</div>
