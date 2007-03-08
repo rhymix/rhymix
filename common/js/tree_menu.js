@@ -70,9 +70,6 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
 
-    // 노드 추가를 위한 빈 div하나 입력해 넣음
-    xInnerHtml(zone, "");
-
     // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
     var oXml = new xml_handler();
     oXml.reset();
@@ -94,15 +91,17 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
 }
 
 // 트리메뉴 XML정보를 이용해서 정해진 zone에 출력
+var manual_select_node_srl = 0;
 function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
     // 그리기 위한 object를 찾아 놓음
     var menu_id = param.menu_id;
     var zone_id = param.zone_id;
     var title = param.title;
-    var manual_select_node_srl = param.manual_select_node_srl;
+    if(param.manual_select_node_srl) manual_select_node_srl = param.manual_select_node_srl;
     var zone = xGetElementById(zone_id);
     var html = "";
-    html = '<div style="height:20px;"><img src="./common/tpl/images/folder.gif" alt="root" align="top" />'+title+'</div>';
+
+    if(title) html = '<div style="height:20px;"><img src="./common/tpl/images/folder.gif" alt="root" align="top" />'+title+'</div>';
 
     tree_menu_folder_list[menu_id] = new Array();
 
@@ -129,6 +128,13 @@ function drawNode(parent_node, menu_id) {
     for (var i=0; i< parent_node.childNodes.length; i++) {
         var node = parent_node.childNodes.item(i);
         if(node.nodeName!="node") continue;
+
+        var node_srl = node.getAttribute("node_srl");
+        var text = node.getAttribute("text");
+        var url = node.getAttribute("url");
+
+        // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가
+        if(!manual_select_node_srl && node_callback_func[menu_id] == moveTreeMenu && url && location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
 
         // 자식 노드가 있는지 확인
         var hasChild = false;
@@ -160,9 +166,6 @@ function drawNode(parent_node, menu_id) {
                 folder_icon = "page";
             }
         }
-
-        var node_srl = node.getAttribute("node_srl");
-        var text = node.getAttribute("text");
 
         node_info_list[node_srl] = node;
 
@@ -209,7 +212,7 @@ function drawNode(parent_node, menu_id) {
 // 수동으로 메뉴를 선택하도록 함
 function manualSelectNode(menu_id, node_srl) {
     var zone_id = "menu_"+menu_id+"_"+node_srl;
-    selectNode(menu_id,node_srl,zone_id);
+    selectNode(menu_id,node_srl,zone_id,false);
 
     var zone = xGetElementById(zone_id);
     try {
@@ -254,7 +257,7 @@ function toggleFolder(zone_id) {
 
 // 노드의 글자 선택시
 var prev_selected_node = null;
-function selectNode(menu_id, node_srl, zone_id) {
+function selectNode(menu_id, node_srl, zone_id, move_url) {
     // 이전에 선택된 노드가 있었다면 원래데로 돌림
     if(prev_selected_node) {
         prev_selected_node.style.backgroundColor = "#ffffff";
@@ -273,8 +276,10 @@ function selectNode(menu_id, node_srl, zone_id) {
     prev_selected_node = node_zone;
 
     // 함수 실행
-    var func = node_callback_func[menu_id];
-    func(menu_id, node_info_list[node_srl]);
+    if(typeof(move_url)=="undefined"||move_url==true) {
+        var func = node_callback_func[menu_id];
+        func(menu_id, node_info_list[node_srl]);
+    }
 }
 
 // 선택된 노드의 표시를 없앰
