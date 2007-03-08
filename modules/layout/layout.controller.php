@@ -296,6 +296,8 @@
 
                 if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getPhpCacheCode($tree[$menu_srl], $tree);
 
+                if($node->url && !strpos($node->url, '://')) $node->url = "./?".$node->url;
+
                 $attribute = sprintf(
                         '"node_srl"=>"%s","text"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),%s',
                         $node->menu_srl, 
