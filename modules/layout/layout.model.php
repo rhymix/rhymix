@@ -166,6 +166,7 @@
                 $buff .= sprintf('$layout_info->menu->{%s}->name = "%s";',$id, $menus[$i]->name->body);
                 $buff .= sprintf('$layout_info->menu->{%s}->maxdepth = "%s";',$id, $menus[$i]->maxdepth->body);
                 $buff .= sprintf('$layout_info->menu->{%s}->xml_file = "./files/cache/layout/".$layout_srl."_%s.xml";',$id, $id);
+                $buff .= sprintf('$layout_info->menu->{%s}->php_file = "./files/cache/layout/".$layout_srl."_%s.php";',$id, $id);
             }
 
             $buff = '<?php if(!__ZB5__) exit(); '.$buff.' ?>';

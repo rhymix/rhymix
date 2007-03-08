@@ -178,13 +178,14 @@
                 
                 // 레이아웃 정보중 menu를 Context::set
                 if($layout_info->menu_count) {
-                    foreach($layout_info->menu as $menu_id => $menu) Context::set($menu_id, $menu);
-                    unset($layout_info->menu);
+                    foreach($layout_info->menu as $menu_id => $menu) {
+                        if(file_exists($menu->php_file)) include($menu->php_file);
+                        Context::set($menu_id, $menu);
+                    }
                 }
 
                 // 레이아웃 정보를 Context::set
                 Context::set('layout_info', $layout_info);
-                debugPrint($layout_info);
 
                 $oModule->setLayoutPath($layout_info->path);
                 $oModule->setLayoutFile('layout');

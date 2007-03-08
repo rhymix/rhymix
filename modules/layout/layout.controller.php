@@ -246,8 +246,7 @@
 
             // 파일 생성
             $xml_buff = sprintf('<root>%s</root>', $this->getXmlTree($tree[0], $tree));
-            $php_buff = sprintf('<?php if(!__ZB5__) exit(); $%s = array(%s); ?>', $menu_id, $this->getPhpCacheCode($tree[0], $tree));
-                debugPrint($php_buff);
+            $php_buff = sprintf('<?php if(!__ZB5__) exit(); $menu->list = array(%s); ?>', $this->getPhpCacheCode($tree[0], $tree));
             FileHandler::writeFile($xml_file, $xml_buff);
             FileHandler::writeFile($php_file, $php_buff);
 

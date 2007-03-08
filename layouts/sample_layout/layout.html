@@ -7,7 +7,15 @@
 </div>
 <div>
   <div id="menu" style="position:absolute;"></div>
-  <div id="content" style="margin-left:150px;">{$content}</div>
+  <div id="content" style="margin-left:150px;">
+    {$content}
+    <div style="margin-top:20px;">
+      <!--@foreach($bottom_menu->list as $key => $val)-->
+        <a href="#" onclick="location.href='{$val['url']}';return false;">{$val['text']}</a>
+      <!--@end-->
+    </div>
+  </div>
 </div>
+
 
 <!--#include("./common/tpl/common_footer.html")-->
