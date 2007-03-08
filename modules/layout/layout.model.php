@@ -121,13 +121,35 @@
             $buff .= sprintf('$layout_info->author->description = "%s";', $xml_obj->author->description->body);
 
             // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
+            if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
+            else $extra_vars = $xml_obj->extra_vars->var;
+            $extra_var_count = count($extra_vars);
+            $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+            for($i=0;$i<$extra_var_count;$i++) {
+                unset($var);
+                $var = $extra_vars[$i];
+
+                $buff .= sprintf('$layout_info->extra_var->{%s}->name = "%s";', $var->attrs->id, $var->name->body);
+                $buff .= sprintf('$layout_info->extra_var->{%s}->type = "%s";', $var->attrs->id, $var->type->body);
+                $buff .= sprintf('$layout_info->extra_var->{%s}->type = "%s";', $var->attrs->id, $var->type->body);
+
+                $options = $var->options->value;
+                if(!$options) continue;
+                if(!is_array($options)) $options = array($options);
+                $options_count = count($options);
+                for($i=0;$i<$options_count;$i++) {
+                    $buff .= sprintf('$layout_info->extra_var->{%s}->options[] = "%s";', $var->attrs->id, $options[$i]->body);
+
+                }
+            }
+
 
             // 메뉴
             if(!is_array($xml_obj->menus->menu)) $menus[] = $xml_obj->menus->menu;
             else $menus = $xml_obj->menus->menu;
 
             $menu_count = count($menus);
-            $buff .= sprintf('$layout_info->menu_count = "%s";', count($menus));
+            $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);
             for($i=0;$i<$menu_count;$i++) {
                 $id = $menus[$i]->attrs->id;
 

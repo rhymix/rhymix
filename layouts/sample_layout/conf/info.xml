@@ -26,12 +26,12 @@
       <name xml:lang="ko">컬러셋</name>
       <name xml:lang="en">colorset</name>
       <type>select</type>
-      <list>
+      <options>
         <value>red</value>
         <value>blue</value>
         <value>green</value>
         <value>rightred</value>
-      </list>
+      </options>
     </var>
   </extra_vars>
   <menus>
