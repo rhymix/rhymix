@@ -29,8 +29,10 @@ var rate = 20;  // Increase amount(The degree of the transmutation)
 ////////////////////////////////////////////////////////////////////
 // Main routine
 
+/*
 if (document.getElementById)
 window.onerror=new Function("return true")
+*/
 
 var objActive;  // The object which event occured in
 var act = 0;    // Flag during the action
