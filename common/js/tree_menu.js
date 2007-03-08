@@ -134,7 +134,7 @@ function drawNode(parent_node, menu_id) {
         var url = node.getAttribute("url");
 
         // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가
-        if(!manual_select_node_srl && node_callback_func[menu_id] == moveTreeMenu && url && location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
+        if(node_callback_func[menu_id] == moveTreeMenu && url && location.href.indexOf(url) != -1) manual_select_node_srl = node_srl;
 
         // 자식 노드가 있는지 확인
         var hasChild = false;
