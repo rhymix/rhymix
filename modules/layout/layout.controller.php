@@ -93,6 +93,36 @@
         }
 
         /**
+         * @brief 레이아웃 삭제
+         **/
+        function procDeleteLayout() {
+            $layout_srl = Context::get('layout_srl');
+
+            // 캐시 파일 삭제 
+            $cache_list = FileHandler::readDir("./files/cache/layout","",false,true);
+            if(count($cache_list)) {
+                foreach($cache_list as $cache_file) {
+                    $pos = strpos($cache_file, $layout_srl.'_');
+                    if($pos>0) unlink($cache_file);
+                }
+            }
+
+            // DB에서 삭제
+            $oDB = &DB::getInstance();
+
+            // 레이아웃 메뉴 삭제
+            $args->layout_srl = $layout_srl;
+            $output = $oDB->executeQuery("layout.deleteLayoutMenus", $args);
+            if(!$output->toBool()) return $output;
+
+            // 레이아웃 삭제
+            $output = $oDB->executeQuery("layout.deleteLayout", $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
          * @brief 레이아웃 메뉴 삭제 
          **/
         function procDeleteLayoutMenu() {

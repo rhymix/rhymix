@@ -82,3 +82,12 @@ function completeGetMenuInfo(ret_obj, response_tags) {
     xInnerHtml("menu_zone_info_"+menu_id, "");
     xInnerHtml("menu_zone_info_"+menu_id, tpl);
 }
+
+/* 레이아웃 삭제 */
+function doDeleteLayout(layout_srl) {
+    var fo_obj = xGetElementById("fo_layout");
+    if(!fo_obj) return;
+    fo_obj.layout_srl.value = layout_srl;
+
+    procFilter(fo_obj, delete_layout);
+}
