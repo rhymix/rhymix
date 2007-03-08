@@ -1,4 +1,5 @@
 <!--%import("js/admin.js")-->
+<!--%import("filter/update_layout_info.xml")-->
 <!--%import("filter/insert_layout_menu.xml")-->
 <!--%import("filter/delete_layout_menu.xml")-->
 
@@ -26,7 +27,7 @@
 </div>
 
 <div style="margin-bottom:10px;">
-  <form id="fo_layout" action="./" method="post" enctype="multipart/form-data">
+  <form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
   <input type="hidden" name="layout_srl" value="{$layout_srl}" />
   <input type="hidden" name="layout" value="{$layout_info->layout}" />
 
@@ -41,19 +42,24 @@
   <tr>
     <th>{$var->name}</th>
     <!--@if($var->type == "text")-->
-    <td><input type="text" name="{$id}" value="" /></td>
+    <td><input type="text" name="{$id}" value="{$var->value}" /></td>
     <!--@elseif($var->type == "textarea")-->
-    <td><textarea name="{$id}"></textarea></td>
+    <td><textarea name="{$id}">{$var->value}</textarea></td>
     <!--@elseif($var->type == "select")-->
     <td>
       <select name="{$id}">
         <!--@foreach($var->options as $key => $val)-->
-        <option value="{$val}">{$val}</option>
+        <option value="{$val}" <!--@if($val==$var->value)-->selected="true"<!--@end-->>{$val}</option>
         <!--@end-->
       </select>
     <!--@end-->
   </tr>
   <!--@end-->
+  <tr>
+    <td colspan="2">
+      <input type="submit" value="{$lang->cmd_save}" />
+    </td>
+  </tr>
   </table>
 
   </form>

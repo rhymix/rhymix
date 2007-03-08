@@ -31,6 +31,30 @@
         }
 
         /**
+         * @brief 레이아웃 정보 변경
+         * 생성된 레이아웃의 제목과 확장변수(extra_vars)를 적용한다
+         **/
+        function procUpdateLayout() {
+            // module, act, layout_srl, layout, title을 제외하면 확장변수로 판단.. 좀 구리다..
+            $extra_vars = Context::getRequestVars();
+            unset($extra_vars->module);
+            unset($extra_vars->act);
+            unset($extra_vars->layout_srl);
+            unset($extra_vars->layout);
+            unset($extra_vars->title);
+
+            // DB에 입력하기 위한 변수 설정 
+            $args = Context::gets('layout_srl','title');
+            $args->extra_vars = serialize($extra_vars);
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('layout.updateLayout', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
          * @brief 레이아웃 삭제
          * 삭제시 메뉴 xml 캐시 파일도 삭제
          **/
@@ -105,7 +129,7 @@
             }
 
             // 해당 메뉴의 정보를 구함
-            $layout_info = $oLayoutModel->getLayoutInfoXml($layout);
+            $layout_info = $oLayoutModel->getLayoutInfo($layout);
             $menu_title = $layout_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
@@ -143,7 +167,7 @@
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
-            $layout_info = $oLayoutModel->getLayoutInfoXml($args->layout);
+            $layout_info = $oLayoutModel->getLayoutInfo($args->layout);
             $menu_title = $layout_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
@@ -169,7 +193,7 @@
 
             // 해당 메뉴의 정보를 구함
             $oLayoutModel = &getModel('layout');
-            $layout_info = $oLayoutModel->getLayoutInfoXml($layout);
+            $layout_info = $oLayoutModel->getLayoutInfo($layout);
             $menu_title = $layout_info->menu->{$menu_id}->name;
 
             // xml파일 재생성 

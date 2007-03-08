@@ -12,7 +12,7 @@
     <description xml:lang="en">sample layout</description>
   </author>
   <extra_vars>
-    <var id="title">
+    <var id="top_title">
       <name xml:lang="ko">상단 제목</name>
       <name xml:lang="en">top title</name>
       <type>text</type>

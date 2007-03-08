@@ -29,15 +29,22 @@
 
         /**
          * @brief DB 에 생성된 한개의 레이아웃 정보를 구함
-         * 생성된 레이아웃의 DB정보를 return
+         * 생성된 레이아웃의 DB정보+XML정보를 return
          **/
         function getLayout($layout_srl) {
+            // 일단 DB에서 정보를 가져옴
             $oDB = &DB::getInstance();
             $args->layout_srl = $layout_srl;
             $output = $oDB->executeQuery('layout.getLayout', $args);
             if(!$output->data) return;
+            
+            // layout, extra_vars를 정리한 후 xml 파일 정보를 불러옴 (불러올때 결합)
+            $info = $output->data;
+            $layout_title = $info->title;
+            $layout = $info->layout;
+            $vars = unserialize($info->extra_vars);
 
-            return $output->data;
+            return $this->getLayoutInfo($layout, $layout_srl, $layout_title, $vars);
         }
 
         /**
@@ -72,7 +79,7 @@
                 $layout = $searched_list[$i];
 
                 // 해당 레이아웃의 정보를 구함
-                $layout_info = $this->getLayoutInfoXml($layout);
+                $layout_info = $this->getLayoutInfo($layout);
 
                 $list[] = $layout_info;
             }
@@ -83,7 +90,7 @@
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다.. 
          **/
-        function getLayoutInfoXml($layout, $layout_srl = 0) {
+        function getLayoutInfo($layout, $layout_srl = 0, $layout_title = "", $vars = null) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
             $layout_path = $this->getLayoutPath($layout);
             if(!$layout_path) return;
@@ -112,6 +119,8 @@
             $buff .= sprintf('$layout_info->path = "%s";', $layout_path);
             $buff .= sprintf('$layout_info->title = "%s";', $xml_obj->title->body);
             $buff .= sprintf('$layout_info->version = "%s";', $xml_obj->attrs->version);
+            $buff .= sprintf('$layout_info->layout_srl = $layout_srl;');
+            $buff .= sprintf('$layout_info->layout_title = $layout_title;');
 
             // 작성자 정보
             $buff .= sprintf('$layout_info->author->name = "%s";', $xml_obj->author->name->body);
@@ -129,15 +138,16 @@
                 unset($var);
                 $var = $extra_vars[$i];
 
-                $buff .= sprintf('$layout_info->extra_var->{%s}->name = "%s";', $var->attrs->id, $var->name->body);
-                $buff .= sprintf('$layout_info->extra_var->{%s}->type = "%s";', $var->attrs->id, $var->type->body);
+                $buff .= sprintf('$layout_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
+                $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
+                $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
 
                 $options = $var->options->value;
                 if(!$options) continue;
                 if(!is_array($options)) $options = array($options);
                 $options_count = count($options);
                 for($i=0;$i<$options_count;$i++) {
-                    $buff .= sprintf('$layout_info->extra_var->{%s}->options[] = "%s";', $var->attrs->id, $options[$i]->body);
+                    $buff .= sprintf('$layout_info->extra_var->%s->options[] = "%s";', $var->attrs->id, $options[$i]->body);
 
                 }
             }

@@ -8,6 +8,7 @@
         <action name="getLayoutMenuSrl" type="model" standalone="true" />
         <action name="getMenuTplInfo" type="model" standalone="true" />
         <action name="procInsertLayout" type="controller" standalone="true" />
+        <action name="procUpdateLayout" type="controller" standalone="true" />
         <action name="procDeleteLayout" type="controller" standalone="true" />
         <action name="procInsertLayoutMenu" type="controller" standalone="true" />
         <action name="procDeleteLayoutMenu" type="controller" standalone="true" />

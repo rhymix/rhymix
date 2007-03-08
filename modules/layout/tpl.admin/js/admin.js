@@ -19,6 +19,15 @@ function completeInsertLayoutMenu(ret_obj) {
     }
 } 
 
+/* 레이아웃 삭제 */
+function doDeleteLayout(layout_srl) {
+    var fo_obj = xGetElementById("fo_layout");
+    if(!fo_obj) return;
+    fo_obj.layout_srl.value = layout_srl;
+
+    procFilter(fo_obj, delete_layout);
+}
+
 /* 레이아웃 메뉴 삭제 */
 function doDeleteLayoutMenu(menu_srl, menu_id) {
       var fo_obj = xGetElementById("fo_"+menu_id);
@@ -52,6 +61,25 @@ function doGetMenuInfo(menu_id, obj) {
     exec_xml('layout', 'getMenuTplInfo', params, completeGetMenuInfo, response_tags, params);
 }
 
+/* 서버로부터 받아온 메뉴 정보를 출력 */
+function completeGetMenuInfo(ret_obj, response_tags) {
+    var menu_id = ret_obj['menu_id'];
+    var tpl = ret_obj['tpl'];
+    xInnerHtml("menu_zone_info_"+menu_id, "");
+    xInnerHtml("menu_zone_info_"+menu_id, tpl);
+
+    var fo_obj = xGetElementById("fo_"+menu_id);
+    fo_obj.menu_name.focus();
+}
+
+/* 빈 메뉴 추가시 사용 */
+function doInsertLayoutMenu(menu_id, parent_srl) {
+    if(typeof(parent_srl)=='undefined') parent_srl = 0;
+    var params = {node_srl:0, parent_srl:parent_srl}
+    doGetMenuInfo(menu_id, params);
+    deSelectNode();
+}
+
 /* 메뉴 목록 갱신 */
 function doReloadTreeMenu(menu_id) {
     var fo_obj = xGetElementById("fo_"+menu_id);
@@ -65,29 +93,4 @@ function doReloadTreeMenu(menu_id) {
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message','menu_id', 'xml_file', 'menu_title');
     exec_xml('layout', 'procMakeXmlFile', params, completeInsertLayoutMenu, response_tags, params);
-}
-
-/* 빈 메뉴 추가시 사용 */
-function doInsertLayoutMenu(menu_id, parent_srl) {
-    if(typeof(parent_srl)=='undefined') parent_srl = 0;
-    var params = {node_srl:0, parent_srl:parent_srl}
-    doGetMenuInfo(menu_id, params);
-    deSelectNode();
-}
-
-/* 서버로부터 받아온 메뉴 정보를 출력 */
-function completeGetMenuInfo(ret_obj, response_tags) {
-    var menu_id = ret_obj['menu_id'];
-    var tpl = ret_obj['tpl'];
-    xInnerHtml("menu_zone_info_"+menu_id, "");
-    xInnerHtml("menu_zone_info_"+menu_id, tpl);
-}
-
-/* 레이아웃 삭제 */
-function doDeleteLayout(layout_srl) {
-    var fo_obj = xGetElementById("fo_layout");
-    if(!fo_obj) return;
-    fo_obj.layout_srl.value = layout_srl;
-
-    procFilter(fo_obj, delete_layout);
 }
