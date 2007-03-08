@@ -2,6 +2,16 @@
 
 <table>
 <tr>
+  <th>{$lang->layout}</th>
+  <td>
+    <!--@if($module_info->layout_srl)-->
+      {$module_info->layout_title} ({$module_info->layout})
+    <!--@else-->
+      {$lang->not_exists}
+    <!--@end-->
+  </td>
+</tr>
+<tr>
   <th>{$lang->skin}</th>
   <td>{$module_info->skin}</td>
 </tr>

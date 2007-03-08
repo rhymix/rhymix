@@ -70,7 +70,6 @@
     $lang->description = '설명';
     $lang->trackback = '엮인글';
     $lang->tag = '태그';
-    $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
     $lang->allow_comment = '댓글허용';
     $lang->lock_comment = '댓글잠금';
     $lang->allow_trackback = '엮인글허용';
@@ -80,6 +79,7 @@
     $lang->total_count = "전체개수";
     $lang->ipaddress = "IP 주소";
     $lang->path = "경로";
+    $lang->layout = "레이아웃";
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
@@ -103,6 +103,7 @@
 
     $lang->use = "사용";
     $lang->notuse = "미사용";
+    $lang->not_exists = "없음";
 
     $lang->unit_sec = "초";
     $lang->unit_min = "분";
@@ -111,6 +112,10 @@
     $lang->unit_week = "주";
     $lang->unit_month = "월";
     $lang->unit_year = "년";
+
+    // 설명 관련 
+    $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
+    $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다';
 
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s의 값을 입력해주세요';
