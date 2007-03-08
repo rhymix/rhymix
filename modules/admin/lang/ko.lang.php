@@ -5,10 +5,10 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-    $lang->item_module = "모듈";
-    $lang->item_addon  = "애드온";
-    $lang->item_plugin = "플러그인";
-    $lang->item_layout = "레이아웃";
+    $lang->item_module = "모듈 목록";
+    $lang->item_addon  = "애드온 목록";
+    $lang->item_plugin = "플러그인 목록";
+    $lang->item_layout = "레이아웃 목록";
 
     $lang->module_name = "모듈 이름";
     $lang->addon_name = "애드온 이름";
