@@ -12,6 +12,11 @@
 </div>
 
 <div id="admin_main_menu">
+  <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
+  <span <!--@if($mo=='board')-->class="selected"<!--@end-->>
+    <a href="#" onclick="location.href='{getUrl('act','dispAdminContent','mo','board','module_srl','')}'">{$lang->board}</a>
+  </span>
+
   <!--@foreach($menu_item as $key => $val)-->
   <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
     <a href="#" onclick="location.href='{getUrl('act',$val->act,'mo','','module_srl','')}'">{$val->title}</a>

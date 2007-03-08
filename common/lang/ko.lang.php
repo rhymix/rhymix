@@ -101,6 +101,9 @@
     $lang->search_keyword = '검색어';
     $lang->is_default = "기본";
 
+    $lang->board = '게시판';
+    $lang->blog = '블로그';
+
     $lang->use = "사용";
     $lang->notuse = "미사용";
     $lang->not_exists = "없음";
