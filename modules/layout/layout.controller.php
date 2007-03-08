@@ -219,8 +219,9 @@
             $output = $oDB->executeQuery("layout.getLayoutMenuList", $args);
             if(!$output->toBool()) return;
 
-            // xml 파일의 이름을 지정
+            // 캐시 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $menu_id);
+            $php_file = sprintf("./files/cache/layout/%s_%s.php", $layout_srl, $menu_id);
 
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
             $list = $output->data;
@@ -243,10 +244,12 @@
                 $tree[$parent_srl][$menu_srl] = $node;
             }
 
-            
             // 파일 생성
-            $xml_buff = "<root>".$this->getXmlTree($tree[0], $tree)."</root>";
+            $xml_buff = sprintf('<root>%s</root>', $this->getXmlTree($tree[0], $tree));
+            $php_buff = sprintf('<?php if(!__ZB5__) exit(); $%s = array(%s); ?>', $menu_id, $this->getPhpCacheCode($tree[0], $tree));
+                debugPrint($php_buff);
             FileHandler::writeFile($xml_file, $xml_buff);
+            FileHandler::writeFile($php_file, $php_buff);
 
             return $xml_file;
         }
@@ -277,6 +280,37 @@
                 
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
                 else $buff .=  sprintf('<node %s />', $attribute);
+            }
+            return $buff;
+        }
+
+        /**
+         * @brief array로 정렬된 노드들을 php code로 변경하여 return
+         * 레이아웃에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
+         * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
+         * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
+         **/
+        function getPhpCacheCode($source_node, $tree) {
+            if(!$source_node) return;
+            foreach($source_node as $menu_srl => $node) {
+                $child_buff = "";
+
+                if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getPhpCacheCode($tree[$menu_srl], $tree);
+
+                $attribute = sprintf(
+                        '"node_srl"=>"%s","text"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),%s',
+                        $node->menu_srl, 
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
+                        $node->open_window,
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
+                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),
+                        $node->group_srls,
+                        $child_buff
+                );
+                
+                $buff .=  sprintf('%s=>array(%s),'."\n", $node->menu_srl, $attribute);
             }
             return $buff;
         }
