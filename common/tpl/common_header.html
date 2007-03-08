@@ -16,13 +16,7 @@
 <link rel="stylesheet" HREF="{$css_file}" type="text/css" />
 <!--@end-->
 <script type="text/javascript">
-    <!--@if($mid)-->
-    var zbfe_url = "mid={$mid}";
-    <!--@elseif($module)-->
-    var zbfe_url = "module={$module}";
-    <!--@else-->
-    var zbfe_url = "";
-    <!--@end-->
+    var zbfe_url = "{$zbfe_url}";
 </script>
 {Context::getHtmlHeader()}
 </head>

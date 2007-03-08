@@ -87,12 +87,15 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     var param = {menu_id:menu_id, zone_id:zone_id, title:title, manual_select_node_srl:manual_select_node_srl}
 
     // 요청후 drawTreeMenu()함수를 호출
-    oXml.request(drawTreeMenu, oXml, null, null, param);
+    oXml.request(drawTreeMenu, oXml, null, null, null, param);
 }
 
 // 트리메뉴 XML정보를 이용해서 정해진 zone에 출력
 var manual_select_node_srl = 0;
-function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
+function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
+    var xmlDoc = oXml.getResponseXml();
+    if(!xmlDoc) return null;
+
     // 그리기 위한 object를 찾아 놓음
     var menu_id = param.menu_id;
     var zone_id = param.zone_id;
@@ -105,16 +108,11 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, param) {
 
     tree_menu_folder_list[menu_id] = new Array();
 
-    // xml 정보가 들어올때까지 대기 (async)
-    var xmlDoc = oXml.getResponseXml();
-    if(xmlDoc) {
-
-        // node 태그에 해당하는 값들을 가져옴
-        var node_list = xmlDoc.getElementsByTagName("node");
-        if(node_list.length>0) {
-            var root = xmlDoc.getElementsByTagName("root")[0];
-            html += drawNode(root, menu_id);
-        }
+    // node 태그에 해당하는 값들을 가져옴
+    var node_list = xmlDoc.getElementsByTagName("node");
+    if(node_list.length>0) {
+        var root = xmlDoc.getElementsByTagName("root")[0];
+        html += drawNode(root, menu_id);
     }
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함

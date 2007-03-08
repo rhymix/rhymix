@@ -191,6 +191,12 @@
                 $oModule->setLayoutFile('layout');
             }
 
+            // 현재 페이지의 정보를 $zbfe_url이라는 변수로 등록 (common/tpl/common_header.tpl에서 javascript 변수로 설정함)
+            if($_REQUEST['mid']) $zbfe_url = sprintf('mid=%s',$_REQUEST['mid']);
+            elseif($_REQUEST['module']) $zbfe_url = sprintf('module=%s',$_REQUEST['module']);
+            else $zbfe_url = Context::getRequestUri();
+            Context::set('zbfe_url', $zbfe_url);
+
             // 컨텐츠 출력
             $oDisplayHandler = new DisplayHandler();
             $oDisplayHandler->printContent($oModule);
