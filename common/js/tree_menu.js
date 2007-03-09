@@ -219,7 +219,7 @@ function drawNode(parent_node, menu_id) {
                 '<img id="'+zone_id+'_line_icon" src="'+tree_menu_icon_path+line_icon+'.gif" alt="line" align="top" />'+
                 '<img id="'+zone_id+'_folder_icon" src="'+tree_menu_icon_path+folder_icon+'.gif" alt="folder" align="top" />'+
                 '</span>'+
-                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')">'+
+                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')" ondblclick="toggleFolder(\''+zone_id+'\');return false;">'+
                 text+
                 '</span>'+
                 '';
