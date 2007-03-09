@@ -41,6 +41,9 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
 
+    // 노드 정보들을 담을 변수 세팅
+    node_info_list[menu_id] = new Array();
+
     // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
     var oXml = new xml_handler();
     oXml.reset();
@@ -136,7 +139,7 @@ function drawNode(parent_node, menu_id) {
         if(i==parent_node.childNodes.length-1) hasNextSibling = true;
 
         // 후에 사용하기 위해 node_info_list에 node_srl을 값으로 하여 node object 추가
-        node_info_list[node_srl] = node;
+        node_info_list[menu_id][node_srl] = node;
 
         // zone_id 값을 세팅
         var zone_id = "menu_"+menu_id+"_"+node_srl;
@@ -221,9 +224,9 @@ function drawNode(parent_node, menu_id) {
                 '<img id="'+zone_id+'_line_icon" src="'+tree_menu_icon_path+line_icon+'.gif" alt="line" align="top" />'+
                 '<img id="'+zone_id+'_folder_icon" src="'+tree_menu_icon_path+folder_icon+'.gif" alt="folder" align="top" />'+
                 '</span>'+
-                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onmousedown="tree_drag_enable(this,tree_drag_start,tree_drag,tree_drag_end)" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')" ondblclick="toggleFolder(\''+zone_id+'\');return false;">'+
+                '<span><span id="'+zone_id+'_node" style="cursor:move;padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onmousedown="tree_drag_enable(this,tree_drag_start,tree_drag,tree_drag_end)" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')" ondblclick="toggleFolder(\''+zone_id+'\');return false;">'+
                 text+
-                '</span>'+
+                '</span></span>'+
                 '';
 
         html += child_html;
@@ -292,7 +295,7 @@ function selectNode(menu_id, node_srl, zone_id, move_url) {
     // 함수 실행
     if(typeof(move_url)=="undefined"||move_url==true) {
         var func = node_callback_func[menu_id];
-        func(menu_id, node_info_list[node_srl]);
+        func(menu_id, node_info_list[menu_id][node_srl]);
         toggleFolder(zone_id);
     }
 }
@@ -370,6 +373,7 @@ function moveTreeMenu(menu_id, node) {
 // 메뉴 드래그 중이라는 상황을 간직할 변수
 var tree_drag_manager = {obj:null, isDrag:false}
 var tree_tmp_object = new Array();
+var tree_disappear = 0;
 
 /**
  * 메뉴 드래깅을 위한 함수들
@@ -377,17 +381,22 @@ var tree_tmp_object = new Array();
 // 드래깅시 보여줄 임시 object를 생성하는 함수
 function tree_create_tmp_object(obj) {
     var tmp_obj = tree_tmp_object[obj.id];
-    if(tmp_obj) return;
+    if(tmp_obj) return tmp_obj;
 
     tmp_obj = xCreateElement('DIV');
     tmp_obj.id = obj.id + '_tmp';
     tmp_obj.style.display = 'none';
     tmp_obj.style.position = 'absolute';
-    tmp_obj.style.backgroundColor = '#FFFFFF';
-    tmp_obj.style.opacity = 0.9;
-    tmp_obj.style.filter = 'alpha(opacity=90)';
+    tmp_obj.style.backgroundColor = obj.style.backgroundColor;
+    tmp_obj.style.fontSize = obj.style.fontSize;
+    tmp_obj.style.fontFamlily = obj.style.fontFamlily;
+    tmp_obj.style.color = obj.style.color;
+    tmp_obj.style.opacity = 1;
+    tmp_obj.style.filter = 'alpha(opacity=100)';
+
     document.body.appendChild(tmp_obj);
     tree_tmp_object[obj.id] = tmp_obj;
+    return tmp_obj;
 }
 
 // 기생성된 임시 object를 찾아서 return, 없으면 만들어서 return
@@ -423,7 +432,9 @@ function tree_drag_start(tobj, px, py) {
     var obj = tree_get_tmp_object(tobj);
 
     xInnerHtml(obj, xInnerHtml(tobj));
-    xInnerHtml(tobj,'');
+
+    tobj.style.opacity = 0.4;
+    tobj.style.filter = 'alpha(opacity=40)';
 
     xLeft(obj, xPageX(tobj));
     xTop(obj, xPageY(tobj));
@@ -432,48 +443,80 @@ function tree_drag_start(tobj, px, py) {
 
     xDisplay(obj, 'block');
     xHeight(tobj, xHeight(obj));
-    tobj.style.borderStyle = 'dotted';
-    tobj.style.borderWidth = '1px';
-    tobj.style.borderColor = '#CF1111';
 }
 
 // 드래그 시작후 마우스를 이동할때 발생되는 이벤트에 의해 실행되는 함수
 function tree_drag(tobj, dx, dy) {
-  var obj = tree_get_tmp_object(tobj);
-  xLeft(obj, parseInt(xPageX(obj)) + parseInt(dx));
-  xTop(obj, parseInt(xPageY(obj)) + parseInt(dy));
+    var obj = tree_get_tmp_object(tobj);
+    xLeft(obj, parseInt(xPageX(obj)) + parseInt(dx));
+    xTop(obj, parseInt(xPageY(obj)) + parseInt(dy));
 
-  /*
-  for(var i in _zLayerMovObject) {
-      var obj = xGetElementById(_zLayerMovObject[i]);
-      var l =  xPageX(obj);
-      var t =  xPageY(obj);
-      var ll =  parseInt(l) + parseInt(xWidth(obj));
-      var tt =  parseInt(t) + parseInt((parseInt(xHeight(obj)) <= parseInt(xHeight(tobj))) ? parseInt(xHeight(obj)) : parseInt(xHeight(tobj)));
-    
-      if((tobj != obj ) && (tobj.xDPX >= l && tobj.xDPX <= ll) && (tobj.xDPY >= t && tobj.xDPY <= tt)) {
-        if(obj.nextSibling == tobj || obj.id.slice(0,4) == 'col_') {
-            obj.parentNode.insertBefore(tobj, obj);
-        } else {
-            obj.parentNode.insertBefore(tobj, obj.nextSibling);
+    var menu_id = tobj.id.replace(/menu_/,'');
+    menu_id = menu_id.replace(/_([0-9]+)$/,'');
+    if(!menu_id) return;
+
+    for(var node_srl in node_info_list[menu_id]) {
+        var zone_id = "menu_"+menu_id+"_"+node_srl;
+        var target_obj = xGetElementById(zone_id);
+
+        var hh = parseInt(xHeight(target_obj));
+        var h = parseInt(xHeight(target_obj)/2);
+
+        var l =  xPageX(target_obj);
+        var t =  xPageY(target_obj);
+        var ll =  parseInt(l) + parseInt(xWidth(target_obj));
+        //var tt =  parseInt(t) + parseInt((parseInt(xHeight(target_obj)) <= parseInt(xHeight(tobj))) ? parseInt(xHeight(target_obj)) : parseInt(xHeight(tobj)));
+        var tt =  parseInt(t) + hh;
+
+        if( tobj != target_obj && tobj.xDPX >= l && tobj.xDPX <= ll) {
+            if(tobj.xDPY >= t && tobj.xDPY < tt-h) {
+                try {
+                    target_obj.parentNode.insertBefore(tobj, target_obj);
+                } catch(e) {
+                }
+            } else if(tobj.xDPY >= t+h && tobj.xDPY <= tt) {
+                if(target_obj.nextSibling == tobj) {
+                    try {
+                        target_obj.parentNode.insertBefore(tobj, target_obj.nextSibling);
+                    } catch(e) {
+                    }
+                }
+            }
         }
-      }
-  } 
-  */
+    } 
 } 
   
 // 드래그 종료 (이동되는 object가 이동할 곳에 서서히 이동되는 것처럼 보이는 효과)
 function tree_drag_end(tobj, px, py) {
     var obj = tree_get_tmp_object(tobj);
-    tobj.style.borderStyle = 'dotted';
-    tobj.style.borderWidth = '1px';
-
-    /*
-    if(/zNullLayer_/i.test(tobj.id)) tobj.style.borderColor = '#888888';
-    else tobj.style.borderColor = '#A9DA12';
-    _zLayerDsa = zLayerDisapearTmpObject(obj,tobj);
-    */
+    tree_disappear = tree_disapear_object(obj, tobj);
     tree_drag_disable(tobj.id);
+}
+
+// 스르르 사라지게 함;;
+function tree_disapear_object(obj, tobj) {
+    var it = 150;
+    var ib = 15;
+
+    var x = parseInt(xPageX(obj));
+    var y = parseInt(xPageY(obj));
+    var ldt = (x - parseInt(xPageX(tobj))) / ib;
+    var tdt = (y - parseInt(xPageY(tobj))) / ib;
+
+    return setInterval(function() {
+        if(ib < 1) {
+            clearInterval(tree_disappear);
+            xInnerHtml(tobj,xInnerHtml(obj));
+            xInnerHtml(obj,'');
+            xDisplay(obj, 'none');
+            return;
+        }
+        ib -= 5;
+        x-=ldt;
+        y-=tdt;
+        xLeft(obj, x);
+        xTop(obj, y);
+    }, it/ib);
 }
 
 // 마우스다운 이벤트 발생시 호출됨
@@ -486,26 +529,26 @@ function tree_mouse_down(e) {
     }
 
     if(obj) {
-      xPreventDefault(e);
-      obj.xDPX = evt.pageX;
-      obj.xDPY = evt.pageY;
-      tree_drag_manager.obj = obj;
-      xAddEventListener(document, 'mouseup', tree_mouse_up, false);
-      if (obj.drag_start) obj.drag_start(obj, evt.pageX, evt.pageY);
+        xPreventDefault(e);
+        obj.xDPX = evt.pageX;
+        obj.xDPY = evt.pageY;
+        tree_drag_manager.obj = obj;
+        xAddEventListener(document, 'mouseup', tree_mouse_up, false);
+        if (obj.drag_start) obj.drag_start(obj, evt.pageX, evt.pageY);
     }
 }
 
 // 마우스 버튼을 놓았을때 동작될 함수 (각종 이벤트 해제 및 변수 설정 초기화)
 function tree_mouse_up(e) { 
     if (tree_drag_manager.obj) {
-      xPreventDefault(e);
-      xRemoveEventListener(document, 'mouseup', tree_mouse_up, false);
-      
-      if (tree_drag_manager.obj.drag_end) {
-        var evt = new xEvent(e);
-        tree_drag_manager.obj.drag_end(tree_drag_manager.obj, evt.pageX, evt.pageY);
-      } 
-      tree_drag_manager.obj = null;
+        xPreventDefault(e);
+        xRemoveEventListener(document, 'mouseup', tree_mouse_up, false);
+
+        if (tree_drag_manager.obj.drag_end) {
+            var evt = new xEvent(e);
+            tree_drag_manager.obj.drag_end(tree_drag_manager.obj, evt.pageX, evt.pageY);
+        } 
+        tree_drag_manager.obj = null;
     } 
 }  
 
@@ -514,20 +557,20 @@ function tree_drag_mouse_move(e) {
     var evt = new xEvent(e);
 
     if (tree_drag_manager.obj) {
-      xPreventDefault(e);
+        xPreventDefault(e);
 
-      var obj = tree_drag_manager.obj;
-      var dx = evt.pageX - obj.xDPX;
-      var dy = evt.pageY - obj.xDPY;
+        var obj = tree_drag_manager.obj;
+        var dx = evt.pageX - obj.xDPX;
+        var dy = evt.pageY - obj.xDPY;
 
-      obj.xDPX = evt.pageX;
-      obj.xDPY = evt.pageY;
+        obj.xDPX = evt.pageX;
+        obj.xDPY = evt.pageY;
 
-      if (obj.drag) {
-        obj.drag(obj, dx, dy);
-      } else {
-        xMoveTo(obj, xLeft(obj) + dx, xTop(obj) + dy);
-      }
+        if (obj.drag) {
+            obj.drag(obj, dx, dy);
+        } else {
+            xMoveTo(obj, xLeft(obj) + dx, xTop(obj) + dy);
+        }
     }
 }
 
@@ -543,7 +586,7 @@ function tree_drag_disable(id, last) {
     xRemoveEventListener(obj, 'mousedown', tree_mouse_down, false);
 
     if (tree_drag_manager.isDrag && last) {
-      tree_drag_manager.isDrag = false;
-      xRemoveEventListener(document, 'mousemove', tree_drag_mouse_move, false);
+        tree_drag_manager.isDrag = false;
+        xRemoveEventListener(document, 'mousemove', tree_drag_mouse_move, false);
     }
 }

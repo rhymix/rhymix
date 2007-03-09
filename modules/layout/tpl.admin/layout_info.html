@@ -2,7 +2,6 @@
 <!--%import("filter/update_layout_info.xml")-->
 <!--%import("filter/insert_layout_menu.xml")-->
 <!--%import("filter/delete_layout_menu.xml")-->
-
 <div style="margin-bottom:10px;">
   <table border="1" width="100%">
   <col width="140" />
@@ -79,6 +78,7 @@
     <th>
       {$menu->name}  <br />
       ({$menu->maxdepth} {$lang->depth})
+    <textarea id="aa"></textarea>
     </th>
     <td>
       <form id="fo_{$menu_id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
