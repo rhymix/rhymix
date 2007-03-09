@@ -8,20 +8,23 @@
  * 다만 제로보드에 좀 특화되어 있어서....
  **/
 
+// 트리메뉴에서 사용될 아이콘의 위치
+var tree_menu_icon_path = "./common/tpl/images/";
+
 // 아이콘을 미리 생성해 놓음
 var tree_folder_icon = new Image();
-tree_folder_icon.src = "./common/tpl/images/page.gif";
+tree_folder_icon.src = tree_menu_icon_path+"page.gif";
 var tree_open_folder_icon = new Image();
-tree_open_folder_icon.src = "./common/tpl/images/page.gif";
+tree_open_folder_icon.src = tree_menu_icon_path+"page.gif";
 
 var tree_minus_icon = new Image();
-tree_minus_icon.src = "./common/tpl/images/minus.gif";
+tree_minus_icon.src = tree_menu_icon_path+"minus.gif";
 var tree_minus_bottom_icon = new Image();
-tree_minus_bottom_icon.src = "./common/tpl/images/minusbottom.gif";
+tree_minus_bottom_icon.src = tree_menu_icon_path+"minusbottom.gif";
 var tree_plus_icon = new Image();
-tree_plus_icon.src = "./common/tpl/images/plus.gif";
+tree_plus_icon.src = tree_menu_icon_path+"plus.gif";
 var tree_plus_bottom_icon = new Image();
-tree_plus_bottom_icon.src = "./common/tpl/images/plusbottom.gif";
+tree_plus_bottom_icon.src = tree_menu_icon_path+"plusbottom.gif";
 
 // 폴더를 모두 열고/닫기 위한 변수 설정
 var tree_menu_folder_list = new Array();
@@ -31,38 +34,6 @@ var node_info_list = new Array();
 
 // menu_id별로 요청된 callback_func
 var node_callback_func = new Array();
-
-// 메뉴 클릭시 기본으로 동작할 함수 (사용자 임의 함수로 대체될 수 있음)
-function moveTreeMenu(menu_id, node) {
-    // url과 open_window값을 구함
-    var node_srl = node.getAttribute("node_srl");
-    var url = node.getAttribute("url");
-    var open_window = node.getAttribute("open_window");
-    var hasChild = false;
-    if(node.hasChildNodes()) hasChild = true;
-
-    // url이 없고 child가 있으면 해당 폴더 토글한다 
-    if(!url && hasChild) {
-        var zone_id = "menu_"+menu_id+"_"+node_srl;
-        toggleFolder(zone_id);
-        return;
-    }
-
-    // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
-    if(url) {
-        // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
-        if(url.indexOf('://')==-1) {
-            url = "./?"+url;
-        }
-
-        // open_window에 따라서 처리
-        if(open_window != "Y") location.href=url;
-        else {
-            var win = window.open(url);
-            win.focus();
-        }
-    }
-}
 
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
 function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select_node_srl) {
@@ -75,18 +46,21 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     oXml.reset();
     oXml.xml_path = url;
 
+    // 사용자 정의 함수가 없다면 moveTreeMenu()라는 기본적인 동작을 하는 함수를 대입
     if(typeof(callback_func)=='undefined') {
         callback_func = moveTreeMenu;
     }
 
+    // 한 페이지에 다수의 menu_id가 있을 수 있으므로 menu_id별로 함수를 저장
     node_callback_func[menu_id] = callback_func;
 
+    // 직접 선택시키려는 메뉴 인자값이 없으면 초기화
     if(typeof(manual_select_node_srl)=='undefined') manual_select_node_srl = '';
 
     // menu_id, zone_id는 계속 달고 다녀야함 
     var param = {menu_id:menu_id, zone_id:zone_id, title:title, manual_select_node_srl:manual_select_node_srl}
 
-    // 요청후 drawTreeMenu()함수를 호출
+    // 요청후 drawTreeMenu()함수를 호출 (xml_handler.js에서 request method를 직접 이용)
     oXml.request(drawTreeMenu, oXml, null, null, null, param);
 }
 
@@ -104,20 +78,23 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var zone = xGetElementById(zone_id);
     var html = "";
 
-    if(title) html = '<div style="height:20px;"><img src="./common/tpl/images/folder.gif" alt="root" align="top" />'+title+'</div>';
+    if(title) html = '<div style="height:20px;"><img src="'+tree_menu_icon_path+'folder.gif" alt="root" align="top" />'+title+'</div>';
 
     tree_menu_folder_list[menu_id] = new Array();
 
-    // node 태그에 해당하는 값들을 가져옴
+    // node 태그에 해당하는 값들을 가져와서 html을 작성
     var node_list = xmlDoc.getElementsByTagName("node");
     if(node_list.length>0) {
         var root = xmlDoc.getElementsByTagName("root")[0];
-        html += drawNode(root, menu_id);
+        var output = drawNode(root, menu_id);
+        html += output.html;
     }
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함
     if(!zone) {
         xAddEventListener(window, 'load', function() { drawTeeMenu(zone_id, menu_id, html); });
+
+    // 출력하려는 zone을 찾아졌다면 바로 출력
     } else {
         xInnerHtml(zone, html);
         if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
@@ -125,27 +102,28 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
 
 }
 
+// 페이지 랜더링 중에 메뉴의 html이 완성되었을때 window.onload event 후에 그리기 재시도를 하게 될 함수
 function drawTeeMenu(zone_id, menu_id, html) {
     xInnerHtml(zone_id, html);
     if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
 }
 
-// root부터 시작해서 recursive하게 노트를 표혐
+// root부터 시작해서 recursive하게 노드를 표혐
 function drawNode(parent_node, menu_id) {
-    var html = '';
+    var output = {html:"", expand:"N"}
+
     for (var i=0; i< parent_node.childNodes.length; i++) {
+        var html = "";
+
+        // nodeName이 node가 아니면 패스~
         var node = parent_node.childNodes.item(i);
         if(node.nodeName!="node") continue;
 
+        // node의 기본 변수들 체크 
         var node_srl = node.getAttribute("node_srl");
         var text = node.getAttribute("text");
         var url = node.getAttribute("url");
-
-        // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가
-        if(node_callback_func[menu_id] == moveTreeMenu && url) {
-            if(typeof(zbfe_url)!="undefined" && zbfe_url==url) manual_select_node_srl = node_srl;
-            else if(location.href == url) manual_select_node_srl = node_srl;
-        }
+        var expand = node.getAttribute("expand");
 
         // 자식 노드가 있는지 확인
         var hasChild = false;
@@ -155,13 +133,27 @@ function drawNode(parent_node, menu_id) {
         var hasNextSibling = false;
         if(i==parent_node.childNodes.length-1) hasNextSibling = true;
 
+        // 후에 사용하기 위해 node_info_list에 node_srl을 값으로 하여 node object 추가
+        node_info_list[node_srl] = node;
+
+        // zone_id 값을 세팅
+        var zone_id = "menu_"+menu_id+"_"+node_srl;
+        tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
+
+        // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가 (관리자페이지일 경우는 무시함)
+        if(node_callback_func[menu_id] == moveTreeMenu && url && typeof(zbfe_url)!="undefined" && zbfe_url == url) manual_select_node_srl = node_srl;
+
+        // manual_select_node_srl이 node_srl과 같으면 펼침으로 처리
+        if(manual_select_node_srl == node_srl) expand = "Y";
+
         // 아이콘 설정
         var line_icon = null;
         var folder_icon = null;
 
         // 자식 노드가 있는지 확인하여 있으면 아이콘을 바꿈
         if(hasChild) {
-            if(node.getAttribute("expand")!="Y") {
+            // 무조건 펼침이 아닐 경우
+            if(expand != "Y") {
                 if(!hasNextSibling) {
                     line_icon = "minus";
                     folder_icon = "page";
@@ -169,6 +161,7 @@ function drawNode(parent_node, menu_id) {
                     line_icon = "minusbottom";
                     folder_icon = "page";
                 }
+            // 무조건 펼침일 경우 
             } else {
                 if(!hasNextSibling) {
                     line_icon = "plus";
@@ -178,6 +171,8 @@ function drawNode(parent_node, menu_id) {
                     folder_icon = "page";
                 }
             }
+
+        // 자식 노드가 없을 경우
         } else {
             if(hasNextSibling) {
                 line_icon = "joinbottom";
@@ -188,72 +183,63 @@ function drawNode(parent_node, menu_id) {
             }
         }
 
-        node_info_list[node_srl] = node;
+        // 자식 노드가 있을 경우 자식 노드의 html을 구해옴
+        var child_output = null;
+        var child_html = "";
+        if(hasChild) {
+            // 자식 노드의 zone id를 세팅
+            var child_zone_id = zone_id+"_child";
+            tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = child_zone_id;
+            
+            // html을 받아옴 
+            child_output = drawNode(node, menu_id);
+            var chtml = child_output.html;
+            var cexpand = child_output.expand;
+            if(cexpand == "Y") expand = "Y";
 
-        var zone_id = "menu_"+menu_id+"_"+node_srl;
-        tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
+            // 무조건 펼침이 아닐 경우
+            if(expand!="Y") {
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:none;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:none;padding-left:18px;">'+chtml+'</div>';
+            // 무조건 펼침일 경우
+            } else {
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:block;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:block;padding-left:18px;">'+chtml+'</div>';
+            }
+        }
+
+
+        // html 작성
+        html += '<div id="'+zone_id+'" style="margin:0px;font-size:9pt;">';
+
+        if(hasChild) html+= '<span style="cursor:pointer;" onclick="toggleFolder(\''+zone_id+'\');return false;">';
+        else html+= '<span>';
 
         html += ''+
-                '<div id="'+zone_id+'" style="margin:0px;font-size:9pt;">'+
-                '';
-        if(hasChild)
-            html+= ''+
-                '<span style="cursor:pointer;" onclick="toggleFolder(\''+zone_id+'\');return false;">'+
-                '';
-        else 
-            html+= ''+
-                '<span>'+
-                '';
-
-        html += ''+
-                '<img id="'+zone_id+'_line_icon" src="./common/tpl/images/'+line_icon+'.gif" alt="line" align="top" />'+
-                '<img id="'+zone_id+'_folder_icon" src="./common/tpl/images/'+folder_icon+'.gif" alt="folder" align="top" />'+
+                '<img id="'+zone_id+'_line_icon" src="'+tree_menu_icon_path+line_icon+'.gif" alt="line" align="top" />'+
+                '<img id="'+zone_id+'_folder_icon" src="'+tree_menu_icon_path+folder_icon+'.gif" alt="folder" align="top" />'+
                 '</span>'+
                 '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')">'+
                 text+
                 '</span>'+
                 '';
 
-        if(node.childNodes.length) {
-            zone_id = zone_id+"_child";
-            tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
-            if(node.getAttribute("expand")!="Y") {
-                if(!hasNextSibling) html += '<div id="'+zone_id+'"style="display:none;padding-left:18px;background:url(./common/tpl/images/line.gif) repeat-y left;">'+drawNode(node, menu_id)+'</div>';
-                else html += '<div id="'+zone_id+'" style="display:none;padding-left:18px;">'+drawNode(node, menu_id)+'</div>';
-            } else {
-                if(!hasNextSibling) html += '<div id="'+zone_id+'"style="display:block;padding-left:18px;background:url(./common/tpl/images/line.gif) repeat-y left;">'+drawNode(node, menu_id)+'</div>';
-                else html += '<div id="'+zone_id+'" style="display:block;padding-left:18px;">'+drawNode(node, menu_id)+'</div>';
-            }
-        }
+        html += child_html;
 
-        html += ''+
-                '</div>'
-                '';
+        html += '</div>';
 
+        output.html += html;
 
+        if(expand=="Y") output.expand = "Y";
     }
-    return html;
+    return output;
 }
 
 // 수동으로 메뉴를 선택하도록 함
 function manualSelectNode(menu_id, node_srl) {
     var zone_id = "menu_"+menu_id+"_"+node_srl;
     selectNode(menu_id,node_srl,zone_id,false);
-    var zone = xGetElementById(zone_id);
-    try {
-        while(zone = zone.parentNode) {
-            if(!zone) break;
-            if(typeof(zone.id)=='undefined') continue;
-            var id = zone.id;
-            if(id.indexOf("menu_")<0 || id.indexOf("child")<0) continue;
-
-            var child_zone = xGetElementById(id);
-            var p_id = id.replace("_child","");
-            toggleFolder(p_id);
-        }
-    } catch(e) {
-    }
-    toggleFolder(zone_id);
+    return;
 }
 
 // 노드의 폴더 아이콘 클릭시
@@ -347,3 +333,36 @@ function openAllTreeMenu(menu_id) {
         toggleFolder(zone_id);
     }
 }
+
+// 메뉴 클릭시 기본으로 동작할 함수 (사용자 임의 함수로 대체될 수 있음)
+function moveTreeMenu(menu_id, node) {
+    // url과 open_window값을 구함
+    var node_srl = node.getAttribute("node_srl");
+    var url = node.getAttribute("url");
+    var open_window = node.getAttribute("open_window");
+    var hasChild = false;
+    if(node.hasChildNodes()) hasChild = true;
+
+    // url이 없고 child가 있으면 해당 폴더 토글한다 
+    if(!url && hasChild) {
+        var zone_id = "menu_"+menu_id+"_"+node_srl;
+        toggleFolder(zone_id);
+        return;
+    }
+
+    // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
+    if(url) {
+        // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
+        if(url.indexOf('://')==-1) {
+            url = "./?"+url;
+        }
+
+        // open_window에 따라서 처리
+        if(open_window != "Y") location.href=url;
+        else {
+            var win = window.open(url);
+            win.focus();
+        }
+    }
+}
+

@@ -94,7 +94,7 @@
             unset($source_args->module);
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
-            if($source_args->expand !="Y") $source_args->expand = "N";
+            if($source_args->menu_expand !="Y") $source_args->menu_expand = "N";
             $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
 
@@ -106,7 +106,7 @@
             $args->name = $source_args->menu_name;
             $args->url = $source_args->menu_url;
             $args->open_window = $source_args->menu_open_window;
-            $args->expand = $source_args->expand;
+            $args->expand = $source_args->menu_expand;
             $args->normal_btn = $source_args->menu_normal_btn;
             $args->hover_btn = $source_args->menu_hover_btn;
             $args->active_btn = $source_args->menu_active_btn;

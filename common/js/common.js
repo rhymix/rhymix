@@ -138,12 +138,13 @@ function setFixedPopupSize() {
 
 // url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
 function move_url(url, open_wnidow) {
-  if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
-  if(open_wnidow=='Y') {
-    var win = window.open(url);
-    win.focus();
-  } else {
-    location.href=url;
-  }
-  return false;
+    if(!url) return false;
+    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
+    if(open_wnidow=='Y') {
+        var win = window.open(url);
+        win.focus();
+    } else {
+        location.href=url;
+    }
+    return false;
 }
