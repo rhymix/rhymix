@@ -255,7 +255,7 @@ function drawNode(parent_node, menu_id) {
 // 관리자 모드일 경우 *_enable_move 의 값에 따라 메뉴 이동을 시키거나 정보를 보여주도록 변경
 function doNodeFunc(obj, menu_id, node_srl, zone_id) {
     var chk_enable = xGetElementById(menu_id+"_enable_move");
-    if(!chk_enable || chk_enable.checked!=true || !obj) {
+    if(!node_move_callback_func[menu_id] || !chk_enable || chk_enable.checked!=true || !obj) {
         selectNode(menu_id,node_srl,zone_id);
         return;
     }
