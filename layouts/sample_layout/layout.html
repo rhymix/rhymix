@@ -17,10 +17,10 @@
       <!--@else-->
         {@ $selected_style = ''; }
       <!--@end-->
-
       <span {$selected_style}>
         <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
       </span>
+
     <!--@end-->
     </div>
 
@@ -34,10 +34,10 @@
       <!--@else-->
         {@ $selected_style = ''; }
       <!--@end-->
-
       <span {$selected_style}>
         <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
       </span>
+
     <!--@end-->
     </div>
 
@@ -61,23 +61,34 @@
         <!--@else-->
           {@ $selected_style = ''; }
         <!--@end-->
-
         <div {$selected_style}>
           <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
         </div>
+
       <!--@end-->
       </div>
     </td>
     <td>
       <div id="content">
         {$content}
-        <div style="margin-top:20px;">
-          <!--@foreach($bottom_menu->list as $key => $val)-->
-            <span <!--@if($zbfe_url==$val['url'])-->style="font-weight:bold;"<!--@end-->>
-              <a href="#" onclick="location.href='{$val['href']}';return false;">{$val['text']}</a>
-            </span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <div style="margin-top:20px;">
+        <!--@foreach($bottom_menu->list as $key => $val)-->
+
+          <!--@if($val['selected'])-->
+            {@ $selected_style = 'style="font-weight:bold;"'}
+          <!--@else-->
+            {@ $selected_style = ''; }
           <!--@end-->
-        </div>
+          <span {$selected_style}>
+            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+          </span>
+
+        <!--@end-->
       </div>
     </td>
   </tr>
