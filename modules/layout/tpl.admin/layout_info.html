@@ -78,7 +78,6 @@
     <th>
       {$menu->name}  <br />
       ({$menu->maxdepth} {$lang->depth})
-    <textarea id="aa"></textarea>
     </th>
     <td>
       <form id="fo_{$menu_id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
@@ -104,7 +103,7 @@
         </table>
       </form>
       <script type="text/javascript">
-        loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name}", doGetMenuInfo); 
+        loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name}", doGetMenuInfo, 0, doMoveTree); 
       </script>
     </td>
   </tr>
