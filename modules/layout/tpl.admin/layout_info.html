@@ -2,6 +2,14 @@
 <!--%import("filter/update_layout_info.xml")-->
 <!--%import("filter/insert_layout_menu.xml")-->
 <!--%import("filter/delete_layout_menu.xml")-->
+<!--%import("filter/move_layout_menu.xml")-->
+
+<!-- 메뉴 이동을 위해 임시로 사용하는 form -->
+<form id="fo_move_menu">
+  <input type="hidden" name="source_node_srl" />
+  <input type="hidden" name="target_node_srl" />
+</form>
+
 <div style="margin-bottom:10px;">
   <table border="1" width="100%">
   <col width="140" />
@@ -84,6 +92,8 @@
       <input type="hidden" name="layout_srl" value="{$layout_srl}" />
       <input type="hidden" name="layout" value="{$layout_info->layout}" />
       <input type="hidden" name="menu_id" value="{$menu_id}" />
+      <input type="hidden" name="menu_title" value="{$menu->name}" />
+      <input type="hidden" name="xml_file" value="{$menu->xml_file}" />
         <table border="0">
         <tr valign="top">
           <td width="350">

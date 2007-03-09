@@ -255,7 +255,7 @@ function drawNode(parent_node, menu_id) {
 // 관리자 모드일 경우 *_enable_move 의 값에 따라 메뉴 이동을 시키거나 정보를 보여주도록 변경
 function doNodeFunc(obj, menu_id, node_srl, zone_id) {
     var chk_enable = xGetElementById(menu_id+"_enable_move");
-    if(!node_move_callback_func[menu_id] || !chk_enable || chk_enable.checked!=true || !obj) {
+    if(!chk_enable || chk_enable.checked!=true || !obj) {
         selectNode(menu_id,node_srl,zone_id);
         return;
     }
@@ -611,7 +611,7 @@ function tree_drag_disable(id) {
         menu_id = menu_id.replace(/_([0-9]+)$/,'');
         if(menu_id) {
             var callback_move_func = node_move_callback_func[menu_id];
-            if(callback_move_func) callback_move_func(obj.id, obj.target_id);
+            if(callback_move_func) callback_move_func(menu_id, obj.id, obj.target_id);
         }
     } 
     obj.target_id = null;

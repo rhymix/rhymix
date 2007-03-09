@@ -62,8 +62,33 @@ function doGetMenuInfo(menu_id, obj) {
 }
 
 /* 메뉴를 드래그하여 이동한 후 실행할 함수 , 이동하는 node_srl과 대상 node_srl을 받음 */
-function doMoveTree(source_node_srl, target_node_srl) {
-  alert(source_node_srl+ ' - ' +target_node_srl);
+function doMoveTree(menu_id, source_node_srl, target_node_srl) {
+    var fo_obj = xGetElementById("fo_move_menu");
+    fo_obj.source_node_srl.value = source_node_srl;
+    fo_obj.target_node_srl.value = target_node_srl;
+
+    // 이동 취소를 선택하였을 경우 다시 그림;;
+    if(!procFilter(fo_obj, move_layout_menu)) {
+        var fo_menu = xGetElementById("fo_"+menu_id);
+        if(!fo_menu) return;
+
+        var params = new Array();
+        params["menu_id"] = menu_id;
+        params["layout"] = fo_menu.layout.value;
+        params["layout_srl"] = fo_menu.layout_srl.value;
+        var xml_file = fo_menu.xml_file.value;
+        var menu_title = fo_menu.menu_title.value;
+        var menu_srl = source_node_srl;
+        loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
+    }
+}
+
+function completeMoveLayoutMenu(ret_obj) {
+    var menu_title = ret_obj['menu_title'];
+    var menu_id = ret_obj['menu_id'];
+    var menu_srl = ret_obj['menu_srl'];
+    var xml_file = ret_obj['xml_file'];
+    loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */

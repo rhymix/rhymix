@@ -162,6 +162,7 @@
     $lang->confirm_logout = '로그아웃하시겠습니까?';
     $lang->confirm_vote = '추천하시겠습니까?';
     $lang->confirm_delete = '삭제하시겠습니까?';
+    $lang->confirm_move = '이동하시겠습니까?';
 
     $lang->column_type = '형식';
     $lang->column_type_list['text'] = '한줄 입력칸 (text)';
