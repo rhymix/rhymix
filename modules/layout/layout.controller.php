@@ -319,10 +319,8 @@
                 else $node->href = $node->url;
 
                 // 현재 노드의 url값이 공란이 아니라면 url_list 배열값에 입력
-                if($node->url) {
-                    $child_output['url_list'][] = $node->url;
-                    $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
-                }
+                if($node->url) $child_output['url_list'][] = $node->url;
+                $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
