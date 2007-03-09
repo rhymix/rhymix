@@ -150,6 +150,31 @@ function drawNode(parent_node, menu_id) {
         var line_icon = null;
         var folder_icon = null;
 
+        // 자식 노드가 있을 경우 자식 노드의 html을 구해옴
+        var child_output = null;
+        var child_html = "";
+        if(hasChild) {
+            // 자식 노드의 zone id를 세팅
+            var child_zone_id = zone_id+"_child";
+            tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = child_zone_id;
+            
+            // html을 받아옴 
+            child_output = drawNode(node, menu_id);
+            var chtml = child_output.html;
+            var cexpand = child_output.expand;
+            if(cexpand == "Y") expand = "Y";
+
+            // 무조건 펼침이 아닐 경우
+            if(expand!="Y") {
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:none;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:none;padding-left:18px;">'+chtml+'</div>';
+            // 무조건 펼침일 경우
+            } else {
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:block;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:block;padding-left:18px;">'+chtml+'</div>';
+            }
+        }
+
         // 자식 노드가 있는지 확인하여 있으면 아이콘을 바꿈
         if(hasChild) {
             // 무조건 펼침이 아닐 경우
@@ -180,31 +205,6 @@ function drawNode(parent_node, menu_id) {
             } else {
                 line_icon = "join";
                 folder_icon = "page";
-            }
-        }
-
-        // 자식 노드가 있을 경우 자식 노드의 html을 구해옴
-        var child_output = null;
-        var child_html = "";
-        if(hasChild) {
-            // 자식 노드의 zone id를 세팅
-            var child_zone_id = zone_id+"_child";
-            tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = child_zone_id;
-            
-            // html을 받아옴 
-            child_output = drawNode(node, menu_id);
-            var chtml = child_output.html;
-            var cexpand = child_output.expand;
-            if(cexpand == "Y") expand = "Y";
-
-            // 무조건 펼침이 아닐 경우
-            if(expand!="Y") {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:none;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" style="display:none;padding-left:18px;">'+chtml+'</div>';
-            // 무조건 펼침일 경우
-            } else {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:block;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" style="display:block;padding-left:18px;">'+chtml+'</div>';
             }
         }
 
@@ -291,7 +291,6 @@ function selectNode(menu_id, node_srl, zone_id, move_url) {
     if(typeof(move_url)=="undefined"||move_url==true) {
         var func = node_callback_func[menu_id];
         func(menu_id, node_info_list[node_srl]);
-        var zone_id = "menu_"+menu_id+"_"+node_srl;
         toggleFolder(zone_id);
     }
 }
