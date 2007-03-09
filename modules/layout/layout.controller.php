@@ -231,7 +231,7 @@
             if(!$output->toBool()) return;
 
             // 캐시 파일의 이름을 지정
-            $xml_file = sprintf("./files/cache/layout/%s_%s.xml", $layout_srl, $menu_id);
+            $xml_file = sprintf("./files/cache/layout/%s_%s.xml.php", $layout_srl, $menu_id);
             $php_file = sprintf("./files/cache/layout/%s_%s.php", $layout_srl, $menu_id);
 
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
@@ -256,7 +256,7 @@
             }
 
             // xml 캐시 파일 생성
-            $xml_buff = sprintf('<root>%s</root>', $this->getXmlTree($tree[0], $tree));
+            $xml_buff = sprintf('<?php header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $this->getXmlTree($tree[0], $tree));
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
@@ -278,19 +278,34 @@
             foreach($source_node as $menu_srl => $node) {
                 $child_buff = "";
 
+                // 자식 노드의 데이터 가져옴
                 if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getXmlTree($tree[$menu_srl], $tree);
 
+                // 변수 정리 
+                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
+                $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
+                $open_window = $node->open_window;
+                $expand = $node->expand;
+                $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
+                $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
+                $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn);
+                $group_srls = $node->group_srls;
+
+                // node->group_srls값이 있으면 
+                if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
+                else $group_check_code = "true";
                 $attribute = sprintf(
-                        'node_srl="%s" text="%s" url="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" group_srls="%s"',
-                        $node->menu_srl, 
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
-                        $node->open_window,
-                        $node->expand,
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),
-                        $node->group_srls
+                        'node_srl="%s" text=\'<?=(%s?"%s":"")?>\' url=\'<?=(%s?"%s":"")?>\' open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
+                        $menu_srl,
+                        $group_check_code,
+                        $name,
+                        $group_check_code,
+                        $url,
+                        $open_window,
+                        $expand,
+                        $normal_btn,
+                        $hover_btn,
+                        $active_btn
                 );
                 
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
@@ -322,20 +337,37 @@
                 if($node->url) $child_output['url_list'][] = $node->url;
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 
+                // node->group_srls값이 있으면 
+                if($node->group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                else $group_check_code = "true";
+
+                // 변수 정리
+                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
+                $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
+                $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
+                $open_window = $node->open_window;
+                $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
+                $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
+                $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn);
+                $selected = '"'.implode('","',$child_output['url_list']).'"';
+                $child_buff = $child_output['buff'];
+
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>"%s","href"=>"%s","url"=>"%s","open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","group_srls"=>array(%s),"selected"=>(in_array(Context::get("zbfe_url"),array(%s))?1:0),"list"=>array(%s)',
+                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(in_array(Context::get("zbfe_url"),array(%s))?1:0),"list"=>array(%s)',
                         $node->menu_srl, 
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
-                        $node->open_window,
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
-                        str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),
-                        $node->group_srls,
-                        '"'.implode('","',$child_output['url_list']).'"',
-                        $child_output['buff']
+                        $group_check_code,
+                        $name,
+                        $group_check_code,
+                        $href,
+                        $group_check_code,
+                        $url,
+                        $open_window,
+                        $normal_btn,
+                        $hover_btn,
+                        $active_btn,
+                        $selected,
+                        $child_buff
                 );
                 
                 // buff 데이터를 생성한다

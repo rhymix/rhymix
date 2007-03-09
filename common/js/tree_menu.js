@@ -124,6 +124,8 @@ function drawNode(parent_node, menu_id) {
         var text = node.getAttribute("text");
         var url = node.getAttribute("url");
         var expand = node.getAttribute("expand");
+        
+        if(!text) continue;
 
         // 자식 노드가 있는지 확인
         var hasChild = false;

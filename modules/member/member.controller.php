@@ -44,6 +44,8 @@
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['member_srl'] = $member_info->member_srl;
             $_SESSION['logged_info'] = $member_info;
+            $_SESSION['group_srls'] = array_keys($member_info->group_list);
+            $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
 
             // DB 객체 생성
             $oDB = &DB::getInstance();
@@ -62,6 +64,9 @@
             $_SESSION['is_logged'] = false;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['logged_info'] = NULL;
+            $_SESSION['member_srl'] = NULL;
+            $_SESSION['group_srls'] = array();
+            $_SESSION['is_admin'] = NULL;
             return new Object();
         }
 
