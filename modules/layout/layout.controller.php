@@ -194,8 +194,36 @@
          * @brief 레이아웃의 메뉴를 이동
          **/
         function procMoveLayoutMenu() {
-            $source_node_srl = Context::get('source_node_srl');
-            $target_node_srl = Context::get('target_node_srl');
+            // 변수 설정 
+            $menu_id = Context::get('menu_id');
+            $source_node_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_node_srl'));
+            $target_node_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_node_srl'));
+
+            // target_node 의 값을 구함
+            $oLayoutModel = &getModel('layout');
+            $target_node = $oLayoutModel->getLayoutMenuInfo($target_node_srl);
+
+            // source_node에 target_node_srl의 parent_srl, listorder 값을 입력
+            $oDB = &DB::getInstance();
+            $source_args->menu_srl = $source_node_srl;
+            $source_args->parent_srl = $target_node->parent_srl;
+            $source_args->listorder = $target_node->listorder;
+            $output = $oDB->executeQuery('layout.updateLayoutMenuParent', $source_args);
+            if(!$output->toBool()) return $output;
+
+            // target_node의 listorder값을 +1해 준다
+            $target_args->menu_srl = $target_node_srl;
+            $target_args->parent_srl = $target_node->parent_srl;
+            $target_args->listorder = $target_node->listorder -1;
+            $output = $oDB->executeQuery('layout.updateLayoutMenuParent', $target_args);
+            if(!$output->toBool()) return $output;
+
+            // xml파일 재생성 
+            $xml_file = $this->makeXmlFile($target_node->layout_srl, $menu_id);
+
+            // return 변수 설정
+            $this->add('menu_id', $menu_id);
+            $this->add('source_node_srl', Context::get('source_node_srl'));
         }
 
         /**
