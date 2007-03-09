@@ -221,7 +221,7 @@ function drawNode(parent_node, menu_id) {
                 '<img id="'+zone_id+'_line_icon" src="'+tree_menu_icon_path+line_icon+'.gif" alt="line" align="top" />'+
                 '<img id="'+zone_id+'_folder_icon" src="'+tree_menu_icon_path+folder_icon+'.gif" alt="folder" align="top" />'+
                 '</span>'+
-                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')" ondblclick="toggleFolder(\''+zone_id+'\');return false;">'+
+                '<span id="'+zone_id+'_node" style="padding:1px 2px 1px 2px;margin-top:1px;cursor:pointer;" onmousedown="tree_drag_enable(this,tree_drag_start,tree_drag,tree_drag_end)" onclick="selectNode(\''+menu_id+'\','+node_srl+',\''+zone_id+'\')" ondblclick="toggleFolder(\''+zone_id+'\');return false;">'+
                 text+
                 '</span>'+
                 '';
@@ -367,3 +367,183 @@ function moveTreeMenu(menu_id, node) {
     }
 }
 
+// 메뉴 드래그 중이라는 상황을 간직할 변수
+var tree_drag_manager = {obj:null, isDrag:false}
+var tree_tmp_object = new Array();
+
+/**
+ * 메뉴 드래깅을 위한 함수들
+ **/
+// 드래깅시 보여줄 임시 object를 생성하는 함수
+function tree_create_tmp_object(obj) {
+    var tmp_obj = tree_tmp_object[obj.id];
+    if(tmp_obj) return;
+
+    tmp_obj = xCreateElement('DIV');
+    tmp_obj.id = obj.id + '_tmp';
+    tmp_obj.style.display = 'none';
+    tmp_obj.style.position = 'absolute';
+    tmp_obj.style.backgroundColor = '#FFFFFF';
+    tmp_obj.style.opacity = 0.9;
+    tmp_obj.style.filter = 'alpha(opacity=90)';
+    document.body.appendChild(tmp_obj);
+    tree_tmp_object[obj.id] = tmp_obj;
+}
+
+// 기생성된 임시 object를 찾아서 return, 없으면 만들어서 return
+function tree_get_tmp_object(obj) {
+    var tmp_obj = tree_tmp_object[obj.id];
+    if(!tmp_obj) tmp_obj = tree_create_tmp_object(obj);
+    return tmp_obj;
+}
+
+// 메뉴에 마우스 클릭이 일어난 시점에 드래그를 위한 제일 첫 동작 (해당 object에 각종 함수나 상태변수 설정) 
+function tree_drag_enable(child_obj, funcDragStart, funcDrag, funcDragEnd) {
+    // 클릭이 일어난 메뉴의 상위 object를 찾음
+    var obj = child_obj.parentNode.parentNode;
+
+    // 상위 object에 드래그 가능하다는 상태와 각 드래그 관련 함수를 설정
+    obj.draggable = true;
+    obj.drag_start = funcDragStart;
+    obj.drag = funcDrag;
+    obj.drag_end = funcDragEnd;
+
+    // mousedown이벤트 값을 지정
+    xAddEventListener(obj, 'mousedown', tree_mouse_down, false);
+
+    // 드래그 가능하지 않다면 드래그 가능하도록 상태 지정하고 mousemove이벤트 등록
+    if (!tree_drag_manager.isDrag) {
+      tree_drag_manager.isDrag = true;
+      xAddEventListener(document, 'mousemove', tree_drag_mouse_move, false);
+    } 
+} 
+
+// 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
+function tree_drag_start(tobj, px, py) { 
+    var obj = tree_get_tmp_object(tobj);
+
+    xInnerHtml(obj, xInnerHtml(tobj));
+    xInnerHtml(tobj,'');
+
+    xLeft(obj, xPageX(tobj));
+    xTop(obj, xPageY(tobj));
+    xWidth(obj, xWidth(tobj));
+    xHeight(obj, xHeight(tobj));
+
+    xDisplay(obj, 'block');
+    xHeight(tobj, xHeight(obj));
+    tobj.style.borderStyle = 'dotted';
+    tobj.style.borderWidth = '1px';
+    tobj.style.borderColor = '#CF1111';
+}
+
+// 드래그 시작후 마우스를 이동할때 발생되는 이벤트에 의해 실행되는 함수
+function tree_drag(tobj, dx, dy) {
+  var obj = tree_get_tmp_object(tobj);
+  xLeft(obj, parseInt(xPageX(obj)) + parseInt(dx));
+  xTop(obj, parseInt(xPageY(obj)) + parseInt(dy));
+
+  /*
+  for(var i in _zLayerMovObject) {
+      var obj = xGetElementById(_zLayerMovObject[i]);
+      var l =  xPageX(obj);
+      var t =  xPageY(obj);
+      var ll =  parseInt(l) + parseInt(xWidth(obj));
+      var tt =  parseInt(t) + parseInt((parseInt(xHeight(obj)) <= parseInt(xHeight(tobj))) ? parseInt(xHeight(obj)) : parseInt(xHeight(tobj)));
+    
+      if((tobj != obj ) && (tobj.xDPX >= l && tobj.xDPX <= ll) && (tobj.xDPY >= t && tobj.xDPY <= tt)) {
+        if(obj.nextSibling == tobj || obj.id.slice(0,4) == 'col_') {
+            obj.parentNode.insertBefore(tobj, obj);
+        } else {
+            obj.parentNode.insertBefore(tobj, obj.nextSibling);
+        }
+      }
+  } 
+  */
+} 
+  
+// 드래그 종료 (이동되는 object가 이동할 곳에 서서히 이동되는 것처럼 보이는 효과)
+function tree_drag_end(tobj, px, py) {
+    var obj = tree_get_tmp_object(tobj);
+    tobj.style.borderStyle = 'dotted';
+    tobj.style.borderWidth = '1px';
+
+    /*
+    if(/zNullLayer_/i.test(tobj.id)) tobj.style.borderColor = '#888888';
+    else tobj.style.borderColor = '#A9DA12';
+    _zLayerDsa = zLayerDisapearTmpObject(obj,tobj);
+    */
+    tree_drag_disable(tobj.id);
+}
+
+// 마우스다운 이벤트 발생시 호출됨
+function tree_mouse_down(e) {
+    var evt = new xEvent(e);
+    var obj = evt.target;
+
+    while(obj && !obj.draggable) {
+        obj = xParent(obj, true);
+    }
+
+    if(obj) {
+      xPreventDefault(e);
+      obj.xDPX = evt.pageX;
+      obj.xDPY = evt.pageY;
+      tree_drag_manager.obj = obj;
+      xAddEventListener(document, 'mouseup', tree_mouse_up, false);
+      if (obj.drag_start) obj.drag_start(obj, evt.pageX, evt.pageY);
+    }
+}
+
+// 마우스 버튼을 놓았을때 동작될 함수 (각종 이벤트 해제 및 변수 설정 초기화)
+function tree_mouse_up(e) { 
+    if (tree_drag_manager.obj) {
+      xPreventDefault(e);
+      xRemoveEventListener(document, 'mouseup', tree_mouse_up, false);
+      
+      if (tree_drag_manager.obj.drag_end) {
+        var evt = new xEvent(e);
+        tree_drag_manager.obj.drag_end(tree_drag_manager.obj, evt.pageX, evt.pageY);
+      } 
+      tree_drag_manager.obj = null;
+    } 
+}  
+
+// 드래그할때의 object이동등을 담당 
+function tree_drag_mouse_move(e) {
+    var evt = new xEvent(e);
+
+    if (tree_drag_manager.obj) {
+      xPreventDefault(e);
+
+      var obj = tree_drag_manager.obj;
+      var dx = evt.pageX - obj.xDPX;
+      var dy = evt.pageY - obj.xDPY;
+
+      obj.xDPX = evt.pageX;
+      obj.xDPY = evt.pageY;
+
+      if (obj.drag) {
+        obj.drag(obj, dx, dy);
+      } else {
+        xMoveTo(obj, xLeft(obj) + dx, xTop(obj) + dy);
+      }
+    }
+}
+
+// 해당 object 에 더 이상 drag가 되지 않도록 설정
+function tree_drag_disable(id, last) {
+    if (!tree_drag_manager) return;
+    var obj = xGetElementById(id);
+    obj.draggable = false;
+    obj.drat_start = null;
+    obj.drag = null;
+    obj.drag_end = null;
+
+    xRemoveEventListener(obj, 'mousedown', tree_mouse_down, false);
+
+    if (tree_drag_manager.isDrag && last) {
+      tree_drag_manager.isDrag = false;
+      xRemoveEventListener(document, 'mousemove', tree_drag_mouse_move, false);
+    }
+}
