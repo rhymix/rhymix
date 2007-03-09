@@ -17,6 +17,7 @@
     $lang->menu_id = '메뉴의 이름';
     $lang->menu_url = '연결 url';
     $lang->menu_open_window = '새창 열기';
+    $lang->menu_expand = '펼침';
     $lang->menu_img_btn = '이미지 버튼';
     $lang->menu_normal_btn = '일반';
     $lang->menu_hover_btn = '마우스오버';
@@ -31,6 +32,7 @@
     $lang->about_menu_name = '관리 및 이미지 버튼이 아닐경우 메뉴 명으로 나타날 제목입니다';
     $lang->about_menu_url = "메뉴를 선택시 이동한 URL입니다.<br /> 다른 모듈을 설치하시고자 할때는 \"module=모듈명\" 또는 \"mid=모듈\"등으로<br />입력하시면 됩니다.<br />내용이 없을시 메뉴를 선택하여도 아무런 동작이 없게 됩니다.";
     $lang->about_menu_open_window = '메뉴 선택시 새창으로 띄울 것인지를 정할 수 있습니다';
+    $lang->about_menu_expand = '트리메뉴(tree_menu.js)를 사용시 늘 펼쳐진 상태로 있게 합니다';
     $lang->about_menu_img_btn = '이미지 버튼을 등록하시면 레이아웃에서 자동으로 이미지 버튼으로 교체되어 표시가 됩니다.';
     $lang->about_menu_group_srls = '그룹을 선택하시면 해당 그룹의 사용자만 메뉴가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
 

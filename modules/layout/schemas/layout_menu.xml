@@ -6,6 +6,7 @@
   <column name="name" type="varchar" size="250" />
   <column name="url" type="varchar" size="250" />
   <column name="open_window" type="char" size="1" default="N" />
+  <column name="expand" type="char" size="1" default="N" />
   <column name="normal_btn" type="varchar" size="255" />
   <column name="hover_btn" type="varchar" size="255" />
   <column name="active_btn" type="varchar" size="255" />

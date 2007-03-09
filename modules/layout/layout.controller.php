@@ -94,6 +94,7 @@
             unset($source_args->module);
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
+            if($source_args->expand !="Y") $source_args->expand = "N";
             $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
 
@@ -105,6 +106,7 @@
             $args->name = $source_args->menu_name;
             $args->url = $source_args->menu_url;
             $args->open_window = $source_args->menu_open_window;
+            $args->expand = $source_args->expand;
             $args->normal_btn = $source_args->menu_normal_btn;
             $args->hover_btn = $source_args->menu_hover_btn;
             $args->active_btn = $source_args->menu_active_btn;
@@ -270,11 +272,12 @@
                 if($menu_srl&&$tree[$menu_srl]) $child_buff = $this->getXmlTree($tree[$menu_srl], $tree);
 
                 $attribute = sprintf(
-                        'node_srl="%s" text="%s" url="%s" open_window="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" group_srls="%s"',
+                        'node_srl="%s" text="%s" url="%s" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" group_srls="%s"',
                         $node->menu_srl, 
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url),
                         $node->open_window,
+                        $node->expand,
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn),
                         str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn),

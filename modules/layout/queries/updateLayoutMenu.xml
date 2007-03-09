@@ -6,6 +6,7 @@
     <column name="name" var="name" notnull="notnull" />
     <column name="url" var="url" />
     <column name="open_window" var="open_window" />
+    <column name="expand" var="expand" />
     <column name="normal_btn" var="normal_btn" />
     <column name="hover_btn" var="hover_btn" />
     <column name="active_btn" var="active_btn" />

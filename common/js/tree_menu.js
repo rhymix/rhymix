@@ -32,7 +32,7 @@ var node_info_list = new Array();
 // menu_id별로 요청된 callback_func
 var node_callback_func = new Array();
 
-// 메뉴 클릭시 기본으로 동작할 함수
+// 메뉴 클릭시 기본으로 동작할 함수 (사용자 임의 함수로 대체될 수 있음)
 function moveTreeMenu(menu_id, node) {
     // url과 open_window값을 구함
     var node_srl = node.getAttribute("node_srl");
@@ -161,12 +161,22 @@ function drawNode(parent_node, menu_id) {
 
         // 자식 노드가 있는지 확인하여 있으면 아이콘을 바꿈
         if(hasChild) {
-            if(!hasNextSibling) {
-                line_icon = "minus";
-                folder_icon = "page";
+            if(node.getAttribute("expand")!="Y") {
+                if(!hasNextSibling) {
+                    line_icon = "minus";
+                    folder_icon = "page";
+                } else {
+                    line_icon = "minusbottom";
+                    folder_icon = "page";
+                }
             } else {
-                line_icon = "minusbottom";
-                folder_icon = "page";
+                if(!hasNextSibling) {
+                    line_icon = "plus";
+                    folder_icon = "page";
+                } else {
+                    line_icon = "plusbottom";
+                    folder_icon = "page";
+                }
             }
         } else {
             if(hasNextSibling) {
@@ -207,8 +217,13 @@ function drawNode(parent_node, menu_id) {
         if(node.childNodes.length) {
             zone_id = zone_id+"_child";
             tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
-            if(!hasNextSibling) html += '<div id="'+zone_id+'"style="display:none;padding-left:18px;background:url(./common/tpl/images/line.gif) repeat-y left;">'+drawNode(node, menu_id)+'</div>';
-            else html += '<div id="'+zone_id+'" style="display:none;padding-left:18px;">'+drawNode(node, menu_id)+'</div>';
+            if(node.getAttribute("expand")!="Y") {
+                if(!hasNextSibling) html += '<div id="'+zone_id+'"style="display:none;padding-left:18px;background:url(./common/tpl/images/line.gif) repeat-y left;">'+drawNode(node, menu_id)+'</div>';
+                else html += '<div id="'+zone_id+'" style="display:none;padding-left:18px;">'+drawNode(node, menu_id)+'</div>';
+            } else {
+                if(!hasNextSibling) html += '<div id="'+zone_id+'"style="display:block;padding-left:18px;background:url(./common/tpl/images/line.gif) repeat-y left;">'+drawNode(node, menu_id)+'</div>';
+                else html += '<div id="'+zone_id+'" style="display:block;padding-left:18px;">'+drawNode(node, menu_id)+'</div>';
+            }
         }
 
         html += ''+
