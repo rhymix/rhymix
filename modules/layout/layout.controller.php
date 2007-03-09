@@ -104,7 +104,7 @@
             $args->layout_srl = $source_args->layout_srl;
             $args->menu_id = $source_args->menu_id;
             $args->name = $source_args->menu_name;
-            $args->url = $source_args->menu_url;
+            $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
             $args->normal_btn = $source_args->menu_normal_btn;
@@ -123,11 +123,13 @@
             // 존재하게 되면 update를 해준다
             if($menu_info->menu_srl == $args->menu_srl) {
                 $output = $oDB->executeQuery('layout.updateLayoutMenu', $args);
+                if(!$output->toBool()) return $output;
 
             // 존재하지 않으면 insert를 해준다
             } else {
                 $args->listorder = -1*$args->menu_srl;
                 $output = $oDB->executeQuery('layout.insertLayoutMenu', $args);
+                if(!$output->toBool()) return $output;
             }
 
             // 해당 메뉴의 정보를 구함
@@ -141,8 +143,15 @@
             $this->add('menu_srl', $args->menu_srl);
             $this->add('menu_id', $args->menu_id);
             $this->add('menu_title', $menu_title);
-        }
 
+            // 현재 mid에 해당하는 모듈의 layout_srl 을 무조건 변경
+            if(eregi("^mid=", $args->url)) {
+                $target_args->layout_srl = $args->layout_srl;
+                $target_args->mid = substr($args->url,4);
+                $output = $oDB->executeQuery("module.updateModuleLayout", $target_args);
+                if(!$output->toBool()) return $output;
+            }
+        }
 
         /**
          * @brief 레이아웃 메뉴 삭제 
