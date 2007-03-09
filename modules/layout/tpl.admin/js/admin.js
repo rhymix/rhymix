@@ -12,7 +12,7 @@ function completeInsertLayoutMenu(ret_obj) {
     var menu_srl = ret_obj['menu_srl'];
 
     if(!xml_file) return;
-    loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
+    loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl, doMoveTree);
 
     if(!menu_srl) {
         xInnerHtml("menu_zone_info_"+menu_id, "");
@@ -79,7 +79,7 @@ function doMoveTree(menu_id, source_node_srl, target_node_srl) {
         var xml_file = fo_menu.xml_file.value;
         var menu_title = fo_menu.menu_title.value;
         var menu_srl = source_node_srl;
-        loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
+        loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl, doMoveTree);
     }
 }
 
@@ -88,7 +88,7 @@ function completeMoveLayoutMenu(ret_obj) {
     var menu_id = ret_obj['menu_id'];
     var menu_srl = ret_obj['menu_srl'];
     var xml_file = ret_obj['xml_file'];
-    loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl);
+    loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl, doMoveTree);
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */
