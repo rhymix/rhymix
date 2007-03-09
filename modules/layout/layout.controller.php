@@ -191,6 +191,14 @@
         }
 
         /**
+         * @brief 레이아웃의 메뉴를 이동
+         **/
+        function procMoveLayoutMenu() {
+            $source_node_srl = Context::get('source_node_srl');
+            $target_node_srl = Context::get('target_node_srl');
+        }
+
+        /**
          * @brief xml 파일을 갱신
          * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
          * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n

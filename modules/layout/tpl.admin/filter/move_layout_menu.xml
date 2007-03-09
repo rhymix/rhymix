@@ -4,9 +4,7 @@
   <response callback_func="completeMoveLayoutMenu">
     <tag name="error" />
     <tag name="message" />
-    <tag name="menu_title" />
     <tag name="menu_id" />
-    <tag name="menu_srl" />
-    <tag name="xml_file" />
+    <tag name="source_node_srl" />
   </response>
 </filter>

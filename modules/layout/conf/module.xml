@@ -13,5 +13,6 @@
         <action name="procInsertLayoutMenu" type="controller" standalone="true" />
         <action name="procDeleteLayoutMenu" type="controller" standalone="true" />
         <action name="procMakeXmlFile" type="controller" standalone="true" />
+        <action name="procMoveLayoutMenu" type="controller" standalone="true" />
     </actions>
 </module>
