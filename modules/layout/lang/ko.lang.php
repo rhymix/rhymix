@@ -25,6 +25,8 @@
     $lang->menu_group_srls = '그룹 제한';
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";
 
+    $lang->cmd_enable_move_menu = "메뉴 옮기기";
+
     $lang->about_downloaded_layouts = "다운로드 되어 있는 레이아웃 목록";
     $lang->about_title = '모듈에 연결시 쉽게 구분할 수 있는 제목을 입력해주세요';
     $lang->about_menu_management = "메뉴관리는 선택하신 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.\n정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 클릭하시면 상세 정보를 입력할 수 있습니다.\n폴더그림을 클릭하시면 메뉴를 확장하실 수 있습니다.\n간혹 메뉴가 정상적으로 나타나지 않으면 \"캐시파일 재생성\" 버튼을 눌러서 정보를 갱신하세요.\n* 정해진 단계 이상의 메뉴는 제대로 표시되지 않을 수 있습니다.";

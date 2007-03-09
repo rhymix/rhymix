@@ -86,8 +86,11 @@
       <input type="hidden" name="menu_id" value="{$menu_id}" />
         <table border="0">
         <tr valign="top">
-          <td width="300">
+          <td width="350">
             <div id="menu_zone_{$menu_id}"></div>
+            <div>
+              <input type="checkbox" id="{$menu_id}_enable_move" /> <label for="{$menu_id}_enable_move">{$lang->cmd_enable_move_menu}</label>
+            </div>
             <div>
               <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$menu_id}');return false;" />
               <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$menu_id}');return false;" />
