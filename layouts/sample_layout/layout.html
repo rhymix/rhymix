@@ -41,21 +41,6 @@
     <!--@end-->
     </div>
 
-    <div>
-    <!-- 3차 메뉴 -->
-    <!--@foreach($third_menu_list as $key => $val)-->
-
-      <!--@if($val['selected'])-->
-        {@ $selected_style = 'style="font-weight:bold;"'}
-      <!--@else-->
-        {@ $selected_style = ''; }
-      <!--@end-->
-
-      <span {$selected_style}>
-        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-      </span>
-    <!--@end-->
-    </div>
   </div>
 </div>
 
@@ -64,7 +49,25 @@
   <col width="150" />
   <col width="*" />
   <tr valign="top">
-    <td><div id="menu"></div></td>
+    <td>
+      <div id="menu"></div>
+
+      <div>
+      <!-- 3차 메뉴 -->
+      <!--@foreach($third_menu_list as $key => $val)-->
+
+        <!--@if($val['selected'])-->
+          {@ $selected_style = 'style="font-weight:bold;"'}
+        <!--@else-->
+          {@ $selected_style = ''; }
+        <!--@end-->
+
+        <div {$selected_style}>
+          <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+        </div>
+      <!--@end-->
+      </div>
+    </td>
     <td>
       <div id="content">
         {$content}
