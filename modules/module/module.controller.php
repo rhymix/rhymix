@@ -207,7 +207,7 @@
         /**
          * @brief 모듈 카테고리 삭제
          **/
-        function procUpdateModuleCategory() {
+        function procDeleteModuleCategory() {
             $oDB = &DB::getInstance();
 
             $args->module_category_srl = Context::get('module_category_srl');

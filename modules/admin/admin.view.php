@@ -75,7 +75,7 @@
         }
 
         /**
-         * @brief 애드온의 목록을 보여줌
+         * @brief애드온의 목록을 보여줌
          **/
         function dispAddonList() {
             $oAddonView = &getView('addon');

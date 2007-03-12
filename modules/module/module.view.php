@@ -11,10 +11,12 @@
          * @brief 초기화
          **/
         function init() {
+            // template path 지정
+            $this->setTemplatePath($this->module_path.'tpl.admin');
         }
 
         /**
-         * @brief 모듈 목록을 출력
+         * @brief 모듈 관리자의 index
          **/
         function dispContent() {
             // 모듈모델 객체를 구함
