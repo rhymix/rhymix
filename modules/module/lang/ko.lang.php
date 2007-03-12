@@ -6,7 +6,9 @@
      **/
 
     $lang->module_list = "모듈 목록";
-    $lang->module_config = "모듈 기본 설정";
+    $lang->module_index = "초기화면";
     $lang->module_category = "모듈 카테고리";
+
+    $lang->category_title = "카테고리 이름";
 
 ?>

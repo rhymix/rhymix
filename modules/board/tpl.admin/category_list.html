@@ -14,7 +14,6 @@
   <table>
   <tr>
     <th>{$lang->category_title}</th>
-    <th>{$lang->document_count}</th>
     <th>{$lang->last_update}</th>
     <th>{$lang->cmd_modify}</th>
     <th colspan="2">{$lang->cmd_move}</th>
@@ -22,13 +21,12 @@
   </tr>
   <!--@if(!count($category_list))-->
   <tr>
-    <td colspan="7">{$lang->msg_category_is_null}</td>
+    <td colspan="6">{$lang->msg_category_is_null}</td>
   </tr>
   <!--@end-->
   <!--@foreach($category_list as $category_srl => $category_info)-->
   <tr>
     <td>{$category_info->title}</td>
-    <td>{number_format($category_info->document_count)}</td>
     <td>{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
     <td><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
     <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','up');return false;">{$lang->cmd_move_up}</a></td>

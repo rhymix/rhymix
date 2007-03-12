@@ -384,11 +384,23 @@
             $oDB = &DB::getInstance();
 
             // 데이터를 DB에서 가져옴
-            $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('module.getModuleCategories', $args);
+            $output = $oDB->executeQuery('module.getModuleCategories');
             if(!$output->toBool()) return $output;
+            if($output->data && !is_array($output->data)) return array($output->data);
+            return $output->data;
+        }
 
-            if(!is_array($output->data)) return array($output->data);
+        /**
+         * @brief 특정 모듈 카테고리의 내용을 구함
+         **/
+        function getModuleCategory($module_category_srl) {
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            // 데이터를 DB에서 가져옴
+            $args->module_category_srl = $module_category_srl;
+            $output = $oDB->executeQuery('module.getModuleCategory', $args);
+            if(!$output->toBool()) return $output;
             return $output->data;
         }
 

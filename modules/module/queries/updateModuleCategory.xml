@@ -1,4 +1,4 @@
-<query id="updateModuleCategory" action="insert">
+<query id="updateModuleCategory" action="update">
   <tables>
     <table name="module_categories" />
   </tables>

@@ -186,11 +186,14 @@
         /**
          * @brief 모듈 카테고리 추가
          **/
-        function procInsertModuleCategory() {
+        function procInsertCategory() {
             $oDB = &DB::getInstance();
 
             $args->title = Context::get('title');
-            return $oDB->executeQuery('module.insertModuleCategory', $args);
+            $output = $oDB->executeQuery('module.insertModuleCategory', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage("success_registed");
         }
 
         /**
@@ -213,5 +216,27 @@
             $args->module_category_srl = Context::get('module_category_srl');
             return $oDB->executeQuery('module.deleteModuleCategory', $args);
         }
+
+        /**
+         * @brief 카테고리의 내용 수정
+         **/
+        function procUpdateCategory() {
+            $mode = Context::get('mode');
+
+            switch($mode) {
+                case 'delete' :
+                        $output = $this->procDeleteModuleCategory();
+                        $msg_code = 'success_deleted';
+                    break;
+                case 'update' :
+                        $output = $this->procUpdateModuleCategory();
+                        $msg_code = 'success_updated';
+                    break;
+            }
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage($msg_code);
+        }
+
     }
 ?>
