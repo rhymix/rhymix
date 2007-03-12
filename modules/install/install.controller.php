@@ -100,8 +100,8 @@
             $oMemberController->insertAdmin($admin_info);
 
             // 금지 아이디 등록 (기본 + 모듈명)
-            $oAdminModel = &getModel('admin');
-            $module_list = $oAdminModel->getModuleList();
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
             foreach($module_list as $key => $val) {
                 $oMemberController->insertDeniedID($val->module,'');
             }
