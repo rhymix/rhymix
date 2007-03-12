@@ -1,20 +1,41 @@
-<table>
+<!--#include("header.html")-->
+<table border="1" width="100%">
 <tr>
-  <th>{$lang->no}</th>
-  <th>{$lang->module_name}</th>
-  <th>{$lang->module_version}</th>
-  <th>{$lang->module_table_count}</th>
-  <th>{$lang->module_installed_path}</th>
-  <th>{$lang->author}</th>
+  <td>{$lang->module_name}</td>
+  <td>{$lang->version}</td>
+  <td>{$lang->author}</td>
+  <td>{$lang->date}</td>
+  <td>{$lang->table_count}</td>
+  <td>{$lang->installed_path}</td>
 </tr>
-<!--@foreach($installed_module_list as $no => $module_obj)-->
+<!--@foreach($module_list as $key => $val)-->
 <tr>
-  <td>{$no+1}</td>
-  <td>{$module_obj->title}</td>
-  <td>{$module_obj->version}</td>
-  <td>{$module_obj->created_table_count} / {$module_obj->table_count}</td>
-  <td>{$module_obj->path}</td>
-  <td><a href="mailto:{$module_obj->author->email_address}">{$module_obj->author->name}</a></td>
+  <td rowspan="2">
+    <!--@if($val->admin_index_act)-->
+      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
+    <!--@else-->
+      {$val->title} <br />
+      ({$val->module})
+    <!--@end-->
+  </td>
+  <td>{$val->version}</td>
+  <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+  <td>{$val->author->date}</td>
+  <td>
+    <!--@if($val->created_table_count != $val->table_count)-->
+      <span style="color:red">
+    <!--@else-->
+      <span>
+    <!--@end-->
+        {$val->created_table_count}/{$val->table_count}
+      </span>
+  </td>
+  <td>{$val->path}</td>
+</tr>
+<tr>
+  <td colspan="5">
+    {nl2br($val->author->description)}
+  </td>
 </tr>
 <!--@end-->
 </table>

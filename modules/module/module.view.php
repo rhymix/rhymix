@@ -16,18 +16,24 @@
         }
 
         /**
-         * @brief 모듈 관리자의 index
+         * @brief 모듈 관리자 페이지
          **/
         function dispContent() {
-            // 모듈모델 객체를 구함
-            $oModuleModel = &getModel('module');
-
-            // 등록된 모듈의 목록을 구해옴
-            //$installed_module_list = $oModuleModel->getModulesInfo();
-            Context::set('installed_module_list', $installed_module_list);
-
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
+        }
+
+        /**
+         * @brief 모듈 목록 출력
+         **/
+        function dispModuleList() {
+            // 모듈 목록을 구해서 
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
+            Context::set('module_list', $module_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('module_list');
         }
 
     }

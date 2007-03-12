@@ -66,12 +66,12 @@
          * @brief 모듈의 목록을 보여줌
          **/
         function dispModuleList() {
-            // 모듈 목록을 세팅
-            $oAdminModel = &getModel('admin');
-            $module_list = $oAdminModel->getModuleList();
-            Context::set('module_list', $module_list);
+            // moduleView::dispModuleList()를 실행하고 템플릿 파일을 구해옴
+            $oModuleView = &getView('module');
+            $oModuleView->dispModuleList();
 
-            $this->setTemplateFile('module_list');
+            $this->setTemplatePath($oModuleView->getTemplatePath());
+            $this->setTemplateFile($oModuleView->getTemplateFile());
         }
 
         /**
