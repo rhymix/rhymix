@@ -21,7 +21,7 @@
             $oController = &getController('install');
 
             // 설치 불가능하다면 introduce를 출력
-            if(!$oController->checkInstallEnv()) $this->act = $this->default_act;
+            if(!$oController->checkInstallEnv()) $this->act = "dispIntroduce";
 
             // 설치 가능한 환경이라면 installController::makeDefaultDirectory() 실행
             else $oController->makeDefaultDirectory();

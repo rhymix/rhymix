@@ -16,7 +16,7 @@
      * - 이슈트래킹   : http://trac.zeroboard.com
      * - SVN Repository : http://svn.zeroboard.com
      * - document     : http://doc.zeroboard.com
-     * - pdf 문서     : http://doc.zeroboard.com/zeroboard.pdf
+     * - pdf 문서     : http://doc.zeroboard.com/zeroboard_xe.pdf
      *
      **/
 
