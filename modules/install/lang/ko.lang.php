@@ -5,10 +5,10 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-    $lang->introduce_title = '제로보드5 설치';
+    $lang->introduce_title = '제로보드 XE 설치';
     $lang->introduce = 
-        "제로보드5를 사용해주셔서 감사합니다.\n".
-        "제로보드5는 GPL라이센스를 따르며 블라블라..\n";
+        "제로보드 XE 를 사용해주셔서 감사합니다.\n".
+        "제로보드 XE 는 GPL라이센스를 따르며 블라블라..\n";
 
     $lang->install_condition_title = "설치 조건";
 
