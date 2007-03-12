@@ -5,7 +5,7 @@
     * @brief  DB*의 상위 클래스
     * @version 0.1
     *
-    * 제로보드5의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.\n
+    * 제로보드의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.\n
     * xml의 종류에는 query xml, schema xml이 있다.\n
     * query xml의 경우 DB::executeQuery() method를 이용하여 xml파일을\n
     * php code로 compile한 후에 실행이 된다.\n

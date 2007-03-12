@@ -9,12 +9,14 @@
      *
      * @mainpage 첫페이지
      * @section intro 소개
-     * zeroboard5는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
+     * zeroboard XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
      * - 공식홈페이지 : http://www.zeroboard.com
      * - 개발자 포험  : http://dev.zeroboard.com
-     * - 이슈트래킹   : http://www.zeroboard.com/trac
-     * - pdf 문서     : http://dev.zeroboard.com/doc/zeroboard.pdf
+     * - 이슈트래킹   : http://trac.zeroboard.com
+     * - SVN Repository : http://svn.zeroboard.com
+     * - document     : http://doc.zeroboard.com
+     * - pdf 문서     : http://doc.zeroboard.com/zeroboard.pdf
      *
      **/
 
