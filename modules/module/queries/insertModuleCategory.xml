@@ -1,0 +1,10 @@
+<query id="insertModuleCategory" action="insert">
+  <tables>
+    <table name="module_categories" />
+  </tables>
+  <columns>
+    <column name="module_category_srl" default="sequence()" />
+    <column name="title" var="title" notnull="notnull"/>
+    <column name="regdate" default="curdate()" />
+  </columns>
+</query>

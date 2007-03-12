@@ -183,5 +183,35 @@
             return $output;
         }
 
+        /**
+         * @brief 모듈 카테고리 추가
+         **/
+        function procInsertModuleCategory() {
+            $oDB = &DB::getInstance();
+
+            $args->title = Context::get('title');
+            return $oDB->executeQuery('module.insertModuleCategory', $args);
+        }
+
+        /**
+         * @brief 모듈 카테고리의 제목 변경
+         **/
+        function procUpdateModuleCategory() {
+            $oDB = &DB::getInstance();
+
+            $args->title = Context::get('title');
+            $args->module_category_srl = Context::get('module_category_srl');
+            return $oDB->executeQuery('module.updateModuleCategory', $args);
+        }
+
+        /**
+         * @brief 모듈 카테고리 삭제
+         **/
+        function procUpdateModuleCategory() {
+            $oDB = &DB::getInstance();
+
+            $args->module_category_srl = Context::get('module_category_srl');
+            return $oDB->executeQuery('module.deleteModuleCategory', $args);
+        }
     }
 ?>

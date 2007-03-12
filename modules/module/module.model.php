@@ -376,5 +376,21 @@
             return $list;
         }
 
+        /**
+         * @brief 모듈 카테고리의 목록을 구함
+         **/
+        function getModuleCategories() {
+            // DB 객체 생성
+            $oDB = &DB::getInstance();
+
+            // 데이터를 DB에서 가져옴
+            $args->document_srl = $document_srl;
+            $output = $oDB->executeQuery('module.getModuleCategories', $args);
+            if(!$output->toBool()) return $output;
+
+            if(!is_array($output->data)) return array($output->data);
+            return $output->data;
+        }
+
     }
 ?>

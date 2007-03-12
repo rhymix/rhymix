@@ -4,6 +4,7 @@
   </tables>
   <columns>
     <column name="module_srl" default="module_srl" notnull="notnull" />
+    <column name="module_category_srl" default="module_category_srl" />
     <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
     <column name="skin" var="skin" notnull="notnull" minlength="1" maxlength="250" />
     <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
