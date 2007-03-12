@@ -231,7 +231,7 @@
                 }
             }
 
-            $schema = sprintf('create table `%s` (%s%s);', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
+            $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "ENGINE = MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci");
             $output = $this->_query($schema);
             if(!$output) return false;
         }
