@@ -16,6 +16,7 @@
   <td>{$lang->date}</td>
   <td>{$lang->table_count}</td>
   <td>{$lang->installed_path}</td>
+  <td>{$lang->module_info}</td>
   <td>{$lang->add_shortcut}</td>
 </tr>
 <!--@foreach($module_list as $key => $val)-->
@@ -41,6 +42,7 @@
       </span>
   </td>
   <td>{$val->path}</td>
+  <td><a href="#" onclick="winopen('{getUrl('','module','module','act','dispModuleInfo','selected_module',$val->module)}','module_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
   <td rowspan="2">
     <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
     <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>

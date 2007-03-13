@@ -15,6 +15,14 @@ function isDef() {
   return true;
 }
 
+// 윈도우 오픈
+function winopen(url, target, attribute) {
+    if(typeof(target)=='undefined') target = '_blank';
+    if(typeof(attribute)=='undefined') attribute = '';
+    var win = window.open(url, target, attribute);
+    win.focus();
+}
+
 // 특정 div(or span...)의 display옵션 토글
 function toggleDisplay(obj, opt) {
   obj = xGetElementById(obj);

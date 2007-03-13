@@ -41,7 +41,11 @@
         function dispModuleInfo() {
             // 모듈 목록을 구해서 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoXml($this->module);
+            $module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
+            Context::set('module_info', $module_info);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('module_info');
