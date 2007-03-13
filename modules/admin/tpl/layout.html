@@ -15,13 +15,13 @@
   <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
   <div>
     <span <!--@if($mo=='board')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('act','dispAdminContent','mo','board','module_srl','')}'">{$lang->board_manager}</a>
+      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispAdminContent','mo','board','module_srl','')}'">{$lang->board_manager}</a>
     </span>
     <span <!--@if($mo=='member')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('act','dispAdminContent','mo','member','module_srl','')}'">{$lang->member_manager}</a>
+      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispAdminContent','mo','member','module_srl','')}'">{$lang->member_manager}</a>
     </span>
     <span <!--@if($mo=='layout')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('act','dispContent','mo','layout','module_srl','')}'">{$lang->layout_manager}</a>
+      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispContent','mo','layout','module_srl','')}'">{$lang->layout_manager}</a>
     </span>
   </div>
 
@@ -29,7 +29,7 @@
   <div>
     <!--@foreach($menu_item as $key => $val)-->
     <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('act',$val->act,'mo','','module_srl','')}'">{$val->title}</a>
+      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->act,'mo','','module_srl','')}'">{$val->title}</a>
     </span>
     <!--@end-->
   </div>
@@ -37,7 +37,7 @@
 
 <!--@if($selected_module_info)-->
 <div id="admin_module_info">
-  <a href="#" onclick="location.href='{getUrl('mo', $mo, 'act', $selected_module_info->admin_index_act)}'">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
+  <a href="#" onclick="location.href='{getUrl('','module', $module, 'mo', $mo, 'act', $selected_module_info->admin_index_act)}'">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
 </div>
 <!--@end-->
 

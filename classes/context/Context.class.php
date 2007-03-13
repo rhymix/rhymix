@@ -431,8 +431,15 @@
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
         function _getUrl($num_args, $args_list) {
-            if(!is_object($this->get_vars)) $get_vars = null;
-            else $get_vars = clone($this->get_vars);
+            if(!is_object($this->get_vars) || $args_list[0]=='') {
+                $get_vars = null;
+                if($args_list[0]=='') {
+                    array_shift($args_list);
+                    $num_args = count($args_list);
+                }
+            } else {
+                $get_vars = clone($this->get_vars);
+            }
 
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];

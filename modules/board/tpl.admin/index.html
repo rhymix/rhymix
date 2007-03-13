@@ -14,6 +14,16 @@
   <table>
   <tr>
     <th>{$lang->no}</th>
+    <th>
+      <form action="./" method="get">
+      <select name="category" onchange="doChangeCategory(this, '{getUrl('module_category_srl','')}')" >
+      <option value="">{$lang->category}</option>
+      <!--@foreach($module_category as $key => $val)-->
+      <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
+      <!--@end-->
+      </select>
+      </form>
+    </th>
     <th>{$lang->mid}</th>
     <th>{$lang->browser_title}</th>
     <th>{$lang->is_default}</th>
@@ -26,6 +36,13 @@
   <!--@foreach($board_list as $no => $val)-->
   <tr>
     <td>{$no}</td>
+    <td>
+      <!--@if(!$val->module_category_srl)-->
+        {$lang->not_exists}
+      <!--@else-->
+        {$module_category[$val->module_category_srl]->title}
+      <!--@end-->
+    </td>
     <td><a href="{getUrl('act','dispAdminBoardInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
     <td>{$val->browser_title}</td>
     <td>{$val->is_default}</td>

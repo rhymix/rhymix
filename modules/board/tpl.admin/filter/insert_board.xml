@@ -8,6 +8,7 @@
   <parameter>
     <param name="board_name" target="mid" />
     <param name="module_srl" target="module_srl" />
+    <param name="module_category_srl" target="module_category_srl" />
     <param name="layout_srl" target="layout_srl" />
     <param name="skin" target="skin" />
     <param name="browser_title" target="browser_title" />

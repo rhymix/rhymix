@@ -91,3 +91,9 @@ function completeInsertGrant(ret_obj) {
   location.href = url;
 }
 
+/* 카테고리 이동 */
+function doChangeCategory(sel_obj, url) {
+  var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
+  if(!module_category_srl) location.href=url;
+  else location.href=url+'&module_category_srl='+module_category_srl;
+}

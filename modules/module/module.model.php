@@ -386,8 +386,13 @@
             // 데이터를 DB에서 가져옴
             $output = $oDB->executeQuery('module.getModuleCategories');
             if(!$output->toBool()) return $output;
-            if($output->data && !is_array($output->data)) return array($output->data);
-            return $output->data;
+            if($output->data && !is_array($output->data)) $list = array($output->data);
+            else $list = $output->data;
+
+            foreach($list as $val) {
+                $category_list[$val->module_category_srl] = $val;
+            }
+            return $category_list;
         }
 
         /**

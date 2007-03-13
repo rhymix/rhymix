@@ -28,6 +28,20 @@
     <td>{$lang->about_mid}</td>
   </tr>
   <tr>
+    <th rowspan="2">{$lang->category}</th>
+    <td>
+      <select name="module_category_srl">
+        <option value="0">{$lang->notuse}</option>
+        <!--@foreach($module_category as $key => $val)-->
+        <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
+        <!--@end-->
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_category}</td>
+  </tr>
+  <tr>
     <th rowspan="2">{$lang->browser_title}</th>
     <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
   </tr>

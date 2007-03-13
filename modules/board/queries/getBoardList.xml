@@ -10,6 +10,7 @@
     <condition operation="like" column="title" var="s_title" pipe="or" />
     <condition operation="like" column="comment" var="s_comment" pipe="or" />
     <condition operation="equal" column="module" var="s_module" pipe="or" />
+    <condition operation="equal" column="module_category_srl" var="s_module_category_srl" pipe="or" />
   </conditions>
   <navigation>
     <index var="sort_index" order="desc" />

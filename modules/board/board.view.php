@@ -11,59 +11,73 @@
          * @brief 초기화
          *
          * board 모듈은 일반 사용과 관리자용으로 나누어진다.\n
-         * act값의 앞에 dispAdmin이 있으면 관리자용 action으로 취급해버림
          **/
         function init() {
+        }
 
-            // 관리자용 action일때
-            if(substr($this->act,0,9)=='dispAdmin') {
+        /**
+         * @brief 관리자 기능 호출시에 관련 정보들 세팅해줌
+         **/
+        function initAdmin() {
+            // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
+            $module_srl = Context::get('module_srl');
 
-                // 템플릿 경로 지정 (board의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
-                $template_path = sprintf("%stpl.admin/",$this->module_path);
 
-                // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
-                $module_srl = Context::get('module_srl');
+            // module model 객체 생성 
+            $oModuleModel = &getModel('module');
 
-                if($module_srl) {
-                    $oModuleModel = &getModel('module');
-                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                    if(!$module_info) {
-                        Context::set('module_srl','');
-                        $this->act = 'list';
-                    } else {
-                        $this->module_info = $module_info;
-                        Context::set('module_info',$module_info);
-                    }
+            // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
+            if($module_srl) {
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if(!$module_info) {
+                    Context::set('module_srl','');
+                    $this->act = 'list';
+                } else {
+                    $this->module_info = $module_info;
+                    Context::set('module_info',$module_info);
                 }
-
-            // 일반 action일 경우
-            } else {
-
-                // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
-                if($this->module_info->use_category=='Y') {
-                    $oDocumentModel = &getModel('document');
-                    $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
-                    Context::set('category_list', $this->category_list);
-                }
-
-                // 에디터 세팅
-                Context::set('editor', $this->editor);
-                $editor_path = sprintf("./editor/%s/", $this->editor);
-                Context::set('editor_path', $editor_path);
-                Context::loadLang($editor_path);
-
-                // 스킨 템플릿 경로 구함
-                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
-
-                // 템플릿에서 사용할 변수를 Context::set()
-                if($this->module_srl) Context::set('module_srl',$this->module_srl);
-
-                Context::set('module_info',$this->module_info);
             }
 
+            // 모듈 카테고리 목록을 구함
+            $module_category = $oModuleModel->getModuleCategories();
+            Context::set('module_category', $module_category);
+
+            // 템플릿 경로 구함 (board의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
+            $template_path = sprintf("%stpl.admin/",$this->module_path);
+
+            // 템플릿 경로 지정
+            $this->setTemplatePath($template_path);
+        }
+
+        /**
+         * @brief 일반 게시판 호출시에 관련 정보를 세팅해줌
+         **/
+        function initNormal() {
+
+            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+            if($this->module_info->use_category=='Y') {
+                $oDocumentModel = &getModel('document');
+                $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
+                Context::set('category_list', $this->category_list);
+            }
+
+            // 에디터 세팅
+            Context::set('editor', $this->editor);
+            $editor_path = sprintf("./editor/%s/", $this->editor);
+            Context::set('editor_path', $editor_path);
+            Context::loadLang($editor_path);
+
+            // 템플릿에서 사용할 변수를 Context::set()
+            if($this->module_srl) Context::set('module_srl',$this->module_srl);
+
+            Context::set('module_info',$this->module_info);
+        
             // 기본 모듈 정보들 설정
             $this->list_count = $this->module_info->list_count?$this->module_info->list_count:20;
             $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
+
+            // 스킨 템플릿 경로 구함
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
 
             // 템플릿 경로 지정
             $this->setTemplatePath($template_path);
@@ -73,6 +87,9 @@
          * @brief 목록 및 선택된 글 출력
          **/
         function dispContent() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
 
@@ -138,6 +155,9 @@
          * @brief 글 작성 화면 출력
          **/
         function dispWrite() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
 
@@ -175,6 +195,9 @@
          * @brief 문서 삭제 화면 출력
          **/
         function dispDelete() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
 
@@ -202,6 +225,9 @@
          * @brief 댓글의 답글 화면 출력
          **/
         function dispReplyComment() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -232,6 +258,9 @@
          * @brief 댓글 수정 폼 출력
          **/
         function dispModifyComment() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -264,6 +293,9 @@
          * @brief 댓글 삭제 화면 출력
          **/
         function dispDeleteComment() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
 
@@ -291,6 +323,9 @@
          * @brief 엮인글 삭제 화면 출력
          **/
         function dispDeleteTrackback() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 삭제할 댓글번호를 가져온다
             $trackback_srl = Context::get('trackback_srl');
 
@@ -311,6 +346,9 @@
          * @brief 회원가입폼 
          **/
         function dispSignUpForm() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 이미 로그인되어 있으면 로그인 한 회원의 정보를 세팅하여 정보 수정을 시킴
             if(Context::get('is_logged')) {
                 Context::set('member_info', Context::get('logged_info'));
@@ -328,6 +366,9 @@
          * @brief 로그인 폼 출력
          **/
         function dispLogin() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             if(Context::get('is_logged')) return $this->dispContent();
             $this->setTemplateFile('login_form');
         }
@@ -336,6 +377,9 @@
          * @brief 로그아웃 화면 출력
          **/
         function dispLogout() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             if(!Context::get('is_logged')) return $this->dispContent();
             $this->setTemplateFile('logout');
         }
@@ -345,6 +389,9 @@
          * @brief 메세지 출력
          **/
         function dispMessage($msg_code) {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             $msg = Context::getLang($msg_code);
             if(!$msg) $msg = $msg_code;
             Context::set('message', $msg);
@@ -355,6 +402,9 @@
          * @brief RSS 출력
          **/
         function dispRss() {
+            // 모듈 관련 정보 세팅
+            $this->initNormal();
+
             // 권한 체크
             if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
 
@@ -395,12 +445,16 @@
          * @brief 게시판 관리 목록 보여줌
          **/
         function dispAdminContent() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // 등록된 board 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
             $args->sort_index = "module_srl";
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
+            $args->s_module_category_srl = Context::get('module_category_srl');
             $output = $oDB->executeQuery('board.getBoardList', $args);
 
             // 템플릿에 쓰기 위해서 context::set
@@ -418,6 +472,9 @@
          * @brief 게시판에 필요한 기본 설정들
          **/
         function dispAdminModuleConfig() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('board');
@@ -432,6 +489,9 @@
          * @brief 선택된 게시판의 정보 출력
          **/
         function dispAdminBoardInfo() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispAdminContent();
 
@@ -451,6 +511,9 @@
          * @brief 게시판 추가 폼 출력
          **/
         function dispAdminInsertBoard() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // 스킨 목록을 구해옴
             $oModuleModel = &getModel('module');
             $skin_list = $oModuleModel->getSkins($this->module_path);
@@ -469,6 +532,9 @@
          * @brief 게시판 삭제 화면 출력
          **/
         function dispAdminDeleteBoard() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             if(!Context::get('module_srl')) return $this->dispContent();
 
             $module_info = Context::get('module_info');
@@ -487,6 +553,9 @@
          * @brief 스킨 정보 보여줌
          **/
         function dispAdminSkinInfo() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
             $module_info = Context::get('module_info');
             $skin = $module_info->skin;
@@ -513,6 +582,9 @@
          * @brief 카테고리의 정보 출력
          **/
         function dispAdminCategoryInfo() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
 
@@ -544,6 +616,9 @@
          * @brief 권한 목록 출력
          **/
         function dispAdminGrantInfo() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
 

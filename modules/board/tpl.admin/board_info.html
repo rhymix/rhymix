@@ -2,6 +2,16 @@
 
 <table>
 <tr>
+  <th>{$lang->category}</th>
+  <td>
+    <!--@if(!$module_info->module_category_srl)-->
+      {$lang->not_exists}
+    <!--@else-->
+      {$module_category[$module_info->module_category_srl]->title}
+    <!--@end-->
+  </td>
+</tr>
+<tr>
   <th>{$lang->layout}</th>
   <td>
     <!--@if($module_info->layout_srl)-->

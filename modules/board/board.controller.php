@@ -432,7 +432,7 @@
          **/
         function procInsertBoard() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','layout_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+            $args = Context::gets('module_srl','layout_srl','module_category_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'board';
             $args->mid = $args->board_name;
             unset($args->board_name);
