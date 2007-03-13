@@ -115,48 +115,100 @@
          **/
         function getDocumentList($obj) {
 
-            // 검색 키워드가 있으면 공백을 % 로 변경하여 키워드 or 연산이 되도록 수정
-            if($obj->search_keyword) $obj->search_keyword = str_replace(' ','%',$obj->search_keyword);
-
-
-            if($obj->search_target && $obj->search_keyword) {
-                switch($obj->search_target) {
-                    case 'title' :
-                            $search_obj->s_title = $obj->search_keyword;
-                        break;
-                    case 'content' :
-                            $search_obj->s_content = $obj->search_keyword;
-                        break;
-                    case 'title_content' :
-                            $search_obj->s_title = $obj->search_keyword;
-                            $search_obj->s_content = $obj->search_keyword;
-                        break;
-                    case 'user_name' :
-                            $search_obj->s_user_name = $obj->search_keyword;
-                        break;
-                }
-            }
-
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            if(!in_array($obj->sort_index, array('list_order', 'update_order'))) $obj->sort_index = 'list_order';
+
             // 변수 설정
             $args->module_srl = $obj->module_srl;
-            $args->s_title = $obj->search_target=='title'?$obj->search_keyword:'';
-            $args->s_content = $obj->search_target=='content'?$obj->search_keyword:'';
-            $args->s_user_name = $obj->search_target=='user_name'?$obj->search_keyword:'';
-            $args->s_member_srl = $obj->search_target=='member'?$obj->search_keyword:'';
-            $args->s_ipaddress = $obj->search_target=='ipaddress'?$obj->search_keyword:'';
-            $args->s_regdate = $obj->search_target=='regdate'?$obj->search_keyword:'';
             $args->category_srl = $obj->category_srl?$obj->category_srl:'';
 
             $args->sort_index = $obj->sort_index;
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
+            $query_id = 'document.getDocumentList';
+
+            // 검색 옵션 정리
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
+                        break;
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $query_id = 'document.getDocumentListWithinMember';
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                        break;
+                    case 'member_srl' :
+                            $args->s_member_srl = (int)$search_keyword;
+                        break;
+                    case 'user_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_nick_name = $search_keyword;
+                        break;
+                    case 'email_address' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_email_address = $search_keyword;
+                        break;
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_homepage = $search_keyword;
+                        break;
+                    case 'is_notice' :
+                            if($search_keyword=='Y') $args->s_is_notice = 'Y';
+                            else $args->s_is_notice = '';
+                        break;
+                    case 'is_secret' :
+                            if($search_keyword=='Y') $args->s_is_secret = 'Y';
+                            else $args->s_is_secret = '';
+                        break;
+                    case 'tags' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_tags = $search_keyword;
+                        break;
+                    case 'readed_count' :
+                            $args->s_readed_count = (int)$search_keyword;
+                        break;
+                    case 'voted_count' :
+                            $args->s_voted_count = (int)$search_keyword;
+                        break;
+                    case 'comment_count' :
+                            $args->s_comment_count = (int)$search_keyword;
+                        break;
+                    case 'trackback_count' :
+                            $args->s_trackback_count = (int)$search_keyword;
+                        break;
+                    case 'uploaded_count' :
+                            $args->s_uploaded_count = (int)$search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'last_update' :
+                            $args->s_last_upate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                }
+            }
 
             // document.getDocumentList 쿼리 실행
-            $output = $oDB->executeQuery('document.getDocumentList', $args);
+            $output = $oDB->executeQuery($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
