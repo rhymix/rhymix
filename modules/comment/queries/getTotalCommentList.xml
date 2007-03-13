@@ -1,14 +1,24 @@
 <query id="getTotalCommentList" action="select">
-  <tables>
-    <table name="comments" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <navigation>
-    <index var="sort_index" order="asc" />
-    <list_count var="list_count" default="20" />
-    <page_count var="page_count" default="10" />
-    <page var="page" default="1" />
-  </navigation>
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like" column="content" var="s_content" />
+        <condition operation="like" column="user_name" var="s_user_name" pipe="or" />
+        <condition operation="like" column="nick_name" var="s_nick_name" pipe="or" />
+        <condition operation="like" column="email_address" var="s_email_address" pipe="or" />
+        <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
+        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+        <condition operation="like_prefix" column="last_update" var="s_last_upate" pipe="or" />
+        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
 </query>

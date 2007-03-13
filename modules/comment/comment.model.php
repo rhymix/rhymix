@@ -141,14 +141,59 @@
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            $query_id = 'comment.getTotalCommentList';
+
             // 변수 설정
-            $args->sort_index = $obj->sort_index;
+            $args->sort_index = 'list_order';
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
 
+            // 검색 옵션 정리
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $query_id = 'comment.getTotalCommentListWithinMember';
+                            $args->sort_index = 'comments.list_order';
+                        break;
+                    case 'user_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_nick_name = $search_keyword;
+                        break;
+                    case 'email_address' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_email_address = $search_keyword;
+                        break;
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_homepage = $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'last_update' :
+                            $args->s_last_upate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                }
+            }
+
             // comment.getTotalCommentList 쿼리 실행
-            $output = $oDB->executeQuery('comment.getTotalCommentList', $args);
+            $output = $oDB->executeQuery($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
