@@ -3,5 +3,6 @@
     <grants />
     <actions>
         <action name="dispMessage" type="view" standalone="true" index="true"/>
+        <action name="dispConfig" type="view" standalone="true" admin_index="true"/>
     </actions>
 </module>
