@@ -36,6 +36,18 @@
         }
 
         /**
+         * @brief 모듈의 상세 정보(conf/info.xml)를 팝업 출력
+         **/
+        function dispModuleInfo() {
+            // 모듈 목록을 구해서 
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoXml($this->module);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('module_info');
+        }
+
+        /**
          * @brief 모듈 카테고리 목록
          **/
         function dispCategory() {
