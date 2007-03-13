@@ -41,7 +41,7 @@
         /**
          * @brief 레이아웃 세부 정보 입력
          **/
-        function dispLayoutInfo() {
+        function dispLayoutMenu() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
             $layout_srl = Context::get('layout_srl');
 
@@ -56,6 +56,23 @@
 
             $this->setTemplateFile('layout_info');
         }
+
+        /**
+         * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
+         **/
+        function dispLayoutInfo() {
+            // 모듈 목록을 구해서 
+            $oLayoutModel = &getModel('layout');
+            $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
+            Context::set('layout_info', $layout_info);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('layout_detail_info');
+        }
+
 
         /**
          * @brief 레이아웃 목록을 보여줌

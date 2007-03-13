@@ -2,33 +2,33 @@
 <col width="100" />
 <col width="300" />
 <tr>
-  <th colspan="2">{$lang->module_maker}</th>
+  <th colspan="2">{$lang->addon_maker}</th>
 </tr>
 <tr>
   <th>{$lang->title}</th>
-  <td>{$module_info->title}</td>
+  <td>{$addon_info->title} ver. {$addon_info->version}</td>
 </tr>
 <tr>
   <th>{$lang->author}</th>
-  <td><a href="mailto:{$module_info->author->email_address}">{$module_info->author->name}</a></td>
+  <td><a href="mailto:{$addon_info->author->email_address}">{$addon_info->author->name}</a></td>
 </tr>
 <tr>
   <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open({$module_info->author->homepage});return false;">{$module_info->author->homepage}</a></td>
+  <td><a href="#" onclick="window.open({$addon_info->author->homepage});return false;">{$addon_info->author->homepage}</a></td>
 </tr>
 <tr>
   <th>{$lang->regdate}</th>
-  <td>{$module_info->author->date}</td>
+  <td>{$addon_info->author->date}</td>
 </tr>
 <tr>
   <th>{$lang->description}</th>
-  <td>{nl2br($module_info->author->description)}</td>
+  <td>{nl2br($addon_info->author->description)}</td>
 </tr>
 
 <tr>
-  <th colspan="2">{$lang->module_history}</th>
+  <th colspan="2">{$lang->addon_history}</th>
 </tr>
-<!--@foreach($module_info->history as $history)-->
+<!--@foreach($addon_info->history as $history)-->
 <!--@if($history->name)-->
 <tr>
   <th>{$lang->name}</th>

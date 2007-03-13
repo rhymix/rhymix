@@ -24,6 +24,11 @@
     $lang->menu_active_btn = '선택시';
     $lang->menu_group_srls = '그룹 제한';
 
+    $lang->layout_maker = "레이아웃 제작자";
+    $lang->layout_history = "변경 사항 ";
+
+    $lang->layout_info = "레이아웃 정보";
+
     $lang->layout_list = '레이아웃 목록';
     $lang->downloaded_list = '다운로드 목록';
 

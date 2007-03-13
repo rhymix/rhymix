@@ -2,33 +2,33 @@
 <col width="100" />
 <col width="300" />
 <tr>
-  <th colspan="2">{$lang->module_maker}</th>
+  <th colspan="2">{$lang->layout_maker}</th>
 </tr>
 <tr>
   <th>{$lang->title}</th>
-  <td>{$module_info->title} ver {$module_info->version}</td>
+  <td>{$layout_info->title} ver {$layout_info->version}</td>
 </tr>
 <tr>
   <th>{$lang->author}</th>
-  <td><a href="mailto:{$module_info->author->email_address}">{$module_info->author->name}</a></td>
+  <td><a href="mailto:{$layout_info->author->email_address}">{$layout_info->author->name}</a></td>
 </tr>
 <tr>
   <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open({$module_info->author->homepage});return false;">{$module_info->author->homepage}</a></td>
+  <td><a href="#" onclick="window.open({$layout_info->author->homepage});return false;">{$layout_info->author->homepage}</a></td>
 </tr>
 <tr>
   <th>{$lang->regdate}</th>
-  <td>{$module_info->author->date}</td>
+  <td>{$layout_info->author->date}</td>
 </tr>
 <tr>
   <th>{$lang->description}</th>
-  <td>{nl2br($module_info->author->description)}</td>
+  <td>{nl2br($layout_info->author->description)}</td>
 </tr>
 
 <tr>
-  <th colspan="2">{$lang->module_history}</th>
+  <th colspan="2">{$lang->layout_history}</th>
 </tr>
-<!--@foreach($module_info->history as $history)-->
+<!--@foreach($layout_info->history as $history)-->
 <!--@if($history->name)-->
 <tr>
   <th>{$lang->name}</th>

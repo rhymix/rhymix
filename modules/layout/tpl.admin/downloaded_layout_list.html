@@ -10,6 +10,7 @@
     <td>{$lang->menu_count}</td>
     <td>{$lang->date}</td>
     <td>{$lang->path}</td>
+    <td>{$lang->layout_info}</td>
     <td>{$lang->cmd_make}</td>
   </tr>
   <!--@foreach($layout_list as $key => $val)-->
@@ -23,10 +24,11 @@
     <td>{$val->menu_count}</td>
     <td>{$val->author->date}</td>
     <td>{$val->path}</td>
+  <td><a href="#" onclick="winopen('{getUrl('','module','layout','act','dispLayoutInfo','selected_layout',$val->layout)}','layout_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
     <td><a href="{getUrl('mo','layout','act','dispInsertLayout','layout',$val->layout)}">{$lang->cmd_make}</a></td>
   </tr>
   <tr>
-    <td colspan="6">
+    <td colspan="7">
       {nl2br($val->author->description)}
     </td>
   </tr>

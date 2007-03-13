@@ -22,6 +22,22 @@
         }
 
         /**
+         * @brief 애드온의 상세 정보(conf/info.xml)를 팝업 출력
+         **/
+        function dispAddonInfo() {
+            // 모듈 목록을 구해서 
+            $oAddonModel = &getModel('addon');
+            $addon_info = $oAddonModel->getAddonInfoXml(Context::get('selected_addon'));
+            Context::set('addon_info', $addon_info);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('addon_info');
+        }
+
+        /**
          * @brief 애드온 목록을 보여줌
          **/
         function dispAddonList() {
