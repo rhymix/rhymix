@@ -33,8 +33,6 @@
             $shortcut_list = $oAdminModel->getShortCuts();
             Context::set('shortcut_list', $shortcut_list);
 
-            // admin class의 init
-            parent::init();
         }
 
         /**

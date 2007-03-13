@@ -135,6 +135,8 @@
             // 권한변수 설정
             $this->grant = $grant;
             Context::set('grant', $grant);
+
+            $this->init();
         }
 
         /**
