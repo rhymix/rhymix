@@ -13,10 +13,10 @@
   <column name="signature" type="text" />
   <column name="allow_mailing" type="char" size="1" default="Y" idx="idx_allow_mailing" />
   <column name="unread_message" type="number" size="11" default="0" />
-  <column name="denied" type="char" size="1" default="N" />
-  <column name="regdate" type="date" />
-  <column name="last_login" type="date" />
-  <column name="is_admin" type="char" size="1" default="N" />
+  <column name="denied" type="char" size="1" default="N" index="idx_is_denied" />
+  <column name="regdate" type="date" index="idx_regdate" />
+  <column name="last_login" type="date" index="idx_last_login" />
+  <column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
   <column name="description" type="text" />
   <column name="extra_vars" type="text" />
 </table>

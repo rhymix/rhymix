@@ -11,6 +11,6 @@
   <column name="hover_btn" type="varchar" size="255" />
   <column name="active_btn" type="varchar" size="255" />
   <column name="group_srls" type="text" />
-  <column name="listorder" type="number" size="11" default="0" />
+  <column name="listorder" type="number" size="11" default="0" inex="idx_listorder" />
   <column name="regdate" type="date" index="idx_regdate" />
 </table>
