@@ -101,6 +101,8 @@
     $lang->search_keyword = '검색어';
     $lang->is_default = "기본";
 
+    $lang->skin = "스킨";
+
     $lang->board_manager = '게시판 관리';
     $lang->member_manager = '회원 관리';
     $lang->layout_manager = '레이아웃 관리';

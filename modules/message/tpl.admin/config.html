@@ -1,0 +1,25 @@
+<!--%import("filter/insert_config.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+  <table border="1">
+  <tr>
+    <th rowspan="2">{$lang->skin}</th>
+    <td>
+      <select name="skin">
+        <!--@foreach($skin_list as $key => $val)-->
+        <option value="{$key}" <!--@if($key==$config->skin)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>{$lang->about_skin}</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>   
+  </tr>
+  </table>  
+</form>
