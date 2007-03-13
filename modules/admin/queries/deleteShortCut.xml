@@ -3,6 +3,6 @@
     <table name="admin_shortcut" />
   </tables>
   <conditions>
-    <condition operation="equal" column="shortcut_srl" var="shortcut_srl" filter="number" notnull="notnull" />
+    <condition operation="equal" column="module" var="module" notnull="notnull" />
   </conditions>
 </query>

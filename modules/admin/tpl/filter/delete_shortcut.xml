@@ -1,6 +1,6 @@
 <filter name="delete_shortcut" module="admin" act="procDeleteShortCut" confirm_msg_code="confirm_delete">
   <form>
-    <node target="shortcut_srl" required="true" />
+    <node target="selected_module" required="true" />
   </form>
   <response>
     <tag name="error" />

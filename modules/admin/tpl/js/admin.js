@@ -19,8 +19,8 @@ function doAdminLoginFocus() {
 }
 
 // 숏컷 삭제
-function doDeleteShortCut(shortcut_srl) {
+function doDeleteShortCut(selected_module) {
   var fo_obj = xGetElementById('fo_shortcut_info');
-  fo_obj.shortcut_srl.value = shortcut_srl;
+  fo_obj.selected_module.value = selected_module;
   procFilter(fo_obj, delete_shortcut);
 }

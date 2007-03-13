@@ -5,7 +5,7 @@
 
 <!-- 숏컷의 위/아래, 삭제와 관련된 form -->
 <form id="fo_shortcut_info" action="./" method="get">
-<input type="hidden" name="shortcut_srl" value="" />
+<input type="hidden" name="selected_module" value="" />
 </form>
 
 <div>
@@ -26,7 +26,7 @@
     <td>{$shortcut_info->title}</td>
     <td>{$shortcut_info->module}</td>
     <td>{zdate($shortcut_info->last_update,"Y-m-d H:i:s")}</td>
-    <td><a href="#" onclick="doDeleteShortCut('{$shortcut_info->shortcut_srl}');return false;">{$lang->cmd_delete}</a></td>
+    <td><a href="#" onclick="doDeleteShortCut('{$shortcut_info->module}');return false;">{$lang->cmd_delete}</a></td>
   </tr>
   <!--@end-->
   </table>
