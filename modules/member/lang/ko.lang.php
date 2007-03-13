@@ -33,6 +33,15 @@
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
 
+    $lang->search_target_list = array(
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
+        'email_address' => '메일주소',
+        'regdate' => '가입일시',
+        'last_login' => '최근로그인일시',
+    );
+
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
     $lang->msg_group_is_null = '등록된 그룹이 없습니다';

@@ -35,14 +35,6 @@
 
     $lang->about_test = "테스트는 블라블라...";
 
-    // 권한의 명칭
-    $lang->grant_title = array(
-    'list' => "목록 접근 권한",
-    'view' => "내용 접근 권한",
-    'write_document' => "게시물 작성 권한",
-    'write_comment' => "코멘트 작성 권한",
-    'fileupload' => "파일첨부 권한",
-    );
     $lang->msg_not_permitted = "권한이 없습니다";
 
     // 주절 주절..

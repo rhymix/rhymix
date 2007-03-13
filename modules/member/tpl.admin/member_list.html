@@ -1,5 +1,7 @@
 <!--#include("header.html")-->
 
+<!--%import("filter/search.xml")-->
+
 <!-- 정보 -->
 <div>
   {number_format($total_count)}, 
@@ -40,6 +42,43 @@
 <!-- 버튼 -->
 <div>
   [<a href="{getUrl('act','dispMemberInsert','member_srl','')}">{$lang->cmd_make}</a>]
+</div>
+
+<!-- 검색 -->
+<div>
+  <form action="./" method="get" onsubmit="return procFilter(this, search)">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="mo" value="{$mo}" />
+    <input type="hidden" name="act" value="{$act}}" />
+
+    <div>
+      <select name="is_admin">
+        <option value="" <!--@if($is_admin!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
+        <option value="Y" <!--@if($is_admin=='Y')-->selected="true"<!--@end-->>{$lang->is_admin}</option>
+      </select>
+      <select name="is_denied">
+        <option value="" <!--@if($is_denied!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
+        <option value="Y" <!--@if($is_denied=='Y')-->selected="true"<!--@end-->>{$lang->denied}</option>
+      </select>
+      <select name="group_srl">
+        <option value="0">{$lang->group}</option>
+        <!--@foreach($group_list as $key => $val)-->
+        <option value="{$val->group_srl}" <!--@if($group_srl==$val->group_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+        <!--@end-->
+      </select>
+    </div>
+    <div>
+      <select name="search_target">
+        <option value="">{$lang->search_target}</option>
+        <!--@foreach($lang->search_target_list as $key => $val)-->
+        <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+      <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+      <input type="submit" value="{$lang->cmd_search}" />
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','member_srl','')}'"/>
+    </div>
+  </form>
 </div>
 
 <!-- 페이지 네비게이션 -->

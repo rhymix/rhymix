@@ -14,7 +14,15 @@
          * @brief 초기화
          **/
         function init() {
+            // 관리자 모듈에서 요청중이면 initAdmin(), 아니면 initNormal()
+            if(Context::get('module')=='admin') $this->initAdmin();
+            else $this->initNormal();
+        }
 
+        /**
+         * @brief 관리자 페이지의 초기화
+         **/
+        function initAdmin() {
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -32,8 +40,14 @@
 
             // template path 지정
             $this->setTemplatePath($this->module_path.'tpl.admin');
+        }
 
-            return true;
+        /**
+         * @brief 일반 페이지 초기화
+         **/
+        function initNormal() {
+            // template path 지정
+            $this->setTemplatePath($this->module_path.'tpl.admin');
         }
 
         /**

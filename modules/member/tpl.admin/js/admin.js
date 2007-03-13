@@ -252,3 +252,9 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
     zone_addr1_obj.style.display = 'none';
     zone_list_obj.style.display = 'inline';
 }
+
+/* 검색 실행 */
+function completeSearch(fo_obj, params) {
+  fo_obj.submit();
+}
+

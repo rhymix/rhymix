@@ -1,0 +1,11 @@
+<filter name="search" module="member">
+  <form>
+    <node target="search_target" required="true" />
+    <node target="search_keyword" minlegnth="2" maxlength="40" required="true" />
+  </form>
+  <parameter />
+  <response callback_func="completeSearch">
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

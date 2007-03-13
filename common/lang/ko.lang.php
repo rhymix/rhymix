@@ -76,6 +76,7 @@
     $lang->uploaded_file = '첨부파일';
     $lang->grant = "권한";
     $lang->target = "대상";
+    $lang->total = "전체";
     $lang->total_count = "전체개수";
     $lang->ipaddress = "IP 주소";
     $lang->path = "경로";
