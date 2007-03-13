@@ -76,40 +76,6 @@
         }
 
         /**
-         * @brief 모듈의 목록을 보여줌
-         **/
-        function dispModuleList() {
-            // moduleView::dispModuleList()를 실행하고 템플릿 파일을 구해옴
-            $oModuleView = &getView('module');
-            $oModuleView->dispModuleList();
-
-            $this->setTemplatePath($oModuleView->getTemplatePath());
-            $this->setTemplateFile($oModuleView->getTemplateFile());
-        }
-
-        /**
-         * @brief애드온의 목록을 보여줌
-         **/
-        function dispAddonList() {
-            $oAddonView = &getView('addon');
-            $oAddonView->dispAddonList();
-
-            $this->setTemplatePath($oAddonView->getTemplatePath());
-            $this->setTemplateFile($oAddonView->getTemplateFile());
-        }
-
-        /**
-         * @brief 레이아웃의 목록을 보여줌
-         **/
-        function dispLayoutList() {
-            $oLayoutView = &getView('layout');
-            $oLayoutView->dispDownloadedLayoutList();
-
-            $this->setTemplatePath($oLayoutView->getTemplatePath());
-            $this->setTemplateFile($oLayoutView->getTemplateFile());
-        }
-
-        /**
          * @brief 관리자 로그인 페이지 출력
          **/
         function dispLogin() {

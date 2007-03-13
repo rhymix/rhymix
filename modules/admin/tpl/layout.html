@@ -21,15 +21,6 @@
     <!--@end-->
     [<a href="#" onclick="location.href='{getUrl('','module','admin','act','dispShortCut')}';return false;">{$lang->cmd_management}</a>]
   </div>
-
-  <!-- 애드온,플러그인,레이아웃,에디터컴포넌트등의 목록을 보여줄 메뉴 -->
-  <div>
-    <!--@foreach($menu_item as $key => $val)-->
-    <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->act,'mo','','module_srl','')}';return false;">{$val->title}</a>
-    </span>
-    <!--@end-->
-  </div>
 </div>
 
 <!--@if($selected_module_info)-->

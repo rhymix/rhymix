@@ -4,7 +4,7 @@
         <action name="dispContent" type="view" admin_index="true" standalone="true" />
         <action name="dispInsertLayout" type="view" standalone="true" />
         <action name="dispLayoutInfo" type="view" standalone="true" />
-        <action name="dispList" type="controller" standalone="true" />
+        <action name="dispDownloadedLayoutList" type="view" standalone="true" />
         <action name="getLayoutMenuSrl" type="model" standalone="true" />
         <action name="getMenuTplInfo" type="model" standalone="true" />
         <action name="procInsertLayout" type="controller" standalone="true" />

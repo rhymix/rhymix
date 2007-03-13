@@ -23,6 +23,10 @@
     $lang->menu_hover_btn = '마우스오버';
     $lang->menu_active_btn = '선택시';
     $lang->menu_group_srls = '그룹 제한';
+
+    $lang->layout_list = '레이아웃 목록';
+    $lang->downloaded_list = '다운로드 목록';
+
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";
 
     $lang->cmd_enable_move_menu = "메뉴 옮기기";

@@ -2,9 +2,6 @@
 <module>
     <actions>
         <action name="dispIndex" type="view" standalone="true" index="true"/>
-        <action name="dispModuleList" type="view" standalone="true" />
-        <action name="dispAddonList" type="view" standalone="true" />
-        <action name="dispLayoutList" type="view" standalone="true" />
         <action name="dispShortCut" type="view" standalone="true" />
 
         <action name="dispLogin" type="view" standalone="true" />
