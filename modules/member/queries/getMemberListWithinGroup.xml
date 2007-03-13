@@ -1,0 +1,29 @@
+<query id="getMemberListWithinGroup" action="select">
+    <tables>
+        <table name="member" alias="member"/>
+        <table name="member_group_member" alias="member_group"/>
+    </tables>
+    <columns />
+    <conditions>
+        <condition operation="equal" column="member_group.group_srl" var="selected_group_srl" notnull="notnull" />
+        <condition operation="equal" column="member.member_srl" var="member_group.member_srl" pipe="and" notnull="notnull" />
+        <group pipe="and">
+            <condition operation="equal" column="member.is_admin" var="is_admin" />
+            <condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
+        </group>
+        <group pipe="and">
+            <condition operation="like" column="member.user_id" var="s_user_id" />
+            <condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="member.email_address" var="s_email_address" pipe="or" />
+            <condition operation="like_prefix" column="member.regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="member.last_login" var="s_last_login" pipe="or" />
+        </group>
+    </conditions>
+    <navigation>
+        <index var="sort_index" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

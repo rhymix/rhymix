@@ -236,7 +236,7 @@
                 foreach($group as $key => $val) {
                     $pipe = key($val);
                     $cond = array_pop($val);
-                    if($buff) $buff .= $pipe.' '.$cond;
+                    if($buff) $buff .= ' '.$pipe.' '.$cond;
                     else $buff = $cond;
                 }
 

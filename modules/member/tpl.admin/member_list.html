@@ -60,10 +60,10 @@
         <option value="" <!--@if($is_denied!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
         <option value="Y" <!--@if($is_denied=='Y')-->selected="true"<!--@end-->>{$lang->denied}</option>
       </select>
-      <select name="group_srl">
+      <select name="selected_group_srl">
         <option value="0">{$lang->group}</option>
         <!--@foreach($group_list as $key => $val)-->
-        <option value="{$val->group_srl}" <!--@if($group_srl==$val->group_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+        <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="true"<!--@end-->>{$val->title}</option>
         <!--@end-->
       </select>
     </div>
@@ -76,7 +76,7 @@
       </select>
       <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
       <input type="submit" value="{$lang->cmd_search}" />
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','member_srl','')}'"/>
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
     </div>
   </form>
 </div>
