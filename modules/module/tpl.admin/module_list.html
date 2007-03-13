@@ -41,7 +41,11 @@
       </span>
   </td>
   <td>{$val->path}</td>
-  <td rowspan="2"><a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a></td>
+  <td rowspan="2">
+    <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
+    <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
+    <!--@end-->
+  </td>
 </tr>
 <tr>
   <td colspan="5">
@@ -50,4 +54,3 @@
 </tr>
 <!--@end-->
 </table>
-

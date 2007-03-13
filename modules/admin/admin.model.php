@@ -21,8 +21,13 @@
             $output = $oDB->executeQuery('admin.getShortCutList');
             if(!$output->toBool()) return $output;
 
-            if(!is_array($output->data)) return array($output->data);
-            return $output->data;
+            if(!is_array($output->data)) $list = array($output->data);
+            else $list = $output->data;
+
+            foreach($list as $val) {
+                $shortcut_list[$val->module] = $val;
+            }
+            return $shortcut_list;
         }
 
     }
