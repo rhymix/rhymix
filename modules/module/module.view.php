@@ -19,8 +19,7 @@
          * @brief 모듈 관리자 페이지
          **/
         function dispContent() {
-            // 템플릿 파일 지정
-            $this->setTemplateFile('index');
+            $this->dispModuleList();
         }
 
         /**

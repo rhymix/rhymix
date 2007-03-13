@@ -15,6 +15,13 @@
         }
 
         /**
+         * @brief 애드온 관리 메인 페이지
+         **/
+        function dispIndex() {
+            $this->dispAddonList();
+        }
+
+        /**
          * @brief 애드온 목록을 보여줌
          **/
         function dispAddonList() {

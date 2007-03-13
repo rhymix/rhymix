@@ -43,9 +43,6 @@
             $buff = sprintf('<?if(!__ZB5__)exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
-
-            // 페이지를 애드온 목록으로 이동
-            $this->setRedirectUrl("./?module=admin&act=dispAddonList");
         }
 
         /**
