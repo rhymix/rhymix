@@ -1,8 +1,0 @@
-<filter name="search" module="member">
-  <form />
-  <parameter />
-  <response callback_func="completeSearch">
-    <tag name="error" />
-    <tag name="message" />
-  </response>
-</filter>

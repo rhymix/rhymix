@@ -15,20 +15,25 @@
   <tr>
     <th colspan="2">{$lang->no}</th>
     <th>{$lang->module}</th>
-    <th>{$lang->user_name}</th>
-    <th>{$lang->content}</th>
+    <th>{$lang->blog_name}</th>
+    <th>{$lang->title}</th>
     <th>{$lang->date}</th>
+    <th>{$lang->ipaddress}</th>
     <th>{$lang->cmd_move}</th>
   </tr>
   <!--@foreach($trackback_list as $no => $val)-->
   <tr>
-    <td>{$no}</td>
-    <td><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
+    <td rowspan="2">{$no}</td>
+    <td rowspan="2"><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
     <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-    <td>{$val->user_name}</td>
-    <td>{$val->content}</td>
+    <td><a href="#" onclick="window.open('{$val->url}');return false;">{$val->blog_name}</a></td>
+    <td>{$val->title}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>
+    <td>{$val->ipaddress}</td>
+    <td rowspan="2"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>
+  </tr>
+  <tr>
+    <td colspan="5">{$val->excerpt}</td>
   </tr>
   <!--@end-->
   </table>
@@ -40,6 +45,28 @@
 </div>
 
 </form>
+
+<!-- 검색 -->
+<div>
+  <form action="./" method="get">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="mo" value="{$mo}" />
+    <input type="hidden" name="act" value="{$act}" />
+
+    <div>
+      <select name="search_target">
+        <option value="">{$lang->search_target}</option>
+        <!--@foreach($lang->search_target_list as $key => $val)-->
+        <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+      <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+      <input type="submit" value="{$lang->cmd_search}" />
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
+    </div>
+  </form>
+</div>
+
 
 <!-- 페이지 네비게이션 -->
 <div>

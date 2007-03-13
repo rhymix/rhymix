@@ -69,6 +69,31 @@
             // DB 객체 생성
             $oDB = &DB::getInstance();
 
+            // 검색 옵션 정리
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'filename' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_filename = $search_keyword;
+                        break;
+                    case 'filesize' :
+                            $args->s_filesize = (int)$search_keyword;
+                        break;
+                    case 'download_count' :
+                            $args->s_download_count = (int)$search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                }
+            }
+
             // 변수 설정
             $args->sort_index = $obj->sort_index;
             $args->page = $obj->page?$obj->page:1;

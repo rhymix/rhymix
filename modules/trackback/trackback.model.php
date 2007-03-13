@@ -46,7 +46,6 @@
             $args->document_srl = $document_srl;
             $args->ipaddress = $ipaddress;
             $output = $oDB->executeQuery('trackback.getTrackbackCountByIPAddress', $args);
-            debugPrint($output);
             $total_count = $output->data->count;
 
             return (int)$total_count;
@@ -78,6 +77,38 @@
 
             // DB 객체 생성
             $oDB = &DB::getInstance();
+
+            // 검색 옵션 정리
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'url' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_url = $search_keyword;
+                        break;
+                    case 'title' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title= $search_keyword;
+                        break;
+                    case 'blog_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_blog_name= $search_keyword;
+                        break;
+                    case 'excerpt' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_excerpt = $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                }
+            }
+
 
             // 변수 설정
             $args->sort_index = $obj->sort_index;

@@ -1,14 +1,21 @@
 <query id="getFileList" action="select">
-  <tables>
-    <table name="files" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <navigation>
-    <index var="sort_index" order="desc" />
-    <list_count var="list_count" default="20" />
-    <page_count var="page_count" default="10" />
-    <page var="page" default="1" />
-  </navigation>
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like" column="uploaded_filename" var="s_filename" />
+        <condition operation="more" column="file_size" var="s_filesize" pipe="or" />
+        <condition operation="more" column="downloaded_count" var="s_download_count" pipe="or" />
+        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
 </query>

@@ -1,7 +1,5 @@
 <!--#include("header.html")-->
 
-<!--%import("filter/search.xml")-->
-
 <!-- 정보 -->
 <div>
   {number_format($total_count)}, 
@@ -46,7 +44,7 @@
 
 <!-- 검색 -->
 <div>
-  <form action="./" method="get" onsubmit="return procFilter(this, search)">
+  <form action="./" method="get">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="mo" value="{$mo}" />
     <input type="hidden" name="act" value="{$act}}" />

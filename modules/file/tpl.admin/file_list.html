@@ -19,6 +19,7 @@
     <th>{$lang->file_size}</th>
     <th>{$lang->download_count}</th>
     <th>{$lang->date}</th>
+    <th>{$lang->ipaddress}</th>
     <th>{$lang->cmd_move_to_document}</th>
     <th>{$lang->cmd_download}</th>
   </tr>
@@ -31,6 +32,7 @@
     <td>{$val->file_size}</td>
     <td>{$val->downloaded_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
+    <td>{$val->ipaddress}</td>
     <td><a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$lang->cmd_move}</a></td>
     <td><a href="./?mid={$val->mid}&amp;act=procDownloadFile&amp;file_srl={$val->file_srl}&amp;sid={$val->sid}&amp;document_srl={$val->document_srl}">{$lang->cmd_download}</a></td>
   </tr>
@@ -44,6 +46,27 @@
 </div>
 
 </form>
+
+<!-- 검색 -->
+<div>
+  <form action="./" method="get">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="mo" value="{$mo}" />
+    <input type="hidden" name="act" value="{$act}" />
+
+    <div>
+      <select name="search_target">
+        <option value="">{$lang->search_target}</option>
+        <!--@foreach($lang->search_target_list as $key => $val)-->
+        <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+      <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+      <input type="submit" value="{$lang->cmd_search}" />
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
+    </div>
+  </form>
+</div>
 
 <!-- 페이지 네비게이션 -->
 <div>

@@ -16,4 +16,13 @@
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
+
+    $lang->search_target_list = array(
+        'filename' => '파일이름',
+        'filesize' => '파일크기 (byte, 이상)',
+        'download_count' => '다운로드 회수 (이상)',
+        'regdate' => '등록일',
+        'ipaddress' => 'IP 주소',
+    );
+
 ?>

@@ -1,14 +1,22 @@
 <query id="getTotalTrackbackList" action="select">
-  <tables>
-    <table name="trackbacks" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <navigation>
-    <index var="sort_index" order="asc" />
-    <list_count var="list_count" default="20" />
-    <page_count var="page_count" default="10" />
-    <page var="page" default="1" />
-  </navigation>
+    <tables>
+        <table name="trackbacks" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like" column="url" var="s_url" />
+        <condition operation="like" column="blog_name" var="s_blog_name" pipe="or" />
+        <condition operation="like" column="title" var="title" pipe="or" />
+        <condition operation="like" column="exceprt" var="exceprt" pipe="or" />
+        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
 </query>

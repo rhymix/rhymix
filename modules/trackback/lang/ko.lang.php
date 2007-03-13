@@ -6,9 +6,20 @@
      **/
 
     $lang->module = '모듈';
+    $lang->blog_name = '사이트';
 
     $lang->cmd_delete_checked_trackback = '선택항목 삭제';
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';
     $lang->msg_checked_trackback_is_deleted = '%d개의 엮인글이 삭제되었습니다';
+
+    $lang->search_target_list = array(
+        'url' => '대상 URL',
+        'blog_name' => '대상 사이트 이름',
+        'title' => '제목',
+        'excerpt' => '내용',
+        'regdate' => '등록일',
+        'ipaddress' => 'IP 주소',
+    );
+
 ?>
