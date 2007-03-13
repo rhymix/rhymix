@@ -278,10 +278,6 @@
                 // 생성된 객체에 자신이 호출된 위치를 세팅해줌
                 $oModule->setModule($module);
                 $oModule->setModulePath($class_path);
-                if(method_exists($oModule, 'init') && !$GLOBALS['_inited_module'][$module][$type]) {
-                    $GLOBALS['_inited_module'][$module][$type] = true;
-                    $oModule->init();
-                }
 
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type] = $oModule;
