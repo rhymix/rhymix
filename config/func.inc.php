@@ -29,22 +29,29 @@
     /**
      * @brief module의 controller 객체 생성용
      **/
-    function getController($module_name) {
+    function &getController($module_name) {
         return getModule($module_name, 'controller'); 
     }
 
     /**
      * @brief module의 view 객체 생성용
      **/
-    function getView($module_name) {
+    function &getView($module_name) {
         return getModule($module_name, 'view'); 
     }
 
     /**
      * @brief module의 model 객체 생성용
      **/
-    function getModel($module_name) {
+    function &getModel($module_name) {
         return getModule($module_name, 'model'); 
+    }
+
+    /**
+     * @brief module의 상위 class 객체 생성용
+     **/
+    function &getClass($module_name) {
+        return getModule($module_name, 'class'); 
     }
 
 

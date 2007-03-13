@@ -13,5 +13,17 @@
         function init() {
         }
 
+        /**
+         * @brief admin shortcut 에 등록된 목록을 return;
+         **/
+        function getShortCuts() {
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('admin.getShortCutList');
+            if(!$output->toBool()) return $output;
+
+            if(!is_array($output->data)) return array($output->data);
+            return $output->data;
+        }
+
     }
 ?>

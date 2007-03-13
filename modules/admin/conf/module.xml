@@ -5,11 +5,14 @@
         <action name="dispModuleList" type="view" standalone="true" />
         <action name="dispAddonList" type="view" standalone="true" />
         <action name="dispLayoutList" type="view" standalone="true" />
+        <action name="dispShortCut" type="view" standalone="true" />
 
         <action name="dispLogin" type="view" standalone="true" />
         <action name="dispLogout" type="view" standalone="true" />
 
         <action name="procLogin" type="controller" standalone="true" />
         <action name="procLogout" type="controller" standalone="true" />
+        <action name="procInsertShortCut" type="controller" standalone="true" />
+        <action name="procDeleteShortCut" type="controller" standalone="true" />
     </actions>
 </module>

@@ -17,3 +17,10 @@ function doAdminLoginFocus() {
   var fo = xGetElementById('user_id');
   if(fo) fo.focus();
 }
+
+// 숏컷 삭제
+function doDeleteShortCut(shortcut_srl) {
+  var fo_obj = xGetElementById('fo_shortcut_info');
+  fo_obj.shortcut_srl.value = shortcut_srl;
+  procFilter(fo_obj, delete_shortcut);
+}

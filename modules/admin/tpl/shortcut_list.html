@@ -1,0 +1,35 @@
+<!--%import("filter/delete_shortcut.xml")-->
+<!--%import("js/admin.js")-->
+
+<!--#include("./header.html")-->
+
+<!-- 숏컷의 위/아래, 삭제와 관련된 form -->
+<form id="fo_shortcut_info" action="./" method="get">
+<input type="hidden" name="shortcut_srl" value="" />
+</form>
+
+<div>
+  <table>
+  <tr>
+    <th>{$lang->title}</th>
+    <th>{$lang->module}</th>
+    <th>{$lang->regdate}</th>
+    <th>{$lang->cmd_delete}</th>
+  </tr>
+  <!--@if(!count($shortcut_list))-->
+  <tr>
+    <td colspan="4">{$lang->msg_shortcut_is_null}</td>
+  </tr>
+  <!--@end-->
+  <!--@foreach($shortcut_list as $shortcut_info)-->
+  <tr>
+    <td>{$shortcut_info->title}</td>
+    <td>{$shortcut_info->module}</td>
+    <td>{zdate($shortcut_info->last_update,"Y-m-d H:i:s")}</td>
+    <td><a href="#" onclick="doDeleteShortCut('{$shortcut_info->shortcut_srl}');return false;">{$lang->cmd_delete}</a></td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>
+
+</form>

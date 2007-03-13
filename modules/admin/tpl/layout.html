@@ -14,22 +14,19 @@
 <div id="admin_main_menu">
   <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
   <div>
-    <span <!--@if($mo=='board')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispAdminContent','mo','board','module_srl','')}'">{$lang->board_manager}</a>
-    </span>
-    <span <!--@if($mo=='member')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispAdminContent','mo','member','module_srl','')}'">{$lang->member_manager}</a>
-    </span>
-    <span <!--@if($mo=='layout')-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act','dispContent','mo','layout','module_srl','')}'">{$lang->layout_manager}</a>
-    </span>
+    <!--@foreach($shortcut_list as $key => $val)-->
+      <span <!--@if($mo==$val->module)-->class="selected"<!--@end-->>
+        <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->default_act,'mo',$val->module)}';return false;">{$val->title}</a>
+      </span>
+    <!--@end-->
+    [<a href="#" onclick="location.href='{getUrl('','module','admin','act','dispShortCut')}';return false;">{$lang->cmd_management}</a>]
   </div>
 
   <!-- 애드온,플러그인,레이아웃,에디터컴포넌트등의 목록을 보여줄 메뉴 -->
   <div>
     <!--@foreach($menu_item as $key => $val)-->
     <span <!--@if($act==$val->act)-->class="selected"<!--@end-->>
-      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->act,'mo','','module_srl','')}'">{$val->title}</a>
+      <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->act,'mo','','module_srl','')}';return false;">{$val->title}</a>
     </span>
     <!--@end-->
   </div>
@@ -37,7 +34,7 @@
 
 <!--@if($selected_module_info)-->
 <div id="admin_module_info">
-  <a href="#" onclick="location.href='{getUrl('','module', $module, 'mo', $mo, 'act', $selected_module_info->admin_index_act)}'">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
+  <a href="#" onclick="location.href='{getUrl('','module', $module, 'mo', $mo, 'act', $selected_module_info->admin_index_act)}';return false;">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
 </div>
 <!--@end-->
 

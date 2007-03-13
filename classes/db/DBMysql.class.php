@@ -232,6 +232,7 @@
             }
 
             $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "ENGINE = MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci");
+
             $output = $this->_query($schema);
             if(!$output) return false;
         }
@@ -369,6 +370,8 @@
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
         function _getNavigationData($table, $columns, $condition, $navigation) {
+            require_once('./classes/page/PageHandler.class.php');
+
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s", $table, $condition);
             $result = $this->_query($count_query);
@@ -390,7 +393,16 @@
             $index = implode(',',$index_list);
             $query = sprintf('select %s from %s %s order by %s limit %d, %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
             $result = $this->_query($query);
-            if($this->errno!=0) return;
+            if($this->errno!=0) {
+                $buff = new Object();
+                $buff->total_count = 0;
+                $buff->total_page = 0;
+                $buff->page = 1;
+                $buff->data = array();
+
+                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
+                return $buff;
+            }
 
             $virtual_no = $total_count - ($page-1)*$navigation->list_count;
             while($tmp = mysql_fetch_object($result)) {
@@ -403,7 +415,6 @@
             $buff->page = $page;
             $buff->data = $data;
 
-            require_once('./classes/page/PageHandler.class.php');
             $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
             return $buff;
         }

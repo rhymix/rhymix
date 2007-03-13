@@ -77,48 +77,9 @@
             // DB접속이 가능한지 체크
             if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
 
-            // 모든 모듈의 테이블 생성
-            $output = $this->makeTable();
+            // 모든 모듈의 설치
+            $output = $this->installDownloadedModule();
             if(!$output->toBool()) return $output;
-
-            // 멤버 컨트롤러 객체 생성
-            $oMemberController = &getController('member');
-
-            // 그룹을 입력
-            $group_args->title = Context::getLang('default_group_1');
-            $group_args->is_default = 'Y';
-            $output = $oMemberController->insertGroup($group_args);
-
-            $group_args->title = Context::getLang('default_group_2');
-            $group_args->is_default = 'N';
-            $oMemberController->insertGroup($group_args);
-
-            // 관리자 정보 세팅
-            $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
-
-            // 관리자 정보 입력
-            $oMemberController->insertAdmin($admin_info);
-
-            // 금지 아이디 등록 (기본 + 모듈명)
-            $oModuleModel = &getModel('module');
-            $module_list = $oModuleModel->getModuleList();
-            foreach($module_list as $key => $val) {
-                $oMemberController->insertDeniedID($val->module,'');
-            }
-            $oMemberController->insertDeniedID('www','');
-            $oMemberController->insertDeniedID('root','');
-            $oMemberController->insertDeniedID('administrator','');
-            $oMemberController->insertDeniedID('telnet','');
-            $oMemberController->insertDeniedID('ftp','');
-            $oMemberController->insertDeniedID('http','');
-
-            // 로그인 처리시킴
-            $output = $oMemberController->procLogin($admin_info->user_id, $admin_info->password);
-            if(!$output) return $output;
-
-            // 기본 모듈을 생성
-            $oModule = &getController('module');
-            $oModule->makeDefaultModule();
 
             // config 파일 생성
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
@@ -144,11 +105,6 @@
                     './files/cache/queries',
                     './files/cache/js_filter_compiled',
                     './files/cache/template_compiled',
-                    './files/cache/module_info',
-                    './files/cache/layout',
-                    './files/attach',
-                    './files/attach/images',
-                    './files/attach/binaries',
                 );
 
             foreach($directory_list as $dir) {
@@ -159,31 +115,55 @@
         }
 
         /**
-         * @brief DB Table 생성 
+         * @brief 모든 모듈의 설치 
          *
          * 모든 module의 schemas 디렉토리를 확인하여 schema xml을 이용, 테이블 생성
          **/
-        function makeTable() {
-            // db instance생성
-            $oDB = &DB::getInstance();
+        function installDownloadedModule() {
+
+            // install 모듈은 미리 설치 
+            $this->installModule('install', './modules/install/');
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
             $module_list_1 = FileHandler::readDir('./modules/', NULL, false, true);
             $module_list_2 = FileHandler::readDir('./files/modules/', NULL, false, true);
             $module_list = array_merge($module_list_1, $module_list_2);
             foreach($module_list as $module_path) {
-                $schema_dir = sprintf('%s/schemas/', $module_path);
-                $schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
-                $file_cnt = count($schema_files);
-                if(!$file_cnt) continue;
+                // 모듈 이름을 구함
+                $tmp_arr = explode('/',$module_path);
+                $module = $tmp_arr[count($tmp_arr)-1];
 
-                for($i=0;$i<$file_cnt;$i++) {
-                    $file = trim($schema_files[$i]);
-                    if(!$file || substr($file,-4)!='.xml') continue;
-                    $output = $oDB->createTableByXmlFile($file);
-                    if($oDB->isError()) return $oDB->getError();
-                }
+                // module이 install이면 패스~
+                if($module == 'install') continue;
+
+                $this->installModule($module, $module_path);
             }
+            return new Object();
+        }
+
+        /**
+         * @brief 개별 모듈의 설치
+         **/
+        function installModule($module, $module_path) {
+            // db instance생성
+            $oDB = &DB::getInstance();
+
+            // 해당 모듈의 schemas 디렉토리를 검사하여 schema xml파일이 있으면 생성
+            $schema_dir = sprintf('%s/schemas/', $module_path);
+            $schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
+
+            $file_cnt = count($schema_files);
+            for($i=0;$i<$file_cnt;$i++) {
+                $file = trim($schema_files[$i]);
+                if(!$file || substr($file,-4)!='.xml') continue;
+                $output = $oDB->createTableByXmlFile($file);
+            }
+
+            // 테이블 설치후 module instance를 만들고 install() method를 실행
+            unset($oModule);
+            $oModule = &getClass($module);
+            if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
+
             return new Object();
         }
 

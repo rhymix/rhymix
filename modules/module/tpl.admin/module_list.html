@@ -1,4 +1,13 @@
+<!--%import("filter/insert_shortcut.xml")-->
+<!--%import("js/admin.js")-->
+
 <!--#include("header.html")-->
+
+<!-- 관리자 메뉴 바로가기 추가를 위한 임시 form -->
+<form id="fo_shortcut" action="./" method="get">
+  <input type="hidden" name="selected_module" value="" />
+</form>
+
 <table border="1" width="100%">
 <tr>
   <td>{$lang->module_name}</td>
@@ -7,6 +16,7 @@
   <td>{$lang->date}</td>
   <td>{$lang->table_count}</td>
   <td>{$lang->installed_path}</td>
+  <td>{$lang->add_shortcut}</td>
 </tr>
 <!--@foreach($module_list as $key => $val)-->
 <tr>
@@ -31,6 +41,7 @@
       </span>
   </td>
   <td>{$val->path}</td>
+  <td rowspan="2"><a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a></td>
 </tr>
 <tr>
   <td colspan="5">

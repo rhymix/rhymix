@@ -28,6 +28,11 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
+            // shortcut 가져오기
+            $oAdminModel = &getModel('admin');
+            $shortcut_list = $oAdminModel->getShortCuts();
+            Context::set('shortcut_list', $shortcut_list);
+
             // admin class의 init
             parent::init();
         }
@@ -60,6 +65,14 @@
                 $this->setTemplatePath($oModule->getTemplatePath());
                 $this->setTemplateFile($oModule->getTemplateFile());
             }
+        }
+
+        /**
+         * @brief 관리자 메뉴 숏컷 출력
+         **/
+        function dispShortCut() {
+
+            $this->setTemplateFile('shortcut_list');
         }
 
         /**

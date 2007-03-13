@@ -24,3 +24,10 @@ function completeUpdateCategory(ret_obj) {
   var url = "./?module=admin&mo=module&act=dispCategory";
   location.href = url;
 }
+
+/* 선택된 모듈을 관리자 메뉴의 바로가기에 등록 */
+function doAddShortCut(module) {
+  var fo_obj = xGetElementById("fo_shortcut");
+  fo_obj.selected_module.value = module;
+  procFilter(fo_obj, insert_shortcut);
+}
