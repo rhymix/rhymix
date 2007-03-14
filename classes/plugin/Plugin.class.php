@@ -8,13 +8,6 @@
 
     class Plugin extends Object {
 
-        /**
-         * @brief constructor
-         **/
-        function Plugin($addon_name) {
-        }
-
-
     }
 
 ?>

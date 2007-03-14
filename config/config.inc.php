@@ -48,10 +48,9 @@
     require_once("./classes/db/DB.class.php");
     require_once("./classes/file/FileHandler.class.php");
     require_once("./classes/object/Object.class.php");
+    require_once("./classes/module/Plugin.class.php");
     require_once("./classes/module/ModuleObject.class.php");
     require_once("./classes/module/ModuleHandler.class.php");
     require_once("./classes/display/DisplayHandler.class.php");
-    //require_once("./classes/addon/AddOnHandler.class.php");
-    //require_once("./classes/layout/LayoutHandler.class.php");
     if(__DEBUG__) define('__RequireClassEndTime__', getMicroTime());
 ?>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="0.1">
+  <title xml:lang="ko">최근 문서</title>
+  <title xml:lang="en">newest document </title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="en">zero</name>
+    <description xml:lang="ko">최근 문서 (document)를 출력하는 플러그인입니다.</description>
+    <description xml:lang="en">display newest document</description>
+  </author>
+  <extra_vars>
+    <var id="title">
+      <name xml:lang="ko">제목</name>
+      <name xml:lang="en">title</name>
+      <type>text</type>
+    </var>
+    <var id="order_type">
+      <name xml:lang="ko">정렬 방법</name>
+      <name xml:lang="en">order type</name>
+      <type>select</type>
+      <options>
+        <value>regdate</value>
+        <value>last update</value>
+      </options>
+    </var>
+    <var id="list_count">
+      <name xml:lang="ko">목록수</name>
+      <name xml:lang="en">list_count</name>
+      <type>text</type>
+    </var>
+  </extra_vars>
+</plugin>

@@ -1,0 +1,128 @@
+<!--%import("js/admin.js")-->
+<!--%import("filter/update_layout_info.xml")-->
+<!--%import("filter/insert_layout_menu.xml")-->
+<!--%import("filter/delete_layout_menu.xml")-->
+<!--%import("filter/move_layout_menu.xml")-->
+
+<!--#include("header.html")-->
+
+<!-- 메뉴 이동을 위해 임시로 사용하는 form -->
+<form id="fo_move_menu">
+  <input type="hidden" name="menu_id" />
+  <input type="hidden" name="source_node_srl" />
+  <input type="hidden" name="target_node_srl" />
+</form>
+
+<div style="margin-bottom:10px;">
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>  
+    <th>{$lang->layout}</th>
+    <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
+  </tr>
+  <tr>  
+    <th>{$lang->path}</th>
+    <td>{$layout_info->path}</td>
+  </tr>
+  <tr>  
+    <th>{$lang->author}</th>
+    <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
+  </tr>
+  <tr>  
+    <th>{$lang->description}</th>
+    <td>{nl2br($layout_info->author->description)}</td>
+  </tr>
+  </table>
+</div>
+
+<div style="margin-bottom:10px;">
+  <form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
+  <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+  <input type="hidden" name="layout" value="{$layout_info->layout}" />
+
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>
+    <th>{$lang->title}</th>
+    <td><input type="text" name="title" value="{$layout_info->layout_title}" /></td>
+  </tr>
+  <!--@foreach($layout_info->extra_var as $id => $var)-->
+  <tr>
+    <th>{$var->name}</th>
+    <!--@if($var->type == "text")-->
+    <td><input type="text" name="{$id}" value="{$var->value}" /></td>
+    <!--@elseif($var->type == "textarea")-->
+    <td><textarea name="{$id}">{$var->value}</textarea></td>
+    <!--@elseif($var->type == "select")-->
+    <td>
+      <select name="{$id}">
+        <!--@foreach($var->options as $key => $val)-->
+        <option value="{$val}" <!--@if($val==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+    <!--@end-->
+  </tr>
+  <!--@end-->
+  <tr>
+    <td colspan="2" align="center">
+      <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispContent')}';return false;"/>
+      <input type="submit" value="{$lang->cmd_save}" />
+    </td>
+  </tr>
+  </table>
+
+  </form>
+</div>
+
+<div style="margin-bottom:10px;">
+  <table border="1" width="100%">
+  <col width="140" />
+  <col width="*" />
+  <tr>
+    <th>{$lang->menu_management}</th>
+    <td>{nl2br($lang->about_menu_management)}</td>
+  </tr>
+  <!--@foreach($layout_info->menu as $menu_id => $menu)-->
+  <tr>
+    <th>
+      {$menu->name}  <br />
+      ({$menu->maxdepth} {$lang->depth})
+    </th>
+    <td>
+      <form id="fo_{$menu_id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
+      <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+      <input type="hidden" name="layout" value="{$layout_info->layout}" />
+      <input type="hidden" name="menu_id" value="{$menu_id}" />
+      <input type="hidden" name="menu_title" value="{$menu->name}" />
+      <input type="hidden" name="xml_file" value="{$menu->xml_file}" />
+        <table border="0">
+        <tr valign="top">
+          <td width="350">
+            <div id="menu_zone_{$menu_id}"></div>
+            <div>
+              <input type="checkbox" id="{$menu_id}_enable_move" /> <label for="{$menu_id}_enable_move">{$lang->cmd_enable_move_menu}</label>
+            </div>
+            <div>
+              <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$menu_id}');return false;" />
+              <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$menu_id}');return false;" />
+            </div>
+          </td>
+          <td>
+            <div id="menu_zone_info_{$menu_id}">
+            </div>
+          </td>
+        </tr>
+        </table>
+      </form>
+      <script type="text/javascript">
+        loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name}", doGetMenuInfo, 0, doMoveTree); 
+      </script>
+    </td>
+  </tr>
+  <!--@end-->
+  </table>
+</div>

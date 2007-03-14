@@ -1,0 +1,11 @@
+<query id="getLayoutList" action="select">
+  <tables>
+    <table name="layouts" />
+  </tables>
+  <columns>
+    <column name="*" />
+  </columns>
+  <navigation>
+    <index var="sort_index" default="layout_srl" order="desc" />
+  </navigation>
+</query>
