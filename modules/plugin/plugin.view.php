@@ -25,12 +25,11 @@
             Context::set('plugin_info', $plugin_info);
 
             // 플러그인을 팝업으로 지정
-            $this->setPluginFile('popup_plugin');
+            $this->setLayoutFile('popup_plugin');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('plugin_detail_info');
         }
-
 
         /**
          * @brief 플러그인 목록을 보여줌

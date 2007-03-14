@@ -2,5 +2,6 @@
 <module>
     <actions>
         <action name="dispDownloadedPluginList" type="view" standalone="true" admin_index="true" />
+        <action name="dispPluginInfo" type="view" standalone="true" />
     </actions>
 </module>

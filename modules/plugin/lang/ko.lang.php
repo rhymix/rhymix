@@ -4,4 +4,6 @@
      * @author zero <zero@nzeo.com>
      * @brief  플러그인(plugin) 모듈의 기본 언어팩
      **/
+
+    $lang->plugin_info = "플러그인 정보";
 ?>
