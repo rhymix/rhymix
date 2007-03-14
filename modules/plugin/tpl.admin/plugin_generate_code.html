@@ -1,4 +1,4 @@
-<form action="./" method="get">
+<form action="./" method="post">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="dispGeneratedCode" />
 <input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
@@ -7,7 +7,7 @@
   <col width="100" />
   <col width="300" />
   <tr>
-    <th colspan="2">{$lang->cmd_make_code}</th>
+    <th colspan="2">{$lang->cmd_generate_code}</th>
   </tr>
   <tr>
     <th>{$lang->plugin}</th>
@@ -18,14 +18,14 @@
       <th>{$var->name}</th>
 
       <!--@if($var->type == "text")-->
-      <td><input type="text" name="{$id}" value="{$var->value}" /></td>
+      <td><input type="text" name="{$id}" value="" /></td>
       <!--@elseif($var->type == "textarea")-->
-      <td><textarea name="{$id}">{$var->value}</textarea></td>
+      <td><textarea name="{$id}"></textarea></td>
       <!--@elseif($var->type == "select")-->
       <td>
         <select name="{$id}">
           <!--@foreach($var->options as $key => $val)-->
-          <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+          <option value="{$key}">{$val}</option>
           <!--@end-->
         </select>
       </td>
