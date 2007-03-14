@@ -27,10 +27,8 @@
 
             $attribute = array();
             if($vars) {
-                foreach($vars as $key=>$val) {
-                    debugPrint($val);
-                    debugPrint(strpos('|@|',  $val));
-                    if(strpos('|@|', $val)>0) $val = str_replace('|@|',',',$val);
+                foreach($vars as $key => $val) {
+                    if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                 }
             }
