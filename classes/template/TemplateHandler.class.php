@@ -285,6 +285,12 @@
             // 플러그인의 이름을 구함
             $plugin = $vars->plugin;
             unset($vars->plugin);
+            
+            // className, style attribute를 구해 놓음 
+            $className = $vars->class;
+            $style = $vars->style;
+            unset($vars->class);
+            unset($vars->style);
 
             // 플러그인의 변수들을 세팅
             $vars_count = get_object_vars($vars);
@@ -300,7 +306,7 @@
             if(!$args) $args = null;
 
             // 플러그인 실행코드를 삽입
-            return sprintf('<?php print PluginHandler::execute("%s", %s); ?>', $plugin, $args);
+            return sprintf('<div %s %s><?php print PluginHandler::execute("%s", %s); ?></div>', $className?'class="'.$className.'" ':'', $style?'style="'.$style.'" ':'',$plugin, $args);
         }
 
         /**
