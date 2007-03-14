@@ -19,6 +19,6 @@
     $lang->installed_path = "설치경로";
 
     $lang->msg_is_not_administrator = '관리자만 접속이 가능합니다';
-    $lang->msg_manage_module_cannot_delete = '모듈, 애드온, 레이아웃, 회원관리 모듈의 바로가기는 삭제 불가능합니다';
+    $lang->msg_manage_module_cannot_delete = '모듈, 애드온, 레이아웃, 플러그인 모듈의 바로가기는 삭제 불가능합니다';
     $lang->msg_default_act_is_null = '기본 관리자 Action이 지정되어 있지 않아 바로가기 등록을 할 수가 없습니다';
 ?>
