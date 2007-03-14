@@ -70,6 +70,7 @@
             $cache_file = sprintf('./files/cache/plugin/%s.cache.php', $plugin);
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
                 include $cache_file;
+                debugPrint($plugin_info);
                 return $plugin_info;
             }
 
@@ -103,20 +104,22 @@
             $buff .= sprintf('$plugin_info->extra_var_count = "%s";', $extra_var_count);
             for($i=0;$i<$extra_var_count;$i++) {
                 unset($var);
+                unset($options);
                 $var = $extra_vars[$i];
 
                 $buff .= sprintf('$plugin_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
                 $buff .= sprintf('$plugin_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
                 $buff .= sprintf('$plugin_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
 
-                $options = $var->options->value;
+                $options = $var->options;
                 if(!$options) continue;
+
                 if(!is_array($options)) $options = array($options);
                 $options_count = count($options);
                 for($i=0;$i<$options_count;$i++) {
-                    $buff .= sprintf('$plugin_info->extra_var->%s->options[] = "%s";', $var->attrs->id, $options[$i]->body);
-
+                    $buff .= sprintf('$plugin_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$i]->value->body, $options[$i]->name->body);
                 }
+
             }
 
             $buff = '<?php if(!__ZB5__) exit(); '.$buff.' ?>';

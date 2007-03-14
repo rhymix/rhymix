@@ -20,9 +20,10 @@
     <td>
       <select name="{$id}">
         <!--@foreach($var->options as $key => $val)-->
-        <option value="{$val}" <!--@if($val==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+        <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
         <!--@end-->
       </select>
+    </td>
     <!--@end-->
   </tr>
   <!--@end-->
