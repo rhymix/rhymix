@@ -61,7 +61,7 @@
          * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
          **/
         function dispLayoutInfo() {
-            // 모듈 목록을 구해서 
+            // 선택된 레이아웃 정보를 구함 
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
             Context::set('layout_info', $layout_info);

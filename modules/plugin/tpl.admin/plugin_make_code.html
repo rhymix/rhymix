@@ -1,0 +1,34 @@
+
+<table border="1" width="400">
+<col width="100" />
+<col width="300" />
+<tr>
+  <th colspan="2">{$lang->cmd_make_code}</th>
+</tr>
+<tr>
+  <th>{$lang->plugin}</th>
+  <td>{$plugin_info->title} ver {$plugin_info->version}</td>
+</tr>
+  <!--@foreach($plugin_info->extra_var as $id => $var)-->
+  <tr>
+    <th>{$var->name}</th>
+    <!--@if($var->type == "text")-->
+    <td><input type="text" name="{$id}" value="{$var->value}" /></td>
+    <!--@elseif($var->type == "textarea")-->
+    <td><textarea name="{$id}">{$var->value}</textarea></td>
+    <!--@elseif($var->type == "select")-->
+    <td>
+      <select name="{$id}">
+        <!--@foreach($var->options as $key => $val)-->
+        <option value="{$val}" <!--@if($val==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+        <!--@end-->
+      </select>
+    <!--@end-->
+  </tr>
+  <!--@end-->
+<tr>
+  <td colspan="2">
+    <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
+  </td>
+</tr>
+</table>

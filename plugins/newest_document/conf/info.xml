@@ -28,5 +28,10 @@
       <name xml:lang="en">list_count</name>
       <type>text</type>
     </var>
+    <var id="module_srls">
+      <name xml:lang="ko">대상 모듈</name>
+      <name xml:lang="en">target modules</name>
+      <type>module_list</type>
+    </var>
   </extra_vars>
 </plugin>

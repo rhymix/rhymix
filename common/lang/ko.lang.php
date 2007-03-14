@@ -83,6 +83,7 @@
     $lang->ipaddress = "IP 주소";
     $lang->path = "경로";
     $lang->layout = "레이아웃";
+    $lang->plugin = "플러그인 ";
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
