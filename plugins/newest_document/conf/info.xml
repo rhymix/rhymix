@@ -13,11 +13,15 @@
             <name xml:lang="ko">제목</name>
             <name xml:lang="en">title</name>
             <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
         </var>
         <var id="order_target">
             <name xml:lang="ko">정렬 대상</name>
             <name xml:lang="en">order target</name>
             <type>select</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
             <options>
                 <name xml:lang="ko">시간순</name>
                 <name xml:lang="en">regdate</name>
@@ -33,6 +37,8 @@
             <name xml:lang="ko">정렬 방법</name>
             <name xml:lang="en">order type</name>
             <type>select</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
             <options>
                 <name xml:lang="ko">내림차순</name>
                 <name xml:lang="en">desc</name>
@@ -48,11 +54,15 @@
             <name xml:lang="ko">목록수</name>
             <name xml:lang="en">list_count</name>
             <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="en">target modules</name>
             <type>mid_list</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
         </var>
     </extra_vars>
 </plugin>

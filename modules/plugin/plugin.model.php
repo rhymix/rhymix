@@ -110,6 +110,7 @@
                 $buff .= sprintf('$plugin_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
                 $buff .= sprintf('$plugin_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
                 $buff .= sprintf('$plugin_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
+                $buff .= sprintf('$plugin_info->extra_var->%s->description = "%s";', $var->attrs->id, str_replace('"','\"',$var->description->body));
 
                 $options = $var->options;
                 if(!$options) continue;

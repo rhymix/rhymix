@@ -16,16 +16,22 @@
             <name xml:lang="ko">상단 제목</name>
             <name xml:lang="en">top title</name>
             <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
         </var>
         <var id="main_menu_name">
             <name xml:lang="ko">메인 메뉴 명</name>
             <name xml:lang="en">main_menu_name</name>
             <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
         </var>
         <var id="colorset">
             <name xml:lang="ko">컬러셋</name>
             <name xml:lang="en">colorset</name>
             <type>select</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
             <options>
                 <name xml:lang="ko">적색</name>
                 <name xml:lang="en">red</name>

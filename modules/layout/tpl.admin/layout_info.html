@@ -50,7 +50,7 @@
   </tr>
   <!--@foreach($layout_info->extra_var as $id => $var)-->
   <tr>
-    <th>{$var->name}</th>
+    <th rowspan="2">{$var->name}</th>
     <!--@if($var->type == "text")-->
     <td><input type="text" name="{$id}" value="{$var->value}" /></td>
     <!--@elseif($var->type == "textarea")-->
@@ -63,6 +63,9 @@
         <!--@end-->
       </select>
     <!--@end-->
+  </tr>
+  <tr>
+    <td>{$var->description}</td>
   </tr>
   <!--@end-->
   <tr>
