@@ -148,8 +148,8 @@
 
                 if(!is_array($options)) $options = array($options);
                 $options_count = count($options);
-                for($i=0;$i<$options_count;$i++) {
-                    $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$i]->value->body, $options[$i]->name->body);
+                for($j=0;$j<$options_count;$j++) {
+                    $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$j]->value->body, $options[$j]->name->body);
                 }
             }
 

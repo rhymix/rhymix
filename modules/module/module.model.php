@@ -109,6 +109,23 @@
         }
 
         /**
+         * @brief DB에 생성된 mid목록을 구해옴
+         **/
+        function getMidList() {
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('module.getMidList');
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+            if(!is_array($list)) $list = array($list);
+            foreach($list as $val) {
+                $mid_list[$val->mid] = $val;
+            }
+            return $mid_list;
+        }
+
+        /**
          * @brief 특정 모듈의 스킨의 정보를 구해옴
          **/
         function loadSkinInfo($module, $skin) {

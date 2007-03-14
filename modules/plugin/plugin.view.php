@@ -51,6 +51,11 @@
             $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
             Context::set('plugin_info', $plugin_info);
 
+            // mid 목록을 가져옴
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
+
             // 플러그인을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 

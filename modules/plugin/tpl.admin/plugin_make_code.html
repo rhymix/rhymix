@@ -1,4 +1,3 @@
-
 <table border="1" width="400">
 <col width="100" />
 <col width="300" />
@@ -12,6 +11,7 @@
   <!--@foreach($plugin_info->extra_var as $id => $var)-->
   <tr>
     <th>{$var->name}</th>
+
     <!--@if($var->type == "text")-->
     <td><input type="text" name="{$id}" value="{$var->value}" /></td>
     <!--@elseif($var->type == "textarea")-->
@@ -23,6 +23,15 @@
         <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
         <!--@end-->
       </select>
+    </td>
+    <!--@elseif($var->type == "mid_list")-->
+    <td>
+        <!--@foreach($mid_list as $key => $val)-->
+        <div>
+          <input type="checkbox" value="{$key}" id="chk_mid_list_{$key}" /> 
+          <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+        </div>
+        <!--@end-->
     </td>
     <!--@end-->
   </tr>
