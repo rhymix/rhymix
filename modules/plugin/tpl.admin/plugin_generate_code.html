@@ -1,6 +1,7 @@
-<form action="./" method="post">
-<input type="hidden" name="module" value="{$module}" />
-<input type="hidden" name="act" value="dispGeneratedCode" />
+<!--%import("filter/generate_code.xml")-->
+<!--%import("js/admin.js")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, generate_code);">
 <input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
 
   <table border="1" width="400">
@@ -13,37 +14,41 @@
     <th>{$lang->plugin}</th>
     <td>{$plugin_info->title} ver {$plugin_info->version}</td>
   </tr>
-    <!--@foreach($plugin_info->extra_var as $id => $var)-->
-    <tr>
-      <th rowspan="2">{$var->name}</th>
 
-      <!--@if($var->type == "text")-->
-      <td><input type="text" name="{$id}" value="" /></td>
-      <!--@elseif($var->type == "textarea")-->
-      <td><textarea name="{$id}"></textarea></td>
-      <!--@elseif($var->type == "select")-->
-      <td>
-        <select name="{$id}">
-          <!--@foreach($var->options as $key => $val)-->
-          <option value="{$key}">{$val}</option>
-          <!--@end-->
-        </select>
-      </td>
-      <!--@elseif($var->type == "mid_list")-->
-      <td>
-          <!--@foreach($mid_list as $key => $val)-->
-          <div>
-            <input type="checkbox" value="{$key}" id="chk_mid_list_{$key}" /> 
-            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-          </div>
-          <!--@end-->
-      </td>
+  <!--@foreach($plugin_info->extra_var as $id => $var)-->
+  <tr>
+    <th rowspan="2">{$var->name}</th>
+
+    <!--@if($var->type == "text")-->
+    <td><input type="text" name="{$id}" value="" /></td>
+    <!--@elseif($var->type == "textarea")-->
+    <td><textarea name="{$id}"></textarea></td>
+    <!--@elseif($var->type == "select")-->
+    <td>
+      <select name="{$id}">
+      <!--@foreach($var->options as $key => $val)-->
+        <option value="{$key}">{$val}</option>
       <!--@end-->
-    </tr>
-    <tr>
-      <td>{$var->description}</td>
-    </tr>
+      </select>
+    </td>
+    <!--@elseif($var->type == "mid_list")-->
+    <td>
+      <!--@foreach($mid_list as $key => $val)-->
+      <div>
+        <input type="checkbox" value="{$key}" name="{$var->name}" id="chk_mid_list_{$key}" /> 
+        <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+      </div>
+      <!--@end-->
+    </td>
     <!--@end-->
+  </tr>
+  <tr>
+    <td>{$var->description}</td>
+  </tr>
+  <!--@end-->
+  <tr>  
+    <td colspan="2"><textarea id="plugin_code" style="width:100%;height:100px;"></textarea></td>
+  </tr>
   <tr>
     <td>
       <a href="#" onclick="self.close()">{$lang->cmd_close}</a>

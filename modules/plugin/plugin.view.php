@@ -63,29 +63,5 @@
             $this->setTemplateFile('plugin_generate_code');
         }
 
-        /**
-         * @brief 플러그인의 생성된 코드를 출력
-         **/
-        function dispGeneratedCode() {
-            // 선택된 플러그인 정보를 구함
-            $oPluginModel = &getModel('plugin');
-            $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
-            Context::set('plugin_info', $plugin_info);
-
-            // 변수 정리
-            $vars = Context::getRequestVars();
-            unset($vars->module);
-            unset($vars->act);
-            unset($vars->selected_plugin);
-            if($vars) foreach($vars as $key=>$val) $vars->{$key} = str_replace(array('"','\''),array('\"','\\\''),$val);
-            Context::set('vars', $vars);
-
-            // 플러그인을 팝업으로 지정
-            $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('plugin_generated_code');
-        }
-
     }
 ?>
