@@ -57,7 +57,7 @@
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다.. 
          **/
-        function getPluginInfo($plugin, $plugin_srl = 0, $plugin_title = "", $vars = null) {
+        function getPluginInfo($plugin) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
             $plugin_path = $this->getPluginPath($plugin);
             if(!$plugin_path) return;
@@ -118,6 +118,13 @@
 
                 }
             }
+
+            $buff = '<?php if(!__ZB5__) exit(); '.$buff.' ?>';
+            FileHandler::writeFile($cache_file, $buff);
+
+            if(file_exists($cache_file)) include $cache_file;
+            return $plugin_info;
+        }
 
     }
 ?>

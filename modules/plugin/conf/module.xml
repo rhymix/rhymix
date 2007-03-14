@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispDownloadedLayoutList" type="view" standalone="true" admin_index="true" />
+        <action name="dispDownloadedPluginList" type="view" standalone="true" admin_index="true" />
     </actions>
 </module>
