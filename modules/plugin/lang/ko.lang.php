@@ -7,6 +7,7 @@
 
     $lang->cmd_generate_code = '코드생성';
 
+    $lang->plugin_name = '플러그인 이름';
     $lang->plugin_maker = '플러그인 제작자';
     $lang->plugin_history = '변경사항';
     $lang->plugin_info = '플러그인 정보';
