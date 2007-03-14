@@ -8,7 +8,7 @@
 
     class PluginHandler extends Object {
 
-        function executePlugin($plugin, $args) {
+        function execute($plugin, $args) {
             debugPrint($plugin);
             debugPrint($args);
         }

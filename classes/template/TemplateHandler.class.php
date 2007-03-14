@@ -300,7 +300,7 @@
             if(!$args) $args = null;
 
             // 플러그인 실행코드를 삽입
-            return sprintf('<?php PluginHandler::executePlugin("%s", %s); ?>', $plugin, $args);
+            return sprintf('<?php PluginHandler::execute("%s", %s); ?>', $plugin, $args);
         }
 
         /**
