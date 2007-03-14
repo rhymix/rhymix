@@ -48,7 +48,7 @@
     require_once("./classes/db/DB.class.php");
     require_once("./classes/file/FileHandler.class.php");
     require_once("./classes/object/Object.class.php");
-    require_once("./classes/plugin/Plugin.class.php");
+    require_once("./classes/plugin/PluginHandler.class.php");
     require_once("./classes/module/ModuleObject.class.php");
     require_once("./classes/module/ModuleHandler.class.php");
     require_once("./classes/display/DisplayHandler.class.php");

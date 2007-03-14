@@ -1,21 +1,21 @@
 <?php
     /**
-     * @class  layout
+     * @class  plugin
      * @author zero (zero@nzeo.com)
-     * @brief  layout 모듈의 high class
+     * @brief  plugin 모듈의 high class
      **/
 
-    class layout extends ModuleObject {
+    class plugin extends ModuleObject {
 
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
-            // layout 에서 사용할 cache디렉토리 생성
+            // plugin 에서 사용할 cache디렉토리 생성
             $directory_list = array(
                     './files',
                     './files/cache',
-                    './files/cache/layout',
+                    './files/cache/plugin',
                 );
 
             foreach($directory_list as $dir) {
