@@ -45,7 +45,7 @@
         /**
          * @brief 플러그인의 상세 정보(conf/info.xml)를 팝업 출력
          **/
-        function dispMakeCode() {
+        function dispGenerateCode() {
             // 선택된 플러그인 정보를 구함
             $oPluginModel = &getModel('plugin');
             $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
@@ -60,7 +60,7 @@
             $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('plugin_make_code');
+            $this->setTemplateFile('plugin_generate_code');
         }
 
     }
