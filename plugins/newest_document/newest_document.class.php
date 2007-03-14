@@ -7,7 +7,7 @@
      * @version 0.1
      **/
 
-    function class newest_document extends Plugin {
+    class newest_document extends PluginHandler {
 
 
     }
