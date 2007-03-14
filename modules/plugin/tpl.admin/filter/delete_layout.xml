@@ -1,9 +1,0 @@
-<filter name="delete_layout" module="layout" act="procDeleteLayout" confirm_msg_code="confirm_delete">
-  <form>
-    <node target="layout_srl" required="true" />
-  </form>
-  <response>
-    <tag name="error" />
-    <tag name="message" />
-  </response>
-</filter>

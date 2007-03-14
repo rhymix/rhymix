@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
-  <title xml:lang="ko">레이아웃 관리</title>
-  <title xml:lang="en">layout management</title>
+  <title xml:lang="ko">플러그인 관리</title>
+  <title xml:lang="en">plugin management</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
-    <description xml:lang="ko">레이아웃 관리 모듈</description>
-    <description xml:lang="en">layout management</description>
+    <description xml:lang="ko">플러그인 관리 모듈</description>
+    <description xml:lang="en">plugin management</description>
   </author>
 </module>
