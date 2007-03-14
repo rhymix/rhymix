@@ -13,6 +13,10 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
+            // 몇가진 애드온을 기본으로 설치 상태로 지정
+            $oAddonController = &getController('addon');
+            $oAddonController->doActivate('spamfilter');
+            $oAddonController->doActivate('naver_search');
             return new Object();
         }
 
