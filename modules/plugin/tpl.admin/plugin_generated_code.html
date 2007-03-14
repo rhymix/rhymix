@@ -8,7 +8,7 @@
   <th>{$lang->plugin}</th>
   <td>{$plugin_info->title} ver {$plugin_info->version}</td>
 </tr>
-<tr>
+<tr height="200">
   <th rowspan="2">{$lang->plugin_code}</th>
   <td>
     &lt;div plugin="{$selected_plugin}" 
@@ -22,11 +22,8 @@
   <td>{$lang->about_plugin_code}</td>
 </tr>
 <tr>
-  <td>
+  <td colspan="2">
     <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
-  </td>
-  <td>
-    <input type="submit" value="{$lang->cmd_generate_code}" />
   </td>
 </tr>
 </table>
