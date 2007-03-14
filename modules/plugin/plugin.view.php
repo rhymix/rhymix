@@ -25,7 +25,7 @@
             Context::set('plugin_info', $plugin_info);
 
             // 플러그인을 팝업으로 지정
-            $this->setLayoutFile('popup_plugin');
+            $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('plugin_detail_info');

@@ -8,7 +8,6 @@
     <td>{$lang->date}</td>
     <td>{$lang->path}</td>
     <td>{$lang->plugin_info}</td>
-    <td>{$lang->cmd_make}</td>
   </tr>
   <!--@foreach($plugin_list as $key => $val)-->
   <tr>
@@ -21,10 +20,9 @@
     <td>{$val->author->date}</td>
     <td>{$val->path}</td>
   <td><a href="#" onclick="winopen('{getUrl('','module','plugin','act','dispPluginInfo','selected_plugin',$val->plugin)}','plugin_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
-    <td><a href="{getUrl('mo','plugin','act','dispInsertPlugin','plugin',$val->plugin)}">{$lang->cmd_make}</a></td>
   </tr>
   <tr>
-    <td colspan="6">
+    <td colspan="5">
       {nl2br($val->author->description)}
     </td>
   </tr>
