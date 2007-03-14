@@ -11,6 +11,9 @@
     <th colspan="2">{$lang->cmd_generate_code}</th>
   </tr>
   <tr>
+    <td colspan="2">{$lang->about_plugin_code}</td>
+  </tr>
+  <tr>
     <th>{$lang->plugin}</th>
     <td>{$plugin_info->title} ver {$plugin_info->version}</td>
   </tr>
@@ -46,16 +49,14 @@
     <td>{$var->description}</td>
   </tr>
   <!--@end-->
-  <tr>  
-    <td colspan="2"><textarea id="plugin_code" style="width:100%;height:100px;"></textarea></td>
-  </tr>
   <tr>
-    <td>
+    <td colspan="2">
+      <input type="submit" value="{$lang->cmd_generate_code}" />
       <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
     </td>
-    <td>
-      <input type="submit" value="{$lang->cmd_generate_code}" />
-    </td>
+  </tr>
+  <tr>  
+    <td colspan="2"><textarea readonly="true" id="plugin_code" style="width:100%;height:100px;"></textarea></td>
   </tr>
   </table>
 
