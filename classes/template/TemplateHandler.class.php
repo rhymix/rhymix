@@ -93,6 +93,9 @@
             // import xml filter/ css/ js <!--%filename-->
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"\)-->!is', array($this, '_compileImportCode'), $buff);
 
+            // plugin 코드 변경
+            $buff = preg_replace_callback('!<div plugin=([^<]*?)<\/div>!is', array($this, '_compilePluginCode'), $buff);
+
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!__ZB5__) exit();?>',"\n",$buff);
 
@@ -266,6 +269,36 @@
                     break;
             }
 
+            return $output;
+        }
+
+        /**
+         * @brief 플러그인 코드를 실제 php코드로 변경
+         **/
+        function _compilePluginCode($matches) {
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($matches[0]);
+            $vars = $xml_doc->div->attrs;
+
+            if(!$vars->plugin) return "";
+
+            // 플러그인의 이름을 구함
+            $plugin = $vars->plugin;
+            unset($vars->plugin);
+
+            // 플러그인의 변수들을 세팅
+            $vars_count = get_object_vars($vars);
+            if($vars_count) {
+                foreach($vars as $key => $val) {
+                    $key = str_replace('"','\"', $key);
+                    $val = str_replace('"','\"', $val);
+                    $args_list[] = sprintf('"%s"=>"%s"', $key, $val);
+                }
+                $args = sprintf('array(%s)', implode(',',$args_list));
+            }
+
+            // 플러그인 실행코드를 삽입
+            $output = sprintf('<?php PluginHandler::executePlugin("%s", %s); ?>', $plugin, $args);
             return $output;
         }
 

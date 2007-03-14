@@ -8,6 +8,11 @@
 
     class PluginHandler extends Object {
 
+        function executePlugin($plugin, $args) {
+            debugPrint($plugin);
+            debugPrint($args);
+        }
+
     }
 
 ?>
