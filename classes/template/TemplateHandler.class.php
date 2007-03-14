@@ -297,9 +297,10 @@
                 $args = sprintf('array(%s)', implode(',',$args_list));
             }
 
+            if(!$args) $args = null;
+
             // 플러그인 실행코드를 삽입
-            $output = sprintf('<?php PluginHandler::executePlugin("%s", %s); ?>', $plugin, $args);
-            return $output;
+            return sprintf('<?php PluginHandler::executePlugin("%s", %s); ?>', $plugin, $args);
         }
 
         /**
