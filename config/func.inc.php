@@ -111,7 +111,8 @@
      * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
-    function debugPrint($buff, $display_line = true) {
+    function debugPrint($buff = null, $display_line = true) {
+        if($buff == null) $buff = $GLOBALS['HTTP_RAW_POST_DATA'];
         $debug_file = "./files/_debug_message.php";
         $buff = sprintf("%s\n",print_r($buff,true));
 

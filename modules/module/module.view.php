@@ -67,7 +67,6 @@
 
                 // 템플릿 파일 지정
                 $this->setTemplateFile('category_update_form');
-                debugPrint($selected_category);
 
             // 아니면 전체 목록
             } else {

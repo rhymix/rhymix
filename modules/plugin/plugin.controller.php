@@ -18,14 +18,27 @@
          **/
         function procGenerateCode() {
             // 변수 정리
-            //$vars = Context::getRequestVars();
+            $vars = Context::getRequestVars();
+            $plugin = $vars->selected_plugin;
+
             unset($vars->module);
             unset($vars->act);
             unset($vars->selected_plugin);
-            if($vars) foreach($vars as $key=>$val) $vars->{$key} = str_replace(array('"','\''),array('\"','\\\''),$val);
+
+            $attribute = array();
+            if($vars) {
+                foreach($vars as $key=>$val) {
+                    debugPrint($val);
+                    debugPrint(strpos('|@|',  $val));
+                    if(strpos('|@|', $val)>0) $val = str_replace('|@|',',',$val);
+                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                }
+            }
+
+            $plugin_code = sprintf('<div plugin="%s" %s></div>', $plugin, implode(' ',$attribute));
 
             // 코드 출력
-            $this->add('plugin_code', 'hahaha');
+            $this->add('plugin_code', $plugin_code);
         }
 
     }
