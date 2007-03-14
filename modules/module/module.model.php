@@ -104,6 +104,7 @@
 
             // 관리자 아이디의 정리
             if($admin_id) $module_info->admin_id = explode(',',$admin_id);
+            else $module_info->admin_id = array();
 
             return $module_info;
         }
@@ -403,8 +404,9 @@
             // 데이터를 DB에서 가져옴
             $output = $oDB->executeQuery('module.getModuleCategories');
             if(!$output->toBool()) return $output;
-            if($output->data && !is_array($output->data)) $list = array($output->data);
-            else $list = $output->data;
+            $list = $output->data;
+            if(!$list) return;
+            if(!is_array($list)) $list = array($list);
 
             foreach($list as $val) {
                 $category_list[$val->module_category_srl] = $val;
