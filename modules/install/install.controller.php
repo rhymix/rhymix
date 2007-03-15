@@ -121,6 +121,9 @@
          **/
         function installDownloadedModule() {
 
+            // 수동으로 설치를 할 목록
+            $manual_modules = array('install','module','pagemaker');
+
             // install, module 모듈은 미리 설치 
             $this->installModule('install', './modules/install/');
             $this->installModule('module', './modules/module/');
@@ -135,10 +138,13 @@
                 $module = $tmp_arr[count($tmp_arr)-1];
 
                 // 미리 수동으로 설치한 모듈이면 패스~
-                if(in_array($module, array('install','module'))) continue;
+                if(in_array($module, $manual_modules)) continue;
 
                 $this->installModule($module, $module_path);
             }
+
+            // pagemaker는 모두 설치된 후에 설치
+            $this->installModule('pagemaker','./modules/pagemaker');
             return new Object();
         }
 
