@@ -24,6 +24,15 @@
                 @chmod($dir, 0707);
             }
 
+            // page 모듈로 모듈 추가
+            $oDB = &DB::getInstance();
+            $oModuleController = &getController('module');
+
+            $args->module_srl = $oDB->getNextSequence();
+            $args->mid = "pagemaker";
+            $args->module = "pagemaker";
+            $oModuleController->insertModule($args);
+
             return new Object();
         }
 

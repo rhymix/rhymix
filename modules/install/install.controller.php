@@ -121,8 +121,9 @@
          **/
         function installDownloadedModule() {
 
-            // install 모듈은 미리 설치 
+            // install, module 모듈은 미리 설치 
             $this->installModule('install', './modules/install/');
+            $this->installModule('module', './modules/module/');
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
             $module_list_1 = FileHandler::readDir('./modules/', NULL, false, true);
@@ -133,8 +134,8 @@
                 $tmp_arr = explode('/',$module_path);
                 $module = $tmp_arr[count($tmp_arr)-1];
 
-                // module이 install이면 패스~
-                if($module == 'install') continue;
+                // 미리 수동으로 설치한 모듈이면 패스~
+                if(in_array($module, array('install','module'))) continue;
 
                 $this->installModule($module, $module_path);
             }
