@@ -259,7 +259,7 @@
 
             // file class의 controller 객체 생성
             $oFileController = &getController('file');
-            $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
+            if($file_srl) $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
 
             // 첨부파일의 목록을 java script로 출력
             $oFileController->printUploadedFileList($document_srl);

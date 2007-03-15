@@ -31,7 +31,7 @@
     <td>{$category_list[$val->category_srl]->title}</td>
     <!--@end-->
     <td>
-      <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
+      <a href="{getUrl('document_srl',$val->document_srl,'act','dispWrite')}">{$val->title}</a>
     </td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
   </tr>

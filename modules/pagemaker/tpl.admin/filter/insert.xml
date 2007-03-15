@@ -1,0 +1,13 @@
+<filter name="insert" module="pagemaker" act="procInsertDocument" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="document_srl" required="true" />
+    <node target="title" required="true" minlength="1" maxlength="250" />
+    <node target="content" required="true" />
+  </form>
+  <response callback_func="completeDocumentInserted">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="page" />
+    <tag name="document_srl" />
+  </response>
+</filter>

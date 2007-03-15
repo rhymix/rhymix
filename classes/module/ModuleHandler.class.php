@@ -59,17 +59,20 @@
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
-            // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
-            if($this->document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+            // 특별히 module이 지정되지 않았을 시에 모듈을 찾기 위해 시도
+            if(!$this->module) {
 
-            // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
-            if(!$module_info && $this->mid) $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
+                // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
+                if($this->document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 
-            // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
-            if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();
+                // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
+                if(!$module_info && $this->mid) $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
 
-            // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함
-            // 모듈 정보에서 module 이름을 구해움
+                // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
+                if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();
+            }
+
+            // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함, 모듈 정보에서 module 이름을 구해움
             if($module_info) {
                 $this->module = $module_info->module;
                 $this->mid = $module_info->mid;

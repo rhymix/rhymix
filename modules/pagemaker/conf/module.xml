@@ -4,5 +4,9 @@
     <actions>
         <action name="dispList" type="view" admin_index="true" standalone="true" />
         <action name="dispWrite" type="view" standalone="true" />
+        <action name="procInsertDocument" type="controller" standalone="true" />
+        <action name="procDeleteDocument" type="controller" standalone="true" />
+        <action name="procUploadFile" type="controller" standalone="true" />
+        <action name="procDeleteFile" type="controller" standalone="true" />
     </actions>
 </module>

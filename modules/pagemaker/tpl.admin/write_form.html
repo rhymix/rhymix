@@ -1,4 +1,9 @@
+<!--%import("filter/insert.xml")-->
+<!--%import("js/admin.js")-->
+
 <form action="./" method="post" onsubmit="return procFilter(this, insert)" enctype="multipart/form-data">
+<input type="hidden" name="module" value="{$mo}" />
+<input type="hidden" name="act" value="procUploadFile" />
 <input type="hidden" name="content" value="{htmlspecialchars($document->content)}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
   <table width="100%">
@@ -68,7 +73,7 @@
   </tr>
   <tr>
     <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispList')}'" />
+      <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispList','document_srl','')}'" />
       <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
     </td>
   </tr>
