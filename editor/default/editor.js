@@ -5,22 +5,22 @@
 var iframe_id = 'editor_iframe_';
 
 // srl값에 해당하는 iframe의 object를 return
-function editorGetIFrame(parent_srl) {
-  var obj_id = iframe_id+parent_srl;
+function editorGetIFrame(upload_target_srl) {
+  var obj_id = iframe_id+upload_target_srl;
   return xGetElementById(obj_id);
 }
 
 // editor 초기화를 onload이벤트 후에 시작시킴
-function editorInit(parent_srl) {
-  var start_func = function() { editorStart(parent_srl); }
+function editorInit(upload_target_srl) {
+  var start_func = function() { editorStart(upload_target_srl); }
   var init_func = function() { setTimeout(start_func, 300); }
   xAddEventListener(window, 'load', init_func);
 }
 
-// editor 초기화 (parent_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
-function editorStart(parent_srl) {
+// editor 초기화 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
+function editorStart(upload_target_srl) {
   // iframe obj를 찾음
-  var iframe_obj = editorGetIFrame(parent_srl);
+  var iframe_obj = editorGetIFrame(upload_target_srl);
   if(!iframe_obj) return;
 
   // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
@@ -30,7 +30,7 @@ function editorStart(parent_srl) {
   var content = fo_obj.content.value;
 
   // 기본 폰트를 가져옴
-  var default_font = xGetElementById('editor_font_'+parent_srl).options[1].value;
+  var default_font = xGetElementById('editor_font_'+upload_target_srl).options[1].value;
 
   // iframe내의 document object 
   var contentDocument = iframe_obj.contentWindow.document;
@@ -73,27 +73,27 @@ function editorStart(parent_srl) {
 
   // 문단작성기능 on/off
   if(xIE4Up) {
-    xDisplay('editor_paragraph_'+parent_srl, 'none');
-    xDisplay('editor_use_paragraph_box_'+parent_srl, 'inline');
+    xDisplay('editor_paragraph_'+upload_target_srl, 'none');
+    xDisplay('editor_use_paragraph_box_'+upload_target_srl, 'inline');
   } else {
-    xDisplay('editor_paragraph_'+parent_srl, 'block');
-    xDisplay('editor_use_paragraph_box_'+parent_srl, 'none');
+    xDisplay('editor_paragraph_'+upload_target_srl, 'block');
+    xDisplay('editor_use_paragraph_box_'+upload_target_srl, 'none');
   }
 
   // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
-  editorSyncContent(fo_obj.content, parent_srl);
+  editorSyncContent(fo_obj.content, upload_target_srl);
 }
 
 var _editorSyncList = new Array(); 
-function editorSyncContent(obj, parent_srl) {
-  _editorSyncList[_editorSyncList.length] = {field:obj, parent_srl:parent_srl}
+function editorSyncContent(obj, upload_target_srl) {
+  _editorSyncList[_editorSyncList.length] = {field:obj, upload_target_srl:upload_target_srl}
 }
 
 function _editorSync() {
   for(var i=0;i<_editorSyncList.length;i++) {
     var field = _editorSyncList[i].field;
-    var parent_srl = _editorSyncList[i].parent_srl;
-    var content = editorGetContent(parent_srl);
+    var upload_target_srl = _editorSyncList[i].upload_target_srl;
+    var content = editorGetContent(upload_target_srl);
     if(typeof(content)=='undefined'||!content) continue;
     field.value = content;
   }
@@ -102,13 +102,13 @@ function _editorSync() {
 xAddEventListener(window, 'load', _editorSync);
 
 // 문단기능 toggle
-function editorUseParagraph(obj, parent_srl) { 
-  toggleDisplay('editor_paragraph_'+parent_srl);
+function editorUseParagraph(obj, upload_target_srl) { 
+  toggleDisplay('editor_paragraph_'+upload_target_srl);
 }
 
 // 에디터의 내용 return
-function editorGetContent(parent_srl) {
-  var iframe_obj = editorGetIFrame(parent_srl);
+function editorGetContent(upload_target_srl) {
+  var iframe_obj = editorGetIFrame(upload_target_srl);
   if(!iframe_obj) return;
   var html = '';
   html = xInnerHtml(iframe_obj.contentWindow.document.body);
@@ -117,8 +117,8 @@ function editorGetContent(parent_srl) {
 }
 
 // 에디터 내의 선택된 부분의 html 코드를 return
-function editorGetSelectedHtml(parent_srl) {
-  var iframe_obj = editorGetIFrame(parent_srl);
+function editorGetSelectedHtml(upload_target_srl) {
+  var iframe_obj = editorGetIFrame(upload_target_srl);
   if(xIE4Up) {
     var range = iframe_obj.contentWindow.document.selection.createRange();
     var html = range.htmlText;
@@ -197,7 +197,7 @@ function editorEventCheck(evt) {
   if(target_id.indexOf('editor_')!=-1) {
     var tmp_str = target_id.split('_');
     var method_name = tmp_str[1];
-    var parent_srl = tmp_str[2];
+    var upload_target_srl = tmp_str[2];
     switch(method_name) {
       case 'Bold' :
       case 'Italic' :
@@ -210,10 +210,10 @@ function editorEventCheck(evt) {
       case 'outdent' :
       case 'insertorderedlist' :
       case 'insertunorderedlist' :
-          editorDo(method_name, '', parent_srl);
+          editorDo(method_name, '', upload_target_srl);
         break;
       default :
-          editorPrevSrl = parent_srl;
+          editorPrevSrl = upload_target_srl;
           switch(method_name) {
             case "addemoticon" :
                 var x = (screen.availWidth - 225)/2;
@@ -272,8 +272,8 @@ function editorEventCheck(evt) {
 }
 
 // focus
-function editorFocus(parent_srl) {
-  var iframe_obj = editorGetIFrame(parent_srl);
+function editorFocus(upload_target_srl) {
+  var iframe_obj = editorGetIFrame(upload_target_srl);
   iframe_obj.contentWindow.focus();
 }
 
@@ -284,12 +284,12 @@ function editorDo(name, value, target) {
   else _editorDoSrl(name, value, target);
 }
 
-function _editorDoSrl(name, value, parent_srl) {
-  var iframe_obj = editorGetIFrame(parent_srl);
-  editorFocus(parent_srl);
+function _editorDoSrl(name, value, upload_target_srl) {
+  var iframe_obj = editorGetIFrame(upload_target_srl);
+  editorFocus(upload_target_srl);
   if(xIE4Up) iframe_obj.contentWindow.document.execCommand(name, false, value);
   else iframe_obj.contentWindow.document.execCommand(name, false, value);
-  editorFocus(parent_srl);
+  editorFocus(upload_target_srl);
 }
 
 function _editorDoObject(name, value, obj) {
@@ -347,8 +347,8 @@ function editorInsertEmoticon(obj) {
   editorFocus(editorPrevSrl);
 }
 
-function editorDoInsertUrl(link, parent_srl) {
-  editorFocus(parent_srl);
+function editorDoInsertUrl(link, upload_target_srl) {
+  editorFocus(upload_target_srl);
   var iframe_obj = editorGetIFrame(srl);
   editorReplaceHTML(iframe_obj, link);
 }
@@ -493,12 +493,12 @@ var uploading_file = false;
 var uploaded_files = new Array();
 
 // 업로드를 하기 위한 준비 시작
-function editor_upload_init(parent_srl) {
-  xAddEventListener(window,'load',function() {editor_upload_form_set(parent_srl);} );
+function editor_upload_init(upload_target_srl) {
+  xAddEventListener(window,'load',function() {editor_upload_form_set(upload_target_srl);} );
 }
 
-// parent_srl에 해당하는 form의 action을 iframe으로 변경
-function editor_upload_form_set(parent_srl) {
+// upload_target_srl에 해당하는 form의 action을 iframe으로 변경
+function editor_upload_form_set(upload_target_srl) {
   // 업로드용 iframe을 생성
   if(!xGetElementById('tmp_upload_iframe')) {
     if(xIE4Up) {
@@ -517,20 +517,20 @@ function editor_upload_form_set(parent_srl) {
   }
 
   // form의 action 을 변경
-  var field_obj = xGetElementById("uploaded_file_list_"+parent_srl);
+  var field_obj = xGetElementById("uploaded_file_list_"+upload_target_srl);
   if(!field_obj) return;
   var fo_obj = field_obj.parentNode;
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
   fo_obj.target = 'tmp_upload_iframe';
 
-  // parent_srl에 해당하는 첨부파일 목록을 로드
+  // upload_target_srl에 해당하는 첨부파일 목록을 로드
   var module = "";
   if(fo_obj["module"]) module = fo_obj.module.value;
   var mid = "";
   if(fo_obj["mid"]) mid = fo_obj.mid.value;
-  var parent_srl = fo_obj.parent_srl.value;
+  var upload_target_srl = fo_obj.upload_target_srl.value;
 
-  var url = "./?act=procDeleteFile&parent_srl="+parent_srl;
+  var url = "./?act=procDeleteFile&upload_target_srl="+upload_target_srl;
   if(module) url+="&module="+module;
   if(mid) url+="&mid="+mid;
 
@@ -542,7 +542,7 @@ function editor_upload_form_set(parent_srl) {
 }
 
 // 파일 업로드
-function editor_file_upload(field_obj, parent_srl) {
+function editor_file_upload(field_obj, upload_target_srl) {
     if(uploading_file) return;
 
     var fo_obj = field_obj.parentNode;
@@ -552,25 +552,25 @@ function editor_file_upload(field_obj, parent_srl) {
     fo_obj.submit();
     uploading_file = false;
 
-    var sel_obj = xGetElementById('uploaded_file_list_'+parent_srl);
+    var sel_obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
     var string = 'wait for uploading...';
     var opt_obj = new Option(string, '', true, true);
     sel_obj.options[sel_obj.options.length] = opt_obj;
 }
 
 // 업로드된 파일 목록을 삭제
-function editor_upload_clear_list(parent_srl) {
-  var obj = xGetElementById('uploaded_file_list_'+parent_srl);
+function editor_upload_clear_list(upload_target_srl) {
+  var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   while(obj.options.length) {
     obj.remove(0);
   }
-  var preview_obj = xGetElementById('uploaded_file_preview_box_'+parent_srl);
+  var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
   xInnerHtml(preview_obj,'')
 }
 
 // 업로드된 파일 정보를 목록에 추가
-function editor_insert_uploaded_file(parent_srl, file_srl, filename, file_size, disp_file_size, uploaded_filename, sid) {
-  var obj = xGetElementById('uploaded_file_list_'+parent_srl);
+function editor_insert_uploaded_file(upload_target_srl, file_srl, filename, file_size, disp_file_size, uploaded_filename, sid) {
+  var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   var string = filename+' ('+disp_file_size+')';
   var opt_obj = new Option(string, file_srl, true, true);
   obj.options[obj.options.length] = opt_obj;
@@ -578,17 +578,17 @@ function editor_insert_uploaded_file(parent_srl, file_srl, filename, file_size, 
   var file_obj = {file_srl:file_srl, filename:filename, file_size:file_size, uploaded_filename:uploaded_filename, sid:sid}
   uploaded_files[file_srl] = file_obj;
 
-  editor_preview(obj, parent_srl);
+  editor_preview(obj, upload_target_srl);
 }
 
 // 파일 목록창에서 클릭 되었을 경우 미리 보기
-function editor_preview(sel_obj, parent_srl) {
+function editor_preview(sel_obj, upload_target_srl) {
   if(sel_obj.options.length<1) return;
   var file_srl = sel_obj.options[sel_obj.selectedIndex].value;
   var obj = uploaded_files[file_srl];
   if(typeof(obj)=='undefined'||!obj) return;
   var uploaded_filename = obj.uploaded_filename;
-  var preview_obj = xGetElementById('uploaded_file_preview_box_'+parent_srl);
+  var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
 
   if(!uploaded_filename) {
     xInnerHtml(preview_obj, '');
@@ -614,8 +614,8 @@ function editor_preview(sel_obj, parent_srl) {
 }
 
 // 업로드된 파일 삭제
-function editor_remove_file(parent_srl) {
-  var obj = xGetElementById('uploaded_file_list_'+parent_srl);
+function editor_remove_file(upload_target_srl) {
+  var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   if(obj.options.length<1) return;
   var file_srl = obj.options[obj.selectedIndex].value;
   if(!file_srl) return;
@@ -624,8 +624,8 @@ function editor_remove_file(parent_srl) {
   var fo_obj = obj;
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
   var mid = fo_obj.mid.value;
-  var parent_srl = fo_obj.parent_srl.value;
-  var url = "./?mid="+mid+"&act=procDeleteFile&parent_srl="+parent_srl+"&file_srl="+file_srl;
+  var upload_target_srl = fo_obj.upload_target_srl.value;
+  var url = "./?mid="+mid+"&act=procDeleteFile&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
 
   // iframe에 url을 보내버림
   var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -635,8 +635,8 @@ function editor_remove_file(parent_srl) {
 }
 
 // 업로드 목록의 선택된 파일을 내용에 추가
-function editor_insert_file(parent_srl, align) {
-  var obj = xGetElementById('uploaded_file_list_'+parent_srl);
+function editor_insert_file(upload_target_srl, align) {
+  var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   if(obj.options.length<1) return;
   var file_srl = obj.options[obj.selectedIndex].value;
   if(!file_srl) return;
@@ -644,7 +644,7 @@ function editor_insert_file(parent_srl, align) {
   var filename = file_obj.filename;
   var sid = file_obj.sid;
   var uploaded_filename = file_obj.uploaded_filename;
-  editorPrevSrl = parent_srl;
+  editorPrevSrl = upload_target_srl;
 
   // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
   if(uploaded_filename && typeof(align)!='undefined') {
@@ -688,8 +688,8 @@ function editor_insert_file(parent_srl, align) {
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
-    var parent_srl = fo_obj.parent_srl.value;
-    var url = "./?mid="+mid+"&amp;act=procDownload&amp;parent_srl="+parent_srl+"&amp;file_srl="+file_srl+"&amp;sid="+sid;
+    var upload_target_srl = fo_obj.upload_target_srl.value;
+    var url = "./?mid="+mid+"&amp;act=procDownload&amp;upload_target_srl="+upload_target_srl+"&amp;file_srl="+file_srl+"&amp;sid="+sid;
 
     var x = (screen.availWidth - 400)/2;
     var y = (screen.availHeight - 220)/2;
@@ -702,11 +702,11 @@ function editor_insert_file(parent_srl, align) {
 /**
  * 글을 쓰다가 페이지 이동시 첨부파일에 대한 정리
  **/
-function editorRemoveAttachFiles(mid, parent_srl) {
-  var obj = xGetElementById('uploaded_file_list_'+parent_srl);
+function editorRemoveAttachFiles(mid, upload_target_srl) {
+  var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   if(obj.options.length<1) return;
 
   var params = new Array();
-  params['parent_srl'] = parent_srl;
+  params['upload_target_srl'] = upload_target_srl;
   exec_xml(mid, 'procClearFile', params, null, null, null);
 }
