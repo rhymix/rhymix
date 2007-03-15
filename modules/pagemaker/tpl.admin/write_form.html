@@ -1,0 +1,77 @@
+<form action="./" method="post" onsubmit="return procFilter(this, insert)" enctype="multipart/form-data">
+<input type="hidden" name="content" value="{htmlspecialchars($document->content)}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+  <table width="100%">
+  <col width="120" />
+  <col width="*" />
+  <!--@if($category_list)-->
+  <tr>
+    <th>{$lang->category}</th>
+    <td>
+      <select name="category_srl" >
+      <option value="">{$lang->category}</option>
+      <!--@foreach($category_list as $val)-->
+      <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$document->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+      <!--@end-->
+      </select>
+    </td>
+  <!--@end-->
+
+  <tr>
+    <th>{$lang->title}</th>
+    <td><input type="text" name="title" value="{$document->title}" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input type="checkbox" name="is_secret" value="Y" <!--@if($document->is_secret== "Y")-->checked="true"<!--@end--> id="is_secret" />
+      <label for="is_secret">{$lang->secret}</label>
+
+      <input type="checkbox" name="allow_comment" value="Y" <!--@if($document->allow_comment != "N")-->checked="true"<!--@end--> id="allow_comment" />
+      <label for="allow_comment">{$lang->allow_comment}</label>
+
+      <input type="checkbox" name="lock_comment" value="Y" <!--@if($document->lock_comment == "Y")-->checked="true"<!--@end--> id="lock_comment" />
+      <label for="lock_comment">{$lang->lock_comment}</label>
+
+      <input type="checkbox" name="allow_trackback" value="Y" <!--@if($document->allow_trackback != "N")-->checked="true"<!--@end--> id="allow_trackback" />
+      <label for="allow_trackback">{$lang->allow_trackback}</label>
+    </td>
+  </tr>
+  <tr>
+    <th>{$lang->content}</th>
+    <td>
+      <!--#include("$editor_path/editor.html")-->
+      <!--#include("$editor_path/editor_uploader.html")-->
+    </td>
+  </tr>
+  <tr>
+    <th>{$lang->cmd_send_trackback}</th>
+    <td>
+      <input type="text" name="trackback_url" />
+      <select name="trackback_charset">
+        <option value='UTF-8'>UTF-8</option>
+        <option value='EUC-KR'>EUC-KR</option>
+        <option value='EUC-JP'>EUC-JP</option>
+        <option value='SHIFT_JIS'>SHIFT_JIS</option>
+        <option value='EUC-CN'>EUC-CN</option>
+        <option value='HZ'>HZ</option>
+        <option value='BIG5'>BIG5</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th>{$lang->tag}</th>
+    <td>
+      <input type="text" name="tags" value="{htmlspecialchars($document->tags)}" /> <br />
+      {$lang->about_tag}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispList')}'" />
+      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </td>
+  </tr>
+  </table>
+
+</form>

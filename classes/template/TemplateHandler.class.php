@@ -188,8 +188,7 @@
                 }
                 $tmp_arr[$i] = implode(".",$tmp2_arr);
             }
-            if(is_array($tmp_arg)) $arg = implode("/",$tmp_arr);
-            else $args = $tmp_arr;
+            $arg = implode("/",$tmp_arr);
             if(substr($arg,0,2)=='./') $arg = substr($arg,2);
 
             // 1단계로 해당 tpl 내의 파일을 체크

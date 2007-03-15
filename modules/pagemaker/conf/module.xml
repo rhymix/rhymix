@@ -3,5 +3,6 @@
     <grants />
     <actions>
         <action name="dispList" type="view" admin_index="true" standalone="true" />
+        <action name="dispWrite" type="view" standalone="true" />
     </actions>
 </module>
