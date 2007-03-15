@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="0.1">
-    <title xml:lang="ko">최근 문서</title>
-    <title xml:lang="en">newest document </title>
+    <title xml:lang="ko">최근 문서 출력</title>
+    <title xml:lang="en">newest document printer</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">zero</name>
