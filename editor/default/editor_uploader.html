@@ -1,7 +1,6 @@
 <!--@if($grant->fileupload)-->
 <script type="text/javascript">
   editor_upload_init("{$document_srl}");
-  xAddEventListener(window, 'beforeunload', function _editorRemoveAttachFiles{$document_srl}() { editorRemoveAttachFiles("{$mid}","{$document_srl}"); });
 </script>
 
 <div class="editor_uploader_box">

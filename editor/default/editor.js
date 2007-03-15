@@ -12,8 +12,8 @@ function editorGetIFrame(document_srl) {
 
 // editor 초기화를 onload이벤트 후에 시작시킴
 function editorInit(document_srl) {
-  var start_func = function _editorStart() { editorStart(document_srl); }
-  var init_func = function _editorInit() { setTimeout(start_func, 300); }
+  var start_func = function() { editorStart(document_srl); }
+  var init_func = function() { setTimeout(start_func, 300); }
   xAddEventListener(window, 'load', init_func);
 }
 
@@ -494,7 +494,7 @@ var uploaded_files = new Array();
 
 // 업로드를 하기 위한 준비 시작
 function editor_upload_init(document_srl) {
-  xAddEventListener(window,'load',function _change_form_target() {editor_upload_form_set(document_srl);} );
+  xAddEventListener(window,'load',function() {editor_upload_form_set(document_srl);} );
 }
 
 // document_srl에 해당하는 form의 action을 iframe으로 변경
@@ -524,9 +524,15 @@ function editor_upload_form_set(document_srl) {
   fo_obj.target = 'tmp_upload_iframe';
 
   // document_srl에 해당하는 첨부파일 목록을 로드
-  var mid = fo_obj.mid.value;
+  var module = "";
+  if(fo_obj["module"]) module = fo_obj.module.value;
+  var mid = "";
+  if(fo_obj["mid"]) mid = fo_obj.mid.value;
   var document_srl = fo_obj.document_srl.value;
-  var url = "./?mid="+mid+"&act=procDeleteFile&document_srl="+document_srl;
+
+  var url = "./?act=procDeleteFile&document_srl="+document_srl;
+  if(module) url+="&module="+module;
+  if(mid) url+="&mid="+mid;
 
   // iframe에 url을 보내버림
   var iframe_obj = xGetElementById('tmp_upload_iframe');
