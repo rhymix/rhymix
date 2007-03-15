@@ -25,6 +25,7 @@
             $oAdminController->insertShortCut('layout');
             $oAdminController->insertShortCut('plugin');
             $oAdminController->insertShortCut('board');
+            $oAdminController->insertShortCut('pagemaker');
             $oAdminController->insertShortCut('member');
            
             return new Object();
