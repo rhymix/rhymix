@@ -22,7 +22,6 @@
             // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
             $module_srl = Context::get('module_srl');
 
-
             // module model 객체 생성 
             $oModuleModel = &getModel('module');
 
