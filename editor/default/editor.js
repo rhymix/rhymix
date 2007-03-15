@@ -1,8 +1,12 @@
 /**
  * richtext 에디터 관련
  **/
+
 // iframe의 id prefix
 var iframe_id = 'editor_iframe_';
+
+// upload_target_srl에 대한 form문을 객체로 보관함 
+var editor_form_list = new Array();
 
 // srl값에 해당하는 iframe의 object를 return
 function editorGetIFrame(upload_target_srl) {
@@ -13,8 +17,8 @@ function editorGetIFrame(upload_target_srl) {
 // editor 초기화를 onload이벤트 후에 시작시킴
 function editorInit(upload_target_srl) {
   var start_func = function() { editorStart(upload_target_srl); }
-  var init_func = function() { setTimeout(start_func, 300); }
-  xAddEventListener(window, 'load', init_func);
+  //var init_func = function() { setTimeout(start_func, 300); }
+  xAddEventListener(window, 'load', start_func);
 }
 
 // editor 초기화 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
@@ -27,6 +31,10 @@ function editorStart(upload_target_srl) {
   var fo_obj = iframe_obj.parentNode;
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
 
+  // 구해진 form 객체를 저장
+  editor_form_list[upload_target_srl] = fo_obj;
+
+  // 대상 form의 content object에서 데이터를 구함
   var content = fo_obj.content.value;
 
   // 기본 폰트를 가져옴
@@ -35,8 +43,7 @@ function editorStart(upload_target_srl) {
   // iframe내의 document object 
   var contentDocument = iframe_obj.contentWindow.document;
 
-  // editing가능하도록 설정
-  
+  // editing가능하도록 설정 시작
 
   // 기본 내용 작성
   var contentHtml = ''+
@@ -528,7 +535,6 @@ function editor_upload_form_set(upload_target_srl) {
   if(fo_obj["module"]) module = fo_obj.module.value;
   var mid = "";
   if(fo_obj["mid"]) mid = fo_obj.mid.value;
-  var upload_target_srl = fo_obj.upload_target_srl.value;
 
   var url = "./?act=procDeleteFile&upload_target_srl="+upload_target_srl;
   if(module) url+="&module="+module;
@@ -553,8 +559,8 @@ function editor_file_upload(field_obj, upload_target_srl) {
     uploading_file = false;
 
     var sel_obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
-    var string = 'wait for uploading...';
-    var opt_obj = new Option(string, '', true, true);
+    var str = 'wait for uploading...';
+    var opt_obj = new Option(str, '', true, true);
     sel_obj.options[sel_obj.options.length] = opt_obj;
 }
 

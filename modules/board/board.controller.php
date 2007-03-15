@@ -40,7 +40,6 @@
          * @brief 문서 입력
          **/
         function procInsertDocument() {
-
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
@@ -252,8 +251,8 @@
          * 에디터에서 개별 파일 삭제시 사용
          **/
         function procDeleteFile() {
-            // 기본적으로 필요한 변수인 document_srl, module_srl을 설정
-            $document_srl = Context::get('document_srl');
+            // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
+            $upload_target_srl = Context::get('upload_target_srl');
             $module_srl = $this->module_srl;
             $file_srl = Context::get('file_srl');
 
@@ -262,26 +261,28 @@
             if($file_srl) $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
 
             // 첨부파일의 목록을 java script로 출력
-            $oFileController->printUploadedFileList($document_srl);
+            $oFileController->printUploadedFileList($upload_target_srl);
         }
 
         /**
          * @brief 첨부파일 업로드
+         *
+         * editor에서는 upload_target_srl을 넘겨주고 게시판에서는 document_srl을 upload_target_srl로 설정해 놓은 상태이다.
          **/
         function procUploadFile() {
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!Context::isUploaded() || !$this->grant->fileupload) exit();
 
-            // 기본적으로 필요한 변수인 document_srl, module_srl을 설정
-            $document_srl = Context::get('document_srl');
+            // 기본적으로 필요한 변수 설정
+            $upload_target_srl = Context::get('upload_target_srl');
             $module_srl = $this->module_srl;
 
             // file class의 controller 객체 생성
             $oFileController = &getController('file');
-            $output = $oFileController->insertFile($module_srl, $document_srl);
+            $output = $oFileController->insertFile($module_srl, $upload_target_srl);
 
             // 첨부파일의 목록을 java script로 출력
-            $oFileController->printUploadedFileList($document_srl);
+            $oFileController->printUploadedFileList($upload_target_srl);
         }
 
         /**
@@ -307,16 +308,16 @@
          * javascript로 빠져나가는 경우 확인이 어려워서 사용되지 않을 코드
          **/
         function procClearFile() {
-            $document_srl = Context::get('document_srl');
+            $upload_target_srl = Context::get('upload_target_srl');
 
-            // document_srl의 글이 등록되어 있다면 pass
-            $oDocumentModel = &getModel('document');
-            $data = $oDocumentModel->getDocument($document_srl);
+            // upload_target_srl의 글이 등록되어 있다면 pass
+            $oDocumentModel = &getModel('upload_target');
+            $data = $oDocumentModel->getDocument($upload_target_srl);
             if($data) exit();
 
             // 등록되어 있지 않다면 첨부파일 삭제
             $oFileController = &getController('file');
-            $oFileController->deleteFiles($this->module_srl, $document_srl);
+            $oFileController->deleteFiles($this->module_srl, $upload_target_srl);
         }
 
         /**
