@@ -4,7 +4,7 @@
   </tables>
   <columns>
     <column name="file_srl" var="file_srl" notnull="notnull" />
-    <column name="document_srl" var="document_srl" filter="number" default="0" notnull="notnull" />
+    <column name="upload_target_srl" var="upload_target_srl" filter="number" default="0" notnull="notnull" />
     <column name="sid" var="sid" />
     <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
     <column name="source_filename" var="source_filename" notnull="notnull" minlength="1" maxlength="250" />

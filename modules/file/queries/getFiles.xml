@@ -3,7 +3,7 @@
     <table name="files" />
   </tables>
   <conditions>
-    <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
   </conditions>
   <navigation>
     <index var="sort_index" order="asc" />

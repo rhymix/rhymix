@@ -26,11 +26,11 @@
             if(__DEBUG__) $start = getMicroTime();
 
             // 변수 체크
-            if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
+            $this->tpl_path = ereg_replace('(\/+)$', '', $this->tpl_path).'/';
             if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
 
             // tpl_file 변수 생성
-            $tpl_file = $tpl_path.$tpl_filename;
+            $tpl_file = $this->tpl_path.$tpl_filename;
 
             // tpl_file이 비어 있거나 해당 파일이 없으면 return
             if(!$tpl_file || !file_exists($tpl_file)) return;
@@ -75,11 +75,11 @@
             $buff = FileHandler::readFile($tpl_file);
             if(!$buff) return;
 
+            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
+            $buff = preg_replace_callback('!img([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
+
             // 변수를 변경
             $buff = preg_replace_callback('/\{[^@^ ]([^\}]+)\}/i', array($this, '_compileVarToContext'), $buff);
-
-            // 이미지 태그 img의 src의 값이 ./ 로 시작하면 {$tpl_path}로 변경
-            $buff = preg_replace_callback('!src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
             // 결과를 출력하지 않는 구문 변경
             $buff = preg_replace_callback('/\{\@([^\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
@@ -118,11 +118,13 @@
          **/
         function _compileImgPath($matches) {
             $str1 = $matches[0];
-            $str2 = $matches[1];
+            $str2 = $matches[2];
             $path = $str2;
-            if(!eregi("^\.\/(images|img)",$path)) return $str1;
 
-            $path = '<?=$this->tpl_path?>'.substr($path,2);
+            if(substr($path,0,1)=='/' || eregi(":\/\/",$path)) return $str1;
+
+            $path = preg_replace('/^([\.\/]+)/','',$path);
+            $path = '<?=$this->tpl_path?>'.$path;
             return str_replace($str2, $path, $str1);
         }
 

@@ -1,7 +1,7 @@
 <table name="files">
   <column name="file_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="upload_target_srl" type="number" size="11" default="0" notnull="notnull" index="idx_upload_target_srl" />
   <column name="sid" type="varchar" size="60" />
-  <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
   <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
   <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
   <column name="download_count" type="number" size="11" notnull="notnull" default="0" index="idx_download_count" />

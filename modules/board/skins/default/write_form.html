@@ -68,10 +68,9 @@
   <tr>
     <th>{$lang->content}</th>
     <td>
+      {@$upload_target_srl = $document_srl}
       <!--#include("$editor_path/editor.html")-->
-      <!--@if($grant->fileupload)-->
       <!--#include("$editor_path/editor_uploader.html")-->
-      <!--@end-->
     </td>
   </tr>
   <tr>

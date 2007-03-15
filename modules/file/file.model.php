@@ -16,10 +16,10 @@
         /**
          * @brief 특정 문서에 속한 첨부파일의 개수를 return
          **/
-        function getFilesCount($document_srl) {
+        function getFilesCount($upload_target_srl) {
             $oDB = &DB::getInstance();
 
-            $args->document_srl = $document_srl;
+            $args->upload_target_srl = $upload_target_srl;
             $output = $oDB->executeQuery('file.getFilesCount', $args);
             return (int)$output->data->count;
         }
@@ -38,10 +38,10 @@
         /**
          * @brief 특정 문서에 속한 파일을 모두 return
          **/
-        function getFiles($document_srl) {
+        function getFiles($upload_target_srl) {
             $oDB = &DB::getInstance();
 
-            $args->document_srl = $document_srl;
+            $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = 'file_srl';
             $output = $oDB->executeQuery('file.getFiles', $args);
 
