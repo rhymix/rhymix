@@ -65,14 +65,14 @@
   <div class="editor_iframe_box"><iframe id="editor_iframe_{$upload_target_srl}" frameBorder="0" style="border:0px;width:99%;height:300px;margin:0px;"></iframe><div class="editor_drag_down_area" id="editor_drag_bar_{$upload_target_srl}"></div></div>
 </div>
 
-<!--@if($grant->fileupload)-->
-<!-- 파일 업로드는 어떤 모듈이건 $grant->fileupload가 true여야 호출된다. 필요할 모듈에서는 임의 설정 하면 됨 -->
+<!--@if($allow_fileupload)-->
 <!--%import("./js/uploader.js")-->
 <script type="text/javascript">
   editor_upload_init("{$upload_target_srl}");
 </script>
 
 <input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
+<input type="hidden" name="act" value="procUploadFile" />
 
 <div class="editor_uploader_box">
   <div class="editor_uploader">

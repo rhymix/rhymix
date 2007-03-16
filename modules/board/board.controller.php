@@ -125,16 +125,18 @@
             // comment 모듈의 controller 객체 생성
             $oCommentController = &getController('comment');
 
+            // comment_srl이 존재하는지 체크
+            $comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+
             // comment_srl이 없을 경우 신규 입력
-            if(!$obj->comment_srl) {
+            if($comment->comment_srl != $obj->comment_srl) {
 
                 // parent_srl이 있으면 답변으로
                 if($obj->parent_srl) {
-                    $comment = $oCommentModel->getComment($obj->parent_srl);
-                    if(!$comment) return new Object(-1, 'msg_invalid_request');
+                    $parent_comment = $oCommentModel->getComment($obj->parent_srl);
+                    if(!$parent_comment->comment_srl) return new Object(-1, 'msg_invalid_request');
 
                     $output = $oCommentController->insertComment($obj);
-                    $comment_srl = $output->get('comment_srl');
 
                 // 없으면 신규
                 } else {
@@ -143,10 +145,6 @@
 
             // comment_srl이 있으면 수정으로
             } else {
-
-                $comment = $oCommentModel->getComment($obj->comment_srl);
-                if(!$comment) return new Object(-1, 'msg_invalid_request');
-
                 $obj->parent_srl = $comment->parent_srl;
                 $output = $oCommentController->updateComment($obj);
                 $comment_srl = $obj->comment_srl;

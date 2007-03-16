@@ -40,7 +40,6 @@
 
             $oDB = &DB::getInstance();
 
-            $obj->comment_srl = $oDB->getNextSequence();
             $obj->list_order = $obj->comment_srl * -1;
             if($obj->password) $obj->password = md5($obj->password);
 

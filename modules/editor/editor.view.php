@@ -16,8 +16,9 @@
         /**
          * @brief 에디터를 return
          **/
-        function getEditor($upload_target_srl) {
+        function getEditor($upload_target_srl, $allow_fileupload = false) {
             Context::set('upload_target_srl', $upload_target_srl);
+            Context::set('allow_fileupload', $allow_fileupload);
 
             $tpl_path = $this->module_path.'tpl';
             $tpl_file = 'editor.html';

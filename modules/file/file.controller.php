@@ -70,7 +70,7 @@
         /**
          * @brief 첨부파일 삭제
          **/
-        function deleteFile($file_srl) {
+        function deleteFile($file_srl, $is_admin = false) {
             $oDB = &DB::getInstance();
 
             // 파일 정보를 가져옴

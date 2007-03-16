@@ -2,6 +2,8 @@
 
 <!--@if($source_comment)-->
   <!--#include("header.html")-->
+<!--@else-->
+  <!--%import("js/board.js")-->
 <!--@end-->
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
@@ -27,7 +29,7 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_comment)">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="comment_srl" value="{$comment_srl}" />

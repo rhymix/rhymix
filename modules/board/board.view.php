@@ -458,13 +458,14 @@
          **/
         function setCommentEditor($comment_srl=0) {
             if(!$comment_srl) {
-                $oDB = &DB::getNextSequence();
+                $oDB = &DB::getInstance();
                 $comment_srl = $oDB->getNextSequence();
+                Context::set('comment_srl', $comment_srl);
             }
 
             // 에디터 모듈의 dispEditor를 호출하여 세팅
             $oEditorView = &getView('editor');
-            $comment_editor = $oEditorView->getEditor($comment, $this->grant->fileupload);
+            $comment_editor = $oEditorView->getEditor($comment_srl, $this->grant->fileupload);
             Context::set('comment_editor', $comment_editor);
         }
 

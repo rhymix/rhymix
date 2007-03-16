@@ -37,15 +37,18 @@ function editor_upload_form_set(upload_target_srl) {
   while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
   fo_obj.target = 'tmp_upload_iframe';
 
-  // upload_target_srl에 해당하는 첨부파일 목록을 로드
+  // upload_target_srl에 해당하는 첨부파일 목록을 로드 (procDeleteFile에 file_srl을 보내주지 않으면 삭제시도는 없이 목록만 갱신할 수 있음) 
   var module = "";
   if(fo_obj["module"]) module = fo_obj.module.value;
   var mid = "";
   if(fo_obj["mid"]) mid = fo_obj.mid.value;
+  var document_srl = "";
+  if(fo_obj["document_srl"]) document_srl = fo_obj.document_srl.value;
 
   var url = "./?act=procDeleteFile&upload_target_srl="+upload_target_srl;
   if(module) url+="&module="+module;
   if(mid) url+="&mid="+mid;
+  if(document_srl) url+="&document_srl="+document_srl;
 
   // iframe에 url을 보내버림
   var iframe_obj = xGetElementById('tmp_upload_iframe');
