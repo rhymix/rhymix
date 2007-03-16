@@ -76,14 +76,17 @@
 <input type="hidden" name="act" value="procUploadFile" />
 
 <div class="editor_uploader_box">
+
+  <!-- 파일 업로드 영역 -->
   <div class="editor_uploader">
     <select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select><br />
     <input type="file" name="file" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" /><br />
     <input type="button" value="{$lang->edit->delete_selected}" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
     <input type="button" value="{$lang->edit->link_selected}" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
   </div>
-  <div id="editor_component_area_{$upload_target_srl}" class="editor_component">
 
+  <!-- 컴포넌트 노출 영역 -->
+  <div id="editor_component_area_{$upload_target_srl}" class="editor_component">
     <div id="uploaded_file_preview_box_{$upload_target_srl}" class="uploaded_file_preview_box"></div>
     <div>
       <div class="editor_align_icon">

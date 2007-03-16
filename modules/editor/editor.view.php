@@ -38,20 +38,49 @@
         }
 
         /**
-         * @brief 팝업 출력 출력
+         * @brief 컴포넌트 실행하여 결과 return
          **/
         function dispComponent() {
-            $component = Context::get('compile');
+            // 변수 정리
+            $component = Context::get('component');
             $upload_target_srl = Context::get('upload_target_srl');
 
-            $open_window = 'Y';
-            $popup_url = "http://www.nzeo.com";
+            // component 객체를 받음
+            $oComponent = &$this->getComponentObject($component, $upload_target_srl);
+            if(!$oComponent->toBool()) return $oComponent;
+
+            // 컴포넌트 실행
+            $oComponent->execute();
 
             $this->add('component', $component);
             $this->add('upload_target_srl', $upload_target_srl);
-            $this->add('open_window', $open_window);
-            $this->add('popup_url', $popup_url);
+            $this->add('tpl', $oComponent->get('tpl'));
+            $this->add('open_window', $oComponent->get('open_window'));
+            $this->add('popup_url', $oComponent->get('popup_url'));
         }
 
+        /**
+         * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
+         **/
+        function dispPopup() {
+            // 변수 정리
+            $component = Context::get('component');
+            $upload_target_srl = Context::get('upload_target_srl');
+
+            // component 객체를 받음
+            $oComponent = &$this->getComponentObject($component, $upload_target_srl);
+            if(!$oComponent->toBool()) return $oComponent;
+
+            // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
+            $popup_content = $oComponent->getPopupContent();
+            Context::set('popup_content', $popup_content);
+
+            // 레이아웃을 popup_layout으로 설정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('popup');
+        }
     }
 ?>
