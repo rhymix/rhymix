@@ -19,11 +19,10 @@ function editorGetIFrame(upload_target_srl) {
 // editor 초기화를 onload이벤트 후에 시작시킴
 function editorInit(upload_target_srl) {
   var start_func = function() { editorStart(upload_target_srl); }
-  //var init_func = function() { setTimeout(start_func, 300); }
   xAddEventListener(window, 'load', start_func);
 }
 
-// editor 초기화 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
+// editor 시작 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
 function editorStart(upload_target_srl) {
   // iframe obj를 찾음
   var iframe_obj = editorGetIFrame(upload_target_srl);
@@ -439,52 +438,51 @@ function editorHighlight(ret_obj, response_tags, obj) {
 /**
  * iframe 드래그 관련
  **/
-var editorIsDrag = false;
-var editorDragY = 0;
-var editorDragObj = null;
-var editorDragID = '';
+var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0}
 xAddEventListener(document, 'mousedown', editorDragStart);
 xAddEventListener(document, 'mouseup', editorDragStop);
 function editorDragStart(evt) {
   var e = new xEvent(evt);
   var obj = e.target;
   if(typeof(obj.id)=='undefined'||!obj.id) return;
+
   var id = obj.id;
   if(id.indexOf('editor_drag_bar_')!=0) return;
 
-  editorIsDrag = true;
-  editorDragObj = e.target;
-  editorDragY = e.pageY; 
-  editorDragID = id.substr('editor_drag_bar_'.length);
-  xAddEventListener(document, 'mousemove', editorDragMove);
-  xAddEventListener(editorDragObj, 'mouseout', editorDragMove);
+  editorDragObj.isDrag = true;
+  editorDragObj.y = e.pageY;
+  editorDragObj.obj = e.target;
+  editorDragObj.id = id.substr('editor_drag_bar_'.length);
 
-  var iframe_obj = editorGetIFrame(editorDragID);
-  xAddEventListener(iframe_obj, 'mousemove', editorDragMove);
-}
-
-function editorDragStop(evt) {
-  var iframe_obj = editorGetIFrame(editorDragID);
-  xRemoveEventListener(document, 'mousemove', editorDragMove);
-  xRemoveEventListener(iframe_obj, 'mousemove', editorDragMove);
-
-  editorIsDrag = false;
-  editorDragY = 0;
-  editorDragObj = null;
-  editorDragID = '';
+  xAddEventListener(document, 'mousemove', editorDragMove, false);
+  xAddEventListener(editorDragObj.obj, 'mouseout', editorDragMove, false);
+  var iframe_obj = editorGetIFrame(editorDragObj.id);
+  if(iframe_obj) xAddEventListener(iframe_obj.contentWindow.document, 'mousemove', editorDragMove, false);
 }
 
 function editorDragMove(evt) {
-  if(typeof(editorIsDrag)=='undefined'||!editorIsDrag) return;
+  if(!editorDragObj.isDrag) return;
+
   var e = new xEvent(evt);
-  var iframe_obj = editorGetIFrame(editorDragID);
+  var h = e.pageY - editorDragObj.y;
 
-  var y = e.pageY;
-  var yy = y - editorDragY;
-  if(yy<0) return;
-  editorDragY = y; 
+  var iframe_obj = editorGetIFrame(editorDragObj.id);
+  xHeight(iframe_obj, xHeight(iframe_obj)+h);
 
-  var editorHeight = xHeight(iframe_obj);
-  xHeight(iframe_obj, editorHeight+yy);
+  editorDragObj.y = e.pageY;
 }
 
+function editorDragStop(evt) {
+  if(!editorDragObj.isDrag) return;
+
+  xRemoveEventListener(document, 'mousemove', editorDragMove, false);
+  xRemoveEventListener(editorDragObj.obj, 'mouseout', editorDragMove, false);
+
+  var iframe_obj = editorGetIFrame(editorDragObj.id);
+  if(iframe_obj) xRemoveEventListener(iframe_obj.contentWindow.document, 'mousemove', editorDragMove, false);
+
+  editorDragObj.isDrag = false;
+  editorDragObj.y = 0;
+  editorDragObj.obj = null;
+  editorDragObj.id = '';
+}
