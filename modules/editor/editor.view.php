@@ -11,15 +11,28 @@
          * @brief 초기화
          **/
         function init() {
-            // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 에디터 출력
+         * @brief 에디터를 return
          **/
-        function dispEditor() {
-            $this->setTemplateFile('editor.html');
+        function getEditor($upload_target_srl) {
+            Context::set('upload_target_srl', $upload_target_srl);
+
+            $tpl_path = $this->module_path.'tpl';
+            $tpl_file = 'editor.html';
+
+            require_once("./classes/template/TemplateHandler.class.php");
+            $oTemplate = new TemplateHandler();
+            return $oTemplate->compile($tpl_path, $tpl_file);
+        }
+
+        /**
+         * @brief 팝업 출력 출력
+         **/
+        function dispPopup() {
+            $this->setTemplatePath($this->module_path.'tpl/popup');
+            $this->setTemplateFile('emoticon.html');
         }
 
     }

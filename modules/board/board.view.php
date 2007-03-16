@@ -97,10 +97,18 @@
             if($this->grant->view && $document_srl) {
 
                 $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager, true);
+                // 찾아지지 않았다면 초기화
                 if($document->document_srl != $document_srl) {
                     unset($document);
                     unset($document_srl);
                     Context::set('document_srl','',true);
+
+                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅 
+                } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
+                    // 에디터 모듈의 dispEditor를 호출하여 세팅
+                    $oEditorView = &getView('editor');
+                    $comment_editor = $oEditorView->getEditor($comment_srl);
+                    Context::set('comment_editor', $comment_editor);
                 }
 
                 Context::set('document', $document);
@@ -180,6 +188,11 @@
 
             Context::set('document_srl',$document_srl);
             Context::set('document', $document);
+
+            // 에디터 모듈의 dispEditor를 호출하여 세팅
+            $oEditorView = &getView('editor');
+            $editor = $oEditorView->getEditor($document_srl);
+            Context::set('editor', $editor);
 
             $this->setTemplateFile('write_form');
         }

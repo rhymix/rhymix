@@ -2,6 +2,6 @@
 <module>
     <grants />
     <actions>
-        <action name="dispEditor" type="view" standalone="true" />
+        <action name="dispPopup" type="view" standalone="true" />
     </actions>
 </module>
