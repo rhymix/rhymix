@@ -231,6 +231,8 @@ function editorEventCheck(evt) {
 
         // 추가 컴포넌트의 경우 서버에 요청을 시도
         default :
+                editorPrevSrl = upload_target_srl;
+
                 var params = new Array();
                 params['component'] = component_name;
                 params['upload_target_srl'] = upload_target_srl;

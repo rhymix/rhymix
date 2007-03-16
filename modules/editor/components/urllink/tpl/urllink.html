@@ -1,0 +1,41 @@
+<!--%import("urllink.js")-->
+<!--%import("../lang")-->
+
+<form action="./" method="get" id="fo" onSubmit="return false">
+
+  <div id="zone_AddUrl" class="editor_window">
+    <table width="380" border="0" cellspacing="1" cellpadding="0">
+    <col width="50" />
+    <col width="*" />
+    <tr>
+      <td class="editor_field">text</td>
+      <td><textarea name="text" class="editor_small_textarea"><?=$_REQUEST["title"]?></textarea></td>
+    </tr>
+    <tr>
+      <td class="editor_field">url</td>
+      <td><input type="text" name="url" class="editor_input" value="<?=$_REQUEST["url"]?>"/></td>
+    </tr>
+    <tr>
+      <td class="editor_field">bold</td>
+      <td><input type="checkbox" name="bold" value="Y" /></td>
+    </tr>
+    <tr>
+      <td class="editor_field">type</td>
+      <td>
+        <select name="link_type">
+          <option value="">default</option>
+          <option value="editor_blue_text">blue</option>
+          <option value="editor_red_text">red</option>
+          <option value="editor_green_text">green</option>
+          <option value="editor_yellow_text">yellow</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="button" id="manual_url_submit" class="editor_submit" value="Insert" onClick="insertUrl()" />
+      </td>
+    </tr>
+    </table>
+  </div>
+</form>
