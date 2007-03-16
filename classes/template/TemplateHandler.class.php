@@ -90,7 +90,7 @@
             // include 변경 <!--#include($path, $filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // import xml filter/ css/ js <!--%filename-->
+            // import xml filter/ css/ js/ 언어파일 <!--%filename-->
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"\)-->!is', array($this, '_compileImportCode'), $buff);
 
             // plugin 코드 변경
@@ -229,46 +229,56 @@
             $base_path = dirname($this->tpl_file).'/';
             $given_file = trim($matches[1]);
             if(!$given_file) return;
-            $filename = sprintf("%s%s",$base_path, $given_file);
 
-            // path와 파일이름을 구함
-            $tmp_arr = explode("/",$filename);
-            $filename = array_pop($tmp_arr);
+            // given_file이 lang으로 끝나게 되면 언어팩을 읽도록 함
+            if(ereg('lang$', $given_file)) {
+                if(substr($given_file,0,2)=='./') $given_file = substr($given_file, 2);
+                $lang_dir = sprintf('%s%s', $this->tpl_path, $given_file);
+                if(is_dir($lang_dir)) $output = sprintf('<?php Context::loadLang("%s"); ?>', $lang_dir);
 
-            $base_path = implode("/",$tmp_arr)."/";
+            // load lang이 아니라면 xml, css, js파일을 읽도록 시도
+            } else {
+                $filename = sprintf("%s%s",$base_path, $given_file);
 
-            // 확장자를 구함
-            $tmp_arr = explode(".",$filename);
-            $ext = strtolower(array_pop($tmp_arr));
+                // path와 파일이름을 구함
+                $tmp_arr = explode("/",$filename);
+                $filename = array_pop($tmp_arr);
 
-            // 확장자에 따라서 파일 import를 별도로
-            switch($ext) {
-                // xml js filter
-                case 'xml' :
-                        // XmlJSFilter 클래스의 객체 생성후 js파일을 만들고 Context::addJsFile처리
-                        $output = sprintf(
-                            '<?php%s'.
-                            'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
-                            '$oXmlFilter = new XmlJSFilter("%s","%s");%s'.
-                            '$oXmlFilter->compile();%s'.
-                            '?>%s',
-                            "\n",
-                            "\n",
-                            $base_path,
-                            $filename,
-                            "\n",
-                            "\n",
-                            "\n"
-                            );
-                    break;
-                // css file
-                case 'css' :
-                        $output = sprintf('<?php Context::addCSSFile("%s%s"); ?>', $base_path, $filename);
-                    break;
-                // js file
-                case 'js' :
-                        $output = sprintf('<?php Context::addJsFile("%s%s"); ?>', $base_path, $filename);
-                    break;
+                $base_path = implode("/",$tmp_arr)."/";
+
+                // 확장자를 구함
+                $tmp_arr = explode(".",$filename);
+                $ext = strtolower(array_pop($tmp_arr));
+
+                // 확장자에 따라서 파일 import를 별도로
+                switch($ext) {
+                    // xml js filter
+                    case 'xml' :
+                            // XmlJSFilter 클래스의 객체 생성후 js파일을 만들고 Context::addJsFile처리
+                            $output = sprintf(
+                                '<?php%s'.
+                                'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
+                                '$oXmlFilter = new XmlJSFilter("%s","%s");%s'.
+                                '$oXmlFilter->compile();%s'.
+                                '?>%s',
+                                "\n",
+                                "\n",
+                                $base_path,
+                                $filename,
+                                "\n",
+                                "\n",
+                                "\n"
+                                );
+                        break;
+                    // css file
+                    case 'css' :
+                            $output = sprintf('<?php Context::addCSSFile("%s%s"); ?>', $base_path, $filename);
+                        break;
+                    // js file
+                    case 'js' :
+                            $output = sprintf('<?php Context::addJsFile("%s%s"); ?>', $base_path, $filename);
+                        break;
+                }
             }
 
             return $output;
