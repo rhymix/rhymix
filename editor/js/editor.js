@@ -225,51 +225,44 @@ function editorEventCheck(evt) {
             case "addemoticon" :
                 var x = (screen.availWidth - 225)/2;
                 var y = (screen.availHeight - 150)/2;
-                var editor_popup = window.open(editor_path+"popup/add_emoticon.php","_editorPopup","top="+y+",left="+x+",width=225,height=150,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_emoticon.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "quotation" :
                 var x = (screen.availWidth - 400)/2;
                 var y = (screen.availHeight - 400)/2;
-                var editor_popup = window.open(editor_path+"popup/add_quotation.php","_editorPopup","top="+y+",left="+x+",width=400,height=400,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_quotation.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "addurl" :
                 var x = (screen.availWidth - 400)/2;
                 var y = (screen.availHeight - 220)/2;
-                var editor_popup = window.open(editor_path+"popup/add_url.php","_editorPopup","top="+y+",left="+x+",width=400,height=220,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_url.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "addimage" :
                 var x = (screen.availWidth - 420)/2;
                 var y = (screen.availHeight - 80)/2;
-                var editor_popup = window.open(editor_path+"popup/add_image.php","_editorPopup","top="+y+",left="+x+",width=420,height=80,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_image.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "addmultimedia" :
                 var x = (screen.availWidth - 400)/2;
                 var y = (screen.availHeight - 220)/2;
-                var editor_popup = window.open(editor_path+"popup/add_multi.php","_editorPopup","top="+y+",left="+x+",width=420,height=110,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_multi.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "addhtml" :
                 var x = (screen.availWidth - 400)/2;
                 var y = (screen.availHeight - 500)/2;
-                var editor_popup = window.open(editor_path+"popup/add_html.php","_editorPopup","top="+y+",left="+x+",width=400,height=500,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/add_html.php","_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
               break;
             case "ForeColor" :
             case "BackColor" :
                 var x = (screen.availWidth - 145)/2;
                 var y = (screen.availHeight - 95)/2;
-                var editor_popup = window.open(editor_path+"popup/color_box.php?mode="+method_name,"_editorPopup","top="+y+",left="+x+",width=145,height=95,resizable=no,toolbars=no,scrollbars=no");
-                if(editor_popup) editor_popup.focus();
+                winopen(editor_path+"popup/color_box.php?mode="+method_name,"_editorPopup","top="+y+",left="+x+",width=50,height=50,resizable=no,toolbars=no,scrollbars=no");
                 return;
           }
         break;
@@ -699,8 +692,7 @@ function editor_insert_file(upload_target_srl, align) {
 
     var x = (screen.availWidth - 400)/2;
     var y = (screen.availHeight - 220)/2;
-    var editor_popup = window.open(editor_path+"popup/add_url.php?title="+escape(filename)+"&url="+escape(url),"_editorPopup","top="+y+",left="+x+",width=400,height=220,resizable=no,toolbars=no,scrollbars=no");
-    if(editor_popup) editor_popup.focus();
+    winopen(editor_path+"popup/add_url.php?title="+escape(filename)+"&url="+escape(url),"_editorPopup","top="+y+",left="+x+",width=400,height=220,resizable=no,toolbars=no,scrollbars=no");
   } 
 
 }
