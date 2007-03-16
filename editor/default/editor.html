@@ -9,6 +9,7 @@
 
 <!-- 에디터 -->
 <div class="editor_content">
+  <!-- 폰트 종류와 크기 -->
   <div class="editor_fontbox">
     <select onChange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
       <option value="">{$lang->edit->fontname}</option>
@@ -27,6 +28,8 @@
       <option value="7">36pt</option>
     </select>
   </div>
+
+  <!-- 에디팅 관련 아이콘 -->
   <div class="editor_iconbox">
     <img src="./images/font_color.gif" alt="{$lang->edit->help_fontcolor}" class="editor_icon" id="editor_ForeColor_{$upload_target_srl}" />
     <img src="./images/font_bg_color.gif" alt="{$lang->edit->help_fontbgcolor}" class="editor_icon" id="editor_BackColor_{$upload_target_srl}" />
@@ -50,10 +53,60 @@
     <img src="./images/list_number.gif" alt="list number" id="editor_insertorderedlist_{$upload_target_srl}" />
     <img src="./images/list_bullet.gif" alt="list bullet" id="editor_insertunorderedlist_{$upload_target_srl}" />
   </div>
+
+  <!-- IE의 경우 엔터시 p 태그를 쓸지 br 태그로 변경을 할지 체크하는 항목 -->
   <div class="editor_parabox" id="editor_use_paragraph_box_{$upload_target_srl}">
     <input type="checkbox" name="use_paragraph" id="editor_use_paragraph_{$upload_target_srl}" onclick="editorUseParagraph(this,'{$upload_target_srl}');" />
     <label for="editor_use_paragraph_{$upload_target_srl}">{$lang->edit->use_paragraph}</label>
   </div>
     
+  <!-- iframe -->
   <div class="editor_iframe_box"><iframe id="editor_iframe_{$upload_target_srl}" frameBorder="0" style="border:0px;width:99%;height:300px;margin:0px;"></iframe><div class="editor_drag_down_area" id="editor_drag_bar_{$upload_target_srl}"></div></div>
 </div>
+
+<!--@if($grant->fileupload)-->
+<!-- 파일 업로드는 어떤 모듈이건 $grant->fileupload가 true여야 호출된다. 필요할 모듈에서는 임의 설정 하면 됨 -->
+<script type="text/javascript">
+  editor_upload_init("{$upload_target_srl}");
+</script>
+
+<input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
+
+<div class="editor_uploader_box">
+  <table>
+  <tr valign="top">
+    <td width="125"><div id="uploaded_file_preview_box_{$upload_target_srl}" class="uploaded_file_preview_box"></div></td>
+    <td width="150">
+      <div class="editor_align_icon">
+        <img src="./images/icon_align_article.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', '');" alt="{$lang->edit->icon_align_article}"/>
+        {$lang->edit->icon_align_article}
+      </div>
+      <div class="editor_align_icon">
+        <img src="./images/icon_align_left.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'left');" alt="{$lang->edit->icon_align_left}"/>
+        {$lang->edit->icon_align_left}
+      </div>
+      <div class="editor_align_icon">
+        <img src="./images/icon_align_middle.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'middle');" alt="{$lang->edit->icon_align_middle}"/>
+        {$lang->edit->icon_align_middle}
+      </div>
+      <div class="editor_align_icon">
+        <img src="./images/icon_align_right.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'right');" alt="{$lang->edit->icon_align_right}"/>
+        {$lang->edit->icon_align_right}
+      </div>
+    </td>
+    <td><select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select></td>
+  </tr>
+  <tr>
+    <td>
+      <input type="button" value="{$lang->edit->delete_selected}" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
+    </td>
+    <td>
+      <input type="button" value="{$lang->edit->link_selected}" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
+    </td>
+    <td align="right">
+      <input type="file" name="file" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" />
+    </td>
+  </tr>
+  </table>
+</div>
+<!--@end-->
