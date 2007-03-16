@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  colorpicker_bg
+     * @class  emoticon
      * @author zero (zero@nzeo.com)
      * @brief  에디터에서 url링크하는 기능 제공. 단순 팝업.
      **/
 
-    class colorpicker_bg extends EditorHandler { 
+    class emoticon extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function colorpicker_bg($upload_target_srl, $component_path) {
+        function emoticon($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }
@@ -27,7 +27,7 @@
          **/
         function execute() {
 
-            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=colorpicker_bg', $this->upload_target_srl);
+            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=emoticon', $this->upload_target_srl);
             
             $this->add('tpl', '');
             $this->add('open_window', 'Y');
@@ -43,6 +43,10 @@
             $tpl_file = 'popup.html';
 
             Context::set("tpl_path", $tpl_path);
+
+            // 이모티콘을 모두 가져옴
+            $emoticon_list = FileHandler::readDir($tpl_path.'/images');
+            Context::set('emoticon_list', $emoticon_list);
 
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
