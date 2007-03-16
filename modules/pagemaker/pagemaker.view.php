@@ -94,6 +94,11 @@
             Context::set('document_srl',$document_srl);
             Context::set('document', $document);
 
+            // 에디터 모듈의 getEditor를 호출하여 세팅
+            $oEditorView = &getView('editor');
+            $editor = $oEditorView->getEditor($document_srl, true);
+            Context::set('editor', $editor);
+
             $this->setTemplateFile('write_form');
         }
 
