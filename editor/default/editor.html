@@ -75,36 +75,37 @@
 <div class="editor_uploader_box">
   <table>
   <tr valign="top">
-    <td width="125"><div id="uploaded_file_preview_box_{$upload_target_srl}" class="uploaded_file_preview_box"></div></td>
-    <td width="150">
-      <div class="editor_align_icon">
-        <img src="./images/icon_align_article.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', '');" alt="{$lang->edit->icon_align_article}"/>
-        {$lang->edit->icon_align_article}
-      </div>
-      <div class="editor_align_icon">
-        <img src="./images/icon_align_left.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'left');" alt="{$lang->edit->icon_align_left}"/>
-        {$lang->edit->icon_align_left}
-      </div>
-      <div class="editor_align_icon">
-        <img src="./images/icon_align_middle.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'middle');" alt="{$lang->edit->icon_align_middle}"/>
-        {$lang->edit->icon_align_middle}
-      </div>
-      <div class="editor_align_icon">
-        <img src="./images/icon_align_right.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'right');" alt="{$lang->edit->icon_align_right}"/>
-        {$lang->edit->icon_align_right}
-      </div>
-    </td>
-    <td><select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select></td>
-  </tr>
-  <tr>
     <td>
+      <select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select><br />
+      <input type="file" name="file" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" /><br />
       <input type="button" value="{$lang->edit->delete_selected}" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
-    </td>
-    <td>
       <input type="button" value="{$lang->edit->link_selected}" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
     </td>
-    <td align="right">
-      <input type="file" name="file" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" />
+    <td>
+      
+      <table>
+      <tr>
+        <td><div id="uploaded_file_preview_box_{$upload_target_srl}" class="uploaded_file_preview_box"></div></td>
+        <td>
+          <div class="editor_align_icon">
+            <img src="./images/icon_align_article.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', '');" alt="{$lang->edit->icon_align_article}"/>
+            {$lang->edit->icon_align_article}
+          </div>
+          <div class="editor_align_icon">
+            <img src="./images/icon_align_left.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'left');" alt="{$lang->edit->icon_align_left}"/>
+            {$lang->edit->icon_align_left}
+          </div>
+          <div class="editor_align_icon">
+            <img src="./images/icon_align_middle.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'middle');" alt="{$lang->edit->icon_align_middle}"/>
+            {$lang->edit->icon_align_middle}
+          </div>
+          <div class="editor_align_icon">
+            <img src="./images/icon_align_right.gif" border="0" onclick="editor_insert_file('{$upload_target_srl}', 'right');" alt="{$lang->edit->icon_align_right}"/>
+            {$lang->edit->icon_align_right}
+          </div>
+        </td>
+      </tr>
+      </table>
     </td>
   </tr>
   </table>
