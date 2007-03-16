@@ -135,28 +135,35 @@ input.editor_input {
 }
 
 .editor_uploader_box {
-  margin:0px;
+  margin:10px 0px 0px 0px;
   border:0px;
   padding:0px;
+  clear:both;
 }
 
-.editor_uploader_box table {
-  border:0px;
-  margin:0px;
-  padding:2px;
-  table-layout:fixed;
-  width:100%;
+.editor_uploader {
+  margin-right:10px;
+  padding-right:5px;
+  border-right:1px dotted #AAAAAA;
+  width:255px;
+  float:left;
+}
+
+.uploaded_file_list {
+  width:250px;
+  height:120px;
+}
+
+.editor_component {
+  float:left;
 }
 
 .uploaded_file_preview_box {
   border:1px solid #EEEEEE;
   width:120px;
   height:120px;
-}
-
-.uploaded_file_list {
-  width:250px;
-  height:120px;
+  float:left;
+  margin-right:10px;
 }
 
 .editor_align_icon {
