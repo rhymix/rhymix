@@ -105,10 +105,8 @@
 
                 // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅 
                 } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
-                    // 에디터 모듈의 dispEditor를 호출하여 세팅
-                    $oEditorView = &getView('editor');
-                    $comment_editor = $oEditorView->getEditor($comment_srl);
-                    Context::set('comment_editor', $comment_editor);
+                    // 댓글
+                    $this->setCommentEditor();
                 }
 
                 Context::set('document', $document);
@@ -191,7 +189,7 @@
 
             // 에디터 모듈의 dispEditor를 호출하여 세팅
             $oEditorView = &getView('editor');
-            $editor = $oEditorView->getEditor($document_srl);
+            $editor = $oEditorView->getEditor($document_srl, $this->grant->fileupload);
             Context::set('editor', $editor);
 
             $this->setTemplateFile('write_form');
@@ -257,6 +255,9 @@
             Context::set('comment_srl',NULL);
             Context::set('source_comment',$source_comment);
 
+            // 댓글 에디터 세팅 
+            $this->setCommentEditor();
+
             $this->setTemplateFile('comment_form');
         }
 
@@ -291,6 +292,9 @@
             Context::set('document_srl',$document_srl);
             Context::set('comment_srl',$comment_srl);
             Context::set('comment', $comment);
+
+            // 댓글 에디터 세팅 
+            $this->setCommentEditor($comment_srl);
 
             $this->setTemplateFile('comment_form');
         }
@@ -445,6 +449,23 @@
             // RSS 모듈의 tempate을 가져옴
             $this->setTemplatePath($oRssView->getTemplatePath());
             $this->setTemplateFile($oRssView->getTemplateFile());
+        }
+
+        /**
+         * @brief 댓글의 editor 를 세팅
+         * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
+         * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
+         **/
+        function setCommentEditor($comment_srl=0) {
+            if(!$comment_srl) {
+                $oDB = &DB::getNextSequence();
+                $comment_srl = $oDB->getNextSequence();
+            }
+
+            // 에디터 모듈의 dispEditor를 호출하여 세팅
+            $oEditorView = &getView('editor');
+            $comment_editor = $oEditorView->getEditor($comment, $this->grant->fileupload);
+            Context::set('comment_editor', $comment_editor);
         }
 
         /**

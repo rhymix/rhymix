@@ -23,10 +23,12 @@
          * 각 DBMS에 맞게 replace 해주어야 한다
          **/
         var $column_type = array(
+            'bignumber' => 'bigint',
             'number' => 'int',
             'varchar' => 'varchar',
             'char' => 'char',
             'text' => 'text',
+            'bigtext' => 'longtext',
             'date' => 'varchar(14)',
         );
 
