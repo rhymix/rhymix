@@ -152,6 +152,7 @@ function editorReplaceHTML(iframe_obj, html) {
         range.deleteContents();
         range.insertNode(range.createContextualFragment(html));
     }
+    iframe_obj.contentWindow.focus();
 }
 
 // 입력 키에 대한 이벤트 체크
@@ -345,19 +346,6 @@ function editorDoInsertUrl(link, upload_target_srl) {
     editorFocus(upload_target_srl);
     var iframe_obj = editorGetIFrame(srl);
     editorReplaceHTML(iframe_obj, link);
-}
-
-function editorInsertUrl(text, url, link_type) {
-    if(!text || !url) return;
-    //if(!/^(http|ftp)/i.test(url)) url = 'http://'+url;
-
-    var link = '';
-    if(!link_type) link = "<a href=\""+url+"\" target=\"_blank\">"+text+"</a>";
-    else link = "<a href=\""+url+"\" class=\""+link_type+"\" style='text-decoration:none;' target=\"_blank\">"+text+"</a>";
-
-    editorFocus(editorPrevSrl);
-    var obj = editorGetIFrame(editorPrevSrl)
-    editorReplaceHTML(obj, link);
 }
 
 function editorInsertImage(url, src_align) {
