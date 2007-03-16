@@ -32,6 +32,9 @@
             $tpl_path = $this->module_path.'tpl';
             $tpl_file = 'editor.html';
 
+            // editor_path를 지정
+            Context::set('editor_path', $tpl_path);
+
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);

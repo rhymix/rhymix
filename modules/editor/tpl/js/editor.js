@@ -48,22 +48,14 @@ function editorStart(upload_target_srl) {
 
     // 기본 내용 작성
     var contentHtml = ''+
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
-        '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>';
-
-    /********* 오페라에서 stylesheet를 못 가져와서 일단 주석 처리하고 수동 처리
-    for(var i in document.styleSheets) {
-        var tmp_obj = document.styleSheets[i];
-        if(typeof(tmp_obj.href)=='undefined'||tmp_obj.href.lastIndexOf(".css")<0) continue;
-        contentHtml += "<link rel=\"StyleSheet\" HREF=\""+tmp_obj.href+"\" type=\"text/css\" />";
-    }
-    **********/
-    contentHtml += "<link rel=\"stylesheet\" href=\"./common/css/common.css\" type=\"text/css\" />";
-    contentHtml += "<link rel=\"stylesheet\" href=\""+editor_path+"/css/editor.css\" type=\"text/css\" />";
-    contentHtml += ""+
-                   "</head><body style=\"background-color:#FFFFFF;font-family:"+default_font+";font-size:9pt;\">"+
-                   content+
-                   "</body></html>";
+        //'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
+        '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
+        '<link rel="stylesheet" href="./common/css/common.css" type="text/css" />'+
+        '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
+        '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;">'+
+        content+
+        '</body></html>'+
+        '';
 
     contentDocument.designMode = 'on';
     contentDocument.open("text/html","replace");
@@ -90,6 +82,7 @@ function editorStart(upload_target_srl) {
 
     // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
     editorSyncContent(fo_obj.content, upload_target_srl);
+    editorFocus(upload_target_srl);
 }
 
 var _editorSyncList = new Array(); 
@@ -143,16 +136,21 @@ function editorGetSelectedHtml(upload_target_srl) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
-    iframe_obj.contentWindow.focus();
+
     if(xIE4Up) {
-        var range = iframe_obj.contentWindow.document.selection.createRange();
-        range.pasteHTML(html);
+        iframe_obj.contentWindow.document.selection.createRange().pasteHTML(html);
     } else {
-        var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(range.createContextualFragment(html));
+        if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
+            var range = iframe_obj.contentDocument.createRange();
+            range.setStart(iframe_obj.contentDocument.body,0);
+            range.setEnd(iframe_obj.contentDocument.body,0);
+            range.insertNode(range.createContextualFragment(html));
+        } else {
+            var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(range.createContextualFragment(html));
+        }
     }
-    iframe_obj.contentWindow.focus();
 }
 
 // 입력 키에 대한 이벤트 체크
@@ -271,7 +269,6 @@ function editorFocus(upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
     iframe_obj.contentWindow.focus();
 }
-
 
 // 편집 기능 실행
 function editorDo(name, value, target) {

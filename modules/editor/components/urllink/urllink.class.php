@@ -40,7 +40,7 @@
         function getPopupContent() {
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
             $tpl_path = $this->component_path.'tpl';
-            $tpl_file = 'urllink.html';
+            $tpl_file = 'popup.html';
 
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
