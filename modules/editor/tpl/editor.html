@@ -32,28 +32,28 @@
 
   <!-- 에디팅 관련 아이콘 -->
   <div class="editor_iconbox">
-    <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="editor_Bold_{$upload_target_srl}" />
-    <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="editor_Italic_{$upload_target_srl}" />
-    <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="editor_Underline_{$upload_target_srl}" />
-    <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="editor_StrikeThrough_{$upload_target_srl}" />
+    <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
+    <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
+    <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
+    <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="component_{$upload_target_srl}_StrikeThrough" />
   </div>
 
   <!-- 컴포넌트 -->
   <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
     <!--@foreach($component_list as $component)-->
-    <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" />
+    <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
     <!--@end-->
   </div>
 
   <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
   <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox" style="display:none">
-    <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="editor_justifyleft_{$upload_target_srl}" />
-    <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="editor_justifycenter_{$upload_target_srl}" />
-    <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="editor_justifyright_{$upload_target_srl}" />
-    <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="editor_outdent_{$upload_target_srl}" />
-    <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="editor_indent_{$upload_target_srl}" />
-    <img src="./images/list_number.gif" alt="list number" id="editor_insertorderedlist_{$upload_target_srl}" />
-    <img src="./images/list_bullet.gif" alt="list bullet" id="editor_insertunorderedlist_{$upload_target_srl}" />
+    <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
+    <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
+    <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
+    <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="component_{$upload_target_srl}_outdent" />
+    <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" />
+    <img src="./images/list_number.gif" alt="list number" id="component_{$upload_target_srl}_insertorderedlist" />
+    <img src="./images/list_bullet.gif" alt="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
   </div>
 
   <!-- IE의 경우 엔터시 p 태그를 쓸지 br 태그로 변경을 할지 체크하는 항목 -->
@@ -82,7 +82,8 @@
     <input type="button" value="{$lang->edit->delete_selected}" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
     <input type="button" value="{$lang->edit->link_selected}" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
   </div>
-  <div id="editor_component_{$upload_target_srl}" class="editor_component">
+  <div id="editor_component_area_{$upload_target_srl}" class="editor_component">
+
     <div id="uploaded_file_preview_box_{$upload_target_srl}" class="uploaded_file_preview_box"></div>
     <div>
       <div class="editor_align_icon">

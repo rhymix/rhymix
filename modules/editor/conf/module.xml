@@ -2,6 +2,6 @@
 <module>
     <grants />
     <actions>
-        <action name="dispPopup" type="view" standalone="true" />
+        <action name="dispComponent" type="view" standalone="true" />
     </actions>
 </module>

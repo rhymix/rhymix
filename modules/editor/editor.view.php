@@ -24,6 +24,7 @@
             // 에디터 컴포넌트를 구함
             if(!Context::get('component_list')) {
                 $component_list = FileHandler::readDir($this->module_path.'components');
+                arsort($component_list);
                 Context::set('component_list', $component_list);
             }
 
@@ -39,9 +40,17 @@
         /**
          * @brief 팝업 출력 출력
          **/
-        function dispPopup() {
-            $this->setTemplatePath($this->module_path.'tpl/popup');
-            $this->setTemplateFile('emoticon.html');
+        function dispComponent() {
+            $component = Context::get('compile');
+            $upload_target_srl = Context::get('upload_target_srl');
+
+            $open_window = 'Y';
+            $popup_url = "http://www.nzeo.com";
+
+            $this->add('component', $component);
+            $this->add('upload_target_srl', $upload_target_srl);
+            $this->add('open_window', $open_window);
+            $this->add('popup_url', $popup_url);
         }
 
     }
