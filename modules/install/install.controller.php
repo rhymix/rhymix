@@ -95,22 +95,18 @@
          **/
         function makeDefaultDirectory() {
             $directory_list = array(
-                    './files',
                     './files/config',
                     './files/modules',
                     './files/plugins',
                     './files/addons',
                     './files/layouts',
-                    './files/cache',
                     './files/cache/queries',
                     './files/cache/js_filter_compiled',
                     './files/cache/template_compiled',
                 );
 
             foreach($directory_list as $dir) {
-                if(is_dir($dir)) continue;
-                @mkdir($dir, 0707);
-                @chmod($dir, 0707);
+                FileHandler::makeDir($dir);
             }
         }
 
@@ -122,7 +118,7 @@
         function installDownloadedModule() {
 
             // 수동으로 설치를 할 목록
-            $manual_modules = array('install','module','pagemaker');
+            $manual_modules = array('install','module');
 
             // install, module 모듈은 미리 설치 
             $this->installModule('install', './modules/install/');
@@ -143,8 +139,6 @@
                 $this->installModule($module, $module_path);
             }
 
-            // pagemaker는 모두 설치된 후에 설치
-            $this->installModule('pagemaker','./modules/pagemaker');
             return new Object();
         }
 

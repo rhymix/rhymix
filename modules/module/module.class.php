@@ -12,17 +12,7 @@
          **/
         function moduleInstall() {
             // module 모듈에서 사용할 디렉토리 생성
-            $directory_list = array(
-                    './files',
-                    './files/cache',
-                    './files/cache/module_info',
-                );
-
-            foreach($directory_list as $dir) {
-                if(is_dir($dir)) continue;
-                @mkdir($dir, 0707);
-                @chmod($dir, 0707);
-            }
+            FileHandler::makeDir('./files/cache/module_info');
 
             // 기본 모듈을 생성
             $oModule = &getController('module');

@@ -12,17 +12,8 @@
          **/
         function moduleInstall() {
             // plugin 에서 사용할 cache디렉토리 생성
-            $directory_list = array(
-                    './files',
-                    './files/cache',
-                    './files/cache/plugin',
-                );
+            FileHandler::makeDir('./files/cache/plugin');
 
-            foreach($directory_list as $dir) {
-                if(is_dir($dir)) continue;
-                @mkdir($dir, 0707);
-                @chmod($dir, 0707);
-            }
             return new Object();
         }
 

@@ -12,25 +12,7 @@
          **/
         function moduleInstall() {
             // plugin 에서 사용할 cache디렉토리 생성
-            $directory_list = array(
-                    './files',
-                    './files/cache',
-                    './files/cache/page',
-                );
-
-            foreach($directory_list as $dir) {
-                if(is_dir($dir)) continue;
-                @mkdir($dir, 0707);
-                @chmod($dir, 0707);
-            }
-
-            // page 모듈로 모듈 추가
-            $oModuleController = &getController('module');
-            $args->mid = 'pagemaker';
-            $args->module = 'pagemaker';
-            $args->browser_title = 'pagemaker';
-            $args->is_default = 'N';
-            $output = $oModuleController->insertModule($args);
+            FileHandler::makeDir('./files/cache/page');
 
             return new Object();
         }

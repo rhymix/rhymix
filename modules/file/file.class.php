@@ -12,18 +12,9 @@
          **/
         function moduleInstall() {
             // file 모듈에서 사용할 디렉토리 생성
-            $directory_list = array(
-                    './files',
-                    './files/attach',
-                    './files/attach/images',
-                    './files/attach/binaries',
-                );
+            FileHandler::makeDir('./files/attach/images');
+            FileHandler::makeDir('./files/attach/binaries');
 
-            foreach($directory_list as $dir) {
-                if(is_dir($dir)) continue;
-                @mkdir($dir, 0707);
-                @chmod($dir, 0707);
-            }
             return new Object();
         }
 
