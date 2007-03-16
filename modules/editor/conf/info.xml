@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1">
+  <title xml:lang="ko">위지윅 에디터 </title>
+  <title xml:lang="en">editor</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="en">zero</name>
+    <description xml:lang="ko">위지윅 에디터 출력 및 관리</description>
+    <description xml:lang="en">editor</description>
+  </author>
+</module>
