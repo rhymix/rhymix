@@ -65,6 +65,7 @@
 
             // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
             if(!$module_info && $this->mid) $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
+            if($this->module && $module_info->module != $this->module) unset($module_info);
 
             // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
             if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();
