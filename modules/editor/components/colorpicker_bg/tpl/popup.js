@@ -2,7 +2,6 @@ var color_list = new Array('000000','993300','333300','003300','003366','000080'
 
 function setColor(color) {
   opener.editorFocus(opener.editorPrevSrl);
-  //opener.editorSetForeColor("#"+color);
   opener.editorSetBackColor("#"+color);
   opener.editorFocus(opener.editorPrevSrl);
   self.close();

@@ -323,7 +323,6 @@ function editorChangeFontSize(obj,srl) {
 
 function editorSetForeColor(color_code) {
     editorDo("ForeColor",color_code,editorPrevSrl);
-    editorPrevObj.style.visibility = 'hidden';
     editorFocus(editorPrevSrl);
 }
 
