@@ -32,19 +32,20 @@
 
   <!-- 에디팅 관련 아이콘 -->
   <div class="editor_iconbox">
-    <img src="./images/font_color.gif" alt="{$lang->edit->help_fontcolor}" class="editor_icon" id="editor_ForeColor_{$upload_target_srl}" />
-    <img src="./images/font_bg_color.gif" alt="{$lang->edit->help_fontbgcolor}" class="editor_icon" id="editor_BackColor_{$upload_target_srl}" />
     <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="editor_Bold_{$upload_target_srl}" />
     <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="editor_Italic_{$upload_target_srl}" />
     <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="editor_Underline_{$upload_target_srl}" />
     <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="editor_StrikeThrough_{$upload_target_srl}" />
-    <img src="./images/add_url.gif" alt="{$lang->edit->help_add_url}" class="editor_icon" id="editor_addurl_{$upload_target_srl}" />
-    <img src="./images/add_image.gif" alt="{$lang->edit->help_add_image}" class="editor_icon" id="editor_addimage_{$upload_target_srl}" />
-    <img src="./images/add_multi.gif" alt="{$lang->edit->help_add_multimedia}" class="editor_icon" id="editor_addmultimedia_{$upload_target_srl}" />
-    <img src="./images/emoticon.gif" alt="{$lang->edit->help_add_emoticon}" class="editor_icon" id="editor_addemoticon_{$upload_target_srl}" />
-    <img src="./images/quotation.gif" alt="{$lang->edit->help_add_quotation}" class="editor_icon" id="editor_quotation_{$upload_target_srl}" />
-    <img src="./images/html_add.gif" alt="{$lang->edit->help_add_html}" class="editor_icon" id="editor_addhtml_{$upload_target_srl}" />
   </div>
+
+  <!-- 컴포넌트 -->
+  <div id="editor_component_{$upload_target_srl}" class="editor_component">
+    <!--@foreach($component_list as $component)-->
+    <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" />
+    <!--@end-->
+  </div>
+
+  <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
   <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox" style="display:none">
     <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="editor_justifyleft_{$upload_target_srl}" />
     <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="editor_justifycenter_{$upload_target_srl}" />

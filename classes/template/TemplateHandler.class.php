@@ -123,7 +123,7 @@
 
             if(substr($path,0,1)=='/' || eregi(":\/\/",$path)) return $str1;
 
-            $path = preg_replace('/^([\.\/]+)/','',$path);
+            $path = preg_replace('/^(\.\/|\/)/','',$path);
             $path = '<?=$this->tpl_path?>'.$path;
             return str_replace($str2, $path, $str1);
         }
