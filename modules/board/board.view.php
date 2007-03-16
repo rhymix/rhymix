@@ -60,12 +60,6 @@
                 Context::set('category_list', $this->category_list);
             }
 
-            // 에디터 세팅
-            Context::set('editor', $this->editor);
-            $editor_path = sprintf("./editor/%s/", $this->editor);
-            Context::set('editor_path', $editor_path);
-            Context::loadLang($editor_path);
-
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 

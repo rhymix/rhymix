@@ -605,7 +605,7 @@ function editor_preview(sel_obj, upload_target_srl) {
 
   // 플래쉬 동영상의 경우
   if(/\.flv$/i.test(uploaded_filename)) {
-    html = "<EMBED src=\""+editor_path+"flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename+"\" width=\"120\" height=\"120\" type=\"application/x-shockwave-flash\"></EMBED>";
+    html = "<EMBED src=\""+editor_path+"component/flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename+"\" width=\"120\" height=\"120\" type=\"application/x-shockwave-flash\"></EMBED>";
   // 플래쉬 파일의 경우
   } else if(/\.swf$/i.test(uploaded_filename)) {
     html = "<EMBED src=\""+uploaded_filename+"\" width=\"120\" height=\"120\" type=\"application/x-shockwave-flash\"></EMBED>";
@@ -673,7 +673,7 @@ function editor_insert_file(upload_target_srl, align) {
       // 플래쉬 동영상의 경우
       if(/\.flv$/i.test(uploaded_filename)) {
         type = "flv";
-        uploaded_filename = editor_path+"flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename;
+        uploaded_filename = editor_path+"component/flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename;
       // 플래쉬 파일의 경우
       } else if(/\.swf$/i.test(uploaded_filename)) {
         type = "swf";
