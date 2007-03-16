@@ -1,3 +1,3 @@
 <table name="sequence">
-  <column name="seq" type="bignumber" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+  <column name="seq" type="bignumber" notnull="notnull" size="64" primary_key="primary_key" auto_increment="auto_increment" />
 </table>
