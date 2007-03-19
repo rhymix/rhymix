@@ -38,6 +38,7 @@
 
 .editor_button_area {
   clear:both;
+  width:100%;
   text-align:center;
   background-color:#EEEEEE;
   padding-top:5px;
