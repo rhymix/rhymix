@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  multimedia_link
+     * @class  quotation
      * @author zero (zero@nzeo.com)
-     * @brief  에디터에서 url링크하는 기능 제공. 단순 팝업.
+     * @brief  에디터에서 인용문 기능 제공. 단순 팝업.
      **/
 
-    class multimedia_link extends EditorHandler { 
+    class quotation extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function multimedia_link($upload_target_srl, $component_path) {
+        function quotation($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }
@@ -27,7 +27,7 @@
          **/
         function execute() {
 
-            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=multimedia_link', $this->upload_target_srl);
+            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=quotation', $this->upload_target_srl);
             
             $this->add('tpl', '');
             $this->add('open_window', 'Y');
@@ -57,22 +57,24 @@
          **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->src;
-
+            $alt = $xml_obj->attrs->alt;
             $width = $xml_obj->attrs->width;
-            if(!$width) $width = 640;
-
             $height = $xml_obj->attrs->height;
-            if(!$height) $height = 480;
-
-            $auto_start = $xml_obj->attrs->auto_start;
-            if($auto_start!="true") $auto_start = "false";
-            else $auto_start = "true";
-
-            $caption = $xml_obj->body;
+            $align = $xml_obj->attrs->align;
+            $border = $xml_obj->attrs->border;
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
+            if(!$alt) $alt = $src;
 
-            return sprintf("<script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\",%s);</script>", $src, $width, $height, $auto_start);      
+            $output = array();
+            $output = array("src=\"".$src."\"");
+            if($alt) $output[] = "alt=\"".$alt."\"";
+            if($width) $output[] = "width=\"".$width."\"";
+            if($height) $output[] = "height=\"".$height."\"";
+            if($align) $output[] = "align=\"".$align."\"";
+            if($border) $output[] = "border=\"".$border."\"";
+            return "<img ".implode(" ", $output)." />";
         }
+
     }
 ?>
