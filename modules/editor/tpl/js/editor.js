@@ -68,8 +68,10 @@ function editorStart(upload_target_srl) {
     xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
     // 플러그인 감시를 위한 더블클릭 이벤트 걸기
-    xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
-    xAddEventListener(document,'dblclick',editorSearchComponent);
+    if(xUA.indexOf('opera')==-1) {
+        xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+        xAddEventListener(document,'dblclick',editorSearchComponent);
+    }
 
     //xAddEventListener(document,'keypress',editorKeyPress);
     xAddEventListener(document,'mouseup',editorEventCheck);
@@ -159,7 +161,12 @@ function editorGetSelectedNode(upload_target_srl) {
 function editorReplaceHTML(iframe_obj, html) {
 
     if(xIE4Up) {
-        iframe_obj.contentWindow.document.selection.createRange().pasteHTML(html);
+        var range = iframe_obj.contentWindow.document.selection.createRange();
+        if(range.pasteHTML) {
+            range.pasteHTML(html);
+        } else if(editorPrevNode) {
+            editorPrevNode.outerHTML = html;
+        }
     } else {
         if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
             var range = iframe_obj.contentDocument.createRange();
@@ -220,6 +227,8 @@ function editorKeyPress(evt) {
 var editorPrevObj = null;
 var editorPrevSrl = null;
 function editorEventCheck(evt) {
+    editorPrevNode = null;
+
     // 이벤트가 발생한 object의 ID를 구함 
     var e = new xEvent(evt);
     var target_id = e.target.id;
@@ -286,8 +295,11 @@ function editorProcComponent(ret_obj, response_tags) {
 }
 
 // 본문내에 포함된 컴포넌트를 찾는 함수 (더블클릭시)
+var editorPrevNode = null;
 function editorSearchComponent(evt) {
     var e = new xEvent(evt);
+
+    editorPrevNode = null;
 
     // 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
     var obj = e.target;
@@ -302,21 +314,35 @@ function editorSearchComponent(evt) {
     // editor_component를 찾지 못했을 경우에 이미지/텍스트/링크의 경우 기본 컴포넌트와 연결
     if(!editor_component) {
         // 이미지일 경우
-        if(obj.nodeName == "IMG") editor_component = "image_link";
+        if(obj.nodeName == "IMG") {
+            editor_component = "image_link";
+            editorPrevNode = obj;
+        }
             
         // 링크거나 텍스트인 경우
-        else if(obj.nodeName == "A" || obj.nodeName == "BODY")  editor_component = "url_link";
+        else if(obj.nodeName == "A" || obj.nodeName == "BODY") {
+            editor_component = "url_link";
+            editorPrevNode = obj;
+        }
+    } else {
+        editorPrevNode = obj;
     }
 
     // 아무런 editor_component가 없다면 return
-    if(!editor_component) return;
+    if(!editor_component) {
+        editorPrevNode = null;
+        return;
+    }
 
     // upload_target_srl을 찾음
     var tobj = obj;
     while(tobj && tobj.nodeName != "BODY") {
         tobj = xParent(tobj);
     }
-    if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("upload_target_srl")) return;
+    if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("upload_target_srl")) {
+        editorPrevNode = null;
+        return;
+    }
     var upload_target_srl = tobj.getAttribute("upload_target_srl");
 
     // 해당 컴포넌트를 찾아서 실행

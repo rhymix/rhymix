@@ -3,14 +3,10 @@
  * 있으면 가져와서 원하는 곳에 삽입
  **/
 function getText() {
-    // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
-    if(typeof(opener)=="undefined") return;
-    var text = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+    var node = opener.editorPrevNode;
+    if(!node) return;
 
-    // 선택된 영역이 A태그인지 확인
-    if(text) {
-      var node = opener.editorGetSelectedNode(opener.editorPrevSrl);
-      if(node.nodeName == "A") {
+    if(node.nodeName == "A") {
         var url = node.getAttribute("HREF");
 
         var onclick_str = "";
@@ -25,7 +21,7 @@ function getText() {
         else className = node.getAttribute("class");
         var open_window = false;
 
-        if(onclick_str) {
+        if(url.indexOf("#")>-1 && onclick_str.indexOf("window.open")>-1) {
           open_window = true;
 
           var s_s = "window.open('";
@@ -59,14 +55,10 @@ function getText() {
         if(color) xGetElementById(color).checked = true;
 
         return;
-      } 
+    } else {
+        var fo_obj = xGetElementById("fo_component");
+        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
     }
-
-    // 기본 설정 
-    var fo_obj = xGetElementById("fo_component");
-    if(fo_obj.text.value) return;
-    fo_obj.text.value = text;
-    self.focus();
 }
 
 /**
