@@ -10,6 +10,8 @@
   text-align:left;
   font-weight:bold;
   margin:5px;
+  font-size:9pt;
+  font-size:9pt;
 }
 
 .body {
@@ -22,14 +24,16 @@
 
 .body label {
   cursor:pointer;
+  font-size:9pt;
 }
 
-.image_align {
-  margin:0px 0px 5px 0px;
-}
-
-.image_url {
+.multimedia_url {
   width:240px;
+  border:1px solid #AAAAAA;
+}
+
+.multimedia_size {
+  width:60px;
   border:1px solid #AAAAAA;
 }
 

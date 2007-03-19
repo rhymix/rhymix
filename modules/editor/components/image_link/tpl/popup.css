@@ -10,6 +10,7 @@
   text-align:left;
   font-weight:bold;
   margin:5px;
+  font-size:9pt;
 }
 
 .body {
@@ -18,10 +19,12 @@
   text-align:left;
   margin:5px;
   font-size:9pt;
+  font-size:9pt;
 }
 
 .body label {
   cursor:pointer;
+  font-size:9pt;
 }
 
 .image_align {

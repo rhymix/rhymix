@@ -6,8 +6,8 @@
      **/
 
   $lang->image_url = "이미지 경로";
-  $lang->image_alt = "설명";
-  $lang->image_align = "정렬";
+  $lang->image_alt = "설명 입력";
+  $lang->image_align = "정렬 방법 ";
   $lang->image_align_normal = "한 문단을 차지";
   $lang->image_align_left = "글의 왼쪽으로";
   $lang->image_align_middle = "가운데";
