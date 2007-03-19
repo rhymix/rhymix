@@ -1,18 +1,43 @@
 .colorpicker {
-  width:138px; 
-  height:85px; 
+  width:160px; 
   padding:5px;
+  clear:both;
+}
+
+img.preview_color {
+  width:30px;
+  height:16px;
+  border:1px solid #000000;
 }
 
 img.color_icon {
-  width:15px;
-  height:15px;
+  width:14px;
+  height:14px;
   border:1px solid #FFFFFF;
 }
 
 img.color_icon_over {
-  width:15px;
-  height:15px;
+  width:14px;
+  height:14px;
   border:1px solid #000000;
   cursor:pointer;
+}
+
+.input_area {
+  width:160px; 
+  padding:5px;
+  font-family:tahoma;
+  font-size:8pt;
+  clear:both;
+  text-align:center;
+}
+
+.popup_input {
+  border:1px solid #AAAAAA;
+  height:14px;
+}
+
+.popup_submit {
+  border:1px solid #AAAAAA;
+  height:18px;
 }

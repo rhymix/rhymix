@@ -13,6 +13,10 @@
   visibility:hidden;
 }
 
+FORM {
+  display:inline;
+}
+
 A.bold {
   font-weight:bold;
 }

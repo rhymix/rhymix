@@ -1,4 +1,6 @@
 body {
   margin:0px;
   padding:0px;
+  border-width:0px;
+  border-style:none;
 }

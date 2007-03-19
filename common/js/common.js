@@ -128,9 +128,18 @@ function svc_folder_close(id) {
 function setFixedPopupSize() {
     var w = xWidth("popup_content");
     var h = xHeight("popup_content");
+
+    // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
+    if(xUA.indexOf('windows')>0) {
+        if(xOp7Up) w += 9;
+        else if(xIE4Up) w += 8;
+        else w += 5;
+    }
+    window.resizeTo(w,h);
+
     var w1 = xWidth(window.document.body);
     var h1 = xHeight(window.document.body);
-    window.resizeBy(w-w1,h-h1);
+    window.resizeBy(0,h-h1);
 }
 
 // url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
