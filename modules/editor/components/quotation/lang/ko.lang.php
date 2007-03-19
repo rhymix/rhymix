@@ -14,11 +14,11 @@
 
     $lang->quotation_border_style = "테두리 종류";
     $lang->quotation_border_style_list = array(
-      "none" => "없음",
-      "solid" => "실선",
-      "dotted" => "점선",
-      "left_solid" => "좌측 실선",
-      "right_solid" => "우측 실선",
+      "없음",
+      "실선",
+      "점선",
+      "좌측 실선",
+      "우측 실선",
     );
 
     $lang->quotation_bg_color = "배경 색";

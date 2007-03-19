@@ -92,8 +92,15 @@ img.color_icon_over {
 img.border_preview_color {
   width:30px;
   height:16px;
-  border:1px solid #000000;
+  border:1px solid #EEEEEE;
   background-color:#88EE22;
+}
+
+img.border_preview_none_color {
+  width:30px;
+  height:12px;
+  border:1px solid #EEEEEE;
+  background-color:#FFFFFF;
 }
 
 img.bg_preview_color {

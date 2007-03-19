@@ -21,11 +21,41 @@
 
     <div class="header">{$lang->quotation_border_style}</div>
     <div class="body">
-      <select id="border_style" class="editor_select">
-        <!--@foreach($lang->quotation_border_style_list as $key => $val)-->
-        <option value="{$key}">{$val}</option>
-        <!--@end-->
-      </select>
+      <div>
+        <input type="radio" name="border_style" value="" id="border_style_none" />
+        <label for="border_style_none">
+          <img src="./images/blank.gif" class="border_preview_none_color" />
+          {$lang->quotation_border_style_list[0]}
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="border_style" value="solid" id="border_style_solid" checked="true" />
+        <label for="border_style_solid">
+          <img src="./images/border_solid.gif" class="border_preview_color" id="border_style_solid_icon"/>
+          {$lang->quotation_border_style_list[1]}
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="border_style" value="dotted" id="border_style_dotted" />
+        <label for="border_style_dotted">
+          <img src="./images/border_dotted.gif" class="border_preview_color" id="border_style_dotted_icon"/>
+          {$lang->quotation_border_style_list[2]}
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="border_style" value="left_solid" id="border_style_left_solid" />
+        <label for="border_style_left_solid">
+          <img src="./images/border_left_solid.gif" class="border_preview_color" id="border_style_left_solid_icon"/>
+          {$lang->quotation_border_style_list[3]}
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="border_style" value="left_dotted" id="border_style_left_dotted" />
+        <label for="border_style_left_dotted">
+          <img src="./images/border_left_dotted.gif" class="border_preview_color" id="border_style_left_dotted_icon"/>
+          {$lang->quotation_border_style_list[4]}
+        </label>
+      </div>
     </div>
 
     <div class="header">{$lang->quotation_border_thickness}</div>
@@ -35,13 +65,13 @@
     <div class="body">
       <div>
         <script type="text/javascript">
-          printColor("border", "{$tpl_path}/blank.gif");
+          printColor("border", "{$tpl_path}/images/blank.gif");
         </script>
       </div>
       <div>
         <table border="0" cellspacing="0">
         <tr>
-          <td><img src="./blank.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
+          <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
           <td>#</td>
           <td><input type="text" id="border_color_input" size="6" maxlength="6" class="editor_input" value="88EE22" onkeyup="manual_select_color('border',this)"/></td>
         </tr>
@@ -53,13 +83,13 @@
     <div class="body">
       <div>
         <script type="text/javascript">
-          printColor("bg", "{$tpl_path}/blank.gif");
+          printColor("bg", "{$tpl_path}/images/blank.gif");
         </script>
       </div>
       <div>
         <table border="0" cellspacing="0">
         <tr>
-          <td><img src="./blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
+          <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
           <td>#</td>
           <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="editor_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
         </tr>

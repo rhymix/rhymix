@@ -61,12 +61,27 @@ function insertQuotation(obj) {
 function select_color(type, code) {
   xGetElementById(type+"_preview_color").style.backgroundColor = "#"+code;
   xGetElementById(type+"_color_input").value = code;
+
+  if(type=="border") {
+    xGetElementById("border_style_solid_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_dotted_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_left_solid_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_left_dotted_icon").style.backgroundColor = "#"+code;
+  }
 }
 
 /* 수동 색상 변경시 */
 function manual_select_color(type, obj) {
   if(obj.value.length!=6) return;
-  xGetElementById(type+"_preview_color").style.backgroundColor = "#"+obj.value;
+  code = obj.value;
+  xGetElementById(type+"_preview_color").style.backgroundColor = "#"+code;
+
+  if(type=="border") {
+    xGetElementById("border_style_solid_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_dotted_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_left_solid_icon").style.backgroundColor = "#"+code;
+    xGetElementById("border_style_left_dotted_icon").style.backgroundColor = "#"+code;
+  }
 }
 
 /* 색상표를 출력 */
