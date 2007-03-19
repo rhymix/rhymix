@@ -69,7 +69,7 @@
             if(!$height) $height = 480;
 
             $auto_start = $xml_obj->attrs->auto_start;
-            if(!$auto_start) $auto_start = "false";
+            if($auto_start!="true") $auto_start = "false";
             else $auto_start = "true";
 
             $caption = $xml_obj->body;

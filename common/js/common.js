@@ -36,8 +36,8 @@ function displayMultimedia(src, width, height, auto_start) {
     var ext = src.split(".");
     var type = ext[ext.length-1];
 
-    if(auto_start) auto_start = 1;
-    else auto_start = 0;
+    if(auto_start) auto_start = "true";
+    else auto_start = "false";
 
     var clsid = "";
     var codebase = "";
