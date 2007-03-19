@@ -1,3 +1,14 @@
+function getImageScale() {
+    var url = xGetElementById("image_url").value;
+    if(!url) return;
+
+    var img = new Image();
+    img.src = url;
+
+    xGetElementById("width").value = img.width;
+    xGetElementById("height").value = img.height;
+    
+}
 function insertImage(obj) {
     if(typeof(opener)=="undefined") return;
 
@@ -10,14 +21,19 @@ function insertImage(obj) {
     else if(xGetElementById("align_right").checked==true) align = "right";
     var border = parseInt(xGetElementById("image_border").value,10);
 
+    var width = xGetElementById("width").value;
+    var height = xGetElementById("height").value;
+
     if(!url) {
       window.close();
       return;
     }
 
-    var text = "<img src=\""+url+"\" border=\""+border+"\" plugin=\"image_link\" ";
+    var text = "<img editor_component=\"image_link\" src=\""+url+"\" border=\""+border+"\" ";
     if(alt) text+= " alt=\""+alt+"\"";
     if(align) text+= " align=\""+align+"\" ";
+    if(width) text+= " width=\""+width+"\" ";
+    if(height) text+= " height=\""+height+"\" ";
     text+= " />";
 
     opener.editorFocus(opener.editorPrevSrl);

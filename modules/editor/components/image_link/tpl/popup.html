@@ -5,7 +5,15 @@
 <form action="./" method="get" onSubmit="return false" id="fo">
   <div class="editor_window">
     <div class="header">{$lang->image_url}</div>
-    <div class="body"><input type="text" class="image_url" id="image_url" value="" /></div>
+    <div class="body"><input type="text" class="image_url" id="image_url" value="" onblur="getImageScale();" /></div>
+
+    <div class="header">{$lang->image_scale}</div>
+    <div class="body">
+      <input type="text" class="editor_input" id="width" value="0" />px 
+      <input type="text" class="editor_input" id="height" value="0" />px 
+      <input type="button" value="{$lang->cmd_get_scale}" class="editor_button" onclick="getImageScale();return false;" />
+    </div>
+
 
     <div class="header">{$lang->image_alt}</div>
     <div class="body"><input type="text" class="image_url" id="image_alt" value="" /></div>

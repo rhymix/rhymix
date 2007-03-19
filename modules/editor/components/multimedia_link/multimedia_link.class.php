@@ -53,5 +53,30 @@
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
+        /**
+         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         *
+         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
+         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         **/
+        function transHTML($xml_obj) {
+            $src = $xml_obj->attrs->src;
+
+            $width = $xml_obj->attrs->width;
+            if(!$width) $width = 640;
+
+            $height = $xml_obj->attrs->height;
+            if(!$height) $height = 480;
+
+            $auto_start = $xml_obj->attrs->auto_start;
+            if(!$auto_start) $auto_start = "false";
+            else $auto_start = "true";
+
+            $caption = $xml_obj->body;
+
+            $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
+
+            return sprintf("<script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\",%s);</script>", $src, $width, $height, $auto_start);      
+        }
     }
 ?>

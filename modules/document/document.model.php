@@ -44,11 +44,11 @@
                 $document->title =  $document->content = Context::getLang('msg_is_secret');
             }
             
-            // 내용 변경
-            $document->content = $this->transContent($document->content);
-
             // 확장 정보(코멘트나 기타 등등) 플래그가 false이면 기본 문서 정보만 return
             if(!$get_extra_info) return $document;
+
+            // 내용 변경
+            $document->content = $this->transContent($document->content);
 
             // document controller 객체 생성
             $oDocumentController = &getController('document');
@@ -318,8 +318,8 @@
          * @brief 내용의 플러그인이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
-            // 멀티미디어 코드의 변환
-            $content = preg_replace_callback('!<img([^\>]*)editor_multimedia([^\>]*?)>!is', array($this,'_transMultimedia'), $content);
+            // 에디터 컴포넌트를 찾아서 결과 코드로 변환
+            $content = preg_replace_callback('!<(div|img) editor_component="([a-zA-Z\_^\"]+)"([^\>]*?)>!is', array($this,'_transMultimedia'), $content);
 
             // <br> 코드 변환
             $content = str_replace(array("<BR>","<br>","<Br>"),"<br />", $content);
@@ -335,19 +335,24 @@
          * <img ... class="multimedia" ..> 로 되어 있는 코드를 변경
          **/
         function _transMultimedia($matches) {
-            preg_match("/style\=(\"|'){0,1}([^\"\']+)(\"|'){0,1}/i",$matches[0], $buff);
-            $style = str_replace("\"","'",$buff[0]);
-            preg_match("/alt\=\"{0,1}([^\"]+)\"{0,1}/i",$matches[0], $buff);
-            $opt = explode('|@|',$buff[1]);
-            if(count($opt)<1) return $matches[0];
+            // 플러그인에서 생성된 코드 (img, div태그내에 plugin코드 존재)의 parameter를 추출
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($matches[0]);
 
-            for($i=0;$i<count($opt);$i++) {
-                $pos = strpos($opt[$i],"=");
-                $cmd = substr($opt[$i],0,$pos);
-                $val = substr($opt[$i],$pos+1);
-                $obj->{$cmd} = $val;
-            }
-            return sprintf("<script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\", \"%s\");</script>", $obj->type, $obj->src, $style);
+            // plugin attribute가 없으면 return
+            $editor_component = $xml_doc->attrs->editor_component;
+            if(!$editor_component) return $matches[0];
+
+            // editor class 객체 생성하여 component 객체 받음
+            $oEditor = &getClass('editor');
+            if(!is_object($oEditor)) return $matches[0];
+
+            // component::transHTML() 을 이용하여 변환된 코드를 받음
+            $oComponent = &$oEditor->getComponentObject($editor_component, 0);
+            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
+
+            return $oComponent->transHTML($xml_doc);
+            //return sprintf("<script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\", \"%s\");</script>", $obj->type, $obj->src, $style);
         }
     }
 ?>

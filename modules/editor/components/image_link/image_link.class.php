@@ -53,5 +53,32 @@
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
+        /**
+         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         *
+         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
+         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         **/
+        function transHTML($xml_obj) {
+            $src = $xml_obj->attrs->src;
+            $alt = $xml_obj->attrs->alt;
+            $width = $xml_obj->attrs->width;
+            $height = $xml_obj->attrs->height;
+            $align = $xml_obj->attrs->align;
+            $border = $xml_obj->attrs->border;
+
+            $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
+            if(!$alt) $alt = $src;
+
+            $output = array();
+            $output = array("src=\"".$src."\"");
+            if($alt) $output[] = "alt=\"".$alt."\"";
+            if($width) $output[] = "width=\"".$width."\"";
+            if($height) $output[] = "height=\"".$height."\"";
+            if($align) $output[] = "align=\"".$align."\"";
+            if($border) $output[] = "border=\"".$border."\"";
+            return "<img ".implode(" ", $output)." />";
+        }
+
     }
 ?>

@@ -13,6 +13,18 @@
          **/
         function execute($plugin, $args) {
 
+            // $plugin의 객체를 받음 
+            $oPlugin = PluginHandler::getObject($plugin);
+
+            // 플러그인 실행
+            $output = $oPlugin->proc($args);
+            print $output;
+        }
+
+        /**
+         * @brief 플러그인 객체를 return
+         **/
+        function getObject($plugin) {
             // 일단 플러그인의 위치를 찾음
             $oPluginModel = &getModel('plugin');
             $path = $oPluginModel->getPluginPath($plugin);
@@ -30,10 +42,6 @@
             if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
 
             if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
-
-            // 플러그인 실행
-            $output = $oPlugin->proc($args);
-            print $output;
         }
 
     }

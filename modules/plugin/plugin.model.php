@@ -19,11 +19,11 @@
          * 기본으로는 ./plugins에 있지만 웹관리기능으로 다운로드시 ./files/plugins에 존재함
          **/
         function getPluginPath($plugin_name) {
-            $class_path = sprintf('./files/plugins/%s/', $plugin_name);
-            if(is_dir($class_path)) return $class_path;
+            $path = sprintf('./files/plugins/%s/', $plugin_name);
+            if(is_dir($path)) return $path;
 
-            $class_path = sprintf('./plugins/%s/', $plugin_name);
-            if(is_dir($class_path)) return $class_path; 
+            $path = sprintf('./plugins/%s/', $plugin_name);
+            if(is_dir($path)) return $path; 
 
             return "";
         }
