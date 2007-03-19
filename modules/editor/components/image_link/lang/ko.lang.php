@@ -12,4 +12,5 @@
   $lang->image_align_left = "글의 왼쪽으로";
   $lang->image_align_middle = "가운데";
   $lang->image_align_right = "글의 우측으로";
+  $lang->image_border = "경계선 두께";
 ?>

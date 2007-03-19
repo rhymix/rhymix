@@ -1,5 +1,5 @@
 .editor_window {
-  width:400px;
+  width:500px;
   text-align:center;
 }
 
@@ -15,7 +15,7 @@
 
 .body {
   float:left;
-  width:250px;
+  width:350px;
   text-align:left;
   margin:5px;
   font-size:9pt;
@@ -29,10 +29,17 @@
 
 .image_align {
   margin:0px 0px 5px 0px;
+  float:left;
+  width:150px;
 }
 
 .image_url {
-  width:240px;
+  width:350px;
+  border:1px solid #AAAAAA;
+}
+
+.editor_input {
+  width:40px;
   border:1px solid #AAAAAA;
 }
 
