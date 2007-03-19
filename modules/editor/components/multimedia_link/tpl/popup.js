@@ -12,7 +12,9 @@ function getMultimedia() {
     var url = node.getAttribute("src");
     var caption = xInnerHtml(node);
     var width = node.getAttribute("width");
+    if(width!=xWidth(node)) width = xWidth(node);
     var height = node.getAttribute("height");
+    if(height!=xHeight(node)) height = xHeight(node);
     var auto_start = node.getAttribute("auto_start");
 
     xGetElementById("multimedia_url").value = url;

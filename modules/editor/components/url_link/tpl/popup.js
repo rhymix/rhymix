@@ -6,7 +6,9 @@ function getText() {
     var node = opener.editorPrevNode;
     if(!node) {
         var fo_obj = xGetElementById("fo_component");
-        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+        var text = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+        if(text==undefined) text = "";
+        fo_obj.text.value = text;
         return;
     }
 
