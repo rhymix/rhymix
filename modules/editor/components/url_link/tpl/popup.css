@@ -1,6 +1,8 @@
 .editor_window {
   width:400px;
+  height:200px;
   text-align:center;
+  clear:both;
 }
 
 .header {
@@ -37,12 +39,11 @@
 }
 
 .editor_button_area {
-  clear:both;
-  width:100%;
   text-align:center;
   background-color:#EEEEEE;
   padding-top:5px;
   height:30px;
+  width:100%;
 }
 
 .editor_button {

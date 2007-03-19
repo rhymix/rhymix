@@ -138,6 +138,23 @@ function editorGetSelectedHtml(upload_target_srl) {
     }
 }
 
+// 에디터 내의 선택된 부분의 NODE를 return
+function editorGetSelectedNode(upload_target_srl) {
+    var iframe_obj = editorGetIFrame(upload_target_srl);
+    if(xIE4Up) {
+        var range = iframe_obj.contentWindow.document.selection.createRange();
+        var div = xCreateElement('div');
+        xInnerHtml(div, range.htmlText);
+        var node = div.firstChild;
+        return node;
+    } else {
+        var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
+        var node = xCreateElement('div');
+        node.appendChild(range.cloneContents());
+        return node.firstChild;
+    }
+}
+
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
 

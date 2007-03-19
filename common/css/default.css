@@ -21,25 +21,10 @@ a.bold {
   font-weight:bold;
 }
 
-a.editor_blue_text:link { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
-a.editor_blue_text:visited { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
-a.editor_blue_text:active { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
-a.editor_blue_text:hover { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
-
-a.editor_red_text:link { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347; }
-a.editor_red_text:visited { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347;}
-a.editor_red_text:active { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347;}
-a.editor_red_text:hover { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347;}
-
-a.editor_yellow_text:link { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460; }
-a.editor_yellow_text:visited { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460;}
-a.editor_yellow_text:active { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460;}
-a.editor_yellow_text:hover { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460;}
-
-a.editor_green_text:link { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
-a.editor_green_text:visited { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
-a.editor_green_text:active { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
-a.editor_green_text:hover { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
+.editor_blue_text { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
+.editor_red_text { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347; }
+.editor_yellow_text { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460; }
+.editor_green_text { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
 
 .folder_opener { display: block; }
 .folder_closer { display: none; }
