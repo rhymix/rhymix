@@ -1,0 +1,46 @@
+.editor_window {
+  width:400px;
+  text-align:center;
+}
+
+.header {
+  float:left;
+  width:100px;
+  clear:left;
+  text-align:left;
+  font-weight:bold;
+  margin:5px;
+}
+
+.body {
+  float:left;
+  width:250px;
+  text-align:left;
+  margin:5px;
+  font-size:9pt;
+}
+
+.body label {
+  cursor:pointer;
+}
+
+.image_align {
+  margin:0px 0px 5px 0px;
+}
+
+.image_url {
+  width:240px;
+  border:1px solid #AAAAAA;
+}
+
+.editor_button_area {
+  clear:both;
+  text-align:center;
+  margin:5px;
+}
+
+.editor_button {
+  margin-top:4px;
+  background-color:#FFFFFF;
+  border:1px solid #AAAAAA;
+}
