@@ -1,8 +1,18 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
+<!--%import("../lang")-->
 
-<div id="emoticon_area">
-<!--@foreach($emoticon_list as $emoticon)-->
-<img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" style="cursor:pointer;" />
-<!--@end-->
+<div class="editor_window">
+  <div class="editor_title">{$lang->emoticon}</div>
+
+  <div class="editor_emoticon">
+    <!--@foreach($emoticon_list as $emoticon)-->
+    <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" />
+    <!--@end-->
+  </div>
+
+  <div class="editor_button_area">
+    <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertImage()" />
+    <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
+  </div>
 </div>

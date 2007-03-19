@@ -3,6 +3,19 @@
   text-align:center;
 }
 
+.editor_title {
+  font-size:10pt;
+  font-weight:bold;
+  clear:both;
+  height:20px;
+  background-color:#555555;
+  color:#EFEFEF;
+  vertical-align:middle;
+  padding-top:5px;
+  border-bottom:1px solid #000000;
+  text-align:center;
+}
+
 .header {
   float:left;
   width:100px;
@@ -35,24 +48,30 @@
 
 .image_url {
   width:350px;
+  height:13px;
+  font-size:9pt;
   border:1px solid #AAAAAA;
 }
 
 .editor_input {
   width:40px;
+  height:13px;
+  font-size:9pt;
   border:1px solid #AAAAAA;
 }
 
 .editor_button_area {
-  clear:both;
+  border-top:1px solid #AAAAAA;
   text-align:center;
   background-color:#EEEEEE;
-  height:30px;
-  padding-top:3px;
+  padding:2px 0px 2px 0px;
+  clear:both;
 }
 
 .editor_button {
   margin-top:4px;
   background-color:#FFFFFF;
   border:1px solid #AAAAAA;
+  height:16px;
+  font-size:9pt;
 }

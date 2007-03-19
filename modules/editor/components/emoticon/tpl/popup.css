@@ -1,9 +1,42 @@
-#emoticon_area {
-  width:230px;
-  padding:10px 0px 10px 0px;
+.editor_window {
+  width:300px;
   text-align:center;
 }
 
-#emoticon_area img {
+.editor_emoticon {
+  padding:10px;
+}
+
+.editor_window img {
   margin:2px;
+  cursor:pointer;
+}
+
+.editor_title {
+  font-size:10pt;
+  font-weight:bold;
+  clear:both;
+  height:20px;
+  background-color:#555555;
+  color:#EFEFEF;
+  vertical-align:middle;
+  padding-top:5px;
+  border-bottom:1px solid #000000;
+  text-align:center;
+}
+
+.editor_button_area {
+  border-top:1px solid #AAAAAA;
+  text-align:center;
+  background-color:#EEEEEE;
+  padding:2px 0px 2px 0px;
+  clear:both;
+}
+
+.editor_button {
+  margin-top:4px;
+  background-color:#FFFFFF;
+  border:1px solid #AAAAAA;
+  height:16px;
+  font-size:9pt;
 }

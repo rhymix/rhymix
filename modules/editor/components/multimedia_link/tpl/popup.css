@@ -1,5 +1,18 @@
 .editor_window {
   width:400px;
+  clear:both;
+}
+
+.editor_title {
+  font-size:10pt;
+  font-weight:bold;
+  clear:both;
+  height:20px;
+  background-color:#555555;
+  color:#EFEFEF;
+  vertical-align:middle;
+  padding-top:5px;
+  border-bottom:1px solid #000000;
   text-align:center;
 }
 
@@ -30,23 +43,29 @@
 .multimedia_url {
   width:240px;
   border:1px solid #AAAAAA;
+  height:13px;
+  font-size:9pt;
 }
 
 .multimedia_size {
-  width:60px;
+  width:40px;
+  height:13px;
+  font-size:9pt;
   border:1px solid #AAAAAA;
 }
 
 .editor_button_area {
-  clear:both;
+  border-top:1px solid #AAAAAA;
   text-align:center;
-  height:25px;
-  padding-top:3px;
   background-color:#EEEEEE;
+  padding:0px 0px 2px 0px;
+  clear:both;
 }
 
 .editor_button {
   margin-top:4px;
   background-color:#FFFFFF;
   border:1px solid #AAAAAA;
+  height:16px;
+  font-size:9pt;
 }
