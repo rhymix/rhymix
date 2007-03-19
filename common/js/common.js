@@ -79,6 +79,7 @@ function resizeImageContents() {
 }
 xAddEventListener(window, "load", resizeImageContents);
 
+// 컨텐츠에서 컨텐츠 영역보다 큰 이미지 리사이징후 팝업 클릭시 사용되는 함수
 function resizeImagePopup(evt) {
   var e = new xEvent(evt);
   if(!e.target.src) return;
@@ -125,23 +126,11 @@ function svc_folder_close(id) {
 // 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
 // 혹시.. 제대로 된 소스 있으신 분은 헬프미.. ㅠ0ㅠ
 function setFixedPopupSize() {
-    var i=0;
-    while(i<2) {
-        window.scrollTo(03000,03000);
-        window.resizeBy(xScrollLeft(), xScrollTop());
-        i++;
-    }
-    window.scrollTo(0,0);
-
-    // IE의 경우 한번더 해줘야 한다. (이게 맞는건지.. ㅡ.ㅜ)
-    if(xIE4Up) {
-        var i=0;
-        while(i<2) {
-            var height = xHeight(xGetElementById("popup_content"));
-            if(xGetBodyHeight()!=height) window.resizeBy(0, height-xGetBodyHeight());
-            i++;
-        }
-    }
+    var w = xWidth("popup_content");
+    var h = xHeight("popup_content");
+    var w1 = xWidth(window.document.body);
+    var h1 = xHeight(window.document.body);
+    window.resizeBy(w-w1,h-h1);
 }
 
 // url이동 (open_window 값이 N 가 아니면 새창으로 띄움)

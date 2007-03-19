@@ -1,3 +1,9 @@
+.colorpicker {
+  width:138px; 
+  height:85px; 
+  padding:5px;
+}
+
 img.color_icon {
   width:15px;
   height:15px;
