@@ -1,15 +1,49 @@
-.urllink_title {
+.editor_window {
   width:400px;
+  text-align:center;
 }
 
-.urllink_title textarea {
-  width:300px;
+.header {
+  float:left;
+  width:60px;
+  clear:left;
+  text-align:left;
+  font-weight:bold;
+  margin:5px;
+  font-size:9pt;
+  padding-left:20px;
 }
 
-.urllink_url {
-  width:400px;
+.body {
+  float:left;
+  width:290px;
+  text-align:left;
+  margin:5px;
+  font-size:9pt;
+  font-size:9pt;
 }
 
-.urllink_url input {
-  width:300px;
+.editor_textarea {
+  width:280px;
+  height:50px;
+  border:1px solid #AAAAAA;
+  font-size:9pt;
+}
+
+.editor_input {
+  width:280px;
+  border:1px solid #AAAAAA;
+  font-size:9pt;
+}
+
+.editor_button_area {
+  clear:both;
+  text-align:center;
+  margin:5px;
+}
+
+.editor_button {
+  margin-top:4px;
+  background-color:#FFFFFF;
+  border:1px solid #AAAAAA;
 }

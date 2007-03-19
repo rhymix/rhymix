@@ -2,14 +2,16 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 <form action="./" method="get" id="fo_component" onSubmit="return false">
-  <div class="urllink_title">
-    {$lang->urllink_title} : <textarea name="text"></textarea>
-  </div>
-  <div class="urllink_url">
-    {$lang->urllink_url} : <input type="text" name="url" class="editor_input" value=""/>
-  </div>
-  <div>
-    <input type="button" id="manual_url_submit" class="editor_submit" value="{$lang->cmd_insert}" onClick="setText()" />
-    <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
+  <div class="editor_window">
+    <div class="header">{$lang->urllink_title}</div>
+    <div class="body"><textarea name="text" class="editor_textarea"></textarea></div>
+
+    <div class="header">{$lang->urllink_url}</div>
+    <div class="body"><input type="text" name="url" class="editor_input" value=""/></div>
+
+    <div class="editor_button_area">
+      <input type="button" class="editor_button" value="{$lang->cmd_insert}" onclick="setText()" />
+      <intput type="button" class="editor_button" value="{$lang->cmd_close}" onclick="window.close()" />
+    </div>
   </div>
 </form>
