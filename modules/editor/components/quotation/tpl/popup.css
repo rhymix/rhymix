@@ -29,7 +29,7 @@
 
 .body {
   float:left;
-  width:405px;
+  width:410px;
   text-align:left;
   margin:5px;
   font-size:9pt;
@@ -108,4 +108,16 @@ img.bg_preview_color {
   height:16px;
   border:1px solid #000000;
   background-color:#FFFFFF;
+}
+
+.editor_color_box {
+  clear:both;
+  height:65px;
+  border:1px solid #DDDDDD;
+  padding:2px;
+  margin-bottom:3px;
+}
+
+.editor_color_input {
+  clear:both;
 }

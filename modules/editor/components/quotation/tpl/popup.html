@@ -63,12 +63,12 @@
 
     <div class="header">{$lang->quotation_border_color}</div>
     <div class="body">
-      <div>
+      <div class="editor_color_box">
         <script type="text/javascript">
           printColor("border", "{$tpl_path}/images/blank.gif");
         </script>
       </div>
-      <div>
+      <div class="editor_color_input">
         <table border="0" cellspacing="0">
         <tr>
           <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
@@ -81,12 +81,12 @@
 
     <div class="header">{$lang->quotation_bg_color}</div>
     <div class="body">
-      <div>
+      <div class="editor_color_box">
         <script type="text/javascript">
           printColor("bg", "{$tpl_path}/images/blank.gif");
         </script>
       </div>
-      <div>
+      <div class="editor_color_input">
         <table border="0" cellspacing="0">
         <tr>
           <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="editor_button_area">
-      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertMultimedia()" />
+      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertQuotation()" />
       <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
     </div>
   </div>

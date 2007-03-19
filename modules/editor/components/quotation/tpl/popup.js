@@ -3,54 +3,53 @@
  * 있으면 가져와서 원하는 곳에 삽입
  **/
 function getQuotation() {
-  return;
     // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
     if(typeof(opener)=="undefined") return;
 
     var node = opener.editorPrevNode;
     if(!node || node.nodeName != "DIV") return;
 
-    var url = node.getAttribute("src");
-    var caption = xInnerHtml(node);
-    var width = node.getAttribute("width");
-    var height = node.getAttribute("height");
-    var auto_start = node.getAttribute("auto_start");
-
-    xGetElementById("multimedia_url").value = url;
-    xGetElementById("multimedia_caption").value = caption;
-    xGetElementById("multimedia_width").value = width;
-    xGetElementById("multimedia_height").value = height;
-    if(auto_start=="true") xGetElementById("multimedia_auto_start").checked = true;
-
+    var use_folder = node.getAttribute("use_folder");
+    var opener = node.getAttribute("opener");
+    var closer = node.getAttribute("closer");
+    var border_style = node.getAttribute("border_style");
+    var border_thickness = node.getAttribute("border_thickness");
+    var border_color = node.getAttribute("border_color");
+    var bg_color = node.getAttribute("bg_color");
 }
 
-function insertQuotation(obj) {
+/* 추가 버튼 클릭시 부모창의 위지윅 에디터에 인용구 추가 */
+function insertQuotation() {
     if(typeof(opener)=="undefined") return;
 
-    var url = xGetElementById("_url").value;
+    var use_folder = "N";
+    if(xGetElementById("quotation_user").checked) use_folder = "Y";
 
-    var caption = xGetElementById("multimedia_caption").value;
+    var opener = xGetElementById("quotation_opener").value;
+    var closer = xGetElementById("quotation_closer").value;
+    if(!opener||!closer) use_folder = "N";
 
-    var width = xGetElementById("multimedia_width").value;
-    if(!width) width = 640;
+    var border_style = "solid";
+    if(xGetElementById("border_style_none").checked) border_style = "none";
+    if(xGetElementById("border_style_solid").checked) border_style = "solid";
+    if(xGetElementById("border_style_dotted").checked) border_style = "dotted";
+    if(xGetElementById("border_style_left_solid").checked) border_style = "left_solid";
+    if(xGetElementById("border_style_left_dotted").checked) border_style = "left_dotted";
 
-    var height = xGetElementById("multimedia_height").value;
-    if(!height) height= 480;
+    var border_thickness = parserInt(xGetElementById("border_thickness").value,10);
 
-    var auto_start = "false";
-    if(xGetElementById("multimedia_auto_start").checked) auto_start = "true";
+    var border_color = "#"+xGetElementById("border_color_input").value;
 
-    if(!url) {
-      window.close();
-      return;
-    }
+    var bg_color = "#"+xGetElementById("bg_color_input").value;
 
-    var text = "<div editor_component=\"multimedia_link\" class=\"editor_multimedia\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
+    var content = editorGetSelectedHtml(opener.editorPrevSrl);
+
+    var text = "<div editor_component=\"quotation\" class=\"editor_quotation\" style=\"width:100%\" use_folder=\""+use_folder+"\" opener=\""+opener+"\" closer=\""+closer+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\">"+content+"</div>";
+    alert(text);
+    return;
 
     opener.editorFocus(opener.editorPrevSrl);
-
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-
     opener.editorReplaceHTML(iframe_obj, text);
     opener.editorFocus(opener.editorPrevSrl);
 
