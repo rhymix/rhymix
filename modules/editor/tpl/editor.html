@@ -10,56 +10,61 @@
 
 <!-- 에디터 -->
 <div class="editor_content">
-  <!-- 폰트 종류와 크기 -->
-  <div class="editor_fontbox">
-    <select onChange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
-      <option value="">{$lang->edit->fontname}</option>
-      <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-      <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+
+  <div class="editor_area_1">
+    <!-- 폰트 종류와 크기 -->
+    <div class="editor_fontbox">
+      <select onChange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
+        <option value="">{$lang->edit->fontname}</option>
+        <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+        <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+        <!--@end-->
+      </select>
+      <select onChange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
+        <option value="" selected>{$lang->edit->fontsize}</option>
+        <option value="1">8pt</option>
+        <option value="2">10pt</option>
+        <option value="3">12pt</option>
+        <option value="4">14pt</option>
+        <option value="5">18pt</option>
+        <option value="6">24pt</option>
+        <option value="7">36pt</option>
+      </select>
+    </div>
+
+    <!-- 에디팅 관련 아이콘 -->
+    <div class="editor_iconbox">
+      <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
+      <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
+      <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
+      <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="component_{$upload_target_srl}_StrikeThrough" />
+    </div>
+
+    <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
+    <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox" style="display:none">
+      <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
+      <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
+      <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
+      <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="component_{$upload_target_srl}_outdent" />
+      <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" />
+      <img src="./images/list_number.gif" alt="list number" id="component_{$upload_target_srl}_insertorderedlist" />
+      <img src="./images/list_bullet.gif" alt="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
+    </div>
+
+    <!-- IE의 경우 엔터시 p 태그를 쓸지 br 태그로 변경을 할지 체크하는 항목 -->
+    <div class="editor_parabox" id="editor_use_paragraph_box_{$upload_target_srl}">
+      <input type="checkbox" name="use_paragraph" id="editor_use_paragraph_{$upload_target_srl}" onclick="editorUseParagraph(this,'{$upload_target_srl}');" />
+      <label for="editor_use_paragraph_{$upload_target_srl}">{$lang->edit->use_paragraph}</label>
+    </div>
+  </div>
+
+  <div class="editor_area_2">
+    <!-- 컴포넌트 -->
+    <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
+      <!--@foreach($component_list as $component)-->
+      <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
       <!--@end-->
-    </select>
-    <select onChange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
-      <option value="" selected>{$lang->edit->fontsize}</option>
-      <option value="1">8pt</option>
-      <option value="2">10pt</option>
-      <option value="3">12pt</option>
-      <option value="4">14pt</option>
-      <option value="5">18pt</option>
-      <option value="6">24pt</option>
-      <option value="7">36pt</option>
-    </select>
-  </div>
-
-  <!-- 에디팅 관련 아이콘 -->
-  <div class="editor_iconbox">
-    <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
-    <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
-    <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
-    <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="component_{$upload_target_srl}_StrikeThrough" />
-  </div>
-
-  <!-- 컴포넌트 -->
-  <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
-    <!--@foreach($component_list as $component)-->
-    <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
-    <!--@end-->
-  </div>
-
-  <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
-  <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox" style="display:none">
-    <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
-    <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
-    <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
-    <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="component_{$upload_target_srl}_outdent" />
-    <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" />
-    <img src="./images/list_number.gif" alt="list number" id="component_{$upload_target_srl}_insertorderedlist" />
-    <img src="./images/list_bullet.gif" alt="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
-  </div>
-
-  <!-- IE의 경우 엔터시 p 태그를 쓸지 br 태그로 변경을 할지 체크하는 항목 -->
-  <div class="editor_parabox" id="editor_use_paragraph_box_{$upload_target_srl}">
-    <input type="checkbox" name="use_paragraph" id="editor_use_paragraph_{$upload_target_srl}" onclick="editorUseParagraph(this,'{$upload_target_srl}');" />
-    <label for="editor_use_paragraph_{$upload_target_srl}">{$lang->edit->use_paragraph}</label>
+    </div>
   </div>
     
   <!-- iframe -->

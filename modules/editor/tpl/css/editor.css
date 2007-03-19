@@ -2,6 +2,13 @@ div.editor_content {
   margin:3px;
 }
 
+div.editor_area_1 {
+}
+
+div.editor_area_2 {
+  clear:left;
+}
+
 div.editor_fontbox {
   margin : 3px 3px 3px 0px;
   float:left;
