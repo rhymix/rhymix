@@ -59,6 +59,9 @@ function getText() {
         if(color) xGetElementById(color).checked = true;
 
         return;
+    } else {
+        var fo_obj = xGetElementById("fo_component");
+        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
     }
 }
 
