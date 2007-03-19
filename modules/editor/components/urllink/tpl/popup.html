@@ -9,9 +9,35 @@
     <div class="header">{$lang->urllink_url}</div>
     <div class="body"><input type="text" name="url" class="editor_input" value=""/></div>
 
-    <div class="editor_button_area">
-      <input type="button" class="editor_button" value="{$lang->cmd_insert}" onclick="setText()" />
-      <input type="button" class="editor_button" value="{$lang->cmd_close}" onclick="window.close()" />
+    <div class="header">{$lang->urllink_open_window}</div>
+    <div class="body"><input type="checkbox" name="open_window" value="Y" id="editor_open_window" /> <label for="editor_open_window">{$lang->about_url_link_open_window}</label></div>
+
+    <div class="header">{$lang->urllink_bold}</div>
+    <div class="body"><input type="checkbox" name="bold" value="Y" id="editor_bold" /> <label for="editor_bold">{$lang->about_url_link_bold}</label></div>
+
+    <div class="header">{$lang->urllink_color}</div>
+    <div class="body">
+      <span>
+        <input type="radio" name="color" value="blue" id="color_blue" />
+        <label for="color_blue"><a href="#" class="editor_blue_text">{$lang->urllink_color_blue}</a></label>
+      </span>
+      <span>
+        <input type="radio" name="color" value="red" id="color_red" />
+        <label for="color_red"><a href="#" class="editor_red_text">{$lang->urllink_color_red}</a></label>
+      </span>
+      <span>
+        <input type="radio" name="color" value="yellow" id="color_yellow" />
+        <label for="color_yellow"><a href="#" class="editor_yellow_text">{$lang->urllink_color_yellow}</a></label>
+      </span>
+      <span>
+        <input type="radio" name="color" value="green" id="color_green" />
+        <label for="color_green"><a href="#" class="editor_green_text">{$lang->urllink_color_green}</a></label>
+      </span>
     </div>
+  </div>
+
+  <div class="editor_button_area">
+    <input type="button" class="editor_button" value="{$lang->cmd_insert}" onclick="setText()" />
+    <input type="button" class="editor_button" value="{$lang->cmd_close}" onclick="window.close()" />
   </div>
 </form>

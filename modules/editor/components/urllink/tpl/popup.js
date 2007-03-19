@@ -21,15 +21,43 @@ function setText() {
 
     var text = fo_obj.text.value;
     var url = fo_obj.url.value;
+    var open_window = false;
+    var bold = false;
+    var link_class = "";
 
-    var link = text;
-    if(url) link = "<a href=\""+url+"\" target=\"_blank\">"+text+"</a>";
+    if(!text) {
+        window.close();
+        return;
+    }
+
+    if(fo_obj.open_window.checked) open_window = true;
+    if(fo_obj.bold.checked) bold= true;
+    if(xGetElementById("color_blue").checked) link_class = "editor_blue_text";
+    else if(xGetElementById("color_red").checked) link_class = "editor_red_text";
+    else if(xGetElementById("color_yellow").checked) link_class = "editor_yellow_text";
+    else if(xGetElementById("color_green").checked) link_class = "editor_green_text";
+
+    var link = "";
+    if(open_window) {
+        link = "<a href=\"#\" onclick=\"window.open('"+url+"');return false;\" ";
+    } else {
+        link = "<a href=\""+url+"\" ";
+    }
+    
+    if(bold || link_class) {
+        var class_name = "";
+        if(bold) class_name = "bold";
+        if(link_class) class_name += " "+link_class;
+        link += " class=\""+class_name+"\" ";
+    }
+
+    link += ">"+text+"</a>";
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
     opener.editorReplaceHTML(iframe_obj, link);
 
     opener.focus();
-    self.close();
+    window.close();
 }
 
 xAddEventListener(window, "load", getText);

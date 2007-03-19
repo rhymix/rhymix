@@ -50,7 +50,7 @@ function editorStart(upload_target_srl) {
     var contentHtml = ''+
         //'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
         '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
-        '<link rel="stylesheet" href="./common/css/common.css" type="text/css" />'+
+        '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
         '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;">'+
         content+
