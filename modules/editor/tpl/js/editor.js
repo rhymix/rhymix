@@ -52,7 +52,7 @@ function editorStart(upload_target_srl) {
         '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
-        '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;">'+
+        '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;" upload_target_srl="'+upload_target_srl+'">'+
         content+
         '</body></html>'+
         '';
@@ -66,6 +66,10 @@ function editorStart(upload_target_srl) {
     if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
     else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
     xAddEventListener(contentDocument,'mousedown',editorHideObject);
+
+    // 플러그인 감시를 위한 더블클릭 이벤트 걸기
+    xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+    xAddEventListener(document,'dblclick',editorSearchComponent);
 
     //xAddEventListener(document,'keypress',editorKeyPress);
     xAddEventListener(document,'mouseup',editorEventCheck);
@@ -264,6 +268,51 @@ function editorProcComponent(ret_obj, response_tags) {
     }
 }
 
+// 본문내에 포함된 컴포넌트를 찾는 함수 (더블클릭시)
+function editorSearchComponent(evt) {
+    var e = new xEvent(evt);
+
+    // 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
+    var obj = e.target;
+    while(obj && !obj.getAttribute("editor_component")) {
+        obj = xParent(obj);
+    }
+
+    if(!obj) obj = e.target;
+
+    var editor_component = obj.getAttribute("editor_component");
+
+    // editor_component를 찾지 못했을 경우에 이미지/텍스트/링크의 경우 기본 컴포넌트와 연결
+    if(!editor_component) {
+        // 이미지일 경우
+        if(obj.nodeName == "IMG") editor_component = "image_link";
+            
+        // 링크거나 텍스트인 경우
+        else if(obj.nodeName == "A" || obj.nodeName == "BODY")  editor_component = "url_link";
+    }
+
+    // 아무런 editor_component가 없다면 return
+    if(!editor_component) return;
+
+    // upload_target_srl을 찾음
+    var tobj = obj;
+    while(tobj && tobj.nodeName != "BODY") {
+        tobj = xParent(tobj);
+    }
+    if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("upload_target_srl")) return;
+    var upload_target_srl = tobj.getAttribute("upload_target_srl");
+
+    // 해당 컴포넌트를 찾아서 실행
+    editorPrevSrl = upload_target_srl;
+
+    var params = new Array();
+    params['component'] = editor_component;
+    params['upload_target_srl'] = upload_target_srl;
+
+    var response_tags = new Array('error', 'message', 'component', 'upload_target_srl', 'tpl', 'open_window', 'popup_url');
+    exec_xml('editor', 'dispComponent', params, editorProcComponent, response_tags, editor_form_list[upload_target_srl]);
+}
+
 // focus
 function editorFocus(upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
@@ -327,48 +376,6 @@ function editorDoInsertUrl(link, upload_target_srl) {
     editorReplaceHTML(iframe_obj, link);
 }
 
-function editorInsertImage(url, src_align) {
-    if(!url) return;
-    //if(!/^(http|ftp)/i.test(url)) url = 'http://'+url;
-
-    editorFocus(editorPrevSrl);
-
-    var html = "<img src=\""+url+"\" border=\"0\" alt=\"i\" ";
-    if(typeof(src_align)!='undefined'&&src_align) html += " align=\""+src_align+"\"";
-    html += " />";
-    var obj = editorGetIFrame(editorPrevSrl);
-    editorReplaceHTML(obj, html);
-}
-
-function editorGetMultimediaHtml(url, width, height, source_filename) {
-    if(typeof(width)=='undefined'||!width) width = 540;
-    if(typeof(height)=='undefined'||!height) height= 420;
-
-    var type = "application/x-mplayer2";
-    var pluginspace = "http://www.microsoft.com/Windows/MediaPlayer/";
-    var kind = 'movie';
-
-    if(/\.swf$/i.test(url)) kind = 'flash';
-    if(typeof(source_filename)!='undefined' && /\.swf$/i.test(source_filename)) kind = 'flash';
-
-    if(kind=='flash') {
-        type = "application/x-shockwave-flash";
-        pluginspace = "http://www.macromedia.com/go/getflashplayer";
-    }
-    var html = "<embed src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" autostart=\"0\"    type=\""+type+"\" pluginspage=\""+pluginspace+"\"></embed><BR />";
-    return html;
-}
-
-function editorInsertMultimedia(url, width, height) {
-    if(url) {
-        var html = editorGetMultimediaHtml(url, width, height);
-        editorFocus(editorPrevSrl);
-        var obj = editorGetIFrame(editorPrevSrl)
-        editorReplaceHTML(obj, html);
-        editorFocus(editorPrevSrl);
-    }
-}
-
 function editorInsertQuotation(html) {
     if(!html) return;
 
@@ -387,7 +394,7 @@ function editorHighlight(ret_obj, response_tags, obj) {
 }
 
 /**
- * iframe 드래그 관련
+ * iframe 세로 크기 조절 드래그 관련
  **/
 var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0}
 xAddEventListener(document, 'mousedown', editorDragStart);

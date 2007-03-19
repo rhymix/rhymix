@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  urllink
+     * @class  url_link
      * @author zero (zero@nzeo.com)
      * @brief  에디터에서 url링크하는 기능 제공. 단순 팝업.
      **/
 
-    class urllink extends EditorHandler { 
+    class url_link extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function urllink($upload_target_srl, $component_path) {
+        function url_link($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }
@@ -27,7 +27,7 @@
          **/
         function execute() {
 
-            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=urllink', $this->upload_target_srl);
+            $url = sprintf('./?module=editor&act=dispPopup&target_srl=%s&component=url_link', $this->upload_target_srl);
             
             $this->add('tpl', '');
             $this->add('open_window', 'Y');
