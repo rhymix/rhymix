@@ -3,4 +3,6 @@ function insertImage(obj) {
 
     opener.editorInsertEmoticon(obj);
     opener.editorFocus(opener.editorPrevSrl);
+
+    self.close();
 }

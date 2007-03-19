@@ -8,6 +8,7 @@ img.preview_color {
   width:30px;
   height:16px;
   border:1px solid #000000;
+  background-color:#FFFFFF;
 }
 
 img.color_icon {

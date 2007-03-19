@@ -1,0 +1,9 @@
+#emoticon_area {
+  width:230px;
+  padding:10px 0px 10px 0px;
+  text-align:center;
+}
+
+#emoticon_area img {
+  margin:2px;
+}
