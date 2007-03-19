@@ -3,8 +3,11 @@ function applyColor() {
   var code = xGetElementById("color_input").value;
 
   opener.editorFocus(opener.editorPrevSrl);
-  opener.editorSetForeColor("#"+code);
+
+  opener.editorDo("ForeColor", "#"+code, opener.editorPrevSrl);
+
   opener.editorFocus(opener.editorPrevSrl);
+
   self.close();
 }
 

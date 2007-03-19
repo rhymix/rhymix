@@ -1,9 +1,25 @@
-#emoticon_area {
-  width:230px;
-  padding:10px 0px 10px 0px;
+.editor_area {
+  width:400px;
+  background-color:#F3F3F3;
   text-align:center;
 }
 
-#emoticon_area img {
-  margin:2px;
+.editor_window {
+  padding:4px;
+}
+
+.editor_textarea {
+  width:385px;
+  height:400px;
+  border:1px solid #888888;
+}
+
+.editor_button {
+  text-align:center;
+}
+
+.editor_button input {
+  margin-top:4px;
+  background-color:#FFFFFF;
+  border:1px solid #AAAAAA;
 }

@@ -1,0 +1,16 @@
+<!--%import("popup.css")-->
+<!--%import("popup.js")-->
+
+<div class="editor_area">
+
+<form action='./' method='post' id='fo' onSubmit="return false" style="display:inline">
+    <div class="editor_window">
+        <div><textarea name="text" id='editor' class="editor_textarea"></textarea></div>
+        <div class="editor_button">
+            <input type='button' value='{$lang->cmd_insert}' onclick='insertHtml()' />
+            <input type='button' value='{$lang->cmd_close}' onclick='window.close();' />
+        </div>
+    </div>
+</form>
+
+</div>

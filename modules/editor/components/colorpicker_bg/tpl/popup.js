@@ -2,10 +2,12 @@
 function applyColor() {
   var code = xGetElementById("color_input").value;
 
+  if(opener.xIE4Up) opener.editorDo("BackColor","#"+code, opener.editorPrevSrl);
+  else opener.editorDo("hilitecolor","#"+code, opener.editorPrevSrl);
+
   opener.editorFocus(opener.editorPrevSrl);
-  opener.editorSetBackColor("#"+code);
-  opener.editorFocus(opener.editorPrevSrl);
-  self.close();
+
+  window.close();
 }
 
 /* 색상 클릭시 */

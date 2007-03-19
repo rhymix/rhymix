@@ -321,23 +321,6 @@ function editorChangeFontSize(obj,srl) {
     obj.selectedIndex = 0;
 }
 
-function editorSetForeColor(color_code) {
-    editorDo("ForeColor",color_code,editorPrevSrl);
-    editorFocus(editorPrevSrl);
-}
-
-function editorSetBackColor(color_code) {
-    if(xIE4Up) editorDo("BackColor",color_code,editorPrevSrl);
-    else editorDo("hilitecolor",color_code,editorPrevSrl);
-    editorFocus(editorPrevSrl);
-}
-
-function editorInsertEmoticon(obj) {
-    editorFocus(editorPrevSrl);
-    editorDo("InsertImage",obj.src,editorPrevSrl);
-    editorFocus(editorPrevSrl);
-}
-
 function editorDoInsertUrl(link, upload_target_srl) {
     editorFocus(upload_target_srl);
     var iframe_obj = editorGetIFrame(srl);
@@ -384,15 +367,6 @@ function editorInsertMultimedia(url, width, height) {
         editorReplaceHTML(obj, html);
         editorFocus(editorPrevSrl);
     }
-}
-
-function editorInsertHTML(html) {
-    if(!html) return;
-
-    editorFocus(editorPrevSrl);
-    var obj = editorGetIFrame(editorPrevSrl)
-    editorReplaceHTML(obj, html);
-    editorFocus(editorPrevSrl);
 }
 
 function editorInsertQuotation(html) {

@@ -131,9 +131,9 @@ function setFixedPopupSize() {
 
     // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
     if(xUA.indexOf('windows')>0) {
-        if(xOp7Up) w += 9;
-        else if(xIE4Up) w += 8;
-        else w += 5;
+        if(xOp7Up) w += 10;
+        else if(xIE4Up) w += 10;
+        else w += 6;
     }
     window.resizeTo(w,h);
 

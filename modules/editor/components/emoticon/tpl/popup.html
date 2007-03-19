@@ -3,6 +3,6 @@
 
 <div id="emoticon_area">
 <!--@foreach($emoticon_list as $emoticon)-->
-<img src="images/{$emoticon}" alt="emoticon" onclick="insertImage(this)" style="cursor:pointer;" />
+<img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" style="cursor:pointer;" />
 <!--@end-->
 </div>
