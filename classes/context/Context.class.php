@@ -670,5 +670,49 @@
             return file_exists(Context::getConfigFile());
         }
 
+        /**
+         * @brief 내용의 플러그인이나 기타 기능에 대한 code를 실제 code로 변경
+         **/
+        function transContent($content) {
+            // 에디터 컴포넌트를 찾아서 결과 코드로 변환
+            $content = preg_replace_callback('!<(div|img)([^\>]*?)>(<\/div>)?!is', array($this,'_transMultimedia'), $content);
+
+            // <br> 코드 변환
+            $content = str_replace(array("<BR>","<br>","<Br>"),"<br />", $content);
+
+            // <img ...> 코드를 <img ... /> 코드로 변환
+            $content = preg_replace('!<img(.*?)(\/){0,1}>!is','<img\\1 />', $content);
+
+            return $content;
+        }
+
+        /**
+         * @brief 내용의 멀티미디어 태그를 html 태그로 변경
+         * <img ... class="multimedia" ..> 로 되어 있는 코드를 변경
+         **/
+        function _transMultimedia($matches) {
+            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
+            $buff = $matches[0];
+            $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
+
+            // 플러그인에서 생성된 코드 (img, div태그내에 plugin코드 존재)의 parameter를 추출
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($buff);
+
+            // plugin attribute가 없으면 return
+            $editor_component = $xml_doc->attrs->editor_component;
+            if(!$editor_component) return $matches[0];
+
+            // editor class 객체 생성하여 component 객체 받음
+            $oEditor = &getClass('editor');
+            if(!is_object($oEditor)) return $matches[0];
+
+            // component::transHTML() 을 이용하여 변환된 코드를 받음
+            $oComponent = &$oEditor->getComponentObject($editor_component, 0);
+            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
+
+            return $oComponent->transHTML($xml_doc);
+        }
+
     }
 ?>
