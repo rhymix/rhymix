@@ -1,23 +1,25 @@
-function insertImage(obj) {
+function insertMultimedia(obj) {
     if(typeof(opener)=="undefined") return;
 
-    var url = xGetElementById("image_url").value;
-    var alt = xGetElementById("image_alt").value;
-    var align = "";
-    if(xGetElementById("align_normal").checked==true) align = "";
-    else if(xGetElementById("align_left").checked==true) align = "left";
-    else if(xGetElementById("align_middle").checked==true) align = "middle";
-    else if(xGetElementById("align_right").checked==true) align = "right";
+    var url = xGetElementById("multimedia_url").value;
+
+    var caption = xGetElementById("multimedia_caption").value;
+
+    var width = xGetElementById("multimedia_width").value;
+    if(!width) width = 640;
+
+    var height = xGetElementById("multimedia_height").value;
+    if(!height) height= 480;
+
+    var auto_start = "false";
+    if(xGetElementById("multimedia_auto_start").checked) auto_start = "true";
 
     if(!url) {
       window.close();
       return;
     }
 
-    var text = "<img src=\""+url+"\" border=\"0\"";
-    if(alt) text+= " alt=\""+alt+"\"";
-    if(align) text+= " align=\""+align+"\" ";
-    text+= " />";
+    var text = "<div class=\"editor_multimedia\" plugin=\"multimedia_link\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
 
     opener.editorFocus(opener.editorPrevSrl);
 

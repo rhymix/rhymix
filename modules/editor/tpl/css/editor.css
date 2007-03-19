@@ -182,9 +182,3 @@ input.editor_input {
   vertical-align:middle;
   cursor:pointer;
 }
-
-img.editor_multimedia {
-  background:url(../images/multimedia_icon.gif) no-repeat center;
-  background-color:#FFFFFF;
-  border:2px dotted #B7AD10;
-}
