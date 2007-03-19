@@ -2,26 +2,74 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 
-<div class="editor_window">
-    <form action="./" method="get" onSubmit="return false" id="fo">
-        <div class="header">{$lang->multimedia_url}</div>
-        <div class="body"><input type="text" class="multimedia_url" id="multimedia_url" value="" /></div>
+<form action="./" method="get" onSubmit="return false" id="fo">
+  <div class="editor_window">
+    <div class="editor_title">{$lang->quotation}</div>
 
-        <div class="header">{$lang->multimedia_caption}</div>
-        <div class="body"><input type="text" class="multimedia_url" id="multimedia_caption" value="" /></div>
+    <div class="header">{$lang->quotation_use_folder}</div>
+    <div class="body"><input type="checkbox" id="quotation_use" value="Y" checked="true" onclick="toggle_folder(this)" /></div>
 
-        <div class="header">{$lang->multimedia_width}</div>
-        <div class="body"><input type="text" class="multimedia_size" id="multimedia_width" value="640" />px</div>
+    <div id="folder_area" style="display:block">
 
-        <div class="header">{$lang->multimedia_height}</div>
-        <div class="body"><input type="text" class="multimedia_size" id="multimedia_height" value="480" />px</div>
+      <div class="header">{$lang->quotation_opener}</div>
+      <div class="body"><input type="text" class="editor_input_long" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></div>
 
-        <div class="header">{$lang->multimedia_auto_start}</div>
-        <div class="body"><input type="checkbox" id="multimedia_auto_start" value="Y" /></div>
+      <div class="header">{$lang->quotation_closer}</div>
+      <div class="body"><input type="text" class="editor_input_long" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></div>
 
-        <div class="editor_button_area">
-            <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertMultimedia()" />
-            <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
-        </div>
-    </form>
-</div>
+    </div>
+
+    <div class="header">{$lang->quotation_border_style}</div>
+    <div class="body">
+      <select id="border_style" class="editor_select">
+        <!--@foreach($lang->quotation_border_style_list as $key => $val)-->
+        <option value="{$key}">{$val}</option>
+        <!--@end-->
+      </select>
+    </div>
+
+    <div class="header">{$lang->quotation_border_thickness}</div>
+    <div class="body"><input type="text" class="editor_input" id="border_thickness" value="1" />px</div>
+
+    <div class="header">{$lang->quotation_border_color}</div>
+    <div class="body">
+      <div>
+        <script type="text/javascript">
+          printColor("border", "{$tpl_path}/blank.gif");
+        </script>
+      </div>
+      <div>
+        <table border="0" cellspacing="0">
+        <tr>
+          <td><img src="./blank.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
+          <td>#</td>
+          <td><input type="text" id="border_color_input" size="6" maxlength="6" class="editor_input" value="88EE22" onkeyup="manual_select_color('border',this)"/></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="header">{$lang->quotation_bg_color}</div>
+    <div class="body">
+      <div>
+        <script type="text/javascript">
+          printColor("bg", "{$tpl_path}/blank.gif");
+        </script>
+      </div>
+      <div>
+        <table border="0" cellspacing="0">
+        <tr>
+          <td><img src="./blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
+          <td>#</td>
+          <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="editor_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="editor_button_area">
+      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertMultimedia()" />
+      <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
+    </div>
+  </div>
+</form>

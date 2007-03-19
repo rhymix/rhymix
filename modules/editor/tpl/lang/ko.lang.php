@@ -56,5 +56,4 @@
   $lang->edit->icon_align_left = '글의 왼쪽으로';
   $lang->edit->icon_align_middle = '가운데 정렬';
   $lang->edit->icon_align_right = '글의 우측으로';
-
 ?>

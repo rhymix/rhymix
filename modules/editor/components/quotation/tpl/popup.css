@@ -1,5 +1,5 @@
 .editor_window {
-  width:400px;
+  width:550px;
   text-align:center;
 }
 
@@ -16,7 +16,6 @@
   text-align:center;
 }
 
-
 .header {
   float:left;
   width:100px;
@@ -30,7 +29,7 @@
 
 .body {
   float:left;
-  width:250px;
+  width:405px;
   text-align:left;
   margin:5px;
   font-size:9pt;
@@ -38,6 +37,26 @@
 
 .body label {
   cursor:pointer;
+  font-size:9pt;
+}
+
+.editor_input {
+  width:50px;
+  height:13px;
+  font-size:9pt;
+  border:1px solid #AAAAAA;
+}
+
+.editor_input_long {
+  width:350px;
+  height:13px;
+  font-size:9pt;
+  border:1px solid #AAAAAA;
+}
+
+.editor_select {
+  width:80px;
+  height:14px;
   font-size:9pt;
 }
 
@@ -53,4 +72,33 @@
   margin-top:4px;
   background-color:#FFFFFF;
   border:1px solid #AAAAAA;
+  height:16px;
+  font-size:8pt;
+}
+
+img.color_icon {
+  width:14px;
+  height:14px;
+  border:1px solid #FFFFFF;
+}
+
+img.color_icon_over {
+  width:14px;
+  height:14px;
+  border:1px solid #000000;
+  cursor:pointer;
+}
+
+img.border_preview_color {
+  width:30px;
+  height:16px;
+  border:1px solid #000000;
+  background-color:#88EE22;
+}
+
+img.bg_preview_color {
+  width:30px;
+  height:16px;
+  border:1px solid #000000;
+  background-color:#FFFFFF;
 }

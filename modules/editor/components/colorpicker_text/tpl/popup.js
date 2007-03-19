@@ -42,3 +42,9 @@ function printColor(blank_img_src) {
 function printColorBlock(code, blank_img_src) {
     return "<div style=\"float:left;background-color:#"+code+"\"><img src=\""+blank_img_src+"\" class=\"color_icon\" onmouseover=\"this.className='color_icon_over'\" onmouseout=\"this.className='color_icon'\" onclick=\"select_color('"+code+"')\" alt=\"color\" \/><\/div>";
 }
+
+/* 수동 색상 변경시 */
+function manual_select_color(obj) {
+  if(obj.value.length!=6) return;
+  xGetElementById("preview_color").style.backgroundColor = "#"+obj.value;
+}
