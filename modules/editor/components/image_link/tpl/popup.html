@@ -3,13 +3,15 @@
 <!--%import("../lang")-->
 
 <div class="editor_window">
-    <form action='./' method='post' id='fo' onSubmit="return false">
+    <form action="./" method="get" onSubmit="return false" id="fo">
         <div class="header">{$lang->image_url}</div>
         <div class="body"><input type="text" class="image_url" id="image_url" value="" /></div>
+        <div class="header">{$lang->image_alt}</div>
+        <div class="body"><input type="text" class="image_url" id="image_alt" value="" /></div>
         <div class="header">{$lang->image_align}</div>
         <div class="body">
           <div class="image_align">
-            <input type="radio" name="align" value="normal" id="align_normal" checked="true"/>
+            <input type="radio" name="align" value="" id="align_normal" checked="true"/>
             <label for="align_normal">
               <img src="./images/align_normal.gif" alt="{$lang->image_align_normal}" />
               {$lang->image_align_normal}
@@ -38,8 +40,8 @@
           </div>
         </div>
         <div class="editor_button_area">
-            <input type='button' value='{$lang->cmd_insert}' class="editor_button" onclick='insertHtml()' />
-            <input type='button' value='{$lang->cmd_close}' class="editor_button" onclick='window.close();' />
+            <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertImage()" />
+            <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
         </div>
     </form>
 </div>
