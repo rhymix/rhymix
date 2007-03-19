@@ -44,10 +44,6 @@
 
             Context::set("tpl_path", $tpl_path);
 
-            // 이모티콘을 모두 가져옴
-            $html_editor_list = FileHandler::readDir($tpl_path.'/images');
-            Context::set('html_editor_list', $html_editor_list);
-
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
