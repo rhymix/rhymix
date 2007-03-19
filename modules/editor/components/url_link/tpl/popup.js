@@ -4,7 +4,11 @@
  **/
 function getText() {
     var node = opener.editorPrevNode;
-    if(!node) return;
+    if(!node) {
+        var fo_obj = xGetElementById("fo_component");
+        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+        return;
+    }
 
     if(node.nodeName == "A") {
         var url = node.getAttribute("HREF");
@@ -55,9 +59,6 @@ function getText() {
         if(color) xGetElementById(color).checked = true;
 
         return;
-    } else {
-        var fo_obj = xGetElementById("fo_component");
-        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
     }
 }
 
