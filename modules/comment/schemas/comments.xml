@@ -11,6 +11,7 @@
   <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
   <column name="email_address" type="varchar" size="250" notnull="notnull" />
   <column name="homepage" type="varchar" size="250" notnull="notnull" />
+  <column name="uploaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_uploaded_count" />
   <column name="regdate" type="date" index="idx_regdate" />
   <column name="last_update" type="date" index="idx_last_update" />
   <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>

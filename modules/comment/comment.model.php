@@ -42,6 +42,13 @@
             $output = $oDB->executeQuery('comment.getComment', $args);
             $comment = $output->data;
 
+            // 첨부파일 가져오기
+            if($comment->uploaded_count) {
+                $oFileModel = &getModel('file');
+                $file_list = $oFileModel->getFiles($comment_srl, $is_admin);
+                $comment->uploaded_list = $file_list;
+            }
+
             // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
             $logged_info = Context::get('logged_info');
 
@@ -95,6 +102,10 @@
             // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
             $logged_info = Context::get('logged_info');
 
+            // 첨부파일이 있을 경우를 대비한 File 모듈의 model객체 미리 생성 
+            $oFileModel = &getModel('file');
+
+            // loop를 돌면서 코멘트의 계층 구조 만듬 
             for($i=$comment_count-1;$i>=0;$i--) {
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
@@ -103,6 +114,13 @@
 
                 if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;
 
+                // 첨부파일 가져오기
+                if($source_list[$i]->uploaded_count) {
+                    $file_list = $oFileModel->getFiles($comment_srl, $is_admin);
+                    $source_list[$i]->uploaded_list = $file_list;
+                }
+
+                // 목록을 만듬
                 $list[$comment_srl] = $source_list[$i];
 
                 if($parent_srl) {

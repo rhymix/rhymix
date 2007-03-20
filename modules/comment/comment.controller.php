@@ -53,6 +53,12 @@
                 $obj->homepage = $logged_info->homepage;
             }
 
+            // file의 Model객체 생성
+            $oFileModel = &getModel('file');
+
+            // 첨부 파일의 갯수를 구함
+            $obj->uploaded_count = $oFileModel->getFilesCount($obj->comment_srl);
+
             // 댓글을 입력
             $output = $oDB->executeQuery('comment.insertComment', $obj);
 
@@ -116,6 +122,12 @@
                 $obj->homepage = $source_obj->homepage;
             }
 
+            // file의 Model객체 생성
+            $oFileModel = &getModel('file');
+
+            // 첨부 파일의 갯수를 구함
+            $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
+
             // 업데이트
             $output = $oDB->executeQuery('comment.updateComment', $obj);
 
@@ -148,6 +160,12 @@
             $args->comment_srl = $comment_srl;
             $output = $oDB->executeQuery('comment.deleteComment', $args);
             if(!$output->toBool()) return new Object(-1, 'msg_error_occured');
+
+            // 첨부 파일 삭제
+            if($comment->uploaded_count) {
+                $oFileController = &getController('file');
+                $oFileController->deleteFiles($comment->module_srl, $comment_srl);
+            }
 
             // 댓글 수를 구해서 업데이트
             $comment_count = $oCommentModel->getCommentCount($document_srl);
