@@ -13,6 +13,20 @@ function editor_upload_init(upload_target_srl) {
 
 // upload_target_srl에 해당하는 form의 action을 iframe으로 변경
 function editor_upload_form_set(upload_target_srl) {
+  // input type=file의 위치 및 설정 변경
+  var uploader = xGetElementById("file_uploader_"+upload_target_srl);
+
+  if(xIE4Up) {
+    xLeft(uploader, -40);
+    xTop(uploader, -85);
+    uploader.style.filter = "alpha(opacity=0)";
+  } else {
+    xLeft(uploader, -15);
+    xTop(uploader, -85);
+    uploader.style.opacity = 0;
+  }
+  uploader.style.display = "block";
+
   // 업로드용 iframe을 생성
   if(!xGetElementById('tmp_upload_iframe')) {
     if(xIE4Up) {
@@ -104,7 +118,7 @@ function editor_preview(sel_obj, upload_target_srl) {
   var obj = uploaded_files[file_srl];
   if(typeof(obj)=='undefined'||!obj) return;
   var uploaded_filename = obj.uploaded_filename;
-  var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
+  var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
 
   if(!uploaded_filename) {
     xInnerHtml(preview_obj, '');
@@ -115,16 +129,16 @@ function editor_preview(sel_obj, upload_target_srl) {
 
   // 플래쉬 동영상의 경우
   if(/\.flv$/i.test(uploaded_filename)) {
-    html = "<EMBED src=\""+editor_path+"component/flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename+"\" width=\"120\" height=\"120\" type=\"application/x-shockwave-flash\"></EMBED>";
+    html = "<EMBED src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"110\" height=\"110\" type=\"application/x-shockwave-flash\"></EMBED>";
   // 플래쉬 파일의 경우
   } else if(/\.swf$/i.test(uploaded_filename)) {
-    html = "<EMBED src=\""+uploaded_filename+"\" width=\"120\" height=\"120\" type=\"application/x-shockwave-flash\"></EMBED>";
+    html = "<EMBED src=\""+uploaded_filename+"\" width=\"110\" height=\"110\" type=\"application/x-shockwave-flash\"></EMBED>";
   // wmv, avi, mpg, mpeg등의 동영상 파일의 경우
   } else if(/\.(wmv|avi|mpg|mpeg|asx|asf|mp3)$/i.test(uploaded_filename)) {
-    html = "<EMBED src=\""+uploaded_filename+"\" width=\"120\" height=\"120\" autostart=\"true\" Showcontrols=\"0\"></EMBED>";
+    html = "<EMBED src=\""+uploaded_filename+"\" width=\"110\" height=\"110\" autostart=\"true\" Showcontrols=\"0\"></EMBED>";
   // 이미지 파일의 경우
   } else if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
-    html = "<img src=\""+uploaded_filename+"\" border=\"0\" width=\"120\" height=\"120\" />";
+    html = "<img src=\""+uploaded_filename+"\" border=\"0\" width=\"110\" height=\"110\" />";
   }
   xInnerHtml(preview_obj, html);
 }
@@ -151,7 +165,7 @@ function editor_remove_file(upload_target_srl) {
 }
 
 // 업로드 목록의 선택된 파일을 내용에 추가
-function editor_insert_file(upload_target_srl, align) {
+function editor_insert_file(upload_target_srl) {
   var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
   if(obj.options.length<1) return;
   var file_srl = obj.options[obj.selectedIndex].value;
@@ -160,58 +174,28 @@ function editor_insert_file(upload_target_srl, align) {
   var filename = file_obj.filename;
   var sid = file_obj.sid;
   var uploaded_filename = file_obj.uploaded_filename;
-  editorPrevSrl = upload_target_srl;
 
   // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
-  if(uploaded_filename && typeof(align)!='undefined') {
+  if(uploaded_filename) {
 
-    var type = "";
-
-    // 이미지 파일의 경우
+    // 이미지 파일의 경우 image_link 컴포넌트 열결
     if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
+        openComponent("image_link", upload_target_srl, uploaded_filename);
 
-      editorFocus(editorPrevSrl);
-
-      var html = "<img src=\""+uploaded_filename+"\" border=\"0\" alt=\""+filename+"\" ";
-      if(typeof(align)!='undefined'&&align) html += " align=\""+align+"\"";
-      html += " />"
-      var obj = editorGetIFrame(editorPrevSrl);
-      editorReplaceHTML(obj, html);
-
-    // 이미지외의 경우는 대체 이미지를 넣음
+    // 이미지외의 경우는 multimedia_link 컴포넌트 연결
     } else {
-      // 플래쉬 동영상의 경우
-      if(/\.flv$/i.test(uploaded_filename)) {
-        type = "flv";
-        uploaded_filename = editor_path+"component/flvplayer/flvplayer.swf?autoStart=true&file="+uploaded_filename;
-      // 플래쉬 파일의 경우
-      } else if(/\.swf$/i.test(uploaded_filename)) {
-        type = "swf";
-      // wmv, avi, mpg, mpeg등의 동영상 파일의 경우
-      } else if(/\.(wmv|avi|mpg|mpeg)$/i.test(uploaded_filename)) {
-        type = "multimedia";
-      }
-
-      var alt = "align="+align+"|@|src="+uploaded_filename+"|@|type="+type;
-      var html = "<img src=\""+editor_path+"images/blank.gif\" style=\"width:400px;height:300px;\" alt=\""+alt+"\" class=\"editor_multimedia\"/>";
-
-      var iframe_obj = editorGetIFrame(editorPrevSrl);
-      editorReplaceHTML(iframe_obj, html);
+        openComponent("multimedia_link", upload_target_srl, uploaded_filename);
     }
 
-  // binary파일의 경우 다운로드 링크를 추가
+  // binary파일의 경우 url_link 컴포넌트 연결 
   } else {
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
     var upload_target_srl = fo_obj.upload_target_srl.value;
-    var url = "./?mid="+mid+"&amp;act=procDownload&amp;upload_target_srl="+upload_target_srl+"&amp;file_srl="+file_srl+"&amp;sid="+sid;
-
-    var x = (screen.availWidth - 400)/2;
-    var y = (screen.availHeight - 220)/2;
-    winopen(editor_path+"popup/add_url.php?title="+escape(filename)+"&url="+escape(url),"_editorPopup","top="+y+",left="+x+",width=400,height=220,resizable=no,toolbars=no,scrollbars=no");
+    var url = "./?mid="+mid+"&amp;act=procDownloadFile&amp;upload_target_srl="+upload_target_srl+"&amp;file_srl="+file_srl+"&amp;sid="+sid;
+    openComponent("url_link", upload_target_srl, url);
   } 
-
 }
 
 /**

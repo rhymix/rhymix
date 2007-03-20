@@ -41,34 +41,13 @@
         }
 
         /**
-         * @brief 컴포넌트 실행하여 결과 return
-         **/
-        function dispComponent() {
-            // 변수 정리
-            $component = Context::get('component');
-            $upload_target_srl = Context::get('upload_target_srl');
-
-            // component 객체를 받음
-            $oComponent = &$this->getComponentObject($component, $upload_target_srl);
-            if(!$oComponent->toBool()) return $oComponent;
-
-            // 컴포넌트 실행
-            $oComponent->execute();
-
-            $this->add('component', $component);
-            $this->add('upload_target_srl', $upload_target_srl);
-            $this->add('tpl', $oComponent->get('tpl'));
-            $this->add('open_window', $oComponent->get('open_window'));
-            $this->add('popup_url', $oComponent->get('popup_url'));
-        }
-
-        /**
          * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
          **/
         function dispPopup() {
             // 변수 정리
-            $component = Context::get('component');
             $upload_target_srl = Context::get('upload_target_srl');
+            $component = Context::get('component');
+            $manual_url = Context::get('manual_url');
 
             // component 객체를 받음
             $oComponent = &$this->getComponentObject($component, $upload_target_srl);

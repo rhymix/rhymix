@@ -7,7 +7,10 @@ function getImage() {
     if(typeof(opener)=="undefined") return;
 
     var node = opener.editorPrevNode;
-    if(!node || node.nodeName != "IMG") return;
+    if(!node || node.nodeName != "IMG") {
+        getImageScale();
+        return;
+    }
     var src = node.getAttribute("src");
     var border = node.getAttribute("border");
     var align = node.getAttribute("align");

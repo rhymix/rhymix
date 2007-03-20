@@ -68,125 +68,58 @@ div.editor_drag_down_area {
   margin-top:10px;
 }
 
-.editor_pop_body {
-  padding:4px 4px 4px 4px;
-  margin:0px;
-  border:0px;
-  background-color:#FFFFFF;
-}
-
-.editor_window {
-  background-color : #EFEFEF;
-}
-
-textarea.editor_small_textarea {
-  font-family:tahoma;
-  border : 1px solid #CCCCCC;
-  background-color : #FFFFFF;
-  font-size : 8pt;
-  width:99%;
-  height:100px;
-}
-
-textarea.editor_textarea {
-  font-family:tahoma;
-  border : 1px solid #CCCCCC;
-  background-color : #FFFFFF;
-  font-size : 8pt;
-  width:100%;
-  height:450px;
-}
-
-input.editor_submit {
-  border : 1px solid #555555;
-  background-color : #AAAAAA;
-  color : #000000;
-  font-weight:bold;
-  font-family:verdana;
-  width : 100%;
-  height : 20px;
-  font-size : 8pt;
-}
-
-div.quotation_box {
-  font-size:8pt;
-  font-family:tahoma;
-  margin-bottom:8px;
-  padding-bottom:5px;
-  border-bottom:1px dotted #AAAAAA;
-}
-
-#quotation th { width:80px; font-size:8pt; font-family:tahoma; }
-
-img.color_icon {
-  width:15px;
-  height:15px;
-  border:1px solid #FFFFFF;
-}
-
-img.color_icon_over {
-  width:15px;
-  height:15px;
-  border:1px solid #000000;
-  cursor:pointer;
-}
-
-td.editor_field {
-  font-family:tahoma;
-  font-size:8pt;
-  font-weight:bold;
-  background-color : #CCCCCC;
-  text-align : center;
-}
-
-input.editor_input {
-  font-family:tahoma;
-  border : 1px solid #CCCCCC;
-  background-color : #FFFFFF;
-  width : 330px;
-  height : 18px;
-  padding : 1px;
-  font-size : 8pt;
-}
-
 .editor_uploader_box {
-  margin:10px 0px 0px 0px;
-  border:0px;
+  margin:10px 0px 0px 5px;
+  border:0;
   padding:0px;
   clear:both;
+  height:130px;
+}
+
+.editor_preview_uploaded {
+  float:left;
+  width:110px;
+  height:110px;
+  padding:5px;
+  border:1px solid #AAAAAA;
+  margin-right:10px;
+  text-align:center;
 }
 
 .editor_uploader {
-  margin-right:10px;
-  padding-right:5px;
-  border-right:1px dotted #AAAAAA;
-  width:255px;
   float:left;
+  width:300px;
+  height:120px;
+  margin-right:10px;
+  padding-right:10px;
+  border-right:1px dotted #AAAAAA;
 }
 
 .uploaded_file_list {
-  width:250px;
-  height:120px;
+  width:100%;
+  height:122px;
+  border:1px solid #AAAAAA;
 }
 
-.editor_component {
+.editor_uploader_input_area {
+  width:150px;
   float:left;
+  clear:right;
 }
 
-.uploaded_file_preview_box {
-  border:1px solid #EEEEEE;
-  width:120px;
-  height:120px;
-  float:left;
-  margin-right:10px;
+.editor_uploader_file_input {
+  display:none;
+  height:18px;
+  border:1px solid #AAAAAA;
+  background-color:#FFFFFF;
+  position:relative;
 }
 
-.editor_align_icon {
-  margin:0px 0px 6px 5px;
-  font-size:9pt;
-}
-
-.editor_align_icon img {
-  vertical-align:middle;
-  cursor:pointer;
+.editor_uploader_input {
+  display:block;
+  width:90px;
+  height:18px;
+  border:1px solid #AAAAAA;
+  background-color:#FFFFFF;
+  margin-bottom:10px;
 }

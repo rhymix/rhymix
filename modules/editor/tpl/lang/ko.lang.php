@@ -44,8 +44,9 @@
  BR태그가 적용됩니다.";
 
   $lang->edit->upload = '첨부';
-  $lang->edit->link_selected = '다운로드 링크 추가';
-  $lang->edit->delete_selected = '선택파일 삭제';
+  $lang->edit->upload_file = '파일 첨부'; 
+  $lang->edit->link_file = '본문 삽입';
+  $lang->edit->delete_selected = '선택 삭제';
 
   $lang->edit->icon_align_article = '한 문단을 차지';
   $lang->edit->icon_align_left = '글의 왼쪽으로';

@@ -262,38 +262,20 @@ function editorEventCheck(evt) {
 
         // 추가 컴포넌트의 경우 서버에 요청을 시도
         default :
-                editorPrevSrl = upload_target_srl;
-
-                var params = new Array();
-                params['component'] = component_name;
-                params['upload_target_srl'] = upload_target_srl;
-
-                var response_tags = new Array('error', 'message', 'component', 'upload_target_srl', 'tpl', 'open_window', 'popup_url');
-                exec_xml('editor', 'dispComponent', params, editorProcComponent, response_tags, editor_form_list[upload_target_srl]);
+                openComponent(component_name, upload_target_srl);
             break;
     }
 
     return;
 }
 
-// 컴포넌트 요청 후 결과를 처리할 함수
-function editorProcComponent(ret_obj, response_tags) {
-    var upload_target_srl = ret_obj['upload_target_srl'];
-    var tpl = ret_obj['tpl'];
-    var open_window = ret_obj['open_window'];
-    var popup_url = ret_obj['popup_url'];
+// 컴포넌트 팝업 열기
+function openComponent(component_name, upload_target_srl, manual_url) {
+    editorPrevSrl = upload_target_srl;
+    var popup_url = "./?module=editor&act=dispPopup&upload_target_srl="+upload_target_srl+"&component="+component_name;
+    if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
 
-    // 컴포넌트의 동작이 새창 열기 일 경우
-    if(open_window == 'Y') {
-        var win_left = 10;
-        var win_top = 10;
-        winopen(popup_url, 'editorComponent', 'left='+win_left+',top='+win_top+',width=10,height=10,toolbars=no,scrollbars=no');
-
-    // 새창 열기가 아니면 정해진 영역에 innerHTML로 tpl 입력
-    } else {
-        var zone = xGetElementById("editor_component_area_"+upload_target_srl);
-        xInnerHtml(zone, tpl);
-    }
+    winopen(popup_url, 'editorComponent', 'left=10,top=10,width=10,height=10,toolbars=no,scrollbars=no');
 }
 
 // 본문내에 포함된 컴포넌트를 찾는 함수 (더블클릭시)
@@ -348,14 +330,7 @@ function editorSearchComponent(evt) {
     var upload_target_srl = tobj.getAttribute("upload_target_srl");
 
     // 해당 컴포넌트를 찾아서 실행
-    editorPrevSrl = upload_target_srl;
-
-    var params = new Array();
-    params['component'] = editor_component;
-    params['upload_target_srl'] = upload_target_srl;
-
-    var response_tags = new Array('error', 'message', 'component', 'upload_target_srl', 'tpl', 'open_window', 'popup_url');
-    exec_xml('editor', 'dispComponent', params, editorProcComponent, response_tags, editor_form_list[upload_target_srl]);
+    openComponent(editor_component, upload_target_srl);
 }
 
 // focus
