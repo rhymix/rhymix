@@ -255,6 +255,8 @@ function editorEventCheck(evt) {
         case 'outdent' :
         case 'insertorderedlist' :
         case 'insertunorderedlist' :
+        case 'undo' :
+        case 'redo' :
                 editorDo(component_name, '', upload_target_srl);
             break;
 
@@ -371,8 +373,14 @@ function editorDo(name, value, target) {
 function _editorDoSrl(name, value, upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
     editorFocus(upload_target_srl);
-    if(xIE4Up) iframe_obj.contentWindow.document.execCommand(name, false, value);
-    else iframe_obj.contentWindow.document.execCommand(name, false, value);
+    try {
+      if(xIE4Up) {
+        iframe_obj.contentWindow.document.execCommand(name, false, value);
+      } else {
+        iframe_obj.contentWindow.document.execCommand(name, false, value);
+      }
+    } catch(e) {
+    }
     editorFocus(upload_target_srl);
 }
 

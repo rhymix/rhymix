@@ -33,13 +33,8 @@
   $lang->edit->help_italic = "글자를 기울이게 합니다";
   $lang->edit->help_underline = "밑줄을 긋습니다";
   $lang->edit->help_strike = "취소선을 긋습니다";
-  $lang->edit->help_add_url= "link를 만듭니다";
-  $lang->edit->help_add_image = "이미지를 추가합니다";
-  $lang->edit->help_add_multimedia = "동영상/플래쉬등을 추가합니다";
-  $lang->edit->help_add_emoticon = "이모티콘을 추가합니다";
-  $lang->edit->help_add_quotation = "글박스를 만들거나 글숨김 기능을 추가합니다";
-  $lang->edit->help_add_html = "html 코드를 직접 입력합니다";
-  $lang->edit->help_add_html = "html 코드를 직접 입력합니다";
+  $lang->edit->help_redo = "이전 동작으로 돌아갑니다";
+  $lang->edit->help_undo = "다음 동작으로 돌아갑니다";
   $lang->edit->help_align_left = "왼쪽 정렬을 합니다";
   $lang->edit->help_align_center = "가운데 정렬을 합니다";
   $lang->edit->help_align_right = "오른쪽 정렬을 합니다";
