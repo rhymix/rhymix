@@ -50,8 +50,7 @@
   $lang->edit->help_align_right = "오른쪽 정렬을 합니다";
   $lang->edit->help_add_indent = "들여쓰기를 합니다";
   $lang->edit->help_remove_indent = "들여쓰기를 제거합니다";
-  $lang->edit->help_use_paragrapth = "정렬, 들여쓰기등의 문단 꾸미기 기능을 사용합니다.\n문단구분자로 P태그가 적용됩니다.\nShift+엔터를 이용하시면
- BR태그가 적용됩니다.";
+  $lang->edit->help_use_paragrapth = "문단을 이어 쓰시기를 원하실때에는 shift+엔터 키를 누르세요 (alt-S를 누르면 바로 저장이 됩니다)";
 
   $lang->edit->upload = '첨부';
   $lang->edit->upload_file = '파일 첨부'; 
