@@ -62,7 +62,7 @@
     <th>{$lang->uploaded_file}</th>
     <td>
       <!--@foreach($document->uploaded_list as $key => $file)-->
-        <div><a href="{$file->download_url}"/>{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+        <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
       <!--@end-->
     </td>
   </tr>
