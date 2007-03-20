@@ -49,7 +49,7 @@
     </div>
 
     <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
-    <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox" style="display:none">
+    <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox">
       <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
       <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
       <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
@@ -59,11 +59,6 @@
       <img src="./images/list_bullet.gif" alt="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
     </div>
 
-    <!-- IE의 경우 엔터시 p 태그를 쓸지 br 태그로 변경을 할지 체크하는 항목 -->
-    <div class="editor_parabox" id="editor_use_paragraph_box_{$upload_target_srl}">
-      <input type="checkbox" name="use_paragraph" id="editor_use_paragraph_{$upload_target_srl}" onclick="editorUseParagraph(this,'{$upload_target_srl}');" />
-      <label for="editor_use_paragraph_{$upload_target_srl}">{$lang->edit->use_paragraph}</label>
-    </div>
   </div>
 
   <div class="editor_area_2">

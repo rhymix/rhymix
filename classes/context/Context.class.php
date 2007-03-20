@@ -678,7 +678,7 @@
             $content = preg_replace_callback('!<(div|img)([^\>]*)editor_component=([^\>]*?)>!is', array($this,'_transEditorComponent'), $content);
 
             // <br> 코드 변환
-            $content = preg_replace('/<br([^>]*)>/i','<br$1/>', $content);
+            $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
             // <img ...> 코드를 <img ... /> 코드로 변환
             $content = preg_replace('/<img([^>^\/]*)(\/>|>)/i','<img$1 />', $content);

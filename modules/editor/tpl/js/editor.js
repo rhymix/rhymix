@@ -78,6 +78,7 @@ function editorStart(upload_target_srl) {
     xAddEventListener(document,'mousedown',editorHideObject);
 
     // 문단작성기능 on/off
+    /*
     if(xIE4Up) {
         xDisplay('editor_paragraph_'+upload_target_srl, 'none');
         xDisplay('editor_use_paragraph_box_'+upload_target_srl, 'inline');
@@ -85,6 +86,7 @@ function editorStart(upload_target_srl) {
         xDisplay('editor_paragraph_'+upload_target_srl, 'block');
         xDisplay('editor_use_paragraph_box_'+upload_target_srl, 'none');
     }
+    */
 
     // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
     editorSyncContent(fo_obj.content, upload_target_srl);
@@ -184,6 +186,7 @@ function editorReplaceHTML(iframe_obj, html) {
 // 입력 키에 대한 이벤트 체크
 function editorKeyPress(evt) {
     var e = new xEvent(evt);
+    /*
     if (e.keyCode == 13) {
         if(xIE4Up && e.shiftKey == false && !xGetElementById("use_paragraph").checked ) {
             if(e.target.parentElement.document.designMode!="On") return;
@@ -195,6 +198,7 @@ function editorKeyPress(evt) {
             return;
         }
     }
+    */
 
     if (e.ctrlKey) {
         switch(e.keyCode) {
