@@ -283,8 +283,8 @@ function editorProcComponent(ret_obj, response_tags) {
 
     // 컴포넌트의 동작이 새창 열기 일 경우
     if(open_window == 'Y') {
-        var win_left = screen.availWidth / 3;
-        var win_top = screen.availHeight / 3;
+        var win_left = 10;
+        var win_top = 10;
         winopen(popup_url, 'editorComponent', 'left='+win_left+',top='+win_top+',width=10,height=10,toolbars=no,scrollbars=no');
 
     // 새창 열기가 아니면 정해진 영역에 innerHTML로 tpl 입력

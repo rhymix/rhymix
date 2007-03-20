@@ -130,6 +130,7 @@ function insertQuotation() {
 
     if(!content) content = "&nbsp;";
 
+    var text = "\n<div editor_component=\"quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" bold=\""+bold+"\" color=\""+color+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
 
     if(selected_node) {
         selected_node.setAttribute("use_folder", use_folder);
@@ -144,9 +145,12 @@ function insertQuotation() {
         selected_node.setAttribute("border_color", border_color);
         selected_node.setAttribute("bg_color", bg_color);
         selected_node.setAttribute("style", style);
+
+        if(selected_node.outHTML) selected_node.outHTML = text;
+
         opener.editorFocus(opener.editorPrevSrl);
+
     } else {
-        var text = "\n<div editor_component=\"quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" bold=\""+bold+"\" color=\""+color+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
 
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)

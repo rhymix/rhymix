@@ -114,7 +114,6 @@
             } else {
                 $output .= sprintf('<div style="%s">', $style);
             }
-            debugPrint($output);
             return $output;
         }
 
