@@ -10,8 +10,8 @@ function getQuotation() {
     if(!node || node.nodeName != "DIV") return;
 
     var use_folder = node.getAttribute("use_folder");
-    var opener = node.getAttribute("opener");
-    var closer = node.getAttribute("closer");
+    var folder_opener = node.getAttribute("folder_opener");
+    var folder_closer = node.getAttribute("folder_closer");
     var border_style = node.getAttribute("border_style");
     var border_thickness = node.getAttribute("border_thickness");
     var border_color = node.getAttribute("border_color");
@@ -23,11 +23,11 @@ function insertQuotation() {
     if(typeof(opener)=="undefined") return;
 
     var use_folder = "N";
-    if(xGetElementById("quotation_user").checked) use_folder = "Y";
+    if(xGetElementById("quotation_use").checked) use_folder = "Y";
 
-    var opener = xGetElementById("quotation_opener").value;
-    var closer = xGetElementById("quotation_closer").value;
-    if(!opener||!closer) use_folder = "N";
+    var folder_opener = xGetElementById("quotation_opener").value;
+    var folder_closer = xGetElementById("quotation_closer").value;
+    if(!folder_opener||!folder_closer) use_folder = "N";
 
     var border_style = "solid";
     if(xGetElementById("border_style_none").checked) border_style = "none";
@@ -36,15 +36,15 @@ function insertQuotation() {
     if(xGetElementById("border_style_left_solid").checked) border_style = "left_solid";
     if(xGetElementById("border_style_left_dotted").checked) border_style = "left_dotted";
 
-    var border_thickness = parserInt(xGetElementById("border_thickness").value,10);
+    var border_thickness = parseInt(xGetElementById("border_thickness").value,10);
 
     var border_color = "#"+xGetElementById("border_color_input").value;
 
     var bg_color = "#"+xGetElementById("bg_color_input").value;
 
-    var content = editorGetSelectedHtml(opener.editorPrevSrl);
+    var content = opener.editorGetSelectedHtml(opener.editorPrevSrl);
 
-    var text = "<div editor_component=\"quotation\" class=\"editor_quotation\" style=\"width:100%\" use_folder=\""+use_folder+"\" opener=\""+opener+"\" closer=\""+closer+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\">"+content+"</div>";
+    var text = "<div editor_component=\"quotation\" class=\"editor_quotation\" style=\"width:100%\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\">"+content+"</div>";
     alert(text);
     return;
 
