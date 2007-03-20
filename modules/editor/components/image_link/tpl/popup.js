@@ -6,9 +6,15 @@ function getImage() {
     // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
     if(typeof(opener)=="undefined") return;
 
+    // url이 미리 입력되어 있을 경우 scale구해줌
+    if(xGetElementById("image_url").value) {
+        setTimeout(function() { getImageScale(); }, 500);
+        return;
+    }
+
+    // 부모 위지윅 에디터에서 선택된 영역이 있으면 처리
     var node = opener.editorPrevNode;
     if(!node || node.nodeName != "IMG") {
-        getImageScale();
         return;
     }
     var src = node.getAttribute("src");
