@@ -149,7 +149,9 @@
                 $file_info = $file_list[$i];
                 if(!$file_info->file_srl) continue;
 
-                $buff .= sprintf("parent.editor_insert_uploaded_file(\"%d\", \"%d\",\"%s\", \"%d\", \"%s\", \"%s\", \"%s\");\n", $upload_target_srl, $file_info->file_srl, $file_info->source_filename, $file_info->file_size, FileHandler::filesize($file_info->file_size), $file_info->direct_download=='Y'?$file_info->uploaded_filename:'', $file_info->sid);
+                $uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
+
+                $buff .= sprintf("parent.editor_insert_uploaded_file(\"%d\", \"%d\",\"%s\", \"%d\", \"%s\", \"%s\", \"%s\");\n", $upload_target_srl, $file_info->file_srl, $file_info->source_filename, $file_info->file_size, FileHandler::filesize($file_info->file_size), $file_info->direct_download=='Y'?$uploaded_filename:'', $file_info->sid);
             }
 
             header("Content-Type: text/html; charset=UTF-8");
