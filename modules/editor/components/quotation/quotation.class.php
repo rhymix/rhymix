@@ -56,24 +56,66 @@
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
          **/
         function transHTML($xml_obj) {
-            $src = $xml_obj->attrs->src;
-            $alt = $xml_obj->attrs->alt;
-            $width = $xml_obj->attrs->width;
-            $height = $xml_obj->attrs->height;
-            $align = $xml_obj->attrs->align;
-            $border = $xml_obj->attrs->border;
+            $use_folder = $xml_obj->attrs->use_folder;
+            $folder_opener = $xml_obj->attrs->folder_opener;
+            if(!$folder_opener) $folder_opener = "more...";
+            $folder_closer = $xml_obj->attrs->folder_closer;
+            if(!$folder_closer) $folder_closer= "close...";
+            $bold = $xml_obj->attrs->bold;
+            $color = $xml_obj->attrs->color;
+            $margin = $xml_obj->attrs->margin;
+            $padding = $xml_obj->attrs->padding;
+            $border_style = $xml_obj->attrs->border_style;
+            $border_thickness = $xml_obj->attrs->border_thickness;
+            $border_color = $xml_obj->attrs->border_color;
+            $bg_color = $xml_obj->attrs->bg_color;
 
-            $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
-            if(!$alt) $alt = $src;
+            $output = "";
+            $style = sprintf('margin:%spx;padding:%spx;background-color:#%s;', $margin, $padding, $bg_color);
+            switch($border_style) {
+                case "solid" :
+                        $style .= "border:".$border_thickness."px solid #".$border_color.";";
+                    break;
+                case "dotted" :
+                        $style .= "border:".$border_thickness."px dotted #".$border_color.";";
+                    break;
+                case "left_solid" :
+                        $style .= "border-left:".$border_thickness."px solid #".$border_color.";";
+                    break;
+                case "left_dotted" :
+                        $style .= "border-elft:".$border_thickness."px dotted #".$border_color.";";
+                    break;
+            }
 
-            $output = array();
-            $output = array("src=\"".$src."\"");
-            if($alt) $output[] = "alt=\"".$alt."\"";
-            if($width) $output[] = "width=\"".$width."\"";
-            if($height) $output[] = "height=\"".$height."\"";
-            if($align) $output[] = "align=\"".$align."\"";
-            if($border) $output[] = "border=\"".$border."\"";
-            return "<img ".implode(" ", $output)." />";
+            if($use_folder == "Y") {
+                $folder_id = rand(1000000,9999999);
+
+                if($bold == "Y") $class = "bold";
+                switch($color) {
+                    case "red" :
+                            $class .= " editor_red_text";
+                        break;
+                    case "yellow" :
+                            $class .= " editor_yellow_text";
+                        break;
+                    case "green" :
+                            $class .= " editor_green_text";
+                        break;
+                    default :
+                            $class .= " editor_blue_text";
+                        break;
+                }
+
+                $style .= "display:none;";
+                $output .= sprintf('<div id="folder_open_%s" style="margin:%spx;display:block;"><a class="%s" href="#" onclick="zbxe_folder_open(\'%s\');return false;">%s</a></div>', $folder_id, $margin, $class, $folder_id, $folder_opener);
+                $output .= sprintf('<div id="folder_close_%s" style="margin:%spx;display:none;"><a class="%s" href="#" onclick="zbxe_folder_close(\'%s\');return false;">%s</a></div>', $folder_id, $margin, $class, $folder_id, $folder_closer);
+
+                $output .= sprintf('<div style="%s" id="folder_%s">', $style, $folder_id);
+            } else {
+                $output .= sprintf('<div style="%s">', $style);
+            }
+            debugPrint($output);
+            return $output;
         }
 
     }

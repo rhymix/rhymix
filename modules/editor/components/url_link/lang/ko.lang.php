@@ -9,7 +9,7 @@
     $lang->urllink_title = "제목";
     $lang->urllink_url = "URL";
     $lang->urllink_open_window = "새창열기";
-    $lang->urllink_bold = " 글자 굵게";
+    $lang->urllink_bold = "글자 굵게";
 
     $lang->urllink_color = "링크 색상 ";
     $lang->urllink_color_blue = "파란색";

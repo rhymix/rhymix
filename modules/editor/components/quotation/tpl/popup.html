@@ -10,13 +10,34 @@
     <div class="body"><input type="checkbox" id="quotation_use" value="Y" checked="true" onclick="toggle_folder(this)" /></div>
 
     <div id="folder_area" style="display:block">
+        <div class="header">{$lang->quotation_opener}</div>
+        <div class="body"><input type="text" class="editor_input_long" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></div>
 
-      <div class="header">{$lang->quotation_opener}</div>
-      <div class="body"><input type="text" class="editor_input_long" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></div>
+        <div class="header">{$lang->quotation_closer}</div>
+        <div class="body"><input type="text" class="editor_input_long" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></div>
 
-      <div class="header">{$lang->quotation_closer}</div>
-      <div class="body"><input type="text" class="editor_input_long" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></div>
+        <div class="header">{$lang->folder_text_bold}</div>
+        <div class="body"><input type="checkbox" name="bold" value="Y" id="quotation_bold" /> <label for="quotation_bold">{$lang->about_folder_text_bold}</label></div>
 
+        <div class="header">{$lang->folder_text_color}</div>
+        <div class="body">
+          <span>
+            <input type="radio" name="color" value="blue" id="quotation_color_blue" />
+            <label for="quotation_color_blue" class="editor_blue_text">{$lang->folder_text_color_blue}</label>
+          </span>
+          <span>
+            <input type="radio" name="color" value="red" id="quotation_color_red" />
+            <label for="quotation_color_red" class="editor_red_text">{$lang->folder_text_color_red}</label>
+          </span>
+          <span>
+            <input type="radio" name="color" value="yellow" id="quotation_color_yellow" />
+            <label for="quotation_color_yellow" class="editor_yellow_text">{$lang->folder_text_color_yellow}</label>
+          </span>
+          <span>
+            <input type="radio" name="color" value="green" id="quotation_color_green" />
+            <label for="quotation_color_green" class="editor_green_text">{$lang->folder_text_color_green}</label>
+          </span>
+        </div>
     </div>
 
     <div class="header">{$lang->quotation_padding}</div>

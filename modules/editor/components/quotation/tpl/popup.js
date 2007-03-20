@@ -15,6 +15,8 @@ function getQuotation() {
     var use_folder = node.getAttribute("use_folder");
     var folder_opener = node.getAttribute("folder_opener");
     var folder_closer = node.getAttribute("folder_closer");
+    var bold = node.getAttribute("bold");
+    var color = node.getAttribute("color");
     var margin = node.getAttribute("margin");
     var padding = node.getAttribute("padding");
     var border_style = node.getAttribute("border_style");
@@ -24,6 +26,23 @@ function getQuotation() {
 
     if(use_folder=="Y") xGetElementById("quotation_use").checked = true;
     else xGetElementById("quotation_use").checked = false;
+    toggle_folder( xGetElementById("quotation_use") );
+
+    if(bold=="Y") xGetElementById("quotation_bold").checked = true;
+    switch(color) {
+      case "red" :
+          xGetElementById("quotation_color_red").checked = true;
+        break;
+      case "yellow" :
+          xGetElementById("quotation_color_yellow").checked = true;
+        break;
+      case "green" :
+          xGetElementById("quotation_color_green").checked = true;
+        break;
+      default :
+          xGetElementById("quotation_color_blue").checked = true;
+        break;
+    }
 
     xGetElementById("quotation_opener").value = folder_opener;
     xGetElementById("quotation_closer").value = folder_closer;
@@ -65,6 +84,13 @@ function insertQuotation() {
     var folder_closer = xGetElementById("quotation_closer").value;
     if(!folder_opener||!folder_closer) use_folder = "N";
 
+    var bold = "N";
+    if(xGetElementById("quotation_bold").checked) bold = "Y";
+    var color = "blue";
+    if(xGetElementById("quotation_color_red").checked) color = "red";
+    if(xGetElementById("quotation_color_yellow").checked) color = "yellow";
+    if(xGetElementById("quotation_color_green").checked) color = "green";
+
     var margin = parseInt(xGetElementById("quotation_margin").value,10);
 
     var padding = parseInt(xGetElementById("quotation_padding").value,10);
@@ -104,12 +130,29 @@ function insertQuotation() {
 
     if(!content) content = "&nbsp;";
 
-    var text = "\n<div editor_component=\"quotation\" class=\"editor_quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
 
-    opener.editorFocus(opener.editorPrevSrl);
-    var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-    opener.editorReplaceHTML(iframe_obj, text);
-    opener.editorFocus(opener.editorPrevSrl);
+    if(selected_node) {
+        selected_node.setAttribute("use_folder", use_folder);
+        selected_node.setAttribute("folder_opener", folder_opener);
+        selected_node.setAttribute("folder_closer", folder_closer);
+        selected_node.setAttribute("bold", bold);
+        selected_node.setAttribute("color", color);
+        selected_node.setAttribute("margin", margin);
+        selected_node.setAttribute("padding", padding);
+        selected_node.setAttribute("border_style", border_style);
+        selected_node.setAttribute("border_thickness", border_thickness);
+        selected_node.setAttribute("border_color", border_color);
+        selected_node.setAttribute("bg_color", bg_color);
+        selected_node.setAttribute("style", style);
+        opener.editorFocus(opener.editorPrevSrl);
+    } else {
+        var text = "\n<div editor_component=\"quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" bold=\""+bold+"\" color=\""+color+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
+
+        opener.editorFocus(opener.editorPrevSrl);
+        var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
+        opener.editorReplaceHTML(iframe_obj, text);
+        opener.editorFocus(opener.editorPrevSrl);
+    }
 
     window.close();
 }

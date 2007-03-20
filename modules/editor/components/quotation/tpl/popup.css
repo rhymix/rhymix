@@ -1,5 +1,5 @@
 .editor_window {
-  width:550px;
+  width:555px;
   text-align:center;
 }
 
@@ -29,10 +29,17 @@
 
 .body {
   float:left;
-  width:410px;
+  width:400px;
   text-align:left;
   margin:5px;
   font-size:9pt;
+}
+
+#folder_area {
+  clear:left;
+  height:115px;
+  border:1px dotted #DDDDDD;
+  margin:0px 10px 10px 10px;
 }
 
 .body label {
@@ -48,7 +55,7 @@
 }
 
 .editor_input_long {
-  width:350px;
+  width:380px;
   height:13px;
   font-size:9pt;
   border:1px solid #AAAAAA;
@@ -113,6 +120,7 @@ img.bg_preview_color {
 .editor_color_box {
   clear:both;
   height:65px;
+  width:400px;
   border:1px solid #DDDDDD;
   padding:2px;
   margin-bottom:3px;

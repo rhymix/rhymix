@@ -675,7 +675,7 @@
          **/
         function transContent($content) {
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<(div|img)([^\>]*?)>(<\/div>)?!is', array($this,'_transMultimedia'), $content);
+            $content = preg_replace_callback('!<(div|img)([^\>]*)editor_component=([^\>]*?)>!is', array($this,'_transEditorComponent'), $content);
 
             // <br> 코드 변환
             $content = str_replace(array("<BR>","<br>","<Br>"),"<br />", $content);
@@ -690,7 +690,7 @@
          * @brief 내용의 멀티미디어 태그를 html 태그로 변경
          * <img ... class="multimedia" ..> 로 되어 있는 코드를 변경
          **/
-        function _transMultimedia($matches) {
+        function _transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);

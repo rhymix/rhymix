@@ -111,7 +111,27 @@ function resizeImagePopup(evt) {
     if(popup) popup.focus();
 }
 
-// 에디터에서 사용하는 내용 여닫는 코드 (고정)
+// 에디터에서 사용하는 내용 여닫는 코드 (고정, zbxe용)
+function zbxe_folder_open(id) {
+    var open_text_obj = xGetElementById("folder_open_"+id);
+    var close_text_obj = xGetElementById("folder_close_"+id);
+    var folder_obj = xGetElementById("folder_"+id);
+    open_text_obj.style.display = "none";
+    close_text_obj.style.display = "block";
+    folder_obj.style.display = "block";
+}
+
+function zbxe_folder_close(id) {
+    var open_text_obj = xGetElementById("folder_open_"+id);
+    var close_text_obj = xGetElementById("folder_close_"+id);
+    var folder_obj = xGetElementById("folder_"+id);
+    open_text_obj.style.display = "block";
+    close_text_obj.style.display = "none";
+    folder_obj.style.display = "none";
+}
+
+
+// 에디터에서 사용하는 내용 여닫는 코드 (고정, zb5 beta 호환용)
 function svc_folder_open(id) {
     var open_text_obj = xGetElementById("_folder_open_"+id);
     var close_text_obj = xGetElementById("_folder_close_"+id);
