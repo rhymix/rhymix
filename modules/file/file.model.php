@@ -61,12 +61,13 @@
 
             if($file_list && !is_array($file_list)) $file_list = array($file_list);
 
-            for($i=0;$i<count($file_list);$i++) {
-                $direct_download = $file_list[$i]->direct_download;
-                
-                $file_list[$i]->download_url = $this->getDownloadUrl($file_list[$i]->file_srl, $file_list[$i]->sid);
-
+            $file_count = count($file_list);
+            for($i=0;$i<$file_count;$i++) {
+                $file = $file_list[$i];
+                $file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+                $file_list[$i] = $file;
             }
+
             return $file_list;
         }
 
@@ -114,6 +115,11 @@
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
+
+            foreach($output->data as $key => $file) {
+                $file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+                $output->data[$key] = $file;
+            }
 
             return $output;
         }

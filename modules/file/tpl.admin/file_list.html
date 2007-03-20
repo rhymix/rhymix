@@ -30,11 +30,11 @@
     <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
     <td>{$val->source_filename}</td>
     <td>{$val->file_size}</td>
-    <td>{$val->downloaded_count}</td>
+    <td>{$val->download_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
     <td>{$val->ipaddress}</td>
     <td><a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$lang->cmd_move}</a></td>
-    <td><a href="./?mid={$val->mid}&amp;act=procDownloadFile&amp;file_srl={$val->file_srl}&amp;sid={$val->sid}&amp;document_srl={$val->document_srl}">{$lang->cmd_download}</a></td>
+    <td><a href="{$val->download_url}">{$lang->cmd_download}</a></td>
   </tr>
   <!--@end-->
   </table>
