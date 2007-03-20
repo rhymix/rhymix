@@ -92,10 +92,13 @@
                 }
 
                 $style .= "display:none;";
-                $output .= sprintf('<div id="folder_open_%s" style="margin:%spx;display:block;"><a class="%s" href="#" onclick="zbxe_folder_open(\'%s\');return false;">%s</a></div>', $folder_id, $margin, $class, $folder_id, $folder_opener);
-                $output .= sprintf('<div id="folder_close_%s" style="margin:%spx;display:none;"><a class="%s" href="#" onclick="zbxe_folder_close(\'%s\');return false;">%s</a></div>', $folder_id, $margin, $class, $folder_id, $folder_closer);
+
+                $folder_margin = sprintf("%spx %spx %spx %spx", $margin, $margin, 10, $margin);
+                $output .= sprintf('<div id="folder_open_%s" style="margin:%s;display:block;"><a class="%s" href="#" onclick="zbxe_folder_open(\'%s\');return false;">%s</a></div>', $folder_id, $folder_margin, $class, $folder_id, $folder_opener);
+                $output .= sprintf('<div id="folder_close_%s" style="margin:%s;display:none;"><a class="%s" href="#" onclick="zbxe_folder_close(\'%s\');return false;">%s</a></div>', $folder_id, $folder_margin, $class, $folder_id, $folder_closer);
 
                 $output .= sprintf('<div style="%s" id="folder_%s">', $style, $folder_id);
+                debugPrint($output);
             } else {
                 $output .= sprintf('<div style="%s">', $style);
             }
