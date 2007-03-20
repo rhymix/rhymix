@@ -124,7 +124,7 @@ function insertQuotation() {
                 style += "border-left:"+border_thickness+"px solid #"+border_color+";";
             break;
         case "left_dotted" :
-                style += "border-elft:"+border_thickness+"px dotted #"+border_color+";";
+                style += "border-left:"+border_thickness+"px dotted #"+border_color+";";
             break;
     }
 
@@ -146,7 +146,40 @@ function insertQuotation() {
         selected_node.setAttribute("bg_color", bg_color);
         selected_node.setAttribute("style", style);
 
-        if(selected_node.outHTML) selected_node.outHTML = text;
+        selected_node.style.margin = margin+"px";
+        selected_node.style.padding = padding +"px";
+        selected_node.style.backgroundColor = "#"+bg_color;
+
+        selected_node.style.borderStyle = "none";
+        selected_node.style.borderWidth = "0px";
+
+        switch(border_style) {
+            case "solid" :
+                    selected_node.style.borderStyle = "solid";
+                    selected_node.style.borderWidth = border_thickness+"px";
+                    selected_node.style.borderColor = "#"+border_color;
+                break;
+            case "dotted" :
+                    selected_node.style.borderStyle = "dotted";
+                    selected_node.style.borderWidth = border_thickness+"px";
+                    selected_node.style.borderColor = "#"+border_color;
+                break;
+            case "left_solid" :
+                    selected_node.style.borderLeftStyle = "solid";
+                    selected_node.style.borderLeftWidth = border_thickness+"px";
+                    selected_node.style.borderLeftColor = "#"+border_color;
+                break;
+            case "left_dotted" :
+                    selected_node.style.borderLeftStyle = "dotted";
+                    selected_node.style.borderLeftWidth = border_thickness+"px";
+                    selected_node.style.borderCLeftColor = "#"+border_color;
+                break;
+            default :
+                    selected_node.style.borderStyle = "solid";
+                    selected_node.style.borderWidth = "0px";
+                    selected_node.style.borderColor = "#"+border_color;
+                break;
+        }
 
         opener.editorFocus(opener.editorPrevSrl);
 
