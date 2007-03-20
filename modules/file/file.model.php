@@ -25,6 +25,13 @@
         }
 
         /**
+         * @brief 다운로드 경로를 구함
+         **/
+        function getDownloadUrl($file_srl, $sid) {
+            return "./?module=file&amp;act=procDownload&amp;file_srl=".$file_srl."&amp;sid=".$sid;
+        }
+
+        /**
          * @brief 파일 정보를 구함
          **/
         function getFile($file_srl) {
@@ -35,10 +42,7 @@
             if(!$output->toBool()) return $output;
 
             $file = $output->data;
-            $direct_download = $file->direct_download;
-                
-            if($direct_download=='Y') $file->download_url = $uploaded_filename;
-            else $file->download_url = "./?module=file&amp;act=procDownload&amp;file_srl=".$file->file_srl."&amp;sid=".$file->sid;
+            $file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
 
             return $file;
         }
@@ -60,12 +64,7 @@
             for($i=0;$i<count($file_list);$i++) {
                 $direct_download = $file_list[$i]->direct_download;
                 
-                if($direct_download=='Y') {
-                    $download_url = Context::getRequestUri().substr($file_list[$i]->uploaded_filename,2);
-                    $file_list[$i]->download_url = $download_url;
-                } else {
-                    $file_list[$i]->download_url = "./?module=file&amp;act=procDownload&amp;file_srl=".$file_list[$i]->file_srl."&amp;sid=".$file_list[$i]->sid;
-                }
+                $file_list[$i]->download_url = $this->getDownloadUrl($file_list[$i]->file_srl, $file_list[$i]->sid);
 
             }
             return $file_list;
