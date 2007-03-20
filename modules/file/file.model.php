@@ -32,7 +32,15 @@
 
             $args->file_srl = $file_srl;
             $output = $oDB->executeQuery('file.getFile', $args);
-            return $output->data;
+            if(!$output->toBool()) return $output;
+
+            $file = $output->data;
+            $direct_download = $file->direct_download;
+                
+            if($direct_download=='Y') $file->download_url = $uploaded_filename;
+            else $file->download_url = "./?module=file&amp;act=procDownload&amp;file_srl=".$file->file_srl."&amp;sid=".$file->sid;
+
+            return $file;
         }
 
         /**
@@ -51,12 +59,14 @@
 
             for($i=0;$i<count($file_list);$i++) {
                 $direct_download = $file_list[$i]->direct_download;
+                
+                if($direct_download=='Y') {
+                    $download_url = Context::getRequestUri().substr($file_list[$i]->uploaded_filename,2);
+                    $file_list[$i]->download_url = $download_url;
+                } else {
+                    $file_list[$i]->download_url = "./?module=file&amp;act=procDownload&amp;file_srl=".$file_list[$i]->file_srl."&amp;sid=".$file_list[$i]->sid;
+                }
 
-                if($direct_download!='Y') continue;
-
-                $uploaded_filename = Context::getRequestUri().substr($file_list[$i]->uploaded_filename,2);
-
-                $file_list[$i]->uploaded_filename = $uploaded_filename;
             }
             return $file_list;
         }
@@ -113,7 +123,10 @@
          * @brief 파일 출력
          * 이미지나 멀티미디어등이 아닌 download를 받을 때 사용하는 method
          **/
-        function procDownload($file_srl, $sid) {
+        function procDownload() {
+            $file_srl = Context::get('file_srl');
+            $sid = Context::get('sid');
+
             // 파일의 정보를 DB에서 받아옴
             $file_obj = $this->getFile($file_srl);
             if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();

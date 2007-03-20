@@ -193,7 +193,7 @@ function editor_insert_file(upload_target_srl) {
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
     var upload_target_srl = fo_obj.upload_target_srl.value;
-    var url = "./?mid="+mid+"&amp;act=procDownloadFile&amp;upload_target_srl="+upload_target_srl+"&amp;file_srl="+file_srl+"&amp;sid="+sid;
+    var url = "./?module=file&amp;act=procDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
     openComponent("url_link", upload_target_srl, url);
   } 
 }

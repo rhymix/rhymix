@@ -61,7 +61,7 @@
     <td>{$lang->uploaded_file}</td>
     <td>
       <!--@foreach($document->uploaded_list as $key => $file)-->
-        <div><a href="./?mid={$mid}&amp;act=procDownloadFile&amp;file_srl={$file->file_srl}&amp;sid={$file->sid}&amp;upload_target_srl={$file->upload_target_srl}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+        <div><a href="{$file->download_url}"/>{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
       <!--@end-->
     </td>
   </tr>
