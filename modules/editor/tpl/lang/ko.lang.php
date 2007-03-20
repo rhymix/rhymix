@@ -19,6 +19,16 @@
     "Arial",
   );
 
+  $lang->edit->header = "형식";
+  $lang->edit->header_list = array(
+    "h1" => "큰 제목 (h1)",
+    "h2" => "중간 제목 (h2)",
+    "h3" => "작은 제목 (h3)",
+    "h4" => "제목 (h4)",
+    "h5" => "일반 (h5)",
+    "h6" => "작은글 (h6)",
+  );
+
   $lang->edit->image_url = '이미지 경로';
 
   $lang->edit->multimedia_url = '멀티미디어 경로';

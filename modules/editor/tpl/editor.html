@@ -30,6 +30,12 @@
         <option value="6">24pt</option>
         <option value="7">36pt</option>
       </select>
+      <select onChange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
+        <option value="">{$lang->edit->header}</option>
+        <!--@foreach($lang->edit->header_list as $key=>$obj)-->
+        <option value="{$key}">{$obj}</option>
+        <!--@end-->
+      </select>
     </div>
 
     <!-- 에디팅 관련 아이콘 -->

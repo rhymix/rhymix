@@ -37,3 +37,46 @@ a.bold {
 }
 
 
+div,body {
+  font-size:9pt;
+  font-weight:normal;
+}
+
+h1 {
+  font-size:20pt;
+  font-weight:bold;
+  background-color:#efefef;
+  color:#0f217c;
+  padding:5px;
+  border-bottom:1px solid #445bcd;
+}
+
+h2 {
+  font-size:16pt;
+  font-weight:bold;
+  background-color:#efefef;
+  padding:3px;
+  border-bottom:1px solid #445bcd;
+}
+
+h3 {
+  font-size:13pt;
+  font-weight:normal;
+  background-color:#efefef;
+  padding:3px;
+}
+
+h4 {
+  font-size:10pt;
+  font-weight:bold;
+}
+
+h5 {
+  font-size:9pt;
+  font-weight:normal;
+}
+
+h6 {
+  font-size:8pt;
+  font-weight:normal;
+}
