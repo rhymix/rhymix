@@ -42,14 +42,15 @@
     <td height="100" valign="top">{$document->content}</td>
   </tr>
   <tr>
-    <td colspan="2">
-      {$lang->document_url} : {getUrl()}{$document->document_srl}
-      <!--@if($document->allow_trackback=='Y')-->
-      <br />
-      {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
-      <!--@end-->
-    </td>
+    <th>{$lang->document_url}</th>
+    <td>{getUrl()}{$document->document_srl}</td>
   </tr>
+  <!--@if($document->allow_trackback=='Y')-->
+  <tr>
+    <th>{$lang->trackback_url}</th>
+    <td>{getUrl()}trackback/{$document->document_srl}</td>
+  </tr>
+  <!--@end-->
   <!--@if($document->tags)-->
   <tr>
     <th>{$lang->tag}</th>
@@ -58,7 +59,7 @@
   <!--@end-->
   <!--@if($document->uploaded_count && $document->uploaded_list)-->
   <tr>
-    <td>{$lang->uploaded_file}</td>
+    <th>{$lang->uploaded_file}</th>
     <td>
       <!--@foreach($document->uploaded_list as $key => $file)-->
         <div><a href="{$file->download_url}"/>{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
