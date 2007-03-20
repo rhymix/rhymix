@@ -2,6 +2,7 @@
  * popup으로 열렸을 경우 부모창의 위지윅에디터에 select된 멀티미디어 컴포넌트 코드를 체크하여
  * 있으면 가져와서 원하는 곳에 삽입
  **/
+var selected_node = null;
 function getQuotation() {
     // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
     if(typeof(opener)=="undefined") return;
@@ -9,13 +10,48 @@ function getQuotation() {
     var node = opener.editorPrevNode;
     if(!node || node.nodeName != "DIV") return;
 
+    selected_node = node;
+
     var use_folder = node.getAttribute("use_folder");
     var folder_opener = node.getAttribute("folder_opener");
     var folder_closer = node.getAttribute("folder_closer");
+    var margin = node.getAttribute("margin");
+    var padding = node.getAttribute("padding");
     var border_style = node.getAttribute("border_style");
     var border_thickness = node.getAttribute("border_thickness");
     var border_color = node.getAttribute("border_color");
     var bg_color = node.getAttribute("bg_color");
+
+    if(use_folder=="Y") xGetElementById("quotation_use").checked = true;
+    else xGetElementById("quotation_use").checked = false;
+
+    xGetElementById("quotation_opener").value = folder_opener;
+    xGetElementById("quotation_closer").value = folder_closer;
+    xGetElementById("quotation_margin").value = margin;
+    xGetElementById("quotation_padding").value = padding;
+
+    switch(border_style) {
+        case "solid" :
+                xGetElementById("border_style_solid").checked = true;
+            break;
+        case "dotted" :
+                xGetElementById("border_style_dotted").checked = true;
+            break;
+        case "left_solid" :
+                xGetElementById("border_style_left_solid").checked = true;
+            break;
+        case "left_dotted" :
+                xGetElementById("border_style_left_dotted").checked = true;
+            break;
+        default : 
+                xGetElementById("border_style_none").checked = true;
+            break;
+    }
+
+    xGetElementById("border_thickness").value = border_thickness;
+
+    select_color('border', border_color); 
+    select_color('bg', bg_color); 
 }
 
 /* 추가 버튼 클릭시 부모창의 위지윅 에디터에 인용구 추가 */
@@ -29,6 +65,10 @@ function insertQuotation() {
     var folder_closer = xGetElementById("quotation_closer").value;
     if(!folder_opener||!folder_closer) use_folder = "N";
 
+    var margin = parseInt(xGetElementById("quotation_margin").value,10);
+
+    var padding = parseInt(xGetElementById("quotation_padding").value,10);
+
     var border_style = "solid";
     if(xGetElementById("border_style_none").checked) border_style = "none";
     if(xGetElementById("border_style_solid").checked) border_style = "solid";
@@ -38,15 +78,33 @@ function insertQuotation() {
 
     var border_thickness = parseInt(xGetElementById("border_thickness").value,10);
 
-    var border_color = "#"+xGetElementById("border_color_input").value;
+    var border_color = xGetElementById("border_color_input").value;
 
-    var bg_color = "#"+xGetElementById("bg_color_input").value;
+    var bg_color = xGetElementById("bg_color_input").value;
 
-    var content = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+    var content = "";
+    if(selected_node) content = xInnerHtml(selected_node);
+    else content = opener.editorGetSelectedHtml(opener.editorPrevSrl);
 
-    var text = "<div editor_component=\"quotation\" class=\"editor_quotation\" style=\"width:100%\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\">"+content+"</div>";
-    alert(text);
-    return;
+    var style = "margin:"+margin+"px; padding:"+padding+"px; background-color:#"+bg_color+";";
+    switch(border_style) {
+        case "solid" :
+                style += "border:"+border_thickness+"px solid #"+border_color+";";
+            break;
+        case "dotted" :
+                style += "border:"+border_thickness+"px dotted #"+border_color+";";
+            break;
+        case "left_solid" :
+                style += "border-left:"+border_thickness+"px solid #"+border_color+";";
+            break;
+        case "left_dotted" :
+                style += "border-elft:"+border_thickness+"px dotted #"+border_color+";";
+            break;
+    }
+
+    if(!content) content = "&nbsp;";
+
+    var text = "\n<div editor_component=\"quotation\" class=\"editor_quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
 
     opener.editorFocus(opener.editorPrevSrl);
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)

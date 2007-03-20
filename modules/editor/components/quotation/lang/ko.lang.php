@@ -9,6 +9,8 @@
     $lang->quotation_use_folder = "폴더기능 사용";
     $lang->quotation_opener = "열기 버튼 이름";
     $lang->quotation_closer = "닫기 버튼 이름";
+    $lang->quotation_padding = "내부 여백";
+    $lang->quotation_margin = "외부 여백";
     $lang->quotation_border_color = "테두리 색";
     $lang->quotation_border_thickness = "테두리 굵기";
 
