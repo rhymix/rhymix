@@ -61,4 +61,6 @@
   $lang->edit->icon_align_left = '글의 왼쪽으로';
   $lang->edit->icon_align_middle = '가운데 정렬';
   $lang->edit->icon_align_right = '글의 우측으로';
+
+  $lang->about_dblclick_in_editor = '배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다';
 ?>
