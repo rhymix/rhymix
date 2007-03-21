@@ -12,7 +12,7 @@
         var $component_path = '';
 
         // 네이버맵 openapi 키 값
-        var $open_api_key = 'fb697bbfd01b42ab26db22162e166842';
+        var $open_api_key = '22b1f5391a6970e03935444897334066';
 
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
@@ -98,7 +98,7 @@
             $height = $xml_obj->attrs->height;
             $id = "navermap".rand(11111111,99999999);
 
-            $body_code = sprintf('<div id="%s" style="width:%spx;height:%spx;">%s', $id, $width, $height,"\n");
+            $body_code .= sprintf('<div id="%s" style="width:%spx;height:%spx;">%s', $id, $width, $height,"\n");
             $footer_code = 
                 sprintf(
                     '<script type="text/javascript"> '.
