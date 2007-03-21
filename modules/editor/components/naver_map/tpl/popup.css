@@ -1,5 +1,5 @@
 .editor_window {
-  width:400px;
+  width:600px;
   clear:both;
 }
 
@@ -29,7 +29,7 @@
 
 .body {
   float:left;
-  width:250px;
+  width:400px;
   text-align:left;
   margin:5px;
   font-size:9pt;
