@@ -10,7 +10,7 @@ var iframe_id = 'editor_iframe_';
 // upload_target_srl에 대한 form문을 객체로 보관함 
 var editor_form_list = new Array();
 
-// srl값에 해당하는 iframe의 object를 return
+// upload_target_srl값에 해당하는 iframe의 object를 return
 function editorGetIFrame(upload_target_srl) {
     var obj_id = iframe_id+upload_target_srl;
     return xGetElementById(obj_id);
@@ -48,7 +48,7 @@ function editorStart(upload_target_srl) {
 
     // 기본 내용 작성
     var contentHtml = ''+
-        //'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
+        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
@@ -56,7 +56,6 @@ function editorStart(upload_target_srl) {
         content+
         '</body></html>'+
         '';
-
     contentDocument.designMode = 'on';
     contentDocument.open("text/html","replace");
     contentDocument.write(contentHtml);
@@ -86,11 +85,13 @@ function editorStart(upload_target_srl) {
     editorFocus(upload_target_srl);
 }
 
+// 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
 var _editorSyncList = new Array(); 
 function editorSyncContent(obj, upload_target_srl) {
     _editorSyncList[_editorSyncList.length] = {field:obj, upload_target_srl:upload_target_srl}
 }
 
+// 편집기와 폼의 정보를 주기적으로 동기화 시킴
 function _editorSync() {
     for(var i=0;i<_editorSyncList.length;i++) {
         var field = _editorSyncList[i].field;
@@ -103,18 +104,14 @@ function _editorSync() {
 }
 xAddEventListener(window, 'load', _editorSync);
 
-// 문단기능 toggle
-function editorUseParagraph(obj, upload_target_srl) { 
-    toggleDisplay('editor_paragraph_'+upload_target_srl);
-}
-
-// 에디터의 내용 return
+// 에디터의 전체 내용 return
 function editorGetContent(upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
     var html = '';
     html = xInnerHtml(iframe_obj.contentWindow.document.body);
     if(!html) return;
+
     return html.trim();
 }
 
@@ -175,21 +172,25 @@ function editorReplaceHTML(iframe_obj, html) {
     }
 }
 
+// 에디터에 포커스를 줌
+function editorFocus(upload_target_srl) {
+    var iframe_obj = editorGetIFrame(upload_target_srl);
+    iframe_obj.contentWindow.focus();
+}
+
 // 입력 키에 대한 이벤트 체크
 function editorKeyPress(evt) {
     var e = new xEvent(evt);
 
-    // IE에서 enter키를 눌렀을때 P 태그를 span으로 감싸도록 변경
-    if (e.keyCode == 13) {
-        if(xIE4Up && e.shiftKey == false ) {
-            if(e.target.parentElement.document.designMode!="On") return;
-            var obj = e.target.parentElement.document.selection.createRange();
-            obj.pasteHTML('<br />');
-            obj.select();
-            evt.cancelBubble = true;
-            evt.returnValue = false;
-            return;
-        }
+    // IE에서 enter키를 눌렀을때 P 태그 대신 BR 태그 입력
+    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13) {
+        if(e.target.parentElement.document.designMode!="On") return;
+        var obj = e.target.parentElement.document.selection.createRange();
+        obj.pasteHTML('<br />');
+        obj.select();
+        evt.cancelBubble = true;
+        evt.returnValue = false;
+        return;
     }
 
     // alt-S 클릭시 submit하기
@@ -214,29 +215,45 @@ function editorKeyPress(evt) {
                     evt.returnValue = false;
                     return;
                 break;
-        }
+        } 
+        return;
     }
 
     // ctrl-b, i, u, s 키에 대한 처리 (파이어폭스에서도 에디터 상태에서 단축키 쓰도록)
     if (e.ctrlKey) {
         switch(e.keyCode) {
-            case 98 : // b
+            // ie에서 ctrlKey + enter일 경우 P 태그 입력
+            case 13 :
+                    if(xIE4Up) {
+                        if(e.target.parentElement.document.designMode!="On") return;
+                        var obj = e.target.parentElement.document.selection.createRange();
+                        obj.pasteHTML('<P>');
+                        obj.select();
+                        evt.cancelBubble = true;
+                        evt.returnValue = false;
+                        return;
+                    }
+            // bold
+            case 98 :
                     editorDo('Bold',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
-            case 105 : // i
+            // italic
+            case 105 :
                     editorDo('Italic',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
-            case 117 : // u
+            // underline
+            case 117 : 
                     editorDo('Underline',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
-            case 83 : // s
-            case 115 : // s
+            // strike
+            case 83 :
+            case 115 :
                     editorDo('StrikeThrough',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
@@ -270,6 +287,8 @@ function editorEventCheck(evt) {
         case 'Italic' :
         case 'Underline' :
         case 'StrikeThrough' :
+        case 'undo' :
+        case 'redo' :
         case 'justifyleft' :
         case 'justifycenter' :
         case 'justifyright' :
@@ -277,8 +296,6 @@ function editorEventCheck(evt) {
         case 'outdent' :
         case 'insertorderedlist' :
         case 'insertunorderedlist' :
-        case 'undo' :
-        case 'redo' :
                 editorDo(component_name, '', upload_target_srl);
             break;
 
@@ -300,7 +317,7 @@ function openComponent(component_name, upload_target_srl, manual_url) {
     winopen(popup_url, 'editorComponent', 'left=10,top=10,width=10,height=10,toolbars=no,scrollbars=no');
 }
 
-// 본문내에 포함된 컴포넌트를 찾는 함수 (더블클릭시)
+// 더블클릭 이벤트 발생시에 본문내에 포함된 컴포넌트를 찾는 함수
 var editorPrevNode = null;
 function editorSearchComponent(evt) {
     var e = new xEvent(evt);
@@ -326,7 +343,7 @@ function editorSearchComponent(evt) {
         }
             
         // 링크거나 텍스트인 경우
-        else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI") {
+        else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI" || obj.nodeName == "P") {
             editor_component = "url_link";
             editorPrevNode = obj;
         }
@@ -355,40 +372,7 @@ function editorSearchComponent(evt) {
     openComponent(editor_component, upload_target_srl);
 }
 
-// focus
-function editorFocus(upload_target_srl) {
-    var iframe_obj = editorGetIFrame(upload_target_srl);
-    iframe_obj.contentWindow.focus();
-}
-
-// 편집 기능 실행
-function editorDo(name, value, target) {
-    if(typeof(target)=='object') _editorDoObject(name, value, target);
-    else _editorDoSrl(name, value, target);
-}
-
-function _editorDoSrl(name, value, upload_target_srl) {
-    var iframe_obj = editorGetIFrame(upload_target_srl);
-    editorFocus(upload_target_srl);
-    try {
-      if(xIE4Up) {
-        iframe_obj.contentWindow.document.execCommand(name, false, value);
-      } else {
-        iframe_obj.contentWindow.document.execCommand(name, false, value);
-      }
-    } catch(e) {
-    }
-    editorFocus(upload_target_srl);
-}
-
-function _editorDoObject(name, value, obj) {
-    if(xIE4Up) {
-        obj.parentElement.document.execCommand(name, false, value);
-    } else {
-        obj.parentNode.execCommand(name, false, value);
-    }
-}
-
+// 마우스 클릭시 이전 object정보를 숨김
 function editorHideObject(evt) {
     if(!editorPrevObj) return;
     var e = new xEvent(evt);
@@ -404,6 +388,32 @@ function editorHideObject(evt) {
     return;
 }
 
+/**
+ * 편집기능 실행
+ */
+
+// 편집 기능 실행
+function editorDo(command, value, target) {
+    var doc = null;
+    // target이 object인지 upload_target_srl인지에 따라 document를 구함
+    if(typeof(target)=="object") {
+        if(xIE4Up) doc = target.parentElement.document;
+        else doc = target.parentNode;
+    } else {
+        var iframe_obj = editorGetIFrame(target);
+        if(xIE4Up) doc = iframe_obj.contentWindow.document;
+        else doc = iframe_obj.contentWindow.document;
+    }
+
+    // 실행
+    doc.execCommand(command, false, value);
+
+    // 포커스
+    if(typeof(target)=="object") target.focus();
+    else editorFocus(target);
+}
+
+// 폰트를 변경
 function editorChangeFontName(obj,srl) {
     var value = obj.options[obj.selectedIndex].value;
     if(!value) return;
@@ -424,29 +434,6 @@ function editorChangeHeader(obj,srl) {
     value = "<"+value+">";
     editorDo('formatblock',value,srl);
     obj.selectedIndex = 0;
-}
-
-function editorDoInsertUrl(link, upload_target_srl) {
-    editorFocus(upload_target_srl);
-    var iframe_obj = editorGetIFrame(srl);
-    editorReplaceHTML(iframe_obj, link);
-}
-
-function editorInsertQuotation(html) {
-    if(!html) return;
-
-    if(!xIE4Up) html += "<br />";
-    editorFocus(editorPrevSrl);
-    var obj = editorGetIFrame(editorPrevSrl)
-    editorReplaceHTML(obj, html);
-    editorFocus(editorPrevSrl);
-}
-
-function editorHighlight(ret_obj, response_tags, obj) {
-    var html = ret_obj['html'];
-    html = "<div class='php_code'>"+html+"</div>";
-    if(!xIE4Up) html += "<br />";
-    editorReplaceHTML(obj, html);
 }
 
 /**
