@@ -154,7 +154,6 @@ function editorGetSelectedNode(upload_target_srl) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
-
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         if(range.pasteHTML) {
@@ -179,6 +178,46 @@ function editorReplaceHTML(iframe_obj, html) {
 // 입력 키에 대한 이벤트 체크
 function editorKeyPress(evt) {
     var e = new xEvent(evt);
+
+    // IE에서 enter키를 눌렀을때 P 태그를 span으로 감싸도록 변경
+    if (e.keyCode == 13) {
+        if(xIE4Up && e.shiftKey == false ) {
+            if(e.target.parentElement.document.designMode!="On") return;
+            var obj = e.target.parentElement.document.selection.createRange();
+            obj.pasteHTML('<br />');
+            obj.select();
+            evt.cancelBubble = true;
+            evt.returnValue = false;
+            return;
+        }
+    }
+
+    // alt-S 클릭시 submit하기
+    if(e.altKey) {
+        switch(e.keyCode) {
+            case 115 :
+                    var obj = e.target;
+                    var body_obj = obj.firstChild.nextSibling;
+                    if(!body_obj) return;
+
+                    var upload_target_srl = body_obj.getAttribute("upload_target_srl");
+                    if(!upload_target_srl) return;
+
+                    var iframe_obj = editorGetIFrame(upload_target_srl);
+                    if(!iframe_obj) return;
+
+                    var fo_obj = iframe_obj.parentNode;
+                    while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+                    if(fo_obj.onsubmit) fo_obj.onsubmit();
+
+                    evt.cancelBubble = true;
+                    evt.returnValue = false;
+                    return;
+                break;
+        }
+    }
+
+    // ctrl-b, i, u, s 키에 대한 처리 (파이어폭스에서도 에디터 상태에서 단축키 쓰도록)
     if (e.ctrlKey) {
         switch(e.keyCode) {
             case 98 : // b
