@@ -11,14 +11,17 @@ function getNaverMap() {
 
     var x = node.getAttribute("x");
     var y = node.getAttribute("y");
-    var width = node.getAttribute("width");
-    var height = node.getAttribute("height");
+    var width = xWidth(node);
+    var height = xHeight(node);
     var address = node.getAttribute("address");
     var selected_address = node.getAttribute("selected_address");
 
     if(!address || !x || !y) return;
     xGetElementById("address").value = address;
     search_address(selected_address);
+
+    xGetElementById("navermap_width").value = width-6;
+    xGetElementById("navermap_height").value = height-6;
 }
 
 function insertNaverMap(obj) {
