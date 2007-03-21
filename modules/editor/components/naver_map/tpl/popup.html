@@ -6,8 +6,11 @@
   <div class="editor_window">
     <div class="editor_title">{$lang->navermap}</div>
 
-    <div class="header">{$lang->navermap_address}</div>
-    <div class="body"><input type="text" class="navermap_address" id="address" value="{$manual_url}" /><input type="button" value="{$lang->cmd_search}" class="editor_button" onclick="search_address();return false;"/></div>
+    <div class="header">{$lang->search_address}</div>
+    <div class="body"><input type="text" class="navermap_address" id="address" value="죽전" /><input type="button" value="{$lang->cmd_search}" class="editor_button" onclick="search_address();return false;"/></div>
+
+    <div class="header">{$lang->address_list}</div>
+    <div class="body"><select id="address_list"></select></div>
 
     <div class="header">{$lang->navermap_width}</div>
     <div class="body"><input type="text" class="navermap_size" id="navermap_width" value="640" />px</div>
@@ -16,7 +19,7 @@
     <div class="body"><input type="text" class="navermap_size" id="navermap_height" value="480" />px</div>
 
     <div class="editor_button_area">
-      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertMultimedia()" />
+      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertNaverMap()" />
       <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
     </div>
   </div>

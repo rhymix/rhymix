@@ -47,6 +47,12 @@
   font-size:9pt;
 }
 
+.navermap_size {
+  width:40px;
+  border:1px solid #AAAAAA;
+  height:12px;
+  font-size:9pt;
+}
 
 .editor_button_area {
   border-top:1px solid #AAAAAA;

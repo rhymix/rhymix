@@ -19,11 +19,12 @@
 
         var $db_info = NULL; ///< @brief DB 정보
 
-        var $js_files = array(); ///< @brief display시에 사용하게 된 js files의 목록
+        var $js_files = array(); ///< @brief display시에 사용하게 되는 js files의 목록
 
-        var $css_files = array(); ///< @brief display시에 사용하게 된 css files의 목록
+        var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
 
-        var $html_header = NULL; ///< @brief display시에 사용하게 된 <head>..</head>내의 스크립트. 거의 사용할 일은 없음
+        var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트. 거의 사용할 일은 없음
+        var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
         /**
          * @brief 언어 정보
@@ -627,16 +628,16 @@
         /**
          * @brief HtmlHeader 추가
          **/
-        function addHtmlHeader($file) {
+        function addHtmlHeader($header) {
             $oContext = &Context::getInstance();
-            return $oContext->_addHtmlHeader($file);
+            return $oContext->_addHtmlHeader($header);
         }
 
         /**
          * @brief HtmlHeader 추가
          **/
-        function _addHtmlHeader($file) {
-            $this->HtmlHeader .= ($this->HtmlHeader?"\n":"").$file;
+        function _addHtmlHeader($header) {
+            $this->html_header .= ($this->html_header?"\n":"").$header;
         }
 
         /**
@@ -651,7 +652,37 @@
          * @brief HtmlHeader return
          **/
         function _getHtmlHeader() {
-            return $this->HtmlHeader;
+            return $this->html_header;
+        }
+
+        /**
+         * @brief HtmlFooter 추가
+         **/
+        function addHtmlFooter($footer) {
+            $oContext = &Context::getInstance();
+            return $oContext->_addHtmlFooter($footer);
+        }
+
+        /**
+         * @brief HtmlFooter 추가
+         **/
+        function _addHtmlFooter ($footer) {
+            $this->html_footer .= ($this->Htmlfooter?"\n":"").$footer;
+        }
+
+        /**
+         * @brief HtmlFooter return
+         **/
+        function getHtmlFooter() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getHtmlFooter();
+        }
+
+        /**
+         * @brief HtmlFooter return
+         **/
+        function _getHtmlFooter() {
+            return $this->html_footer;
         }
 
         /**

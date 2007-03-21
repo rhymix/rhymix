@@ -6,8 +6,13 @@
      **/
 
     $lang->navermap = "네이비 지도";
-    $lang->navermap_address = "주소";
+    $lang->search_address = "주소 검색";
+    $lang->address_list = "주소 선택";
     $lang->navermap_width = "가로크기";
     $lang->navermap_height = "세로크기";
-    $lang->navermap_auto_start = "자동시작";
+
+    // 에러 메세지들
+    $lang->msg_not_exists_addr = "검색하려는 대상이 없습니다";
+    $lang->msg_fail_to_socket_open = "우편번호 검색 대상 서버 접속이 실패하였습니다";
+    $lang->msg_no_result = "검색 결과가 없습니다";
 ?>

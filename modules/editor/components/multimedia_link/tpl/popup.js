@@ -46,7 +46,7 @@ function insertMultimedia(obj) {
       return;
     }
 
-    var text = "<div editor_component=\"multimedia_link\" class=\"editor_multimedia\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
+    var text = "<div editor_component=\"multimedia_link\" class=\"editor_component_output\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
 
     opener.editorFocus(opener.editorPrevSrl);
 

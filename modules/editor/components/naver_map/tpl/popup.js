@@ -10,45 +10,29 @@ function getNaverMap() {
     var node = opener.editorPrevNode;
     if(!node || node.nodeName != "DIV") return;
 
-    var url = node.getAttribute("src");
-    var caption = xInnerHtml(node);
-    var width = node.getAttribute("width");
-    if(width!=xWidth(node)) width = xWidth(node);
-    var height = node.getAttribute("height");
-    if(height!=xHeight(node)) height = xHeight(node);
-    var auto_start = node.getAttribute("auto_start");
-
-    xGetElementById("multimedia_url").value = url;
-    xGetElementById("multimedia_caption").value = caption;
-    xGetElementById("multimedia_width").value = width;
-    xGetElementById("multimedia_height").value = height;
-    if(auto_start=="true") xGetElementById("multimedia_auto_start").checked = true;
-
 }
 
 function insertNaverMap(obj) {
     if(typeof(opener)=="undefined") return;
 
-    return;
-    var url = xGetElementById("multimedia_url").value;
+    var listup_obj = xGetElementById("address_list");
+    var idx = listup_obj.options[listup_obj.selectedIndex].value;
+    if(!idx) {
+        window.close();
+        return;
+    }
+    
+    var item = naver_address_list[idx];
+    var x = item[0];
+    var y = item[1];
 
-    var caption = xGetElementById("multimedia_caption").value;
-
-    var width = xGetElementById("multimedia_width").value;
+    var width = xGetElementById("navermap_width").value;
     if(!width) width = 640;
 
-    var height = xGetElementById("multimedia_height").value;
+    var height = xGetElementById("navermap_height").value;
     if(!height) height= 480;
 
-    var auto_start = "false";
-    if(xGetElementById("multimedia_auto_start").checked) auto_start = "true";
-
-    if(!url) {
-      window.close();
-      return;
-    }
-
-    var text = "<div editor_component=\"multimedia_link\" class=\"editor_multimedia\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
+    var text = "<div editor_component=\"naver_map\" class=\"editor_component_output\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\"></div>";
 
     opener.editorFocus(opener.editorPrevSrl);
 
@@ -64,17 +48,33 @@ xAddEventListener(window, "load", getNaverMap);
 
 /* 네이버의 map openapi로 주소에 따른 좌표를 요청 */
 function search_address() {
-  var address = xGetElementById("adress");
+  var address = xGetElementById("address").value;
   if(!address) return;
-
   var params = new Array();
+  params['component'] = "naver_map";
   params['address'] = address;
+  params['method'] = "search_address";
 
   var response_tags = new Array('error','message','address_list');
-  exec_xml('editor', 'procCall', params, complete_search_address);
+  exec_xml('editor', 'procCall', params, complete_search_address, response_tags);
 }
 
+var naver_address_list = new Array();
 function complete_search_address(ret_obj) {
   var address_list = ret_obj['address_list'];
-  alert(address_list);
+  if(!address_list) return;
+
+  naver_address_list = new Array();
+
+  var listup_obj = xGetElementById("address_list");
+  var length = listup_obj.options.length;
+  for(var i=0;i<length;i++) listup_obj.remove(0);
+
+  var address_list = address_list.split("\n");
+  for(var i=0;i<address_list.length;i++) {
+    var item = address_list[i].split(",");
+    naver_address_list[naver_address_list.length] = item;
+    var opt = new Option(item[2], naver_address_list.length-1, false, true);
+    listup_obj.options[listup_obj.length] = opt;
+  }
 }
