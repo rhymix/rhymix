@@ -90,29 +90,50 @@
          *
          * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         *
+         * 네이버 지도 open api 는 doctype에 대한 오류 및 기타 등등등등의 문제 때문에 iframe 을 만들고 컴포넌트를 다시 호출해서 html을 출력하게 한다.
+         * 네이버 지도 open api 가 xhtml1-transitional.dtd 를 지원하게 되면 다시 깔끔하게 고쳐야 함..
+         * 2006년 3월 12일 하루 다 날렸다~~~ ㅡ.ㅜ
          **/
         function transHTML($xml_obj) {
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
-            $id = "navermap".rand(11111111,99999999);
 
-            $body_code .= sprintf('<div id="%s" style="width:%spx;height:%spx;">%s', $id, $width, $height,"\n");
-            $footer_code = 
-                sprintf(
-                    '<script type="text/javascript"> '.
-                    'var mapObj = new NMap(xGetElementById("%s")); '.
-                    'mapObj.addControl(new NSaveBtn()); '.
-                    'mapObj.setCenterAndZoom(new NPoint(%d,%d),3); '.
-                    'mapObj.enableWheelZoom(); '.
-                    '</script>', 
-                    $id, $x, $y
-                );
-
-            Context::addJsFile("http://maps.naver.com/js/naverMap.naver?key=".$this->open_api_key);
-            Context::addHtmlFooter($footer_code);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s" frameBorder="0" style="border:0px;width:%dpx;height:%dpx;margin:0px;"></iframe>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $width, $height);
             return $body_code;
+        }
+
+        function displayMap() {
+            $id = "navermap".rand(11111111,99999999);
+            $width = Context::get('width');
+            $height = Context::get('height');
+            $x = Context::get('x');
+            $y = Context::get('y');
+
+            $html .= 
+                sprintf(
+                    '<html>'.
+                    '<head>'.
+                    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
+                    '<script type="text/javascript" src="./common/js/x.js"></script>'.
+                    '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key=%s"></script>'.
+                    '</head>'.
+                    '<body style="margin:0px;">'.
+                    '<div id="%s" style="width:%dpx;height:%dpx;"></div>'.
+                    '<script type="text/javascript">'.
+                    'var mapObj = new NMap(document.getElementById("%s"));'.
+                    'mapObj.addControl(new NSaveBtn());'.
+                    'mapObj.setCenterAndZoom(new NPoint(%d,%d),3);'.
+                    'mapObj.enableWheelZoom();'.
+                    '</script>'.
+                    '</body>'.
+                    '</html>',
+                    $this->open_api_key, $id, $width, $height, $id, $x, $y
+                );
+            print $html;
+            exit();
         }
     }
 ?>
