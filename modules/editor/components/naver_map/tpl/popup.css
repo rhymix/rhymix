@@ -1,0 +1,65 @@
+.editor_window {
+  width:400px;
+  clear:both;
+}
+
+.editor_title {
+  font-size:10pt;
+  font-weight:bold;
+  clear:both;
+  height:20px;
+  background-color:#555555;
+  color:#EFEFEF;
+  vertical-align:middle;
+  padding-top:5px;
+  border-bottom:1px solid #000000;
+  text-align:center;
+}
+
+.header {
+  float:left;
+  width:100px;
+  clear:left;
+  text-align:left;
+  font-weight:bold;
+  margin:5px;
+  font-size:9pt;
+  font-size:9pt;
+}
+
+.body {
+  float:left;
+  width:250px;
+  text-align:left;
+  margin:5px;
+  font-size:9pt;
+}
+
+.body label {
+  cursor:pointer;
+  font-size:9pt;
+}
+
+.navermap_address {
+  width:80px;
+  border:1px solid #AAAAAA;
+  height:12px;
+  font-size:9pt;
+}
+
+
+.editor_button_area {
+  border-top:1px solid #AAAAAA;
+  text-align:center;
+  background-color:#EEEEEE;
+  padding:0px 0px 2px 0px;
+  clear:both;
+}
+
+.editor_button {
+  margin-top:4px;
+  background-color:#FFFFFF;
+  border:1px solid #AAAAAA;
+  height:16px;
+  font-size:9pt;
+}
