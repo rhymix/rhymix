@@ -5,7 +5,7 @@
      * @brief  위지윅에디터(editor) 모듈 > 멀티미디어 링크 (naver_map) 컴포넌트의 언어팩
      **/
 
-    $lang->navermap = "네이비 지도";
+    $lang->navermap = "네이버 지도";
     $lang->search_address = "주소 검색";
     $lang->address_list = "주소 선택";
     $lang->navermap_width = "가로크기";
