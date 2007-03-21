@@ -50,7 +50,7 @@
   $lang->edit->help_align_right = "오른쪽 정렬을 합니다";
   $lang->edit->help_add_indent = "들여쓰기를 합니다";
   $lang->edit->help_remove_indent = "들여쓰기를 제거합니다";
-  $lang->edit->help_use_paragrapth = "문단을 이어 쓰시기를 원하실때에는 shift+엔터 키를 누르세요 (alt-S를 누르면 바로 저장이 됩니다)";
+  $lang->edit->help_use_paragrapth = "문단 나누기를 하시려면 ctrl-엔터를 누르시면 됩니다. (글 작성완료후 alt-S를 누르면 저장이 됩니다)";
 
   $lang->edit->upload = '첨부';
   $lang->edit->upload_file = '파일 첨부'; 
