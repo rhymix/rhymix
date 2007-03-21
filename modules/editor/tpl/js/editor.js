@@ -287,7 +287,7 @@ function editorSearchComponent(evt) {
         }
             
         // 링크거나 텍스트인 경우
-        else if(obj.nodeName == "A" || obj.nodeName == "BODY") {
+        else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI") {
             editor_component = "url_link";
             editorPrevNode = obj;
         }
