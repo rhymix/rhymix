@@ -326,8 +326,10 @@ function editorSearchComponent(evt) {
 
     // 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
     var obj = e.target;
-    while(obj && !obj.getAttribute("editor_component")) {
-        obj = xParent(obj);
+    if(!obj.getAttribute("editor_component")) {
+        while(obj && !obj.getAttribute("editor_component")) {
+            obj = xParent(obj);
+        }
     }
 
     if(!obj) obj = e.target;
