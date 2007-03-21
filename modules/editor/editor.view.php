@@ -47,22 +47,26 @@
             // 변수 정리
             $upload_target_srl = Context::get('upload_target_srl');
             $component = Context::get('component');
-            $manual_url = Context::get('manual_url');
 
             // component 객체를 받음
             $oComponent = &$this->getComponentObject($component, $upload_target_srl);
-            if(!$oComponent->toBool()) return $oComponent;
+            if(!$oComponent->toBool()) {
+                Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+                $this->setTemplatePath($this->module_path.'tpl');
+                $this->setTemplateFile('component_not_founded');
+            } else {
 
-            // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
-            $popup_content = $oComponent->getPopupContent();
-            Context::set('popup_content', $popup_content);
+                // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
+                $popup_content = $oComponent->getPopupContent();
+                Context::set('popup_content', $popup_content);
 
-            // 레이아웃을 popup_layout으로 설정
-            $this->setLayoutFile('popup_layout');
+                // 레이아웃을 popup_layout으로 설정
+                $this->setLayoutFile('popup_layout');
 
-            // 템플릿 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('popup');
+                // 템플릿 지정
+                $this->setTemplatePath($this->module_path.'tpl');
+                $this->setTemplateFile('popup');
+            }
         }
     }
 ?>
