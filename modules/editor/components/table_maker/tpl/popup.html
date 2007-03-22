@@ -4,128 +4,75 @@
 
 <form action="./" method="get" onSubmit="return false" id="fo">
   <div class="editor_window">
-    <div class="editor_title">{$lang->quotation}</div>
+    <div class="editor_title">{$lang->table}</div>
 
-    <div class="header">{$lang->quotation_use_folder}</div>
-    <div class="body"><input type="checkbox" id="quotation_use" value="Y" onclick="toggle_folder(this)" /></div>
+    <div class="item_area">
+      <div class="header">{$lang->table_cols_count} :</div>
+      <div class="body"><input type="text" class="table_input" id="cols_count" value="3" /></div>
 
-    <div id="folder_area" style="display:none">
-        <div class="header">{$lang->quotation_opener}</div>
-        <div class="body"><input type="text" class="editor_input_long" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></div>
+      <div class="header">{$lang->table_rows_count} :</div>
+      <div class="body"><input type="text" class="table_input" id="rows_count" value="3" /></div>
 
-        <div class="header">{$lang->quotation_closer}</div>
-        <div class="body"><input type="text" class="editor_input_long" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></div>
+      <div class="header">{$lang->table_width} :</div>
+      <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
+    </div>
 
-        <div class="header">{$lang->folder_text_bold}</div>
-        <div class="body"><input type="checkbox" name="bold" value="Y" id="quotation_bold" /> <label for="quotation_bold">{$lang->about_folder_text_bold}</label></div>
+    <div class="item_area">
+      <div class="header">{$lang->table_border} :</div>
+      <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
 
-        <div class="header">{$lang->folder_text_color}</div>
-        <div class="body">
-          <span>
-            <input type="radio" name="color" value="blue" id="quotation_color_blue" />
-            <label for="quotation_color_blue" class="editor_blue_text">{$lang->folder_text_color_blue}</label>
-          </span>
-          <span>
-            <input type="radio" name="color" value="red" id="quotation_color_red" />
-            <label for="quotation_color_red" class="editor_red_text">{$lang->folder_text_color_red}</label>
-          </span>
-          <span>
-            <input type="radio" name="color" value="yellow" id="quotation_color_yellow" />
-            <label for="quotation_color_yellow" class="editor_yellow_text">{$lang->folder_text_color_yellow}</label>
-          </span>
-          <span>
-            <input type="radio" name="color" value="green" id="quotation_color_green" />
-            <label for="quotation_color_green" class="editor_green_text">{$lang->folder_text_color_green}</label>
-          </span>
+      <div class="header">{$lang->table_inner_border} :</div>
+      <div class="body"><input type="text" class="table_input" id="inner_border" value="1" />px</div>
+    </div>
+
+    <div class="item_area">
+      <div class="header">{$lang->table_cellspacing} :</div>
+      <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
+
+      <div class="header">{$lang->table_cellpadding} :</div>
+      <div class="body"><input type="text" class="table_input" id="cellpadding" value="2" />px</div>
+    </div>
+
+    <div class="item_area">
+      <div class="header">{$lang->table_border_color} :</div>
+      <div class="body">
+        <div class="editor_color_box">
+          <script type="text/javascript">
+            printColor("border", "{$tpl_path}/images/blank.gif");
+          </script>
+        </div>
+        <div class="editor_color_input">
+          <table border="0" cellspacing="0">
+          <tr>
+            <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
+            <td>#</td>
+            <td><input type="text" id="border_color_input" size="6" maxlength="6" class="table_input" value="88EE22" onkeyup="manual_select_color('border',this)"/></td>
+          </tr>
+          </table>
+        </div>
+    </div>
+    <div class="item_area">
+      <div class="header">{$lang->table_bg_color} :</div>
+      <div class="body">
+        <div class="editor_color_box">
+          <script type="text/javascript">
+            printColor("bg", "{$tpl_path}/images/blank.gif");
+          </script>
+        </div>
+        <div class="editor_color_input">
+          <table border="0" cellspacing="0">
+          <tr>
+            <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
+            <td>#</td>
+            <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="table_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
+          </tr>
+          </table>
         </div>
     </div>
 
-    <div class="header">{$lang->quotation_padding}</div>
-    <div class="body"><input type="text" class="editor_input" id="quotation_padding" value="5" />px</div>
-
-    <div class="header">{$lang->quotation_margin}</div>
-    <div class="body"><input type="text" class="editor_input" id="quotation_margin" value="5" />px</div>
-
-    <div class="header">{$lang->quotation_border_style}</div>
-    <div class="body">
-      <div>
-        <input type="radio" name="border_style" value="" id="border_style_none" />
-        <label for="border_style_none">
-          <img src="./images/blank.gif" class="border_preview_none_color" alt="blank" />
-          {$lang->quotation_border_style_list[0]}
-        </label>
-      </div>
-      <div>
-        <input type="radio" name="border_style" value="solid" id="border_style_solid" checked="true" />
-        <label for="border_style_solid">
-          <img src="./images/border_solid.gif" class="border_preview_color" id="border_style_solid_icon" alt="solid" />
-          {$lang->quotation_border_style_list[1]}
-        </label>
-      </div>
-      <div>
-        <input type="radio" name="border_style" value="dotted" id="border_style_dotted" />
-        <label for="border_style_dotted">
-          <img src="./images/border_dotted.gif" class="border_preview_color" id="border_style_dotted_icon" alt="dotted" />
-          {$lang->quotation_border_style_list[2]}
-        </label>
-      </div>
-      <div>
-        <input type="radio" name="border_style" value="left_solid" id="border_style_left_solid" />
-        <label for="border_style_left_solid">
-          <img src="./images/border_left_solid.gif" class="border_preview_color" id="border_style_left_solid_icon" alt="left solid"/>
-          {$lang->quotation_border_style_list[3]}
-        </label>
-      </div>
-      <div>
-        <input type="radio" name="border_style" value="left_dotted" id="border_style_left_dotted" />
-        <label for="border_style_left_dotted">
-          <img src="./images/border_left_dotted.gif" class="border_preview_color" id="border_style_left_dotted_icon" alt="left dotted"/>
-          {$lang->quotation_border_style_list[4]}
-        </label>
-      </div>
-    </div>
-
-    <div class="header">{$lang->quotation_border_thickness}</div>
-    <div class="body"><input type="text" class="editor_input" id="border_thickness" value="1" />px</div>
-
-    <div class="header">{$lang->quotation_border_color}</div>
-    <div class="body">
-      <div class="editor_color_box">
-        <script type="text/javascript">
-          printColor("border", "{$tpl_path}/images/blank.gif");
-        </script>
-      </div>
-      <div class="editor_color_input">
-        <table border="0" cellspacing="0">
-        <tr>
-          <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
-          <td>#</td>
-          <td><input type="text" id="border_color_input" size="6" maxlength="6" class="editor_input" value="88EE22" onkeyup="manual_select_color('border',this)"/></td>
-        </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="header">{$lang->quotation_bg_color}</div>
-    <div class="body">
-      <div class="editor_color_box">
-        <script type="text/javascript">
-          printColor("bg", "{$tpl_path}/images/blank.gif");
-        </script>
-      </div>
-      <div class="editor_color_input">
-        <table border="0" cellspacing="0">
-        <tr>
-          <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
-          <td>#</td>
-          <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="editor_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
-        </tr>
-        </table>
-      </div>
-    </div>
 
     <div class="editor_button_area">
-      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertQuotation()" />
+      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertTable()" />
       <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
     </div>
   </div>

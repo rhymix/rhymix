@@ -44,7 +44,7 @@
             }
 
             $this->content_size = strlen($output);
-            print $output;
+            print trim($output);
 
             // 디버깅 데이터 출력
             $this->_debugOutput();

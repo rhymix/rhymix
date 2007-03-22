@@ -1,5 +1,5 @@
 .editor_window {
-  width:555px;
+  width:620px;
   text-align:center;
 }
 
@@ -16,55 +16,32 @@
   text-align:center;
 }
 
-.header {
-  float:left;
-  width:100px;
+.item_area {
   clear:left;
-  text-align:left;
+}
+
+.header {
+  width:90px;
+  float:left;
+  text-align:right;
   font-weight:bold;
   margin:5px;
-  font-size:9pt;
   font-size:9pt;
 }
 
 .body {
-  float:left;
-  width:400px;
-  text-align:left;
-  margin:5px;
-  font-size:9pt;
-}
-
-#folder_area {
-  clear:left;
-  height:115px;
-  border:1px dotted #DDDDDD;
-  margin:0px 10px 10px 10px;
-}
-
-.body label {
-  cursor:pointer;
-  font-size:9pt;
-}
-
-.editor_input {
-  width:50px;
-  height:13px;
-  font-size:9pt;
-  border:1px solid #AAAAAA;
-}
-
-.editor_input_long {
-  width:380px;
-  height:13px;
-  font-size:9pt;
-  border:1px solid #AAAAAA;
-}
-
-.editor_select {
   width:80px;
-  height:14px;
+  float:left;
+  text-align:left;
+  margin:5px 10px 5px 5px;
   font-size:9pt;
+}
+
+.table_input {
+  width:40px;
+  height:13px;
+  font-size:9pt;
+  border:1px solid #AAAAAA;
 }
 
 .editor_button_area {
