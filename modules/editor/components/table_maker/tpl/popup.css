@@ -16,6 +16,12 @@
   text-align:center;
 }
 
+.editor_option {
+  width:620px;
+  height:30px;
+  text-align:left;
+}
+
 .item_area {
   clear:left;
 }
@@ -37,6 +43,13 @@
   font-size:9pt;
 }
 
+.wide_body {
+  width:380px;
+  float:left;
+  text-align:left;
+  margin:5px 10px 5px 5px;
+  font-size:9pt;
+}
 .table_input {
   width:40px;
   height:13px;

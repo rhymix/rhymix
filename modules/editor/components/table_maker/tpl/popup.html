@@ -4,36 +4,57 @@
 
 <form action="./" method="get" onSubmit="return false" id="fo">
   <div class="editor_window">
-    <div class="editor_title">{$lang->table}</div>
 
-    <div class="item_area">
-      <div class="header">{$lang->table_cols_count} :</div>
-      <div class="body"><input type="text" class="table_input" id="cols_count" value="3" /></div>
+    <div class="editor_title">{$lang->table_title}</div>
 
-      <div class="header">{$lang->table_rows_count} :</div>
-      <div class="body"><input type="text" class="table_input" id="rows_count" value="3" /></div>
-
-      <div class="header">{$lang->table_width} :</div>
-      <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
+    <div class="editor_option" id="table_option" style="display:none">
+      <input name="attr" type="radio" value="table" id="table_attribute_select" onchange="doSelectOption('table');return false;"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
+      <input name="attr" type="radio" value="cell" id="cell_attribute_select" onchange="doSelectOption('cell');return false;"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
     </div>
 
-    <div class="item_area">
-      <div class="header">{$lang->table_border} :</div>
-      <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
+    <div id="table_attribute" style="display:none">
 
-      <div class="header">{$lang->table_inner_border} :</div>
-      <div class="body"><input type="text" class="table_input" id="inner_border" value="0" />px</div>
+      <div class="item_area" id="col_row_area" style="display:none" >
+        <div class="header">{$lang->table_cols_count} :</div>
+        <div class="body"><input type="text" class="table_input" id="cols_count" value="3" /></div>
+
+        <div class="header">{$lang->table_rows_count} :</div>
+        <div class="body"><input type="text" class="table_input" id="rows_count" value="3" /></div>
+      </div>
+
+      <div class="item_area">
+        <div class="header">{$lang->table_width} :</div>
+        <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
+
+        <div class="header">{$lang->table_cellspacing} :</div>
+        <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
+
+        <div class="header">{$lang->table_cellpadding} :</div>
+        <div class="body"><input type="text" class="table_input" id="cellpadding" value="1" />px</div>
+      </div>
+
+      <div class="item_area">
+        <div class="header">{$lang->table_border} :</div>
+        <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
+
+        <div class="header">{$lang->table_inner_border} :</div>
+        <div class="body"><input type="text" class="table_input" id="inner_border" value="0" />px</div>
+      </div>
+
     </div>
 
-    <div class="item_area">
-      <div class="header">{$lang->table_cellspacing} :</div>
-      <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
+    <div id="cell_attribute" style="display:none">
 
-      <div class="header">{$lang->table_cellpadding} :</div>
-      <div class="body"><input type="text" class="table_input" id="cellpadding" value="2" />px</div>
+      <div class="item_area">
+        <div class="header">{$lang->cell_width} :</div>
+        <div class="body"><input type="text" class="table_input" id="cell_width" value="0" />px</div>
+
+        <div class="header">{$lang->cell_height} :</div>
+        <div class="body"><input type="text" class="table_input" id="cell_height" value="0" />px</div>
+      </div>
     </div>
 
-    <div class="item_area">
+    <div class="item_area" id="border_color_area" style="display:none">
       <div class="header">{$lang->table_border_color} :</div>
       <div class="body">
         <div class="editor_color_box">
@@ -50,8 +71,10 @@
           </tr>
           </table>
         </div>
+      </div>
     </div>
-    <div class="item_area">
+
+    <div class="item_area" id="bg_color_area" style="display:none">
       <div class="header">{$lang->table_bg_color} :</div>
       <div class="body">
         <div class="editor_color_box">
@@ -70,10 +93,10 @@
         </div>
     </div>
 
-
     <div class="editor_button_area">
       <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertTable()" />
       <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
     </div>
+
   </div>
 </form>
