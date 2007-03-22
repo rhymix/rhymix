@@ -29,12 +29,6 @@
     "h6" => "작은글 (h6)",
   );
 
-  $lang->edit->image_url = '이미지 경로';
-
-  $lang->edit->multimedia_url = '멀티미디어 경로';
-  $lang->edit->multimedia_width = '가로크기';
-  $lang->edit->multimedia_height = '세로크기';
-
   $lang->edit->submit = '확인';
 
   $lang->edit->help_fontcolor = "글자의 색상을 지정합니다";

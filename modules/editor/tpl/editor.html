@@ -40,6 +40,8 @@
 
     <!-- 에디팅 관련 아이콘 -->
     <div class="editor_iconbox">
+      <img src="../components/colorpicker_text/icon.gif" title="{$lang->edit->help_fontcolor}" class="editor_icon" id="component_{$upload_target_srl}_colorpicker_text" />
+      <img src="../components/colorpicker_bg/icon.gif" title="{$lang->edit->help_fontbgcolor}" class="editor_icon" id="component_{$upload_target_srl}_colorpicker_bg" />
       <img src="./images/bold.gif" title="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
       <img src="./images/italic.gif" title="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
       <img src="./images/underline.gif" title="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
@@ -65,7 +67,9 @@
     <!-- 컴포넌트 -->
     <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
       <!--@foreach($component_list as $component)-->
-      <img src="../components/{$component}/icon.gif" title="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
+        <!--@if(substr($component,0,11)!="colorpicker")-->
+          <img src="../components/{$component}/icon.gif" title="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
+        <!--@end-->
       <!--@end-->
     </div>
   </div>
