@@ -1,0 +1,64 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<form action="./" method="get" onSubmit="return false" id="fo">
+  <div class="editor_window">
+
+    <div class="editor_title">{$lang->imagelink}</div>
+
+    <div class="header">{$lang->image_url}</div>
+    <div class="body"><input type="text" class="image_url" id="image_url" value="{$manual_url}" onblur="getImageScale();" /></div>
+
+    <div class="header">{$lang->image_scale}</div>
+    <div class="body">
+      <input type="text" class="editor_input" id="width" value="0" />px 
+      <input type="text" class="editor_input" id="height" value="0" />px 
+      <input type="button" value="{$lang->cmd_get_scale}" class="editor_button" onclick="getImageScale();return false;" />
+    </div>
+
+
+    <div class="header">{$lang->image_alt}</div>
+    <div class="body"><input type="text" class="image_url" id="image_alt" value="" /></div>
+
+    <div class="header">{$lang->image_align}</div>
+    <div class="body">
+      <div class="image_align">
+        <input type="radio" name="align" value="" id="align_normal" checked="true"/>
+        <label for="align_normal">
+          <img src="./images/align_normal.gif" alt="{$lang->image_align_normal}" />
+          {$lang->image_align_normal}
+        </label>
+      </div>
+      <div class="image_align">
+        <input type="radio" name="align" value="left" id="align_left" />
+        <label for="align_left">
+          <img src="./images/align_left.gif" alt="{$lang->image_align_left}" />
+          {$lang->image_align_left}
+        </label>
+      </div>
+      <div class="image_align">
+        <input type="radio" name="align" value="middle" id="align_middle" />
+        <label for="align_middle">
+          <img src="./images/align_middle.gif" alt="{$lang->image_align_middle}" />
+          {$lang->image_align_middle}
+        </label>
+      </div>
+      <div class="image_align">
+        <input type="radio" name="align" value="right" id="align_right" />
+        <label for="align_right">
+          <img src="./images/align_right.gif" alt="{$lang->image_align_right}" />
+          {$lang->image_align_right}
+        </label>
+      </div>
+    </div>
+
+    <div class="header">{$lang->image_border}</div>
+    <div class="body"><input type="text" class="editor_input" id="image_border" value="0" />px</div>
+
+    <div class="editor_button_area">
+      <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertImage()" />
+      <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
+    </div>
+  </div>
+</form>
