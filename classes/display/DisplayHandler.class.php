@@ -28,10 +28,10 @@
             // 각 플러그인, 에디터 컴포넌트의 코드 변경
             $oContext = &Context::getInstance();
             $content = $oContext->transContent($content);
+            Context::set('content', $content);
 
             // 요청방식에 따라 출력을 별도로
             if(Context::getResponseMethod()!="XMLRPC") {
-                Context::set('content', $content);
 
                 // content 래핑 (common/tpl/default.html)
                 require_once("./classes/template/TemplateHandler.class.php");
