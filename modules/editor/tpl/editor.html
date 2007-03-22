@@ -40,23 +40,23 @@
 
     <!-- 에디팅 관련 아이콘 -->
     <div class="editor_iconbox">
-      <img src="./images/bold.gif" alt="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
-      <img src="./images/italic.gif" alt="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
-      <img src="./images/underline.gif" alt="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
-      <img src="./images/strike.gif" alt="{$lang->edit->help_strike}" class="editor_icon" id="component_{$upload_target_srl}_StrikeThrough" />
-      <img src="./images/undo.gif" alt="{$lang->edit->help_undo}" class="editor_icon" id="component_{$upload_target_srl}_undo" />
-      <img src="./images/redo.gif" alt="{$lang->edit->help_redo}" class="editor_icon" id="component_{$upload_target_srl}_redo" />
+      <img src="./images/bold.gif" title="{$lang->edit->help_bold}" class="editor_icon" id="component_{$upload_target_srl}_Bold" />
+      <img src="./images/italic.gif" title="{$lang->edit->help_italic}" class="editor_icon" id="component_{$upload_target_srl}_Italic" />
+      <img src="./images/underline.gif" title="{$lang->edit->help_underline}" class="editor_icon" id="component_{$upload_target_srl}_Underline" />
+      <img src="./images/strike.gif" title="{$lang->edit->help_strike}" class="editor_icon" id="component_{$upload_target_srl}_StrikeThrough" />
+      <img src="./images/undo.gif" title="{$lang->edit->help_undo}" class="editor_icon" id="component_{$upload_target_srl}_undo" />
+      <img src="./images/redo.gif" title="{$lang->edit->help_redo}" class="editor_icon" id="component_{$upload_target_srl}_redo" />
     </div>
 
     <!-- 에디팅 관련 문단 기능 (IE에서는 사용자 선택시 나타남) -->
     <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox">
-      <img src="./images/align_left.gif" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
-      <img src="./images/align_center.gif" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
-      <img src="./images/align_right.gif" alt="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
-      <img src="./images/remove_indent.gif" alt="{$lang->edit->help_remove_indent}" id="component_{$upload_target_srl}_outdent" />
-      <img src="./images/add_indent.gif" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" />
-      <img src="./images/list_number.gif" alt="list number" id="component_{$upload_target_srl}_insertorderedlist" />
-      <img src="./images/list_bullet.gif" alt="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
+      <img src="./images/align_left.gif" title="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" />
+      <img src="./images/align_center.gif" title="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" />
+      <img src="./images/align_right.gif" title="{$lang->edit->help_align_right}" id="component_{$upload_target_srl}_justifyright" />
+      <img src="./images/remove_indent.gif" title="{$lang->edit->help_remove_indent}" id="component_{$upload_target_srl}_outdent" />
+      <img src="./images/add_indent.gif" title="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" />
+      <img src="./images/list_number.gif" title="list number" id="component_{$upload_target_srl}_insertorderedlist" />
+      <img src="./images/list_bullet.gif" title="list bullet" id="component_{$upload_target_srl}_insertunorderedlist" />
     </div>
 
   </div>
@@ -65,7 +65,7 @@
     <!-- 컴포넌트 -->
     <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
       <!--@foreach($component_list as $component)-->
-      <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
+      <img src="../components/{$component}/icon.gif" title="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
       <!--@end-->
     </div>
   </div>
@@ -91,7 +91,7 @@
   <input type="hidden" name="act" value="procUploadFile" />
 
   <!-- 미리보기 -->
-  <div class="editor_preview_uploaded" id="preview_uploaded_{$upload_target_srl}"><img src="./images/blank.gif" width="100" height="100"  alt="preview" /></div>
+  <div class="editor_preview_uploaded" id="preview_uploaded_{$upload_target_srl}"><img src="./images/blank.gif" width="100" height="100"  title="preview" /></div>
 
   <!-- 파일 업로드 영역 -->
   <div class="editor_uploader">

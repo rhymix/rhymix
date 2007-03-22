@@ -54,6 +54,7 @@ function editorStart(upload_target_srl) {
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
         '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;" upload_target_srl="'+upload_target_srl+'">'+
         content+
+        "\n"+
         '</body></html>'+
         '';
     contentDocument.designMode = 'on';
@@ -112,7 +113,7 @@ function editorGetContent(upload_target_srl) {
     html = xInnerHtml(iframe_obj.contentWindow.document.body);
     if(!html) return;
 
-    return html.trim();
+    return html;
 }
 
 // 에디터 내의 선택된 부분의 html 코드를 return

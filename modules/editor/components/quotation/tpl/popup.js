@@ -130,7 +130,7 @@ function insertQuotation() {
 
     if(!content) content = "&nbsp;";
 
-    var text = "\n<div editor_component=\"quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" bold=\""+bold+"\" color=\""+color+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n";
+    var text = "\n<div editor_component=\"quotation\" use_folder=\""+use_folder+"\" folder_opener=\""+folder_opener+"\" folder_closer=\""+folder_closer+"\" bold=\""+bold+"\" color=\""+color+"\" margin=\""+margin+"\" padding=\""+padding+"\" border_style=\""+border_style+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\""+style+"\">"+content+"</div>\n<br />";
 
     if(selected_node) {
         selected_node.setAttribute("use_folder", use_folder);
