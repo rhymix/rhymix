@@ -35,8 +35,9 @@ function insertTable() {
     var bg_color = xGetElementById("bg_color_input").value;
     if(bg_color.length!=6) bg_color = "FFFFFF";
 
-    var text = "\n<table width=\""+width+"\" border=\""+inner_border+"\" cellspacing=\""+cellspacing+"\" cellpadding=\""+cellpadding+"\" ";
-    text += "style=\"border:"+border+"px solid #"+border_color+";background-color:#"+bg_color+"\"";
+    var text = "";
+    text += "<table width=\""+width+"\" border=\""+inner_border+"\" cellspacing=\""+cellspacing+"\" cellpadding=\""+cellpadding+"\" ";
+    if(border>0) text += " style=\"border:"+border+"px solid #"+border_color+";background-color:#"+bg_color+"\" ";
     text +=">";
 
     for(var row=0; row<rows_count;row++) {
