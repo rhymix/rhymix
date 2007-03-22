@@ -83,7 +83,7 @@ function editorStart(upload_target_srl) {
 
     // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
     editorSyncContent(fo_obj.content, upload_target_srl);
-    editorFocus(upload_target_srl);
+    //editorFocus(upload_target_srl);
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
