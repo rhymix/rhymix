@@ -54,6 +54,7 @@
             $output = array();
             $output = array("src=\"".$src."\"");
             if($alt) $output[] = "alt=\"".$alt."\"";
+            if($alt) $output[] = "title=\"".$alt."\"";
             if($width) $output[] = "width=\"".$width."\"";
             if($height) $output[] = "height=\"".$height."\"";
             if($align) $output[] = "align=\"".$align."\"";

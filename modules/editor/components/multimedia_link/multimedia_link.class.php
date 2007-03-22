@@ -57,7 +57,7 @@
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
 
-            return sprintf("<div><script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\",%s);</script>", $src, $width, $height, $auto_start);      
+            return sprintf("<div><script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\",%s);</script></div><div>", $src, $width, $height, $auto_start);      
         }
     }
 ?>
