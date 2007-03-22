@@ -343,10 +343,14 @@ function editorSearchComponent(evt) {
         if(obj.nodeName == "IMG") {
             editor_component = "image_link";
             editorPrevNode = obj;
-        }
+
+        // 테이블의 td일 경우
+        } else if(obj.nodeName == "TD") {
+            editor_component = "table_maker";
+            editorPrevNode = obj;
             
         // 링크거나 텍스트인 경우
-        else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI" || obj.nodeName == "P") {
+        } else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI" || obj.nodeName == "P") {
             editor_component = "url_link";
             editorPrevNode = obj;
         }
