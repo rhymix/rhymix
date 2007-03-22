@@ -16,11 +16,18 @@ function isDef() {
 }
 
 // 윈도우 오픈
+var winopen_list = new Array();
 function winopen(url, target, attribute) {
-        if(typeof(target)=='undefined') target = '_blank';
-        if(typeof(attribute)=='undefined') attribute = '';
-        var win = window.open(url, target, attribute);
-        win.focus();
+    if(target != "_blank" && winopen_list[target]) {
+        winopen_list[target].close();
+        winopen_list[target] = null;
+    }
+
+    if(typeof(target)=='undefined') target = '_blank';
+    if(typeof(attribute)=='undefined') attribute = '';
+    var win = window.open(url, target, attribute);
+    win.focus();
+    if(target != "_blank") winopen_list[target] = win;
 }
 
 // 특정 div(or span...)의 display옵션 토글
