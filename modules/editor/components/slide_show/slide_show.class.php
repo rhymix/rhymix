@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  image_link
+     * @class  slide_show
      * @author zero (zero@nzeo.com)
-     * @brief  이미지를 추가하거나 속성을 수정하는 컴포넌트
+     * @brief  업로드된 이미지로 슬라이드 쇼를 만듬
      **/
 
-    class image_link extends EditorHandler { 
+    class slide_show extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function image_link($upload_target_srl, $component_path) {
+        function slide_show($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }
@@ -41,25 +41,7 @@
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
          **/
         function transHTML($xml_obj) {
-            $src = $xml_obj->attrs->src;
-            $alt = $xml_obj->attrs->alt;
-            $width = $xml_obj->attrs->width;
-            $height = $xml_obj->attrs->height;
-            $align = $xml_obj->attrs->align;
-            $border = $xml_obj->attrs->border;
-
-            $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
-            if(!$alt) $alt = $src;
-
-            $output = array();
-            $output = array("src=\"".$src."\"");
-            if($alt) $output[] = "alt=\"".$alt."\"";
-            if($alt) $output[] = "title=\"".$alt."\"";
-            if($width) $output[] = "width=\"".$width."\"";
-            if($height) $output[] = "height=\"".$height."\"";
-            if($align) $output[] = "align=\"".$align."\"";
-            if($border) $output[] = "border=\"".$border."\"";
-            return "<img ".implode(" ", $output)." />";
+            return;
         }
 
     }

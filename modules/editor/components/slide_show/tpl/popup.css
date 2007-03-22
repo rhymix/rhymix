@@ -35,22 +35,14 @@
   font-size:9pt;
 }
 
-.body label {
-  cursor:pointer;
-  font-size:9pt;
+.image_list {
+  width:380px;
 }
 
-.image_align {
-  margin:0px 0px 5px 0px;
-  float:left;
-  width:150px;
-}
-
-.image_url {
-  width:350px;
-  height:13px;
+.about_image_list {
+  margin-top:10px;
   font-size:9pt;
-  border:1px solid #AAAAAA;
+  color:#AAAAAA;
 }
 
 .editor_input {

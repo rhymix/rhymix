@@ -1,92 +1,32 @@
-/**
- * popup으로 열렸을 경우 부모창의 위지윅에디터에 select된 이미지가 있는지 체크하여
- * 있으면 가져와서 원하는 곳에 삽입
- **/
-function getImage() {
-    // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
+var selected_node = null;
+function getSlideShow() {
+    // 부모창이 있는지 체크 
     if(typeof(opener)=="undefined") return;
 
-    // url이 미리 입력되어 있을 경우 scale구해줌
-    if(xGetElementById("image_url").value) {
-        setTimeout(function() { getImageScale(); }, 500);
-        return;
+    // 부모창의 업로드 이미지 목록을 모두 가져와서 세팅 
+    var fo = xGetElementById("fo");
+    var upload_target_srl = fo.upload_target_srl.value;
+    var parent_list_obj = opener.xGetElementById("uploaded_file_list_"+upload_target_srl);
+    var list_obj = xGetElementById("image_list");
+
+    var length = parent_list_obj.length;
+    for(var i=0;i<length;i++) {
+      var opt = new Option(parent_list_obj[i].text, parent_list_obj[i].value, false, false);
+      list_obj.options.add(opt);
     }
 
     // 부모 위지윅 에디터에서 선택된 영역이 있으면 처리
     var node = opener.editorPrevNode;
-    if(!node || node.nodeName != "IMG") {
+    if(!node || node.nodeName != "DIV") {
         return;
     }
-    var src = node.getAttribute("src");
-    var border = node.getAttribute("border");
-    var align = node.getAttribute("align");
-    var alt = node.getAttribute("alt");
-    var width = node.getAttribute("width");
-    var height = node.getAttribute("height");
-
-    xGetElementById("image_url").value = src;
-    xGetElementById("image_alt").value = alt;
-
-    switch(align) {
-        case 'left' : xGetElementById("align_left").checked = true; break;
-        case 'middle' : xGetElementById("align_middle").checked = true; break;
-        case 'right' : xGetElementById("align_right").checked = true; break;
-        default : xGetElementById("align_normal").checked = true; break;
-    }
-
-    xGetElementById("image_border").value = border;
-
-    xGetElementById("width").value = width;
-    xGetElementById("height").value = height;
-
+    selected_node = node;
 }
 
-function getImageScale() {
-    var url = xGetElementById("image_url").value;
-    if(!url) return;
-
-    var img = new Image();
-    img.src = url;
-
-    xGetElementById("width").value = img.width;
-    xGetElementById("height").value = img.height;
-    
-}
-function insertImage(obj) {
+function insertSlideShow(obj) {
     if(typeof(opener)=="undefined") return;
-
-    var url = xGetElementById("image_url").value;
-    var alt = xGetElementById("image_alt").value;
-    var align = "";
-    if(xGetElementById("align_normal").checked==true) align = "";
-    else if(xGetElementById("align_left").checked==true) align = "left";
-    else if(xGetElementById("align_middle").checked==true) align = "middle";
-    else if(xGetElementById("align_right").checked==true) align = "right";
-    var border = parseInt(xGetElementById("image_border").value,10);
-
-    var width = xGetElementById("width").value;
-    var height = xGetElementById("height").value;
-
-    if(!url) {
-      window.close();
-      return;
-    }
-
-    var text = "<img editor_component=\"image_link\" src=\""+url+"\" border=\""+border+"\" ";
-    if(alt) text+= " alt=\""+alt+"\"";
-    if(align) text+= " align=\""+align+"\" ";
-    if(width) text+= " width=\""+width+"\" ";
-    if(height) text+= " height=\""+height+"\" ";
-    text+= " />";
-
-    opener.editorFocus(opener.editorPrevSrl);
-
-    var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-
-    opener.editorReplaceHTML(iframe_obj, text);
-    opener.editorFocus(opener.editorPrevSrl);
 
     window.close();
 }
 
-xAddEventListener(window, "load", getImage);
+xAddEventListener(window, "load", getSlideShow);
