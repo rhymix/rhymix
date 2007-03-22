@@ -8,8 +8,8 @@
     <div class="editor_title">{$lang->table_title}</div>
 
     <div class="editor_option" id="table_option" style="display:none">
-      <input name="attr" type="radio" value="table" id="table_attribute_select" onchange="doSelectOption('table');return false;"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
-      <input name="attr" type="radio" value="cell" id="cell_attribute_select" onchange="doSelectOption('cell');return false;"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
+      <input name="attr" type="radio" value="table" id="table_attribute_select" onclick="doSelectOption('table');"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
+      <input name="attr" type="radio" value="cell" id="cell_attribute_select" onclick="doSelectOption('cell');"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
     </div>
 
     <div id="table_attribute" style="display:none">

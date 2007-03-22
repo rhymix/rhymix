@@ -76,7 +76,7 @@ function doSelectOption(type) {
         var cellpadding = table_obj.getAttribute("cellpadding");
         if(!cellpadding) cellpadding = 1;
 
-        var border_color = table_obj.style.backgroundColor.replace(/^#/,'');
+        var border_color = table_obj.style.borderColor.replace(/^#/,'');
         if(border_color.indexOf('rgb')>-1) {
           var tmp_color = border_color.replace(/([a-z\(\) ]*)/ig,'').split(',');
           border_color = xHex(tmp_color[0], 2, '')+xHex(tmp_color[1], 2, '')+xHex(tmp_color[2], 2, '');
