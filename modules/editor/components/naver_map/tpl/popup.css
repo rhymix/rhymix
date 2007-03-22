@@ -1,5 +1,5 @@
 .editor_window {
-  width:600px;
+  width:700px;
   clear:both;
 }
 
@@ -16,45 +16,91 @@
   text-align:center;
 }
 
-.header {
+.address_box {
   float:left;
-  width:100px;
-  clear:left;
-  text-align:left;
-  font-weight:bold;
+  width:250px;
+  border:1px solid #EEEEEE;
+  padding:5px;
   margin:5px;
-  font-size:9pt;
-  font-size:9pt;
 }
 
-.body {
-  float:left;
-  width:400px;
-  text-align:left;
-  margin:5px;
-  font-size:9pt;
-}
 
-.body label {
-  cursor:pointer;
-  font-size:9pt;
-}
-
-.navermap_address {
-  width:80px;
+.input_address {
+  width:200px;
   border:1px solid #AAAAAA;
   height:12px;
   font-size:9pt;
 }
 
-.navermap_size {
-  width:40px;
-  border:1px solid #AAAAAA;
+.address_button {
+  margin-top:4px;
+  background-color:#AAAAAA;
+  border:1px solid #333333;
+  color:#FFFFFF;
+  height:16px;
+  font-size:9pt;
+}
+
+.about_address {
+  font-size:8pt;
+  color:#AAAAAA;
+  margin-top:3px;
+}
+
+.address_list_box {
+  border:1px solid #DDDDDD;
+  padding:5px;
+  float:left;
+  width:250px;
+  height:288px;
+  margin:5px;
+  font-size:9pt;
+  color:#AAAAAA;
+  overflow:auto;
+}
+
+.address_list_box A {
+  color:#888888;
+  line-height:15px;
+}
+
+.map_scale_box {
+  float:left;
+  width:250px;
+  border:1px solid #EEEEEE;
+  padding:5px;
+  margin:5px;
+}
+
+.map_scale_header {
+  float:left;
+  font-size:9pt;
+  width:60px;
+}
+
+.map_scale_body {
+  width:180px;
+  float:left;
+  margin-left:5px;
+  font-size:9pt;
+}
+
+.input_map_size {
+  width:30px;
+  border:1px solid #EEEEEE;
   height:12px;
   font-size:9pt;
+}
+
+.map_display {
+  float:right;
+  width:410px;
+  height:410px;
+  margin:5px 5px 0px 6px;
 }
 
 .editor_button_area {
+  width:100%;
   border-top:1px solid #AAAAAA;
   text-align:center;
   background-color:#EEEEEE;

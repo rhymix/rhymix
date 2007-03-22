@@ -107,31 +107,45 @@
 
         function displayMap() {
             $id = "navermap".rand(11111111,99999999);
-            $width = Context::get('width');
-            $height = Context::get('height');
-            $x = Context::get('x');
-            $y = Context::get('y');
 
-            $html .= 
-                sprintf(
+            $width = Context::get('width');
+            if(!$width) $width = 640;
+
+            $height = Context::get('height');
+            if(!$height) $height = 480;
+
+            $x = Context::get('x');
+            if(!$x) $x = 321198;
+
+            $y = Context::get('y');
+            if(!$y) $y = 529730;
+
+            $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">'.
                     '<html>'.
                     '<head>'.
+                    '<title></title>'.
                     '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
                     '<script type="text/javascript" src="./common/js/x.js"></script>'.
-                    '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key=%s"></script>'.
+                    '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->open_api_key.'"></script>'.
+                    '<script type="text/javascript">'.
+                    'function moveMap(x,y,scale) {mapObj.setCenterAndZoom(new NPoint(x,y),scale);}'.
+                    '</script>'.
                     '</head>'.
                     '<body style="margin:0px;">'.
-                    '<div id="%s" style="width:%dpx;height:%dpx;"></div>'.
+                    '<div id="'.$id.'" style="width:'.$width.'px;height:'.$height.'px;"></div>'.
                     '<script type="text/javascript">'.
-                    'var mapObj = new NMap(document.getElementById("%s"));'.
-                    'mapObj.addControl(new NSaveBtn());'.
-                    'mapObj.setCenterAndZoom(new NPoint(%d,%d),3);'.
-                    'mapObj.enableWheelZoom();'.
-                    '</script>'.
-                    '</body>'.
-                    '</html>',
-                    $this->open_api_key, $id, $width, $height, $id, $x, $y
-                );
+                    'var mapObj = new NMap(document.getElementById("'.$id.'"));'.
+                    'mapObj.addControl(new NSaveBtn());';
+
+            if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),3);';
+
+            $html .= 'mapObj.enableWheelZoom();'.
+                     'NEvent.addListener(mapObj, "click", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
+                     'NEvent.addListener(mapObj, "mouseup", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
+                     '</script>'.
+                     '</body>'.
+                     '</html>';
+
             print $html;
             exit();
         }
