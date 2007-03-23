@@ -1,0 +1,26 @@
+.slide_loading_text {
+  color:#555555;
+  font-size:8pt;
+  font-family:tahoma;
+  font-weight:bold;
+  margin-top:20px;
+  text-align:center;
+}
+
+.slide_main_image_box {
+  border:3px solid #EEEEEE;
+  background-color:#FFFFFF;
+  margin:10px;
+}
+
+.slide_thumbnail_image_box {
+  background-color:#FFFFFF;
+  margin:10px;
+  text-align:center;
+}
+
+.slide_thumbnail_image_box img {
+  border:1px solid #555555;
+  padding:1px;
+  margin:4px;
+}
