@@ -11,8 +11,11 @@ function getSlideShow() {
 
         var width = xWidth(selected_node)-6;
         var height = xHeight(selected_node)-6;
+        var make_thumbnail = selected_node.getAttribute("make_thumbnail");
         xGetElementById("width").value = width; 
         xGetElementById("height").value = height; 
+        if(make_thumbnail=="Y") xGetElementById("make_thumbnail").checked = true;
+        else xGetElementById("make_thumbnail").checked = false;
 
         selected_images = xInnerHtml(selected_node);
     }
@@ -61,6 +64,8 @@ function insertSlideShow() {
 
     var width = xGetElementById("width").value;
     var height = xGetElementById("height").value;
+    var make_thumbnail = "N";
+    if(xGetElementById("make_thumbnail").checked) make_thumbnail = "Y";
     var images_list = "";
     for(var i=0; i<list.length;i++) {
         images_list += list[i]+"\n";
@@ -70,11 +75,12 @@ function insertSlideShow() {
     if(selected_node) {
         selected_node.setAttribute("width", width);
         selected_node.setAttribute("height", height);
+        selected_node.setAttribute("make_thumbnail", make_thumbnail);
         selected_node.style.width = width+"px";
         selected_node.style.height = height+"px";
         xInnerHtml(selected_node, images_list);
     } else {
-        var text = "<div editor_component=\"slide_show\" class=\"editor_component_output\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
+        var text = "<div editor_component=\"slide_show\" class=\"editor_component_output\" make_thumbnail=\""+make_thumbnail+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);

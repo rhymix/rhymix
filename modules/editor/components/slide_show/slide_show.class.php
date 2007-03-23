@@ -41,7 +41,12 @@
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
          **/
         function transHTML($xml_obj) {
-            return;
+            $width = $xml_obj->attrs->width;
+            $height = $xml_obj->attrs->height;
+            $body = $xml_obj->body;
+
+            $output = sprintf('<div style="width:%s;height:%s">%s</div>', $width, $height, $body);
+            return $output;
         }
 
     }
