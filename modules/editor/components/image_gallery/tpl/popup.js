@@ -11,8 +11,21 @@ function getSlideShow() {
 
         var width = xWidth(selected_node)-6;
         var height = xHeight(selected_node)-6;
+        var gallery_style = selected_node.getAttribute("gallery_style");
+        var border_color = selected_node.getAttribute("border_color");
+        var bg_color = selected_node.getAttribute("bg_color");
+
         xGetElementById("width").value = width; 
         xGetElementById("height").value = height; 
+
+        if(gallery_style=="list") xGetElementById("gallery_style").selectedIndex = 1;
+        else xGetElementById("gallery_style").selectedIndex = 0;
+
+        xGetElementById("border_color_input").value = border_color; 
+        manual_select_color("border", xGetElementById("border_color_input"));
+
+        xGetElementById("bg_color_input").value = bg_color; 
+        manual_select_color("bg", xGetElementById("bg_color_input"));
 
         selected_images = xInnerHtml(selected_node);
     }
@@ -62,6 +75,10 @@ function insertSlideShow() {
     var width = xGetElementById("width").value;
     var height = xGetElementById("height").value;
 
+    var gallery_style = xGetElementById("gallery_style").options[xGetElementById("gallery_style").selectedIndex].value;
+    var border_color = xGetElementById("border_color_input").value;
+    var bg_color = xGetElementById("bg_color_input").value;
+
     var images_list = "";
     for(var i=0; i<list.length;i++) {
         images_list += list[i]+"\n";
@@ -70,11 +87,14 @@ function insertSlideShow() {
     if(selected_node) {
         selected_node.setAttribute("width", width);
         selected_node.setAttribute("height", height);
+        selected_node.setAttribute("gallery_style", gallery_style);
+        selected_node.setAttribute("border_color", border_color);
+        selected_node.setAttribute("bg_color", bg_color);
         selected_node.style.width = width+"px";
         selected_node.style.height = height+"px";
         xInnerHtml(selected_node, images_list);
     } else {
-        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
+        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" height=\""+height+"\" gallery_style=\"+gallery_style+\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);
