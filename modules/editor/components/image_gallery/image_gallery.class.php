@@ -48,7 +48,7 @@
             $gallery_info->border_color = $xml_obj->attrs->border_color;
             $gallery_info->bg_color = $xml_obj->attrs->bg_color;
 
-            $body = trim($xml_obj->body);
+            $body = preg_replace("/\.(gif|jpg|jpeg|png)/",'.$1'."\n", trim($xml_obj->body));
             $gallery_info->image_list = explode("\n",$body);
 
             Context::set('gallery_info', $gallery_info);

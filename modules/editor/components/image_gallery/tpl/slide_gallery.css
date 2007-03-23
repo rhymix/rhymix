@@ -1,4 +1,4 @@
-.image_gallery_loading_text {
+.slide_gallery_loading_text {
   color:#555555;
   font-size:8pt;
   font-family:tahoma;
@@ -7,17 +7,17 @@
   text-align:center;
 }
 
-.image_gallery_main_image_box {
+.slide_gallery_main_image_box {
   border:3px solid #EEEEEE;
   margin:10px;
 }
 
-.image_gallery_thumbnail_image_box {
+.slide_gallery_thumbnail_image_box {
   margin:10px;
   text-align:center;
 }
 
-.image_gallery_thumbnail_image_box img {
+.slide_gallery_thumbnail_image_box img {
   border:1px solid #555555;
   padding:1px;
   margin:4px;

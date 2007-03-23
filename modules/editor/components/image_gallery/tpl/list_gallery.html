@@ -1,17 +1,13 @@
 <!--%import("list_gallery.js")-->
-<!--%import("list_gallery.css")-->
 <script type='text/javascript'>
   // 이미지갤러리에 보여줄 이미지 등록
   <!--@foreach($gallery_info->image_list as $image)-->
-  image_gallery_add_image({$gallery_info->srl},'{$image}','{$image}');
+  list_gallery_add_image({$gallery_info->srl},'{$image}');
   <!--@end-->
 
   // window.onLoad 이벤트 후에 이미지갤러리 시작 
-  xAddEventListener(window,'load',start_image_gallery);
+  xAddEventListener(window,'load',start_list_gallery);
 </script>
 
-<div id='zone_image_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color}">
-  <div id="image_gallery_loading_text" class="image_gallery_loading_text">loading images...</div>
-  <img id="image_gallery_main_image_{$gallery_info->srl}" border="0" style="display:none" alt="image_gallery" />
+<div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color}">
 </div>
-<div id='zone_thumbnail_{$gallery_info->srl}' class="image_gallery_thumbnail_image_box" style="width:{$gallery_info->width}px;"></div>

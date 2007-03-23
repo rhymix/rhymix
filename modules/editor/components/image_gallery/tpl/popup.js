@@ -83,7 +83,7 @@ function insertSlideShow() {
 
     var images_list = "";
     for(var i=0; i<list.length;i++) {
-        images_list += list[i]+"\n";
+        images_list += list[i].trim()+"\n";
     }
 
     if(selected_node) {
