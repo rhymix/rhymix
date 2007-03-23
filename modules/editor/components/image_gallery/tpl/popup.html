@@ -8,14 +8,55 @@
 
     <div class="editor_title">{$lang->image_gallery}</div>
 
-    <div class="header">{$lang->width}</div>
-    <div class="body"><input type="text" class="editor_input" id="width" value="600" />px</div>
+    <div class="short_header">{$lang->width}</div>
+    <div class="short_body"><input type="text" class="editor_input" id="width" value="600" />px</div>
 
-    <div class="header">{$lang->height}</div>
-    <div class="body"><input type="text" class="editor_input" id="height" value="600" />px</div>
+    <div class="short_header">{$lang->height}</div>
+    <div class="short_body"><input type="text" class="editor_input" id="height" value="600" />px</div>
 
-    <div class="header">{$lang->cmd_make_thumbnail}</div>
-    <div class="body"><input type="checkbox" id="make_thumbnail" value="Y" checked="true" /></div>
+    <div class="header">{$lang->gallery_style}</div>
+    <div class="body">
+      <select id="gallery_style">
+        <option value="slide">{$lang->gallery_slide_style}</option>
+        <option value="list">{$lang->gallery_list_style}</option>
+      </select>
+    </div>
+
+    <div class="header">{$lang->gallery_border_color}</div>
+    <div class="body">
+      <div class="editor_color_box">
+        <script type="text/javascript">
+          printColor("border", "{$tpl_path}/images/blank.gif");
+        </script>
+      </div>
+      <div class="editor_color_input">
+        <table border="0" cellspacing="0">
+        <tr>
+          <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
+          <td>#</td>
+          <td><input type="text" id="border_color_input" size="6" maxlength="6" class="table_input" value="000000" onkeyup="manual_select_color('border',this)"/></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="header">{$lang->gallery_bg_color}</div>
+    <div class="body">
+      <div class="editor_color_box">
+        <script type="text/javascript">
+          printColor("bg", "{$tpl_path}/images/blank.gif");
+        </script>
+      </div>
+      <div class="editor_color_input">
+        <table border="0" cellspacing="0">
+        <tr>
+          <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
+          <td>#</td>
+          <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="table_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
+        </tr>
+        </table>
+      </div>
+    </div>
 
     <div class="header">{$lang->image_list}</div>
     <div class="body">

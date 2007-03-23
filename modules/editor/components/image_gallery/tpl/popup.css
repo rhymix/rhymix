@@ -16,9 +16,26 @@
   text-align:center;
 }
 
+.short_header {
+  float:left;
+  width:80px;
+  text-align:left;
+  font-weight:bold;
+  margin:5px;
+  font-size:9pt;
+}
+
+.short_body {
+  float:left;
+  width:90px;
+  text-align:left;
+  margin:5px;
+  font-size:9pt;
+}
+
 .header {
   float:left;
-  width:100px;
+  width:80px;
   clear:left;
   text-align:left;
   font-weight:bold;
@@ -31,7 +48,6 @@
   width:350px;
   text-align:left;
   margin:5px;
-  font-size:9pt;
   font-size:9pt;
 }
 
@@ -66,4 +82,51 @@
   border:1px solid #AAAAAA;
   height:16px;
   font-size:9pt;
+}
+
+.editor_color_box {
+  clear:both;
+  height:65px;
+  width:400px;
+  border:1px solid #DDDDDD;
+  padding:2px;
+  margin-bottom:3px;
+}
+
+.editor_color_input {
+  clear:both;
+}
+
+img.bg_preview_color {
+  width:30px;
+  height:16px;
+  border:1px solid #000000;
+  background-color:#FFFFFF;
+}
+
+img.border_preview_color {
+  width:30px;
+  height:16px;
+  border:1px solid #EEEEEE;
+  background-color:#88EE22;
+}
+
+img.color_icon {
+  width:14px;
+  height:14px;
+  border:1px solid #FFFFFF;
+}
+
+img.color_icon_over {
+  width:14px;
+  height:14px;
+  border:1px solid #000000;
+  cursor:pointer;
+}
+
+.table_input {
+  width:40px;
+  height:13px;
+  font-size:9pt;
+  border:1px solid #AAAAAA;
 }
