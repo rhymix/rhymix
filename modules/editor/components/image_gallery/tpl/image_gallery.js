@@ -44,15 +44,13 @@ function image_gallery_add_image(srl, thumbnail_url, image_url) {
 
 // 이미지갤러리쇼 시작
 function start_image_gallery() {
-
   // 등록된 모든 이미지 목록을 돌면서 thumbnail 목록을 만들어줌
   for(var srl in image_gallery_images) {
+    // 등록된 이미지가 없으면 pass~
+    if(!image_gallery_images[srl].length) continue;
 
     // 첫번째 이미지의 경우 큰 이미지 출력 시작 이미지 출력
     display_gallery_image(image_gallery_images[srl][0]);
-
-    // 등록된 이미지가 없으면 pass~
-    if(!image_gallery_images[srl].length) continue;
 
     // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
     var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
@@ -70,8 +68,9 @@ function display_gallery_image(obj) {
   var zone = xGetElementById('zone_image_gallery_' + obj.srl );
 
   // 갤러리 외부 박스보다 이미지가 클 경우 resizing시킴 
-  var zone_width = xWidth(zone);
-  var zone_height = xHeight(zone);
+  var borderLeft = parseInt(zone.style.borderLeftWidth.replace(/px$/,''),10);
+  var borderRight= parseInt(zone.style.borderRightWidth.replace(/px$/,''),10);
+  var zone_width = xWidth(zone) - borderRight - borderLeft;
 
   var image_width = obj.image.width;
   var image_height = obj.image.height;
@@ -85,14 +84,11 @@ function display_gallery_image(obj) {
     image_height = parseInt(image_height*resize_scale,10);
   }
 
-  if(image_height>(zone_height-30)) {
-    resize_scale = (zone_height-30)/image_height;
-    image_width = parseInt(image_width*resize_scale,10);
-    image_height = parseInt(image_height*resize_scale,10);
-  }
+  var borderTop = parseInt(zone.style.borderTopWidth.replace(/px$/,''),10);
+  var borderBottom = parseInt(zone.style.borderBottomWidth.replace(/px$/,''),10);
+  xHeight(zone, image_height+20+borderTop+borderBottom);
 
   var x = parseInt((zone_width - image_width)/2,10)-3;
-  var y = parseInt((zone_height - image_height)/2,10)-3;
 
   // 로딩 텍스트 없앰
   xGetElementById("image_gallery_loading_text").style.display = "none";
@@ -111,7 +107,7 @@ function display_gallery_image(obj) {
   xHeight(target_image, image_height);
 
   target_image.style.margin = "0px;";
-  target_image.style.marginTop = y+"px";
+  target_image.style.marginTop = "10px";
   target_image.style.marginLeft = x+"px";
 
   target_image.style.display = "block";

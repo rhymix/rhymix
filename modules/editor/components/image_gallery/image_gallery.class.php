@@ -41,25 +41,24 @@
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
          **/
         function transHTML($xml_obj) {
-            $width = $xml_obj->attrs->width;
-            $height = $xml_obj->attrs->height;
+            $gallery_info->srl = rand(111111,999999);
+            $gallery_info->width = $xml_obj->attrs->width;
+            $gallery_info->border_thickness = $xml_obj->attrs->border_thickness;
+            $gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
+            $gallery_info->border_color = $xml_obj->attrs->border_color;
+            $gallery_info->bg_color = $xml_obj->attrs->bg_color;
 
-            $make_thumbnail = $xml_obj->attrs->make_thumbnail;
-            if(!$make_thumbnail) $make_thumbnail = "N";
-            else $make_thumbnail = "Y";
+            $body = trim($xml_obj->body);
+            $gallery_info->image_list = explode("\n",$body);
 
-            $body = $xml_obj->body;
-            $image_list = explode("\n",$body);
-
-            Context::set("image_gallery_width", $width);
-            Context::set("image_gallery_height", $height);
-            Context::set("image_gallery_images", $image_list);
-            Context::set("image_gallery_srl", rand(111111,999999));
+            Context::set('gallery_info', $gallery_info);
 
             $tpl_path = $this->component_path.'tpl';
-            $tpl_file = 'image_gallery.html';
-
             Context::set("tpl_path", $tpl_path);
+
+            if($gallery_info->gallery_style == "list") $tpl_file = 'list_gallery.html';
+            else $tpl_file = 'slide_gallery.html';
+
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);

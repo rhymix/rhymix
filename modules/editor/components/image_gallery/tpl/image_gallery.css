@@ -9,12 +9,10 @@
 
 .image_gallery_main_image_box {
   border:3px solid #EEEEEE;
-  background-color:#FFFFFF;
   margin:10px;
 }
 
 .image_gallery_thumbnail_image_box {
-  background-color:#FFFFFF;
   margin:10px;
   text-align:center;
 }
