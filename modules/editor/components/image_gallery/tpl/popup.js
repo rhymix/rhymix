@@ -81,7 +81,7 @@ function insertSlideShow() {
         selected_node.style.height = height+"px";
         xInnerHtml(selected_node, images_list);
     } else {
-        var text = "<div editor_component=\"slide_show\" class=\"editor_component_output\" make_thumbnail=\""+make_thumbnail+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
+        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" make_thumbnail=\""+make_thumbnail+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" >"+images_list+"</div>";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);

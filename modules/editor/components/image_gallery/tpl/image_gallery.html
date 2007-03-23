@@ -1,0 +1,18 @@
+<!--%import("image_gallery.js")-->
+<!--%import("image_gallery.css")-->
+<script type='text/javascript'>
+  // 이미지갤러리에 보여줄 이미지 등록
+  <!--@foreach($image_gallery_images as $image)-->
+  image_gallery_add_image({$image_gallery_srl},'{$image}','{$image}');
+  <!--@end-->
+
+  // window.onLoad 이벤트 후에 이미지갤러리 시작 
+  xAddEventListener(window,'load',start_image_gallery);
+</script>
+
+<div id='zone_image_gallery_{$image_gallery_srl}' style="width:{$image_gallery_width}px;height:{$image_gallery_height}px;" class="image_gallery_main_image_box">
+  <div id="image_gallery_loading_text" class="image_gallery_loading_text">loading images...</div>
+  <img id="image_gallery_main_image_{$image_gallery_srl}" border="0" style="display:none" alt="image_gallery" />
+</div>
+<div id='zone_thumbnail_{$image_gallery_srl}' class="image_gallery_thumbnail_image_box" style="width:{$image_gallery_width}px;"></div>
+

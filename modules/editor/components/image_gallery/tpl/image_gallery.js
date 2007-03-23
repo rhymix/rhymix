@@ -1,25 +1,25 @@
 /**
- * @file  slide_show.js
- * @brief 이미지 슬라이드 쇼 스크립트
+ * @file  image_gallery.js
+ * @brief 이미지 이미지갤러리 쇼 스크립트
  * @author zero (zero@nzeo.com)
  **/
 
-// 슬라이드쇼를 하기 위한 변수
-var slide_show_images = new Array();
+// 이미지갤러리쇼를 하기 위한 변수
+var image_gallery_images = new Array();
 
-// 슬라이드쇼 이미지 목록에 추가
-function slide_show_add_image(srl, thumbnail_url, image_url) {
+// 이미지갤러리쇼 이미지 목록에 추가
+function image_gallery_add_image(srl, thumbnail_url, image_url) {
   if(!thumbnail_url || !image_url) return;
 
   // 객체 생성
   var obj = {"srl":0, "thumbnail_url":null, "thumbnail":null, "image_url":null, "image":null}
 
-  // slide_show_images에 슬라이드 쇼 고유번호에 해당하는 공간을 초기화
-  if(typeof(slide_show_images[srl])=="undefined") slide_show_images[srl] = new Array();
+  // image_gallery_images에 이미지갤러리 쇼 고유번호에 해당하는 공간을 초기화
+  if(typeof(image_gallery_images[srl])=="undefined") image_gallery_images[srl] = new Array();
 
-  // 슬라이드쇼 고유번호를 세팅
+  // 이미지갤러리쇼 고유번호를 세팅
   obj.srl = srl;
-  obj.idx = slide_show_images[srl].length;
+  obj.idx = image_gallery_images[srl].length;
 
   // 썸네일 이미지를 미리 로딩
   obj.thumbnail = new Image();
@@ -36,38 +36,38 @@ function slide_show_add_image(srl, thumbnail_url, image_url) {
   obj.image.src = image_url;
 
   // 썸네일 클릭시 메인 이미지로 바꾸어줌
-  xAddEventListener(obj.thumbnail, "mousedown", function() { display_slide_image(obj) });
+  xAddEventListener(obj.thumbnail, "mousedown", function() { display_gallery_image(obj) });
 
-  // 생성된 객체를 slide_show_images[슬라이드쇼 고유번호]에 추가
-  slide_show_images[srl][slide_show_images[srl].length] = obj;
+  // 생성된 객체를 image_gallery_images[이미지갤러리쇼 고유번호]에 추가
+  image_gallery_images[srl][image_gallery_images[srl].length] = obj;
 }
 
-// 슬라이드쇼 시작
-function start_slide_show() {
+// 이미지갤러리쇼 시작
+function start_image_gallery() {
 
   // 등록된 모든 이미지 목록을 돌면서 thumbnail 목록을 만들어줌
-  for(var srl in slide_show_images) {
+  for(var srl in image_gallery_images) {
 
     // 첫번째 이미지의 경우 큰 이미지 출력 시작 이미지 출력
-    display_slide_image(slide_show_images[srl][0]);
+    display_gallery_image(image_gallery_images[srl][0]);
 
     // 등록된 이미지가 없으면 pass~
-    if(!slide_show_images[srl].length) continue;
+    if(!image_gallery_images[srl].length) continue;
 
     // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
     var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
 
     // 썸네일 출력
-    for(var i=0; i<slide_show_images[srl].length;i++) {
-      zone_thumbnail.appendChild(slide_show_images[srl][i].thumbnail);
+    for(var i=0; i<image_gallery_images[srl].length;i++) {
+      zone_thumbnail.appendChild(image_gallery_images[srl][i].thumbnail);
     }
 
   }
 }
 
 // 메인 이미지 표시
-function display_slide_image(obj) {
-  var zone = xGetElementById('zone_slide_show_' + obj.srl );
+function display_gallery_image(obj) {
+  var zone = xGetElementById('zone_image_gallery_' + obj.srl );
 
   // 갤러리 외부 박스보다 이미지가 클 경우 resizing시킴 
   var zone_width = xWidth(zone);
@@ -78,7 +78,7 @@ function display_slide_image(obj) {
 
   var resize_scale = 1;
 
-  // 슬라이드 쇼 박스보다 큰 이미지는 크기를 줄여서 출력
+  // 이미지갤러리 쇼 박스보다 큰 이미지는 크기를 줄여서 출력
   if(image_width>(zone_width-30)) {
     resize_scale = (zone_width-30)/image_width;
     image_width = parseInt(image_width*resize_scale,10);
@@ -95,10 +95,10 @@ function display_slide_image(obj) {
   var y = parseInt((zone_height - image_height)/2,10)-3;
 
   // 로딩 텍스트 없앰
-  xGetElementById("slide_loading_text").style.display = "none";
+  xGetElementById("image_gallery_loading_text").style.display = "none";
 
   // 이미지 표시 
-  var target_image = xGetElementById("slide_main_image_"+obj.srl);
+  var target_image = xGetElementById("image_gallery_main_image_"+obj.srl);
   target_image.style.display = "none";
 
   target_image.src = obj.image.src;
@@ -119,34 +119,34 @@ function display_slide_image(obj) {
   // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
   if(resize_scale!=1) {
     target_image.style.cursor = 'pointer';
-    xAddEventListener(target_image, 'mousedown', slide_show_winopen);
+    xAddEventListener(target_image, 'mousedown', image_gallery_winopen);
   } else {
     target_image.style.cursor = 'default';
-    xRemoveEventListener(target_image, 'mousedown', slide_show_winopen);
+    xRemoveEventListener(target_image, 'mousedown', image_gallery_winopen);
   }
 
   // srl의 모든 썸네일의 투명도 조절
-  for(var i=0; i<slide_show_images[obj.srl].length;i++) {
+  for(var i=0; i<image_gallery_images[obj.srl].length;i++) {
     if(i==obj.idx) {
-      slide_show_images[obj.srl][i].thumbnail.style.opacity = 1;
-      slide_show_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=100)";
+      image_gallery_images[obj.srl][i].thumbnail.style.opacity = 1;
+      image_gallery_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=100)";
     } else {
-      slide_show_images[obj.srl][i].thumbnail.style.opacity = 0.5;
-      slide_show_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=50)";
+      image_gallery_images[obj.srl][i].thumbnail.style.opacity = 0.5;
+      image_gallery_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=50)";
     }
   }
 
 }
 
 // 큰 이미지의 경우 새창으로 띄워줌
-function slide_show_winopen(evt) {
+function image_gallery_winopen(evt) {
   var e = new xEvent(evt);
   var obj = e.target;
   var srl = obj.srl;
   var idx = obj.idx;
 
-  var image_width = slide_show_images[srl][idx].image.width + 20;
-  var image_height = slide_show_images[srl][idx].image.height + 20;
+  var image_width = image_gallery_images[srl][idx].image.width + 20;
+  var image_height = image_gallery_images[srl][idx].image.height + 20;
 
-  winopen(slide_show_images[srl][idx].image.src, "SlideShow", "left=10,top=10,scrollbars=auto,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
+  winopen(image_gallery_images[srl][idx].image.src, "SlideShow", "left=10,top=10,scrollbars=auto,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
 }

@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  slide_show
+     * @class  image_gallery
      * @author zero (zero@nzeo.com)
-     * @brief  업로드된 이미지로 슬라이드 쇼를 만듬
+     * @brief  업로드된 이미지로 이미지갤러리를 만듬
      **/
 
-    class slide_show extends EditorHandler { 
+    class image_gallery extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function slide_show($upload_target_srl, $component_path) {
+        function image_gallery($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }
@@ -51,13 +51,13 @@
             $body = $xml_obj->body;
             $image_list = explode("\n",$body);
 
-            Context::set("slide_show_width", $width);
-            Context::set("slide_show_height", $height);
-            Context::set("slide_show_images", $image_list);
-            Context::set("slide_show_srl", rand(111111,999999));
+            Context::set("image_gallery_width", $width);
+            Context::set("image_gallery_height", $height);
+            Context::set("image_gallery_images", $image_list);
+            Context::set("image_gallery_srl", rand(111111,999999));
 
             $tpl_path = $this->component_path.'tpl';
-            $tpl_file = 'slide_show.html';
+            $tpl_file = 'image_gallery.html';
 
             Context::set("tpl_path", $tpl_path);
             require_once("./classes/template/TemplateHandler.class.php");
@@ -67,23 +67,3 @@
 
     }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
