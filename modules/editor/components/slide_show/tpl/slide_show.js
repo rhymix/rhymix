@@ -71,6 +71,8 @@ function z_start_gallery() {
                 _obj_thumbnail[srl][idx].srl = srl;
                 _obj_thumbnail[srl][idx].idx = idx;
                 _obj_thumbnail[srl][idx].style.cursor = 'pointer';
+                _obj_thumbnail[srl][idx].style.width = '60px';
+                _obj_thumbnail[srl][idx].style.height= '60px';
                 if(idx == _gallery_idx[srl]) {
                     _obj_thumbnail[srl][idx].style.opacity = 1;
                     _obj_thumbnail[srl][idx].style.filter = "alpha(opacity=100)";
@@ -114,8 +116,8 @@ function z_show_gallery(srl, idx) {
     obj_gallery.style.cursor = 'pointer';
 
     obj_gallery.start_opacity = 0;
-    obj_gallery.style.width = obj['gallery'].width;
-    obj_gallery.style.height = obj['gallery'].height;
+    obj_gallery.style.width = obj['gallery'].width+"px";
+    obj_gallery.style.height = obj['gallery'].height+"px";
     obj_gallery.style.opacity = 0;
     obj_gallery.style.filter = "alpha(opacity=0)";
     obj_gallery.start_opacity = 1;

@@ -54,6 +54,7 @@
             $border_thickness = $xml_obj->attrs->border_thickness;
             $border_color = $xml_obj->attrs->border_color;
             $bg_color = $xml_obj->attrs->bg_color;
+            $body = $xml_obj->body;
 
             $output = "";
             $style = sprintf('margin:%spx;padding:%spx;background-color:#%s;', $margin, $padding, $bg_color);
@@ -97,10 +98,9 @@
                 $output .= sprintf('<div id="folder_open_%s" style="margin:%s;display:block;"><a class="%s" href="#" onclick="zbxe_folder_open(\'%s\');return false;">%s</a></div>', $folder_id, $folder_margin, $class, $folder_id, $folder_opener);
                 $output .= sprintf('<div id="folder_close_%s" style="margin:%s;display:none;"><a class="%s" href="#" onclick="zbxe_folder_close(\'%s\');return false;">%s</a></div>', $folder_id, $folder_margin, $class, $folder_id, $folder_closer);
 
-                $output .= sprintf('<div style="%s" id="folder_%s">', $style, $folder_id);
-                debugPrint($output);
+                $output .= sprintf('<div style="%s" id="folder_%s">%s</div>', $style, $folder_id,$body);
             } else {
-                $output .= sprintf('<div style="%s">', $style);
+                $output .= sprintf('<div style="%s">%s</div>', $style, $body);
             }
             return $output;
         }

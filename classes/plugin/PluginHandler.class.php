@@ -17,8 +17,8 @@
             $oPlugin = PluginHandler::getObject($plugin);
 
             // 플러그인 실행
-            $output = $oPlugin->proc($args);
-            print $output;
+            //$output = $oPlugin->proc($args);
+            //print $output;
         }
 
         /**

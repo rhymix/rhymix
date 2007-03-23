@@ -706,7 +706,8 @@
          **/
         function transContent($content) {
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<(div|img)([^\>]*)editor_component=([^\>]*?)>!is', array($this,'_transEditorComponent'), $content);
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*?)>([^\>]*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'_transEditorComponent'), $content);
 
             // <br> 코드 변환
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
@@ -729,6 +730,7 @@
             // 플러그인에서 생성된 코드 (img, div태그내에 plugin코드 존재)의 parameter를 추출
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
+            if($xml_doc->div) $xml_doc = $xml_doc->div;
 
             // plugin attribute가 없으면 return
             $editor_component = $xml_doc->attrs->editor_component;

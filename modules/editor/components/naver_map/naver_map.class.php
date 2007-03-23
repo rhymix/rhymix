@@ -101,7 +101,7 @@
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
 
-            $body_code = sprintf('<div style="width:%dpx;height:%dpx;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $width, $height);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $width, $height);
             return $body_code;
         }
 

@@ -1,23 +1,22 @@
 <!--%import("slide_show.js")-->
+<!--%import("slide_show.css")-->
 <script type='text/javascript'>
-  var _tmp_srl = {$srl};
+  var _tmp_srl = {$slide_show_srl};
   z_gallery_opacity[_tmp_srl] = 0.3;
   z_gallery_highlight_speed[_tmp_srl] = 50; // ms
   z_gallery_highlight_opacity[_tmp_srl] = 0.1;
 
-  {foreach from=$file_list item=obj}
-  {if $obj->thumbnail_url}
-  z_add_gallery(_tmp_srl,'{$obj->thumbnail_url}','{$obj->download_url}');
-  {/if}
-  {/foreach}
+  <!--@foreach($slide_show_images as $image)-->
+  z_add_gallery(_tmp_srl,'{$image}','{$image}');
+  <!--@end-->
 </script>
 
-<div style="border:1px solid #DDDDDD;">
-<div id='zone_gallery_{$srl}' style='width:auto;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'>
+<div style="border:1px solid #DDDDDD;width:{$slide_show_width}px;">
+<div id='zone_gallery_{$slide_show_srl}' style='width:{$slide_show_width}px;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'>
   <span style="color:#000000;font-size:8pt;">loading...</span>
 </div>
 
-<div id='zone_thumbnail_{$srl}' style='width:auto;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'></div>
+<div id='zone_thumbnail_{$slide_show_srl}' style='width:{$slide_show_width}px;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'></div>
 </div>
 
 <script type='text/javascript'>

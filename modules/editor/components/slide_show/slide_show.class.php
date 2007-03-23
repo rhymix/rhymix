@@ -43,10 +43,22 @@
         function transHTML($xml_obj) {
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
+            $make_thumbnail = $xml_obj->attrs->make_thumbnail;
             $body = $xml_obj->body;
+            $image_list = explode("\n",$body);
 
-            $output = sprintf('<div style="width:%s;height:%s">%s</div>', $width, $height, $body);
-            return $output;
+            Context::set("slide_show_width", $width);
+            Context::set("slide_show_height", $height);
+            Context::set("slide_show_images", $image_list);
+            Context::set("slide_show_srl", rand(111111,999999));
+
+            $tpl_path = $this->component_path.'tpl';
+            $tpl_file = 'slide_show.html';
+
+            Context::set("tpl_path", $tpl_path);
+            require_once("./classes/template/TemplateHandler.class.php");
+            $oTemplate = new TemplateHandler();
+            return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
     }

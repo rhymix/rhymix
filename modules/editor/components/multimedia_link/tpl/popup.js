@@ -19,8 +19,8 @@ function getMultimedia() {
 
     xGetElementById("multimedia_url").value = url;
     xGetElementById("multimedia_caption").value = caption;
-    xGetElementById("multimedia_width").value = width;
-    xGetElementById("multimedia_height").value = height;
+    xGetElementById("multimedia_width").value = width-6;
+    xGetElementById("multimedia_height").value = height-6;
     if(auto_start=="true") xGetElementById("multimedia_auto_start").checked = true;
 
 }
