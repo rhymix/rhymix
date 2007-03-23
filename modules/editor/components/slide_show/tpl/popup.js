@@ -66,11 +66,12 @@ function insertSlideShow() {
     var height = xGetElementById("height").value;
     var make_thumbnail = "N";
     if(xGetElementById("make_thumbnail").checked) make_thumbnail = "Y";
+    else make_thumbnail = "N";
+
     var images_list = "";
     for(var i=0; i<list.length;i++) {
         images_list += list[i]+"\n";
     }
-
 
     if(selected_node) {
         selected_node.setAttribute("width", width);

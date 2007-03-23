@@ -1,26 +1,18 @@
 <!--%import("slide_show.js")-->
 <!--%import("slide_show.css")-->
 <script type='text/javascript'>
-  var _tmp_srl = {$slide_show_srl};
-  z_gallery_opacity[_tmp_srl] = 0.3;
-  z_gallery_highlight_speed[_tmp_srl] = 50; // ms
-  z_gallery_highlight_opacity[_tmp_srl] = 0.1;
-
+  // 슬라이드쇼에 보여줄 이미지 등록
   <!--@foreach($slide_show_images as $image)-->
-  z_add_gallery(_tmp_srl,'{$image}','{$image}');
+  slide_show_add_image({$slide_show_srl},'{$image}','{$image}');
   <!--@end-->
+
+  // window.onLoad 이벤트 후에 슬라이드 쇼 시작 
+  xAddEventListener(window,'load',start_slide_show);
 </script>
 
-<div style="border:1px solid #DDDDDD;width:{$slide_show_width}px;">
-<div id='zone_gallery_{$slide_show_srl}' style='width:{$slide_show_width}px;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'>
-  <span style="color:#000000;font-size:8pt;">loading...</span>
+<div id='zone_slide_show_{$slide_show_srl}' style="width:{$slide_show_width}px;height:{$slide_show_height}px;" class="slide_main_image_box">
+  <div id="slide_loading_text" class="slide_loading_text">loading images...</div>
+  <img id="slide_main_image_{$slide_show_srl}" border="0" style="display:none" alt="slide" />
 </div>
-
-<div id='zone_thumbnail_{$slide_show_srl}' style='width:{$slide_show_width}px;background-Color:#FFFFFF;padding:10px 10px 10px 10px;text-align:center;'></div>
-</div>
-
-<script type='text/javascript'>
-  _gallery_srl_list[_gallery_srl_list.length] = _tmp_srl;
-  xAddEventListener(window,'load',z_start_gallery);
-</script>
+<div id='zone_thumbnail_{$slide_show_srl}' class="slide_thumbnail_image_box" style="width:{$slide_show_width}px;"></div>
 

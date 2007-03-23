@@ -43,7 +43,11 @@
         function transHTML($xml_obj) {
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
+
             $make_thumbnail = $xml_obj->attrs->make_thumbnail;
+            if(!$make_thumbnail) $make_thumbnail = "N";
+            else $make_thumbnail = "Y";
+
             $body = $xml_obj->body;
             $image_list = explode("\n",$body);
 
@@ -63,3 +67,23 @@
 
     }
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

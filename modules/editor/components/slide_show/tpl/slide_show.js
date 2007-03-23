@@ -1,234 +1,152 @@
-/**********************************************************
- * image gallery in zeroboard5
- * created by zero (zero@nzeo.com, http://www.nzeo.com)
- *********************************************************/
+/**
+ * @file  slide_show.js
+ * @brief 이미지 슬라이드 쇼 스크립트
+ * @author zero (zero@nzeo.com)
+ **/
 
-var z_gallery_opacity = new Array();
-var z_gallery_highlight_speed = new Array();
-var z_gallery_highlight_opacity = new Array();
+// 슬라이드쇼를 하기 위한 변수
+var slide_show_images = new Array();
 
-var _gallery_srl_list = new Array();
-var _gallery_images = new Array();
-var _gallery_idx = new Array();
-var _obj_thumbnail = new Array();
+// 슬라이드쇼 이미지 목록에 추가
+function slide_show_add_image(srl, thumbnail_url, image_url) {
+  if(!thumbnail_url || !image_url) return;
 
-function z_add_gallery(srl, thumbnail_url, source_file_url) {
-    var obj = new Array();
+  // 객체 생성
+  var obj = {"srl":0, "thumbnail_url":null, "thumbnail":null, "image_url":null, "image":null}
 
-    var image = new Image();
-    image.src = source_file_url;
+  // slide_show_images에 슬라이드 쇼 고유번호에 해당하는 공간을 초기화
+  if(typeof(slide_show_images[srl])=="undefined") slide_show_images[srl] = new Array();
 
-    var t_image = new Image();
-    t_image.src = thumbnail_url.replace("&amp;","&");
+  // 슬라이드쇼 고유번호를 세팅
+  obj.srl = srl;
+  obj.idx = slide_show_images[srl].length;
 
-    obj['thumbnail_url'] = thumbnail_url;
-    obj['source_url'] = source_file_url;
-    obj['thumbnail'] = t_image;
-    obj['gallery'] = image;
+  // 썸네일 이미지를 미리 로딩
+  obj.thumbnail = new Image();
+  obj.thumbnail.src = thumbnail_url;
+  obj.thumbnail.style.cursor = "pointer";
+  obj.thumbnail.style.width = "60px";
+  obj.thumbnail.style.height = "60px";
+  obj.thumbnail.style.margin = "5px";
+  obj.thumbnail.style.opacity = 0.5;
+  obj.thumbnail.style.filter = "alpha(opacity=50)";
 
-    if(typeof(_gallery_images[srl])=='undefined') {
-        _gallery_images[srl] = new Array();
-        _gallery_idx[srl] = 0;
-        _obj_thumbnail[srl] = new Array();
-    }
+  // 원본 이미지를 미리 로딩
+  obj.image = new Image();
+  obj.image.src = image_url;
 
-    _gallery_images[srl][_gallery_images[srl].length] = obj;
+  // 썸네일 클릭시 메인 이미지로 바꾸어줌
+  xAddEventListener(obj.thumbnail, "mousedown", function() { display_slide_image(obj) });
+
+  // 생성된 객체를 slide_show_images[슬라이드쇼 고유번호]에 추가
+  slide_show_images[srl][slide_show_images[srl].length] = obj;
 }
 
-function z_start_gallery() {
+// 슬라이드쇼 시작
+function start_slide_show() {
 
-    for(var i = 0; i < _gallery_srl_list.length; i++) {
-        var srl = _gallery_srl_list[i];
+  // 등록된 모든 이미지 목록을 돌면서 thumbnail 목록을 만들어줌
+  for(var srl in slide_show_images) {
 
-        if(!_gallery_images[srl].length) continue;
+    // 첫번째 이미지의 경우 큰 이미지 출력 시작 이미지 출력
+    display_slide_image(slide_show_images[srl][0]);
 
-        var zone_gallery = xGetElementById('zone_gallery_'+srl);
-        var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
+    // 등록된 이미지가 없으면 pass~
+    if(!slide_show_images[srl].length) continue;
 
-        xInnerHtml(zone_gallery,'');
+    // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
+    var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
 
-        var obj = _gallery_images[srl][0];
-
-        var obj_gallery = new Image();
-        obj_gallery.src = obj['gallery'].src;
-        obj_gallery.id = 'main_gallery_'+srl;
-        obj_gallery.srl = srl;
-        obj_gallery.style.cursor = 'pointer';
-        obj_gallery.style.opacity = 1;
-        obj_gallery.style.filter = "alpha(opacity=100)";
-        obj_gallery.start_opacity = 0;
-
-        zone_gallery.appendChild(obj_gallery);
-
-        for(var idx = 0; idx < _gallery_images[srl].length; idx++) {
-            var s_obj = _gallery_images[srl][idx];
-
-            if(s_obj) {
-                _obj_thumbnail[srl][idx] = new Image();
-                _obj_thumbnail[srl][idx].src = s_obj['thumbnail'].src;
-                _obj_thumbnail[srl][idx].start_opacity = 0;
-                _obj_thumbnail[srl][idx].id = 'thumbnail_'+srl+'_'+idx;
-                _obj_thumbnail[srl][idx].srl = srl;
-                _obj_thumbnail[srl][idx].idx = idx;
-                _obj_thumbnail[srl][idx].style.cursor = 'pointer';
-                _obj_thumbnail[srl][idx].style.width = '60px';
-                _obj_thumbnail[srl][idx].style.height= '60px';
-                if(idx == _gallery_idx[srl]) {
-                    _obj_thumbnail[srl][idx].style.opacity = 1;
-                    _obj_thumbnail[srl][idx].style.filter = "alpha(opacity=100)";
-                } else {
-                    _obj_thumbnail[srl][idx].style.opacity = 0.3;
-                    _obj_thumbnail[srl][idx].style.filter = "alpha(opacity=30)";
-                }
-                _obj_thumbnail[srl][idx].style.margin = '0px 5px 5px 5px';
-                zone_thumbnail.appendChild(_obj_thumbnail[srl][idx]);
-
-            }
-        }
+    // 썸네일 출력
+    for(var i=0; i<slide_show_images[srl].length;i++) {
+      zone_thumbnail.appendChild(slide_show_images[srl][i].thumbnail);
     }
 
-    if(xIE4Up) {
-        xAddEventListener(document,'mousewheel',z_gallery_check_wheel);
-    } 
-    xAddEventListener(document,'mouseup',z_change_gallery);
-    xAddEventListener(document,'mouseover',z_gallery_do_focus);
-    xAddEventListener(document,'mouseout',z_gallery_do_focusout);
-
-    _gallery_srl_list = new Array();
+  }
 }
 
-function z_show_gallery(srl, idx) {
-    if(!_gallery_images[srl].length) return;
-    if(_gallery_idx[srl] == idx) return;
+// 메인 이미지 표시
+function display_slide_image(obj) {
+  var zone = xGetElementById('zone_slide_show_' + obj.srl );
 
-    _gallery_idx[srl] = idx;
+  // 갤러리 외부 박스보다 이미지가 클 경우 resizing시킴 
+  var zone_width = xWidth(zone);
+  var zone_height = xHeight(zone);
 
-    var obj = _gallery_images[srl][_gallery_idx[srl]];
-    var obj_gallery = xGetElementById('main_gallery_'+srl);
-    if(obj['gallery'].src == obj_gallery.src) return;
+  var image_width = obj.image.width;
+  var image_height = obj.image.height;
 
-    obj_gallery.parentNode.removeChild(obj_gallery);
+  var resize_scale = 1;
 
-    obj_gallery = new Image();
-    obj_gallery.src = obj['gallery'].src;
-    obj_gallery.id = 'main_gallery_'+srl;
-    obj_gallery.srl = srl;
-    obj_gallery.style.cursor = 'pointer';
+  // 슬라이드 쇼 박스보다 큰 이미지는 크기를 줄여서 출력
+  if(image_width>(zone_width-30)) {
+    resize_scale = (zone_width-30)/image_width;
+    image_width = parseInt(image_width*resize_scale,10);
+    image_height = parseInt(image_height*resize_scale,10);
+  }
 
-    obj_gallery.start_opacity = 0;
-    obj_gallery.style.width = obj['gallery'].width+"px";
-    obj_gallery.style.height = obj['gallery'].height+"px";
-    obj_gallery.style.opacity = 0;
-    obj_gallery.style.filter = "alpha(opacity=0)";
-    obj_gallery.start_opacity = 1;
+  if(image_height>(zone_height-30)) {
+    resize_scale = (zone_height-30)/image_height;
+    image_width = parseInt(image_width*resize_scale,10);
+    image_height = parseInt(image_height*resize_scale,10);
+  }
 
-    var zone_gallery = xGetElementById('zone_gallery_'+srl);
-    zone_gallery.appendChild(obj_gallery);
+  var x = parseInt((zone_width - image_width)/2,10)-3;
+  var y = parseInt((zone_height - image_height)/2,10)-3;
 
-    setTimeout(function _start() {z_gallery_opacity_up(obj_gallery,z_gallery_opacity[srl],z_gallery_highlight_opacity[srl]);}, z_gallery_highlight_speed[srl]);
+  // 로딩 텍스트 없앰
+  xGetElementById("slide_loading_text").style.display = "none";
 
-    for(var idx = 0; idx < _gallery_images[srl].length; idx ++) {
-        var s_obj = xGetElementById('thumbnail_'+srl+'_'+idx);
-        if(!s_obj) continue;
+  // 이미지 표시 
+  var target_image = xGetElementById("slide_main_image_"+obj.srl);
+  target_image.style.display = "none";
 
-        if(idx == _gallery_idx[srl]) {
-            s_obj.style.opacity = 1;
-            s_obj.style.filter = "alpha(opacity=100)";
-        } else {
-            s_obj.style.opacity = z_gallery_opacity[srl];
-            s_obj.style.filter = "alpha(opacity="+(z_gallery_opacity[srl]*100)+")";
-        }
-    }
-}
+  target_image.src = obj.image.src;
+  target_image.srl = obj.srl;
+  target_image.idx = obj.idx;
+  target_image.style.opacity = 1;
+  target_image.style.filter = "alpha(opacity=100)";
+  target_image.start_opacity = 0;
+  xWidth(target_image, image_width);
+  xHeight(target_image, image_height);
 
-function z_gallery_opacity_up(obj,opacity,up) {
-    var srl = obj.srl;
-    if(obj.start_opacity!=1) {
-        if(obj.id == 'main_gallery_'+srl || obj.idx == _gallery_idx[srl]) {
-            obj.style.opacity = 1;
-            obj.style.filter = "alpha(opacity=100)";
-        } else {
-            obj.style.opacity = z_gallery_opacity[srl];
-            obj.style.filter = "alpha(opacity="+(z_gallery_opacity[srl]*100)+")";
-        }
-        return;
-    }
-    if(opacity<1) {
-        up = z_gallery_highlight_opacity[srl];
-        opacity += up;
-        if(opacity>=1) opacity = 1.0;
-        if(opacity>=0.5) opacity = 1.0;
-        obj.style.opacity = opacity;
-        obj.style.filter = "alpha(opacity="+(opacity*100)+")";
-        if(opacity<1) setTimeout(function _opacity_up() {z_gallery_opacity_up(obj, opacity,up);},z_gallery_highlight_speed[srl]);
+  target_image.style.margin = "0px;";
+  target_image.style.marginTop = y+"px";
+  target_image.style.marginLeft = x+"px";
+
+  target_image.style.display = "block";
+
+  // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
+  if(resize_scale!=1) {
+    target_image.style.cursor = 'pointer';
+    xAddEventListener(target_image, 'mousedown', slide_show_winopen);
+  } else {
+    target_image.style.cursor = 'default';
+    xRemoveEventListener(target_image, 'mousedown', slide_show_winopen);
+  }
+
+  // srl의 모든 썸네일의 투명도 조절
+  for(var i=0; i<slide_show_images[obj.srl].length;i++) {
+    if(i==obj.idx) {
+      slide_show_images[obj.srl][i].thumbnail.style.opacity = 1;
+      slide_show_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=100)";
     } else {
-        obj.start_opacity = 0;
+      slide_show_images[obj.srl][i].thumbnail.style.opacity = 0.5;
+      slide_show_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=50)";
     }
+  }
+
 }
 
-function z_change_next_gallery(srl) {
-    var idx = _gallery_idx[srl] +1;
-    if(idx>=_gallery_images[srl].length) idx = 0;
-    setTimeout(function show_gallery() { z_show_gallery(srl, idx); }, 50);
-}
+// 큰 이미지의 경우 새창으로 띄워줌
+function slide_show_winopen(evt) {
+  var e = new xEvent(evt);
+  var obj = e.target;
+  var srl = obj.srl;
+  var idx = obj.idx;
 
-function z_change_prev_gallery(srl) {
-    var idx = _gallery_idx[srl] -1;
-    if(idx<0) idx = _gallery_images[srl].length-1;
-    setTimeout(function show_gallery() { z_show_gallery(srl, idx); }, 50);
-}
+  var image_width = slide_show_images[srl][idx].image.width + 20;
+  var image_height = slide_show_images[srl][idx].image.height + 20;
 
-function z_change_gallery(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var srl = obj.srl;
-    var idx = obj.idx;
-    if(typeof(srl)=='undefined') return;
-    if(typeof(idx)=='undefined') z_change_next_gallery(srl);
-    else {
-        setTimeout(function show_gallery() { z_show_gallery(srl, idx); }, 50);
-    }
-}
-
-function z_gallery_do_focus(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var srl = obj.srl;
-    if(typeof(srl)=='undefined') return;
-    if(obj.idx == _gallery_idx[srl]) return;
-    if(obj.id == 'main_gallery_'+srl) return;
-    obj.start_opacity = 1;
-    z_gallery_opacity_up(obj,z_gallery_opacity[srl],z_gallery_highlight_opacity[srl]);
-    xPreventDefault(evt);
-    xStopPropagation(evt);
-}
-
-function z_gallery_do_focusout(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var srl = obj.srl;
-    if(typeof(srl)=='undefined') return;
-    if(obj.idx == _gallery_idx[srl]) return;
-    if(obj.id == 'main_gallery_'+srl) return;
-    obj.start_opacity = 0;
-    obj.style.opacity = z_gallery_opacity[srl];
-    obj.style.filter = "alpha(opacity="+(z_gallery_opacity[srl]*100)+")";
-}
-
-function z_gallery_check_wheel(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var srl = obj.srl;
-    if(typeof(srl)=='undefined') return;
-    if(e.target.id != 'main_gallery_'+srl) return;
-    if(evt.wheelDelta<0) z_change_next_gallery(srl);
-    else z_change_prev_gallery(srl);
-    xPreventDefault(evt);
-    xStopPropagation(evt);
-}
-
-function zb5_board_cancel(url) {
-    if(!confirm(alert_msg['msg_cancel'])) return false;
-    location.href=url;
-    return false;
+  winopen(slide_show_images[srl][idx].image.src, "SlideShow", "left=10,top=10,scrollbars=auto,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
 }
