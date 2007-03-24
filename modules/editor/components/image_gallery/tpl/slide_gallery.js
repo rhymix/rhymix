@@ -131,7 +131,7 @@ function display_gallery_image(obj, is_first_display) {
     var next_idx = obj.idx+1;
     if(slide_gallery_images[obj.srl].length<=next_idx) next_idx = 0;
 
-    target_image.onmousedown =  function() { display_gallery_image(slide_gallery_images[obj.srl][next_idx]); };
+    //target_image.onclick =  function() { display_gallery_image(slide_gallery_images[obj.srl][next_idx]); };
 
     target_image.style.cursor = 'pointer';
 
