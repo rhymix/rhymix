@@ -8,7 +8,7 @@ function getImage() {
 
     // url이 미리 입력되어 있을 경우 scale구해줌
     if(xGetElementById("image_url").value) {
-        setTimeout(function() { getImageScale(); }, 500);
+        getImageScale();
         return;
     }
 

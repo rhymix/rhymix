@@ -67,7 +67,7 @@ function editorStart(upload_target_srl) {
     else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
     xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
-    // 플러그인 감시를 위한 더블클릭 이벤트 걸기
+    // 플러그인 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
     if(xUA.indexOf('opera')==-1) {
         xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
         xAddEventListener(document,'dblclick',editorSearchComponent);
@@ -83,7 +83,6 @@ function editorStart(upload_target_srl) {
 
     // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
     editorSyncContent(fo_obj.content, upload_target_srl);
-    //editorFocus(upload_target_srl);
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
@@ -152,6 +151,8 @@ function editorGetSelectedNode(upload_target_srl) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
+    html += "\n";
+    iframe_obj.contentWindow.focus();
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         if(range.pasteHTML) {
@@ -329,7 +330,8 @@ function editorSearchComponent(evt) {
     var obj = e.target;
     if(!obj.getAttribute("editor_component")) {
         while(obj && !obj.getAttribute("editor_component")) {
-            obj = xParent(obj);
+            if(obj.parentElement) obj = obj.parentElement;
+            else obj = xParent(obj);
         }
     }
 
