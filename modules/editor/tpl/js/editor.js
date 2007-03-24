@@ -150,7 +150,6 @@ function editorGetSelectedNode(upload_target_srl) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
-    html += "\n";
     iframe_obj.contentWindow.focus();
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();

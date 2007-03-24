@@ -706,7 +706,7 @@
          **/
         function transContent($content) {
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*?)>([^\>]*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
             $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'_transEditorComponent'), $content);
 
             // <br> 코드 변환
@@ -726,6 +726,7 @@
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
+            $buff = str_replace("&","&amp;",$buff);
 
             // 플러그인에서 생성된 코드 (img, div태그내에 plugin코드 존재)의 parameter를 추출
             $oXmlParser = new XmlParser();

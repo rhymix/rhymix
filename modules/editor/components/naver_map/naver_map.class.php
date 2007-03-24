@@ -139,7 +139,8 @@
 
             if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),3);';
 
-            $html .= 'mapObj.enableWheelZoom();'.
+            $html .= ''.
+                     //'mapObj.enableWheelZoom();'.
                      'NEvent.addListener(mapObj, "click", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
                      'NEvent.addListener(mapObj, "mouseup", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
                      '</script>'.
