@@ -10,8 +10,8 @@
   xAddEventListener(window,'load',start_slide_gallery);
 </script>
 
+<div id='zone_thumbnail_{$gallery_info->srl}' class="slide_gallery_thumbnail_image_box" style="width:{$gallery_info->width}px;"></div>
 <div id='zone_slide_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color}">
   <div id="slide_gallery_loading_text" class="slide_gallery_loading_text">loading images...</div>
   <img id="slide_gallery_main_image_{$gallery_info->srl}" border="0" style="display:none" alt="slide_gallery" />
 </div>
-<div id='zone_thumbnail_{$gallery_info->srl}' class="slide_gallery_thumbnail_image_box" style="width:{$gallery_info->width}px;"></div>
