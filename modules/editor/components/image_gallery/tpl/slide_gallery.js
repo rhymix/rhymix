@@ -6,6 +6,7 @@
 
 // 이미지갤러리쇼를 하기 위한 변수
 var slide_gallery_images = new Array();
+var thumbnail_zone_height = new Array();
 
 // 이미지갤러리쇼 이미지 목록에 추가
 function slide_gallery_add_image(srl, thumbnail_url, image_url) {
@@ -51,9 +52,6 @@ function start_slide_gallery() {
         // 등록된 이미지가 없으면 pass~
         if(!slide_gallery_images[srl].length) continue;
 
-        // 첫번째 이미지의 경우 큰 이미지 출력 시작 이미지 출력
-        display_gallery_image(slide_gallery_images[srl][0],true);
-
         // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
         var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
 
@@ -61,12 +59,17 @@ function start_slide_gallery() {
         for(var i=0; i<slide_gallery_images[srl].length;i++) {
             zone_thumbnail.appendChild(slide_gallery_images[srl][i].thumbnail);
         }
+        thumbnail_zone_height[srl] = xHeight(zone_thumbnail)+20;
 
+        // 첫번째 이미지의 경우 큰 이미지 출력 시작 이미지 출력
+        display_gallery_image(slide_gallery_images[srl][0],true);
     }
 }
 
 // 메인 이미지 표시
 function display_gallery_image(obj, is_first_display) {
+    var zone_thumbnail = xGetElementById('zone_thumbnail_'+obj.srl);
+
     if(typeof(is_first_display)=="undefined") is_first_display = false;
     var zone = xGetElementById('zone_slide_gallery_' + obj.srl );
 
@@ -91,7 +94,11 @@ function display_gallery_image(obj, is_first_display) {
     }
     var x = parseInt((zone_width - image_width)/2,10)-3;
 
-    xHeight(zone, image_height+borderTop+borderBottom+20);
+    var new_zone_height = image_height+borderTop+borderTop+20;
+    if(new_zone_height<200) new_zone_height = 200;
+    xHeight(zone, new_zone_height+thumbnail_zone_height[obj.srl] );
+
+    var newMarginTop = (new_zone_height - image_height) /2 ;
 
     // 로딩 텍스트 없앰
     xGetElementById("slide_gallery_loading_text").style.display = "none";
@@ -111,18 +118,24 @@ function display_gallery_image(obj, is_first_display) {
 
     target_image.style.margin = "0px;";
     target_image.style.marginLeft = x+"px";
-    target_image.style.marginTop = "10px";
+    target_image.style.marginTop = newMarginTop+"px";
+    target_image.style.marginBottom = newMarginTop+"px";
 
-    target_image.style.display = "block";
+    if(resize_scale!=1) {
+        xAddEventListener(target_image, 'dblclick', slide_gallery_winopen);
+    } else {
+        xRemoveEventListener(target_image, 'dblclick', slide_gallery_winopen);
+    }
 
     // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
-    if(resize_scale!=1) {
-            target_image.style.cursor = 'pointer';
-            xAddEventListener(target_image, 'mousedown', slide_gallery_winopen);
-        } else {
-            target_image.style.cursor = 'default';
-            xRemoveEventListener(target_image, 'mousedown', slide_gallery_winopen);
-    }
+    var next_idx = obj.idx+1;
+    if(slide_gallery_images[obj.srl].length<=next_idx) next_idx = 0;
+
+    target_image.onmousedown =  function() { display_gallery_image(slide_gallery_images[obj.srl][next_idx]); };
+
+    target_image.style.cursor = 'pointer';
+
+    target_image.style.display = "block";
 
     // srl의 모든 썸네일의 투명도 조절
     for(var i=0; i<slide_gallery_images[obj.srl].length;i++) {
