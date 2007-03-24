@@ -73,7 +73,6 @@ function editorStart(upload_target_srl) {
         xAddEventListener(document,'dblclick',editorSearchComponent);
     }
 
-    //xAddEventListener(document,'keypress',editorKeyPress);
     xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
 
