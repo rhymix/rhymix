@@ -12,10 +12,11 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="content" value="{$module_info->content}" />
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
-  <table>
+  <table width="100%" border="1">
   <tr>
     <th rowspan="2">{$lang->mid}</th>
     <td><input type="text" name="mid" value="{$module_info->mid}" /></td>
@@ -69,11 +70,10 @@
   </tr>
   <!--@end-->
   <tr>
-    <th rowspan="2">{$lang->description}</th>
-    <td><textarea name="description">{htmlspecialchars($module_info->description)}</textarea></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_description}</td>
+    <th>{$lang->content}</th>
+    <td>
+        {$editor}
+    </td>
   </tr>
   <tr>
     <td colspan="2">

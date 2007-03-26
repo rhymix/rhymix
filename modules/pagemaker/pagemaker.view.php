@@ -29,18 +29,6 @@
             // module model 객체 생성 
             $oModuleModel = &getModel('module');
 
-            // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
-            if($module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info) {
-                    Context::set('module_srl','');
-                    $this->act = 'list';
-                } else {
-                    $this->module_info = $module_info;
-                    Context::set('module_info',$module_info);
-                }
-            }
-
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
@@ -125,15 +113,37 @@
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
-            // 스킨 목록을 구해옴
-            $oModuleModel = &getModel('module');
-            $skin_list = $oModuleModel->getSkins($this->module_path);
-            Context::set('skin_list',$skin_list);
-
             // 레이아웃 목록을 구해옴
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
+
+            // GET parameter에서 module_srl을 가져옴
+            $module_srl = Context::get('module_srl');
+
+            // module model 객체 생성 
+            if($module_srl) {
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
+                else {
+                    unset($module_info);
+                    unset($module_srl);
+                }
+            }
+
+            if(!$module_srl) {
+                $oDB = &DB::getInstance();
+                $module_srl = $oDB->getNextSequence();
+            }
+
+            Context::set('module_srl',$module_srl);
+            Context::set('module_info', $module);
+
+            // 에디터 모듈의 getEditor를 호출하여 세팅
+            $oEditorView = &getView('editor');
+            $editor = $oEditorView->getEditor($module_srl, true);
+            Context::set('editor', $editor);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('page_insert');
