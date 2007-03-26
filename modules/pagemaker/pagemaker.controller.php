@@ -50,6 +50,8 @@
 
             if(!$output->toBool()) return $output;
 
+            $this->add("module_srl", $args->module_srl);
+            $this->add("page", Context::get('page'));
             $this->setMessage($msg_code);
         }
 
@@ -88,7 +90,7 @@
         function procUploadFile() {
             // 기본적으로 필요한 변수 설정
             $upload_target_srl = Context::get('upload_target_srl');
-            $module_srl = $this->module_srl;
+            $module_srl = Context::get('module_srl');
 
             // file class의 controller 객체 생성
             $oFileController = &getController('file');
@@ -105,7 +107,7 @@
         function procDeleteFile() {
             // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
             $upload_target_srl = Context::get('upload_target_srl');
-            $module_srl = $this->module_srl;
+            $module_srl = Context::get('module_srl');
             $file_srl = Context::get('file_srl');
 
             // file class의 controller 객체 생성

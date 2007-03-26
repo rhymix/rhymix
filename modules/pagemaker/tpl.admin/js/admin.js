@@ -4,6 +4,23 @@
  * @desc   : pagemaker 모듈의 관리자용 javascript
  **/
 
+/* 모듈 생성 후 */
+function completeInsertPage(ret_obj) {
+  var error = ret_obj['error'];
+  var message = ret_obj['message'];
+
+  var page = ret_obj['page'];
+  var module_srl = ret_obj['module_srl'];
+
+  alert(message);
+
+  var url =  "./?module=admin&mo=pagemaker&module_srl="+module_srl+"&act=dispAdminPageInfo";
+  if(page) url += "&page="+page;
+
+  location.href = url;
+}
+
+
 /* 모듈 삭제 후 */
 function completeDeletePage(ret_obj) {
   var error = ret_obj['error'];

@@ -13,8 +13,10 @@
     <param name="is_default" target="is_default" />
     <param name="content" target="content" />
   </parameter>
-  <response>
+  <response callback_func="completeInsertPage">
     <tag name="error" />
     <tag name="message" />
+    <tag name="module_srl" />
+    <tag name="page" />
   </response>
 </filter>

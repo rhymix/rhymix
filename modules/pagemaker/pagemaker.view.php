@@ -91,8 +91,22 @@
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
+            // GET parameter에서 module_srl을 가져옴
+            $module_srl = Context::get('module_srl');
+
+            // module model 객체 생성 
+            if($module_srl) {
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
+                else {
+                    unset($module_info);
+                    unset($module_srl);
+                }
+            }
+
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispAdminContent();
+            if(!$module_srl) return $this->dispAdminContent();
 
             // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
             if($this->module_info->layout_srl) {
@@ -131,14 +145,12 @@
                     unset($module_srl);
                 }
             }
-
             if(!$module_srl) {
                 $oDB = &DB::getInstance();
                 $module_srl = $oDB->getNextSequence();
             }
 
             Context::set('module_srl',$module_srl);
-            Context::set('module_info', $module);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorView = &getView('editor');
