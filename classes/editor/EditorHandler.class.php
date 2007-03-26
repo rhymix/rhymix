@@ -11,11 +11,7 @@
          * @brief 컴포넌트의 xml및 관련 정보들을 설정
          **/
         function setInfo($info) {
-            $this->component_name = $info->component_name;
-            $this->version = $info->version;
-            $this->title = $info->title;
-            $this->author = $info->author;
-            $this->description = $info->description;
+            Context::set('component_info', $info);
 
             if($info->extra_vars) {
                 foreach($info->extra_vars as $key => $val) {
