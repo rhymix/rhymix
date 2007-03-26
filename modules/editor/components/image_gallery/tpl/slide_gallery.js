@@ -130,16 +130,16 @@ function display_gallery_image(obj, is_first_display) {
     }
 
     if(resize_scale!=1) {
-        xAddEventListener(target_image, 'dblclick', showOriginalImage);
+        xAddEventListener(target_image, 'click', showOriginalImage);
+        target_image.style.cursor = 'pointer';
     } else {
-        xRemoveEventListener(target_image, 'dblclick', showOriginalImage);
+        xRemoveEventListener(target_image, 'click', showOriginalImage);
+        target_image.style.cursor = 'default';
     }
 
     // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
     var next_idx = obj.idx+1;
     if(slide_gallery_images[obj.srl].length<=next_idx) next_idx = 0;
-
-    target_image.style.cursor = 'pointer';
 
     target_image.style.display = "block";
 

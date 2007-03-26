@@ -74,7 +74,7 @@ function start_list_gallery() {
         // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
         if(resize_scale!=1) {
             obj.image.style.cursor = 'pointer';
-            xAddEventListener(obj.image, 'mousedown', showOriginalImage);
+            xAddEventListener(obj.image, 'click', showOriginalImage);
         }
 
         zone.appendChild(obj.image);
