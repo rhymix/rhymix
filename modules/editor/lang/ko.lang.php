@@ -13,4 +13,5 @@
     $lang->component_description = "설명";
 
     $lang->msg_component_is_not_founded = '%s 에디터 컴포넌트를 찾을 수 없습니다';
+    $lang->msg_component_is_inserted = '선택하신 컴포넌트는 이미 입력되어 있습니다';
 ?>

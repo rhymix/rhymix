@@ -5,46 +5,45 @@
 <form action="./" method="get" onSubmit="return false" id="fo">
   <div class="editor_window">
 
-    <div class="editor_title">{$lang->table_title}</div>
+  <div class="editor_title">{$lang->table_title}</div>
 
-    <div class="editor_option" id="table_option" style="display:none">
-      <input name="attr" type="radio" value="table" id="table_attribute_select" onclick="doSelectOption('table');"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
-      <input name="attr" type="radio" value="cell" id="cell_attribute_select" onclick="doSelectOption('cell');"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
+  <div class="editor_option" id="table_option" style="display:none">
+    <input name="attr" type="radio" value="table" id="table_attribute_select" onclick="doSelectOption('table');"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
+    <input name="attr" type="radio" value="cell" id="cell_attribute_select" onclick="doSelectOption('cell');"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
+  </div>
+
+  <div id="table_attribute" style="display:none">
+
+    <div class="item_area" id="col_row_area" style="display:none" >
+      <div class="header">{$lang->table_cols_count} :</div>
+      <div class="body"><input type="text" class="table_input" id="cols_count" value="3" /></div>
+
+      <div class="header">{$lang->table_rows_count} :</div>
+      <div class="body"><input type="text" class="table_input" id="rows_count" value="3" /></div>
     </div>
 
-    <div id="table_attribute" style="display:none">
+    <div class="item_area">
+      <div class="header">{$lang->table_width} :</div>
+      <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
 
-      <div class="item_area" id="col_row_area" style="display:none" >
-        <div class="header">{$lang->table_cols_count} :</div>
-        <div class="body"><input type="text" class="table_input" id="cols_count" value="3" /></div>
+      <div class="header">{$lang->table_cellspacing} :</div>
+      <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
 
-        <div class="header">{$lang->table_rows_count} :</div>
-        <div class="body"><input type="text" class="table_input" id="rows_count" value="3" /></div>
-      </div>
+      <div class="header">{$lang->table_cellpadding} :</div>
+      <div class="body"><input type="text" class="table_input" id="cellpadding" value="1" />px</div>
+    </div>
 
-      <div class="item_area">
-        <div class="header">{$lang->table_width} :</div>
-        <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
+    <div class="item_area">
+      <div class="header">{$lang->table_border} :</div>
+      <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
 
-        <div class="header">{$lang->table_cellspacing} :</div>
-        <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
-
-        <div class="header">{$lang->table_cellpadding} :</div>
-        <div class="body"><input type="text" class="table_input" id="cellpadding" value="1" />px</div>
-      </div>
-
-      <div class="item_area">
-        <div class="header">{$lang->table_border} :</div>
-        <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
-
-        <div class="header">{$lang->table_inner_border} :</div>
-        <div class="body"><input type="text" class="table_input" id="inner_border" value="0" />px</div>
-      </div>
+      <div class="header">{$lang->table_inner_border} :</div>
+      <div class="body"><input type="text" class="table_input" id="inner_border" value="0" />px</div>
+    </div>
 
     </div>
 
     <div id="cell_attribute" style="display:none">
-
       <div class="item_area">
         <div class="header">{$lang->cell_width} :</div>
         <div class="body"><input type="text" class="table_input" id="cell_width" value="0" />px</div>
@@ -59,18 +58,18 @@
       <div class="body">
         <div class="editor_color_box">
           <script type="text/javascript">
-            printColor("border", "{$tpl_path}/images/blank.gif");
+          printColor("border", "{$tpl_path}/images/blank.gif");
           </script>
         </div>
-        <div class="editor_color_input">
-          <table border="0" cellspacing="0">
-          <tr>
-            <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
-            <td>#</td>
-            <td><input type="text" id="border_color_input" size="6" maxlength="6" class="table_input" value="000000" onkeyup="manual_select_color('border',this)"/></td>
-          </tr>
-          </table>
-        </div>
+      <div class="editor_color_input">
+        <table border="0" cellspacing="0">
+        <tr>
+        <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
+        <td>#</td>
+        <td><input type="text" id="border_color_input" size="6" maxlength="6" class="table_input" value="000000" onkeyup="manual_select_color('border',this)"/></td>
+        </tr>
+        </table>
+      </div>
       </div>
     </div>
 
@@ -79,18 +78,19 @@
       <div class="body">
         <div class="editor_color_box">
           <script type="text/javascript">
-            printColor("bg", "{$tpl_path}/images/blank.gif");
+          printColor("bg", "{$tpl_path}/images/blank.gif");
           </script>
         </div>
         <div class="editor_color_input">
           <table border="0" cellspacing="0">
           <tr>
-            <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
-            <td>#</td>
-            <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="table_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
+          <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
+          <td>#</td>
+          <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="table_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
           </tr>
           </table>
         </div>
+      </div>
     </div>
 
     <div class="editor_button_area">

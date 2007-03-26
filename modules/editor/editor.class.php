@@ -14,6 +14,18 @@
             // 에디터 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/editor');
 
+            // 기본 에디터 컴포넌트를 추가
+            $oEditorController = &getController('editor');
+            $oEditorController->insertComponent('colorpicker_text',true);
+            $oEditorController->insertComponent('colorpicker_bg',true);
+            $oEditorController->insertComponent('emoticon',true);
+            $oEditorController->insertComponent('url_link',true);
+            $oEditorController->insertComponent('image_link',true);
+            $oEditorController->insertComponent('multimedia_link',true);
+            $oEditorController->insertComponent('image_gallery',true);
+            $oEditorController->insertComponent('quotation',true);
+            $oEditorController->insertComponent('table_maker',true);
+
             return new Object();
         }
 

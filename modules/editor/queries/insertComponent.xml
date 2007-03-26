@@ -1,0 +1,10 @@
+<query id="insertComponent" action="insert">
+  <tables>
+    <table name="editor_components" />
+  </tables>
+  <columns>
+    <column name="component_name" var="component_name" notnull="notnull" />
+    <column name="enabled" var="enabled" default="N" />
+    <column name="list_order" var="list_order" default="sequence()" />
+  </columns>
+</query>

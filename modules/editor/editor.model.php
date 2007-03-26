@@ -25,6 +25,64 @@
         }
 
         /**
+         * @brief component 목록을 return (DB정보 보함)
+         **/
+        function getComponentList($filter_enabled = true) {
+            if($filter_enabled) $args->enabled = "Y";
+
+            // DB에서 가져옴
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.getComponentList', $args);
+            $db_list = $output->data;
+
+            // 파일목록을 구함
+            $downloaded_list = FileHandler::readDir($this->module_path.'components');
+
+            // DB 목록을 loop돌면서 xml정보까지 구함
+            if(!is_array($db_list)) $db_list = array($db_list);
+            foreach($db_list as $component) {
+                if(!$component->component_name) continue;
+
+                $component_name = $component->component_name;
+
+                unset($xml_info);
+                $xml_info = $this->getComponentXmlInfo($component_name);
+                $xml_info->enabled = $component->enabled;
+
+                if($component->extra_vars) {
+                    $extra_vars = unserialize($component->extra_vars);
+                    foreach($xml_info->extra_vars as $key => $val) {
+                        $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+                    }
+                }
+
+                $component_list->{$component_name} = $xml_info;
+            }
+
+            // enabled만 체크하도록 하였으면 그냥 return
+            if($filter_enabled) return $component_list;
+
+            // 다운로드된 목록의 xml_info를 마저 구함
+            foreach($downloaded_list as $component_name) {
+                // 설정된 것이라면 패스
+                if($component_list->{$component_name}) continue;
+
+                // DB에 입력
+                $oEditorController = &getController('editor');
+                $oEditorController->insertComponent($component_name, false);
+
+                // component_list에 추가
+                unset($xml_info);
+                $xml_info = $this->getComponentXmlInfo($component_name);
+                $xml_info->enabled = 'N';
+
+                $component_list->{$component_name} = $xml_info;
+            }
+
+            return $component_list;
+        }
+
+        /**
          * @brief component의 xml정보를 읽음
          **/
         function getComponentXmlInfo($component) {

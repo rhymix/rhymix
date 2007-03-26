@@ -13,6 +13,28 @@
         function init() {
         }
 
+        /**
+         * @brief 컴포넌트를 DB에 추가
+         **/
+        function insertComponent($component_name, $enabled = false) {
+            if($enabled) $enabled = 'Y';
+            else $enabled = 'N';
+
+            $oDB = &DB::getInstance();
+
+            $args->component_name = $component_name;
+            $args->enabled = $enabled;
+
+            // 컴포넌트가 있는지 확인
+            $output = $oDB->executeQuery('editor.isComponentInserted', $args);
+            if($output->data->count) return new Object(-1, 'msg_component_is_not_founded');
+
+            // 입력
+            $args->list_order = $oDB->getNextSequence();
+            $output = $oDB->executeQuery('editor.insertComponent', $args);
+            return $output;
+        }
+
 
         /**
          * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 

@@ -19,14 +19,10 @@
          **/
         function adminIndex() {
             // 컴포넌트의 종류를 구해옴
-            $component_list = FileHandler::readDir($this->module_path.'components');
-            arsort($component_list);
-
             $oEditorModel = &getModel('editor');
-            foreach($component_list as $component) {
-                $list[$component] = $xml_doc = $oEditorModel->getComponentXmlInfo($component);
-            }
-            Context::set('component_list', $list);
+            $component_list = $oEditorModel->getComponentList(false);
+
+            Context::set('component_list', $component_list);
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('admin_index');
@@ -42,8 +38,9 @@
 
             // 에디터 컴포넌트를 구함
             if(!Context::get('component_list')) {
-                $component_list = FileHandler::readDir($this->module_path.'components');
-                arsort($component_list);
+                $oEditorModel = &getModel('editor');
+                $component_list = $oEditorModel->getComponentList();
+            debugPrint($component_list);
                 Context::set('component_list', $component_list);
             }
 

@@ -66,9 +66,9 @@
   <div class="editor_area_2">
     <!-- 컴포넌트 -->
     <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
-      <!--@foreach($component_list as $component)-->
-        <!--@if(substr($component,0,11)!="colorpicker")-->
-          <img src="../components/{$component}/icon.gif" alt="{$component}" class="editor_icon" id="component_{$upload_target_srl}_{$component}" />
+      <!--@foreach($component_list as $component_name => $component)-->
+        <!--@if(substr($component_name,0,11)!="colorpicker")-->
+          <img src="../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" class="editor_icon" id="component_{$upload_target_srl}_{$component_name}" />
         <!--@end-->
       <!--@end-->
     </div>
