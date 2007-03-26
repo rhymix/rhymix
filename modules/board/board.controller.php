@@ -300,25 +300,6 @@
         }
 
         /**
-         * @brief document_srl의 등록 유무를 체크하여 등록되지 않았다면 첨부파일 삭제
-         *
-         * 글 작성중 저장하지 않고 빠져나갔을 경우에 대비한 코드인데\n
-         * javascript로 빠져나가는 경우 확인이 어려워서 사용되지 않을 코드
-         **/
-        function procClearFile() {
-            $upload_target_srl = Context::get('upload_target_srl');
-
-            // upload_target_srl의 글이 등록되어 있다면 pass
-            $oDocumentModel = &getModel('upload_target');
-            $data = $oDocumentModel->getDocument($upload_target_srl);
-            if($data) exit();
-
-            // 등록되어 있지 않다면 첨부파일 삭제
-            $oFileController = &getController('file');
-            $oFileController->deleteFiles($this->module_srl, $upload_target_srl);
-        }
-
-        /**
          * @brief 권한 추가
          **/
         function procInsertGrant() {

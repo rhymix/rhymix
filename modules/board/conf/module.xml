@@ -51,7 +51,6 @@
         <action name="procDeleteFile" type="controller" />
         <action name="procUploadFile" type="controller" />
         <action name="procDownloadFile" type="controller" />
-        <action name="procClearFile" type="controller" />
 
         <action name="dispAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispAdminModuleConfig" type="view" standalone="true" />
