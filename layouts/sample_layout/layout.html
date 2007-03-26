@@ -54,6 +54,7 @@
     <td>
       <div id="menu"></div>
 
+      <!--@if($third_menu_list)-->
       <div>
       <!-- 3차 메뉴 -->
       <!--@foreach($third_menu_list as $key => $val)--><!--@if($val['text'])-->
@@ -69,8 +70,9 @@
 
       <!--@end--><!--@end-->
       </div>
+      <!--@end-->
 
-      <div plugin="newest_document" title="safs" order_target="list_order" order_type="desc" list_count="20" mid_list="board,test"></div>
+      <div plugin="newest_document" title="safs" order_target="list_order" order_type="desc" list_count="20" mid_list="board"></div>
     
     <td>
       <div id="content">

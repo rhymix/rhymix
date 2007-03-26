@@ -15,10 +15,11 @@
 
             // $plugin의 객체를 받음 
             $oPlugin = PluginHandler::getObject($plugin);
+            if(!$oPlugin) return;
 
             // 플러그인 실행
-            //$output = $oPlugin->proc($args);
-            //print $output;
+            $output = $oPlugin->proc($args);
+            print $output;
         }
 
         /**
@@ -40,8 +41,9 @@
             $eval_str = sprintf('$oPlugin = new %s();', $plugin);
             @eval($eval_str);
             if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
-
             if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
+
+            return $oPlugin;
         }
 
     }
