@@ -20,13 +20,13 @@
             // 게시판, 회원관리, 레이아웃관리등 자주 사용될 module을 admin_shortcut에 등록
             $oAdminController = &getController('admin');
 
-            $oAdminController->insertShortCut('module');
-            $oAdminController->insertShortCut('addon');
-            $oAdminController->insertShortCut('layout');
-            $oAdminController->insertShortCut('plugin');
             $oAdminController->insertShortCut('board');
             $oAdminController->insertShortCut('pagemaker');
             $oAdminController->insertShortCut('member');
+            $oAdminController->insertShortCut('module');
+            $oAdminController->insertShortCut('layout');
+            $oAdminController->insertShortCut('addon');
+            $oAdminController->insertShortCut('plugin');
            
             return new Object();
         }
