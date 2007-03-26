@@ -34,16 +34,21 @@
             Context::set('module_category', $module_category);
 
             // 템플릿 경로 구함 (page의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
-            $template_path = sprintf("%stpl.admin/",$this->module_path);
-
-            // 템플릿 경로 지정
-            $this->setTemplatePath($template_path);
+            $this->setTemplatePath($this->module_path.'tpl.admin');
         }
 
         /**
          * @brief 일반 요청시 출력
          **/
         function dispIndex() {
+            // 템플릿에서 사용할 변수를 Context::set()
+            if($this->module_srl) Context::set('module_srl',$this->module_srl);
+
+            Context::set('module_info', $this->module_info);
+            Context::set('page_content', $this->module_info->content);
+
+            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplateFile('content');
         }
 
         /**
@@ -82,7 +87,7 @@
 
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('page');
+            $config = $oModuleModel->getModuleConfig('pagemaker');
             Context::set('config',$config);
 
             // 템플릿 파일 지정
@@ -114,11 +119,11 @@
             if(!$module_srl) return $this->dispAdminContent();
 
             // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($this->module_info->layout_srl) {
+            if($module_info->layout_srl) {
                 $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
-                $this->module_info->layout = $layout_info->layout;
-                $this->module_info->layout_title = $layout_info->layout_title;
+                $layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
+                $module_info->layout = $layout_info->layout;
+                $module_info->layout_title = $layout_info->layout_title;
             }
 
             // 템플릿 파일 지정
