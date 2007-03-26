@@ -10,5 +10,6 @@
         <action name="procEnableComponent" type="controller" standalone="true" />
         <action name="procDisableComponent" type="controller" standalone="true" />
         <action name="procMoveListOrder" type="controller" standalone="true" />
+        <action name="procSetupComponent" type="controller" standalone="true" />
     </actions>
 </module>

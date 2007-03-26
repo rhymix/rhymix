@@ -18,5 +18,5 @@
     $lang->msg_fail_to_socket_open = "우편번호 검색 대상 서버 접속이 실패하였습니다";
     $lang->msg_no_result = "검색 결과가 없습니다";
 
-    $lang->msg_no_apikey = "네이버맵 사용을 위해서는 네이버맵 open api key가 있어야 합니다.\nopen api key를 관리자 >  위지윅에디터 > 네이버 지도 연동 컴포넌트 설정을 선택한 후 입력하여 주세요";
+    $lang->msg_no_apikey = "네이버맵 사용을 위해서는 네이버맵 open api key가 있어야 합니다.\nopen api key를 관리자 >  위지윅에디터 > <a href=\"#\" onclick=\"winopen('./?module=editor&amp;act=setupComponent&amp;component_name=naver_map','SetupComponent','width=10,height=10,scrollbars=no,resizable=no,toolbars=no');return false;\">네이버 지도 연동 컴포넌트 설정</a>을 선택한 후 입력하여 주세요";
 ?>

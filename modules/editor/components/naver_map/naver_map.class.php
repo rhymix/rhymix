@@ -12,8 +12,8 @@
         var $component_path = '';
 
         // 네이버맵 openapi 키 값
-        //var $open_api_key = '22b1f5391a6970e03935444897334066';
-        var $open_api_key = '';
+        //var $api_key = '22b1f5391a6970e03935444897334066';
+        var $api_key = '';
 
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
@@ -30,7 +30,7 @@
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
             $tpl_path = $this->component_path.'tpl';
 
-            if(!$this->open_api_key) $tpl_file = 'error.html';
+            if(!$this->api_key) $tpl_file = 'error.html';
             else $tpl_file = 'popup.html';
 
             Context::set("tpl_path", $tpl_path);
@@ -50,7 +50,7 @@
             Context::loadLang($this->component_path."lang");
 
             // 지정된 서버에 요청을 시도한다
-            $query_string = iconv("UTF-8","EUC-KR",sprintf('/api/geocode.php?key=%s&query=%s', $this->open_api_key, $address));
+            $query_string = iconv("UTF-8","EUC-KR",sprintf('/api/geocode.php?key=%s&query=%s', $this->api_key, $address));
 
             $fp = fsockopen('maps.naver.com', 80, $errno, $errstr);
             if(!$fp) return new Object(-1, 'msg_fail_to_socket_open');
@@ -129,7 +129,7 @@
                     '<title></title>'.
                     '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
                     '<script type="text/javascript" src="./common/js/x.js"></script>'.
-                    '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->open_api_key.'"></script>'.
+                    '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->api_key.'"></script>'.
                     '<script type="text/javascript">'.
                     'function moveMap(x,y,scale) {mapObj.setCenterAndZoom(new NPoint(x,y),scale);}'.
                     '</script>'.

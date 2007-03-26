@@ -36,7 +36,6 @@
 
             $oEditorModel = &getModel('editor');
             $component = $oEditorModel->getComponent($component_name);
-            debugPrint($component);
             Context::set('component', $component);
 
             $this->setTemplatePath($this->module_path.'tpl');

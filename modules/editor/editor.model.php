@@ -16,10 +16,15 @@
             $class_file = sprintf('%s%s.class.php', $class_path, $component);
             if(!file_exists($class_file)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
+            // 클래스 파일을 읽은 후 객체 생성
             require_once($class_file);
             $eval_str = sprintf('$oComponent = new %s("%s","%s");', $component, $upload_target_srl, $class_path);
             @eval($eval_str);
             if(!$oComponent) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+
+            // 설정 정보를 추가
+            $component_info = $this->getComponent($component);
+            $oComponent->setInfo($component_info);
 
             return $oComponent;
         }

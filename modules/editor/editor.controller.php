@@ -104,6 +104,26 @@
         }
 
         /**
+         * @brief 컴포넌트 설정
+         **/
+        function procSetupComponent() {
+            $component_name = Context::get('component_name');
+            $extra_vars = Context::getRequestVars();
+            unset($extra_vars->component_name);
+            unset($extra_vars->module);
+            unset($extra_vars->act);
+
+            $args->component_name = $component_name;
+            $args->extra_vars = serialize($extra_vars);
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.updateComponent', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
          * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 
          **/
         function procCall() {
