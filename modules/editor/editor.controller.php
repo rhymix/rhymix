@@ -22,7 +22,8 @@
             $method = Context::get('method');
             if(!$component) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
-            $oComponent = &$this->getComponentObject($component);
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($component);
             if(!$oComponent->toBool()) return $oComponent;
 
             if(!method_exists($oComponent, $method)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));

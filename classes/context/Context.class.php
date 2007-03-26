@@ -739,12 +739,9 @@
             $editor_component = $xml_doc->attrs->editor_component;
             if(!$editor_component) return $matches[0];
 
-            // editor class 객체 생성하여 component 객체 받음
-            $oEditor = &getClass('editor');
-            if(!is_object($oEditor)) return $matches[0];
-
             // component::transHTML() 을 이용하여 변환된 코드를 받음
-            $oComponent = &$oEditor->getComponentObject($editor_component, 0);
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
             if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
 
             return $oComponent->transHTML($xml_doc);

@@ -21,6 +21,11 @@
             // 컴포넌트의 종류를 구해옴
             $component_list = FileHandler::readDir($this->module_path.'components');
             arsort($component_list);
+
+            $oEditorModel = &getModel('editor');
+            foreach($component_list as $component) {
+                $xml_doc = $oEditorModel->getComponentXmlInfo($component);
+            }
             Context::set('component_list', $component_list);
         }
 
@@ -60,7 +65,8 @@
             $component = Context::get('component');
 
             // component 객체를 받음
-            $oComponent = &$this->getComponentObject($component, $upload_target_srl);
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($component, $upload_target_srl);
             if(!$oComponent->toBool()) {
                 Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
                 $this->setTemplatePath($this->module_path.'tpl');
