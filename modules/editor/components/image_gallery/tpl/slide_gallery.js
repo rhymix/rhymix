@@ -9,8 +9,8 @@ var slide_gallery_images = new Array();
 var thumbnail_zone_height = new Array();
 
 // 이미지갤러리쇼 이미지 목록에 추가
-function slide_gallery_add_image(srl, thumbnail_url, image_url) {
-    if(!thumbnail_url || !image_url) return;
+function slide_gallery_add_image(srl, image_url) {
+    if(!image_url) return;
 
     // 객체 생성
     var obj = {"srl":0, "thumbnail_url":null, "thumbnail":null, "image_url":null, "image":null}
@@ -24,7 +24,7 @@ function slide_gallery_add_image(srl, thumbnail_url, image_url) {
 
     // 썸네일 이미지를 미리 로딩
     obj.thumbnail = new Image();
-    obj.thumbnail.src = thumbnail_url;
+    obj.thumbnail.src = image_url;
     obj.thumbnail.style.cursor = "pointer";
     obj.thumbnail.style.width = "60px";
     obj.thumbnail.style.height = "60px";
@@ -34,7 +34,7 @@ function slide_gallery_add_image(srl, thumbnail_url, image_url) {
 
     // 원본 이미지를 미리 로딩
     obj.image = new Image();
-    obj.image.src = image_url;
+    obj.image.src = obj.thumbnail.src;
 
     // 썸네일 클릭시 메인 이미지로 바꾸어줌
     xAddEventListener(obj.thumbnail, "mousedown", function() { display_gallery_image(obj) });
