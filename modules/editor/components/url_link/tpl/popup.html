@@ -3,7 +3,7 @@
 <!--%import("../lang")-->
 <form action="./" method="get" id="fo_component" onSubmit="return false">
   <div class="editor_window">
-    <div class="editor_title">{$lang->urllink}</div>
+    <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="winopen('./?module=editor&amp;act=viewComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
 
     <div class="header">{$lang->urllink_title}</div>
     <div class="body"><textarea name="text" class="editor_textarea"></textarea></div>

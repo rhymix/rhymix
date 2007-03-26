@@ -5,7 +5,6 @@
      * @brief  위지윅에디터(editor) 모듈 > 멀티미디어 링크 (naver_map) 컴포넌트의 언어팩
      **/
 
-    $lang->map_title = "네이버 지도 검색";
     $lang->map_width = "가로크기";
     $lang->map_height = "세로크기";
 

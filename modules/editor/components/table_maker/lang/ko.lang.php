@@ -5,7 +5,6 @@
      * @brief  위지윅에디터(editor) 모듈 >  테이블 생성(table_maker) 컴포넌트의 언어팩
      **/
 
-    $lang->table_title = "테이블 관리";
     $lang->table_attribute = "테이블 속성 변경";
     $lang->cell_attribute = "셀 속성 변경";
 

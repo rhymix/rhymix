@@ -5,7 +5,6 @@
      * @brief  위지윅에디터(editor) 모듈 >  인용구 (quotation) 컴포넌트의 언어팩
      **/
 
-    $lang->quotation = "인용구 사용하기";
     $lang->quotation_use_folder = "접기 기능 사용";
     $lang->quotation_opener = "열기 버튼 이름";
     $lang->quotation_closer = "닫기 버튼 이름";

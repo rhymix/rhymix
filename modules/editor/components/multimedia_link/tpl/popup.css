@@ -60,12 +60,13 @@
   background-color:#EEEEEE;
   padding:0px 0px 2px 0px;
   clear:both;
+  height:25px;
 }
 
 .editor_button {
   margin-top:4px;
   background-color:#FFFFFF;
   border:1px solid #AAAAAA;
-  height:16px;
+  height:18px;
   font-size:9pt;
 }

@@ -5,7 +5,6 @@
      * @brief  위지윅에디터(editor) 모듈 > 이미지링크(image_link) 컴포넌트의 언어팩
      **/
 
-    $lang->imagelink = "이미지 자료 연결"; 
     $lang->image_url = "이미지 경로";
     $lang->image_alt = "설명 입력";
     $lang->image_scale = "이미지크기";
