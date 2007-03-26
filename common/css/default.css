@@ -23,7 +23,7 @@
   top:0px;
   left:0px;
   position:absolute;
-  z-index:1000;
+  z-index:1001;
   text-align:left;
   overflow:hidden;
 }
@@ -36,6 +36,7 @@
   width:60px;
   height:20px;
   border:1px solid #FFFFFF;
+  z-index:1002;
 }
 
 FORM {

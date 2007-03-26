@@ -89,7 +89,7 @@ function resizeImageContents() {
         obj.source_height = xHeight(obj);
         xWidth(obj, xWidth(parent)-1);
 
-        xAddEventListener(obj,"click", resizeImagePopup);
+        xAddEventListener(obj,"click", showOriginalImage);
     }
 }
 xAddEventListener(window, "load", resizeImageContents);
