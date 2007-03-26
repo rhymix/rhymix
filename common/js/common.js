@@ -18,9 +18,12 @@ function isDef() {
 // 윈도우 오픈
 var winopen_list = new Array();
 function winopen(url, target, attribute) {
-    if(target != "_blank" && winopen_list[target]) {
-        winopen_list[target].close();
-        winopen_list[target] = null;
+    try {
+        if(target != "_blank" && winopen_list[target]) {
+            winopen_list[target].close();
+            winopen_list[target] = null;
+        }
+    } catch(e) {
     }
 
     if(typeof(target)=='undefined') target = '_blank';

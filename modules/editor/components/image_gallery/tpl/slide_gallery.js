@@ -25,7 +25,7 @@ function slide_gallery_add_image(srl, image_url) {
     // 원본 이미지를 미리 로딩
     obj.image = new Image();
     obj.image.src = image_url;
-    if(!obj.image.width) return;
+    //if(!obj.image.width) return;
 
     // 썸네일 이미지를 미리 로딩
     obj.thumbnail = new Image();
