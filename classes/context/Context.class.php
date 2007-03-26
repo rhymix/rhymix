@@ -733,6 +733,8 @@
             $xml_doc = $oXmlParser->parse($buff);
             if($xml_doc->div) $xml_doc = $xml_doc->div;
 
+            $xml_doc->body = $matches[3];
+
             // plugin attribute가 없으면 return
             $editor_component = $xml_doc->attrs->editor_component;
             if(!$editor_component) return $matches[0];
