@@ -1,16 +1,15 @@
 <!--%import("popup.css")-->
 <!--%import("popup.js")-->
-<!--%import("../lang")-->
 
-<form action='./' method='post' id='fo' onSubmit="return false" style="display:inline">
-  <div class="editor_area">
-    <div class="editor_title">{$lang->html_editor}</div>
-    <div class="editor_window">
-      <div><textarea name="text" id='editor' class="editor_textarea"></textarea></div>
-      <div class="editor_button">
-        <input type='button' value='{$lang->cmd_insert}' onclick='insertHtml()' />
-        <input type='button' value='{$lang->cmd_close}' onclick='window.close();' />
-      </div>
-    </div>
-  </div>
-</form>
+<div class="editor_window">
+    <form action='./' method='post' id='fo' onSubmit="return false" style="display:inline">
+        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="winopen('./?module=editor&amp;act=viewComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+
+        <div><textarea name="text" id='editor' class="editor_textarea"></textarea></div>
+
+        <div class="editor_button_area">
+            <input type='button' class="editor_button" value='{$lang->cmd_insert}' onclick='insertHtml()' />
+            <input type='button' class="editor_button" value='{$lang->cmd_close}' onclick='window.close();' />
+        </div>
+    </form>
+</div>

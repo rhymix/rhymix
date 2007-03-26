@@ -1,4 +1,4 @@
-.editor_area {
+.editor_window {
   width:400px;
   background-color:#F3F3F3;
   text-align:center;
@@ -17,28 +17,28 @@
   text-align:center;
 }
 
-.editor_window {
-  padding:4px;
-}
-
 .editor_textarea {
   width:385px;
   height:400px;
   border:1px solid #888888;
   clear:both;
   font-size:9pt;
+  margin:10px 0px 10px 0px;
+}
+
+.editor_button_area {
+  border-top:1px solid #AAAAAA;
+  text-align:center;
+  background-color:#EEEEEE;
+  padding:2px 0px 2px 0px;
+  clear:both;
+  height:25px;
 }
 
 .editor_button {
-  text-align:center;
-  height:16px;
-  font-size:9pt;
-}
-
-.editor_button input {
   margin-top:4px;
   background-color:#FFFFFF;
   border:1px solid #AAAAAA;
-  height:16px;
+  height:18px;
   font-size:9pt;
 }
