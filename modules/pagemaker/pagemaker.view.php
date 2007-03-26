@@ -178,14 +178,11 @@
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
-            if(!Context::get('module_srl')) return $this->dispContent();
+            $module_srl = Context::get('module_srl');
+            if(!$module_srl) return $this->dispContent();
 
-            $module_info = Context::get('module_info');
-
-            $oDocumentModel = &getModel('document');
-            $document_count = $oDocumentModel->getDocumentCount($module_info->module_srl);
-            $module_info->document_count = $document_count;
-
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             Context::set('module_info',$module_info);
 
             // 템플릿 파일 지정
