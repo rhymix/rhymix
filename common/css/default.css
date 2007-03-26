@@ -28,6 +28,16 @@
   overflow:hidden;
 }
 
+#closeOriginalImageBtn {
+  position:absolute;
+  right:10px;
+  top:10px;
+  cursor:pointer;
+  width:60px;
+  height:20px;
+  border:1px solid #FFFFFF;
+}
+
 FORM {
   display:inline;
 }
