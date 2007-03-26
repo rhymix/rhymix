@@ -66,10 +66,41 @@
         /**
          * @brief 컴포넌트의 위치 변경
          **/
-        function doMoveListOrder() {
+        function procMoveListOrder() {
             $args->component_name = Context::get('component_name');
-            $args->mode = Context::get('mode');
+            $mode = Context::get('mode');
 
+            // DB에서 전체 목록 가져옴
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.getComponentList', $args);
+            $db_list = $output->data;
+            foreach($db_list as $key => $val) {
+                if($val->component_name == $args->component_name) break;
+            }
+
+            if($mode=="up") {
+                if($key == 2) return new Object(-1,'msg_component_is_first_order');
+
+                $prev_args->component_name = $db_list[$key-1]->component_name;
+                $prev_args->list_order = $db_list[$key]->list_order;
+                $oDB->executeQuery('editor.updateComponent', $prev_args);
+
+                $cur_args->component_name = $db_list[$key]->component_name;
+                $cur_args->list_order = $db_list[$key-1]->list_order;
+                $oDB->executeQuery('editor.updateComponent', $cur_args);
+            } else {
+                if($key == count($db_list)-1) return new Object(-1,'msg_component_is_last_order');
+
+                $next_args->component_name = $db_list[$key+1]->component_name;
+                $next_args->list_order = $db_list[$key]->list_order;
+                $oDB->executeQuery('editor.updateComponent', $next_args);
+
+                $cur_args->component_name = $db_list[$key]->component_name;
+                $cur_args->list_order = $db_list[$key+1]->list_order;
+                $oDB->executeQuery('editor.updateComponent', $cur_args);
+            }
+
+            $this->setMessage('success_updated');
         }
 
         /**
