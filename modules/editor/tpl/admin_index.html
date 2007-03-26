@@ -16,31 +16,23 @@
   <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
   <td><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
   <td>{$xml_info->author->date}</td>
-  <td rowspan="2">
+  <td>
     <!--@if($xml_info->extra_vars)-->
     <a href="#">{$lang->cmd_setup}</a>
     <!--@end-->
   </td>
-  <td rowspan="2">
-    <!--@if($xml_info->enable)-->
-    <a href="#">{$lang->not_use}</a>
+  <td>
+    <!--@if($xml_info->enabled=='Y')-->
+    <a href="#">{$lang->notuse}</a>
     <!--@else-->
     <a href="#">{$lang->use}</a>
     <!--@end-->
   </td>
-  <td rowspan="2">
-    <!--@if($xml_info->enable)-->
-    <a href="#">{$lang->cmd_move_up}</a>
-    <!--@end-->
-  </td>
-  <td rowspan="2">
-    <!--@if($xml_info->enable)-->
-    <a href="#">{$lang->cmd_move_down}</a>
-    <!--@end-->
-  </td>
+  <td><a href="#">{$lang->cmd_move_up}</a></td>
+  <td><a href="#">{$lang->cmd_move_down}</a></td>
 </tr>
 <tr>
-  <td colspan="3">{nl2br($xml_info->description)}</td>
+  <td colspan="7">{nl2br($xml_info->description)}</td>
 </tr>
 <!--@end-->
 </table>

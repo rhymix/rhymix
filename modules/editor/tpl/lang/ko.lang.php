@@ -37,13 +37,15 @@
   $lang->edit->help_italic = "글자를 기울이게 합니다";
   $lang->edit->help_underline = "밑줄을 긋습니다";
   $lang->edit->help_strike = "취소선을 긋습니다";
-  $lang->edit->help_redo = "이전 동작으로 돌아갑니다";
-  $lang->edit->help_undo = "다음 동작으로 돌아갑니다";
+  $lang->edit->help_redo = "다음 동작으로 돌아갑니다";
+  $lang->edit->help_undo = "이전 동작으로 돌아갑니다";
   $lang->edit->help_align_left = "왼쪽 정렬을 합니다";
   $lang->edit->help_align_center = "가운데 정렬을 합니다";
   $lang->edit->help_align_right = "오른쪽 정렬을 합니다";
   $lang->edit->help_add_indent = "들여쓰기를 합니다";
   $lang->edit->help_remove_indent = "들여쓰기를 제거합니다";
+  $lang->edit->help_list_number = "숫자로된 목록을 적용합니다";
+  $lang->edit->help_list_bullet = "기호로된 목록을 적용합니다";
   $lang->edit->help_use_paragrapth = "문단 나누기를 하시려면 ctrl-엔터를 누르시면 됩니다. (글 작성완료후 alt-S를 누르면 저장이 됩니다)";
 
   $lang->edit->upload = '첨부';

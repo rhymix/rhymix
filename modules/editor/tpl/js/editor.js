@@ -408,9 +408,12 @@ function editorDo(command, value, target) {
         else doc = target.parentNode;
     } else {
         var iframe_obj = editorGetIFrame(target);
-        if(xIE4Up) doc = iframe_obj.contentWindow.document;
-        else doc = iframe_obj.contentWindow.document;
+        doc = iframe_obj.contentWindow.document;
     }
+
+    // 포커스
+    if(typeof(target)=="object") target.focus();
+    else editorFocus(target);
 
     // 실행
     doc.execCommand(command, false, value);
