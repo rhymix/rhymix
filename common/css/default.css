@@ -13,6 +13,21 @@
   visibility:hidden;
 }
 
+#fororiginalimagearea {
+  visibility:hidden;
+  background-color:#EEEEEE;
+  padding:0px;
+  margin:0px;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  position:absolute;
+  z-index:1000;
+  text-align:left;
+  overflow:hidden;
+}
+
 FORM {
   display:inline;
 }

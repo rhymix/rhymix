@@ -196,10 +196,126 @@ function showOriginalImage(evt) {
     var obj = e.target;
     var src = obj.src;
 
-    var image = new Image();
-    image.src = src;
-    var image_width = image.width;
-    var image_height = image.height;
+    var orig_image = xGetElementById("fororiginalimage");
 
-    winopen(src, "SlideShow", "left=10,top=10,scrollbars=yes,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
+    orig_image.src = src;
+
+    var area = xGetElementById("fororiginalimagearea");
+
+    xLeft(area, xScrollLeft());
+    xTop(area, xScrollTop());
+    xWidth(area, xWidth(document));
+    xHeight(area, xHeight(document));
+    area.style.visibility = "visible";
+
+    var area_width = xWidth(area);
+    var area_height = xHeight(area);
+    var image_width = orig_image.width;
+    var image_height = orig_image.height;
+
+    var x = parseInt((area_width-image_width)/2,10);
+    var y = parseInt((area_height-image_height)/2,10);
+    if(x<0) x = 0;
+    if(y<0) y = 0;
+
+    orig_image.style.position = "absolute";
+    orig_image.style.left = "0px";
+    orig_image.style.top = "0px";
+    orig_image.style.margin = "0px 0px 0px 0px";
+    orig_image.style.cursor = "pointer";
+    xLeft(orig_image, x);
+    xTop(orig_image, y);
+
+    xAddEventListener(orig_image, "mousedown", origImageDragEnable);
+    xAddEventListener(window, "scroll", closeOriginalImage);
+    xAddEventListener(window, "resize", closeOriginalImage);
+}
+
+// 원본 이미지 보여준 후 닫는 함수
+function closeOriginalImage(evt) {
+    var area = xGetElementById("fororiginalimagearea");
+    if(area.style.visibility != "visible") return;
+    area.style.visibility = "hidden";
+
+    xRemoveEventListener(area, "mousedown", closeOriginalImage);
+    xRemoveEventListener(window, "scroll", closeOriginalImage);
+    xRemoveEventListener(window, "resize", closeOriginalImage);
+}
+
+// 원본 이미지 드래그
+var origDragManager = {obj:null, isDrag:false}
+function origImageDragEnable(evt) {
+    var e = new xEvent(evt);
+    var obj = e.target;
+    if(obj.id != "fororiginalimage") return;
+
+    obj.draggable = true;
+    obj.startX = e.pageX;
+    obj.startY = e.pageY;
+
+    if(!origDragManager.isDrag) {
+        origDragManager.isDrag = true;
+        xAddEventListener(document, "mousemove", origImageDragMouseMove, false);
+    }
+
+    xAddEventListener(document, "mousedown", origImageDragMouseDown, false);
+}
+
+function origImageDrag(obj, px, py) {
+    var x = px - obj.startX;
+    var y = py - obj.startY;
+
+    xLeft(obj, xLeft(obj)+x);
+    xTop(obj, xTop(obj)+y);
+
+    obj.startX = px;
+    obj.startY = py;
+}
+
+function origImageDragMouseDown(evt) {
+    var e = new xEvent(evt);
+    var obj = e.target;
+    if(obj.id != "fororiginalimage" || !obj.draggable) return;
+
+    if(obj) {
+        xPreventDefault(evt);
+        obj.startX = e.pageX;
+        obj.startY = e.pageY;
+        origDragManager.obj = obj;
+        xAddEventListener(document, 'mouseup', origImageDragMouseUp, false);
+        origImageDrag(obj, e.pageX, e.pageY);
+    }
+}
+
+function origImageDragMouseUp(evt) {
+    if(origDragManager.obj) {
+        xPreventDefault(evt);
+        xRemoveEventListener(document, 'mouseup', origImageDragMouseUp, false);
+        xRemoveEventListener(document, 'mousemove', origImageDragMouseMove, false);
+        xRemoveEventListener(document, 'mousemdown', origImageDragMouseDown, false);
+        origDragManager.obj.draggable  = false;
+        origDragManager.obj = null;
+        origDragManager.isDrag = false;
+    }
+}
+
+function origImageDragMouseMove(evt) {
+    var e = new xEvent(evt);
+    var obj = e.target;
+    if(!obj) return;
+    if(obj.id != "fororiginalimage") {
+        xPreventDefault(evt);
+        xRemoveEventListener(document, 'mouseup', origImageDragMouseUp, false);
+        xRemoveEventListener(document, 'mousemove', origImageDragMouseMove, false);
+        xRemoveEventListener(document, 'mousemdown', origImageDragMouseDown, false);
+        origDragManager.obj.draggable  = false;
+        origDragManager.obj = null;
+        origDragManager.isDrag = false;
+        return;
+    }
+
+    xPreventDefault(evt);
+    origDragManager.obj = obj;
+    xAddEventListener(document, 'mouseup', origImageDragMouseUp, false);
+    origImageDrag(obj, e.pageX, e.pageY);
 }
