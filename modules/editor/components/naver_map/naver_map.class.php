@@ -12,7 +12,8 @@
         var $component_path = '';
 
         // 네이버맵 openapi 키 값
-        var $open_api_key = '22b1f5391a6970e03935444897334066';
+        //var $open_api_key = '22b1f5391a6970e03935444897334066';
+        var $open_api_key = '';
 
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
@@ -28,7 +29,9 @@
         function getPopupContent() {
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
             $tpl_path = $this->component_path.'tpl';
-            $tpl_file = 'popup.html';
+
+            if(!$this->open_api_key) $tpl_file = 'error.html';
+            else $tpl_file = 'popup.html';
 
             Context::set("tpl_path", $tpl_path);
 

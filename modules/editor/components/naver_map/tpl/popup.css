@@ -3,6 +3,18 @@
   clear:both;
 }
 
+.error_window {
+  width:700px;
+}
+
+.error_text {
+  padding:20px;
+  color:#444444;
+  border:10px solid #DDDDDD;
+  font-size:9pt;
+  line-height:200%;
+}
+
 .editor_title {
   font-size:10pt;
   font-weight:bold;
