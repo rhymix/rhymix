@@ -67,6 +67,7 @@ function start_slide_gallery() {
 
         // 로딩 텍스트 없앰
         xGetElementById("slide_gallery_loading_text_"+srl).style.display = "none";
+        xGetElementById("slide_gallery_main_image_"+srl).style.display = "block";
     }
 }
 
@@ -107,7 +108,9 @@ function display_gallery_image(obj, is_first_display) {
 
     // 이미지 표시 
     var target_image = xGetElementById("slide_gallery_main_image_"+obj.srl);
-    target_image.style.display = "none";
+
+    target_image.style.margin = "0px;";
+    target_image.style.marginLeft = x+"px";
 
     target_image.src = obj.image.src;
     target_image.srl = obj.srl;
@@ -118,12 +121,9 @@ function display_gallery_image(obj, is_first_display) {
     xWidth(target_image, image_width);
     xHeight(target_image, image_height);
 
-    target_image.style.margin = "0px;";
-    target_image.style.marginLeft = x+"px";
-
-    if(image_height<150) {
-      target_image.style.marginTop = (150-image_height)+"px";
-      target_image.style.marginBottom = (150-image_height)+"px";
+    if(image_height<180) {
+      target_image.style.marginTop = (180-image_height)+"px";
+      target_image.style.marginBottom = (180-image_height)+"px";
     } else {
       target_image.style.marginTop = "10px";
       target_image.style.marginBottom = "10px";
@@ -140,8 +140,6 @@ function display_gallery_image(obj, is_first_display) {
     // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
     var next_idx = obj.idx+1;
     if(slide_gallery_images[obj.srl].length<=next_idx) next_idx = 0;
-
-    target_image.style.display = "block";
 
     // srl의 모든 썸네일의 투명도 조절
     for(var i=0; i<slide_gallery_images[obj.srl].length;i++) {
