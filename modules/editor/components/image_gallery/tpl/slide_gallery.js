@@ -121,9 +121,9 @@ function display_gallery_image(obj, is_first_display) {
     xWidth(target_image, image_width);
     xHeight(target_image, image_height);
 
-    if(image_height<180) {
-      target_image.style.marginTop = (180-image_height)+"px";
-      target_image.style.marginBottom = (180-image_height)+"px";
+    if(image_height<200) {
+      target_image.style.marginTop = (100-image_height/2)+"px";
+      target_image.style.marginBottom = (100-image_height/2)+"px";
     } else {
       target_image.style.marginTop = "10px";
       target_image.style.marginBottom = "10px";
