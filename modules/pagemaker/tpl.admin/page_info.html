@@ -1,4 +1,6 @@
-<table>
+<table border="1" width="100%">
+<col width="120" />
+<col width="*" />
 <tr>
   <th>{$lang->category}</th>
   <td>
@@ -20,40 +22,12 @@
   </td>
 </tr>
 <tr>
-  <th>{$lang->skin}</th>
-  <td>{$module_info->skin}</td>
-</tr>
-<tr>
   <th>{$lang->browser_title}</th>
   <td>{$module_info->browser_title}</td>
 </tr>
 <tr>
-  <th>{$lang->use_category}</th>
-  <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-</tr>
-<tr>
-  <th>{$lang->list_count}</th>
-  <td>{$module_info->list_count?$module_info->list_count:20}</td>
-</tr>
-<tr>
-  <th>{$lang->page_count}</th>
-  <td>{$module_info->page_count?$module_info->page_count:10}</td>
-</tr>
-<tr>
-  <th>{$lang->description}</th>
-  <td>{nl2br($module_info->description)}</td>
-</tr>
-<tr>
-  <th>{$lang->header_text}</th>
-  <td>{$module_info->header_text}</td>
-</tr>
-<tr>
-  <th>{$lang->footer_text}</th>
-  <td>{$module_info->footer_text}</td>
-</tr>
-<tr>
-  <th>{$lang->admin_id}</th>
-  <td>{implode(",",$module_info->admin_id)}</td>
+  <th>{$lang->content}</th>
+  <td>{$module_info->content}</td>
 </tr>
 <tr>
   <td colspan="2">

@@ -12,7 +12,6 @@
         var $component_path = '';
 
         // 네이버맵 openapi 키 값
-        //var $api_key = '22b1f5391a6970e03935444897334066';
         var $api_key = '';
 
         /**
