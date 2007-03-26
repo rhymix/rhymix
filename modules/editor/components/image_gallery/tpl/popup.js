@@ -50,7 +50,7 @@ function getSlideShow() {
         var file_srl = opt.value;
         var file_obj = opener.uploaded_files[file_srl];
         var filename = file_obj.uploaded_filename;
-        if((/(jpg|jpeg|gif|png)$/).test(filename)) {
+        if((/(jpg|jpeg|gif|png)$/i).test(filename)) {
             var selected = false;
             if(selected_images.indexOf(filename)!=-1) selected = true;
             var opt = new Option(opt.text, opt.value, false, selected);
