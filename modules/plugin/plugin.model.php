@@ -123,7 +123,7 @@
 
             }
 
-            $buff = '<?php if(!__ZB5__) exit(); '.$buff.' ?>';
+            $buff = '<?php if(!__ZBXE__) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);
 
             if(file_exists($cache_file)) include $cache_file;

@@ -8,7 +8,7 @@
     /**
      * @brief 기본적인 상수 선언,  웹에서 직접 호출되는 것을 막기 위해 체크하는 상수 선언
      **/
-    define('__ZB5__', true);
+    define('__ZBXE__', true);
 
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require

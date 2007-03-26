@@ -3,6 +3,6 @@
   <title xml:lang="ko">HTML 코드 수정</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">에디터에서 HTML 코드를 직접 수정하거나 추가할 수 있습니다.\n보안 문제로 인하여 가능한 관리자만 사용할 수 있도록 하세요.</description>
+    <description xml:lang="ko">에디터에서 HTML 코드를 직접 수정하거나 추가할 수 있습니다.\n보안 문제로 인하여 가능한 끄는 것이 좋습니다.</description>
   </author>
 </component>

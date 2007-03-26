@@ -141,7 +141,7 @@ function zbxe_folder_close(id) {
 }
 
 
-// 에디터에서 사용하는 내용 여닫는 코드 (고정, zb5 beta 호환용)
+// 에디터에서 사용하는 내용 여닫는 코드 (고정, zb5beta beta 호환용)
 function svc_folder_open(id) {
     var open_text_obj = xGetElementById("_folder_open_"+id);
     var close_text_obj = xGetElementById("_folder_close_"+id);

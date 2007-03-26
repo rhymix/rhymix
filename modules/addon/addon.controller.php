@@ -40,7 +40,7 @@
                 $buff .= sprintf(' include("./addons/%s/%s.addon.php"); ', $addon, $addon);
             }
 
-            $buff = sprintf('<?if(!__ZB5__)exit(); %s ?>', $buff);
+            $buff = sprintf('<?if(!__ZBXE__)exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
         }

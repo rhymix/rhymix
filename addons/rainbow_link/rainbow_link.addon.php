@@ -1,5 +1,5 @@
 <?php
-    if(!__ZB5__) exit();
+    if(!__ZBXE__) exit();
 
     /**
     * @file spamfilter.addon.php

@@ -133,7 +133,7 @@
     $lang->filter->isnull = '%s의 값을 입력해주세요';
     $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';
     $lang->filter->equalto = '%s의 값이 잘못 되었습니다.';
-    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: zb5@zeroboard.com)';
+    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: zbxe@zeroboard.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문,숫자와 _로 만드실 수 있으며 제일 앞은 영문이어야 합니다";
     $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력해주셔야 합니다';
