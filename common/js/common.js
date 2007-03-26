@@ -189,3 +189,17 @@ function move_url(url, open_wnidow) {
     }
     return false;
 }
+
+// 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌
+function showOriginalImage(evt) {
+    var e = new xEvent(evt);
+    var obj = e.target;
+    var src = obj.src;
+
+    var image = new Image();
+    image.src = src;
+    var image_width = image.width;
+    var image_height = image.height;
+
+    winopen(src, "SlideShow", "left=10,top=10,scrollbars=yes,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
+}

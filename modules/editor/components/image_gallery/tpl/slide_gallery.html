@@ -1,5 +1,6 @@
 <!--%import("slide_gallery.js")-->
 <!--%import("slide_gallery.css")-->
+<!--%import("../lang")-->
 <script type='text/javascript'>
   // 이미지갤러리에 보여줄 이미지 등록
   <!--@foreach($gallery_info->image_list as $image)-->
@@ -11,7 +12,13 @@
 </script>
 
 <div id='zone_slide_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color}">
-  <div id="slide_gallery_loading_text" class="slide_gallery_loading_text">loading images...</div>
+  <div id='zone_image_navigator_{$gallery_info->srl}' class="slide_gallery_navigator_box">
+    <a href="#" onclick="gallery_view_prev('{$gallery_info->srl}');return false;">[{$lang->cmd_gallery_prev}]</a>
+    <span class="zone_gallery_navigator_status" id="zone_gallery_navigator_status_{$gallery_info->srl}">1/1</span>
+    <a href="#" onclick="gallery_view_thumbnail('{$gallery_info->srl}');return false;">[{$lang->cmd_gallery_thumbnail}]</a>
+    <a href="#" onclick="gallery_view_next('{$gallery_info->srl}');return false;">[{$lang->cmd_gallery_next}]</a>
+  </div>
+  <div id='zone_thumbnail_{$gallery_info->srl}' class="slide_gallery_thumbnail_image_box" style="display:none"></div>
+  <div id="slide_gallery_loading_text_{$gallery_info->srl}" class="slide_gallery_loading_text">loading images...</div>
   <img id="slide_gallery_main_image_{$gallery_info->srl}" border="0" style="display:none" alt="slide_gallery" />
-  <div id='zone_thumbnail_{$gallery_info->srl}' class="slide_gallery_thumbnail_image_box"></div>
 </div>

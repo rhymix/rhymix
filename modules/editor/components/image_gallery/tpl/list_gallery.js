@@ -74,7 +74,7 @@ function start_list_gallery() {
         // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
         if(resize_scale!=1) {
             obj.image.style.cursor = 'pointer';
-            xAddEventListener(obj.image, 'mousedown', list_gallery_winopen);
+            xAddEventListener(obj.image, 'mousedown', showOriginalImage);
         }
 
         zone.appendChild(obj.image);
@@ -82,17 +82,3 @@ function start_list_gallery() {
       zone.style.paddingTop = "10px";
     }
 }
-
-// 큰 이미지의 경우 새창으로 띄워줌
-function list_gallery_winopen(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var srl = obj.srl;
-    var idx = obj.idx;
-
-    var image_width = list_gallery_images[srl][idx].image.width + 40;
-    var image_height = list_gallery_images[srl][idx].image.height + 20;
-
-    winopen(list_gallery_images[srl][idx].image.src, "SlideShow", "left=10,top=10,scrollbars=yes,resizable=yes,toolbars=no,width="+image_width+",height="+image_height);
-}
-
