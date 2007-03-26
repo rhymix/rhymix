@@ -20,7 +20,7 @@
   <td>{$xml_info->author->date}</td>
   <td>
     <!--@if($xml_info->extra_vars)-->
-    <a href="#">{$lang->cmd_setup}</a>
+    <a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a>
     <!--@end-->
   </td>
   <td>

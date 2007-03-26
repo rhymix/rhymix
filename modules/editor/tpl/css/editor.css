@@ -122,3 +122,21 @@ div.editor_drag_down_area {
   background-color:#FFFFFF;
   margin-bottom:10px;
 }
+
+.component_setup_window {
+  width:800px;
+}
+
+.editor_input {
+  border:1px solid #AAAAAA;
+  height:14px;
+  font-size:9pt;
+  width:200px;
+}
+
+.editor_button {
+  border:1px solid #AAAAAA;
+  background-color:#FFFFFF;
+  height:17px;
+  font-size:9pt;
+}

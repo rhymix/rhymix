@@ -29,6 +29,22 @@
         }
 
         /**
+         * @brief 컴퍼넌트 setup
+         **/
+        function setupComponent() {
+            $component_name = Context::get('component_name');
+
+            $oEditorModel = &getModel('editor');
+            $component = $oEditorModel->getComponent($component_name);
+            debugPrint($component);
+            Context::set('component', $component);
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('setup_component');
+            $this->setLayoutFile("popup_layout");
+        }
+
+        /**
          * @brief 에디터를 return
          **/
         function getEditor($upload_target_srl, $allow_fileupload = false) {
@@ -40,7 +56,6 @@
             if(!Context::get('component_list')) {
                 $oEditorModel = &getModel('editor');
                 $component_list = $oEditorModel->getComponentList();
-            debugPrint($component_list);
                 Context::set('component_list', $component_list);
             }
 

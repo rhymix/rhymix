@@ -86,6 +86,33 @@
         }
 
         /**
+         * @brief compnent의 xml+db정보를 구함
+         **/
+        function getComponent($component_name) {
+            $args->component_name = $component_name;
+
+            // DB에서 가져옴
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.getComponent', $args);
+            $component = $output->data;
+
+            $component_name = $component->component_name;
+
+            unset($xml_info);
+            $xml_info = $this->getComponentXmlInfo($component_name);
+            $xml_info->enabled = $component->enabled;
+
+            if($component->extra_vars) {
+                $extra_vars = unserialize($component->extra_vars);
+                foreach($xml_info->extra_vars as $key => $val) {
+                    $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+                }
+            }
+
+            return $xml_info;
+        }
+
+        /**
          * @brief component의 xml정보를 읽음
          **/
         function getComponentXmlInfo($component) {

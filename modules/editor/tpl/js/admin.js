@@ -24,3 +24,7 @@ function completeUpdate(ret_obj) {
   alert(ret_obj['message']);
   location.href = location.href;
 }
+
+function doSetupComponent(component_name) {
+  winopen("./?module=editor&act=setupComponent&component_name="+component_name, "SetupComponent","width=10,height=10,scrollbars=no,resizable=no,toolbars=no");
+}

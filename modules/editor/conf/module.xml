@@ -3,6 +3,7 @@
     <grants />
     <actions>
         <action name="adminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="setupComponent" type="view" standalone="true" />
         <action name="dispPopup" type="view" standalone="true" />
 
         <action name="procCall" type="controller" standalone="true" />
