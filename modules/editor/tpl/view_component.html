@@ -1,0 +1,28 @@
+<!--%import("css/editor.css")-->
+
+<div class="component_view_window">
+    <input type="hidden" name="component_name" value="{$component_name}" />
+    <table border="1" width="100%">
+    <tr>
+      <th>{$lang->component_name}</th>
+      <td>{$component->component_name} ver. {$component->version}</td>
+    </tr>
+    <tr>
+      <th>{$lang->component_author}</th>
+      <td><a href="mailto:{$component->author->email_address}">{$component->author->name}</a></td>
+    </tr>
+    <tr>
+      <th>{$lang->component_link}</th>
+      <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
+    </tr>
+    <tr>
+      <th>{$lang->component_description}</th>
+      <td>{nl2br($component->description)}</td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
+      </td>
+    </tr>
+    </table>
+</div>

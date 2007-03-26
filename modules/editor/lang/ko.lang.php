@@ -13,6 +13,8 @@
     $lang->component_description = "설명";
     $lang->component_extra_vars = "설정 변수";
 
+    $lang->about_component = "컴포넌트 소개";
+
     $lang->msg_component_is_not_founded = '%s 에디터 컴포넌트를 찾을 수 없습니다';
     $lang->msg_component_is_inserted = '선택하신 컴포넌트는 이미 입력되어 있습니다';
     $lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫번째에 위치하고 있습니다';

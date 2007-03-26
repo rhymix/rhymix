@@ -44,6 +44,22 @@
         }
 
         /**
+         * @brief 컴퍼넌트 정보 보기 
+         **/
+        function viewComponentInfo() {
+            $component_name = Context::get('component_name');
+
+            $oEditorModel = &getModel('editor');
+            $component = $oEditorModel->getComponent($component_name);
+            Context::set('component', $component);
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('view_component');
+            $this->setLayoutFile("popup_layout");
+        }
+
+
+        /**
          * @brief 에디터를 return
          **/
         function getEditor($upload_target_srl, $allow_fileupload = false) {
@@ -74,6 +90,9 @@
          * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
          **/
         function dispPopup() {
+            // css 파일 추가
+            Context::addCssFile($this->module_path."tpl/css/editor.css");
+
             // 변수 정리
             $upload_target_srl = Context::get('upload_target_srl');
             $component = Context::get('component');

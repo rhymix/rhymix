@@ -127,6 +127,10 @@ div.editor_drag_down_area {
   width:800px;
 }
 
+.component_view_window {
+  width:400px;
+}
+
 .editor_input {
   border:1px solid #AAAAAA;
   height:14px;
@@ -139,4 +143,8 @@ div.editor_drag_down_area {
   background-color:#FFFFFF;
   height:17px;
   font-size:9pt;
+}
+
+.about_component_icon {
+    vertical-align:middle;
 }
