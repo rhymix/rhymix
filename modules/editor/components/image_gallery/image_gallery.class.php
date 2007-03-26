@@ -47,6 +47,7 @@
             $gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
             $gallery_info->border_color = $xml_obj->attrs->border_color;
             $gallery_info->bg_color = $xml_obj->attrs->bg_color;
+            $gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
             preg_match_all("/([^\"]){0,1}http([a-zA-Z0-9\_\-\:\/\.]*)(gif|jpg|jpeg|png)/i",trim($xml_obj->body),$matches);
             $image_list = $matches[0];

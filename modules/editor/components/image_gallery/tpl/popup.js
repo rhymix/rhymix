@@ -11,6 +11,7 @@ function getSlideShow() {
 
         var width = xWidth(selected_node)-6;
         var gallery_style = selected_node.getAttribute("gallery_style");
+        var gallery_align = selected_node.getAttribute("gallery_align");
         var border_color = selected_node.getAttribute("border_color");
         var bg_color = selected_node.getAttribute("bg_color");
         var border_thickness = selected_node.getAttribute("border_thickness");
@@ -20,6 +21,10 @@ function getSlideShow() {
 
         if(gallery_style=="list") xGetElementById("gallery_style").selectedIndex = 1;
         else xGetElementById("gallery_style").selectedIndex = 0;
+
+        if(!gallery_align || gallery_align=="center") xGetElementById("gallery_align").selectedIndex = 0;
+        else if(gallery_align=="left") xGetElementById("gallery_align").selectedIndex = 1;
+        else if(gallery_align=="right") xGetElementById("gallery_align").selectedIndex = 2;
 
         xGetElementById("border_thickness").value = border_thickness; 
 
@@ -77,6 +82,7 @@ function insertSlideShow() {
     var width = xGetElementById("width").value;
 
     var gallery_style = xGetElementById("gallery_style").options[xGetElementById("gallery_style").selectedIndex].value;
+    var gallery_align = xGetElementById("gallery_align").options[xGetElementById("gallery_align").selectedIndex].value;
     var border_thickness = xGetElementById("border_thickness").value;
     var border_color = xGetElementById("border_color_input").value;
     var bg_color = xGetElementById("bg_color_input").value;
@@ -89,13 +95,14 @@ function insertSlideShow() {
     if(selected_node) {
         selected_node.setAttribute("width", width);
         selected_node.setAttribute("gallery_style", gallery_style);
+        selected_node.setAttribute("gallery_align", gallery_align);
         selected_node.setAttribute("border_thickness", border_thickness);
         selected_node.setAttribute("border_color", border_color);
         selected_node.setAttribute("bg_color", bg_color);
         selected_node.style.width = width+"px";
         xInnerHtml(selected_node, images_list);
     } else {
-        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" gallery_style=\"+gallery_style+\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;\" >"+images_list+"</div>";
+        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;\" >"+images_list+"</div>";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);

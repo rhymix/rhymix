@@ -9,5 +9,7 @@
   xAddEventListener(window,'load',start_list_gallery);
 </script>
 
-<div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color}">
+<div align="{$gallery_info->gallery_align}">
+  <div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;">
+  </div>
 </div>

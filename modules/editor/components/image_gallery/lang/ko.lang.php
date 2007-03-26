@@ -11,6 +11,10 @@
     $lang->image_list = "이미지 목록"; 
     $lang->gallery_style = "갤러리형식 "; 
     $lang->gallery_slide_style = "슬라이드 형식"; 
+    $lang->gallery_slide_align = "정렬방식"; 
+    $lang->gallery_slide_center = "가운데";
+    $lang->gallery_slide_left = "왼쪽";
+    $lang->gallery_slide_right = "오른쪽";
     $lang->gallery_list_style = "모두 펼침"; 
     $lang->gallery_border_color = "테두리색"; 
     $lang->gallery_border_thickness = "테두리 두께"; 

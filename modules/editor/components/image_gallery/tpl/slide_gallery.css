@@ -13,6 +13,12 @@
   margin:5px 0px 5px 0px;
 }
 
+.zone_gallery_navigator_status {
+  color:#444444;
+  font-family:verdana;
+  font-size:8pt;
+}
+
 .slide_gallery_main_image_box {
   border:3px solid #EEEEEE;
   margin:10px;
