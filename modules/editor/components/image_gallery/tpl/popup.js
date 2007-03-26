@@ -91,7 +91,6 @@ function insertSlideShow() {
     for(var i=0; i<list.length;i++) {
         images_list += list[i].trim()+"\n";
     }
-
     if(selected_node) {
         selected_node.setAttribute("width", width);
         selected_node.setAttribute("gallery_style", gallery_style);
