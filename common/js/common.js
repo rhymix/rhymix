@@ -200,7 +200,12 @@ function showOriginalImage(evt) {
     var src = obj.src;
 
     var orig_image = xGetElementById("fororiginalimage");
+    var tmp_image = new Image();
+    tmp_image.src = src;
 
+    orig_image.style.position = "absolute";
+    orig_image.style.margin = "0px 0px 0px 0px";
+    orig_image.style.cursor = "pointer";
     orig_image.src = src;
 
     var area = xGetElementById("fororiginalimagearea");
@@ -213,19 +218,14 @@ function showOriginalImage(evt) {
 
     var area_width = xWidth(area);
     var area_height = xHeight(area);
-    var image_width = orig_image.width;
-    var image_height = orig_image.height;
+    var image_width = tmp_image.width;
+    var image_height = tmp_image.height;
 
     var x = parseInt((area_width-image_width)/2,10);
     var y = parseInt((area_height-image_height)/2,10);
     if(x<0) x = 0;
     if(y<0) y = 0;
 
-    orig_image.style.position = "absolute";
-    orig_image.style.left = "0px";
-    orig_image.style.top = "0px";
-    orig_image.style.margin = "0px 0px 0px 0px";
-    orig_image.style.cursor = "pointer";
     xLeft(orig_image, x);
     xTop(orig_image, y);
 
