@@ -30,8 +30,8 @@
     <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->use}</a>
     <!--@end-->
   </td>
-  <td><a href="#">{$lang->cmd_move_up}</a></td>
-  <td><a href="#">{$lang->cmd_move_down}</a></td>
+  <td><a href="#" onclick="doMoveListOrder('{$component_name}','up'); return false;">{$lang->cmd_move_up}</a></td>
+  <td><a href="#" onclick="doMoveListOrder('{$component_name}','down'); return false;">{$lang->cmd_move_down}</a></td>
 </tr>
 <tr>
   <td colspan="7">{nl2br($xml_info->description)}</td>

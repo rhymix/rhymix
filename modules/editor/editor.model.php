@@ -41,6 +41,7 @@
             // DB 목록을 loop돌면서 xml정보까지 구함
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
+                if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
                 if(!$component->component_name) continue;
 
                 $component_name = $component->component_name;
@@ -64,6 +65,8 @@
 
             // 다운로드된 목록의 xml_info를 마저 구함
             foreach($downloaded_list as $component_name) {
+                if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+
                 // 설정된 것이라면 패스
                 if($component_list->{$component_name}) continue;
 

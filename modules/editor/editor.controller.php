@@ -64,6 +64,15 @@
         }
 
         /**
+         * @brief 컴포넌트의 위치 변경
+         **/
+        function doMoveListOrder() {
+            $args->component_name = Context::get('component_name');
+            $args->mode = Context::get('mode');
+
+        }
+
+        /**
          * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 
          **/
         function procCall() {
