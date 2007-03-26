@@ -11,6 +11,7 @@
   <column name="menu_srl" type="number" size="11" default="0"/>
   <column name="extra_vars" type="text" />
   <column name="skin_vars" type="text" />
+  <column name="content" type="bigtext"/>
   <column name="grants" type="text" />
   <column name="admin_id" type="text" />
   <column name="header_text" type="text" />
