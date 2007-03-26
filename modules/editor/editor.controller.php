@@ -35,6 +35,33 @@
             return $output;
         }
 
+        /**
+         * @brief 컴포넌트의 활성화
+         **/
+        function procEnableComponent() {
+            $args->component_name = Context::get('component_name');
+            $args->enabled = 'Y';
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.updateComponent', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 컴포넌트의 비활성화
+         **/
+        function procDisableComponent() {
+            $args->component_name = Context::get('component_name');
+            $args->enabled = 'N';
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.updateComponent', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
 
         /**
          * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 
@@ -60,8 +87,6 @@
             if(count($vars)) {
                 foreach($vars as $key=>$val) $this->add($key, $val);
             }
-
-
         }
     }
 ?>

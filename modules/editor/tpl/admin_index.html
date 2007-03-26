@@ -1,3 +1,5 @@
+<!--%import("js/admin.js")-->
+
 <table border="1">
 <tr>
   <th>{$lang->component_name}</th>
@@ -23,9 +25,9 @@
   </td>
   <td>
     <!--@if($xml_info->enabled=='Y')-->
-    <a href="#">{$lang->notuse}</a>
+    <a href="#" onclick="doDisableComponent('{$component_name}');return false;">{$lang->notuse}</a>
     <!--@else-->
-    <a href="#">{$lang->use}</a>
+    <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->use}</a>
     <!--@end-->
   </td>
   <td><a href="#">{$lang->cmd_move_up}</a></td>
