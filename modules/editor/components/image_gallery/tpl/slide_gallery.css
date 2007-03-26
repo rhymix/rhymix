@@ -17,6 +17,11 @@
   color:#444444;
   font-family:verdana;
   font-size:8pt;
+  cursor:pointer;
+}
+
+.slide_gallery_navigator_box img {
+  vertical-align:bottom;
 }
 
 .slide_gallery_main_image_box {
