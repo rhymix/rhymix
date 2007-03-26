@@ -49,7 +49,7 @@
             $gallery_info->bg_color = $xml_obj->attrs->bg_color;
             $gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
-            preg_match_all("/([^\"]){0,1}http([a-zA-Z0-9\_\-\:\/\.]*)(gif|jpg|jpeg|png)/i",trim($xml_obj->body),$matches);
+            preg_match_all("/([^\"]){0,1}http([a-zA-Z0-9\_\-\:\/\.\~]*)(gif|jpg|jpeg|png)/i",trim($xml_obj->body),$matches);
             $image_list = $matches[0];
             $image_count = count($image_list);
             for($i=0;$i<$image_count;$i++) $image_list[$i] = preg_replace('/^(\>|\s)/','', $image_list[$i]);
