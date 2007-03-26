@@ -1,4 +1,4 @@
-<filter name="delete_page" module="page" act="procDeletePage">
+<filter name="delete_page" module="pagemaker" act="procDeletePage">
   <form>
     <node target="module_srl" required="true" />
   </form>

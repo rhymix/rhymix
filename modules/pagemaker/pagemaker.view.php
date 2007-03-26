@@ -87,7 +87,7 @@
         /**
          * @brief 선택된 페이지의 정보 출력
          **/
-        function dispAdminBoardInfo() {
+        function dispAdminPageInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -109,7 +109,7 @@
         /**
          * @brief 페이지 추가 폼 출력
          **/
-        function dispAdminInsertBoard() {
+        function dispAdminInsertPage() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -152,7 +152,7 @@
         /**
          * @brief 페이지 삭제 화면 출력
          **/
-        function dispAdminDeleteBoard() {
+        function dispAdminDeletePage() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
