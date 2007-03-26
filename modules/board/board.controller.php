@@ -330,7 +330,7 @@
             if(count($grant_list)) {
                 foreach($grant_list as $key => $val) {
                     $group_srls = Context::get($key);
-                    if($group_srls) $arr_grant[$key] = explode(',',$group_srls);
+                    if($group_srls) $arr_grant[$key] = explode('|@|',$group_srls);
                 }
                 $grants = serialize($arr_grant);
             }
