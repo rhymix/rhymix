@@ -24,7 +24,11 @@
 
     <div class="item_area">
       <div class="header">{$lang->table_width} :</div>
-      <div class="body"><input type="text" class="table_input" id="width" value="600" />px</div>
+      <div class="body">
+        <input type="text" class="table_input" id="width" value="100" />
+        <input type="radio" name="width_unit" id="width_unit_percent" checked="true" /><label for="width_unit_percent">%</label>
+        <input type="radio" name="width_unit" id="width_unit_pixel" /><label for="width_unit_pixel">px</label>
+      </div>
 
       <div class="header">{$lang->table_cellspacing} :</div>
       <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
@@ -46,7 +50,11 @@
     <div id="cell_attribute" style="display:none">
       <div class="item_area">
         <div class="header">{$lang->cell_width} :</div>
-        <div class="body"><input type="text" class="table_input" id="cell_width" value="0" />px</div>
+        <div class="body">
+            <input type="text" class="table_input" id="cell_width" value="0" />
+            <input type="radio" name="cell_width_unit" id="cell_width_unit_percent" checked="true" /><label for="cell_width_unit_percent">%</label>
+            <input type="radio" name="cell_width_unit" id="cell_width_unit_pixel" /><label for="cell_width_unit_pixel">px</label>
+        </div>
 
         <div class="header">{$lang->cell_height} :</div>
         <div class="body"><input type="text" class="table_input" id="cell_height" value="0" />px</div>

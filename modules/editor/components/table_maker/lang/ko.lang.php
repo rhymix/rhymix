@@ -16,8 +16,8 @@
     $lang->table_border = "외곽선 굵기";
     $lang->table_inner_border = "구분선 굵기";
 
-    $lang->cell_width = "셀 가로크기 ";
-    $lang->cell_height = "셀 세로 크기 ";
+    $lang->cell_width = "가로크기 ";
+    $lang->cell_height = "세로 크기 ";
 
     $lang->table_border_color = "외곽선 색";
     $lang->table_bg_color = "배경 색";

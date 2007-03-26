@@ -1,5 +1,5 @@
 .editor_window {
-  width:620px;
+  width:680px;
   text-align:center;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .header {
-  width:90px;
+  width:80px;
   float:left;
   text-align:right;
   font-weight:bold;
@@ -36,7 +36,7 @@
 }
 
 .body {
-  width:80px;
+  width:120px;
   float:left;
   text-align:left;
   margin:5px 10px 5px 5px;

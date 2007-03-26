@@ -28,7 +28,8 @@ function doSelectOption(type) {
       xGetElementById("table_option").style.display = "block";
       xGetElementById("cell_attribute").style.display = "block";
 
-      var cell_width = selected_node.style.width.replace(/px$/,'');
+      var cell_width = selected_node.style.width.replace(/(px|\%)$/,'');
+      var cell_width_unit = selected_node.style.width.replace(/^([0-9]+)/,'');
       var cell_height = selected_node.style.height.replace(/px$/,'');
 
       var border_color = selected_node.style.borderColor.replace(/^#/,'');
@@ -45,6 +46,8 @@ function doSelectOption(type) {
       if(!bg_color) bg_color = "FFFFFF";
 
       xGetElementById("cell_width").value = cell_width?cell_width:0;
+      if(cell_width_unit=="px") xGetElementById("cell_width_unit_pixel").checked = "true";
+      else xGetElementById("cell_width_unit_percent").value = "true";
       xGetElementById("cell_height").value = cell_height?cell_height:0;
       
       xGetElementById("border_color_input").value = border_color;
@@ -66,7 +69,11 @@ function doSelectOption(type) {
       else {
         xGetElementById("col_row_area").style.display = "none";
 
-        var width = xWidth(table_obj);
+        var width = table_obj.width.replace(/\%/,'');
+        var width_unit = table_obj.width.replace(/^([0-9]+)/,'');
+        if(!width_unit) xGetElementById("width_unit_pixel").checked = "true";
+        else xGetElementById("width_unit_percent").value = "true";
+
         var border = table_obj.style.borderLeftWidth.replace(/px$/,'');
         if(!border) border = 0;
         var inner_border = table_obj.getAttribute("border");
@@ -129,6 +136,9 @@ function insertTable() {
       if(!rows_count) rows_count = 1;
 
       var width = parseInt(xGetElementById("width").value,10);
+      var width_unit = "%";
+      if(xGetElementById("width_unit_pixel").checked) width_unit = "";
+
       var border = parseInt(xGetElementById("border").value,10);
       var inner_border = parseInt(xGetElementById("inner_border").value,10);
       var cellspacing = parseInt(xGetElementById("cellspacing").value,10);
@@ -140,7 +150,7 @@ function insertTable() {
       if(bg_color.length!=6) bg_color = "FFFFFF";
 
       var text = "";
-      text += "<table width=\""+width+"\" border=\""+inner_border+"\" cellspacing=\""+cellspacing+"\" cellpadding=\""+cellpadding+"\" ";
+      text += "<table width=\""+width+width_unit+"\" border=\""+inner_border+"\" cellspacing=\""+cellspacing+"\" cellpadding=\""+cellpadding+"\" ";
       if(border>0) text += " style=\"border:"+border+"px solid #"+border_color+";background-color:#"+bg_color+"\" ";
       text +=">";
 
@@ -161,6 +171,8 @@ function insertTable() {
     // 테이블 수정일 경우
     } else if(xGetElementById("table_attribute_select").checked && table_obj) {
       var width = parseInt(xGetElementById("width").value,10);
+      var width_unit = "%";
+      if(xGetElementById("width_unit_pixel").checked) width_unit = "px";
       var border = parseInt(xGetElementById("border").value,10);
       var inner_border = parseInt(xGetElementById("inner_border").value,10);
       var cellspacing = parseInt(xGetElementById("cellspacing").value,10);
@@ -171,7 +183,9 @@ function insertTable() {
       var bg_color = xGetElementById("bg_color_input").value;
       if(bg_color.length!=6) bg_color = "FFFFFF";
 
-      table_obj.style.width = width+"px";
+      table_obj.style.width = width+width_unit;
+      if(width_unit=="px") table_obj.setAttribute("width", width);
+      else table_obj.setAttribute("width", width+width_unit);
       table_obj.setAttribute("border", inner_border);
       table_obj.setAttribute("cellspacing", cellspacing);
       table_obj.setAttribute("cellpadding", cellpadding);
@@ -181,12 +195,14 @@ function insertTable() {
     // cell의 수정일 경우
     } if(xGetElementById("cell_attribute_select").checked && selected_node) {
       var cell_width = parseInt(xGetElementById("cell_width").value,10);
+      var cell_width_unit = "%";
+      if(xGetElementById("cell_width_unit_pixel").checked) cell_width_unit = "px";
       var cell_height = parseInt(xGetElementById("cell_height").value,10);
 
       var bg_color = xGetElementById("bg_color_input").value;
       if(bg_color.length!=6) bg_color = "FFFFFF";
 
-      selected_node.style.width = cell_width+"px";
+      selected_node.style.width = cell_width+cell_width_unit;
       selected_node.style.height = cell_height+"px";
       selected_node.style.backgroundColor = "#"+bg_color;
     }
