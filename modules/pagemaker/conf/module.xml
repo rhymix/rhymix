@@ -3,6 +3,13 @@
     <grants />
     <actions>
         <action name="dispAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispAdminModuleConfig" type="view" standalone="true" />
+        <action name="dispAdminBoardInfo" type="view" standalone="true" />
+        <action name="dispAdminInsertBoard" type="view" standalone="true" />
+        <action name="dispAdminDeleteBoard" type="view" standalone="true" />
+        <action name="procInsertBoard" type="controller" standalone="true" />
+        <action name="procDeleteBoard" type="controller" standalone="true" />
+        <action name="procInsertConfig" type="controller" standalone="true" />
         <action name="procUploadFile" type="controller" standalone="true" />
         <action name="procDeleteFile" type="controller" standalone="true" />
     </actions>

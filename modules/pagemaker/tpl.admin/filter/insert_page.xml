@@ -1,0 +1,32 @@
+<filter name="insert_page" module="page" act="procInsertPage" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="mid" required="true" filter="alpha_number" />
+    <node target="browser_title" required="true" maxlength="250" />
+    <node target="list_count" required="true" filter="number" />
+    <node target="page_count" required="true" filter="number" />
+  </form>
+  <parameter>
+    <param name="page_name" target="mid" />
+    <param name="module_srl" target="module_srl" />
+    <param name="module_category_srl" target="module_category_srl" />
+    <param name="layout_srl" target="layout_srl" />
+    <param name="skin" target="skin" />
+    <param name="browser_title" target="browser_title" />
+    <param name="use_category" target="use_category" />
+    <param name="list_count" target="list_count" />
+    <param name="page_count" target="page_count" />
+    <param name="is_default" target="is_default" />
+    <param name="description" target="description" />
+    <param name="header_text" target="header_text" />
+    <param name="footer_text" target="footer_text" />
+    <param name="admin_id" target="admin_id" />
+  </parameter>
+  <response callback_func="completeInsertPage">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="module" />
+    <tag name="act" />
+    <tag name="page" />
+    <tag name="module_srl" />
+  </response>
+</filter>

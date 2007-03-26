@@ -20,9 +20,46 @@
         }
 
         /**
+         * @brief 관리자 기능 호출시에 관련 정보들 세팅해줌
+         **/
+        function initAdmin() {
+            // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
+            $module_srl = Context::get('module_srl');
+
+            // module model 객체 생성 
+            $oModuleModel = &getModel('module');
+
+            // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
+            if($module_srl) {
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if(!$module_info) {
+                    Context::set('module_srl','');
+                    $this->act = 'list';
+                } else {
+                    $this->module_info = $module_info;
+                    Context::set('module_info',$module_info);
+                }
+            }
+
+            // 모듈 카테고리 목록을 구함
+            $module_category = $oModuleModel->getModuleCategories();
+            Context::set('module_category', $module_category);
+
+            // 템플릿 경로 구함 (page의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
+            $template_path = sprintf("%stpl.admin/",$this->module_path);
+
+            // 템플릿 경로 지정
+            $this->setTemplatePath($template_path);
+        }
+
+
+        /**
          * @brief 페이지 관리 목록 보여줌
          **/
         function dispAdminContent() {
+            // 모듈 관련 정보 세팅
+            $this->initAdmin();
+
             // 등록된 page 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
             $args->sort_index = "module_srl";
@@ -59,7 +96,69 @@
             $this->setTemplateFile('page_config');
         }
 
+        /**
+         * @brief 선택된 페이지의 정보 출력
+         **/
+        function dispAdminBoardInfo() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
 
+            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
+            if(!Context::get('module_srl')) return $this->dispAdminContent();
+
+            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
+            if($this->module_info->layout_srl) {
+                $oLayoutModel = &getModel('layout');
+                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
+                $this->module_info->layout = $layout_info->layout;
+                $this->module_info->layout_title = $layout_info->layout_title;
+            }
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_info');
+        }
+
+        /**
+         * @brief 페이지 추가 폼 출력
+         **/
+        function dispAdminInsertBoard() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
+            // 스킨 목록을 구해옴
+            $oModuleModel = &getModel('module');
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list',$skin_list);
+
+            // 레이아웃 목록을 구해옴
+            $oLayoutMode = &getModel('layout');
+            $layout_list = $oLayoutMode->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_insert');
+        }
+
+        /**
+         * @brief 페이지 삭제 화면 출력
+         **/
+        function dispAdminDeleteBoard() {
+            // 관리자  관련 정보 세팅
+            $this->initAdmin();
+
+            if(!Context::get('module_srl')) return $this->dispContent();
+
+            $module_info = Context::get('module_info');
+
+            $oDocumentModel = &getModel('document');
+            $document_count = $oDocumentModel->getDocumentCount($module_info->module_srl);
+            $module_info->document_count = $document_count;
+
+            Context::set('module_info',$module_info);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_delete');
+        }
 
     }
 ?>

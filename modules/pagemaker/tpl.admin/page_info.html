@@ -1,0 +1,63 @@
+<table>
+<tr>
+  <th>{$lang->category}</th>
+  <td>
+    <!--@if(!$module_info->module_category_srl)-->
+      {$lang->not_exists}
+    <!--@else-->
+      {$module_category[$module_info->module_category_srl]->title}
+    <!--@end-->
+  </td>
+</tr>
+<tr>
+  <th>{$lang->layout}</th>
+  <td>
+    <!--@if($module_info->layout_srl)-->
+      {$module_info->layout_title} ({$module_info->layout})
+    <!--@else-->
+      {$lang->not_exists}
+    <!--@end-->
+  </td>
+</tr>
+<tr>
+  <th>{$lang->skin}</th>
+  <td>{$module_info->skin}</td>
+</tr>
+<tr>
+  <th>{$lang->browser_title}</th>
+  <td>{$module_info->browser_title}</td>
+</tr>
+<tr>
+  <th>{$lang->use_category}</th>
+  <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+</tr>
+<tr>
+  <th>{$lang->list_count}</th>
+  <td>{$module_info->list_count?$module_info->list_count:20}</td>
+</tr>
+<tr>
+  <th>{$lang->page_count}</th>
+  <td>{$module_info->page_count?$module_info->page_count:10}</td>
+</tr>
+<tr>
+  <th>{$lang->description}</th>
+  <td>{nl2br($module_info->description)}</td>
+</tr>
+<tr>
+  <th>{$lang->header_text}</th>
+  <td>{$module_info->header_text}</td>
+</tr>
+<tr>
+  <th>{$lang->footer_text}</th>
+  <td>{$module_info->footer_text}</td>
+</tr>
+<tr>
+  <th>{$lang->admin_id}</th>
+  <td>{implode(",",$module_info->admin_id)}</td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispAdminInsertBoard')}'" />
+  </td>
+</tr>
+</table>
