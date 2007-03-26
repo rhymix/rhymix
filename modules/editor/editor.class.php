@@ -31,7 +31,7 @@
         /**
          * @brief component의 객체 생성
          **/
-        function getComponentObject($component, $upload_target_srl) {
+        function getComponentObject($component, $upload_target_srl = 0) {
             // 해당 컴포넌트의 객체를 생성해서 실행
             $class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
             $class_file = sprintf('%s%s.class.php', $class_path, $component);
