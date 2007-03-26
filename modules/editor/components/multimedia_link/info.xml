@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component version="0.1">
+  <title xml:lang="ko">멀티미디어 자료 관리</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">에디터에 wmv,avi,flv등의 멀티미디어 자료를 추가하거나 속성을 수정할 수 있습니다.</description>
+  </author>
+</component>

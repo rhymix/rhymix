@@ -14,6 +14,17 @@
         }
 
         /**
+         * @brief 관리자 설정 페이지
+         * 에디터 컴포넌트의 on/off 및 설정을 담당
+         **/
+        function adminIndex() {
+            // 컴포넌트의 종류를 구해옴
+            $component_list = FileHandler::readDir($this->module_path.'components');
+            arsort($component_list);
+            Context::set('component_list', $component_list);
+        }
+
+        /**
          * @brief 에디터를 return
          **/
         function getEditor($upload_target_srl, $allow_fileupload = false) {
