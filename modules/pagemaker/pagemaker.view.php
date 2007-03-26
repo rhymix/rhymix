@@ -40,6 +40,11 @@
             $this->setTemplatePath($template_path);
         }
 
+        /**
+         * @brief 일반 요청시 출력
+         **/
+        function dispIndex() {
+        }
 
         /**
          * @brief 페이지 관리 목록 보여줌

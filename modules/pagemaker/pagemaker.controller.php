@@ -19,7 +19,7 @@
         function procInsertPage() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $args = Context::gets('module_srl','layout_srl','module_category_srl','page_name','browser_title','content','is_default');
-            $args->module = 'page';
+            $args->module = 'pagemaker';
             $args->mid = $args->page_name;
             unset($args->page_name);
             if($args->is_default!='Y') $args->is_default = 'N';
@@ -66,7 +66,7 @@
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('module','page');
+            $this->add('module','pagemaker');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
