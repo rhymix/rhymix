@@ -25,6 +25,7 @@
   <td>{nl2br($addon_info->author->description)}</td>
 </tr>
 
+<!--@if($addon_info->history[0]->name)-->
 <tr>
   <th colspan="2">{$lang->addon_history}</th>
 </tr>
@@ -46,6 +47,7 @@
   <th>{$lang->description}</th>
   <td>{nl2br($history->description)}</td>
 </tr>
+<!--@end-->
 <!--@end-->
 <!--@end-->
 <tr>
