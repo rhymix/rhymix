@@ -1,0 +1,28 @@
+<table border="1">
+<tr>
+  <th>{$lang->component_name}</th>
+  <th>{$lang->component_version}</th>
+  <th>{$lang->component_author}</th>
+  <th>{$lang->component_link}</th>
+  <th>{$lang->component_date}</th>
+  <th>{$lang->cmd_setup}</th>
+  <th>{$lang->use}</th>
+  <th colspan="2">{$lang->cmd_move}</th>
+</tr>
+<!--@foreach($component_list as $component_name => $xml_info)-->
+<tr>
+  <td rowspan="2">{$xml_info->title}<br />({$component_name})</td>
+  <td rowspan="2">{$xml_info->version}</td>
+  <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
+  <td><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
+  <td>{$xml_info->author->date}</td>
+  <td rowspan="2">{$lang->cmd_setup}</td>
+  <td rowspan="2">{$lang->use}</td>
+  <td rowspan="2">{$lang->cmd_move_up}</td>
+  <td rowspan="2">{$lang->cmd_move_down}</td>
+</tr>
+<tr>
+  <td colspan="3">{nl2br($xml_info->description)}</td>
+</tr>
+<!--@end-->
+</table>

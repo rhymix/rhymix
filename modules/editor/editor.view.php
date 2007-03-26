@@ -24,9 +24,12 @@
 
             $oEditorModel = &getModel('editor');
             foreach($component_list as $component) {
-                $xml_doc = $oEditorModel->getComponentXmlInfo($component);
+                $list[$component] = $xml_doc = $oEditorModel->getComponentXmlInfo($component);
             }
-            Context::set('component_list', $component_list);
+            Context::set('component_list', $list);
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('admin_index');
         }
 
         /**

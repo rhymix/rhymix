@@ -28,11 +28,13 @@
          * @brief component의 xml정보를 읽음
          **/
         function getComponentXmlInfo($component) {
+            $lang_type = Context::getLangType();
+
             // 요청된 컴포넌트의 xml파일 위치를 구함
             $component_path = sprintf('%scomponents/%s/', $this->module_path, $component);
 
             $xml_file = sprintf('%sinfo.xml', $component_path);
-            $cache_file = sprintf('./files/cache/editor/%s.php', $component);
+            $cache_file = sprintf('./files/cache/editor/%s.%s.php', $component, $lang_type);
 
             // 캐시된 xml파일이 있으면 include 후 정보 return
             if(file_exists($cache_file) && filectime($cache_file) > filectime($xml_file)) {
@@ -46,6 +48,8 @@
 
             // 정보 정리
             $xml_info->component_name = $component;
+            $xml_info->version = $xml_doc->component->attrs->version;
+            $xml_info->title = $xml_doc->component->title->body;
             $xml_info->author->name = $xml_doc->component->author->name->body;
             $xml_info->author->email_address = $xml_doc->component->author->attrs->email_address;
             $xml_info->author->link = $xml_doc->component->author->attrs->link;
@@ -54,6 +58,8 @@
 
             $buff = '<?php if(!__ZB5__) exit(); ';
             $buff .= sprintf('$xml_info->component_name = "%s";', $component);
+            $buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
+            $buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);
             $buff .= sprintf('$xml_info->author->name = "%s";', $xml_info->author->name);
             $buff .= sprintf('$xml_info->author->email_address = "%s";', $xml_info->author->email_address);
             $buff .= sprintf('$xml_info->author->link = "%s";', $xml_info->author->link);
@@ -81,7 +87,7 @@
 
             FileHandler::writeFile($cache_file, $buff, "w");
 
-            return $xml_doc->component;
+            return $xml_info;
         }
     }
 ?>

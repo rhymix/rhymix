@@ -43,6 +43,7 @@
     $lang->cmd_reload = "다시읽기";
     $lang->cmd_close = "닫기";
     $lang->cmd_open = "열기";
+    $lang->cmd_setup = "설정";
     $lang->cmd_remake_cache = "캐시파일 재생성";
 
     $lang->enable = '가능';
