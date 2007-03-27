@@ -2,13 +2,63 @@
     padding:5px;  
 }
 
-.newest_document_default_box .title {
-    font-weight:bold; 
-    border-bottom:1px solid #EEEEEE;
+.newest_document_default_box .title_box {
+    border:1px solid #EEEEEE;
     padding:5px;
 }
 
-.newest_document_default_box .item {
+.newest_document_default_box .title {
+    background:url(./images/title_bullet.gif) no-repeat left;
+    font-weight:bold; 
+    padding-left:20px;
+}
+
+.newest_document_default_box .document_box {
+    padding:3px 3px 3px 20px;
+    clear:both;
     border-bottom:1px solid #EEEEEE;
-    padding:5px;
+    height:16px;
+    margin:0px 0px 2px 0px;
+    overflow:hidden;
+}
+
+.newest_document_default_box .document {
+    padding:0px 0px 5px 20px;
+    background:url(./images/document_bullet.gif) no-repeat left;
+    float:left;
+}
+
+.newest_document_default_box .document A {
+    text-decoration:none;
+    color:#555555;
+}
+
+.newest_document_default_box .document A:hover {
+    text-decoration:underline;
+    color:#000000;
+}
+
+.newest_document_default_box .document A:visited {
+    color:#AAAAAA;
+}
+
+.newest_document_default_box .document .comment A {
+    font-size:7pt;
+    font-family:tahoma;
+    color:#AAAAAA;
+    letter-spacing:-1px;
+}
+
+.newest_document_default_box .document .writer {
+    font-size:9pt;
+    font-family:tahoma;
+    color:#AAAAAA;
+}
+
+
+.newest_document_default_box .regdate {
+    color:#AAAAAA;
+    font-size:8pt;
+    font-family:tahoma;
+    float:right;
 }

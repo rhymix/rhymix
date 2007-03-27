@@ -37,11 +37,10 @@
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             Context::set('title', $title);
-            Context::set('list', $list);
+            Context::set('document_list', $output->data);
 
             // 템플릿 컴파일
             $oTemplate = new TemplateHandler();
-            debugPrint($tpl_path);
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 

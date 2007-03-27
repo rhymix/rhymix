@@ -1,8 +1,21 @@
 <!--%import("style.css")-->
 <div class="newest_document_default_box">
-    <div class="title">{$title}</div>
+    <div class="title_box">
+        <div class="title">{$title}</div>
+    </div>
 
     <!--@foreach($document_list as $val)-->
-    <div class="item">{$val->title}</div>
+    <div class="document_box">
+        <div class="document">
+            <a href="{getUrl('','document_srl',$val->document_srl,'comment_count', $val->comment_count)}">{$val->title}</a>
+            <!--@if($val->comment_count)-->
+            <span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">( {$val->comment_count} )</a></span>
+            <!--@end-->
+            <span class="writer">
+            - {$val->nick_name}
+            </span>
+        </div>
+        <div class="regdate">{zdate($val->regdate, "Y-m-d")}</div>
+    </div>
     <!--@end-->
 </div>
