@@ -531,6 +531,13 @@
                 $this->module_info->layout_title = $layout_info->layout_title;
             }
 
+            // 정해진 스킨이 있으면 해당 스킨의 정보를 구함
+            if($this->module_info->skin) {
+                $oModuleModel = &getModel('module');
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->module_info->skin);
+                $this->module_info->skin_title = $skin_info->title;
+            }
+
             // 템플릿 파일 지정
             $this->setTemplateFile('board_info');
         }
@@ -589,7 +596,7 @@
             $skin = $module_info->skin;
 
             $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module, $skin);
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {

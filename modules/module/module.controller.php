@@ -64,7 +64,8 @@
             $oModuleModel = &getModel('module');
 
             // 선택된 스킨정보에서 colorset을 구함
-            $skin_info = $oModuleModel->loadSkinInfo($args->module, $args->skin);
+            $module_path = ModuleHandler::getModulePath($args->module);
+            $skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
             $skin_vars->colorset = $skin_info->colorset[0]->name;
 
             // DB 객체 생성

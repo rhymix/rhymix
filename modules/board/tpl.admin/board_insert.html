@@ -67,7 +67,7 @@
     <td>
       <select name="skin">
         <!--@foreach($skin_list as $key=>$val)-->
-        <option value="{$val}" <!--@if($module_info->skin==$val)-->selected="true"<!--@end-->>{$val}</option>
+        <option value="{$key}" <!--@if($module_info->skin==$key)-->selected="true"<!--@end-->>{$val->title}</option>
         <!--@end-->
       </select>
     </td>

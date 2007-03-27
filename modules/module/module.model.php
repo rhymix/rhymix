@@ -144,15 +144,35 @@
         }
 
         /**
-         * @brief 특정 모듈의 스킨의 정보를 구해옴
+         * @brief 주어진 곳의 스킨 목록을 구함 
+         * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
          **/
-        function loadSkinInfo($module, $skin) {
+        function getSkins($path) {
+            $skin_path = sprintf("%s/skins/", $path);
+            $list = FileHandler::readDir($skin_path);
+            if(!count($list)) return;
 
-            // 등록하려는 모듈의 path를 구함
-            $module_path = ModuleHandler::getModulePath($module);
+            $oXmlParser = new XmlParser();
+
+            foreach($list as $skin_name) {
+                unset($skin_info);
+                $skin_info = $this->loadSkinInfo($path, $skin_name);
+                if(!$skin_info) $skin_info->title = $skin_name;
+
+                $skin_list[$skin_name] = $skin_info;
+            }
+
+            return $skin_list;
+        }
+
+
+        /**
+         * @brief 특정 위치의 특정 스킨의 정보를 구해옴
+         **/
+        function loadSkinInfo($path, $skin) {
 
             // 모듈의 스킨의 정보 xml 파일을 읽음
-            $skin_xml_file = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
+            $skin_xml_file = sprintf("%sskins/%s/skin.xml", $path, $skin);
             if(!file_exists($skin_xml_file)) return;
 
             // XmlParser 객체 생성
@@ -180,7 +200,7 @@
                 $name = $color->attrs->name;
                 $title = $color->title->body;
                 $screenshot = $color->attrs->src;
-                if($screenshot && file_exists($screenshot)) $screenshot = sprintf("%sskins/%s/%s",$module_path,$skin,$screenshot);
+                if($screenshot && file_exists($screenshot)) $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
                 else $screenshot = "";
 
                 unset($obj);
@@ -400,15 +420,6 @@
             $module_info->admin_index_act = $action_info->admin_index_act;
 
             return $module_info;
-        }
-
-        /**
-         * @brief 모듈의 스킨 목록을 구함
-         **/
-        function getSkins($module_path) {
-            $skins_path = sprintf("%s/skins/", $module_path);
-            $list = FileHandler::readDir($skins_path);
-            return $list;
         }
 
         /**
