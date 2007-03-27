@@ -14,7 +14,6 @@
          * <div plugin='플러그인'...></div> 태그 사용 templateHandler에서 PluginHandler::execute()를 실행하는 코드로 대체하게 된다
          **/
         function execute($plugin, $args) {
-
             // $plugin의 객체를 받음 
             $oPlugin = PluginHandler::getObject($plugin);
             if(!$oPlugin) return;

@@ -29,6 +29,7 @@ function doDisplaySkinColorset(sel) {
     var skin = sel.options[sel.selectedIndex].value;
     if(!skin) {
         xGetElementById("colorset_area").style.display = "none";
+        setFixedPopupSize();
         return;
     }
 
@@ -55,4 +56,5 @@ function completeGetSkinColorset(ret_obj) {
     }
 
     xGetElementById("colorset_area").style.display = "block";
+    setFixedPopupSize();
 }

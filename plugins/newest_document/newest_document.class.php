@@ -31,15 +31,18 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($obj);
 
-            // 템플릿 파일을 지정
-            $tpl_path = $this->plugin_path.'skins/default';
-            $tpl_file = 'list';
-
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) Context::set('module_name', $mid_list[0]);
             Context::set('title', $title);
             Context::set('style', $args->style);
             Context::set('document_list', $output->data);
+
+            // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
+            $tpl_path = sprintf('%sskins/%s', $this->plugin_path, $args->skin);
+            Context::set('colorset', $args->colorset);
+
+            // 템플릿 파일을 지정
+            $tpl_file = 'list';
 
             // 템플릿 컴파일
             $oTemplate = new TemplateHandler();
