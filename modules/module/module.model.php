@@ -127,6 +127,23 @@
         }
 
         /**
+         * @brief mid 목록에 대응하는 module_srl을 배열로 return
+         **/
+        function getModuleSrlByMid($mid) {
+            if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
+            $oDB = &DB::getInstance();
+            $args->mid = $mid;
+            $output = $oDB->executeQuery('module.getModuleSrlByMid', $args);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+            if(!is_array($list)) $list = array($list);
+            foreach($list as $key => $val) $module_srl_list[] = $val->module_srl;
+            return $module_srl_list;
+        }
+
+        /**
          * @brief 특정 모듈의 스킨의 정보를 구해옴
          **/
         function loadSkinInfo($module, $skin) {

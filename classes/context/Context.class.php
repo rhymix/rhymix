@@ -767,6 +767,7 @@
             // className, style attribute를 구해 놓음 
             $className = $vars->class;
             $style = $vars->style;
+            unset($vars->module_srl);
             unset($vars->class);
             unset($vars->style);
             unset($vars->src);

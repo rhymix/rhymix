@@ -18,8 +18,7 @@
             if(!$oPlugin) return;
 
             // 플러그인 실행
-            $output = $oPlugin->proc($args);
-            return $output;
+            return $oPlugin->proc($args);
         }
 
         /**

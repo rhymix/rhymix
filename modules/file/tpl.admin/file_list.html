@@ -33,7 +33,7 @@
     <td>{$val->download_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>
     <td>{$val->ipaddress}</td>
-    <td><a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$lang->cmd_move}</a></td>
+    <td><a href="#" onclick="window.open('./?document_srl={$val->upload_target_srl}');return false">{$lang->cmd_move}</a></td>
     <td><a href="{$val->download_url}">{$lang->cmd_download}</a></td>
   </tr>
   <!--@end-->

@@ -281,7 +281,8 @@
                             $buff = sprintf('sprintf("%s like \'%%s%%%%\' ", $this->addQuotes($args->%s))', $column, $var);
                         break;
                     case 'in' :
-                            $buff = sprintf('sprintf("%s in (%%s) ", $this->addQuotes($args->%s))', $column, $var);
+                            //$buff = sprintf('sprintf("%s in (%%s) ", $this->addQuotes($args->%s))', $column, $var);
+                            $buff = sprintf('sprintf("%s in (%%s) ", $args->%s)', $column, $var);
                         break;
                     case 'notnull' :
                     case 'null' :

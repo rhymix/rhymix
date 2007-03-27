@@ -109,7 +109,6 @@ function display_gallery_image(obj, is_first_display) {
     // 이미지 표시 
     var target_image = xGetElementById("slide_gallery_main_image_"+obj.srl);
 
-    target_image.style.margin = "0px;";
     target_image.style.marginLeft = x+"px";
 
     target_image.src = obj.image.src;
