@@ -10,7 +10,7 @@
 }
 
 .newest_document_default_box .title_box .title {
-    background:url(./images/title_bullet.gif) no-repeat left;
+    background:url(./title_bullet.gif) no-repeat left;
     font-weight:bold; 
     height:14px;
     padding-left:20px;
@@ -36,7 +36,7 @@
 
 .newest_document_default_box .document {
     padding:0px 0px 5px 20px;
-    background:url(./images/document_bullet.gif) no-repeat left;
+    background:url(./document_bullet.gif) no-repeat left;
     float:left;
 }
 

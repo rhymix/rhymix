@@ -1,4 +1,8 @@
-<!--%import("style.css")-->
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("normal/style.css")-->
+<!--@elseif($colorset=="blue")-->
+    <!--%import("blue/style.css")-->
+<!--@end-->
 <div class="newest_document_default_box">
     <div class="title_box">
         <div class="title">{$title}</div>
