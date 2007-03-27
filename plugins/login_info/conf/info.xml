@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="0.1">
+    <title xml:lang="ko">최근 문서 출력</title>
+    <title xml:lang="en">newest document printer</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="en">zero</name>
+        <description xml:lang="ko">최근 문서 (document)를 출력하는 플러그인입니다.</description>
+        <description xml:lang="en">display newest document</description>
+    </author>
+    <extra_vars>
+        <var id="title">
+            <name xml:lang="ko">제목</name>
+            <name xml:lang="en">title</name>
+            <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
+        </var>
+        <var id="order_target">
+            <name xml:lang="ko">정렬 대상</name>
+            <name xml:lang="en">order target</name>
+            <type>select</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
+            <options>
+                <name xml:lang="ko">시간순</name>
+                <name xml:lang="en">regdate</name>
+                <value>list_order</value>
+            </options>
+            <options>
+                <name xml:lang="ko">업데이트순</name>
+                <name xml:lang="en">last update</name>
+                <value>update_order</value>
+            </options>
+        </var>
+        <var id="order_type">
+            <name xml:lang="ko">정렬 방법</name>
+            <name xml:lang="en">order type</name>
+            <type>select</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
+            <options>
+                <name xml:lang="ko">내림차순</name>
+                <name xml:lang="en">desc</name>
+                <value>desc</value>
+            </options>
+            <options>
+                <name xml:lang="ko">올림차순</name>
+                <name xml:lang="en">asc</name>
+                <value>asc</value>
+            </options>
+        </var>
+        <var id="list_count">
+            <name xml:lang="ko">목록수</name>
+            <name xml:lang="en">list_count</name>
+            <type>text</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
+        </var>
+        <var id="mid_list">
+            <name xml:lang="ko">대상 모듈</name>
+            <name xml:lang="en">target modules</name>
+            <type>mid_list</type>
+            <description xml:lang="ko">설명</description>
+            <description xml:lang="en">description</description>
+        </var>
+    </extra_vars>
+</plugin>
