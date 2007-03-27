@@ -705,6 +705,9 @@
          * @brief 내용의 플러그인이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
+            // 플러그인 변경
+            $content = preg_replace_callback('!<img([^\>]*)plugin=([^\>]*?)\>!is', array($this,'_transPlugin'), $content);
+            
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
             $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'_transEditorComponent'), $content);
@@ -745,6 +748,30 @@
             if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
 
             return $oComponent->transHTML($xml_doc);
+        }
+
+        /**
+         * @brief 플러그인 코드를 실제 php코드로 변경
+         **/
+        function _transPlugin($matches) {
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($matches[0]);
+            $vars = $xml_doc->attrs;
+
+            if(!$vars->plugin) return "";
+
+            // 플러그인의 이름을 구함
+            $plugin = $vars->plugin;
+            unset($vars->plugin);
+            
+            // className, style attribute를 구해 놓음 
+            $className = $vars->class;
+            $style = $vars->style;
+            unset($vars->class);
+            unset($vars->style);
+            unset($vars->src);
+
+            return PluginHandler::execute($plugin, $vars);
         }
 
     }

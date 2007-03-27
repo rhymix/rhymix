@@ -25,6 +25,12 @@ a.bold {
   border:3px dotted #2661db;
 }
 
+.zbxe_plugin_output {
+  background:url(../tpl/images/multimedia_icon.gif) no-repeat center;
+  background-color:#FFFFFF;
+  border:3px dotted #039311;
+}
+
 h1 {
   font-size:20pt;
   font-weight:bold;

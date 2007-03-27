@@ -1,9 +1,10 @@
-<!--%import("filter/generate_code.xml")-->
+<!--%import("filter/generate_code_in_page.xml")-->
 <!--%import("js/admin.js")-->
 <!--%import("css/plugin.css")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, generate_code);">
+<form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);">
 <input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
 
 <div class="plugin_detail_info_window">
 

@@ -33,7 +33,8 @@
                 }
             }
 
-            $plugin_code = sprintf('<div plugin="%s" %s></div>', $plugin, implode(' ',$attribute));
+            $blank_img_path = "./common/tpl/images/blank.gif";
+            $plugin_code = sprintf('<img src="%s" class="zbxe_plugin_output" plugin="%s" %s style="width:100px;height:100px;"/>', $blank_img_path, $plugin, implode(' ',$attribute));
 
             // 코드 출력
             $this->add('plugin_code', $plugin_code);

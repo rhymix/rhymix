@@ -19,7 +19,7 @@
 
             // 플러그인 실행
             $output = $oPlugin->proc($args);
-            print $output;
+            return $output;
         }
 
         /**
