@@ -7,6 +7,8 @@
 
     class PluginHandler {
 
+        var $plugin_path = '';
+
         /**
          * @brief 플러그인을 찾아서 실행하고 결과를 출력
          * <div plugin='플러그인'...></div> 태그 사용 templateHandler에서 PluginHandler::execute()를 실행하는 코드로 대체하게 된다
@@ -41,6 +43,8 @@
             @eval($eval_str);
             if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
             if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
+
+            $oPlugin->plugin_path = $path;
 
             return $oPlugin;
         }
