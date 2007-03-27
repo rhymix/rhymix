@@ -17,7 +17,7 @@
 
     <div class="plugin_header">{$lang->skin}</div>
     <div class="plugin_body">
-        <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+        <select name="skin" onchange="doDisplaySkinColorset(this,'');return false;" id="plugin_skin">
             <option value="">&nbsp;</option>
         <!--@foreach($skin_list as $key => $val)-->
             <option value="{$key}">{$val->title} ({$key})</option>
@@ -28,7 +28,7 @@
     <div id="colorset_area" style="display:none">
         <div class="plugin_header">{$lang->colorset}</div>
         <div class="plugin_body">
-            <select name="colorset">
+            <select name="colorset" id="plugin_colorset">
             </select>
         </div>
     </div>
@@ -70,3 +70,7 @@
 </div>
 
 </form>
+
+<script type="text/javascript">
+    xAddEventListener(window, "load", doFillPluginVars);
+</script>

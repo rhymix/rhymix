@@ -338,6 +338,7 @@ function editorSearchComponent(evt) {
         }
         var upload_target_srl = tobj.getAttribute("upload_target_srl");
         var plugin = obj.getAttribute("plugin");
+        editorPrevNode = obj;
         winopen("?module=plugin&act=dispGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
         return;
     }
