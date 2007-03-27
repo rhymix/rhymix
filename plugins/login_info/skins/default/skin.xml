@@ -9,8 +9,5 @@
     <color name="normal">
       <title xml:lang="ko">기본</title>
     </color>
-    <color name="blue">
-      <title xml:lang="ko">푸른색</title>
-    </color>
   </colorset>
 <skin>
