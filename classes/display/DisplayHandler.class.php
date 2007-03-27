@@ -28,15 +28,16 @@
             // 요청방식에 따라 출력을 별도로
             if(Context::getResponseMethod()!="XMLRPC") {
 
-                // 각 플러그인, 에디터 컴포넌트의 코드 변경
-                $oContext = &Context::getInstance();
-                $content = $oContext->transContent($content);
                 Context::set('content', $content);
 
                 // 레이아웃을 컴파일
                 require_once("./classes/template/TemplateHandler.class.php");
                 $oTemplate = new TemplateHandler();
                 $zbxe_final_content = $oTemplate->compile($oModule->getLayoutPath(), $oModule->getLayoutFile());
+
+                // 각 플러그인, 에디터 컴포넌트의 코드 변경
+                $oContext = &Context::getInstance();
+                $zbxe_final_content= $oContext->transContent($zbxe_final_content);
 
                 // 최종 결과를 common_layout에 넣어버림 
                 Context::set('zbxe_final_content', $zbxe_final_content);

@@ -769,35 +769,5 @@
             return PluginHandler::execute($plugin, $vars);
         }
 
-        /**
-         * @biref 플러그인 코드를 실제 코드로 변경 (레이아웃용)
-         **/
-        function transPluginCode($matches) {
-            $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse(trim($matches[0]));
-
-            if($xml_doc->img) $vars = $xml_doc->img->attrs;
-            else $vars = $xml_doc->attrs;
-
-            if(!$vars->plugin) return "";
-
-            // 플러그인의 이름을 구함
-            $plugin = $vars->plugin;
-            unset($vars->plugin);
-            
-            // className, style attribute를 구해 놓음 
-            unset($vars->module_srl);
-            unset($vars->src);
-
-            // 코드 생성 
-            $buff = "";
-
-            foreach($vars as $key => $val) {
-                $buff .= sprintf('$%s->%s = "%s";', $plugin, $key, $val);
-            }
-            $code = sprintf('<?php %s print PluginHandler::execute("%s", $%s); ?>', $buff, $plugin, $plugin);
-
-            return $code;
-        }
     }
 ?>
