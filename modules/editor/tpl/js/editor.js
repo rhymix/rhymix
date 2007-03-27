@@ -323,9 +323,27 @@ function editorSearchComponent(evt) {
     var e = new xEvent(evt);
 
     editorPrevNode = null;
+    var obj = e.target;
+    
+    // 플러그인인지 일단 체크
+    if(obj.getAttribute("plugin")) {
+        // upload_target_srl을 찾음
+        var tobj = obj;
+        while(tobj && tobj.nodeName != "BODY") {
+            tobj = xParent(tobj);
+        }
+        if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("upload_target_srl")) {
+            editorPrevNode = null;
+            return;
+        }
+        var upload_target_srl = tobj.getAttribute("upload_target_srl");
+        var plugin = obj.getAttribute("plugin");
+        winopen("?module=plugin&act=dispGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
+        return;
+    }
+
 
     // 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
-    var obj = e.target;
     if(!obj.getAttribute("editor_component")) {
         while(obj && !obj.getAttribute("editor_component")) {
             if(obj.parentElement) obj = obj.parentElement;
