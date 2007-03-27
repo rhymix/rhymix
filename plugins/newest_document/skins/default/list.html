@@ -2,6 +2,9 @@
 <div class="newest_document_default_box">
     <div class="title_box">
         <div class="title">{$title}</div>
+        <!--@if(count($mid_list)==1)-->
+        <div class="more"><a href="{getUrl('','mid',$mid_list[0])}">more</a></div>
+        <!--@end-->
     </div>
 
     <!--@foreach($document_list as $val)-->

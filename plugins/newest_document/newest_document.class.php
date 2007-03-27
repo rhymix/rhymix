@@ -36,7 +36,9 @@
             $tpl_file = 'list';
 
             // 템플릿 파일에서 사용할 변수들을 세팅
+            Context::set('mid_list', $mid_list);
             Context::set('title', $title);
+            Context::set('style', $args->style);
             Context::set('document_list', $output->data);
 
             // 템플릿 컴파일

@@ -20,4 +20,6 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     var iframe_obj = opener.editorGetIFrame(module_srl);
     opener.editorReplaceHTML(iframe_obj, plugin_code);
     opener.editorFocus(module_srl);
+
+    window.close();
 } 

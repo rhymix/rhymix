@@ -5,12 +5,24 @@
 .newest_document_default_box .title_box {
     border:1px solid #EEEEEE;
     padding:5px;
+    height:14px;
+    overflow:hidden;
 }
 
-.newest_document_default_box .title {
+.newest_document_default_box .title_box .title {
     background:url(./images/title_bullet.gif) no-repeat left;
     font-weight:bold; 
+    height:14px;
     padding-left:20px;
+    float:left;
+}
+
+.newest_document_default_box .title_box .more A {
+    float:right;
+    color:#AAAAAA;
+    text-decoration:none;
+    font-family:tahoma;
+    font-weight:bold;
 }
 
 .newest_document_default_box .document_box {
