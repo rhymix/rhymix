@@ -21,7 +21,7 @@
     $lang->gallery_bg_color = "배경색"; 
     $lang->about_image_list = "이미지 갤러리에  추가할 파일을 선택하세요. 선택후 드래그 또는 shift+클릭(범위선택), ctrl+클릭(개별선택) 가능합니다";
 
-    $lang->cmd_gallery_prev = "이전";
-    $lang->cmd_gallery_next = "다음";
+    $lang->cmd_gallery_prev = "이전 그림 보기";
+    $lang->cmd_gallery_next = "다음 그림 보기";
     $lang->cmd_gallery_thumbnail = "썸네일 보기";
 ?>

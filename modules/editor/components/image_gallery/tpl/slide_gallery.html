@@ -14,9 +14,9 @@
 <div align="{$gallery_info->gallery_align}">
   <div id='zone_slide_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;">
     <div id='zone_image_navigator_{$gallery_info->srl}' class="slide_gallery_navigator_box">
-      <a href="#" onclick="gallery_view_prev('{$gallery_info->srl}');return false;"><img src="./images/prev.gif" alt="{$lang->cmd_gallery_prev}" border="0" /></a>
-      <span class="zone_gallery_navigator_status" id="zone_gallery_navigator_status_{$gallery_info->srl}" onclick="gallery_view_thumbnail('{$gallery_info->srl}');return false;">1/1</span>
-      <a href="#" onclick="gallery_view_next('{$gallery_info->srl}');return false;"><img src="./images/next.gif" alt="{$lang->cmd_gallery_next}" border="0" /></a>
+      <a href="#" onclick="gallery_view_prev('{$gallery_info->srl}');return false;"><img src="./images/prev.gif" alt="{$lang->cmd_gallery_prev}" title="{$lang->cmd_gallery_prev}" border="0" /></a>
+      <span class="zone_gallery_navigator_status" title="{$lang->cmd_gallery_thumbnail}" id="zone_gallery_navigator_status_{$gallery_info->srl}" onclick="gallery_view_thumbnail('{$gallery_info->srl}');return false;">1/1</span>
+      <a href="#" onclick="gallery_view_next('{$gallery_info->srl}');return false;"><img src="./images/next.gif" alt="{$lang->cmd_gallery_next}" title="{$lang->cmd_gallery_next}" border="0" /></a>
     </div>
     <div id='zone_thumbnail_{$gallery_info->srl}' class="slide_gallery_thumbnail_image_box" style="display:none"></div>
     <div id="slide_gallery_loading_text_{$gallery_info->srl}" class="slide_gallery_loading_text">loading images...</div>
