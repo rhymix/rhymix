@@ -1,0 +1,55 @@
+<!--%import("filter/generate_code.xml")-->
+<!--%import("js/admin.js")-->
+<!--%import("css/plugin.css")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, generate_code);">
+<input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
+
+<div class="plugin_detail_info_window">
+
+    <div class="plugin_title">{$plugin_info->title} ver {$plugin_info->version}</div>
+
+    <div class="plugin_description">{$lang->about_plugin_code_in_page}</div>
+
+    <div class="plugin_header">{$lang->description}</div>
+    <div class="plugin_body">{nl2br($plugin_info->author->description)}</div>
+
+    <!--@foreach($plugin_info->extra_var as $id => $var)-->
+    <div class="plugin_header">{$var->name}</div>
+
+    <div class="plugin_body">
+        <!--@if($var->type == "text")-->
+        <input type="text" name="{$id}" value="" />
+
+        <!--@elseif($var->type == "textarea")-->
+        <textarea name="{$id}"></textarea>
+
+        <!--@elseif($var->type == "select")-->
+            <select name="{$id}">
+            <!--@foreach($var->options as $key => $val)-->
+            <option value="{$key}">{$val}</option>
+            <!--@end-->
+            </select>
+
+        <!--@elseif($var->type == "mid_list")-->
+            <!--@foreach($mid_list as $key => $val)-->
+                <div>
+                <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
+                <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                </div>
+            <!--@end-->
+        <!--@end-->
+    </div>
+    <div class="plugin_var_description">{$var->description}</div>
+    <!--@end-->
+
+    <div class="plugin_button_area">
+        <input type="submit" value="{$lang->cmd_generate_code}" class="plugin_button" />
+        <input type="button" onclick="self.close()" value="{$lang->cmd_close}" class="plugin_button" />
+    </div>
+
+    <div class="plugin_code_area"><textarea readonly="true" id="plugin_code"></textarea></div>
+
+</div>
+
+</form>
