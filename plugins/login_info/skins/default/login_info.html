@@ -47,7 +47,7 @@
         <form action="./" method="get" onsubmit="return procFilter(this, login)">
             <div class="login_box">
                 <div class="header">{$lang->user_id}</div>
-                <div class="body"><input type="text" name="user_id" /></div>
+                <div class="body"><input type="text" name="user_id" id="login_form_user_id" /></div>
 
 
                 <div class="header">{$lang->password}</div>
@@ -58,5 +58,9 @@
                 <input type="submit" value="{$lang->cmd_login}" /> 
             </div>
         </form>
+
+        <script type="text/javascript">
+            xAddEventListener(window, "load", function(){ xGetElementById("login_form_user_id").focus(); });
+        </script>
     </div>
 <!--@end-->
