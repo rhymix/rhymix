@@ -2,7 +2,7 @@
 <!--%import("js/admin.js")-->
 <!--%import("css/plugin.css")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, generate_code);">
+<form action="./" method="get" onsubmit="return procFilter(this, generate_code);" id="fo_plugin">
 <input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
 
 <div class="plugin_detail_info_window">
@@ -13,6 +13,24 @@
 
     <div class="plugin_header">{$lang->plugin}</div>
     <div class="plugin_body">{$plugin_info->title} ver {$plugin_info->version}</div>
+
+    <div class="plugin_header">{$lang->skin}</div>
+    <div class="plugin_body">
+        <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+            <option value="">&nbsp;</option>
+        <!--@foreach($skin_list as $key => $val)-->
+            <option value="{$key}">{$val->title} ({$key})</option>
+        <!--@end-->
+        </select>
+    </div>
+
+    <div id="colorset_area" style="display:none">
+        <div class="plugin_header">{$lang->colorset}</div>
+        <div class="plugin_body">
+            <select name="colorset">
+            </select>
+        </div>
+    </div>
 
     <!--@foreach($plugin_info->extra_var as $id => $var)-->
     <div class="plugin_header">{$var->name}</div>

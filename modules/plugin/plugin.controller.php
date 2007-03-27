@@ -40,5 +40,25 @@
             $this->add('plugin_code', $plugin_code);
         }
 
+        /**
+         * @brief 선택된 플러그인 - 스킨의 컬러셋을 return
+         **/
+        function procGetColorsetList() {
+            $plugin = Context::get('selected_plugin');
+            $skin = Context::get('skin');
+
+            $path = sprintf('./plugins/%s/', $plugin);
+            $oModuleModel = &getModel('module');
+            $skin_info = $oModuleModel->loadSkinInfo($path, $skin);
+
+            for($i=0;$i<count($skin_info->colorset);$i++) {
+                $colorset = sprintf('%s|@|%s', $skin_info->colorset[$i]->name, $skin_info->colorset[$i]->title);
+                $colorset_list[] = $colorset;
+            }
+
+            if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
+            $this->add('colorset_list', $colorsets);
+        }
+
     }
 ?>

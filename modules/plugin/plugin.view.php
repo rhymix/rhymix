@@ -56,6 +56,10 @@
             $mid_list = $oModuleModel->getMidList();
             Context::set('mid_list', $mid_list);
 
+            // 스킨의 정보를 구함
+            $skin_list = $oModuleModel->getSkins($plugin_info->path);
+            Context::set('skin_list', $skin_list);
+
             // 플러그인을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 

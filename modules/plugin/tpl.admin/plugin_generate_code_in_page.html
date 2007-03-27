@@ -15,6 +15,24 @@
     <div class="plugin_header">{$lang->description}</div>
     <div class="plugin_body">{nl2br($plugin_info->author->description)}</div>
 
+    <div class="plugin_header">{$lang->skin}</div>
+    <div class="plugin_body">
+        <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+            <option value="">&nbsp;</option>
+        <!--@foreach($skin_list as $key => $val)-->
+            <option value="{$key}">{$val->title} ({$key})</option>
+        <!--@end-->
+        </select>
+    </div>
+
+    <div id="colorset_area" style="display:none">
+        <div class="plugin_header">{$lang->colorset}</div>
+        <div class="plugin_body">
+            <select name="colorset">
+            </select>
+        </div>
+    </div>
+
     <!--@foreach($plugin_info->extra_var as $id => $var)-->
     <div class="plugin_header">{$var->name}</div>
 

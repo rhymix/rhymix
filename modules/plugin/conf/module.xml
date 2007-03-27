@@ -7,5 +7,6 @@
         <action name="dispGenerateCodeInPage" type="view" standalone="true" />
 
         <action name="procGenerateCode" type="controller" standalone="true" />
+        <action name="procGetColorsetList" type="controller" standalone="true" />
     </actions>
 </module>

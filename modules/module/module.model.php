@@ -196,51 +196,55 @@
             if(!is_array($xml_obj->colorset->color)) $colorset[] = $xml_obj->colorset->color;
             else $colorset = $xml_obj->colorset->color;
 
-            foreach($colorset as $color) {
-                $name = $color->attrs->name;
-                $title = $color->title->body;
-                $screenshot = $color->attrs->src;
-                if($screenshot && file_exists($screenshot)) $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
-                else $screenshot = "";
+            if($colorset[0]->attrs->name) {
+                foreach($colorset as $color) {
+                    $name = $color->attrs->name;
+                    $title = $color->title->body;
+                    $screenshot = $color->attrs->src;
+                    if($screenshot && file_exists($screenshot)) $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
+                    else $screenshot = "";
 
-                unset($obj);
-                $obj->name = $name;
-                $obj->title = $title;
-                $obj->screenshot = $screenshot;
-                $skin_info->colorset[] = $obj;
+                    unset($obj);
+                    $obj->name = $name;
+                    $obj->title = $title;
+                    $obj->screenshot = $screenshot;
+                    $skin_info->colorset[] = $obj;
+                }
             }
 
             // 스킨에서 사용되는 변수들
             if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
             else $extra_vars = $xml_obj->extra_vars->var;
 
-            foreach($extra_vars as $var) {
-                    $name = $var->attrs->name;
-                    $type = $var->attrs->type;
-                    $title = $var->title->body;
-                    $description = $var->description->body;
-                    if($var->default) {
-                        unset($default);
-                        if(is_array($var->default)) {
-                            for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
-                        } else {
-                            $default = $var->default->body;
+            if($extra_vars[0]->attrs->name) {
+                foreach($extra_vars as $var) {
+                        $name = $var->attrs->name;
+                        $type = $var->attrs->type;
+                        $title = $var->title->body;
+                        $description = $var->description->body;
+                        if($var->default) {
+                            unset($default);
+                            if(is_array($var->default)) {
+                                for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
+                            } else {
+                                $default = $var->default->body;
+                        }
                     }
+
+                    $width = $var->attrs->width;
+                    $height = $var->attrs->height;
+
+                    unset($obj);
+                    $obj->title = $title;
+                    $obj->description = $description;
+                    $obj->name = $name;
+                    $obj->type = $type;
+                    $obj->default = $default;
+                    $obj->width = $width;
+                    $obj->height = $height;
+
+                    $skin_info->extra_vars[] = $obj;
                 }
-
-                $width = $var->attrs->width;
-                $height = $var->attrs->height;
-
-                unset($obj);
-                $obj->title = $title;
-                $obj->description = $description;
-                $obj->name = $name;
-                $obj->type = $type;
-                $obj->default = $default;
-                $obj->width = $width;
-                $obj->height = $height;
-
-                $skin_info->extra_vars[] = $obj;
             }
 
             return $skin_info;

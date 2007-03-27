@@ -109,6 +109,7 @@
     $lang->is_default = "기본";
 
     $lang->skin = "스킨";
+    $lang->colorset = "컬러셋";
 
     $lang->board_manager = '게시판 관리';
     $lang->member_manager = '회원 관리';
