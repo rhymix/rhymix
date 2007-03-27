@@ -67,7 +67,8 @@
             if(!file_exists($xml_file)) return;
 
             // cache 파일을 비교하여 문제 없으면 include하고 $plugin_info 변수를 return
-            $cache_file = sprintf('./files/cache/plugin/%s.cache.php', $plugin);
+            $cache_file = sprintf('./files/cache/plugin/%s.%s.cache.php', $plugin, Context::getLangType());
+
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
                 include $cache_file;
                 return $plugin_info;
