@@ -75,6 +75,10 @@
             $buff = FileHandler::readFile($tpl_file);
             if(!$buff) return;
 
+            // 플러그인 변경 
+            $oContext = &Context::getInstance();
+            $buff = preg_replace_callback('!<img([^\>]*)plugin=([^\>]*?)\>!is', array($oContext,'transPluginCode'), $buff);
+
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
             $buff = preg_replace_callback('!img([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
