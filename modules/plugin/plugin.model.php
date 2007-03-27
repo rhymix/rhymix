@@ -100,28 +100,30 @@
             // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
             if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
             else $extra_vars = $xml_obj->extra_vars->var;
-            $extra_var_count = count($extra_vars);
+            if($extra_vars[0]->attrs->id) {
+                $extra_var_count = count($extra_vars);
 
-            $buff .= sprintf('$plugin_info->extra_var_count = "%s";', $extra_var_count);
-            for($i=0;$i<$extra_var_count;$i++) {
-                unset($var);
-                unset($options);
-                $var = $extra_vars[$i];
+                $buff .= sprintf('$plugin_info->extra_var_count = "%s";', $extra_var_count);
+                for($i=0;$i<$extra_var_count;$i++) {
+                    unset($var);
+                    unset($options);
+                    $var = $extra_vars[$i];
 
-                $buff .= sprintf('$plugin_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
-                $buff .= sprintf('$plugin_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
-                $buff .= sprintf('$plugin_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
-                $buff .= sprintf('$plugin_info->extra_var->%s->description = "%s";', $var->attrs->id, str_replace('"','\"',$var->description->body));
+                    $buff .= sprintf('$plugin_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
+                    $buff .= sprintf('$plugin_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
+                    $buff .= sprintf('$plugin_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
+                    $buff .= sprintf('$plugin_info->extra_var->%s->description = "%s";', $var->attrs->id, str_replace('"','\"',$var->description->body));
 
-                $options = $var->options;
-                if(!$options) continue;
+                    $options = $var->options;
+                    if(!$options) continue;
 
-                if(!is_array($options)) $options = array($options);
-                $options_count = count($options);
-                for($j=0;$j<$options_count;$j++) {
-                    $buff .= sprintf('$plugin_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$j]->value->body, $options[$j]->name->body);
+                    if(!is_array($options)) $options = array($options);
+                    $options_count = count($options);
+                    for($j=0;$j<$options_count;$j++) {
+                        $buff .= sprintf('$plugin_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$j]->value->body, $options[$j]->name->body);
+                    }
+
                 }
-
             }
 
             $buff = '<?php if(!__ZBXE__) exit(); '.$buff.' ?>';

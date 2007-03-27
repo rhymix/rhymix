@@ -18,7 +18,10 @@
          **/
         function procLogin($user_id, $password) {
             // 변수 정리
+            if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
+
+            if(!$password) $password = Context::get('password');
             $password = trim($password);
 
             // 이메일 주소나 비밀번호가 없을때 오류 return

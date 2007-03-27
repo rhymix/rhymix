@@ -101,7 +101,7 @@
     $lang->date = '날짜';
     $lang->regdate = '등록일';
     $lang->last_update = '최근수정일';
-    $lang->last_login = '최종로그인';
+    $lang->last_login = '최근로그인';
     $lang->first_page = '첫페이지';
     $lang->last_page = '끝페이지';
     $lang->search_target = '검색대상';

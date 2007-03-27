@@ -235,6 +235,8 @@ function XmlJsFilterCheckFieldItem() {
 } 
 
 function XmlJsFilterGetParameterParam() {
+    if(!this.fo_obj) return new Array();
+
     var prev_name = '';
     if(this.parameter.length<1) {
         for(var i=0;i<this.fo_obj.length;i++) {
