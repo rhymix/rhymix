@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">최신글 목록 기본 스킨</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">newest_document의 기본 스킨</description>
+  </maker>
+  <colorset>
+    <color name="normal" src="screenshot/normal.gif">
+      <title xml:lang="ko">기본</title>
+    </color>
+    <color name="blue" src="screenshot/blue.gif">
+      <title xml:lang="ko">푸른색</title>
+    </color>
+  </colorset>
+<skin>

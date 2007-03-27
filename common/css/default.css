@@ -1,4 +1,5 @@
-body,div,td {
+body, div, td, p, a {
+    font-family:arial, sans-serif;
     font-size:9pt;
 }
 
