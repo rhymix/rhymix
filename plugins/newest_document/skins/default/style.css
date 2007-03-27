@@ -1,0 +1,14 @@
+.newest_document_default_box {
+    padding:5px;  
+}
+
+.newest_document_default_box .title {
+    font-weight:bold; 
+    border-bottom:1px solid #EEEEEE;
+    padding:5px;
+}
+
+.newest_document_default_box .item {
+    border-bottom:1px solid #EEEEEE;
+    padding:5px;
+}

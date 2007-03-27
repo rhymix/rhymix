@@ -1,1 +1,8 @@
-<div>{$title}</div>
+<!--%import("style.css")-->
+<div class="newest_document_default_box">
+    <div class="title">{$title}</div>
+
+    <!--@foreach($document_list as $val)-->
+    <div class="item">{$val->title}</div>
+    <!--@end-->
+</div>
