@@ -94,6 +94,7 @@
 .login_info_default_normal .button_area {
     clear:both;
     height:20px;
+    margin-top:5px;
     text-align:center;
 }
 

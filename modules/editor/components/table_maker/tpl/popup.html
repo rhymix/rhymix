@@ -24,12 +24,13 @@
 
     <div class="item_area">
       <div class="header">{$lang->table_width} :</div>
-      <div class="body">
+      <div class="wide_body">
         <input type="text" class="table_input" id="width" value="100" />
         <input type="radio" name="width_unit" id="width_unit_percent" checked="true" /><label for="width_unit_percent">%</label>
         <input type="radio" name="width_unit" id="width_unit_pixel" /><label for="width_unit_pixel">px</label>
       </div>
-
+    </div>
+    <div class="item_area">
       <div class="header">{$lang->table_cellspacing} :</div>
       <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
 
@@ -63,7 +64,7 @@
 
     <div class="item_area" id="border_color_area" style="display:none">
       <div class="header">{$lang->table_border_color} :</div>
-      <div class="body">
+      <div class="wide_body">
         <div class="editor_color_box">
           <script type="text/javascript">
           printColor("border", "{$tpl_path}/images/blank.gif");
@@ -83,7 +84,7 @@
 
     <div class="item_area" id="bg_color_area" style="display:none">
       <div class="header">{$lang->table_bg_color} :</div>
-      <div class="body">
+      <div class="wide_body">
         <div class="editor_color_box">
           <script type="text/javascript">
           printColor("bg", "{$tpl_path}/images/blank.gif");

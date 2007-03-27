@@ -1,5 +1,5 @@
 .editor_window {
-  width:680px;
+  width:530px;
   text-align:center;
 }
 
@@ -17,9 +17,10 @@
 }
 
 .editor_option {
-  width:620px;
-  height:30px;
-  text-align:left;
+  text-align:center;
+  padding:5px 0px 5px 0px;
+  background-color:#EEEEEE;
+  margin-bottom:5px;
 }
 
 .item_area {
@@ -27,27 +28,30 @@
 }
 
 .header {
-  width:80px;
+  width:85px;
   float:left;
   text-align:right;
   font-weight:bold;
   margin:5px;
   font-size:9pt;
+  overflow:hidden;
 }
 
 .body {
-  width:120px;
+  overflow:hidden;
+  width:140px;
   float:left;
   text-align:left;
-  margin:5px 10px 5px 5px;
+  margin:5px 5px 5px 0px;
   font-size:9pt;
 }
 
 .wide_body {
   width:380px;
   float:left;
+  clear:right;
   text-align:left;
-  margin:5px 10px 5px 5px;
+  margin:5px 10px 5px 0px;
   font-size:9pt;
 }
 .table_input {
