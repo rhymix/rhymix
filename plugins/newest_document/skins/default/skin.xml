@@ -6,10 +6,10 @@
     <description xml:lang="ko">newest_document의 기본 스킨</description>
   </maker>
   <colorset>
-    <color name="normal" src="screenshot/normal.gif">
+    <color name="normal">
       <title xml:lang="ko">기본</title>
     </color>
-    <color name="blue" src="screenshot/blue.gif">
+    <color name="blue">
       <title xml:lang="ko">푸른색</title>
     </color>
   </colorset>
