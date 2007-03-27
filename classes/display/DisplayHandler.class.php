@@ -33,11 +33,14 @@
                 $content = $oContext->transContent($content);
                 Context::set('content', $content);
 
-                // content 래핑 (common/tpl/default.html)
+                // 레이아웃을 컴파일
                 require_once("./classes/template/TemplateHandler.class.php");
-
                 $oTemplate = new TemplateHandler();
-                $output = $oTemplate->compile($oModule->getLayoutPath(), $oModule->getLayoutFile());
+                $zbxe_final_content = $oTemplate->compile($oModule->getLayoutPath(), $oModule->getLayoutFile());
+
+                // 최종 결과를 common_layout에 넣어버림 
+                Context::set('zbxe_final_content', $zbxe_final_content);
+                $output = $oTemplate->compile('./common/tpl', 'common_layout');
 
             } else {
                 $output = $content;
