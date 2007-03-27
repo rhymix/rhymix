@@ -155,7 +155,7 @@ function insertTable() {
       text +=">";
 
       for(var row=0; row<rows_count;row++) {
-          text += "<tr>";
+          text += "<tr valign=\"top\">";
           for(var col=0; col<cols_count;col++) {
               text += "<td>&nbsp;</td>";
           }
