@@ -33,9 +33,9 @@
 
         <!--@elseif($var->type == "mid_list")-->
             <!--@foreach($mid_list as $key => $val)-->
-                <div>
-                <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
-                <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                <div class="plugin_mid_list">
+                    <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
+                    <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
                 </div>
             <!--@end-->
         <!--@end-->
@@ -44,11 +44,9 @@
     <!--@end-->
 
     <div class="plugin_button_area">
-        <input type="submit" value="{$lang->cmd_generate_code}" class="plugin_button" />
+        <input type="submit" value="{$lang->cmd_insert}" class="plugin_button" />
         <input type="button" onclick="self.close()" value="{$lang->cmd_close}" class="plugin_button" />
     </div>
-
-    <div class="plugin_code_area"><textarea readonly="true" id="plugin_code"></textarea></div>
 
 </div>
 

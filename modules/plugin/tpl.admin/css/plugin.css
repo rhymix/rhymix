@@ -72,3 +72,8 @@
     font-family:tahoma;
     font-size:8pt;
 }
+
+.plugin_mid_list {
+    float:left;
+    margin-right:10px;
+}
