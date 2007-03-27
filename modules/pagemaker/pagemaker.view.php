@@ -145,7 +145,7 @@
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');
 
-            // module model 객체 생성 
+            // module_srl이 있으면 해당 모듈의 정보를 구해서 세팅
             if($module_srl) {
                 $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
@@ -155,12 +155,18 @@
                     unset($module_srl);
                 }
             }
+
+            // module_srl이 없으면 sequence값으로 미리 구해 놓음
             if(!$module_srl) {
                 $oDB = &DB::getInstance();
                 $module_srl = $oDB->getNextSequence();
             }
-
             Context::set('module_srl',$module_srl);
+
+            // 플러그인 목록을 세팅
+            $oPluginModel = &getModel('plugin');
+            $plugin_list = $oPluginModel->getDownloadedPluginList();
+            Context::set('plugin_list', $plugin_list);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorView = &getView('editor');

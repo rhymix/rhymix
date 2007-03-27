@@ -1,58 +1,26 @@
-<table border="1" width="400">
-<col width="100" />
-<col width="300" />
-<tr>
-  <th colspan="2">{$lang->plugin_maker}</th>
-</tr>
-<tr>
-  <th>{$lang->title}</th>
-  <td>{$plugin_info->title} ver {$plugin_info->version}</td>
-</tr>
-<tr>
-  <th>{$lang->author}</th>
-  <td><a href="mailto:{$plugin_info->author->email_address}">{$plugin_info->author->name}</a></td>
-</tr>
-<tr>
-  <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open('{$plugin_info->author->homepage}');return false;">{$plugin_info->author->homepage}</a></td>
-</tr>
-<tr>
-  <th>{$lang->regdate}</th>
-  <td>{$plugin_info->author->date}</td>
-</tr>
-<tr>
-  <th>{$lang->description}</th>
-  <td>{nl2br($plugin_info->author->description)}</td>
-</tr>
+<!--%import("css/plugin.css")-->
 
-<!--@if($plugin_history->history->name)-->
-<tr>
-  <th colspan="2">{$lang->plugin_history}</th>
-</tr>
-<!--@foreach($plugin_info->history as $history)-->
-<!--@if($history->name)-->
-<tr>
-  <th>{$lang->name}</th>
-  <td><a href="mailto:{$history->email_address}">{$history->name}</a></td>
-</tr>
-<tr>
-  <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open('{$history->homepage}');return false;">{$history->homepage}</a></td>
-</tr>
-<tr>
-  <th>{$lang->regdate}</th>
-  <td>{$history->date}</td>
-</tr>
-<tr>
-  <th>{$lang->description}</th>
-  <td>{nl2br($history->description)}</td>
-</tr>
-<!--@end-->
-<!--@end-->
-<!--@end-->
-<tr>
-  <td colspan="2">
-    <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
-  </td>
-</tr>
-</table>
+<div class="plugin_detail_info_window">
+
+    <div class="plugin_title">{$lang->plugin_maker}</div>
+
+    <div class="plugin_header">{$lang->title}</div>
+    <div class="plugin_body">{$plugin_info->title} ver {$plugin_info->version}</div>
+
+    <div class="plugin_header">{$lang->author}</div>
+    <div class="plugin_body"><a href="mailto:{$plugin_info->author->email_address}">{$plugin_info->author->name}</a></div>
+
+    <div class="plugin_header">{$lang->homepage}</div>
+    <div class="plugin_body"><a href="#" onclick="window.open('{$plugin_info->author->homepage}');return false;">{$plugin_info->author->homepage}</a></div>
+
+    <div class="plugin_header">{$lang->regdate}</div>
+    <div class="plugin_body">{$plugin_info->author->date}</div>
+
+    <div class="plugin_header">{$lang->description}</div>
+    <div class="plugin_body">{nl2br($plugin_info->author->description)}</div>
+
+    <div class="plugin_button_area">
+        <a href="#" onclick="window.close();">{$lang->cmd_close}</a>
+    </div>
+
+</div>

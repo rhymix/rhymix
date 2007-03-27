@@ -71,6 +71,14 @@
   </tr>
   <!--@end-->
   <tr>
+    <th>{$lang->plugin}</th>
+    <td>
+        <!--@foreach($plugin_list as $plugin)-->
+        <a href="#" onclick="winopen('./?module=plugin&amp;act=dispGenerateCodeInPage&amp;plugin={$plugin->plugin}&amp;module_srl={$module_srl}','GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;">{$plugin->title}</a>
+        <!--@end-->
+    </td>
+  </tr>
+  <tr>
     <th>{$lang->content}</th>
     <td>
         {$editor}
