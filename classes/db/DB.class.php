@@ -124,10 +124,7 @@
             if(!$module||!$id) return new Object(-1, 'msg_invalid_queryid');
 
             $xml_file = sprintf('./modules/%s/queries/%s.xml', $module, $id);
-            if(!file_exists($xml_file)) {
-                $xml_file = sprintf('./files/modules/%s/queries/%s.xml', $module, $id);
-                if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
-            }
+            if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
 
             // 일단 cache 파일을 찾아본다
             $cache_file = sprintf('%s%s.cache.php', $this->cache_file, $query_id);
