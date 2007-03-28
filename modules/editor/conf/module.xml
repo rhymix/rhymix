@@ -7,6 +7,7 @@
         <action name="dispPopup" type="view" standalone="true" />
         <action name="viewComponentInfo" type="view" standalone="true" />
 
+        <action name="procSaveDoc" type="controller" standalone="true" />
         <action name="procCall" type="controller" standalone="true" />
         <action name="procEnableComponent" type="controller" standalone="true" />
         <action name="procDisableComponent" type="controller" standalone="true" />

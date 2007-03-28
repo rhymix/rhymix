@@ -34,6 +34,12 @@
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 
+            // 자동저장용 필드 제거
+            unset($obj->_saved_doc_srl);
+            unset($obj->_saved_doc_title);
+            unset($obj->_saved_doc_content);
+            unset($obj->_saved_doc_message);
+
             // file의 Model객체 생성
             $oFileModel = &getModel('file');
 
@@ -77,6 +83,10 @@
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($obj->category_srl) $this->updateCategoryCount($obj->category_srl);
 
+            // 자동 저장 문서 삭제
+            $oEditorController = &getController('editor');
+            $oEditorController->deleteSavedDoc();
+
             // return
             $this->addGrant($obj->document_srl);
             $output->add('document_srl',$obj->document_srl);
@@ -95,6 +105,12 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+
+            // 자동저장용 필드 제거
+            unset($obj->_saved_doc_srl);
+            unset($obj->_saved_doc_title);
+            unset($obj->_saved_doc_content);
+            unset($obj->_saved_doc_message);
 
             // file의 Model객체 생성
             $oFileModel = &getModel('file');
@@ -154,6 +170,10 @@
                 if($source_obj->category_srl) $this->updateCategoryCount($source_obj->category_srl);
                 if($obj->category_srl) $this->updateCategoryCount($obj->category_srl);
             }
+
+            // 자동 저장 문서 삭제
+            $oEditorController = &getController('editor');
+            $oEditorController->deleteSavedDoc();
 
             $output->add('document_srl',$obj->document_srl);
             return $output;

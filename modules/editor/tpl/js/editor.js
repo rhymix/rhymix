@@ -24,6 +24,7 @@ function editorInit(upload_target_srl) {
 
 // editor 시작 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
 function editorStart(upload_target_srl) {
+
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
@@ -31,6 +32,15 @@ function editorStart(upload_target_srl) {
     // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
     var fo_obj = iframe_obj.parentNode;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+    // saved document에 대한 체크
+    if(typeof(fo_obj._saved_doc_title)!="undefined" ) {
+        if(fo_obj._saved_doc_title.value || fo_obj._saved_doc_content.value) {
+            if(confirm(fo_obj._saved_doc_message.value)) {
+                fo_obj.title.value = fo_obj._saved_doc_title.value;    
+                fo_obj.content.value = fo_obj._saved_doc_content.value;    
+            }
+        }
+    }
 
     // 구해진 form 객체를 저장
     editor_form_list[upload_target_srl] = fo_obj;
@@ -82,6 +92,8 @@ function editorStart(upload_target_srl) {
 
     // 에디터의 내용을 지속적으로 fo_obj.content.value에 입력
     editorSyncContent(fo_obj.content, upload_target_srl);
+
+    if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, upload_target_srl);
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
@@ -102,6 +114,47 @@ function _editorSync() {
     setTimeout(_editorSync, 1000);
 }
 xAddEventListener(window, 'load', _editorSync);
+
+// 자동 저장 기능
+var _autoSaveObj = {fo_obj:null, upload_target_srl:0, title:'', content:''}
+function editorEnableAutoSave(fo_obj, upload_target_srl) {
+    var title = fo_obj.title.value;
+    var content = fo_obj.content.value;
+    _autoSaveObj = {"fo_obj":fo_obj, "upload_target_srl":upload_target_srl, "title":title, "content":content};
+    setTimeout(_editorAutoSave, 5000);
+}
+
+function _editorAutoSave() {
+    var fo_obj = _autoSaveObj.fo_obj;
+    var upload_target_srl = _autoSaveObj.upload_target_srl;
+
+    if(fo_obj && upload_target_srl) {
+        var title = fo_obj.title.value;
+        var content = editorGetContent(upload_target_srl);
+        if(title.trim() != _autoSaveObj.title.trim() || content.trim() != _autoSaveObj.content.trim()) {
+            var params = new Array();
+            params["document_srl"] = upload_target_srl;
+            params["title"] = title;
+            params["content"] = content;
+
+            _autoSaveObj.title = title;
+            _autoSaveObj.content = content;
+
+            xGetElementById("editor_autosaved_message").style.display = "block";
+            setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 3000);
+            show_waiting_message = false;
+            exec_xml("editor","procSaveDoc", params, _editorAutoSaved);
+            show_waiting_message = true;
+            return;
+        }
+    }
+
+    setTimeout(_editorAutoSave, 3000);
+}
+
+function _editorAutoSaved(ret_obj) {
+    setTimeout(_editorAutoSave, 7000);
+}
 
 // 에디터의 전체 내용 return
 function editorGetContent(upload_target_srl) {

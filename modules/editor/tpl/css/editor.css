@@ -148,3 +148,14 @@ div.editor_drag_down_area {
 .about_component_icon {
     vertical-align:middle;
 }
+
+div.editor_autosaved_message {
+    padding:5px;
+    margin:5px 0px 5px 0px;
+    border:1px solid #f8be74;
+    font-size:9pt;
+    font-weight:bold;
+    color:#d79619;
+    background-color:#feffc4;
+    display:none;
+}

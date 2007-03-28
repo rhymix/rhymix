@@ -62,14 +62,22 @@
         /**
          * @brief 에디터를 return
          **/
-        function getEditor($upload_target_srl, $allow_fileupload = false, $enableAutoSave = false) {
+        function getEditor($upload_target_srl, $allow_fileupload = false, $enable_autosave = false) {
+            $oEditorModel = &getModel('editor');
+
+            // 저장된 임시본이 있는지 검사
+            if($enable_autosave) {
+                $saved_doc = $oEditorModel->getSavedDoc();
+                Context::set('saved_doc', $saved_doc);
+            }
+            Context::set('enable_autosave', $enable_autosave);
+
             // 업로드를 위한 변수 설정
             Context::set('upload_target_srl', $upload_target_srl);
             Context::set('allow_fileupload', $allow_fileupload);
 
             // 에디터 컴포넌트를 구함
             if(!Context::get('component_list')) {
-                $oEditorModel = &getModel('editor');
                 $component_list = $oEditorModel->getComponentList();
                 Context::set('component_list', $component_list);
             }

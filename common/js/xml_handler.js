@@ -5,6 +5,7 @@
  **/
 
 // xml handler을 이용하는 user function
+var show_waiting_message = true;
 function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
     var oXml = new xml_handler();
     oXml.reset();
@@ -18,10 +19,12 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     if(typeof(response_tags)=="undefined") response_tags = new Array('error','message');
     response_tags[response_tags.length] = "redirect_url";
 
-    var waiting_obj = document.getElementById("waitingforserverresponse");
-    waiting_obj.style.visibility = "visible";
-    xTop(waiting_obj, xScrollTop()+20);
-    xLeft(waiting_obj, xScrollLeft()+20);
+    if(show_waiting_message) {
+        var waiting_obj = xGetElementById("waitingforserverresponse");
+        waiting_obj.style.visibility = "visible";
+        xTop(waiting_obj, xScrollTop()+20);
+        xLeft(waiting_obj, xScrollLeft()+20);
+    }
     oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg, fo_obj);
 }
 
@@ -30,7 +33,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
     var xmlDoc = oXml.getResponseXml();
     if(!xmlDoc) return null;
 
-    var waiting_obj = document.getElementById("waitingforserverresponse");
+    var waiting_obj = xGetElementById("waitingforserverresponse");
     waiting_obj.style.visibility = "hidden";
 
     var ret_obj = oXml.toZMsgObject(xmlDoc, response_tags);

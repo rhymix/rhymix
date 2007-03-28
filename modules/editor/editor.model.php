@@ -8,6 +8,30 @@
     class editorModel extends editor {
 
         /**
+         * @brief 자동저장되어 있는 정보를 가져옴
+         **/
+        function getSavedDoc() {
+            // 로그인 회원이면 member_srl, 아니면 ipaddress로 저장되어 있는 문서를 찾음
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $auto_save_args->member_srl = $logged_info->member_srl;
+            } else {
+                $auto_save_args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.getSavedDocument', $auto_save_args);
+            $saved_doc = $output->data;
+            if(!$saved_doc) return;
+
+            // 해당 저장본 삭제 
+            $oEditorController = &getController('editor');
+            $oEditorController->deleteSavedDoc();
+
+            return $saved_doc;
+        }
+
+        /**
          * @brief component의 객체 생성
          **/
         function getComponentObject($component, $upload_target_srl = 0) {

@@ -14,6 +14,51 @@
         }
 
         /**
+         * @brief 자동 저장
+         **/
+        function procSaveDoc() {
+
+            $this->deleteSavedDoc();
+
+            $args->document_srl = Context::get('document_srl');
+            $args->content = Context::get('content');
+            $args->title = Context::get('title');
+
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 필요한 데이터가 없으면 pass
+            if(!$args->document_srl || (!$args->title && !$args->content)) return new Object(0,'');
+
+            // 저장
+            $oDB = &DB::getInstance();
+            $output = $oDB->executeQuery('editor.insertSavedDoc', $args);
+
+            $this->setMessage('msg_auto_saved');
+        }
+
+        /**
+         * @brief 자동 저장된 글을 삭제
+         * 현재 접속한 사용자를 기준
+         **/
+        function deleteSavedDoc() {
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 일단 이전 저장본 삭제
+            $oDB = &DB::getInstance();
+            $oDB->executeQuery('editor.deleteSavedDoc', $args);
+        }
+
+        /**
          * @brief 컴포넌트를 DB에 추가
          **/
         function insertComponent($component_name, $enabled = false) {

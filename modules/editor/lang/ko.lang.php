@@ -19,4 +19,6 @@
     $lang->msg_component_is_inserted = '선택하신 컴포넌트는 이미 입력되어 있습니다';
     $lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫번째에 위치하고 있습니다';
     $lang->msg_component_is_last_order = '선택하신 컴포넌트는 마지막에 위치하고 있습니다';
+    $lang->msg_load_saved_doc = "자동저장된 글이 있습니다. 복구하시겠습니까?\n복구하지 않으시면 삭제됩니다";
+    $lang->msg_auto_saved = "자동 저장되었습니다";
 ?>
