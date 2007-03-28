@@ -140,6 +140,7 @@ function _editorAutoSave() {
             _autoSaveObj.title = title;
             _autoSaveObj.content = content;
 
+            xTop("editor_autosaved_message", xScrollTop()+10);
             xGetElementById("editor_autosaved_message").style.display = "block";
             setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 3000);
             show_waiting_message = false;

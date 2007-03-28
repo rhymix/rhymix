@@ -136,6 +136,7 @@
          * @brief 특정 글의 첨부파일을 다른 글로 이동
          **/
         function moveFile($source_srl, $target_module_srl, $target_srl) {
+            if($source_srl == $target_srl) return;
             $oDB = &DB::getInstance();
 
             $oFileModel = &getModel('file');

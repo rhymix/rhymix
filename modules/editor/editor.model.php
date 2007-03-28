@@ -24,14 +24,14 @@
             $saved_doc = $output->data;
             if(!$saved_doc) return;
 
-            // 해당 저장본 삭제 
-            $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc();
-
-            // 첨부된 파일이 있으면 현재 글 번호로 옮김
-            $module_srl = Context::get('module_srl');
-            $oFileController = &getController('file');
-            $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
+            // 원본 글이 저장되어 있지 않은 글일 경우 첨부된 파일이 있으면 현재 글 번호로 옮김
+            $oDocumentModel = &getModel('document');
+            $document = $oDocumentModel->getDocument($saved_doc->document_srl);
+            if($document->document_srl != $saved_doc->document_srl) {
+                $module_srl = Context::get('module_srl');
+                $oFileController = &getController('file');
+                $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
+            }
 
             return $saved_doc;
         }

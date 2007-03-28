@@ -175,8 +175,10 @@
                 }
             }
 
-            $oDB = &DB::getInstance();
-            $document_srl = $oDB->getNextSequence();
+            if(!$document_srl) {
+                $oDB = &DB::getInstance();
+                $document_srl = $oDB->getNextSequence();
+            }
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');

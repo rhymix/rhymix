@@ -29,6 +29,7 @@
             $args->document_srl = $document_srl;
             $output = $oDB->executeQuery('document.getDocument', $args);
             $document = $output->data;
+            if(!$document) return;
 
             // 이 문서에 대한 권한이 있는지 확인
             if($this->isGranted($document->document_srl) || $is_admin) {
