@@ -160,6 +160,7 @@
          * @brief 사이트 title setting
          **/
         function setBrowserTitle($site_title) {
+            if(!$site_title) return;
             $oContext = &Context::getInstance();
             $oContext->_setBrowserTitle($site_title);
         }
@@ -168,7 +169,7 @@
          * @brief 사이트 title setting
          **/
         function _setBrowserTitle($site_title) {
-            $this->site_title = $site_title;
+            $this->site_title = htmlspecialchars($site_title);
         }
 
         /**

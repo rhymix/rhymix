@@ -75,6 +75,7 @@
                 $this->module = $module_info->module;
                 $this->mid = $module_info->mid;
                 $this->module_info = $module_info;
+                Context::setBrowserTitle($module_info->browser_title);
             }
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시

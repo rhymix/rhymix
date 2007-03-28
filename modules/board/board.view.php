@@ -105,6 +105,11 @@
 
                 // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅 
                 } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
+
+                    // 브라우저 타이틀
+                    $browser_title = $this->module_info->browser_title.' - '.$document->title;
+                    Context::setBrowserTitle($browser_title);
+
                     // 댓글
                     $this->setCommentEditor();
                 }
