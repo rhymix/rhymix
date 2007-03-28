@@ -1,0 +1,6 @@
+<table name="editor_autosave">
+  <column name="component_name" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+  <column name="module_srl" type="number" size="11" notnull="notnull" default="0" notnull="notnull" index="idx_srl" />
+  <column name="document_srl" type="number" size="11" default="N" default="0" notnull="notnull" index="idx_srl" />
+  <column name="regdate" type="date" index="idx_regdate" />
+</table>

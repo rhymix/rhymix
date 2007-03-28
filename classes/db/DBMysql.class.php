@@ -24,7 +24,7 @@
          **/
         var $column_type = array(
             'bignumber' => 'bigint',
-            'number' => 'int',
+            'number' => 'bigint',
             'varchar' => 'varchar',
             'char' => 'char',
             'text' => 'text',
