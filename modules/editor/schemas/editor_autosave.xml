@@ -1,6 +1,9 @@
 <table name="editor_autosave">
-  <column name="component_name" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
-  <column name="module_srl" type="number" size="11" notnull="notnull" default="0" notnull="notnull" index="idx_srl" />
+  <column name="member_srl" type="number" size="11" notnull="notnull" default="0" primary_key="primary_key" />
+  <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
+  <column name="module_srl" type="number" size="11" notnull="notnull" default="0" index="idx_srl" />
   <column name="document_srl" type="number" size="11" default="N" default="0" notnull="notnull" index="idx_srl" />
+  <column name="title" type="varchar" size="250" />
+  <column name="content" type="bigtext" notnull="notnull" />
   <column name="regdate" type="date" index="idx_regdate" />
 </table>
