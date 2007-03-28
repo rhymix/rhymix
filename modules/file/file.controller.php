@@ -133,6 +133,49 @@
         }
 
         /**
+         * @brief 특정 글의 첨부파일을 다른 글로 이동
+         **/
+        function moveFile($source_srl, $target_module_srl, $target_srl) {
+            $oDB = &DB::getInstance();
+
+            $oFileModel = &getModel('file');
+            $file_list = $oFileModel->getFiles($source_srl);
+            if(!$file_list) return;
+
+            $file_count = count($file_list);
+
+            for($i=0;$i<$file_count;$i++) {
+
+                unset($file_info);
+                $file_info = $file_list[$i];
+                $old_file = $file_info->uploaded_filename;
+
+                // 이미지인지 기타 파일인지 체크하여 이동할 위치 정함
+                if(eregi("\.(jpg|jpeg|gif|png|wmv|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$", $file_info->source_filename)) {
+                    $path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
+                    $new_file = $path.$file_info->source_filename;
+                } else {
+                    $path = sprintf("./files/attach/binaries/%s/%s/", $target_module_srl, $target_srl);
+                    $new_file = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
+                }
+
+                // 디렉토리 생성
+                FileHandler::makeDir($path);
+
+                // 파일 이동
+                @rename($old_file, $new_file);
+
+                // DB 정보도 수정
+                unset($args);
+                $args->file_srl = $file_info->file_srl;
+                $args->uploaded_filename = $new_file;
+                $args->module_srl = $file_info->module_srl;
+                $args->upload_target_srl = $target_srl;
+                $oDB->executeQuery('file.updateFile', $args);
+            }
+        }
+
+        /**
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
         function printUploadedFileList($upload_target_srl) {

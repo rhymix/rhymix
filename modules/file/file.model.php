@@ -56,6 +56,7 @@
             $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = 'file_srl';
             $output = $oDB->executeQuery('file.getFiles', $args);
+            if(!$output->data) return;
 
             $file_list = $output->data;
 

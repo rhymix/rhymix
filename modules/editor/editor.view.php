@@ -67,7 +67,7 @@
 
             // 저장된 임시본이 있는지 검사
             if($enable_autosave) {
-                $saved_doc = $oEditorModel->getSavedDoc();
+                $saved_doc = $oEditorModel->getSavedDoc($upload_target_srl);
                 Context::set('saved_doc', $saved_doc);
             }
             Context::set('enable_autosave', $enable_autosave);

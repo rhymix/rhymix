@@ -10,7 +10,7 @@
         /**
          * @brief 자동저장되어 있는 정보를 가져옴
          **/
-        function getSavedDoc() {
+        function getSavedDoc($upload_target_srl) {
             // 로그인 회원이면 member_srl, 아니면 ipaddress로 저장되어 있는 문서를 찾음
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
@@ -27,6 +27,11 @@
             // 해당 저장본 삭제 
             $oEditorController = &getController('editor');
             $oEditorController->deleteSavedDoc();
+
+            // 첨부된 파일이 있으면 현재 글 번호로 옮김
+            $module_srl = Context::get('module_srl');
+            $oFileController = &getController('file');
+            $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
 
             return $saved_doc;
         }

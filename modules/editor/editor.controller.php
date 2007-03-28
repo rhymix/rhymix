@@ -52,7 +52,6 @@
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
-            debugPrint($args);
 
             // 일단 이전 저장본 삭제
             $oDB = &DB::getInstance();
