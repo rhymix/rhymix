@@ -62,7 +62,7 @@
         /**
          * @brief 에디터를 return
          **/
-        function getEditor($upload_target_srl, $allow_fileupload = false) {
+        function getEditor($upload_target_srl, $allow_fileupload = false, $enableAutoSave = false) {
             // 업로드를 위한 변수 설정
             Context::set('upload_target_srl', $upload_target_srl);
             Context::set('allow_fileupload', $allow_fileupload);
