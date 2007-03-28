@@ -9,6 +9,7 @@
 
         var $group_list = NULL; ///< 그룹 목록 정보
         var $member_info = NULL; ///< 선택된 사용자의 정보
+        var $skin = 'default';
 
         /**
          * @brief 초기화
@@ -16,7 +17,6 @@
         function init() {
             // 관리자 모듈에서 요청중이면 initAdmin(), 아니면 initNormal()
             if(Context::get('module')=='admin') $this->initAdmin();
-            else $this->initNormal();
         }
 
         /**
@@ -46,14 +46,23 @@
          * @brief 일반 페이지 초기화
          **/
         function initNormal() {
+            // 회원 관리 정보를 받음
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            $skin = $config->skin;
+            if(!$skin) $skin = 'default';
+
             // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
+            $this->setTemplatePath($tpl_path);
         }
 
         /**
          * @brief 회원 가입 폼 출력
          **/
         function dispSignUpForm() {
+            $this->initNormal();
+
             $oMemberModel = &getModel('member');
 
             // 로그인한 회원일 경우 해당 회원의 정보를 받음
@@ -68,7 +77,6 @@
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'skins/default');
             $this->setTemplateFile('insert_member');
         }
 
@@ -76,8 +84,9 @@
          * @brief 로그인 폼 출력
          **/
         function dispLoginForm() {
+            $this->initNormal();
+
             // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'skins/default');
             $this->setTemplateFile('login_form');
         }
 
@@ -85,8 +94,9 @@
          * @brief 로그아웃 출력
          **/
         function dispLogout() {
+            $this->initNormal();
+
             // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'skins/default');
             $this->setTemplateFile('logout');
         }
 
@@ -118,6 +128,10 @@
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             Context::set('config',$config);
+
+            // 회원 관리 모듈의 스킨 목록을 구함
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list', $skin_list);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('member_config');

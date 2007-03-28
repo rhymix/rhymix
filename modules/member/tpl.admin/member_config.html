@@ -4,6 +4,16 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
   <table border="1">
   <tr>
+    <th>{$lang->skin}</th>
+    <td>
+        <select name="skin">
+            <!--@foreach($skin_list as $key => $val)-->
+            <option value="{$key}">{$val->title} ({$key})</option>
+            <!--@end-->
+        </select>
+    </td>
+  </tr>
+  <tr>
     <th rowspan="2">{$lang->enable_join}</th>
     <td><input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end-->/></td>
   </tr>
