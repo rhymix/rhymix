@@ -77,16 +77,30 @@
          * @brief 관리자 로그인 페이지 출력
          **/
         function dispLogin() {
+            // 로그인 되어 있으면 메인 페이지 표시
             if(Context::get('is_logged')) return $this->dispIndex();
-            $this->setTemplateFile('login_form');
+
+            // member모듈의 로그인 act를 이용
+            $oMemberView = &getView('member');
+            $oMemberView->dispLoginForm();
+
+            $this->setTemplatePath($oMemberView->getTemplatePath());
+            $this->setTemplateFile($oMemberView->getTemplateFile());
         }
 
         /**
          * @brief 관리자 로그아웃 페이지 출력
          **/
         function dispLogout() {
+            // 로그인 되어 있지 않으면 메인 페이지 표시
             if(!Context::get('is_logged')) return $this->dispIndex();
-            $this->setTemplateFile('logout');
+
+            // member모듈의 로그아웃 act를 이용
+            $oMemberView = &getView('member');
+            $oMemberView->dispLogout();
+
+            $this->setTemplatePath($oMemberView->getTemplatePath());
+            $this->setTemplateFile($oMemberView->getTemplateFile());
         }
     }
 ?>

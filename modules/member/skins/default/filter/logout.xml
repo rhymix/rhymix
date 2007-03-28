@@ -1,7 +1,5 @@
 <filter name="logout" module="board" act="procLogout">
-  <form>
-    <node target="mid" required="true" />
-  </form>
+  <form />
   <response>
     <tag name="error" />
     <tag name="message" />
