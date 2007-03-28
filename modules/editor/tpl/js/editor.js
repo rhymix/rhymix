@@ -34,10 +34,12 @@ function editorStart(upload_target_srl) {
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     // saved document에 대한 체크
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) {
-        if(fo_obj._saved_doc_title.value || fo_obj._saved_doc_content.value) {
+        var saved_title = fo_obj._saved_doc_title.value;
+        var saved_content = fo_obj._saved_doc_content.value;
+        if(saved_title || saved_content) {
             if(confirm(fo_obj._saved_doc_message.value)) {
-                fo_obj.title.value = fo_obj._saved_doc_title.value;    
-                fo_obj.content.value = fo_obj._saved_doc_content.value;    
+                fo_obj.title.value = saved_title;
+                fo_obj.content.value = saved_content;
             }
         }
     }
@@ -163,7 +165,8 @@ function editorGetContent(upload_target_srl) {
     if(!iframe_obj) return;
     var html = '';
     html = xInnerHtml(iframe_obj.contentWindow.document.body);
-    if(!html) return;
+    html = html.replace(/^<br>$/i,'');
+    if(!html) return "";
 
     return html;
 }
