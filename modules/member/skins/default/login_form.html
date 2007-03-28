@@ -7,7 +7,7 @@
   <col width="*" />
   <tr>
     <th>{$lang->user_id}</th>
-    <td><input type="text" name="user_id" /></td>
+    <td><input type="text" name="user_id" id="member_login_user_id" /></td>
   </tr>
   <tr>
     <th>{$lang->password}</th>
@@ -28,3 +28,6 @@
 
 </form>
 
+<script type="text/javascript">
+    xAddEventListener(window, "load", function() { xGetElementById("member_login_user_id").focus(); } );
+</script>
