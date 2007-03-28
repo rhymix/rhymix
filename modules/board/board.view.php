@@ -379,8 +379,15 @@
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
+            // 로그인 되어 있으면 무시
             if(Context::get('is_logged')) return $this->dispContent();
-            $this->setTemplateFile('login_form');
+
+            // member모듈의 로그인 act를 이용
+            $oMemberView = &getView('member');
+            $oMemberView->dispLoginForm();
+
+            $this->setTemplatePath($oMemberView->getTemplatePath());
+            $this->setTemplateFile($oMemberView->getTemplateFile());
         }
 
         /**
@@ -390,8 +397,15 @@
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
+            // 로그인 되어 있으면 무시 
             if(!Context::get('is_logged')) return $this->dispContent();
-            $this->setTemplateFile('logout');
+
+            // member모듈의 로그아웃 act를 이용
+            $oMemberView = &getView('member');
+            $oMemberView->dispLogout();
+
+            $this->setTemplatePath($oMemberView->getTemplatePath());
+            $this->setTemplateFile($oMemberView->getTemplateFile());
         }
 
 

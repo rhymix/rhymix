@@ -73,6 +73,24 @@
         }
 
         /**
+         * @brief 로그인 폼 출력
+         **/
+        function dispLoginForm() {
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'skins/default');
+            $this->setTemplateFile('login_form');
+        }
+
+        /**
+         * @brief 로그아웃 출력
+         **/
+        function dispLogout() {
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'skins/default');
+            $this->setTemplateFile('logout');
+        }
+
+        /**
          * @brief 회원 목록 출력
          **/
         function dispMemberList() {
