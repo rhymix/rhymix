@@ -96,10 +96,6 @@
         function makeDefaultDirectory() {
             $directory_list = array(
                     './files/config',
-                    './files/modules',
-                    './files/plugins',
-                    './files/addons',
-                    './files/layouts',
                     './files/cache/queries',
                     './files/cache/js_filter_compiled',
                     './files/cache/template_compiled',
@@ -125,9 +121,7 @@
             $this->installModule('module', './modules/module/');
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
-            $module_list_1 = FileHandler::readDir('./modules/', NULL, false, true);
-            $module_list_2 = FileHandler::readDir('./files/modules/', NULL, false, true);
-            $module_list = array_merge($module_list_1, $module_list_2);
+            $module_list = FileHandler::readDir('./modules/', NULL, false, true);
             foreach($module_list as $module_path) {
                 // 모듈 이름을 구함
                 $tmp_arr = explode('/',$module_path);

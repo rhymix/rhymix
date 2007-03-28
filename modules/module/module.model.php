@@ -468,9 +468,7 @@
             $oDB = &DB::getInstance();
 
             // 다운받은 모듈과 설치된 모듈의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/modules');
-            $installed_list = FileHandler::readDir('./modules');
-            $searched_list = array_merge($downloaded_list, $installed_list);
+            $searched_list = FileHandler::readDir('./modules');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
@@ -478,7 +476,6 @@
                 // 모듈의 이름
                 $module_name = $searched_list[$i];
 
-                // 모듈의 경로 (files/modules가 우선)
                 $path = ModuleHandler::getModulePath($module_name);
 
                 // schemas내의 테이블 생성 xml파일수를 구함

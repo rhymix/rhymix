@@ -16,12 +16,8 @@
 
         /**
          * @brief 플러그인의 경로를 구함
-         * 기본으로는 ./plugins에 있지만 웹관리기능으로 다운로드시 ./files/plugins에 존재함
          **/
         function getPluginPath($plugin_name) {
-            $path = sprintf('./files/plugins/%s/', $plugin_name);
-            if(is_dir($path)) return $path;
-
             $path = sprintf('./plugins/%s/', $plugin_name);
             if(is_dir($path)) return $path; 
 
@@ -34,9 +30,7 @@
          **/
         function getDownloadedPluginList() {
             // 다운받은 플러그인과 설치된 플러그인의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/plugins');
-            $installed_list = FileHandler::readDir('./plugins');
-            $searched_list = array_merge($downloaded_list, $installed_list);
+            $searched_list = FileHandler::readDir('./plugins');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 

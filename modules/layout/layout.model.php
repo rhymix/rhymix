@@ -49,12 +49,8 @@
 
         /**
          * @brief 레이아웃의 경로를 구함
-         * 기본으로는 ./layouts에 있지만 웹관리기능으로 다운로드시 ./files/layouts에 존재함
          **/
         function getLayoutPath($layout_name) {
-            $class_path = sprintf('./files/layouts/%s/', $layout_name);
-            if(is_dir($class_path)) return $class_path;
-
             $class_path = sprintf('./layouts/%s/', $layout_name);
             if(is_dir($class_path)) return $class_path; 
 
@@ -67,9 +63,7 @@
          **/
         function getDownloadedLayoutList() {
             // 다운받은 레이아웃과 설치된 레이아웃의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/layouts');
-            $installed_list = FileHandler::readDir('./layouts');
-            $searched_list = array_merge($downloaded_list, $installed_list);
+            $searched_list = FileHandler::readDir('./layouts');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 

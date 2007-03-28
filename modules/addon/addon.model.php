@@ -17,12 +17,8 @@
          * @brief 애드온의 경로를 구함
          **/
         function getAddonPath($addon_name) {
-            $class_path = sprintf('./files/addons/%s/', $addon_name);
-            if(is_dir($class_path)) return $class_path;
-
             $class_path = sprintf('./addons/%s/', $addon_name);
             if(is_dir($class_path)) return $class_path; 
-
             return "";
         }
 

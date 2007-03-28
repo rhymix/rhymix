@@ -214,9 +214,6 @@
          * @brief module의 위치를 찾아서 return
          **/
         function getModulePath($module) {
-            $class_path = sprintf('./files/modules/%s/', $module);
-            if(is_dir($class_path)) return $class_path;
-
             $class_path = sprintf('./modules/%s/', $module);
             if(is_dir($class_path)) return $class_path;
 
@@ -235,8 +232,6 @@
 
                 /**
                  * 모듈의 위치를 파악
-                 * 기본적으로는 ./modules/* 에 있지만 웹업데이트나 웹설치시 ./files/modules/* 에 있음
-                 * ./files/modules/* 의 클래스 파일을 우선으로 처리해야 함
                  **/
 
                 // 상위 클래스명 구함
