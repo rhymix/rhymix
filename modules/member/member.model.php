@@ -471,6 +471,7 @@
             if($member_srl == $logged_info->member_srl) {
                 $user_id = $logged_info->user_id;
                 $user_name = $logged_info->user_name;
+                $email_address = $logged_info->email_address;
 
             // 다른 사람의 아이디를 클릭한 경우
             } else {
@@ -478,6 +479,7 @@
                 $member_info = $this->getMemberInfoByMemberSrl($member_srl);
                 $user_id = $member_info->user_id;
                 $user_name = $member_info->user_name;
+                $email_address = $member_info->email_address;
             }
 
 
@@ -492,7 +494,7 @@
 
             if($member_srl != $logged_info->member_srl) {
                 // 메일 보내기 
-                $info_list[] = sprintf('%s, blank, %s', Context::getLang('cmd_send_email'), sprintf('./?module=send_mail&member_srl=%s', $user_id));
+                $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_send_email'), sprintf('mailto:%s', $email_address));
             }
 
             // 정보를 저장
