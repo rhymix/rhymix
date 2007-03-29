@@ -1,4 +1,4 @@
-<filter name="delete_member" module="member" act="procDelete" confirm_msg_code="confirm_delete">
+<filter name="delete" module="member" act="procDelete" confirm_msg_code="confirm_delete">
   <form>
     <node target="page" />
   </form>

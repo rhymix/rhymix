@@ -26,7 +26,7 @@
     <td>{$val->member_srl}</td>
     <td><a href="{getUrl('act','dispMemberInfo','member_srl',$val->member_srl)}">{$val->user_id}</a></td>
     <td>{$val->user_name}</td>
-    <td><div class="member_{$val->member_srl}"><a href="#">{$val->nick_name}</a></div></td>
+    <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
     <td>{$val->allow_mailing}</td>
     <td>{$val->denied}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>

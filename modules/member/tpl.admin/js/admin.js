@@ -253,3 +253,17 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
     zone_list_obj.style.display = 'inline';
 }
 
+
+/* 이미지 이름, 마크 삭제 */
+function doDeleteImageName(member_srl) {
+    var params = new Array();
+    params['member_srl'] = member_srl;
+    exec_xml("member","procDeleteImageName", params);
+}
+
+function doDeleteImageMark(member_srl) {
+    var params = new Array();
+    params['member_srl'] = member_srl;
+    exec_xml("member","procDeleteImageMark", params);
+}
+
