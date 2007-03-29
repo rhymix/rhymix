@@ -661,17 +661,22 @@
             if(!$GLOBALS['_transImageNameList'][$member_srl]) {
                 // 이미지 이름 체크 
                 $image_name_file = sprintf('./files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-                if(file_exists($image_name_file)) {
-                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-                    $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" />', $image_name_file, $width, $height);
-                }
+                if(file_exists($image_name_file)) list($name_width, $name_height, $type, $attrs) = getimagesize($image_name_file);
 
                 // 이미지 마크 체크 (가로 길이 20px 이내의 마크만 고려하고 직접 style로 표시를 해 준다, css를 쓸수가 없으므로)
                 $image_mark_file = sprintf('./files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-                if(file_exists($image_mark_file)) {
-                    list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
-                    $buff = sprintf('<span style="background:url(%s) no-repeat left;padding-left:%dpx;">%s</span>', $image_mark_file, $width+2, $text);
+                if(file_exists($image_mark_file)) list($mark_width, $mark_height, $type, $attrs) = getimagesize($image_mark_file);
+
+                if(!$name_width && !$mark_width) return $matches[0];
+
+                if($name_width) {
+                    if($mark_height && $mark_height > $name_height) $top_margin = ($mark_height - $name_height)/2;
+                    else $top_margin = 0;
+                    $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" style="margin-top:%dpx;"/>', $image_name_file, $name_width, $name_height, $top_margin);
                 }
+
+                if($mark_width) $buff = sprintf('<div style="background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx">%s</div>', $image_mark_file, $mark_width+2, $mark_height, $text);
+                else $buff = $text;
 
                 $GLOBALS['_transImageNameList'][$member_srl] = str_replace($matches[4], $buff, $matches[0]);
             }
