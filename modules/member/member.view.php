@@ -127,7 +127,7 @@
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-            if(!$config->image_name_max_width) $config->image_name_max_width = 80;
+            if(!$config->image_name_max_width) $config->image_name_max_width = 90;
             if(!$config->image_name_max_height) $config->image_name_max_height = 20;
             if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
             if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
