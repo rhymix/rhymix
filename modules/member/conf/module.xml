@@ -3,11 +3,12 @@
     <actions>
         <action name="dispMemberList" type="view" standalone="true" index="true" admin_index="true" />
         <action name="dispModuleConfig" type="view" standalone="true" />
-        <action name="dispMemberInfo" type="view" standalone="true" />
+        <action name="dispMember" type="view" standalone="true" />
         <action name="dispMemberInsert" type="view" standalone="true" />
         <action name="dispDeleteForm" type="view" standalone="true" />
         <action name="dispGroupList" type="view" standalone="true" />
         <action name="dispJoinFormList" type="view" standalone="true" />
+        <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispInsertJoinForm" type="view" standalone="true" />
         <action name="dispDeniedIDList" type="view" standalone="true" />
 

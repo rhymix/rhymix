@@ -59,6 +59,19 @@
         }
 
         /**
+         * @brief 회원 정보 출력
+         **/
+        function dispMember() {
+            $this->initNormal();
+
+            $oMemberModel = &getModel('member');
+            $this->member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+
+            $this->setTemplateFile('member_info');
+        }
+
+        /**
          * @brief 회원 가입 폼 출력
          **/
         function dispSignUpForm() {
