@@ -27,6 +27,7 @@
     $lang->cmd_logout = '로그아웃';
     $lang->cmd_signup = '가입';
     $lang->cmd_modify_member_info = '회원정보 수정';
+    $lang->cmd_view_member_info = '회원정보 보기';
     $lang->cmd_leave = '탈퇴';
     $lang->cmd_move = '이동';
     $lang->cmd_move_up = '위로';
