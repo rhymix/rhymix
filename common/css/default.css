@@ -120,30 +120,28 @@ h6 {
     visibility:hidden;
     border:1px solid #555555;
     background-color:#FFFFFF;
-    width:100px;
     padding:3px;
 }
 
 #membermenuarea .item {
-    border-bottom:1px dotted #999999;
-    height:14px;
-    padding:3px;
+    padding:2px;
     margin-bottom:3px;
 }
 
 #membermenuarea .last_item {
-    height:14px;
-    padding:3px;
+    padding:2px;
 }
 
 #membermenuarea A {
     color:#777777;
     text-decoration:none;
+    padding:2px;
 }
 
 #membermenuarea A:hover {
     color:#777777;
     text-decoration:none;
-    font-weight:bold;
-
+    color:#FFFFFF;
+    background-color:#000000;
+    padding:2px;
 }
