@@ -12,6 +12,7 @@
     $lang->cmd_manage_id = '금지아이디관리';
     $lang->cmd_manage_form = '가입폼관리';
     $lang->cmd_view_own_document = '작성글 보기';
+    $lang->cmd_send_email = '메일 보내기';
 
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';

@@ -485,11 +485,14 @@
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
             if($mid) {
                 // 회원 정보 보기
-                $info_list[] = sprintf('%s, %s', Context::getLang('cmd_view_member_info'), sprintf('./?mid=%s&act=dispSignUpForm&member_srl=%s', $mid, $member_srl));
+                $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_view_member_info'), sprintf('./?mid=%s&act=dispSignUpForm&member_srl=%s', $mid, $member_srl));
 
                 // 아이디로 검색
-                $info_list[] = sprintf('%s, %s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
+                $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
             }
+
+            // 메일 보내기 
+            $info_list[] = sprintf('%s, blank, %s', Context::getLang('cmd_send_email'), sprintf('./?module=send_mail&member_srl=%s', $user_id));
 
             // 정보를 저장
             $this->add("info_list", implode("\n",$info_list));

@@ -385,11 +385,20 @@ function displayMemberMenu(ret_obj, response_tags, params) {
     for(var i=0;i<infos.length;i++) {
         var info_str = infos[i];
         var pos = info_str.indexOf(",");
-        var str = info_str.substr(0,pos);
-        var url = info_str.substr(pos+1, info_str.length);
+        var str = info_str.substr(0,pos).trim();
+
+        info_str = info_str.substr(pos+1, info_str.length);
+        pos = info_str.indexOf(",");
+
+        var target = info_str.substr(0,pos).trim();
+
+        var url = info_str.substr(pos+1, info_str.length).trim();
         var className = "item";
+
         if(i==infos.length-1) className = "last_item";
-        html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
+
+        if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
+        else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
     }
     xInnerHtml(area, html);
 
