@@ -124,24 +124,30 @@ h6 {
 }
 
 #membermenuarea .item {
+    color:#777777;
     padding:2px;
     margin-bottom:3px;
+    cursor:pointer;
+}
+
+#membermenuarea .item_on {
+    padding:2px;
+    margin-bottom:3px;
+    color:#FFFFFF;
+    background-color:#000000;
+    cursor:pointer;
 }
 
 #membermenuarea .last_item {
+    color:#777777;
     padding:2px;
+    cursor:pointer;
 }
 
-#membermenuarea A {
-    color:#777777;
-    text-decoration:none;
+#membermenuarea .last_item_on {
     padding:2px;
-}
-
-#membermenuarea A:hover {
-    color:#777777;
-    text-decoration:none;
     color:#FFFFFF;
     background-color:#000000;
-    padding:2px;
+    cursor:pointer;
 }
+
