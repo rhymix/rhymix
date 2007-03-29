@@ -667,7 +667,8 @@
                 // 이미지 마크 체크 (가로 길이 20px 이내의 마크만 고려하고 직접 style로 표시를 해 준다, css를 쓸수가 없으므로)
                 $image_mark_file = sprintf('./files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
                 if(file_exists($image_mark_file)) {
-                    $text = sprintf('<span style="background:url(%s) no-repeat left;padding-left:22px;">%s</span>', $image_mark_file, $text);
+                    list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
+                    $text = sprintf('<span style="background:url(%s) no-repeat left;padding-left:%dpx;">%s</span>', $image_mark_file, $width+2, $text);
                 }
 
                 $GLOBALS['_transImageNameList'][$member_srl] = $text;

@@ -63,7 +63,7 @@
     </th>
     <!--@end-->
     <th>{$lang->title}</th>
-    <th>{$lang->user_name}</th>
+    <th>{$lang->writer}</th>
     <th>{$lang->readed_count}</th>
     <th>{$lang->voted_count}</th>
     <th>{$lang->date}</th>
@@ -88,7 +88,7 @@
       [{$val->trackback_count}]
       <!--@end-->
     </td>
-    <td><div class="member_{$val->member_srl}"><a href="#">{$val->user_name}</a></div></td>
+    <td><div class="member_{$val->member_srl}"><a href="#">{$val->nick_name}</a></div></td>
     <td>{$val->readed_count}</td>
     <td>{$val->voted_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>

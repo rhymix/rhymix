@@ -20,8 +20,8 @@
           <td>{zdate($val->regdate, "Y-m-d H:i:s")}</td>
         </tr>
         <tr>
-          <th>{$lang->user_name}</th>
-          <td>{$val->user_name}</td>
+          <th>{$lang->writer}</th>
+          <td><div class="member_{$val->member_srl}"><a href="#">{$val->nick_name}</a></div></td>
         </tr>
         <tr>
           <th>{$lang->content}</th>

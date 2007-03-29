@@ -62,6 +62,7 @@
     $lang->password1 = '비밀번호';
     $lang->password2 = '비밀번호 확인';
     $lang->admin_id = '관리자ID';
+    $lang->writer = '글쓴이';
     $lang->user_name = '이름';
     $lang->nick_name = '닉네임';
     $lang->email_address = '이메일 주소';
