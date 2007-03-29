@@ -2,6 +2,20 @@
  * 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
+// href 분석용..
+String.prototype.getQuery = function(key) {
+    var href = location.href;
+    var idx = href.indexOf('?');
+    if(idx == -1) return;
+    var query_string = href.substr(idx+1, href.length);
+    var args = {}
+    query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+
+    var q = args[key];
+    if(typeof(q)=="undefined") q = "";
+    return q;
+}
+
 // string prototype으로 trim 함수 추가
 String.prototype.trim = function() {
     return this.replace(/(^\s*)|(\s*$)/g, "");
@@ -345,19 +359,41 @@ function chkMemberMenu(evt) {
     var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
     if(member_srl<1) return;
 
+    // 현재 글의 mid, module를 구함
+    var mid = location.href.getQuery("mid");
+    var module = location.href.getQuery("module");
+
     // 서버에 메뉴를 요청
     var params = new Array();
     params["member_srl"] = member_srl;
+    params["cur_mid"] = mid;
+    params["cur_module"] = module;
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 
-    var response_tags = new Array("error","message","tpl");
+    var response_tags = new Array("error","message","info_list");
 
     exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
 }
 
 function displayMemberMenu(ret_obj, response_tags, params) {
     var area = xGetElementById("membermenuarea");
+    var info_list = ret_obj['info_list'];
+
+    var html = "";
+    var infos = info_list.split("\n");
+    for(var i=0;i<infos.length;i++) {
+        var info_str = infos[i];
+        var pos = info_str.indexOf(",");
+        var str = info_str.substr(0,pos);
+        var url = info_str.substr(pos+1, info_str.length);
+        var className = "item";
+        if(i==infos.length-1) className = "last_item";
+        html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
+    }
+    xInnerHtml(area, html);
+
+    // 메뉴 이동
     xLeft(area, params["page_x"]);
     xTop(area, params["page_y"]);
     if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());

@@ -459,7 +459,34 @@
          * @brief 선택된 회원의 간단한 메뉴를 표시
          **/
         function getMemberMenu() {
+            // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
+            $member_srl = Context::get('member_srl');
+            $mid = Context::get('cur_mid');
+            $module = Context::get('cur_module');
+            $logged_info = Context::get('logged_info');
 
+            $info_list = array();
+
+            // 자신의 아이디를 클릭한 경우 
+            if($member_srl == $logged_info->member_srl) {
+                $user_id = $logged_info->user_id;
+                $user_name = $logged_info->user_name;
+
+            // 다른 사람의 아이디를 클릭한 경우
+            } else {
+
+                // 회원의 정보를 구함
+                $member_info = $this->getMemberInfoByMemberSrl($member_srl);
+                $user_id = $member_info->user_id;
+                $user_name = $member_info->user_name;
+            }
+
+            if($mid) {
+                $info_list[] = sprintf('%s, %s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
+            }
+
+            // 정보를 저장
+            $this->add("info_list", implode("\n",$info_list));
         }
     }
 ?>

@@ -121,5 +121,22 @@ h6 {
     border:1px solid #DDDDDD;
     background-color:#FFFFFF;
     width:100px;
-    height:100px;
+    padding:3px;
+}
+
+#membermenuarea .item {
+    border-bottom:1px dotted #DDDDDD;
+    height:14px;
+    padding:3px;
+    margin-bottom:3px;
+}
+
+#membermenuarea .last_item {
+    height:14px;
+    padding:3px;
+}
+
+#membermenuarea A {
+    color:#777777;
+    text-decoration:none;
 }
