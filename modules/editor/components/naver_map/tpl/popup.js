@@ -34,6 +34,9 @@ function insertNaverMap(obj) {
     
     var x = xGetElementById("map_x").value;
     var y = xGetElementById("map_y").value;
+    var marker_1 = xGetElementById("marker_1").value;
+    var marker_2 = xGetElementById("marker_2").value;
+    var marker_3 = xGetElementById("marker_3").value;
     var address = xGetElementById("address").value;
 
     var width = xGetElementById("map_width").value;
@@ -42,7 +45,7 @@ function insertNaverMap(obj) {
     var height = xGetElementById("map_height").value;
     if(!height) height= 480;
 
-    var text = "<div editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\"></div>";
+    var text = "<div editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" marker_1=\""+marker_1+"\" marker_2=\""+marker_2+"\" marker_3=\""+marker_3+"\"></div>";
 
     opener.editorFocus(opener.editorPrevSrl);
 
@@ -98,4 +101,13 @@ function complete_search_address(ret_obj, response_tags, selected_address) {
 
   var list_zone = xGetElementById("address_list");
   xInnerHtml(list_zone, html);
+}
+
+/* 마커 표시 */
+var marker_count = 1;
+function addMarker(pos) {
+    if(marker_count>4) return;
+    xGetElementById("marker_"+marker_count).value = pos;
+    marker_count++;
+    return true;
 }

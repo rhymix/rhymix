@@ -100,10 +100,12 @@
         function transHTML($xml_obj) {
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
+            $marker_1 = $xml_obj->attrs->marker_1;
+            $marker_2 = $xml_obj->attrs->marker_2;
+            $marker_3 = $xml_obj->attrs->marker_3;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
-
-            $body_code = sprintf('<div style="width:%dpx;height:%dpx;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $width, $height);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s&amp;marker_1=%s&amp;marker_2=%s&amp;marker_3=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker_1, $marker_2, $marker_3, $width, $height);
             return $body_code;
         }
 
@@ -122,6 +124,10 @@
             $y = Context::get('y');
             if(!$y) $y = 529730;
 
+            $marker_1 = Context::get('marker_1');
+            $marker_2 = Context::get('marker_2');
+            $marker_3 = Context::get('marker_3');
+
             $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">'.
                     '<html>'.
                     '<head>'.
@@ -131,15 +137,38 @@
                     '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->api_key.'"></script>'.
                     '<script type="text/javascript">'.
                     'function moveMap(x,y,scale) {mapObj.setCenterAndZoom(new NPoint(x,y),scale);}'.
+                    'function createMarker(pos) { if(typeof(top.addMarker)=="function") { if(!top.addMarker(pos)) return; var iconUrl = "http://static.naver.com/local/map_img/set/icos_free_"+String.fromCharCode(96+top.marker_count-1)+".gif"; var marker = new NMark(pos,new NIcon(iconUrl,new NSize(15,14))); mapObj.addOverlay(marker); } }'.
                     '</script>'.
                     '</head>'.
                     '<body style="margin:0px;">'.
                     '<div id="'.$id.'" style="width:'.$width.'px;height:'.$height.'px;"></div>'.
                     '<script type="text/javascript">'.
                     'var mapObj = new NMap(document.getElementById("'.$id.'"));'.
-                    'mapObj.addControl(new NSaveBtn());';
+                    'mapObj.addControl(new NSaveBtn());'.
+                    'var zoom = new NZoomControl();'.
+                    'zoom.setValign("bottom");'.
+                    'mapObj.addControl(zoom);'.
+                    'var infowin = new NInfoWindow();'.
+                    'mapObj.addOverlay(infowin);'.
+                    'NEvent.addListener(mapObj,"click",createMarker);'.
+                    '';
 
             if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),3);';
+
+            if($marker_1) {
+                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_a.gif';
+                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_1.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
+            }
+
+            if($marker_2) {
+                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_b.gif';
+                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_2.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
+            }
+
+            if($marker_3) {
+                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_c.gif';
+                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_3.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
+            }
 
             $html .= ''.
                      //'mapObj.enableWheelZoom();'.
