@@ -474,7 +474,6 @@
 
             // 다른 사람의 아이디를 클릭한 경우
             } else {
-
                 // 회원의 정보를 구함
                 $member_info = $this->getMemberInfoByMemberSrl($member_srl);
                 $user_id = $member_info->user_id;
@@ -491,8 +490,10 @@
                 $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
             }
 
-            // 메일 보내기 
-            $info_list[] = sprintf('%s, blank, %s', Context::getLang('cmd_send_email'), sprintf('./?module=send_mail&member_srl=%s', $user_id));
+            if($member_srl != $logged_info->member_srl) {
+                // 메일 보내기 
+                $info_list[] = sprintf('%s, blank, %s', Context::getLang('cmd_send_email'), sprintf('./?module=send_mail&member_srl=%s', $user_id));
+            }
 
             // 정보를 저장
             $this->add("info_list", implode("\n",$info_list));
