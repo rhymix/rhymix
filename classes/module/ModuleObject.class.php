@@ -158,6 +158,15 @@
             // 에러 처리
             $this->setError(-1);
             $this->setMessage($msg_code);
+
+            // message 모듈의 에러 표시
+            $oMessageView = &getView('message');
+            $oMessageView->setError(-1);
+            $oMessageView->setMessage($msg_code);
+            $oMessageView->dispContent();
+
+            $this->setTemplatePath($oMessageView->getTemplatePath());
+            $this->setTemplateFile($oMessageView->getTemplateFile());
         }
 
         /**

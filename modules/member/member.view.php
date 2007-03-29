@@ -48,8 +48,9 @@
         function initNormal() {
             // 회원 관리 정보를 받음
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            $skin = $config->skin;
+            $this->member_config = $oModuleModel->getModuleConfig('member');
+            Context::set('member_config', $this->member_config);
+            $skin = $this->member_config->skin;
             if(!$skin) $skin = 'default';
 
             // template path 지정
@@ -71,6 +72,10 @@
                 $member_srl = $logged_info->member_srl;
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
                 Context::set('member_info',$member_info);
+            // 비로그인 회원
+            } else {
+                // 회원가입을 중지시켰을 때는 에러 표시
+                if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
             }
             
             // 추가 가입폼 목록을 받음

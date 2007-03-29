@@ -3,12 +3,20 @@
 <!--%import("js/member.js")-->
 
 <div>
-  <!--@if(!$member_srl)-->
+  <!--@if(!$is_logged)-->
     {$lang->msg_new_member}
   <!--@else-->
     {$lang->msg_update_member}
   <!--@end-->
 </div>
+
+<!--@if(!$is_logged && $member_config->agreement)-->
+<div>
+------<br />
+{nl2br($member_config->agreement)}
+<br />------
+</div>
+<!--@end-->
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
 <input type="hidden" name="mid" value="{$mid}" />
