@@ -381,7 +381,9 @@ function chkMemberMenu(evt) {
         return;
     }
 
+    show_waiting_message = false;
     exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
+    show_waiting_message = true;
 }
 
 function displayMemberMenu(ret_obj, response_tags, params) {
