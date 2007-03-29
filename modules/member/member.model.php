@@ -494,7 +494,7 @@
 
             if($member_srl != $logged_info->member_srl) {
                 // 메일 보내기 
-                $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_send_email'), sprintf('mailto:%s', $email_address));
+                $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_send_email'), sprintf('mailto:%s <%s>', $user_name, $email_address));
             }
 
             // 정보를 저장
