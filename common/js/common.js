@@ -174,6 +174,17 @@ function svc_folder_close(id) {
     folder_obj.style.display = "none";
 }
 
+// 페이지 이동
+function movePage(url) {
+    location.href=url;
+}
+
+// 메일 보내기용
+function sendMailTo(to) {
+    location.href="mailto:"+to;
+}
+
+
 // 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
 // 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
 // 혹시.. 제대로 된 소스 있으신 분은 헬프미.. ㅠ0ㅠ
@@ -406,16 +417,15 @@ function displayMemberMenu(ret_obj, response_tags, params) {
                 info_str = info_str.substr(pos+1, info_str.length);
                 pos = info_str.indexOf(",");
 
-                var target = info_str.substr(0,pos).trim();
+                var func = info_str.substr(0,pos).trim();
 
-                var url = info_str.substr(pos+1, info_str.length).trim();
+                var arg = info_str.substr(pos+1, info_str.length).trim();
                 var className = "item";
 
                 if(i==infos.length-1) className = "last_item";
 
-                if(!str || !url) continue;
-                if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
-                else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
+                if(!str || !func || !arg) continue;
+                html += "<div class=\""+className+"\"><a href=\"#\" onclick=\""+func+"('"+arg+"')\">"+str+"</a></div>";
             }
         } 
         loaded_member_menu_list[member_srl] = html;
