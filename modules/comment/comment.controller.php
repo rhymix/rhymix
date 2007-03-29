@@ -113,8 +113,8 @@
                 }
             }
 
-            // 로그인한 유저가 작성한 글인데 user_name이 없을 경우
-            if($source_obj->member_srl && !$obj->user_name) {
+            // 로그인한 유저가 작성한 글인데 nick_name이 없을 경우
+            if($source_obj->member_srl && !$obj->nick_name) {
                 $obj->member_srl = $source_obj->member_srl;
                 $obj->user_name = $source_obj->user_name;
                 $obj->nick_name = $source_obj->nick_name;

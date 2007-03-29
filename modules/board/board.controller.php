@@ -116,7 +116,7 @@
          **/
         function procInsertComment() {
             // 댓글 입력에 필요한 데이터 추출
-            $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','user_name','member_srl','email_address','homepage');
+            $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage');
             $obj->module_srl = $this->module_srl;
 
             // comment 모듈의 model 객체 생성

@@ -670,10 +670,10 @@
                 $image_mark_file = sprintf('./files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
                 if(file_exists($image_mark_file)) {
                     list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
-                    $text = sprintf('<span style="background:url(%s) no-repeat left;padding-left:%dpx;">%s</span>', $image_mark_file, $width+2, $text);
+                    $buff = sprintf('<span style="background:url(%s) no-repeat left;padding-left:%dpx;">%s</span>', $image_mark_file, $width+2, $text);
                 }
 
-                $GLOBALS['_transImageNameList'][$member_srl] = $text;
+                $GLOBALS['_transImageNameList'][$member_srl] = str_replace($matches[4], $buff, $matches[0]);
             }
 
             return $GLOBALS['_transImageNameList'][$member_srl];

@@ -17,8 +17,8 @@
       <td>{$source_comment->regdate}</td>
     </tr>
     <tr>
-      <th>{$lang->user_name}</th>
-      <td>{$source_comment->user_name}</td>
+      <th>{$lang->writer}</th>
+      <td><div class="member_{$source_comment->member_srl}"><a href="#">{$source_comment->nick_name}</a></div></td>
     </tr>
     <tr>
       <th>{$lang->content}</th>
@@ -40,8 +40,8 @@
   <col width="*" />
   <!--@if(!$is_logged)-->
   <tr>
-    <th>{$lang->user_name}</th>
-    <td><input type="text" name="user_name" value="{$comment->user_name}" /></td>
+    <th>{$lang->writer}</th>
+    <td><input type="text" name="nick_name" value="{$comment->nick_name}" /></td>
   </tr>
   <tr>
     <th>{$lang->password}</th>

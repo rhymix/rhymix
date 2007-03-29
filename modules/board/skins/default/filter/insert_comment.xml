@@ -1,7 +1,7 @@
 <filter name="insert_comment" module="board" act="procInsertComment" confirm_msg_code="confirm_submit">
   <form>
     <node target="document_srl" required="true" />
-    <node target="user_name" required="true" />
+    <node target="nick_name" required="true" />
     <node target="password" required="true" />
     <node target="email_address" maxlength="250" />
     <node target="homepage" maxlength="250"/>
@@ -12,7 +12,7 @@
     <param name="document_srl" target="document_srl" />
     <param name="comment_srl" target="comment_srl" />
     <param name="parent_srl" target="parent_srl" />
-    <param name="user_name" target="user_name" />
+    <param name="nick_name" target="nick_name" />
     <param name="password" target="password" />
     <param name="email_address" target="email_address" />
     <param name="homepage" target="homepage" />
