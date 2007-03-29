@@ -9,7 +9,7 @@
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($source_comment)-->
   <div>
-    <table>
+    <table border="1" width="100%">
     <col width="120" />
     <col width="*" />
     <tr>
@@ -35,7 +35,7 @@
 <input type="hidden" name="comment_srl" value="{$comment_srl}" />
 <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
 <input type="hidden" name="parent_srl" value="{$parent_srl}" />
-  <table width="100%">
+  <table width="100%" border="1">
   <col width="120" />
   <col width="*" />
   <!--@if(!$is_logged)-->
