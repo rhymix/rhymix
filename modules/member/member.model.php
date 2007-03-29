@@ -465,23 +465,23 @@
             $module = Context::get('cur_module');
             $logged_info = Context::get('logged_info');
 
-            $info_list = array();
-
             // 자신의 아이디를 클릭한 경우 
             if($member_srl == $logged_info->member_srl) {
-                $user_id = $logged_info->user_id;
-                $user_name = $logged_info->user_name;
-                $email_address = $logged_info->email_address;
+                $member_info = $logged_info;
 
             // 다른 사람의 아이디를 클릭한 경우
             } else {
                 // 회원의 정보를 구함
                 $member_info = $this->getMemberInfoByMemberSrl($member_srl);
-                $user_id = $member_info->user_id;
-                $user_name = $member_info->user_name;
-                $email_address = $member_info->email_address;
             }
 
+            // 변수 정리
+            $user_id = $member_info->user_id;
+            $user_name = $member_info->user_name;
+            $email_address = $member_info->email_address;
+
+            // info_list 에 "표시할글,target,url" 을 배열로 넣는다
+            $info_list = array();
 
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
             if($mid) {
@@ -492,9 +492,12 @@
                 $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
             }
 
+            // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
             if($member_srl != $logged_info->member_srl) {
+
                 // 메일 보내기 
                 $info_list[] = sprintf('%s, self, %s', Context::getLang('cmd_send_email'), sprintf('mailto:%s <%s>', $user_name, $email_address));
+
             }
 
             // 정보를 저장

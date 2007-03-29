@@ -392,37 +392,43 @@ function displayMemberMenu(ret_obj, response_tags, params) {
     var member_srl = params["member_srl"];
 
     var html = "";
-    if(loaded_member_menu_list[member_srl]) html = loaded_member_menu_list[member_srl];
-    else {
+
+    if(loaded_member_menu_list[member_srl]) {
+        html = loaded_member_menu_list[member_srl];
+    } else {
         var infos = info_list.split("\n");
-        for(var i=0;i<infos.length;i++) {
-            var info_str = infos[i];
-            var pos = info_str.indexOf(",");
-            var str = info_str.substr(0,pos).trim();
+        if(infos.length) {
+            for(var i=0;i<infos.length;i++) {
+                var info_str = infos[i];
+                var pos = info_str.indexOf(",");
+                var str = info_str.substr(0,pos).trim();
 
-            info_str = info_str.substr(pos+1, info_str.length);
-            pos = info_str.indexOf(",");
+                info_str = info_str.substr(pos+1, info_str.length);
+                pos = info_str.indexOf(",");
 
-            var target = info_str.substr(0,pos).trim();
+                var target = info_str.substr(0,pos).trim();
 
-            var url = info_str.substr(pos+1, info_str.length).trim();
-            var className = "item";
+                var url = info_str.substr(pos+1, info_str.length).trim();
+                var className = "item";
 
-            if(i==infos.length-1) className = "last_item";
+                if(i==infos.length-1) className = "last_item";
 
-            if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
-            else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
-        }
+                if(!str || !url) continue;
+                if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
+                else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
+            }
+        } 
         loaded_member_menu_list[member_srl] = html;
     }
-    xInnerHtml(area, html);
 
-    // 메뉴 이동
-    xLeft(area, params["page_x"]);
-    xTop(area, params["page_y"]);
-    if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
-    if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
-    area.style.visibility = "visible";
+    if(html) {
+        xInnerHtml(area, html);
+        xLeft(area, params["page_x"]);
+        xTop(area, params["page_y"]);
+        if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
+        if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
+        area.style.visibility = "visible";
+    }
 }
 
 // className = "member_*" 의 object의 cursor를 pointer로 본경
