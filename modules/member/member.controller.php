@@ -662,6 +662,8 @@
                 // 이미지 이름 체크 
                 $image_name_file = sprintf('./files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
                 if(file_exists($image_name_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                    $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" />', $image_name_file, $width, $height);
                 }
 
                 // 이미지 마크 체크 (가로 길이 20px 이내의 마크만 고려하고 직접 style로 표시를 해 준다, css를 쓸수가 없으므로)
