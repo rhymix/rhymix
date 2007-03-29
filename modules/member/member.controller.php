@@ -298,6 +298,13 @@
          * @brief member 테이블에 사용자 추가
          **/
         function insertMember($args) {
+            // 멤버 설정 정보에서 가입약관 부분을 재확인
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->agreement && Context::get('accept_agreement')!='Y') {
+                return new Object(-1, 'msg_accept_agreement');
+            }
+
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->denied!='Y') $args->denied = 'N';

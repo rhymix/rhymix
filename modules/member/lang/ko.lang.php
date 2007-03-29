@@ -40,6 +40,7 @@
     $lang->enable_join = '회원 가입 허가';
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
+    $lang->accept_agreement = '약관동의';
 
     $lang->search_target_list = array(
         'user_id' => '아이디',
@@ -63,6 +64,8 @@
 
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';
+
+    $lang->msg_accept_agreement = '약관에 동의하셔야 합니다'; 
 
     $lang->about_user_id = '사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다';
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
@@ -88,4 +91,5 @@
 
     $lang->about_image_name = '사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다';
     $lang->about_image_mark = '사용자의 이름앞에 마크를 달 수 있습니다';
+    $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다'; 
 ?>

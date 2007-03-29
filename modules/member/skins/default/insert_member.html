@@ -10,14 +10,6 @@
   <!--@end-->
 </div>
 
-<!--@if(!$is_logged && $member_config->agreement)-->
-<div>
-------<br />
-{nl2br($member_config->agreement)}
-<br />------
-</div>
-<!--@end-->
-
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -26,6 +18,23 @@
 <!--@if($member_info->member_srl)-->
 <input type="hidden" name="user_id" value="{$member_info->user_id}" />
 <!--@end-->
+
+    <!--@if(!$is_logged && $member_config->agreement)-->
+    <div>
+        <table border="1">
+        <tr>
+            <td>{nl2br($member_config->agreement)}</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+                <label for="accept_agree">{$lang->about_accept_agreement}</label>
+            </td>
+        </tr>
+        </table>
+    </div>
+    <!--@end-->
+
   <div>
     {$lang->member_default_info}
   </div>

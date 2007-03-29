@@ -8,6 +8,7 @@
     <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
   </form>
   <parameter>
+    <param name="accept_agreement" target="accept_agreement" />
     <param name="member_srl" target="member_srl" />
     <param name="user_id" target="user_id" />
     <param name="password" target="password1" />
