@@ -50,6 +50,17 @@
         }
 
         /**
+         * @brief 현재 페이지를 refresh시킴
+         *
+         * 공통 tpl중 refresh.html을 실행할 뿐..
+         **/
+        function setRefreshPage() {
+            $this->setTemplatePath('./common/tpl');
+            $this->setTemplateFile('refresh');
+        }
+
+
+        /**
          * @brief act값 지정
          **/
         function setAct($act) {

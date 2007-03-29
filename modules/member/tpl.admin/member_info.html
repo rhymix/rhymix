@@ -24,18 +24,40 @@
   <th>{$lang->image_name}</th>
   <td>
     <!--@if($member_info->image_name->src)-->
+    <div>
         <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
         [<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+    </div> 
     <!--@end-->
+    <div>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+            <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+            <input type="hidden" name="module" value="member" />
+            <input type="hidden" name="act" value="procInsertImageName" />
+            <input type="file" name="image_name" value="" />
+            <input type="submit" value="{$lang->cmd_submit}" />
+        </form>
+    </div>
   </td>
 </tr>
 <tr>
   <th>{$lang->image_mark}</th>
   <td>
     <!--@if($member_info->image_mark->src)-->
+    <div>
         <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
         [<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+    </div> 
     <!--@end-->
+    <div>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+            <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+            <input type="hidden" name="module" value="member" />
+            <input type="hidden" name="act" value="procInsertImageMark" />
+            <input type="file" name="image_mark" value="" />
+            <input type="submit" value="{$lang->cmd_submit}" />
+        </form>
+    </div>
   </td>
 </tr>
 <tr>
@@ -90,3 +112,5 @@
   </td>
 </tr>
 </table>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

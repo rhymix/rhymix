@@ -22,14 +22,22 @@
   </tr>
   <tr>
     <th rowspan="2">{$lang->image_name}</th>
-    <td><input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end-->/></td>
+    <td>
+        <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end-->/><br />
+        {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" value="{$config->image_name_max_width}"/>px<br />
+        {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" value="{$config->image_name_max_height}"/>px<br />
+    </td>
   </tr>
   <tr>
     <td>{$lang->about_image_name}</td>
   </tr>
   <tr>
     <th rowspan="2">{$lang->image_mark}</th>
-    <td><input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end-->/></td>
+    <td>
+        <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end-->/><br />
+        {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" value="{$config->image_mark_max_width}"/>px<br />
+        {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" value="{$config->image_mark_max_height}"/>px<br />
+    </td>
   </tr>
   <tr>
     <td>{$lang->about_image_mark}</td>

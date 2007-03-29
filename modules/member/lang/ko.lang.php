@@ -30,7 +30,11 @@
     $lang->group_srl = '그룹번호';
 
     $lang->image_name = '이미지 이름';
+    $lang->image_name_max_width = '가로 제한 크기';
+    $lang->image_name_max_height = '세로 제한 크기';
     $lang->image_mark = '이미지 마크';
+    $lang->image_mark_max_width = '가로 제한 크기';
+    $lang->image_mark_max_height = '세로 제한 크기';
     $lang->enable_join = '회원 가입 허가';
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
@@ -53,6 +57,9 @@
     $lang->msg_exists_user_id = '이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요';
     $lang->msg_exists_email_address = '이미 존재하는 메일주소입니다. 다른 메일주소를 입력해주세요';
     $lang->msg_exists_nick_name = '이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요';
+
+    $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';
 
     $lang->about_user_id = '사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다';
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';

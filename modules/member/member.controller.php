@@ -135,8 +135,10 @@
          **/
         function procInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('enable_join','redirect_url','agreement','image_name','image_mark');
+            $args = Context::gets('enable_join','redirect_url','agreement','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
             if($args->enable_join!='Y') $args->enable_join = 'N';
+            if($args->image_name!='Y') $args->image_name = 'N';
+            if($args->image_mark!='Y') $args->image_mark = 'N';
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
@@ -649,11 +651,85 @@
         }
 
         /**
+         * @brief 이미지 이름을 추가 
+         **/
+        function procInsertImageName() {
+            // 정상적으로 업로드 된 파일인지 검사
+            $file = $_FILES['image_name'];
+            if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_name');
+
+            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return $this->stop('msg_not_uploaded_image_name');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_name');
+
+            // 회원 모듈 설정에서 이미지 이름 사용 금지를 하였을 경우 관리자가 아니면 return;
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') return $this->stop('msg_not_uploaded_image_name');
+
+            // 정해진 사이즈를 구함
+            $max_width = $config->image_name_max_width;
+            if(!$max_width) $max_width = "80";
+            $max_height = $config->image_name_max_height;
+            if(!$max_height) $max_height = "20";
+            
+            // 이미지 정보를 구함
+            list($width, $height, $type, $attrs) = getimagesize($file['tmp_name']);
+
+            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
+            if($width>$max_width) $new_width = $max_width;
+            else $new_width = $width;
+            if($height>$max_height) $new_height = $max_height;
+            else $new_height = $height;
+
+            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
+            $thumb = imagecreatetruecolor($new_width, $new_height);
+            switch($type) {
+                // gif
+                case 1 : 
+                        $source = imagecreatefromgif($file['tmp_name']);
+                    break;
+                // jpg
+                case 2 : 
+                        $source = imagecreatefromjpeg($file['tmp_name']);
+                    break;
+                // png
+                case 3 : 
+                        $source = imagecreatefrompng($file['tmp_name']);
+                    break;
+                // bmp
+                case 6 : 
+                        $source = imagecreatefromwbmp($file['tmp_name']);
+                    break;
+            }
+
+            if(!$source) return $this->stop('msg_not_uploaded_image_name');
+
+            if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+            // 파일을 쓰고 끝냄
+            $target_filename = sprintf('files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            imagegif($thumb, $target_filename, 100);
+            @unlink($file['tmp_name']);
+
+            // 페이지 리프레쉬
+            $this->setRefreshPage();
+        }
+
+        /**
          * @brief 이미지 이름을 삭제
          **/
         function procDeleteImageName() {
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(0,'success');
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->image_mark == 'N') return new Object(0,'success');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
@@ -662,6 +738,75 @@
                 @unlink($image_name->file);
             } 
             return new Object(0,'success');
+        }
+
+        /**
+         * @brief 이미지 마크를 추가 
+         **/
+        function procInsertImageMark() {
+            // 정상적으로 업로드 된 파일인지 검사
+            $file = $_FILES['image_mark'];
+            if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_mark');
+
+            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return $this->stop('msg_not_uploaded_image_mark');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_mark');
+
+            // 회원 모듈 설정에서 이미지 마크 사용 금지를 하였을 경우 관리자가 아니면 return;
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') return $this->stop('msg_not_uploaded_image_mark');
+
+            // 정해진 사이즈를 구함
+            $max_width = $config->image_mark_max_width;
+            if(!$max_width) $max_width = "80";
+            $max_height = $config->image_mark_max_height;
+            if(!$max_height) $max_height = "20";
+            
+            // 이미지 정보를 구함
+            list($width, $height, $type, $attrs) = getimagesize($file['tmp_name']);
+
+            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
+            if($width>$max_width) $new_width = $max_width;
+            else $new_width = $width;
+            if($height>$max_height) $new_height = $max_height;
+            else $new_height = $height;
+
+            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
+            $thumb = imagecreatetruecolor($new_width, $new_height);
+            switch($type) {
+                // gif
+                case 1 : 
+                        $source = imagecreatefromgif($file['tmp_name']);
+                    break;
+                // jpg
+                case 2 : 
+                        $source = imagecreatefromjpeg($file['tmp_name']);
+                    break;
+                // png
+                case 3 : 
+                        $source = imagecreatefrompng($file['tmp_name']);
+                    break;
+                // bmp
+                case 6 : 
+                        $source = imagecreatefromwbmp($file['tmp_name']);
+                    break;
+            }
+
+            if(!$source) return $this->stop('msg_not_uploaded_image_mark');
+
+            if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+            // 파일을 쓰고 끝냄
+            $target_filename = sprintf('files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            imagegif($thumb, $target_filename, 100);
+
+            // 페이지 리프레쉬
+            $this->setRefreshPage();
         }
 
         /**
