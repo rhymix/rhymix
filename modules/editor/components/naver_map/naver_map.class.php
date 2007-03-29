@@ -100,12 +100,10 @@
         function transHTML($xml_obj) {
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
-            $marker_1 = $xml_obj->attrs->marker_1;
-            $marker_2 = $xml_obj->attrs->marker_2;
-            $marker_3 = $xml_obj->attrs->marker_3;
+            $marker = $xml_obj->attrs->marker;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
-            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s&amp;marker_1=%s&amp;marker_2=%s&amp;marker_3=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker_1, $marker_2, $marker_3, $width, $height);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker, $width, $height);
             return $body_code;
         }
 
@@ -124,9 +122,7 @@
             $y = Context::get('y');
             if(!$y) $y = 529730;
 
-            $marker_1 = Context::get('marker_1');
-            $marker_2 = Context::get('marker_2');
-            $marker_3 = Context::get('marker_3');
+            $marker = Context::get('marker');
 
             $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">'.
                     '<html>'.
@@ -155,19 +151,16 @@
 
             if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),3);';
 
-            if($marker_1) {
-                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_a.gif';
-                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_1.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
-            }
-
-            if($marker_2) {
-                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_b.gif';
-                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_2.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
-            }
-
-            if($marker_3) {
-                $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_c.gif';
-                $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$marker_3.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
+            if($marker) {
+                $marker_list = explode('|@|', $marker);
+                $icon_no = 0;
+                for($i=0;$i<count($marker_list);$i++) {
+                    $pos = trim($marker_list[$i]);
+                    if(!$pos) continue;
+                    $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_'.chr(ord('a')+$icon_no).'.gif';
+                    $html .= 'mapObj.addOverlay( new NMark(new NPoint('.$pos.'),new NIcon("'.$icon_url.'",new NSize(15,14))) );';
+                    $icon_no++;
+                }
             }
 
             $html .= ''.
