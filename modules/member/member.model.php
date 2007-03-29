@@ -81,9 +81,12 @@
         }
 
         /**
-         * @brief 사용자 정보 중 extra_vars를 알맞게 편집
+         * @brief 사용자 정보 중 extra_vars와 기타 정보를 알맞게 편집
          **/
         function arrangeMemberInfo($info) {
+            $info->image_name = $this->getImageName($info->member_srl);
+            $info->image_mark = $this->getImageMark($info->member_srl);
+
             $extra_vars = unserialize($info->extra_vars);
             unset($info->extra_vars);
             if(!$extra_vars) return $info;
@@ -424,5 +427,32 @@
             return false;
         }
 
+        /**
+         * @brief 이미지이름의 정보를 구함
+         **/
+        function getImageName($member_srl) {
+            $image_name_file = sprintf('files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            if(!file_exists($image_name_file)) return;
+            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+            $info->width = $width;
+            $info->height = $height;
+            $info->src = Context::getRequestUri().$image_name_file;
+            $info->file = './'.$image_name_file;
+            return $info;
+        }
+
+        /**
+         * @brief 이미지마크의 정보를 구함
+         **/
+        function getImageMark($member_srl) {
+            $image_mark_file = sprintf('files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            if(!file_exists($image_mark_file)) return;
+            list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
+            $info->width = $width;
+            $info->height = $height;
+            $info->src = Context::getRequestUri().$image_mark_file;
+            $info->file = './'.$image_mark_file;
+            return $info;
+        }
     }
 ?>

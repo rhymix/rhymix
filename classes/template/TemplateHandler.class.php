@@ -118,7 +118,7 @@
             $str2 = $matches[2];
             $path = $str2;
 
-            if(substr($path,0,1)=='/' || eregi(":\/\/",$path)) return $str1;
+            if(!eregi("^([a-z0-9\_\.])",$path)) return $str1;
 
             $path = preg_replace('/^(\.\/|\/)/','',$path);
             $path = '<?=$this->tpl_path?>'.$path;

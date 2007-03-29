@@ -14,6 +14,22 @@
   <td>{$member_info->nick_name}</td>
 </tr>
 <tr>
+  <th>{$lang->image_name}</th>
+  <td>
+    <!--@if($member_info->image_name->src)-->
+        <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+    <!--@end-->
+  </td>
+</tr>
+<tr>
+  <th>{$lang->image_mark}</th>
+  <td>
+    <!--@if($member_info->image_mark->src)-->
+        <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+    <!--@end-->
+  </td>
+</tr>
+<tr>
   <th>{$lang->email_address}</th>
   <td>{$member_info->email_address}</td>
 </tr>
