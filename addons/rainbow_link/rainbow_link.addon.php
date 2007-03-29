@@ -19,8 +19,8 @@
     */
 
     // 한번이라도 요청이 되었다면 패스
-    if($this->rainbow_link_is_called) return;
-    $this->rainbow_link_is_called = true;
+    if($GLOBALS['_rainbow_link_is_called']) return;
+    $GLOBALS['_rainbow_link_is_called'] = true;
 
     // 현재 애드온의 위치를 구함
     $oAddOnModel = &getModel('addon');

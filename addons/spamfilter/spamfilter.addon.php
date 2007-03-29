@@ -11,7 +11,7 @@
     **/
 
     // point가 before일때만 실행
-    if($this->point != 'before') return;
+    if($this->point != 'before_module_proc') return;
 
     // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
     $effecived_target = array(
