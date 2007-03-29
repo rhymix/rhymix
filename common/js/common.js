@@ -322,3 +322,36 @@ function origImageDragMouseMove(evt) {
     xAddEventListener(document, 'mouseup', origImageDragMouseUp, false);
     origImageDrag(obj, e.pageX, e.pageY);
 }
+
+// 이름을 클릭하였을 경우 보여줄 기능에 대한 기본 함수
+xAddEventListener(document, 'click', chkMemberMenu);
+xAddEventListener(window, 'load', setMemberMenuObjCursor);
+
+// className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
+function chkMemberMenu(evt) {
+    var e = new xEvent(evt);
+    if(!e) return;
+
+    var obj = e.target;
+    while(obj) {
+        if(obj && obj.className && obj.className.search("member_")!=-1) break;
+        obj = obj.parentNode;
+    }
+    if(!obj || !obj.className || obj.className.search("member_")==-1) return;
+
+    var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
+    if(member_srl<1) return;
+    alert(member_srl);
+}
+
+// className = "member_*" 의 object의 cursor를 pointer로 본경
+function setMemberMenuObjCursor() {
+    var list = xGetElementsByTagName("div");
+    for (var i = 0; i < list.length; ++i) {
+        var node = list[i];
+        if(node.className && node.className.search(/member_([0-9]+)/)!=-1) {
+            var member_srl = node.className.replace(/member_([0-9]+)/,'$1');
+            if(member_srl>0) node.style.cursor = "pointer";
+        }
+    }
+}
