@@ -340,6 +340,7 @@ function origImageDragMouseMove(evt) {
 // 이름을 클릭하였을 경우 보여줄 기능에 대한 기본 함수
 xAddEventListener(document, 'click', chkMemberMenu);
 xAddEventListener(window, 'load', setMemberMenuObjCursor);
+var loaded_member_menu_list = new Array();
 
 // className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
 function chkMemberMenu(evt) {
@@ -359,6 +360,7 @@ function chkMemberMenu(evt) {
     var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
     if(member_srl<1) return;
 
+
     // 현재 글의 mid, module를 구함
     var mid = location.href.getQuery("mid");
     var module = location.href.getQuery("module");
@@ -373,32 +375,43 @@ function chkMemberMenu(evt) {
 
     var response_tags = new Array("error","message","info_list");
 
+    if(loaded_member_menu_list[member_srl]) {
+        params["info_list"] = loaded_member_menu_list[member_srl];
+        displayMemberMenu(params, response_tags, params);
+        return;
+    }
+
     exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
 }
 
 function displayMemberMenu(ret_obj, response_tags, params) {
     var area = xGetElementById("membermenuarea");
     var info_list = ret_obj['info_list'];
+    var member_srl = params["member_srl"];
 
     var html = "";
-    var infos = info_list.split("\n");
-    for(var i=0;i<infos.length;i++) {
-        var info_str = infos[i];
-        var pos = info_str.indexOf(",");
-        var str = info_str.substr(0,pos).trim();
+    if(loaded_member_menu_list[member_srl]) html = loaded_member_menu_list[member_srl];
+    else {
+        var infos = info_list.split("\n");
+        for(var i=0;i<infos.length;i++) {
+            var info_str = infos[i];
+            var pos = info_str.indexOf(",");
+            var str = info_str.substr(0,pos).trim();
 
-        info_str = info_str.substr(pos+1, info_str.length);
-        pos = info_str.indexOf(",");
+            info_str = info_str.substr(pos+1, info_str.length);
+            pos = info_str.indexOf(",");
 
-        var target = info_str.substr(0,pos).trim();
+            var target = info_str.substr(0,pos).trim();
 
-        var url = info_str.substr(pos+1, info_str.length).trim();
-        var className = "item";
+            var url = info_str.substr(pos+1, info_str.length).trim();
+            var className = "item";
 
-        if(i==infos.length-1) className = "last_item";
+            if(i==infos.length-1) className = "last_item";
 
-        if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
-        else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
+            if(target=="self") html += "<div class=\""+className+"\"><a href=\""+url+"\">"+str+"</a></div>";
+            else html += "<div class=\""+className+"\"><a href=\""+url+"\" target=\"_blank\">"+str+"</a></div>";
+        }
+        loaded_member_menu_list[member_srl] = html;
     }
     xInnerHtml(area, html);
 
