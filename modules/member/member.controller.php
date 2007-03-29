@@ -649,6 +649,38 @@
         }
 
         /**
+         * @brief 이미지 이름을 삭제
+         **/
+        function procDeleteImageName() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(0,'success');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
+                $oMemberModel = &getModel('member');
+                $image_name = $oMemberModel->getImageName($member_srl);
+                @unlink($image_name->file);
+            } 
+            return new Object(0,'success');
+        }
+
+        /**
+         * @brief 이미지 마크를  삭제
+         **/
+        function procDeleteImageMark() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(0,'success');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
+                $oMemberModel = &getModel('member');
+                $image_mark = $oMemberModel->getImageMark($member_srl);
+                @unlink($image_mark->file);
+            } 
+            return new Object(0,'success');
+        }
+
+        /**
          * @brief 최종 출력물에서 이미지 이름을 변경
          * imgae_name 애드온에서 요청이 됨
          **/

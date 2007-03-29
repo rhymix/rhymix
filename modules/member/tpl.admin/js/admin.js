@@ -256,14 +256,14 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
 
 /* 이미지 이름, 마크 삭제 */
 function doDeleteImageName(member_srl) {
-    var params = new Array();
-    params['member_srl'] = member_srl;
-    exec_xml("member","procDeleteImageName", params);
+    var fo_obj = xGetElementById("fo_image");
+    fo_obj.member_srl.value = member_srl;
+    procFilter(fo_obj, delete_image_name);
 }
 
 function doDeleteImageMark(member_srl) {
-    var params = new Array();
-    params['member_srl'] = member_srl;
-    exec_xml("member","procDeleteImageMark", params);
+    var fo_obj = xGetElementById("fo_image");
+    fo_obj.member_srl.value = member_srl;
+    procFilter(fo_obj, delete_image_mark);
 }
 

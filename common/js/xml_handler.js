@@ -16,7 +16,7 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     oXml.addParam("module", module);
     oXml.addParam("act", act);
 
-    if(typeof(response_tags)=="undefined") response_tags = new Array('error','message');
+    if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
     response_tags[response_tags.length] = "redirect_url";
 
     if(show_waiting_message) {

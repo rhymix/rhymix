@@ -22,5 +22,7 @@
         <action name="procUpdateJoinForm" type="controller" standalone="true" />
         <action name="procInsertDeniedID" type="controller" standalone="true" />
         <action name="procUpdateDeniedID" type="controller" standalone="true" />
+        <action name="procDeleteImageName" type="controller" standalone="true" />
+        <action name="procDeleteImageMark" type="controller" standalone="true" />
     </actions>
 </module>
