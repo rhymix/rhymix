@@ -29,6 +29,8 @@
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
 
+    $lang->image_name = '이미지 이름';
+    $lang->image_mark = '이미지 마크';
     $lang->enable_join = '회원 가입 허가';
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
@@ -73,4 +75,7 @@
     $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
     $lang->about_redirect_url = '회원 가입후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다';
     $lang->about_agreement = '회원가입약관이 없을 경우 표시되지 않습니다';
+
+    $lang->about_image_name = '사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다';
+    $lang->about_image_mark = '사용자의 이름앞에 마크를 달 수 있습니다';
 ?>
