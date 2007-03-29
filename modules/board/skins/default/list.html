@@ -75,6 +75,7 @@
     <td>{$category_list[$val->category_srl]->title}</td>
     <!--@end-->
     <td>
+    
       <!--@if($grant->view)-->
       <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
       <!--@else-->
@@ -87,7 +88,7 @@
       [{$val->trackback_count}]
       <!--@end-->
     </td>
-    <td>{$val->user_name}</td>
+    <td><div class="user_{$document->member_srl}">{$val->user_name}</div></td>
     <td>{$val->readed_count}</td>
     <td>{$val->voted_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>

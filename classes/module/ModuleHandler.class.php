@@ -50,6 +50,12 @@
 
             if(!$document_srl) $this->document_srl = Context::get('document_srl');
             else $this->document_srl = $document_srl;
+
+            /**
+             * @brief 애드온 실행
+             **/
+            $addon_position = 'beofre_module_init';
+            @include("./files/cache/activated_addons.cache.php");
         }
 
         /**
@@ -202,6 +208,12 @@
                     $oModule->setLayoutFile('layout');
                 }
             }
+
+            /**
+             * @brief 애드온 실행
+             **/
+            $addon_position = 'beofre_dispay_content';
+            @include("./files/cache/activated_addons.cache.php");
 
             // 컨텐츠 출력
             $oDisplayHandler = new DisplayHandler();

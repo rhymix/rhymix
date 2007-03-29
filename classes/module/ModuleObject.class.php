@@ -225,15 +225,15 @@
             // 기본 act조차 없으면 return
             if(!method_exists($this, $this->act)) return false;
 
-            // addon 실행(point를 before로 하여 호출)
-            $this->point = 'before';
+            // addon 실행(addon_position 를 before_module_proc로 하여 호출)
+            $addon_position = 'before_module_proc';
             @include("./files/cache/activated_addons.cache.php");
 
             // this->act값으로 method 실행
             if(!$this->stop_proc) $output = call_user_method($this->act, $this);
 
-            // addon 실행(point를 after로 하여 호출)
-            $this->point = 'after';
+            // addon 실행(addon_position 를 after_module_proc로 하여 호출)
+            $addon_position = 'after_module_proc';
             @include("./files/cache/activated_addons.cache.php");
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
