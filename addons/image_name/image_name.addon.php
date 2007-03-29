@@ -10,7 +10,7 @@
     **/
 
     // 출력 되기 바로 직전이 아니라면 모두 무시 
-    if($called_position != "beofre_dispay_content") return;
+    if($called_position != "before_display_content") return;
 
     // 출력문서중에서 <div class="member_번호">content</div>를 찾아서 변경
     $oMemberController = &getController('member');

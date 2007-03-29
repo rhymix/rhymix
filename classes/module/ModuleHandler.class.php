@@ -51,8 +51,8 @@
             if(!$document_srl) $this->document_srl = Context::get('document_srl');
             else $this->document_srl = $document_srl;
 
-            // 애드온 실행
-            $called_position = 'beofre_module_init';
+            // 애드온 실행 (모듈 실행 전)
+            $called_position = 'before_module_init';
             @include("./files/cache/activated_addons.cache.php");
         }
 

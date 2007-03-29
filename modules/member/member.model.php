@@ -480,28 +480,28 @@
             $user_name = $member_info->user_name;
             $email_address = $member_info->email_address;
 
-            // info_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $info_list = array();
+            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
+            $menu_list = array();
 
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
             if($mid) {
                 // 회원 정보 보기
-                $info_list[] = sprintf('%s,movePage,%s', Context::getLang('cmd_view_member_info'), sprintf('./?mid=%s&act=dispSignUpForm&member_srl=%s', $mid, $member_srl));
+                $menu_list[] = sprintf('%s,movePage,%s', Context::getLang('cmd_view_member_info'), sprintf('./?mid=%s&act=dispSignUpForm&member_srl=%s', $mid, $member_srl));
 
                 // 아이디로 검색
-                $info_list[] = sprintf('%s,movePage,%s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
+                $menu_list[] = sprintf('%s,movePage,%s', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&search_target=user_id&search_keyword=%s', $mid, $user_id));
             }
 
             // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
             if($member_srl != $logged_info->member_srl) {
 
                 // 메일 보내기 
-                $info_list[] = sprintf('%s,sendMailTo,%s)', Context::getLang('cmd_send_email'), sprintf('%s <%s>', $user_name, $email_address));
+                $menu_list[] = sprintf('%s,sendMailTo,%s)', Context::getLang('cmd_send_email'), sprintf('%s <%s>', $user_name, $email_address));
 
             }
 
             // 정보를 저장
-            $this->add("info_list", implode("\n",$info_list));
+            $this->add("menu_list", implode("\n",$menu_list));
         }
     }
 ?>

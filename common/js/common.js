@@ -384,10 +384,10 @@ function chkMemberMenu(evt) {
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 
-    var response_tags = new Array("error","message","info_list");
+    var response_tags = new Array("error","message","menu_list");
 
     if(loaded_member_menu_list[member_srl]) {
-        params["info_list"] = loaded_member_menu_list[member_srl];
+        params["menu_list"] = loaded_member_menu_list[member_srl];
         displayMemberMenu(params, response_tags, params);
         return;
     }
@@ -399,7 +399,7 @@ function chkMemberMenu(evt) {
 
 function displayMemberMenu(ret_obj, response_tags, params) {
     var area = xGetElementById("membermenuarea");
-    var info_list = ret_obj['info_list'];
+    var menu_list = ret_obj['menu_list'];
     var member_srl = params["member_srl"];
 
     var html = "";
@@ -407,7 +407,7 @@ function displayMemberMenu(ret_obj, response_tags, params) {
     if(loaded_member_menu_list[member_srl]) {
         html = loaded_member_menu_list[member_srl];
     } else {
-        var infos = info_list.split("\n");
+        var infos = menu_list.split("\n");
         if(infos.length) {
             for(var i=0;i<infos.length;i++) {
                 var info_str = infos[i];

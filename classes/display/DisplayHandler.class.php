@@ -48,7 +48,7 @@
             }
 
             // 애드온 실행
-            $called_position = 'beofre_dispay_content';
+            $called_position = 'before_display_content';
             @include("./files/cache/activated_addons.cache.php");
 
             $this->content_size = strlen($output);
