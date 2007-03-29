@@ -88,7 +88,7 @@
       [{$val->trackback_count}]
       <!--@end-->
     </td>
-    <td><div class="user_{$document->member_srl}">{$val->user_name}</div></td>
+    <td><div class="member_{$val->member_srl}"><a href="#">{$val->user_name}</a></div></td>
     <td>{$val->readed_count}</td>
     <td>{$val->voted_count}</td>
     <td>{zdate($val->regdate,"Y-m-d")}</td>

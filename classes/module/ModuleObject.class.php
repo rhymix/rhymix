@@ -25,8 +25,6 @@
 
         var $stop_proc = false; ///< action 수행중 stop()를 호출하면 ModuleObject::proc()를 수행하지 않음
 
-        var $point = 'before'; ///< 애드온 호출시 모듈의 실행을 before/after로 나누고 이 시점을 기록하는 변수
-
         /**
          * @brief 현재 모듈의 이름을 지정
          **/
@@ -225,15 +223,15 @@
             // 기본 act조차 없으면 return
             if(!method_exists($this, $this->act)) return false;
 
-            // addon 실행(addon_position 를 before_module_proc로 하여 호출)
-            $addon_position = 'before_module_proc';
+            // addon 실행(called_position 를 before_module_proc로 하여 호출)
+            $called_position = 'before_module_proc';
             @include("./files/cache/activated_addons.cache.php");
 
             // this->act값으로 method 실행
             if(!$this->stop_proc) $output = call_user_method($this->act, $this);
 
-            // addon 실행(addon_position 를 after_module_proc로 하여 호출)
-            $addon_position = 'after_module_proc';
+            // addon 실행(called_position 를 after_module_proc로 하여 호출)
+            $called_position = 'after_module_proc';
             @include("./files/cache/activated_addons.cache.php");
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {

@@ -11,6 +11,10 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
+            // member 에서 사용할 cache디렉토리 생성
+            FileHandler::makeDir('./files/attach/image_name');
+            FileHandler::makeDir('./files/attach/image_mark');
+
             // 멤버 컨트롤러 객체 생성
             $oMemberController = &getController('member');
 

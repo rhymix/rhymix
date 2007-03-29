@@ -177,4 +177,14 @@
         debugPrint($output);
     }
 
+    /**
+     * @brief 주어진 숫자를 주어진 크기로 recursive하게 잘라줌
+     * 디렉토리 생성을 위해서 쓰임...
+     **/
+    function getNumberingPath($no, $size=3) {
+        $mod = pow(10,$size);
+        $output = sprintf('%0'.$size.'d/', $no%$mod);
+        if($no >= $mod) $output .= getNumberingPath((int)$no/$mod, $size);
+        return $output;
+    }
 ?>

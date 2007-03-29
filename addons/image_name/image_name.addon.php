@@ -9,5 +9,10 @@
     * 이 addOn은 화면을 출력하는 바로 앞 단계에서 요청이 올때 작동하도록 한다.
     **/
 
-    debugPrint(Context::get('content'));
+    // 출력 되기 바로 직전이 아니라면 모두 무시 
+    if($called_position != "beofre_dispay_content") return;
+
+    // 출력문서중에서 <div class="member_번호">content</div>를 찾아서 변경
+    $oMemberController = &getController('member');
+    $output = preg_replace_callback('!<div([^\>]*)member_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transImageName'), $output);
 ?>

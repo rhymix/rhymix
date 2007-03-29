@@ -10,8 +10,8 @@
     * 즉 별도의 interface가 필요한 것이 아니고 모듈의 일부라고 판단하여 코드를 작성하면 된다.
     **/
 
-    // addon_position이 before일때만 실행
-    if($addon_position != 'after_module_proc') return;
+    // called_position이 before일때만 실행
+    if($called_position != 'after_module_proc') return;
 
     // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
     $effecived_target = array(

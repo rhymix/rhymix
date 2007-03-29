@@ -648,5 +648,33 @@
             return new Object();
         }
 
+        /**
+         * @brief 최종 출력물에서 이미지 이름을 변경
+         * imgae_name 애드온에서 요청이 됨
+         **/
+        function transImageName($matches) {
+            $member_srl = $matches[2];
+            $text = $matches[4];
+            if(!$member_srl) return $matches[0];
+
+            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
+            if(!$GLOBALS['_transImageNameList'][$member_srl]) {
+                // 이미지 이름 체크 
+                $image_name_file = sprintf('./files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_name_file)) {
+                }
+
+                // 이미지 마크 체크 (가로 길이 20px 이내의 마크만 고려하고 직접 style로 표시를 해 준다, css를 쓸수가 없으므로)
+                $image_mark_file = sprintf('./files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_mark_file)) {
+                    $text = sprintf('<span style="background:url(%s) no-repeat left;padding-left:22px;">%s</span>', $image_mark_file, $text);
+                }
+
+                $GLOBALS['_transImageNameList'][$member_srl] = $text;
+            }
+
+            return $GLOBALS['_transImageNameList'][$member_srl];
+        }
+
     }
 ?>
