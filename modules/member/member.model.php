@@ -454,5 +454,12 @@
             $info->file = './'.$image_mark_file;
             return $info;
         }
+
+        /**
+         * @brief 선택된 회원의 간단한 메뉴를 표시
+         **/
+        function getMemberMenu() {
+
+        }
     }
 ?>

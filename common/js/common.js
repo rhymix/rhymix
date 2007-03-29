@@ -329,6 +329,9 @@ xAddEventListener(window, 'load', setMemberMenuObjCursor);
 
 // className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
 function chkMemberMenu(evt) {
+    var area = xGetElementById("membermenuarea");
+    if(area.style.visibility!="hidden") area.style.visibility="hidden";
+
     var e = new xEvent(evt);
     if(!e) return;
 
@@ -341,7 +344,25 @@ function chkMemberMenu(evt) {
 
     var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
     if(member_srl<1) return;
-    alert(member_srl);
+
+    // 서버에 메뉴를 요청
+    var params = new Array();
+    params["member_srl"] = member_srl;
+    params["page_x"] = e.pageX;
+    params["page_y"] = e.pageY;
+
+    var response_tags = new Array("error","message","tpl");
+
+    exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
+}
+
+function displayMemberMenu(ret_obj, response_tags, params) {
+    var area = xGetElementById("membermenuarea");
+    xLeft(area, params["page_x"]);
+    xTop(area, params["page_y"]);
+    if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
+    if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
+    area.style.visibility = "visible";
 }
 
 // className = "member_*" 의 object의 cursor를 pointer로 본경

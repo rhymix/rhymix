@@ -111,3 +111,15 @@ h6 {
   border:1px solid #FFFFFF;
   z-index:1002;
 }
+
+#membermenuarea {
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1003;
+    visibility:hidden;
+    border:1px solid #DDDDDD;
+    background-color:#FFFFFF;
+    width:100px;
+    height:100px;
+}
