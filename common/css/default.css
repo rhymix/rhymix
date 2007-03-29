@@ -120,34 +120,38 @@ h6 {
     visibility:hidden;
     border:1px solid #555555;
     background-color:#FFFFFF;
-    padding:3px;
+    padding:2px;
 }
 
 #membermenuarea .item {
-    color:#777777;
+    color:#000000;
     padding:2px;
     margin-bottom:3px;
     cursor:pointer;
+    border:1px solid #FFFFFF;
 }
 
 #membermenuarea .item_on {
     padding:2px;
     margin-bottom:3px;
     color:#FFFFFF;
-    background-color:#000000;
+    background-color:#3916EC;
     cursor:pointer;
+    border:1px solid #000000;
 }
 
 #membermenuarea .last_item {
-    color:#777777;
+    color:#000000;
     padding:2px;
     cursor:pointer;
+    border:1px solid #FFFFFF;
 }
 
 #membermenuarea .last_item_on {
     padding:2px;
     color:#FFFFFF;
-    background-color:#000000;
+    background-color:#3916EC;
     cursor:pointer;
+    border:1px solid #000000;
 }
 
