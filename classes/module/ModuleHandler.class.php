@@ -118,11 +118,12 @@
             }
 
             // 설정된 mid가 없을 경우 요청된 act의 standalone 여부 체크
+            /*
             if(!$this->mid && !$xml_info->action->{$this->act}->standalone) {
                 $this->error = 'msg_module_is_not_standalone';
                 return;
             }
-
+            */
 
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
