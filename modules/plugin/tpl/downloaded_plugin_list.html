@@ -1,33 +1,33 @@
 <!-- 플러그인의 목록 -->
 <div>
-  <table border="1" width="100%">
-  <tr>
-    <td>{$lang->plugin_name}</td>
-    <td>{$lang->version}</td>
-    <td>{$lang->author}</td>
-    <td>{$lang->date}</td>
-    <td>{$lang->path}</td>
-    <td>{$lang->cmd_generate_code}</td>
-    <td>{$lang->plugin_info}</td>
-  </tr>
-  <!--@foreach($plugin_list as $key => $val)-->
-  <tr>
-    <td rowspan="2">
-        {$val->title} <br />
-        ({$val->plugin})
-    </td>
-    <td>{$val->version}</td>
-    <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-    <td>{$val->author->date}</td>
-    <td>{$val->path}</td>
-  <td><a href="#" onclick="winopen('{getUrl('','module','plugin','act','dispGenerateCode','selected_plugin',$val->plugin)}','plugin_code_generate','width=10,height=10,toolbars=no,scrollbars=no,resizable=yes,left=10,top=10');return false">{$lang->cmd_generate_code}</a></td>
-  <td><a href="#" onclick="winopen('{getUrl('','module','plugin','act','dispPluginInfo','selected_plugin',$val->plugin)}','plugin_info','width=10,height=10,toolbars=no,scrollbars=no,resizable=yes,left=10,top=10');return false">{$lang->cmd_view}</a></td>
-  </tr>
-  <tr>
-    <td colspan="6">
-      {nl2br($val->author->description)}
-    </td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table border="1" width="100%">
+    <tr>
+        <td>{$lang->plugin_name}</td>
+        <td>{$lang->version}</td>
+        <td>{$lang->author}</td>
+        <td>{$lang->date}</td>
+        <td>{$lang->path}</td>
+        <td>{$lang->cmd_generate_code}</td>
+        <td>{$lang->plugin_info}</td>
+    </tr>
+    <!--@foreach($plugin_list as $key => $val)-->
+    <tr>
+        <td rowspan="2">
+                {$val->title} <br />
+                ({$val->plugin})
+        </td>
+        <td>{$val->version}</td>
+        <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+        <td>{$val->author->date}</td>
+        <td>{$val->path}</td>
+    <td><a href="#" onclick="winopen('{getUrl('','module','plugin','act','dispPluginGenerateCode','selected_plugin',$val->plugin)}','plugin_code_generate','width=10,height=10,toolbars=no,scrollbars=no,resizable=yes,left=10,top=10');return false">{$lang->cmd_generate_code}</a></td>
+    <td><a href="#" onclick="winopen('{getUrl('','module','plugin','act','dispPluginInfo','selected_plugin',$val->plugin)}','plugin_info','width=10,height=10,toolbars=no,scrollbars=no,resizable=yes,left=10,top=10');return false">{$lang->cmd_view}</a></td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            {nl2br($val->author->description)}
+        </td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>

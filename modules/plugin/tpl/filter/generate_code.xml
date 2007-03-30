@@ -1,7 +1,7 @@
-<filter name="generate_code" module="plugin" act="procGenerateCode">
-  <response callback_func="completeGenerateCode">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="plugin_code" />
-  </response>
+<filter name="generate_code" module="plugin" act="procPluginGenerateCode">
+    <response callback_func="completeGenerateCode">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="plugin_code" />
+    </response>
 </filter>

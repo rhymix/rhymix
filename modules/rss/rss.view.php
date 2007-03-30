@@ -19,7 +19,7 @@
         /**
          * @brief 설정 
          **/
-        function dispConfig() {
+        function dispRssAdminConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('rss');

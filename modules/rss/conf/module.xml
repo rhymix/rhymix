@@ -2,7 +2,7 @@
 <module>
     <grants />
     <actions>
-        <action name="dispConfig" type="view" admin_index="true" standalone="true" />
-        <action name="procInsertConfig" type="controller" standalone="true" />
+        <action name="dispRssAdminConfig" type="view" admin_index="true" standalone="true" />
+        <action name="procRssAdminInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>

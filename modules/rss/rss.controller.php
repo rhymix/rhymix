@@ -19,7 +19,7 @@
         /**
          * @brief 설정
          **/
-        function procInsertConfig() {
+        function procRssAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('rss_disable', 'rss_type');
             if($args->rss_disable!='Y') $args->rss_disable = 'N';

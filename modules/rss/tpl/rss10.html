@@ -1,27 +1,27 @@
 {'<?xml version="1.0" encoding="utf-8" ?>'}
 
 <rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" >
-  <channel rdf:about="http://blog.rss.naver.com/blogRss.nhn?blogId=myyami78&amp;rss=1.0">
-    <title><![CDATA[{$info->title}]]></title> 
-    <link><![CDATA[{$info->link}]]></link>
-    <description><![CDATA[{$info->description}]]></description>
-    <items>
-      <rdf:Seq>
-        <!--@foreach($content as $key => $item)-->
-        <rdf:li resource="{$key}" />
-        <!--@end-->
-      </rdf:Seq>
-    </items>
-    <dc:date>{$info->date}</dc:date> 
-    <dc:language>{$info->language}</dc:language> 
-    <totalCount>{$info->total_count}</totalCount>
-  </channel>
-  <!--@foreach($content as $key => $item)-->
-  <item rdf:about="{$key}">
-    <title><![CDATA[{$item->title}]]></title> 
-    <link><![CDATA[{$item->link}]]></link>
-    <description><![CDATA[{$item->description}]]></description>
-    <dc:date>{$item->date}</dc:date> 
-  </item>
-  <!--@end-->
+    <channel rdf:about="http://blog.rss.naver.com/blogRss.nhn?blogId=myyami78&amp;rss=1.0">
+        <title><![CDATA[{$info->title}]]></title> 
+        <link><![CDATA[{$info->link}]]></link>
+        <description><![CDATA[{$info->description}]]></description>
+        <items>
+            <rdf:Seq>
+                <!--@foreach($content as $key => $item)-->
+                <rdf:li resource="{$key}" />
+                <!--@end-->
+            </rdf:Seq>
+        </items>
+        <dc:date>{$info->date}</dc:date> 
+        <dc:language>{$info->language}</dc:language> 
+        <totalCount>{$info->total_count}</totalCount>
+    </channel>
+    <!--@foreach($content as $key => $item)-->
+    <item rdf:about="{$key}">
+        <title><![CDATA[{$item->title}]]></title> 
+        <link><![CDATA[{$item->link}]]></link>
+        <description><![CDATA[{$item->description}]]></description>
+        <dc:date>{$item->date}</dc:date> 
+    </item>
+    <!--@end-->
 </rdf:RDF>

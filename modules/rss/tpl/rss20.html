@@ -1,21 +1,21 @@
 {'<?xml version="1.0" encoding="utf-8" ?>'}
 
 <rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
-  <channel>
-    <title><![CDATA[{$info->title}]]></title>
-    <link><![CDATA[{$info->link}]]></link>
-    <description><![CDATA[{$info->description}]]></description>
-    <language>{$info->language}</language>
-    <pubDate>{$info->date}</pubDate>
-    <totalCount>{$info->total_count}</totalCount>
-    <!--@foreach($content as $item)-->
-    <item>
-      <title><![CDATA[{$item->title}]]></title>
-      <author><![CDATA[{$item->author}]]></author>
-      <link><![CDATA[{$item->link}]]></link>
-      <description><![CDATA[{$item->description}]]></description>
-      <pubDate>{$item->date}</pubDate>
-    </item>
-    <!--@end-->
-  </channel>
+    <channel>
+        <title><![CDATA[{$info->title}]]></title>
+        <link><![CDATA[{$info->link}]]></link>
+        <description><![CDATA[{$info->description}]]></description>
+        <language>{$info->language}</language>
+        <pubDate>{$info->date}</pubDate>
+        <totalCount>{$info->total_count}</totalCount>
+        <!--@foreach($content as $item)-->
+        <item>
+            <title><![CDATA[{$item->title}]]></title>
+            <author><![CDATA[{$item->author}]]></author>
+            <link><![CDATA[{$item->link}]]></link>
+            <description><![CDATA[{$item->description}]]></description>
+            <pubDate>{$item->date}</pubDate>
+        </item>
+        <!--@end-->
+    </channel>
 </rss>
