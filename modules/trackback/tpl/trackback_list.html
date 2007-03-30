@@ -2,8 +2,8 @@
 
 <!-- 게시판 정보 -->
 <div>
-  {$lang->total_count} : {number_format($total_count)}, 
-  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+    {$lang->total_count} : {number_format($total_count)}, 
+    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
@@ -11,74 +11,74 @@
 
 <!-- 목록 -->
 <div>
-  <table>
-  <tr>
-    <th colspan="2">{$lang->no}</th>
-    <th>{$lang->module}</th>
-    <th>{$lang->blog_name}</th>
-    <th>{$lang->title}</th>
-    <th>{$lang->date}</th>
-    <th>{$lang->ipaddress}</th>
-    <th>{$lang->cmd_move}</th>
-  </tr>
-  <!--@foreach($trackback_list as $no => $val)-->
-  <tr>
-    <td rowspan="2">{$no}</td>
-    <td rowspan="2"><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
-    <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-    <td><a href="#" onclick="window.open('{$val->url}');return false;">{$val->blog_name}</a></td>
-    <td>{$val->title}</td>
-    <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td>{$val->ipaddress}</td>
-    <td rowspan="2"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>
-  </tr>
-  <tr>
-    <td colspan="5">{$val->excerpt}</td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table>
+    <tr>
+        <th colspan="2">{$lang->no}</th>
+        <th>{$lang->module}</th>
+        <th>{$lang->blog_name}</th>
+        <th>{$lang->title}</th>
+        <th>{$lang->date}</th>
+        <th>{$lang->ipaddress}</th>
+        <th>{$lang->cmd_move}</th>
+    </tr>
+    <!--@foreach($trackback_list as $no => $val)-->
+    <tr>
+        <td rowspan="2">{$no}</td>
+        <td rowspan="2"><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
+        <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
+        <td><a href="#" onclick="window.open('{$val->url}');return false;">{$val->blog_name}</a></td>
+        <td>{$val->title}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>{$val->ipaddress}</td>
+        <td rowspan="2"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>
+    </tr>
+    <tr>
+        <td colspan="5">{$val->excerpt}</td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>
 
 <!-- 버튼 -->
 <div>
-  <input type="submit" value="{$lang->cmd_delete_checked_trackback}" />
+    <input type="submit" value="{$lang->cmd_delete_checked_trackback}" />
 </div>
 
 </form>
 
 <!-- 검색 -->
 <div>
-  <form action="./" method="get">
-    <input type="hidden" name="module" value="{$module}" />
-    <input type="hidden" name="mo" value="{$mo}" />
-    <input type="hidden" name="act" value="{$act}" />
+    <form action="./" method="get">
+        <input type="hidden" name="module" value="{$module}" />
+        <input type="hidden" name="mo" value="{$mo}" />
+        <input type="hidden" name="act" value="{$act}" />
 
-    <div>
-      <select name="search_target">
-        <option value="">{$lang->search_target}</option>
-        <!--@foreach($lang->search_target_list as $key => $val)-->
-        <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
-        <!--@end-->
-      </select>
-      <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-      <input type="submit" value="{$lang->cmd_search}" />
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
-    </div>
-  </form>
+        <div>
+            <select name="search_target">
+                <option value="">{$lang->search_target}</option>
+                <!--@foreach($lang->search_target_list as $key => $val)-->
+                <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+            <input type="submit" value="{$lang->cmd_search}" />
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
+        </div>
+    </form>
 </div>
 
 
 <!-- 페이지 네비게이션 -->
 <div>
-  <a href="{getUrl('page','','trackback_srl','')}">[{$lang->first_page}]</a>
+    <a href="{getUrl('page','','trackback_srl','')}">[{$lang->first_page}]</a>
 
-  <!--@while($page_no = $page_navigation->getNextPage())-->
-  <!--@if($page == $page_no)-->
-    {$page_no}
-  <!--@else-->
-    <a href="{getUrl('page',$page_no,'trackback_srl','')}">[{$page_no}]</a>
-  <!--@end-->
-  <!--@end-->
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+    <!--@if($page == $page_no)-->
+        {$page_no}
+    <!--@else-->
+        <a href="{getUrl('page',$page_no,'trackback_srl','')}">[{$page_no}]</a>
+    <!--@end-->
+    <!--@end-->
 
-  <a href="{getUrl('page',$page_navigation->last_page,'trackback_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'trackback_srl','')}">[{$lang->last_page}]</a>
 </div>
