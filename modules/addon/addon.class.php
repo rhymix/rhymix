@@ -13,9 +13,16 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
+            // action forward에 등록 (관리자 모드에서 사용하기 위함)
+            $oModuleController = &getController('module');
+            $oModuleController->insertActionFoward('addon', 'dispAddonIndex');
+            $oModuleController->insertActionFoward('addon', 'dispAddonInfo');
+            $oModuleController->insertActionFoward('addon', 'procToggleActivateAddon');
+            
             // 몇가진 애드온을 기본으로 설치 상태로 지정
             $oAddonController = &getController('addon');
             $oAddonController->doActivate('spamfilter');
+            $oAddonController->doActivate('message');
             return new Object();
         }
 
