@@ -16,7 +16,7 @@
         /**
          * @brief 플러그인의 생성된 코드를 return
          **/
-        function procGenerateCode() {
+        function procPluginGenerateCode() {
             // 변수 정리
             $vars = Context::getRequestVars();
             $plugin = $vars->selected_plugin;
@@ -43,7 +43,7 @@
         /**
          * @brief 선택된 플러그인 - 스킨의 컬러셋을 return
          **/
-        function procGetColorsetList() {
+        function procPluginGetColorsetList() {
             $plugin = Context::get('selected_plugin');
             $skin = Context::get('skin');
 

@@ -17,7 +17,7 @@
         /**
          * @brief 플러그인 목록을 보여줌
          **/
-        function dispDownloadedPluginList() {
+        function dispPluginAdminDownloadedList() {
             // 플러그인 목록을 세팅
             $oPluginModel = &getModel('plugin');
             $plugin_list = $oPluginModel->getDownloadedPluginList();
@@ -45,7 +45,7 @@
         /**
          * @brief 플러그인의 코드 생성기
          **/
-        function dispGenerateCode() {
+        function dispPluginGenerateCode() {
             // 선택된 플러그인 정보를 구함
             $oPluginModel = &getModel('plugin');
             $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
@@ -70,7 +70,7 @@
         /**
          * @brief 페이지 관리에서 사용될 코드 생성 팝업
          **/
-        function dispGenerateCodeInPage() {
+        function dispPluginGenerateCodeInPage() {
             $this->dispGenerateCode();
             $this->setTemplateFile('plugin_generate_code_in_page');
         }
