@@ -56,6 +56,7 @@ function insertImage(obj) {
     if(typeof(opener)=="undefined") return;
 
     var url = xGetElementById("image_url").value;
+    alert(url);
     var alt = xGetElementById("image_alt").value;
     var align = "";
     if(xGetElementById("align_normal").checked==true) align = "";

@@ -42,9 +42,11 @@
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
             }
+
+            // 오류 발생시 멈춤
             if(!$output->toBool()) return $output;
 
-            // 트랙백 발송
+            // 트랙백이 있으면 트랙백 발송
             $trackback_url = Context::get('trackback_url');
             $trackback_charset = Context::get('trackback_charset');
             if($trackback_url) {
@@ -52,8 +54,11 @@
                 $oTrackbackController->sendTrackback($obj, $trackback_url, $trackback_charset);
             }
 
+            // 결과를 리턴
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $output->get('document_srl'));
+
+            // 성공 메세지 등록
             $this->setMessage($msg_code);
         }
 
@@ -63,6 +68,8 @@
         function procBoardDeleteDocument() {
             // 문서 번호 확인
             $document_srl = Context::get('document_srl');
+
+            // 문서 번호가 없다면 오류 발생
             if(!$document_srl) return $this->doError('msg_invalid_document');
 
             // document module model 객체 생성
@@ -72,6 +79,7 @@
             $output = $oDocumentController->deleteDocument($document_srl, $this->grant->manager);
             if(!$output->toBool()) return $output;
 
+            // 성공 메세지 등록
             $this->add('mid', Context::get('mid'));
             $this->add('page', $output->get('page'));
             $this->setMessage('success_deleted');
@@ -143,7 +151,6 @@
             $comment_srl = Context::get('comment_srl');
             if(!$comment_srl) return $this->doError('msg_invalid_request');
 
-            // 삭제
             // comment 모듈의 controller 객체 생성
             $oCommentController = &getController('comment');
 
@@ -324,8 +331,7 @@
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
 
-            $url = sprintf("./?module=admin&mo=board&module_srl=%s&act=dispAdminSkinInfo&page=%s", $module_srl, Context::get('page'));
-            print "<script type=\"text/javascript\">location.href=\"".$url."\";</script>";
+            print "<script type=\"text/javascript\">top.location.href=top.location.href;</script>";
             exit();
         }
 

@@ -74,6 +74,15 @@
     }
 
     /**
+     * @brief DB::getNextSequence() 의 alias
+     * @return big int
+     **/
+    function getNextSequence() {
+        $oDB = &DB::getInstance();
+        return $oDB->getNextSequence();
+    }
+
+    /**
      * @brief Context::getUrl($args_list)를 쓰기 쉽게 함수로 선언
      * @return string
      *
@@ -209,5 +218,12 @@
         $output = sprintf('%0'.$size.'d/', $no%$mod);
         if($no >= $mod) $output .= getNumberingPath((int)$no/$mod, $size);
         return $output;
+    }
+
+    /**
+     * @brief 한글이 들어간 url의 decode
+     **/
+    function url_decode($str) {
+        return ereg_replace('%u([[:alnum:]]{4})', '&#x\1;',$str);
     }
 ?>

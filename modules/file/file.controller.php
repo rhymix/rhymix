@@ -38,12 +38,11 @@
             // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
             $upload_target_srl = Context::get('upload_target_srl');
             $file_srl = Context::get('file_srl');
-            if(!$file_srl) exit();
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
 
-            $output = $this->deleteFile($file_srl, $this->grant->manager);
+            if($file_srl) $output = $this->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
             $this->printUploadedFileList($upload_target_srl);
@@ -113,7 +112,7 @@
         /**
          * @brief 첨부파일 삭제
          **/
-        function deleteFile($file_srl, $is_admin = false) {
+        function deleteFile($file_srl) {
             $oDB = &DB::getInstance();
 
             // 파일 정보를 가져옴
@@ -269,7 +268,7 @@
                 $file_srl = trim($file_srl_list[$i]);
                 if(!$file_srl) continue;
 
-                $this->deleteFile($file_srl, true);
+                $this->deleteFile($file_srl);
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
