@@ -18,7 +18,7 @@
         /**
          * @brief 스팸필터의 설정 화면
          **/
-        function dispConfig() {
+        function dispSpamfilterAdminConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('spamfilter');
@@ -31,7 +31,7 @@
         /**
          * @brief 금지 목록 출력
          **/
-        function dispDeniedIPList() {
+        function dispSpamfilterAdminDeniedIPList() {
             // 등록된 금지 IP 목록을 가져옴
             $oSpamFilterModel = &getModel('spamfilter');
             $ip_list = $oSpamFilterModel->getDeniedIPList();
@@ -45,7 +45,7 @@
         /**
          * @brief 금지 목록 출력
          **/
-        function dispDeniedWordList() {
+        function dispSpamfilterAdminDeniedWordList() {
             // 등록된 금지 Word 목록을 가져옴
             $oSpamFilterModel = &getModel('spamfilter');
             $word_list = $oSpamFilterModel->getDeniedWordList();

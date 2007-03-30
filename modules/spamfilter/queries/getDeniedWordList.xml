@@ -1,11 +1,11 @@
 <query id="getDeniedWordList" action="select">
-  <tables>
-    <table name="spamfilter_denied_word" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <navigation>
-    <index var="sort_index" order="desc" />
-  </navigation>
+    <tables>
+        <table name="spamfilter_denied_word" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <navigation>
+        <index var="sort_index" order="desc" />
+    </navigation>
 </query>

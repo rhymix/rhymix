@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
-  <title xml:lang="ko">스팸필터</title>
-  <title xml:lang="en">spam filter</title>
-  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
-    <name xml:lang="en">zero</name>
-    <description xml:lang="ko">제로보드의 기본 스팸필터입니다.</description>
-    <description xml:lang="en">Default spam filter of zeroboard</description>
-  </author>
+    <title xml:lang="ko">스팸필터</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">제로보드 XE의 기본 스팸필터입니다.</description>
+    </author>
 </module>

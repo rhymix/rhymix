@@ -16,7 +16,7 @@
         /**
          * @brief 스팸필터 설정
          **/
-        function procInsertConfig() {
+        function procSpamfilterAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('interval','limit_count','check_trackback');
             if($args->check_trackback!='Y') $args->check_trackback = 'N';
@@ -30,7 +30,7 @@
         /**
          * @brief 금지 IP등록
          **/
-        function procInsertDeniedIP() {
+        function procSpamfilterAdminInsertDeniedIP() {
             $ipaddress = Context::get('ipaddress');
             return $this->insertIP($ipaddress);
         }
@@ -39,14 +39,14 @@
          * @brief 금지 IP삭제
          **/
         function procDeleteDeniedIP() {
-            $ipaddress = Context::get('ipaddress');
+            $ipaddresSpamfilterAdmins = Context::get('ipaddress');
             return $this->deleteIP($ipaddress);
         }
         
         /**
          * @brief 금지 Word등록
          **/
-        function procInsertDeniedWord() {
+        function procSpamfilterAdminInsertDeniedWord() {
             $word = Context::get('word');
             return $this->insertWord($word);
         }
@@ -54,7 +54,7 @@
         /**
          * @brief 금지 Word삭제
          **/
-        function procDeleteDeniedWord() {
+        function procSpamfilterAdminDeleteDeniedWord() {
             $word = Context::get('word');
             return $this->deleteWord($word);
         }

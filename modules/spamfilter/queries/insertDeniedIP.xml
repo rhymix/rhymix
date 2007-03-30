@@ -1,9 +1,9 @@
 <query id="insertDeniedIP" action="insert">
-  <tables>
-    <table name="spamfilter_denied_ip" />
-  </tables>
-  <columns>
-    <column name="ipaddress" var="ipaddress" notnull="notnull" />
-    <column name="regdate" var="regdate" default="curdate()" />
-  </columns>
+    <tables>
+        <table name="spamfilter_denied_ip" />
+    </tables>
+    <columns>
+        <column name="ipaddress" var="ipaddress" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
 </query>

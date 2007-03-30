@@ -2,14 +2,14 @@
 <module>
     <grants />
     <actions>
-        <action name="dispConfig" type="view" admin_index="true" standalone="true" />
-        <action name="dispDeniedIPList" type="view" standalone="true" />
-        <action name="dispDeniedWordList" type="view" standalone="true" />
+        <action name="dispSpamfilterAdminConfig" type="view" admin_index="true" standalone="true" />
+        <action name="dispSpamfilterAdminDeniedIPList" type="view" standalone="true" />
+        <action name="dispSpamfilterAdminDeniedWordList" type="view" standalone="true" />
 
-        <action name="procInsertConfig" type="controller" standalone="true" />
-        <action name="procInsertDeniedIP" type="controller" standalone="true" />
-        <action name="procDeleteDeniedIP" type="controller" standalone="true" />
-        <action name="procInsertDeniedWord" type="controller" standalone="true" />
-        <action name="procDeleteDeniedWord" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" />
     </actions>
 </module>
