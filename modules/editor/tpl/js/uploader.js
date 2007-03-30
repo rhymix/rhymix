@@ -30,7 +30,7 @@ function editor_upload_form_set(upload_target_srl) {
     // 업로드용 iframe을 생성
     if(!xGetElementById('tmp_upload_iframe')) {
         if(xIE4Up) {
-            window.document.body.insertAdjacentHTML("afterEnd", "<iframe name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>");
+            window.document.body.insertAdjacentHTML("afterEnd", "<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>");
         } else {
             var obj_iframe = xCreateElement('IFRAME');
             obj_iframe.name = obj_iframe.id = 'tmp_upload_iframe';

@@ -129,7 +129,7 @@
          * @brief 파일 출력
          * 이미지나 멀티미디어등이 아닌 download를 받을 때 사용하는 method
          **/
-        function procDownload() {
+        function procFileDownload() {
             $file_srl = Context::get('file_srl');
             $sid = Context::get('sid');
 

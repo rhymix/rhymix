@@ -1,4 +1,4 @@
-<filter name="delete_trackback" module="board" act="procDeleteTrackback">
+<filter name="delete_trackback" module="board" act="procBoardDeleteTrackback">
   <form>
     <node target="trackback_srl" required="true" />
   </form>

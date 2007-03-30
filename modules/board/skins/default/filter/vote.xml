@@ -1,4 +1,4 @@
-<filter name="vote" module="board" act="procVoteDocument" confirm_msg_code="confirm_vote">
+<filter name="vote" module="board" act="procBoardVoteDocument" confirm_msg_code="confirm_vote">
   <form>
     <node target="document_srl" required="true" />
   </form>

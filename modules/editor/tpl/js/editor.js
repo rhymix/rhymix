@@ -165,7 +165,7 @@ function editorGetContent(upload_target_srl) {
     if(!iframe_obj) return;
     var html = '';
     html = xInnerHtml(iframe_obj.contentWindow.document.body);
-    html = html.replace(/^<br>$/i,'');
+    if(html) html = html.replace(/^<br>$/i,'');
     if(!html) return "";
 
     return html;
