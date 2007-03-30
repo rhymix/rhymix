@@ -222,61 +222,6 @@
         }
  
         /**
-         * @brief 첨부파일 삭제
-         * 에디터에서 개별 파일 삭제시 사용
-         **/
-        function procBoardDeleteFile() {
-            // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
-            $upload_target_srl = Context::get('upload_target_srl');
-            $module_srl = $this->module_srl;
-            $file_srl = Context::get('file_srl');
-
-            // file class의 controller 객체 생성
-            $oFileController = &getController('file');
-            if($file_srl) $output = $oFileController->deleteFile($file_srl, $this->grant->manager);
-
-            // 첨부파일의 목록을 java script로 출력
-            $oFileController->printUploadedFileList($upload_target_srl);
-        }
-
-        /**
-         * @brief 첨부파일 업로드
-         *
-         * editor에서는 upload_target_srl을 넘겨주고 게시판에서는 document_srl을 upload_target_srl로 설정해 놓은 상태이다.
-         **/
-        function procBoardUploadFile() {
-            // 업로드 권한이 없거나 정보가 없을시 종료
-            if(!Context::isUploaded() || !$this->grant->fileupload) exit();
-
-            // 기본적으로 필요한 변수 설정
-            $upload_target_srl = Context::get('upload_target_srl');
-            $module_srl = $this->module_srl;
-
-            // file class의 controller 객체 생성
-            $oFileController = &getController('file');
-            $output = $oFileController->insertFile($module_srl, $upload_target_srl);
-
-            // 첨부파일의 목록을 java script로 출력
-            $oFileController->printUploadedFileList($upload_target_srl);
-        }
-
-        /**
-         * @brief 첨부파일 다운로드
-         * 직접 요청을 받음\n
-         * file_srl : 파일의 sequence\n
-         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음\n
-         **/
-        function procBoardDownloadFile() {
-            // 다운로드에 필요한 변수 체크
-            $file_srl = Context::get('file_srl');
-            $sid = Context::get('sid');
-
-            // document module 객체 생성후 해당 파일의 정보를 체크
-            $oFileModel = &getModel('file');
-            $oFileModel->procDownload($file_srl, $sid);
-        }
-
-        /**
          * @brief 권한 추가
          **/
         function procBoardAdminInsertGrant() {

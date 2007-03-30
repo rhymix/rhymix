@@ -8,6 +8,45 @@
     class editorModel extends editor {
 
         /**
+         * @brief 에디터를 return
+         **/
+        function getEditor($upload_target_srl, $allow_fileupload = false, $enable_autosave = false) {
+            // 저장된 임시본이 있는지 검사
+            if($enable_autosave) {
+                $saved_doc = $this->getSavedDoc($upload_target_srl);
+                Context::set('saved_doc', $saved_doc);
+            }
+            Context::set('enable_autosave', $enable_autosave);
+
+            // 업로드를 위한 변수 설정
+            Context::set('upload_target_srl', $upload_target_srl);
+            Context::set('allow_fileupload', $allow_fileupload);
+
+            // 에디터 컴포넌트를 구함
+            if(!Context::get('component_list')) {
+                $component_list = $this->getComponentList();
+                Context::set('component_list', $component_list);
+            }
+
+            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
+            $tpl_path = $this->module_path.'tpl';
+            $tpl_file = 'editor.html';
+
+            // editor_path를 지정
+            Context::set('editor_path', $tpl_path);
+
+            // 만약 allow_fileupload == true 이면 upload_target_srl에 upload가능하다고 설정 
+            if($allow_fileupload) {
+                $oFileController = &getController('file');
+                $oFileController->setUploadEnable($upload_target_srl);
+            }
+            require_once("./classes/template/TemplateHandler.class.php");
+            $oTemplate = new TemplateHandler();
+            return $oTemplate->compile($tpl_path, $tpl_file);
+        }
+
+
+        /**
          * @brief 자동저장되어 있는 정보를 가져옴
          **/
         function getSavedDoc($upload_target_srl) {

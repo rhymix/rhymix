@@ -266,7 +266,7 @@
                         $xml_info = $oModuleModel->getModuleActionXml($forward->module);
                         $oModule->setAct($forward->act);
                         $oModule->init();
-                        $oModule->setModuleInfo(null, $xml_info);
+                        $oModule->setModuleInfo($this->module_info, $xml_info);
                         $output = call_user_method($forward->act, $oModule);
 
                         $this->setTemplatePath($oModule->getTemplatePath());

@@ -192,8 +192,8 @@
             Context::set('document', $document);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorView = &getView('editor');
-            $editor = $oEditorView->getEditor($document_srl, $this->grant->fileupload, true);
+            $oEditorModel = &getModel('editor');
+            $editor = $oEditorModel->getEditor($document_srl, $this->grant->fileupload, true);
             Context::set('editor', $editor);
 
             $this->setTemplateFile('write_form');
@@ -425,8 +425,8 @@
             }
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorView = &getView('editor');
-            $comment_editor = $oEditorView->getEditor($comment_srl, $this->grant->fileupload);
+            $oEditorModel = &getModel('editor');
+            $comment_editor = $oEditorModel->getEditor($comment_srl, $this->grant->fileupload);
             Context::set('comment_editor', $comment_editor);
         }
 

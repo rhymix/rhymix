@@ -60,9 +60,6 @@ function editor_upload_form_set(upload_target_srl) {
     if(fo_obj["document_srl"]) document_srl = fo_obj.document_srl.value;
 
     var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl;
-    if(module) url+="&module="+module;
-    if(mid) url+="&mid="+mid;
-    if(document_srl) url+="&document_srl="+document_srl;
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -159,7 +156,7 @@ function editor_remove_file(upload_target_srl) {
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
     var upload_target_srl = fo_obj.upload_target_srl.value;
-    var url = "./?mid="+mid+"&act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
+    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');

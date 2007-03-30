@@ -169,8 +169,8 @@
             Context::set('plugin_list', $plugin_list);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorView = &getView('editor');
-            $editor = $oEditorView->getEditor($module_srl, true);
+            $oEditorModel = &getModel('editor');
+            $editor = $oEditorModel->getEditor($module_srl, true);
             Context::set('editor', $editor);
 
             // 템플릿 파일 지정

@@ -14,6 +14,67 @@
         }
 
         /**
+         * @brief 에디터에서 첨부파일 업로드 
+         **/
+        function procFileUpload() {
+            // 기본적으로 필요한 변수 설정
+            $upload_target_srl = Context::get('upload_target_srl');
+            $module_srl = $this->module_srl;
+            debugPrint($module_srl);
+
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
+
+            $output = $this->insertFile($module_srl, $upload_target_srl);
+            debugPrint($output);
+
+            // 첨부파일의 목록을 java script로 출력
+            $this->printUploadedFileList($upload_target_srl);
+        }
+
+
+        /**
+         * @brief 에디터에서 첨부 파일 삭제
+         **/
+        function procFileDelete() {
+            // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
+            $upload_target_srl = Context::get('upload_target_srl');
+            $file_srl = Context::get('file_srl');
+            if(!$file_srl) exit();
+
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
+
+            $output = $this->deleteFile($file_srl, $this->grant->manager);
+
+            // 첨부파일의 목록을 java script로 출력
+            $this->printUploadedFileList($upload_target_srl);
+        }
+
+        /**
+         * @brief 첨부파일 다운로드
+         * 직접 요청을 받음
+         * file_srl : 파일의 sequence
+         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
+         **/
+        function procFileDownload() {
+            // 다운로드에 필요한 변수 체크
+            $file_srl = Context::get('file_srl');
+            $sid = Context::get('sid');
+
+            // document module 객체 생성후 해당 파일의 정보를 체크
+            $oFileModel = &getModel('file');
+            $oFileModel->procDownload($file_srl, $sid);
+        }
+
+        /**
+         * @brief 업로드 가능하다고 세팅
+         **/
+        function setUploadEnable($upload_target_srl) {
+            $_SESSION['upload_enable'][$upload_target_srl] = true;
+        }
+
+        /**
          * @brief 첨부파일 추가
          **/
         function insertFile($module_srl, $upload_target_srl) {

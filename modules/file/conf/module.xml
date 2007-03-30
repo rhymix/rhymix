@@ -4,8 +4,9 @@
     <actions>
         <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" />
 
-        <action name="procFileDownload" type="model" standalone="true" />
+        <action name="procFileUpload" type="controller" standalone="true" />
         <action name="procFileDelete" type="controller" standalone="true" />
+        <action name="procFileDownload" type="controller" standalone="true" />
         <action name="procFileAdminDeleteChecked" type="controller" standalone="true" />
     </actions>
 </module>

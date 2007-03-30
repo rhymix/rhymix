@@ -91,40 +91,5 @@
             $this->setLayoutFile("popup_layout");
         }
 
-        /**
-         * @brief 에디터를 return
-         **/
-        function getEditor($upload_target_srl, $allow_fileupload = false, $enable_autosave = false) {
-            $oEditorModel = &getModel('editor');
-
-            // 저장된 임시본이 있는지 검사
-            if($enable_autosave) {
-                $saved_doc = $oEditorModel->getSavedDoc($upload_target_srl);
-                Context::set('saved_doc', $saved_doc);
-            }
-            Context::set('enable_autosave', $enable_autosave);
-
-            // 업로드를 위한 변수 설정
-            Context::set('upload_target_srl', $upload_target_srl);
-            Context::set('allow_fileupload', $allow_fileupload);
-
-            // 에디터 컴포넌트를 구함
-            if(!Context::get('component_list')) {
-                $component_list = $oEditorModel->getComponentList();
-                Context::set('component_list', $component_list);
-            }
-
-            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
-            $tpl_path = $this->module_path.'tpl';
-            $tpl_file = 'editor.html';
-
-            // editor_path를 지정
-            Context::set('editor_path', $tpl_path);
-
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
-            return $oTemplate->compile($tpl_path, $tpl_file);
-        }
-
     }
 ?>

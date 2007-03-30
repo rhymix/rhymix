@@ -105,7 +105,7 @@
 
             // 미설치시에는 act값을 강제로 변경
             if($this->module=="install") {
-                if(!$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
+                if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
             } 
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
