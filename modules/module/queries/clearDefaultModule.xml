@@ -1,8 +1,8 @@
 <query id="clearDefaultModule" action="update">
-  <tables>
-    <table name="modules" />
-  </tables>
-  <columns>
-    <column name="is_default" var="is_default" default="N" />
-  </columns>
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="is_default" var="is_default" default="N" />
+    </columns>
 </query>

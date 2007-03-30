@@ -11,6 +11,15 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
+            // action forward에 등록 (관리자 모드에서 사용하기 위함)
+            $oModuleController = &getController('module');
+            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminContent');
+            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminList');
+            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminCategory');
+            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminInfo');
+            $oModuleController->insertActionFoward('module', 'controller', 'procModuleAdminInsertCategory');
+            $oModuleController->insertActionFoward('module', 'controller', 'procModuleAdminUpdateCategory');
+
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
 

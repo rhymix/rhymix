@@ -14,6 +14,40 @@
         }
 
         /**
+         * @brief 모듈 카테고리 추가
+         **/
+        function procModuleAdminInsertCategory() {
+            $oDB = &DB::getInstance();
+
+            $args->title = Context::get('title');
+            $output = $oDB->executeQuery('module.insertModuleCategory', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage("success_registed");
+        }
+
+        /**
+         * @brief 카테고리의 내용 수정
+         **/
+        function procModuleAdminUpdateCategory() {
+            $mode = Context::get('mode');
+
+            switch($mode) {
+                case 'delete' :
+                        $output = $this->doDeleteModuleCategory();
+                        $msg_code = 'success_deleted';
+                    break;
+                case 'update' :
+                        $output = $this->doUpdateModuleCategory();
+                        $msg_code = 'success_updated';
+                    break;
+            }
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage($msg_code);
+        }
+
+        /**
          * @brief 기본 모듈 생성
          **/
         function makeDefaultModule() {
@@ -200,22 +234,9 @@
         }
 
         /**
-         * @brief 모듈 카테고리 추가
-         **/
-        function procInsertCategory() {
-            $oDB = &DB::getInstance();
-
-            $args->title = Context::get('title');
-            $output = $oDB->executeQuery('module.insertModuleCategory', $args);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage("success_registed");
-        }
-
-        /**
          * @brief 모듈 카테고리의 제목 변경
          **/
-        function procUpdateModuleCategory() {
+        function doUpdateModuleCategory() {
             $oDB = &DB::getInstance();
 
             $args->title = Context::get('title');
@@ -226,33 +247,11 @@
         /**
          * @brief 모듈 카테고리 삭제
          **/
-        function procDeleteModuleCategory() {
+        function doDeleteModuleCategory() {
             $oDB = &DB::getInstance();
 
             $args->module_category_srl = Context::get('module_category_srl');
             return $oDB->executeQuery('module.deleteModuleCategory', $args);
         }
-
-        /**
-         * @brief 카테고리의 내용 수정
-         **/
-        function procUpdateCategory() {
-            $mode = Context::get('mode');
-
-            switch($mode) {
-                case 'delete' :
-                        $output = $this->procDeleteModuleCategory();
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $output = $this->procUpdateModuleCategory();
-                        $msg_code = 'success_updated';
-                    break;
-            }
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage($msg_code);
-        }
-
     }
 ?>

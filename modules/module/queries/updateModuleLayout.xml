@@ -1,11 +1,11 @@
 <query id="updateModuleLayout" action="update">
-  <tables>
-    <table name="modules" />
-  </tables>
-  <columns>
-    <column name="layout_srl" var="layout_srl" default="0" />
-  </columns>
-  <conditions>
-    <condition operation="equal" column="mid" var="mid" notnull="notnull"/>
-  </conditions>
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="layout_srl" var="layout_srl" default="0" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="mid" var="mid" notnull="notnull"/>
+    </conditions>
 </query>

@@ -1,10 +1,10 @@
 <query id="insertActionFoward" action="insert">
-  <tables>
-    <table name="action_foward" />
-  </tables>
-  <columns>
-    <column name="module" default="module" notnull="notnull" />
-    <column name="type" default="type" notnull="notnull" />
-    <column name="action" default="action" notnull="notnull" />
-  </columns>
+    <tables>
+        <table name="action_foward" />
+    </tables>
+    <columns>
+        <column name="module" default="module" notnull="notnull" />
+        <column name="type" default="type" notnull="notnull" />
+        <column name="action" default="action" notnull="notnull" />
+    </columns>
 </query>

@@ -18,14 +18,14 @@
         /**
          * @brief 모듈 관리자 페이지
          **/
-        function dispContent() {
+        function dispModuleAdminContent() {
             $this->dispModuleList();
         }
 
         /**
          * @brief 모듈 목록 출력
          **/
-        function dispModuleList() {
+        function dispModuleAdminList() {
             // 모듈 목록을 구해서 
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
@@ -38,7 +38,7 @@
         /**
          * @brief 모듈의 상세 정보(conf/info.xml)를 팝업 출력
          **/
-        function dispModuleInfo() {
+        function dispModuleAdminInfo() {
             // 모듈 목록을 구해서 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
@@ -54,7 +54,7 @@
         /**
          * @brief 모듈 카테고리 목록
          **/
-        function dispCategory() {
+        function dispModuleAdminCategory() {
             $module_category_srl = Context::get('module_category_srl');
             
             // 모듈 목록을 구해서 

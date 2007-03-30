@@ -1,10 +1,10 @@
 <query id="insertModuleConfig" action="insert">
-  <tables>
-    <table name="module_config" />
-  </tables>
-  <columns>
-    <column name="module" default="module" notnull="notnull" />
-    <column name="config" var="config" />
-    <column name="regdate" default="curdate()" />
-  </columns>
+    <tables>
+        <table name="module_config" />
+    </tables>
+    <columns>
+        <column name="module" default="module" notnull="notnull" />
+        <column name="config" var="config" />
+        <column name="regdate" default="curdate()" />
+    </columns>
 </query>
