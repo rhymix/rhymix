@@ -80,7 +80,7 @@
          **/
         function getComponentObject($component, $upload_target_srl = 0) {
             // 해당 컴포넌트의 객체를 생성해서 실행
-            $class_path = sprintf('./editor_components/%s/', $component);
+            $class_path = sprintf('%s/components/%s/', $this->module_path, $component);
             $class_file = sprintf('%s%s.class.php', $class_path, $component);
             if(!file_exists($class_file)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
@@ -192,7 +192,7 @@
             $lang_type = Context::getLangType();
 
             // 요청된 컴포넌트의 xml파일 위치를 구함
-            $component_path = sprintf('./editor_components/%s/', $component);
+            $component_path = sprintf('%s/components/%s/', $this->module_path, $component);
 
             $xml_file = sprintf('%sinfo.xml', $component_path);
             $cache_file = sprintf('./files/cache/editor/%s.%s.php', $component, $lang_type);

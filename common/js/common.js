@@ -253,6 +253,13 @@ function showOriginalImage(evt) {
     orig_image.style.margin = "0px 0px 0px 0px";
     orig_image.style.cursor = "pointer";
     orig_image.src = src;
+    orig_image.style.opacity = 1;
+    orig_image.style.filter = 'alpha(opacity=100)';
+
+    var areabg = xGetElementById("fororiginalimageareabg");
+    areabg.style.opacity = 0.95;
+    areabg.style.filter = 'alpha(opacity=95)';
+    areabg.style.visibility = "visible";
 
     var area = xGetElementById("fororiginalimagearea");
 
@@ -275,6 +282,9 @@ function showOriginalImage(evt) {
     xLeft(orig_image, x);
     xTop(orig_image, y);
 
+    var sel_list = xGetElementsByTagName("select");
+    for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "hidden";
+
     xAddEventListener(orig_image, "mousedown", origImageDragEnable);
     xAddEventListener(window, "scroll", closeOriginalImage);
     xAddEventListener(window, "resize", closeOriginalImage);
@@ -287,6 +297,10 @@ function closeOriginalImage(evt) {
     var area = xGetElementById("fororiginalimagearea");
     if(area.style.visibility != "visible") return;
     area.style.visibility = "hidden";
+    xGetElementById("fororiginalimageareabg").style.visibility = "hidden";
+
+    var sel_list = xGetElementsByTagName("select");
+    for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "visible";
 
     xRemoveEventListener(area, "mousedown", closeOriginalImage);
     xRemoveEventListener(window, "scroll", closeOriginalImage);
