@@ -1,11 +1,11 @@
 <query id="getGroup" action="select">
-  <tables>
-    <table name="member_group" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <conditions>
-    <condition operation="equal" column="group_srl" var="group_srl" filter="number" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="member_group" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="group_srl" var="group_srl" filter="number" notnull="notnull" />
+    </conditions>
 </query>

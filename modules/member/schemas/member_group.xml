@@ -1,7 +1,7 @@
 <table name="member_group">
-  <column name="group_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="title" type="varchar" size="80" notnull="notnull" unique="uni_member_group_title" />
-  <column name="regdate" type="date" />
-  <column name="is_default" type="char" default="N" />
-  <column name="description" type="text" />
+    <column name="group_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="title" type="varchar" size="80" notnull="notnull" unique="uni_member_group_title" />
+    <column name="regdate" type="date" />
+    <column name="is_default" type="char" default="N" />
+    <column name="description" type="text" />
 </table>

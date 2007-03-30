@@ -1,11 +1,11 @@
 <query id="getJoinFormList" action="select">
-  <tables>
-    <table name="member_join_form" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <navigation>
-    <index var="sort_index" default="list_order" order="asc" />
-  </navigation>
+    <tables>
+        <table name="member_join_form" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+    </navigation>
 </query>

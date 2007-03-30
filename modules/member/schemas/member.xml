@@ -1,22 +1,22 @@
 <table name="member">
-  <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="user_id" type="varchar" size="80" notnull="notnull" unique="unique_user_id" />
-  <column name="email_address" type="varchar" size="250" notnull="notnull" unique="unique_email_address" />
-  <column name="password" type="varchar" size="60" notnull="notnull" />
-  <column name="email_id" type="varchar" size="80" notnull="notnull" />
-  <column name="email_host" type="varchar" size="160" index="idx_email_host" />
-  <column name="user_name" type="varchar" size="40" notnull="notnull"/>
-  <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name"/>
-  <column name="image_nick" type="varchar" size="250" />
-  <column name="image_mark" type="varchar" size="250" />
-  <column name="profile_image" type="varchar" size="250" />
-  <column name="signature" type="text" />
-  <column name="allow_mailing" type="char" size="1" default="Y" idx="idx_allow_mailing" />
-  <column name="unread_message" type="number" size="11" default="0" />
-  <column name="denied" type="char" size="1" default="N" index="idx_is_denied" />
-  <column name="regdate" type="date" index="idx_regdate" />
-  <column name="last_login" type="date" index="idx_last_login" />
-  <column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
-  <column name="description" type="text" />
-  <column name="extra_vars" type="text" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="user_id" type="varchar" size="80" notnull="notnull" unique="unique_user_id" />
+    <column name="email_address" type="varchar" size="250" notnull="notnull" unique="unique_email_address" />
+    <column name="password" type="varchar" size="60" notnull="notnull" />
+    <column name="email_id" type="varchar" size="80" notnull="notnull" />
+    <column name="email_host" type="varchar" size="160" index="idx_email_host" />
+    <column name="user_name" type="varchar" size="40" notnull="notnull"/>
+    <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name"/>
+    <column name="image_nick" type="varchar" size="250" />
+    <column name="image_mark" type="varchar" size="250" />
+    <column name="profile_image" type="varchar" size="250" />
+    <column name="signature" type="text" />
+    <column name="allow_mailing" type="char" size="1" default="Y" idx="idx_allow_mailing" />
+    <column name="unread_message" type="number" size="11" default="0" />
+    <column name="denied" type="char" size="1" default="N" index="idx_is_denied" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="last_login" type="date" index="idx_last_login" />
+    <column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
+    <column name="description" type="text" />
+    <column name="extra_vars" type="text" />
 </table>

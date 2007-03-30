@@ -1,8 +1,8 @@
 <query id="deleteGroup" action="delete">
-  <tables>
-    <table name="member_group" />
-  </tables>
-  <conditions>
-    <condition operation="equal" column="group_srl" var="group_srl" notnull="notnull" filter="number" />
-  </conditions>
+    <tables>
+        <table name="member_group" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="group_srl" var="group_srl" notnull="notnull" filter="number" />
+    </conditions>
 </query>

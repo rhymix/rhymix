@@ -1,6 +1,6 @@
 <table name="member_denied_user_id">
-  <column name="user_id" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
-  <column name="regdate" type="date" />
-  <column name="description" type="text" />
-  <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+    <column name="user_id" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
+    <column name="regdate" type="date" />
+    <column name="description" type="text" />
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
 </table>

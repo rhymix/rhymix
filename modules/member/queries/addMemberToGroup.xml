@@ -1,10 +1,10 @@
 <query id="addMemberToGroup" action="insert">
-  <tables>
-    <table name="member_group_member" />
-  </tables>
-  <columns>
-    <column name="group_srl" var="group_srl" notnull="notnull" />
-    <column name="member_srl" var="member_srl" notnull="notnull" />
-    <column name="regdate" default="curdate()" />
-  </columns>
+    <tables>
+        <table name="member_group_member" />
+    </tables>
+    <columns>
+        <column name="group_srl" var="group_srl" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
 </query>

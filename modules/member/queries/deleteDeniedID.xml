@@ -1,8 +1,8 @@
 <query id="deleteDeniedID" action="delete">
-  <tables>
-    <table name="member_denied_user_id" />
-  </tables>
-  <conditions>
-    <condition operation="equal" column="user_id" var="user_id" notnull="notnull" filter="number" />
-  </conditions>
+    <tables>
+        <table name="member_denied_user_id" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="user_id" var="user_id" notnull="notnull" filter="number" />
+    </conditions>
 </query>

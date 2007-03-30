@@ -1,12 +1,12 @@
 <query id="insertGroup" action="insert">
-  <tables>
-    <table name="member_group" />
-  </tables>
-  <columns>
-    <column name="group_srl" var="group_srl" default="sequence()" notnull="notnull" />
-    <column name="title" var="title" notnull="notnull" />
-    <column name="is_default" var="is_default" default="N" notnull="notnull" />
-    <column name="regdate" default="curdate()" />
-    <column name="description" var="description" default="" />
-  </columns>
+    <tables>
+        <table name="member_group" />
+    </tables>
+    <columns>
+        <column name="group_srl" var="group_srl" default="sequence()" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="is_default" var="is_default" default="N" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+        <column name="description" var="description" default="" />
+    </columns>
 </query>

@@ -1,8 +1,8 @@
 <query id="getGroups" action="select">
-  <tables>
-    <table name="member_group" />
-  </tables>
-  <navigation>
-    <index var="sort_index" default="group_srl" order="desc" />
-  </navigation>
+    <tables>
+        <table name="member_group" />
+    </tables>
+    <navigation>
+        <index var="sort_index" default="group_srl" order="desc" />
+    </navigation>
 </query>

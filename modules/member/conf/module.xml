@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispMemberList" type="view" standalone="true" index="true" admin_index="true" />
-        <action name="dispModuleConfig" type="view" standalone="true" />
-        <action name="dispMember" type="view" standalone="true" />
-        <action name="dispMemberInsert" type="view" standalone="true" />
-        <action name="dispDeleteForm" type="view" standalone="true" />
-        <action name="dispGroupList" type="view" standalone="true" />
-        <action name="dispJoinFormList" type="view" standalone="true" />
         <action name="dispMemberInfo" type="view" standalone="true" />
-        <action name="dispInsertJoinForm" type="view" standalone="true" />
-        <action name="dispDeniedIDList" type="view" standalone="true" />
 
-        <action name="procLogin" type="controller" standalone="true" />
-        <action name="procLogout" type="controller" standalone="true" />
-        <action name="procInsert" type="controller" standalone="true" />
-        <action name="procDelete" type="controller" standalone="true" />
-        <action name="procInsertConfig" type="controller" standalone="true" />
-        <action name="procInsertGroup" type="controller" standalone="true" />
-        <action name="procUpdateGroup" type="controller" standalone="true" />
-        <action name="procInsertJoinForm" type="controller" standalone="true" />
-        <action name="procUpdateJoinForm" type="controller" standalone="true" />
-        <action name="procInsertDeniedID" type="controller" standalone="true" />
-        <action name="procUpdateDeniedID" type="controller" standalone="true" />
-        <action name="procInsertImageName" type="controller" standalone="true" />
-        <action name="procInsertImageMark" type="controller" standalone="true" />
-        <action name="procDeleteImageName" type="controller" standalone="true" />
-        <action name="procDeleteImageMark" type="controller" standalone="true" />
+        <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
+        <action name="dispMemberAdminConfig" type="view" standalone="true" />
+        <action name="dispMemberAdminInsert" type="view" standalone="true" />
+        <action name="dispMemberAdminDeleteForm" type="view" standalone="true" />
+        <action name="dispMemberAdminGroupList" type="view" standalone="true" />
+        <action name="dispMemberAdminJoinFormList" type="view" standalone="true" />
+        <action name="dispMemberAdminInfo" type="view" standalone="true" />
+        <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
+        <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
 
         <action name="getMemberMenu" type="model" standalone="true" />
+
+        <action name="procMemberLogin" type="controller" standalone="true" />
+        <action name="procMemberLogout" type="controller" standalone="true" />
+        <action name="procMemberInsertImageName" type="controller" standalone="true" />
+        <action name="procMemberInsertImageMark" type="controller" standalone="true" />
+        <action name="procMemberDeleteImageName" type="controller" standalone="true" />
+        <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
+
+        <action name="procMemberAdminInsert" type="controller" standalone="true" />
+        <action name="procMemberAdminDelete" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
     </actions>
 </module>
