@@ -5,37 +5,37 @@
      * @brief filter xml문서를 해석하여 js파일로 만듬
      * @version 0.1
      *
-     * xml filter 파일은 js script로 컴파일 되어 캐싱됨\n
-     * \n
-     * <filter name="js function 이름" act="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >\n
-     *   <form> <-- 폼 항목의 체크\n
-     *     <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />\n
-     *   </form>\n
-     *   <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수\n
-     *     <param name="key" target="target" />\n
-     *   </parameter>\n
-     *   <response callback_func="callback 받게 될 js function 이름 지정" > <-- 서버에 ajax로 전송하여 받을 결과값\n
-     *     <tag name="error" /> <-- error이름의 결과값을 받겠다는 것\n
-     *   </response>\n
-     * </filter>\n
-     * \n
-     * - form - node\n
-     *   target = 폼 element의 이름\n
-     *   required = true/ false 꼭 있어야 하는지에 대한 체크\n
-     *   minlength, maxlength = 최소/최대 길이\n
-     *   filter = javascript로 체크하기 위한 체크 필터\n
-     *   email : email의 형식 ( aaa.aaa@aaa.com)\n
-     *   userid : 영문+숫자+_, 첫 글자는 영문, 소문자\n
-     *   alpha : 영문값만 허용\n
-     *   number : 숫자만 허용\n
-     *   equalto = target , 현재 폼과 지정 target의 값이 동일해야 함\n
-     * \n
-     * - parameter - param\n
-     *   name = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성\n
-     *   target = target_name : target form element의 값을 가져옴\n
-     * \n
-     * - response\n
-     *   tag = key : return받을 결과값의 변수명\n
+     * xml filter 파일은 js script로 컴파일 되어 캐싱됨
+     * 
+     * <filter name="js function 이름" act="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >
+     *   <form> <-- 폼 항목의 체크
+     *     <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />
+     *   </form>
+     *   <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수
+     *     <param name="key" target="target" />
+     *   </parameter>
+     *   <response callback_func="callback 받게 될 js function 이름 지정" > <-- 서버에 ajax로 전송하여 받을 결과값
+     *     <tag name="error" /> <-- error이름의 결과값을 받겠다는 것
+     *   </response>
+     * </filter>
+     * 
+     * - form - node
+     *   target = 폼 element의 이름
+     *   required = true/ false 꼭 있어야 하는지에 대한 체크
+     *   minlength, maxlength = 최소/최대 길이
+     *   filter = javascript로 체크하기 위한 체크 필터
+     *   email : email의 형식 ( aaa.aaa@aaa.com)
+     *   userid : 영문+숫자+_, 첫 글자는 영문, 소문자
+     *   alpha : 영문값만 허용
+     *   number : 숫자만 허용
+     *   equalto = target , 현재 폼과 지정 target의 값이 동일해야 함
+     * 
+     * - parameter - param
+     *   name = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성
+     *   target = target_name : target form element의 값을 가져옴
+     * 
+     * - response
+     *   tag = key : return받을 결과값의 변수명
      **/
 
     class XmlJsFilter extends XmlParser {

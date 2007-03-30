@@ -2,7 +2,7 @@
     /**
     * @class ModuleObject
     * @author zero (zero@nzeo.com)
-    * @brief module의 abstract class
+    * @brief module의 상위 클래스
     **/
 
     class ModuleObject extends Object {

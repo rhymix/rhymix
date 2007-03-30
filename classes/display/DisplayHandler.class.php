@@ -4,10 +4,10 @@
     * @author zero (zero@nzeo.com)
     * @brief 데이터 출력을 위한 class (XML/HTML 데이터를 구분하여 출력)
     *
-    * Request Method에 따라서 html or xml 출력방법을 결정한다\n
-    * xml : oModule의 variables를 simple xml 로 출력\n
-    * html : oModule의 template/variables로 html을 만들고 contents_html로 처리\n
-    *        plugin이나 layout의 html과 연동하여 출력\n
+    * Response Method에 따라서 html or xml 출력방법을 결정한다
+    * xml : oModule의 variables를 simple xml 로 출력
+    * html : oModule의 template/variables로 html을 만들고 contents_html로 처리
+    *        plugin이나 layout의 html과 연동하여 출력
     **/
 
     class DisplayHandler extends Handler {

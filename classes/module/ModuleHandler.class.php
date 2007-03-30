@@ -8,6 +8,7 @@
     * constructor에 아무 인자 없이 객체를 생성하면 현재 요청받은 
     * 상태를 바탕으로 적절한 모듈을 찾게 되고,
     * 별도의 인자 값을 줄 경우 그에 맞는 모듈을 찾아서 실행한다.
+    * 만약 찾아진 모듈의 요청된 act 가 없으면 action_foward를 참조하여 다른 모듈의 act를 실행한다.
     **/
 
     class ModuleHandler extends Handler {

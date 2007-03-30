@@ -1,12 +1,12 @@
 <?php
     /**
-    * @class XmlQueryParser
-    * @author zero (zero@nzeo.com)
-    * @brief query xml을 파싱하여 결과를 return
-    * @version 0.1
-    *
-    * @todo subquery나 union등의 확장 쿼리에 대한 지원이 필요
-    **/
+     * @class XmlQueryParser
+     * @author zero (zero@nzeo.com)
+     * @brief query xml을 파싱하여 캐싱을 한 후 결과를 return
+     * @version 0.1
+     *
+     * @todo subquery나 union등의 확장 쿼리에 대한 지원이 필요
+     **/
 
     class XmlQueryParser extends XmlParser {
 
@@ -25,7 +25,7 @@
         );
 
         /**
-         * @brief 쿼리 파일을 찾아서 파싱하고 cacheing한다
+         * @brief 쿼리 파일을 찾아서 파싱하고 캐싱한다
          **/
         function parse($query_id, $xml_file, $cache_file) {
             // query xml 파일을 찾아서 파싱, 결과가 없으면 return

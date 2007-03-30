@@ -1,9 +1,9 @@
 <?php
     /**
-    * @class PluginHandler
-    * @author zero (zero@nzeo.com)
-    * @brief addon을 호출하여 실행
-    **/
+     * @class PluginHandler
+     * @author zero (zero@nzeo.com)
+     * @brief 플러그인의 실행을 담당
+     **/
 
     class PluginHandler {
 
@@ -49,5 +49,4 @@
         }
 
     }
-
 ?>

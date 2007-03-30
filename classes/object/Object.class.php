@@ -4,8 +4,7 @@
      * @author zero (zero@nzeo.com)
      * @brief 모듈간의 데이터를 주고 받기 위한 클래스
      *
-     * Model, Controller, View로 이루어지는 모듈은\n
-     * Object class를 상속받는다.
+     * 모든 모듈은 Object를 상속하며 Object의 error, message, variables 를 이용하여 통신을 하게 된다
      **/
 
     class Object {

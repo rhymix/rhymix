@@ -4,10 +4,10 @@
     * @author zero (zero@nzeo.com)
     * @brief  Request Argument/환경변수등의 모든 Context를 관리
     *
-    * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서\n
-    * 호출하는 구조를 위해 이중 method 구조를 가지고 있다.\n
-    * php5에서 static variables를 사용하게 된다면 불필요한 구조를 제거할 수 있다.\n
-    * php5 쓰고 싶어라.. ㅡ.ㅜ
+    * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서
+    * 호출하는 구조를 위해 이중 method 구조를 가지고 있다.
+    * php5에서 static variables를 사용하게 된다면 불필요한 구조를 제거할 수 있다.
+    * php5 쓰고 싶당.. ㅡ.ㅜ
     **/
 
     class Context {

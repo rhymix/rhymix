@@ -1,13 +1,12 @@
 <?php
     /**
-    * @class TemplateHandler
-    * @author zero (zero@nzeo.com)
-    * @brief 템플릿 컴파일러
-    * @version 0.1
-    *
-    * 정규표현식을 이용하여 템플릿 파일을 컴파일하여 php코드로 변경하고\n
-    * 이 파일을 caching하여 사용할 수 있도록 하는 템플릿 컴파일러\n
-    **/
+     * @class TemplateHandler
+     * @author zero (zero@nzeo.com)
+     * @brief 템플릿 컴파일러
+     * @version 0.1
+     *
+     * 정규표현식을 이용하여 템플릿 파일을 컴파일하여 php코드로 변경하고 이 파일을 caching하여 사용할 수 있도록 하는 템플릿 컴파일러
+     **/
 
     class TemplateHandler extends Handler {
 
