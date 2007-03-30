@@ -2,7 +2,7 @@
 <module>
     <grants />
     <actions>
-        <action name="dispList" type="view" admin_index="true" standalone="true" />
-        <action name="procDeleteChecked" type="controller" standalone="true" />
+        <action name="dispCommentAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" />
     </actions>
 </module>

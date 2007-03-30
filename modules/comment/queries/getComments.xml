@@ -1,11 +1,11 @@
 <query id="getComments" action="select">
-  <tables>
-    <table name="comments" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <conditions>
-    <condition operation="in" column="comment_srl" var="comment_srls" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="comment_srl" var="comment_srls" notnull="notnull" />
+    </conditions>
 </query>
