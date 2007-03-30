@@ -1,6 +1,6 @@
 <filter name="logout" module="board" act="procMemberLogout">
     <form />
-    <response>
+    <response callback_func="completeLogout">
         <tag name="error" />
         <tag name="message" />
     </response>

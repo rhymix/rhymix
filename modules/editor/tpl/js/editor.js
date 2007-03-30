@@ -146,7 +146,7 @@ function _editorAutoSave() {
             xGetElementById("editor_autosaved_message").style.display = "block";
             setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 3000);
             show_waiting_message = false;
-            exec_xml("editor","procSaveDoc", params, _editorAutoSaved);
+            exec_xml("editor","procEditorSaveDoc", params, _editorAutoSaved);
             show_waiting_message = true;
             return;
         }

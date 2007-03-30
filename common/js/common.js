@@ -21,6 +21,29 @@ String.prototype.getQuery = function(key) {
 }
 
 /**
+ * @brief location.href에서 특정 key의 값을 return
+ **/
+String.prototype.setQuery = function(key, val) {
+    var href = location.href;
+    var idx = href.indexOf('?');
+    if(idx == -1) return;
+    var uri = href.substr(0, idx);
+    var query_string = href.substr(idx+1, href.length);
+    var args = {}
+    query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+
+    args[key] = val;
+
+    var q_list = new Array();
+    for(var i in args) {
+        if(!args[i].trim()) continue;
+        q_list[q_list.length] = i+'='+args[i];
+    }
+
+    return uri+'?'+q_list.join('&');
+}
+
+/**
  * @brief string prototype으로 trim 함수 추가
  **/
 String.prototype.trim = function() {

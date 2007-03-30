@@ -17,3 +17,13 @@ function completeInsert(ret_obj, response_tags, args, fo_obj) {
     if(url.length>0) location.href="./?"+url.join("&");
     else location.href="./";
 }
+
+/* 로그인 후 */
+function completeLogin(ret_obj) {
+    location.href = location.href.setQuery('act','');
+}
+
+/* 로그아웃 후 */
+function completeLogout(ret_obj) {
+    location.href = location.href.setQuery('act','');
+}

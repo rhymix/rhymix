@@ -59,7 +59,7 @@ function editor_upload_form_set(upload_target_srl) {
     var document_srl = "";
     if(fo_obj["document_srl"]) document_srl = fo_obj.document_srl.value;
 
-    var url = "./?act=procFileDeleteFile&upload_target_srl="+upload_target_srl;
+    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl;
     if(module) url+="&module="+module;
     if(mid) url+="&mid="+mid;
     if(document_srl) url+="&document_srl="+document_srl;
@@ -159,7 +159,7 @@ function editor_remove_file(upload_target_srl) {
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
     var upload_target_srl = fo_obj.upload_target_srl.value;
-    var url = "./?mid="+mid+"&act=procFileDeleteFile&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
+    var url = "./?mid="+mid+"&act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -199,16 +199,4 @@ function editor_insert_file(upload_target_srl) {
         var url = "./?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
         openComponent("url_link", upload_target_srl, url);
     } 
-}
-
-/**
- * 글을 쓰다가 페이지 이동시 첨부파일에 대한 정리
- **/
-function editorRemoveAttachFiles(mid, upload_target_srl) {
-    var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
-    if(obj.options.length<1) return;
-
-    var params = new Array();
-    params['upload_target_srl'] = upload_target_srl;
-    exec_xml(mid, 'procClearFile', params, null, null, null);
 }

@@ -103,6 +103,11 @@
             // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
+            // 미설치시에는 act값을 강제로 변경
+            if($this->module=="install") {
+                if(!$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
+            } 
+
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
             if(!$this->act) $this->act = $xml_info->default_index_act;
 
@@ -117,6 +122,7 @@
                 $this->error = 'msg_module_is_not_standalone';
                 return;
             }
+
 
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
