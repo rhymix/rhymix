@@ -13,9 +13,9 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('message', 'view', 'dispMessage');
-            $oModuleController->insertActionFoward('message', 'view', 'dispMessageAdminConfig');
-            $oModuleController->insertActionFoward('message', 'controller', 'procMessageAdminInsertConfig');
+            $oModuleController->insertActionForward('message', 'view', 'dispMessage');
+            $oModuleController->insertActionForward('message', 'view', 'dispMessageAdminConfig');
+            $oModuleController->insertActionForward('message', 'controller', 'procMessageAdminInsertConfig');
 
             return new Object();
         }

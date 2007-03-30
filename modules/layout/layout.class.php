@@ -13,22 +13,22 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('layout', 'view', 'dispLayoutAdminContent');
-            $oModuleController->insertActionFoward('layout', 'view', 'dispLayoutAdminInsertLayout');
-            $oModuleController->insertActionFoward('layout', 'view', 'dispLayoutAdminMenu');
-            $oModuleController->insertActionFoward('layout', 'view', 'dispLayoutAdminDownloadedLayoutList');
-            $oModuleController->insertActionFoward('layout', 'view', 'dispLayoutAdminAdminInfo');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminContent');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsertLayout');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminMenu');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedLayoutList');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminAdminInfo');
             
-            $oModuleController->insertActionFoward('layout', 'model', 'getLayoutAdminMenuSrl');
-            $oModuleController->insertActionFoward('layout', 'model', 'getLayoutAdminMenuTplInfo');
+            $oModuleController->insertActionForward('layout', 'model', 'getLayoutAdminMenuSrl');
+            $oModuleController->insertActionForward('layout', 'model', 'getLayoutAdminMenuTplInfo');
 
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminInsert');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminUpdate');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminDelete');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminInsertMenu');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminDeleteMenu');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminMakeXmlFile');
-            $oModuleController->insertActionFoward('layout', 'controller', 'procLayoutAdminMoveMenu');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminInsert');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminUpdate');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminDelete');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminInsertMenu');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminDeleteMenu');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminMakeXmlFile');
+            $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminMoveMenu');
 
             // 레이아웃에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/layout');

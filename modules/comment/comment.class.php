@@ -13,8 +13,8 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('comment', 'view', 'dispCommentAdminList');
-            $oModuleController->insertActionFoward('comment', 'controller', 'procCommentAdminDeleteChecked');
+            $oModuleController->insertActionForward('comment', 'view', 'dispCommentAdminList');
+            $oModuleController->insertActionForward('comment', 'controller', 'procCommentAdminDeleteChecked');
 
             return new Object();
         }

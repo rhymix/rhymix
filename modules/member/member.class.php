@@ -13,32 +13,32 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberInfo');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminList');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminConfig');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminInsert');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminDeleteForm');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminGroupList');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminJoinFormList');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminInfo');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminInsertJoinForm');
-            $oModuleController->insertActionFoward('member', 'view', 'dispMemberAdminDeniedIDList');
-            $oModuleController->insertActionFoward('member', 'model', 'getmemberMenu');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberLogin');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberLogout');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberInsertImageName');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberInsertImageMark');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberDeleteImageName');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberDeleteImageMark');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminInsert');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminDelete');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminInsertConfig');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminInsertGroup');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminUpdateGroup');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminInsertJoinForm');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminUpdateJoinForm');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminInsertDeniedID');
-            $oModuleController->insertActionFoward('member', 'controller', 'procMemberAdminUpdateDeniedID');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberInfo');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminConfig');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInsert');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminDeleteForm');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminGroupList');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminJoinFormList');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInfo');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInsertJoinForm');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminDeniedIDList');
+            $oModuleController->insertActionForward('member', 'model', 'getmemberMenu');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberLogin');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberLogout');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageName');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageMark');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsert');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminDelete');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertConfig');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertGroup');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateGroup');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertJoinForm');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateJoinForm');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertDeniedID');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateDeniedID');
 
             // 멤버 컨트롤러 객체 생성
             $oMemberController = &getController('member');

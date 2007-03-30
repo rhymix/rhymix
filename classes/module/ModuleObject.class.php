@@ -163,7 +163,7 @@
             $oMessageView = &getView('message');
             $oMessageView->setError(-1);
             $oMessageView->setMessage($msg_code);
-            $oMessageView->dispContent();
+            $oMessageView->dispMessageContent();
 
             $this->setTemplatePath($oMessageView->getTemplatePath());
             $this->setTemplateFile($oMessageView->getTemplateFile());
@@ -240,15 +240,23 @@
             // stop_proc==true이면 그냥 패스
             if($this->stop_proc==true) return false;
 
-            // 기본 act조차 없으면 return
-            if(!method_exists($this, $this->act)) return false;
-
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
             @include("./files/cache/activated_addons.cache.php");
 
-            // this->act값으로 method 실행
-            if(!$this->stop_proc) $output = call_user_method($this->act, $this);
+            // 지금까지 이상이 없었다면 action 실행
+            if(!$this->stop_proc) {
+                // 현재 모듈에 act값이 있으면 해당 act를 실행
+                if(method_exists($this, $this->act)) {
+                    $output = call_user_method($this->act, $this);
+
+                // act가 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
+                } else if(Context::isInstalled()) {
+                    
+                } else {
+                    return false;
+                }
+            }
 
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';

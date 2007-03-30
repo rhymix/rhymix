@@ -13,12 +13,12 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminContent');
-            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminList');
-            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminCategory');
-            $oModuleController->insertActionFoward('module', 'view', 'dispModuleAdminInfo');
-            $oModuleController->insertActionFoward('module', 'controller', 'procModuleAdminInsertCategory');
-            $oModuleController->insertActionFoward('module', 'controller', 'procModuleAdminUpdateCategory');
+            $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminContent');
+            $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminList');
+            $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminCategory');
+            $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminInfo');
+            $oModuleController->insertActionForward('module', 'controller', 'procModuleAdminInsertCategory');
+            $oModuleController->insertActionForward('module', 'controller', 'procModuleAdminUpdateCategory');
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');

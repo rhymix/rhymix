@@ -13,14 +13,14 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('spamfilter', 'view', 'dispSpamfilterAdminConfig');
-            $oModuleController->insertActionFoward('spamfilter', 'view', 'dispSpamfilterAdminDeniedIPList');
-            $oModuleController->insertActionFoward('spamfilter', 'view', 'dispSpamfilterAdminDeniedWordList');
-            $oModuleController->insertActionFoward('spamfilter', 'controller', 'procSpamfilterAdminInsertConfig');
-            $oModuleController->insertActionFoward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedIP');
-            $oModuleController->insertActionFoward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedIP');
-            $oModuleController->insertActionFoward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedWord');
-            $oModuleController->insertActionFoward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedWord');
+            $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminConfig');
+            $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminDeniedIPList');
+            $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminDeniedWordList');
+            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertConfig');
+            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedIP');
+            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedIP');
+            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedWord');
+            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedWord');
 
             return new Object();
         }

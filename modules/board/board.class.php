@@ -22,20 +22,20 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminContent');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminModuleConfig');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminBoardInfo');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminInsertBoard');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminDeleteBoard');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminSkinInfo');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminCategoryInfo');
-            $oModuleController->insertActionFoward('board', 'view', 'dispBoardAdminGrantInfo');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminInsertGrant');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminUpdateSkinInfo');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminDeleteBoard');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminInsertCategory');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminUpdateCategory');
-            $oModuleController->insertActionFoward('board', 'view', 'procBoardAdminInsertConfig');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminContent');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminModuleConfig');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminBoardInfo');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminInsertBoard');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminDeleteBoard');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminSkinInfo');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminCategoryInfo');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminGrantInfo');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminInsertGrant');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminUpdateSkinInfo');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminDeleteBoard');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminInsertCategory');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminUpdateCategory');
+            $oModuleController->insertActionForward('board', 'view', 'procBoardAdminInsertConfig');
 
             return new Object();
         }

@@ -13,12 +13,12 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('editor', 'view', 'dispEditorAdminIndex');
-            $oModuleController->insertActionFoward('editor', 'view', 'dispEditorAdminSetupComponent');
-            $oModuleController->insertActionFoward('editor', 'controller', 'procEditorAdminEnableComponent');
-            $oModuleController->insertActionFoward('editor', 'controller', 'procEditorAdminDisableComponent');
-            $oModuleController->insertActionFoward('editor', 'controller', 'procEditorAdminMoveListOrder');
-            $oModuleController->insertActionFoward('editor', 'controller', 'procEditorAdminSetupComponent');
+            $oModuleController->insertActionForward('editor', 'view', 'dispEditorAdminIndex');
+            $oModuleController->insertActionForward('editor', 'view', 'dispEditorAdminSetupComponent');
+            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminEnableComponent');
+            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminDisableComponent');
+            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminMoveListOrder');
+            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminSetupComponent');
 
             // 기본 에디터 컴포넌트를 추가
             $oEditorController = &getController('editor');

@@ -13,8 +13,8 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('trackback', 'view', 'dispTrackbackAdminList');
-            $oModuleController->insertActionFoward('trackback', 'controller', 'procTrackbackAdminDeleteChecked');
+            $oModuleController->insertActionForward('trackback', 'view', 'dispTrackbackAdminList');
+            $oModuleController->insertActionForward('trackback', 'controller', 'procTrackbackAdminDeleteChecked');
 
             return new Object();
         }

@@ -13,9 +13,9 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('file', 'view', 'dispFileAdminList');
-            $oModuleController->insertActionFoward('file', 'controller', 'dispFileDownload');
-            $oModuleController->insertActionFoward('file', 'controller', 'dispFileAdminDeleteChecked');
+            $oModuleController->insertActionForward('file', 'view', 'dispFileAdminList');
+            $oModuleController->insertActionForward('file', 'controller', 'dispFileDownload');
+            $oModuleController->insertActionForward('file', 'controller', 'dispFileAdminDeleteChecked');
 
             // file 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/attach/images');

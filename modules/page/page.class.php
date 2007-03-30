@@ -13,15 +13,15 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageIndex');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageAdminContent');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageAdminModuleConfig');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageAdminInfo');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageAdminInsert');
-            $oModuleController->insertActionFoward('page', 'view', 'dispPageAdminDelete');
-            $oModuleController->insertActionFoward('page', 'controller', 'procPageAdminInsert');
-            $oModuleController->insertActionFoward('page', 'controller', 'procPageAdminDelete');
-            $oModuleController->insertActionFoward('page', 'controller', 'procPageAdminInsertConfig');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageIndex');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContent');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminModuleConfig');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
+            $oModuleController->insertActionForward('page', 'controller', 'procPageAdminInsert');
+            $oModuleController->insertActionForward('page', 'controller', 'procPageAdminDelete');
+            $oModuleController->insertActionForward('page', 'controller', 'procPageAdminInsertConfig');
 
             // page 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/cache/page');
