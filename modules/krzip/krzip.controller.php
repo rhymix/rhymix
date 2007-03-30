@@ -16,7 +16,7 @@
         /**
          * @brief 설정
          **/
-        function procInsertConfig() {
+        function procKrzipAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('krzip_server_hostname','krzip_server_port','krzip_server_query');
             if(!$args->krzip_server_hostname) $args->krzip_server_hostname = $this->hostname;

@@ -1,46 +1,50 @@
 <table border="1">
 <tr>
-  <td colspan="2">{$lang->introduce_title}</td>
+    <td colspan="2">{$lang->introduce_title}</td>
 </tr>
 <tr>
-  <td>
-    {nl2br($lang->introduce)}
-  </td>
+    <td>
+        {nl2br($lang->introduce)}
+    </td>
 </tr>
 </table>
 
 <table border="1">
 <tr>
-  <td colspan="2">{$lang->install_condition_title}</td>
+    <td colspan="2">{$lang->install_condition_title}</td>
 </tr>
+
 <!--@foreach($checklist as $key => $val)-->
 <tr>
-  <td rowspan="2">{$lang->install_checklist_title[$key]}</td>
-  <td><!--@if($val)-->{$lang->enable}<!--@else-->{$lang->disable}<!--@end--></td>
+    <td rowspan="2">{$lang->install_checklist_title[$key]}</td>
+    <td><!--@if($val)-->{$lang->enable}<!--@else-->{$lang->disable}<!--@end--></td>
 </tr>
 <tr>
-  <td>{$lang->install_checklist_desc[$key]}</td>
+    <td>{$lang->install_checklist_desc[$key]}</td>
 </tr>
 <!--@end-->
+
 </table>
 
 <!--@if($install_enable)-->
 <form method="get" action="./">
-<input type="hidden" name="act" value="dispInstallForm" />
-<table border="1">
-<tr>
-  <td>{$lang->db_type}</td>
-  <td>
-    <select name="db_type">
-      <!--@foreach(DB::getSupportedList() as $_key => $_db_name)-->
-      <option value="{$_db_name}">{$_db_name}</option>
-      <!--@end-->
-    </select>
-  </td>
-  <td><input type="submit" value="{$lang->cmd_install_next}" /></td>
+    <input type="hidden" name="act" value="dispInstallForm" />
+    <table border="1">
+    <tr>
+        <td>{$lang->db_type}</td>
+        <td>
+            <select name="db_type">
+                <!--@foreach(DB::getSupportedList() as $_key => $_db_name)-->
+                <option value="{$_db_name}">{$_db_name}</option>
+                <!--@end-->
+            </select>
+        </td>
+    <td><input type="submit" value="{$lang->cmd_install_next}" /></td>
 </tr>
 </table>
 </form>
+
 <!--@else-->
 <a href="./">{$lang->cmd_install_fix_checklist}</a>
+
 <!--@end-->

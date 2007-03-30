@@ -17,7 +17,7 @@
          * @brief 우편 번호 검색
          * 동이름을 입력받아서 지정된 서버에 우편번호 목록을 요청한다
          **/
-        function getZipCodeList() {
+        function getKrzipCodeList() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('krzip');

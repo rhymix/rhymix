@@ -17,6 +17,37 @@
         }
 
         /**
+         * @brief 입력받은 정보로 설치를 함
+         **/
+        function procInstall() {
+            // 설치가 되어 있는지에 대한 체크
+            if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
+
+            // DB와 관련된 변수를 받음
+            $db_info = Context::gets('db_type','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+
+            // DB의 타입과 정보를 등록
+            Context::setDBInfo($db_info);
+
+            // DB Instance 생성
+            $oDB = &DB::getInstance();
+
+            // DB접속이 가능한지 체크
+            if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
+
+            // 모든 모듈의 설치
+            $output = $this->installDownloadedModule();
+            if(!$output->toBool()) return $output;
+
+            // config 파일 생성
+            if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
+
+            // 설치 완료 메세지 출력
+            $this->setMessage('msg_install_completed');
+            $this->setRedirectUrl('./');
+        }
+
+        /**
          * @brief 인스톨 환경을 체크하여 결과 return 
          **/
         function checkInstallEnv() {
@@ -55,38 +86,6 @@
             Context::set('install_enable', $install_enable);
 
             return $install_enable;
-        }
-
-
-        /**
-         * @brief 입력받은 정보로 설치를 함
-         **/
-        function procInstall() {
-            // 설치가 되어 있는지에 대한 체크
-            if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
-
-            // DB와 관련된 변수를 받음
-            $db_info = Context::gets('db_type','db_hostname','db_userid','db_password','db_database','db_table_prefix');
-
-            // DB의 타입과 정보를 등록
-            Context::setDBInfo($db_info);
-
-            // DB Instance 생성
-            $oDB = &DB::getInstance();
-
-            // DB접속이 가능한지 체크
-            if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
-
-            // 모든 모듈의 설치
-            $output = $this->installDownloadedModule();
-            if(!$output->toBool()) return $output;
-
-            // config 파일 생성
-            if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
-
-            // 설치 완료 메세지 출력
-            $this->setMessage('msg_install_completed');
-            $this->setRedirectUrl('./');
         }
 
         /**

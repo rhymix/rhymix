@@ -30,7 +30,7 @@
         /**
          * @brief license 및 설치 환경에 대한 메세지 보여줌
          **/
-        function dispIntroduce() {
+        function dispInstallIntroduce() {
             $this->setTemplateFile('introduce');
         }
 

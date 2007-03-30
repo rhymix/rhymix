@@ -2,8 +2,8 @@
 <module>
     <grants />
     <actions>
-        <action name="dispConfig" type="view" admin_index="true" standalone="true" />
-        <action name="procInsertConfig" type="controller" standalone="true" />
-        <action name="getZipCodeList" type="model" index="true" standalone="true" />
+        <action name="dispKrzipAdminConfig" type="view" admin_index="true" standalone="true" />
+        <action name="procKrzipAdminInsertConfig" type="controller" standalone="true" />
+        <action name="getKrzipCodeList" type="model" index="true" standalone="true" />
     </actions>
 </module>
