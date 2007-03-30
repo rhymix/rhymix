@@ -17,17 +17,19 @@
     }
 
     /**
-     * @brief ModuleHandler::getModuleObject($module_name, $act_type)을 쓰기 쉽게 함수로 선언
+     * @brief ModuleHandler::getModuleObject($module_name, $type)을 쓰기 쉽게 함수로 선언
      * @param module_name 모듈이름
-     * @param act_type disp, proc, lib(기본), admin
+     * @param type disp, proc, controller, class
      * @return module instance
      **/
-    function getModule($module_name, $act_type = 'view') {
-        return ModuleHandler::getModuleInstance($module_name, $act_type);
+    function getModule($module_name, $type = 'view') {
+        return ModuleHandler::getModuleInstance($module_name, $type);
     }
 
     /**
      * @brief module의 controller 객체 생성용
+     * @param module_name 모듈이름
+     * @return module controller instance
      **/
     function &getController($module_name) {
         return getModule($module_name, 'controller'); 
@@ -35,6 +37,8 @@
 
     /**
      * @brief module의 view 객체 생성용
+     * @param module_name 모듈이름
+     * @return module view instance
      **/
     function &getView($module_name) {
         return getModule($module_name, 'view'); 
@@ -42,6 +46,8 @@
 
     /**
      * @brief module의 model 객체 생성용
+     * @param module_name 모듈이름
+     * @return module model instance
      **/
     function &getModel($module_name) {
         return getModule($module_name, 'model'); 
@@ -49,6 +55,8 @@
 
     /**
      * @brief module의 상위 class 객체 생성용
+     * @param module_name 모듈이름
+     * @return module class instance
      **/
     function &getClass($module_name) {
         return getModule($module_name, 'class'); 
@@ -56,6 +64,9 @@
 
     /**
      * @brief DB::executeQuery() 의 alias
+     * @param query_id 쿼리 ID ( 모듈명.쿼리XML파일 )
+     * @param args object 변수로 선언된 인자값
+     * @return 처리결과
      **/
     function executeQuery($query_id, $args) {
         $oDB = &DB::getInstance();
@@ -64,13 +75,13 @@
 
     /**
      * @brief Context::getUrl($args_list)를 쓰기 쉽게 함수로 선언
-     * @param args_list 제한없는 args
      * @return string
      *
      * getUrl()은 현재 요청된 RequestURI에 주어진 인자의 값으로 변형하여 url을 리턴한다\n
-     * 인자는 (key, value)... 의 형식으로 주어져야 한다.\n
-     * ex) getUrl('key1','val1', 'key2', '') : key1, key2를 val1과 '' 로 변형\n
-     * 아무런 인자가 없으면 argument를 제외한 url을 리턴
+     * 1. 인자는 (key, value)... 의 형식으로 주어져야 한다.\n
+     *    ex) getUrl('key1','val1', 'key2', '') : key1, key2를 val1과 '' 로 변형\n
+     * 2. 아무런 인자가 없으면 argument를 제외한 url을 리턴
+     * 3. 첫 인자값이 '' 이면 RequestUri에다가 추가된 args_list로 url을 만듬
      **/
     function getUrl() {
         $num_args = func_num_args();
@@ -187,7 +198,11 @@
 
     /**
      * @brief 주어진 숫자를 주어진 크기로 recursive하게 잘라줌
-     * 디렉토리 생성을 위해서 쓰임...
+     * @param no 주어진 숫자
+     * @param size 잘라낼 크기
+     *
+     * ex) 12, 3 => 012/
+     * ex) 1234, 3 => 123/004/
      **/
     function getNumberingPath($no, $size=3) {
         $mod = pow(10,$size);
