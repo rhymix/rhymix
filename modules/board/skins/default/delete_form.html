@@ -2,24 +2,25 @@
 <!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_document)">
-<input type="hidden" name="mid" value="{$mid}" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="document_srl" value="{$document_srl}" />
-  <table>
-  <tr>
-    <th colspan="2">{$lang->confirm_delete}</th>
-  </tr>
-  <tr>
-    <th>{$lang->title}</th>
-    <td>{$document->title}</td>
-  </tr>
-  <tr>
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+
+    <table>
+    <tr>
+        <th colspan="2">{$lang->confirm_delete}</th>
+    </tr>
+    <tr>
+        <th>{$lang->title}</th>
+        <td>{$document->title}</td>
+    </tr>
+    <tr>
     <td colspan="2">
-      <input type="submit" value="{$lang->cmd_delete}" />
-      <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" />
+        <input type="submit" value="{$lang->cmd_delete}" />
+        <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" />
     </td>
-  </tr>
-  </table>
+    </tr>
+    </table>
 
 </form>
 

@@ -2,31 +2,32 @@
 <!--%import("js/admin.js")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_board)">
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-  <table>
-  <tr>
-    <th colspan="2">{$lang->confirm_delete}</th>
-  </tr>
-  <tr>
-    <th>{$lang->module_name}</th>
-    <td>{$module_info->mid}</td>
-  </tr>
-  <tr>
-    <th>{$lang->module}</th>
-    <td>{$module_info->module}</td>
-  </tr>
-  <tr>
-    <th>{$lang->document_count}</th>
-    <td>{$module_info->document_count}</td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="submit" value="{$lang->cmd_delete}" />
-      <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispAdminContent')}'" />
-    </td>
-  </tr>
-  </table>
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+
+    <table>
+    <tr>
+        <th colspan="2">{$lang->confirm_delete}</th>
+    </tr>
+    <tr>
+        <th>{$lang->module_name}</th>
+        <td>{$module_info->mid}</td>
+    </tr>
+    <tr>
+        <th>{$lang->module}</th>
+        <td>{$module_info->module}</td>
+    </tr>
+    <tr>
+        <th>{$lang->document_count}</th>
+        <td>{$module_info->document_count}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="{$lang->cmd_delete}" />
+            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispBoardAdminContent')}'" />
+        </td>
+    </tr>
+    </table>
 
 </form>
 

@@ -1,11 +1,11 @@
-<filter name="update_category" module="board" act="procUpdateCategory">
-  <form>
-    <node target="category_srl" required="true" />
-    <node target="mode" required="true" />
-  </form>
-  <response callback_func="completeUpdateCategory">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="module_srl" />
-  </response>
+<filter name="update_category" module="board" act="procboardAdminUpdateCategory">
+    <form>
+        <node target="category_srl" required="true" />
+        <node target="mode" required="true" />
+    </form>
+    <response callback_func="completeUpdateCategory">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+    </response>
 </filter>

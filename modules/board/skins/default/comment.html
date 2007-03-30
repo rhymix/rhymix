@@ -1,64 +1,69 @@
 <!-- 댓글 정보 출력 -->
 <a name="comment_top_{$document_srl}"></a>
 <div>
-  {$lang->comment} : {count($document->comment_list)}
+    {$lang->comment} : {count($document->comment_list)}
 </div>
 
 <!-- 댓글 출력 -->
 <div>
-  <!-- 댓글 목록 -->
+    <!-- 댓글 목록 -->
 
-  <!--@if($document->comment_list)-->
-    <!--@foreach($document->comment_list as $key => $val)-->
-      <a name="comment_{$key}"></a>
-      <div style="margin-left:{$val->depth*15}px" >
-        <table border="1" width="100%">
-        <col width="120" />
-        <col width="*" />
-        <tr>
-          <th>{$lang->date}</th>
-          <td>{zdate($val->regdate, "Y-m-d H:i:s")}</td>
-        </tr>
-        <tr>
-          <th>{$lang->writer}</th>
-          <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        </tr>
-        <tr>
-          <th>{$lang->content}</th>
-          <td height="100" valign="top">{nl2br($val->content)}</td>
-        </tr>
-        <tr>
-          <th>ipaddress</th>
-          <td>{$val->ipaddress}</td>
-        </tr>
-        <!--@if($val->uploaded_count && $val->uploaded_list)-->
-        <tr>
-          <th>{$lang->uploaded_file}</th>
-          <td>
-            <!--@foreach($val->uploaded_list as $key => $file)-->
-              <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+    <!--@if($document->comment_list)-->
+
+        <!--@foreach($document->comment_list as $key => $val)-->
+        <a name="comment_{$key}"></a>
+        <div style="margin-left:{$val->depth*15}px" >
+            <table border="1" width="100%">
+            <col width="120" />
+            <col width="*" />
+            <tr>
+                <th>{$lang->date}</th>
+                <td>{zdate($val->regdate, "Y-m-d H:i:s")}</td>
+            </tr>
+            <tr>
+                <th>{$lang->writer}</th>
+                <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
+            </tr>
+            <tr>
+                <th>{$lang->content}</th>
+                <td height="100" valign="top">{nl2br($val->content)}</td>
+            </tr>
+            <tr>
+                <th>ipaddress</th>
+                <td>{$val->ipaddress}</td>
+            </tr>
+
+            <!--@if($val->uploaded_count && $val->uploaded_list)-->
+            <tr>
+                <th>{$lang->uploaded_file}</th>
+                <td>
+                    <!--@foreach($val->uploaded_list as $key => $file)-->
+                    <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+                    <!--@end-->
+                </td>
+            </tr>
             <!--@end-->
-          </td>
-        </tr>
+
+            <tr>
+                <td colspan="2">
+                    <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
+
+                    <!--@if($val->is_granted)-->
+                    <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
+                    <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
+                    <!--@end-->
+                </td>
+            </tr>
+            </table>
+        </div>
         <!--@end-->
-        <tr>
-          <td colspan="2">
-            <a href="{getUrl('act','dispReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
-            <!--@if($val->is_granted)-->
-            <a href="{getUrl('act','dispModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
-            <a href="{getUrl('act','dispDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
-            <!--@end-->
-          </td>
-        </tr>
-        </table>
-      </div>
 
     <!--@end-->
-  <!--@end-->
 
-  <!-- 댓글 입력 폼 -->
-  <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
-  <!--#include("./comment_form.html")-->
-  <!--@end-->
+    <!-- 댓글 입력 폼 -->
+
+    <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
+        <!--#include("./comment_form.html")-->
+    <!--@end-->
 
 </div>

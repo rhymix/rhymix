@@ -3,18 +3,19 @@
 <!--#include("./header.html")-->
 
 <!-- 카테고리 수정 -->
+
 <!--@if($selected_category)-->
 <form action="./" method="post" onsubmit="return procFilter(this, update_category)" enctype="multipart/form-data">
-<input type="hidden" name="module_srl" value="{$module_srl}" />
-<input type="hidden" name="category_srl" value="{$selected_category->category_srl}" />
-<input type="hidden" name="mode" value="update" />
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+    <input type="hidden" name="category_srl" value="{$selected_category->category_srl}" />
+    <input type="hidden" name="mode" value="update" />
 
-<div style="margin-bottom:30px">
-  {$lang->category_title} :
-  <input type="text" name="category_title" value="{$selected_category->title}" />
-  <input type="submit" value="{$lang->cmd_modify}" />
-  <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('category_srl','')}'" />
-</div>
+    <div style="margin-bottom:30px">
+          {$lang->category_title} :
+          <input type="text" name="category_title" value="{$selected_category->title}" />
+          <input type="submit" value="{$lang->cmd_modify}" />
+          <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('category_srl','')}'" />
+    </div>
 
 </form>
 <!--@end-->

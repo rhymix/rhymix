@@ -14,7 +14,7 @@ function completeInsertBoard(ret_obj) {
 
     alert(message);
 
-    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminBoardInfo";
+    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminBoardInfo";
     if(page) url += "&page="+page;
 
     location.href = url;
@@ -27,7 +27,7 @@ function completeDeleteBoard(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url =  "./?module=admin&mo=board&act=dispAdminContent";
+    var url =  "./?module=admin&mo=board&act=dispBoardAdminContent";
     if(page) url += "&page="+page;
 
     location.href = url;
@@ -52,7 +52,7 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminCategoryInfo";
+    var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminCategoryInfo";
     if(page) url += "&page="+page;
 
     location.href = url;
@@ -91,7 +91,7 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminGrantInfo";
+    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminGrantInfo";
     if(page) url += "&page="+page;
 
     location.href = url;
