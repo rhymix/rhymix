@@ -14,32 +14,9 @@
         }
         
         /**
-         * @brief 로그인
-         **/
-        function procLogin() {
-            // 아이디, 비밀번호를 받음
-            $user_id = Context::get('user_id');
-            $password = Context::get('password');
-
-            // member모듈 controller 객체 생성
-            $oMemberController = &getController('member');
-            $output = $oMemberController->procLogin($user_id, $password);
-            if(!$output->toBool()) return $output;
-        }
-
-        /**
-         * @brief 로그아웃
-         **/
-        function procLogout() {
-            // member모듈 controller 객체 생성
-            $oMemberController = &getController('member');
-            return $oMemberController->procLogout();
-        }
-
-        /**
          * @brief 문서 입력
          **/
-        function procInsertDocument() {
+        function procBoardInsertDocument() {
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
@@ -83,7 +60,7 @@
         /**
          * @brief 문서 삭제
          **/
-        function procDeleteDocument() {
+        function procBoardDeleteDocument() {
             // 문서 번호 확인
             $document_srl = Context::get('document_srl');
             if(!$document_srl) return $this->doError('msg_invalid_document');
@@ -103,7 +80,7 @@
         /**
          * @brief 추천
          **/
-        function procVoteDocument() {
+        function procBoardVoteDocument() {
             // document module controller 객체 생성
             $oDocumentController = &getController('document');
 
@@ -114,7 +91,7 @@
         /**
          * @brief 코멘트 추가
          **/
-        function procInsertComment() {
+        function procBoardInsertComment() {
             // 댓글 입력에 필요한 데이터 추출
             $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage');
             $obj->module_srl = $this->module_srl;
@@ -161,7 +138,7 @@
         /**
          * @brief 코멘트 삭제
          **/
-        function procDeleteComment() {
+        function procBoardDeleteComment() {
             // 댓글 번호 확인
             $comment_srl = Context::get('comment_srl');
             if(!$comment_srl) return $this->doError('msg_invalid_request');
@@ -182,7 +159,7 @@
         /**
          * @brief 엮인글 추가
          **/
-        function procReceiveTrackback() {
+        function procBoardReceiveTrackback() {
             $obj = Context::gets('document_srl','url','title','excerpt');
 
             // trackback module의 controller 객체 생성
@@ -193,7 +170,7 @@
         /**
          * @brief 엮인글 삭제
          **/
-        function procDeleteTrackback() {
+        function procBoardDeleteTrackback() {
             $trackback_srl = Context::get('trackback_srl');
 
             // trackback module의 controller 객체 생성
@@ -210,7 +187,7 @@
         /**
          * @brief 문서와 댓글의 비밀번호를 확인
          **/
-        function procVerificationPassword() {
+        function procBoardVerificationPassword() {
             // 비밀번호와 문서 번호를 받음
             $password = md5(Context::get('password'));
             $document_srl = Context::get('document_srl');
@@ -248,7 +225,7 @@
          * @brief 첨부파일 삭제
          * 에디터에서 개별 파일 삭제시 사용
          **/
-        function procDeleteFile() {
+        function procBoardDeleteFile() {
             // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
             $upload_target_srl = Context::get('upload_target_srl');
             $module_srl = $this->module_srl;
@@ -267,7 +244,7 @@
          *
          * editor에서는 upload_target_srl을 넘겨주고 게시판에서는 document_srl을 upload_target_srl로 설정해 놓은 상태이다.
          **/
-        function procUploadFile() {
+        function procBoardUploadFile() {
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!Context::isUploaded() || !$this->grant->fileupload) exit();
 
@@ -289,7 +266,7 @@
          * file_srl : 파일의 sequence\n
          * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음\n
          **/
-        function procDownloadFile() {
+        function procBoardDownloadFile() {
             // 다운로드에 필요한 변수 체크
             $file_srl = Context::get('file_srl');
             $sid = Context::get('sid');
@@ -302,7 +279,7 @@
         /**
          * @brief 권한 추가
          **/
-        function procInsertGrant() {
+        function procBoardAdminInsertGrant() {
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
@@ -326,7 +303,7 @@
         /**
          * @brief 스킨 정보 업데이트
          **/
-        function procUpdateSkinInfo() {
+        function procBoardAdminUpdateSkinInfo() {
             // module_srl에 해당하는 정보들을 가져오기
             $module_srl = Context::get('module_srl');
             $oModuleModel = &getModel('module');
@@ -410,7 +387,7 @@
         /**
          * @brief 게시판 추가
          **/
-        function procInsertBoard() {
+        function procBoardAdminInsertBoard() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $args = Context::gets('module_srl','layout_srl','module_category_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'board';
@@ -463,7 +440,7 @@
         /**
          * @brief 게시판 삭제
          **/
-        function procDeleteBoard() {
+        function procBoardAdminDeleteBoard() {
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
@@ -479,7 +456,7 @@
         /**
          * @brief 카테고리 추가
          **/
-        function procInsertCategory() {
+        function procBoardAdminInsertCategory() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $module_srl = Context::get('module_srl');
             $category_title = Context::get('category_title');
@@ -497,7 +474,7 @@
         /**
          * @brief 카테고리의 내용 수정
          **/
-        function procUpdateCategory() {
+        function procBoardAdminUpdateCategory() {
             $module_srl = Context::get('module_srl');
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
@@ -536,7 +513,7 @@
         /**
          * @brief 게시판 기본 정보의 추가
          **/
-        function procInsertConfig() {
+        function procBoardAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('test');
 

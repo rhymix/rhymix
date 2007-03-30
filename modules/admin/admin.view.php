@@ -32,75 +32,20 @@
             $oAdminModel = &getModel('admin');
             $shortcut_list = $oAdminModel->getShortCuts();
             Context::set('shortcut_list', $shortcut_list);
-
         }
 
         /**
          * @brief 관리자 메인 페이지 출력
          **/
-        function dispIndex() {
-            // mo(module), act 변수값이 넘어오면 해당 모듈을 실행
-            $mo = Context::get('mo');
-            $act = Context::get('act');
-
-            if($mo && $mo != 'admin' && $act) {
-                $oAdminController = &getController('admin');
-                $oModule = &$oAdminController->procOtherModule($mo, $act);
-            }
-
-            // 만약 oModule이 없으면 관리자 초기 페이지 출력
-            if(!$oModule || !is_object($oModule)) {
-                $this->setTemplateFile('index');
-
-            // oModule이 정상이라면 
-            } else {
-                // 모듈의 타이틀 값을 구해옴
-                $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoXml($mo);
-                Context::set('selected_module_info', $module_info);
-
-                // 해당 모듈의 template path, file을 가로챔
-                $this->setTemplatePath($oModule->getTemplatePath());
-                $this->setTemplateFile($oModule->getTemplateFile());
-            }
+        function dispAdminIndex() {
+            $this->setTemplateFile('index');
         }
 
         /**
          * @brief 관리자 메뉴 숏컷 출력
          **/
-        function dispShortCut() {
-
+        function dispAdminShortCut() {
             $this->setTemplateFile('shortcut_list');
-        }
-
-        /**
-         * @brief 관리자 로그인 페이지 출력
-         **/
-        function dispLogin() {
-            // 로그인 되어 있으면 메인 페이지 표시
-            if(Context::get('is_logged')) return $this->dispIndex();
-
-            // member모듈의 로그인 act를 이용
-            $oMemberView = &getView('member');
-            $oMemberView->dispLoginForm();
-
-            $this->setTemplatePath($oMemberView->getTemplatePath());
-            $this->setTemplateFile($oMemberView->getTemplateFile());
-        }
-
-        /**
-         * @brief 관리자 로그아웃 페이지 출력
-         **/
-        function dispLogout() {
-            // 로그인 되어 있지 않으면 메인 페이지 표시
-            if(!Context::get('is_logged')) return $this->dispIndex();
-
-            // member모듈의 로그아웃 act를 이용
-            $oMemberView = &getView('member');
-            $oMemberView->dispLogout();
-
-            $this->setTemplatePath($oMemberView->getTemplatePath());
-            $this->setTemplateFile($oMemberView->getTemplateFile());
         }
     }
 ?>

@@ -1,8 +1,8 @@
 <query id="deleteShortCut" action="delete">
-  <tables>
-    <table name="admin_shortcut" />
-  </tables>
-  <conditions>
-    <condition operation="equal" column="module" var="module" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="admin_shortcut" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module" var="module" notnull="notnull" />
+    </conditions>
 </query>

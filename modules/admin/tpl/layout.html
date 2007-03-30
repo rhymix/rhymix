@@ -2,31 +2,31 @@
 <!--%import("js/admin.js")-->
 
 <div id="admin_title">
-  <a href="./?module=admin">zeroboard XE</a>
+    <a href="./?module=admin">zeroboard XE</a>
 </div>
 
 <div id="admin_sub_menu">
-  <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
+    <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
 </div>
 
 <div id="admin_main_menu">
-  <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
-  <div>
-    <!--@foreach($shortcut_list as $key => $val)-->
-      <span <!--@if($mo==$val->module)-->class="selected"<!--@end-->>
-        <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->default_act,'mo',$val->module)}';return false;">{$val->title}</a>
-      </span>
-    <!--@end-->
-    [<a href="#" onclick="location.href='{getUrl('','module','admin','act','dispShortCut')}';return false;">{$lang->cmd_management}</a>]
-  </div>
+    <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
+    <div>
+        <!--@foreach($shortcut_list as $key => $val)-->
+        <span <!--@if($mo==$val->module)-->class="selected"<!--@end-->>
+            <a href="#" onclick="location.href='{getUrl('','module', $module, 'act',$val->default_act,'mo',$val->module)}';return false;">{$val->title}</a>
+        </span>
+        <!--@end-->
+        [<a href="#" onclick="location.href='{getUrl('','module','admin','act','dispAdminShortCut')}';return false;">{$lang->cmd_management}</a>]
+    </div>
 </div>
 
 <!--@if($selected_module_info)-->
 <div id="admin_module_info">
-  <a href="#" onclick="location.href='{getUrl('','module', $module, 'mo', $mo, 'act', $selected_module_info->admin_index_act)}';return false;">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
+    <a href="#" onclick="location.href='{getUrl('','module', $module, 'mo', $mo, 'act', $selected_module_info->admin_index_act)}';return false;">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
 </div>
 <!--@end-->
 
 <div id="admin_content">
-  {$content}
+    {$content}
 </div>

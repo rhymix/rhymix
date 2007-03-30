@@ -79,12 +79,12 @@
         /**
          * @brief 목록 및 선택된 글 출력
          **/
-        function dispContent() {
+        function dispBoardContent() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -158,12 +158,12 @@
         /**
          * @brief 글 작성 화면 출력
          **/
-        function dispWrite() {
+        function dispBoardWrite() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
 
             // GET parameter에서 document_srl을 가져옴
             $document_srl = Context::get('document_srl');
@@ -202,12 +202,12 @@
         /**
          * @brief 문서 삭제 화면 출력
          **/
-        function dispDelete() {
+        function dispBoardDelete() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->write_document) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
 
             // 삭제할 문서번호를 가져온다
             $document_srl = Context::get('document_srl');
@@ -219,7 +219,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$document) return $this->dispContent();
+            if(!$document) return $this->dispBoardContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
@@ -232,12 +232,12 @@
         /**
          * @brief 댓글의 답글 화면 출력
          **/
-        function dispReplyComment() {
+        function dispBoardReplyComment() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -251,7 +251,7 @@
             $source_comment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$source_comment) return $this->dispMessage('msg_invalid_request');
+            if(!$source_comment) return $this->dispBoardMessage('msg_invalid_request');
 
             // 필요한 정보들 세팅
             Context::set('document_srl',$document_srl);
@@ -268,12 +268,12 @@
         /**
          * @brief 댓글 수정 폼 출력
          **/
-        function dispModifyComment() {
+        function dispBoardModifyComment() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -287,7 +287,7 @@
             $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$comment) return $this->dispMessage('msg_invalid_request');
+            if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
@@ -306,12 +306,12 @@
         /**
          * @brief 댓글 삭제 화면 출력
          **/
-        function dispDeleteComment() {
+        function dispBoardDeleteComment() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
 
             // 삭제할 댓글번호를 가져온다
             $comment_srl = Context::get('comment_srl');
@@ -323,7 +323,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$comment) return $this->dispContent();
+            if(!$comment) return $this->dispBoardContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
@@ -336,7 +336,7 @@
         /**
          * @brief 엮인글 삭제 화면 출력
          **/
-        function dispDeleteTrackback() {
+        function dispBoardDeleteTrackback() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
@@ -349,69 +349,12 @@
             $trackback = $output->data;
 
             // 삭제하려는 글이 없으면 에러
-            if(!$trackback) return $this->dispContent();
+            if(!$trackback) return $this->dispBoardContent();
 
             Context::set('trackback',$trackback);
 
             $this->setTemplateFile('delete_trackback_form');
         }
-
-        /**
-         * @brief 회원가입폼 
-         **/
-        function dispSignUpForm() {
-            // 모듈 관련 정보 세팅
-            $this->initNormal();
-
-            // 이미 로그인되어 있으면 로그인 한 회원의 정보를 세팅하여 정보 수정을 시킴
-            if(Context::get('is_logged')) {
-                Context::set('member_info', Context::get('logged_info'));
-            }
-
-            // member view 객체 생성후 dispSignUpForm method호출후 템플릿 가로챔
-            $oMemberView = &getView('member');
-            $oMemberView->dispSignUpForm();
-
-            $this->setTemplatePath($oMemberView->getTemplatePath());
-            $this->setTemplateFile($oMemberView->getTemplateFile());
-        }
-
-        /**
-         * @brief 로그인 폼 출력
-         **/
-        function dispLogin() {
-            // 모듈 관련 정보 세팅
-            $this->initNormal();
-
-            // 로그인 되어 있으면 무시
-            if(Context::get('is_logged')) return $this->dispContent();
-
-            // member모듈의 로그인 act를 이용
-            $oMemberView = &getView('member');
-            $oMemberView->dispLoginForm();
-
-            $this->setTemplatePath($oMemberView->getTemplatePath());
-            $this->setTemplateFile($oMemberView->getTemplateFile());
-        }
-
-        /**
-         * @brief 로그아웃 화면 출력
-         **/
-        function dispLogout() {
-            // 모듈 관련 정보 세팅
-            $this->initNormal();
-
-            // 로그인 되어 있으면 무시 
-            if(!Context::get('is_logged')) return $this->dispContent();
-
-            // member모듈의 로그아웃 act를 이용
-            $oMemberView = &getView('member');
-            $oMemberView->dispLogout();
-
-            $this->setTemplatePath($oMemberView->getTemplatePath());
-            $this->setTemplateFile($oMemberView->getTemplateFile());
-        }
-
 
         /**
          * @brief 메세지 출력
@@ -429,12 +372,12 @@
         /**
          * @brief RSS 출력
          **/
-        function dispRss() {
+        function dispBoardRss() {
             // 모듈 관련 정보 세팅
             $this->initNormal();
 
             // 권한 체크
-            if(!$this->grant->list) return $this->dispMessage('msg_not_permitted');
+            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
             // 컨텐츠 추출
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
@@ -490,7 +433,7 @@
         /**
          * @brief 게시판 관리 목록 보여줌
          **/
-        function dispAdminContent() {
+        function dispBoardAdminContent() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -517,7 +460,7 @@
         /**
          * @brief 게시판에 필요한 기본 설정들
          **/
-        function dispAdminModuleConfig() {
+        function dispBoardAdminModuleConfig() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -534,7 +477,7 @@
         /**
          * @brief 선택된 게시판의 정보 출력
          **/
-        function dispAdminBoardInfo() {
+        function dispBoardAdminBoardInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -563,7 +506,7 @@
         /**
          * @brief 게시판 추가 폼 출력
          **/
-        function dispAdminInsertBoard() {
+        function dispBoardAdminInsertBoard() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -584,7 +527,7 @@
         /**
          * @brief 게시판 삭제 화면 출력
          **/
-        function dispAdminDeleteBoard() {
+        function dispBoardAdminDeleteBoard() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -605,7 +548,7 @@
         /**
          * @brief 스킨 정보 보여줌
          **/
-        function dispAdminSkinInfo() {
+        function dispBoardAdminSkinInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -634,7 +577,7 @@
         /**
          * @brief 카테고리의 정보 출력
          **/
-        function dispAdminCategoryInfo() {
+        function dispBoardAdminCategoryInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -668,7 +611,7 @@
         /**
          * @brief 권한 목록 출력
          **/
-        function dispAdminGrantInfo() {
+        function dispBoardAdminGrantInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 

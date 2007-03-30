@@ -1,9 +1,9 @@
-<filter name="delete_shortcut" module="admin" act="procDeleteShortCut" confirm_msg_code="confirm_delete">
-  <form>
-    <node target="selected_module" required="true" />
-  </form>
-  <response>
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+<filter name="delete_shortcut" module="admin" act="procAdminDeleteShortCut" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="selected_module" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
 </filter>

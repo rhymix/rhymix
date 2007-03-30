@@ -13,54 +13,11 @@
         }
 
         /**
-         * @brief admin 모듈내에서 다른 모듈을 실행하는 부분
-         **/
-        function procOtherModule($module, $act) {
-            $oModuleHandler = new ModuleHandler($module, $act);
-            $oModule = &$oModuleHandler->procModule();
-            return $oModule;
-        }
-
-        /**
-         * @brief 로그인 시킴
-         **/
-        function procLogin() {
-            // 아이디, 비밀번호를 받음
-            $user_id = Context::get('user_id');
-            $password = Context::get('password');
-
-            // member controller 객체 생성
-            $oMemberController = &getController('member');
-            return $oMemberController->procLogin($user_id, $password);
-        }
-
-        /**
-         * @brief 로그아웃 시킴
-         **/
-        function procLogout() {
-            // member controller 객체 생성
-            $oMemberController = &getController('member');
-            $output = $oMemberController->procLogout();
-            if(!$output->toBool()) return $output;
-
-            $this->setRedirectUrl('./?module=admin');
-        }
-
-        /**
          * @brief 숏컷 추가
          **/
-        function procInsertShortCut() {
+        function procAdminInsertShortCut() {
             $module = Context::get('selected_module');
-            $output = $this->insertShortCut($module);
-            if(!$output->toBool()) return $output;
 
-            $this->setMessage('success_registed');
-        }
-
-        /**
-         * @brief 숏컷을 추가하는 method
-         **/
-        function insertShortCut($module) {
             // 선택된 모듈의 정보중에서 admin_index act를 구함
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml($module);
@@ -72,14 +29,15 @@
 
             $oDB = &DB::getInstance();
             $output = $oDB->executeQuery('admin.insertShortCut', $args);
-            return $output;
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
         }
 
-
         /**
-         * @brief 숏컷의 내용 수정
+         * @brief 숏컷의 삭제
          **/
-        function procDeleteShortCut() {
+        function procAdminDeleteShortCut() {
 
             $oDB = &DB::getInstance();
 

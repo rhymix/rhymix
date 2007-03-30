@@ -27,48 +27,43 @@
         </grant>
     </grants>
     <actions>
-        <action name="dispContent" type="view" index="true" />
-        <action name="dispWrite" type="view" />
-        <action name="dispDelete" type="view" />
-        <action name="dispReplyComment" type="view" />
-        <action name="dispModifyComment" type="view" />
-        <action name="dispDeleteComment" type="view" />
-        <action name="dispDeleteTrackback" type="view" />
-        <action name="dispSignUpForm" type="view" />
-        <action name="dispLogin" type="view" />
-        <action name="dispLogout" type="view" />
-        <action name="dispMessage" type="view" />
-        <action name="dispRss" type="view" />
+        <action name="dispBoardContent" type="view" index="true" />
+        <action name="dispBoardWrite" type="view" />
+        <action name="dispBoardDelete" type="view" />
+        <action name="dispBoardReplyComment" type="view" />
+        <action name="dispBoardModifyComment" type="view" />
+        <action name="dispBoardDeleteComment" type="view" />
+        <action name="dispBoardDeleteTrackback" type="view" />
+        <action name="dispBoardMessage" type="view" />
+        <action name="dispBoardRss" type="view" />
 
-        <action name="procInsertDocument" type="controller" />
-        <action name="procDeleteDocument" type="controller" />
-        <action name="procVoteDocument" type="controller" />
-        <action name="procInsertComment" type="controller" />
-        <action name="procDeleteComment" type="controller" />
-        <action name="procReceiveTrackback" type="controller" />
-        <action name="procDeleteTrackback" type="controller" />
-        <action name="procVerificationPassword" type="controller" />
-        <action name="procDeleteFile" type="controller" />
-        <action name="procUploadFile" type="controller" />
-        <action name="procDownloadFile" type="controller" />
+        <action name="procBoardInsertDocument" type="controller" />
+        <action name="procBoardDeleteDocument" type="controller" />
+        <action name="procBoardVoteDocument" type="controller" />
+        <action name="procBoardInsertComment" type="controller" />
+        <action name="procBoardDeleteComment" type="controller" />
+        <action name="procBoardReceiveTrackback" type="controller" />
+        <action name="procBoardDeleteTrackback" type="controller" />
+        <action name="procBoardVerificationPassword" type="controller" />
+        <action name="procBoardDeleteFile" type="controller" />
+        <action name="procBoardUploadFile" type="controller" />
+        <action name="procBoardDownloadFile" type="controller" />
 
-        <action name="dispAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispAdminModuleConfig" type="view" standalone="true" />
-        <action name="dispAdminBoardInfo" type="view" standalone="true" />
-        <action name="dispAdminInsertBoard" type="view" standalone="true" />
-        <action name="dispAdminDeleteBoard" type="view" standalone="true" />
-        <action name="dispAdminSkinInfo" type="view" standalone="true" />
-        <action name="dispAdminCategoryInfo" type="view" standalone="true" />
-        <action name="dispAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispBoardAdminModuleConfig" type="view" standalone="true" />
+        <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
+        <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
+        <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminCategoryInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminGrantInfo" type="view" standalone="true" />
 
-        <action name="procLogin" type="controller" standalone="true" />
-        <action name="procLogout" type="controller" standalone="true" />
-        <action name="procInsertGrant" type="controller" standalone="true" />
-        <action name="procUpdateSkinInfo" type="controller" standalone="true" />
-        <action name="procInsertBoard" type="controller" standalone="true" />
-        <action name="procDeleteBoard" type="controller" standalone="true" />
-        <action name="procInsertCategory" type="controller" standalone="true" />
-        <action name="procUpdateCategory" type="controller" standalone="true" />
-        <action name="procInsertConfig" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procBoardAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertBoard" type="controller" standalone="true" />
+        <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>

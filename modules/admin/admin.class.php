@@ -8,12 +8,6 @@
     class admin extends ModuleObject {
 
         /**
-         * @brief MVC 에서 공통으로 사용되는 설정등을 모아 놓은것..
-         **/
-        function init() {
-        }
-
-        /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
