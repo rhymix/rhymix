@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispContent" type="view" admin_index="true" standalone="true" />
-        <action name="dispInsertLayout" type="view" standalone="true" />
-        <action name="dispLayoutMenu" type="view" standalone="true" />
-        <action name="dispDownloadedLayoutList" type="view" standalone="true" />
-        <action name="dispLayoutInfo" type="view" standalone="true" />
-        <action name="getLayoutMenuSrl" type="model" standalone="true" />
-        <action name="getMenuTplInfo" type="model" standalone="true" />
-        <action name="procInsertLayout" type="controller" standalone="true" />
-        <action name="procUpdateLayout" type="controller" standalone="true" />
-        <action name="procDeleteLayout" type="controller" standalone="true" />
-        <action name="procInsertLayoutMenu" type="controller" standalone="true" />
-        <action name="procDeleteLayoutMenu" type="controller" standalone="true" />
-        <action name="procMakeXmlFile" type="controller" standalone="true" />
-        <action name="procMoveLayoutMenu" type="controller" standalone="true" />
+        <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispLayoutAdminInsertLayout" type="view" standalone="true" />
+        <action name="dispLayoutAdminMenu" type="view" standalone="true" />
+        <action name="dispLayoutAdminDownloadedLayoutList" type="view" standalone="true" />
+        <action name="dispLayoutAdminInfo" type="view" standalone="true" />
+
+        <action name="getLayoutAdminMenuSrl" type="model" standalone="true" />
+        <action name="getLayoutAdminMenuTplInfo" type="model" standalone="true" />
+
+        <action name="procLayoutAdminInsert" type="controller" standalone="true" />
+        <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminDelete" type="controller" standalone="true" />
+        <action name="procLaytouAdminInsertMenu" type="controller" standalone="true" />
+        <action name="procLayoutAdminDeleteMenu" type="controller" standalone="true" />
+        <action name="procLayoutAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procLayoutAdminMoveMenu" type="controller" standalone="true" />
     </actions>
 </module>
