@@ -158,6 +158,7 @@
     $lang->msg_error_occured = '오류가 발생하였습니다';
     $lang->msg_not_founded = '대상을 찾을 수 없습니다';
 
+    $lang->msg_not_permitted_act = '요청하신 action을 실행할 수 있는 권한이 없습니다';
     $lang->msg_module_is_not_exists = '요청하신 모듈을 찾을 수 없습니다';
     $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수가 없습니다';
 

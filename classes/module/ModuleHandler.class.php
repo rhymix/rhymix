@@ -156,7 +156,7 @@
                 $oMessageView = &getView('message');
                 $oMessageView->setError(-1);
                 $oMessageView->setMessage($this->error);
-                $oMessageView->dispContent();
+                $oMessageView->dispMessage();
 
                 // 정상적으로 호출된 객체가 있을 경우 해당 객체의 template를 변경
                 if($oModule) {

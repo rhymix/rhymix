@@ -91,6 +91,11 @@
                 $grant->is_admin = false;
             }
 
+            // act값에 admin이 들어 있는데 관리자가 아닌 경우 오류 표시
+            if(!$grant->is_admin && eregi('admin', $this->act)) {
+                return $this->stop('msg_not_permitted_act');
+            }
+
             // 권한 설정
             if($xml_info->grant) {
 
@@ -163,7 +168,7 @@
             $oMessageView = &getView('message');
             $oMessageView->setError(-1);
             $oMessageView->setMessage($msg_code);
-            $oMessageView->dispMessageContent();
+            $oMessageView->dispMessage();
 
             $this->setTemplatePath($oMessageView->getTemplatePath());
             $this->setTemplateFile($oMessageView->getTemplateFile());
