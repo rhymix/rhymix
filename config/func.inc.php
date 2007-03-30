@@ -224,6 +224,6 @@
      * @brief 한글이 들어간 url의 decode
      **/
     function url_decode($str) {
-        return ereg_replace('%u([[:alnum:]]{4})', '&#x\1;',$str);
+        return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;',$str);
     }
 ?>
