@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispIndex" type="view" standalone="true" admin_index="true" />
-        <action name="dispAddonInfo" type="view" standalone="true" />
-        <action name="procAddonToggleActivate" type="controller" standalone="true" />
+        <action name="dispAddonAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="dispAddonAdminInfo" type="view" standalone="true" />
+        <action name="procAddonAdminToggleActivate" type="controller" standalone="true" />
     </actions>
 </module>

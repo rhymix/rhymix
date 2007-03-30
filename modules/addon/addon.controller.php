@@ -16,7 +16,7 @@
         /**
          * @brief 애드온의 활성/비활성 체인지
          **/
-        function procToggleActivateAddon() {
+        function procAddonAdminToggleActivate() {
             $oAddonModel = &getModel('addon');
 
             // addon값을 받아옴
