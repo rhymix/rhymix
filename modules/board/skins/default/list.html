@@ -30,19 +30,19 @@
 
     <!--@if($is_logged)-->
         [
-        <a href="{getUrl('act','dispSignUpForm')}">{$lang->cmd_modify_member_info}</a> |
-        <a href="{getUrl('act','dispLogout')}">{$lang->cmd_logout}</a>
+        <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_modify_member_info}</a> |
+        <a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a>
         ]
 
     <!--@else-->
         [
-        <a href="{getUrl('act','dispSignUpForm')}">{$lang->cmd_signup}</a> |
-        <a href="{getUrl('act','dispLogin')}">{$lang->cmd_login}</a>
+        <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a> |
+        <a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
         ]
     <!--@end-->
 
     <!--@if($logged_info->is_admin=='Y')-->
-        <a href="{getUrl('module','admin','mo','board','act','dispBoardAdminBoardInfo','module_srl',$module_srl,'mid','')}" target="_blank">[{$lang->cmd_management}]</a>
+        <a href="{getUrl('module','admin','act','dispBoardAdminBoardInfo','module_srl',$module_srl,'mid','')}" target="_blank">[{$lang->cmd_management}]</a>
     <!--@end-->
 </div>
 
