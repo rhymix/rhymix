@@ -12,14 +12,14 @@
          **/
         function init() {
             // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
          * @brief 모듈 관리자 페이지
          **/
         function dispModuleAdminContent() {
-            $this->dispModuleList();
+            $this->dispModuleAdminList();
         }
 
         /**

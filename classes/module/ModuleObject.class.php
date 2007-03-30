@@ -252,6 +252,28 @@
 
                 // act가 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
                 } else if(Context::isInstalled()) {
+
+                    $oModuleModel = &getModel('module');
+                    $forward = $oModuleModel->getActionForward($this->act);
+                    if($forward->module && $forward->type && $forward->act) {
+
+                        $oModule = &getModule($forward->module, $forward->type);
+                        $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+                        $oModule->setAct($forward->act);
+                        $oModule->init();
+                        $oModule->setModuleInfo(null, $xml_info);
+                        $output = call_user_method($forward->act, $oModule);
+
+                        $this->setTemplatePath($oModule->getTemplatePath());
+                        $this->setTemplateFile($oModule->getTemplateFile());
+
+                    } else {
+                        if($this->xml_info->default_index_act) {
+                            $output = call_user_method($this->xml_info->default_index_act, $this);
+                        } else {
+                            return false;
+                        }
+                    }
                     
                 } else {
                     return false;

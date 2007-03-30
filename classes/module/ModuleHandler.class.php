@@ -104,7 +104,7 @@
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
             // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
-            if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
+            if(!$this->act) $this->act = $xml_info->default_index_act;
 
             // act값이 지정이 안되어 있으면 오류 표시
             if(!$this->act) {

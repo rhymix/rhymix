@@ -110,6 +110,15 @@
         }
 
         /**
+         * @brief act 값에 의한 forward 값을 구함
+         **/
+        function getActionForward($act) {
+            $args->act = $act;
+            $output = executeQuery('module.getActionForward',$args);
+            return $output->data;
+        }
+
+        /**
          * @brief DB에 생성된 mid목록을 구해옴
          **/
         function getMidList() {
