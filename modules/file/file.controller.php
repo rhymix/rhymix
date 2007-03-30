@@ -20,13 +20,11 @@
             // 기본적으로 필요한 변수 설정
             $upload_target_srl = Context::get('upload_target_srl');
             $module_srl = $this->module_srl;
-            debugPrint($module_srl);
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
 
             $output = $this->insertFile($module_srl, $upload_target_srl);
-            debugPrint($output);
 
             // 첨부파일의 목록을 java script로 출력
             $this->printUploadedFileList($upload_target_srl);
@@ -49,22 +47,6 @@
 
             // 첨부파일의 목록을 java script로 출력
             $this->printUploadedFileList($upload_target_srl);
-        }
-
-        /**
-         * @brief 첨부파일 다운로드
-         * 직접 요청을 받음
-         * file_srl : 파일의 sequence
-         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
-         **/
-        function procFileDownload() {
-            // 다운로드에 필요한 변수 체크
-            $file_srl = Context::get('file_srl');
-            $sid = Context::get('sid');
-
-            // document module 객체 생성후 해당 파일의 정보를 체크
-            $oFileModel = &getModel('file');
-            $oFileModel->procDownload($file_srl, $sid);
         }
 
         /**
@@ -292,5 +274,52 @@
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
         }
+
+        /**
+         * @brief 첨부파일 다운로드
+         * 직접 요청을 받음
+         * file_srl : 파일의 sequence
+         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
+         **/
+        function procFileDownload() {
+            $file_srl = Context::get('file_srl');
+            $sid = Context::get('sid');
+
+            // 파일의 정보를 DB에서 받아옴
+            $oFileModel = &getModel('file');
+            $file_obj = $oFileModel->getFile($file_srl);
+            if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();
+
+            // 이상이 없으면 download_count 증가
+            $args->file_srl = $file_srl;
+            $oDB = &DB::getInstance();
+            $oDB->executeQuery('file.updateFileDownloadCount', $args);
+
+            // 파일 출력
+            $filename = $file_obj->source_filename;
+
+            if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+                $filename = urlencode($filename);
+                $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+            }
+
+            $uploaded_filename = $file_obj->uploaded_filename;
+            if(!file_exists($uploaded_filename)) exit();
+
+            $fp = fopen($uploaded_filename, 'rb');
+            if(!$fp) exit();
+
+            header("Cache-Control: ");
+            header("Pragma: ");
+            header("Content-Type: application/octet-stream");
+
+            header("Content-Length: " .(string)($file_obj->file_size));
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header("Content-Transfer-Encoding: binary\n");
+
+            fpassthru($fp);
+            exit();
+        }
+
     }
 ?>
