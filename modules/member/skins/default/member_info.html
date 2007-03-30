@@ -1,58 +1,58 @@
 <!--#include("header.html")-->
 <table>
 <tr>
-  <th>{$lang->user_id}</th>
-  <td>{$member_info->user_id}</td>
+    <th>{$lang->user_id}</th>
+    <td>{$member_info->user_id}</td>
 </tr>
 <tr>
-  <th>{$lang->user_name}</th>
-  <td>{$member_info->user_name}</td>
+    <th>{$lang->user_name}</th>
+    <td>{$member_info->user_name}</td>
 </tr>
 <tr>
-  <th>{$lang->nick_name}</th>
-  <td>{$member_info->nick_name}</td>
+    <th>{$lang->nick_name}</th>
+    <td>{$member_info->nick_name}</td>
 </tr>
 <!--@if($member_info->image_name->src)-->
 <tr>
-  <th>{$lang->image_name}</th>
-  <td><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></td>
+    <th>{$lang->image_name}</th>
+    <td><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></td>
 </tr>
 <!--@end-->
 <!--@if($member_info->image_mark->src)-->
 <tr>
-  <th>{$lang->image_mark}</th>
-  <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
-  </td>
+    <th>{$lang->image_mark}</th>
+    <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
+    </td>
 </tr>
 <!--@end-->
 <tr>
-  <th>{$lang->group}</th>
-  <td>
-    <!--@foreach($member_info->group_list as $key => $val)-->
-      {$val}
-    <!--@end-->
-  </td>
+    <th>{$lang->group}</th>
+    <td>
+        <!--@foreach($member_info->group_list as $key => $val)-->
+            {$val}
+        <!--@end-->
+    </td>
 </tr>
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-  <th>{$val->column_title}</th>
-  <td>
-    <!--@if($val->column_type=='tel')-->
-      {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
-    <!--@elseif($val->column_type=='kr_zip')-->
-      {$val->value[0]} {$val->value[1]}
-    <!--@elseif($val->column_type=='checkbox')-->
-      {implode(",",$val->value)}
-    <!--@else-->
-      {$val->value}
-    <!--@end-->
-  </td>
+    <th>{$val->column_title}</th>
+    <td>
+        <!--@if($val->column_type=='tel')-->
+            {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
+        <!--@elseif($val->column_type=='kr_zip')-->
+            {$val->value[0]} {$val->value[1]}
+        <!--@elseif($val->column_type=='checkbox')-->
+            {implode(",",$val->value)}
+        <!--@else-->
+            {$val->value}
+        <!--@end-->
+    </td>
 </tr>
 <!--@end-->
 <!--@end-->
 <tr>
-  <th>{$lang->description}</th>
-  <td>{$member_info->description}</td>
+    <th>{$lang->description}</th>
+    <td>{$member_info->description}</td>
 </tr>
 </table>

@@ -1,10 +1,10 @@
-<filter name="update_member_join_form" module="member" act="procUpdateJoinForm">
-  <form>
-    <node target="member_join_form_srl" required="true" />
-    <node target="mode" required="true" />
-  </form>
-  <response callback_func="completeUpdateJoinForm">
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+<filter name="update_member_join_form" module="member" act="procMemberAdminUpdateJoinForm">
+    <form>
+        <node target="member_join_form_srl" required="true" />
+        <node target="mode" required="true" />
+    </form>
+    <response callback_func="completeUpdateJoinForm">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
 </filter>

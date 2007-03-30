@@ -1,2 +1,2 @@
-<filter name="delete_image_mark" module="member" act="procDeleteImageMark" confirm_msg_code="confirm_delete" />
+<filter name="delete_image_mark" module="member" act="procMemberDeleteImageMark" confirm_msg_code="confirm_delete" />
 

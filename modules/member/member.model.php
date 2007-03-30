@@ -21,6 +21,60 @@
         }
 
         /**
+         * @brief 선택된 회원의 간단한 메뉴를 표시
+         **/
+        function getMemberMenu() {
+            // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
+            $member_srl = Context::get('member_srl');
+            $mid = Context::get('cur_mid');
+            $module = Context::get('cur_module');
+            $logged_info = Context::get('logged_info');
+
+            // 자신의 아이디를 클릭한 경우 
+            if($member_srl == $logged_info->member_srl) {
+                $member_info = $logged_info;
+
+            // 다른 사람의 아이디를 클릭한 경우
+            } else {
+                // 회원의 정보를 구함
+                $member_info = $this->getMemberInfoByMemberSrl($member_srl);
+            }
+
+            // 변수 정리
+            $user_id = $member_info->user_id;
+            $user_name = $member_info->user_name;
+            $email_address = $member_info->email_address;
+
+            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
+            $menu_list = array();
+
+            // 게시판이나 블로그등일 경우는 특별 옵션 지정
+            if($mid) {
+                // 회원 정보 보기
+                $menu_str = Context::getLang('cmd_view_member_info');
+                $menu_url = sprintf('./?mid=%s&amp;act=dispSignUpForm&amp;member_srl=%s', $mid, $member_srl);
+                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
+
+                // 아이디로 검색
+                $menu_str = Context::getLang('cmd_view_own_document');
+                $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
+                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
+            }
+
+            // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
+            if($member_srl != $logged_info->member_srl) {
+
+                // 메일 보내기 
+                $menu_str = Context::getLang('cmd_send_email');
+                $menu_url = sprintf('%s <%s>', $user_name, $email_address);
+                $menu_list[] = sprintf('%s,sendMailTo(\'%s\')', $menu_str, $menu_url);
+            }
+
+            // 정보를 저장
+            $this->add("menu_list", implode("\n",$menu_list));
+        }
+
+        /**
          * @brief 로그인 되어 있는지에 대한 체크
          **/
         function isLogged() {
@@ -453,60 +507,6 @@
             $info->src = Context::getRequestUri().$image_mark_file;
             $info->file = './'.$image_mark_file;
             return $info;
-        }
-
-        /**
-         * @brief 선택된 회원의 간단한 메뉴를 표시
-         **/
-        function getMemberMenu() {
-            // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
-            $member_srl = Context::get('member_srl');
-            $mid = Context::get('cur_mid');
-            $module = Context::get('cur_module');
-            $logged_info = Context::get('logged_info');
-
-            // 자신의 아이디를 클릭한 경우 
-            if($member_srl == $logged_info->member_srl) {
-                $member_info = $logged_info;
-
-            // 다른 사람의 아이디를 클릭한 경우
-            } else {
-                // 회원의 정보를 구함
-                $member_info = $this->getMemberInfoByMemberSrl($member_srl);
-            }
-
-            // 변수 정리
-            $user_id = $member_info->user_id;
-            $user_name = $member_info->user_name;
-            $email_address = $member_info->email_address;
-
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $menu_list = array();
-
-            // 게시판이나 블로그등일 경우는 특별 옵션 지정
-            if($mid) {
-                // 회원 정보 보기
-                $menu_str = Context::getLang('cmd_view_member_info');
-                $menu_url = sprintf('./?mid=%s&amp;act=dispSignUpForm&amp;member_srl=%s', $mid, $member_srl);
-                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
-
-                // 아이디로 검색
-                $menu_str = Context::getLang('cmd_view_own_document');
-                $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
-                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
-            }
-
-            // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
-            if($member_srl != $logged_info->member_srl) {
-
-                // 메일 보내기 
-                $menu_str = Context::getLang('cmd_send_email');
-                $menu_url = sprintf('%s <%s>', $user_name, $email_address);
-                $menu_list[] = sprintf('%s,sendMailTo(\'%s\')', $menu_str, $menu_url);
-            }
-
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
         }
     }
 ?>

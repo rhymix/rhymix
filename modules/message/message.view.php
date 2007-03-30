@@ -16,7 +16,7 @@
         /**
          * @brief 메세지 출력 
          **/
-        function dispContent() {
+        function dispMessage() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('rss');
@@ -34,7 +34,7 @@
         /**
          * @brief 설정 
          **/
-        function dispConfig() {
+        function dispMessageAdminConfig() {
             // 스킨 목록을 구해옴
             $oModuleModel = &getModel('module');
             $skin_list = $oModuleModel->getskins($this->module_path);

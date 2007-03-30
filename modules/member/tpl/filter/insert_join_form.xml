@@ -1,12 +1,12 @@
-<filter name="insert_join_form" module="member" act="procInsertJoinForm" confirm_msg_code="confirm_submit">
-  <form>
-    <node target="column_type" required="true" />
-    <node target="column_name" required="true" filter="alpha"/>
-    <node target="column_title" required="true" />
-  </form>
-  <response callback_func="completeInsertJoinForm">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="page" />
-  </response>
+<filter name="insert_join_form" module="member" act="procMemberAdminInsertJoinForm" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="column_type" required="true" />
+        <node target="column_name" required="true" filter="alpha"/>
+        <node target="column_title" required="true" />
+    </form>
+    <response callback_func="completeInsertJoinForm">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
 </filter>

@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
-  <title xml:lang="ko">회원 기본 스킨</title>
-  <title xml:lang="en">Member default skin</title>
-  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
-    <name xml:lang="en">zero</name>
-    <description xml:lang="ko">회원모듈의 default스킨</description>
-    <description xml:lang="en">default skin of the member module</description>
-  </maker>
-  <colorset>
-    <color name="normal" src="screenshot/normal.gif">
-      <title xml:lang="ko">기본</title>
-      <title xml:lang="en">normal</title>
-    </color>
-    <color name="deep" src="screenshot/blue.gif">
-      <title xml:lang="ko">이상한거</title>
-      <title xml:lang="en">deep</title>
-    </color>
-  </colorset>
+    <title xml:lang="ko">회원 기본 스킨</title>
+    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">회원모듈의 default스킨</description>
+    </maker>
+    <colorset>
+        <color name="normal" src="screenshot/normal.gif">
+            <title xml:lang="ko">기본</title>
+        </color>
+        <color name="deep" src="screenshot/blue.gif">
+            <title xml:lang="ko">이상한거</title>
+        </color>
+    </colorset>
 <skin>

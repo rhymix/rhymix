@@ -1,10 +1,10 @@
-<filter name="insert_group" module="member" act="procInsertGroup" confirm_msg_code="confirm_submit">
-  <form>
-    <node target="title" required="true" />
-  </form>
-  <response callback_func="completeInsertGroup">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="page" />
-  </response>
+<filter name="insert_group" module="member" act="procMemberAdminInsertGroup" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" />
+    </form>
+    <response callback_func="completeInsertGroup">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
 </filter>

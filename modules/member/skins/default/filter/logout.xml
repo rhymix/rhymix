@@ -1,7 +1,7 @@
-<filter name="logout" module="board" act="procLogout">
-  <form />
-  <response>
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+<filter name="logout" module="board" act="procMemberLogout">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
 </filter>

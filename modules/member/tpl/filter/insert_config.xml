@@ -1,7 +1,7 @@
-<filter name="insert_config" module="member" act="procInsertConfig" confirm_msg_code="confirm_submit">
-  <form />
-  <response>
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+<filter name="insert_config" module="member" act="procMemberAdminInsertConfig" confirm_msg_code="confirm_submit">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
 </filter>

@@ -1,10 +1,10 @@
-<filter name="insert_denied_id" module="member" act="procInsertDeniedID" confirm_msg_code="confirm_submit">
-  <form>
-    <node target="user_id" required="true" />
-  </form>
-  <response callback_func="completeInsertDeniedID">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="page" />
-  </response>
+<filter name="insert_denied_id" module="member" act="procMemberAdminInsertDeniedID" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="user_id" required="true" />
+    </form>
+    <response callback_func="completeInsertDeniedID">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
 </filter>

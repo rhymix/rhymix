@@ -3,7 +3,7 @@
     <grants />
     <actions>
         <action name="dispMessage" type="view" standalone="true" index="true"/>
-        <action name="dispConfig" type="view" standalone="true" admin_index="true"/>
-        <action name="procInsertConfig" type="controller" standalone="true" />
+        <action name="dispMessageAdminConfig" type="view" standalone="true" admin_index="true"/>
+        <action name="procMessageAdminInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>

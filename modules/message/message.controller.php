@@ -16,7 +16,7 @@
         /**
          * @brief 설정
          **/
-        function procInsertConfig() {
+        function procMessageAdminInsertConfig() {
             // 기본 정보를 받음
             $args->skin = Context::get('skin');
 

@@ -61,7 +61,7 @@
         /**
          * @brief 회원 정보 출력
          **/
-        function dispMember() {
+        function dispMemberInfo() {
             $this->initNormal();
 
             $oMemberModel = &getModel('member');
@@ -74,7 +74,7 @@
         /**
          * @brief 회원 가입 폼 출력
          **/
-        function dispSignUpForm() {
+        function dispMemberSignUpForm() {
             $this->initNormal();
 
             $oMemberModel = &getModel('member');
@@ -101,7 +101,7 @@
         /**
          * @brief 로그인 폼 출력
          **/
-        function dispLoginForm() {
+        function dispMemberLoginForm() {
             $this->initNormal();
 
             // 템플릿 파일 지정
@@ -111,7 +111,7 @@
         /**
          * @brief 로그아웃 출력
          **/
-        function dispLogout() {
+        function dispMemberLogout() {
             $this->initNormal();
 
             // 템플릿 파일 지정
@@ -121,7 +121,7 @@
         /**
          * @brief 회원 목록 출력
          **/
-        function dispMemberList() {
+        function dispMemberAdminList() {
 
             // member model 객체 생성후 목록을 구해옴
             $oMemberModel = &getModel('member');
@@ -141,7 +141,7 @@
         /**
          * @brief 회원 관리에 필요한 기본 설정들
          **/
-        function dispModuleConfig() {
+        function dispMemberAdminConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -162,7 +162,7 @@
         /**
          * @brief 회원 정보 출력
          **/
-        function dispMemberInfo() {
+        function dispMemberAdminInfo() {
             // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
@@ -173,7 +173,7 @@
         /**
          * @brief 회원 정보 입력 화면 출력
          **/
-        function dispMemberInsert() {
+        function dispMemberAdminInsert() {
             // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
@@ -185,7 +185,7 @@
         /**
          * @brief 회원 삭제 화면 출력
          **/
-        function dispDeleteForm() {
+        function dispMemberAdminDeleteForm() {
             if(!Context::get('member_srl')) return $this->dispContent();
             $this->setTemplateFile('delete_form');
         }
@@ -193,7 +193,7 @@
         /**
          * @brief 그룹 목록 출력
          **/
-        function dispGroupList() {
+        function dispMemberAdminGroupList() {
             $group_srl = Context::get('group_srl');
 
             if($group_srl && $this->group_list[$group_srl]) {
@@ -207,7 +207,7 @@
         /**
          * @brief 회원 가입 폼 목록 출력
          **/
-        function dispJoinFormList() {
+        function dispMemberAdminJoinFormList() {
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -221,7 +221,7 @@
         /**
          * @brief 회원 가입 폼 관리 화면 출력
          **/
-        function dispInsertJoinForm() {
+        function dispMemberAdminInsertJoinForm() {
             // 수정일 경우 대상 join_form의 값을 구함
             $member_join_form_srl = Context::get('member_join_form_srl');
             if($member_join_form_srl) {
@@ -236,7 +236,7 @@
         /**
          * @brief 금지 목록 아이디 출력
          **/
-        function dispDeniedIDList() {
+        function dispMemberAdminDeniedIDList() {
             // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
