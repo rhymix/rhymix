@@ -1,11 +1,11 @@
-<filter name="insert_config" module="krzip" act="procInsertConfig" confirm_msg_code="confirm_submit">
-  <form>
-    <node target="krzip_server_hostname" required="true" />
-    <node target="krzip_server_port" required="true" />
-    <node target="krzip_server_query" required="true" />
-  </form>
-  <response>
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+<filter name="insert_config" module="krzip" act="procKrzipAdminInsertConfig" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="krzip_server_hostname" required="true" />
+        <node target="krzip_server_port" required="true" />
+        <node target="krzip_server_query" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
 </filter>

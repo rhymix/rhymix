@@ -1,33 +1,33 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-  <table border="1">
-  <tr>
-    <th rowspan="2">{$lang->krzip_server_hostname}</th>
-    <td><input type="text" name="krzip_server_hostname" value="{$config->krzip_server_hostname?$config->krzip_server_hostname:'kr.zip.zeroboard.com'}" /> 
-  </tr>
-  <tr>
-    <td>{$lang->about_krzip_server_hostname}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->krzip_server_port}</th>
-    <td><input type="text" name="krzip_server_port" value="{$config->krzip_server_port?$config->krzip_server_port:'80'}" /> 
-  </tr>
-  <tr>
-    <td>{$lang->about_krzip_server_port}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->krzip_server_query}</th>
-    <td><input type="text" name="krzip_server_query" value="{$config->krzip_server_query?$config->krzip_server_query:'/server.php?addr3='}" /> 
-  </tr>
-  <tr>
-    <td>{$lang->about_krzip_server_query}</td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-    </td>   
-  </tr>
-  </table>  
+    <table border="1">
+    <tr>
+        <th rowspan="2">{$lang->krzip_server_hostname}</th>
+        <td><input type="text" name="krzip_server_hostname" value="{$config->krzip_server_hostname?$config->krzip_server_hostname:'kr.zip.zeroboard.com'}" /> 
+    </tr>
+    <tr>
+        <td>{$lang->about_krzip_server_hostname}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->krzip_server_port}</th>
+        <td><input type="text" name="krzip_server_port" value="{$config->krzip_server_port?$config->krzip_server_port:'80'}" /> 
+    </tr>
+    <tr>
+        <td>{$lang->about_krzip_server_port}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->krzip_server_query}</th>
+        <td><input type="text" name="krzip_server_query" value="{$config->krzip_server_query?$config->krzip_server_query:'/server.php?addr3='}" /> 
+    </tr>
+    <tr>
+        <td>{$lang->about_krzip_server_query}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        </td>   
+    </tr>
+    </table>  
 </form>
