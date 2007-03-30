@@ -14,6 +14,28 @@
         }
 
         /**
+         * @brief 관리자 페이지에서 선택된 엮인글들을 삭제
+         **/
+        function procTrackbackAdminDeleteChecked() {
+            // 선택된 글이 없으면 오류 표시
+            $cart = Context::get('cart');
+            if(!$cart) return $this->stop('msg_cart_is_null');
+            $trackback_srl_list= explode('|@|', $cart);
+            $trackback_count = count($trackback_srl_list);
+            if(!$trackback_count) return $this->stop('msg_cart_is_null');
+
+            // 글삭제
+            for($i=0;$i<$trackback_count;$i++) {
+                $trackback_srl = trim($trackback_srl_list[$i]);
+                if(!$trackback_srl) continue;
+
+                $this->deleteTrackback($trackback_srl, true);
+            }
+
+            $this->setMessage( sprintf(Context::getLang('msg_checked_trackback_is_deleted'), $trackback_count) );
+        }
+
+        /**
          * @brief 엮인글 입력
          **/
         function insertTrackback($obj) {
@@ -197,28 +219,6 @@
 
             // socket 닫음
             fclose($fp);
-        }
-
-        /**
-         * @brief 관리자 페이지에서 선택된 엮인글들을 삭제
-         **/
-        function procDeleteChecked() {
-            // 선택된 글이 없으면 오류 표시
-            $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
-            $trackback_srl_list= explode('|@|', $cart);
-            $trackback_count = count($trackback_srl_list);
-            if(!$trackback_count) return $this->stop('msg_cart_is_null');
-
-            // 글삭제
-            for($i=0;$i<$trackback_count;$i++) {
-                $trackback_srl = trim($trackback_srl_list[$i]);
-                if(!$trackback_srl) continue;
-
-                $this->deleteTrackback($trackback_srl, true);
-            }
-
-            $this->setMessage( sprintf(Context::getLang('msg_checked_trackback_is_deleted'), $trackback_count) );
         }
     }
 ?>
