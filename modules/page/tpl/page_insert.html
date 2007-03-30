@@ -2,11 +2,11 @@
 <!--%import("js/admin.js")-->
 
 <div>
-  <!--@if(!$module_srl)-->
-    {$lang->msg_new_module}
-  <!--@else-->
-    {$lang->msg_update_module}
-  <!--@end-->
+    <!--@if(!$module_srl)-->
+        {$lang->msg_new_module}
+    <!--@else-->
+        {$lang->msg_update_module}
+    <!--@end-->
 </div>
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
@@ -17,78 +17,78 @@
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
-  <table width="100%" border="1">
-  <tr>
-    <th rowspan="2">{$lang->mid}</th>
-    <td><input type="text" name="mid" value="{$module_info->mid}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_mid}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->category}</th>
-    <td>
-      <select name="module_category_srl">
-        <option value="0">{$lang->notuse}</option>
-        <!--@foreach($module_category as $key => $val)-->
-        <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
-        <!--@end-->
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_category}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->browser_title}</th>
-    <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_browser_title}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->layout}</th>
-    <td>
-      <select name="layout_srl">
-        <option value="0">{$lang->notuse}</option>
-        <!--@foreach($layout_list as $key => $val)-->
-        <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="true"<!--@end-->>{$val->title} ({$val->layout})</option>
-        <!--@end-->
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_layout}</td>
-  </tr>
+    <table width="100%" border="1">
+    <tr>
+        <th rowspan="2">{$lang->mid}</th>
+        <td><input type="text" name="mid" value="{$module_info->mid}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_mid}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->category}</th>
+        <td>
+            <select name="module_category_srl">
+                <option value="0">{$lang->notuse}</option>
+                <!--@foreach($module_category as $key => $val)-->
+                <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_category}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->browser_title}</th>
+        <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_browser_title}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->layout}</th>
+        <td>
+            <select name="layout_srl">
+                <option value="0">{$lang->notuse}</option>
+                <!--@foreach($layout_list as $key => $val)-->
+                <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="true"<!--@end-->>{$val->title} ({$val->layout})</option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_layout}</td>
+    </tr>
 
-  <!--@if($module_info->is_default!='Y')-->
-  <tr>
-    <th rowspan="2">{$lang->is_default}</th>
-    <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_default}</td>
-  </tr>
-  <!--@end-->
-  <tr>
-    <th>{$lang->plugin}</th>
-    <td>
-        <!--@foreach($plugin_list as $plugin)-->
-        <a href="#" onclick="winopen('./?module=plugin&amp;act=dispGenerateCodeInPage&amp;selected_plugin={$plugin->plugin}&amp;module_srl={$module_srl}','GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;">{$plugin->title}</a>
-        <!--@end-->
-    </td>
-  </tr>
-  <tr>
-    <th>{$lang->content}</th>
-    <td>
-        {$editor}
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispAdminPageInfo','module_srl',$module_srl)}'" />
-      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-    </td>
-  </tr>
-  </table>
+    <!--@if($module_info->is_default!='Y')-->
+    <tr>
+        <th rowspan="2">{$lang->is_default}</th>
+        <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_default}</td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th>{$lang->plugin}</th>
+        <td>
+                <!--@foreach($plugin_list as $plugin)-->
+                <a href="#" onclick="winopen('./?module=plugin&amp;act=dispPluginGenerateCodeInPage&amp;selected_plugin={$plugin->plugin}&amp;module_srl={$module_srl}','GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;">{$plugin->title}</a>
+                <!--@end-->
+        </td>
+    </tr>
+    <tr>
+        <th>{$lang->content}</th>
+        <td>
+                {$editor}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispPageAdminInfo','module_srl',$module_srl)}'" />
+            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
 </form>

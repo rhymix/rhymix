@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  pagemakerController
+     * @class  pageController
      * @author zero (zero@nzeo.com)
-     * @brief  pagemaker 모듈의 controller class
+     * @brief  page 모듈의 controller class
      **/
 
-    class pagemakerController extends pagemaker {
+    class pageController extends page {
 
         /**
          * @brief 초기화
@@ -16,10 +16,10 @@
         /**
          * @brief 페이지 추가
          **/
-        function procInsertPage() {
+        function procPageAdminInsert() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $args = Context::gets('module_srl','layout_srl','module_category_srl','page_name','browser_title','content','is_default');
-            $args->module = 'pagemaker';
+            $args->module = 'page';
             $args->mid = $args->page_name;
             unset($args->page_name);
             if($args->is_default!='Y') $args->is_default = 'N';
@@ -58,7 +58,7 @@
         /**
          * @brief 페이지 삭제
          **/
-        function procDeletePage() {
+        function procPageAdminDelete() {
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
@@ -66,7 +66,7 @@
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('module','pagemaker');
+            $this->add('module','page');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
@@ -74,7 +74,7 @@
         /**
          * @brief 페이지 기본 정보의 추가
          **/
-        function procInsertConfig() {
+        function procPageAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('test');
 

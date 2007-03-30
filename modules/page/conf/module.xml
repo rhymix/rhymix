@@ -5,9 +5,9 @@
         <action name="dispPageIndex" type="view" index="true" />
         <action name="dispPageAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispPageAdminModuleConfig" type="view" standalone="true" />
-        <action name="dispPageAdminPageInfo" type="view" standalone="true" />
-        <action name="dispPageAdminInsertPage" type="view" standalone="true" />
-        <action name="dispPageAdminDeletePage" type="view" standalone="true" />
+        <action name="dispPageAdminInfo" type="view" standalone="true" />
+        <action name="dispPageAdminInsert" type="view" standalone="true" />
+        <action name="dispPageAdminDelete" type="view" standalone="true" />
         <action name="procPageAdminInsert" type="controller" standalone="true" />
         <action name="procPageAdminDelete" type="controller" standalone="true" />
         <action name="procPageAdminInsertConfig" type="controller" standalone="true" />

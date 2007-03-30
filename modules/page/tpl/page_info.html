@@ -2,37 +2,37 @@
 <col width="120" />
 <col width="*" />
 <tr>
-  <th>{$lang->category}</th>
-  <td>
-    <!--@if(!$module_info->module_category_srl)-->
-      {$lang->not_exists}
-    <!--@else-->
-      {$module_category[$module_info->module_category_srl]->title}
-    <!--@end-->
-  </td>
+    <th>{$lang->category}</th>
+    <td>
+        <!--@if(!$module_info->module_category_srl)-->
+            {$lang->not_exists}
+        <!--@else-->
+            {$module_category[$module_info->module_category_srl]->title}
+        <!--@end-->
+    </td>
 </tr>
 <tr>
-  <th>{$lang->layout}</th>
-  <td>
-    <!--@if($module_info->layout_srl)-->
-      {$module_info->layout_title} ({$module_info->layout})
-    <!--@else-->
-      {$lang->not_exists}
-    <!--@end-->
-  </td>
+    <th>{$lang->layout}</th>
+    <td>
+        <!--@if($module_info->layout_srl)-->
+            {$module_info->layout_title} ({$module_info->layout})
+        <!--@else-->
+            {$lang->not_exists}
+        <!--@end-->
+    </td>
 </tr>
 <tr>
-  <th>{$lang->browser_title}</th>
-  <td>{$module_info->browser_title}</td>
+    <th>{$lang->browser_title}</th>
+    <td>{$module_info->browser_title}</td>
 </tr>
 <tr>
-  <th>{$lang->content}</th>
-  <td>{$module_info->content}</td>
+    <th>{$lang->content}</th>
+    <td>{$module_info->content}</td>
 </tr>
 <tr>
-  <td colspan="2">
-    <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispAdminContent')}'" />
-    <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispAdminInsertPage')}'" />
-  </td>
+    <td colspan="2">
+        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispPageAdminContent')}'" />
+        <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispPageAdminInsert')}'" />
+    </td>
 </tr>
 </table>

@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  pagemakerView
+     * @class  pageView
      * @author zero (zero@nzeo.com)
-     * @brief  pagemaker 모듈의 view 클래스
+     * @brief  page 모듈의 view 클래스
      **/
 
-    class pagemakerView extends pagemaker {
+    class pageView extends page {
 
         var $module_srl = 0;
         var $list_count = 20;
@@ -40,7 +40,7 @@
         /**
          * @brief 일반 요청시 출력
          **/
-        function dispIndex() {
+        function dispPageIndex() {
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 
@@ -54,7 +54,7 @@
         /**
          * @brief 페이지 관리 목록 보여줌
          **/
-        function dispAdminContent() {
+        function dispPageAdminContent() {
             // 모듈 관련 정보 세팅
             $this->initAdmin();
 
@@ -65,7 +65,7 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
-            $output = $oDB->executeQuery('pagemaker.getPageList', $args);
+            $output = $oDB->executeQuery('page.getPageList', $args);
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -81,13 +81,13 @@
         /**
          * @brief 페이지에 필요한 기본 설정들
          **/
-        function dispAdminModuleConfig() {
+        function dispPageAdminModuleConfig() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('pagemaker');
+            $config = $oModuleModel->getModuleConfig('page');
             Context::set('config',$config);
 
             // 템플릿 파일 지정
@@ -97,7 +97,7 @@
         /**
          * @brief 선택된 페이지의 정보 출력
          **/
-        function dispAdminPageInfo() {
+        function dispPageAdminInfo() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -133,7 +133,7 @@
         /**
          * @brief 페이지 추가 폼 출력
          **/
-        function dispAdminInsertPage() {
+        function dispPageAdminInsert() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
@@ -180,7 +180,7 @@
         /**
          * @brief 페이지 삭제 화면 출력
          **/
-        function dispAdminDeletePage() {
+        function dispPageAdminDelete() {
             // 관리자  관련 정보 세팅
             $this->initAdmin();
 
