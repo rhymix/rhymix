@@ -1,9 +1,9 @@
 <table name="document_categories">
-  <column name="category_srl" type="number" size="11" default="0" notnull="notnull" primary_key="primary_key" />
-  <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
-  <column name="title" type="varchar" size="250" />
-  <column name="document_count" type="number" size="11" default="0" notnull="notnull" />
-  <column name="regdate" type="date" index="idx_regdate" />
-  <column name="last_update" type="date" />
-  <column name="list_order" type="number" size="11" notnull="notnull" />
+    <column name="category_srl" type="number" size="11" default="0" notnull="notnull" primary_key="primary_key" />
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="title" type="varchar" size="250" />
+    <column name="document_count" type="number" size="11" default="0" notnull="notnull" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="last_update" type="date" />
+    <column name="list_order" type="number" size="11" notnull="notnull" />
 </table>

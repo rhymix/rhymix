@@ -1,11 +1,11 @@
 <query id="getDocuments" action="select">
-  <tables>
-    <table name="documents" />
-  </tables>
-  <columns>
-    <column name="*" />
-  </columns>
-  <conditions>
-    <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
+    </conditions>
 </query>
