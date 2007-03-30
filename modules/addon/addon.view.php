@@ -23,7 +23,7 @@
             Context::set('addon_list', $addon_list);
 
             // 템플릿 패스 및 파일을 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('addon_list');
         }
 
@@ -43,7 +43,7 @@
             $this->setLayoutFile('popup_layout');
 
             // 템플릿 패스 및 파일을 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('addon_info');
         }
 
