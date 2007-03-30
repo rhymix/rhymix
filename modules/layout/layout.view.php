@@ -17,7 +17,7 @@
         /**
          * @brief 레이아웃 관리의 첫 페이지
          **/
-        function dispContent() {
+        function dispLayoutAdminContent() {
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
@@ -29,7 +29,7 @@
          * @brief 레이아웃 등록 페이지 
          * 1차적으로 레이아웃만 선택한 후 DB 에 빈 값을 넣고 그 후 상세 값 설정하는 단계를 거침
          **/
-        function dispInsertLayout() {
+        function dispLayoutAdminInsert() {
             // 레이아웃 목록을 세팅
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
@@ -41,7 +41,7 @@
         /**
          * @brief 레이아웃 세부 정보 입력
          **/
-        function dispLayoutMenu() {
+        function dispLayoutAdminMenu() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
             $layout_srl = Context::get('layout_srl');
 
@@ -60,7 +60,7 @@
         /**
          * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
          **/
-        function dispLayoutInfo() {
+        function dispLayoutAdminInfo() {
             // 선택된 레이아웃 정보를 구함 
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
@@ -77,7 +77,7 @@
         /**
          * @brief 레이아웃 목록을 보여줌
          **/
-        function dispDownloadedLayoutList() {
+        function dispLayoutAdminDownloadedList() {
             // 레이아웃 목록을 세팅
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getDownloadedLayoutList();

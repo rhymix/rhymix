@@ -17,7 +17,7 @@
          * @brief 레이아웃 신규 생성
          * 레이아웃의 신규 생성은 제목만 받아서 layouts테이블에 입력함
          **/
-        function procInsertLayout() {
+        function procLayoutAdminInsert() {
             $oDB = &DB::getInstance();
 
             $args->layout_srl = $oDB->getNextSequence();
@@ -34,7 +34,7 @@
          * @brief 레이아웃 정보 변경
          * 생성된 레이아웃의 제목과 확장변수(extra_vars)를 적용한다
          **/
-        function procUpdateLayout() {
+        function procLayoutAdminUpdate() {
             // module, act, layout_srl, layout, title을 제외하면 확장변수로 판단.. 좀 구리다..
             $extra_vars = Context::getRequestVars();
             unset($extra_vars->module);
@@ -58,7 +58,7 @@
          * @brief 레이아웃 삭제
          * 삭제시 메뉴 xml 캐시 파일도 삭제
          **/
-        function procDeleteLayout() {
+        function procLayoutAdminDelete() {
             $layout_srl = Context::get('layout_srl');
 
             // 캐시 파일 삭제 
@@ -88,7 +88,7 @@
         /**
          * @brief 레이아웃에  메뉴 추가
          **/
-        function procInsertLayoutMenu() {
+        function procLayoutInsertMenu() {
             // 입력할 변수 정리
             $source_args = Context::getRequestVars();
             unset($source_args->module);
@@ -156,7 +156,7 @@
         /**
          * @brief 레이아웃 메뉴 삭제 
          **/
-        function procDeleteLayoutMenu() {
+        function procLayoutAdminDeleteMenu() {
             // 변수 정리 
             $args = Context::gets('layout_srl','layout','menu_srl','menu_id');
 
@@ -193,7 +193,7 @@
         /**
          * @brief 레이아웃의 메뉴를 이동
          **/
-        function procMoveLayoutMenu() {
+        function procLayoutAdminMoveMenu() {
             // 변수 설정 
             $menu_id = Context::get('menu_id');
             $source_node_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_node_srl'));
@@ -232,7 +232,7 @@
          * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
          * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
          **/
-        function procMakeXmlFile() {
+        function procLayoutAdminMakeXmlFile() {
             // 입력값을 체크 
             $menu_id = Context::get('menu_id');
             $layout = Context::get('layout');

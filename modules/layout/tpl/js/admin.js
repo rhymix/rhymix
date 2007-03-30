@@ -1,7 +1,7 @@
 /* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
 function completeInsertLayout(ret_obj) {
       var layout_srl = ret_obj['layout_srl'];
-      location.href="./?module=admin&mo=layout&act=dispLayoutMenu&layout_srl="+layout_srl;
+      location.href="./?module=admin&mo=layout&act=dispLayoutAdminMenu&layout_srl="+layout_srl;
 } 
 
 /* 레이아웃메뉴 입력후 */ 

@@ -1,10 +1,10 @@
-<filter name="move_layout_menu" module="layout" act="procMoveLayoutMenu" confirm_msg_code="confirm_move">
-  <form />
-  <parameter />
-  <response callback_func="completeMoveLayoutMenu">
-    <tag name="error" />
-    <tag name="message" />
-    <tag name="menu_id" />
-    <tag name="source_node_srl" />
-  </response>
+<filter name="move_layout_menu" module="layout" act="procLayoutAdminMoveMenu" confirm_msg_code="confirm_move">
+    <form />
+    <parameter />
+    <response callback_func="completeMoveLayoutMenu">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="menu_id" />
+        <tag name="source_node_srl" />
+    </response>
 </filter>

@@ -4,10 +4,9 @@
         <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispLayoutAdminInsertLayout" type="view" standalone="true" />
         <action name="dispLayoutAdminMenu" type="view" standalone="true" />
-        <action name="dispLayoutAdminDownloadedLayoutList" type="view" standalone="true" />
+        <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
         <action name="dispLayoutAdminInfo" type="view" standalone="true" />
 
-        <action name="getLayoutAdminMenuSrl" type="model" standalone="true" />
         <action name="getLayoutAdminMenuTplInfo" type="model" standalone="true" />
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" />
