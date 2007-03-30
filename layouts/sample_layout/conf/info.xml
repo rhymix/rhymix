@@ -1,58 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout version="0.1">
     <title xml:lang="ko">견본 레이아웃</title>
-    <title xml:lang="en">sample layout</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <name xml:lang="en">zero</name>
         <description xml:lang="ko">
             견본 레이아웃입니다.
             가장 기본적인 기능으로 이루어져 있습니다.
         </description>
-        <description xml:lang="en">sample layout</description>
     </author>
     <extra_vars>
         <var id="top_title">
             <name xml:lang="ko">상단 제목</name>
-            <name xml:lang="en">top title</name>
             <type>text</type>
-            <description xml:lang="ko">설명</description>
-            <description xml:lang="en">description</description>
+            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
         </var>
         <var id="main_menu_name">
             <name xml:lang="ko">메인 메뉴 명</name>
-            <name xml:lang="en">main_menu_name</name>
             <type>text</type>
-            <description xml:lang="ko">설명</description>
-            <description xml:lang="en">description</description>
+            <description xml:lang="ko">트리메뉴의 가장 상위에 표시될 이름을 입력하세요.</description>
         </var>
         <var id="colorset">
             <name xml:lang="ko">컬러셋</name>
-            <name xml:lang="en">colorset</name>
             <type>select</type>
-            <description xml:lang="ko">설명</description>
-            <description xml:lang="en">description</description>
+            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <options>
                 <name xml:lang="ko">적색</name>
-                <name xml:lang="en">red</name>
                 <value>red</value>
             </options>
             <options>
                 <name xml:lang="ko">청색</name>
-                <name xml:lang="en">blue</name>
                 <value>blue</value>
             </options>
         </var>
     </extra_vars>
     <menus>
         <menu id="main_menu">
-            <name xml:lang="ko">주메뉴</name>
-            <name xml:lang="en">main menu</name>
+            <name xml:lang="ko">주 메뉴</name>
             <maxdepth>2</maxdepth>
         </menu>
         <menu id="bottom_menu">
             <name xml:lang="ko">하단 메뉴 </name>
-            <name xml:lang="en">bottom menu</name>
             <maxdepth>1</maxdepth>
         </menu>
     </menus>

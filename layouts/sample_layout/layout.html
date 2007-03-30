@@ -1,104 +1,97 @@
 <script type="text/javascript">
-  loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name}");
+    loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name}");
 </script>
+
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
-  {$layout_info->top_title}
+    {$layout_info->top_title}
 
-  <div style="float:right">
+    <div style="float:right">
 
-    <div>
-    <!-- 1차 메뉴 -->
-    <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+        <div>
+            <!-- 1차 메뉴 -->
+            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
 
+            <!--@if($val['selected'])-->
+                {@ $selected_style = 'style="font-weight:bold;"'}
+                {@ $second_menu_list = $val['list']; }
+            <!--@else-->
+                {@ $selected_style = ''; }
+            <!--@end-->
 
-      <!--@if($val['selected'])-->
-        {@ $selected_style = 'style="font-weight:bold;"'}
-        {@ $second_menu_list = $val['list']; }
-      <!--@else-->
-        {@ $selected_style = ''; }
-      <!--@end-->
-      <span {$selected_style}>
-        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-      </span>
+            <span {$selected_style}>
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
 
-    <!--@end--><!--@end-->
+            <!--@end--><!--@end-->
+        </div>
+
+        <div>
+            <!-- 2차 메뉴 -->
+            <!--@foreach($second_menu_list as $key => $val)--><!--@if($val['text'])-->
+
+            <!--@if($val['selected'])-->
+                {@ $selected_style = 'style="font-weight:bold;"'}
+                {@ $third_menu_list = $val['list']; }
+            <!--@else-->
+                {@ $selected_style = ''; }
+            <!--@end-->
+            <span {$selected_style}>
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
+
+            <!--@end--><!--@end-->
+        </div>
+
     </div>
-
-    <div>
-    <!-- 2차 메뉴 -->
-    <!--@foreach($second_menu_list as $key => $val)--><!--@if($val['text'])-->
-
-      <!--@if($val['selected'])-->
-        {@ $selected_style = 'style="font-weight:bold;"'}
-        {@ $third_menu_list = $val['list']; }
-      <!--@else-->
-        {@ $selected_style = ''; }
-      <!--@end-->
-      <span {$selected_style}>
-        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-      </span>
-
-    <!--@end--><!--@end-->
-    </div>
-
-  </div>
 
 </div>
 
 <div>
-  <table border="0" width="100%" style="table-layout:fixed">
-  <col width="220" />
-  <col width="*" />
-  <tr valign="top">
-    <td>
-      <div>
-        <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
-      </div>
+    <table border="0" width="100%" style="table-layout:fixed">
+    <col width="220" />
+    <col width="*" />
+    <tr valign="top">
+        <td>
+            <div>
+                <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
+            </div>
 
-      <div id="menu"></div>
+            <div id="menu"></div>
 
-
-      <!--@if($third_menu_list)-->
-      <div>
-      <!-- 3차 메뉴 -->
-      <!--@foreach($third_menu_list as $key => $val)--><!--@if($val['text'])-->
-
-        <!--@if($val['selected'])-->
-          {@ $selected_style = 'style="font-weight:bold;"'}
-        <!--@else-->
-          {@ $selected_style = ''; }
-        <!--@end-->
-        <div {$selected_style}>
-          <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-        </div>
-
-      <!--@end--><!--@end-->
-      </div>
-      <!--@end-->
-
-    <td>
-      <div id="content">
-        {$content}
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center">
-      <div style="margin-top:20px;">
-        <!--@foreach($bottom_menu->list as $key => $val)-->
-
-          <!--@if($val['selected'])-->
-            {@ $selected_style = 'style="font-weight:bold;"'}
-          <!--@else-->
-            {@ $selected_style = ''; }
-          <!--@end-->
-          <span {$selected_style}>
-            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-          </span>
-
-        <!--@end-->
-      </div>
-    </td>
-  </tr>
-  </table>
+            <!--@if($third_menu_list)-->
+            <div>
+                <!-- 3차 메뉴 -->
+                <!--@foreach($third_menu_list as $key => $val)--><!--@if($val['text'])-->
+                    <!--@if($val['selected'])-->
+                        {@ $selected_style = 'style="font-weight:bold;"'}
+                    <!--@else-->
+                        {@ $selected_style = ''; }
+                    <!--@end-->
+                    <div {$selected_style}>
+                        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+                    </div>
+                <!--@end--><!--@end-->
+            </div>
+            <!--@end-->
+        <td>
+            <div id="content">{$content}</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+            <div style="margin-top:20px;">
+                <!--@foreach($bottom_menu->list as $key => $val)-->
+                    <!--@if($val['selected'])-->
+                        {@ $selected_style = 'style="font-weight:bold;"'}
+                    <!--@else-->
+                        {@ $selected_style = ''; }
+                    <!--@end-->
+                    <span {$selected_style}>
+                        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+                    </span>
+                <!--@end-->
+            </div>
+        </td>
+    </tr>
+    </table>
 </div>
