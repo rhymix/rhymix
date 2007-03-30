@@ -192,7 +192,7 @@
             $lang_type = Context::getLangType();
 
             // 요청된 컴포넌트의 xml파일 위치를 구함
-            $component_path = sprintf('%scomponents/%s/', $this->module_path, $component);
+            $component_path = sprintf('./editor_components/%s/', $component);
 
             $xml_file = sprintf('%sinfo.xml', $component_path);
             $cache_file = sprintf('./files/cache/editor/%s.%s.php', $component, $lang_type);
