@@ -486,18 +486,23 @@
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
             if($mid) {
                 // 회원 정보 보기
-                $menu_list[] = sprintf('%s,movePage(\'%s\')', Context::getLang('cmd_view_member_info'), sprintf('./?mid=%s&amp;act=dispSignUpForm&amp;member_srl=%s', $mid, $member_srl));
+                $menu_str = Context::getLang('cmd_view_member_info');
+                $menu_url = sprintf('./?mid=%s&amp;act=dispSignUpForm&amp;member_srl=%s', $mid, $member_srl);
+                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
 
                 // 아이디로 검색
-                $menu_list[] = sprintf('%s,movePage(\'%s\')', Context::getLang('cmd_view_own_document'), sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id));
+                $menu_str = Context::getLang('cmd_view_own_document');
+                $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
+                $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
             }
 
             // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
             if($member_srl != $logged_info->member_srl) {
 
                 // 메일 보내기 
-                $menu_list[] = sprintf('%s,sendMailTo(\'%s\')', Context::getLang('cmd_send_email'), sprintf('%s <%s>', $user_name, $email_address));
-
+                $menu_str = Context::getLang('cmd_send_email');
+                $menu_url = sprintf('%s <%s>', $user_name, $email_address);
+                $menu_list[] = sprintf('%s,sendMailTo(\'%s\')', $menu_str, $menu_url);
             }
 
             // 정보를 저장

@@ -1,7 +1,7 @@
 /**
  * @file   common/js/xml_handler.js
  * @author zero <zero@nzeo.com>
- * @brief  ajax 사용을 위한 기본 js
+ * @brief  zbxe내에서 ajax기능을 이용함에 있어 module, act를 잘 사용하기 위한 자바스크립트
  **/
 
 // xml handler을 이용하는 user function

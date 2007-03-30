@@ -2,6 +2,9 @@
  * @file   common/js/xml_js_filter.js
  * @author zero (zero@nzeo.com)
  * @brief  xml filter에서 사용될 js
+ *
+ * zbxe 에서 form의 동작시 필수입력 여부등을 선처리하고 xml_handler.js의 exec_xml()을 통해서
+ * 특정 모듈과의 ajax 통신을 통해 process를 진행시킴
  **/
 
 var alertMsg = new Array();

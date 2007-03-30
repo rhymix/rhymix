@@ -1,7 +1,8 @@
-/* x.js compiled from X 4.0 with XC 0.27b. 
+/** 
+ * x.js compiled from X 4.0 with XC 0.27b. 
  * Distributed by GNU LGPL. For copyrights, license, documentation and more visit Cross-Browser.com 
  * Copyright 2001-2005 Michael Foster (Cross-Browser.com)
- */
+ **/
 
 var xOp7Up,xOp6Dn,xIE4Up,xIE4,xIE5,xIE6,xNN4,xUA=navigator.userAgent.toLowerCase();
 if(window.opera){

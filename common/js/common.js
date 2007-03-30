@@ -1,8 +1,12 @@
 /**
- * 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
+ * @file common.js
+ * @author zero (zero@nzeo.com)
+ * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
-// href 분석용..
+/**
+ * @brief location.href에서 특정 key의 값을 return
+ **/
 String.prototype.getQuery = function(key) {
     var href = location.href;
     var idx = href.indexOf('?');
@@ -16,12 +20,16 @@ String.prototype.getQuery = function(key) {
     return q;
 }
 
-// string prototype으로 trim 함수 추가
+/**
+ * @brief string prototype으로 trim 함수 추가
+ **/
 String.prototype.trim = function() {
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
 
-// 주어진 인자가 하나라도 defined되어 있지 않으면 false return
+/**
+ * @brief 주어진 인자가 하나라도 defined되어 있지 않으면 false return
+ **/
 function isDef() {
     for(var i=0; i<arguments.length; ++i) {
         if(typeof(arguments[i])=="undefined") return false;
@@ -29,7 +37,10 @@ function isDef() {
     return true;
 }
 
-// 윈도우 오픈
+/**
+ * @brief 윈도우 오픈
+ * 열려진 윈도우의 관리를 통해 window.focus()등을 FF에서도 비슷하게 구현함
+ **/
 var winopen_list = new Array();
 function winopen(url, target, attribute) {
     try {
@@ -47,7 +58,9 @@ function winopen(url, target, attribute) {
     if(target != "_blank") winopen_list[target] = win;
 }
 
-// 특정 div(or span...)의 display옵션 토글
+/**
+ * @brief 특정 div(or span...)의 display옵션 토글
+ **/
 function toggleDisplay(obj, opt) {
     obj = xGetElementById(obj);
     if(typeof(opt)=="undefined") opt = "inline";
@@ -55,7 +68,9 @@ function toggleDisplay(obj, opt) {
     else obj.style.display = "none";
 }
 
-// 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
+/**
+ * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
+ **/
 function displayMultimedia(src, width, height, auto_start) {
     var ext = src.split(".");
     var type = ext[ext.length-1];
@@ -89,7 +104,9 @@ function displayMultimedia(src, width, height, auto_start) {
     document.writeln(html);
 }
 
-// 화면내에서 이미지 리사이즈 및 클릭할 수 있도록 
+/**
+ * @brief 화면내에서 상위 영역보다 이미지가 크면 리사이즈를 하고 클릭시 원본을 보여줄수 있도록 변경
+ **/
 function resizeImageContents() {
     var objs = xGetElementsByTagName("img");
     for(var i in objs) {
@@ -111,31 +128,9 @@ function resizeImageContents() {
 }
 xAddEventListener(window, "load", resizeImageContents);
 
-// 컨텐츠에서 컨텐츠 영역보다 큰 이미지 리사이징후 팝업 클릭시 사용되는 함수
-function resizeImagePopup(evt) {
-    var e = new xEvent(evt);
-    if(!e.target.src) return;
-    var obj = e.target;
-    var scrollbars = "no";
-    var resizable = "no";
-
-    var width = obj.source_width;
-    if(width>screen.availWidth) {
-        width = screen.availWidth-50;
-        scrollbars = "yes";
-        resizable = "yes";
-    }
-    var height = obj.source_height;
-    if(height>screen.availHeight) {
-        height = screen.availHeight-50;
-        scrollbars = "yes";
-        resizable = "yes";
-    }
-    var popup = window.open(e.target.src,"_imagePopup","width="+width+",height="+height+",top=1,left=1,resizable="+resizable+",toolbars=no,scrollbars="+resizable);
-    if(popup) popup.focus();
-}
-
-// 에디터에서 사용하는 내용 여닫는 코드 (고정, zbxe용)
+/**
+ * @brief 에디터에서 사용되는 내용 여닫는 코드 (고정, zbxe용)
+ **/
 function zbxe_folder_open(id) {
     var open_text_obj = xGetElementById("folder_open_"+id);
     var close_text_obj = xGetElementById("folder_close_"+id);
@@ -155,7 +150,9 @@ function zbxe_folder_close(id) {
 }
 
 
-// 에디터에서 사용하는 내용 여닫는 코드 (고정, zb5beta beta 호환용)
+/**
+ * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
+ **/
 function svc_folder_open(id) {
     var open_text_obj = xGetElementById("_folder_open_"+id);
     var close_text_obj = xGetElementById("_folder_close_"+id);
@@ -174,20 +171,32 @@ function svc_folder_close(id) {
     folder_obj.style.display = "none";
 }
 
-// 페이지 이동
-function movePage(url) {
-    location.href=url;
-}
-
-// 메일 보내기용
+/**
+ * @brief 메일 보내기용
+ **/
 function sendMailTo(to) {
     location.href="mailto:"+to;
 }
 
+/**
+ * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
+ **/
+function move_url(url, open_wnidow) {
+    if(!url) return false;
+    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
+    if(open_wnidow=='Y') {
+        winopen(url);
+    } else {
+        location.href=url;
+    }
+    return false;
+}
 
-// 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
-// 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
-// 혹시.. 제대로 된 소스 있으신 분은 헬프미.. ㅠ0ㅠ
+/**
+ * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
+ * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
+ * popup_layout 에서 window.onload 시 자동 요청됨.
+ **/
 function setFixedPopupSize() {
     var w = xWidth("popup_content");
     var h = xHeight("popup_content");
@@ -205,20 +214,9 @@ function setFixedPopupSize() {
     window.resizeBy(0,h-h1);
 }
 
-// url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
-function move_url(url, open_wnidow) {
-    if(!url) return false;
-    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
-    if(open_wnidow=='Y') {
-        var win = window.open(url);
-        win.focus();
-    } else {
-        location.href=url;
-    }
-    return false;
-}
-
-// 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌
+/**
+ * @brief 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌
+ **/
 function showOriginalImage(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
@@ -259,7 +257,9 @@ function showOriginalImage(evt) {
     xAddEventListener(window, "resize", closeOriginalImage);
 }
 
-// 원본 이미지 보여준 후 닫는 함수
+/**
+ * @brief 원본 이미지 보여준 후 닫는 함수
+ **/
 function closeOriginalImage(evt) {
     var area = xGetElementById("fororiginalimagearea");
     if(area.style.visibility != "visible") return;
@@ -270,7 +270,9 @@ function closeOriginalImage(evt) {
     xRemoveEventListener(window, "resize", closeOriginalImage);
 }
 
-// 원본 이미지 드래그
+/**
+ * @brief 원본 이미지 드래그
+ **/
 var origDragManager = {obj:null, isDrag:false}
 function origImageDragEnable(evt) {
     var e = new xEvent(evt);
@@ -348,7 +350,10 @@ function origImageDragMouseMove(evt) {
     origImageDrag(obj, e.pageX, e.pageY);
 }
 
-// 이름을 클릭하였을 경우 보여줄 기능에 대한 기본 함수
+/**
+ * @brief 이름을 클릭하였을 경우 메뉴를 보여주는 함수
+ * 이름 클릭시 MemberModel::getMemberMenu 를 호출하여 그 결과를 보여줌 (사용자의 속성에 따라 메뉴가 달라지고 애드온의 연결을 하기 위해서임) 
+ **/
 xAddEventListener(document, 'click', chkMemberMenu);
 xAddEventListener(window, 'load', setMemberMenuObjCursor);
 var loaded_member_menu_list = new Array();
