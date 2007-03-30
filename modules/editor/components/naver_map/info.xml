@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
-  <title xml:lang="ko">네이버맵 연동</title>
-  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">네이버에서 제공하는 네이버 지도 open api를 이용하여 에디터에 원하는 곳의 지도를 추가하거나 수정할 수 있습니다.\n네이버 지도 open api키를 발급 받아서 등록을 해주셔야 정상적인 사용이 가능합니다.</description>
-  </author>
-  <extra_vars>
-    <var name="api_key">
-      <title xml:lang="ko">네이버지도 api key</title>
-      <description xml:lang="ko">http://www.naver.com/ 에서 네이버 지도 API key를 발급 받으신 후 입력해주세요.</description>
-    </var>
-  </extra_vars>
+    <title xml:lang="ko">네이버맵 연동</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">네이버에서 제공하는 네이버 지도 open api를 이용하여 에디터에 원하는 곳의 지도를 추가하거나 수정할 수 있습니다.\n네이버 지도 open api키를 발급 받아서 등록을 해주셔야 정상적인 사용이 가능합니다.</description>
+    </author>
+    <extra_vars>
+        <var name="api_key">
+            <title xml:lang="ko">네이버지도 api key</title>
+            <description xml:lang="ko">http://www.naver.com/ 에서 네이버 지도 API key를 발급 받으신 후 입력해주세요.</description>
+        </var>
+    </extra_vars>
 </component>

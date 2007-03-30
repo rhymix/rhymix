@@ -1,13 +1,13 @@
 <query id="insertSavedDoc" action="insert">
-  <tables>
-    <table name="editor_autosave" />
-  </tables>
-  <columns>
-    <column name="member_srl" var="member_srl" />
-    <column name="ipaddress" var="ipaddress" />
-    <column name="document_srl" var="document_srl" />
-    <column name="title" var="title" />
-    <column name="content" var="content" />
-    <column name="regdate" var="regdate" default="curdate()" />
-  </columns>
+    <tables>
+        <table name="editor_autosave" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" />
+        <column name="ipaddress" var="ipaddress" />
+        <column name="document_srl" var="document_srl" />
+        <column name="title" var="title" />
+        <column name="content" var="content" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
 </query>

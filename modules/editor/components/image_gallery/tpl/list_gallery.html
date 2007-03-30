@@ -1,15 +1,14 @@
 <!--%import("list_gallery.js")-->
 <script type='text/javascript'>
-  // 이미지갤러리에 보여줄 이미지 등록
-  <!--@foreach($gallery_info->image_list as $image)-->
-  list_gallery_add_image({$gallery_info->srl},'{$image}');
-  <!--@end-->
+    // 이미지갤러리에 보여줄 이미지 등록
+    <!--@foreach($gallery_info->image_list as $image)-->
+        list_gallery_add_image({$gallery_info->srl},'{$image}');
+    <!--@end-->
 
-  // window.onLoad 이벤트 후에 이미지갤러리 시작 
-  xAddEventListener(window,'load',start_list_gallery);
+    // window.onLoad 이벤트 후에 이미지갤러리 시작 
+    xAddEventListener(window,'load',start_list_gallery);
 </script>
 
 <div align="{$gallery_info->gallery_align}">
-  <div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;">
-  </div>
+    <div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;"></div>
 </div>

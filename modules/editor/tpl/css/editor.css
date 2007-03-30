@@ -1,148 +1,150 @@
+@charset "utf-8";
+
 div.editor_content {
-  margin:3px;
+    margin:3px;
 }
 
 div.editor_area_1 {
 }
 
 div.editor_area_2 {
-  clear:left;
+    clear:left;
 }
 
 div.editor_area_about_dbl {
-  clear:left;
-  border:1px dotted #DDDDDD;
-  padding:3px;
-  font-size:9pt;
-  color:#888888;
+    clear:left;
+    border:1px dotted #DDDDDD;
+    padding:3px;
+    font-size:9pt;
+    color:#888888;
 }
 
 div.editor_fontbox {
-  margin : 3px 3px 3px 0px;
-  float:left;
+    margin : 3px 3px 3px 0px;
+    float:left;
 }
 
 div.editor_fontbox select {
-  width:70px;
-  height:18px;
+    width:70px;
+    height:18px;
 }
 
 div.editor_iconbox {
-  margin : 3px 3px 3px 0px;
-  white-space:nowrap;
-  font-size:1pt;
-  float:left;
+    margin : 3px 3px 3px 0px;
+    white-space:nowrap;
+    font-size:1pt;
+    float:left;
 }
 
 div.editor_iconbox img {
-  height : 16px;
-  border : 1px solid #EEEEEE;
-  background-color : #FFFFFF;
-  padding:1px;
-  cursor : pointer;
-  margin-right:1px;
+    height : 16px;
+    border : 1px solid #EEEEEE;
+    background-color : #FFFFFF;
+    padding:1px;
+    cursor : pointer;
+    margin-right:1px;
 }
 
 div.editor_parabox {
-  margin : 3px 3px 3px 0px;
-  font-size:9pt;
-  text-align:right;
-  display:none;
-  float:right;
+    margin : 3px 3px 3px 0px;
+    font-size:9pt;
+    text-align:right;
+    display:none;
+    float:right;
 }
 
 div.editor_iframe_box {
-  clear:left;
-  border:1px solid #EFEFEF; 
-  margin:3px 0px 0px 0px;
+    clear:left;
+    border:1px solid #EFEFEF; 
+    margin:3px 0px 0px 0px;
 }
 
 div.editor_drag_down_area {
-  width:100%;
-  height:15px;
-  background:url(../images/icon_drag_down.gif) no-repeat center;
-  background-color:#EFEFEF;
-  cursor:s-resize;
-  position:relative;
-  margin-top:10px;
+    width:100%;
+    height:15px;
+    background:url(../images/icon_drag_down.gif) no-repeat center;
+    background-color:#EFEFEF;
+    cursor:s-resize;
+    position:relative;
+    margin-top:10px;
 }
 
 .editor_uploader_box {
-  margin:10px 0px 0px 5px;
-  border:0;
-  padding:0px;
-  clear:both;
-  height:130px;
+    margin:10px 0px 0px 5px;
+    border:0;
+    padding:0px;
+    clear:both;
+    height:130px;
 }
 
 .editor_preview_uploaded {
-  float:left;
-  width:110px;
-  height:110px;
-  padding:5px;
-  border:1px solid #AAAAAA;
-  margin-right:10px;
-  text-align:center;
+    float:left;
+    width:110px;
+    height:110px;
+    padding:5px;
+    border:1px solid #AAAAAA;
+    margin-right:10px;
+    text-align:center;
 }
 
 .editor_uploader {
-  float:left;
-  width:300px;
-  height:120px;
-  margin-right:10px;
-  padding-right:10px;
-  border-right:1px dotted #AAAAAA;
+    float:left;
+    width:300px;
+    height:120px;
+    margin-right:10px;
+    padding-right:10px;
+    border-right:1px dotted #AAAAAA;
 }
 
 .uploaded_file_list {
-  width:100%;
-  height:122px;
-  border:1px solid #AAAAAA;
+    width:100%;
+    height:122px;
+    border:1px solid #AAAAAA;
 }
 
 .editor_uploader_input_area {
-  width:150px;
-  float:left;
-  clear:right;
+    width:150px;
+    float:left;
+    clear:right;
 }
 
 .editor_uploader_file_input {
-  display:none;
-  height:18px;
-  border:1px solid #AAAAAA;
-  background-color:#FFFFFF;
-  position:relative;
+    display:none;
+    height:18px;
+    border:1px solid #AAAAAA;
+    background-color:#FFFFFF;
+    position:relative;
 }
 
 .editor_uploader_input {
-  display:block;
-  width:90px;
-  height:18px;
-  border:1px solid #AAAAAA;
-  background-color:#FFFFFF;
-  margin-bottom:10px;
+    display:block;
+    width:90px;
+    height:18px;
+    border:1px solid #AAAAAA;
+    background-color:#FFFFFF;
+    margin-bottom:10px;
 }
 
 .component_setup_window {
-  width:800px;
+    width:800px;
 }
 
 .component_view_window {
-  width:600px;
+    width:600px;
 }
 
 .editor_input {
-  border:1px solid #AAAAAA;
-  height:14px;
-  font-size:9pt;
-  width:200px;
+    border:1px solid #AAAAAA;
+    height:14px;
+    font-size:9pt;
+    width:200px;
 }
 
 .editor_button {
-  border:1px solid #AAAAAA;
-  background-color:#FFFFFF;
-  height:17px;
-  font-size:9pt;
+    border:1px solid #AAAAAA;
+    background-color:#FFFFFF;
+    height:17px;
+    font-size:9pt;
 }
 
 .about_component_icon {

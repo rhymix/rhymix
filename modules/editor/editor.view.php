@@ -14,10 +14,58 @@
         }
 
         /**
+         * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
+         **/
+        function dispEditorPopup() {
+            // css 파일 추가
+            Context::addCssFile($this->module_path."tpl/css/editor.css");
+
+            // 변수 정리
+            $upload_target_srl = Context::get('upload_target_srl');
+            $component = Context::get('component');
+
+            // component 객체를 받음
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($component, $upload_target_srl);
+            if(!$oComponent->toBool()) {
+                Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+                $this->setTemplatePath($this->module_path.'tpl');
+                $this->setTemplateFile('component_not_founded');
+            } else {
+
+                // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
+                $popup_content = $oComponent->getPopupContent();
+                Context::set('popup_content', $popup_content);
+
+                // 레이아웃을 popup_layout으로 설정
+                $this->setLayoutFile('popup_layout');
+
+                // 템플릿 지정
+                $this->setTemplatePath($this->module_path.'tpl');
+                $this->setTemplateFile('popup');
+            }
+        }
+
+        /**
+         * @brief 컴퍼넌트 정보 보기 
+         **/
+        function dispEditorComponentInfo() {
+            $component_name = Context::get('component_name');
+
+            $oEditorModel = &getModel('editor');
+            $component = $oEditorModel->getComponent($component_name);
+            Context::set('component', $component);
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('view_component');
+            $this->setLayoutFile("popup_layout");
+        }
+
+        /**
          * @brief 관리자 설정 페이지
          * 에디터 컴포넌트의 on/off 및 설정을 담당
          **/
-        function adminIndex() {
+        function dispEditorAdminIndex() {
             // 컴포넌트의 종류를 구해옴
             $oEditorModel = &getModel('editor');
             $component_list = $oEditorModel->getComponentList(false);
@@ -31,7 +79,7 @@
         /**
          * @brief 컴퍼넌트 setup
          **/
-        function setupComponent() {
+        function dispEditorAdminSetupComponent() {
             $component_name = Context::get('component_name');
 
             $oEditorModel = &getModel('editor');
@@ -42,22 +90,6 @@
             $this->setTemplateFile('setup_component');
             $this->setLayoutFile("popup_layout");
         }
-
-        /**
-         * @brief 컴퍼넌트 정보 보기 
-         **/
-        function viewComponentInfo() {
-            $component_name = Context::get('component_name');
-
-            $oEditorModel = &getModel('editor');
-            $component = $oEditorModel->getComponent($component_name);
-            Context::set('component', $component);
-
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('view_component');
-            $this->setLayoutFile("popup_layout");
-        }
-
 
         /**
          * @brief 에디터를 return
@@ -94,37 +126,5 @@
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
-        /**
-         * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
-         **/
-        function dispPopup() {
-            // css 파일 추가
-            Context::addCssFile($this->module_path."tpl/css/editor.css");
-
-            // 변수 정리
-            $upload_target_srl = Context::get('upload_target_srl');
-            $component = Context::get('component');
-
-            // component 객체를 받음
-            $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($component, $upload_target_srl);
-            if(!$oComponent->toBool()) {
-                Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
-                $this->setTemplatePath($this->module_path.'tpl');
-                $this->setTemplateFile('component_not_founded');
-            } else {
-
-                // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
-                $popup_content = $oComponent->getPopupContent();
-                Context::set('popup_content', $popup_content);
-
-                // 레이아웃을 popup_layout으로 설정
-                $this->setLayoutFile('popup_layout');
-
-                // 템플릿 지정
-                $this->setTemplatePath($this->module_path.'tpl');
-                $this->setTemplateFile('popup');
-            }
-        }
     }
 ?>

@@ -1,19 +1,19 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 <div class="colorpicker">
-  <script type='text/javascript'>
-    printColor("{$tpl_path}/blank.gif");
-  </script>
+    <script type='text/javascript'>
+        printColor("{$tpl_path}/blank.gif");
+    </script>
 </div>
 <div class="input_area">
-  <form action="./" method="get" onsubmit="return applyColor()">
-    <table border="0">
-    <tr>
-      <td><img src="blank.gif" alt="blank" class="preview_color" id="preview_color" /></td>
-      <td>#</td>
-      <td><input type="text" id="color_input" size="6" maxlength="6" class="popup_input" value="000000"  onkeyup="manual_select_color(this)"/></td>
-      <td><input type="submit" value="{$lang->cmd_select}" class="popup_submit"/></td>
-    </tr>
-    </table>
-  </form>
+    <form action="./" method="get" onsubmit="return applyColor()">
+        <table border="0">
+        <tr>
+            <td><img src="blank.gif" alt="blank" class="preview_color" id="preview_color" /></td>
+            <td>#</td>
+            <td><input type="text" id="color_input" size="6" maxlength="6" class="popup_input" value="000000"  onkeyup="manual_select_color(this)"/></td>
+            <td><input type="submit" value="{$lang->cmd_select}" class="popup_submit"/></td>
+        </tr>
+        </table>
+    </form>
 </div>

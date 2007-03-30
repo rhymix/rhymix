@@ -213,7 +213,7 @@
         /**
          * @brief 관리자 페이지에서 선택된 파일들을 삭제
          **/
-        function procDeleteChecked() {
+        function procFileAdminDeleteChecked() {
             // 선택된 글이 없으면 오류 표시
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');

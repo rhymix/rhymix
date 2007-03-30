@@ -1,16 +1,16 @@
 <table name="files">
-  <column name="file_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-  <column name="upload_target_srl" type="number" size="11" default="0" notnull="notnull" index="idx_upload_target_srl" />
-  <column name="sid" type="varchar" size="60" />
-  <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
-  <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
-  <column name="download_count" type="number" size="11" notnull="notnull" default="0" index="idx_download_count" />
-  <column name="direct_download" type="char" size="1" default="N" notnull="notnull" />
-  <column name="source_filename" type="varchar" size="250" />
-  <column name="uploaded_filename" type="varchar" size="250" />
-  <column name="file_size" type="number" size="11" default="0" notnull="notnull" index="idx_file_size" />
-  <column name="comment" type="varchar" size="250" />
-  <column name="downloaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_downloaded_count" />
-  <column name="regdate" type="date" index="idx_regdate" />
-  <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
+    <column name="file_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="upload_target_srl" type="number" size="11" default="0" notnull="notnull" index="idx_upload_target_srl" />
+    <column name="sid" type="varchar" size="60" />
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="download_count" type="number" size="11" notnull="notnull" default="0" index="idx_download_count" />
+    <column name="direct_download" type="char" size="1" default="N" notnull="notnull" />
+    <column name="source_filename" type="varchar" size="250" />
+    <column name="uploaded_filename" type="varchar" size="250" />
+    <column name="file_size" type="number" size="11" default="0" notnull="notnull" index="idx_file_size" />
+    <column name="comment" type="varchar" size="250" />
+    <column name="downloaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_downloaded_count" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
 </table>

@@ -1,15 +1,15 @@
 <query id="updateFile" action="update">
-  <tables>
-    <table name="files" />
-  </tables>
-  <columns>
-    <column name="upload_target_srl" var="upload_target_srl" filter="number" default="0" notnull="notnull" />
-    <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
-    <column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
-    <column name="regdate" var="regdate" default="curdate()" />
-    <column name="ipaddress" var="ipaddress" default="ipaddress()" />
-  </columns>
-  <conditions>
-    <condition operation="equal" column="file_srl" var="file_srl" filter="number" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="upload_target_srl" var="upload_target_srl" filter="number" default="0" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
+        <column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="file_srl" var="file_srl" filter="number" notnull="notnull" />
+    </conditions>
 </query>

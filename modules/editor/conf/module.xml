@@ -2,16 +2,18 @@
 <module>
     <grants />
     <actions>
-        <action name="adminIndex" type="view" standalone="true" admin_index="true" />
-        <action name="setupComponent" type="view" standalone="true" />
-        <action name="dispPopup" type="view" standalone="true" />
-        <action name="viewComponentInfo" type="view" standalone="true" />
+        <action name="dispEditorPopup" type="view" standalone="true" />
+        <action name="dispEditorComponentInfo" type="view" standalone="true" />
 
-        <action name="procSaveDoc" type="controller" standalone="true" />
-        <action name="procCall" type="controller" standalone="true" />
-        <action name="procEnableComponent" type="controller" standalone="true" />
-        <action name="procDisableComponent" type="controller" standalone="true" />
-        <action name="procMoveListOrder" type="controller" standalone="true" />
-        <action name="procSetupComponent" type="controller" standalone="true" />
+        <action name="dispEditorAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="dispEditorAdminSetupComponent" type="view" standalone="true" />
+
+        <action name="procEditorSaveDoc" type="controller" standalone="true" />
+        <action name="procEditorCall" type="controller" standalone="true" />
+
+        <action name="procEditorAdminEnableComponent" type="controller" standalone="true" />
+        <action name="procEditorAdminDisableComponent" type="controller" standalone="true" />
+        <action name="procEditorAdminMoveListOrder" type="controller" standalone="true" />
+        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" />
     </actions>
 </module>

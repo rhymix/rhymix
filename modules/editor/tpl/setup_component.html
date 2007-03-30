@@ -2,39 +2,41 @@
 <!--%import("filter/setup_component.xml")-->
 
 <div class="component_setup_window">
-  <form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
-    <input type="hidden" name="component_name" value="{$component_name}" />
-    <table border="1" width="100%">
-    <tr>
-      <th>{$lang->component_name}</th>
-      <td>{$component->component_name} ver. {$component->version}</td>
-    </tr>
-    <tr>
-      <th>{$lang->component_author}</th>
-      <td>{$component->author->name}</td>
-    </tr>
-    <tr>
-      <th>{$lang->component_link}</th>
-      <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
-    </tr>
-    <tr>
-      <th colspan="2">{$lang->component_extra_vars}</th>
-    </tr>
-    <!--@foreach($component->extra_vars as $key => $val)-->
-    <tr>
-      <th rowspan="2">{$val->title}</th>
-      <td><input type="text" name="{$key}" value="{$val->value}" class="editor_input" /></td>
-    </tr>
-    <tr>
-      <td>{$val->description}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-      <td colspan="2">
-        <input type="submit" value="{$lang->cmd_apply}" class="editor_button" />
-        <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
-      </td>
-    </tr>
-    </table>
-  </form>
+    <form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
+        <input type="hidden" name="component_name" value="{$component_name}" />
+        <table border="1" width="100%">
+        <tr>
+            <th>{$lang->component_name}</th>
+            <td>{$component->component_name} ver. {$component->version}</td>
+        </tr>
+        <tr>
+            <th>{$lang->component_author}</th>
+            <td>{$component->author->name}</td>
+        </tr>
+        <tr>
+            <th>{$lang->component_link}</th>
+            <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
+        </tr>
+        <tr>
+        <th colspan="2">{$lang->component_extra_vars}</th>
+        </tr>
+
+        <!--@foreach($component->extra_vars as $key => $val)-->
+        <tr>
+            <th rowspan="2">{$val->title}</th>
+            <td><input type="text" name="{$key}" value="{$val->value}" class="editor_input" /></td>
+        </tr>
+        <tr>
+            <td>{$val->description}</td>
+        </tr>
+        <!--@end-->
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="{$lang->cmd_apply}" class="editor_button" />
+                <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
+            </td>
+        </tr>
+        </table>
+    </form>
 </div>

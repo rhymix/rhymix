@@ -1,11 +1,11 @@
 <query id="isComponentInserted" action="select">
-  <tables>
-    <table name="editor_components" />
-  </tables>
-  <columns>
-    <column name="count(*)" alias="count" />
-  </columns>
-  <conditions>
-    <condition operation="equal" column="component_name" var="component_name" notnull="notnull" />
-  </conditions>
+    <tables>
+        <table name="editor_components" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="component_name" var="component_name" notnull="notnull" />
+    </conditions>
 </query>
