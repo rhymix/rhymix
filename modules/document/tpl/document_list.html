@@ -2,88 +2,92 @@
 
 <!-- 게시판 정보 -->
 <div>
-  {$lang->document_count} : {number_format($total_count)}, 
-  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+    {$lang->document_count} : {number_format($total_count)}, 
+    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
-<input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="page" value="{$page}" />
 
-<!-- 목록 -->
-<div>
-  <table>
-  <tr>
-    <th colspan="2">{$lang->no}</th>
-    <th>{$lang->module}</th>
-    <th>{$lang->title}</th>
-    <th>{$lang->user_name}</th>
-    <th>{$lang->readed_count}</th>
-    <th>{$lang->voted_count}</th>
-    <th>{$lang->date}</th>
-  </tr>
-  <!--@foreach($document_list as $no => $val)-->
-  <tr>
-    <td>{$no}</td>
-    <td><input type="checkbox" name="cart" value="{$val->document_srl}" /></td>
-    <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-    <td>
-      <a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$val->title}</a>
-      <!--@if($val->comment_count>0)-->
-      [{$val->comment_count}]
-      <!--@end-->
-      <!--@if($val->trackback_count>0)-->
-      [{$val->trackback_count}]
-      <!--@end-->
-    </td>
-    <td>{$val->user_name}</td>
-    <td>{$val->readed_count}</td>
-    <td>{$val->voted_count}</td>
-    <td>{zdate($val->regdate,"Y-m-d")}</td>
-  </tr>
-  <!--@end-->
-  </table>
-</div>
+    <!-- 목록 -->
+    <div>
+        <table>
+        <tr>
+            <th colspan="2">{$lang->no}</th>
+            <th>{$lang->module}</th>
+            <th>{$lang->title}</th>
+            <th>{$lang->user_name}</th>
+            <th>{$lang->readed_count}</th>
+            <th>{$lang->voted_count}</th>
+            <th>{$lang->date}</th>
+        </tr>
 
-<!-- 버튼 -->
-<div>
-  <input type="submit" value="{$lang->cmd_delete_checked_document}" />
-</div>
+        <!--@foreach($document_list as $no => $val)-->
+        <tr>
+            <td>{$no}</td>
+            <td><input type="checkbox" name="cart" value="{$val->document_srl}" /></td>
+            <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
+            <td>
+                <a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{$val->title}</a>
+
+                <!--@if($val->comment_count>0)-->
+                    [{$val->comment_count}]
+                <!--@end-->
+
+                <!--@if($val->trackback_count>0)-->
+                    [{$val->trackback_count}]
+                <!--@end-->
+            </td>
+            <td>{$val->user_name}</td>
+            <td>{$val->readed_count}</td>
+            <td>{$val->voted_count}</td>
+            <td>{zdate($val->regdate,"Y-m-d")}</td>
+        </tr>
+        <!--@end-->
+
+        </table>
+    </div>
+
+    <!-- 버튼 -->
+    <div>
+        <input type="submit" value="{$lang->cmd_delete_checked_document}" />
+    </div>
 
 </form>
 
 <!-- 검색 -->
 <div>
-  <form action="./" method="get">
-    <input type="hidden" name="module" value="{$module}" />
-    <input type="hidden" name="mo" value="{$mo}" />
-    <input type="hidden" name="act" value="{$act}" />
+    <form action="./" method="get">
+        <input type="hidden" name="module" value="{$module}" />
+        <input type="hidden" name="mo" value="{$mo}" />
+        <input type="hidden" name="act" value="{$act}" />
 
-    <div>
-      <select name="search_target">
-        <option value="">{$lang->search_target}</option>
-        <!--@foreach($lang->search_target_list as $key => $val)-->
-        <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
-        <!--@end-->
-      </select>
-      <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-      <input type="submit" value="{$lang->cmd_search}" />
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
-    </div>
-  </form>
+        <div>
+            <select name="search_target">
+                <option value="">{$lang->search_target}</option>
+                <!--@foreach($lang->search_target_list as $key => $val)-->
+                <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+            <input type="submit" value="{$lang->cmd_search}" />
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
+        </div>
+    </form>
 </div>
 
 
 <!-- 페이지 네비게이션 -->
 <div>
-  <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
+    <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
 
-  <!--@while($page_no = $page_navigation->getNextPage())-->
-  <!--@if($page == $page_no)-->
-    {$page_no}
-  <!--@else-->
-    <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
-  <!--@end-->
-  <!--@end-->
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            {$page_no}
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+        <!--@end-->
+    <!--@end-->
 
-  <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
 </div>

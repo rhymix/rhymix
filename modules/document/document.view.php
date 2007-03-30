@@ -16,7 +16,7 @@
         /**
          * @brief 목록 출력 (관리자용)
          **/
-        function dispList() {
+        function dispDocumentAdminList() {
             // 목록을 구하기 위한 옵션
             $args->page = Context::get('page'); ///< 페이지
             $args->list_count = 50; ///< 한페이지에 보여줄 글 수

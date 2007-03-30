@@ -14,6 +14,28 @@
         }
 
         /**
+         * @brief 관리자 페이지에서 선택된 문서들 삭제
+         **/
+        function procDocumentAdminDeleteChecked() {
+            // 선택된 글이 없으면 오류 표시
+            $cart = Context::get('cart');
+            if(!$cart) return $this->stop('msg_cart_is_null');
+            $document_srl_list= explode('|@|', $cart);
+            $document_count = count($document_srl_list);
+            if(!$document_count) return $this->stop('msg_cart_is_null');
+
+            // 글삭제
+            for($i=0;$i<$document_count;$i++) {
+                $document_srl = trim($document_srl_list[$i]);
+                if(!$document_srl) continue;
+
+                $this->deleteDocument($document_srl, true);
+            }
+
+            $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
+        }
+
+        /**
          * @brief 문서의 권한 부여 
          * 세션값으로 현 접속상태에서만 사용 가능
          **/
@@ -532,28 +554,5 @@
 
             return new Object();
         }
-
-        /**
-         * @brief 관리자 페이지에서 선택된 문서들 삭제
-         **/
-        function procDeleteChecked() {
-            // 선택된 글이 없으면 오류 표시
-            $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
-            $document_srl_list= explode('|@|', $cart);
-            $document_count = count($document_srl_list);
-            if(!$document_count) return $this->stop('msg_cart_is_null');
-
-            // 글삭제
-            for($i=0;$i<$document_count;$i++) {
-                $document_srl = trim($document_srl_list[$i]);
-                if(!$document_srl) continue;
-
-                $this->deleteDocument($document_srl, true);
-            }
-
-            $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
-        }
-
     }
 ?>
