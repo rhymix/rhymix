@@ -2,55 +2,55 @@
 <col width="100" />
 <col width="300" />
 <tr>
-  <th colspan="2">{$lang->module_maker}</th>
+    <th colspan="2">{$lang->module_maker}</th>
 </tr>
 <tr>
-  <th>{$lang->title}</th>
-  <td>{$module_info->title} ver {$module_info->version}</td>
+    <th>{$lang->title}</th>
+    <td>{$module_info->title} ver {$module_info->version}</td>
 </tr>
 <tr>
-  <th>{$lang->author}</th>
-  <td><a href="mailto:{$module_info->author->email_address}">{$module_info->author->name}</a></td>
+    <th>{$lang->author}</th>
+    <td><a href="mailto:{$module_info->author->email_address}">{$module_info->author->name}</a></td>
 </tr>
 <tr>
-  <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open('{$module_info->author->homepage}');return false;">{$module_info->author->homepage}</a></td>
+    <th>{$lang->homepage}</th>
+    <td><a href="#" onclick="window.open('{$module_info->author->homepage}');return false;">{$module_info->author->homepage}</a></td>
 </tr>
 <tr>
-  <th>{$lang->regdate}</th>
-  <td>{$module_info->author->date}</td>
+    <th>{$lang->regdate}</th>
+    <td>{$module_info->author->date}</td>
 </tr>
 <tr>
-  <th>{$lang->description}</th>
-  <td>{nl2br($module_info->author->description)}</td>
+    <th>{$lang->description}</th>
+    <td>{nl2br($module_info->author->description)}</td>
 </tr>
 
 <tr>
-  <th colspan="2">{$lang->module_history}</th>
+    <th colspan="2">{$lang->module_history}</th>
 </tr>
 <!--@foreach($module_info->history as $history)-->
 <!--@if($history->name)-->
 <tr>
-  <th>{$lang->name}</th>
-  <td><a href="mailto:{$history->email_address}">{$history->name}</a></td>
+    <th>{$lang->name}</th>
+    <td><a href="mailto:{$history->email_address}">{$history->name}</a></td>
 </tr>
 <tr>
-  <th>{$lang->homepage}</th>
-  <td><a href="#" onclick="window.open('{$history->homepage}');return false;">{$history->homepage}</a></td>
+    <th>{$lang->homepage}</th>
+    <td><a href="#" onclick="window.open('{$history->homepage}');return false;">{$history->homepage}</a></td>
 </tr>
 <tr>
-  <th>{$lang->regdate}</th>
-  <td>{$history->date}</td>
+    <th>{$lang->regdate}</th>
+    <td>{$history->date}</td>
 </tr>
 <tr>
-  <th>{$lang->description}</th>
-  <td>{nl2br($history->description)}</td>
+    <th>{$lang->description}</th>
+    <td>{nl2br($history->description)}</td>
 </tr>
 <!--@end-->
 <!--@end-->
 <tr>
-  <td colspan="2">
-    <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
-  </td>
+    <td colspan="2">
+        <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
+    </td>
 </tr>
 </table>

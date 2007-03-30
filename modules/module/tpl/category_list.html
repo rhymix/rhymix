@@ -5,32 +5,32 @@
 
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
 <form id="fo_category_info" action="./" method="get">
-<input type="hidden" name="module_category_srl" value="" />
-<input type="hidden" name="mode" value="" />
+    <input type="hidden" name="module_category_srl" value="" />
+    <input type="hidden" name="mode" value="" />
 </form>
 
 <div>
-  <table>
-  <tr>
-    <th>{$lang->category_title}</th>
-    <th>{$lang->regdate}</th>
-    <th>{$lang->cmd_modify}</th>
-    <th>{$lang->cmd_delete}</th>
-  </tr>
-  <!--@if(!count($category_list))-->
-  <tr>
-    <td colspan="4">{$lang->msg_category_is_null}</td>
-  </tr>
-  <!--@end-->
-  <!--@foreach($category_list as $key => $val)-->
-  <tr>
-    <td>{$val->title}</td>
-    <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-    <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
-    <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table>
+    <tr>
+        <th>{$lang->category_title}</th>
+        <th>{$lang->regdate}</th>
+        <th>{$lang->cmd_modify}</th>
+        <th>{$lang->cmd_delete}</th>
+    </tr>
+    <!--@if(!count($category_list))-->
+    <tr>
+        <td colspan="4">{$lang->msg_category_is_null}</td>
+    </tr>
+    <!--@end-->
+    <!--@foreach($category_list as $key => $val)-->
+    <tr>
+        <td>{$val->title}</td>
+        <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>
 
 <!-- 카테고리 추가 -->
@@ -40,9 +40,9 @@
 <input type="hidden" name="module_category_srl" value="" />
 
 <div>
-  {$lang->category_title} :
-  <input type="text" name="title" />
-  <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    {$lang->category_title} :
+    <input type="text" name="title" />
+    <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
 </div>
 
 </form>

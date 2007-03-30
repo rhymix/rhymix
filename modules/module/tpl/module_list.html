@@ -5,54 +5,54 @@
 
 <!-- 관리자 메뉴 바로가기 추가를 위한 임시 form -->
 <form id="fo_shortcut" action="./" method="get">
-  <input type="hidden" name="selected_module" value="" />
+    <input type="hidden" name="selected_module" value="" />
 </form>
 
 <table border="1" width="100%">
 <tr>
-  <td>{$lang->module_name}</td>
-  <td>{$lang->version}</td>
-  <td>{$lang->author}</td>
-  <td>{$lang->date}</td>
-  <td>{$lang->table_count}</td>
-  <td>{$lang->installed_path}</td>
-  <td>{$lang->module_info}</td>
-  <td>{$lang->add_shortcut}</td>
+    <td>{$lang->module_name}</td>
+    <td>{$lang->version}</td>
+    <td>{$lang->author}</td>
+    <td>{$lang->date}</td>
+    <td>{$lang->table_count}</td>
+    <td>{$lang->installed_path}</td>
+    <td>{$lang->module_info}</td>
+    <td>{$lang->add_shortcut}</td>
 </tr>
 <!--@foreach($module_list as $key => $val)-->
 <tr>
-  <td rowspan="2">
-    <!--@if($val->admin_index_act)-->
-      <a href="#" onclick="location.href='{getUrl('mo',$val->module,'act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
-    <!--@else-->
-      {$val->title} <br />
-      ({$val->module})
-    <!--@end-->
-  </td>
-  <td>{$val->version}</td>
-  <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-  <td>{$val->author->date}</td>
-  <td>
-    <!--@if($val->created_table_count != $val->table_count)-->
-      <span style="color:red">
-    <!--@else-->
-      <span>
-    <!--@end-->
-        {$val->created_table_count}/{$val->table_count}
-      </span>
-  </td>
-  <td>{$val->path}</td>
-  <td><a href="#" onclick="winopen('{getUrl('','module','module','act','dispModuleInfo','selected_module',$val->module)}','module_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
-  <td rowspan="2">
-    <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
-    <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
-    <!--@end-->
-  </td>
+    <td rowspan="2">
+        <!--@if($val->admin_index_act)-->
+            <a href="#" onclick="location.href='{getUrl('mo',$val->module,'act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
+        <!--@else-->
+            {$val->title} <br />
+            ({$val->module})
+        <!--@end-->
+    </td>
+    <td>{$val->version}</td>
+    <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+    <td>{$val->author->date}</td>
+    <td>
+        <!--@if($val->created_table_count != $val->table_count)-->
+            <span style="color:red">
+        <!--@else-->
+            <span>
+        <!--@end-->
+                {$val->created_table_count}/{$val->table_count}
+            </span>
+    </td>
+    <td>{$val->path}</td>
+    <td><a href="#" onclick="winopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
+    <td rowspan="2">
+        <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
+        <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
+        <!--@end-->
+    </td>
 </tr>
 <tr>
-  <td colspan="6">
-    {nl2br($val->author->description)}
-  </td>
+    <td colspan="6">
+        {nl2br($val->author->description)}
+    </td>
 </tr>
 <!--@end-->
 </table>
