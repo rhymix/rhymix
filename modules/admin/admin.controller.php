@@ -18,6 +18,16 @@
         function procAdminInsertShortCut() {
             $module = Context::get('selected_module');
 
+            $output = $this->insertShortCut($module);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 관리자 페이지의 단축 메뉴 추가
+         **/
+        function insertShortCut($module) {
             // 선택된 모듈의 정보중에서 admin_index act를 구함
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml($module);
@@ -29,9 +39,7 @@
 
             $oDB = &DB::getInstance();
             $output = $oDB->executeQuery('admin.insertShortCut', $args);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage('success_registed');
+            return $output;
         }
 
         /**
