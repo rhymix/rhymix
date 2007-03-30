@@ -55,6 +55,14 @@
     }
 
     /**
+     * @brief DB::executeQuery() 의 alias
+     **/
+    function executeQuery($query_id, $args) {
+        $oDB = &DB::getInstance();
+        return $oDB->executeQuery($query_id, $args);
+    }
+
+    /**
      * @brief Context::getUrl($args_list)를 쓰기 쉽게 함수로 선언
      * @param args_list 제한없는 args
      * @return string

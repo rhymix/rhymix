@@ -2,15 +2,15 @@
     if(!__ZBXE__) exit();
 
     /**
-    * @file spamfilter.addon.php
-    * @author zero (zero@nzeo.com)
-    * @brief 스팸필터링 애드온
-    *
-    * addOn은 ModuleObject 에서 모듈이 불러지기 전/후에 include되는 것으로 실행을 한다.
-    * 즉 별도의 interface가 필요한 것이 아니고 모듈의 일부라고 판단하여 코드를 작성하면 된다.
-    **/
+     * @file spamfilter.addon.php
+     * @author zero (zero@nzeo.com)
+     * @brief 스팸필터링 애드온
+     *
+     * 스팸필터 애드온은 SpamFilter 모듈을 이용합니다.
+     * 글/코멘트/트랙백 등록 이전에만 실행이 됩니다.
+     **/
 
-    // called_position가 before일때만 실행
+    // called_position가 before_module_proc 일때만 실행
     if($this->called_position != 'before_module_proc') return;
 
     // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
@@ -43,10 +43,10 @@
             break;
     }
 
-    // 현재 모듈의 관리자이거나 그에 준하는 manager권한이면 그냥 패스~
+    // 현재 모듈의 관리자이거나 그에 준하는 manager권한이면 그냥 패스
     if($this->grant->is_admin || $this->grant->manager) return;
 
-    // 현 접속자의 ip address를 변수화
+    // 현 접속자의 ip address를 구함
     $ipaddress = $_SERVER['REMOTE_ADDR'];
 
     // spamfilter 모듈 객체 생성

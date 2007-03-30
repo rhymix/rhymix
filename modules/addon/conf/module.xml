@@ -3,6 +3,6 @@
     <actions>
         <action name="dispIndex" type="view" standalone="true" admin_index="true" />
         <action name="dispAddonInfo" type="view" standalone="true" />
-        <action name="procToggleActivateAddon" type="controller" standalone="true" />
+        <action name="procAddonToggleActivate" type="controller" standalone="true" />
     </actions>
 </module>

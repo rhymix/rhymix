@@ -1,5 +1,4 @@
 <?php
-
     /**
      * @class newest_document
      * @author zero (zero@nzeo.com)
@@ -11,8 +10,9 @@
 
         /**
          * @brief 플러그인의 실행 부분
-         * ./plugins/플러그인/conf/info.xml에 선언한 extra_vars를 args로 받는다
-         * 결과를 만든후 return 해주어야 한다
+         *
+         * ./plugins/플러그인/conf/info.xml 에 선언한 extra_vars를 args로 받는다
+         * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
             // 플러그인 자체적으로 설정한 변수들을 체크
@@ -28,6 +28,7 @@
             $obj->sort_index = $order_target;
             $obj->list_count = $list_count;
 
+            // document 모듈의 model 객체를 받아서 getDocumentList() method를 실행
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($obj);
 
@@ -48,7 +49,5 @@
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
-
-
     }
 ?>

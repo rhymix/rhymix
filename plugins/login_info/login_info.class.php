@@ -1,5 +1,4 @@
 <?php
-
     /**
      * @class login_info
      * @author zero (zero@nzeo.com)
@@ -14,7 +13,7 @@
         /**
          * @brief 플러그인의 실행 부분
          * ./plugins/플러그인/conf/info.xml에 선언한 extra_vars를 args로 받는다
-         * 결과를 만든후 return 해주어야 한다
+         * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
             // 변수 설정

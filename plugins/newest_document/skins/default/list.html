@@ -1,7 +1,11 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
 <!--@if($colorset=="normal"||!$colorset)-->
     <!--%import("normal/style.css")-->
+
 <!--@elseif($colorset=="blue")-->
     <!--%import("blue/style.css")-->
+
 <!--@end-->
 
 <div class="newest_document_default_{$colorset}">

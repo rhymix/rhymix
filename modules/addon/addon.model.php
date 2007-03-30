@@ -88,7 +88,7 @@
             $addon_info->author->email_address = $xml_obj->author->attrs->email_address;
             $addon_info->author->homepage = $xml_obj->author->attrs->link;
             $addon_info->author->date = $xml_obj->author->attrs->date;
-            $addon_info->author->description = $xml_obj->author->description->body;
+            $addon_info->author->description = trim($xml_obj->author->description->body);
 
             // history 
             if(!is_array($xml_obj->history->author)) $history[] = $xml_obj->history->author;

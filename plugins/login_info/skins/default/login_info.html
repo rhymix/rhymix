@@ -1,8 +1,9 @@
-
+<!-- colorset의 값에 따라 css 파일을 import 한다 -->
 <!--@if($colorset=="normal"||!$colorset)-->
     <!--%import("normal/style.css")-->
 <!--@end-->
-<!-- 로그인 사용자일 경우 -->
+
+<!-- 로그인 사용자일 경우 로그인 정보를 출력 -->
 <!--@if($logged_info)-->
 
     <!--%import("./filter/logout.xml")-->
@@ -38,7 +39,7 @@
         </div>
     </div>
 
-<!-- 비로그인 사용자일 경우 -->
+<!-- 비로그인 사용자일 경우 로그인 폼을 출력 -->
 <!--@else-->
     <!--%import("./filter/login.xml")-->
 

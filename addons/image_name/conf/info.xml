@@ -4,7 +4,7 @@
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <description xml:lang="ko">
-        사용자의 이름을 이미지로 대체하거나 마크이미지를 나타내는 애드온
+        사용자의 이름을 이미지로 대체하거나 마크이미지를 나타내는 애드온입니다.
         회원 관리에서 이미지이름이나 마크이미지를 설정하여야 한다.
     </description>
   </author>

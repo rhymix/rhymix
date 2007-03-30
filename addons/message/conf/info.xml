@@ -4,9 +4,8 @@
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <description xml:lang="ko">
-        1. 새쪽지가 올 경우 팝업으로 알려줍니다.
-        2. 다른 회원의 아이디 클릭시 나타나는 팝업메뉴에 쪽지 보내기를 추가합니다.
-        3. 로그인 플러그인이나 게시판 상단에 쪽지의 갯수를 표시합니다.
+        1. 다른 회원의 아이디 클릭시 나타나는 팝업메뉴에 쪽지 보내기를 추가합니다.
+        2. 새쪽지가 올 경우 팝업으로 알려줍니다.
     </description>
   </author>
 </addon>
