@@ -133,10 +133,10 @@
          * action foward는 등록된 action이 요청된 모듈에 없을 경우 찾아서 포워딩을 하는 구조이다
          * 모듈의 설치시에 사용된다.
          **/
-        function insertActionForward($module, $type, $action) {
+        function insertActionForward($module, $type, $act) {
             $args->module = $module;
             $args->type = $type;
-            $args->action = $action;
+            $args->act = $act;
 
             $oDB = &DB::getInstance();
             $output = $oDB->executeQuery('module.insertActionFoward', $args);

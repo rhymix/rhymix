@@ -3,7 +3,7 @@
         <table name="action_foward" />
     </tables>
     <columns>
-        <column name="action" default="action" notnull="notnull" />
+        <column name="act" default="act" notnull="notnull" />
         <column name="module" default="module" notnull="notnull" />
         <column name="type" default="type" notnull="notnull" />
     </columns>
