@@ -1,99 +1,105 @@
 /**
- * @file   : modules/board/js/admin.js
- * @author : zero <zero@nzeo.com>
- * @desc   : board 모듈의 관리자용 javascript
+ * @file   modules/board/js/admin.js
+ * @author zero (zero@nzeo.com)
+ * @desc   board 모듈의 관리자용 javascript
  **/
 
 /* 모듈 생성 후 */
 function completeInsertBoard(ret_obj) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
 
-  var page = ret_obj['page'];
-  var module_srl = ret_obj['module_srl'];
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
 
-  alert(message);
+    alert(message);
 
-  var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminBoardInfo";
-  if(page) url += "&page="+page;
+    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminBoardInfo";
+    if(page) url += "&page="+page;
 
-  location.href = url;
+    location.href = url;
 }
 
 /* 모듈 삭제 후 */
 function completeDeleteBoard(ret_obj) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
-  var page = ret_obj['page'];
-  alert(message);
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+    var page = ret_obj['page'];
+    alert(message);
 
-  var url =  "./?module=admin&mo=board&act=dispAdminContent";
-  if(page) url += "&page="+page;
+    var url =  "./?module=admin&mo=board&act=dispAdminContent";
+    if(page) url += "&page="+page;
 
-  location.href = url;
+    location.href = url;
 }
 
 /* 카테고리 관련 작업들 */
 function doUpdateCategory(category_srl, mode, message) {
-  if(typeof(message)!='undefined'&&!confirm(message)) return;
+    if(typeof(message)!='undefined'&&!confirm(message)) return;
 
-  var fo_obj = xGetElementById('fo_category_info');
-  fo_obj.category_srl.value = category_srl;
-  fo_obj.mode.value = mode;
+    var fo_obj = xGetElementById('fo_category_info');
+    fo_obj.category_srl.value = category_srl;
+    fo_obj.mode.value = mode;
 
-  procFilter(fo_obj, update_category);
+    procFilter(fo_obj, update_category);
 }
 
 /* 카테고리 정보 수정 후 */
 function completeUpdateCategory(ret_obj) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
-  var module_srl = ret_obj['module_srl'];
-  var page = ret_obj['page'];
-  alert(message);
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+    var module_srl = ret_obj['module_srl'];
+    var page = ret_obj['page'];
+    alert(message);
 
-  var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminCategoryInfo";
-  if(page) url += "&page="+page;
+    var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminCategoryInfo";
+    if(page) url += "&page="+page;
 
-  location.href = url;
+    location.href = url;
 }
 
 /* 권한 관련 */
 function doSelectAll(obj, key) {
-  var fo_obj = obj.parentNode;
-  while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-  for(var i=0;i<fo_obj.length;i++) {
-    var tobj = fo_obj[i];
-    if(tobj.name == key) tobj.checked=true;
-  }
+    var fo_obj = obj.parentNode;
+    while(fo_obj.nodeName != 'FORM') { 
+        fo_obj = fo_obj.parentNode; 
+    }
+
+    for(var i=0;i<fo_obj.length;i++) {
+        var tobj = fo_obj[i];
+        if(tobj.name == key) tobj.checked=true;
+    }
 }
 
 function doUnSelectAll(obj, key) {
-  var fo_obj = obj.parentNode;
-  while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-  for(var i=0;i<fo_obj.length;i++) {
-    var tobj = fo_obj[i];
-    if(tobj.name == key) tobj.checked = false;
-  }
+    var fo_obj = obj.parentNode;
+    while(fo_obj.nodeName != 'FORM') { 
+        fo_obj = fo_obj.parentNode; 
+    }
+
+    for(var i=0;i<fo_obj.length;i++) {
+        var tobj = fo_obj[i];
+        if(tobj.name == key) tobj.checked = false;
+    }
 }
 
 function completeInsertGrant(ret_obj) {
-  var error = ret_obj['error'];
-  var message = ret_obj['message'];
-  var page = ret_obj['page'];
-  var module_srl = ret_obj['module_srl'];
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
 
-  alert(message);
+    alert(message);
 
-  var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminGrantInfo";
-  if(page) url += "&page="+page;
+    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispAdminGrantInfo";
+    if(page) url += "&page="+page;
 
-  location.href = url;
+    location.href = url;
 }
 
 /* 카테고리 이동 */
 function doChangeCategory(sel_obj, url) {
-  var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
-  if(!module_category_srl) location.href=url;
-  else location.href=url+'&module_category_srl='+module_category_srl;
+    var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
+    if(!module_category_srl) location.href=url;
+    else location.href=url+'&module_category_srl='+module_category_srl;
 }
