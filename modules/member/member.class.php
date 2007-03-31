@@ -14,7 +14,7 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberInfo');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberSignUpInfo');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberSignUpForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLoginForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');

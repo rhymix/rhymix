@@ -2,7 +2,7 @@
 <module>
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
-        <action name="dispMemberSignUpInfo" type="view" standalone="true" />
+        <action name="dispMemberSignUpForm" type="view" standalone="true" />
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
 
