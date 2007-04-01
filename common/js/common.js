@@ -248,39 +248,34 @@ function showOriginalImage(evt) {
     var orig_image = xGetElementById("fororiginalimage");
     var tmp_image = new Image();
     tmp_image.src = src;
+    var image_width = tmp_image.width;
+    var image_height = tmp_image.height;
 
-    orig_image.style.position = "absolute";
     orig_image.style.margin = "0px 0px 0px 0px";
-    orig_image.style.cursor = "pointer";
+    orig_image.style.cursor = "move";
     orig_image.src = src;
-    orig_image.style.opacity = 1;
-    orig_image.style.filter = 'alpha(opacity=100)';
 
     var areabg = xGetElementById("fororiginalimageareabg");
-    areabg.style.opacity = 0.90;
-    areabg.style.filter = 'alpha(opacity=90)';
     areabg.style.visibility = "visible";
+    xWidth(areabg, image_width+22);
+    xHeight(areabg, image_height+22);
 
     var area = xGetElementById("fororiginalimagearea");
-
     xLeft(area, xScrollLeft());
     xTop(area, xScrollTop());
     xWidth(area, xWidth(document));
     xHeight(area, xHeight(document));
     area.style.visibility = "visible";
-
     var area_width = xWidth(area);
     var area_height = xHeight(area);
-    var image_width = tmp_image.width;
-    var image_height = tmp_image.height;
 
     var x = parseInt((area_width-image_width)/2,10);
     var y = parseInt((area_height-image_height)/2,10);
     if(x<0) x = 0;
     if(y<0) y = 0;
 
-    xLeft(orig_image, x);
-    xTop(orig_image, y);
+    xLeft(areabg, x);
+    xTop(areabg, y);
 
     var sel_list = xGetElementsByTagName("select");
     for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "hidden";
@@ -332,8 +327,9 @@ function origImageDrag(obj, px, py) {
     var x = px - obj.startX;
     var y = py - obj.startY;
 
-    xLeft(obj, xLeft(obj)+x);
-    xTop(obj, xTop(obj)+y);
+    var areabg = xGetElementById("fororiginalimageareabg");
+    xLeft(areabg, xLeft(areabg)+x);
+    xTop(areabg, xTop(areabg)+y);
 
     obj.startX = px;
     obj.startY = py;
