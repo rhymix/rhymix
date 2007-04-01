@@ -1,6 +1,6 @@
 <query id="insertActionFoward" action="insert">
     <tables>
-        <table name="action_foward" />
+        <table name="action_forward" />
     </tables>
     <columns>
         <column name="act" default="act" notnull="notnull" />

@@ -1,4 +1,4 @@
-<table name="action_foward">
+<table name="action_forward">
     <column name="act" type="varchar" size="80" notnull="notnull" unique="idx_foward"/>
     <column name="module" type="varchar" size="60" notnull="notnull" />
     <column name="type" type="varchar" size="15" notnull="notnull" />

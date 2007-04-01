@@ -12,12 +12,8 @@
      * before_display_content 에서만 요청이 됩니다.
      **/
 
-    if($called_position != 'before_display_content') return;
-
-    // 현재 애드온의 위치를 구함
-    $oAddOnModel = &getModel('addon');
-    $path = $oAddOnModel->getAddonPath('rainbow_link');
+    if($called_position != 'before_module_init') return;
 
     // Context::addJsFile()을 이용하면 끝
-    Context::addJsFile($path.'js/rainbow.js');
+    Context::addJsFile($addon_path.'js/rainbow.js');
 ?>

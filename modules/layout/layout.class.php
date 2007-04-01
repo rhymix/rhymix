@@ -14,12 +14,11 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminContent');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsertLayout');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsert');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminMenu');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedLayoutList');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminAdminInfo');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedList');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInfo');
             
-            $oModuleController->insertActionForward('layout', 'model', 'getLayoutAdminMenuSrl');
             $oModuleController->insertActionForward('layout', 'model', 'getLayoutAdminMenuTplInfo');
 
             $oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminInsert');

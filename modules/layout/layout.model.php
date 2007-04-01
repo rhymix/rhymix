@@ -18,7 +18,7 @@
          * @brief 특정 menu_srl의 정보를 이용하여 템플릿을 구한후 return
          * 관리자 페이지에서 특정 메뉴의 정보를 추가하기 위해 서버에서 tpl을 컴파일 한후 컴파일 된 html을 직접 return
          **/
-        function getLayoutAdminTplInfo() {
+        function getLayoutAdminMenuTplInfo() {
             // 해당 메뉴의 정보를 가져오기 위한 변수 설정
             $menu_id = Context::get('menu_id');
             $menu_srl = Context::get('menu_srl');
@@ -58,7 +58,7 @@
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
-            $tpl = $oTemplate->compile($this->module_path.'tpl.admin', 'layout_menu_info');
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'layout_menu_info');
 
             // return 할 변수 설정
             $this->add('menu_id', $menu_id);

@@ -88,7 +88,7 @@
         /**
          * @brief 레이아웃에  메뉴 추가
          **/
-        function procLayoutInsertMenu() {
+        function procLayoutAdminInsertMenu() {
             // 입력할 변수 정리
             $source_args = Context::getRequestVars();
             unset($source_args->module);

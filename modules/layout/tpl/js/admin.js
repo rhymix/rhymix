@@ -1,7 +1,7 @@
 /* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
 function completeInsertLayout(ret_obj) {
       var layout_srl = ret_obj['layout_srl'];
-      location.href="./?module=admin&mo=layout&act=dispLayoutAdminMenu&layout_srl="+layout_srl;
+      location.href="./?module=admin&act=dispLayoutAdminMenu&layout_srl="+layout_srl;
 } 
 
 /* 레이아웃메뉴 입력후 */ 
@@ -58,7 +58,7 @@ function doGetMenuInfo(menu_id, obj) {
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message','menu_id', 'tpl');
-    exec_xml('layout', 'getMenuTplInfo', params, completeGetMenuInfo, response_tags, params);
+    exec_xml('layout', 'getLayoutAdminMenuTplInfo', params, completeGetMenuInfo, response_tags, params);
 }
 
 /* 메뉴를 드래그하여 이동한 후 실행할 함수 , 이동하는 node_srl과 대상 node_srl을 받음 */
@@ -126,5 +126,5 @@ function doReloadTreeMenu(menu_id) {
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message','menu_id', 'xml_file', 'menu_title');
-    exec_xml('layout', 'procMakeXmlFile', params, completeInsertLayoutMenu, response_tags, params);
+    exec_xml('layout', 'procLayoutAdminMakeXmlFile', params, completeInsertLayoutMenu, response_tags, params);
 }

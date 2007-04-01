@@ -40,7 +40,7 @@ function doDisplaySkinColorset(sel, colorset) {
 
     var response_tags = new Array("error","message","colorset_list");
 
-    exec_xml("plugin", "procGetColorsetList", params, completeGetSkinColorset, response_tags, params);
+    exec_xml("plugin", "procPluginGetColorsetList", params, completeGetSkinColorset, response_tags, params);
 }
 
 /* 서버에서 받아온 컬러셋을 표시 */
