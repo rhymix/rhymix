@@ -256,7 +256,6 @@ function showOriginalImage(evt) {
     orig_image.src = src;
 
     var areabg = xGetElementById("fororiginalimageareabg");
-    areabg.style.visibility = "visible";
     xWidth(areabg, image_width+22);
     xHeight(areabg, image_height+32);
 
@@ -273,7 +272,6 @@ function showOriginalImage(evt) {
     var y = parseInt((area_height-image_height)/2,10);
     if(x<0) x = 0;
     if(y<0) y = 0;
-
     xLeft(areabg, x);
     xTop(areabg, y);
 
@@ -283,6 +281,8 @@ function showOriginalImage(evt) {
     xAddEventListener(orig_image, "mousedown", origImageDragEnable);
     xAddEventListener(window, "scroll", closeOriginalImage);
     xAddEventListener(window, "resize", closeOriginalImage);
+
+    areabg.style.visibility = 'visible';
 }
 
 /**
