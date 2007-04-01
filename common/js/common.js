@@ -257,8 +257,8 @@ function showOriginalImage(evt) {
     orig_image.style.filter = 'alpha(opacity=100)';
 
     var areabg = xGetElementById("fororiginalimageareabg");
-    areabg.style.opacity = 0.95;
-    areabg.style.filter = 'alpha(opacity=95)';
+    areabg.style.opacity = 0.90;
+    areabg.style.filter = 'alpha(opacity=90)';
     areabg.style.visibility = "visible";
 
     var area = xGetElementById("fororiginalimagearea");
