@@ -15,9 +15,9 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('addon', 'view', 'dispAddonIndex');
-            $oModuleController->insertActionForward('addon', 'view', 'dispAddonInfo');
-            $oModuleController->insertActionForward('addon', 'controller', 'procAddonToggleActivate');
+            $oModuleController->insertActionForward('addon', 'view', 'dispAddonAdminIndex');
+            $oModuleController->insertActionForward('addon', 'view', 'dispAddonAdminInfo');
+            $oModuleController->insertActionForward('addon', 'controller', 'procAddonAdminToggleActivate');
             
             // 몇가진 애드온을 기본으로 설치 상태로 지정
             $oAddonController = &getController('addon');
