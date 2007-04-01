@@ -96,8 +96,8 @@ h6 {
     top:0px;
     left:0px;
     position:relative;
-    padding:10px;
-    border:1px solid #000000;
+    padding:20px 10px 10px 10px;
+    border:1px solid #555555;
 }
 
 #fororiginalimagearea {
@@ -120,12 +120,11 @@ h6 {
 
 #closeOriginalImageBtn {
     position:absolute;
-    right:5px;
+    right:8px;
     top:5px;
     cursor:pointer;
-    width:60px;
-    height:20px;
-    border:1px solid #FFFFFF;
+    width:50px;
+    height:12px;
     z-index:1003;
 }
 
