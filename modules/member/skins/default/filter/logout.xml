@@ -1,4 +1,4 @@
-<filter name="logout" module="board" act="procMemberLogout">
+<filter name="logout" module="member" act="procMemberLogout">
     <form />
     <response callback_func="completeLogout">
         <tag name="error" />

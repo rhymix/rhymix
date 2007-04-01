@@ -1,4 +1,4 @@
-<filter name="insert" module="member" act="procMemberInsert" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
+<filter name="insert" module="member" act="procMemberAdminInsert" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
     <form>
         <node target="user_id" required="true" minlength="3" maxlength="20" filter="userid" />
         <node target="password1" required="true" minlength="6" maxlength="20" />
