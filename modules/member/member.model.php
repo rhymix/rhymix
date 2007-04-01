@@ -330,7 +330,7 @@
         /**
          * @brief 회원 가입폼 추가 확장 목록 가져오기
          *
-         * 이 메소드는 modules/member/tpl.admin/filter/insert.xml 의 extend_filter로 동작을 한다.
+         * 이 메소드는 modules/member/tpl/filter/insert.xml 의 extend_filter로 동작을 한다.
          * extend_filter로 사용을 하기 위해서는 인자값으로 boolean값을 받도록 규정한다.
          * 이 인자값이 true일 경우 filter 타입에 맞는 형태의 object로 결과를 return하여야 한다.
          **/

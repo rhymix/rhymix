@@ -16,7 +16,7 @@
          **/
         function init() {
             // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
@@ -33,8 +33,8 @@
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
-            // 템플릿 경로 구함 (page의 경우 tpl.admin에 관리자용 템플릿 모아놓음)
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
@@ -47,7 +47,7 @@
             Context::set('module_info', $this->module_info);
             Context::set('page_content', $this->module_info->content);
 
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('content');
         }
 

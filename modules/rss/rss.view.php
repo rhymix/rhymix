@@ -27,7 +27,7 @@
             Context::set('rss_types',$this->rss_types);
 
             // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin/');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
         }
 
@@ -90,7 +90,7 @@
             Context::set('message', Context::getLang('msg_rss_is_disabled') );
 
             // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin/');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("error");
         }
     }

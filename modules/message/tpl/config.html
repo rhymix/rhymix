@@ -6,8 +6,8 @@
         <th rowspan="2">{$lang->skin}</th>
         <td>
             <select name="skin">
-                <!--@foreach($skin_list as $val)-->
-                <option value="{$val}" <!--@if($val==$config->skin)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@foreach($skin_list as $key => $val)-->
+                <option value="{$key}" <!--@if($key==$config->skin)-->selected="true"<!--@end-->>{$val->title}</option>
                 <!--@end-->
             </select>
         </td>

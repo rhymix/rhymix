@@ -56,7 +56,7 @@
             Context::set('module_list', $module_list);
 
             // 템플릿 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('comment_list');
         }
 

@@ -12,7 +12,7 @@
          **/
         function init() {
             // 템플릿 경로 지정 
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**

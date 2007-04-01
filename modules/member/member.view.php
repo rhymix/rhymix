@@ -39,7 +39,7 @@
             Context::set('group_list', $this->group_list);
 
             // template path 지정
-            $this->setTemplatePath($this->module_path.'tpl.admin');
+            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**

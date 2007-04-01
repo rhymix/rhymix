@@ -1,4 +1,4 @@
-<filter name="insert_page" module="pagemaker" act="procPageAdminInsert" confirm_msg_code="confirm_submit">
+<filter name="insert_page" module="page" act="procPageAdminInsert" confirm_msg_code="confirm_submit">
     <form>
         <node target="mid" required="true" filter="alpha_number" />
         <node target="browser_title" required="true" maxlength="250" />

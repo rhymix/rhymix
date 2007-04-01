@@ -1,4 +1,4 @@
-<filter name="insert_config" module="pagemaker" act="procPageAdminInsertConfig" confirm_msg_code="confirm_submit">
+<filter name="insert_config" module="page" act="procPageAdminInsertConfig" confirm_msg_code="confirm_submit">
     <form />
     <response>
         <tag name="error" />

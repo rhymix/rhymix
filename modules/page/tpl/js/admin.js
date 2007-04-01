@@ -1,7 +1,7 @@
 /**
- * @file     : modules/pagemaker/js/admin.js
- * @author : zero <zero@nzeo.com>
- * @desc     : pagemaker 모듈의 관리자용 javascript
+ * @file   modules/page/js/admin.js
+ * @author zero (zero@nzeo.com)
+ * @desc   page모듈의 관리자용 javascript
  **/
 
 /* 모듈 생성 후 */
@@ -14,7 +14,7 @@ function completeInsertPage(ret_obj) {
 
     alert(message);
 
-    var url = "./?module=admin&mo=pagemaker&module_srl="+module_srl+"&act=dispAdminPageInfo";
+    var url = "./?module=admin&module_srl="+module_srl+"&act=dispPageAdminInfo";
     if(page) url += "&page="+page;
 
     location.href = url;
@@ -28,7 +28,7 @@ function completeDeletePage(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = "./?module=admin&mo=pagemaker&act=dispAdminContent";
+    var url = "./?module=admin&act=dispPageAdminContent";
     if(page) url += "&page="+page;
 
     location.href = url;
