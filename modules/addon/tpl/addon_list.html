@@ -28,7 +28,7 @@
     <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
     <td>{$val->author->date}</td>
     <td>{$val->path}</td>
-    <td rowspan="2"><a href="#" onclick="winopen('{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}','addon_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
+    <td rowspan="2"><a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_view}</a></td>
     <td rowspan="2">
         <!--@if($val->activated)-->
         <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>

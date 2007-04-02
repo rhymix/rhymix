@@ -33,9 +33,7 @@
             $oDB = &DB::getInstance();
 
             // 다운받은 애드온과 설치된 애드온의 목록을 구함
-            $downloaded_list = FileHandler::readDir('./files/addons');
-            $installed_list = FileHandler::readDir('./addons');
-            $searched_list = array_merge($downloaded_list, $installed_list);
+            $searched_list = FileHandler::readDir('./addons');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
