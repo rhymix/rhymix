@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   : modules/message/lang/ko.lang.php
-     * @author : zero <zero@nzeo.com>
-     * @desc   : 한국어 언어팩 (기본적인 내용만 수록)
+     * @file   modules/message/lang/ko.lang.php
+     * @author zero <zero@nzeo.com>
+     * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
     // 설명문

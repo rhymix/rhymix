@@ -1,7 +1,7 @@
 /**
  * @file   admin.js
  * @author zero (zero@nzeo.com)
- * @desc   admin 모듈의 javascript
+ * @brief  admin 모듈의 javascript
  **/
 
 // 숏컷 삭제
