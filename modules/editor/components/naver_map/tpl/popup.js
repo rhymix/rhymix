@@ -43,7 +43,7 @@ function insertNaverMap(obj) {
     var height = xGetElementById("map_height").value;
     if(!height) height= 480;
 
-    var text = "<div editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" marker=\""+marker+"\"></div>";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" marker=\""+marker+"\" />";
 
     opener.editorFocus(opener.editorPrevSrl);
 
