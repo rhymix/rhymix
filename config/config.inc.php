@@ -37,7 +37,6 @@
      **/
     if(__DEBUG__) define('__RequireClassStartTime__', getMicroTime());
     require_once("./classes/handler/Handler.class.php");
-    require_once("./classes/session/SessionHandler.class.php");
     require_once("./classes/xml/XmlParser.class.php");
     require_once("./classes/context/Context.class.php");
     require_once("./classes/db/DB.class.php");
