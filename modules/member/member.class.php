@@ -15,6 +15,7 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberInfo');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSignUpForm');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberModifyInfo');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLoginForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');
@@ -29,6 +30,7 @@
             $oModuleController->insertActionForward('member', 'model', 'getmemberMenu');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberLogin');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberLogout');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsert');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageName');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageMark');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');

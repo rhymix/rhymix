@@ -3,6 +3,7 @@
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispMemberSignUpForm" type="view" standalone="true" />
+        <action name="dispMemberModifyInfo" type="view" standalone="true" />
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
 
@@ -21,6 +22,7 @@
 
         <action name="procMemberLogin" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
+        <action name="procMemberInsert" type="controller" standalone="true" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" />
         <action name="procMemberInsertImageMark" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />

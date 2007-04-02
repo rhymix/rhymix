@@ -65,10 +65,45 @@
             $this->initNormal();
 
             $oMemberModel = &getModel('member');
-            $this->member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl && Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $member_srl = $logged_info->member_srl;
+            } elseif(!$member_srl) {
+                return $this->dispMemberSignUpForm();
+            }
+
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            unset($member_info->password);
+            unset($member_info->email_id);
+            unset($member_info->email_host);
+            unset($member_info->email_address);
+
+            if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
+
+            Context::set('member_info', $member_info);
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             $this->setTemplateFile('member_info');
+        }
+
+        /**
+         * @brief 회원 가입 폼 출력
+         **/
+        function dispMemberSignUpForm() {
+            $this->initNormal();
+
+            $oMemberModel = &getModel('member');
+
+            // 로그인한 회원일 경우 해당 회원의 정보를 받음
+            if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
+
+            // 회원가입을 중지시켰을 때는 에러 표시
+            if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+            
+            // 템플릿 파일 지정
+            $this->setTemplateFile('signup_form');
         }
 
         /**

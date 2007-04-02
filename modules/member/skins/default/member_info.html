@@ -51,8 +51,15 @@
 </tr>
 <!--@end-->
 <!--@end-->
+
 <tr>
-    <th>{$lang->description}</th>
-    <td>{$member_info->description}</td>
+    <td colspan="2">
+        <!--@if($member_info->member_srl == $logged_info->member_srl)-->
+        <input type="button" value="{$lang->cmd_modify_member_info}" onclick="location.href='{getUrl('act','dispMemberModifyInfo')}';return false;" />
+        <input type="button" value="{$lang->cmd_modify_member_password}" />
+        <!--@end-->
+        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','')}';return false;" />
+    </td>
 </tr>
+
 </table>

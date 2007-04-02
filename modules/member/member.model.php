@@ -52,7 +52,7 @@
             if($mid) {
                 // 회원 정보 보기
                 $menu_str = Context::getLang('cmd_view_member_info');
-                $menu_url = sprintf('./?mid=%s&amp;act=dispSignUpForm&amp;member_srl=%s', $mid, $member_srl);
+                $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
                 $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
 
                 // 아이디로 검색

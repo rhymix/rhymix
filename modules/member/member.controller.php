@@ -75,7 +75,7 @@
          **/
         function procMemberAdminInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','signature','profile_image','image_nick','image_mark','description','group_srl_list');
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -280,6 +280,53 @@
             $this->add('page',Context::get('page'));
             $this->setMessage($msg_code);
         }
+
+        /**
+         * @brief 회원 가입 or 정보 수정
+         **/
+        function procMemberInsert() {
+            // 필수 정보들을 미리 추출
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','signature');
+
+            // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
+            $all_args = Context::getRequestVars();
+            unset($all_args->module);
+            unset($all_args->act);
+            unset($all_args->is_admin);
+            unset($all_args->description);
+            unset($all_args->group_srl_list);
+
+            // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
+            $extra_vars = delObjectVars($all_args, $args);
+            $args->extra_vars = serialize($extra_vars);
+
+            // member_srl이 넘어오면 원 회원이 있는지 확인
+            if($args->member_srl) {
+                // 멤버 모델 객체 생성
+                $oMemberModel = &getModel('member');
+
+                // 회원 정보 구하기
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+
+                // 만약 원래 회원이 없으면 새로 입력하기 위한 처리
+                if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
+            }
+
+            // member_srl의 값에 따라 insert/update
+            if(!$args->member_srl) {
+                $output = $this->insertMember($args);
+                $msg_code = 'success_registed';
+            } else {
+                $output = $this->updateMember($args);
+                $msg_code = 'success_updated';
+            }
+
+            if(!$output->toBool()) return $output;
+
+            $this->add('member_srl', $args->member_srl);
+            $this->setMessage($msg_code);
+        }
+
 
         /**
          * @brief 이미지 이름을 추가 
