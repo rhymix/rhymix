@@ -2,11 +2,7 @@
 <!--%import("js/member.js")-->
 
 <div>
-    <!--@if(!$is_logged)-->
-        {$lang->msg_new_member}
-    <!--@else-->
-        {$lang->msg_update_member}
-    <!--@end-->
+    {$lang->msg_update_member}
 </div>
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, modify_info)">

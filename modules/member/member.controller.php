@@ -337,9 +337,6 @@
             // 멤버 모델 객체 생성
             $oMemberModel = &getModel('member');
 
-            // 회원 정보 구하기
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-
             // member_srl의 값에 따라 insert/update
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;
@@ -348,6 +345,26 @@
             $this->setMessage('success_updated');
         }
 
+        /**
+         * @brief 회원 비밀번호 수정
+         **/
+        function procMemberModifyPassword() {
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+            // 필수 정보들을 미리 추출
+            $args->password = trim(Context::get('password'));
+
+            // 로그인 정보
+            $logged_info = Context::get('logged_info');
+            $args->member_srl = $logged_info->member_srl;
+
+            // member_srl의 값에 따라 insert/update
+            $output = $this->updateMemberPassword($args);
+            if(!$output->toBool()) return $output;
+
+            $this->add('member_srl', $args->member_srl);
+            $this->setMessage('success_updated');
+        }
 
         /**
          * @brief 이미지 이름을 추가 
@@ -574,6 +591,14 @@
 
             $output->add('member_srl', $args->member_srl);
             return $output;
+        }
+
+        /**
+         * @brief member 비밀번호 수정
+         **/
+        function updateMemberPassword($args) {
+            $args->password = md5($args->password);
+            return executeQuery('member.updateMemberPassword', $args);
         }
 
         /**

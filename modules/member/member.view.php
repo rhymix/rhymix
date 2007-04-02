@@ -143,6 +143,27 @@
         }
 
         /**
+         * @brief 회원 비밀번호 수정
+         **/
+        function dispMemberModifyPassword() {
+            $this->initNormal();
+
+            $oMemberModel = &getModel('member');
+
+            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            Context::set('member_info',$member_info);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('modify_password');
+        }
+
+        /**
          * @brief 로그아웃 출력
          **/
         function dispMemberLogout() {
