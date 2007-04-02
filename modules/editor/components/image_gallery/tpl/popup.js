@@ -6,7 +6,7 @@ function getSlideShow() {
     // 부모 위지윅 에디터에서 선택된 영역이 있으면 처리
     var node = opener.editorPrevNode;
     var selected_images = "";
-    if(node && node.nodeName == "DIV") {
+    if(node && node.nodeName == "IMG") {
         selected_node = node;
 
         var width = xWidth(selected_node)-6;
@@ -34,7 +34,7 @@ function getSlideShow() {
         xGetElementById("bg_color_input").value = bg_color; 
         manual_select_color("bg", xGetElementById("bg_color_input"));
 
-        selected_images = xInnerHtml(selected_node);
+        selected_images = selected_node.getAttribute("images_list");
     }
 
     // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅 
@@ -89,22 +89,24 @@ function insertSlideShow() {
 
     var images_list = "";
     for(var i=0; i<list.length;i++) {
-        images_list += list[i].trim()+"\n";
+        images_list += list[i].trim()+" ";
     }
     if(selected_node) {
         selected_node.setAttribute("width", width);
         selected_node.setAttribute("gallery_style", gallery_style);
+        selected_node.setAttribute("align", gallery_align);
         selected_node.setAttribute("gallery_align", gallery_align);
         selected_node.setAttribute("border_thickness", border_thickness);
         selected_node.setAttribute("border_color", border_color);
         selected_node.setAttribute("bg_color", bg_color);
+        selected_node.setAttribute("images_list", images_list);
         selected_node.style.width = width+"px";
-        xInnerHtml(selected_node, images_list);
     } else {
-        var text = "<div editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;\" >"+images_list+"</div>";
+        var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" align=\""+gallery_align+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;\" images_list=\"images_list\" />";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);
+        alert(text);
     }
 
     opener.editorFocus(opener.editorPrevSrl);

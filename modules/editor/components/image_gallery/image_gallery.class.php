@@ -49,11 +49,14 @@
             $gallery_info->bg_color = $xml_obj->attrs->bg_color;
             $gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
-            preg_match_all("/([^\"]){0,1}http([a-zA-Z0-9\_\-\:\/\.\~]*)([^\.]*)\.(gif|jpg|jpeg|png)/i",trim($xml_obj->body),$matches);
-            $image_list = $matches[0];
-            $image_count = count($image_list);
-            for($i=0;$i<$image_count;$i++) $image_list[$i] = preg_replace('/^(\>|\s)/','', $image_list[$i]);
-            $gallery_info->image_list = $image_list;
+            $images_list = $xml_obj->attrs->images_list;
+            $images_list = preg_replace('/\.(gif|jpg|jpeg|png) /i',".\\1\n",$images_list);
+            $gallery_info->images_list = explode("\n",trim($images_list));
+
+            if(!$gallery_info->width) {
+                preg_match_all('/([0-9]+)/i',$xml_obj->attrs->style,$matches);
+                $gallery_info->width = $matches[0][0];
+            }
 
             Context::set('gallery_info', $gallery_info);
 
