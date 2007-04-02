@@ -26,8 +26,8 @@ function completeDeleteBoard(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('act','dispBoardAdminContent');
-    if(page) url.setQuery('page',page);
+    var url = location.href.setQuery('act','dispBoardAdminContent').setQuery('module_srl','');
+    if(page) url = url.setQuery('page',page);
     location.href = url;
 }
 

@@ -488,7 +488,7 @@
          **/
         function dispBoardAdminDeleteBoard() {
 
-            if(!Context::get('module_srl')) return $this->dispContent();
+            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
 
             $module_info = Context::get('module_info');
 
