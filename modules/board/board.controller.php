@@ -267,7 +267,6 @@
 
             // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
             $obj = Context::getRequestVars();
-            unset($obj->mo);
             unset($obj->act);
             unset($obj->module_srl);
             unset($obj->page);
@@ -330,8 +329,8 @@
 
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
-
-            print "<script type=\"text/javascript\">top.location.href=top.location.href;</script>";
+            $output = sprintf("<script type=\"text/javascript\">location.href=\"./?module=%s&act=%s&module_srl=%s&page=%s\";</script>", Context::get('module'), 'dispBoardAdminSkinInfo', $module_srl, Context::get('page'));
+            print $output;
             exit();
         }
 
