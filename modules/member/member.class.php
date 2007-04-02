@@ -87,6 +87,7 @@
             FileHandler::makeDir('./files/member_extra_info/attach/image_name');
             FileHandler::makeDir('./files/member_extra_info/attach/image_mark');
             FileHandler::makeDir('./files/member_extra_info/attach/signature');
+            FileHandler::makeDir('./files/session/');
 
             return new Object();
         }

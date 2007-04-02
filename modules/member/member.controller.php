@@ -16,7 +16,7 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function procMemberLogin($user_id, $password) {
+        function procMemberLogin() {
             // 변수 정리
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);

@@ -27,7 +27,7 @@
         function writeFile($file_name, $buff, $mode = "w") {
             $mode = strtolower($mode);
             if($mode != "a") $mode = "w";
-            if(@!$fp = fopen($file_name,$mode)) return;
+            if(@!$fp = fopen($file_name,$mode)) return false;
             fwrite($fp, $buff);
             fclose($fp);
         }

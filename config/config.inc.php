@@ -22,19 +22,13 @@
     if(__DEBUG__) {
         
         // php5이상이면 error handling을 handleError() 로 set
-        if (version_compare(phpversion(), '5.0') > 0) {
-            set_error_handler("handleError");
-        }
+        //if (version_compare(phpversion(), '5.0') > 0) {
+            //set_error_handler("handleError");
+        //}
 
         // 여기서부터 시작 시간으로 설정
         define('__StartTime__', getMicroTime());
     }
-
-    /**
-     * @brief 세션 설정
-     **/
-    @session_cache_limiter('no-cache, must-revalidate');
-    @session_start();
 
     /**
      * @brief 기본적인 class 파일 include
@@ -43,6 +37,7 @@
      **/
     if(__DEBUG__) define('__RequireClassStartTime__', getMicroTime());
     require_once("./classes/handler/Handler.class.php");
+    require_once("./classes/session/SessionHandler.class.php");
     require_once("./classes/xml/XmlParser.class.php");
     require_once("./classes/context/Context.class.php");
     require_once("./classes/db/DB.class.php");
@@ -54,4 +49,20 @@
     require_once("./classes/module/ModuleHandler.class.php");
     require_once("./classes/display/DisplayHandler.class.php");
     if(__DEBUG__) define('__RequireClassEndTime__', getMicroTime());
+
+    /**
+     * @brief 세션 설정
+     **/
+    /*
+    $oSessionHandler = new SessionHandler();
+    $aa = session_set_save_handler(
+        array(&$oSessionHandler,"open"),
+        array(&$oSessionHandler,"close"),
+        array(&$oSessionHandler,"read"),
+        array(&$oSessionHandler,"write"),
+        array(&$oSessionHandler,"destroy"),
+        array(&$oSessionHandler,"gc"));
+    */
+    session_cache_limiter('no-cache, must-revalidate');
+    session_start();
 ?>
