@@ -100,5 +100,96 @@
             if($size >1024 && $size< 1024 *1024) return sprintf("%0.1fKB",$size / 1024);
             return sprintf("%0.2fMB",$size / (1024*1024));
         }
+
+        /**
+         * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
+         **/
+        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '') {
+            if(!file_exists($source_file)) return;
+
+            // 이미지 정보를 구함
+            list($width, $height, $type, $attrs) = getimagesize($source_file);
+            switch($type) {
+                case '1' :
+                        $type = 'gif';
+                    break;
+                case '2' :
+                        $type = 'jpg';
+                    break;
+                case '3' :
+                        $type = 'png';
+                    break;
+                case '6' :
+                        $type = 'bmp';
+                    break;
+                default :
+                        return;
+                    break;
+            }
+
+            if(!$target_type) $target_type = $type;
+            $target_type = strtolower($target_type);
+
+            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
+            $new_width = $width;
+            if($resize_width>0 && $new_width > $resize_width) $new_width = $resize_width;
+            $new_height = $height;
+            if($resize_height>0 && $new_height > $resize_height) $new_height = $resize_height;
+
+
+            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
+            $thumb = imagecreatetruecolor($new_width, $new_height);
+            switch($type) {
+                case 'gif' : 
+                        $source = imagecreatefromgif($source_file);
+                    break;
+                // jpg
+                case 'jpeg' : 
+                case 'jpg' : 
+                        $source = imagecreatefromjpeg($source_file);
+                    break;
+                // png
+                case 'png' : 
+                        $source = imagecreatefrompng($source_file);
+                    break;
+                // bmp
+                case 'wbmp' : 
+                case 'bmp' : 
+                        $source = imagecreatefromwbmp($source_file);
+                    break;
+                default :
+                    return;
+            }
+
+            if(!$source) return;
+
+            // 디렉토리 생성
+            $path = preg_replace('/\/([^\.^\/]*)\.(gif|png|jpeg|bmp|wbmp)$/i','',$target_file);
+            FileHandler::makeDir($path);
+
+            if($new_width != $width || $new_height != $height) {
+                if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+                else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            } else $thumb = $source;
+
+            // 파일을 쓰고 끝냄
+            switch($target_type) {
+                case 'gif' :
+                        imagegif($thumb, $target_file, 100);
+                    break;
+                case 'jpeg' :
+                case 'jpg' :
+                        imagejpeg($thumb, $target_file, 100);
+                    break;
+                case 'png' :
+                        imagepng($thumb, $target_file, 100);
+                    break;
+                case 'wbmp' :
+                case 'bmp' :
+                        imagewbmp($thumb, $target_file, 100);
+                    break;
+            }
+            @unlink($source_file);
+        }
     }
 ?>

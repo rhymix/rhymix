@@ -303,49 +303,12 @@
 
             // 정해진 사이즈를 구함
             $max_width = $config->image_name_max_width;
-            if(!$max_width) $max_width = "80";
+            if(!$max_width) $max_width = "90";
             $max_height = $config->image_name_max_height;
             if(!$max_height) $max_height = "20";
-            
-            // 이미지 정보를 구함
-            list($width, $height, $type, $attrs) = getimagesize($file['tmp_name']);
 
-            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
-            if($width>$max_width) $new_width = $max_width;
-            else $new_width = $width;
-            if($height>$max_height) $new_height = $max_height;
-            else $new_height = $height;
-
-            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
-            $thumb = imagecreatetruecolor($new_width, $new_height);
-            switch($type) {
-                // gif
-                case 1 : 
-                        $source = imagecreatefromgif($file['tmp_name']);
-                    break;
-                // jpg
-                case 2 : 
-                        $source = imagecreatefromjpeg($file['tmp_name']);
-                    break;
-                // png
-                case 3 : 
-                        $source = imagecreatefrompng($file['tmp_name']);
-                    break;
-                // bmp
-                case 6 : 
-                        $source = imagecreatefromwbmp($file['tmp_name']);
-                    break;
-            }
-
-            if(!$source) return $this->stop('msg_not_uploaded_image_name');
-
-            if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-            else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-            // 파일을 쓰고 끝냄
             $target_filename = sprintf('files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            imagegif($thumb, $target_filename, 100);
-            @unlink($file['tmp_name']);
+            FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
 
             // 페이지 리프레쉬
             $this->setRefreshPage();
@@ -393,48 +356,12 @@
 
             // 정해진 사이즈를 구함
             $max_width = $config->image_mark_max_width;
-            if(!$max_width) $max_width = "80";
+            if(!$max_width) $max_width = "20";
             $max_height = $config->image_mark_max_height;
             if(!$max_height) $max_height = "20";
             
-            // 이미지 정보를 구함
-            list($width, $height, $type, $attrs) = getimagesize($file['tmp_name']);
-
-            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
-            if($width>$max_width) $new_width = $max_width;
-            else $new_width = $width;
-            if($height>$max_height) $new_height = $max_height;
-            else $new_height = $height;
-
-            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
-            $thumb = imagecreatetruecolor($new_width, $new_height);
-            switch($type) {
-                // gif
-                case 1 : 
-                        $source = imagecreatefromgif($file['tmp_name']);
-                    break;
-                // jpg
-                case 2 : 
-                        $source = imagecreatefromjpeg($file['tmp_name']);
-                    break;
-                // png
-                case 3 : 
-                        $source = imagecreatefrompng($file['tmp_name']);
-                    break;
-                // bmp
-                case 6 : 
-                        $source = imagecreatefromwbmp($file['tmp_name']);
-                    break;
-            }
-
-            if(!$source) return $this->stop('msg_not_uploaded_image_mark');
-
-            if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-            else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-            // 파일을 쓰고 끝냄
             $target_filename = sprintf('files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            imagegif($thumb, $target_filename, 100);
+            FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
 
             // 페이지 리프레쉬
             $this->setRefreshPage();
