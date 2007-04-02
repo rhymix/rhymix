@@ -68,7 +68,7 @@ function search_address(selected_address) {
   params['method'] = "search_address";
 
   var response_tags = new Array('error','message','address_list');
-  exec_xml('editor', 'procCall', params, complete_search_address, response_tags, selected_address);
+  exec_xml('editor', 'procEditorCall', params, complete_search_address, response_tags, selected_address);
 }
 
 function moveMap(x,y,scale) {
