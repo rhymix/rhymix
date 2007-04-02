@@ -73,6 +73,12 @@ h6 {
     font-weight:normal;
 }
 
+.member_signature {
+    margin-top:10px;
+    border:1px solid #DDDDDD;
+    padding:10px;
+}
+
 #waitingforserverresponse {
     display:inline;
     border:2px solid #444444;

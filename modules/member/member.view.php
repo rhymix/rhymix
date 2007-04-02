@@ -123,6 +123,7 @@
             $member_srl = $logged_info->member_srl;
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
             
             // 추가 가입폼 목록을 받음
@@ -240,6 +241,10 @@
             // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+
+            $member_info = Context::get('member_info');
+            $member_info->signature = $oMemberModel->getSignature($member_srl);
+            Context::set('member_info');
 
             // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
             if($this->member_info->member_srl) {

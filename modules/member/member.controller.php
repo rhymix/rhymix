@@ -75,7 +75,7 @@
          **/
         function procMemberAdminInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list','signature');
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -109,6 +109,11 @@
 
             if(!$output->toBool()) return $output;
 
+            // 서명 저장
+            $signature = Context::get('signature');
+            $this->putSignature($args->member_srl, $signature);
+
+            // 결과 리턴
             $this->add('member_srl', $args->member_srl);
             $this->setMessage($msg_code);
         }
@@ -286,7 +291,7 @@
          **/
         function procMemberInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_id','user_name','nick_name','email_address','password','allow_mailing','signature');
+            $args = Context::gets('user_id','user_name','nick_name','email_address','password','allow_mailing');
             $args->member_srl = getNextSequence();
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
@@ -316,7 +321,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('nick_name','email_address','allow_mailing','signature');
+            $args = Context::gets('nick_name','email_address','allow_mailing');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');
@@ -341,6 +346,11 @@
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;
 
+            // 서명 저장
+            $signature = Context::get('signature');
+            $this->putSignature($args->member_srl, $signature);
+
+            // 결과 리턴
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
         }
@@ -466,6 +476,25 @@
                 @unlink($image_mark->file);
             } 
             return new Object(0,'success');
+        }
+
+        /**
+         * @brief 서명을 파일로 저장
+         **/
+        function putSignature($member_srl, $signature) {
+            $filename = sprintf('files/attach/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            if(!$signature) return @unlink($filename);
+
+            $buff = sprintf('<?php if(!__ZBXE__) exit();?>%s', $signature);
+            FileHandler::writeFile($filename, $buff);
+        }
+
+        /**
+         * @brief 서명 파일 삭제
+         **/
+        function delSignature($member_srl) {
+            $filename = sprintf('files/attach/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            @unlink($filename);
         }
 
         /**
@@ -621,9 +650,10 @@
             $output = executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) return $output;
 
-            // 이름이미지, 이미지마크 삭제
+            // 이름이미지, 이미지마크, 서명 삭제
             $this->procMemberDeleteImageName();
             $this->procMemberDeleteImageMark();
+            $this->delSignature($member_srl);
 
             // member 테이블에서 삭제
             return executeQuery('member.deleteMember', $args);
@@ -824,7 +854,7 @@
 
         /**
          * @brief 최종 출력물에서 이미지 이름을 변경
-         * imgae_name 애드온에서 요청이 됨
+         * member_extra_info 애드온에서 요청이 됨
          **/
         function transImageName($matches) {
             $member_srl = $matches[2];
@@ -859,6 +889,37 @@
             }
 
             return $GLOBALS['_transImageNameList'][$member_srl];
+        }
+
+        /**
+         * @brief 최종 출력물에서 서명을 변경
+         * member_extra_info 애드온에서 요청이 됨
+         **/
+        function transSignature($matches) {
+            $member_srl = $matches[2];
+            $text = $matches[4];
+            if(!$member_srl) return $matches[0];
+
+            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
+            if(!$GLOBALS['_transSignatureList'][$member_srl]) {
+                $oMemberModel = &getModel('member');
+
+                $signature = $oMemberModel->getSignature($member_srl);
+
+                // 서명이 없으면 빈 내용을 등록
+                if(!$signature) {
+                    $GLOBALS['_transSignatureList'][$member_srl] = $matches[0];
+
+                // 서명이 있으면 글의 내용 다음에 추가
+                } else {
+
+                    $document = $matches[0].'<div class="member_signature">'.$signature.'</div>';
+
+                    $GLOBALS['_transSignatureList'][$member_srl] = $document;
+                }
+            }
+
+            return $GLOBALS['_transSignatureList'][$member_srl];
         }
 
     }

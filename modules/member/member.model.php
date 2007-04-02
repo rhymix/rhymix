@@ -467,5 +467,16 @@
             $info->file = './'.$image_mark_file;
             return $info;
         }
+
+        /**
+         * @brief 사용자의 signature를 구함
+         **/
+        function getSignature($member_srl) {
+            $filename = sprintf('files/attach/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            if(!file_exists($filename)) return '';
+
+            $buff = FileHandler::readFile($filename);
+            return substr($buff, 29);29);
+        }
     }
 ?>
