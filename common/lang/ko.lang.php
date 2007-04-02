@@ -136,19 +136,6 @@
     $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
     $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다';
 
-    // xml filter에서 사용되는 javascript용 alert msg
-    $lang->filter->isnull = '%s의 값을 입력해주세요';
-    $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';
-    $lang->filter->equalto = '%s의 값이 잘못 되었습니다.';
-    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문,숫자와 _로 만드실 수 있으며 제일 앞은 영문이어야 합니다";
-    $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.zeroboard.com)';
-    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력해주셔야 합니다';
-    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력해주셔야 합니다';
-    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력해주셔야 합니다';
-    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해주셔야 합니다';
-    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력해주셔야 합니다';
-
     // 메세지 관련
     $lang->msg_call_server = '서버에 요청중입니다. 잠시만 기다려주세요.';
     $lang->msg_db_not_setted = 'DB설정이 되어 있지 않습니다';
@@ -195,4 +182,18 @@
     $lang->default_value = '기본 값';
     $lang->is_active = '활성';
     $lang->is_required = '필수항목';
+
+    // xml filter에서 사용되는 javascript용 alert msg
+    $lang->filter->isnull = '%s의 값을 입력해주세요';
+    $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';
+    $lang->filter->equalto = '%s의 값이 잘못 되었습니다.';
+    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: zbxe@zeroboard.com)';
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문,숫자와 _로 만드실 수 있으며 제일 앞은 영문이어야 합니다";
+    $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.zeroboard.com)';
+    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력해주셔야 합니다';
+    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력해주셔야 합니다';
+    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력해주셔야 합니다';
+    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해주셔야 합니다';
+    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력해주셔야 합니다';
+
 ?>
