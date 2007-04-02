@@ -526,6 +526,10 @@
             $output = executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) return $output;
 
+            // 이름이미지, 이미지마크 삭제
+            $this->procMemberDeleteImageName();
+            $this->procMemberDeleteImageMark();
+
             // member 테이블에서 삭제
             return executeQuery('member.deleteMember', $args);
         }

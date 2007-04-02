@@ -108,6 +108,7 @@
 </tr>
 <tr>
     <td colspan="2">
+        <!--@if($val->is_admin!='Y')--><input type="button" value="{$lang->cmd_delete}" onclick="location.href='{getUrl('act','dispMemberAdminDeleteForm','member_srl', $member_info->member_srl)}';return false; "/><!--@end-->
         <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberAdminList')}';return false;" />
         <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispMemberAdminInsert')}';return false;" />
     </td>
