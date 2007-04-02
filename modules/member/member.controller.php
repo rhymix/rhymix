@@ -384,7 +384,7 @@
             $max_height = $config->image_name_max_height;
             if(!$max_height) $max_height = "20";
 
-            $target_filename = sprintf('files/attach/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $target_filename = sprintf('files/attach/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
 
             // 페이지 리프레쉬
@@ -437,7 +437,7 @@
             $max_height = $config->image_mark_max_height;
             if(!$max_height) $max_height = "20";
             
-            $target_filename = sprintf('files/attach/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $target_filename = sprintf('files/attach/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
 
             // 페이지 리프레쉬
@@ -464,7 +464,7 @@
          * @brief 서명을 파일로 저장
          **/
         function putSignature($member_srl, $signature) {
-            $path = sprintf('files/attach/signature/%s/', getNumberingPath($member_srl));
+            $path = sprintf('files/attach/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
             if(!$signature) return @unlink($filename);
 
@@ -477,7 +477,7 @@
          * @brief 서명 파일 삭제
          **/
         function delSignature($member_srl) {
-            $filename = sprintf('files/attach/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $filename = sprintf('files/attach/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             @unlink($filename);
         }
 

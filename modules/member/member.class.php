@@ -84,9 +84,9 @@
             if(!$output) return $output;
 
             // member 에서 사용할 cache디렉토리 생성
-            FileHandler::makeDir('./files/attach/image_name');
-            FileHandler::makeDir('./files/attach/image_mark');
-            FileHandler::makeDir('./files/attach/signature');
+            FileHandler::makeDir('./files/member_extra_info/attach/image_name');
+            FileHandler::makeDir('./files/member_extra_info/attach/image_mark');
+            FileHandler::makeDir('./files/member_extra_info/attach/signature');
 
             return new Object();
         }
