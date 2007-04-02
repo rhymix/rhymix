@@ -8,7 +8,7 @@
     <input type="hidden" id="marker" name="marker_1" value="" />
 
     <div class="editor_window">
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=viewComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
 
         <div class="map_display"><iframe name="display_map" id="display_map" frameBorder="0" style="width:400px;height:400px;border:0px;margin:5px;" src="./?module=editor&amp;component=naver_map&amp;act=procEditorCall&amp;method=displayMap&amp;width=400&amp;height=400"></iframe></div>
 
