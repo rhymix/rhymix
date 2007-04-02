@@ -28,6 +28,10 @@
             $oAdminModel = &getModel('admin');
             $shortcut_list = $oAdminModel->getShortCuts();
             Context::set('shortcut_list', $shortcut_list);
+
+            // 현재 실행중인 모듈을 구해 놓음
+            $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z]+)(.*)/', '\\2\\3', $this->act));
+            Context::set('running_module', $running_module);
         }
 
         /**
