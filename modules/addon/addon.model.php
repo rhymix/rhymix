@@ -29,9 +29,6 @@
             // activated된 애드온 목록을 구함
             $activated_addons = $this->getActivatedAddons();
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 다운받은 애드온과 설치된 애드온의 목록을 구함
             $searched_list = FileHandler::readDir('./addons');
             $searched_count = count($searched_list);
@@ -109,9 +106,8 @@
          * @brief 활성화된 애드온 목록을 구해옴
          **/
         function getActivatedAddons() {
-            $oDB = &DB::getInstance();
             $args->list_order = 'addon';
-            $output = $oDB->executeQuery('addon.getAddons', $args);
+            $output = executeQuery('addon.getAddons', $args);
             if(!$output->data) return array();
             if(!is_array($output->data)) $output->data = array($output->data);
 
@@ -127,9 +123,8 @@
          * @brief 애드온이 활성화 되어 있는지 체크
          **/
         function isActivatedAddon($addon) {
-            $oDB = &DB::getInstance();
             $args->addon = $addon;
-            $output = $oDB->executeQuery('addon.getAddonIsActivated', $args);
+            $output = executeQuery('addon.getAddonIsActivated', $args);
             if($output->data->count>0) return true;
             return false;
         }

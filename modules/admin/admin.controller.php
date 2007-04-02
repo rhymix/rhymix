@@ -28,15 +28,12 @@
          * @brief 숏컷의 삭제
          **/
         function procAdminDeleteShortCut() {
-
-            $oDB = &DB::getInstance();
-
             $args->module = Context::get('selected_module');
 
             // 삭제 불가능 바로가기의 처리
             if(in_array($args->module, array('module','addon','plugin','layout'))) return new Object(-1, 'msg_manage_module_cannot_delete');
 
-            $output = $oDB->executeQuery('admin.deleteShortCut', $args);
+            $output = executeQuery('admin.deleteShortCut', $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
@@ -55,8 +52,7 @@
             $args->default_act = $module_info->admin_index_act;
             if(!$args->default_act) return new Object(-1, 'msg_default_act_is_null');
 
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('admin.insertShortCut', $args);
+            $output = executeQuery('admin.insertShortCut', $args);
             return $output;
         }
     }

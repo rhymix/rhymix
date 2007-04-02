@@ -18,13 +18,11 @@
          * 레이아웃의 신규 생성은 제목만 받아서 layouts테이블에 입력함
          **/
         function procLayoutAdminInsert() {
-            $oDB = &DB::getInstance();
-
-            $args->layout_srl = $oDB->getNextSequence();
+            $args->layout_srl = getNextSequence();
             $args->layout = Context::get('layout');
             $args->title = Context::get('title');
 
-            $output = $oDB->executeQuery("layout.insertLayout", $args);
+            $output = executeQuery("layout.insertLayout", $args);
             if(!$output->toBool()) return $output;
 
             $this->add('layout_srl', $args->layout_srl);
@@ -47,8 +45,7 @@
             $args = Context::gets('layout_srl','title');
             $args->extra_vars = serialize($extra_vars);
 
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('layout.updateLayout', $args);
+            $output = executeQuery('layout.updateLayout', $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_updated');
@@ -71,15 +68,14 @@
             }
 
             // DB에서 삭제
-            $oDB = &DB::getInstance();
 
             // 레이아웃 메뉴 삭제
             $args->layout_srl = $layout_srl;
-            $output = $oDB->executeQuery("layout.deleteLayoutMenus", $args);
+            $output = executeQuery("layout.deleteLayoutMenus", $args);
             if(!$output->toBool()) return $output;
 
             // 레이아웃 삭제
-            $output = $oDB->executeQuery("layout.deleteLayout", $args);
+            $output = executeQuery("layout.deleteLayout", $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
@@ -118,17 +114,15 @@
             $oLayoutModel = &getModel('layout');
             $menu_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
 
-            $oDB = &DB::getInstance();
-
             // 존재하게 되면 update를 해준다
             if($menu_info->menu_srl == $args->menu_srl) {
-                $output = $oDB->executeQuery('layout.updateLayoutMenu', $args);
+                $output = executeQuery('layout.updateLayoutMenu', $args);
                 if(!$output->toBool()) return $output;
 
             // 존재하지 않으면 insert를 해준다
             } else {
                 $args->listorder = -1*$args->menu_srl;
-                $output = $oDB->executeQuery('layout.insertLayoutMenu', $args);
+                $output = executeQuery('layout.insertLayoutMenu', $args);
                 if(!$output->toBool()) return $output;
             }
 
@@ -148,7 +142,7 @@
             if(eregi("^mid=", $args->url)) {
                 $target_args->layout_srl = $args->layout_srl;
                 $target_args->mid = substr($args->url,4);
-                $output = $oDB->executeQuery("module.updateModuleLayout", $target_args);
+                $output = executeQuery("module.updateModuleLayout", $target_args);
                 if(!$output->toBool()) return $output;
             }
         }
@@ -166,15 +160,13 @@
             $node_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
             if($node_info->parent_srl) $parent_srl = $node_info->parent_srl;
 
-            $oDB = &DB::getInstance();
-
             // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
-            $output = $oDB->executeQuery('layout.getChildMenuCount', $args);
+            $output = executeQuery('layout.getChildMenuCount', $args);
             if(!$output->toBool()) return $output;
             if($output->data->count>0) return new Object(-1, msg_cannot_delete_for_child);
 
             // DB에서 삭제
-            $output = $oDB->executeQuery("layout.deleteLayoutMenu", $args);
+            $output = executeQuery("layout.deleteLayoutMenu", $args);
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
@@ -204,18 +196,17 @@
             $target_node = $oLayoutModel->getLayoutMenuInfo($target_node_srl);
 
             // source_node에 target_node_srl의 parent_srl, listorder 값을 입력
-            $oDB = &DB::getInstance();
             $source_args->menu_srl = $source_node_srl;
             $source_args->parent_srl = $target_node->parent_srl;
             $source_args->listorder = $target_node->listorder;
-            $output = $oDB->executeQuery('layout.updateLayoutMenuParent', $source_args);
+            $output = executeQuery('layout.updateLayoutMenuParent', $source_args);
             if(!$output->toBool()) return $output;
 
             // target_node의 listorder값을 +1해 준다
             $target_args->menu_srl = $target_node_srl;
             $target_args->parent_srl = $target_node->parent_srl;
             $target_args->listorder = $target_node->listorder -1;
-            $output = $oDB->executeQuery('layout.updateLayoutMenuParent', $target_args);
+            $output = executeQuery('layout.updateLayoutMenuParent', $target_args);
             if(!$output->toBool()) return $output;
 
             // xml파일 재생성 
@@ -260,10 +251,9 @@
             if(!$layout_srl || !$menu_id) return;
 
             // DB에서 layout_srl에 해당하는 메뉴 목록을 listorder순으로 구해옴 
-            $oDB = &DB::getInstance();
             $args->layout_srl = $layout_srl;
             $args->menu_id = $menu_id;
-            $output = $oDB->executeQuery("layout.getLayoutMenuList", $args);
+            $output = executeQuery("layout.getLayoutMenuList", $args);
             if(!$output->toBool()) return;
 
             // 캐시 파일의 이름을 지정

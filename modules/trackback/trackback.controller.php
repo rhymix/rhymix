@@ -60,10 +60,9 @@
             $obj->excerpt = strip_tags($obj->excerpt);
 
             // 엮인글를 입력
-            $oDB = &DB::getInstance();
-            $obj->list_order = $obj->trackback_srl = $oDB->getNextSequence();
+            $obj->list_order = $obj->trackback_srl = getNextSequence();
             $obj->module_srl = $document->module_srl;
-            $output = $oDB->executeQuery('trackback.insertTrackback', $obj);
+            $output = executeQuery('trackback.insertTrackback', $obj);
 
             // 입력에 이상이 없으면 해당 글의 엮인글 수를 올림
             if(!$output->toBool()) $oTrackbackView->dispMessage(-1, 'fail');
@@ -103,10 +102,8 @@
             // 권한이 있는지 확인
             if(!$is_admin && !$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
 
-            // 삭제
-            $oDB = &DB::getInstance();
             $args->trackback_srl = $trackback_srl;
-            $output = $oDB->executeQuery('trackback.deleteTrackback', $args);
+            $output = executeQuery('trackback.deleteTrackback', $args);
             if(!$output->toBool()) return new Object(-1, 'msg_error_occured');
 
             // 엮인글 수를 구해서 업데이트
@@ -126,12 +123,9 @@
          * @brief 글에 속한 모든 트랙백 삭제
          **/
         function deleteTrackbacks($document_srl) {
-            // DB객체 생성
-            $oDB = &DB::getInstance();
-
             // 삭제
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('trackback.deleteTrackbacks', $args);
+            $output = executeQuery('trackback.deleteTrackbacks', $args);
 
             return $output;
         }
@@ -140,12 +134,9 @@
          * @brief 모듈에 속한 모든 트랙백 삭제
          **/
         function deleteModuleTrackbacks($module_srl) {
-            // DB객체 생성
-            $oDB = &DB::getInstance();
-
             // 삭제
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('trackback.deleteModuleTrackbacks', $args);
+            $output = executeQuery('trackback.deleteModuleTrackbacks', $args);
 
             return $output;
         }

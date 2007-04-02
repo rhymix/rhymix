@@ -17,10 +17,8 @@
          * @brief 특정 문서에 속한 첨부파일의 개수를 return
          **/
         function getFilesCount($upload_target_srl) {
-            $oDB = &DB::getInstance();
-
             $args->upload_target_srl = $upload_target_srl;
-            $output = $oDB->executeQuery('file.getFilesCount', $args);
+            $output = executeQuery('file.getFilesCount', $args);
             return (int)$output->data->count;
         }
 
@@ -35,10 +33,8 @@
          * @brief 파일 정보를 구함
          **/
         function getFile($file_srl) {
-            $oDB = &DB::getInstance();
-
             $args->file_srl = $file_srl;
-            $output = $oDB->executeQuery('file.getFile', $args);
+            $output = executeQuery('file.getFile', $args);
             if(!$output->toBool()) return $output;
 
             $file = $output->data;
@@ -51,11 +47,9 @@
          * @brief 특정 문서에 속한 파일을 모두 return
          **/
         function getFiles($upload_target_srl) {
-            $oDB = &DB::getInstance();
-
             $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = 'file_srl';
-            $output = $oDB->executeQuery('file.getFiles', $args);
+            $output = executeQuery('file.getFiles', $args);
             if(!$output->data) return;
 
             $file_list = $output->data;
@@ -76,10 +70,6 @@
          * @brief 모든 첨부파일을 시간 역순으로 가져옴 (관리자용)
          **/
         function getFileList($obj) {
-
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 검색 옵션 정리
             $search_target = trim(Context::get('search_target'));
             $search_keyword = trim(Context::get('search_keyword'));
@@ -112,7 +102,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
 
             // file.getFileList쿼리 실행
-            $output = $oDB->executeQuery('file.getFileList', $args);
+            $output = executeQuery('file.getFileList', $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;

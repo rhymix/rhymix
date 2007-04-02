@@ -85,11 +85,8 @@
             $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getLoggedMemberSrl();
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 파일 정보를 정리
-            $args->file_srl = $oDB->getNextSequence();
+            $args->file_srl = getNextSequence();
             $args->upload_target_srl = $upload_target_srl;
             $args->module_srl = $module_srl;
             $args->direct_download = $direct_download;
@@ -100,7 +97,7 @@
             $args->member_srl = $member_srl;
             $args->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
 
-            $output = $oDB->executeQuery('file.insertFile', $args);
+            $output = executeQuery('file.insertFile', $args);
             if(!$output->toBool()) return $output;
 
             $output->add('file_srl', $args->file_srl);
@@ -113,11 +110,9 @@
          * @brief 첨부파일 삭제
          **/
         function deleteFile($file_srl) {
-            $oDB = &DB::getInstance();
-
             // 파일 정보를 가져옴
             $args->file_srl = $file_srl;
-            $output = $oDB->executeQuery('file.getFile', $args);
+            $output = executeQuery('file.getFile', $args);
             if(!$output->toBool()) return $output;
             $file_info = $output->data;
             if(!$file_info) return new Object(-1, 'file_not_founded');
@@ -126,7 +121,7 @@
             $uploaded_filename = $output->data->uploaded_filename;
 
             // DB에서 삭제
-            $output = $oDB->executeQuery('file.deleteFile', $args);
+            $output = executeQuery('file.deleteFile', $args);
             if(!$output->toBool()) return $output;
 
             // 삭제 성공하면 파일 삭제
@@ -139,10 +134,8 @@
          * @brief 특정 문서의 첨부파일을 모두 삭제
          **/
         function deleteFiles($module_srl, $upload_target_srl) {
-            $oDB = &DB::getInstance();
-
             $args->upload_target_srl = $upload_target_srl;
-            $output = $oDB->executeQuery('file.deleteFiles', $args);
+            $output = executeQuery('file.deleteFiles', $args);
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
@@ -159,10 +152,8 @@
          * @brief 특정 모두의 첨부파일 모두 삭제
          **/
         function deleteModuleFiles($module_srl) {
-            $oDB = &DB::getInstance();
-
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('file.deleteModuleFiles', $args);
+            $output = executeQuery('file.deleteModuleFiles', $args);
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
@@ -179,7 +170,6 @@
          **/
         function moveFile($source_srl, $target_module_srl, $target_srl) {
             if($source_srl == $target_srl) return;
-            $oDB = &DB::getInstance();
 
             $oFileModel = &getModel('file');
             $file_list = $oFileModel->getFiles($source_srl);
@@ -214,7 +204,7 @@
                 $args->uploaded_filename = $new_file;
                 $args->module_srl = $file_info->module_srl;
                 $args->upload_target_srl = $target_srl;
-                $oDB->executeQuery('file.updateFile', $args);
+                executeQuery('file.updateFile', $args);
             }
         }
 
@@ -291,8 +281,7 @@
 
             // 이상이 없으면 download_count 증가
             $args->file_srl = $file_srl;
-            $oDB = &DB::getInstance();
-            $oDB->executeQuery('file.updateFileDownloadCount', $args);
+            executeQuery('file.updateFileDownloadCount', $args);
 
             // 파일 출력
             $filename = $file_obj->source_filename;

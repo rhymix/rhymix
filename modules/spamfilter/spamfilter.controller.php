@@ -64,9 +64,8 @@
          * 등록된 IP는 스패머로 간주
          **/
         function insertIP($ipaddress) {
-            $oDB = &DB::getInstance();
             $args->ipaddress = $ipaddress;
-            return $oDB->executeQuery('spamfilter.insertDeniedIP', $args);
+            return executeQuery('spamfilter.insertDeniedIP', $args);
         }
 
         /**
@@ -76,9 +75,8 @@
         function deleteIP($ipaddress) {
             if(!$ipaddress) return;
 
-            $oDB = &DB::getInstance();
             $args->ipaddress = $ipaddress;
-            return $oDB->executeQuery('spamfilter.deleteDeniedIP', $args);
+            return executeQuery('spamfilter.deleteDeniedIP', $args);
         }
 
         /**
@@ -88,9 +86,8 @@
         function insertWord($word) {
             if(!$word) return;
 
-            $oDB = &DB::getInstance();
             $args->word = $word;
-            return $oDB->executeQuery('spamfilter.insertDeniedWord', $args);
+            return executeQuery('spamfilter.insertDeniedWord', $args);
         }
 
         /**
@@ -100,9 +97,8 @@
         function deleteWord($word) {
             if(!$word) return;
 
-            $oDB = &DB::getInstance();
             $args->word = $word;
-            return $oDB->executeQuery('spamfilter.deleteDeniedWord', $args);
+            return executeQuery('spamfilter.deleteDeniedWord', $args);
         }
 
         /**
@@ -111,8 +107,7 @@
          * 스패머로 등록할 수 있음
          **/
         function insertLog() {
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('spamfilter.insertLog');
+            $output = executeQuery('spamfilter.insertLog');
             return $output;
         }
 

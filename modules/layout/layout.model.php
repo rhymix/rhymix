@@ -36,8 +36,7 @@
                 $parent_info = $this->getLayoutMenuInfo($parent_srl);
 
                 // 추가하려는 메뉴의 기본 변수 설정 
-                $oDB = &DB::getInstance();
-                $menu_info->menu_srl = $oDB->getNextSequence();
+                $menu_info->menu_srl = getNextSequence();
                 $menu_info->parent_srl = $parent_srl;
                 $menu_info->parent_menu_name = $parent_info->name;
 
@@ -48,8 +47,7 @@
 
                 // 찾아진 값이 없다면 신규 메뉴 추가로 보고 menu_srl값만 구해줌
                 if(!$menu_info->menu_srl) {
-                    $oDB = &DB::getInstance();
-                    $menu_info->menu_srl = $oDB->getNextSequence();
+                    $menu_info->menu_srl = getNextSequence();
                 }
             }
 
@@ -70,8 +68,7 @@
          * 생성되었다는 것은 DB에 등록이 되었다는 것을 의미 
          **/
         function getLayoutList() {
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('layout.getLayoutList');
+            $output = executeQuery('layout.getLayoutList');
             if(!$output->data) return;
 
             if(is_array($output->data)) return $output->data;
@@ -84,9 +81,8 @@
          **/
         function getLayout($layout_srl) {
             // 일단 DB에서 정보를 가져옴
-            $oDB = &DB::getInstance();
             $args->layout_srl = $layout_srl;
-            $output = $oDB->executeQuery('layout.getLayout', $args);
+            $output = executeQuery('layout.getLayout', $args);
             if(!$output->data) return;
             
             // layout, extra_vars를 정리한 후 xml 파일 정보를 불러옴 (불러올때 결합)
@@ -227,11 +223,9 @@
          * 이 정보중에 group_srls의 경우는 , 로 연결되어 들어가며 사용시에는 explode를 통해 array로 변환 시킴
          **/
         function getLayoutMenuInfo($menu_srl) {
-            $oDB = &DB::getInstance();
-
             // menu_srl 이 있으면 해당 메뉴의 정보를 가져온다
             $args->menu_srl = $menu_srl;
-            $output = $oDB->executeQuery('layout.getLayoutMenu', $args);
+            $output = executeQuery('layout.getLayoutMenu', $args);
             if(!$output->toBool()) return $output;
 
             $node = $output->data;

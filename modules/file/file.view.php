@@ -36,9 +36,8 @@
                     if(!in_array($module_srl, $module_srl_list)) $module_srl_list[] = $module_srl;
                 }
                 if(count($module_srl_list)) {
-                    $oDB = &DB::getInstance();
                     $args->module_srls = implode(',',$module_srl_list);
-                    $mid_output = $oDB->executeQuery('module.getModuleInfoByModuleSrl', $args);
+                    $mid_output = executeQuery('module.getModuleInfoByModuleSrl', $args);
                     if($mid_output->data && !is_array($mid_output->data)) $mid_output->data = array($mid_output->data);
                     for($i=0;$i<count($mid_output->data);$i++) {
                         $mid_info = $mid_output->data[$i];

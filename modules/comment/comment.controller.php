@@ -61,8 +61,6 @@
             if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
             if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
 
-            $oDB = &DB::getInstance();
-
             $obj->list_order = $obj->comment_srl * -1;
             if($obj->password) $obj->password = md5($obj->password);
 
@@ -83,7 +81,7 @@
             $obj->uploaded_count = $oFileModel->getFilesCount($obj->comment_srl);
 
             // 댓글을 입력
-            $output = $oDB->executeQuery('comment.insertComment', $obj);
+            $output = executeQuery('comment.insertComment', $obj);
 
             // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
             if(!$output->toBool()) return $output;
@@ -120,8 +118,6 @@
             // 권한이 있는지 확인
             if(!$is_admin && !$source_obj->is_granted) return new Object(-1, 'msg_not_permitted');
 
-            $oDB = &DB::getInstance();
-
             if($obj->password) $obj->password = md5($obj->password);
 
             // 로그인 되어 있고 작성자와 수정자가 동일하면 수정자의 정보를 세팅
@@ -152,7 +148,7 @@
             $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
 
             // 업데이트
-            $output = $oDB->executeQuery('comment.updateComment', $obj);
+            $output = executeQuery('comment.updateComment', $obj);
 
             $output->add('comment_srl', $obj->comment_srl);
             return $output;
@@ -178,10 +174,8 @@
             if(!$is_admin && !$comment->is_granted) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
-            $oDB = &DB::getInstance();
-
             $args->comment_srl = $comment_srl;
-            $output = $oDB->executeQuery('comment.deleteComment', $args);
+            $output = executeQuery('comment.deleteComment', $args);
             if(!$output->toBool()) return new Object(-1, 'msg_error_occured');
 
             // 첨부 파일 삭제
@@ -214,9 +208,8 @@
             if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
-            $oDB = &DB::getInstance();
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('comment.deleteComments', $args);
+            $output = executeQuery('comment.deleteComments', $args);
             return $output;
         }
 
@@ -224,9 +217,8 @@
          * @brief 특정 모듈의 모든 댓글 삭제
          **/
         function deleteModuleComments($module_srl) {
-            $oDB = &DB::getInstance();
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('comment.deleteModuleComments', $args);
+            $output = executeQuery('comment.deleteModuleComments', $args);
             return $output;
         }
     }

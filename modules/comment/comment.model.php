@@ -26,9 +26,8 @@
          * @brief 자식 답글의 갯수 리턴
          **/
         function getChildCommentCount($comment_srl) {
-            $oDB = &DB::getInstance();
             $args->comment_srl = $comment_srl;
-            $output = $oDB->executeQuery('comment.getChildCommentCount', $args);
+            $output = executeQuery('comment.getChildCommentCount', $args);
             return (int)$output->data->count;
         }
 
@@ -36,10 +35,8 @@
          * @brief 댓글 가져오기
          **/
         function getComment($comment_srl, $is_admin = false) {
-            // DB에서 가져옴
-            $oDB = &DB::getInstance();
             $args->comment_srl = $comment_srl;
-            $output = $oDB->executeQuery('comment.getComment', $args);
+            $output = executeQuery('comment.getComment', $args);
             $comment = $output->data;
 
             // 첨부파일 가져오기
@@ -62,9 +59,8 @@
         function getComments($comment_srl_list) {
             if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
 
-            $oDB = &DB::getInstance();
             $args->comment_srls = $comment_srls;
-            $output = $oDB->executeQuery('comment.getComments', $args);
+            $output = executeQuery('comment.getComments', $args);
             return $output->data;
         }
 
@@ -72,9 +68,8 @@
          * @brief document_srl 에 해당하는 댓글의 전체 갯수를 가져옴
          **/
         function getCommentCount($document_srl) {
-            $oDB = &DB::getInstance();
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('comment.getCommentCount', $args);
+            $output = executeQuery('comment.getCommentCount', $args);
             $total_count = $output->data->count;
             return (int)$total_count;
         }
@@ -83,11 +78,9 @@
          * @brief document_srl에 해당하는 문서의 댓글 목록을 가져옴
          **/
         function getCommentList($document_srl, $is_admin = false) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
             $args->list_order = 'list_order';
-            $output = $oDB->executeQuery('comment.getCommentList', $args);
+            $output = executeQuery('comment.getCommentList', $args);
             if(!$output->toBool()) return $output;
 
             $source_list= $output->data;
@@ -155,10 +148,6 @@
          * @brief 모든 댓글를 시간 역순으로 가져옴 (관리자용)
          **/
         function getTotalCommentList($obj) {
-
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $query_id = 'comment.getTotalCommentList';
 
             // 변수 설정
@@ -211,7 +200,7 @@
             }
 
             // comment.getTotalCommentList 쿼리 실행
-            $output = $oDB->executeQuery($query_id, $args);
+            $output = executeQuery($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;

@@ -33,16 +33,13 @@
             }
             if(!count($tag_list)) return;
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 다시 태그를 입력
             $args->module_srl = $module_srl;
             $args->document_srl = $document_srl;
             $tag_count = count($tag_list);
             for($i=0;$i<$tag_count;$i++) {
                 $args->tag = $tag_list[$i];
-                $oDB->executeQuery('tag.insertTag', $args);
+                executeQuery('tag.insertTag', $args);
             }
 
             return implode(',',$tag_list);
@@ -52,22 +49,16 @@
          * @brief 특정 문서의 태그 삭제
          **/
         function deleteTag($document_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
-            return $oDB->executeQuery('tag.deleteTag', $args);
+            return executeQuery('tag.deleteTag', $args);
         }
 
         /**
          * @brief 특정 모듈의 태그 삭제
          **/
         function deleteModuleTags($module_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->module_srl = $module_srl;
-            return $oDB->executeQuery('tag.deleteModuleTags', $args);
+            return executeQuery('tag.deleteModuleTags', $args);
         }
     }
 ?>

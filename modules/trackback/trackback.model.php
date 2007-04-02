@@ -17,20 +17,16 @@
          * @brief 하나의 트랙백 정보를 구함
          **/
         function getTrackback($trackback_srl) {
-            $oDB = &DB::getInstance();
-
             $args->trackback_srl = $trackback_srl;
-            return $oDB->executeQuery('trackback.getTrackback', $args);
+            return executeQuery('trackback.getTrackback', $args);
         }
 
         /**
          * @brief document_srl 에 해당하는 엮인글의 전체 갯수를 가져옴
          **/
         function getTrackbackCount($document_srl) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('trackback.getTrackbackCount', $args);
+            $output = executeQuery('trackback.getTrackbackCount', $args);
             $total_count = $output->data->count;
 
             return (int)$total_count;
@@ -41,11 +37,9 @@
          * spamfilter 에서 사용할 method임
          **/
         function getTrackbackCountByIPAddress($document_srl, $ipaddress) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
             $args->ipaddress = $ipaddress;
-            $output = $oDB->executeQuery('trackback.getTrackbackCountByIPAddress', $args);
+            $output = executeQuery('trackback.getTrackbackCountByIPAddress', $args);
             $total_count = $output->data->count;
 
             return (int)$total_count;
@@ -55,11 +49,9 @@
          * @brief 특정 문서에 속한 엮인글의 목록을 가져옴
          **/
         function getTrackbackList($document_srl) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
             $args->list_order = 'list_order';
-            $output = $oDB->executeQuery('trackback.getTrackbackList', $args);
+            $output = executeQuery('trackback.getTrackbackList', $args);
 
             if(!$output->toBool()) return $output;
 
@@ -74,10 +66,6 @@
          * @brief 모든 엮인글를 시간 역순으로 가져옴 (관리자용)
          **/
         function getTotalTrackbackList($obj) {
-
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 검색 옵션 정리
             $search_target = trim(Context::get('search_target'));
             $search_keyword = trim(Context::get('search_keyword'));
@@ -117,7 +105,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
 
             // trackback.getTotalTrackbackList 쿼리 실행
-            $output = $oDB->executeQuery('trackback.getTotalTrackbackList', $args);
+            $output = executeQuery('trackback.getTotalTrackbackList', $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;

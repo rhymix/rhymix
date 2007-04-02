@@ -58,8 +58,7 @@
                 $auto_save_args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
 
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('editor.getSavedDocument', $auto_save_args);
+            $output = executeQuery('editor.getSavedDocument', $auto_save_args);
             $saved_doc = $output->data;
             if(!$saved_doc) return;
 
@@ -103,9 +102,7 @@
         function getComponentList($filter_enabled = true) {
             if($filter_enabled) $args->enabled = "Y";
 
-            // DB에서 가져옴
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('editor.getComponentList', $args);
+            $output = executeQuery('editor.getComponentList', $args);
             $db_list = $output->data;
 
             // 파일목록을 구함
@@ -164,9 +161,7 @@
         function getComponent($component_name) {
             $args->component_name = $component_name;
 
-            // DB에서 가져옴
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('editor.getComponent', $args);
+            $output = executeQuery('editor.getComponent', $args);
             $component = $output->data;
 
             $component_name = $component->component_name;

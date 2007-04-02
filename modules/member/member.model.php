@@ -99,11 +99,8 @@
          **/
         function getMemberInfoByUserID($user_id) {
             if(!$this->member_info[$member_srl]) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
-
                 $args->user_id = $user_id;
-                $output = $oDB->executeQuery('member.getMemberInfo', $args);
+                $output = executeQuery('member.getMemberInfo', $args);
                 if(!$output) return $output;
 
                 $member_info = $this->arrangeMemberInfo($output->data);
@@ -119,11 +116,8 @@
          **/
         function getMemberInfoByMemberSrl($member_srl) {
             if(!$this->member_info[$member_srl]) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
-
                 $args->member_srl = $member_srl;
-                $output = $oDB->executeQuery('member.getMemberInfoByMemberSrl', $args);
+                $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
                 if(!$output) return $output;
 
                 $member_info = $this->arrangeMemberInfo($output->data);
@@ -155,11 +149,8 @@
          * @brief userid에 해당하는 member_srl을 구함
          **/
         function getMemberSrlByUserID($user_id) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->user_id = $user_id;
-            $output = $oDB->executeQuery('member.getMemberSrl', $args);
+            $output = executeQuery('member.getMemberSrl', $args);
             return $output->data->member_srl;
         }
 
@@ -167,11 +158,8 @@
          * @brief userid에 해당하는 member_srl을 구함
          **/
         function getMemberSrlByEmailAddress($email_address) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->email_address = $email_address;
-            $output = $oDB->executeQuery('member.getMemberSrl', $args);
+            $output = executeQuery('member.getMemberSrl', $args);
             return $output->data->member_srl;
         }
 
@@ -179,11 +167,8 @@
          * @brief userid에 해당하는 member_srl을 구함
          **/
         function getMemberSrlByNickName($nick_name) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->nick_name = $nick_name;
-            $output = $oDB->executeQuery('member.getMemberSrl', $args);
+            $output = executeQuery('member.getMemberSrl', $args);
             return $output->data->member_srl;
         }
 
@@ -208,9 +193,6 @@
          * @brief 회원 목록을 구함
          **/
         function getMemberList() {
-            // 등록된 member 모듈을 불러와 세팅
-            $oDB = &DB::getInstance();
-
             // 검색 옵션 정리
             $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
             $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
@@ -259,7 +241,7 @@
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
-            return $oDB->executeQuery($query_id, $args);
+            return executeQuery($query_id, $args);
         }
 
         /**
@@ -267,11 +249,8 @@
          **/
         function getMemberGroups($member_srl) {
             if(!$this->member_groups[$member_srl]) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
-
                 $args->member_srl = $member_srl;
-                $output = $oDB->executeQuery('member.getMemberGroups', $args);
+                $output = executeQuery('member.getMemberGroups', $args);
                 if(!$output->data) return;
 
                 $group_list = $output->data;
@@ -289,10 +268,7 @@
          * @brief 기본 그룹을 가져옴
          **/
         function getDefaultGroup() {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
-            $output = $oDB->executeQuery('member.getDefaultGroup');
+            $output = executeQuery('member.getDefaultGroup');
             return $output->data;
         }
 
@@ -300,11 +276,8 @@
          * @brief group_srl에 해당하는 그룹 정보 가져옴
          **/
         function getGroup($group_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->group_srl = $group_srl;
-            $output = $oDB->executeQuery('member.getGroup', $args);
+            $output = executeQuery('member.getGroup', $args);
             return $output->data;
         }
 
@@ -312,10 +285,7 @@
          * @brief 그룹 목록을 가져옴
          **/
         function getGroups() {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
-            $output = $oDB->executeQuery('member.getGroups');
+            $output = executeQuery('member.getGroups');
             if(!$output->data) return;
 
             $group_list = $output->data;
@@ -338,12 +308,9 @@
             global $lang;
 
             if(!$this->join_form_list) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
-
                 // list_order 컬럼의 정렬을 위한 인자 세팅
                 $args->sort_index = "list_order";
-                $output = $oDB->executeQuery('member.getJoinFormList', $args);
+                $output = executeQuery('member.getJoinFormList', $args);
 
                 // 결과 데이터가 없으면 NULL return
                 $join_form_list = $output->data;
@@ -430,10 +397,8 @@
          * @brief 한개의 가입항목을 가져옴
          **/
         function getJoinForm($member_join_form_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
             $args->member_join_form_srl = $member_join_form_srl;
-            $output = $oDB->executeQuery('member.getJoinForm', $args);
+            $output = executeQuery('member.getJoinForm', $args);
             $join_form = $output->data;
             if(!$join_form) return NULL;
 
@@ -454,15 +419,12 @@
          **/
         function getDeniedIDList() {
             if(!$this->denied_id_list) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
-
                 $args->sort_index = "list_order";
                 $args->page = Context::get('page');
                 $args->list_count = 40;
                 $args->page_count = 10;
 
-                $output = $oDB->executeQuery('member.getDeniedIDList', $args);
+                $output = executeQuery('member.getDeniedIDList', $args);
                 $this->denied_id_list = $output;
             }
             return $this->denied_id_list;
@@ -472,11 +434,8 @@
          * @brief 금지 아이디인지 확인
          **/
         function isDeniedID($user_id) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             $args->user_id = $user_id;
-            $output = $oDB->executeQuery('member.chkDeniedID', $args);
+            $output = executeQuery('member.chkDeniedID', $args);
             if($output->data->count) return true;
             return false;
         }

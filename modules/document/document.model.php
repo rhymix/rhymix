@@ -25,9 +25,8 @@
          **/
         function getDocument($document_srl, $is_admin=false, $get_extra_info=false) {
             // DB에서 가져옴
-            $oDB = &DB::getInstance();
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.getDocument', $args);
+            $output = executeQuery('document.getDocument', $args);
             $document = $output->data;
             if(!$document) return;
 
@@ -83,9 +82,8 @@
             if(is_array($document_srl_list)) $document_srls = implode(',',$document_srl_list);
 
             // DB에서 가져옴
-            $oDB = &DB::getInstance();
             $args->document_srls = $document_srls;
-            $output = $oDB->executeQuery('document.getDocuments', $args);
+            $output = executeQuery('document.getDocuments', $args);
             $document_list = $output->data;
             if(!$document_list) return;
 
@@ -112,9 +110,6 @@
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
         function getDocumentList($obj) {
-
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
 
             if(!in_array($obj->sort_index, array('list_order', 'update_order'))) $obj->sort_index = 'list_order';
 
@@ -215,7 +210,7 @@
             }
 
             // document.getDocumentList 쿼리 실행
-            $output = $oDB->executeQuery($query_id, $args);
+            $output = executeQuery($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
@@ -239,9 +234,6 @@
          * @brief module_srl에 해당하는 문서의 전체 갯수를 가져옴
          **/
         function getDocumentCount($module_srl, $search_obj = NULL) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 검색 옵션 추가
             $args->module_srl = $module_srl;
             $args->s_title = $search_obj->s_title;
@@ -252,7 +244,7 @@
             $args->s_regdate = $search_obj->s_regdate;
             $args->category_srl = $search_obj->category_srl;
 
-            $output = $oDB->executeQuery('document.getDocumentCount', $args);
+            $output = executeQuery('document.getDocumentCount', $args);
 
             // 전체 갯수를 return
             $total_count = $output->data->count;
@@ -262,15 +254,12 @@
          * @brief 해당 document의 page 가져오기, module_srl이 없으면 전체에서..
          **/
         function getDocumentPage($document_srl, $module_srl=0, $list_count) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 변수 설정
             $args->document_srl = $document_srl;
             $args->module_srl = $module_srl;
 
             // 전체 갯수를 구한후 해당 글의 페이지를 검색
-            $output = $oDB->executeQuery('document.getDocumentPage', $args);
+            $output = executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
             $page = (int)(($count-1)/$list_count)+1;
             return $page;
@@ -280,10 +269,8 @@
          * @brief 카테고리의 정보를 가져옴
          **/
         function getCategory($category_srl) {
-            $oDB = &DB::getInstance();
-
             $args->category_srl = $category_srl;
-            $output = $oDB->executeQuery('document.getCategory', $args);
+            $output = executeQuery('document.getCategory', $args);
             return $output->data;
         }
 
@@ -291,11 +278,9 @@
          * @brief 특정 모듈의 카테고리 목록을 가져옴
          **/
         function getCategoryList($module_srl) {
-            $oDB = &DB::getInstance();
-
             $args->module_srl = $module_srl;
             $args->sort_index = 'list_order';
-            $output = $oDB->executeQuery('document.getCategoryList', $args);
+            $output = executeQuery('document.getCategoryList', $args);
 
             $category_list = $output->data;
 
@@ -314,10 +299,8 @@
          * @brief 카테고리에 속한 문서의 갯수를 구함
          **/
         function getCategoryDocumentCount($category_srl) {
-            $oDB = &DB::getInstance();
-
             $args->category_srl = $category_srl;
-            $output = $oDB->executeQuery('document.getCategoryDocumentCount', $args);
+            $output = executeQuery('document.getCategoryDocumentCount', $args);
             return (int)$output->data->count;
         }
     }

@@ -47,9 +47,6 @@
          * @brief 문서 입력
          **/
         function insertDocument($obj) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
@@ -98,7 +95,7 @@
             }
 
             // DB에 입력
-            $output = $oDB->executeQuery('document.insertDocument', $obj);
+            $output = executeQuery('document.insertDocument', $obj);
 
             if(!$output->toBool()) return $output;
 
@@ -120,8 +117,6 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
-            $oDB = &DB::getInstance();
-
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
@@ -154,7 +149,7 @@
             }
 
             // 수정
-            $obj->update_order = $oDB->getNextSequence() * -1;
+            $obj->update_order = getNextSequence() * -1;
 
             // 공지사항일 경우 list_order에 무지막지한 값을, 그렇지 않으면 document_srl*-1값을
             if($obj->is_notice=='Y') $obj->list_order = $this->notice_list_order;
@@ -184,7 +179,7 @@
             }
 
             // DB에 입력
-            $output = $oDB->executeQuery('document.updateDocument', $obj);
+            $output = executeQuery('document.updateDocument', $obj);
             if(!$output->toBool()) return $output;
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
@@ -216,11 +211,9 @@
             // 권한이 있는지 확인
             if(!$document->is_granted&&!$is_admin) return new Object(-1, 'msg_not_permitted');
 
-            $oDB = &DB::getInstance();
-
             // 글 삭제
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.deleteDocument', $args);
+            $output = executeQuery('document.deleteDocument', $args);
             if(!$output->toBool()) return $output;
 
             // 댓글 삭제
@@ -251,10 +244,8 @@
          * @brief 특정 모듈의 전체 문서 삭제
          **/
         function deleteModuleDocument($module_srl) {
-            $oDB = &DB::getInstance();
-
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('document.deleteModuleDocument', $args);
+            $output = executeQuery('document.deleteModuleDocument', $args);
             return $output;
         }
 
@@ -286,9 +277,6 @@
                 }
             }
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
             if($member_srl) {
                 $args->member_srl = $member_srl;
@@ -296,16 +284,16 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.getDocumentReadedLogInfo', $args);
+            $output = executeQuery('document.getDocumentReadedLogInfo', $args);
 
             // 로그 정보에 조회 로그가 있으면 세션 등록후 패스
             if($output->data->count) return $_SESSION['readed_document'][$document_srl] = true;
 
             // 조회수 업데이트
-            $output = $oDB->executeQuery('document.updateReadedCount', $args);
+            $output = executeQuery('document.updateReadedCount', $args);
 
             // 로그 남기기
-            $output = $oDB->executeQuery('document.insertDocumentReadedLog', $args);
+            $output = executeQuery('document.insertDocumentReadedLog', $args);
 
             // 세션 정보에 남김
             return $_SESSION['readed_document'][$document_srl] = true;
@@ -341,9 +329,6 @@
                 }
             }
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
             if($member_srl) {
                 $args->member_srl = $member_srl;
@@ -351,7 +336,7 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('document.getDocumentVotedLogInfo', $args);
+            $output = executeQuery('document.getDocumentVotedLogInfo', $args);
 
             // 로그 정보에 추천 로그가 있으면 세션 등록후 패스
             if($output->data->count) {
@@ -360,10 +345,10 @@
             }
 
             // 추천수 업데이트
-            $output = $oDB->executeQuery('document.updateVotedCount', $args);
+            $output = executeQuery('document.updateVotedCount', $args);
 
             // 로그 남기기
-            $output = $oDB->executeQuery('document.insertDocumentVotedLog', $args);
+            $output = executeQuery('document.insertDocumentVotedLog', $args);
 
             // 세션 정보에 남김
             $_SESSION['voted_document'][$document_srl] = true;
@@ -376,46 +361,39 @@
          * @brief 해당 document의 댓글 수 증가
          **/
         function updateCommentCount($document_srl, $comment_count) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
             $args->comment_count = $comment_count;
 
-            return $oDB->executeQuery('document.updateCommentCount', $args);
+            return executeQuery('document.updateCommentCount', $args);
         }
 
         /**
          * @brief 해당 document의 엮인글 수증가
          **/
         function updateTrackbackCount($document_srl, $trackback_count) {
-            $oDB = &DB::getInstance();
-
             $args->document_srl = $document_srl;
             $args->trackback_count = $trackback_count;
 
-            return $oDB->executeQuery('document.updateTrackbackCount', $args);
+            return executeQuery('document.updateTrackbackCount', $args);
         }
 
         /**
          * @brief 카테고리 추가
          **/
         function insertCategory($module_srl, $title) {
-            $oDB = &DB::getInstance();
-
-            $args->list_order = $args->category_srl = $oDB->getNextSequence();
+            $args->list_order = $args->category_srl = getNextSequence();
             $args->module_srl = $module_srl;
             $args->title = $title;
             $args->document_count = 0;
 
-            return $oDB->executeQuery('document.insertCategory', $args);
+            return executeQuery('document.insertCategory', $args);
         }
 
         /**
          * @brief 카테고리 정보 수정
          **/
         function updateCategory($args) {
-            $oDB = &DB::getInstance();
-            return $oDB->executeQuery('document.updateCategory', $args);
+            return executeQuery('document.updateCategory', $args);
         }
 
         /** 
@@ -426,23 +404,19 @@
             $oDocumentModel = &getModel('document');
             if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($category_srl);
 
-            $oDB = &DB::getInstance();
-
             $args->category_srl = $category_srl;
             $args->document_count = $document_count;
-            return $oDB->executeQuery('document.updateCategoryCount', $args);
+            return executeQuery('document.updateCategoryCount', $args);
         }
 
         /**
          * @brief 카테고리 삭제
          **/
         function deleteCategory($category_srl) {
-            $oDB = &DB::getInstance();
-
             $args->category_srl = $category_srl;
 
             // 카테고리 정보를 삭제
-            $output = $oDB->executeQuery('document.deleteCategory', $args);
+            $output = executeQuery('document.deleteCategory', $args);
             if(!$output->toBool()) return $output;
 
             // 현 카테고리 값을 가지는 문서들의 category_srl을 0 으로 세팅
@@ -450,7 +424,7 @@
 
             $args->target_category_srl = 0;
             $args->source_category_srl = $category_srl;
-            $output = $oDB->executeQuery('document.updateDocumentCategory', $args);
+            $output = executeQuery('document.updateDocumentCategory', $args);
             return $output;
         }
 
@@ -458,10 +432,8 @@
          * @brief 특정 모듈의 카테고리를 모두 삭제
          **/
         function deleteModuleCategory($module_srl) {
-            $oDB = &DB::getInstance();
-
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('document.deleteModuleCategory', $args);
+            $output = executeQuery('document.deleteModuleCategory', $args);
             return $output;
         }
 
@@ -469,12 +441,11 @@
          * @brief 카테고리를 상단으로 이동
          **/
         function moveCategoryUp($category_srl) {
-            $oDB = &DB::getInstance();
             $oDocumentModel = &getModel('document');
 
             // 선택된 카테고리의 정보를 구한다
             $args->category_srl = $category_srl;
-            $output = $oDB->executeQuery('document.getCategory', $args);
+            $output = executeQuery('document.getCategory', $args);
 
             $category = $output->data;
             $list_order = $category->list_order;
@@ -516,12 +487,11 @@
          * @brief 카테고리를 아래로 이동
          **/
         function moveCategoryDown($category_srl) {
-            $oDB = &DB::getInstance();
             $oDocumentModel = &getModel('document');
 
             // 선택된 카테고리의 정보를 구한다
             $args->category_srl = $category_srl;
-            $output = $oDB->executeQuery('document.getCategory', $args);
+            $output = executeQuery('document.getCategory', $args);
 
             $category = $output->data;
             $list_order = $category->list_order;

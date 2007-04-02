@@ -53,14 +53,12 @@
          * @brief 페이지 관리 목록 보여줌
          **/
         function dispPageAdminContent() {
-            // 등록된 page 모듈을 불러와 세팅
-            $oDB = &DB::getInstance();
             $args->sort_index = "module_srl";
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
-            $output = $oDB->executeQuery('page.getPageList', $args);
+            $output = executeQuery('page.getPageList', $args);
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -143,10 +141,7 @@
             }
 
             // module_srl이 없으면 sequence값으로 미리 구해 놓음
-            if(!$module_srl) {
-                $oDB = &DB::getInstance();
-                $module_srl = $oDB->getNextSequence();
-            }
+            if(!$module_srl) $module_srl = getNextSequence();
             Context::set('module_srl',$module_srl);
 
             // 플러그인 목록을 세팅

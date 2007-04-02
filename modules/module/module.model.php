@@ -19,12 +19,9 @@
          * 이 경우는 캐시파일을 이용할 수가 없음
          **/
         function getModuleInfoByDocumentSrl($document_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 데이터를 DB에서 가져옴
             $args->document_srl = $document_srl;
-            $output = $oDB->executeQuery('module.getModuleInfoByDocument', $args);
+            $output = executeQuery('module.getModuleInfoByDocument', $args);
 
             return $this->arrangeModuleInfo($output->data);
         }
@@ -33,18 +30,15 @@
          * @brief mid로 모듈의 정보를 구함
          **/
         function getModuleInfoByMid($mid='') {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // $mid값이 인자로 주어질 경우 $mid로 모듈의 정보를 구함
             if($mid) {
                 $args->mid = $mid;
-                $output = $oDB->executeQuery('module.getMidInfo', $args);
+                $output = executeQuery('module.getMidInfo', $args);
             }
 
             // 모듈의 정보가 없다면($mid가 잘못이거나 없었을 경우) 기본 모듈을 가져옴
             if(!$output->data) {
-                $output = $oDB->executeQuery('module.getDefaultMidInfo');
+                $output = executeQuery('module.getDefaultMidInfo');
             }
             $module_info = $this->arrangeModuleInfo($output->data);
 
@@ -55,12 +49,9 @@
          * @brief module_srl에 해당하는 모듈의 정보를 구함
          **/
         function getModuleInfoByModuleSrl($module_srl) {
-            // db객체 생성
-            $oDB = &DB::getInstance();
-
             // 데이터를 가져옴
             $args->module_srl = $module_srl;
-            $output = $oDB->executeQuery('module.getMidInfo', $args);
+            $output = executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
 
             $module_info = $this->arrangeModuleInfo($output->data);
@@ -122,8 +113,7 @@
          * @brief DB에 생성된 mid목록을 구해옴
          **/
         function getMidList() {
-            $oDB = &DB::getInstance();
-            $output = $oDB->executeQuery('module.getMidList');
+            $output = executeQuery('module.getMidList');
             if(!$output->toBool()) return $output;
 
             $list = $output->data;
@@ -140,9 +130,8 @@
          **/
         function getModuleSrlByMid($mid) {
             if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
-            $oDB = &DB::getInstance();
             $args->mid = $mid;
-            $output = $oDB->executeQuery('module.getModuleSrlByMid', $args);
+            $output = executeQuery('module.getModuleSrlByMid', $args);
             if(!$output->toBool()) return $output;
 
             $list = $output->data;
@@ -367,10 +356,8 @@
             $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
 
             if(!file_exists($cache_file)) {
-                // DB 객체 생성
-                $oDB = &DB::getInstance();
                 $args->module = $module;
-                $output = $oDB->executeQuery('module.getModuleConfig', $args);
+                $output = executeQuery('module.getModuleConfig', $args);
 
                 $config = base64_encode($output->data->config);
 
@@ -439,11 +426,8 @@
          * @brief 모듈 카테고리의 목록을 구함
          **/
         function getModuleCategories() {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 데이터를 DB에서 가져옴
-            $output = $oDB->executeQuery('module.getModuleCategories');
+            $output = executeQuery('module.getModuleCategories');
             if(!$output->toBool()) return $output;
             $list = $output->data;
             if(!$list) return;
@@ -459,12 +443,9 @@
          * @brief 특정 모듈 카테고리의 내용을 구함
          **/
         function getModuleCategory($module_category_srl) {
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 데이터를 DB에서 가져옴
             $args->module_category_srl = $module_category_srl;
-            $output = $oDB->executeQuery('module.getModuleCategory', $args);
+            $output = executeQuery('module.getModuleCategory', $args);
             if(!$output->toBool()) return $output;
             return $output->data;
         }

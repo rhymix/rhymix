@@ -51,9 +51,8 @@
          * addons라는 테이블에 애드온의 이름을 등록하는 것으로 활성화를 시키게 된다
          **/
         function doActivate($addon) {
-            $oDB = &DB::getInstance();
             $args->addon = $addon;
-            return $oDB->executeQuery('addon.insertAddon', $args);
+            return executeQuery('addon.insertAddon', $args);
         }
 
         /**
@@ -62,9 +61,8 @@
          * addons라는 테이블에 애드온의 이름을 제거하는 것으로 비활성화를 시키게 된다
          **/
         function doDeactivate($addon) {
-            $oDB = &DB::getInstance();
             $args->addon = $addon;
-            return $oDB->executeQuery('addon.deleteAddon', $args);
+            return executeQuery('addon.deleteAddon', $args);
         }
 
     }

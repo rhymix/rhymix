@@ -50,12 +50,9 @@
             $_SESSION['group_srls'] = array_keys($member_info->group_list);
             $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;
-            $output = $oDB->executeQuery('member.updateLastLogin', $args);
+            $output = executeQuery('member.updateLastLogin', $args);
 
             return $output;
         }
@@ -189,8 +186,6 @@
          * @brief 가입 항목 추가
          **/
         function procMemberAdminInsertJoinForm() {
-            $oDB = &DB::getInstance();
-
             $args->member_join_form_srl = Context::get('member_join_form_srl');
 
             $args->column_type = Context::get('column_type');
@@ -202,7 +197,7 @@
             $args->required = Context::get('required');
             if(!in_array(strtoupper($args->required), array('Y','N'))) $args->required = 'N';
             $args->description = Context::get('description');
-            $args->list_order = $oDB->getNextSequence();
+            $args->list_order = getNextSequence();
 
             // 기본값의 정리
             if(in_array($args->column_type, array('checkbox','select')) && count($args->default_value) ) {
@@ -212,8 +207,8 @@
             }
 
             // member_join_form_srl이 있으면 수정, 없으면 추가
-            if(!$args->member_join_form_srl) $output = $oDB->executeQuery('member.insertJoinForm', $args);
-            else $output = $oDB->executeQuery('member.updateJoinForm', $args);
+            if(!$args->member_join_form_srl) $output = executeQuery('member.insertJoinForm', $args);
+            else $output = executeQuery('member.updateJoinForm', $args);
 
             if(!$output->toBool()) return $output;
 
@@ -502,15 +497,12 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
             if($member_srl) return new Object(-1,'msg_exists_email_address');
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // DB에 입력
-            $args->member_srl = $oDB->getNextSequence();
+            $args->member_srl = getNextSequence();
             if($args->password) $args->password = md5($args->password);
             else unset($args->password);
 
-            $output = $oDB->executeQuery('member.insertMember', $args);
+            $output = executeQuery('member.insertMember', $args);
             if(!$output->toBool()) return $output;
 
             // 입력된 그룹 값이 없으면 기본 그룹의 값을 등록
@@ -561,14 +553,11 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
             if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // DB에 update
             if($args->password) $args->password = md5($args->password);
             else $args->password = $member_info->password;
 
-            $output = $oDB->executeQuery('member.updateMember', $args);
+            $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) return $output;
 
             // 그룹 정보가 있으면 그룹 정보를 변경
@@ -576,7 +565,7 @@
                 $group_srl_list = explode('|@|', $args->group_srl_list);
 
                 // 일단 해당 회원의 모든 그룹 정보를 삭제
-                $output = $oDB->executeQuery('member.deleteMemberGroupMember', $args);
+                $output = executeQuery('member.deleteMemberGroupMember', $args);
                 if(!$output->toBool()) return $output;
 
                 // 하나 하나 루프를 돌면서 입력
@@ -605,16 +594,13 @@
             // 관리자의 경우 삭제 불가능
             if($member_info->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // member_group_member에서 해당 항목들 삭제
             $args->member_srl = $member_srl;
-            $output = $oDB->executeQuery('member.deleteMemberGroupMember', $args);
+            $output = executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) return $output;
 
             // member 테이블에서 삭제
-            return $oDB->executeQuery('member.deleteMember', $args);
+            return executeQuery('member.deleteMember', $args);
         }
 
         /**
@@ -624,57 +610,47 @@
             $args->member_srl = $member_srl;
             $args->group_srl = $group_srl;
 
-            // DB 객체 생성
-            $oDB = &DB::getInstance();
-
             // 추가
-            return  $oDB->executeQuery('member.addMemberToGroup',$args);
+            return  executeQuery('member.addMemberToGroup',$args);
         }
 
         /**
          * @brief 회원의 그룹값을 변경
          **/
         function changeGroup($source_group_srl, $target_group_srl) {
-            // DB객체 생성
-            $oDB = &DB::getInstance();
-
             $args->source_group_srl = $source_group_srl;
             $args->target_group_srl = $target_group_srl;
 
-            return $oDB->executeQuery('member.changeGroup', $args);
+            return executeQuery('member.changeGroup', $args);
         }
 
         /**
          * @brief 그룹 등록
          **/
         function insertGroup($args) {
-            $oDB = &DB::getInstance();
-
             // is_default값을 체크, Y일 경우 일단 모든 is_default에 대해서 N 처리
             if($args->is_default!='Y') {
                 $args->is_default = 'N';
             } else {
-                $output = $oDB->executeQuery('member.updateGroupDefaultClear');
+                $output = executeQuery('member.updateGroupDefaultClear');
                 if(!$output->toBool()) return $output;
             }
 
-            return $oDB->executeQuery('member.insertGroup', $args);
+            return executeQuery('member.insertGroup', $args);
         }
 
         /**
          * @brief 그룹 정보 수정
          **/
         function updateGroup($args) {
-            $oDB = &DB::getInstance();
-
             // is_default값을 체크, Y일 경우 일단 모든 is_default에 대해서 N 처리
             if($args->is_default!='Y') $args->is_default = 'N';
             else {
-                $output = $oDB->executeQuery('member.updateGroupDefaultClear');
+                $output = executeQuery('member.updateGroupDefaultClear');
                 if(!$output->toBool()) return $output;
             }
 
-            return $oDB->executeQuery('member.updateGroup', $args);
+            return executeQuery('member.updateGroup', $args);
         }
 
         /**
@@ -697,43 +673,35 @@
             // default_group_srl로 변경
             $this->changeGroup($group_srl, $default_group_srl);
 
-            // 그룹 삭제
-            $oDB = &DB::getInstance();
             $args->group_srl = $group_srl;
-            return $oDB->executeQuery('member.deleteGroup', $args);
+            return executeQuery('member.deleteGroup', $args);
         }
 
         /**
          * @brief 금지아이디 등록
          **/
         function insertDeniedID($user_id, $desription = '') {
-            $oDB = &DB::getInstance();
-
             $args->user_id = $user_id;
             $args->description = $description;
-            $args->list_order = -1*$oDB->getNextSequence();
+            $args->list_order = -1*getNextSequence();
 
-            return $oDB->executeQuery('member.insertDeniedID', $args);
+            return executeQuery('member.insertDeniedID', $args);
         }
 
         /**
          * @brief 금지아이디 삭제
          **/
         function deleteDeniedID($user_id) {
-            $oDB = &DB::getInstance();
-
             $args->user_id = $user_id;
-            return $oDB->executeQuery('member.deleteDeniedID', $args);
+            return executeQuery('member.deleteDeniedID', $args);
         }
 
         /**
          * @brief 가입폼 항목을 삭제
          **/
         function deleteJoinForm($member_join_form_srl) {
-            $oDB = &DB::getInstance();
-
             $args->member_join_form_srl = $member_join_form_srl;
-            $output = $oDB->executeQuery('member.deleteJoinForm', $args);
+            $output = executeQuery('member.deleteJoinForm', $args);
             return $output;
         }
 
@@ -741,13 +709,11 @@
          * @brief 가입항목을 상단으로 이동
          **/
         function moveJoinFormUp($member_join_form_srl) {
-            $oDB = &DB::getInstance();
-
             $oMemberModel = &getModel('member');
 
             // 선택된 가입항목의 정보를 구한다
             $args->member_join_form_srl = $member_join_form_srl;
-            $output = $oDB->executeQuery('member.getJoinForm', $args);
+            $output = executeQuery('member.getJoinForm', $args);
 
             $join_form = $output->data;
             $list_order = $join_form->list_order;
@@ -775,10 +741,10 @@
             $prev_args->list_order = $list_order;
 
             // DB 처리
-            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            $output = executeQuery('member.updateMemberJoinFormListorder', $cur_args);
             if(!$output->toBool()) return $output;
 
-            $oDB->executeQuery('member.updateMemberJoinFormListorder', $prev_args);
+            executeQuery('member.updateMemberJoinFormListorder', $prev_args);
             if(!$output->toBool()) return $output;
 
             return new Object();
@@ -788,13 +754,11 @@
          * @brief 가입항목을 하단으로 이동
          **/
         function moveJoinFormDown($member_join_form_srl) {
-            $oDB = &DB::getInstance();
-
             $oMemberModel = &getModel('member');
 
             // 선택된 가입항목의 정보를 구한다
             $args->member_join_form_srl = $member_join_form_srl;
-            $output = $oDB->executeQuery('member.getJoinForm', $args);
+            $output = executeQuery('member.getJoinForm', $args);
 
             $join_form = $output->data;
             $list_order = $join_form->list_order;
@@ -823,10 +787,10 @@
             $next_args->list_order = $list_order;
 
             // DB 처리
-            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $cur_args);
+            $output = executeQuery('member.updateMemberJoinFormListorder', $cur_args);
             if(!$output->toBool()) return $output;
 
-            $output = $oDB->executeQuery('member.updateMemberJoinFormListorder', $next_args);
+            $output = executeQuery('member.updateMemberJoinFormListorder', $next_args);
             if(!$output->toBool()) return $output;
 
             return new Object();
