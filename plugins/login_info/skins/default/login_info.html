@@ -12,7 +12,7 @@
         <!-- 닉네임 + 로그아웃 -->
         <div class="top_box">
             <div class="logout">
-                <a href="#" onclick="procFilter(null, plugin_logout);return false;">{$lang->cmd_logout}</a>
+                <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
             </div>
             <div class="nick_name">
                 <div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div>
