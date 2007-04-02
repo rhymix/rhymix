@@ -7,7 +7,7 @@ function getNaverMap() {
     if(typeof(opener)=="undefined") return;
 
     var node = opener.editorPrevNode;
-    if(!node || node.nodeName != "DIV") return;
+    if(!node || node.nodeName != "IMG") return;
 
     var x = node.getAttribute("x");
     var y = node.getAttribute("y");
@@ -38,10 +38,8 @@ function insertNaverMap(obj) {
     var address = xGetElementById("address").value;
 
     var width = xGetElementById("map_width").value;
-    if(!width) width = 640;
 
     var height = xGetElementById("map_height").value;
-    if(!height) height= 480;
 
     var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" marker=\""+marker+"\" />";
 

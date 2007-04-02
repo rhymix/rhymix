@@ -103,6 +103,14 @@
             $marker = $xml_obj->attrs->marker;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
+            $style = $xml_obj->attrs->style;
+
+            if(!$width || !$height) {
+                preg_match_all('/([0-9]+)/i',$style,$matches);
+                $width = $matches[0][0];
+                $height = $matches[0][1];
+            }
+
             $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker, $width, $height);
             return $body_code;
         }
