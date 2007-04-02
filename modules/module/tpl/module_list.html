@@ -41,7 +41,7 @@
             </span>
     </td>
     <td>{$val->path}</td>
-    <td><a href="#" onclick="winopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
+    <td><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
     <td rowspan="2">
         <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
         <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
