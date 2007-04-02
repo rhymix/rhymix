@@ -4,9 +4,7 @@
      * @author zero <zero@nzeo.com>
      * @brief  레이아웃(layout) 모듈의 기본 언어팩
      **/
-    $lang->cmd_make_child = '하부 메뉴 추가';
 
-    $lang->layout = '레이아웃';
     $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
     $lang->menu_management = '메뉴 관리';
@@ -23,17 +21,15 @@
     $lang->menu_hover_btn = '마우스오버';
     $lang->menu_active_btn = '선택시';
     $lang->menu_group_srls = '그룹 제한';
-
     $lang->layout_maker = "레이아웃 제작자";
     $lang->layout_history = "변경 사항 ";
-
     $lang->layout_info = "레이아웃 정보";
-
     $lang->layout_list = '레이아웃 목록';
     $lang->downloaded_list = '다운로드 목록';
 
+    $lang->cmd_make_child = '하부 메뉴 추가';
+    $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";
-
     $lang->cmd_enable_move_menu = "메뉴 옮기기";
 
     $lang->about_downloaded_layouts = "다운로드 되어 있는 레이아웃 목록";

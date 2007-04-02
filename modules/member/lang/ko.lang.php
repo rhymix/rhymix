@@ -5,6 +5,14 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->cmd_login = '로그인';
+    $lang->cmd_logout = '로그아웃';
+    $lang->cmd_signup = '가입';
+    $lang->cmd_modify_member_info = '회원정보 수정';
+    $lang->cmd_modify_member_password = '비밀번호 변경';
+    $lang->cmd_view_member_info = '회원정보 보기';
+    $lang->cmd_leave = '탈퇴';
+
     $lang->cmd_member_list = '회원 목록';
     $lang->cmd_module_config = '기본 설정';
     $lang->cmd_member_group = '그룹 관리';
@@ -30,7 +38,6 @@
     $lang->group = '소속 그룹';
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
-
     $lang->signature = '서명';
     $lang->image_name = '이미지 이름';
     $lang->image_name_max_width = '가로 제한 크기';

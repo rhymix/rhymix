@@ -22,14 +22,7 @@
     $lang->cmd_search = '검색';
     $lang->cmd_cancel = '취소';
     $lang->cmd_back = '돌아가기';
-    $lang->cmd_vote= '추천';
-    $lang->cmd_login = '로그인';
-    $lang->cmd_logout = '로그아웃';
-    $lang->cmd_signup = '가입';
-    $lang->cmd_modify_member_info = '회원정보 수정';
-    $lang->cmd_modify_member_password = '비밀번호 변경';
-    $lang->cmd_view_member_info = '회원정보 보기';
-    $lang->cmd_leave = '탈퇴';
+    $lang->cmd_vote = '추천';
     $lang->cmd_move = '이동';
     $lang->cmd_move_up = '위로';
     $lang->cmd_move_down = '아래로';
@@ -47,7 +40,6 @@
     $lang->cmd_open = "열기";
     $lang->cmd_setup = "설정";
     $lang->cmd_apply = "적용";
-    $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_send_message = '쪽지 보내기';
 
     $lang->enable = '가능';
@@ -89,8 +81,14 @@
     $lang->total_count = "전체개수";
     $lang->ipaddress = "IP 주소";
     $lang->path = "경로";
+
+    $lang->mid = "모듈이름";
     $lang->layout = "레이아웃";
     $lang->plugin = "플러그인 ";
+    $lang->module = "모듈";
+    $lang->skin = "스킨";
+    $lang->colorset = "컬러셋";
+    $lang->extra_vars = "확장변수";
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
@@ -99,6 +97,7 @@
 
     $lang->document_count = '글수';
     $lang->page_count = '페이지수';
+    $lang->list_count = "목록 수";
     $lang->readed_count = '조회수';
     $lang->voted_count = '추천수';
     $lang->member_count = '회원수';
@@ -112,9 +111,6 @@
     $lang->search_target = '검색대상';
     $lang->search_keyword = '검색어';
     $lang->is_default = "기본";
-
-    $lang->skin = "스킨";
-    $lang->colorset = "컬러셋";
 
     $lang->board_manager = '게시판 관리';
     $lang->member_manager = '회원 관리';
@@ -147,6 +143,7 @@
     $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다';
     $lang->msg_error_occured = '오류가 발생하였습니다';
     $lang->msg_not_founded = '대상을 찾을 수 없습니다';
+    $lang->msg_no_result = "검색 결과가 없습니다";
 
     $lang->msg_not_permitted_act = '요청하신 action을 실행할 수 있는 권한이 없습니다';
     $lang->msg_module_is_not_exists = '요청하신 모듈을 찾을 수 없습니다';

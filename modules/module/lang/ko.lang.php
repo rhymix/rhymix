@@ -17,6 +17,7 @@
     $lang->category_title = "카테고리 이름";
 
     $lang->cmd_add_shortcut = "바로가기 추가";
+
     $lang->msg_new_module = "모듈 생성";
     $lang->msg_update_module = "모듈 수정";
 

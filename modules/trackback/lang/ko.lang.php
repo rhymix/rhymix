@@ -5,9 +5,6 @@
      * @brief  엮인글(trackback) 모듈의 기본 언어팩
      **/
 
-    $lang->module = '모듈';
-    $lang->blog_name = '사이트';
-
     $lang->cmd_delete_checked_trackback = '선택항목 삭제';
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';

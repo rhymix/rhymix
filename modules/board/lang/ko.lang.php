@@ -14,28 +14,17 @@
     $lang->cmd_manage_skin = "스킨관리";
 
     // 항목
-    $lang->mid = "모듈이름";
     $lang->header_text = "상단 내용";
     $lang->footer_text = "하단 내용";
-    $lang->skin = "스킨";
     $lang->use_category = "분류 사용";
-    $lang->list_count = "목록 수";
-    $lang->page_count = "페이지 수";
     $lang->category_title = "분류명";
-    $lang->module = "모듈";
 
-    $lang->skin_default_info = "기본정보";
+    $lang->skin_default_info = "스킨 기본정보";
     $lang->skin_maker = "스킨제작자";
     $lang->skin_maker_homepage = "홈페이지";
 
-    $lang->colorset = "컬러셋";
-    $lang->extra_vars = "확장변수";
-
     $lang->test = "테스트";
-
     $lang->about_test = "테스트는 블라블라...";
-
-    $lang->msg_not_permitted = "권한이 없습니다";
 
     // 주절 주절..
     $lang->about_mid = "모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+숫자만 가능)";
