@@ -1,32 +1,32 @@
 <!--%import("filter/delete_member.xml")-->
-<!--%import("js/admin.js")-->
+<!--%import("js/member_admin.js")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_member)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-  <table>
-  <tr>
-    <th colspan="2">{$lang->confirm_delete}</th>
-  </tr>
-  <tr>
-    <th>{$lang->user_id}</th>
-    <td>{$member_info->user_id}</td>
-  </tr>
-  <tr>
-    <th>{$lang->nick_name}</th>
-    <td>{$member_info->nick_name}</td>
-  </tr>
-  <tr>
-    <th>{$lang->email_address}</th>
-    <td>{$member_info->email_address}</td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberList')}';return false;" />
-      <input type="submit" value="{$lang->cmd_delete}" />
-    </td>
-  </tr>
-  </table>
+    <table>
+    <tr>
+        <th colspan="2">{$lang->confirm_delete}</th>
+    </tr>
+    <tr>
+        <th>{$lang->user_id}</th>
+        <td>{$member_info->user_id}</td>
+    </tr>
+    <tr>
+        <th>{$lang->nick_name}</th>
+        <td>{$member_info->nick_name}</td>
+    </tr>
+    <tr>
+        <th>{$lang->email_address}</th>
+        <td>{$member_info->email_address}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberAdminList')}';return false;" />
+            <input type="submit" value="{$lang->cmd_delete}" />
+        </td>
+    </tr>
+    </table>
 
 </form>
 

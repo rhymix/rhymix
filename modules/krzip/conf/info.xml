@@ -3,6 +3,9 @@
     <title xml:lang="ko">한국 우편번호 검색</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">제로보드에서 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.</description>
+        <description xml:lang="ko">
+            제로보드에서 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.
+            우편번호 검색 서버는 설정을 통해 변경하실 수 있습니다.
+        </description>
     </author>
 </module>

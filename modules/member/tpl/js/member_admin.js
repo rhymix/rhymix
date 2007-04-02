@@ -7,9 +7,8 @@ function completeInsert(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminInfo');
-    url = url.setQuery('member_srl',member_srl);
-    if(page) url += "&page="+page;
+    var url = location.href.setQuery('act','dispMemberAdminInfo').setQuery('member_srl',member_srl);
+    if(page) url = url.setQuery('page', page);
 
     location.href = url;
 }
@@ -53,7 +52,6 @@ function doUpdateGroup(group_srl, mode, message) {
 function completeUpdateGroup(ret_obj) {
     var page = ret_obj['page'];
     var url = location.href.setQuery('act','dispMemberAdminGroupList');
-
     location.href = url;
 }
 
@@ -67,7 +65,6 @@ function completeInsertDeniedID(ret_obj) {
     alert(message);
 
     var url = location.href.setQuery('act','dispMemberAdminDeniedIDList');
-
     location.href = url;
 }
 

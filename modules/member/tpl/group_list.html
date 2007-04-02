@@ -3,61 +3,61 @@
 <!--%import("filter/update_group.xml")-->
 
 <div>
-  {$lang->cmd_member_group}
+    {$lang->cmd_member_group}
 </div>
 
 <!-- 그룹의 삭제와 관련된 form -->
 <form id="fo_group_info" action="./" method="get">
-<input type="hidden" name="act" value="procUpdateGroup" />
+<input type="hidden" name="act" value="procMemberAdminUpdateGroup" />
 <input type="hidden" name="group_srl" value="" />
 <input type="hidden" name="mode" value="" />
 </form>
 
 <div>
-  <table border="1">
-  <tr>
-    <th>{$lang->group_title}</th>
-    <th>{$lang->regdate}</th>
-    <th>{$lang->description}</th>
-    <th>{$lang->is_default}</th>
-    <th>{$lang->cmd_modify}</th>
-    <th>{$lang->cmd_delete}</th>
-  </tr>
-  <!--@if(!count($group_list))-->
-  <tr>
-    <td colspan="7">{$lang->msg_group_is_null}</td>
-  </tr>
-  <!--@end-->
-  <!--@foreach($group_list as $group_srl => $group_info)-->
-  <tr>
-    <td>{$group_info->title}</td>
-    <td>{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
-    <td>{nl2br($group_info->description)}</td>
-    <td>{$group_info->is_default}</td>
-    <td><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
-    <td>
-      <!--@if($group_info->is_default!='Y')-->
-      <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a>
-      <!--@end-->
-    </td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table border="1">
+    <tr>
+        <th>{$lang->group_title}</th>
+        <th>{$lang->regdate}</th>
+        <th>{$lang->description}</th>
+        <th>{$lang->is_default}</th>
+        <th>{$lang->cmd_modify}</th>
+        <th>{$lang->cmd_delete}</th>
+    </tr>
+    <!--@if(!count($group_list))-->
+    <tr>
+        <td colspan="7">{$lang->msg_group_is_null}</td>
+    </tr>
+    <!--@end-->
+    <!--@foreach($group_list as $group_srl => $group_info)-->
+    <tr>
+        <td>{$group_info->title}</td>
+        <td>{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
+        <td>{nl2br($group_info->description)}</td>
+        <td>{$group_info->is_default}</td>
+        <td><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
+        <td>
+            <!--@if($group_info->is_default!='Y')-->
+            <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>
 
 
 <br />
 
 <!-- 그룹 추가 -->
-<form action="./admin.php" onsubmit="return procFilter(this, insert_group)">
+<form action="./" method="get" onsubmit="return procFilter(this, insert_group)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="group_srl" value="" />
 
 <div>
-  {$lang->group_title} : <input type="text" name="title" /><br />
-  {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
-  {$lang->description} :<input type="text" name="description" /><br />
-  <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    {$lang->group_title} : <input type="text" name="title" /><br />
+    {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
+    {$lang->description} :<input type="text" name="description" /><br />
+    <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
 </div>
 
 </form>

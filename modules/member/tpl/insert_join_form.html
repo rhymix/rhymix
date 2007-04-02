@@ -2,102 +2,101 @@
 <!--%import("filter/insert_join_form.xml")-->
 
 <div>
-  {$lang->cmd_manage_form}
+    {$lang->cmd_manage_form}
 </div>
 
 <form id="fo_join_form" action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
-  <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
-  <input type="hidden" name="default_value" value="{implode($join_form->default_value,'|@|')}" />
+    <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
+    <input type="hidden" name="default_value" value="{implode($join_form->default_value,'|@|')}" />
 
-  <table>
-  <tr id="zone_column_type">
-    <th rowspan="2">{$lang->column_type}</th>
-    <td>
-      <div>
-        <select name="column_type" onchange="doShowJoinFormValue(this)">
-          <!--@foreach($lang->column_type_list as $key => $val)-->
-          <option value="{$key}" <!--@if($join_form->column_type==$key)-->selected="true"<!--@end-->>{$lang->column_type_list[$key]}</option>
-          <!--@end-->
-        </select>
-      </div>
-      <div id="zone_default_value" style="<!--@if($join_form->default_value)-->display:block;<!--@else-->display:none<!--@end-->">
-        <table>
-        <tr>
-          <td>{$lang->default_value}</td>
-        </tr>
-        <tr>
-          <td>
+    <table>
+    <tr id="zone_column_type">
+        <th rowspan="2">{$lang->column_type}</th>
+        <td>
             <div>
-              <select name="default_value_list" size="8" style="width:200px;" id="default_value_listup">
-                <!--@foreach($join_form->default_value as $value_key => $value_val)-->
-                  <!--@if($value_val)-->
-                <option value="{$value_val}">{$value_val}</option>
-                  <!--@end-->
-                <!--@end-->
-              </select>
+                <select name="column_type" onchange="doShowJoinFormValue(this)">
+                    <!--@foreach($lang->column_type_list as $key => $val)-->
+                    <option value="{$key}" <!--@if($join_form->column_type==$key)-->selected="true"<!--@end-->>{$lang->column_type_list[$key]}</option>
+                    <!--@end-->
+                </select>
             </div>
-            <div>
-              <input type="text" name="default_value_item" id="default_value_item" />
-              <input type="button" value="{$lang->cmd_insert}" onclick="doEditDefaultValue(this, 'insert');return false;" />
+            <div id="zone_default_value" style="<!--@if($join_form->default_value)-->display:block;<!--@else-->display:none<!--@end-->">
+                <table>
+                <tr>
+                    <td>{$lang->default_value}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <select name="default_value_list" size="8" style="width:200px;" id="default_value_listup">
+                                <!--@foreach($join_form->default_value as $value_key => $value_val)-->
+                                    <!--@if($value_val)-->
+                                <option value="{$value_val}">{$value_val}</option>
+                                    <!--@end-->
+                                <!--@end-->
+                            </select>
+                        </div>
+                        <div>
+                            <input type="text" name="default_value_item" id="default_value_item" />
+                            <input type="button" value="{$lang->cmd_insert}" onclick="doEditDefaultValue(this, 'insert');return false;" />
+                        </div>
+                        <div>
+                            <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up');return false;" />
+                            <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down');return false;" />
+                            <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete');return false;" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{$lang->about_default_value}</td>
+                </tr>
+                </table>
             </div>
-            <div>
-              <input type="button" value="{$lang->cmd_move_up}" onclick="doEditDefaultValue(this, 'up');return false;" />
-              <input type="button" value="{$lang->cmd_move_down}" onclick="doEditDefaultValue(this, 'down');return false;" />
-              <input type="button" value="{$lang->cmd_delete}" onclick="doEditDefaultValue(this, 'delete');return false;" />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>{$lang->about_default_value}</td>
-        </tr>
-        </table>
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_column_type}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->column_name}</th>
-    <td><input type="text" name="column_name" value="{$join_form->column_name}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_column_name}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->column_title}</th>
-    <td><input type="text" name="column_title" value="{$join_form->column_title}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_column_title}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->is_active}</th>
-    <td><input type="checkbox" name="is_active" value="Y" <!--@if($join_form->is_active=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_active}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->is_required}</th>
-    <td><input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_required}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->description}</th>
-    <td><textarea name="description">{$join_form->description}</textarea></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_form_description}</td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="submit" value="{$lang->cmd_registration}" />
-    </td>
-  </tr>
-  </table>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_column_type}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->column_name}</th>
+        <td><input type="text" name="column_name" value="{$join_form->column_name}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_column_name}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->column_title}</th>
+        <td><input type="text" name="column_title" value="{$join_form->column_title}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_column_title}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->is_active}</th>
+        <td><input type="checkbox" name="is_active" value="Y" <!--@if($join_form->is_active=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_active}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->is_required}</th>
+        <td><input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_required}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->description}</th>
+        <td><textarea name="description">{$join_form->description}</textarea></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_form_description}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="{$lang->cmd_registration}" />
+        </td>
+    </tr>
+    </table>
 
 </form>
-

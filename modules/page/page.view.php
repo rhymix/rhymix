@@ -15,7 +15,9 @@
          * @brief 초기화
          **/
         function init() {
-            // template path 지정
+            if(substr_count($this->act, 'Admin')) $this->initAdmin();
+
+            // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
@@ -32,9 +34,6 @@
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-
-            // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
-            $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
@@ -47,7 +46,6 @@
             Context::set('module_info', $this->module_info);
             Context::set('page_content', $this->module_info->content);
 
-            $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('content');
         }
 
@@ -55,9 +53,6 @@
          * @brief 페이지 관리 목록 보여줌
          **/
         function dispPageAdminContent() {
-            // 모듈 관련 정보 세팅
-            $this->initAdmin();
-
             // 등록된 page 모듈을 불러와 세팅
             $oDB = &DB::getInstance();
             $args->sort_index = "module_srl";
@@ -82,9 +77,6 @@
          * @brief 페이지에 필요한 기본 설정들
          **/
         function dispPageAdminModuleConfig() {
-            // 관리자  관련 정보 세팅
-            $this->initAdmin();
-
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('page');
@@ -98,9 +90,6 @@
          * @brief 선택된 페이지의 정보 출력
          **/
         function dispPageAdminInfo() {
-            // 관리자  관련 정보 세팅
-            $this->initAdmin();
-
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');
 
@@ -134,9 +123,6 @@
          * @brief 페이지 추가 폼 출력
          **/
         function dispPageAdminInsert() {
-            // 관리자  관련 정보 세팅
-            $this->initAdmin();
-
             // 레이아웃 목록을 구해옴
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
@@ -181,9 +167,6 @@
          * @brief 페이지 삭제 화면 출력
          **/
         function dispPageAdminDelete() {
-            // 관리자  관련 정보 세팅
-            $this->initAdmin();
-
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return $this->dispContent();
 

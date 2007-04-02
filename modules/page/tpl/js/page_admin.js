@@ -1,7 +1,7 @@
 /**
- * @file   modules/page/js/admin.js
+ * @file   modules/page/js/page_admin.js
  * @author zero (zero@nzeo.com)
- * @desc   page모듈의 관리자용 javascript
+ * @brief  page모듈의 관리자용 javascript
  **/
 
 /* 모듈 생성 후 */
@@ -14,8 +14,8 @@ function completeInsertPage(ret_obj) {
 
     alert(message);
 
-    var url = "./?module=admin&module_srl="+module_srl+"&act=dispPageAdminInfo";
-    if(page) url += "&page="+page;
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
+    if(page) url = url.setQuery('page',page);
 
     location.href = url;
 }
@@ -28,8 +28,8 @@ function completeDeletePage(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = "./?module=admin&act=dispPageAdminContent";
-    if(page) url += "&page="+page;
+    var url = location.href.setQuery('act','dispPageAdminContent');
+    if(page) url = url.setQuery('page',page);
 
     location.href = url;
 }
@@ -38,5 +38,5 @@ function completeDeletePage(ret_obj) {
 function doChangeCategory(sel_obj, url) {
     var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
     if(!module_category_srl) location.href=url;
-    else location.href=url+'&module_category_srl='+module_category_srl;
+    else location.href = location.href.setQuery('module_category_srl',module_category_srl);
 }

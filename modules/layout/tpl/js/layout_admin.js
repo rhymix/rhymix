@@ -1,7 +1,8 @@
 /* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
 function completeInsertLayout(ret_obj) {
       var layout_srl = ret_obj['layout_srl'];
-      location.href="./?module=admin&act=dispLayoutAdminMenu&layout_srl="+layout_srl;
+      var url = location.href.setQuery('act','dispLayoutAdminMenu').setQuery('layout_srl',layout_srl);
+      location.href = url;
 } 
 
 /* 레이아웃메뉴 입력후 */ 
@@ -14,9 +15,7 @@ function completeInsertLayoutMenu(ret_obj) {
     if(!xml_file) return;
     loadTreeMenu(xml_file, menu_id, "menu_zone_"+menu_id, menu_title, doGetMenuInfo, menu_srl, doMoveTree);
 
-    if(!menu_srl) {
-        xInnerHtml("menu_zone_info_"+menu_id, "");
-    }
+    if(!menu_srl) xInnerHtml("menu_zone_info_"+menu_id, "");
 } 
 
 /* 레이아웃 삭제 */

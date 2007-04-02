@@ -2,65 +2,65 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-  <table border="1">
-  <tr>
-    <th>{$lang->skin}</th>
-    <td>
-        <select name="skin">
-            <!--@foreach($skin_list as $key => $val)-->
-            <option value="{$key}">{$val->title} ({$key})</option>
-            <!--@end-->
-        </select>
-    </td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->enable_join}</th>
-    <td><input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end-->/></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_enable_join}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->image_name}</th>
-    <td>
-        <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end-->/><br />
-        {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" value="{$config->image_name_max_width}"/>px<br />
-        {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" value="{$config->image_name_max_height}"/>px<br />
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_image_name}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->image_mark}</th>
-    <td>
-        <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end-->/><br />
-        {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" value="{$config->image_mark_max_width}"/>px<br />
-        {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" value="{$config->image_mark_max_height}"/>px<br />
-    </td>
-  </tr>
-  <tr>
-    <td>{$lang->about_image_mark}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->redirect_url}</th>
-    <td><input type="text" name="redirect_url" value="{$config->redirect_url}" /></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_redirect_url}</td>
-  </tr>
-  <tr>
-    <th rowspan="2">{$lang->agreement}</th>
-    <td><textarea name="agreement">{$config->agreement}</textarea></td>
-  </tr>
-  <tr>
-    <td>{$lang->about_agreement}</td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-      <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-    </td>
-  </tr>
-  </table>
+    <table border="1">
+    <tr>
+        <th>{$lang->skin}</th>
+        <td>
+                <select name="skin">
+                        <!--@foreach($skin_list as $key => $val)-->
+                        <option value="{$key}">{$val->title} ({$key})</option>
+                        <!--@end-->
+                </select>
+        </td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->enable_join}</th>
+        <td><input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_enable_join}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->image_name}</th>
+        <td>
+                <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end-->/><br />
+                {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" value="{$config->image_name_max_width}"/>px<br />
+                {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" value="{$config->image_name_max_height}"/>px<br />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_image_name}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->image_mark}</th>
+        <td>
+                <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end-->/><br />
+                {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" value="{$config->image_mark_max_width}"/>px<br />
+                {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" value="{$config->image_mark_max_height}"/>px<br />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_image_mark}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->redirect_url}</th>
+        <td><input type="text" name="redirect_url" value="{$config->redirect_url}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_redirect_url}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->agreement}</th>
+        <td><textarea name="agreement">{$config->agreement}</textarea></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_agreement}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
 </form>

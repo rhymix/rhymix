@@ -3,6 +3,6 @@
     <title xml:lang="ko">메세지</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">오류 메세지 관리 모듈</description>
+        <description xml:lang="ko">오류 및 각종 시스템 메세지 관리 모듈</description>
     </author>
 </module>

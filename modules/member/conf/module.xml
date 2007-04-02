@@ -15,6 +15,7 @@
         <action name="dispMemberAdminInfo" type="view" standalone="true" />
         <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
         <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
+        <action name="dispMemberAdminMailing" type="view" standalone="true" />
 
         <action name="getMemberMenu" type="model" standalone="true" />
 

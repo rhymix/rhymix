@@ -3,44 +3,44 @@
 
 <!-- 가입폼의 위/아래, 삭제와 관련된 form -->
 <form id="fo_join_form_info" action="./" method="get">
-<input type="hidden" name="member_join_form_srl" value="" />
-<input type="hidden" name="mode" value="" />
+    <input type="hidden" name="member_join_form_srl" value="" />
+    <input type="hidden" name="mode" value="" />
 </form>
 
 <!-- 목록 -->
 <div>
-  <table border="1">
-  <tr>
-    <th>{$lang->column_title}</th>
-    <th>{$lang->column_name}</th>
-    <th>{$lang->column_type}</th>
-    <th>{$lang->is_active}</th>
-    <th>{$lang->is_required}</th>
-    <th>{$lang->regdate}</th>
-    <th>{$lang->cmd_modify}</th>
-    <th colspan="2">{$lang->cmd_move}</th>
-    <th>{$lang->cmd_delete}</th>
-  </tr>
-  <!--@foreach($form_list as $no => $val)-->
-  <tr>
-    <td>{$val->column_title}</td>
-    <td>{$val->column_name}</td>
-    <td>{$lang->column_type_list[$val->column_type]}</td>
-    <td>{$val->is_active}</td>
-    <td>{$val->required}</td>
-    <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispInsertJoinForm')}">{$lang->cmd_modify}</a></td>
-    <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;">{$lang->cmd_move_up}</a></td>
-    <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;">{$lang->cmd_move_down}</a></td>
-    <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table border="1">
+    <tr>
+        <th>{$lang->column_title}</th>
+        <th>{$lang->column_name}</th>
+        <th>{$lang->column_type}</th>
+        <th>{$lang->is_active}</th>
+        <th>{$lang->is_required}</th>
+        <th>{$lang->regdate}</th>
+        <th>{$lang->cmd_modify}</th>
+        <th colspan="2">{$lang->cmd_move}</th>
+        <th>{$lang->cmd_delete}</th>
+    </tr>
+    <!--@foreach($form_list as $no => $val)-->
+    <tr>
+        <td>{$val->column_title}</td>
+        <td>{$val->column_name}</td>
+        <td>{$lang->column_type_list[$val->column_type]}</td>
+        <td>{$val->is_active}</td>
+        <td>{$val->required}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
+        <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;">{$lang->cmd_move_up}</a></td>
+        <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;">{$lang->cmd_move_down}</a></td>
+        <td><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>
 
 <!-- 가입폼 추가 -->
 <div>
 
-  [<a href="#" onclick="location.href='{getUrl('act','dispInsertJoinForm')}';return false;">{$lang->cmd_make}</a>]
+    [<a href="#" onclick="location.href='{getUrl('act','dispMemberAdminInsertJoinForm')}';return false;">{$lang->cmd_make}</a>]
 
 </div>

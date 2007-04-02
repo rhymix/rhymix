@@ -4,8 +4,8 @@
 
 <!-- 정보 -->
 <div>
-  {number_format($total_count)}, 
-  {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+    {number_format($total_count)}, 
+    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
 
 <!-- 금지아이디의 삭제와 관련된 form -->
@@ -16,39 +16,39 @@
 
 <!-- 목록 -->
 <div>
-  <table border="1">
-  <tr>
-    <th>{$lang->no}</th>
-    <th>{$lang->user_id}</th>
-    <th>{$lang->regdate}</th>
-    <th>{$lang->description}</th>
-    <th>{$lang->cmd_delete}</th>
-  </tr>
-  <!--@foreach($member_list as $no => $val)-->
-  <tr>
-    <td>{$no}</td>
-    <td>{$val->user_id}</td>
-    <td>{zdate($val->regdate,"Y-m-d")}</td>
-    <td>{$val->description}</td>
-    <td><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
-  </tr>
-  <!--@end-->
-  </table>
+    <table border="1">
+    <tr>
+        <th>{$lang->no}</th>
+        <th>{$lang->user_id}</th>
+        <th>{$lang->regdate}</th>
+        <th>{$lang->description}</th>
+        <th>{$lang->cmd_delete}</th>
+    </tr>
+    <!--@foreach($member_list as $no => $val)-->
+    <tr>
+        <td>{$no}</td>
+        <td>{$val->user_id}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>{$val->description}</td>
+        <td><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
 </div>
 
 <!-- 페이지 네비게이션 -->
 <div>
-  <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
+    <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
 
-  <!--@while($page_no = $page_navigation->getNextPage())-->
-    <!--@if($page == $page_no)-->
-      {$page_no}
-    <!--@else-->
-      <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            {$page_no}
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
+        <!--@end-->
     <!--@end-->
-  <!--@end-->
 
-  <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
 </div>
 
 <!-- 금지 아이디 추가 -->
@@ -56,9 +56,9 @@
 <input type="hidden" name="page" value="{$page}" />
 
 <div>
-  {$lang->user_id} : <input type="text" name="user_id" /><br />
-  {$lang->description} :<input type="text" name="description" /><br />
-  <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    {$lang->user_id} : <input type="text" name="user_id" /><br />
+    {$lang->description} :<input type="text" name="description" /><br />
+    <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
 </div>
 
 </form>

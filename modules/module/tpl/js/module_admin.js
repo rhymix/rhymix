@@ -1,7 +1,7 @@
 /**
- * @file     modules/module/js/admin.js
+ * @file     modules/module/js/module_admin.js
  * @author zero (zero@nzeo.com)
- * @desc     module 모듈의 관리자용 javascript
+ * @brief    module 모듈의 관리자용 javascript
  **/
 
 /* 카테고리 관련 작업들 */
@@ -19,9 +19,10 @@ function doUpdateCategory(module_category_srl, mode, message) {
 function completeUpdateCategory(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
+
     alert(message);
 
-    var url = "./?module=admin&mo=module&act=dispCategory";
+    var url = location.href.setQuery('act','dispModuleAdminCategory');
     location.href = url;
 }
 

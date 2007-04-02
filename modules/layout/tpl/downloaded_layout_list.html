@@ -26,7 +26,7 @@
         <td>{$val->author->date}</td>
         <td>{$val->path}</td>
         <td><a href="#" onclick="winopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info','width=10,height=10,toolbars=no,scrollbars=yes,resizable=yes');return false">{$lang->cmd_view}</a></td>
-        <td><a href="{getUrl('mo','layout','act','dispLayoutAdminInsert','layout',$val->layout)}">{$lang->cmd_make}</a></td>
+        <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}">{$lang->cmd_make}</a></td>
     </tr>
     <tr>
         <td colspan="7">

@@ -3,25 +3,25 @@
 
 <!-- 게시판 정보 -->
 <div>
-  {$lang->cmd_member_group}
+    {$lang->cmd_member_group}
 </div>
 
 <!-- 그룹 수정 -->
 <!--@if($selected_group)-->
 <form action="./" method="get" onsubmit="return procFilter(this, update_group)">
-<input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
-<input type="hidden" name="mode" value="update" />
-<!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
+    <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
+    <input type="hidden" name="mode" value="update" />
+    <!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
 
-<div style="margin-bottom:30px">
-  {$lang->group_title} : <input type="text" name="title" value="{$selected_group->title}" /><br />
-  <!--@if($selected_group->is_default!='Y')-->
-  {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
-  <!--@end-->
-  {$lang->description} :<input type="text" name="description" value="{$selected_group->description}" /><br />
-  <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('group_srl','')}';return false;" />
-  <input type="submit" value="{$lang->cmd_modify}" accesskey="s" />
-</div>
+    <div style="margin-bottom:30px">
+        {$lang->group_title} : <input type="text" name="title" value="{$selected_group->title}" /><br />
+        <!--@if($selected_group->is_default!='Y')-->
+        {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
+        <!--@end-->
+        {$lang->description} :<input type="text" name="description" value="{$selected_group->description}" /><br />
+        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('group_srl','')}';return false;" />
+        <input type="submit" value="{$lang->cmd_modify}" accesskey="s" />
+    </div>
 
 </form>
 <!--@end-->

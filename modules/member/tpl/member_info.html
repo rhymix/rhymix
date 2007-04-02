@@ -9,108 +9,108 @@
 
 <table>
 <tr>
-  <th>{$lang->user_id}</th>
-  <td>{$member_info->user_id}</td>
+    <th>{$lang->user_id}</th>
+    <td>{$member_info->user_id}</td>
 </tr>
 <tr>
-  <th>{$lang->user_name}</th>
-  <td>{$member_info->user_name}</td>
+    <th>{$lang->user_name}</th>
+    <td>{$member_info->user_name}</td>
 </tr>
 <tr>
-  <th>{$lang->nick_name}</th>
-  <td>{$member_info->nick_name}</td>
+    <th>{$lang->nick_name}</th>
+    <td>{$member_info->nick_name}</td>
 </tr>
 <tr>
-  <th>{$lang->image_name}</th>
-  <td>
-    <!--@if($member_info->image_name->src)-->
-    <div>
-        <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
-        [<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
-    </div> 
-    <!--@end-->
-    <div>
-        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-            <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-            <input type="hidden" name="module" value="member" />
-            <input type="hidden" name="act" value="procInsertImageName" />
-            <input type="file" name="image_name" value="" />
-            <input type="submit" value="{$lang->cmd_submit}" />
-        </form>
-    </div>
-  </td>
+    <th>{$lang->image_name}</th>
+    <td>
+        <!--@if($member_info->image_name->src)-->
+        <div>
+                <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+                [<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+        </div> 
+        <!--@end-->
+        <div>
+                <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+                        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+                        <input type="hidden" name="module" value="member" />
+                        <input type="hidden" name="act" value="procMemberInsertImageName" />
+                        <input type="file" name="image_name" value="" />
+                        <input type="submit" value="{$lang->cmd_submit}" />
+                </form>
+        </div>
+    </td>
 </tr>
 <tr>
-  <th>{$lang->image_mark}</th>
-  <td>
-    <!--@if($member_info->image_mark->src)-->
-    <div>
-        <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
-        [<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
-    </div> 
-    <!--@end-->
-    <div>
-        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-            <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-            <input type="hidden" name="module" value="member" />
-            <input type="hidden" name="act" value="procInsertImageMark" />
-            <input type="file" name="image_mark" value="" />
-            <input type="submit" value="{$lang->cmd_submit}" />
-        </form>
-    </div>
-  </td>
+    <th>{$lang->image_mark}</th>
+    <td>
+        <!--@if($member_info->image_mark->src)-->
+        <div>
+                <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+                [<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+        </div> 
+        <!--@end-->
+        <div>
+                <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+                        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+                        <input type="hidden" name="module" value="member" />
+                        <input type="hidden" name="act" value="procMemberInsertImageMark" />
+                        <input type="file" name="image_mark" value="" />
+                        <input type="submit" value="{$lang->cmd_submit}" />
+                </form>
+        </div>
+    </td>
 </tr>
 <tr>
-  <th>{$lang->email_address}</th>
-  <td>{$member_info->email_address}</td>
+    <th>{$lang->email_address}</th>
+    <td>{$member_info->email_address}</td>
 </tr>
 <tr>
-  <th>{$lang->allow_mailing}</th>
-  <td>{$member_info->allow_mailing}</td>
+    <th>{$lang->allow_mailing}</th>
+    <td>{$member_info->allow_mailing}</td>
 </tr>
 <tr>
-  <th>{$lang->denied}</th>
-  <td>{$member_info->denied}</td>
+    <th>{$lang->denied}</th>
+    <td>{$member_info->denied}</td>
 </tr>
 <tr>
-  <th>{$lang->is_admin}</th>
-  <td>{$member_info->is_admin}</td>
+    <th>{$lang->is_admin}</th>
+    <td>{$member_info->is_admin}</td>
 </tr>
 <tr>
-  <th>{$lang->group}</th>
-  <td>
-    <!--@foreach($member_info->group_list as $key => $val)-->
-      {$val}
-    <!--@end-->
-  </td>
+    <th>{$lang->group}</th>
+    <td>
+        <!--@foreach($member_info->group_list as $key => $val)-->
+            {$val}
+        <!--@end-->
+    </td>
 </tr>
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-  <th>{$val->column_title}</th>
-  <td>
-    <!--@if($val->column_type=='tel')-->
-      {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
-    <!--@elseif($val->column_type=='kr_zip')-->
-      {$val->value[0]} {$val->value[1]}
-    <!--@elseif($val->column_type=='checkbox')-->
-      {implode(",",$val->value)}
-    <!--@else-->
-      {$val->value}
-    <!--@end-->
-  </td>
+    <th>{$val->column_title}</th>
+    <td>
+        <!--@if($val->column_type=='tel')-->
+            {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
+        <!--@elseif($val->column_type=='kr_zip')-->
+            {$val->value[0]} {$val->value[1]}
+        <!--@elseif($val->column_type=='checkbox')-->
+            {implode(",",$val->value)}
+        <!--@else-->
+            {$val->value}
+        <!--@end-->
+    </td>
 </tr>
 <!--@end-->
 <!--@end-->
 <tr>
-  <th>{$lang->description}</th>
-  <td>{$member_info->description}</td>
+    <th>{$lang->description}</th>
+    <td>{$member_info->description}</td>
 </tr>
 <tr>
-  <td colspan="2">
-    <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberList')}';return false;" />
-    <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispMemberInsert')}';return false;" />
-  </td>
+    <td colspan="2">
+        <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberAdminList')}';return false;" />
+        <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispMemberAdminInsert')}';return false;" />
+    </td>
 </tr>
 </table>
 
