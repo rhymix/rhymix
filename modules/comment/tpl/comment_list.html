@@ -51,7 +51,6 @@
 <div>
     <form action="./" method="get">
         <input type="hidden" name="module" value="{$module}" />
-        <input type="hidden" name="mo" value="{$mo}" />
         <input type="hidden" name="act" value="{$act}" />
 
         <div>
@@ -63,7 +62,7 @@
             </select>
             <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
             <input type="submit" value="{$lang->cmd_search}" />
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'mo',$mo,'act',$act)}'"/>
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'act',$act)}'"/>
         </div>
     </form>
 </div>

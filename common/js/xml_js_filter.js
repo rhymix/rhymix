@@ -17,11 +17,17 @@ var target_type_list = new Array();
 function filterAlertMessage(ret_obj) {
     var error = ret_obj["error"];
     var message = ret_obj["message"];
+    var act = ret_obj["act"];
     var redirect_url = ret_obj["redirect_url"];
     var url = location.href;
-    if(url.substr(-1)=='#') url = url.substr(0,url.length-1);
-    if(typeof(message)!='undefined'&&message&&message!='success') alert(message);
-    if(typeof(redirect_url)!='undefined'&&redirect_url) url = redirect_url;
+
+    if(url.substr(-1)=="#") url = url.substr(0,url.length-1);
+
+    if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
+
+    if(typeof(act)!="undefined" && act) url = location.href.setQuery("act", act);
+    else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
+
     location.href = url;
 }
 

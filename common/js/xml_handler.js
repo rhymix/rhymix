@@ -19,8 +19,6 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
-    response_tags[response_tags.length] = "redirect_url";
-
     if(show_waiting_message) {
         var waiting_obj = xGetElementById("waitingforserverresponse");
         waiting_obj.style.visibility = "visible";
@@ -126,15 +124,18 @@ function xml_handlerGetResponseXML() {
 
 function xml_handlerToZMsgObject(xmlDoc, tags) {
     if(!xmlDoc) return null;
-    if(!tags) {
-        tags = new Array("error","message");
-    }
+    if(!tags) tags = new Array("error","message");
+    tags[tags.length] = "redirect_url";
+    tags[tags.length] = "act";
+    
     var obj_ret = new Array();
     for(var i=0; i<tags.length; i++) {
+        var key = tags[i];
+        if(obj_ret[key]) continue;
         try {
-            obj_ret[tags[i]] = xmlDoc.getElementsByTagName(tags[i])[0].firstChild.nodeValue;
+            obj_ret[key] = xmlDoc.getElementsByTagName(tags[i])[0].firstChild.nodeValue;
         } catch(e) {
-            obj_ret[tags[i]] = "";
+            obj_ret[key] = "";
         }
     }
     return obj_ret;

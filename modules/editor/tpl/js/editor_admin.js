@@ -32,5 +32,5 @@ function completeUpdate(ret_obj) {
 }
 
 function doSetupComponent(component_name) {
-    winopen("./?module=editor&act=dispEditorAdminSetupComponent&component_name="+component_name, "SetupComponent","width=10,height=10,scrollbars=no,resizable=no,toolbars=no");
+    popopen("./?module=editor&act=dispEditorAdminSetupComponent&component_name="+component_name, "SetupComponent");
 }

@@ -84,6 +84,36 @@ function winopen(url, target, attribute) {
 }
 
 /**
+ * @brief 팝업으로만 띄우기 
+ * common/tpl/popup_layout.html이 요청되는 제로보드 XE내의 팝업일 경우에 사용
+ **/
+function popopen(url, target) {
+    if(typeof(target)=="undefined") target = "_blank";
+    winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=no,toolbars=no");
+}
+
+/**
+ * @brief 메일 보내기용
+ **/
+function sendMailTo(to) {
+    location.href="mailto:"+to;
+}
+
+/**
+ * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
+ **/
+function move_url(url, open_wnidow) {
+    if(!url) return false;
+    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
+    if(open_wnidow=='Y') {
+        winopen(url);
+    } else {
+        location.href=url;
+    }
+    return false;
+}
+
+/**
  * @brief 특정 div(or span...)의 display옵션 토글
  **/
 function toggleDisplay(obj, opt) {
@@ -194,27 +224,6 @@ function svc_folder_close(id) {
     open_text_obj.style.display = "block";
     close_text_obj.style.display = "none";
     folder_obj.style.display = "none";
-}
-
-/**
- * @brief 메일 보내기용
- **/
-function sendMailTo(to) {
-    location.href="mailto:"+to;
-}
-
-/**
- * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
- **/
-function move_url(url, open_wnidow) {
-    if(!url) return false;
-    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
-    if(open_wnidow=='Y') {
-        winopen(url);
-    } else {
-        location.href=url;
-    }
-    return false;
 }
 
 /**

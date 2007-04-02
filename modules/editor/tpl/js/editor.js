@@ -371,7 +371,7 @@ function openComponent(component_name, upload_target_srl, manual_url) {
     var popup_url = "./?module=editor&act=dispEditorPopup&upload_target_srl="+upload_target_srl+"&component="+component_name;
     if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
 
-    winopen(popup_url, 'editorComponent', 'left=10,top=10,width=10,height=10,toolbars=no,scrollbars=no');
+    popopen(popup_url, 'editorComponent');
 }
 
 // 더블클릭 이벤트 발생시에 본문내에 포함된 컴포넌트를 찾는 함수
@@ -396,7 +396,7 @@ function editorSearchComponent(evt) {
         var upload_target_srl = tobj.getAttribute("upload_target_srl");
         var plugin = obj.getAttribute("plugin");
         editorPrevNode = obj;
-        winopen("?module=plugin&act=dispPluginGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage','left=10,top10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
+        popopen("?module=plugin&act=dispPluginGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
         return;
     }
 
