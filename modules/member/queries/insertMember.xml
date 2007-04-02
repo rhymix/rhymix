@@ -11,9 +11,6 @@
         <column name="email_host" var="email_host" notnull="notnull" />
         <column name="user_name" var="user_name" notnull="notnull" minlength="2" maxlength="40" />
         <column name="nick_name" var="nick_name" notnull="notnull" minlength="2" maxlength="40" />
-        <column name="image_nick" var="image_nick" />
-        <column name="image_mark" var="image_mark" />
-        <column name="profile_image" var="profile_image" />
         <column name="signature" var="signature" />
         <column name="allow_mailing" var="allow_mailing" default="Y" />
         <column name="unread_message" var="unread_message" default="0" />

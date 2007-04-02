@@ -7,9 +7,6 @@
     <column name="email_host" type="varchar" size="160" index="idx_email_host" />
     <column name="user_name" type="varchar" size="40" notnull="notnull"/>
     <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name"/>
-    <column name="image_nick" type="varchar" size="250" />
-    <column name="image_mark" type="varchar" size="250" />
-    <column name="profile_image" type="varchar" size="250" />
     <column name="signature" type="text" />
     <column name="allow_mailing" type="char" size="1" default="Y" idx="idx_allow_mailing" />
     <column name="unread_message" type="number" size="11" default="0" />
