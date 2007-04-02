@@ -128,6 +128,14 @@
             // 추가 가입폼 목록을 받음
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
+            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            if($member_info->member_srl) {
+                $oEditorModel = &getModel('editor');
+                $editor = $oEditorModel->getEditor($member_info->member_srl, false, false);
+                Context::set('editor', $editor);
+            }
+
+
             // 템플릿 파일 지정
             $this->setTemplateFile('modify_info');
         }

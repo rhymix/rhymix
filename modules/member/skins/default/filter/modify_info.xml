@@ -8,6 +8,7 @@
         <param name="nick_name" target="nick_name" />
         <param name="allow_mailing" target="allow_mailing" />
         <param name="email_address" target="email_address" />
+        <param name="signature" target="content" />
     </parameter>
     <response callback_func="completeModify">
         <tag name="error" />

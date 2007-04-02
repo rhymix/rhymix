@@ -27,7 +27,12 @@
 <tr>
     <th>{$lang->image_mark}</th>
     <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
-    </td>
+</tr>
+<!--@end-->
+<!--@if($member_info->signature)-->
+<tr>
+    <th>{$lang->signature}</th>
+    <td>{$member_info->signature}</td>
 </tr>
 <!--@end-->
 <tr>
