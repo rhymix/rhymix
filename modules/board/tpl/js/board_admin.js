@@ -1,5 +1,5 @@
 /**
- * @file   modules/board/js/admin.js
+ * @file   modules/board/js/board_admin.js
  * @author zero (zero@nzeo.com)
  * @desc   board 모듈의 관리자용 javascript
  **/
@@ -14,9 +14,8 @@ function completeInsertBoard(ret_obj) {
 
     alert(message);
 
-    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminBoardInfo";
-    if(page) url += "&page="+page;
-
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminBoardInfo');
+    if(page) url.setQuery('page',page);
     location.href = url;
 }
 
@@ -27,9 +26,8 @@ function completeDeleteBoard(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url =  "./?module=admin&mo=board&act=dispBoardAdminContent";
-    if(page) url += "&page="+page;
-
+    var url = location.href.setQuery('act','dispBoardAdminContent');
+    if(page) url.setQuery('page',page);
     location.href = url;
 }
 
@@ -52,9 +50,8 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminCategoryInfo";
-    if(page) url += "&page="+page;
-
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminCategoryInfo');
+    if(page) url.setQuery('page',page);
     location.href = url;
 }
 
@@ -91,9 +88,8 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url =  "./?module=admin&mo=board&module_srl="+module_srl+"&act=dispBoardAdminGrantInfo";
-    if(page) url += "&page="+page;
-
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminGrantInfo');
+    if(page) url.setQuery('page',page);
     location.href = url;
 }
 

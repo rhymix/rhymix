@@ -1,4 +1,4 @@
-<!--%import("js/admin.js")-->
+<!--%import("js/board_admin.js")-->
 
 <div style="margin-bottom:20px;">
     <span <!--@if($act=='dispBoardAdminContent')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBoardAdminContent','module_srl','')}">{$lang->cmd_board_list}</a>]</span>
@@ -15,7 +15,7 @@
 
 <div style="margin-bottom:20px;font-weight:bold;">
     {$lang->mid} : {$module_info->mid}
-    (<a href="./?mid={$module_info->mid}" target="_blank">{$lang->cmd_move}</a>)
+    (<a href="#" onclick="location.href='./?mid={$module_info->mid}';return false">{$lang->cmd_move}</a>)
     <!--@if($module_info->is_default=='Y')-->[{$lang->is_default}]<!--@end-->
 </div>
 <!--@end-->
