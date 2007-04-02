@@ -71,10 +71,10 @@
 <tr>
     <td colspan="2">
         <!--@if($member_info->member_srl == $logged_info->member_srl)-->
-        <input type="button" value="{$lang->cmd_modify_member_info}" onclick="location.href='{getUrl('act','dispMemberModifyInfo')}';return false;" />
-        <input type="button" value="{$lang->cmd_modify_member_password}" onclick="location.href='{getUrl('act','dispMemberModifyPassword')}'; return false;"/>
+        <input type="button" value="{$lang->cmd_modify_member_info}" onclick="location.href='{getUrl('act','dispMemberModifyInfo','member_srl','')}';return false;" />
+        <input type="button" value="{$lang->cmd_modify_member_password}" onclick="location.href='{getUrl('act','dispMemberModifyPassword','member_srl','')}'; return false;"/>
         <!--@end-->
-        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','')}';return false;" />
+        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','','member_srl','')}';return false;" />
     </td>
 </tr>
 
