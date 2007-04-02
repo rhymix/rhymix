@@ -1,13 +1,20 @@
 <!--%import("filter/modify_info.xml")-->
+<!--@if($member_config->image_name == 'Y')-->
+    <!--%import("filter/delete_image_name.xml")-->
+<!--@end-->
+<!--@if($member_config->image_mark == 'Y')-->
+    <!--%import("filter/delete_image_mark.xml")-->
+<!--@end-->
 <!--%import("js/member.js")-->
-
 <div>
     {$lang->msg_update_member}
 </div>
 
-<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, modify_info)">
+<form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
 <input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="act" value="" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
+<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
 <input type="hidden" name="page" value="{$page}" />
 
     <div>
@@ -41,6 +48,34 @@
             <input type="text" name="email_address" value="{$member_info->email_address}" />
         </td>
     </tr>
+    <!--@if($member_config->image_name == 'Y')-->
+    <tr>    
+        <th>{$lang->image_name}</th>
+        <td>
+            <!--@if($member_info->image_name->src)-->
+            <div>
+                    <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+                    [<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+            </div> 
+            <!--@end-->
+            <input type="file" name="image_name" value="" /><input type="button" value="{$lang->cmd_registration}" onclick="doUploadImageName();return false;"/>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@if($member_config->image_mark == 'Y')-->
+    <tr>    
+        <th>{$lang->image_mark}</th>
+        <td>
+            <!--@if($member_info->image_mark->src)-->
+            <div>
+                    <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+                    [<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
+            </div> 
+            <!--@end-->
+            <input type="file" name="image_mark" value="" /><input type="button" value="{$lang->cmd_registration}" onclick="doUploadImageMark();return false;"/>
+        </td>
+    </tr>
+    <!--@end-->
     <tr>
         <th rowspan="2">{$lang->allow_mailing}</th>
         <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="true"<!--@end-->/></td>
