@@ -1,0 +1,16 @@
+<filter name="modify_info" module="member" act="procMemberModifyInfo" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="nick_name" required="true" minlength="2" maxlength="20" />
+        <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
+    </form>
+    <parameter>
+        <param name="accept_agreement" target="accept_agreement" />
+        <param name="nick_name" target="nick_name" />
+        <param name="allow_mailing" target="allow_mailing" />
+        <param name="email_address" target="email_address" />
+    </parameter>
+    <response callback_func="completeModify">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

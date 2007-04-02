@@ -121,6 +121,7 @@
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
+
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
             

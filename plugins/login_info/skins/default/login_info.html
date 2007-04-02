@@ -22,7 +22,7 @@
         <div class="info_box">
             <!-- 정보 수정 링크 -->
             <div class="modify_info">
-                <a href="#">{$lang->cmd_modify_member_info}</a>
+                <a href="#" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;">{$lang->cmd_view_member_info}</a>
             </div>
 
             <!-- 최종 록그인 시간 -->
@@ -56,6 +56,7 @@
 
             <div class="button_area">
                 <input type="submit" value="{$lang->cmd_login}" /> 
+                <a href="#" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}';return false;">{$lang->cmd_signup}</a>
             </div>
         </form>
 

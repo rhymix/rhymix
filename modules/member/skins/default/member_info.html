@@ -2,7 +2,12 @@
 <table>
 <tr>
     <th>{$lang->user_id}</th>
-    <td>{$member_info->user_id}</td>
+    <td>
+        {$member_info->user_id}
+        <!--@if($member_info->is_denied == 'Y')-->
+            ({$lang->denied})
+        <!--@end-->
+    </td>
 </tr>
 <tr>
     <th>{$lang->user_name}</th>
@@ -51,12 +56,23 @@
 </tr>
 <!--@end-->
 <!--@end-->
+<tr>
+    <th>{$lang->signup_date}</th>
+    <td>{zdate($member_info->regdate,"Y-m-d H:i")}</td>
+</tr>
+
+<!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+<tr>
+    <th>{$lang->last_login}</th>
+    <td>{zdate($member_info->last_login,"Y-m-d H:i")}</td>
+</tr>
+<!--@end-->
 
 <tr>
     <td colspan="2">
         <!--@if($member_info->member_srl == $logged_info->member_srl)-->
         <input type="button" value="{$lang->cmd_modify_member_info}" onclick="location.href='{getUrl('act','dispMemberModifyInfo')}';return false;" />
-        <input type="button" value="{$lang->cmd_modify_member_password}" />
+        <input type="button" value="{$lang->cmd_modify_member_password}" onclick="location.href='{getUrl('act','dispMemberModifyPassword')}'; return false;"/>
         <!--@end-->
         <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','')}';return false;" />
     </td>

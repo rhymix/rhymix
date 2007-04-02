@@ -1,66 +1,34 @@
-<!--%import("filter/signup.xml")-->
+<!--%import("filter/modify_info.xml")-->
 <!--%import("js/member.js")-->
 
 <div>
-    {$lang->msg_new_member}
+    <!--@if(!$is_logged)-->
+        {$lang->msg_new_member}
+    <!--@else-->
+        {$lang->msg_update_member}
+    <!--@end-->
 </div>
 
-<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
+<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, modify_info)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="page" value="{$page}" />
-
-    <!--@if(!$is_logged && $member_config->agreement)-->
-    <div>
-        <table border="1">
-        <tr>
-            <td>{nl2br($member_config->agreement)}</td>
-        </tr>
-        <tr>
-            <td>
-                <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
-                <label for="accept_agree">{$lang->about_accept_agreement}</label>
-            </td>
-        </tr>
-        </table>
-    </div>
-    <!--@end-->
 
     <div>
         {$lang->member_default_info}
     </div>
     <table border="1">
     <tr>
-        <th rowspan="2">{$lang->user_id}</th>
+        <th>{$lang->user_id}</th>
         <td>
-            <input type="text" name="user_id" value="" />
+            {$member_info->user_id}
         </td>
     </tr>
     <tr>
-        <td>{$lang->about_user_id}</td>
-    </tr>
-    <tr>
-        <th rowspan="3">{$lang->password1}</th>
+        <th>{$lang->user_name}</th>
         <td>
-            <input type="password" name="password1" value="" />
+            {$member_info->user_name}
         </td>
-    </tr>
-    <tr>
-        <td>
-            <input type="password" name="password2" value="" /> {$lang->password2}
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->about_password}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->user_name}</th>
-        <td>
-            <input type="text" name="user_name" value="{$member_info->user_name}" />
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->about_user_name}</td>
     </tr>
     <tr>
         <th rowspan="2">{$lang->nick_name}</th>
@@ -79,7 +47,7 @@
     </tr>
     <tr>
         <th rowspan="2">{$lang->allow_mailing}</th>
-        <td><input type="checkbox" name="allow_mailing" value="Y" checked="true" /></td>
+        <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="true"<!--@end-->/></td>
     </tr>
     <tr>
         <td>{$lang->about_allow_mailing}</td>
@@ -181,7 +149,7 @@
     <table border="1">
     <tr>
         <td colspan="2">
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberInfo')}'" />
             <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
         </td>
     </tr>
