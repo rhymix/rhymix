@@ -26,9 +26,6 @@
         // 자신이라면 패스
         if($logged_info->member_srl == $member_srl) return;
 
-        // 언어파일 읽음
-        Context::loadLang($addon_path."lang");
-
         // 템플릿에서 사용되기 전의 menu_list를 가져옴
         $menu_list = $this->get('menu_list');
 

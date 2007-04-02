@@ -48,6 +48,7 @@
     $lang->cmd_setup = "설정";
     $lang->cmd_apply = "적용";
     $lang->cmd_remake_cache = "캐시파일 재생성";
+    $lang->cmd_send_message = '쪽지 보내기';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';
