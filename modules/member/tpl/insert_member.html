@@ -12,6 +12,7 @@
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="member_srl" value="{$member_srl}" />
+    <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
     <!--@if($member_info->member_srl)-->
     <input type="hidden" name="user_id" value="{$member_info->user_id}" />
     <!--@end-->
@@ -70,6 +71,12 @@
     <tr>
         <td>{$lang->about_allow_mailing}</td>
     </tr>
+    <!--@if($member_srl && $editor)-->
+    <tr>
+        <th>{$lang->signature}</th>
+        <td>{$editor}</td>
+    </tr>
+    <!--@end-->
     <tr>
         <th rowspan="2">{$lang->denied}</th>
         <td><input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="true"<!--@end-->/></td>

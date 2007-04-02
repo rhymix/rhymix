@@ -233,6 +233,13 @@
             $oMemberModel = &getModel('member');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
 
+            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            if($this->member_info->member_srl) {
+                $oEditorModel = &getModel('editor');
+                $editor = $oEditorModel->getEditor($this->member_info->member_srl, false, false);
+                Context::set('editor', $editor);
+            }
+
             // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');
         }

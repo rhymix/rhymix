@@ -31,6 +31,7 @@
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
 
+    $lang->signature = '서명';
     $lang->image_name = '이미지 이름';
     $lang->image_name_max_width = '가로 제한 크기';
     $lang->image_name_max_height = '세로 제한 크기';

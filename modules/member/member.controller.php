@@ -75,7 +75,7 @@
          **/
         function procMemberAdminInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list','signature');
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
