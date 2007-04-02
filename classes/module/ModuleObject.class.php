@@ -85,7 +85,7 @@
             $user_group = $logged_info->group_list;
 
             // 로그인되어 있다면 admin 체크
-            if($is_logged && ($logged_info->is_admin == 'Y' || in_array($user_id, $this->module_info->admin_id) )) {
+            if($is_logged && ($logged_info->is_admin == 'Y' || (is_array($this->module_info->admin_id)&&in_array($user_id, $this->module_info->admin_id) )) ) {
                 $grant->is_admin = true;
             } else {
                 $grant->is_admin = false;
