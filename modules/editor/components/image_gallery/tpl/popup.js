@@ -106,7 +106,6 @@ function insertSlideShow() {
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);
-        alert(text);
     }
 
     opener.editorFocus(opener.editorPrevSrl);
