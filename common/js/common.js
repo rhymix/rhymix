@@ -418,7 +418,6 @@ function chkMemberMenu(evt) {
     var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
     if(member_srl<1) return;
 
-
     // 현재 글의 mid, module를 구함
     var mid = location.href.getQuery("mid");
     var module = location.href.getQuery("module");
@@ -438,7 +437,6 @@ function chkMemberMenu(evt) {
         displayMemberMenu(params, response_tags, params);
         return;
     }
-
     show_waiting_message = false;
     exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
     show_waiting_message = true;

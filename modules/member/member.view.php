@@ -101,36 +101,34 @@
 
             // 회원가입을 중지시켰을 때는 에러 표시
             if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
             
             // 템플릿 파일 지정
             $this->setTemplateFile('signup_form');
         }
 
         /**
-         * @brief 회원 가입 폼 출력
+         * @brief 회원 정보 수정
          **/
-        function dispMemberSignUpForm() {
+        function dispMemberModifyInfo() {
             $this->initNormal();
 
             $oMemberModel = &getModel('member');
 
-            // 로그인한 회원일 경우 해당 회원의 정보를 받음
-            if($oMemberModel->isLogged()) {
-                $logged_info = Context::get('logged_info');
-                $member_srl = $logged_info->member_srl;
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                Context::set('member_info',$member_info);
-            // 비로그인 회원
-            } else {
-                // 회원가입을 중지시켰을 때는 에러 표시
-                if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-            }
+            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            Context::set('member_info',$member_info);
             
             // 추가 가입폼 목록을 받음
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('insert_member');
+            $this->setTemplateFile('modify_info');
         }
 
         /**
