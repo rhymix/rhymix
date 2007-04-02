@@ -30,7 +30,8 @@
                 $comment_srl = trim($comment_srl_list[$i]);
                 if(!$comment_srl) continue;
 
-                $this->deleteComment($comment_srl, true);
+                $output = $this->deleteComment($comment_srl, true);
+                if(!$output->toBool()) return $output;
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $comment_count) );

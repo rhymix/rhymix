@@ -38,8 +38,8 @@
         /**
          * @brief 금지 IP삭제
          **/
-        function procDeleteDeniedIP() {
-            $ipaddresSpamfilterAdmins = Context::get('ipaddress');
+        function procSpamfilterAdminDeleteDeniedIP() {
+            $ipaddress = Context::get('ipaddress');
             return $this->deleteIP($ipaddress);
         }
         
