@@ -723,8 +723,7 @@
         }
 
         /**
-         * @brief 내용의 멀티미디어 태그를 html 태그로 변경
-         * <img ... class="multimedia" ..> 로 되어 있는 코드를 변경
+         * @brief 내용의 에디터 컴포넌트 코드를 변환
          **/
         function _transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
@@ -732,14 +731,14 @@
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
             $buff = str_replace("&","&amp;",$buff);
 
-            // 플러그인에서 생성된 코드 (img, div태그내에 plugin코드 존재)의 parameter를 추출
+            // 플러그인에서 생성된 코드 (img, div태그내에 editor_plugin코드 존재)의 parameter를 추출
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
             if($xml_doc->div) $xml_doc = $xml_doc->div;
 
             $xml_doc->body = $matches[3];
 
-            // plugin attribute가 없으면 return
+            // attribute가 없으면 return
             $editor_component = $xml_doc->attrs->editor_component;
             if(!$editor_component) return $matches[0];
 

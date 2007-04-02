@@ -71,7 +71,7 @@
          * @brief 페이지 관리에서 사용될 코드 생성 팝업
          **/
         function dispPluginGenerateCodeInPage() {
-            $this->dispGenerateCode();
+            $this->dispPluginGenerateCode();
             $this->setTemplateFile('plugin_generate_code_in_page');
         }
 

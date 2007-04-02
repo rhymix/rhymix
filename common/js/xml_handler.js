@@ -15,7 +15,6 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     }
     oXml.addParam("module", module);
     oXml.addParam("act", act);
-    oXml.addParam("referer_url", location.href);
 
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
