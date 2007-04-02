@@ -20,6 +20,7 @@ function completeInsert(ret_obj, response_tags, args, fo_obj) {
 
 /* 로그인 후 */
 function completeLogin(ret_obj) {
+    var url =  location.href.setQuery('act','');
     location.href = location.href.setQuery('act','');
 }
 

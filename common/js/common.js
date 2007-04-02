@@ -26,21 +26,23 @@ String.prototype.getQuery = function(key) {
 String.prototype.setQuery = function(key, val) {
     var href = location.href;
     var idx = href.indexOf('?');
-    if(idx == -1) return;
-    var uri = href.substr(0, idx);
-    var query_string = href.substr(idx+1, href.length);
-    var args = {}
-    query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
-
-    args[key] = val;
-
-    var q_list = new Array();
-    for(var i in args) {
-        if(!args[i].trim()) continue;
-        q_list[q_list.length] = i+'='+args[i];
+    var uri = href;
+    if(idx != -1) {
+        uri = href.substr(0, idx);
+        var query_string = href.substr(idx+1, href.length);
+        var args = {}
+        query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+        args[key] = val;
+        var q_list = new Array();
+        for(var i in args) {
+            if(!args[i].trim()) continue;
+            q_list[q_list.length] = i+'='+args[i];
+        }
+        return uri+"?"+q_list.join("&");
+    } else {
+        if(val.trim()) return uri+"?"+key+"="+val;
+        else return uri;
     }
-
-    return uri+'?'+q_list.join('&');
 }
 
 /**
