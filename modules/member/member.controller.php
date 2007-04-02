@@ -24,37 +24,11 @@
             if(!$password) $password = Context::get('password');
             $password = trim($password);
 
-            // 이메일 주소나 비밀번호가 없을때 오류 return
+            // 아이디나 비밀번호가 없을때 오류 return
             if(!$user_id) return new Object(-1,'null_user_id');
             if(!$password) return new Object(-1,'null_password');
 
-            // member model 객체 생성
-            $oMemberModel = &getModel('member');
-
-            // user_id 에 따른 정보 가져옴
-            $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-
-            // return 값이 없거나 비밀번호가 틀릴 경우
-            if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
-            if($member_info->password != md5($password)) return new Object(-1, 'invalid_password');
-
-            // 로그인 처리
-            $_SESSION['is_logged'] = true;
-            $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-
-            unset($member_info->password);
-
-            // 세션에 로그인 사용자 정보 저장
-            $_SESSION['member_srl'] = $member_info->member_srl;
-            $_SESSION['logged_info'] = $member_info;
-            $_SESSION['group_srls'] = array_keys($member_info->group_list);
-            $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
-
-            // 사용자 정보의 최근 로그인 시간을 기록
-            $args->member_srl = $member_info->member_srl;
-            $output = executeQuery('member.updateLastLogin', $args);
-
-            return $output;
+            return $this->doLogin($user_id, $password);
         }
 
         /**
@@ -314,6 +288,9 @@
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
 
+            // 로그인 시킴
+            $this->doLogin($args->user_id);
+
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
             $this->setMessage('success_registed');
@@ -511,6 +488,40 @@
             $args->is_admin = 'Y';
             return $this->insertMember($args);
         }
+
+        /**
+         * @brief 로그인 시킴
+         **/
+        function doLogin($user_id, $password = '') {
+            // member model 객체 생성
+            $oMemberModel = &getModel('member');
+
+            // user_id 에 따른 정보 가져옴
+            $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+
+            // return 값이 없거나 비밀번호가 틀릴 경우
+            if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
+            if($password && $member_info->password != md5($password)) return new Object(-1, 'invalid_password');
+
+            // 로그인 처리
+            $_SESSION['is_logged'] = true;
+            $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
+
+            unset($member_info->password);
+
+            // 세션에 로그인 사용자 정보 저장
+            $_SESSION['member_srl'] = $member_info->member_srl;
+            $_SESSION['logged_info'] = $member_info;
+            $_SESSION['group_srls'] = array_keys($member_info->group_list);
+            $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
+
+            // 사용자 정보의 최근 로그인 시간을 기록
+            $args->member_srl = $member_info->member_srl;
+            $output = executeQuery('member.updateLastLogin', $args);
+
+            return $output;
+        }
+
 
         /**
          * @brief member 테이블에 사용자 추가
