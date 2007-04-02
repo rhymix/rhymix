@@ -329,8 +329,8 @@
 
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
-            $output = sprintf("<script type=\"text/javascript\">location.href=\"./?module=%s&act=%s&module_srl=%s&page=%s\";</script>", Context::get('module'), 'dispBoardAdminSkinInfo', $module_srl, Context::get('page'));
-            print $output;
+            $url = sprintf("./?module=%s&act=%s&module_srl=%s&page=%s", Context::get('module'), 'dispBoardAdminSkinInfo', $module_srl, Context::get('page'));
+            header("location:".$url);
             exit();
         }
 
