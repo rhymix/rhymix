@@ -443,7 +443,7 @@
         function dispBoardAdminBoardInfo() {
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispAdminContent();
+            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
 
             // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
             if($this->module_info->layout_srl) {
