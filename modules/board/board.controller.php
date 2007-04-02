@@ -164,17 +164,6 @@
         }
 
         /**
-         * @brief 엮인글 추가
-         **/
-        function procBoardReceiveTrackback() {
-            $obj = Context::gets('document_srl','url','title','excerpt');
-
-            // trackback module의 controller 객체 생성
-            $oTrackbackController = &getController('trackback');
-            $oTrackbackController->insertTrackback($obj);
-        }
-
-        /**
          * @brief 엮인글 삭제
          **/
         function procBoardDeleteTrackback() {

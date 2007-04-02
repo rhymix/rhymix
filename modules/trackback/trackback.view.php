@@ -59,18 +59,5 @@
             $this->setTemplateFile('trackback_list');
         }
 
-        /**
-         * @brief 메세지 출력
-         * 메세지를 출력하고 그냥 종료 시켜 버림
-         **/
-        function dispMessage($error, $message) {
-            // 결과 출력을 XMLRPC로 강제 지정
-            Context::setResponseMethod("XMLRPC");
-
-            // 템플릿 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('error');
-        }
-
     }
 ?>

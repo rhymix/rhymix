@@ -42,7 +42,6 @@
         <action name="procBoardVoteDocument" type="controller" />
         <action name="procBoardInsertComment" type="controller" />
         <action name="procBoardDeleteComment" type="controller" />
-        <action name="procBoardReceiveTrackback" type="controller" />
         <action name="procBoardDeleteTrackback" type="controller" />
         <action name="procBoardVerificationPassword" type="controller" />
         <action name="procBoardDeleteFile" type="controller" />
