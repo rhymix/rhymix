@@ -267,8 +267,8 @@ function showOriginalImage(evt) {
     orig_image.src = src;
 
     var areabg = xGetElementById("fororiginalimageareabg");
-    xWidth(areabg, image_width+22);
-    xHeight(areabg, image_height+32);
+    xWidth(areabg, image_width+36);
+    xHeight(areabg, image_height+46);
 
     var area = xGetElementById("fororiginalimagearea");
     xLeft(area, xScrollLeft());
