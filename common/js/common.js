@@ -420,13 +420,11 @@ function chkMemberMenu(evt) {
 
     // 현재 글의 mid, module를 구함
     var mid = location.href.getQuery("mid");
-    var module = location.href.getQuery("module");
 
     // 서버에 메뉴를 요청
     var params = new Array();
     params["member_srl"] = member_srl;
     params["cur_mid"] = mid;
-    params["cur_module"] = module;
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 

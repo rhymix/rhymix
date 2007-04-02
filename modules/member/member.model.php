@@ -27,7 +27,6 @@
             // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
             $member_srl = Context::get('member_srl');
             $mid = Context::get('cur_mid');
-            $module = Context::get('cur_module');
             $logged_info = Context::get('logged_info');
 
             // 자신의 아이디를 클릭한 경우 
