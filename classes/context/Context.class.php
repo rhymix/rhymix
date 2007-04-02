@@ -325,7 +325,21 @@
         /**
          * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
          **/
-        function _setRequestMethod() {
+        function setRequestMethod($type) {
+            $oContext = &Context::getInstance();
+            $oContext->_setRequestMethod($type);
+        }
+
+
+        /**
+         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
+         **/
+        function _setRequestMethod($type = '') {
+            if($type) {
+                $this->request_method = $type;
+                return;
+            }
+
             if($GLOBALS['HTTP_RAW_POST_DATA']) $this->request_method = "XMLRPC";
             else $this->request_method = $_SERVER['REQUEST_METHOD'];
         }
