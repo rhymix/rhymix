@@ -415,8 +415,8 @@ function chkMemberMenu(evt) {
     }
     if(!obj || !obj.className || obj.className.search("member_")==-1) return;
 
-    var member_srl = obj.className.replace(/member_([0-9]+)/,'$1');
-    if(member_srl<1) return;
+    var member_srl = parseInt(obj.className.replace(/member_([0-9]+)/,'$1'),10);
+    if(!member_srl) return;
 
     // 현재 글의 mid, module를 구함
     var mid = location.href.getQuery("mid");

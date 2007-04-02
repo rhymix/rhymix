@@ -20,5 +20,6 @@
     <response callback_func="completeInsert">
         <tag name="error" />
         <tag name="message" />
+        <tag name="redirect_url" />
     </response>
 </filter>

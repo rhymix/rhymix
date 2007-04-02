@@ -2,10 +2,12 @@
 function completeInsert(ret_obj, response_tags, args, fo_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
+    var redirect_url = ret_obj['redirect_url'];
 
     alert(message);
 
-    location.href = location.href.setQuery('act','');
+    if(redirect_url) location.href = redirect_url;
+    else location.href = location.href.setQuery('act','');
 }
 
 /* 정보 수정 */

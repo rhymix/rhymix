@@ -290,6 +290,10 @@
          * @brief 회원 가입 or 정보 수정
          **/
         function procMemberInsert() {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+
             // 필수 정보들을 미리 추출
             $args = Context::gets('user_id','user_name','nick_name','email_address','password','allow_mailing');
             $args->member_srl = getNextSequence();
@@ -311,6 +315,7 @@
             if(!$output->toBool()) return $output;
 
             $this->add('member_srl', $args->member_srl);
+            if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
             $this->setMessage('success_registed');
         }
 
@@ -482,10 +487,12 @@
          * @brief 서명을 파일로 저장
          **/
         function putSignature($member_srl, $signature) {
-            $filename = sprintf('files/attach/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $path = sprintf('files/attach/signature/%s/', getNumberingPath($member_srl));
+            $filename = sprintf('%s%d.signature.php', $path, $member_srl);
             if(!$signature) return @unlink($filename);
 
             $buff = sprintf('<?php if(!__ZBXE__) exit();?>%s', $signature);
+            FileHandler::makeDir($path);
             FileHandler::writeFile($filename, $buff);
         }
 
