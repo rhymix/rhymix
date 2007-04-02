@@ -53,16 +53,6 @@
     /**
      * @brief 세션 설정
      **/
-    /*
-    $oSessionHandler = new SessionHandler();
-    $aa = session_set_save_handler(
-        array(&$oSessionHandler,"open"),
-        array(&$oSessionHandler,"close"),
-        array(&$oSessionHandler,"read"),
-        array(&$oSessionHandler,"write"),
-        array(&$oSessionHandler,"destroy"),
-        array(&$oSessionHandler,"gc"));
-    */
     session_cache_limiter('no-cache, must-revalidate');
     session_start();
 ?>
