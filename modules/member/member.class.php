@@ -21,6 +21,7 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberStoreMessage');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSendMessage');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFriends');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriend');

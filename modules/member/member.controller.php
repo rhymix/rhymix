@@ -93,6 +93,23 @@
         }
 
         /**
+         * @brief 특정 쪽지를 보관함으로 보냄
+         **/
+        function procMemberStoreMessage($message_srl) {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $args->message_srl = $message_srl;
+            $args->member_srl = $logged_info->member_srl;
+            $output = executeQuery('member.setMessageStored', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
+        }
+
+
+        /**
          * @brief 쪽지 삭제
          **/
         function procMemberDeleteMessage() {

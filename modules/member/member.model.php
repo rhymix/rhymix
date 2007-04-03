@@ -488,5 +488,25 @@
             $output = executeQuery('member.getMessage',$args);
             return $output->data;
         }
+
+        /**
+         * @brief 쪽지 목록 가져오기
+         **/
+        function getMessages($type = "R") {
+
+        }
+
+        /**
+         * @brief 친구 목록 가져오기
+         **/
+        function getFriends($friends_group_srl = 0) {
+        }
+
+
+        /**
+         * @brief 그룹 목록 가져오기
+         **/
+        function getFriendsGroups() {
+        }
     }
 ?>
