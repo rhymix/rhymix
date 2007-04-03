@@ -55,6 +55,8 @@
             // 변수 검사
             $receiver_srl = Context::get('receiver_srl');
             if(!$receiver_srl) return new Object(-1, 'msg_not_exists_member');
+            $title = trim(Context::get('title'));
+            if(!$title) return new Object(-1, 'msg_title_is_null');
             $content = trim(Context::get('content'));
             if(!$content) return new Object(-1, 'msg_content_is_null');
 
@@ -65,11 +67,12 @@
 
             // 발송하는 회원의 쪽지함에 넣을 쪽지
             $sender_args->message_srl = getNextSequence();
-            $sender_args->related_srl = 0;
+            $sender_args->related_srl = getNextSequence();
             $sender_args->list_order = getNextSequence()*-1;
             $sender_args->sender_srl = $logged_info->member_srl;
             $sender_args->receiver_srl = $receiver_srl;
             $sender_args->message_type = 'S';
+            $sender_args->title = $title;
             $sender_args->content = $content;
             $sender_args->readed = 'N';
             $sender_args->regdate = date("YmdHis");
@@ -77,12 +80,13 @@
             if(!$output->toBool()) return $output;
 
             // 받는 회원의 쪽지함에 넣을 쪽지
-            $receiver_args->message_srl = getNextSequence();
-            $receiver_args->related_srl = $sender_args->message_srl;
-            $receiver_args->list_order = getNextSequence()*-1;
+            $receiver_args->message_srl = $sender_args->related_srl;
+            $receiver_args->related_srl = 0;
+            $receiver_args->list_order = $sender_args->related_srl*-1;
             $receiver_args->sender_srl = $logged_info->member_srl;
             $receiver_args->receiver_srl = $receiver_srl;
             $receiver_args->message_type = 'R';
+            $receiver_args->title = $title;
             $receiver_args->content = $content;
             $receiver_args->readed = 'N';
             $receiver_args->regdate = date("YmdHis");

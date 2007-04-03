@@ -5,26 +5,6 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-    $lang->cmd_login = '로그인';
-    $lang->cmd_logout = '로그아웃';
-    $lang->cmd_signup = '가입';
-    $lang->cmd_modify_member_info = '회원정보 수정';
-    $lang->cmd_modify_member_password = '비밀번호 변경';
-    $lang->cmd_view_member_info = '회원정보 보기';
-    $lang->cmd_leave = '탈퇴';
-
-    $lang->cmd_member_list = '회원 목록';
-    $lang->cmd_module_config = '기본 설정';
-    $lang->cmd_member_group = '그룹 관리';
-    $lang->cmd_send_mail = '메일발송';
-    $lang->cmd_manage_id = '금지아이디관리';
-    $lang->cmd_manage_form = '가입폼관리';
-    $lang->cmd_view_own_document = '작성글 보기';
-    $lang->cmd_send_email = '메일 보내기';
-    $lang->cmd_send_message = '쪽지 보내기';
-    $lang->cmd_add_friend = '친구 등록';
-    $lang->cmd_view_message_box = '쪽지함 보기';
-
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
 
@@ -52,6 +32,8 @@
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
     $lang->accept_agreement = '약관동의';
+    $lang->sender = '보낸이';
+    $lang->receiver = '받는이';
 
     $lang->search_target_list = array(
         'user_id' => '아이디',
@@ -61,6 +43,35 @@
         'regdate' => '가입일시',
         'last_login' => '최근로그인일시',
     );
+
+    $lang->message_box = array(
+        'R' => '받은 쪽지함',
+        'S' => '보낸 쪽지함',
+        'T' => '보관함',
+    );
+
+    $lang->readed_date = "읽은 시간"; 
+
+    $lang->cmd_login = '로그인';
+    $lang->cmd_logout = '로그아웃';
+    $lang->cmd_signup = '가입';
+    $lang->cmd_modify_member_info = '회원정보 수정';
+    $lang->cmd_modify_member_password = '비밀번호 변경';
+    $lang->cmd_view_member_info = '회원정보 보기';
+    $lang->cmd_leave = '탈퇴';
+
+    $lang->cmd_member_list = '회원 목록';
+    $lang->cmd_module_config = '기본 설정';
+    $lang->cmd_member_group = '그룹 관리';
+    $lang->cmd_send_mail = '메일발송';
+    $lang->cmd_manage_id = '금지아이디관리';
+    $lang->cmd_manage_form = '가입폼관리';
+    $lang->cmd_view_own_document = '작성글 보기';
+    $lang->cmd_send_email = '메일 보내기';
+    $lang->cmd_send_message = '쪽지 보내기';
+    $lang->cmd_add_friend = '친구 등록';
+    $lang->cmd_view_message_box = '쪽지함 보기';
+    $lang->cmd_store = "보관";
 
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
@@ -74,7 +85,8 @@
     $lang->msg_signup_disabled = '회원 가입을 하실 수 없습니다';
     $lang->msg_already_logged = '이미 회원 가입을 하신 상태입니다';
     $lang->msg_not_logged = '로그인을 하지 않으셨습니다';
-    $lang->msg_content_is_null = '내용을 입력해주세요';
+    $lang->msg_title_is_null = '쪽지 제목을 입력해주세요';
+    $lang->msg_content_is_null = '쪽지 내용을 입력해주세요';
 
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';

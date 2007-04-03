@@ -60,7 +60,7 @@
                 $menu_list[] = sprintf('%s,move_url(\'%s\')', $menu_str, $menu_url);
             }
 
-            // 다른 사람의 아이디를 클릭한 경우 (메일, 쪽지 보내기등은 다른 사람에게만 보내는거로 설정)
+            // 다른 사람의 아이디를 클릭한 경우
             if($member_srl != $logged_info->member_srl) {
 
                 // 메일 보내기 
@@ -97,7 +97,7 @@
          * @brief user_id에 해당하는 사용자 정보 return
          **/
         function getMemberInfoByUserID($user_id) {
-            if(!$this->member_info[$member_srl]) {
+            if(!$this->member_info[$user_id]) {
                 $args->user_id = $user_id;
                 $output = executeQuery('member.getMemberInfo', $args);
                 if(!$output) return $output;
@@ -251,7 +251,7 @@
             if(!$this->member_groups[$member_srl]) {
                 $args->member_srl = $member_srl;
                 $output = executeQuery('member.getMemberGroups', $args);
-                if(!$output->data) return;
+                if(!$output->data) return array();
 
                 $group_list = $output->data;
                 if(!is_array($group_list)) $group_list = array($group_list);
@@ -483,23 +483,85 @@
         /**
          * @brief 쪽지 내용을 가져옴
          **/
-        function getMessage($message_srl) {
+        function getSelectedMessage($message_srl) {
+            $logged_info = Context::get('logged_info');
+
             $args->message_srl = $message_srl;
             $output = executeQuery('member.getMessage',$args);
-            return $output->data;
+            $message = $output->data;
+            if(!$message) return ;
+
+            // 보낸 쪽지일 경우 받는 사람 정보를 구함 
+            if($message->sender_srl == $logged_info->member_srl && $message->message_type == 'S') $member_info = $this->getMemberInfoByMemberSrl($message->receiver_srl);
+
+            // 보관/받은 쪽지일 경우 보낸 사람 정보를 구함
+            else $member_info = $this->getMemberInfoByMemberSrl($message->sender_srl);
+
+            if($member_info) {
+                foreach($member_info as $key => $val) $message->{$key} = $val;
+            }
+
+            // 받은 쪽지이고 아직 읽지 않았을 경우 읽은 상태로 변경
+            if($message->message_type == 'R' && $message->readed != 'Y') {
+                $oMemberController = &getController('member');
+                $oMemberController->setMessageReaded($message_srl);
+            }
+
+
+            return $message;
         }
 
         /**
          * @brief 쪽지 목록 가져오기
+         * type = R : 받은 쪽지
+         * type = S : 보낸 쪽지 
+         * type = T : 보관함
          **/
-        function getMessages($type = "R") {
+        function getMessages($message_type = "R") {
+            $logged_info = Context::get('logged_info');
 
+            switch($message_type) {
+                case 'R' :
+                        $args->member_srl = $logged_info->member_srl;
+                        $args->message_type = 'R';
+                        $query_id = 'member.getReceivedMessages';
+                    break;
+                case 'T' :
+                        $args->member_srl = $logged_info->member_srl;
+                        $args->message_type = 'T';
+                        $query_id = 'member.getStoredMessages';
+                    break;
+                default :
+                        $args->member_srl = $logged_info->member_srl;
+                        $args->message_type = 'S';
+                        $query_id = 'member.getSendedMessages';
+                    break;
+    
+            }
+
+            // 기타 변수들 정리
+            $args->sort_index = 'message.list_order';
+            $args->page = Context::get('page');
+            $args->list_count = 10;
+            $args->page_count = 10;
+            return executeQuery($query_id, $args);
         }
 
         /**
          * @brief 친구 목록 가져오기
          **/
         function getFriends($friends_group_srl = 0) {
+            $logged_info = Context::get('logged_info');
+
+            $args->friends_group_srl = $friends_group_srl;
+            $args->member_srl = $logged_info->member_srl;
+
+            // 기타 변수들 정리
+            $args->page = Context::get('page');
+            $args->sort_index = 'friends.list_order';
+            $args->list_count = 10;
+            $args->page_count = 10;
+            return executeQuery('member.getMessages', $args);
         }
 
 
@@ -507,6 +569,11 @@
          * @brief 그룹 목록 가져오기
          **/
         function getFriendsGroups() {
+            $logged_info = Context::get('logged_info');
+
+            $args->member_srl = $logged_info->member_srl;
+
+            return executeQuery('member.getFriendsGroups', $args);
         }
     }
 ?>

@@ -3,7 +3,7 @@
         <table name="member_message" />
     </tables>
     <columns>
-        <column name="message_type" default="S" />
+        <column name="message_type" default="T" />
     </columns>
     <conditions>
         <condition operation="equal" column="message_srl" var="message_srl" notnull="notnull" filter="number"/>

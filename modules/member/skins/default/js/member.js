@@ -81,3 +81,9 @@ function doDeleteImageMark(member_srl) {
         procFilter(fo_obj, delete_image_mark);
 }
 
+
+/* 쪽지 발송 */
+function completeSendMessage(ret_obj) {
+    alert(ret_obj['message']);
+    window.close();
+}

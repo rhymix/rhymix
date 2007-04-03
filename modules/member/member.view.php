@@ -185,13 +185,67 @@
         /**
          * @brief 쪽지함 출력
          **/
-        function dispMemberMessage() {
+        function dispMemberMessages() {
+            $this->initNormal();
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 설정
+            $message_srl = Context::get('message_srl');
+            $message_type = Context::get('message_type');
+            if(!in_array($message_type, array('R','S','T'))) {
+                $message_type = 'R';
+                Context::set('message_type', $message_type);
+            }
+
+            $oMemberModel = &getModel('member');
+
+            // message_srl이 있으면 내용 추출
+            if($message_srl) {
+                $message = $oMemberModel->getSelectedMessage($message_srl);
+                if($message->message_srl == $message_srl) Context::set('message', $message);
+            }
+
+            // 목록 추출
+            $output = $oMemberModel->getMessages($message_type);
+
+            // 템플릿에 쓰기 위해서 context::set
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('message_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+
+            $this->setTemplateFile('member_messages');
         }
 
         /**
          * @brief 쪽지 발송 출력
          **/
         function dispMemberSendMessage() {
+            $this->initNormal();
+            $this->setLayoutFile("popup_layout");
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 쪽지 받을 사용자 정보 구함
+            $receiver_srl = Context::get('receiver_srl');
+            if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) $this->stop('msg_not_logged');
+
+            $oMemberModel = &getModel('member');
+            $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
+            Context::set('receiver_info', $receiver_info);
+
+            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            $oEditorModel = &getModel('editor');
+            $editor = $oEditorModel->getEditor($logged_info->member_srl, false, false);
+            Context::set('editor', $editor);
+
+            $this->setTemplateFile('send_message');
         }
 
         /**
