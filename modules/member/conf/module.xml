@@ -41,6 +41,7 @@
         <action name="procMemberSendMessage" type="controller" standalone="true" />
         <action name="procMemberStoreMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessage" type="controller" standalone="true" />
+        <action name="procMemberDeleteMessages" type="controller" standalone="true" />
 
         <action name="procMemberAddFriend" type="controller" standalone="true" />
         <action name="procMemberDeleteFriend" type="controller" standalone="true" />

@@ -121,7 +121,6 @@
             $this->setMessage('success_registed');
         }
 
-
         /**
          * @brief 쪽지 삭제
          **/
@@ -150,6 +149,47 @@
 
             // 삭제
             $output = executeQuery('member.deleteMessage', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 선택된 다수의 쪽지 삭제
+         **/
+        function procMemberDeleteMessages() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            // 변수 체크
+            $message_srl_list = trim(Context::get('message_srl_list'));
+            if(!$message_srl_list) return new Object(-1, 'msg_cart_is_null');
+
+            $message_srl_list = explode('|@|', $message_srl_list);
+            if(!count($message_srl_list)) return new Object(-1, 'msg_cart_is_null');
+
+            $message_type = Context::get('message_type');
+            if(!$message_type || !in_array($message_type, array('R','S','T'))) return new Object(-1, 'msg_invalid_request');
+
+            $message_count = count($message_srl_list);
+            $target = array();
+            for($i=0;$i<$message_count;$i++) {
+                $message_srl = (int)trim($message_srl_list[$i]);
+                if(!$message_srl) continue;
+                $target[] = $message_srl;
+            }
+            if(!count($target)) return new Object(-1,'msg_cart_is_null');
+
+            // 삭제
+            $args->message_srls = implode(',',$target);
+            $args->message_type = $message_type;
+
+            if($message_type == 'S') $args->sender_srl = $member_srl;
+            else $args->receiver_srl = $member_srl;
+
+            $output = executeQuery('member.deleteMessages', $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');

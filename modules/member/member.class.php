@@ -51,6 +51,7 @@
 
             $oModuleController->insertActionForward('member', 'controller', 'procMemberSendMessage');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessage');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessages');
 
             $oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriend');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriend');

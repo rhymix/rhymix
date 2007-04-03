@@ -1,3 +1,4 @@
+<!--%import("filter/delete_checked_message.xml")-->
 <!--%import("js/member.js")-->
 
 <!-- 정보 -->
@@ -47,7 +48,8 @@
 </div>
 <!--@end-->
 
-<form action="./" method="get" onsubmit="return false;">
+<form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)">
+    <input type="hidden" name="message_type" value="{$message_type}" />
 
     <!-- 목록 -->
     <div>
@@ -66,7 +68,7 @@
         </tr>
         <!--@foreach($message_list as $no => $val)-->
         <tr>
-            <td><input type="checkbox" name="message_srl" value="{$val->message_srl}" /></td>
+            <td><input type="checkbox" name="message_srl_list" value="{$val->message_srl}" /></td>
             <td><div class="member_{$val->member_srl}">{$val->nick_name} ({$val->user_id})</div></td>
             <td>
                 <!--@if($val->readed=='Y')-->
@@ -88,10 +90,7 @@
 
     <!-- 버튼 -->
     <div>
-        <input type="button" value="{$lang->cmd_delete}" />
-        <!--@if($message_type == "R")-->
-        <input type="button" value="{$lang->cmd_store}" />
-        <!--@end-->
+        <input type="submit" value="{$lang->cmd_delete}" />
     </div>
 
 </form>

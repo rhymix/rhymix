@@ -73,6 +73,9 @@
     $lang->cmd_view_message_box = '쪽지함 보기';
     $lang->cmd_store = "보관";
 
+    $lang->msg_cart_is_null = '삭제할 쪽지를 선택해주세요';
+    $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
+
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
     $lang->msg_group_is_null = '등록된 그룹이 없습니다';
