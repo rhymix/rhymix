@@ -221,6 +221,7 @@
             $output = executeQuery('member.addFriend', $args);
             if(!$output->toBool()) return $output;
 
+            $this->add('member_srl', $target_srl);
             $this->setMessage('success_registed');
         }
 
@@ -250,9 +251,26 @@
             // 로그인 정보 체크
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
 
-            // 변수 정리
-            $args->friend_srl = Context::get('friend_srl');
+            // 변수 체크
+            $friend_srl_list = trim(Context::get('friend_srl_list'));
+            if(!$friend_srl_list) return new Object(-1, 'msg_cart_is_null');
+
+            $friend_srl_list = explode('|@|', $friend_srl_list);
+            if(!count($friend_srl_list)) return new Object(-1, 'msg_cart_is_null');
+
+            $friend_count = count($friend_srl_list);
+            $target = array();
+            for($i=0;$i<$friend_count;$i++) {
+                $friend_srl = (int)trim($friend_srl_list[$i]);
+                if(!$friend_srl) continue;
+                $target[] = $friend_srl;
+            }
+            if(!count($target)) return new Object(-1,'msg_cart_is_null');
+
+            // 삭제
+            $args->friend_srls = implode(',',$target);
             $args->member_srl = $logged_info->member_srl;
             $output = executeQuery('member.deleteFriend', $args);
             if(!$output->toBool()) return $output;

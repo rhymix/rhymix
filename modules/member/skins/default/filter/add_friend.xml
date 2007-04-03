@@ -4,5 +4,6 @@
     <response callback_func="completeAddFriend">
         <tag name="error" />
         <tag name="message" />
+        <tag name="member_srl" />
     </response>
 </filter>

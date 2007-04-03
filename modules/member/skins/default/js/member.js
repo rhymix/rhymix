@@ -119,5 +119,28 @@ function completeStoreMessage(ret_obj) {
 /* 친구 추가 후 */
 function completeAddFriend(ret_obj) {
     alert(ret_obj['message']);
+    var member_srl = ret_obj['member_srl'];
+    if(opener && opener.loaded_member_menu_list) {
+        opener.loaded_member_menu_list[ret_obj['member_srl']] = '';
+    }
     window.close();
+}
+
+/* 친구 그룹 추가 후 */
+function completeAddFriendGroup(ret_obj) {
+    alert(ret_obj['message']);
+    if(opener) opener.location.href = opener.location.href;
+    window.close();
+}
+
+/* 친구 그룹 삭제 */
+function doDeleteFriendGroup(friend_group_srl) {
+    var fo_obj = xGetElementById('for_delete_group');
+    fo_obj.friend_group_srl.value = friend_group_srl;
+    procFilter(fo_obj, delete_friend_group);
+}
+
+function completeDeleteFriendGroup(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = location.href.setQuery('friend_group_srl','');
 }

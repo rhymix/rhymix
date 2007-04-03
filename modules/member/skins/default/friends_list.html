@@ -1,4 +1,6 @@
 <!--%import("js/member.js")-->
+<!--%import("filter/delete_checked_friend.xml")-->
+<!--%import("filter/delete_friend_group.xml")-->
 
 <div style="width:500px;">
     <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
@@ -25,7 +27,7 @@
                 <!--@else-->
                 <div>
                 <!--@end-->
-                    <a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->title}</a>
+                    <a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->title}</a> [<a href="#" onclick="doDeleteFriendGroup('{$val->friend_group_srl}');return false;">{$lang->cmd_delete}</a>]
                 </div>
 
             <!--@end-->
@@ -73,6 +75,11 @@
 
         </div>
 
+    </form>
+
+    <!-- 그룹 삭제를 위한 빈 form -->
+    <form action="./" method="get" id="for_delete_group">
+        <input type="hidden" name="friend_group_srl" value="" />
     </form>
 
 </div>

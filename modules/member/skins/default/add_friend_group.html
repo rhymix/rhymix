@@ -1,0 +1,18 @@
+<!--%import("js/member.js")-->
+<!--%import("filter/add_friend_group.xml")-->
+
+<div style="width:400px;">
+    <form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
+        <div style="font-weight:bold">
+            {$lang->cmd_add_friend_group}
+        </div>
+        <div>
+            {$lang->friend_group} : <input type="text" name="title" value="" />
+        </div>
+        <div>
+            <input type="submit" value="{$lang->cmd_insert}" />
+            <input type="button" value="{$lang->cmd_close}" onclick="window.close();return false;"/>
+        </div>
+    </form>
+
+</div>
