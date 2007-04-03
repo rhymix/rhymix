@@ -2,29 +2,64 @@
     if(!__ZBXE__) exit();
 
     /**
-    * @file image_name.addon.php
-    * @author zero (zero@nzeo.com)
-    * @brief 사용자의 이름을 이미지로 바꾸거나 닉 아이콘을 추가하는 애드온
-    *
-    * 이 addOn은 모든 처리가 끝나고 화면에 출력하기 바로 전에 요청이 되어서
-    * 사용자의 이름으로 등록된 부분을 찾아서 정규표현식으로 변환을 합니다.
-    * 1. 사용자의 이름은 <div class="member_회원번호">....</div> 로 정의가 되어야 합니다.
-    * 이렇게 정의된 부분의 회원번호를 구해서 이미지이름, 이미지마크가 있는지를 확인하여 있으면 내용을 변경해버립니다.
-    *
-    * 2. 사용자의 서명을 <div class="document_회원번호">...</div>로 정의된 곳이 글의 내용이라 판단, 하단에 서명을 추가합니다.
-    *
-    * 내용 변경은 MemberController::transImageName method를 이용해서 변경합니다.
-    **/
+     * @file image_name.addon.php
+     * @author zero (zero@nzeo.com)
+     * @brief 사용자의 이미지이름/ 이미지마크나 커뮤니케이션 기능을 추가시킴
+     *
+     * 1. 출력되기 직전 <div class="member_회원번호">....</div> 로 정의가 된 부분을 찾아 회원번호를 구해서 
+     *    이미지이름, 이미지마크가 있는지를 확인하여 있으면 내용을 변경해버립니다.
+     *
+     * 2. 출력되기 직전 <div class="document_회원번호">...</div>로 정의된 곳을 찾아 글의 내용이라 판단, 
+     *    하단에 서명을 추가합니다.
+     *
+     * 3. 새로운 쪽지가 왔을 경우 팝업으로 띄움
+     *
+     * 4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기, 친구 추가하기등의 메뉴를 추가합니다.
+     *
+     * 내용 변경은 MemberController::transImageName method를 이용해서 변경합니다.
+     **/
 
-    // 출력 되기 바로 직전이 아니라면 모두 무시 
-    if($called_position != "before_display_content") return;
+    /**
+     * 1,2,3 기능 수행 : 출력되기 바로 직전일 경우에 이미지이름/이미지마크등을 변경
+     * 조건            : called_position == 'before_display_content' 
+     **/
+    if($called_position == "before_display_content") {
 
-    // 기본적인 기능이라 MemberController 에 변경 코드가 있음
-    $oMemberController = &getController('member');
+        // 기본적인 기능이라 MemberController 에 변경 코드가 있음
+        $oMemberController = &getController('member');
 
-    // 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
-    $output = preg_replace_callback('!<div([^\>]*)member_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transImageName'), $output);
+        // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
+        $output = preg_replace_callback('!<div([^\>]*)member_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transImageName'), $output);
 
-    // 출력문서중에 <div class="document_번호">내용</div> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
-    $output = preg_replace_callback('!<div([^\>]*)document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
+        // 2. 출력문서중에 <div class="document_번호">내용</div> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
+        $output = preg_replace_callback('!<div([^\>]*)document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
+
+    /**
+     * 4 기능 수행 : 사용자 이름을 클릭시 요청되는 MemberModel::getMemberMenu 후에 $menu_list에 쪽지 발송, 친구추가등의 링크 추가
+     * 조건        : called_position == 'after_module_proc', module = 'member', act = 'getMemberMenu'
+     **/
+    } elseif($called_position == 'after_module_proc' && $this->module == 'member' && $this->act == 'getMemberMenu') {
+        // 비로그인 사용자라면 패스
+        if(!Context::get('is_logged')) return;
+
+        // 로그인된 사용자 정보를 구함
+        $logged_info = Context::get('logged_info');
+        $member_srl = Context::get('member_srl');
+
+        // 자신이라면 패스
+        if($logged_info->member_srl == $member_srl) return;
+
+        // 템플릿에서 사용되기 전의 menu_list를 가져옴
+        $menu_list = $this->get('menu_list');
+
+        // 쪽지 발송 메뉴를 만듬
+        $menu_str = Context::getLang('cmd_send_message');
+        $menu_link = sprintf('./?module=message&amp;act=dispSendMessage&amp;target_member_srl=%s',$member_srl);
+
+        // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+        $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+
+        // 템플릿에 적용되게 하기 위해 module의 variables에 재등록
+        $this->add('menu_list', $menu_list);
+    }
 ?>
