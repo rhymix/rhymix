@@ -106,6 +106,12 @@
             $oEditorController = &getController('editor');
             $oEditorController->deleteSavedDoc();
 
+            // 첨부 파일이 있었을 경우 해당 첨부파일들의 valid값을 Y로 변경
+            if($obj->uploaded_count) {
+                $oFileController = &getController('file');
+                $oFileController->setFilesValid($obj->document_srl);
+            }
+
             // return
             $this->addGrant($obj->document_srl);
             $output->add('document_srl',$obj->document_srl);
@@ -186,6 +192,12 @@
             if($source_obj->category_srl!=$obj->category_srl) {
                 if($source_obj->category_srl) $this->updateCategoryCount($source_obj->category_srl);
                 if($obj->category_srl) $this->updateCategoryCount($obj->category_srl);
+            }
+
+            // 첨부 파일이 있었을 경우 해당 첨부파일들의 valid값을 Y로 변경
+            if($obj->uploaded_count) {
+                $oFileController = &getController('file');
+                $oFileController->setFilesValid($obj->document_srl);
             }
 
             // 자동 저장 문서 삭제

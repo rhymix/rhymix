@@ -11,6 +11,7 @@
     <column name="file_size" type="number" size="11" default="0" notnull="notnull" index="idx_file_size" />
     <column name="comment" type="varchar" size="250" />
     <column name="downloaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_downloaded_count" />
+    <column name="isvalid" type="char" size="1" default="N" index="idx_upload_target_srl" />
     <column name="regdate" type="date" index="idx_regdate" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
 </table>

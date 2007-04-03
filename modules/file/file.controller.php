@@ -107,6 +107,15 @@
         }
 
         /**
+         * @brief 특정 upload_target_srl의 첨부파일들의 상태를 유효로 변경
+         * 글이 등록될때 글에 첨부된 파일들의 상태를 유효상태로 변경함으로서 관리시 불필요 파일로 인식되지 않도록 함
+         **/
+        function setFilesValid($upload_target_srl) {
+            $args->upload_target_srl = $upload_target_srl;
+            return executeQuery('file.updateFileValid', $args);
+        }
+
+        /**
          * @brief 첨부파일 삭제
          **/
         function deleteFile($file_srl) {
