@@ -1,8 +1,0 @@
-<table name="member_friends">
-    <column name="friends_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-    <column name="friends_group_srl" type="number" size="11" default="0" notnull="notnull" index="idx_friends_group_srl" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_owner_member_srl" />
-    <column name="target_srl" type="number" size="11" notnull="notnull" />
-    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
-    <column name="regdate" type="date" />
-</table>
