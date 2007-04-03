@@ -14,7 +14,9 @@
      *
      * 3. 새로운 쪽지가 왔을 경우 팝업으로 띄움
      *
-     * 4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기, 친구 추가하기등의 메뉴를 추가합니다.
+     * 4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기 기능 추가합니다.
+     *
+     * 5. MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
      *
      **/
 
@@ -34,8 +36,8 @@
         $output = preg_replace_callback('!<div([^\>]*)document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
 
     /**
-     * 4 기능 수행 : 사용자 이름을 클릭시 요청되는 MemberModel::getMemberMenu 후에 $menu_list에 쪽지 발송, 친구추가등의 링크 추가
-     * 조건        : called_position == 'after_module_proc', module = 'member', act = 'getMemberMenu'
+     * 4,5 기능 수행 : 사용자 이름을 클릭시 요청되는 MemberModel::getMemberMenu 후에 $menu_list에 쪽지 발송, 친구추가등의 링크 추가
+     * 조건          : called_position == 'after_module_proc', module = 'member', act = 'getMemberMenu'
      **/
     } elseif($called_position == 'after_module_proc' && $this->module == 'member' && $this->act == 'getMemberMenu') {
         // 비로그인 사용자라면 패스
@@ -51,11 +53,18 @@
         // 템플릿에서 사용되기 전의 menu_list를 가져옴
         $menu_list = $this->get('menu_list');
 
-        // 쪽지 발송 메뉴를 만듬
+        // 4. 쪽지 발송 메뉴를 만듬
         $menu_str = Context::getLang('cmd_send_message');
-        $menu_link = sprintf('./?module=message&amp;act=dispSendMessage&amp;target_member_srl=%s',$member_srl);
+        $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;target_member_srl=%s',$member_srl);
 
         // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+        $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+
+        // 5. 친구 등록 기능 추가
+        $menu_str = Context::getLang('cmd_add_friend');
+        $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_member_srl=%s',$member_srl);
+
+        // 메뉴에 새로 만든 친구 등록 메뉴 추가
         $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
 
         // 템플릿에 적용되게 하기 위해 module의 variables에 재등록
