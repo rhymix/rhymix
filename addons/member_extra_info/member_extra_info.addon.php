@@ -47,25 +47,36 @@
         $logged_info = Context::get('logged_info');
         $member_srl = Context::get('member_srl');
 
-        // 자신이라면 패스
-        if($logged_info->member_srl == $member_srl) return;
-
         // 템플릿에서 사용되기 전의 menu_list를 가져옴
         $menu_list = $this->get('menu_list');
 
-        // 4. 쪽지 발송 메뉴를 만듬
-        $menu_str = Context::getLang('cmd_send_message');
-        $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;target_member_srl=%s',$member_srl);
+        // 자신이라면 쪽지함 보기 기능 추가
+        if($logged_info->member_srl == $member_srl) {
 
-        // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
-        $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+            // 4. 자신의 쪽지함 보기 기능 추가
+            $menu_str = Context::getLang('cmd_view_message_box');
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberMessage&amp;target_member_srl=%s',$member_srl);
 
-        // 5. 친구 등록 기능 추가
-        $menu_str = Context::getLang('cmd_add_friend');
-        $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_member_srl=%s',$member_srl);
+            // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+            $menu_list .= sprintf("\n%s,move_url('%s','sendMessage', true)", $menu_str, $menu_link);
 
-        // 메뉴에 새로 만든 친구 등록 메뉴 추가
-        $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+
+        // 아니라면 쪽지 발송, 친구 등록 추가
+        } else {
+            // 4. 쪽지 발송 메뉴를 만듬
+            $menu_str = Context::getLang('cmd_send_message');
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;target_member_srl=%s',$member_srl);
+
+            // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+            $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+
+            // 5. 친구 등록 기능 추가
+            $menu_str = Context::getLang('cmd_add_friend');
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_member_srl=%s',$member_srl);
+
+            // 메뉴에 새로 만든 친구 등록 메뉴 추가
+            $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+        }
 
         // 템플릿에 적용되게 하기 위해 module의 variables에 재등록
         $this->add('menu_list', $menu_list);

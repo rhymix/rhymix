@@ -102,8 +102,8 @@ function sendMailTo(to) {
  **/
 function move_url(url, open_wnidow) {
     if(!url) return false;
-    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
-    if(open_wnidow=='Y') {
+    if(typeof(open_wnidow)=='undefined') open_wnidow = false;
+    if(open_wnidow) {
         winopen(url);
     } else {
         location.href=url;
