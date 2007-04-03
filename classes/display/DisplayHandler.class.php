@@ -53,9 +53,13 @@
             $this->content_size = strlen($output);
 
             // 컨텐츠 출력
-            if(Context::getResponseMethod()!="XMLRPC") ob_start('ob_gzhandler');
-            print trim($output);
-            if(Context::getResponseMethod()!="XMLRPC") ob_end_flush();
+            if(Context::getResponseMethod()!="XMLRPC") {
+                //ob_start('ob_gzhandler');
+                print trim($output);
+                //ob_end_flush();
+            } else {
+                print trim($output);
+            }
 
             // 디버깅 데이터 출력
             $this->_debugOutput();

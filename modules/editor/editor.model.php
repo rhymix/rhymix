@@ -212,7 +212,7 @@
             $xml_info->author->date = $xml_doc->component->author->attrs->date;
             $xml_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
 
-            $buff = '<?php if(!defined(__ZBXE__)) exit(); ';
+            $buff = '<?php if(!defined("__ZBXE__")) exit(); ';
             $buff .= sprintf('$xml_info->component_name = "%s";', $component);
             $buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
             $buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);

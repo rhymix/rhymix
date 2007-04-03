@@ -48,6 +48,16 @@
             $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertDeniedID');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateDeniedID');
 
+            // 기본 정보를 세팅
+            $args->enable_join = 'Y';
+            $args->image_name = 'Y';
+            $args->image_mark = 'Y';
+            $args->image_name_max_width = '90';
+            $args->image_name_max_height = '20';
+            $args->image_mark_max_width = '20';
+            $args->image_mark_max_width = '20';
+            $oModuleController->insertModuleConfig('member',$args);
+
             // 멤버 컨트롤러 객체 생성
             $oMemberController = &getController('member');
 
@@ -80,7 +90,7 @@
             $oMemberController->insertDeniedID('http','');
 
             // 로그인 처리시킴
-            $output = $oMemberController->procMemberLogin($admin_info->user_id, $admin_info->password);
+            $output = $oMemberController->doLogin($admin_info->user_id);
             if(!$output) return $output;
 
             // member 에서 사용할 cache디렉토리 생성

@@ -211,7 +211,7 @@
                 $buff .= sprintf('$layout_info->menu->{%s}->php_file = "./files/cache/layout/".$layout_srl."_%s.php";',$id, $id);
             }
 
-            $buff = '<?php if(!defined(__ZBXE__)) exit(); '.$buff.' ?>';
+            $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);
 
             if(file_exists($cache_file)) include $cache_file;

@@ -468,7 +468,7 @@
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
             if(!$signature) return @unlink($filename);
 
-            $buff = sprintf('<?php if(!defined(__ZBXE__)) exit();?>%s', $signature);
+            $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
             FileHandler::writeFile($filename, $buff);
         }
