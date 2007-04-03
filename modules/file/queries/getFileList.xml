@@ -6,11 +6,14 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="like" column="uploaded_filename" var="s_filename" />
-        <condition operation="more" column="file_size" var="s_filesize" pipe="or" />
-        <condition operation="more" column="downloaded_count" var="s_download_count" pipe="or" />
-        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
-        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        <condition operation="equal" column="isvalid" var="isvalid" />
+        <group pipe="and">
+            <condition operation="like" column="uploaded_filename" var="s_filename" />
+            <condition operation="more" column="file_size" var="s_filesize" pipe="or" />
+            <condition operation="more" column="downloaded_count" var="s_download_count" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" order="desc" />

@@ -95,6 +95,10 @@
                 }
             }
 
+            // 유효/대기 상태 설정
+            if($obj->isvalid == 'Y') $args->isvalid = 'Y';
+            elseif($obj->isvalid == 'N') $args->isvalid = 'N';
+
             // 변수 설정
             $args->sort_index = $obj->sort_index;
             $args->page = $obj->page?$obj->page:1;

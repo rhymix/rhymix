@@ -17,6 +17,7 @@
             <th>{$lang->module}</th>
             <th>{$lang->file_name}</th>
             <th>{$lang->file_size}</th>
+            <th>{$lang->is_valid}</th>
             <th>{$lang->download_count}</th>
             <th>{$lang->date}</th>
             <th>{$lang->ipaddress}</th>
@@ -31,6 +32,13 @@
             <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
             <td>{$val->source_filename}</td>
             <td>{$val->file_size}</td>
+            <td>
+                <!--@if($val->isvalid=='Y')-->
+                    {$lang->is_valid}
+                <!--@else-->
+                    {$lang->is_stand_by}
+                <!--@end-->
+            </td>
             <td>{$val->download_count}</td>
             <td>{zdate($val->regdate,"Y-m-d")}</td>
             <td>{$val->ipaddress}</td>
@@ -56,6 +64,11 @@
         <input type="hidden" name="act" value="{$act}" />
 
         <div>
+            <select name="isvalid">
+                <option value="">{$lang->status}</option>
+                <option value="Y" <!--@if($isvalid=="Y")-->selected="true"<!--@end-->>{$lang->is_valid}</option>
+                <option value="N" <!--@if($isvalid=="N")-->selected="true"<!--@end-->>{$lang->is_stand_by}</option>
+            </select>
             <select name="search_target">
                 <option value="">{$lang->search_target}</option>
                 <!--@foreach($lang->search_target_list as $key => $val)-->

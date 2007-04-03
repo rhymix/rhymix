@@ -23,6 +23,7 @@
             $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
 
             $args->sort_index = 'file_srl'; ///< 소팅 값
+            $args->isvalid = Context::get('isvalid');
 
             // 목록 구함
             $oFileModel = &getModel('file');
@@ -31,6 +32,7 @@
             // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
             $file_count = count($output->data);
             if($file_count) {
+                $module_srl_list = array();
                 foreach($output->data as $key => $val) {
                     $module_srl = $val->module_srl;
                     if(!in_array($module_srl, $module_srl_list)) $module_srl_list[] = $module_srl;

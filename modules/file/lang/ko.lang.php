@@ -8,6 +8,9 @@
     $lang->file_name = '파일이름';
     $lang->file_size = '파일크기';
     $lang->download_count = '다운로드 받은 수';
+    $lang->status = '상태';
+    $lang->is_valid = '유효';
+    $lang->is_stand_by = '대기';
 
     $lang->cmd_delete_checked_file = '선택항목 삭제';
     $lang->cmd_move_to_document = '문서로 이동';
