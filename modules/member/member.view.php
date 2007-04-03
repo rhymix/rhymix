@@ -341,6 +341,15 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
+            // 그룹 번호가 넘어오면 수정모드로..
+            $friend_group_srl = Context::get('friend_group_srl');
+            if($friend_group_srl) {
+                $oMemberModel = &getModel('member');
+                $friend_group = $oMemberModel->getFriendGroupInfo($friend_group_srl);
+                if($friend_group->friend_group_srl == $friend_group_srl) Context::set('friend_group', $friend_group);
+            }
+
+
             $this->setTemplateFile('add_friend_group');
         }
 

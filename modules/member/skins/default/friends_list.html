@@ -2,7 +2,7 @@
 <!--%import("filter/delete_checked_friend.xml")-->
 <!--%import("filter/delete_friend_group.xml")-->
 
-<div style="width:500px;">
+<div style="width:700px;">
     <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
 
         <!-- 그룹 목록 -->
@@ -27,19 +27,22 @@
                 <!--@else-->
                 <div>
                 <!--@end-->
-                    <a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->title}</a> [<a href="#" onclick="doDeleteFriendGroup('{$val->friend_group_srl}');return false;">{$lang->cmd_delete}</a>]
+                    <a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->title}</a> 
+                    [<a href="#" onclick="doDeleteFriendGroup('{$val->friend_group_srl}');return false;">{$lang->cmd_delete}</a>]
+                    [<a href="#" onclick="doRenameFriendGroup('{$val->friend_group_srl}');return false;">{$lang->cmd_modify}</a>]
                 </div>
 
             <!--@end-->
         </div>
 
         <!-- 친구 목록 -->
-        <div style="float:left;width:350px;">
+        <div style="float:left;width:550px;">
             <table border="1" width="100%">
             <tr>
                 <th colspan="2">{$lang->user_id}</th>
                 <th>{$lang->user_name}</th>
                 <th>{$lang->nick_name}</th>
+                <th>{$lang->cmd_send_message}</th>
                 <th>{$lang->regdate}</th>
             </tr>
             <!--@foreach($friend_list as $no => $val)-->
@@ -47,7 +50,8 @@
                 <td><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /></td>
                 <td>{$val->user_id}</td>
                 <td>{$val->user_name}</td>
-                <td><div class="member_{$val->target_srl}">{$val->nick_name}</div></td>
+                <td>{$val->nick_name}</td>
+                <td><a href="#" onclick="popopen('./?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl={$val->target_srl}','sendMessage');return false">{$lang->cmd_send_message}</a></td>
                 <td>{zdate($val->regdate,"Y-m-d")}</td>
             </tr>
             <!--@end-->

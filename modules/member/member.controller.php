@@ -287,14 +287,25 @@
             $logged_info = Context::get('logged_info');
 
             // 변수 정리
+            $args->friend_group_srl = trim(Context::get('friend_group_srl'));
             $args->member_srl = $logged_info->member_srl;
             $args->title = Context::get('title');
             if(!$args->title) return new Object(-1, 'msg_invalid_request');
 
-            $output = executeQuery('member.addFriendGroup', $args);
+            // friend_group_srl이 있으면 수정
+            if($args->friend_group_srl) {
+                $output = executeQuery('member.renameFriendGroup', $args);
+                $msg_code = 'success_updated';
+
+            // 아니면 입력
+            } else {
+                $output = executeQuery('member.addFriendGroup', $args);
+                $msg_code = 'success_registed';
+            }
+
             if(!$output->toBool()) return $output;
 
-            $this->setMessage('success_registed');
+            $this->setMessage($msg_code);
         }
 
         /**

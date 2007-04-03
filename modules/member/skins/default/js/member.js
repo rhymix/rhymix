@@ -144,3 +144,8 @@ function completeDeleteFriendGroup(ret_obj) {
     alert(ret_obj['message']);
     location.href = location.href.setQuery('friend_group_srl','');
 }
+
+/* 친구 그룹의 이름 변경 */
+function doRenameFriendGroup(friend_group_srl) {
+    popopen("./?module=member&act=dispMemberAddFriendGroup&friend_group_srl="+friend_group_srl);
+}

@@ -3,14 +3,23 @@
 
 <div style="width:400px;">
     <form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
+        <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
         <div style="font-weight:bold">
-            {$lang->cmd_add_friend_group}
+            <!--@if($friend_group->friend_group_srl)-->
+                {$lang->cmd_rename_friend_group}
+            <!--@else-->
+                {$lang->cmd_add_friend_group}
+            <!--@end-->
         </div>
         <div>
-            {$lang->friend_group} : <input type="text" name="title" value="" />
+            {$lang->friend_group} : <input type="text" name="title" value="{htmlspecialchars($friend_group->title)}" />
         </div>
         <div>
-            <input type="submit" value="{$lang->cmd_insert}" />
+            <!--@if($friend_group->friend_group_srl)-->
+                <input type="submit" value="{$lang->cmd_modify}" />
+            <!--@else-->
+                <input type="submit" value="{$lang->cmd_insert}" />
+            <!--@end-->
             <input type="button" value="{$lang->cmd_close}" onclick="window.close();return false;"/>
         </div>
     </form>

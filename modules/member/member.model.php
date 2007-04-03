@@ -595,6 +595,19 @@
         }
 
         /**
+         * @brief 특정 친구 그룹 가져오기 
+         **/
+        function getFriendGroupInfo($friend_group_srl) {
+            $logged_info = Context::get('logged_info');
+
+            $args->member_srl = $logged_info->member_srl;
+            $args->friend_group_srl = $friend_group_srl;
+
+            $output = executeQuery('member.getFriendGroup', $args);
+            return $output->data;
+        }
+
+        /**
          * @brief 그룹 목록 가져오기
          **/
         function getFriendGroups() {
