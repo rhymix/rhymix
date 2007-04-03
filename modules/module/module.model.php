@@ -336,7 +336,7 @@
                         }
                     }
                 }
-                $buff = sprintf('<?php if(!__ZBXE__) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
+                $buff = sprintf('<?php if(!defined(__ZBXE__)) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
 
                 FileHandler::writeFile($cache_file, $buff);
 
@@ -361,9 +361,9 @@
 
                 $config = base64_encode($output->data->config);
 
-                $buff = sprintf('<?php if(!__ZBXE__) exit(); $config = "%s"; ?>', $config);
+                $buff = sprintf('<?php if(!defined(__ZBXE__)) exit(); $config = "%s"; ?>', $config);
 
-                //FileHandler::writeFile($cache_file, $buff);
+                FileHandler::writeFile($cache_file, $buff);
             }
 
             if(!$config && file_exists($cache_file)) @include($cache_file);

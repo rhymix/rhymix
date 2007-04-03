@@ -475,7 +475,7 @@
             if(!file_exists($filename)) return '';
 
             $buff = FileHandler::readFile($filename);
-            $signature = substr($buff, 29);
+            $signature = substr($buff, 38);
             return $signature;
         }
     }

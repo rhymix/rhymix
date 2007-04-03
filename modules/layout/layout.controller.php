@@ -286,7 +286,7 @@
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
-            $php_buff = sprintf('<?php if(!__ZBXE__) exit(); $menu->list = array(%s); ?>', $php_output['buff']);
+            $php_buff = sprintf('<?php if(!defined(__ZBXE__)) exit(); $menu->list = array(%s); ?>', $php_output['buff']);
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);

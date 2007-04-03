@@ -172,7 +172,7 @@
             $db_info = Context::getDbInfo();
             if(!$db_info) return;
 
-            $buff = '<?php if(!__ZBXE__) exit();'."\n";
+            $buff = '<?php if(!defined(__ZBXE__)) exit();'."\n";
             foreach($db_info as $key => $val) {
                 $buff .= sprintf("\$db_info->%s = \"%s\";\n", $key, $val);
             }

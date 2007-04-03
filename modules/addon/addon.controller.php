@@ -40,7 +40,7 @@
                 $buff .= sprintf(' if(file_exists("./addons/%s/%s.addon.php")) { $addon_path = "./addons/%s/"; include("./addons/%s/%s.addon.php"); }', $addon, $addon, $addon, $addon, $addon);
             }
 
-            $buff = sprintf('<?if(!__ZBXE__)exit(); %s ?>', $buff);
+            $buff = sprintf('<?if(!defined(__ZBXE__))exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
         }
