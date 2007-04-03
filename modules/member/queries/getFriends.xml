@@ -1,15 +1,15 @@
-<query id="getFriends" action="select">
+<query id="getFriend" action="select">
     <tables>
-        <table name="member_friends" alias="friends" />
+        <table name="member_friend" alias="friend" />
         <table name="member" alias="member" />
     </tables>
     <columns>
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="friends.friends_group_srl" var="friends_group_srl" />
-        <condition operation="equal" column="friends.member_srl" var="member_srl" pipe="and" />
-        <condition operation="equal" column="member.member_srl" var="friends.target_srl" pipe="and" />
+        <condition operation="equal" column="friend.friend_group_srl" var="friend_group_srl" />
+        <condition operation="equal" column="friend.member_srl" var="member_srl" pipe="and" />
+        <condition operation="equal" column="member.member_srl" var="friend.target_srl" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" order="asc" />

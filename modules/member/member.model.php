@@ -568,15 +568,15 @@
         /**
          * @brief 친구 목록 가져오기
          **/
-        function getFriends($friends_group_srl = 0) {
+        function getFriend($friend_group_srl = 0) {
             $logged_info = Context::get('logged_info');
 
-            $args->friends_group_srl = $friends_group_srl;
+            $args->friend_group_srl = $friend_group_srl;
             $args->member_srl = $logged_info->member_srl;
 
             // 기타 변수들 정리
             $args->page = Context::get('page');
-            $args->sort_index = 'friends.list_order';
+            $args->sort_index = 'friend.list_order';
             $args->list_count = 10;
             $args->page_count = 10;
             return executeQuery('member.getMessages', $args);
@@ -586,12 +586,12 @@
         /**
          * @brief 그룹 목록 가져오기
          **/
-        function getFriendsGroups() {
+        function getFriendGroups() {
             $logged_info = Context::get('logged_info');
 
             $args->member_srl = $logged_info->member_srl;
 
-            return executeQuery('member.getFriendsGroups', $args);
+            return executeQuery('member.getFriendGroups', $args);
         }
     }
 ?>

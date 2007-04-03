@@ -210,12 +210,12 @@
             $logged_info = Context::get('logged_info');
 
             // 변수 정리
-            $args->friends_srl = getNextSequence();
-            $args->list_order = $args->friends_srl * -1;
-            $args->friends_group_srl = Context::get('friends_group_srl');
+            $args->friend_srl = getNextSequence();
+            $args->list_order = $args->friend_srl * -1;
+            $args->friend_group_srl = Context::get('friend_group_srl');
             $args->member_srl = $logged_info->member_srl;
             $args->target_srl = Context::get('target_srl');
-            $output = executeQuery('member.addFriends', $args);
+            $output = executeQuery('member.addFriend', $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
@@ -230,9 +230,9 @@
             $logged_info = Context::get('logged_info');
 
             // 변수 정리
-            $args->friends_srl = Context::get('friends_srl');
+            $args->friend_srl = Context::get('friend_srl');
             $args->member_srl = $logged_info->member_srl;
-            $output = executeQuery('member.deleteFriends', $args);
+            $output = executeQuery('member.deleteFriend', $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
@@ -266,7 +266,7 @@
             $logged_info = Context::get('logged_info');
 
             // 변수 정리
-            $args->friends_group_srl= Context::get('friends_group_srl');
+            $args->friend_group_srl= Context::get('friend_group_srl');
             $args->member_srl = $logged_info->member_srl;
             $args->title = Context::get('title');
             if(!$args->title) return new Object(-1, 'msg_invalid_request');
@@ -286,7 +286,7 @@
             $logged_info = Context::get('logged_info');
 
             // 변수 정리
-            $args->friends_group_srl = Context::get('friends_group_srl');
+            $args->friend_group_srl = Context::get('friend_group_srl');
             $args->member_srl = $logged_info->member_srl;
             $output = executeQuery('member.deleteFriendGroup', $args);
             if(!$output->toBool()) return $output;

@@ -12,6 +12,11 @@
         <action name="dispMemberSendMessage" type="view" standalone="true" />
         <action name="dispMemberNewMessage" type="view" standalone="true" />
 
+        <action name="dispMemberFriend" type="view" standalone="true" />
+        <action name="dispMemberAddFriend" type="view" standalone="true" />
+        <action name="dispMemberFriendGroup" type="view" standalone="true" />
+        <action name="dispMemberAddFriendGroup" type="view" standalone="true" />
+
         <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
         <action name="dispMemberAdminConfig" type="view" standalone="true" />
         <action name="dispMemberAdminInsert" type="view" standalone="true" />
@@ -39,6 +44,13 @@
         <action name="procMemberStoreMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessages" type="controller" standalone="true" />
+
+        <action name="procMemberAddFriend" type="controller" standalone="true" />
+        <action name="procMemberDeleteFriend" type="controller" standalone="true" />
+
+        <action name="procMemberAddFriendGroup" type="controller" standalone="true" />
+        <action name="procMemberRenameFriendGroup" type="controller" standalone="true" />
+        <action name="procMemberDeleteFriendGroup" type="controller" standalone="true" />
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />

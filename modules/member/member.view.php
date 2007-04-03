@@ -276,7 +276,7 @@
         /**
          * @brief 친구 목록 보기
          **/
-        function dispMemberFriends() {
+        function dispMemberFriend() {
         }
 
         /**
@@ -286,9 +286,15 @@
         }
 
         /**
-         * @brief 친구 그룹 추가
+         * @brief 친구 그룹 보기
          **/
         function dispMemberFriendGroup() {
+        }
+
+        /**
+         * @brief 친구 목록 보기
+         **/
+        function dispMemberAddFriendGroup() {
         }
 
         /**
