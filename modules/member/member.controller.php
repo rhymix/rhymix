@@ -222,6 +222,25 @@
         }
 
         /**
+         * @brief 등록된 친구의 그룹 이동
+         **/
+        function procMemberMoveFriend() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->friend_srl = Context::get('friend_srl');
+            $args->member_srl = $logged_info->member_srl;
+            $args->friend_group_srl = Context::get('friend_group_srl');
+
+            $output = executeQuery('member.moveFriend', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_moved');
+        }
+
+        /**
          * @brief 친구 삭제
          **/
         function procMemberDeleteFriend() {

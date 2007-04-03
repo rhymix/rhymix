@@ -1,0 +1,10 @@
+<query id="moveFriend" action="update">
+    <tables>
+        <table name="member_friend" />
+    </tables>
+    <columns>
+        <column name="friend_srl" var="friend_srl" notnull="notnull" />
+        <column name="friend_group_srl" var="friend_group_srl" default="0" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+    </columns>
+</query>

@@ -26,8 +26,6 @@
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFriend');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriend');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberFriendGroup');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriendGroup');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminConfig');
@@ -56,6 +54,7 @@
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessages');
 
             $oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriend');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberMoveFriend');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriend');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriendGroup');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberRenameFriendGroup');

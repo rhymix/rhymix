@@ -286,18 +286,6 @@
         }
 
         /**
-         * @brief 친구 그룹 보기
-         **/
-        function dispMemberFriendGroup() {
-        }
-
-        /**
-         * @brief 친구 목록 보기
-         **/
-        function dispMemberAddFriendGroup() {
-        }
-
-        /**
          * @brief 회원 목록 출력
          **/
         function dispMemberAdminList() {
