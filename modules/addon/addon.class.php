@@ -21,6 +21,7 @@
             $oAddonController = &getController('addon');
             $oAddonController->doActivate('spamfilter');
             $oAddonController->doActivate('message');
+            $oAddonController->doActivate('member_extra_info');
             return new Object();
         }
 
