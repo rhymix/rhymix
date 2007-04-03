@@ -1,4 +1,4 @@
-<query id="getFriend" action="select">
+<query id="getFriends" action="select">
     <tables>
         <table name="member_friend" alias="friend" />
         <table name="member" alias="member" />

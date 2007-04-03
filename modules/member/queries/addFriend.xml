@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="friend_srl" var="friend_srl" notnull="notnull" />
-        <column name="friend_group_srl" var="friend_group_srl" default="0" notnull="notnull" />
+        <column name="friend_group_srl" var="friend_group_srl" default="0" />
         <column name="member_srl" var="member_srl" notnull="notnull" />
         <column name="target_srl" var="target_srl" notnull="notnull" />
         <column name="list_order" var="list_order" />

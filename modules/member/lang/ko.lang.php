@@ -69,6 +69,7 @@
     $lang->cmd_view_own_document = '작성글 보기';
     $lang->cmd_send_email = '메일 보내기';
     $lang->cmd_send_message = '쪽지 보내기';
+    $lang->cmd_view_friend = '친구 보기';
     $lang->cmd_add_friend = '친구 등록';
     $lang->cmd_view_message_box = '쪽지함 보기';
     $lang->cmd_store = "보관";

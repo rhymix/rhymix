@@ -189,7 +189,7 @@
             $this->initNormal();
 
             // 로그인이 되어 있지 않으면 오류 표시
-            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             // 변수 설정
@@ -226,9 +226,10 @@
          **/
         function dispMemberNewMessage() {
             $this->initNormal();
+            $this->setLayoutFile('popup_layout');
 
             // 로그인이 되어 있지 않으면 오류 표시
-            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $oMemberModel = &getModel('member');
@@ -242,7 +243,6 @@
             $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
             @unlink($flag_file);
 
-            $this->setLayoutFile('popup_layout');
             $this->setTemplateFile('member_new_message');
         }
 
@@ -254,12 +254,12 @@
             $this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
-            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             // 쪽지 받을 사용자 정보 구함
             $receiver_srl = Context::get('receiver_srl');
-            if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) $this->stop('msg_not_logged');
+            if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) return $this->stop('msg_not_logged');
 
             $oMemberModel = &getModel('member');
             $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
@@ -277,12 +277,47 @@
          * @brief 친구 목록 보기
          **/
         function dispMemberFriend() {
+            $this->initNormal();
+            $this->setLayoutFile("popup_layout");
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+            $oMemberModel = &getModel('member');
+
+            // 그룹 목록을 가져옴
+            $friend_group_list = $oMemberModel->getFriendGroup();
+            Context::set('friend_group_list', $friend_group_list);
+
+            // 친구 목록을 가져옴
+            $friend_group_srl = Context::get('friend_group_srl');
+            $friend_list = $oMemberModel->getFriends($friend_group_srl);
+            Context::set('friend_list', $friend_list);
+
+            $this->setTemplate('friend_list');
         }
 
         /**
          * @brief 친구 추가
          **/
         function dispMemberAddFriend() {
+            $this->initNormal();
+            $this->setLayoutFile("popup_layout");
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $target_srl = Context::get('target_srl');
+            if(!$target_srl) return $this->stop('msg_invalid_request');
+
+            // 대상 회원의 정보를 구함
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($target_srl);
+            if($member_info->member_srl != $target_srl) return $this->stop('msg_invalid_request');
+            Context::set('target_info', $member_info);
+
+            $this->setTemplateFile('add_friend');
         }
 
         /**

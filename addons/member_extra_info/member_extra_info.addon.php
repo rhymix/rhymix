@@ -86,6 +86,13 @@
 
             // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
             $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
+
+            // 5. 친구 등록 메뉴를 만듬
+            $menu_str = Context::getLang('cmd_add_friend');
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',$member_srl);
+
+            // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+            $menu_list .= sprintf("\n%s,popopen('%s','addFriend')", $menu_str, $menu_link);
         }
 
         // 템플릿에 적용되게 하기 위해 module의 variables에 재등록
