@@ -26,6 +26,7 @@
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFriend');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriend');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriendGroup');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminConfig');

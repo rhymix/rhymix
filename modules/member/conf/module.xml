@@ -14,6 +14,7 @@
 
         <action name="dispMemberFriend" type="view" standalone="true" />
         <action name="dispMemberAddFriend" type="view" standalone="true" />
+        <action name="dispMemberAddFriendGroup" type="view" standalone="true" />
 
         <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
         <action name="dispMemberAdminConfig" type="view" standalone="true" />

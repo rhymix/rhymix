@@ -323,7 +323,25 @@
             if($member_info->member_srl != $target_srl) return $this->stop('msg_invalid_request');
             Context::set('target_info', $member_info);
 
+            // 그룹의 목록을 구함
+            $friend_group_list = $oMemberModel->getFriendGroups();
+            Context::set('friend_group_list', $friend_group_list);
+
             $this->setTemplateFile('add_friend');
+        }
+
+        /**
+         * @brief 친구 그룹 추가
+         **/
+        function dispMemberAddFriendGroup() {
+            $this->initNormal();
+            $this->setLayoutFile("popup_layout");
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $this->setTemplateFile('add_friend_group');
         }
 
         /**

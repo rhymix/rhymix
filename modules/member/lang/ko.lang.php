@@ -35,6 +35,7 @@
     $lang->sender = '보낸이';
     $lang->receiver = '받는이';
     $lang->friend_group = '친구 그룹';
+    $lang->default_friend_group = '기본 그룹';
     $lang->member_info = '회원 정보';
 
     $lang->search_target_list = array(
@@ -75,6 +76,7 @@
     $lang->cmd_add_friend = '친구 등록';
     $lang->cmd_view_message_box = '쪽지함 보기';
     $lang->cmd_store = "보관";
+    $lang->cmd_add_friend_group = '친구 그룹 추가';
 
     $lang->msg_cart_is_null = '삭제할 쪽지를 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';

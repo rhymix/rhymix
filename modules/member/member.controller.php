@@ -209,12 +209,15 @@
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
 
+            $target_srl = (int)trim(Context::get('target_srl'));
+            if(!$target_srl) return new Object(-1,'msg_invalid_request');
+
             // 변수 정리
             $args->friend_srl = getNextSequence();
             $args->list_order = $args->friend_srl * -1;
             $args->friend_group_srl = Context::get('friend_group_srl');
             $args->member_srl = $logged_info->member_srl;
-            $args->target_srl = Context::get('target_srl');
+            $args->target_srl = $target_srl;
             $output = executeQuery('member.addFriend', $args);
             if(!$output->toBool()) return $output;
 

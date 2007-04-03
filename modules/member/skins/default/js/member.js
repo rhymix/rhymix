@@ -115,3 +115,9 @@ function completeStoreMessage(ret_obj) {
     alert(ret_obj['message']);
     location.href = location.href.setQuery('message_srl','');
 }
+
+/* 친구 추가 후 */
+function completeAddFriend(ret_obj) {
+    alert(ret_obj['message']);
+    window.close();
+}

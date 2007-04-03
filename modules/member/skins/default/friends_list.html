@@ -5,13 +5,17 @@
 
         <!-- 그룹 목록 -->
         <div style="float:left;width:150px;">
+                <div>
+                    {$lang->friend_group}
+                    <a href="#" onclick="popopen('{getUrl('act','dispMemberAddFriendGroup')}');return false;">{$lang->cmd_add_friend_group}</a>
+                </div>
+
             <!--@if(!$friend_group_srl)-->
                 <div style="font-weight:bold">
             <!--@else-->
                 <div>
             <!--@end-->
-
-                    <a href="{getUrl('friend_group_srl','',page,'')}">{$lang->cmd_view_all}</a>
+                    <a href="{getUrl('friend_group_srl','',page,'')}">{$lang->default_friend_group}</a>
                 </div>
 
             <!--@foreach($friend_group_list as $key => $val)-->

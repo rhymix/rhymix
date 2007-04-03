@@ -1,11 +1,12 @@
 <!--%import("js/member.js")-->
-<!--%import("filter/add_friend.js")-->
+<!--%import("filter/add_friend.xml")-->
 
 <div style="width:400px;">
     <form action="./" method="get" onsubmit="return procFilter(this, add_friend)">
+        <input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
         <div>
-            <div>
-                {$lang->member_info}
+            <div style="font-weight:bold">
+                {$lang->cmd_add_friend}
             </div>
             <table border="1" width="100%">
             <tr>
@@ -25,12 +26,15 @@
         <div>
             {$lang->friend_group} : 
                 <select name="friend_group_srl">
+                    <option value="">{$lang->default_friend_group}</option>
+                    <!--@foreach($friend_group_list as $key => $val)-->
+                    <option value="{$val->friend_group_srl}">{$val->title}</option>
+                    <!--@end-->
                 </select>
+                <a href="#" onclick="popopen('{getUrl('act','dispMemberAddFriendGroup')}');return false;">{$lang->cmd_add_friend_group}</a>
         </div>
         <input type="submit" value="{$lang->cmd_insert}" />
         <input type="button" value="{$lang->cmd_close}" onclick="window.close();return false;"/>
-
-
     </form>
 
 </div>

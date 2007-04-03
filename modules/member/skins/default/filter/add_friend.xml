@@ -1,0 +1,8 @@
+<filter name="add_friend" module="member" act="procMemberAddFriend" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter />
+    <response callback_func="completeAddFriend">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
