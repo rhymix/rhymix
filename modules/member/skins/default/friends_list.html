@@ -1,0 +1,74 @@
+<!--%import("js/member.js")-->
+
+<div style="width:500px;">
+    <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
+
+        <!-- 그룹 목록 -->
+        <div style="float:left;width:150px;">
+            <!--@if(!$friend_group_srl)-->
+                <div style="font-weight:bold">
+            <!--@else-->
+                <div>
+            <!--@end-->
+
+                    <a href="{getUrl('friend_group_srl','',page,'')}">{$lang->cmd_view_all}</a>
+                </div>
+
+            <!--@foreach($friend_group_list as $key => $val)-->
+
+                <!--@if($val->friend_group_srl == $friend_group_srl)-->
+                <div style="font-weight:bold">
+                <!--@else-->
+                <div>
+                <!--@end-->
+                    <a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->title}</a>
+                </div>
+
+            <!--@end-->
+        </div>
+
+        <!-- 친구 목록 -->
+        <div style="float:left;width:350px;">
+            <table border="1" width="100%">
+            <tr>
+                <th colspan="2">{$lang->user_id}</th>
+                <th>{$lang->user_name}</th>
+                <th>{$lang->nick_name}</th>
+                <th>{$lang->regdate}</th>
+            </tr>
+            <!--@foreach($friend_list as $no => $val)-->
+            <tr>
+                <td><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /></td>
+                <td>{$val->user_id}</td>
+                <td>{$val->user_name}</td>
+                <td><div class="member_{$val->target_srl}">{$val->nick_name}</div></td>
+                <td>{zdate($val->regdate,"Y-m-d")}</td>
+            </tr>
+            <!--@end-->
+            </table>
+
+            <!-- 버튼 -->
+            <div style="clear:both">
+                <input type="submit" value="{$lang->cmd_delete}" />
+            </div>
+
+            <!-- 페이지 네비게이션 -->
+            <div style="text-align:center;margin-top:10px;">
+                <a href="{getUrl('page','')}">[{$lang->first_page}]</a>
+
+                <!--@while($page_no = $page_navigation->getNextPage())-->
+                    <!--@if($page == $page_no)-->
+                        {$page_no}
+                    <!--@else-->
+                        <a href="{getUrl('page',$page_no)}">[{$page_no}]</a>
+                    <!--@end-->
+                <!--@end-->
+
+                <a href="{getUrl('page',$page_navigation->last_page)}">[{$lang->last_page}]</a>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

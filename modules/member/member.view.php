@@ -286,15 +286,21 @@
             $oMemberModel = &getModel('member');
 
             // 그룹 목록을 가져옴
-            $friend_group_list = $oMemberModel->getFriendGroup();
+            $friend_group_list = $oMemberModel->getFriendGroups();
             Context::set('friend_group_list', $friend_group_list);
 
             // 친구 목록을 가져옴
             $friend_group_srl = Context::get('friend_group_srl');
-            $friend_list = $oMemberModel->getFriends($friend_group_srl);
-            Context::set('friend_list', $friend_list);
+            $output = $oMemberModel->getFriends($friend_group_srl);
 
-            $this->setTemplate('friend_list');
+            // 템플릿에 쓰기 위해서 context::set
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('friend_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+
+            $this->setTemplateFile('friends_list');
         }
 
         /**
