@@ -582,6 +582,17 @@
             return executeQuery('member.getFriends', $args);
         }
 
+        /**
+         * @brief 이미 친구로 등록되었는지 검사
+         **/
+        function isAddedFriend($member_srl) {
+            $logged_info = Context::get('logged_info');
+
+            $args->member_srl = $logged_info->member_srl;
+            $args->target_srl = $member_srl;
+            $output = executeQuery('member.isAddedFriend', $args);
+            return $output->data->count;
+        }
 
         /**
          * @brief 그룹 목록 가져오기

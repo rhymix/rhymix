@@ -1,0 +1,36 @@
+<!--%import("js/member.js")-->
+<!--%import("filter/add_friend.js")-->
+
+<div style="width:400px;">
+    <form action="./" method="get" onsubmit="return procFilter(this, add_friend)">
+        <div>
+            <div>
+                {$lang->member_info}
+            </div>
+            <table border="1" width="100%">
+            <tr>
+                <th>{$lang->user_id}</th>
+                <td>{$target_info->user_id}</td>
+            </tr>
+            <tr>
+                <th>{$lang->user_name}</th>
+                <td>{$target_info->user_name}</td>
+            </tr>
+            <tr>
+                <th>{$lang->nick_name}</th>
+                <td><div class="member_{$target_info->member_srl}">{$target_info->nick_name}</div></td>
+            </tr>
+            </table>
+        </div>
+        <div>
+            {$lang->friend_group} : 
+                <select name="friend_group_srl">
+                </select>
+        </div>
+        <input type="submit" value="{$lang->cmd_insert}" />
+        <input type="button" value="{$lang->cmd_close}" onclick="window.close();return false;"/>
+
+
+    </form>
+
+</div>
