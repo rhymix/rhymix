@@ -512,6 +512,24 @@
         }
 
         /**
+         * @brief 새 쪽지를 가져옴
+         **/
+        function getNewMessage() {
+            $logged_info = Context::get('logged_info');
+            $args->receiver_srl = $logged_info->member_srl;
+            $args->readed = 'N';
+
+            $output = executeQuery('member.getNewMessage', $args);
+            if(!count($output->data)) return;
+            $message = array_pop($output->data);
+
+            $oMemberController = &getController('member');
+            $oMemberController->setMessageReaded($message->message_srl);
+
+            return $message;
+        }
+
+        /**
          * @brief 쪽지 목록 가져오기
          * type = R : 받은 쪽지
          * type = S : 보낸 쪽지 

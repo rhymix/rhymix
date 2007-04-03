@@ -1,0 +1,34 @@
+<!--%import("js/member.js")-->
+
+<div style="width:400px;">
+    <!--@if($message)-->
+    <table border="1">
+    <tr>
+        <th>
+            {$lang->sender}
+        </th>
+        <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
+    </tr>
+    <tr>    
+        <th>{$lang->title}</th>
+        <td>{htmlspecialchars($message->title)}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$message->content}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMessage('{$message->message_srl}');return false;" />
+            <input type="button" value="{$lang->cmd_store}" onclick="doStoreMessage('{$message->message_srl}');return false;" />
+            <input type="button" value="{$lang->cmd_next}" onclick="location.href=location.href;return false;" />
+        </td>
+    </tr>
+    </table>
+    <!--@else-->
+        <script type="text/javascript">
+            alert("{$lang->msg_no_message}");
+            window.close();
+        </script>
+    <!--@end-->
+</div>
+

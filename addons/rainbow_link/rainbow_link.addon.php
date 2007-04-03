@@ -1,5 +1,5 @@
 <?php
-    if(!__ZBXE__) exit();
+    if(!defined("__ZBXE__")) exit();
 
     /**
      * @file rainbow.addon.php

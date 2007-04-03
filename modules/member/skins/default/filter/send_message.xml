@@ -1,6 +1,6 @@
 <filter name="send_message" module="member" act="procMemberSendMessage" confirm_msg_code="confirm_submit">
     <form>
-        <node target="title" required="true" minlength="1" maxlength="20" />
+        <node target="title" required="true" minlength="1" maxlength="240" />
         <node target="content" required="true" minlength="1" />
     </form>
     <parameter />

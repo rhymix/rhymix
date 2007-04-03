@@ -1,5 +1,5 @@
 <?php
-    if(!__ZBXE__) exit();
+    if(!defined("__ZBXE__")) exit();
 
     /**
      * @file image_name.addon.php
@@ -21,8 +21,8 @@
      **/
 
     /**
-     * 1,2,3 기능 수행 : 출력되기 바로 직전일 경우에 이미지이름/이미지마크등을 변경
-     * 조건            : called_position == 'before_display_content' 
+     * 1,2 기능 수행 : 출력되기 바로 직전일 경우에 이미지이름/이미지마크등을 변경
+     * 조건          : called_position == 'before_display_content' 
      **/
     if($called_position == "before_display_content") {
 
@@ -34,6 +34,23 @@
 
         // 2. 출력문서중에 <div class="document_번호">내용</div> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
         $output = preg_replace_callback('!<div([^\>]*)document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
+
+    /**
+     * 3 기능 수행 : 시작할때 새쪽지가 왔는지 검사
+     * 조건        : called_position = 'before_module_init', act != 'dispMemberNewMessage'
+     **/
+    } elseif($called_position == 'before_module_init' && $this->act != 'dispMemberNewMessage' && Context::get('is_logged') ) {
+
+        // 로그인된 사용자 정보를 구함
+        $logged_info = Context::get('logged_info');
+
+        $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
+        $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
+
+        // 새로운 쪽지에 대한 플래그가 있으면 쪽지 보기 팝업 띄움 
+        if(file_exists($flag_file)) {
+            Context::addHtmlHeader( sprintf('<script type="text/javascript"> popopen("%s"); </script>', './?module=member&amp;act=dispMemberNewMessage') );
+        }
 
     /**
      * 4,5 기능 수행 : 사용자 이름을 클릭시 요청되는 MemberModel::getMemberMenu 후에 $menu_list에 쪽지 발송, 친구추가등의 링크 추가

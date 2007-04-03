@@ -222,6 +222,31 @@
         }
 
         /**
+         * @brief 새 쪽지 보여줌
+         **/
+        function dispMemberNewMessage() {
+            $this->initNormal();
+
+            // 로그인이 되어 있지 않으면 오류 표시
+            if(!Context::get('is_logged')) $this->stop('msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $oMemberModel = &getModel('member');
+
+            // 새 쪽지를 가져옴
+            $message = $oMemberModel->getNewMessage();
+            if($message) Context::set('message', $message);
+            
+            // 플래그 삭제
+            $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
+            $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
+            @unlink($flag_file);
+
+            $this->setLayoutFile('popup_layout');
+            $this->setTemplateFile('member_new_message');
+        }
+
+        /**
          * @brief 쪽지 발송 출력
          **/
         function dispMemberSendMessage() {

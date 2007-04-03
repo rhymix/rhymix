@@ -93,6 +93,12 @@
             $output = executeQuery('member.sendMessage', $receiver_args);
             if(!$output->toBool()) return $output;
 
+            // 받는 회원의 쪽지 발송 플래그 생성 (파일로 생성)
+            $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($receiver_srl);
+            FileHandler::makeDir($flag_path);
+            $flag_file = sprintf('%s%s', $flag_path, $receiver_srl);
+            FileHandler::writeFile($flag_file,'1');
+
             $this->setMessage('success_sended');
         }
 

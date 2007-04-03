@@ -21,8 +21,8 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberStoreMessage');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSendMessage');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberNewMessage');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFriends');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriend');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriendGroup');
@@ -119,7 +119,7 @@
             FileHandler::makeDir('./files/member_extra_info/attach/image_name');
             FileHandler::makeDir('./files/member_extra_info/attach/image_mark');
             FileHandler::makeDir('./files/member_extra_info/attach/signature');
-            FileHandler::makeDir('./files/session/');
+            FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 
             return new Object();
         }

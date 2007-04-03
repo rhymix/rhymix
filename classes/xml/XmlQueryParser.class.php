@@ -58,7 +58,7 @@
             // 캐쉬 내용 작성
             $buff = 
             sprintf(
-            '<?php if(!__ZBXE__) exit();'."\n".
+            '<?php if(!defined("__ZBXE__")) exit();'."\n".
             '$pass_quotes = array();'."\n".
             '$id = \'%s\';'."\n".
             '$action = \'%s\';'."\n".
