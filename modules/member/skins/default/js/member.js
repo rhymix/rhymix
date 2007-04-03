@@ -92,7 +92,7 @@ function completeSendMessage(ret_obj) {
 function doCheckAll(obj) {
     var fo_obj = xGetElementById("fo_message_list");
     for(var i=0; i<fo_obj.length; i++) {
-        if(fo_obj[i].type == "checkbox") fo_obj[i].checked = obj.checked;
+        if(fo_obj[i].type == "checkbox" && fo_obj[i].name == "message_srl_list" ) fo_obj[i].checked = obj.checked;
     }
 }
 
