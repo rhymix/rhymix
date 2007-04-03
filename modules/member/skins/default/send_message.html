@@ -15,7 +15,7 @@
         </tr>
         <tr>    
             <th>{$lang->title}</th>
-            <td><input type="text" name="title" /></td>
+            <td><input type="text" name="title" id="message_title" /></td>
         </tr>
         <tr>
             <td colspan="2">{$editor}</td>
@@ -29,3 +29,7 @@
         </table>
     </form>
 </div>
+
+<script type="text/javascript">
+    xAddEventListener(window, 'load', function() { xGetElementById("message_title").focus(); });
+</script>

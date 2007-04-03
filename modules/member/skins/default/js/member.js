@@ -87,3 +87,31 @@ function completeSendMessage(ret_obj) {
     alert(ret_obj['message']);
     window.close();
 }
+
+/* 개별 쪽지 삭제 */
+function doDeleteMessage(message_srl) {
+    if(!message_srl) return;
+
+    var params = new Array();
+    params['message_srl'] = message_srl;
+    exec_xml('member', 'procMemberDeleteMessage', params, completeDeleteMessage);
+}
+
+function completeDeleteMessage(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = location.href.setQuery('message_srl','');
+}
+
+/* 개별 쪽지 보관 */
+function doStoreMessage(message_srl) {
+    if(!message_srl) return;
+
+    var params = new Array();
+    params['message_srl'] = message_srl;
+    exec_xml('member', 'procMemberStoreMessage', params, completeStoreMessage);
+}
+
+function completeStoreMessage(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = location.href.setQuery('message_srl','');
+}

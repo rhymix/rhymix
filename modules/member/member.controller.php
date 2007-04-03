@@ -99,13 +99,22 @@
         /**
          * @brief 특정 쪽지를 보관함으로 보냄
          **/
-        function procMemberStoreMessage($message_srl) {
+        function procMemberStoreMessage() {
             // 로그인 정보 체크
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
 
+            // 변수 체크
+            $message_srl = Context::get('message_srl');
+            if(!$message_srl) return new Object(-1,'msg_invalid_request');
+
+            // 쪽지를 가져옴
+            $oMemberModel = &getModel('member');
+            $message = $oMemberModel->getSelectedMessage($message_srl);
+            if(!$message || $message->message_type != 'R') return new Object(-1,'msg_invalid_request');
+
             $args->message_srl = $message_srl;
-            $args->member_srl = $logged_info->member_srl;
+            $args->receiver_srl = $logged_info->member_srl;
             $output = executeQuery('member.setMessageStored', $args);
             if(!$output->toBool()) return $output;
 
@@ -128,7 +137,7 @@
 
             // 쪽지를 가져옴
             $oMemberModel = &getModel('member');
-            $message = $oMemberModel->getMessage($message_srl);
+            $message = $oMemberModel->getSelectedMessage($message_srl);
             if(!$message) return new Object(-1,'msg_invalid_request');
 
             // 발송인+type=S or 수신인+type=R 검사

@@ -1,3 +1,5 @@
+<!--%import("js/member.js")-->
+
 <!-- 정보 -->
 <div>
     <!--@foreach($lang->message_box as $key => $val)-->
@@ -14,37 +16,35 @@
 
 <!-- 내용 -->
 <!--@if($message)-->
-<form action="./" method="get" onsubmit="return false;">
-    <div>
-        <table border="1">
-        <tr>
-            <th>
-                <!--@if($message->message_type == "S")-->
-                {$lang->receiver}
-                <!--@else-->
-                {$lang->sender}
-                <!--@end-->
-            </th>
-            <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
-        </tr>
-        <tr>    
-            <th>{$lang->title}</th>
-            <td>{htmlspecialchars($message->title)}</td>
-        </tr>
-        <tr>
-            <td colspan="2">{$message->content}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="button" value="{$lang->cmd_delete}" />
-                <!--@if($message->message_type != "T")-->
-                <input type="button" value="{$lang->cmd_store}" />
-                <!--@end-->
-            </td>
-        </tr>
-        </table>
-    </div>
-</form>
+<div>
+    <table border="1">
+    <tr>
+        <th>
+            <!--@if($message->message_type == "S")-->
+            {$lang->receiver}
+            <!--@else-->
+            {$lang->sender}
+            <!--@end-->
+        </th>
+        <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
+    </tr>
+    <tr>    
+        <th>{$lang->title}</th>
+        <td>{htmlspecialchars($message->title)}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$message->content}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMessage('{$message->message_srl}');return false;" />
+            <!--@if($message->message_type == "R")-->
+            <input type="button" value="{$lang->cmd_store}" onclick="doStoreMessage('{$message->message_srl}');return false;" />
+            <!--@end-->
+        </td>
+    </tr>
+    </table>
+</div>
 <!--@end-->
 
 <form action="./" method="get" onsubmit="return false;">
@@ -89,7 +89,7 @@
     <!-- 버튼 -->
     <div>
         <input type="button" value="{$lang->cmd_delete}" />
-        <!--@if($message_type != "T")-->
+        <!--@if($message_type == "R")-->
         <input type="button" value="{$lang->cmd_store}" />
         <!--@end-->
     </div>
