@@ -183,6 +183,36 @@
         }
 
         /**
+         * @brief 쪽지함 출력
+         **/
+        function dispMemberMessage() {
+        }
+
+        /**
+         * @brief 쪽지 발송 출력
+         **/
+        function dispMemberSendMessage() {
+        }
+
+        /**
+         * @brief 친구 목록 보기
+         **/
+        function dispMemberFriends() {
+        }
+
+        /**
+         * @brief 친구 추가
+         **/
+        function dispMemberAddFriend() {
+        }
+
+        /**
+         * @brief 친구 그룹 추가
+         **/
+        function dispMemberFriendGroup() {
+        }
+
+        /**
          * @brief 회원 목록 출력
          **/
         function dispMemberAdminList() {

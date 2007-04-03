@@ -1,11 +1,12 @@
 <table name="member_message">
     <column name="message_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+    <column name="related_srl" type="number" size="11" notnull="notnull" index="idx_related_srl" />
     <column name="sender_srl" type="number" size="11" notnull="notnull" index="idx_sender_srl" />
     <column name="receiver_srl" type="number" size="11" notnull="notnull" index="idx_receiver_srl" />
-    <column name="message_type" type="char" size="1" default="S" notnull="notnull" index="idx_message_type" />
+    <column name="message_type" type="char" size="1" default="S" notnull="notnull" />
     <column name="content" type="text" notnull="notnull" />
     <column name="readed" type="char" size="1" default="N" notnull="notnull" />
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
     <column name="regdate" type="date" />
     <column name="readed_date" type="date" />
 </table>

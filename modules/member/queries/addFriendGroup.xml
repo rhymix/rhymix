@@ -1,0 +1,11 @@
+<query id="addFriendGroup" action="insert">
+    <tables>
+        <table name="member_friends_group" />
+    </tables>
+    <columns>
+        <column name="friends_group_srl" var="friends_group_srl" default="sequence()" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

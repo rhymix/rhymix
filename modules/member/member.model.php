@@ -114,6 +114,7 @@
          * @brief member_srl로 사용자 정보 return
          **/
         function getMemberInfoByMemberSrl($member_srl) {
+            if(!$member_srl) return;
             if(!$this->member_info[$member_srl]) {
                 $args->member_srl = $member_srl;
                 $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
@@ -477,6 +478,15 @@
             $buff = FileHandler::readFile($filename);
             $signature = substr($buff, 40);
             return $signature;
+        }
+
+        /**
+         * @brief 쪽지 내용을 가져옴
+         **/
+        function getMessage($message_srl) {
+            $args->message_srl = $message_srl;
+            $output = executeQuery('member.getMessage',$args);
+            return $output->data;
         }
     }
 ?>

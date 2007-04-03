@@ -55,7 +55,7 @@
 
             // 4. 자신의 쪽지함 보기 기능 추가
             $menu_str = Context::getLang('cmd_view_message_box');
-            $menu_link = sprintf('./?module=member&amp;act=dispMemberMessage&amp;target_member_srl=%s',$member_srl);
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberMessage&amp;receiver_srl=%s',$member_srl);
 
             // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
             $menu_list .= sprintf("\n%s,move_url('%s','sendMessage', true)", $menu_str, $menu_link);
@@ -65,7 +65,7 @@
         } else {
             // 4. 쪽지 발송 메뉴를 만듬
             $menu_str = Context::getLang('cmd_send_message');
-            $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;target_member_srl=%s',$member_srl);
+            $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',$member_srl);
 
             // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
             $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);

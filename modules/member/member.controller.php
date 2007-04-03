@@ -45,6 +45,189 @@
         }
 
         /**
+         * @brief 쪽지 발송
+         **/
+        function procMemberSendMessage() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 검사
+            $receiver_srl = Context::get('receiver_srl');
+            if(!$receiver_srl) return new Object(-1, 'msg_not_exists_member');
+            $content = trim(Context::get('content'));
+            if(!$content) return new Object(-1, 'msg_content_is_null');
+
+            // 받을 회원이 있는지에 대한 검사
+            $oMemberModel = &getModel('member');
+            $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
+            if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
+
+            // 발송하는 회원의 쪽지함에 넣을 쪽지
+            $sender_args->message_srl = getNextSequence();
+            $sender_args->related_srl = 0;
+            $sender_args->list_order = getNextSequence()*-1;
+            $sender_args->sender_srl = $logged_info->member_srl;
+            $sender_args->receiver_srl = $receiver_srl;
+            $sender_args->message_type = 'S';
+            $sender_args->content = $content;
+            $sender_args->readed = 'N';
+            $sender_args->regdate = date("YmdHis");
+            $output = executeQuery('member.sendMessage', $sender_args);
+            if(!$output->toBool()) return $output;
+
+            // 받는 회원의 쪽지함에 넣을 쪽지
+            $receiver_args->message_srl = getNextSequence();
+            $receiver_args->related_srl = $sender_args->message_srl;
+            $receiver_args->list_order = getNextSequence()*-1;
+            $receiver_args->sender_srl = $logged_info->member_srl;
+            $receiver_args->receiver_srl = $receiver_srl;
+            $receiver_args->message_type = 'R';
+            $receiver_args->content = $content;
+            $receiver_args->readed = 'N';
+            $receiver_args->regdate = date("YmdHis");
+            $output = executeQuery('member.sendMessage', $receiver_args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_sended');
+        }
+
+        /**
+         * @brief 쪽지 삭제
+         **/
+        function procMemberDeleteMessage() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            // 변수 체크
+            $message_srl = Context::get('message_srl');
+            if(!$message_srl) return new Object(-1,'msg_invalid_request');
+
+            // 쪽지를 가져옴
+            $oMemberModel = &getModel('member');
+            $message = $oMemberModel->getMessage($message_srl);
+            if(!$message) return new Object(-1,'msg_invalid_request');
+
+            // 발송인+type=S or 수신인+type=R 검사
+            if($message->sender_srl == $member_srl && $message->message_type == 'S') {
+                $args->message_srl = $message_srl;
+            } elseif($message->receiver_srl == $member_srl && $message->message_type == 'R') {
+                $args->message_srl = $message_srl;
+            }
+            if(!$args->message_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 삭제
+            $output = executeQuery('member.deleteMessage', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 친구 추가
+         **/
+        function procMemberAddFriend() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->friends_srl = getNextSequence();
+            $args->list_order = $args->friends_srl * -1;
+            $args->friends_group_srl = Context::get('friends_group_srl');
+            $args->member_srl = $logged_info->member_srl;
+            $args->target_srl = Context::get('target_srl');
+            $output = executeQuery('member.addFriends', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 친구 삭제
+         **/
+        function procMemberDeleteFriend() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->friends_srl = Context::get('friends_srl');
+            $args->member_srl = $logged_info->member_srl;
+            $output = executeQuery('member.deleteFriends', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 친구 그룹 추가
+         **/
+        function procMemberAddFriendGroup() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->member_srl = $logged_info->member_srl;
+            $args->title = Context::get('title');
+            if(!$args->title) return new Object(-1, 'msg_invalid_request');
+
+            $output = executeQuery('member.addFriendGroup', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
+        }
+
+        /**
+         * @brief 친구 그룹 이름 변경
+         **/
+        function procMemberRenameFriendGroup() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->friends_group_srl= Context::get('friends_group_srl');
+            $args->member_srl = $logged_info->member_srl;
+            $args->title = Context::get('title');
+            if(!$args->title) return new Object(-1, 'msg_invalid_request');
+
+            $output = executeQuery('member.renameFriendGroup', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 친구 그룹 삭제
+         **/
+        function procMemberDeleteFriendGroup() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            // 변수 정리
+            $args->friends_group_srl = Context::get('friends_group_srl');
+            $args->member_srl = $logged_info->member_srl;
+            $output = executeQuery('member.deleteFriendGroup', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 특정 쪽지의 상태를 읽은 상태로 변경
+         **/
+        function setMessageReaded($message_srl) {
+            $args->message_srl = $message_srl;
+            $args->related_srl = $message_srl;
+            return executeQuery('member.setMessageReaded', $args);
+        }
+
+        /**
          * @brief 사용자 추가 (관리자용)
          **/
         function procMemberAdminInsert() {

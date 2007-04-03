@@ -1,6 +1,6 @@
 <table name="member_friends_group">
     <column name="friends_group_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-    <column name="owner_member_srl" type="number" size="11" notnull="notnull" index="index_owner_member_srl" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="index_owner_member_srl" />
     <column name="title" type="varchar" size="250" notnull="notnull" />
     <column name="regdate" type="date" />
 </table>

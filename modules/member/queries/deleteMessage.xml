@@ -1,0 +1,8 @@
+<query id="deleteMessage" action="delete">
+    <tables>
+        <table name="member_message" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="message_srl" var="message_srl" notnull="notnull" filter="number" />
+    </conditions>
+</query>

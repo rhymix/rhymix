@@ -1,0 +1,12 @@
+<query id="renameFriendGroup" action="update">
+    <tables>
+        <table name="member_friends_group" />
+    </tables>
+    <columns>
+        <column name="title" var="title" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="friends_group_srl" var="friends_group_srl" notnull="notnull" filter="number" />
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" pipe="and" />
+    </conditions>
+</query>

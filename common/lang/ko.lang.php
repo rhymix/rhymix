@@ -153,6 +153,7 @@
     $lang->success_deleted = '삭제되었습니다';
     $lang->success_voted = '추천되었습니다';
     $lang->success_moved = '이동되었습니다';
+    $lang->success_sended = '발송되었습니다';
 
     $lang->failed_voted = '추천하실 수 없습니다';
     $lang->fail_to_delete_have_children = '답글이 있어서 삭제할 수 없습니다';

@@ -74,6 +74,7 @@
     $lang->msg_signup_disabled = '회원 가입을 하실 수 없습니다';
     $lang->msg_already_logged = '이미 회원 가입을 하신 상태입니다';
     $lang->msg_not_logged = '로그인을 하지 않으셨습니다';
+    $lang->msg_content_is_null = '내용을 입력해주세요';
 
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';

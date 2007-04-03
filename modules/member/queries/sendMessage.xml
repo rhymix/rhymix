@@ -1,0 +1,14 @@
+<query id="sendMessage" action="insert">
+    <tables>
+        <table name="member_message" />
+    </tables>
+    <columns>
+        <column name="message_srl" var="message_srl" notnull="notnull" />
+        <column name="list_order" var="list_order" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="message_type" var="message_type" notnull="notnull" />
+        <column name="content" var="content" notnull="notnull" />
+        <column name="readed" var="readed" notnull="notnull" />
+        <column name="regdate" var="reded" default="curdate()" />
+    </columns>
+</query>
