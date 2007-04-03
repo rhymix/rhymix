@@ -48,14 +48,15 @@
 </div>
 <!--@end-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)">
+<form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
     <input type="hidden" name="message_type" value="{$message_type}" />
 
     <!-- 목록 -->
     <div>
         <table border="1">
         <tr>
-            <th colspan="2">
+            <th><input type="checkbox" name="check_all" onchange="doCheckAll(this);"/></th>
+            <th>
                 <!--@if($message_type == "S")-->
                     {$lang->receiver}
                 <!--@else-->

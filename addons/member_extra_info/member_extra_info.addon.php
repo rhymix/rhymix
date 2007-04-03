@@ -37,9 +37,9 @@
 
     /**
      * 3 기능 수행 : 시작할때 새쪽지가 왔는지 검사
-     * 조건        : called_position = 'before_module_init', act != 'dispMemberNewMessage'
+     * 조건        : called_position = 'before_module_init', module != 'member'
      **/
-    } elseif($called_position == 'before_module_init' && $this->act != 'dispMemberNewMessage' && Context::get('is_logged') ) {
+    } elseif($called_position == 'before_module_init' && $this->module != 'member' && Context::get('is_logged') ) {
 
         // 로그인된 사용자 정보를 구함
         $logged_info = Context::get('logged_info');
@@ -49,7 +49,8 @@
 
         // 새로운 쪽지에 대한 플래그가 있으면 쪽지 보기 팝업 띄움 
         if(file_exists($flag_file)) {
-            Context::addHtmlHeader( sprintf('<script type="text/javascript"> popopen("%s"); </script>', './?module=member&amp;act=dispMemberNewMessage') );
+            $script =  sprintf('<script type="text/javascript"> popopen("%s"); </script>', './?module=member&act=dispMemberNewMessage'); 
+            Context::addHtmlHeader( $script );
         }
 
     /**

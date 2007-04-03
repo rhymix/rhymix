@@ -88,6 +88,14 @@ function completeSendMessage(ret_obj) {
     window.close();
 }
 
+/* 쪽지 모두 선택 */
+function doCheckAll(obj) {
+    var fo_obj = xGetElementById("fo_message_list");
+    for(var i=0; i<fo_obj.length; i++) {
+        if(fo_obj[i].type == "checkbox") fo_obj[i].checked = obj.checked;
+    }
+}
+
 /* 개별 쪽지 삭제 */
 function doDeleteMessage(message_srl) {
     if(!message_srl) return;
