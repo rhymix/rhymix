@@ -16,7 +16,6 @@
      *
      * 4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기, 친구 추가하기등의 메뉴를 추가합니다.
      *
-     * 내용 변경은 MemberController::transImageName method를 이용해서 변경합니다.
      **/
 
     /**
