@@ -1,14 +1,14 @@
 <?php
     /**
-    * @class DBSqlite3
+    * @class DBSqlite2
     * @author zero (zero@nzeo.com)
     * @brief MySQL DBMS를 이용하기 위한 class
     * @version 0.1
     *
-    * sqlite handling class
+    * sqlite handling class (sqlite ver 2.x)
     **/
 
-    class DBSqlite3 extends DB {
+    class DBSqlite2 extends DB {
 
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
@@ -32,7 +32,7 @@
         /**
          * @brief constructor
          **/
-        function DBSqlite3() {
+        function DBSqlite2() {
             $this->_setDBInfo();
             $this->_connect();
         }
