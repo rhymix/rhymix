@@ -2,16 +2,17 @@
     /**
     * @class DBMysqli
     * @author zero (zero@nzeo.com)
-    * @brief MySQL DBMS를 이용하기 위한 class
+    * @brief MySQLi DBMS를 이용하기 위한 class
     * @version 0.1
+    * @todo mysqli 미구현 (mysql과 같은 처리..)
     *
-    * mysql handling class
+    * mysqli의 prepare, bind param등을 사용하려고 만들었으나....
+    * 문제는 bind_param 시에 mixed var를 eval이 아닌 방법으로 구현할 방법을 찾지 못했음.
     **/
 
     class DBMysqli extends DB {
 
         var $handler = null;
-        var $stmt = null;
 
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
@@ -110,7 +111,6 @@
 
             if($this->handler->error) {
                 $this->setError($this->handler->errno, $this->handler->error);
-                $this->stmt = null;
                 return;
             }
 
@@ -136,7 +136,7 @@
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
             $this->_query($query);
-            return mysql_insert_id();
+            return $this->handler->insert_id;
         }
 
         /**

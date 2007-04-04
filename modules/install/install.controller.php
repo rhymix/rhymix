@@ -36,8 +36,7 @@
             if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
 
             // 모든 모듈의 설치
-            $output = $this->installDownloadedModule();
-            if(!$output->toBool()) return $output;
+            $this->installDownloadedModule();
 
             // config 파일 생성
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
