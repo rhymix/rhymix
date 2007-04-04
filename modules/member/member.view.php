@@ -286,12 +286,23 @@
             $oMemberModel = &getModel('member');
 
             // 그룹 목록을 가져옴
-            $friend_group_list = $oMemberModel->getFriendGroups();
+            $tmp_group_list = $oMemberModel->getFriendGroups();
+            $group_count = count($tmp_group_list);
+            for($i=0;$i<$group_count;$i++) $friend_group_list[$tmp_group_list[$i]->friend_group_srl] = $tmp_group_list[$i];
             Context::set('friend_group_list', $friend_group_list);
 
             // 친구 목록을 가져옴
             $friend_group_srl = Context::get('friend_group_srl');
             $output = $oMemberModel->getFriends($friend_group_srl);
+            $friend_count = count($output->data);
+            if($friend_count) {
+                foreach($output->data as $key => $val) {
+                    $group_srl = $val->friend_group_srl;
+                    $group_title = $friend_group_list[$group_srl]->title;
+                    if(!$group_title) $group_title = Context::get('default_friend_group');
+                    $output->data[$key]->group_title = $group_title;
+                }
+            }
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);

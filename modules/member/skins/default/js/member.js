@@ -89,10 +89,10 @@ function completeSendMessage(ret_obj) {
 }
 
 /* 쪽지 모두 선택 */
-function doCheckAll(obj) {
-    var fo_obj = xGetElementById("fo_message_list");
+function doCheckAll(obj, fo_id) {
+    var fo_obj = xGetElementById(fo_id);
     for(var i=0; i<fo_obj.length; i++) {
-        if(fo_obj[i].type == "checkbox" && fo_obj[i].name == "message_srl_list" ) fo_obj[i].checked = obj.checked;
+        if(fo_obj[i].type == "checkbox" && fo_obj[i] != obj) fo_obj[i].checked = obj.checked;
     }
 }
 
@@ -156,4 +156,10 @@ function completeDeleteFriendGroup(ret_obj) {
 /* 친구 그룹의 이름 변경 */
 function doRenameFriendGroup(friend_group_srl) {
     popopen("./?module=member&act=dispMemberAddFriendGroup&friend_group_srl="+friend_group_srl);
+}
+
+/* 친구 그룹 이동 */
+function doMoveFriend() {
+    var fo_obj = xGetElementById('fo_friend_list');
+    procFilter(fo_obj, move_friend);
 }

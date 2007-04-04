@@ -78,7 +78,7 @@
     $lang->cmd_store = "보관";
     $lang->cmd_add_friend_group = '친구 그룹 추가';
 
-    $lang->msg_cart_is_null = '삭제할 대상을  선택해주세요';
+    $lang->msg_cart_is_null = '대상을  선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
 
     $lang->msg_no_message = '쪽지가 없습니다';

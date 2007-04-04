@@ -1,9 +1,10 @@
 <!--%import("js/member.js")-->
 <!--%import("filter/delete_checked_friend.xml")-->
 <!--%import("filter/delete_friend_group.xml")-->
+<!--%import("filter/move_friend.xml")-->
 
 <div style="width:700px;">
-    <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
+    <form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
 
         <!-- 그룹 목록 -->
         <div style="float:left;width:150px;">
@@ -39,7 +40,9 @@
         <div style="float:left;width:550px;">
             <table border="1" width="100%">
             <tr>
-                <th colspan="2">{$lang->user_id}</th>
+                <th><input type="checkbox" name="check_all" onclick="doCheckAll(this, 'fo_friend_list');"/></th>
+                <th>{$lang->friend_group}</th>
+                <th>{$lang->user_id}</th>
                 <th>{$lang->user_name}</th>
                 <th>{$lang->nick_name}</th>
                 <th>{$lang->cmd_send_message}</th>
@@ -48,6 +51,7 @@
             <!--@foreach($friend_list as $no => $val)-->
             <tr>
                 <td><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /></td>
+                <td><a href="{getUrl('friend_group_srl',$val->friend_group_srl)}">{$val->group_title}</a></td>
                 <td>{$val->user_id}</td>
                 <td>{$val->user_name}</td>
                 <td>{$val->nick_name}</td>
@@ -60,6 +64,13 @@
             <!-- 버튼 -->
             <div style="clear:both">
                 <input type="submit" value="{$lang->cmd_delete}" />
+                <select name="target_friend_group_srl">
+                    <option value="0">{$lang->default_friend_group}</option>
+                    <!--@foreach($friend_group_list as $key => $val)-->
+                    <option value="{$val->friend_group_srl}">{$val->title}</option>
+                    <!--@end-->
+                </select>
+                <input type="button" value="{$lang->cmd_move}" onclick="doMoveFriend();return false;"/>
             </div>
 
             <!-- 페이지 네비게이션 -->
