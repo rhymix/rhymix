@@ -49,12 +49,15 @@
     $lang->db_userid = 'DB 아이디';
     $lang->db_password = 'DB 비밀번호';
     $lang->db_database = 'DB 데이터베이스';
+    $lang->db_database_file = 'DB 데이터베이스 파일';
     $lang->db_table_prefix = '테이블 머릿말';
 
     $lang->admin_title = '관리자정보';
 
     $lang->default_group_1 = "준회원";
     $lang->default_group_2 = "정회원";
+
+    $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다';
 
     $lang->msg_cannot_proc = '설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다';
     $lang->msg_already_installed = '이미 설치가 되어 있습니다';

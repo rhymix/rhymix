@@ -324,7 +324,7 @@
             }
 
             if(count($group_column_list)) {
-                return ' group by '.implode(" , ", $group_column_list);
+                return ' GROUP BY '.implode(" , ", $group_column_list);
             }
         }
 
