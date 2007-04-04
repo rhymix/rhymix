@@ -73,10 +73,17 @@
 
             // 4. 자신의 쪽지함 보기 기능 추가
             $menu_str = Context::getLang('cmd_view_message_box');
-            $menu_link = sprintf('./?module=member&amp;act=dispMemberMessage&amp;receiver_srl=%s',$member_srl);
+            $menu_link = "location.href.setQuery('act','dispMemberMessages')";
 
             // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
-            $menu_list .= sprintf("\n%s,move_url('%s','sendMessage', true)", $menu_str, $menu_link);
+            $menu_list .= sprintf("\n%s,move_url(%s,'sendMessage', true)", $menu_str, $menu_link);
+
+            // 5. 친구 목록 보기
+            $menu_str = Context::getLang('cmd_view_friend');
+            $menu_link = "location.href.setQuery('module','member').setQuery('act','dispMemberFriend')";
+
+            // 메뉴에 새로 만든 쪽지 발송 메뉴를 추가
+            $menu_list .= sprintf("\n%s,popopen(%s,'sendMessage', true)", $menu_str, $menu_link);
 
 
         // 아니라면 쪽지 발송, 친구 등록 추가
