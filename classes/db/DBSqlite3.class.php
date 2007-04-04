@@ -54,6 +54,8 @@
             // db 정보가 없으면 무시
             if(!$this->database) return;
 
+            if(!function_exists('sqlite3_open')) return;
+
             // 데이터 베이스 파일 접속 시도
             $this->fd = sqlite3_open($this->database, 0666, &$error);
             if(!file_exists($this->database) || $error) {
@@ -81,7 +83,7 @@
          **/
         function addQuotes($string) {
             if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = str_replace("'","''", $string);
+            if(!is_numeric($string)) $string = sqlite3_quote("'","''", $string);
             return $string;
         }
 
