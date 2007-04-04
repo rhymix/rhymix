@@ -44,7 +44,6 @@
 
             // 설치 완료 메세지 출력
             $this->setMessage('msg_install_completed');
-            $this->setRedirectUrl('./');
         }
 
         /**

@@ -64,7 +64,7 @@
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
 
             // 접속시도  
-            $this->handler = new mysqli_connect($this->hostname, $this->userid, $this->password, $this->database);
+            $this->handler = new mysqli($this->hostname, $this->userid, $this->password, $this->database);
 
             // 접속체크
             if(mysqli_connect_error()) $this->is_connected = false;
@@ -402,7 +402,7 @@
             }
 
             $virtual_no = $total_count - ($page-1)*$navigation->list_count;
-            while($tmp = mysql_fetch_object($result)) {
+            while($tmp = $result->fetch_object()) {
                 $data[$virtual_no--] = $tmp;
             }
 
