@@ -1,5 +1,4 @@
 <?php
-ob_start();
     /**
      * @file  index.php
      * @author zero (zero@zeroboard.com)
@@ -48,6 +47,4 @@ ob_start();
     $oModuleHandler->init();
     $oModule = &$oModuleHandler->procModule();
     $oModuleHandler->displayContent($oModule);
-debugPrint(ob_get_contents());
-ob_end_flush();
 ?>
