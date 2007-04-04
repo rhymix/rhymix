@@ -5,7 +5,7 @@
     * @brief MySQL DBMS를 이용하기 위한 class
     * @version 0.1
     *
-    * sqlite3 handling class
+    * sqlite handling class
     **/
 
     class DBSqlite3 extends DB {
@@ -14,7 +14,7 @@
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
         /**
-         * @brief sqlite3 에서 사용될 column type
+         * @brief sqlite 에서 사용될 column type
          *
          * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
          * 각 DBMS에 맞게 replace 해주어야 한다
@@ -54,10 +54,8 @@
             // db 정보가 없으면 무시
             if(!$this->database) return;
 
-            if(!function_exists('sqlite3_open')) return;
-
             // 데이터 베이스 파일 접속 시도
-            $this->fd = sqlite3_open($this->database, 0666, &$error);
+            $this->fd = sqlite_open($this->database, 0666, &$error);
             if(!file_exists($this->database) || $error) {
                 //$this->setError(-1,'permission denied to access database');
                 $this->setError(-1,$error);
@@ -75,7 +73,7 @@
         function close() {
             if(!$this->isConnected()) return;
 
-            sqlite3_close($this->fd);
+            sqlite_close($this->fd);
         }
 
         /**
@@ -83,7 +81,7 @@
          **/
         function addQuotes($string) {
             if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = sqlite3_quote("'","''", $string);
+            if(!is_numeric($string)) $string = str_replace("'","''", $string);
             return $string;
         }
 
@@ -102,14 +100,14 @@
             $this->query = $query;
             $this->setError(0,'success');
 
-            @sqlite3_query("BEGIN;", $this->fd);
-            $result = @sqlite3_query($query, $this->fd);
-            if(sqlite3_last_error($this->fd)) {
-                @sqlite3_query("ROLLBACK;", $this->fd);
-                $this->setError(sqlite3_last_error($this->fd), sqlite3_error_string(sqlite3_last_error($this->fd)));
+            @sqlite_query("BEGIN;", $this->fd);
+            $result = @sqlite_query($query, $this->fd);
+            if(sqlite_last_error($this->fd)) {
+                @sqlite_query("ROLLBACK;", $this->fd);
+                $this->setError(sqlite_last_error($this->fd), sqlite_error_string(sqlite_last_error($this->fd)));
                 return;
             } else {
-                @sqlite3_query("COMMIT;", $this->fd);
+                @sqlite_query("COMMIT;", $this->fd);
             }
 
             return $result;
@@ -121,7 +119,7 @@
         function _fetch($result) {
             if($this->errno!=0 || !$result) return;
 
-            while($tmp = sqlite3_fetch_array($result, SQLITE_ASSOC)) {
+            while($tmp = sqlite_fetch_array($result, SQLITE_ASSOC)) {
                 unset($obj);
                 foreach($tmp as $key => $val) $obj->{$key} = $val;
                 $output[] = $obj;
@@ -137,7 +135,7 @@
         function getNextSequence() {
             $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
             $this->_query($query);
-            return sqlite3_last_insert_rowid($this->fd);
+            return sqlite_last_insert_rowid($this->fd);
         }
 
         /**
@@ -146,7 +144,7 @@
         function isTableExists($target_name) {
             $query = sprintf('pragma table_info(%s%s)', $this->prefix, $this->addQuotes($target_name));
             $result = $this->_query($query);
-            if(sqlite3_num_rows($result)==0) return false;
+            if(sqlite_num_rows($result)==0) return false;
             return true;
         }
 
