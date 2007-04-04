@@ -197,15 +197,23 @@
                 $default = $column->attrs->default;
                 $auto_increment = $column->attrs->auto_increment;
 
-                $column_schema[] = sprintf('%s %s%s %s %s %s %s',
-                    $name,
-                    $this->column_type[$type],
-                    $size?'('.$size.')':'',
-                    $notnull?'NOT NULL':'',
-                    $primary_key?'PRIMARY KEY':'',
-                    $default?"DEFAULT '".$default."'":'',
-                    $auto_increment?'AUTOINCREMENT':''
-                );
+                if($auto_increment) {
+                    $column_schema[] = sprintf('%s %s%s',
+                        $name,
+                        $this->column_type[$type],
+                        $auto_increment?'AUTOINCREMENT':''
+                    );
+                } else {
+                    $column_schema[] = sprintf('%s %s%s %s %s %s %s',
+                        $name,
+                        $this->column_type[$type],
+                        $size?'('.$size.')':'',
+                        $notnull?'NOT NULL':'',
+                        $primary_key?'PRIMARY KEY':'',
+                        $default?"DEFAULT '".$default."'":'',
+                        $auto_increment?'AUTOINCREMENT':''
+                    );
+                }
 
                 if($unique) $unique_list[$unique][] = $name;
                 else if($index) $index_list[$index][] = $name;
@@ -407,8 +415,14 @@
             }
 
             $virtual_no = $total_count - ($page-1)*$navigation->list_count;
-            while($tmp = $this->_fetch($result)) {
-                $data[$virtual_no--] = $tmp;
+            $tmp_data = $this->_fetch($result);
+            if($tmp_data) {
+                if(!is_array($tmp_data)) $tmp_data = array($tmp_data);
+                foreach($tmp_data as $tmp) {
+                    $data[$virtual_no--] = $tmp;
+                }
+            } else {
+                $data = null;
             }
 
             $buff = new Object();
