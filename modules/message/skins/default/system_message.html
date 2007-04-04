@@ -1,2 +1,10 @@
 <!--%import("css/message.css")-->
-{$system_message}
+<div>
+    {$system_message}
+</div>
+
+<!--@if(!$is_logged)-->
+<div>
+    <a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
+</div>
+<!--@end-->
