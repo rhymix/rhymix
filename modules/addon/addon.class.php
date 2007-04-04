@@ -22,6 +22,7 @@
             $oAddonController->doActivate('spamfilter');
             $oAddonController->doActivate('message');
             $oAddonController->doActivate('member_extra_info');
+            $oAddonController->procAddonAdminToggleActivate();
             return new Object();
         }
 
