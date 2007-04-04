@@ -3,11 +3,11 @@
 <!--%import("filter/delete_friend_group.xml")-->
 <!--%import("filter/move_friend.xml")-->
 
-<div style="width:700px;">
+<div style="width:800px;">
     <form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
 
         <!-- 그룹 목록 -->
-        <div style="float:left;width:150px;">
+        <div style="float:left;width:250px;">
                 <div>
                     {$lang->friend_group}
                     <a href="#" onclick="popopen('{getUrl('act','dispMemberAddFriendGroup')}');return false;">{$lang->cmd_add_friend_group}</a>

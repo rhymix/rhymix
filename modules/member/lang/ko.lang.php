@@ -35,7 +35,7 @@
     $lang->sender = '보낸이';
     $lang->receiver = '받는이';
     $lang->friend_group = '친구 그룹';
-    $lang->default_friend_group = '기본 그룹';
+    $lang->default_friend_group = '그룹 미지정';
     $lang->member_info = '회원 정보';
 
     $lang->search_target_list = array(
