@@ -2,7 +2,7 @@
     /**
     * @class DBSqlite2
     * @author zero (zero@nzeo.com)
-    * @brief MySQL DBMS를 이용하기 위한 class
+    * @brief SQLite ver 2.x 를 이용하기 위한 class
     * @version 0.1
     *
     * sqlite handling class (sqlite ver 2.x)
