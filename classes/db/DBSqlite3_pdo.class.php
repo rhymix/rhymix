@@ -366,11 +366,9 @@
             foreach($column as $key => $val) {
                 // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
-                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $this->addQuotes($val));
-                else {
-                    if(is_numeric($val)) $update_list[] = sprintf('`%s` = %s', $key, $val);
-                    else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
-                }
+                $val = $this->addQuotes($val);
+                if(is_numeric($val) || in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $val);
+                else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
             }
             if(!count($update_list)) return;
             $update_query = implode(',',$update_list);

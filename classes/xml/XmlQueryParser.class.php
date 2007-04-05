@@ -91,7 +91,7 @@
          * @brief column, condition등의 key에 default 값을 세팅
          **/
         function _getDefaultCode($name, $value) {
-            if(!isset($value)) return;
+            if($value == NULL) return;
             if(substr($value, -1)!=')') return sprintf('if(!$args->%s) $args->%s = \'%s\';'."\n", $name, $name, $value);
 
             $str_pos = strpos($value, '(');
