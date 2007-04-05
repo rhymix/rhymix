@@ -293,12 +293,6 @@ function editorKeyPress(evt) {
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
-            // ctrl+x
-            case 120 :
-                    editorDo('formatblock',"<br>",e.target);
-                    xPreventDefault(evt);
-                    xStopPropagation(evt);
-                break;
             // ie에서 ctrlKey + enter일 경우 P 태그 입력
             case 13 :
                     if(xIE4Up) {
