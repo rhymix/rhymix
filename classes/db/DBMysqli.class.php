@@ -1,14 +1,14 @@
 <?php
     /**
-    * @class DBMysqli
-    * @author zero (zero@nzeo.com)
-    * @brief MySQLi DBMS를 이용하기 위한 class
-    * @version 0.1
-    * @todo mysqli 미구현 (mysql과 같은 처리..)
-    *
-    * mysqli의 prepare, bind param등을 사용하려고 만들었으나....
-    * 문제는 bind_param 시에 mixed var를 eval이 아닌 방법으로 구현할 방법을 찾지 못했음.
-    **/
+     * @class DBMysqli
+     * @author zero (zero@nzeo.com)
+     * @brief MySQLi DBMS를 이용하기 위한 class
+     * @version 0.1
+     * @todo mysqli 미구현 (mysql과 같은 처리..)
+     *
+     * mysqli의 prepare, bind param등을 사용하려고 만들었으나....
+     * 문제는 bind_param 시에 mixed var를 eval이 아닌 방법으로 구현할 방법을 찾지 못했음.
+     **/
 
     class DBMysqli extends DB {
 
@@ -123,6 +123,24 @@
             }
 
             return $result;
+        }
+
+        /**
+         * @brief 트랜잭션 시작
+         **/
+        function begin() {
+        }
+
+        /**
+         * @brief 롤백
+         **/
+        function rollback() {
+        }
+
+        /**
+         * @brief 커밋
+         **/
+        function commit() {
         }
 
         /**

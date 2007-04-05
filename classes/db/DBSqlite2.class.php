@@ -1,12 +1,12 @@
 <?php
     /**
-    * @class DBSqlite2
-    * @author zero (zero@nzeo.com)
-    * @brief SQLite ver 2.x 를 이용하기 위한 class
-    * @version 0.1
-    *
-    * sqlite handling class (sqlite ver 2.x)
-    **/
+     * @class DBSqlite2
+     * @author zero (zero@nzeo.com)
+     * @brief SQLite ver 2.x 를 이용하기 위한 class
+     * @version 0.1
+     *
+     * sqlite handling class (sqlite ver 2.x)
+     **/
 
     class DBSqlite2 extends DB {
 
@@ -76,6 +76,33 @@
         }
 
         /**
+         * @brief 트랜잭션 시작
+         **/
+        function begin() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            if($this->_query("BEGIN;")) $this->transaction_started = true;
+        }
+
+        /**
+         * @brief 롤백
+         **/
+        function rollback() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            $this->_query("ROLLBACK;");
+            $this->transaction_started = false;
+        }
+
+        /**
+         * @brief 커밋
+         **/
+        function commit() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            $this->_query("COMMIT;");
+            $this->transaction_started = false;
+        }
+
+
+        /**
          * @brief DB접속 해제
          **/
         function close() {
@@ -103,22 +130,19 @@
          *         return\n
          **/
         function _query($query) {
-            if(!$this->isConnected()) return;
+            if(!$this->isConnected()) return false;
 
             $this->query = $query;
             $this->setError(0,'success');
 
-            @sqlite_query("BEGIN;", $this->fd);
             $result = @sqlite_query($query, $this->fd);
             if(sqlite_last_error($this->fd)) {
-                @sqlite_query("ROLLBACK;", $this->fd);
                 $this->setError(sqlite_last_error($this->fd), sqlite_error_string(sqlite_last_error($this->fd)));
-                return;
-            } else {
-                @sqlite_query("COMMIT;", $this->fd);
-            }
+                return false;
+            } 
 
-            return $result;
+            if($result) return $result;
+            return true;
         }
 
         /**
@@ -210,7 +234,7 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 if($auto_increment) {
-                    $column_schema[] = sprintf('%s %s%s',
+                    $column_schema[] = sprintf('%s %s %s',
                         $name,
                         $this->column_type[$type],
                         $auto_increment?'AUTOINCREMENT':''
@@ -232,25 +256,21 @@
             }
 
             $schema = sprintf('CREATE TABLE %s (%s%s) ;', $this->addQuotes($table_name)," ", implode($column_schema,", "));
-            $output = $this->_query($schema);
-            if(!$output) return false;
+            $this->_query($schema);
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
                     $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $output = $this->_query($schema);
-                    if(!$output) return false;
+                    $this->_query($schema);
                 }
             }
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
                     $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $output = $this->_query($schema);
-                    if(!$output) return false;
+                    $this->_query($schema);
                 }
             }
-
         }
 
         /**
@@ -301,6 +321,7 @@
             }
 
             $query = sprintf("INSERT INTO %s%s (%s) VALUES (%s);", $this->prefix, $table, implode(',',$key_list), implode(',', $val_list));
+
             return $this->_query($query);
         }
 

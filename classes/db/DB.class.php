@@ -1,17 +1,17 @@
 <?php
     /**
-    * @class DB
-    * @author zero (zero@nzeo.com)
-    * @brief  DB*의 상위 클래스
-    * @version 0.1
-    *
-    * 제로보드의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
-    * xml의 종류에는 query xml, schema xml이 있다.
-    * query xml의 경우 DB::executeQuery() method를 이용하여 xml파일을 php code로 compile한 후에 실행이 된다.
-    * query xml은 고유한 query id를 가지며 생성은 module에서 이루어진다.
-    *
-    * queryid = 모듈.쿼리명
-    **/
+     * @class DB
+     * @author zero (zero@nzeo.com)
+     * @brief  DB*의 상위 클래스
+     * @version 0.1
+     *
+     * 제로보드의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
+     * xml의 종류에는 query xml, schema xml이 있다.
+     * query xml의 경우 DB::executeQuery() method를 이용하여 xml파일을 php code로 compile한 후에 실행이 된다.
+     * query xml은 고유한 query id를 가지며 생성은 module에서 이루어진다.
+     *
+     * queryid = 모듈.쿼리명
+     **/
 
     class DB {
 
@@ -22,6 +22,8 @@
         var $errno = 0; ///< 에러 발생시 에러 코드 (0이면 에러가 없다고 정의)
         var $errstr = ''; ///< 에러 발생시 에러 메세지
         var $query = ''; ///< 가장 최근에 수행된 query string
+
+        var $transaction_started = false;
 
         var $is_connected = false; ///< DB에 접속이 되었는지에 대한 flag
 
@@ -83,7 +85,6 @@
                 if(!$oDB || !$oDB->isSupported()) continue;
 
                 $this->supported_list[] = $db_type;
-                
             }
 
             return $this->supported_list;

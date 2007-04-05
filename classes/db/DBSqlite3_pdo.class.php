@@ -1,45 +1,37 @@
 <?php
     /**
-    * @class DBMysqli
-    * @author zero (zero@nzeo.com)
-    * @brief MySQLi DBMS를 이용하기 위한 class
-    * @version 0.1
-    * @todo mysqli 미구현 (mysql과 같은 처리..)
-    *
-    * mysqli의 prepare, bind param등을 사용하려고 만들었으나....
-    * 문제는 bind_param 시에 mixed var를 eval이 아닌 방법으로 구현할 방법을 찾지 못했음.
-    **/
+     * @class DBSqlite3_pdo
+     * @author zero (zero@nzeo.com)
+     * @brief SQLite3를 PDO로 이용하여 class
+     * @version 0.1
+     **/
 
-    class DBMysqli extends DB {
+    class DBSqlite3_pdo extends DB {
 
-        var $handler = null;
-
-        var $hostname = '127.0.0.1'; ///< hostname
-        var $userid   = NULL; ///< user id
-        var $password   = NULL; ///< password
+        var $handler = NULL;
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
         /**
-         * @brief mysql에서 사용될 column type
+         * @brief sqlite3 에서 사용될 column type
          *
          * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
          * 각 DBMS에 맞게 replace 해주어야 한다
          **/
         var $column_type = array(
-            'bignumber' => 'bigint',
-            'number' => 'bigint',
-            'varchar' => 'varchar',
-            'char' => 'char',
-            'text' => 'text',
-            'bigtext' => 'longtext',
-            'date' => 'varchar(14)',
+            'bignumber' => 'INTEGER',
+            'number' => 'INTEGER',
+            'varchar' => 'VARHAR',
+            'char' => 'CHAR',
+            'text' => 'TEXT',
+            'bigtext' => 'TEXT',
+            'date' => 'VARCHAR(14)',
         );
 
         /**
          * @brief constructor
          **/
-        function DBMysqli() {
+        function DBSqlite3_pdo() {
             $this->_setDBInfo();
             $this->_connect();
         }
@@ -48,7 +40,7 @@
          * @brief 설치 가능 여부를 return
          **/
         function isSupported() {
-            if(!function_exists('mysqli_connect') || mysqli_get_client_info() < "4.1.00") return false;
+            if(!class_exists('PDO')) return false;
             return true;
         }
 
@@ -57,9 +49,6 @@
          **/
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
-            $this->hostname = $db_info->db_hostname;
-            $this->userid   = $db_info->db_userid;
-            $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;
             $this->prefix = $db_info->db_table_prefix;
             if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
@@ -70,25 +59,54 @@
          **/
         function _connect() {
             // db 정보가 없으면 무시
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+            if(!$this->database) return;
 
-            // 접속시도  
-            $this->handler = new mysqli($this->hostname, $this->userid, $this->password, $this->database);
+            // 데이터 베이스 파일 접속 시도
+            $this->handler = new PDO('sqlite:'.$this->database);
+
+            if(!file_exists($this->database) || $error) {
+                $this->setError(-1,'permission denied to access database');
+                //$this->setError(-1,$error);
+                $this->is_connected = false;
+                return;
+            }
 
             // 접속체크
-            if(mysqli_connect_error()) $this->is_connected = false;
-            else $this->is_connected = true;
-
-            // mysql의 경우 utf8임을 지정
-            $this->handler->query("SET NAMES 'utf8'");
+            $this->is_connected = true;
         }
+
+        /**
+         * @brief 트랜잭션 시작
+         **/
+        function begin() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            if($this->handler->beginTransaction()) $this->transaction_started = true;
+        }
+
+        /**
+         * @brief 롤백
+         **/
+        function rollback() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            $this->handler->rollBack();
+            $this->transaction_started = false;
+        }
+
+        /**
+         * @brief 커밋
+         **/
+        function commit() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            $this->handler->commit();
+            $this->transaction_started = false;
+        }
+
 
         /**
          * @brief DB접속 해제
          **/
         function close() {
             if(!$this->isConnected()) return;
-            $this->handler->close();
         }
 
         /**
@@ -96,7 +114,7 @@
          **/
         function addQuotes($string) {
             if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = $this->handler->real_escape_string($string);
+            if(!is_numeric($string)) $string = $this->handler->quote("'","''", $string);
             return $string;
         }
 
@@ -111,17 +129,16 @@
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
-            $this->query = $query;
 
+            $this->query = $query;
             $this->setError(0,'success');
 
-            $result = $this->handler->query($query);
-
-            if($this->handler->error) {
-                $this->setError($this->handler->errno, $this->handler->error);
+            try {
+                $result = $this->handler->query($query);
+            } catch (PDOException $e) {
+                $this->setError($e->getCode(), $e->getMessage());
                 return;
             }
-
             return $result;
         }
 
@@ -131,30 +148,36 @@
         function _fetch($result) {
             if($this->errno!=0 || !$result) return;
 
-            while($tmp = $result->fetch_object()) {
-                $output[] = $tmp;
+            foreach($result as $tmp) {
+                unset($obj);
+                foreach($tmp as $key => $val) {
+                    $pos = strpos($key, '.');
+                    if($pos) $key = substr($key, $pos+1);
+                    $obj->{$key} = $val;
+                }
+                $output[] = $obj;
             }
+
             if(count($output)==1) return $output[0];
             return $output;
         }
 
         /**
-         * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
+         * @brief 1씩 증가되는 sequence값을 return
          **/
         function getNextSequence() {
-            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
-            $this->_query($query);
-            return $this->handler->insert_id;
+            $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
+            $this->handler->query($query);
+            return $this->handler->lastInsertId();
         }
 
         /**
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
-            $result = $this->_query($query);
-            $tmp = $this->_fetch($result);
-            if(!$tmp) return false;
+            $query = sprintf('pragma table_info(%s%s)', $this->prefix, $this->addQuotes($target_name));
+            $result = $this->handler->query($query);
+            if(count($result)==0) return false;
             return true;
         }
 
@@ -198,7 +221,8 @@
             foreach($columns as $column) {
                 $name = $column->attrs->name;
                 $type = $column->attrs->type;
-                $size = $column->attrs->size;
+                if(strtoupper($this->column_type[$type])=='INTEGER') $size = '';
+                else $size = $column->attrs->size;
                 $notnull = $column->attrs->notnull;
                 $primary_key = $column->attrs->primary_key;
                 $index = $column->attrs->index;
@@ -206,47 +230,55 @@
                 $default = $column->attrs->default;
                 $auto_increment = $column->attrs->auto_increment;
 
-                $column_schema[] = sprintf('`%s` %s%s %s %s %s',
-                $name,
-                $this->column_type[$type],
-                $size?'('.$size.')':'',
-                $default?"default '".$default."'":'',
-                $notnull?'not null':'',
-                $auto_increment?'auto_increment':''
-                );
+                if($auto_increment) {
+                    $column_schema[] = sprintf('%s %s PRIMARY KEY %s',
+                        $name,
+                        $this->column_type[$type],
+                        $auto_increment?'AUTOINCREMENT':''
+                    );
+                } else {
+                    $column_schema[] = sprintf('%s %s%s %s %s %s %s',
+                        $name,
+                        $this->column_type[$type],
+                        $size?'('.$size.')':'',
+                        $notnull?'NOT NULL':'',
+                        $primary_key?'PRIMARY KEY':'',
+                        $default?"DEFAULT '".$default."'":'',
+                        $auto_increment?'AUTOINCREMENT':''
+                    );
+                }
 
-                if($primary_key) $primary_list[] = $name;
-                else if($unique) $unique_list[$unique][] = $name;
+                if($unique) $unique_list[$unique][] = $name;
                 else if($index) $index_list[$index][] = $name;
             }
 
-            if(count($primary_list)) {
-                $column_schema[] = sprintf("primary key (%s)", '`'.implode($primary_list,'`,`').'`');
+            $schema = sprintf('CREATE TABLE %s (%s%s) ;', $this->addQuotes($table_name)," ", implode($column_schema,", "));
+            $output = $this->_query($schema);
+            if(!$output) return false;
+
+            if(count($unique_list)) {
+                foreach($unique_list as $key => $val) {
+                    $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
+                    $output = $this->_query($schema);
+                    if(!$output) return false;
+                }
             }
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
-                    $column_schema[] = sprintf("unique %s (%s)", $key, '`'.implode($val,'`,`').'`');
+                    $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
+                    $output = $this->_query($schema);
+                    if(!$output) return false;
                 }
             }
 
-            if(count($index_list)) {
-                foreach($index_list as $key => $val) {
-                    $column_schema[] = sprintf("index %s (%s)", $key, '`'.implode($val,'`,`').'`');
-                }
-            }
-
-            $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "ENGINE = MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci");
-
-            $output = $this->_query($schema);
-            if(!$output) return false;
         }
 
         /**
          * @brief 테이블 삭제
          **/
         function dropTable($target_name) {
-            $query = sprintf('drop table `%s%s`;', $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf('DROP TABLE %s%s;', $this->prefix, $this->addQuotes($target_name));
             $this->_query($query);
         }
 
@@ -254,7 +286,7 @@
          * @brief 테이블의 이름 변경
          **/
         function renameTable($source_name, $targe_name) {
-            $query = sprintf("alter table `%s%s` rename `%s%s`;", $this->prefix, $this->addQuotes($source_name), $this->prefix, $this->addQuotes($targe_name));
+            $query = sprintf("ALTER TABLE %s%s RENAME TO %s%s;", $this->prefix, $this->addQuotes($source_name), $this->prefix, $this->addQuotes($targe_name));
             $this->_query($query);
         }
 
@@ -262,7 +294,7 @@
          * @brief 테이블을 비움
          **/
         function truncateTable($target_name) {
-            $query = sprintf("truncate table `%s%s`;", $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf("VACUUM %s%s;", $this->prefix, $this->addQuotes($target_name));
             $this->_query($query);
         }
 
@@ -282,12 +314,16 @@
 
             foreach($column as $key => $val) {
                 $key_list[] = $key;
-                if(in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
-                else $val_list[] = '\''.$this->addQuotes($val).'\'';
+                $val_list[] = $this->addQuotes($val);
+                $prepare_list[] = '?';
             }
 
-            $query = sprintf("insert into `%s%s` (%s) values (%s);", $this->prefix, $table, '`'.implode('`,`',$key_list).'`', implode(',', $val_list));
-            return $this->_query($query);
+            $query = sprintf("INSERT INTO %s%s (%s) VALUES (%s);", $this->prefix, $table, implode(',',$prepare_list));
+            $stmt = $this->handler->prepare($query);
+
+            $val_count = count($val_list);
+            for($i=0;$i<$val_count;$i++) $stmt->bindParam($i+1, $val_list[$i]);
+            return $stmt->execute();
         }
 
         /**
@@ -299,17 +335,22 @@
             foreach($column as $key => $val) {
                 // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
-                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $this->addQuotes($val));
-                else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
+
+                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('%s = ?', $key, $this->addQuotes($val));
+                $val_list[] = $this->addQuotes($val);
+                }
             }
             if(!count($update_list)) return;
+
             $update_query = implode(',',$update_list);
+            if($condition) $condition = ' WHERE '.$condition;
+            $query = sprintf("UPDATE %s%s SET %s %s;", $this->prefix, $table, $update_query, $condition);
 
-            if($condition) $condition = ' where '.$condition;
+            $stmt = $this->handler->prepare($query);
 
-            $query = sprintf("update `%s%s` set %s %s;", $this->prefix, $table, $update_query, $condition);
-
-            return $this->_query($query);
+            $val_count = count($val_list);
+            for($i=0;$i<$val_count;$i++) $stmt->bindParam($i+1, $val_list[$i]);
+            return $stmt->execute();
         }
 
         /**
@@ -318,9 +359,9 @@
         function _executeDeleteAct($tables, $condition, $pass_quotes) {
             $table = array_pop($tables);
 
-            if($condition) $condition = ' where '.$condition;
+            if($condition) $condition = ' WHERE '.$condition;
 
-            $query = sprintf("delete from `%s%s` %s;", $this->prefix, $table, $condition);
+            $query = sprintf("DELETE FROM %s%s %s;", $this->prefix, $table, $condition);
             return $this->_query($query);
         }
 
@@ -345,11 +386,11 @@
                 $columns = implode(',', $column_list);
             }
 
-            if($condition) $condition = ' where '.$condition;
+            if($condition) $condition = ' WHERE '.$condition;
 
             if($navigation->list_count) return $this->_getNavigationData($table, $columns, $condition, $navigation);
 
-            $query = sprintf("select %s from %s %s", $columns, $table, $condition);
+            $query = sprintf("SELECT %s FROM %s %s", $columns, $table, $condition);
 
             $query .= ' '.$group_script;
 
@@ -357,7 +398,7 @@
                 foreach($navigation->index as $index_obj) {
                     $index_list[] = sprintf('%s %s', $index_obj[0], $index_obj[1]);
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $query .= ' ORDER BY '.implode(',',$index_list);
             }
 
             $result = $this->_query($query);
@@ -396,7 +437,7 @@
             }
 
             $index = implode(',',$index_list);
-            $query = sprintf('select %s from %s %s order by %s limit %d, %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
+            $query = sprintf('SELECT %s FROM %s %s ORDER BY %s LIMIT %d, %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
             $result = $this->_query($query);
             if($this->errno!=0) {
                 $buff = new Object();
@@ -410,8 +451,14 @@
             }
 
             $virtual_no = $total_count - ($page-1)*$navigation->list_count;
-            while($tmp = $result->fetch_object()) {
-                $data[$virtual_no--] = $tmp;
+            $tmp_data = $this->_fetch($result);
+            if($tmp_data) {
+                if(!is_array($tmp_data)) $tmp_data = array($tmp_data);
+                foreach($tmp_data as $tmp) {
+                    $data[$virtual_no--] = $tmp;
+                }
+            } else {
+                $data = null;
             }
 
             $buff = new Object();
