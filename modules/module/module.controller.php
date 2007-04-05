@@ -87,6 +87,10 @@
          * @brief 모듈 입력
          **/
         function insertModule($args) {
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // module model 객체 생성
             $oModuleModel = &getModel('module');
 
@@ -99,7 +103,13 @@
             $args->module_srl = getNextSequence();
             $args->skin_vars = serialize($skin_vars);
             $output = executeQuery('module.insertModule', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
 
             $output->add('module_srl',$args->module_srl);
             return $output;
@@ -161,6 +171,11 @@
          * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
          **/
         function deleteModule($module_srl) {
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             $args->module_srl = $module_srl;
 
             // addon 삭제
@@ -170,34 +185,59 @@
             // document 삭제
             $oDocumentController = &getController('document');
             $output = $oDocumentController->deleteModuleDocument($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // category 삭제
             $output = $oDocumentController->deleteModuleCategory($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // trackbacks 삭제
             $oTrackbackController = &getController('trackback');
             $output = $oTrackbackController->deleteModuleTrackbacks($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // comments 삭제
             $oCommentController = &getController('comment');
             $output = $oCommentController->deleteModuleComments($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // tags 삭제
             $oTagController = &getController('tag');
             $output = $oTagController->deleteModuleTags($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 첨부 파일 삭제
             $oFileController = &getController('file');
             $output = $oFileController->deleteModuleFiles($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // module 정보를 DB에서 삭제
             $output = executeQuery('module.deleteModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
 
             return $output;
         }

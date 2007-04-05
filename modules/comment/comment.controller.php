@@ -49,6 +49,7 @@
          * @brief 댓글 입력
          **/
         function insertComment($obj) {
+
             // document_srl에 해당하는 글이 있는지 확인
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object(-1,'msg_invalid_document');
@@ -75,6 +76,10 @@
                 $obj->homepage = $logged_info->homepage;
             }
 
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // file의 Model객체 생성
             $oFileModel = &getModel('file');
 
@@ -85,7 +90,10 @@
             $output = executeQuery('comment.insertComment', $obj);
 
             // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // comment model객체 생성
             $oCommentModel = &getModel('comment');
@@ -101,6 +109,9 @@
 
             // 댓글의 권한을 부여
             $this->addGrant($obj->comment_srl);
+
+            // commit
+            $oDB->commit();
 
             $output->add('comment_srl', $obj->comment_srl);
             return $output;
@@ -148,8 +159,19 @@
             // 첨부 파일의 갯수를 구함
             $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
 
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 업데이트
             $output = executeQuery('comment.updateComment', $obj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
 
             $output->add('comment_srl', $obj->comment_srl);
             return $output;
@@ -174,10 +196,17 @@
             // 권한이 있는지 확인
             if(!$is_admin && !$comment->is_granted) return new Object(-1, 'msg_not_permitted');
 
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 삭제
             $args->comment_srl = $comment_srl;
             $output = executeQuery('comment.deleteComment', $args);
-            if(!$output->toBool()) return new Object(-1, 'msg_error_occured');
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 첨부 파일 삭제
             if($comment->uploaded_count) {
@@ -193,6 +222,13 @@
 
             // 해당글의 댓글 수를 업데이트
             $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
 
             $output->add('document_srl', $document_srl);
             return $output;

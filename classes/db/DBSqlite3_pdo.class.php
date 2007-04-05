@@ -93,7 +93,7 @@
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->is_connected || $this->transaction_started) return;
+            if(!$this->is_connected || !$this->transaction_started) return;
             $this->handler->rollBack();
             $this->transaction_started = false;
         }
@@ -102,7 +102,7 @@
          * @brief 커밋
          **/
         function commit() {
-            if(!$this->is_connected || $this->transaction_started) return;
+            if(!$this->is_connected || !$this->transaction_started) return;
             $this->handler->commit();
             $this->transaction_started = false;
         }

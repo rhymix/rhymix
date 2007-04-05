@@ -47,6 +47,11 @@
          * @brief 문서 입력
          **/
         function insertDocument($obj) {
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
@@ -97,7 +102,10 @@
             // DB에 입력
             $output = executeQuery('document.insertDocument', $obj);
 
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($obj->category_srl) $this->updateCategoryCount($obj->category_srl);
@@ -112,6 +120,9 @@
                 $oFileController->setFilesValid($obj->document_srl);
             }
 
+            // commit
+            $oDB->commit();
+
             // return
             $this->addGrant($obj->document_srl);
             $output->add('document_srl',$obj->document_srl);
@@ -123,6 +134,11 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
@@ -186,7 +202,11 @@
 
             // DB에 입력
             $output = executeQuery('document.updateDocument', $obj);
-            if(!$output->toBool()) return $output;
+
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($source_obj->category_srl!=$obj->category_srl) {
@@ -204,6 +224,9 @@
             $oEditorController = &getController('editor');
             $oEditorController->deleteSavedDoc();
 
+            // commit
+            $oDB->commit();
+
             $output->add('document_srl',$obj->document_srl);
             return $output;
         }
@@ -212,6 +235,10 @@
          * @brief 문서 삭제
          **/
         function deleteDocument($document_srl, $is_admin = false) {
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
 
             // document의 model 객체 생성
             $oDocumentModel = &getModel('document');
@@ -226,7 +253,10 @@
             // 글 삭제
             $args->document_srl = $document_srl;
             $output = executeQuery('document.deleteDocument', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 댓글 삭제
             $oCommentController = &getController('comment');
@@ -248,6 +278,9 @@
 
             // 카테고리가 있으면 카테고리 정보 변경
             if($document->category_srl) $this->updateCategoryCount($document->category_srl);
+
+            // commit
+            $oDB->commit();
 
             return $output;
         }
