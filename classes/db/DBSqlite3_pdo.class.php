@@ -366,21 +366,18 @@
             foreach($column as $key => $val) {
                 // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
-
-                $update_list[] = sprintf('%s = ?', $key);
-                $val_list[] = $this->addQuotes($val);
+                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $this->addQuotes($val));
+                else {
+                    if(is_numeric($val)) $update_list[] = sprintf('`%s` = %s', $key, $val);
+                    else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
+                }
             }
             if(!count($update_list)) return;
-
             $update_query = implode(',',$update_list);
-            if($condition) $condition = ' WHERE '.$condition;
-            $query = sprintf("UPDATE %s%s SET %s %s;", $this->prefix, $table, $update_query, $condition);
+            if($condition) $condition = ' where '.$condition;
+            $query = sprintf("update `%s%s` set %s %s;", $this->prefix, $table, $update_query, $condition);
 
             $this->_prepare($query);
-
-            $val_count = count($val_list);
-            for($i=0;$i<$val_count;$i++) $this->_bind($val_list[$i]);
-
             $this->_execute();
             return $this->isError();
         }
