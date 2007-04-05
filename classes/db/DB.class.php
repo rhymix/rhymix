@@ -63,12 +63,10 @@
          * @brief 지원 가능한 DB 목록을 return
          **/
         function _getSupportedList() {
-            // ./classes/db 에서 DB.class.php를 제외한 목록을 구함
-            if(!count($this->supported_list)) {
-                $db_classes_path = "./classes/db/";
-                $filter = "/^DB([^\.]+)\.class\.php/i";
-                $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
-            }
+            $db_classes_path = "./classes/db/";
+            $filter = "/^DB([^\.]+)\.class\.php/i";
+            $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
+            sort($supported_list);
 
             // 구해진 클래스의 객체 생성후 isSupported method를 통해 지원 여부를 판단
             for($i=0;$i<count($supported_list);$i++) {
