@@ -250,35 +250,55 @@ function editorKeyPress(evt) {
         return;
     }
 
-    // alt-S 클릭시 submit하기
-    if(e.altKey) {
-        switch(e.keyCode) {
-            case 115 :
-                    var obj = e.target;
-                    var body_obj = obj.firstChild.nextSibling;
-                    if(!body_obj) return;
+    // ctrl-S, alt-S 클릭시 submit하기
+    if( e.keyCode == 115 && (e.altKey || e.ctrlKey) ) {
+        var obj = e.target;
+        var body_obj = obj.firstChild.nextSibling;
+        if(!body_obj) return;
 
-                    var upload_target_srl = body_obj.getAttribute("upload_target_srl");
-                    if(!upload_target_srl) return;
+        var upload_target_srl = body_obj.getAttribute("upload_target_srl");
+        if(!upload_target_srl) return;
 
-                    var iframe_obj = editorGetIFrame(upload_target_srl);
-                    if(!iframe_obj) return;
+        var iframe_obj = editorGetIFrame(upload_target_srl);
+        if(!iframe_obj) return;
 
-                    var fo_obj = iframe_obj.parentNode;
-                    while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-                    if(fo_obj.onsubmit) fo_obj.onsubmit();
+        var fo_obj = iframe_obj.parentNode;
+        while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+        if(fo_obj.onsubmit) fo_obj.onsubmit();
 
-                    evt.cancelBubble = true;
-                    evt.returnValue = false;
-                    return;
-                break;
-        } 
+        evt.cancelBubble = true;
+        evt.returnValue = false;
+        xPreventDefault(evt);
+        xStopPropagation(evt);
         return;
     }
 
     // ctrl-b, i, u, s 키에 대한 처리 (파이어폭스에서도 에디터 상태에서 단축키 쓰도록)
     if (e.ctrlKey) {
         switch(e.keyCode) {
+            // ctrl+1~6
+            case 49 :
+            case 50 :
+            case 51 :
+            case 52 :
+            case 53 :
+            case 54 :
+                    editorDo('formatblock',"<H"+(e.keyCode-48)+">",e.target);
+                    xPreventDefault(evt);
+                    xStopPropagation(evt);
+                break;
+            // ctrl+7
+            case 55 :
+                    editorDo('formatblock',"<P>",e.target);
+                    xPreventDefault(evt);
+                    xStopPropagation(evt);
+                break;
+            // ctrl+x
+            case 120 :
+                    editorDo('formatblock',"<br>",e.target);
+                    xPreventDefault(evt);
+                    xStopPropagation(evt);
+                break;
             // ie에서 ctrlKey + enter일 경우 P 태그 입력
             case 13 :
                     if(xIE4Up) {
@@ -309,12 +329,14 @@ function editorKeyPress(evt) {
                     xStopPropagation(evt);
                 break;
             // strike
+            /*
             case 83 :
             case 115 :
                     editorDo('StrikeThrough',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
+            */
         }
     }
 }
