@@ -13,7 +13,7 @@
         var $bind_idx = 0;
         var $bind_vars = array();
 
-        var $debugDetail = true;
+        var $debugDetail = false;
 
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
