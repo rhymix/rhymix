@@ -50,7 +50,7 @@
             $layout_info = $oLayoutModel->getLayout($layout_srl);
 
             // 등록된 레이아웃이 없으면 오류 표시
-            if(!$layout_info) return $this->dispContent();
+            if(!$layout_info) return $this->dispLayoutAdminContent();
 
             Context::set('layout_info', $layout_info);
 
