@@ -367,7 +367,7 @@
                 // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
 
-                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('%s = ?', $key, $this->addQuotes($val));
+                $update_list[] = sprintf('%s = ?', $key);
                 $val_list[] = $this->addQuotes($val);
             }
             if(!count($update_list)) return;
