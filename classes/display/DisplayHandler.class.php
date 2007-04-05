@@ -42,6 +42,9 @@
                 Context::set('zbxe_final_content', $zbxe_final_content);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
 
+                // rewrite module을 위한 코드 
+                // $output = preg_replace("/([0-9]+)\?(.*)/",'?\\2',$output);
+
             } else {
                 $output = $content;
             }

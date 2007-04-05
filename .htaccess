@@ -1,6 +1,6 @@
-RewriteEngine On
-RewriteRule ^rss/([[:alnum:]]+)$ ./?mid=$1&act=dispBoardRss [L]
-RewriteRule ^trackback/([[:digit:]]+)$ ./?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
-RewriteRule ^admin ./?module=admin [L]
-RewriteRule ^([[:digit:]]+)$ ./?document_srl=$1 [L]
-RewriteRule ^([[:alnum:]]+)$ ./?mid=$1 [L]
+#RewriteEngine On
+#RewriteRule ^rss/([[:alnum:]]+)$ ./?mid=$1&act=dispBoardRss [L]
+#RewriteRule ^trackback/([[:digit:]]+)$ ./?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
+#RewriteRule ^admin ./?module=admin [L]
+#RewriteRule ^([[:digit:]]+)$ ./?document_srl=$1 [L]
+#RewriteRule ^([[:alnum:]]+)$ ./?mid=$1 [L]
