@@ -54,10 +54,10 @@
 
             // 컨텐츠 출력
             if(Context::getResponseMethod()!="XMLRPC") {
-                //ini_set('zlib.output_compression_level',3);
-                //ob_start('ob_gzhandler');
+                ini_set('zlib.output_compression_level',3);
+                ob_start('ob_gzhandler');
                 print trim($output);
-                //ob_end_flush();
+                ob_end_flush();
             } else {
                 print trim($output);
             }
