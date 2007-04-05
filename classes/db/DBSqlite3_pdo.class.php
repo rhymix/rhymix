@@ -114,7 +114,7 @@
          **/
         function addQuotes($string) {
             if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = $this->handler->quote("'","''", $string);
+            if(!is_numeric($string)) $string = str_replace("'","''", $string);
             return $string;
         }
 
@@ -135,11 +135,11 @@
 
             try {
                 $result = $this->handler->query($query);
+                return $result;
             } catch (PDOException $e) {
                 $this->setError($e->getCode(), $e->getMessage());
-                return;
+                return false;
             }
-            return $result;
         }
 
         /**
@@ -175,9 +175,10 @@
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf('pragma table_info(%s%s)', $this->prefix, $this->addQuotes($target_name));
-            $result = $this->handler->query($query);
-            if(count($result)==0) return false;
+            $query = sprintf('pragma table_info(%s%s)', $this->prefix, $target_name);
+            $stmt = $this->handler->prepare($query);
+            $result = $stmt->execute($query);
+            if(!$result) return false;
             return true;
         }
 
@@ -231,7 +232,7 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 if($auto_increment) {
-                    $column_schema[] = sprintf('%s %s PRIMARY KEY %s',
+                    $column_schema[] = sprintf('%s %s %s',
                         $name,
                         $this->column_type[$type],
                         $auto_increment?'AUTOINCREMENT':''
@@ -252,7 +253,7 @@
                 else if($index) $index_list[$index][] = $name;
             }
 
-            $schema = sprintf('CREATE TABLE %s (%s%s) ;', $this->addQuotes($table_name)," ", implode($column_schema,", "));
+            $schema = sprintf('CREATE TABLE %s (%s%s) ;', $table_name," ", implode($column_schema,", "));
             $output = $this->_query($schema);
             if(!$output) return false;
 
@@ -318,7 +319,7 @@
                 $prepare_list[] = '?';
             }
 
-            $query = sprintf("INSERT INTO %s%s (%s) VALUES (%s);", $this->prefix, $table, implode(',',$prepare_list));
+            $query = sprintf("INSERT INTO %s%s (%s) VALUES (%s);", $this->prefix, $table, implode(',',$key_list), implode(',',$prepare_list));
             $stmt = $this->handler->prepare($query);
 
             $val_count = count($val_list);
@@ -338,7 +339,6 @@
 
                 if(in_array($key, $pass_quotes)) $update_list[] = sprintf('%s = ?', $key, $this->addQuotes($val));
                 $val_list[] = $this->addQuotes($val);
-                }
             }
             if(!count($update_list)) return;
 
