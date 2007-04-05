@@ -38,6 +38,14 @@
         }
 
         /**
+         * @brief 설치 가능 여부를 return
+         **/
+        function isSupported() {
+            if(!function_exists('sqlite_open')) return false;
+            return true;
+        }
+
+        /**
          * @brief DB정보 설정 및 connect/ close
          **/
         function _setDBInfo() {

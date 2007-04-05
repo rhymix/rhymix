@@ -17,7 +17,13 @@
 <!--@foreach($checklist as $key => $val)-->
 <tr>
     <td rowspan="2">{$lang->install_checklist_title[$key]}</td>
-    <td><!--@if($val)-->{$lang->enable}<!--@else-->{$lang->disable}<!--@end--></td>
+    <td>
+        <!--@if($val)-->
+            {$lang->enable}
+        <!--@else-->
+            <span style="font-weight:bold;color:red">{$lang->disable}</span>
+        <!--@end-->
+    </td>
 </tr>
 <tr>
     <td>{$lang->install_checklist_desc[$key]}</td>
@@ -45,6 +51,7 @@
 </form>
 
 <!--@else-->
-<a href="./">{$lang->cmd_install_fix_checklist}</a>
+{$lang->cmd_install_fix_checklist}
+[<a href="./">{$lang->cmd_next}</a>]
 
 <!--@end-->

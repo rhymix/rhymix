@@ -45,6 +45,14 @@
         }
 
         /**
+         * @brief 설치 가능 여부를 return
+         **/
+        function isSupported() {
+            if(!function_exists('mysqli_connect') || mysqli_get_client_info() < "4.1.00") return false;
+            return true;
+        }
+
+        /**
          * @brief DB정보 설정 및 connect/ close
          **/
         function _setDBInfo() {

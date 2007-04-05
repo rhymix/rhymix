@@ -136,9 +136,10 @@
             $new_height = $height;
             if($resize_height>0 && $new_height > $resize_height) $new_height = $resize_height;
 
-
             // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
-            $thumb = imagecreatetruecolor($new_width, $new_height);
+            if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($new_width, $new_height);
+            else $thumb = imagecreate($new_width, $new_height);
+
             switch($type) {
                 case 'gif' : 
                         $source = imagecreatefromgif($source_file);

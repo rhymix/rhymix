@@ -72,11 +72,7 @@
             if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
             else $checklist['gd'] = false;
 
-            // 6. mysql_get_client_info() 체크
-            if(mysql_get_client_info() < "4.1.00") $checklist['mysql'] = false;
-            else $checklist['mysql'] = true;
-
-            if(!$checklist['permission'] || !$checklist['xml'] || !$checklist['session']) $install_enable = false;
+            if(!$checklist['permission'] || !$checklist['xml'] || !$checklist['session'] || !$checklist['gd']) $install_enable = false;
             else $install_enable = true;
 
             // 체크 결과를 Context에 저장

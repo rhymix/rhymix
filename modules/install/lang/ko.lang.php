@@ -18,7 +18,6 @@
             'iconv' => 'ICONV 라이브러리',
             'gd' => 'GD 라이브러리',
             'session' => 'Session.auto_start 설정',
-            'mysql' => 'MySQL 버전',
         );
 
     $lang->install_checklist_desc = array(
@@ -27,7 +26,6 @@
             'session' => '[필수] 제로보드에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다',
             'iconv' => 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다',
             'gd' => '이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다',
-            'mysql' => 'UTF-8 언어셋 사용을 위해 mysql버전이 4.1 이상이어야 합니다',
         );
 
     $lang->install_checklist_xml = 'XML라이브러리 설치';
@@ -36,11 +34,10 @@
     $lang->install_without_gd  = '이미지 변환을 위한 gd 라이브러리가 설치되어 있지 않습니다';
     $lang->install_checklist_gd = 'GD라이브러리 설치';
     $lang->install_without_iconv = '문자열을 처리하기 위한 iconv 라이브러리가 설치되어 있지 않습니다';
-    $lang->install_mysql_version = 'mysql client version이 4.1 이하라서 문제가 발생할 수 있습니다';
     $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다';
     $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다';
 
-    $lang->cmd_install_fix_checklist = '필수 조건을 만족시켰습니다.';
+    $lang->cmd_install_fix_checklist = '필수 조건을 설정후 다음 버튼을 눌러 주세요.';
     $lang->cmd_install_next = '설치를 진행합니다';
 
     $lang->db_title = 'DB정보 입력';
