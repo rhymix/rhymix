@@ -129,7 +129,11 @@
 
             while($tmp = sqlite_fetch_array($result, SQLITE_ASSOC)) {
                 unset($obj);
-                foreach($tmp as $key => $val) $obj->{$key} = $val;
+                foreach($tmp as $key => $val) {
+                    $pos = strpos($key, '.');
+                    if($pos) $key = substr($key, $pos+1);
+                    $obj->{$key} = $val;
+                }
                 $output[] = $obj;
             }
 
