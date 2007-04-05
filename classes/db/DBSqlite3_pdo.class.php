@@ -11,6 +11,9 @@
         var $handler = NULL;
         var $stmt = NULL;
         var $bind_idx = 0;
+        var $bind_vars = array();
+
+        var $debugDetail = true;
 
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
@@ -132,6 +135,7 @@
 
             $this->stmt = $this->handler->prepare($query);
             $this->bind_idx = 0;
+            $this->bind_vars = array();
         }
 
         /**
@@ -141,6 +145,7 @@
             if(!$this->isConnected() || !$this->stmt) return;
 
             $this->bind_idx ++;
+            $this->bind_vars[] = $val;
             $this->stmt->bindParam($this->bind_idx, $val);
         }
 
@@ -150,12 +155,15 @@
         function _execute() {
             if(!$this->isConnected() || !$this->stmt) return;
 
-            $this->bind_idx = 0;
-
             $this->stmt->execute();
 
-            if($this->stmt->errorCode() != '00000') {
-                $this->setError($this->stmt->errorCode(),$this->stmt->errorInfo());
+            if($this->debugDetail && $this->stmt->errorCode()!='00000') debugPrint($this->query."\n".$this->stmt->errorCode()." : ".print_r($this->stmt->errorInfo(),true)."\n".print_r($this->bind_vars,true));
+
+            $this->bind_idx = 0;
+            $this->bind_vars = 0;
+
+            if($this->stmt->errorCode()!='00000') {
+                $this->setError($this->stmt->errorCode(),print_r($this->stmt->errorInfo(),true));
                 $this->stmt = null;
                 return false;
             }
@@ -181,7 +189,7 @@
          * @brief 1씩 증가되는 sequence값을 return
          **/
         function getNextSequence() {
-            $query = sprintf("insert into %ssequence (seq) values ('0')", $this->prefix);
+            $query = sprintf("insert into %ssequence (seq) values (NULL)", $this->prefix);
             $this->_prepare($query);
             $result = $this->_execute();
             return $this->handler->lastInsertId();
@@ -267,25 +275,17 @@
                 else if($index) $index_list[$index][] = $name;
             }
 
-            $this->begin();
-
             $schema = sprintf('CREATE TABLE %s (%s%s) ;', $table_name," ", implode($column_schema,", "));
             $this->_prepare($schema);
             $this->_execute();
-            if($this->isError()) {
-                $this->rollback();
-                return;
-            }
+            if($this->isError()) return;
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
                     $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
                     $this->_prepare($query);
                     $this->_execute();
-                    if($this->isError()) {
-                        $this->rollback();
-                        return;
-                    }
+                    if($this->isError()) $this->rollback();
                 }
             }
 
@@ -294,14 +294,9 @@
                     $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
                     $this->_prepare($query);
                     $this->_execute();
-                    if($this->isError()) {
-                        $this->rollback();
-                        return;
-                    }
+                    if($this->isError()) $this->rollback();
                 }
             }
-
-            $this->commit();
         }
 
         /**
