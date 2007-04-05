@@ -9,6 +9,9 @@
     class DBSqlite3_pdo extends DB {
 
         var $handler = NULL;
+        var $stmt = NULL;
+        var $bind_idx = 0;
+
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
@@ -119,36 +122,46 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
-         *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
-         *         return\n
+         * @brief : 쿼리문의 prepare
          **/
-        function _query($query) {
+        function _prepare($query) {
             if(!$this->isConnected()) return;
 
             $this->query = $query;
             $this->setError(0,'success');
 
-            try {
-                $result = $this->handler->query($query);
-                return $result;
-            } catch (PDOException $e) {
-                $this->setError($e->getCode(), $e->getMessage());
-                return false;
-            }
+            $this->stmt = $this->handler->prepare($query);
+            $this->bind_idx = 0;
         }
 
         /**
-         * @brief 결과를 fetch
+         * @brief : stmt에 binding params
          **/
-        function _fetch($result) {
-            if($this->errno!=0 || !$result) return;
+        function _bind($val) {
+            if(!$this->isConnected() || !$this->stmt) return;
 
-            foreach($result as $tmp) {
+            $this->bind_idx ++;
+            $this->stmt->bindParam($this->bind_idx, $val);
+        }
+
+        /**
+         * @brief : prepare된 쿼리의 execute
+         **/
+        function _execute() {
+            if(!$this->isConnected() || !$this->stmt) return;
+
+            $this->bind_idx = 0;
+
+            $this->stmt->execute();
+
+            if($this->stmt->errorCode() != '00000') {
+                $this->setError($this->stmt->errorCode(),$this->stmt->errorInfo());
+                $this->stmt = null;
+                return false;
+            }
+
+            $output = null;
+            while($tmp = $this->stmt->fetch(PDO::FETCH_ASSOC)) {
                 unset($obj);
                 foreach($tmp as $key => $val) {
                     $pos = strpos($key, '.');
@@ -158,7 +171,9 @@
                 $output[] = $obj;
             }
 
-            if(count($output)==1) return $output[0];
+            $this->stmt = null;
+
+            if(is_array($output) && count($output)==1) return $output[0];
             return $output;
         }
 
@@ -166,8 +181,9 @@
          * @brief 1씩 증가되는 sequence값을 return
          **/
         function getNextSequence() {
-            $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
-            $this->handler->query($query);
+            $query = sprintf("insert into %ssequence (seq) values ('0')", $this->prefix);
+            $this->_prepare($query);
+            $result = $this->_execute();
             return $this->handler->lastInsertId();
         }
 
@@ -176,9 +192,8 @@
          **/
         function isTableExists($target_name) {
             $query = sprintf('pragma table_info(%s%s)', $this->prefix, $target_name);
-            $stmt = $this->handler->prepare($query);
-            $result = $stmt->execute($query);
-            if(!$result) return false;
+            $this->_prepare($query);
+            if(!$this->_execute()) return false;
             return true;
         }
 
@@ -232,20 +247,19 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 if($auto_increment) {
-                    $column_schema[] = sprintf('%s %s %s',
+                    $column_schema[] = sprintf('%s %s PRIMARY KEY %s',
                         $name,
                         $this->column_type[$type],
                         $auto_increment?'AUTOINCREMENT':''
                     );
                 } else {
-                    $column_schema[] = sprintf('%s %s%s %s %s %s %s',
+                    $column_schema[] = sprintf('%s %s%s %s %s %s',
                         $name,
                         $this->column_type[$type],
                         $size?'('.$size.')':'',
                         $notnull?'NOT NULL':'',
                         $primary_key?'PRIMARY KEY':'',
-                        $default?"DEFAULT '".$default."'":'',
-                        $auto_increment?'AUTOINCREMENT':''
+                        $default?"DEFAULT '".$default."'":''
                     );
                 }
 
@@ -253,26 +267,41 @@
                 else if($index) $index_list[$index][] = $name;
             }
 
+            $this->begin();
+
             $schema = sprintf('CREATE TABLE %s (%s%s) ;', $table_name," ", implode($column_schema,", "));
-            $output = $this->_query($schema);
-            if(!$output) return false;
+            $this->_prepare($schema);
+            $this->_execute();
+            if($this->isError()) {
+                $this->rollback();
+                return;
+            }
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
                     $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $output = $this->_query($schema);
-                    if(!$output) return false;
+                    $this->_prepare($query);
+                    $this->_execute();
+                    if($this->isError()) {
+                        $this->rollback();
+                        return;
+                    }
                 }
             }
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
                     $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $output = $this->_query($schema);
-                    if(!$output) return false;
+                    $this->_prepare($query);
+                    $this->_execute();
+                    if($this->isError()) {
+                        $this->rollback();
+                        return;
+                    }
                 }
             }
 
+            $this->commit();
         }
 
         /**
@@ -280,7 +309,8 @@
          **/
         function dropTable($target_name) {
             $query = sprintf('DROP TABLE %s%s;', $this->prefix, $this->addQuotes($target_name));
-            $this->_query($query);
+            $this->_prepare($query);
+            $this->_execute();
         }
 
         /**
@@ -288,7 +318,8 @@
          **/
         function renameTable($source_name, $targe_name) {
             $query = sprintf("ALTER TABLE %s%s RENAME TO %s%s;", $this->prefix, $this->addQuotes($source_name), $this->prefix, $this->addQuotes($targe_name));
-            $this->_query($query);
+            $this->_prepare($query);
+            $this->_execute();
         }
 
         /**
@@ -296,7 +327,8 @@
          **/
         function truncateTable($target_name) {
             $query = sprintf("VACUUM %s%s;", $this->prefix, $this->addQuotes($target_name));
-            $this->_query($query);
+            $this->_prepare($query);
+            $this->_execute();
         }
 
         /**
@@ -320,11 +352,14 @@
             }
 
             $query = sprintf("INSERT INTO %s%s (%s) VALUES (%s);", $this->prefix, $table, implode(',',$key_list), implode(',',$prepare_list));
-            $stmt = $this->handler->prepare($query);
+
+            $this->_prepare($query);
 
             $val_count = count($val_list);
-            for($i=0;$i<$val_count;$i++) $stmt->bindParam($i+1, $val_list[$i]);
-            return $stmt->execute();
+            for($i=0;$i<$val_count;$i++) $this->_bind($val_list[$i]);
+
+            $this->_execute();
+            return $this->isError();
         }
 
         /**
@@ -346,11 +381,13 @@
             if($condition) $condition = ' WHERE '.$condition;
             $query = sprintf("UPDATE %s%s SET %s %s;", $this->prefix, $table, $update_query, $condition);
 
-            $stmt = $this->handler->prepare($query);
+            $this->_prepare($query);
 
             $val_count = count($val_list);
-            for($i=0;$i<$val_count;$i++) $stmt->bindParam($i+1, $val_list[$i]);
-            return $stmt->execute();
+            for($i=0;$i<$val_count;$i++) $this->_bind($val_list[$i]);
+
+            $this->_execute();
+            return $this->isError();
         }
 
         /**
@@ -362,7 +399,10 @@
             if($condition) $condition = ' WHERE '.$condition;
 
             $query = sprintf("DELETE FROM %s%s %s;", $this->prefix, $table, $condition);
-            return $this->_query($query);
+            $this->_prepare($query);
+            $this->_execute();
+
+            return $this->isError();
         }
 
         /**
@@ -401,9 +441,9 @@
                 if(count($index_list)) $query .= ' ORDER BY '.implode(',',$index_list);
             }
 
-            $result = $this->_query($query);
-            if($this->errno!=0) return;
-            $data = $this->_fetch($result);
+            $this->_prepare($query);
+            $data = $this->_execute();
+            if($this->isError()) return;
 
             $buff = new Object();
             $buff->data = $data;
@@ -420,8 +460,8 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s", $table, $condition);
-            $result = $this->_query($count_query);
-            $count_output = $this->_fetch($result);
+            $this->_prepare($count_query);
+            $count_output = $this->_execute();
             $total_count = (int)$count_output->count;
 
             // 전체 페이지를 구함
@@ -438,20 +478,19 @@
 
             $index = implode(',',$index_list);
             $query = sprintf('SELECT %s FROM %s %s ORDER BY %s LIMIT %d, %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
-            $result = $this->_query($query);
-            if($this->errno!=0) {
+            $this->_prepare($query);
+            $tmp_data = $this->_execute();
+            if($this->isError()) {
                 $buff = new Object();
                 $buff->total_count = 0;
                 $buff->total_page = 0;
                 $buff->page = 1;
                 $buff->data = array();
-
                 $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
                 return $buff;
             }
 
             $virtual_no = $total_count - ($page-1)*$navigation->list_count;
-            $tmp_data = $this->_fetch($result);
             if($tmp_data) {
                 if(!is_array($tmp_data)) $tmp_data = array($tmp_data);
                 foreach($tmp_data as $tmp) {

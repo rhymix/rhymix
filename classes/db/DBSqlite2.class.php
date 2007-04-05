@@ -149,7 +149,7 @@
          * @brief 결과를 fetch
          **/
         function _fetch($result) {
-            if($this->errno!=0 || !$result) return;
+            if($this->isError() || !$result) return;
 
             while($tmp = sqlite_fetch_array($result, SQLITE_ASSOC)) {
                 unset($obj);
@@ -399,7 +399,7 @@
             }
 
             $result = $this->_query($query);
-            if($this->errno!=0) return;
+            if($this->isError()) return;
             $data = $this->_fetch($result);
 
             $buff = new Object();
@@ -436,7 +436,7 @@
             $index = implode(',',$index_list);
             $query = sprintf('SELECT %s FROM %s %s ORDER BY %s LIMIT %d, %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
             $result = $this->_query($query);
-            if($this->errno!=0) {
+            if($this->isError()) {
                 $buff = new Object();
                 $buff->total_count = 0;
                 $buff->total_page = 0;
