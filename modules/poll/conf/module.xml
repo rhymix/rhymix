@@ -3,5 +3,6 @@
     <grants />
     <actions>
         <action name="dispPollAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="procInsert" type="controller" standalone="true" />
     </actions>
 </module>

@@ -27,7 +27,9 @@ function completeInsertPoll(ret_obj) {
     var poll_srl = ret_obj["poll_srl"];
     if(!poll_srl) return null;
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll\" class=\"editor_component_output\" style=\"width:100%;\"  />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll\" class=\"editor_component_output\" style=\"width:400px;height:300px;\"  />";
+
+    alert(ret_obj['message']);
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
     opener.editorReplaceHTML(iframe_obj, text);

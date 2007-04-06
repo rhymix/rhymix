@@ -5,6 +5,7 @@
     <columns>
         <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
         <column name="poll_index_srl" var="poll_index_srl" filter="number" notnull="notnull" />
+        <column name="poll_count" var="poll_count" default="0" />
         <column name="title" var="title" notnull="notnull" />
     </columns>
 </query>

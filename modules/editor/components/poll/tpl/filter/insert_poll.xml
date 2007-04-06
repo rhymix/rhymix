@@ -1,4 +1,4 @@
-<filter name="insert_poll" module="editor" act="procEditorCall" confirm_msg_code="confirm_submit">
+<filter name="insert_poll" module="poll" act="procInsert" confirm_msg_code="confirm_submit">
     <form />
     <parameter />
     <response callback_func="completeInsertPoll">

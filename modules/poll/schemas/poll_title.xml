@@ -1,6 +1,7 @@
 <table name="poll_title">
-    <column name="poll_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-    <column name="poll_index_srl" type="number" size="11" notnull="notnull" index="idx_poll_index_srl" />
+    <column name="poll_srl" type="number" size="11" notnull="notnull" index="idx_poll_srl" />
+    <column name="poll_index_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
     <column name="title" type="varchar" size="250" notnull="notnull" />
+    <column name="checkcount" type="number" size="11" notnull="notnull" default="1" />
     <column name="poll_count" type="number" size="11" notnull="notnull" />
 </table>

@@ -248,9 +248,11 @@
                  **/
 
                 // 상위 클래스명 구함
-                $high_class_file = sprintf('%s%s.class.php', $class_path, $module);
-                if(!file_exists($high_class_file)) return NULL;
-                require_once($high_class_file);
+                if(!class_exists($module)) {
+                    $high_class_file = sprintf('%s%s.class.php', $class_path, $module);
+                    if(!file_exists($high_class_file)) return NULL;
+                    require_once($high_class_file);
+                }
 
                 // 객체의 이름을 구함
                 switch($type) {
