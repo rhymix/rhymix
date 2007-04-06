@@ -114,5 +114,61 @@
             $this->setMessage('success_registed');
         }
 
+        /**
+         * @brief 설문 조사에 응함
+         **/
+        function procPoll() {
+            $poll_srl = Context::get('poll_srl'); 
+            $poll_srl_indexes = Context::get('poll_srl_indexes'); 
+            $tmp_item_srls = explode(',',$poll_srl_indexes);
+            for($i=0;$i<count($tmp_item_srls);$i++) {
+                $srl = (int)trim($tmp_item_srls[$i]);
+                if(!$srl) continue;
+                $item_srls[] = $srl;
+            }
+
+            // 응답항목이 없으면 오류
+            if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
+            // 이미 설문하였는지 조사
+            $oPollModel = &getModel('poll');
+            if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 설문 항목 추가
+            $args->poll_srl = $poll_srl;
+
+            $output = executeQuery('poll.updatePoll', $args);
+            $output = executeQuery('poll.updatePollTitle', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $args->poll_item_srl = implode(',',$item_srls);
+            $output = executeQuery('poll.updatePollItems', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 응답자 정보를 로그로 남김
+            $log_args->poll_srl = $poll_srl;
+            $log_args->member_srl = $member_srl;
+            $log_args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            $output = executeQuery('poll.insertPollLog', $log_args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $oDB->commit();
+
+            $this->add('poll_srl', $poll_srl);
+            $this->add('tpl','haha');
+            $this->setMessage('success_poll');
+        }
+
     }
 ?>

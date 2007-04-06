@@ -49,6 +49,17 @@
     padding:5px;
 }
 
+.poll_detail_box .text {
+    margin:5px 0px 5px 20px;
+}
+
+.poll_detail_box .bar {
+    margin:5px 0px 15px 20px;
+    background-color:#444444;
+    height:5px;
+}
+
+
 .poll_button_area {
     text-align:center;
 }

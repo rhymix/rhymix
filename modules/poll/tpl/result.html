@@ -1,1 +1,34 @@
-hihi
+<!--%import("css/poll.css")-->
+
+<div class="poll_box" style="{$poll->style}">
+
+    <div class="poll_title_box">
+        <div class="poll_total_count">
+            {$lang->poll_total_count} : {number_format($poll->poll_count)}
+        </div>
+        <div class="poll_stop_date">
+            {$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")}
+        </div>
+    </div>
+
+        <!--@foreach($poll->poll as $poll_srl_index => $val)-->
+        <div class="poll_detail_box">
+            <div class="title">{$poll_srl_index}. {$val->title} ({$val->poll_count})</div>
+            <!--@foreach($val->item as $item_srl => $item)-->
+                {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
+
+                <div class="text">
+                        {$item->title} : {$item->poll_count} ({$per}%)
+                </div>
+                <!--@if($per)-->
+                    <div class="bar" style="width:{$per}%;"></div>
+                <!--@else-->
+                    <div class="bar" style="width:2px;"></div>
+                <!--@end-->
+            <!--@end-->
+
+        </div>
+
+        <!--@end-->
+
+</div>

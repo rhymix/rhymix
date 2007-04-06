@@ -3,6 +3,7 @@
         <table name="poll_item" />
     </tables>
     <columns>
+        <column name="poll_item_srl" var="poll_item_srl" filter="number" notnull="notnull" default="sequence()" />
         <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
         <column name="poll_index_srl" var="poll_index_srl" filter="number" notnull="notnull" />
         <column name="poll_count" var="poll_count" default="0" />

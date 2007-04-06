@@ -98,7 +98,7 @@ function XmlJsFilterGetValue(target_name) {
     switch(type) {
         case 'checkbox' :
                 if(length>0) {
-                    value_list = new Array();
+                    var value_list = new Array();
                     for(var i=0;i<length;i++) {
                         if(obj[i].checked) value_list[value_list.length] = obj[i].value;
                     }

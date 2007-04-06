@@ -1,8 +1,10 @@
 <filter name="poll" module="poll" act="procPoll" confirm_msg_code="confirm_poll_submit">
     <form />
     <parameter />
-    <response>
+    <response callback_func="completePoll">
         <tag name="error" />
         <tag name="message" />
+        <tag name="poll_srl" />
+        <tag name="tpl" />
     </response>
 </filter>
