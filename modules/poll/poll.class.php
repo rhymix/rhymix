@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  trackback
+     * @class  poll
      * @author zero (zero@nzeo.com)
-     * @brief  trackback모듈의 high class
+     * @brief  poll모듈의 high class
      **/
 
-    class trackback extends ModuleObject {
+    class poll extends ModuleObject {
 
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
@@ -13,9 +13,7 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('trackback', 'controller', 'procTrackbackReceive');
-            $oModuleController->insertActionForward('trackback', 'view', 'dispTrackbackAdminList');
-            $oModuleController->insertActionForward('trackback', 'controller', 'procTrackbackAdminDeleteChecked');
+            $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminList');
 
             return new Object();
         }

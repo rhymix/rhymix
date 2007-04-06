@@ -1,0 +1,10 @@
+<query id="insertPollTitle" action="insert">
+    <tables>
+        <table name="poll_title" />
+    </tables>
+    <columns>
+        <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
+        <column name="poll_index_srl" var="poll_index_srl" filter="number" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+    </columns>
+</query>
