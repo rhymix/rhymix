@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispTrackbackAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="procTrackbackAdminDeleteChecked" type="controller" standalone="true" />
+        <action name="procTrackbackReceive" type="controller" standalone="true" />
+    </actions>
+</module>
