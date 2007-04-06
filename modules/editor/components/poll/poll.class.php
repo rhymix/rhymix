@@ -52,11 +52,12 @@
 
             if(!count($args)) return new Object(-1, 'cmd_null_item');
 
-            $poll_srl = getNextSequence();
+            // poll module을 이용해서 DB 에 입력
+            $oPollController = &getController('poll');
+            $output = $oPollController->insertPolls($args);
+            if(!$output->toBool()) return $output;
 
-            // DB 에 입력
-
-            $this->add('poll_srl', $poll_srl);
+            $this->add('poll_srl', $output->get('poll_srl'));
         }
 
         /**
