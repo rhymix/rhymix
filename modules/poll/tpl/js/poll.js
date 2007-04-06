@@ -45,5 +45,7 @@ function completePoll(ret_obj) {
     alert(ret_obj['message']);
     var poll_srl = ret_obj['poll_srl'];
     var tpl = ret_obj['tpl'];
+    var width = xWidth("poll_"+poll_srl);
     xInnerHtml("poll_"+poll_srl, tpl);
+    xWidth("poll_"+poll_srl, width);
 }

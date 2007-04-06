@@ -43,6 +43,7 @@
             $poll->stop_date = $output->data->stop_date;
 
             $output = executeQuery('poll.getPollTitle', $args);
+            if(!is_array($output->data)) $output->data = array($output->data);
             foreach($output->data as $key => $val) {
                 $poll->poll[$val->poll_index_srl]->title = $val->title;
                 $poll->poll[$val->poll_index_srl]->checkcount = $val->checkcount;
@@ -64,7 +65,7 @@
                 $tpl_file = "result";
             }
 
-            Context::set('poll', $poll);
+            Context::set('poll',$poll);
 
             $tpl_path = $this->module_path.'tpl';
 

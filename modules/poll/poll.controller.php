@@ -165,8 +165,11 @@
 
             $oDB->commit();
 
+            // tpl 가져오기
+            $tpl = $oPollModel->getPollHtml($poll_srl);
+
             $this->add('poll_srl', $poll_srl);
-            $this->add('tpl','haha');
+            $this->add('tpl',$tpl);
             $this->setMessage('success_poll');
         }
 
