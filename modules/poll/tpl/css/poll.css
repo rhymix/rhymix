@@ -53,9 +53,15 @@
     margin:5px 0px 5px 20px;
 }
 
+.poll_detail_box .bar_box {
+    width:80%;
+    margin-bottom:10px;
+}
+
 .poll_detail_box .bar {
-    margin:5px 0px 15px 20px;
     background-color:#444444;
+    border-bottom:1px solid #AAAAAA;
+    margin:0px 5px 5px 35px;
     height:5px;
 }
 

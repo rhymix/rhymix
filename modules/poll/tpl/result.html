@@ -18,13 +18,15 @@
                 {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
 
                 <div class="text">
-                        {$item->title} : {$item->poll_count} ({$per}%)
+                    {$item_srl+1}. {$item->title} : {$item->poll_count} ({$per}%)
                 </div>
+                <div class="bar_box">
                 <!--@if($per)-->
-                    <div class="bar" style="width:{$per}%;"></div>
+                    <div class="bar" style="width:{$per}%;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
                 <!--@else-->
-                    <div class="bar" style="width:2px;"></div>
+                    <div class="bar" style="width:2px;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
                 <!--@end-->
+                </div>
             <!--@end-->
 
         </div>
