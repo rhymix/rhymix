@@ -267,17 +267,15 @@
                     if($forward->module && $forward->type && $forward->act) {
 
                         $oModule = &getModule($forward->module, $forward->type);
-                        if(method_exists($forward->act, $oModule)) {
-                            $xml_info = $oModuleModel->getModuleActionXml($forward->module);
-                            $oModule->setAct($forward->act);
-                            $oModule->init();
-                            $oModule->setModuleInfo($this->module_info, $xml_info);
+                        $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+                        $oModule->setAct($forward->act);
+                        $oModule->init();
+                        $oModule->setModuleInfo($this->module_info, $xml_info);
 
-                            $output = call_user_method($forward->act, $oModule);
+                        $output = call_user_method($forward->act, $oModule);
 
-                            $this->setTemplatePath($oModule->getTemplatePath());
-                            $this->setTemplateFile($oModule->getTemplateFile());
-                        } else $this->stop('msg_module_is_not_exists');
+                        $this->setTemplatePath($oModule->getTemplatePath());
+                        $this->setTemplateFile($oModule->getTemplateFile());
 
                     } else {
                         if($this->xml_info->default_index_act) {
