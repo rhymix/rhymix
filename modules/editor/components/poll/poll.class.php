@@ -32,5 +32,18 @@
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
+        /**
+         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         *
+         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
+         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         **/
+        function transHTML($xml_obj) {
+            $poll_srl = $xml_obj->attrs->poll_srl;
+
+            // poll model 객체 생성해서 html 얻어와서 return
+            $oPollModel = &getModel('poll');
+            return $oPollModel->getPollHtml($poll_srl);
+        }
     }
 ?>
