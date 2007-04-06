@@ -16,4 +16,6 @@
     $lang->msg_checked_poll_is_deleted = '%d개의 설문조사가 삭제되었습니다';
 
     $lang->cmd_null_item = "설문조사로 등록할 값이 없습니다.\n다시 설정해주세요";
+
+    $lang->confirm_poll_submit = "설문조사에 응하시겠습니까?";
 ?>

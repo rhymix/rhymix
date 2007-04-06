@@ -1,7 +1,10 @@
 <!--%import("filter/poll.xml")-->
+<!--%import("js/poll.js")-->
 <!--%import("css/poll.css")-->
 
 <div class="poll_box" style="{$poll->style}">
+
+    <form action="./" method="get" onsubmit="return doPoll(this)">
 
     <div class="poll_title_box">
         <div class="poll_total_count">
@@ -41,5 +44,7 @@
     <div class="poll_button_area">
         <input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
     </div>
+
+    </form>
 
 </div>
