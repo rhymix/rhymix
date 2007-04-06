@@ -40,19 +40,25 @@
                 $poll->poll[$val->poll_index_srl]->item[] = $val;
             }
 
-            // 현 사용자가 설문조사에 응하였는지 검사
-            $logged_info = Context::get('logged_info');
-            $args->member_srl = $logged_info->member_srl;
-            $output = executeQuery('poll.getPollLog', $args);
-            if($output->data->count) $poll->poll_date = $output->data->regdate;
-            else $poll->poll_date = '';
-            Context::set('poll', $poll);
+            // 종료일이 지났으면 무조건 결과만
+            if($poll->stop_date > date("YmdHis")) {
+                // 현 사용자가 설문조사에 응하였는지 검사
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+                $output = executeQuery('poll.getPollLog', $args);
+                if($output->data->count) $poll->poll_date = $output->data->regdate;
+                else $poll->poll_date = '';
+                Context::set('poll', $poll);
 
-            // 응하였다면 결과 html return
-            if($poll->poll_date) $template_file = "result";
+                // 응하였다면 결과 html return
+                if($poll->poll_date) $template_file = "result";
 
-            // 응하지 않았다면 설문 form html return
-            else $template_file = "form";
+                // 응하지 않았다면 설문 form html return
+                else $template_file = "form";
+
+            } else {
+                $template_file = "result";
+            }
 
             $tpl_path = $this->module_path.'tpl';
             $tpl_file = $template_file;
