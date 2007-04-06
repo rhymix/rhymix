@@ -87,6 +87,7 @@ function doSurveyAddItem(obj) {
 
     var idx = parseInt(idx_match[1],10);
     html = html.replace( / ([0-9]+)</, ' '+(idx+1)+'<');
+    html = html.replace( /value=("){0,1}([^"^\s]*)"{0,1}/, 'value=""');
 
     xInnerHtml(new_obj, html);
     new_obj.className = source.className;
