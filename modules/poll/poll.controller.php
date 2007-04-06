@@ -50,7 +50,6 @@
 
             // 변수 설정
             $poll_srl = getNextSequence();
-            debugPrint($args);
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
@@ -75,7 +74,7 @@
             foreach($args->poll as $key => $val) {
                 unset($poll_args);
                 $poll_args->poll_srl = $poll_srl;
-                $poll_args->poll_index_srl = $key;
+                $poll_args->poll_index_srl = $key+1;
                 $poll_args->title = $val->title;
                 $poll_args->checkcount = $val->checkcount;
                 $poll_args->poll_count = 0;
@@ -89,7 +88,7 @@
                 foreach($val->item as $k => $v) {
                     unset($poll_args);
                     $poll_args->poll_srl = $poll_srl;
-                    $poll_args->poll_index_srl = $key;
+                    $poll_args->poll_index_srl = $key+1;
                     $poll_args->title = $v;
                     $poll_args->poll_count = 0;
                     $output = executeQuery('poll.insertPollItem', $poll_args);
