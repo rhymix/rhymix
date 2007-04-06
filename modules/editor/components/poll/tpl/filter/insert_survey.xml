@@ -1,9 +1,0 @@
-<filter name="insert_survey" module="editor" act="procEditorCall" confirm_msg_code="confirm_submit">
-    <form />
-    <parameter />
-    <response callback_func="completeInsertSurvey">
-        <tag name="error" />
-        <tag name="message" />
-        <tag name="survey_srl" />
-    </response>
-</filter>

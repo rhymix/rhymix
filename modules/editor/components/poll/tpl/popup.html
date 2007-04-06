@@ -1,18 +1,18 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
-<!--%import("filter/insert_survey.xml")-->
+<!--%import("filter/insert_poll.xml")-->
 <!--%import("../lang")-->
 
-<form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_survey); return false;">
+<form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;">
     <input type="hidden" name="component" value="{$component_info->component_name}" />
-    <input type="hidden" name="method" value="insertSurvey" />
-    <input type="hidden" name="survey_srl" value="" />
+    <input type="hidden" name="method" value="insertPoll" />
+    <input type="hidden" name="poll_srl" value="" />
 
     <div class="editor_window">
         <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
 
-        <div class="survey_header">
-            {$lang->survey_stop_date} : 
+        <div class="poll_header">
+            {$lang->poll_stop_date} : 
             <select name="stop_year">
                 <!--@for($i=date("Y");$i<date("Y")+10;$i++)-->
                 <option value="{$i}">{$i}</option>
@@ -28,35 +28,35 @@
                 <option value="{$i}" <!--@if($i==date("d"))-->selected="true"<!--@end-->>{$i}</option>
                 <!--@end-->
             </select>
-            <input type="button" class="editor_button" value="{$lang->cmd_add_survey}" onclick="doSurveyAdd(); return false;" />
+            <input type="button" class="editor_button" value="{$lang->cmd_add_poll}" onclick="doPollAdd(); return false;" />
         </div>
 
-        <div id="survey_source" class="survey_box" style="display:none">
+        <div id="poll_source" class="poll_box" style="display:none">
 
             <div class="title_box">
-                <div class="header">{$lang->survey_title}</div>
+                <div class="header">{$lang->poll_title}</div>
                 <div class="body"><input type="text" name="title_tidx" class="editor_input" /></div>
             </div>
 
             <div class="item_box">
-                <div class="sub_header">{$lang->survey_item} 1</div>
+                <div class="sub_header">{$lang->poll_item} 1</div>
                 <div class="body"><input type="text" name="item_tidx_1" class="editor_input" /></div>
             </div>
 
             <div class="item_box">
-                <div class="sub_header">{$lang->survey_item} 2</div>
+                <div class="sub_header">{$lang->poll_item} 2</div>
                 <div class="body"><input type="text" name="item_tidx_2" class="editor_input" /></div>
             </div>
 
             <div class="item_box">
-                <div class="sub_header">{$lang->survey_item} 3</div>
+                <div class="sub_header">{$lang->poll_item} 3</div>
                 <div class="body"><input type="text" name="item_tidx_3" class="editor_input" /></div>
             </div>
             <div class="sub_button_area">
-                <div><input type="button" value="{$lang->cmd_del_survey}" class="editor_button" onclick="doSurveyDelete(this); return false;" /></div>
-                <div><input type="button" value="{$lang->cmd_add_item}" class="editor_button" onclick="doSurveyAddItem(this); return false;" /></div>
+                <div><input type="button" value="{$lang->cmd_del_poll}" class="editor_button" onclick="doPollDelete(this); return false;" /></div>
+                <div><input type="button" value="{$lang->cmd_add_item}" class="editor_button" onclick="doPollAddItem(this); return false;" /></div>
                 <div>
-                    - {$lang->survey_chk_count} : <input type="text" name="checkcount_tidx" value="1" class="editor_small_input" />
+                    - {$lang->poll_chk_count} : <input type="text" name="checkcount_tidx" value="1" class="editor_small_input" />
                 </div>
             </div>
         </div>

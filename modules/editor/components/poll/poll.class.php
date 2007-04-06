@@ -22,7 +22,7 @@
         /**
          * @brief 팝업창에서 설문 작성 완료후 저장을 누를때
          **/
-        function insertSurvey() {
+        function insertPoll() {
             Context::loadLang($this->component_path.'lang');
             $stop_year = Context::get('stop_year');
             $stop_month = Context::get('stop_month');
@@ -38,11 +38,11 @@
 
                 $tmp_arr = explode('_',$key);
 
-                $survey_index = $tmp_arr[1];
+                $poll_index = $tmp_arr[1];
 
-                if($tmp_arr[0]=='title') $tmp_args[$survey_index]->title = $val;
-                else if($tmp_arr[0]=='checkcount') $tmp_args[$survey_index]->checkcount = $val;
-                else if($tmp_arr[0]=='item') $tmp_args[$survey_index]->item[] = $val;
+                if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
+                else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
+                else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;
             }
 
             foreach($tmp_args as $key => $val) {
@@ -52,9 +52,11 @@
 
             if(!count($args)) return new Object(-1, 'cmd_null_item');
 
-            $survey_srl = getNextSequence();
+            $poll_srl = getNextSequence();
 
-            $this->add('survey_srl', $survey_srl);
+            // DB 에 입력
+
+            $this->add('poll_srl', $poll_srl);
         }
 
         /**

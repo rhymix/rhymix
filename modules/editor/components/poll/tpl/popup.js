@@ -2,17 +2,17 @@
  * popup으로 열렸을 경우 부모창의 위지윅에디터에 select된 block이 있는지 체크하여
  * 있으면 가져와서 원하는 곳에 삽입
  **/
-var survey_index = 1;
-function setSurvey() {
+var poll_index = 1;
+function setPoll() {
     var obj = xCreateElement("div");
-    var source = xGetElementById("survey_source");
+    var source = xGetElementById("poll_source");
 
     var html = xInnerHtml(source);
-    html = html.replace(/tidx/g, survey_index);
+    html = html.replace(/tidx/g, poll_index);
     xInnerHtml(obj, html);
 
-    obj.id = "survey_"+survey_index;
-    obj.className = "survey_box";
+    obj.id = "poll_"+poll_index;
+    obj.className = "poll_box";
     obj.style.display = "block";
 
     source.parentNode.insertBefore(obj, source);
@@ -21,13 +21,13 @@ function setSurvey() {
 /**
  * 부모창의 위지윅에디터에 데이터를 삽입
  **/
-function completeInsertSurvey(ret_obj) {
+function completeInsertPoll(ret_obj) {
     if(typeof(opener)=="undefined") return null;
 
-    var survey_srl = ret_obj["survey_srl"];
-    if(!survey_srl) return null;
+    var poll_srl = ret_obj["poll_srl"];
+    if(!poll_srl) return null;
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" survey_srl=\""+survey_srl+"\" editor_component=\"poll\" class=\"editor_component_output\" style=\"width:100%;\"  />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll\" class=\"editor_component_output\" style=\"width:100%;\"  />";
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
     opener.editorReplaceHTML(iframe_obj, text);
@@ -38,23 +38,23 @@ function completeInsertSurvey(ret_obj) {
     return null;
 }
 
-xAddEventListener(window, "load", setSurvey);
+xAddEventListener(window, "load", setPoll);
 
 /**
  * 새 설문 추가
  **/
-function doSurveyAdd() {
+function doPollAdd() {
     var obj = xCreateElement("div");
-    var source = xGetElementById("survey_source");
-    if(survey_index+1>3) return null;
-    survey_index++;
+    var source = xGetElementById("poll_source");
+    if(poll_index+1>3) return null;
+    poll_index++;
 
     var html = xInnerHtml(source);
-    html = html.replace(/tidx/g, survey_index);
+    html = html.replace(/tidx/g, poll_index);
     xInnerHtml(obj, html);
 
-    obj.id = "survey_"+survey_index;
-    obj.className = "survey_box";
+    obj.id = "poll_"+poll_index;
+    obj.className = "poll_box";
     obj.style.display = "block";
 
     source.parentNode.insertBefore(obj, source);
@@ -67,7 +67,7 @@ function doSurveyAdd() {
 /**
  * 항목 삭제
  **/
-function doSurveyDelete(obj) {
+function doPollDelete(obj) {
     var pobj = obj.parentNode.parentNode.parentNode;
     var tmp_arr = pobj.id.split('_');
     var index = tmp_arr[1];
@@ -75,15 +75,15 @@ function doSurveyDelete(obj) {
 
     pobj.parentNode.removeChild(pobj);
 
-    var obj_list = xGetElementsByClassName('survey_box');
+    var obj_list = xGetElementsByClassName('poll_box');
     for(var i=0;i<obj_list.length;i++) {
         var nobj = obj_list[i];
-        if(nobj.id == 'survey_source') continue;
+        if(nobj.id == 'poll_source') continue;
         var tmp_arr = nobj.id.split('_');
         var index = tmp_arr[1];
-        nobj.id = 'survey_'+(i+1);
+        nobj.id = 'poll_'+(i+1);
     }
-    survey_index = i-1;
+    poll_index = i-1;
 
     setFixedPopupSize();
 }
@@ -91,7 +91,7 @@ function doSurveyDelete(obj) {
 /**
  * 새 항목 추가
  **/
-function doSurveyAddItem(obj) {
+function doPollAddItem(obj) {
     var pobj = obj.parentNode.parentNode;
     var source = xPrevSib(pobj);
     var new_obj = xCreateElement("div");
