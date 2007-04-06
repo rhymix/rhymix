@@ -16,9 +16,6 @@
             <input type="hidden" name="poll_srl_indexes" value="" />
 
             <div class="poll_title_box">
-                <div class="poll_total_count">
-                    {$lang->poll_total_count} : {number_format($poll->poll_count)}
-                </div>
                 <div class="poll_stop_date">
                     {$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")}
                 </div>
@@ -28,7 +25,7 @@
             <input type="hidden" name="checkcount_{$poll_srl_index}" value="{$val->checkcount}" />
 
             <div class="poll_detail_box">
-                <div class="title">{$poll_srl_index}. {$val->title} ({$val->poll_count})</div>
+                <div class="title">{$poll_srl_index}. {$val->title}</div>
                 <!--@foreach($val->item as $item_srl => $item)-->
                 {@$_idx = $poll->poll_srl.'_'.$poll_srl_index.'_'.$item_srl}
 
@@ -38,7 +35,7 @@
                     <!--@else-->
                         <input type="radio" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item->poll_item_srl}" id="item_{$item->poll_item_srl}" /> 
                     <!--@end-->
-                        <label for="item_{$item->poll_item_srl}">{$item->title} ({$item->poll_count})</label>
+                        <label for="item_{$item->poll_item_srl}">{$item->title}</label>
                 </div>
                 <!--@end-->
 
