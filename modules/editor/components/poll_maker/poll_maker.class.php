@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  poll
+     * @class  poll_maker
      * @author zero (zero@nzeo.com)
      * @brief  에디터에서 url링크하는 기능 제공. 
      **/
 
-    class poll extends EditorHandler { 
+    class poll_maker extends EditorHandler { 
 
         // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
         var $upload_target_srl = 0;
@@ -14,7 +14,7 @@
         /**
          * @brief upload_target_srl과 컴포넌트의 경로를 받음
          **/
-        function poll($upload_target_srl, $component_path) {
+        function poll_maker($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
         }

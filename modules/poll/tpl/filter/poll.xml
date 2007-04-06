@@ -1,0 +1,5 @@
+<filter name="poll" module="poll" act="procPoll" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter />
+    <response />
+</filter>

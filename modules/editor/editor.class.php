@@ -28,7 +28,7 @@
             $oEditorController->insertComponent('url_link',true);
             $oEditorController->insertComponent('image_link',true);
             $oEditorController->insertComponent('multimedia_link',true);
-            $oEditorController->insertComponent('poll',true);
+            $oEditorController->insertComponent('poll_maker',true);
             $oEditorController->insertComponent('image_gallery',true);
             $oEditorController->insertComponent('quotation',true);
             $oEditorController->insertComponent('table_maker',true);
