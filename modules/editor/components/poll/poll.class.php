@@ -20,6 +20,44 @@
         }
 
         /**
+         * @brief 팝업창에서 설문 작성 완료후 저장을 누를때
+         **/
+        function insertSurvey() {
+            Context::loadLang($this->component_path.'lang');
+            $stop_year = Context::get('stop_year');
+            $stop_month = Context::get('stop_month');
+            $stop_day = Context::get('stop_day');
+
+            $stop_date = sprintf('%04d%02d%02d235959', $stop_year, $stop_month, $stop_day);
+
+            $vars = Context::getRequestVars();
+            foreach($vars as $key => $val) {
+                if(strpos($key,'tidx')) continue;
+                if(!eregi("^(title|checkcount|item)_", $key)) continue;
+                if(!trim($val)) continue;
+
+                $tmp_arr = explode('_',$key);
+
+                $survey_index = $tmp_arr[1];
+
+                if($tmp_arr[0]=='title') $tmp_args[$survey_index]->title = $val;
+                else if($tmp_arr[0]=='checkcount') $tmp_args[$survey_index]->checkcount = $val;
+                else if($tmp_arr[0]=='item') $tmp_args[$survey_index]->item[] = $val;
+            }
+
+            foreach($tmp_args as $key => $val) {
+                if(!$val->checkcount) $val->checkcount = 1;
+                if($val->title && count($val->item)) $args[] = $val;
+            }
+
+            if(!count($args)) return new Object(-1, 'cmd_null_item');
+
+            $survey_srl = getNextSequence();
+
+            $this->add('survey_srl', $survey_srl);
+        }
+
+        /**
          * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
          **/
         function getPopupContent() {

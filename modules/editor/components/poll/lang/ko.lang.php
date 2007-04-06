@@ -13,4 +13,6 @@
     $lang->cmd_add_survey = "설문 추가";
     $lang->cmd_del_survey = "설문 제거";
     $lang->cmd_add_item = "항목 추가";
+
+    $lang->cmd_null_item = "설문조사로 등록할 값이 없습니다.\n다시 설정해주세요";
 ?>

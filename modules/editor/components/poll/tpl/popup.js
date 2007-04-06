@@ -6,7 +6,11 @@ var survey_index = 1;
 function setSurvey() {
     var obj = xCreateElement("div");
     var source = xGetElementById("survey_source");
-    xInnerHtml(obj, xInnerHtml(source));
+
+    var html = xInnerHtml(source);
+    html = html.replace(/tidx/g, survey_index);
+    xInnerHtml(obj, html);
+
     obj.id = "survey_"+survey_index;
     obj.className = "survey_box";
     obj.style.display = "block";
@@ -17,14 +21,21 @@ function setSurvey() {
 /**
  * 부모창의 위지윅에디터에 데이터를 삽입
  **/
-function insertSurvey() {
-    if(typeof(opener)=="undefined") return;
+function completeInsertSurvey(ret_obj) {
+    if(typeof(opener)=="undefined") return null;
+
+    var survey_srl = ret_obj["survey_srl"];
+    if(!survey_srl) return null;
+
+    var text = "<img src=\"./common/tpl/images/blank.gif\" survey_srl=\""+survey_srl+"\" editor_component=\"poll\" class=\"editor_component_output\" style=\"width:100%;\"  />";
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-    opener.editorReplaceHTML(iframe_obj, link);
+    opener.editorReplaceHTML(iframe_obj, text);
 
     opener.focus();
     window.close();
+
+    return null;
 }
 
 xAddEventListener(window, "load", setSurvey);
@@ -37,7 +48,11 @@ function doSurveyAdd() {
     var source = xGetElementById("survey_source");
     if(survey_index+1>3) return null;
     survey_index++;
-    xInnerHtml(obj, xInnerHtml(source));
+
+    var html = xInnerHtml(source);
+    html = html.replace(/tidx/g, survey_index);
+    xInnerHtml(obj, html);
+
     obj.id = "survey_"+survey_index;
     obj.className = "survey_box";
     obj.style.display = "block";
@@ -88,6 +103,7 @@ function doSurveyAddItem(obj) {
     var idx = parseInt(idx_match[1],10);
     html = html.replace( / ([0-9]+)</, ' '+(idx+1)+'<');
     html = html.replace( /value=("){0,1}([^"^\s]*)"{0,1}/, 'value=""');
+    html = html.replace( /item_([0-9]+)_([0-9]+)/, 'item_$1_'+(idx+1));
 
     xInnerHtml(new_obj, html);
     new_obj.className = source.className;
