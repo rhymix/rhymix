@@ -17,7 +17,7 @@
          * @brief 설문조사의 html데이터를 return
          * 설문조사에 응하였는지에 대한 체크를 한 후 결과를 return
          **/
-        function getPollHtml($poll_srl) {
+        function getPollHtml($poll_srl, $style = '') {
 
             $args->poll_srl = $poll_srl;
 
@@ -25,6 +25,7 @@
             $output = executeQuery('poll.getPoll', $args);
             if(!$output->data) return '';
 
+            $poll->style = $style;
             $poll->poll_count = (int)$output->data->poll_count;
             $poll->stop_date = $output->data->stop_date;
 

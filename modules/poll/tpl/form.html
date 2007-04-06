@@ -1,7 +1,7 @@
 <!--%import("filter/poll.xml")-->
 <!--%import("css/poll.css")-->
 
-<div class="poll_box">
+<div class="poll_box" style="{$poll->style}">
 
     <div class="poll_title_box">
         <div class="poll_total_count">
@@ -18,21 +18,22 @@
         <div class="title">{$poll_srl_index}. {$val->title} ({$val->poll_count})</div>
         <!--@foreach($val->item as $item_srl => $item)-->
         {@$_idx = $poll->poll_srl.'_'.$poll_srl_index.'_'.$item_srl}
-        <!--@if($val->checkcount>1)-->
-            {@$_type = "checkbox"}
-        <!--@else-->
-            {@$_type = "radio"}
-        <!--@end-->
-
 
         <div class="item">
-            <input type="{$_type}" id="poll_item_{$_idx}" /> <label for="poll_item_{$_idx}">{$item->title} ({$item->poll_count})</label>
+            <!--@if($val->checkcount>1)-->
+                <input type="checkbox" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item_srl}" id="poll_item_{$_idx}" /> 
+            <!--@else-->
+                <input type="radio" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item_srl}" id="poll_item_{$_idx}" /> 
+            <!--@end-->
+                <label for="poll_item_{$_idx}">{$item->title} ({$item->poll_count})</label>
         </div>
         <!--@end-->
 
+        <!--@if($val->checkcount>1)-->
         <div class="checkcount">
             {$lang->poll_check_count} : {$val->checkcount}
         </div>
+        <!--@end-->
     </div>
 
     <!--@end-->
@@ -40,9 +41,5 @@
     <div class="poll_button_area">
         <input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
     </div>
+
 </div>
-
-<pre>
-{@print_r($poll)}
-</pre>
-

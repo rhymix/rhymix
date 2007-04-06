@@ -40,10 +40,11 @@
          **/
         function transHTML($xml_obj) {
             $poll_srl = $xml_obj->attrs->poll_srl;
+            $style = preg_replace("/height([^;]*)/i", "", $xml_obj->attrs->style);
 
             // poll model 객체 생성해서 html 얻어와서 return
             $oPollModel = &getModel('poll');
-            return $oPollModel->getPollHtml($poll_srl);
+            return $oPollModel->getPollHtml($poll_srl, $style);
         }
     }
 ?>
