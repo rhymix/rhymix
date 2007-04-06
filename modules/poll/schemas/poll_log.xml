@@ -1,9 +1,6 @@
-<table name="poll">
+<table name="poll_log">
     <column name="poll_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
-    <column name="stop_date" type="date" />
-    <column name="poll_count" type="number" size="11" notnull="notnull" />
     <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
     <column name="regdate" type="date" index="idx_regdate" />
-    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
 </table>
