@@ -47,10 +47,12 @@
 
             foreach($tmp_args as $key => $val) {
                 if(!$val->checkcount) $val->checkcount = 1;
-                if($val->title && count($val->item)) $args[] = $val;
+                if($val->title && count($val->item)) $args->poll[] = $val;
             }
 
-            if(!count($args)) return new Object(-1, 'cmd_null_item');
+            if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
+
+            $args->stop_date = $stop_date;
 
             // poll module을 이용해서 DB 에 입력
             $oPollController = &getController('poll');
