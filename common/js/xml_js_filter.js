@@ -188,6 +188,8 @@ function XmlJsFilterExecuteFilter(filter, value) {
             return !isNaN(value);
         break;
     }
+
+    return null;
 }
 
 function XmlJsFilterAlertMsg(target, msg_code, minlength, maxlength) {
@@ -281,6 +283,8 @@ function XmlJsFilterProc(confirm_msg) {
         return true;
     }
     exec_xml(this.module, this.act, params, this.user_func, response, params, this.fo_obj);
+
+    return null;
 }
 
 // form proc

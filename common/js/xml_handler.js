@@ -38,10 +38,12 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
     var ret_obj = oXml.toZMsgObject(xmlDoc, response_tags);
     if(ret_obj["error"]!=0) {
         alert(ret_obj["message"]);
-        return;
+        return null;
     }
 
     callback_func(ret_obj, response_tags, callback_func_arg, fo_obj);
+
+    return null;
 }
 
 // xml handler

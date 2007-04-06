@@ -9,13 +9,14 @@
  **/
 String.prototype.getQuery = function(key) {
     var idx = this.indexOf('?');
-    if(idx == -1) return;
+    if(idx == -1) return null;
     var query_string = this.substr(idx+1, this.length);
     var args = {}
     query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
     var q = args[key];
     if(typeof(q)=="undefined") q = "";
+
     return q;
 }
 

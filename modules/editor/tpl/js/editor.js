@@ -157,17 +157,16 @@ function _editorAutoSave() {
 
 function _editorAutoSaved(ret_obj) {
     setTimeout(_editorAutoSave, 7000);
+    return null;
 }
 
 // 에디터의 전체 내용 return
 function editorGetContent(upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
-    if(!iframe_obj) return;
-    var html = '';
+    if(!iframe_obj) return null;
+    var html = null;
     html = xInnerHtml(iframe_obj.contentWindow.document.body);
     if(html) html = html.replace(/^<br>$/i,'');
-    if(!html) return "";
-
     return html;
 }
 

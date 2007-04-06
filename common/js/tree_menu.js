@@ -113,6 +113,7 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
         if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
     }
 
+    return null;
 }
 
 // 페이지 랜더링 중에 메뉴의 html이 완성되었을때 window.onload event 후에 그리기 재시도를 하게 될 함수

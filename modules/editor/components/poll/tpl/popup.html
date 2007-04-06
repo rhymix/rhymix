@@ -1,0 +1,64 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+<form action="./" method="get" id="fo_component" onSubmit="return false">
+    <div class="editor_window">
+        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+
+        <div class="survey_header">
+            {$lang->survey_stop_date} : 
+            <select name="stop_year">
+                <!--@for($i=date("Y");$i<date("Y")+10;$i++)-->
+                <option value="{$i}">{$i}</option>
+                <!--@end-->
+            </select>
+            <select name="stop_month">
+                <!--@for($i=1;$i<=12;$i++)-->
+                <option value="{$i}" <!--@if($i==date("m"))-->selected="true"<!--@end-->>{$i}</option>
+                <!--@end-->
+            </select>
+            <select name="stop_day">
+                <!--@for($i=1;$i<=31;$i++)-->
+                <option value="{$i}" <!--@if($i==date("d"))-->selected="true"<!--@end-->>{$i}</option>
+                <!--@end-->
+            </select>
+        </div>
+
+        <div id="survey_source" class="survey_box" style="display:none">
+
+            <div class="title_box">
+                <div class="header">{$lang->survey_title}</div>
+                <div class="body"><input type="text" name="title" class="editor_input" /></div>
+            </div>
+
+            <div class="item_box">
+                <div class="sub_header">{$lang->survey_item} 1</div>
+                <div class="body"><input type="text" name="title" class="editor_input" /></div>
+            </div>
+
+            <div class="item_box">
+                <div class="sub_header">{$lang->survey_item} 2</div>
+                <div class="body"><input type="text" name="title" class="editor_input" /></div>
+            </div>
+
+            <div class="item_box">
+                <div class="sub_header">{$lang->survey_item} 3</div>
+                <div class="body"><input type="text" name="title" class="editor_input" /></div>
+            </div>
+            <div class="sub_button_area">
+                <div><input type="button" value="{$lang->cmd_del_survey}" class="editor_button" onclick="doSurveyDelete(this); return false;" /></div>
+                <div><input type="button" value="{$lang->cmd_add_item}" class="editor_button" onclick="doSurveyAddItem(this); return false;" /></div>
+                <div>
+                    - {$lang->survey_chk_count} : <input type="text" name="check_count" value="1" class="editor_small_input" />
+                </div>
+            </div>
+        </div>
+
+        <div class="editor_button_area">
+            <input type="button" class="editor_button" value="{$lang->cmd_add_survey}" onclick="doSurveyAdd(); return false;" />
+            <input type="button" class="editor_button" value="{$lang->cmd_insert}" onclick="insertSurvey(); return false;" />
+            <input type="button" class="editor_button" value="{$lang->cmd_close}" onclick="window.close(); return false;" />
+        </div>
+
+    </div>
+</form>

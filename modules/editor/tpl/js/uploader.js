@@ -155,7 +155,6 @@ function editor_remove_file(upload_target_srl) {
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
-    var upload_target_srl = fo_obj.upload_target_srl.value;
     var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
 
     // iframe에 url을 보내버림
@@ -192,7 +191,6 @@ function editor_insert_file(upload_target_srl) {
         var fo_obj = obj;
         while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
         var mid = fo_obj.mid.value;
-        var upload_target_srl = fo_obj.upload_target_srl.value;
         var url = "./?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
         openComponent("url_link", upload_target_srl, url);
     } 

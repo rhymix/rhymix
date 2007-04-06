@@ -20,7 +20,7 @@ else if(navigator.vendor!='KDE' && document.all && xUA.indexOf('msie')!=-1){
   xIE6=xUA.indexOf('msie 6')!=-1;
 }
 else if(document.layers){xNN4=true;}
-xMac=xUA.indexOf('mac')!=-1;
+var xMac=xUA.indexOf('mac')!=-1;
 
 // (element, event(without 'on'), event listener(function name)[, caption])
 function xAddEventListener(e,eT,eL,cap)
@@ -313,7 +313,7 @@ function xHeight(e,h)
         }
       }
       h-=(pt+pb+bt+bb);
-      if(isNaN(h)||h<0) return;
+      if(isNaN(h)||h<0) return null;
       else e.style.height=h+'px';
     }
     h=e.offsetHeight;
@@ -325,9 +325,10 @@ function xHeight(e,h)
   return h;
 }
 
-function xHex(n, digits, prefix)
+function xHex(sn, digits, prefix)
 {
-  var p = '', n = Math.ceil(n);
+  var p = '';
+  var n = Math.ceil(sn);
   if (prefix) p = prefix;
   n = n.toString(16);
   for (var i=0; i < digits - n.length; ++i) {
@@ -447,18 +448,6 @@ function xParent(e, bNode)
   else if (xDef(e.parentNode)) p=e.parentNode;
   else if (xDef(e.parentElement)) p=e.parentElement;
   return p;
-}
-
-function xParentChain(e,delim,bNode)
-{
-  if (!(e=xGetElementById(e))) return;
-  var lim=100, s = "", d = delim || "\n";
-  while(e) {
-    s += xName(e) + ', ofsL:'+e.offsetLeft + ', ofsT:'+e.offsetTop + d;
-    e = xParent(e,bNode);
-    if (!lim--) break;
-  }
-  return s;
 }
 
 function xPreventDefault(e)
@@ -602,7 +591,7 @@ function xWidth(e,w)
         }
       }
       w-=(pl+pr+bl+br);
-      if(isNaN(w)||w<0) return;
+      if(isNaN(w)||w<0) return null;
       else e.style.width=w+'px';
     }
     w=e.offsetWidth;
