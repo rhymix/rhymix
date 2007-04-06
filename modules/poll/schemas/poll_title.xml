@@ -1,0 +1,5 @@
+<table name="poll_title">
+    <column name="poll_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="poll_index" type="number" size="11" notnull="notnull" index="idx_poll_index" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>
