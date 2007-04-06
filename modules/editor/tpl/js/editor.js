@@ -123,7 +123,7 @@ function editorEnableAutoSave(fo_obj, upload_target_srl) {
     var title = fo_obj.title.value;
     var content = fo_obj.content.value;
     _autoSaveObj = {"fo_obj":fo_obj, "upload_target_srl":upload_target_srl, "title":title, "content":content};
-    setTimeout(_editorAutoSave, 5000);
+    setTimeout(_editorAutoSave, 30000);
 }
 
 function _editorAutoSave() {

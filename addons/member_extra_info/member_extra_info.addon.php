@@ -33,7 +33,7 @@
         $output = preg_replace_callback('!<div([^\>]*)member_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transImageName'), $output);
 
         // 2. 출력문서중에 <div class="document_번호">내용</div> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
-        $output = preg_replace_callback('!<div([^\>]*)document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
+        $output = preg_replace_callback('!<div([^\>]*)after_document_([0-9]*)([^\>]*)>(.*?)\<\/div\>!is', array($oMemberController, 'transSignature'), $output);
 
     /**
      * 3 기능 수행 : 시작할때 새쪽지가 왔는지 검사
