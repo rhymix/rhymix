@@ -14,6 +14,17 @@
         }
 
         /**
+         * @brief 설문 목록 구해옴 (관리자용)
+         **/
+        function getPollList($args) {
+            $output = executeQuery('poll.getPollList', $args);
+            if(!$output->toBool()) return $output;
+
+            if($output->data && !is_array($output->data)) $output->data = array($output->data);
+            return $output;
+        }
+
+        /**
          * @brief 이미 설문 조사를 하였는지 검사하는 함수
          **/
         function isPolled($poll_srl) {

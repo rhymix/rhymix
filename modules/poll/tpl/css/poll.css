@@ -56,12 +56,14 @@
 .poll_detail_box .bar_box {
     width:80%;
     margin-bottom:10px;
+    border:1px solid #DDDDDD;
+    margin:0px 5px 5px 35px;
+    padding:1px;
 }
 
 .poll_detail_box .bar {
     background-color:#444444;
     border-bottom:1px solid #AAAAAA;
-    margin:0px 5px 5px 35px;
     height:5px;
 }
 

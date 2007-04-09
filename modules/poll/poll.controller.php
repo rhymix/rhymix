@@ -72,13 +72,15 @@
 
             // 개별 설문 등록
             foreach($args->poll as $key => $val) {
-                unset($poll_args);
-                $poll_args->poll_srl = $poll_srl;
-                $poll_args->poll_index_srl = $key+1;
-                $poll_args->title = $val->title;
-                $poll_args->checkcount = $val->checkcount;
-                $poll_args->poll_count = 0;
-                $output = executeQuery('poll.insertPollTitle', $poll_args);
+                unset($title_args);
+                $title_args->poll_srl = $poll_srl;
+                $title_args->poll_index_srl = getNextSequence();
+                $title_args->title = $val->title;
+                $title_args->checkcount = $val->checkcount;
+                $title_args->poll_count = 0;
+                $title_args->list_order = $title_args->poll_index_srl * -1;
+                $title_args->member_srl = $member_srl;
+                $output = executeQuery('poll.insertPollTitle', $title_args);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
@@ -86,12 +88,12 @@
 
                 // 개별 설문의 항목 추가
                 foreach($val->item as $k => $v) {
-                    unset($poll_args);
-                    $poll_args->poll_srl = $poll_srl;
-                    $poll_args->poll_index_srl = $key+1;
-                    $poll_args->title = $v;
-                    $poll_args->poll_count = 0;
-                    $output = executeQuery('poll.insertPollItem', $poll_args);
+                    unset($item_args);
+                    $item_args->poll_srl = $poll_srl;
+                    $item_args->poll_index_srl = $title_args->poll_index_srl;
+                    $item_args->title = $v;
+                    $item_args->poll_count = 0;
+                    $output = executeQuery('poll.insertPollItem', $item_args);
                     if(!$output->toBool()) {
                         $oDB->rollback();
                         return $output;
