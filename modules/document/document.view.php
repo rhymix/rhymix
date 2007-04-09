@@ -20,6 +20,8 @@
             // popup 레이아웃 지정
             $this->setLayoutFile('popup_layout');
 
+            // 관리자가 아니면 에러 표시
+            debugPrint(Context::get('module_srl'));
 
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
