@@ -469,7 +469,7 @@ function displayMemberMenu(ret_obj, response_tags, params) {
 
                 if(!str || !func) continue;
 
-                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\"><span style=\"background:url("+icon+") no-repeat left;padding-left:18px;\" onclick=\""+func+"\">"+str+"</div>";
+                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left;\" onclick=\""+func+"\">"+str+"</div>";
             }
         } 
         loaded_member_menu_list[member_srl] = html;

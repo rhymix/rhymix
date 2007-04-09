@@ -138,13 +138,15 @@ h6 {
     border:1px solid #555555;
     background-color:#FFFFFF;
     padding:2px;
+    width:110px;
 }
 
 #membermenuarea .item {
     color:#353249;
     cursor:pointer;
-    padding:2px;
+    padding:3px 2px 1px 18px;
     height:17px;
+    margin-left:2px;
 }
 
 #membermenuarea .item_on {
@@ -152,6 +154,7 @@ h6 {
     font-weight:bold;
     letter-spacing:-1px;
     cursor:pointer;
-    padding:2px;
+    padding:3px 2px 1px 18px;
     height:17px;
+    margin-left:2px;
 }
