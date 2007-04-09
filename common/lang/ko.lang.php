@@ -62,6 +62,8 @@
     $lang->nick_name = '닉네임';
     $lang->email_address = '이메일 주소';
     $lang->homepage = '홈페이지';
+    $lang->blog = '블로그';
+    $lang->birthday = '생일';
     $lang->browser_title = '브라우저 제목';
     $lang->title = '제목';
     $lang->title_content = '제목+내용';
