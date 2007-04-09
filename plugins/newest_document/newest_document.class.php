@@ -33,10 +33,14 @@
             $output = $oDocumentModel->getDocumentList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) Context::set('module_name', $mid_list[0]);
-            Context::set('title', $title);
-            Context::set('style', $args->style);
-            Context::set('document_list', $output->data);
+            if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
+            
+            $plugin_info->title = $title;
+            $plugin_info->document_list = $output->data;
+
+            preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
+            $plugin_info->width = trim($matches[3][0]);
+            Context::set('plugin_info', $plugin_info);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->plugin_path, $args->skin);

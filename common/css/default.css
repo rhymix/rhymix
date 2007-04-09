@@ -26,6 +26,7 @@ a.bold {
     background:url(../tpl/images/plugin.gif) no-repeat center;
     background-color:#FFFFFF;
     border:3px dotted #039311;
+    display:block;
 }
 
 h1 {

@@ -44,8 +44,8 @@
             $src = $xml_obj->attrs->multimedia_src;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$style,$matches);
-            $width = $matches[3][0];
-            $height = $matches[3][1];
+            $width = trim($matches[3][0]);
+            $height = trim($matches[3][1]);
             if(!$width) $width = 400;
             if(!$height) $height = 400;
 

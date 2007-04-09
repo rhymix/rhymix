@@ -42,7 +42,6 @@
          **/
         function transHTML($xml_obj) {
             $gallery_info->srl = rand(111111,999999);
-            $gallery_info->width = $xml_obj->attrs->width;
             $gallery_info->border_thickness = $xml_obj->attrs->border_thickness;
             $gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
             $gallery_info->border_color = $xml_obj->attrs->border_color;
@@ -53,10 +52,9 @@
             $images_list = preg_replace('/\.(gif|jpg|jpeg|png) /i',".\\1\n",$images_list);
             $gallery_info->images_list = explode("\n",trim($images_list));
 
-            if(!$gallery_info->width) {
-                preg_match_all('/([0-9]+)/i',$xml_obj->attrs->style,$matches);
-                $gallery_info->width = $matches[0][0];
-            }
+            preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
+            $gallery_info->width = trim($matches[3][0]);
+            if(!$gallery_info->width) $gallery_info->width = 400;
 
             Context::set('gallery_info', $gallery_info);
 
