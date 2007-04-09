@@ -36,9 +36,18 @@ div.editor_iconbox {
     float:left;
 }
 
-div.editor_iconbox img {
+img.editor_icon {
     height : 16px;
     border : 1px solid #EEEEEE;
+    background-color : #FFFFFF;
+    padding:1px;
+    cursor : pointer;
+    margin-right:1px;
+}
+
+img.editor_icon_over {
+    height : 16px;
+    border : 1px solid #A8C2E8;
     background-color : #FFFFFF;
     padding:1px;
     cursor : pointer;
