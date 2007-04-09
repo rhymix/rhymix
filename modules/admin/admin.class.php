@@ -15,7 +15,7 @@
             $oAdminController = &getController('admin');
 
             $oAdminController->insertShortCut('board');
-            $oAdminController->insertShortCut('pagemaker');
+            $oAdminController->insertShortCut('page');
             $oAdminController->insertShortCut('member');
             $oAdminController->insertShortCut('module');
             $oAdminController->insertShortCut('layout');
