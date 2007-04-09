@@ -84,12 +84,12 @@
 
         // 아니라면 쪽지 발송, 친구 등록 추가
         } else {
+
             // 대상 회원의 정보를 가져옴
             $target_member_info = $this->getMemberInfoByMemberSrl($member_srl); 
             
-            debugPrint($target_member_info);
+            // 4. 쪽지 발송 메뉴를 만듬
             if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
-                // 4. 쪽지 발송 메뉴를 만듬
                 $menu_str = Context::getLang('cmd_send_message');
                 $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',$member_srl);
                 $menu_list .= sprintf("\n%s,popopen('%s','sendMessage')", $menu_str, $menu_link);
