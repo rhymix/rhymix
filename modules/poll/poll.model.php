@@ -17,10 +17,15 @@
          * @brief 이미 설문 조사를 하였는지 검사하는 함수
          **/
         function isPolled($poll_srl) {
-            $logged_info = Context::get('logged_info');
-            $args->member_srl = $logged_info->member_srl;
+
             $args->poll_srl = $poll_srl;
-            $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
             $output = executeQuery('poll.getPollLog', $args);
             if($output->data->count) return true;
             return false;
