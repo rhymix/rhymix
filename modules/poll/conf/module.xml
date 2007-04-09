@@ -3,6 +3,8 @@
     <grants />
     <actions>
         <action name="dispPollAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispPollAdminConfig" type="controller" standalone="true" />
+
         <action name="procInsert" type="controller" standalone="true" />
         <action name="procPoll" type="controller" standalone="true" />
         <action name="procPollAdminDeleteChecked" type="controller" standalone="true" />

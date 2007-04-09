@@ -14,6 +14,7 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminList');
+            $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminConfig');
 
             return new Object();
         }
