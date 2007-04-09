@@ -78,6 +78,33 @@
     </tr>
     <!--@end-->
     <tr>
+        <th rowspan="2">{$lang->homepage}</th>
+        <td>
+            <input type="text" name="homepage" value="{$member_info->homepage}" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_homepage}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->blog}</th>
+        <td>
+            <input type="text" name="blog" value="{$member_info->blog}" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_blog}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->birthday}</th>
+        <td>
+            <input type="text" name="birthday" value="{$member_info->birthday}" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_birthday}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->allow_mailing}</th>
         <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="true"<!--@end-->/></td>
     </tr>

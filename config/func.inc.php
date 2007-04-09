@@ -126,6 +126,7 @@
      * @return string
      **/
     function zdate($str, $format = "Y-m-d H:i:s") {
+        if(!$str) return;
         return date($format, mktime(substr($str,8,2), substr($str,10,2), substr($str,12,2), substr($str,4,2), substr($str,6,2), substr($str,0,4)));
     }
 

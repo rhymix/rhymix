@@ -6,6 +6,9 @@
     <parameter>
         <param name="accept_agreement" target="accept_agreement" />
         <param name="nick_name" target="nick_name" />
+        <param name="homepage" target="homepage" />
+        <param name="blog" target="blog" />
+        <param name="birthday" target="birthday" />
         <param name="allow_mailing" target="allow_mailing" />
         <param name="email_address" target="email_address" />
         <param name="signature" target="content" />

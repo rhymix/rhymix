@@ -107,6 +107,9 @@
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
     $lang->about_user_name = '이름은 2~20자 이내여야 합니다';
     $lang->about_nick_name = '닉네임은 2~20자 이내여야 합니다';
+    $lang->about_homepage = '홈페이지가 있을 경우 입력해주세요';
+    $lang->about_blog = '운영하는 블로그가 있을 경우 입력해주세요';
+    $lang->about_birthday = '생년월일을 입력해주세요';
     $lang->about_allow_mailing = '메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다';
     $lang->about_denied = '체크시 아이디를 사용할 수 없도록 합니다';
     $lang->about_is_admin = '체크시 최고 관리자 권한을 가지게 됩니다';

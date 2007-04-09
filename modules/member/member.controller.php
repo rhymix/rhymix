@@ -375,7 +375,7 @@
          **/
         function procMemberAdminInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -595,7 +595,7 @@
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_id','user_name','nick_name','email_address','password','allow_mailing');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing');
             $args->member_srl = getNextSequence();
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
@@ -629,7 +629,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('nick_name','email_address','allow_mailing');
+            $args = Context::gets('nick_name','homepage','blog','birthday','email_address','allow_mailing');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');
@@ -866,6 +866,10 @@
             if($args->is_admin!='Y') $args->is_admin = 'N';
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
+            // 홈페이지, 블로그의 주소 검사
+            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
+
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -928,6 +932,9 @@
             if(!$args->is_admin) unset($args->is_admin);
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
+            // 홈페이지, 블로그의 주소 검사
+            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 아이디, 닉네임, email address 의 중복 체크
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);

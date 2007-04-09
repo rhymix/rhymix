@@ -29,6 +29,18 @@
     <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
 </tr>
 <!--@end-->
+<tr>
+    <th>{$lang->homepage}</th>
+    <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{$member_info->homepage}'); return false;">{$member_info->homepage}</a><!--@end--></td>
+</tr>
+<tr>
+    <th>{$lang->blog}</th>
+    <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{$member_info->blog}'); return false;">{$member_info->blog}</a><!--@end--></td>
+</tr>
+<tr>
+    <th>{$lang->birthday}</th>
+    <td>{zdate($member_info->birthday,"Y-m-d")}</td>
+</tr>
 <!--@if($member_info->signature)-->
 <tr>
     <th>{$lang->signature}</th>
