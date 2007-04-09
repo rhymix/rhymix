@@ -17,6 +17,24 @@
          * @brief 관리자 페이지
          **/
         function dispPollAdminList() {
+            // 검색 옵션 정리
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title= $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                }
+            }
             // 목록을 구하기 위한 옵션
             $args->page = Context::get('page'); ///< 페이지
             $args->list_count = 50; ///< 한페이지에 보여줄 글 수

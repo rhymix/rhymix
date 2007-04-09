@@ -97,7 +97,6 @@
                 }
             }
 
-
             // 변수 설정
             $args->sort_index = $obj->sort_index;
             $args->page = $obj->page?$obj->page:1;
