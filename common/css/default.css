@@ -141,33 +141,17 @@ h6 {
 }
 
 #membermenuarea .item {
-    color:#000000;
-    padding:2px;
-    margin-bottom:3px;
+    color:#353249;
     cursor:pointer;
-    border:1px solid #FFFFFF;
+    padding:2px;
+    height:17px;
 }
 
 #membermenuarea .item_on {
-    padding:2px;
-    margin-bottom:3px;
-    color:#FFFFFF;
-    background-color:#3916EC;
+    color:#2911B8;
+    font-weight:bold;
+    letter-spacing:-1px;
     cursor:pointer;
-    border:1px solid #000000;
-}
-
-#membermenuarea .last_item {
-    color:#000000;
     padding:2px;
-    cursor:pointer;
-    border:1px solid #FFFFFF;
-}
-
-#membermenuarea .last_item_on {
-    padding:2px;
-    color:#FFFFFF;
-    background-color:#3916EC;
-    cursor:pointer;
-    border:1px solid #000000;
+    height:17px;
 }

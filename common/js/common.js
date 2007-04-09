@@ -457,16 +457,19 @@ function displayMemberMenu(ret_obj, response_tags, params) {
             for(var i=0;i<infos.length;i++) {
                 var info_str = infos[i];
                 var pos = info_str.indexOf(",");
+                var icon = info_str.substr(0,pos).trim();
 
+                info_str = info_str.substr(pos+1, info_str.length).trim();
+                var pos = info_str.indexOf(",");
                 var str = info_str.substr(0,pos).trim();
                 var func = info_str.substr(pos+1, info_str.length).trim();
 
                 var className = "item";
-                if(i==infos.length-1) className = "last_item";
+                //if(i==infos.length-1) className = "item";
 
                 if(!str || !func) continue;
 
-                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</div>";
+                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\"><span style=\"background:url("+icon+") no-repeat left;padding-left:18px;\" onclick=\""+func+"\">"+str+"</div>";
             }
         } 
         loaded_member_menu_list[member_srl] = html;
