@@ -86,6 +86,9 @@
         <!--@end-->
 
         <td>
+            <!--@if($grant->is_admin)-->
+                <input type="checkbox" name="cart" value="{$val->document_srl}" />
+            <!--@end-->
 
             <!--@if($grant->view)-->
                 <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
@@ -120,7 +123,7 @@
 
     <!-- 관리 기능 -->
     <!--@if($grant->is_admin)-->
-        <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_document_management}]</a> 
+        <a href="#" onclick="popopen('{getUrl('act','dispDocumentManagement')}">[{$lang->cmd_document_management}]</a> 
     <!--@end-->
 </div>
 
