@@ -1,0 +1,109 @@
+.login_info_default_normal {
+    border:3px solid #DDDDDD;
+    padding:6px;
+    width:190px;
+    margin-bottom:10px;
+}
+
+.login_info_default_normal .top_box {
+    height:22px;
+    border-bottom:2px dotted #DDDDDD;
+    overflow:hidden;
+    margin-bottom:5px;
+}
+
+.login_info_default_normal .top_box .nick_name {
+    font-weight:bold;
+    float:left;
+    color:#555555;
+}
+
+.login_info_default_normal .top_box .logout {
+    float:right;
+}
+
+.login_info_default_normal .top_box .logout A {
+    font-weight:bold;
+    text-decoration:none;
+    color:#555555;
+}
+
+.login_info_default_normal .top_box .logout A:hover {
+    font-weight:bold;
+    text-decoration:underline;
+    color:#555555;
+}
+
+.login_info_default_normal .info_box {
+    clear:both;
+    color:#555555;
+}
+
+.login_info_default_normal .info_box A {
+    text-decoration:none;
+    color:#555555;
+}
+
+.login_info_default_normal .info_box .modify_info {
+    background:url("../images/icon_profile.gif") no-repeat left;
+    padding-left:15px;
+    margin-bottom:4px;
+}
+
+.login_info_default_normal .info_box .last_login {
+    padding-left:15px;
+    margin-bottom:4px;
+}
+
+.login_info_default_normal .info_box .link_admin {
+    background:url("../images/icon_key.gif") no-repeat left;
+    padding-left:15px;
+    margin-bottom:4px;
+}
+
+.login_info_default_normal .info_box .link_admin A {
+    color:#cd0000;
+}
+
+.login_info_default_normal .login_box {
+    height:40px;
+}
+
+.login_info_default_normal .header {
+    float:left;
+    clear:left;
+    width:80px;
+    margin-bottom:5px;
+    font-weight:bold;
+    color:#555555;
+}
+
+.login_info_default_normal .body {
+    float:left;
+    width:100px;
+    margin-bottom:5px;
+}
+
+.login_info_default_normal .body input {
+    width:90px;
+    height:13px;
+    border:1px solid #AAAAAA;
+    color:#555555;
+}
+
+.login_info_default_normal .button_area {
+    clear:both;
+    height:20px;
+    margin-top:5px;
+    text-align:center;
+}
+
+.login_info_default_normal .button_area input {
+    width:90px;
+    height:18px;
+    border:1px solid #AAAAAA;
+    background-color:#555555;
+    color:#FFFFFF;
+    font-weight:bold;
+    width:100%;
+}
