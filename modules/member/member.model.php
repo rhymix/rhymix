@@ -621,5 +621,18 @@
             if(!is_array($group_list)) $group_list = array($group_list);
             return $group_list;
         }
+
+        /**
+         * @brief 특정 회원의 친구 목록에 포함되어 있는지를 확인
+         **/
+        function isFriend($target_srl) {
+            $logged_info = Context::get('logged_info');
+
+            $args->member_srl = $target_srl;
+            $args->target_srl = $logged_info->member_srl;
+            $output = executeQuery('member.isAddedFriend', $args);
+            if($output->data->count) return true;
+            return false;
+        }
     }
 ?>

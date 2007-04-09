@@ -65,6 +65,13 @@
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
 
+            // 받을 회원의 쪽지 수신여부 검사
+            if($receiver_member_info->allow_message == 'F') {
+                if(!$oMemberModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
+            } elseif($receiver_member_info->allow_messge == 'N') {
+                return new object(-1, 'msg_disallow_message');
+            }
+
             $oDB = &DB::getInstance();
             $oDB->begin();
 
@@ -873,7 +880,7 @@
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
-            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_mailing = 'Y';
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message= 'Y';
             if($args->denied!='Y') $args->denied = 'N';
             if($args->is_admin!='Y') $args->is_admin = 'N';
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
@@ -954,7 +961,7 @@
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
-            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_mailing = 'Y';
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
             if(!$args->denied) unset($args->denied);
             if(!$args->is_admin) unset($args->is_admin);
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);

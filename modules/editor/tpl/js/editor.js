@@ -96,6 +96,12 @@ function editorStart(upload_target_srl) {
     editorSyncContent(fo_obj.content, upload_target_srl);
 
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, upload_target_srl);
+
+    // 팝업 윈도우일 경우 드래그바 숨김
+    if(typeof(_isPoped)!="undefined" && _isPoped) {
+        xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
+        setFixedPopupSize();
+    }
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
