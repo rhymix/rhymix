@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
-  <title xml:lang="ko">레인보우 링크 애드온</title>
-  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
+  <title xml:lang="ko">길호 링크 뷰</title>
+  <author email_address="" link="http://linkview.kilho.net" date="2007. 2. 28">
+    <name xml:lang="ko">길호</name>
     <description xml:lang="ko">
-        rainbow.js를 header에 추가하여 링크가 걸린 글의 색을 무지개색으로 나타냅니다.
-        이 애드온의 rainbow.js는 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;에 저작권이 있습니다.
+        링크에 마우스를 올리면 미리보기가 보입니다.
     </description>
   </author>
 </addon>

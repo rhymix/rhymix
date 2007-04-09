@@ -14,6 +14,6 @@
 
     if($called_position != 'before_module_init') return;
 
-    // Context::addJsFile()을 이용하면 끝
-    Context::addJsFile($addon_path.'js/rainbow.js');
+    // Context::addHtmlHeader()로 스크립트만 추가
+    Context::addHtmlHeader('<script defer="defer" id="kilho_linkview" type="text/javascript" src="http://linkview.kilho.net/linkview-s.php"></script>');
 ?>
