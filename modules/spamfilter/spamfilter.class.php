@@ -16,11 +16,11 @@
             $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminConfig');
             $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminDeniedIPList');
             $oModuleController->insertActionForward('spamfilter', 'view', 'dispSpamfilterAdminDeniedWordList');
-            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertConfig');
-            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedIP');
-            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedIP');
-            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedWord');
-            $oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedWord');
+            //$oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertConfig');
+            //$oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedIP');
+            //$oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedIP');
+            //$oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminInsertDeniedWord');
+            //$oModuleController->insertActionForward('spamfilter', 'controller', 'procSpamfilterAdminDeleteDeniedWord');
 
             return new Object();
         }

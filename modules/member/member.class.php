@@ -38,38 +38,38 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInsertJoinForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminDeniedIDList');
 
-            $oModuleController->insertActionForward('member', 'model', 'getmemberMenu');
+            //$oModuleController->insertActionForward('member', 'model', 'getmemberMenu');
 
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberLogin');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberLogout');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsert');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberModifyInfo');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberModifyPassword');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageName');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageMark');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberLogin');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberLogout');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberInsert');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberModifyInfo');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberModifyPassword');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageName');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageMark');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
 
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberSendMessage');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessage');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessages');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberSendMessage');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessage');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessages');
 
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriend');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberMoveFriend');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriend');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriendGroup');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberRenameFriendGroup');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriendGroup');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriend');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberMoveFriend');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriend');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriendGroup');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberRenameFriendGroup');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriendGroup');
 
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsert');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminDelete');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertConfig');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertGroup');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateGroup');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertJoinForm');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateJoinForm');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertDeniedID');
-            $oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateDeniedID');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsert');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminDelete');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertConfig');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertGroup');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateGroup');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertJoinForm');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateJoinForm');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertDeniedID');
+            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateDeniedID');
 
             // 기본 정보를 세팅
             $args->enable_join = 'Y';

@@ -18,7 +18,7 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('krzip', 'view', 'dispKrzipAdminConfig');
-            $oModuleController->insertActionForward('krzip', 'controller', 'procKrzipAdminInsertConfig');
+            //$oModuleController->insertActionForward('krzip', 'controller', 'procKrzipAdminInsertConfig');
 
             return new Object();
         }

@@ -15,10 +15,10 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('editor', 'view', 'dispEditorAdminIndex');
             $oModuleController->insertActionForward('editor', 'view', 'dispEditorAdminSetupComponent');
-            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminEnableComponent');
-            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminDisableComponent');
-            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminMoveListOrder');
-            $oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminSetupComponent');
+            //$oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminEnableComponent');
+            //$oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminDisableComponent');
+            //$oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminMoveListOrder');
+            //$oModuleController->insertActionForward('editor', 'controller', 'procEditorAdminSetupComponent');
 
             // 기본 에디터 컴포넌트를 추가
             $oEditorController = &getController('editor');

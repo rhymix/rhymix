@@ -17,7 +17,7 @@
             $oModuleController->insertActionForward('file', 'controller', 'procFileUpload');
             $oModuleController->insertActionForward('file', 'controller', 'procFileDelete');
             $oModuleController->insertActionForward('file', 'controller', 'procFileDownload');
-            $oModuleController->insertActionForward('file', 'controller', 'procFileAdminDeleteChecked');
+            //$oModuleController->insertActionForward('file', 'controller', 'procFileAdminDeleteChecked');
 
             // file 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/attach/images');

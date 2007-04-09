@@ -19,8 +19,8 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('rss', 'view', 'dispRssAdminConfig');
-            $oModuleController->insertActionForward('rss', 'controller', 'dispRssAdminInsertConfig');
+            //$oModuleController->insertActionForward('rss', 'view', 'dispRssAdminConfig');
+            //$oModuleController->insertActionForward('rss', 'controller', 'dispRssAdminInsertConfig');
 
             return new Object();
         }
