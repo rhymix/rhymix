@@ -1,5 +1,5 @@
 /**
- * @file   modules/board/js/plugin_admin.js
+ * @file   modules/plugin/js/plugin_admin.js
  * @author zero (zero@nzeo.com)
  * @brief  plugin 모듈의 관리자용 javascript
  **/

@@ -16,6 +16,12 @@
             $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminList');
             $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminConfig');
 
+            // 기본 스킨 설정
+            $oModuleController = &getController('module');
+            $config->skin = 'default';
+            $config->colorset = 'normal';
+            $oModuleController->insertModuleConfig('poll', $config);
+
             return new Object();
         }
 

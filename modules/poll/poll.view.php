@@ -59,5 +59,27 @@
             $this->setTemplateFile('poll_list');
         }
 
+        /**
+         * @brief 설문조사 스킨, 컬러셋 설정
+         **/
+        function dispPollAdminConfig() {
+            $oModuleModel = &getModel('module');
+
+            // 설정 정보 가져오기
+            $config = $oModuleModel->getModuleConfig('poll');
+            Context::set('config', $config);
+
+            // 스킨 정보 가져오기
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list', $skin_list);
+
+            // 설정된 스킨의 컬러셋 설정
+            Context::set('colorset_list', $skin_list[$config->skin]->colorset);
+        
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('config');
+        }
+
     }
 ?>

@@ -261,5 +261,18 @@
 
             return new Object();
         }
+
+        /**
+         * @brief 설정 저장
+         **/
+        function procPollAdminInsertConfig() {
+            $config->skin = Context::get('skin');
+            $config->colorset = Context::get('colorset');
+
+            $oModuleController = &getController('module');
+            $oModuleController->insertModuleConfig('poll', $config);
+
+            $this->setMessage('success_updated');
+        }
     }
 ?>

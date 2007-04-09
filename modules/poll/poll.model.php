@@ -84,12 +84,33 @@
 
             Context::set('poll',$poll);
 
-            $tpl_path = $this->module_path.'tpl';
+            // 기본 설정의 스킨, 컬러셋 설정 
+            $oModuleModel = &getModel('module');
+            $poll_config = $oModuleModel->getModuleConfig('poll');
+            Context::set('poll_config', $poll_config);
+            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $poll_config->skin);
 
             require_once("./classes/template/TemplateHandler.class.php");
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
+        /**
+         * @brief 선택된 설문조사 - 스킨의 컬러셋을 return
+         **/
+        function getPollGetColorsetList() {
+            $skin = Context::get('skin');
+
+            $oModuleModel = &getModel('module');
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+
+            for($i=0;$i<count($skin_info->colorset);$i++) {
+                $colorset = sprintf('%s|@|%s', $skin_info->colorset[$i]->name, $skin_info->colorset[$i]->title);
+                $colorset_list[] = $colorset;
+            }
+
+            if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
+            $this->add('colorset_list', $colorsets);
+        }
     }
 ?>

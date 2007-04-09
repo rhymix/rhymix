@@ -1,0 +1,35 @@
+<!--%import("filter/insert_config.xml")-->
+<!--%import("js/poll_admin.js")-->
+<!--#include("./header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config);" id="fo_poll">
+
+    <table border="1">
+    <tr>
+        <th>{$lang->skin}</th>
+        <td>
+            <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+            <!--@foreach($skin_list as $key => $val)-->
+                <option value="{$key}" <!--@if($config->skin == $key)-->selected="true"<!--@end-->>{$val->title} ({$key})</option>
+            <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>{$lang->colorset}</th>
+        <td>
+            <select name="colorset" id="poll_colorset">
+            <!--@foreach($colorset_list as $key => $val)-->
+                <option value="{$val->name}" <!--@if($config->colorset == $val->name)-->selected="true"<!--@end-->>{$val->title} ({$val->name})</option>
+            <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>    
+        <td colspan="2">
+            <input type="submit" value="{$lang->cmd_submit}" />
+        </td>
+    </tr>
+    </table>
+
+</form>
