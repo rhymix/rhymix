@@ -98,6 +98,19 @@
     <tr>
         <td>{$lang->about_allow_mailing}</td>
     </tr>
+    <tr>
+        <th rowspan="2">{$lang->allow_message}</th>
+        <td>
+            <select name="allow_message">
+                <!--@foreach($lang->allow_message_type as $key => $val)-->
+                <option value="{$key}" <!--@if($member_info->allow_message == $key)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_allow_message}</td>
+    </tr>
     <!--@if($member_srl && $editor)-->
     <tr>
         <th>{$lang->signature}</th>

@@ -15,7 +15,7 @@
         <column name="blog" var="blog" />
         <column name="birthday" var="birthday" />
         <column name="allow_mailing" var="allow_mailing" default="Y" />
-        <column name="unread_message" var="unread_message" default="0" />
+        <column name="allow_message" var="allow_message" default="Y" />
         <column name="denied" var="denied" default="N" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="last_login" var="last_login" />

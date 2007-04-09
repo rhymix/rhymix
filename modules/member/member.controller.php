@@ -65,6 +65,9 @@
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 발송하는 회원의 쪽지함에 넣을 쪽지
             $sender_args->message_srl = getNextSequence();
             $sender_args->related_srl = getNextSequence();
@@ -77,7 +80,10 @@
             $sender_args->readed = 'N';
             $sender_args->regdate = date("YmdHis");
             $output = executeQuery('member.sendMessage', $sender_args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 받는 회원의 쪽지함에 넣을 쪽지
             $receiver_args->message_srl = $sender_args->related_srl;
@@ -91,13 +97,18 @@
             $receiver_args->readed = 'N';
             $receiver_args->regdate = date("YmdHis");
             $output = executeQuery('member.sendMessage', $receiver_args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 받는 회원의 쪽지 발송 플래그 생성 (파일로 생성)
             $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($receiver_srl);
             FileHandler::makeDir($flag_path);
             $flag_file = sprintf('%s%s', $flag_path, $receiver_srl);
             FileHandler::writeFile($flag_file,'1');
+
+            $oDB->commit();
 
             $this->setMessage('success_sended');
         }
@@ -375,7 +386,7 @@
          **/
         function procMemberAdminInsert() {
             // 필수 정보들을 미리 추출
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','denied','is_admin','description','group_srl_list');
+            $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message','denied','is_admin','description','group_srl_list');
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -595,7 +606,7 @@
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message');
             $args->member_srl = getNextSequence();
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
@@ -629,7 +640,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('nick_name','homepage','blog','birthday','email_address','allow_mailing');
+            $args = Context::gets('nick_name','homepage','blog','birthday','email_address','allow_mailing','allow_message');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');
@@ -862,6 +873,7 @@
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_mailing = 'Y';
             if($args->denied!='Y') $args->denied = 'N';
             if($args->is_admin!='Y') $args->is_admin = 'N';
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
@@ -886,13 +898,19 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
             if($member_srl) return new Object(-1,'msg_exists_email_address');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // DB에 입력
             $args->member_srl = getNextSequence();
             if($args->password) $args->password = md5($args->password);
             else unset($args->password);
 
             $output = executeQuery('member.insertMember', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 입력된 그룹 값이 없으면 기본 그룹의 값을 등록
             if(!$args->group_srl_list) {
@@ -900,7 +918,10 @@
 
                 // 기본 그룹에 추가
                 $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
 
             // 입력된 그룹 값이 있으면 해당 그룹의 값을 등록
             } else {
@@ -908,9 +929,14 @@
                 for($i=0;$i<count($group_srl_list);$i++) {
                     $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
 
-                    if(!$output->toBool()) return $output;
+                    if(!$output->toBool()) {
+                        $oDB->rollback();
+                        return $output;
+                    }
                 }
             }
+
+            $oDB->commit();
 
             $output->add('member_srl', $args->member_srl);
             return $output;
@@ -928,6 +954,7 @@
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_mailing = 'Y';
             if(!$args->denied) unset($args->denied);
             if(!$args->is_admin) unset($args->is_admin);
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
@@ -946,13 +973,19 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
             if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // DB에 update
             if($args->password) $args->password = md5($args->password);
             else $args->password = $member_info->password;
             if(!$args->user_name) $args->user_name = $member_info->user_name;
 
             $output = executeQuery('member.updateMember', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // 그룹 정보가 있으면 그룹 정보를 변경
             if($args->group_srl_list) {
@@ -960,14 +993,22 @@
 
                 // 일단 해당 회원의 모든 그룹 정보를 삭제
                 $output = executeQuery('member.deleteMemberGroupMember', $args);
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
 
                 // 하나 하나 루프를 돌면서 입력
                 for($i=0;$i<count($group_srl_list);$i++) {
                     $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
-                    if(!$output->toBool()) return $output;
+                    if(!$output->toBool()) {
+                        $oDB->rollback();
+                        return $output;
+                    }
                 }
             }
+
+            $oDB->commit();
 
             $output->add('member_srl', $args->member_srl);
             return $output;

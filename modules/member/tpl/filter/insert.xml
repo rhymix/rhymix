@@ -17,6 +17,7 @@
         <param name="birthday" target="birthday" />
         <param name="email_address" target="email_address" />
         <param name="allow_mailing" target="allow_mailing" />
+        <param name="allow_message" target="allow_message" />
         <param name="denied" target="denied" />
         <param name="is_admin" target="is_admin" />
         <param name="description" target="description" />
