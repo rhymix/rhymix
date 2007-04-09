@@ -8,7 +8,9 @@ function setPoll() {
     if(node && node.getAttribute('editor_component')=='poll_maker') {
         alert(msg_poll_cannot_modify);
         window.close();
+        return;
     }
+
     var obj = xCreateElement("div");
     var source = xGetElementById("poll_source");
 
