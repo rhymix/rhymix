@@ -86,10 +86,6 @@
         <!--@end-->
 
         <td>
-            <!--@if($grant->is_admin)-->
-                <input type="checkbox" name="cart" value="{$val->document_srl}" />
-            <!--@end-->
-
             <!--@if($grant->view)-->
                 <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
             <!--@else-->
