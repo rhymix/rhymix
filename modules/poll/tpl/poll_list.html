@@ -15,15 +15,15 @@
     <tr>
         <th colspan="2">{$lang->no}</th>
         <th>{$lang->title}</th>
-        <th>{$lang->poll_check_count}</th>
-        <th>{$lang->poll_total_count}</th>
+        <th>{$lang->poll_checkcount}</th>
+        <th>{$lang->poll_join_count}</th>
         <th>{$lang->regdate}</th>
     </tr>
     <!--@foreach($poll_list as $no => $val)-->
     <tr>
         <td>{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-        <td>{$val->title}</td>
+        <td><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;"/>{$val->title}</a></td>
         <td>{$val->checkcount}</td>
         <td>{$val->poll_count}</td>
         <td>{zdate($val->regdate,"Y-m-d H:i")}</td>

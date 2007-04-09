@@ -6,8 +6,8 @@
      **/
 
     $lang->poll_stop_date = "설문조사 종료일";
-    $lang->poll_total_count = "참가자";
-    $lang->poll_check_count = "필수 선택 항목수";
+    $lang->poll_join_count = "참가자";
+    $lang->poll_checkcount = "필수 선택 항목수";
 
     $lang->cmd_delete_checked_poll = '선택항목 삭제';
     $lang->cmd_apply_poll = '설문 참여';

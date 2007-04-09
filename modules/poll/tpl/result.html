@@ -3,8 +3,8 @@
 <div class="poll_box" style="{$poll->style}">
 
     <div class="poll_title_box">
-        <div class="poll_total_count">
-            {$lang->poll_total_count} : {number_format($poll->poll_count)}
+        <div class="poll_join_count">
+            {$lang->poll_join_count} : {number_format($poll->poll_count)}
         </div>
         <div class="poll_stop_date">
             {$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")}

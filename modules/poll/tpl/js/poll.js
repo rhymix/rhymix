@@ -1,7 +1,7 @@
 /* 설문 참여 함수 */
 function doPoll(fo_obj) {
 
-    var check_count = new Array();
+    var checkcount = new Array();
     var item = new Array();
 
     for(var i=0;i<fo_obj.length;i++) {
@@ -12,7 +12,7 @@ function doPoll(fo_obj) {
         if(name.indexOf('checkcount')>-1) {
             var t = name.split('_');
             var poll_srl_index = parseInt(t[1],10);
-            check_count[poll_srl_index] = obj.value;
+            checkcount[poll_srl_index] = obj.value;
             item[poll_srl_index] = new Array();
 
         } else if(name.indexOf('item_')>-1) {
@@ -24,8 +24,8 @@ function doPoll(fo_obj) {
     }
 
     var poll_srl_indexes = "";
-    for(var poll_srl_index in check_count) {
-        var count = check_count[poll_srl_index];
+    for(var poll_srl_index in checkcount) {
+        var count = checkcount[poll_srl_index];
         var items = item[poll_srl_index];
         if(count > items.length) {
             alert(poll_alert_lang);

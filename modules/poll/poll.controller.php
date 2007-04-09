@@ -17,6 +17,8 @@
          * @brief 팝업창에서 설문 작성 완료후 저장을 누를때 설문 등록
          **/
         function procInsert() {
+            $upload_target_srl = Context::get('upload_target_srl');
+
             $stop_year = Context::get('stop_year');
             $stop_month = Context::get('stop_month');
             $stop_day = Context::get('stop_day');
@@ -64,6 +66,7 @@
             $poll_args->list_order = $poll_srl*-1;
             $poll_args->stop_date = $args->stop_date;
             $poll_args->poll_count = 0;
+            $poll_args->upload_target_srl = $upload_target_srl;
             $output = executeQuery('poll.insertPoll', $poll_args);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -80,6 +83,7 @@
                 $title_args->poll_count = 0;
                 $title_args->list_order = $title_args->poll_index_srl * -1;
                 $title_args->member_srl = $member_srl;
+                $title_args->upload_target_srl = $upload_target_srl;
                 $output = executeQuery('poll.insertPollTitle', $title_args);
                 if(!$output->toBool()) {
                     $oDB->rollback();
@@ -93,6 +97,7 @@
                     $item_args->poll_index_srl = $title_args->poll_index_srl;
                     $item_args->title = $v;
                     $item_args->poll_count = 0;
+                    $item_args->upload_target_srl = $upload_target_srl;
                     $output = executeQuery('poll.insertPollItem', $item_args);
                     if(!$output->toBool()) {
                         $oDB->rollback();
