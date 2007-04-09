@@ -21,12 +21,12 @@
             </select>
             <select name="stop_month">
                 <!--@for($i=1;$i<=12;$i++)-->
-                <option value="{$i}" <!--@if($i==date("m"))-->selected="true"<!--@end-->>{$i}</option>
+                <option value="{$i}" <!--@if($i==date("m", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
                 <!--@end-->
             </select>
             <select name="stop_day">
                 <!--@for($i=1;$i<=31;$i++)-->
-                <option value="{$i}" <!--@if($i==date("d"))-->selected="true"<!--@end-->>{$i}</option>
+                <option value="{$i}" <!--@if($i==date("d", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
                 <!--@end-->
             </select>
             <input type="button" class="editor_button" value="{$lang->cmd_add_poll}" onclick="doPollAdd(); return false;" />
