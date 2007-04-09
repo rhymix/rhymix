@@ -33,6 +33,7 @@
 
             // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
             $document_count = count($output->data);
+            $module_srl_list = array();
             if($document_count) {
                 foreach($output->data as $key => $val) {
                     $module_srl = $val->module_srl;
