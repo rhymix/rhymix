@@ -3,6 +3,10 @@
 <!--%import("filter/insert_poll.xml")-->
 <!--%import("../lang")-->
 
+<script type="text/javascript">
+    var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
+</script>
+
 <form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;">
     <input type="hidden" name="component" value="{$component_info->component_name}" />
     <input type="hidden" name="method" value="insertPoll" />
