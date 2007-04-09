@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="0.1">
-    <title xml:lang="ko">로그인 정보 출력</title>
+    <title xml:lang="ko">설문조사 플러그인</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">로그인 폼이나 로그인 정보를 출력합니다</description>
+        <description xml:lang="ko">게시글 또는 페이지등에서 등록된 설문조사를 출력합니다</description>
     </author>
     <extra_vars />
 </plugin>

@@ -3,12 +3,10 @@
      * @class 
      * @author zero (zero@nzeo.com)
      * @version 0.1
-     * @brief 로그인 폼을 출력하는 플러그인
-     *
-     * $logged_info를 이용하며 이는 미리 설정되어 있음
+     * @brief 설문조사를 출력
      **/
 
-    class login_info extends PluginHandler {
+    class poll_plugin extends PluginHandler {
 
         /**
          * @brief 플러그인의 실행 부분
