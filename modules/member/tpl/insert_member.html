@@ -232,6 +232,12 @@
             <!--@elseif($val->column_type == 'jp_zip')-->
                 <input type="text" name="{$val->column_name}" value="{$val->value}" />
 
+            <!-- 날자 입력 -->
+            <!--@elseif($val->column_type == 'date')-->
+                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+                <span id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</span>
+                [<a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;">{$lang->cmd_open_calendar}</a>]
+
             <!--@end-->
 
         </td>

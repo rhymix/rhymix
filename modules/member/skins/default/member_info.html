@@ -66,6 +66,8 @@
             {$val->value[0]} {$val->value[1]}
         <!--@elseif($val->column_type=='checkbox')-->
             {implode(",",$val->value)}
+        <!--@elseif($val->column_type=='date')-->
+            {zdate($val->value, "Y-m-d")}
         <!--@else-->
             {$val->value}
         <!--@end-->

@@ -405,6 +405,7 @@ var loaded_member_menu_list = new Array();
 // className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
 function chkMemberMenu(evt) {
     var area = xGetElementById("membermenuarea");
+    if(!area) return;
     if(area.style.visibility!="hidden") area.style.visibility="hidden";
 
     var e = new xEvent(evt);
@@ -495,4 +496,11 @@ function setMemberMenuObjCursor() {
             if(member_srl>0) node.style.cursor = "pointer";
         }
     }
+}
+
+// 날자 선택 (달력 열기)
+function open_calendar(fo_id, day_str) {
+    if(typeof(day_str)=="undefined") day_str = "";
+    var url = "./common/tpl/calendar.php?fo_id="+fo_id+"&day_str="+day_str;
+    popopen(url, 'Calendar');
 }

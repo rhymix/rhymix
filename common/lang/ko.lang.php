@@ -41,6 +41,7 @@
     $lang->cmd_open = "열기";
     $lang->cmd_setup = "설정";
     $lang->cmd_apply = "적용";
+    $lang->cmd_open_calendar = "날자 선택";
 
     $lang->enable = '가능';
     $lang->disable = '불가능';
@@ -177,6 +178,7 @@
     $lang->column_type_list['checkbox'] = '다중 선택 (checkbox)';
     $lang->column_type_list['select'] = '단일 선택 (select)';
     $lang->column_type_list['kr_zip'] = '한국주소 (zip)';
+    $lang->column_type_list['date'] = '일자 (년월일)';
     //$lang->column_type_list['jp_zip'] = '일본주소 (zip)';
     $lang->column_name = '입력항목 이름';
     $lang->column_title = '입력항목 제목';
