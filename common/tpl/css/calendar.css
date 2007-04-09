@@ -1,0 +1,52 @@
+.calendar_box {
+    float:right;
+    width:347px;
+}
+
+.calendar_title {
+    padding:2px 0px 2px 0px;
+    border:1px solid #DDDDDD;
+    margin:5px 6px 3px 6px;
+}
+
+.calendar_title td {
+    font-weight:bold;
+}
+
+.calendar_list {
+    padding:2px;
+    margin:3px;
+}
+
+.calendar_cell {
+    float:left;
+    width:40px;
+    height:40px;
+    border:1px solid #EEEEEE;
+    margin:3px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.calendar_cell_on {
+    float:left;
+    width:40px;
+    height:40px;
+    border:1px solid #444444;
+    margin:3px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.calendar_cell div {
+    margin-top:12px;
+}
+
+.calendar_list .sunday {
+    color:red;
+    font-weight:bold;
+}
+
+.calendar_list .saturday {
+    color:blue;
+}

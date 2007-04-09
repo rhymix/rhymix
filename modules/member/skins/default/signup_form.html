@@ -56,7 +56,7 @@
     <tr>
         <th rowspan="2">{$lang->user_name}</th>
         <td>
-            <input type="text" name="user_name" value="{$member_info->user_name}" />
+            <input type="text" name="user_name" value="" />
         </td>
     </tr>
     <tr>
@@ -65,7 +65,7 @@
     <tr>
         <th rowspan="2">{$lang->nick_name}</th>
         <td>
-            <input type="text" name="nick_name" value="{$member_info->nick_name}" />
+            <input type="text" name="nick_name" value="" />
         </td>
     </tr>
     <tr>
@@ -74,13 +74,13 @@
     <tr>
         <th>{$lang->email_address}</th>
         <td>
-            <input type="text" name="email_address" value="{$member_info->email_address}" />
+            <input type="text" name="email_address" value="" />
         </td>
     </tr>
     <tr>
         <th rowspan="2">{$lang->homepage}</th>
         <td>
-            <input type="text" name="homepage" value="{$member_info->homepage}" />
+            <input type="text" name="homepage" value="" />
         </td>
     </tr>
     <tr>
@@ -89,7 +89,7 @@
     <tr>
         <th rowspan="2">{$lang->blog}</th>
         <td>
-            <input type="text" name="blog" value="{$member_info->blog}" />
+            <input type="text" name="blog" value="" />
         </td>
     </tr>
     <tr>
@@ -98,7 +98,9 @@
     <tr>
         <th rowspan="2">{$lang->birthday}</th>
         <td>
-            <input type="text" name="birthday" value="{$member_info->birthday}" />
+            <input type="hidden" name="birthday" id="date_birthday" value="" />
+            <span id="str_birthday"></span>
+            [<a href="#" onclick="open_calendar('birthday','');return false;">{$lang->cmd_open_calendar}</a>]
         </td>
     </tr>
     <tr>
