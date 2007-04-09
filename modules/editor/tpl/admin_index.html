@@ -14,7 +14,10 @@
 
 <!--@foreach($component_list as $component_name => $xml_info)-->
 <tr>
-    <td rowspan="2">{$xml_info->title}<br />({$component_name})</td>
+    <td rowspan="2">
+        <img src="../components/{$component_name}/icon.gif" border="0" alt="{$component_name}" />
+        {$xml_info->title}<br />({$component_name})
+    </td>
     <td rowspan="2">{$xml_info->version}</td>
     <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
     <td><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
@@ -35,7 +38,9 @@
     <td><a href="#" onclick="doMoveListOrder('{$component_name}','down'); return false;">{$lang->cmd_move_down}</a></td>
 </tr>
 <tr>
-    <td colspan="7">{nl2br($xml_info->description)}</td>
+    <td colspan="7">
+        {nl2br($xml_info->description)}
+    </td>
 </tr>
 <!--@end-->
 
