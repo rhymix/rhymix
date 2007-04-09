@@ -14,6 +14,19 @@
         }
 
         /**
+         * @brief 게시글 관리용
+         **/
+        function dispDocumentManagement() {
+            // popup 레이아웃 지정
+            $this->setLayoutFile('popup_layout');
+
+
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('document_management');
+        }
+
+        /**
          * @brief 목록 출력 (관리자용)
          **/
         function dispDocumentAdminList() {
