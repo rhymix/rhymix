@@ -40,7 +40,12 @@
          **/
         function transHTML($xml_obj) {
             $poll_srl = $xml_obj->attrs->poll_srl;
-            $style = preg_replace("/height([^;]*)/i", "", $xml_obj->attrs->style);
+
+            preg_match('/width([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
+            $width = $matches[2];
+            if(!$width) $width = 400;
+            $style = sprintf('width:%dpx', $width);
+            debugPrint($style);
 
             // poll model 객체 생성해서 html 얻어와서 return
             $oPollModel = &getModel('poll');

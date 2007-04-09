@@ -41,13 +41,13 @@
          * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
          **/
         function transHTML($xml_obj) {
-            $src = $xml_obj->attrs->src;
+            $src = $xml_obj->attrs->multimedia_src;
 
-            $width = $xml_obj->attrs->width;
-            if(!$width) $width = 640;
-
-            $height = $xml_obj->attrs->height;
-            if(!$height) $height = 480;
+            preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$style,$matches);
+            $width = $matches[3][0];
+            $height = $matches[3][1];
+            if(!$width) $width = 400;
+            if(!$height) $height = 400;
 
             $auto_start = $xml_obj->attrs->auto_start;
             if($auto_start!="true") $auto_start = "false";

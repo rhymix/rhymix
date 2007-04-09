@@ -22,12 +22,6 @@ a.bold {
 .folder_closer { display: none; }
 .folder_area { display: none; }
 
-.editor_component_output {
-    background:url(../tpl/images/edit_component.gif) no-repeat center;
-    background-color:#FFFFFF;
-    border:3px dotted #2661db;
-}
-
 .zbxe_plugin_output {
     background:url(../tpl/images/plugin.gif) no-repeat center;
     background-color:#FFFFFF;

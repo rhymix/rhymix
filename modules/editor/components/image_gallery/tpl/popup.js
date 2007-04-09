@@ -9,7 +9,7 @@ function getSlideShow() {
     if(node && node.nodeName == "IMG") {
         selected_node = node;
 
-        var width = xWidth(selected_node)-6;
+        var width = xWidth(selected_node)-4;
         var gallery_style = selected_node.getAttribute("gallery_style");
         var gallery_align = selected_node.getAttribute("gallery_align");
         var border_color = selected_node.getAttribute("border_color");
@@ -102,7 +102,7 @@ function insertSlideShow() {
         selected_node.setAttribute("images_list", images_list);
         selected_node.style.width = width+"px";
     } else {
-        var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"image_gallery\" class=\"editor_component_output\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" align=\""+gallery_align+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;\" images_list=\"images_list\" />";
+        var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"image_gallery\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" align=\""+gallery_align+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/image_gallery/tpl/image_gallery_component.gif) no-repeat center;\" images_list=\""+images_list+"\" />";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);

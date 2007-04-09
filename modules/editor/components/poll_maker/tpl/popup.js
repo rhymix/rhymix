@@ -34,7 +34,7 @@ function completeInsertPoll(ret_obj) {
     var poll_srl = ret_obj["poll_srl"];
     if(!poll_srl) return null;
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" class=\"editor_component_output\" style=\"width:400px;height:300px;\"  />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" style=\"width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
 
     alert(ret_obj['message']);
 

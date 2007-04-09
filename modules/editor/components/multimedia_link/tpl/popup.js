@@ -7,20 +7,18 @@ function getMultimedia() {
     if(typeof(opener)=="undefined") return;
 
     var node = opener.editorPrevNode;
-    if(!node || node.nodeName != "DIV") return;
+    if(!node || node.nodeName != "IMG") return;
 
-    var url = node.getAttribute("src");
-    var caption = xInnerHtml(node);
-    var width = node.getAttribute("width");
-    if(width!=xWidth(node)) width = xWidth(node);
-    var height = node.getAttribute("height");
-    if(height!=xHeight(node)) height = xHeight(node);
+    var url = node.getAttribute("multimedia_src");
+    var caption = node.getAttribute("alt");
+    var width = xWidth(node);
+    var height = xHeight(node);
     var auto_start = node.getAttribute("auto_start");
 
     xGetElementById("multimedia_url").value = url;
     xGetElementById("multimedia_caption").value = caption;
-    xGetElementById("multimedia_width").value = width-6;
-    xGetElementById("multimedia_height").value = height-6;
+    xGetElementById("multimedia_width").value = width-4;
+    xGetElementById("multimedia_height").value = height-4;
     if(auto_start=="true") xGetElementById("multimedia_auto_start").checked = true;
 
 }
@@ -33,10 +31,10 @@ function insertMultimedia(obj) {
     var caption = xGetElementById("multimedia_caption").value;
 
     var width = xGetElementById("multimedia_width").value;
-    if(!width) width = 640;
+    if(!width) width = 400;
 
     var height = xGetElementById("multimedia_height").value;
-    if(!height) height= 480;
+    if(!height) height= 400;
 
     var auto_start = "false";
     if(xGetElementById("multimedia_auto_start").checked) auto_start = "true";
@@ -46,7 +44,7 @@ function insertMultimedia(obj) {
       return;
     }
 
-    var text = "<div editor_component=\"multimedia_link\" class=\"editor_component_output\" src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" auto_start=\""+auto_start+"\">"+caption+"</div>";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\""+auto_start+"\" alt=\""+caption+"\" />";
 
     opener.editorFocus(opener.editorPrevSrl);
 

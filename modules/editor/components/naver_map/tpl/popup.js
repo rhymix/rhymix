@@ -25,8 +25,8 @@ function getNaverMap() {
         search_address(address);
     }
 
-    xGetElementById("map_width").value = width-6;
-    xGetElementById("map_height").value = height-6;
+    xGetElementById("map_width").value = width-4;
+    xGetElementById("map_height").value = height-4;
 }
 
 function insertNaverMap(obj) {
@@ -38,10 +38,9 @@ function insertNaverMap(obj) {
     var address = xGetElementById("address").value;
 
     var width = xGetElementById("map_width").value;
-
     var height = xGetElementById("map_height").value;
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"naver_map\" class=\"editor_component_output\" address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;\" marker=\""+marker+"\" />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"naver_map\"  address=\""+address+"\" x=\""+x+"\" y=\""+y+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;border:2px dotted #3CBC2f;background:url(./modules/editor/components/naver_map/tpl/navermap_component.gif) no-repeat center;\" marker=\""+marker+"\" />";
 
     opener.editorFocus(opener.editorPrevSrl);
 
