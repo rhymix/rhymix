@@ -12,7 +12,7 @@
     </div>
         <!--@foreach($poll->poll as $poll_srl_index => $val)-->
         <div class="poll_detail_box">
-            <div class="title">{$poll_srl_index}. {$val->title} ({$val->poll_count})</div>
+            <div class="title">{$val->title} ({$val->poll_count})</div>
             <!--@foreach($val->item as $item_srl => $item)-->
                 {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
 

@@ -25,7 +25,7 @@
             <input type="hidden" name="checkcount_{$poll_srl_index}" value="{$val->checkcount}" />
 
             <div class="poll_detail_box">
-                <div class="title">{$poll_srl_index}. {$val->title}</div>
+                <div class="title">{$val->title}</div>
                 <!--@foreach($val->item as $item_srl => $item)-->
                 {@$_idx = $poll->poll_srl.'_'.$poll_srl_index.'_'.$item_srl}
 
