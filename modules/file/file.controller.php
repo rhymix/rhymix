@@ -142,17 +142,29 @@
         /**
          * @brief 특정 문서의 첨부파일을 모두 삭제
          **/
-        function deleteFiles($module_srl, $upload_target_srl) {
+        function deleteFiles($upload_target_srl) {
+            // 첨부파일 목록을 받음
+            $oFileModel = &getModel('file');
+            $file_list = $oFileModel->getFiles($upload_target_srl);
+
+            // 첨부파일이 없으면 성공 return
+            if(!is_array($file_list)||!count($file_list)) return new Object();
+
+            // DB에서 삭제 
             $args->upload_target_srl = $upload_target_srl;
             $output = executeQuery('file.deleteFiles', $args);
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
-            $path[0] = sprintf("./files/attach/images/%s/%s/", $module_srl, $upload_target_srl);
-            $path[1] = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
+            $file_count = count($file_list);
+            for($i=0;$i<count($file_count);$i++) {
+                $module_srl = $file_list[$i]->module_srl;
+                $path[0] = sprintf("./files/attach/images/%s/%s/", $module_srl, $upload_target_srl);
+                $path[1] = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
 
-            FileHandler::removeDir($path[0]);
-            FileHandler::removeDir($path[1]);
+                FileHandler::removeDir($path[0]);
+                FileHandler::removeDir($path[1]);
+            }
 
             return $output;
         }

@@ -273,7 +273,7 @@
             // 첨부 파일 삭제
             if($document->uploaded_count) {
                 $oFileController = &getController('file');
-                $oFileController->deleteFiles($document->module_srl, $document_srl);
+                $oFileController->deleteFiles($document_srl);
             }
 
             // 카테고리가 있으면 카테고리 정보 변경

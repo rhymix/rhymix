@@ -600,8 +600,8 @@
             $flag_list = $_SESSION['document_management'][$this->module_srl];
 
             // 목록이 있으면 게시글을 가져옴
-            $document_srl_list = array_keys($flag_list);
-            if(count($document_srl_list)) {
+            if(count($flag_list)) $document_srl_list = array_keys($flag_list);
+            if(is_array($document_srl_list) && count($document_srl_list)) {
                 $oDocumentModeul = &getModel('document');
                 $document_list = $oDocumentModeul->getDocuments($document_srl_list, $this->grant->is_admin);
                 Context::set('document_list', $document_list);
