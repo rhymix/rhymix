@@ -593,9 +593,6 @@
          * @brief 선택한 목록 출력
          **/
         function dispBoardAdminManageDocument() {
-            // 팝업 레이아웃 선택
-            $this->setLayoutFile('popup_layout');
-
             // 선택한 목록을 세션에서 가져옴
             $flag_list = $_SESSION['document_management'][$this->module_srl];
 
@@ -612,6 +609,10 @@
             $board_list = $output->data;
             if($board_list && !is_array($board_list)) $board_list = array($board_list);
             Context::set('board_list', $board_list);
+
+            // 팝업 레이아웃 선택
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('popup_layout');
 
             $this->setTemplateFile('checked_list');
         }

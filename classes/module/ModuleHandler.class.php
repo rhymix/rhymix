@@ -184,7 +184,7 @@
             Context::set('zbxe_url', $zbxe_url);
 
             // 해당 모듈에 layout_srl이 있는지 확인
-            if($oModule->module_info->layout_srl) {
+            if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
                 // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
                 $oLayoutModel = &getModel('layout');
                 $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);

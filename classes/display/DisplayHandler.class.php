@@ -32,7 +32,12 @@
                 // 레이아웃을 컴파일
                 require_once("./classes/template/TemplateHandler.class.php");
                 $oTemplate = new TemplateHandler();
-                $zbxe_final_content = $oTemplate->compile($oModule->getLayoutPath(), $oModule->getLayoutFile());
+
+                $layout_path = $oModule->getLayoutPath();
+                $layout_file = $oModule->getLayoutFile();
+                if(!$layout_path) $layout_path = './common/tpl/';
+                if(!$layout_file) $layout_file = 'default_layout.html';
+                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file);
 
                 // 각 플러그인, 에디터 컴포넌트의 코드 변경
                 $oContext = &Context::getInstance();

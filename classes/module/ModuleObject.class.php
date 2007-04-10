@@ -20,8 +20,8 @@
         var $template_path = NULL; ///< template 경로
         var $template_file = NULL; ///< template 파일
 
-        var $layout_path = './common/tpl/'; ///< 레이아웃 경로
-        var $layout_file = 'default_layout.html'; ///< 레이아웃 파일
+        var $layout_path = ''; ///< 레이아웃 경로
+        var $layout_file = ''; ///< 레이아웃 파일
 
         var $stop_proc = false; ///< action 수행중 stop()를 호출하면 ModuleObject::proc()를 수행하지 않음
 
