@@ -7,7 +7,7 @@
     <param name="user_id" target="user_id" />
     <param name="password" target="password" />
   </parameter>
-  <response>
+  <response callback_func="completeLogin">
     <tag name="error" />
     <tag name="message" />
   </response>

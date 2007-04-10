@@ -1,13 +1,16 @@
 <!--%import("filter/login.xml")-->
 <!--%import("js/member.js")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, login)">
+<form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
     <table>
     <col width="120" />
     <col width="*" />
     <tr>
-        <th>{$lang->user_id}</th>
-        <td><input type="text" name="user_id" id="member_login_user_id" /></td>
+        <th rowspan="2">{$lang->user_id}</th>
+        <td><input type="text" name="user_id" /></td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" name="remember_user_id" value="Y" /> {$lang->remember_user_id}</td>
     </tr>
     <tr>
         <th>{$lang->password}</th>
@@ -29,5 +32,5 @@
 </form>
 
 <script type="text/javascript">
-        xAddEventListener(window, "load", function() { xGetElementById("member_login_user_id").focus(); } );
+        xAddEventListener(window, "load", function() { doFocusUserId('fo_member_login'); });
 </script>

@@ -8,6 +8,8 @@
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
 
+    $lang->remember_user_id = '아이디 저장';
+
     $lang->already_logged = '이미 로그인되어 있습니다';
     $lang->denied_user_id = '사용금지된 아이디입니다';
     $lang->null_user_id = '사용자 아이디를 입력해주세요';
