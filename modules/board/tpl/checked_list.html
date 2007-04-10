@@ -5,14 +5,17 @@
 
     <div>{$lang->cmd_manage_document}</div>
 
-    <!--@if(count($document_list))-->
-
+    <!--@if(!count($document_list))-->
+        <div>{$lang->msg_no_checked_document}</div>
+    <!--@else-->
     <form action="./" method="get" id="fo_management">
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="type" value="" />
         <div>{$lang->checked_count} : {count($document_list)}</div>
 
         <div><a href="#" onclick="doManageDocument('delete');return false;">{$lang->cmd_delete}</a></div>
+
+        <!--@if(count($board_list)>1)-->
         <div>
             <select name="target_board">
             <!--@foreach($board_list as $key => $val)-->
@@ -23,12 +26,8 @@
             </select>
             <a href="#" onclick="doManageDocument('move');return false;">{$lang->cmd_move}</a>
         </div>
+        <!--@end-->
     </form>
-
-    <!--@else-->
-
-        <div>{$lang->msg_no_checked_document}</div>
-
     <!--@end-->
 
     <div><a href="#" onclick="window.close(); return false;">{$lang->cmd_close}</a></div>
