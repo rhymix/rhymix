@@ -26,15 +26,19 @@
 
 </head>
 <body>
-    {$zbxe_final_content}
-    {Context::getHtmlFooter()}
-    <div id="waitingforserverresponse">{$lang->msg_call_server}</div>
-    <div id="fororiginalimagearea">
-      <div id="fororiginalimageareabg">
-          <img src="./images/blank.gif" alt="original image" border="0" id="fororiginalimage" />
-          <img src="./images/original_image_box_close.gif" alt="close original image" border="0" onclick="closeOriginalImage()" id="closeOriginalImageBtn"/>
-      </div>
-    </div>
-    <div id="membermenuarea"></div>
+
+{$zbxe_final_content}
+
+{Context::getHtmlFooter()}
+
+<div id="waitingforserverresponse">{$lang->msg_call_server}</div>
+<div id="fororiginalimagearea">
+  <div id="fororiginalimageareabg">
+      <img src="./images/blank.gif" alt="original image" border="0" id="fororiginalimage" />
+      <img src="./images/original_image_box_close.gif" alt="close original image" border="0" onclick="closeOriginalImage()" id="closeOriginalImageBtn"/>
+  </div>
+</div>
+<div id="membermenuarea"></div>
+
 </body>
 </html>
