@@ -21,15 +21,15 @@
 
     <!-- 폰트 종류와 크기 -->
     <div class="editor_fontbox">
-        <select onChange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
+        <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
             <option value="">{$lang->edit->fontname}</option>
             <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
             <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
             <!--@end-->
         </select>
 
-        <select onChange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
-            <option value="" selected>{$lang->edit->fontsize}</option>
+        <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
+            <option value="" selected="selected">{$lang->edit->fontsize}</option>
             <option value="1">8pt</option>
             <option value="2">10pt</option>
             <option value="3">12pt</option>
@@ -39,7 +39,7 @@
             <option value="7">36pt</option>
         </select>
 
-        <select onChange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
+        <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
             <option value="">{$lang->edit->header}</option>
             <!--@foreach($lang->edit->header_list as $key=>$obj)-->
             <option value="{$key}">{$obj}</option>
@@ -88,7 +88,7 @@
     </div>
 
     <!-- iframe -->
-    <div class="editor_iframe_box"><iframe id="editor_iframe_{$upload_target_srl}" frameBorder="0" style="border:0px;width:99%;height:300px;margin:0px;"></iframe><div class="editor_drag_down_area" id="editor_drag_bar_{$upload_target_srl}"></div></div>
+    <div class="editor_iframe_box"><iframe id="editor_iframe_{$upload_target_srl}" style="border:0px;width:99%;height:300px;margin:0px;"></iframe><div class="editor_drag_down_area" id="editor_drag_bar_{$upload_target_srl}"></div></div>
     <div class="editor_autosaved_message" id="editor_autosaved_message">{$lang->msg_auto_saved} &nbsp;</div>
 </div>
 
@@ -113,7 +113,9 @@
             <td>
                 <!-- 파일 업로드 영역 -->
                 <div class="editor_uploader">
-                    <select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select>
+                    <select id="uploaded_file_list_{$upload_target_srl}" size="9" class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}');">
+                        <option value=""></option>
+                    </select>
                 </div>
             </td>
             <td>
