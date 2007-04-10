@@ -4,10 +4,9 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="generator" content="zeroboard xe (http://www.zeroboard.com)" />
     <!--@if($module_info->module)--><meta name="module" content="{$module_info->module}" />
-    <!--@end-->
-<!--@if($module_info->skin)--><meta name="skin" content="{$module_info->skin}" />
-    <!--@end-->
-<!--@if($layout_info)--><meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
+    <!--@end--><!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{getUrl('act','dispRss')}" />
+    <!--@end--><!--@if($module_info->skin)--><meta name="skin" content="{$module_info->skin}" />
+    <!--@end--><!--@if($layout_info)--><meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
     <meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
     <!--@end--><meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>

@@ -75,6 +75,9 @@
             // 스킨 템플릿 경로 지정
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
             $this->setTemplatePath($template_path);
+
+            // rss url
+            if($this->grant->view) Context::set('rss_url', getUrl('mid',$this->mid,'act','dispBoardRss'));
         }
 
         /**

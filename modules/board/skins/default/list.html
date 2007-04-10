@@ -1,51 +1,6 @@
 <!--%import("filter/search.xml")-->
 <!--#include("header.html")-->
 
-<!-- 게시판 제목/ 설명 -->
-<!--@if($module_info->title || $module_info->desc)-->
-<div>
-    <table>
-    <tr>
-        <td>{$module_info->title}</td>
-    </tr>
-
-    <!--@if($module_info->desc)-->
-    <tr>
-        <td>{nl2br($module_info->desc)}</td>
-    </tr>
-    <!--@end-->
-
-    </table>
-</div>
-<!--@end-->
-
-<!-- 게시판 정보 -->
-<div>
-    {$lang->document_count} : {number_format($total_count)}, 
-    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
-
-    <!--@if($grant->view)-->
-        <a href="{getUrl('act','dispBoardRss')}">rss</a>
-    <!--@end-->
-
-    <!--@if($is_logged)-->
-        [
-        <a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a> |
-        <a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a>
-        ]
-
-    <!--@else-->
-        [
-        <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a> |
-        <a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
-        ]
-    <!--@end-->
-
-    <!--@if($logged_info->is_admin =='Y')-->
-        <a href="{getUrl('act','dispBoardAdminBoardInfo')}">[{$lang->cmd_management}]</a>
-    <!--@end-->
-</div>
-
 <!-- 게시물 내용 include -->
 <!--@if($document && $grant->view)-->
     <!--#include("./view_document.html")-->

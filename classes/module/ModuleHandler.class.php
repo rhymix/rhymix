@@ -82,6 +82,7 @@
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
             }
+            debugPrint($module_info);
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
             if(!$this->module) $this->error = 'msg_module_is_not_exists';
