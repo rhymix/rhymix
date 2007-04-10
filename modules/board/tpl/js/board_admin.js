@@ -100,8 +100,17 @@ function doChangeCategory(sel_obj, url) {
     else location.href=url+'&module_category_srl='+module_category_srl;
 }
 
+/* 선택된 글의 삭제 또는 이동 */
+function doManageDocument(type, mid) {
+    var fo_obj = xGetElementById("fo_management");
+    fo_obj.type.value = type;
+
+    procFilter(fo_obj, manage_checked_document);
+}
+
 /* 선택된 글의 삭제 또는 이동 후 */
 function completeManageDocument(ret_obj) {
+    if(opener) opener.location.href = opener.location.href;
     alert(ret_obj['message']);
     window.close();
 }

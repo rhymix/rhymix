@@ -1,4 +1,4 @@
-<filter name="move_checked_document" module="board" act="procBoardAdminMoveCheckedDocument"  confirm_msg_code="confirm_move">
+<filter name="manage_checked_document" module="board" act="procBoardAdminManageCheckedDocument">
     <form />
     <response callback_func="completeManageDocument">
         <tag name="error" />

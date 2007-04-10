@@ -285,6 +285,73 @@
             return $output;
         }
 
+        /** 
+         * @brief 특정 게시물들의 소속 모듈 변경 (게시글 이동시에 사용)
+         **/
+        function moveDocumentModule($document_srl_list, $module_srl, $source_module_srl) {
+            $args->document_srls = implode(',',$document_srl_list);
+            $args->module_srl = $module_srl;
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 게시물의 이동
+            $output = executeQuery('document.updateDocumentModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 코멘트의 이동
+            $output = executeQuery('comment.updateCommentModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 트랙백의 이동
+            $output = executeQuery('trackback.updateTrackbackModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 엮인글
+            $output = executeQuery('tag.updateTagModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 첨부파일의 이동 (다운로드나 본문 첨부의 문제로 인하여 첨부파일은 이동하지 않기로 결정. 차후에 다시 고민)
+            /*
+            $image_dir = sprintf('./files/attach/images/%s/%s/', $source_module_srl, $document_srl);
+            $binary_dir = sprintf('./files/attach/binaries/%s/%s/', $source_module_srl, $document_srl);
+
+            $target_image_dir = sprintf('./files/attach/images/%s/%s/', $module_srl, $document_srl);
+            $target_binary_dir = sprintf('./files/attach/binaries/%s/%s/', $module_srl, $document_srl);
+
+            if(is_dir($image_dir)) {
+                FileHandler::moveDir($image_dir, $target_image_dir);
+                if(!is_dir($target_image_dir)) {
+                    $oDB->rollback();
+                    return new Object(-1,'fail');
+                }
+            }
+
+            if(is_dir($binary_dir)) {
+                FileHandler::moveDir($binary_dir, $target_binary_dir);
+                if(!is_dir($target_binary_dir)) {
+                    $oDB->rollback();
+                    return new Object(-1,'fail');
+                }
+            }
+            */
+            
+            $oDB->commit();
+            return new Object();
+        }
+
         /**
          * @brief 특정 모듈의 전체 문서 삭제
          **/

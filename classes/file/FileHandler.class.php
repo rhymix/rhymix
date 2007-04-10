@@ -33,6 +33,20 @@
         }
 
         /**
+         * @brief 특정 디렉토리를 이동
+         **/
+        function moveDir($source_dir, $target_dir) {
+            if(!is_dir($source_dir)) return;
+
+            if(!is_dir($target_dir)) {
+                FileHandler::makeDir($target_dir);
+                @unlink($target_dir);
+            }
+
+            @rename($source_dir, $target_dir); 
+        }
+
+        /**
          * @brief $path내의 파일들을 return ('.', '..', '.로 시작하는' 파일들은 제외)
          **/
         function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false) {

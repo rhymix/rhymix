@@ -66,7 +66,6 @@
         <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
         <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procBoardAdminDeleteCheckedDocument" type="controller" standalone="true" />
-        <action name="procBoardAdminMoveCheckedDocument" type="controller" standalone="true" />
+        <action name="procBoardAdminManageCheckedDocument" type="controller" standalone="true" />
     </actions>
 </module>

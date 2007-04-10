@@ -234,17 +234,41 @@
         }
 
         /**
-         * @brief 세션에 담긴 선택글의 이동
+         * @brief 세션에 담긴 선택글의 이동/ 삭제
          **/
-        function procBoardAdminMoveCheckedDocument() {
-            $this->setMessage('success_moved');
-        }
-        
-        /**
-         * @brief 세션에 담긴 선택글의 삭제
-         **/
-        function procBoardAdminDeleteCheckedDocument() {
-            $this->setMessage('success_deleted');
+        function procBoardAdminManageCheckedDocument() {
+            $type = Context::get('type');
+            $module_srl = Context::get('target_board');
+            $flag_list = $_SESSION['document_management'][$this->module_srl];
+
+            $document_srl_list = array_keys($flag_list);
+
+            $oDocumentController = &getController('document');
+            $document_srl_count = count($document_srl_list);
+
+            if($type == 'move') {
+                if(!$module_srl) return new Object(-1, 'fail_to_move');
+                else {
+                    $output = $oDocumentController->moveDocumentModule($document_srl_list, $module_srl, $this->module_srl);
+                    if(!$output->toBool()) return new Object(-1, 'fail_to_move');
+                    $msg_code = 'success_moved';
+                    $_SESSION['document_management'][$this->module_srl] = null;
+                }
+
+            } elseif($type =='delete') {
+                $oDB = &DB::getInstance();
+                $oDB->begin();
+                for($i=0;$i<$document_srl_count;$i++) {
+                    $document_srl = $document_srl_list[$i];
+                    $output = $oDocumentController->deleteDocument($document_srl, true);
+                    if(!$output->toBool()) return new Object(-1, 'fail_to_delete');
+                }
+                $oDB->commit();
+                $msg_code = 'success_deleted';
+                $_SESSION['document_management'][$this->module_srl] = null;
+            }
+
+            $this->setMessage($msg_code);
         }
  
         /**
