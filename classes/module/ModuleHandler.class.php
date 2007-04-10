@@ -196,7 +196,7 @@
                         foreach($layout_info->extra_var as $var_id => $val) {
                             $layout_info->{$var_id} = $val->value;
                         }
-                        unset($layout_info->extra_var);
+                        //unset($layout_info->extra_var);
                     }
                     
                     // 레이아웃 정보중 menu를 Context::set

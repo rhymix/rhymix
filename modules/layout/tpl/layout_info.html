@@ -47,7 +47,6 @@
             <th>{$lang->title}</th>
             <td><input type="text" name="title" value="{$layout_info->layout_title}" /></td>
         </tr>
-
         <!--@foreach($layout_info->extra_var as $id => $var)-->
         <tr>
             <th rowspan="2">{$var->name}</th>
@@ -73,7 +72,11 @@
         <!--@end-->
         <tr>
             <td colspan="2" align="center">
-                <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispLayoutAdminContent')}';return false;"/>
+                <!--@if($module=='admin')-->
+                    <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispLayoutAdminContent')}';return false;"/>
+                <!--@else-->
+                    <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','')}';return false;"/>
+                <!--@end-->
                 <input type="submit" value="{$lang->cmd_save}" />
             </td>
         </tr>

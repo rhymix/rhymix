@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu?$layout_info->main_menu:'home'}");
+    loadTreeMenu("{$main_menu->xml_file}", "menu", "menu", "{$layout_info->main_menu?$layout_info->main_menu:'home'}");
 </script>
 
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
@@ -57,6 +57,11 @@
             </div>
 
             <div id="menu"></div>
+            <!--@if($logged_info->is_admin == 'Y')-->
+            <div>
+                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+            </div>
+            <!--@end-->
 
             <!--@if($third_menu_list)-->
             <div>

@@ -5,6 +5,8 @@
      * @brief  레이아웃(layout) 모듈의 기본 언어팩
      **/
 
+    $lang->cmd_layout_management = '레이아웃 설정';
+
     $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
     $lang->menu_management = '메뉴 관리';
