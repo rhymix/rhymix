@@ -132,6 +132,18 @@
             $this->setError(0,'success');
 
             $this->stmt = $this->handler->prepare($query);
+
+            if($this->handler->errorCode() != '00000') {
+                $this->setError($this->handler->errorCode(), print_r($this->handler->errorInfo(),true));
+
+                if(__DEBUG__) {
+                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s\n\t    Fail : %s\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $this->errno, $this->errstr);
+                }
+
+                unset($this->stmt);
+                return;
+            }
+
             $this->bind_idx = 0;
             $this->bind_vars = array();
         }
@@ -165,8 +177,7 @@
 
             $this->bind_idx = 0;
             $this->bind_vars = 0;
-
-            if($this->stmt->errorCode()!='00000') {
+            if($this->stmt->errorCode() != '00000') {
                 $this->setError($this->stmt->errorCode(),print_r($this->stmt->errorInfo(),true));
 
                 if(__DEBUG__) {
@@ -296,16 +307,16 @@
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
-                    $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
+                    $query = sprintf('CREATE UNIQUE INDEX %s_%s ON %s (%s)', $this->addQuotes($table_name), $key, $this->addQuotes($table_name), implode(',',$val));
                     $this->_prepare($query);
                     $this->_execute();
                     if($this->isError()) $this->rollback();
                 }
             }
 
-            if(count($unique_list)) {
-                foreach($unique_list as $key => $val) {
-                    $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
+            if(count($index_list)) {
+                foreach($index_list as $key => $val) {
+                    $query = sprintf('CREATE INDEX %s_%s ON %s (%s)', $this->addQuotes($table_name), $key, $this->addQuotes($table_name), implode(',',$val));
                     $this->_prepare($query);
                     $this->_execute();
                     if($this->isError()) $this->rollback();
