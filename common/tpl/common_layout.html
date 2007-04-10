@@ -4,7 +4,6 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="generator" content="zeroboard xe (http://www.zeroboard.com)" />
     <!--@if($module_info->module)--><meta name="module" content="{$module_info->module}" />
-    <!--@end--><!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{getUrl('act','dispRss')}" />
     <!--@end--><!--@if($module_info->skin)--><meta name="skin" content="{$module_info->skin}" />
     <!--@end--><!--@if($layout_info)--><meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
     <meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
@@ -17,7 +16,8 @@
     <script type="text/javascript" src="./common/js/tree_menu.js"></script>
     <!--@foreach(Context::getJsFile() as $key => $js_file)--><script type="text/javascript" src="{$js_file}"></script>
     <!--@end--><link rel="stylesheet" href="./common/css/default.css" type="text/css" />
-    <!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}" type="text/css" />
+    <!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{getUrl('act','dispRss')}" />
+    <!--@end--><!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}" type="text/css" />
     <!--@end--><script type="text/javascript">
         var zbxe_url = "{$zbxe_url}";
     </script>
