@@ -96,11 +96,11 @@
             <!--@end-->
 
             <!--@if($val->comment_count>0)-->
-                [{$val->comment_count}]
+                [<a href="{getUrl('document_srl',$val->document_srl)}#comment">{$val->comment_count}</a>]
             <!--@end-->
 
             <!--@if($val->trackback_count>0)-->
-                [{$val->trackback_count}]
+                [<a href="{getUrl('document_srl',$val->document_srl)}#trackback">{$val->trackback_count}</a>]
             <!--@end-->
 
         </td>

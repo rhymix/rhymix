@@ -115,10 +115,12 @@
 
 <!-- 엮인글 파일 include -->
 <!--@if($document->allow_trackback=='Y')-->
+    <a name="trackback"></a>
     <!--#include("./trackback.html")-->
 <!--@end-->
 
 <!-- 댓글 파일 include -->
 <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+    <a name="comment"></a>
     <!--#include("./comment.html")-->
 <!--@end-->
