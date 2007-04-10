@@ -23,6 +23,12 @@
         <th>{$lang->title}</th>
         <td>{$document->title}</td>
     </tr>
+    <!--@if($document->homepage)-->
+    <tr>
+        <th>{$lang->homepage}</th>
+        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{$document->homepage}</a></td>
+    </tr>
+    <!--@end-->
     <tr>
         <th>{$lang->date}</th>
         <td>{zdate($document->regdate,"Y-m-d H:i:s")}</td>
