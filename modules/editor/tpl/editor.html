@@ -104,18 +104,27 @@
         <input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
         <input type="hidden" name="act" value="procFileUpload" />
 
-        <!-- 미리보기 -->
-        <div class="editor_preview_uploaded" id="preview_uploaded_{$upload_target_srl}"><img src="./images/blank.gif" width="100" height="100"  alt="preview" /></div>
-
-        <!-- 파일 업로드 영역 -->
-        <div class="editor_uploader">
-            <select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select>
-        </div>
-        <div class="editor_uploader_input_area">
-            <input type="button" value="{$lang->edit->upload_file}" class="editor_uploader_input" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
-            <input type="button" value="{$lang->edit->delete_selected}" class="editor_uploader_input" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
-            <input type="button" value="{$lang->edit->link_file}" class="editor_uploader_input" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
-            <input type="file" size="1" name="file" id="file_uploader_{$upload_target_srl}" class="editor_uploader_file_input" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" />
-        </div>
+        <table border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+            <td>
+                <!-- 미리보기 -->
+                <div class="editor_preview_uploaded" id="preview_uploaded_{$upload_target_srl}"><img src="./images/blank.gif" width="100" height="100"  alt="preview" /></div>
+            </td>
+            <td>
+                <!-- 파일 업로드 영역 -->
+                <div class="editor_uploader">
+                    <select id='uploaded_file_list_{$upload_target_srl}' size='9' class="uploaded_file_list" onclick="editor_preview(this, '{$upload_target_srl}')"></select>
+                </div>
+            </td>
+            <td>
+                <div class="editor_uploader_input_area">
+                    <input type="button" value="{$lang->edit->upload_file}" class="editor_uploader_input" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
+                    <input type="button" value="{$lang->edit->delete_selected}" class="editor_uploader_input" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
+                    <input type="button" value="{$lang->edit->link_file}" class="editor_uploader_input" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
+                    <input type="file" size="1" name="file" id="file_uploader_{$upload_target_srl}" class="editor_uploader_file_input" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" />
+                </div>
+            </td>
+        </tr>
+        </table>
     </div>
 <!--@end-->

@@ -73,7 +73,7 @@
             $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
 
             // 스킨 템플릿 경로 지정
-            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
             $this->setTemplatePath($template_path);
         }
 
