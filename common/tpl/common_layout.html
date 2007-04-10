@@ -16,17 +16,14 @@
     <script type="text/javascript" src="./common/js/xml_handler.js"></script>
     <script type="text/javascript" src="./common/js/xml_js_filter.js"></script>
     <script type="text/javascript" src="./common/js/tree_menu.js"></script>
-    <!--@foreach(Context::getJsFile() as $key => $js_file)-->
-    <script type="text/javascript" src="{$js_file}"></script>
-    <!--@end-->
-    <link rel="stylesheet" href="./common/css/default.css" type="text/css" />
-    <!--@foreach(Context::getCssFile() as $key => $css_file)-->
-    <link rel="stylesheet" href="{$css_file}" type="text/css" />
-    <!--@end-->
-    <script type="text/javascript">
+    <!--@foreach(Context::getJsFile() as $key => $js_file)--><script type="text/javascript" src="{$js_file}"></script>
+    <!--@end--><link rel="stylesheet" href="./common/css/default.css" type="text/css" />
+    <!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}" type="text/css" />
+    <!--@end--><script type="text/javascript">
         var zbxe_url = "{$zbxe_url}";
     </script>
     {Context::getHtmlHeader()}
+
 </head>
 <body>
     {$zbxe_final_content}
