@@ -24,15 +24,14 @@
 }
 
 .login_plugin .top_box .logout A {
-    font-weight:bold;
     text-decoration:none;
-    color:#555555;
+    color:#737CF5;
 }
 
 .login_plugin .top_box .logout A:hover {
     font-weight:bold;
-    text-decoration:underline;
-    color:#555555;
+    letter-spacing:-1px;
+    color:#151F9E;
 }
 
 
@@ -52,7 +51,7 @@
 }
 
 .login_plugin .info_box A:hover {
-    text-decoration:underline;
+    text-decoration:none;
     font-weight:bold;
     letter-spacing:-1px;
     color:#555555;
@@ -70,12 +69,12 @@
 }
 
 .login_plugin .info_box .friend_list {
-    background:url("../images/icon_profile.gif") no-repeat left;
+    background:url("../images/icon_friend_list.gif") no-repeat left;
     float:left;
 }
 
 .login_plugin .info_box .message_box {
-    background:url("../images/icon_profile.gif") no-repeat left;
+    background:url("../images/icon_message_box.gif") no-repeat left;
     float:left;
     width:90px;
 }
@@ -91,6 +90,7 @@
 
 .login_plugin .info_box .last_login {
     clear:left;
+    background:url("../images/icon_last_login.gif") no-repeat left;
     padding-left:15px;
     margin-bottom:4px;
 }

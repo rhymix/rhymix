@@ -86,7 +86,7 @@
         <!--@end-->
 
         <td>
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->is_admin == 'Y')-->
             <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
             <!--@end-->
             <!--@if($grant->view)-->
@@ -120,7 +120,7 @@
         <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
     <!--@end-->
 
-    <!--@if($logged_info->is_admin)-->
+    <!--@if($logged_info->is_admin == 'Y')-->
         <!-- 문서 관리 버튼 -->
         <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
     <!--@end-->
