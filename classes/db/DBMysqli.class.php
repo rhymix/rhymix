@@ -12,8 +12,6 @@
 
     class DBMysqli extends DB {
 
-        var $handler = null;
-
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
@@ -73,14 +71,16 @@
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
 
             // 접속시도  
-            $this->handler = new mysqli($this->hostname, $this->userid, $this->password, $this->database);
+            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database);
 
             // 접속체크
-            if(mysqli_connect_error()) $this->is_connected = false;
-            else $this->is_connected = true;
+            if(mysqli_connect_error()) {
+                $this->setError(-1, mysqli_connect_error());
+                return $this->is_connected = false;
+            }
 
-            // mysql의 경우 utf8임을 지정
-            $this->handler->query("SET NAMES 'utf8'");
+            $this->is_connected = true;
+            $this->_query("SET NAMES 'utf8'");
         }
 
         /**
@@ -88,15 +88,16 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
-            $this->handler->close();
+            @mysqli_close();
         }
 
         /**
          * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
          **/
         function addQuotes($string) {
+            if(!$this->fd) return $string;
             if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = $this->handler->real_escape_string($string);
+            if(!is_numeric($string)) $string = mysqli_escape_string($this->fd, $string);
             return $string;
         }
 
@@ -111,15 +112,34 @@
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
+
             $this->query = $query;
+
+            if(__DEBUG__) $query_start = getMicroTime();
 
             $this->setError(0,'success');
 
-            $result = $this->handler->query($query);
+            $result = mysqli_query($this->fd,$query);
 
-            if($this->handler->error) {
-                $this->setError($this->handler->errno, $this->handler->error);
+            if(__DEBUG__) {
+                $query_end = getMicroTime();
+                $elapsed_time = $query_end - $query_start;
+                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+            }
+
+            if(mysqli_errno($this->fd)) {
+
+                $this->setError(mysqli_errno($this->fd), mysqli_error($this->fd));
+
+                if(__DEBUG__) {
+                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
+                }
+
                 return;
+            }
+
+            if(__DEBUG__) {
+                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
             }
 
             return $result;
@@ -129,18 +149,27 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
+            if(!$this->is_connected || $this->transaction_started) return;
+            $this->_query('begin');
+            $this->transaction_started = true;
         }
 
         /**
          * @brief 롤백
          **/
         function rollback() {
+            if(!$this->is_connected || !$this->transaction_started) return;
+            $this->_query('rollback');
+            $this->transaction_started = false;
         }
 
         /**
          * @brief 커밋
          **/
         function commit() {
+            if(!$this->is_connected || !$this->transaction_started) return;
+            $this->_query('commit');
+            $this->transaction_started = false;
         }
 
         /**
@@ -149,7 +178,7 @@
         function _fetch($result) {
             if($this->isError() || !$result) return;
 
-            while($tmp = $result->fetch_object()) {
+            while($tmp = mysqli_fetch_object($result)) {
                 $output[] = $tmp;
             }
             if(count($output)==1) return $output[0];
@@ -162,7 +191,7 @@
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
             $this->_query($query);
-            return $this->handler->insert_id;
+            return mysqli_insert_id($this->fd);
         }
 
         /**
@@ -254,7 +283,7 @@
                 }
             }
 
-            $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "ENGINE = MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci");
+            $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "type=innodb CHARACTER SET utf8 COLLATE utf8_general_ci");
 
             $output = $this->_query($schema);
             if(!$output) return false;

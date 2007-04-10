@@ -102,15 +102,13 @@
         function setError($errno, $errstr) {
             $this->errno = $errno;
             $this->errstr = $errstr;
-
-            if(__DEBUG__ && $this->errno!=0) debugPrint(sprintf("Query Fail\t#%05d : %s - %s\n\t\t%s", $GLOBALS['__dbcnt'], $errno, $errstr, $this->query));
         }
 
         /**
          * @brief 접속되었는지 return
          **/
         function isConnected() {
-            return $this->is_connected;
+            return $this->is_connected?true:false;
         }
 
         /**
@@ -164,8 +162,6 @@
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
-            if(__DEBUG__) $query_start = getMicroTime();
-
             if($source_args) $args = clone($source_args);
             $output = include($cache_file);
 
@@ -187,14 +183,7 @@
                     break;
             }
 
-            if(__DEBUG__) {
-                $query_end = getMicroTime();
-                $elapsed_time = $query_end - $query_start;
-                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
-                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.4f sec)\n\t    %s\n", ++$GLOBALS['__dbcnt'], $query_id, $elapsed_time, $this->query);
-            }
-
-            if($this->errno!=0) return  new Object($this->errno, $this->errstr);
+            if($this->errno!=0) return new Object($this->errno, $this->errstr);
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return $output;
             return new Object();
         }

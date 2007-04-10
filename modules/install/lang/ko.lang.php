@@ -40,6 +40,13 @@
     $lang->cmd_install_fix_checklist = '필수 조건을 설정후 다음 버튼을 눌러 주세요.';
     $lang->cmd_install_next = '설치를 진행합니다';
 
+    $lang->db_desc = array(
+        'mysql' => 'mysql DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',
+        'mysqli' => 'mysql DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일을 INNODB로 생성하여 트랜잭션 기능을 수행할 수 있습니다.<br />(안정화 테스트가 되지 않았습니다)',
+        'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다)',
+        'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
+    );
+
     $lang->db_title = 'DB정보 입력';
     $lang->db_type = 'DB 종류';
     $lang->db_hostname = 'DB 호스트네임';

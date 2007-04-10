@@ -13,8 +13,6 @@
         var $bind_idx = 0;
         var $bind_vars = array();
 
-        var $debugDetail = false;
-
         var $database = NULL; ///< database
         var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
@@ -155,17 +153,33 @@
         function _execute() {
             if(!$this->isConnected() || !$this->stmt) return;
 
+            if(__DEBUG__) $query_start = getMicroTime();
+
             $this->stmt->execute();
 
-            if($this->debugDetail && $this->stmt->errorCode()!='00000') debugPrint($this->query."\n".$this->stmt->errorCode()." : ".print_r($this->stmt->errorInfo(),true)."\n".print_r($this->bind_vars,true));
+            if(__DEBUG__) {
+                $query_end = getMicroTime();
+                $elapsed_time = $query_end - $query_start;
+                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+            }
 
             $this->bind_idx = 0;
             $this->bind_vars = 0;
 
             if($this->stmt->errorCode()!='00000') {
                 $this->setError($this->stmt->errorCode(),print_r($this->stmt->errorInfo(),true));
+
+                if(__DEBUG__) {
+                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
+                }
+
                 $this->stmt = null;
+
                 return false;
+            }
+
+            if(__DEBUG__) {
+                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
             }
 
             $output = null;

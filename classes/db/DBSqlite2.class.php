@@ -65,7 +65,6 @@
             // 데이터 베이스 파일 접속 시도
             $this->fd = sqlite_open($this->database, 0666, &$error);
             if(!file_exists($this->database) || $error) {
-                //$this->setError(-1,'permission denied to access database');
                 $this->setError(-1,$error);
                 $this->is_connected = false;
                 return;
@@ -133,13 +132,32 @@
             if(!$this->isConnected()) return false;
 
             $this->query = $query;
+
+            if(__DEBUG__) $query_start = getMicroTime();
+
             $this->setError(0,'success');
 
             $result = @sqlite_query($query, $this->fd);
+
+            if(__DEBUG__) {
+                $query_end = getMicroTime();
+                $elapsed_time = $query_end - $query_start;
+                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+            }
+
             if(sqlite_last_error($this->fd)) {
                 $this->setError(sqlite_last_error($this->fd), sqlite_error_string(sqlite_last_error($this->fd)));
+
+                if(__DEBUG__) {
+                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
+                }
+
                 return false;
             } 
+
+            if(__DEBUG__) {
+                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
+            }
 
             if($result) return $result;
             return true;
@@ -260,15 +278,15 @@
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
-                    $query = sprintf('CREATE UNIQUE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $this->_query($schema);
+                    $query = sprintf('CREATE UNIQUE INDEX %s_%s ON %s (%s)', $this->addQuotes($table_name), $key, $this->addQuotes($table_name), implode(',',$val));
+                    $this->_query($query);
                 }
             }
 
-            if(count($unique_list)) {
-                foreach($unique_list as $key => $val) {
-                    $query = sprintf('CREATE INDEX IF NOT EXISTS %s (%s)', $key, implode(',',$val));
-                    $this->_query($schema);
+            if(count($index_list)) {
+                foreach($index_list as $key => $val) {
+                    $query = sprintf('CREATE INDEX %s_%s ON %s (%s)', $this->addQuotes($table_name), $key, $this->addQuotes($table_name), implode(',',$val));
+                    $this->_query($query);
                 }
             }
         }

@@ -35,8 +35,12 @@
             // DB접속이 가능한지 체크
             if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
 
+            $oDB->begin();
+
             // 모든 모듈의 설치
             $this->installDownloadedModule();
+
+            $oDB->commit();
 
             // config 파일 생성
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
@@ -104,8 +108,7 @@
          *
          * 모든 module의 schemas 디렉토리를 확인하여 schema xml을 이용, 테이블 생성
          **/
-        function installDownloadedModule() {
-
+        function installDownloadedModule() { 
             // 수동으로 설치를 할 목록
             $manual_modules = array('install','module');
 

@@ -117,15 +117,33 @@
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
+
             $this->query = $query;
+
+            if(__DEBUG__) $query_start = getMicroTime();
 
             $this->setError(0,'success');
 
             $result = @mysql_query($query, $this->fd);
 
+            if(__DEBUG__) {
+                $query_end = getMicroTime();
+                $elapsed_time = $query_end - $query_start;
+                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+            }
+
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
+
+                if(__DEBUG__) {
+                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
+                }
+
                 return;
+            }
+
+            if(__DEBUG__) {
+                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
             }
 
             return $result;
