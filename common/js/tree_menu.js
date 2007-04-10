@@ -49,6 +49,8 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     // 노드 정보들을 담을 변수 세팅
     node_info_list[menu_id] = new Array();
 
+    if(typeof(title)=='undefined') title = '';
+
     // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
     var oXml = new xml_handler();
     oXml.reset();
@@ -91,7 +93,7 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var zone = xGetElementById(zone_id);
     var html = "";
 
-    if(title) html = '<div style="height:20px;"><img src="'+tree_menu_icon_path+'folder.gif" alt="root" align="top" />'+title+'</div>';
+    if(title) html = '<div style="padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;">'+title+'</div>';
 
     tree_menu_folder_list[menu_id] = new Array();
 
@@ -182,12 +184,12 @@ function drawNode(parent_node, menu_id) {
 
             // 무조건 펼침이 아닐 경우
             if(expand!="Y") {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:none;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" style="display:none;padding-left:18px;">'+chtml+'</div>';
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:none;padding-left:16px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:none;padding-left:16px;">'+chtml+'</div>';
             // 무조건 펼침일 경우
             } else {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:block;padding-left:18px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" style="display:block;padding-left:18px;">'+chtml+'</div>';
+                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'"style="display:block;padding-left:16px;background:url('+tree_menu_icon_path+'line.gif) repeat-y left;">'+chtml+'</div>';
+                else child_html += '<div id="'+child_zone_id+'" style="display:block;padding-left:16px;">'+chtml+'</div>';
             }
         }
 
