@@ -22,8 +22,6 @@
             $obj->module_srl = $this->module_srl;
             if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 
-            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-
             // document module의 model 객체 생성
             $oDocumentModel = &getModel('document');
 

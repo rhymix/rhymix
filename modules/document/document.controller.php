@@ -57,6 +57,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);
@@ -144,6 +145,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
+            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);

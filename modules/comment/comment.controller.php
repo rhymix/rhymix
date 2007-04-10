@@ -65,6 +65,7 @@
 
             $obj->list_order = $obj->comment_srl * -1;
             if($obj->password) $obj->password = md5($obj->password);
+            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
             // 로그인 된 회원일 경우 회원의 정보를 입력
             if(Context::get('is_logged')) {
@@ -131,6 +132,7 @@
             if(!$is_admin && !$source_obj->is_granted) return new Object(-1, 'msg_not_permitted');
 
             if($obj->password) $obj->password = md5($obj->password);
+            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
             // 로그인 되어 있고 작성자와 수정자가 동일하면 수정자의 정보를 세팅
             if(Context::get('is_logged')) {

@@ -24,6 +24,12 @@
                 <th>{$lang->writer}</th>
                 <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
             </tr>
+            <!--@if($val->homepage)-->
+            <tr>
+                <th>{$lang->homepage}</th>
+                <td><a href="{$val->homepage}" onclick="winopen('{$val->homepage}'); return false;">{$val->homepage}</a></td>
+            </tr>
+            <!--@end-->
             <tr>
                 <th>{$lang->content}</th>
                 <td height="100" valign="top">{nl2br($val->content)}</td>
