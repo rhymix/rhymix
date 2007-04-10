@@ -14,8 +14,13 @@ function completeInsertPage(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
-    if(page) url = url.setQuery('page',page);
+    var url = '';
+    if(location.href.getQuery('module')=='admin') {
+        url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
+        if(page) url = url.setQuery('page',page);
+    } else {
+        url = location.href.setQuery('act','').setQuery('module_srl','');
+    }
 
     location.href = url;
 }

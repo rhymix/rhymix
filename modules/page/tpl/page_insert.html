@@ -78,14 +78,18 @@
         </td>
     </tr>
     <tr>
-        <th>{$lang->content}</th>
-        <td>
-                {$editor}
-        </td>
+        <th colspan="2">{$lang->content}</th>
+    </tr>
+    <tr>
+        <td colspan="2">{$editor}</td>
     </tr>
     <tr>
         <td colspan="2">
+            <!--@if($module=='admin')-->
             <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispPageAdminInfo','module_srl',$module_srl)}'" />
+            <!--@else-->
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <!--@end-->
             <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
         </td>
     </tr>
