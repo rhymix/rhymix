@@ -6,9 +6,8 @@
      **/
 
     $lang->introduce_title = '제로보드 XE 설치';
-    $lang->introduce = 
-        "제로보드 XE 를 사용해주셔서 감사합니다.\n".
-        "제로보드 XE 는 GPL라이센스를 따르며 블라블라..\n";
+    $lang->license = 
+        "제로보드XE는 GPL라이센스를 따릅니다";
 
     $lang->install_condition_title = "설치 조건";
 
@@ -37,6 +36,7 @@
     $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다';
     $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다';
 
+    $lang->cmd_agree_license = '라이센스에 동의합니다';
     $lang->cmd_install_fix_checklist = '필수 조건을 설정후 다음 버튼을 눌러 주세요.';
     $lang->cmd_install_next = '설치를 진행합니다';
 

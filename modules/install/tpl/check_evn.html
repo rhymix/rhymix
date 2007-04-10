@@ -1,0 +1,39 @@
+<!--#include("header.html")-->
+
+<table border="1">
+<tr>
+    <td colspan="2">{$lang->introduce_title}</td>
+</tr>
+</table>
+
+<table border="1">
+<tr>
+    <td colspan="2">{$lang->install_condition_title}</td>
+</tr>
+
+<!--@foreach($checklist as $key => $val)-->
+<tr>
+    <td rowspan="2">{$lang->install_checklist_title[$key]}</td>
+    <td>
+        <!--@if($val)-->
+            {$lang->enable}
+        <!--@else-->
+            <span style="font-weight:bold;color:red">{$lang->disable}</span>
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <td>{$lang->install_checklist_desc[$key]}</td>
+</tr>
+<!--@end-->
+
+</table>
+
+<!--@if($install_enable)-->
+[<a href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next}</a>]
+
+<!--@else-->
+{$lang->cmd_install_fix_checklist}
+[<a href="./">{$lang->cmd_next}</a>]
+
+<!--@end-->
