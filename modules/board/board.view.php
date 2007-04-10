@@ -153,6 +153,11 @@
             }
             Context::set('search_option', $search_option);
 
+            // 관리자일 경우 체크한 문서들의 목록을 세팅
+            if($this->grant->is_admin) {
+                Context::set('check_list',$_SESSION['document_management'][$this->module_srl]);
+            }
+
             $this->setTemplateFile('list');
         }
         
@@ -582,6 +587,33 @@
             Context::set('group_list', $group_list);
 
             $this->setTemplateFile('grant_list');
+        }
+
+        /**
+         * @brief 선택한 목록 출력
+         **/
+        function dispBoardAdminManageDocument() {
+            // 팝업 레이아웃 선택
+            $this->setLayoutFile('popup_layout');
+
+            // 선택한 목록을 세션에서 가져옴
+            $flag_list = $_SESSION['document_management'][$this->module_srl];
+
+            // 목록이 있으면 게시글을 가져옴
+            $document_srl_list = array_keys($flag_list);
+            if(count($document_srl_list)) {
+                $oDocumentModeul = &getModel('document');
+                $document_list = $oDocumentModeul->getDocuments($document_srl_list, $this->grant->is_admin);
+                Context::set('document_list', $document_list);
+            }
+
+            // 게시판의 목록을 가져옴
+            $output = executeQuery('board.getAllBoard', $args);
+            $board_list = $output->data;
+            if($board_list && !is_array($board_list)) $board_list = array($board_list);
+            Context::set('board_list', $board_list);
+
+            $this->setTemplateFile('checked_list');
         }
     }
 ?>

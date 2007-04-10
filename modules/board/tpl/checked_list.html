@@ -1,0 +1,35 @@
+<!--%import("filter/delete_checked_document.xml")-->
+<!--%import("filter/move_checked_document.xml")-->
+<!--%import("js/board_admin.js")-->
+
+<div style="width:400px">
+
+    <div>{$lang->cmd_manage_document}</div>
+
+    <!--@if(count($document_list))-->
+
+    <form action="./" method="get">
+        <div>{$lang->checked_count} : {count($document_list)}</div>
+
+        <div><a href="#" onclick="delete_checked_document(); return false;">{$lang->cmd_delete}</a></div>
+        <div>
+            <select name="board_list">
+            <!--@foreach($board_list as $key => $val)-->
+                <!--@if($module_srl != $val->module_srl)-->
+                <option value="{$val->module_srl}">{$val->browser_title} ({$val->mid})</option>
+                <!--@end-->
+            <!--@end-->
+            </select>
+            <a href="#" onclick="move_checked_document(); return false;">{$lang->cmd_move}</a>
+        </div>
+    </form>
+
+    <!--@else-->
+
+        <div>{$lang->msg_no_checked_document}</div>
+
+    <!--@end-->
+
+    <div><a href="#" onclick="window.close(); return false;">{$lang->cmd_close}</a></div>
+
+</div>

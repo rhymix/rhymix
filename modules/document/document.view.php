@@ -65,7 +65,6 @@
             }
             Context::set('search_option', $search_option);
 
-
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('document_list');

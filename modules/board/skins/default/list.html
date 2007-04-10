@@ -41,7 +41,7 @@
         ]
     <!--@end-->
 
-    <!--@if($logged_info->manager =='Y')-->
+    <!--@if($logged_info->is_admin =='Y')-->
         <a href="{getUrl('act','dispBoardAdminBoardInfo')}">[{$lang->cmd_management}]</a>
     <!--@end-->
 </div>
@@ -86,8 +86,8 @@
         <!--@end-->
 
         <td>
-            <!--@if($grant->manager)-->
-            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart(this)" <!--@if($val->checked)-->checked="true"<!--@end--> /> 
+            <!--@if($grant->is_admin)-->
+            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
             <!--@end-->
             <!--@if($grant->view)-->
                 <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
@@ -115,9 +115,14 @@
 
 <!-- 버튼 -->
 <div>
-    <!-- 글쓰기 -->
     <!--@if($grant->write_document)-->
+        <!-- 글쓰기 버튼 -->
         <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
+    <!--@end-->
+
+    <!--@if($logged_info->is_admin)-->
+        <!-- 문서 관리 버튼 -->
+        <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
     <!--@end-->
 </div>
 

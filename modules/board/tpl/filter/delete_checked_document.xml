@@ -1,0 +1,7 @@
+<filter name="delete_checked_document" module="board" act="procBoardAdminDeleteCheckedDocument"  confirm_msg_code="confirm_delete">
+    <form />
+    <response callback_func="completeManageDocument">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

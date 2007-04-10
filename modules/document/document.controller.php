@@ -14,21 +14,6 @@
         }
 
         /**
-         * @brief 관리자가 글 선택시 세션에 담음
-         **/
-        function procDocumentAddCart() {
-            $document_srl = Context::get('document_srl');
-            $check_flag = Context::get('check_flag');
-
-            $flag_list = $_SESSION['document_management'];
-
-            if($check_flag == 'remove') unset($flag_list[$document_srl]);
-            else $flag_list[$document_srl] = true;
-
-            $_SESSION['document_management'] = $flag_list;
-        }
-
-        /**
          * @brief 관리자 페이지에서 선택된 문서들 삭제
          **/
         function procDocumentAdminDeleteChecked() {

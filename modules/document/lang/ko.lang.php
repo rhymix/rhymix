@@ -6,7 +6,6 @@
      **/
 
     $lang->cmd_delete_checked_document = '선택항목 삭제';
-    $lang->cmd_document_management = '게시글 관리';
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';
     $lang->msg_category_not_moved = '이동할 수가 없습니다';

@@ -12,7 +12,7 @@
          **/
         function init() {
         }
-        
+
         /**
          * @brief 문서 입력
          **/
@@ -215,6 +215,36 @@
                 $oDocumentController = &getController('document');
                 $oDocumentController->addGrant($document_srl);
             }
+        }
+
+        /**
+         * @brief 관리자가 글 선택시 세션에 담음
+         **/
+        function procBoardAdminAddCart() {
+            $document_srl = Context::get('srl');
+            $check_flag = Context::get('check_flag');
+            if(!$document_srl || !in_array($check_flag, array('add','remove'))) return;
+
+            $flag_list = $_SESSION['document_management'][$this->module_srl];
+
+            if($check_flag == 'remove') unset($flag_list[$document_srl]);
+            else $flag_list[$document_srl] = true;
+
+            $_SESSION['document_management'][$this->module_srl] = $flag_list;
+        }
+
+        /**
+         * @brief 세션에 담긴 선택글의 이동
+         **/
+        function procBoardAdminMoveCheckedDocument() {
+            $this->setMessage('success_moved');
+        }
+        
+        /**
+         * @brief 세션에 담긴 선택글의 삭제
+         **/
+        function procBoardAdminDeleteCheckedDocument() {
+            $this->setMessage('success_deleted');
         }
  
         /**

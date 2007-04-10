@@ -56,7 +56,9 @@
         <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />
         <action name="dispBoardAdminCategoryInfo" type="view" standalone="true" />
         <action name="dispBoardAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminManageDocument" type="view" />
 
+        <action name="procBoardAdminAddCart" type="controller" standalone="true" />
         <action name="procBoardAdminInsertGrant" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateSkinInfo" type="controller" standalone="true" />
         <action name="procBoardAdminInsertBoard" type="controller" standalone="true" />
@@ -64,5 +66,7 @@
         <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
         <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procBoardAdminDeleteCheckedDocument" type="controller" standalone="true" />
+        <action name="procBoardAdminMoveCheckedDocument" type="controller" standalone="true" />
     </actions>
 </module>

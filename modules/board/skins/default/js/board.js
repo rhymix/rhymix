@@ -5,15 +5,16 @@
  **/
 
 /* 관리자가 카트 선택시 세션에 넣음 */
-function doAddCart(obj) {
-    var document_srl = obj.value;
+function doAddCart(mid, obj) {
+    var srl = obj.value;
     var check_flag = obj.checked?'add':'remove';
 
     var params = new Array();
-    params["document_srl"] = document_srl;
+    params["mid"] = mid;
+    params["srl"] = srl;
     params["check_flag"] = check_flag;
 
-    exec_xml("document","procDocumentAddCart", params, null);
+    exec_xml("board","procBoardAdminAddCart", params, null);
 }
 
 /* 글쓰기 작성후 */

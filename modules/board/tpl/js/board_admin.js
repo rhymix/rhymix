@@ -99,3 +99,9 @@ function doChangeCategory(sel_obj, url) {
     if(!module_category_srl) location.href=url;
     else location.href=url+'&module_category_srl='+module_category_srl;
 }
+
+/* 선택된 글의 삭제 또는 이동 후 */
+function completeManageDocument(ret_obj) {
+    alert(ret_obj['message']);
+    window.close();
+}
