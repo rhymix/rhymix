@@ -35,6 +35,13 @@
         }
 
         /**
+         * @brief DB 선택 화면
+         **/
+        function dispInstallSelectDB() {
+            $this->setTemplateFile('select_db');
+        }
+
+        /**
          * @brief DB 정보/ 최고 관리자 정보 입력 화면을 보여줌
          **/
         function dispInstallForm() {

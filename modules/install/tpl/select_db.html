@@ -1,0 +1,29 @@
+<table border="1">
+<tr>
+    <td colspan="2">{$lang->introduce_title}</td>
+</tr>
+</table>
+
+<!--@if($install_enable)-->
+<form method="get" action="./">
+    <input type="hidden" name="act" value="dispInstallForm" />
+    <table border="1">
+    <tr>
+        <td>{$lang->db_type}</td>
+        <td>
+            <select name="db_type">
+                <!--@foreach(DB::getSupportedList() as $_key => $_db_name)-->
+                <option value="{$_db_name}">{$_db_name}</option>
+                <!--@end-->
+            </select>
+        </td>
+    <td><input type="submit" value="{$lang->cmd_install_next}" /></td>
+</tr>
+</table>
+</form>
+
+<!--@else-->
+{$lang->cmd_install_fix_checklist}
+[<a href="./">{$lang->cmd_next}</a>]
+
+<!--@end-->
