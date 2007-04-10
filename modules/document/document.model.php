@@ -221,6 +221,9 @@
             $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getLoggedMemberSrl();
 
+            // 체크 플래그 
+            $flag_list = $_SESSION['document_management'];
+
             foreach($output->data as $key => $document) {
                 $is_granted = false;
 
@@ -228,6 +231,8 @@
                 elseif($member_srl && $member_srl == $document->member_srl) $is_granted = true;
 
                 $output->data[$key]->is_granted = $is_granted;
+
+                if($flag_list[$document->document_srl]) $output->data[$key]->checked = true;
             }
             return $output;
         }

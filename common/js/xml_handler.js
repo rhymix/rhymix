@@ -41,6 +41,8 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
         return null;
     }
 
+    if(!callback_func) return null;
+
     callback_func(ret_obj, response_tags, callback_func_arg, fo_obj);
 
     return null;

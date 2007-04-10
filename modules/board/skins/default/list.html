@@ -41,7 +41,7 @@
         ]
     <!--@end-->
 
-    <!--@if($logged_info->is_admin=='Y')-->
+    <!--@if($logged_info->manager =='Y')-->
         <a href="{getUrl('act','dispBoardAdminBoardInfo')}">[{$lang->cmd_management}]</a>
     <!--@end-->
 </div>
@@ -86,6 +86,9 @@
         <!--@end-->
 
         <td>
+            <!--@if($grant->manager)-->
+            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart(this)" <!--@if($val->checked)-->checked="true"<!--@end--> /> 
+            <!--@end-->
             <!--@if($grant->view)-->
                 <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
             <!--@else-->
