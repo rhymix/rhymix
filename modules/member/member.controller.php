@@ -1296,7 +1296,6 @@
          **/
         function transSignature($matches) {
             $member_srl = $matches[2];
-            $text = $matches[4];
             if(!$member_srl) return $matches[0];
 
             // 전역변수에 미리 설정한 데이터가 있다면 그걸 return

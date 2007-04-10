@@ -71,6 +71,8 @@
                 $file_list = $oFileModel->getFiles($document_srl, $is_admin);
                 $document->uploaded_list = $file_list;
             }
+
+            $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);
             
             return $document;
         }
