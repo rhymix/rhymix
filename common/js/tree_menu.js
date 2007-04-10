@@ -46,6 +46,9 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
 
+    // 관리가 아닌 사용일경우는 menu_id를 변경
+    if(typeof(callback_func)=='undefined') menu_id = 'display_'+menu_id;
+
     // 노드 정보들을 담을 변수 세팅
     node_info_list[menu_id] = new Array();
 
