@@ -25,6 +25,10 @@ function editorInit(upload_target_srl) {
 // editor 시작 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
 function editorStart(upload_target_srl) {
 
+    // iframe_area를 찾음
+    var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
+    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='border:0px;width:99%;height:300px;margin:0px;'></iframe>");
+
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
