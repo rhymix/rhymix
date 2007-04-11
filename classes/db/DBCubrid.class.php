@@ -59,7 +59,7 @@
             $this->userid   = $db_info->db_userid;
             $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;
-            $this->port = $db_info->port;
+            $this->port = $db_info->db_port;
             $this->prefix = $db_info->db_table_prefix;
             if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
         }
@@ -111,7 +111,7 @@
          *         return\n
          **/
         function _query($query) {
-            if(!$this->isConnected()) return;
+            if(!$query || !$this->isConnected()) return;
 
             $this->query = $query;
 
@@ -119,7 +119,7 @@
 
             $this->setError(0,'success');
 
-            $result = cubrid_execute($this->fd, $query);
+            $result = @cubrid_execute($this->fd, $query);
 
             if(__DEBUG__) {
                 $query_end = getMicroTime();
@@ -181,7 +181,7 @@
                 $output[] = $tmp;
             }
 
-            @cubrid_close_request($result);
+            if($result) cubrid_close_request($result);
 
             if(count($output)==1) return $output[0];
             return $output;
@@ -201,13 +201,13 @@
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf("select * from db_attribute where class_name = '%s'", $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf("select * from db_attribute where class_name = '%s%s'", $this->prefix, $this->addQuotes($target_name));
             $result = $this->_query($query);
 
             if(cubrid_num_rows($result)>0) $output = true;
             else $output = false;
 
-            @cubrid_close_request($result);
+            if($result) cubrid_close_request($result);
 
             return $output;
         }
@@ -230,7 +230,7 @@
         }
 
         /**
-         * @brief schema xml을 이용하여 create table query생성
+         * @brief schema xml을 이용하여 create class query생성
          *
          * type : number, varchar, text, char, date, \n
          * opt : notnull, default, size\n
@@ -252,10 +252,19 @@
             }
 
             if($this->isTableExists($table_name)) return;
+
             $table_name = $this->prefix.$table_name;
+
+            $query = sprintf('create class %s;', $table_name);
+            $this->_query($query);
+
+            $query = sprintf("call change_owner('%s','%s') on class db_root;", $table_name, $this->userid);
+            $this->_query($query);
 
             if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
             else $columns = $xml_obj->table->column;
+
+            $query = sprintf("alter class %s add attribute ", $table_name);
 
             foreach($columns as $column) {
                 $name = $column->attrs->name;
@@ -266,15 +275,22 @@
                 $index = $column->attrs->index;
                 $unique = $column->attrs->unique;
                 $default = $column->attrs->default;
-                $auto_increment = $column->attrs->auto_increment;
 
-                $column_schema[] = sprintf('`%s` %s%s %s %s %s',
-                $name,
-                $this->column_type[$type],
-                $size?'('.$size.')':'',
-                $default?"default '".$default."'":'',
-                $notnull?'not null':'',
-                $auto_increment?'auto_increment':''
+                switch($this->column_type[$type]) {
+                    case 'integer' :
+                            $size = null;
+                        break;
+                    case 'text' :
+                            $size = null;
+                        break;
+                }
+
+                $column_schema[] = sprintf('"%s" %s%s %s %s',
+                    $name,
+                    $this->column_type[$type],
+                    $size?'('.$size.')':'',
+                    $default?"default '".$default."'":'',
+                    $notnull?'not null':''
                 );
 
                 if($primary_key) $primary_list[] = $name;
@@ -282,33 +298,34 @@
                 else if($index) $index_list[$index][] = $name;
             }
 
+            $query .= implode(',', $column_schema).';';
+            $this->_query($query);
+
             if(count($primary_list)) {
-                $column_schema[] = sprintf("primary key (%s)", '`'.implode($primary_list,'`,`').'`');
+                $query = sprintf("alter class %s add attribute constraint \"pkey_%s\" PRIMARY KEY(%s);", $table_name, $table_name, '"'.implode('","',$primary_list).'"');
+                $this->_query($query);
             }
 
             if(count($unique_list)) {
                 foreach($unique_list as $key => $val) {
-                    $column_schema[] = sprintf("unique %s (%s)", $key, '`'.implode($val,'`,`').'`');
+                    $query = sprintf("create unique index %s_%s on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
+                    $this->_query($query);
                 }
             }
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    $column_schema[] = sprintf("index %s (%s)", $key, '`'.implode($val,'`,`').'`');
+                    $query = sprintf("create index %s_%s on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
+                    $this->_query($query);
                 }
             }
-
-            $schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"), "type=innodb CHARACTER SET utf8 COLLATE utf8_general_ci");
-
-            $output = $this->_query($schema);
-            if(!$output) return false;
         }
 
         /**
          * @brief 테이블 삭제
          **/
         function dropTable($target_name) {
-            $query = sprintf('drop class `%s%s`;', $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf('drop class %s%s;', $this->prefix, $this->addQuotes($target_name));
             $this->_query($query);
         }
 
@@ -340,11 +357,11 @@
 
             foreach($column as $key => $val) {
                 $key_list[] = $key;
-                if(in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
+                if(is_int($val) || in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
                 else $val_list[] = '\''.$this->addQuotes($val).'\'';
             }
 
-            $query = sprintf("insert into `%s%s` (%s) values (%s);", $this->prefix, $table, '`'.implode('`,`',$key_list).'`', implode(',', $val_list));
+            $query = sprintf("insert into %s%s (%s) values (%s);", $this->prefix, $table, '"'.implode('","',$key_list).'"', implode(',', $val_list));
             return $this->_query($query);
         }
 
@@ -357,15 +374,15 @@
             foreach($column as $key => $val) {
                 // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
-                if(in_array($key, $pass_quotes)) $update_list[] = sprintf('`%s` = %s', $key, $this->addQuotes($val));
-                else $update_list[] = sprintf('`%s` = \'%s\'', $key, $this->addQuotes($val));
+                if(is_int($val) || in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
+                else $update_list[] = sprintf('"%s" = \'%s\'', $key, $this->addQuotes($val));
             }
             if(!count($update_list)) return;
             $update_query = implode(',',$update_list);
 
             if($condition) $condition = ' where '.$condition;
 
-            $query = sprintf("update `%s%s` set %s %s;", $this->prefix, $table, $update_query, $condition);
+            $query = sprintf("update %s%s set %s %s;", $this->prefix, $table, $update_query, $condition);
 
             return $this->_query($query);
         }
@@ -378,7 +395,7 @@
 
             if($condition) $condition = ' where '.$condition;
 
-            $query = sprintf("delete from `%s%s` %s;", $this->prefix, $table, $condition);
+            $query = sprintf("delete from %s%s %s;", $this->prefix, $table, $condition);
             return $this->_query($query);
         }
 
@@ -398,7 +415,7 @@
             if(!$column) $columns = '*';
             else {
                 foreach($invert_columns as $key => $val) {
-                    $column_list[] = sprintf('%s as %s',$val, $key);
+                    $column_list[] = sprintf('"%s" as "%s"',$val, $key);
                 }
                 $columns = implode(',', $column_list);
             }
@@ -413,7 +430,7 @@
 
             if($navigation->index) {
                 foreach($navigation->index as $index_obj) {
-                    $index_list[] = sprintf('%s %s', $index_obj[0], $index_obj[1]);
+                    $index_list[] = sprintf('"%s" "%s"', $index_obj[0], $index_obj[1]);
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }

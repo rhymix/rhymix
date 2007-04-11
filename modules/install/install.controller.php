@@ -24,7 +24,7 @@
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
 
             // DB와 관련된 변수를 받음
-            $db_info = Context::gets('db_type','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+            $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
 
             // DB의 타입과 정보를 등록
             Context::setDBInfo($db_info);
