@@ -15,6 +15,20 @@
 
     class DB {
 
+        /**
+         * @brief 조건문에서 조건을 등호로 표시하는 변수
+         **/
+        var $cond_operation = array(
+            'equal' => '=',
+            'more' => '>=',
+            'excess' => '>',
+            'less' => '<=',
+            'below' => '<',
+            'notequal' => '!=',
+            'notnull' => 'is not null',
+            'null' => 'is null',
+        );
+
         var $fd = NULL; ///< connector resource or file description
 
         var $result = NULL; ///< result
@@ -23,7 +37,7 @@
         var $errstr = ''; ///< 에러 발생시 에러 메세지
         var $query = ''; ///< 가장 최근에 수행된 query string
 
-        var $transaction_started = false;
+        var $transaction_started = false; ///< 트랙잭션 처리 flag
 
         var $is_connected = false; ///< DB에 접속이 되었는지에 대한 flag
 
@@ -135,7 +149,7 @@
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 
             list($module, $id) = explode('.',$query_id);
-            if(!$module||!$id) return new Object(-1, 'msg_invalid_queryid');
+            if(!$module || !$id) return new Object(-1, 'msg_invalid_queryid');
 
             $xml_file = sprintf('./modules/%s/queries/%s.xml', $module, $id);
             if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -159,31 +173,33 @@
          **/
         function _executeQuery($cache_file, $source_args, $query_id) {
             global $lang;
+            debugPrint($query_id);
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
             if($source_args) $args = clone($source_args);
+
             $output = include($cache_file);
 
             if( (is_a($output, 'Object')||is_subclass_of($output,'Object'))&&!$output->toBool()) return $output;
 
             // action값에 따라서 쿼리 생성으로 돌입
-            switch($action) {
+            switch($output->action) {
                 case 'insert' :
-                        $output = $this->_executeInsertAct($tables, $column, $pass_quotes);
+                        $output = $this->_executeInsertAct($output);
                     break;
                 case 'update' :
-                        $output = $this->_executeUpdateAct($tables, $column, $args, $condition, $pass_quotes);
+                        $output = $this->_executeUpdateAct($output);
                     break;
                 case 'delete' :
-                        $output = $this->_executeDeleteAct($tables, $condition, $pass_quotes);
+                        $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
-                        $output = $this->_executeSelectAct($tables, $column, $invert_columns, $condition, $navigation, $group_script, $pass_quotes);
+                        $output = $this->_executeSelectAct($output);
                     break;
             }
 
-            if($this->errno!=0) return new Object($this->errno, $this->errstr);
+            if($this->errno !=0 ) return new Object($this->errno, $this->errstr);
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return $output;
             return new Object();
         }
@@ -191,12 +207,8 @@
         /**
          * @brief $val을 $filter_type으로 검사
          **/
-        function _checkFilter($key, $val, $filter_type, $minlength, $maxlength) {
+        function _checkFilter($key, $val, $filter_type) {
             global $lang;
-
-            $length = strlen($val);
-            if($minlength && $length < $minlength) return new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
-            if($maxlength && $length > $maxlength) return new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key}?$lang->{$key}:$key));
 
             switch($filter_type) {
                 case 'email' :
@@ -225,30 +237,41 @@
         }
 
         /**
-         * @brief 조건문들 정리
+         * @brief 이름, 값, operation으로 조건절 작성
          **/
-        function _combineCondition($cond_group, $group_pipe) {
-            if(!is_array($cond_group)) return;
-            $cond_query = '';
-
-            foreach($cond_group as $group_idx => $group) {
-                if(!is_array($group)) continue;
-
-                $buff = '';
-                foreach($group as $key => $val) {
-                    $pipe = key($val);
-                    $cond = array_pop($val);
-                    if($buff) $buff .= ' '.$pipe.' '.$cond;
-                    else $buff = $cond;
-                }
-
-                $g_pipe = $group_pipe[$group_idx];
-                if(!$g_pipe) $g_pipe = 'and';
-                if($cond_query) $cond_query .= sprintf(' %s ( %s )', $g_pipe, $buff);
-                else $cond_query = '('.$buff.')';
+        function getConditionPart($name, $value, $operation) {
+            switch($operation) {
+                case 'equal' :
+                        if(!$value) return;
+                        return $name.' = '.$value;
+                    break;
+                case 'more' :
+                        if(!$value) return;
+                        return $name.' >= '.$value;
+                    break;
+                case 'excess' :
+                        if(!$value) return;
+                        return $name.' > '.$value;
+                    break;
+                case 'less' :
+                        if(!$value) return;
+                        return $name.' <= '.$value;
+                    break;
+                case 'below' : 
+                        if(!$value) return;
+                        return $name.' < '.$value;
+                    break;
+                case 'notequal' : 
+                        if(!$value) return;
+                        return $name.' != '.$value;
+                    break;
+                case 'notnull' : 
+                        return $name.' is not null';
+                    break;
+                case 'null' : 
+                        return $name.' is null';
+                    break;
             }
-            return $cond_query;
         }
-
     }
 ?>
