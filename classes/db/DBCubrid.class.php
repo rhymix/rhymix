@@ -285,11 +285,13 @@
                         break;
                 }
 
+                if($default && !is_int($default)) $default = "'".$default."'";
+
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
                     $this->column_type[$type],
                     $size?'('.$size.')':'',
-                    $default?"default '".$default."'":'',
+                    $default?"default ".$default:'',
                     $notnull?'not null':''
                 );
 
