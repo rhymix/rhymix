@@ -173,7 +173,6 @@
          **/
         function _executeQuery($cache_file, $source_args, $query_id) {
             global $lang;
-            debugPrint($query_id);
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
