@@ -1,0 +1,95 @@
+<!--%import("filter/cubrid.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, install)">
+    <input type="hidden" name="db_type" value="{$db_type}" />
+
+    <table border="1">
+    <tr>
+        <td colspan="2">
+            {$lang->db_title}
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_hostname}</td>
+        <td>
+            <input type="text" name="db_hostname" value="127.0.0.1" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_port}</td>
+        <td>
+            <input type="text" name="db_port" value="33000" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_userid}</td>
+        <td>
+            <input type="text" name="db_userid" value="dev" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_password}</td>
+        <td>
+            <input type="password" name="db_password" value="dev" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_database}</td>
+        <td>
+            <input type="text" name="db_database" value="dev" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->db_table_prefix}</td>
+        <td>
+            <input type="text" name="db_table_prefix" value="xe" />
+        </td>
+    </tr>
+    </table>
+
+    <table border="1">
+    <tr>
+        <td colspan="2">
+            {$lang->admin_title}
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->user_id}</td>
+        <td>
+            <input type="text" name="user_id" value="zero" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->password1}</td>
+        <td>
+            <input type="password" name="password1" value="1234" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->password2}</td>
+        <td>
+            <input type="password" name="password2" value="1234" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->user_name}</td>
+        <td>
+            <input type="text" name="user_name" value="zero" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->nick_name}</td>
+        <td>
+            <input type="text" name="nick_name" value="zero" />
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->email_address}</td>
+        <td>
+            <input type="text" name="email_address" value="zero@nzeo.com" />
+        </td>
+    </tr>
+    </table>
+
+    <input type="submit" value="{$lang->cmd_registration}" />
+</form>

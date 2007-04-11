@@ -45,11 +45,13 @@
         'mysqli' => 'mysql DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일을 INNODB로 생성하여 트랜잭션 기능을 수행할 수 있습니다.<br />(안정화 테스트가 되지 않았습니다)',
         'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다)',
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
+        'cubrid' => 'CUBRID DB를 이용합니다.<br />(안정화 테스트 및 튜닝이 되지 않았습니다)',
     );
 
     $lang->db_title = 'DB정보 입력';
     $lang->db_type = 'DB 종류';
     $lang->db_hostname = 'DB 호스트네임';
+    $lang->db_port = 'DB Port';
     $lang->db_userid = 'DB 아이디';
     $lang->db_password = 'DB 비밀번호';
     $lang->db_database = 'DB 데이터베이스';
