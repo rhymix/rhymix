@@ -72,7 +72,7 @@
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
 
             // 접속시도  
-            $this->fd = @cubrid_connect($this->hostname, $this->port, $this->database, $this->userid);
+            $this->fd = @cubrid_connect($this->hostname, $this->port, $this->database, $this->userid, $this->password);
 
             // 접속체크
             if(!$this->fd) {
@@ -127,9 +127,9 @@
                 $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
             }
 
-            if(cubrid_error_code($this->fd)) {
+            if(cubrid_error_code()) {
 
-                $this->setError(cubrid_error_code($this->fd), cubrid_error_msg($this->fd));
+                $this->setError(cubrid_error_code(), cubrid_error_msg());
 
                 if(__DEBUG__) {
                     $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
@@ -150,7 +150,6 @@
          **/
         function begin() {
             if(!$this->is_connected || $this->transaction_started) return;
-            //$this->_query('begin');
             $this->transaction_started = true;
         }
 
@@ -159,7 +158,7 @@
          **/
         function rollback() {
             if(!$this->is_connected || !$this->transaction_started) return;
-            //$this->_query('rollback');
+            cubrid_rollback($this->fd);
             $this->transaction_started = false;
         }
 
@@ -168,7 +167,7 @@
          **/
         function commit() {
             if(!$this->is_connected || !$this->transaction_started) return;
-            //$this->_query('commit');
+            cubrid_commit($this->fd);
             $this->transaction_started = false;
         }
 
@@ -178,9 +177,12 @@
         function _fetch($result) {
             if($this->isError() || !$result) return;
 
-            while($tmp = cubrid_fetch($result)) {
+            while($tmp = cubrid_fetch($result, CUBRID_OBJECT)) {
                 $output[] = $tmp;
             }
+
+            @cubrid_close_request($result);
+
             if(count($output)==1) return $output[0];
             return $output;
         }
@@ -189,20 +191,25 @@
          * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
          **/
         function getNextSequence() {
-            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
-            $this->_query($query);
-            return cubrid_insert_id($this->fd);
+            $query = sprintf("select %ssequence.nextval as seq from db_root", $this->prefix);
+            $result = $this->_query($query);
+            $output = $this->_fetch($result);
+            return $output->seq;
         }
 
         /**
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf("select * from db_attribute where class_name = '%s'", $this->prefix, $this->addQuotes($target_name));
             $result = $this->_query($query);
-            $tmp = $this->_fetch($result);
-            if(!$tmp) return false;
-            return true;
+
+            if(cubrid_num_rows($result)>0) $output = true;
+            else $output = false;
+
+            @cubrid_close_request($result);
+
+            return $output;
         }
 
         /**
@@ -236,6 +243,14 @@
 
             // 테이블 생성 schema 작성
             $table_name = $xml_obj->table->attrs->name;
+
+            // 만약 테이블 이름이 sequence라면 serial 생성
+            if($table_name == 'sequence') {
+
+                $query = sprintf('create serial %s start with 1 increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix.$table_name);
+                return $this->_query($query);
+            }
+
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
 
@@ -293,24 +308,20 @@
          * @brief 테이블 삭제
          **/
         function dropTable($target_name) {
-            $query = sprintf('drop table `%s%s`;', $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf('drop class `%s%s`;', $this->prefix, $this->addQuotes($target_name));
             $this->_query($query);
         }
 
         /**
-         * @brief 테이블의 이름 변경
+         * @brief 테이블의 이름 변경 (미구현)
          **/
         function renameTable($source_name, $targe_name) {
-            $query = sprintf("alter table `%s%s` rename `%s%s`;", $this->prefix, $this->addQuotes($source_name), $this->prefix, $this->addQuotes($targe_name));
-            $this->_query($query);
         }
 
         /**
-         * @brief 테이블을 비움
+         * @brief 테이블을 비움 (미구현)
          **/
         function truncateTable($target_name) {
-            $query = sprintf("truncate table `%s%s`;", $this->prefix, $this->addQuotes($target_name));
-            $this->_query($query);
         }
 
         /**
@@ -442,10 +453,8 @@
                 $index_list[] = sprintf('%s %s', $index_obj[0], $index_obj[1]);
             }
 
-            $condition .= sprintf(' rownum between %s and %s ', $start_count, $navigation->list_count);
-
             $index = implode(',',$index_list);
-            $query = sprintf('select %s from %s %s order by %s', $columns, $table, $condition, $index);
+            $query = sprintf('select %s from %s %s order by %s for orderby_num() between %d and %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();
