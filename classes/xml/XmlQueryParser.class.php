@@ -58,29 +58,29 @@
             // 캐쉬 내용 작성
             $buff = 
             sprintf(
-            '<?php if(!defined("__ZBXE__")) exit();'."\n".
-            '$pass_quotes = array();'."\n".
-            '$id = \'%s\';'."\n".
-            '$action = \'%s\';'."\n".
-            '$tables = array(%s);'."\n".
-            '%s'."\n".
-            '%s'."\n".
-            '%s'."\n".
-            '%s'."\n".
-            '%s'."\n".
-            '%s'."\n".
-            '$group_script = \'%s\''."\n".
-            '?>',
-            $query_id,
-            $action,
-            $tables,
-            $default_script,
-            $column_script,
-            $notnull_script,
-            $filter_script,
-            $condition_script,
-            $navigation_script,
-            $group_script
+                '<?php if(!defined("__ZBXE__")) exit();'."\n".
+                '$pass_quotes = array();'."\n".
+                '$id = \'%s\';'."\n".
+                '$action = \'%s\';'."\n".
+                '$tables = array(%s);'."\n".
+                '%s'."\n".
+                '%s'."\n".
+                '%s'."\n".
+                '%s'."\n".
+                '%s'."\n".
+                '%s'."\n".
+                '$group_script = \'%s\''."\n".
+                '?>',
+                $query_id,
+                $action,
+                $tables,
+                $default_script,
+                $column_script,
+                $notnull_script,
+                $filter_script,
+                $condition_script,
+                $navigation_script,
+                $group_script
             );
 
             // 저장

@@ -285,7 +285,7 @@
                         break;
                 }
 
-                if($default && !is_int($default)) $default = "'".$default."'";
+                if($default && !is_numeric($default)) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
@@ -359,8 +359,10 @@
 
             foreach($column as $key => $val) {
                 $key_list[] = $key;
-                if(is_int($val) || in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
-                else $val_list[] = '\''.$this->addQuotes($val).'\'';
+                if($val) {
+                    if(is_numeric($val) || in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
+                    else $val_list[] = "'".$this->addQuotes($val)."'";
+                } else $val_list[] = "null";
             }
 
             $query = sprintf("insert into %s%s (%s) values (%s);", $this->prefix, $table, '"'.implode('","',$key_list).'"', implode(',', $val_list));
@@ -374,10 +376,12 @@
             $table = array_pop($tables);
 
             foreach($column as $key => $val) {
-                // args에 아예 해당 key가 없으면 패스
                 if(!isset($args->{$key})) continue;
-                if(is_int($val) || in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
-                else $update_list[] = sprintf('"%s" = \'%s\'', $key, $this->addQuotes($val));
+
+                if($vla) {
+                    if(is_numeric($val) || in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
+                    else $update_list[] = sprintf('"%s" = \'%s\'', $key, $this->addQuotes($val));
+                } else $update_list[] = "null";
             }
             if(!count($update_list)) return;
             $update_query = implode(',',$update_list);
