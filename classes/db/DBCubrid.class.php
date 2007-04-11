@@ -436,7 +436,7 @@
 
             if($navigation->index) {
                 foreach($navigation->index as $index_obj) {
-                    $index_list[] = sprintf('"%s" "%s"', $index_obj[0], $index_obj[1]);
+                    $index_list[] = sprintf('"%s" %s', $index_obj[0], $index_obj[1]);
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
