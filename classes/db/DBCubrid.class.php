@@ -149,26 +149,26 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
-            if(!$this->is_connected || $this->transaction_started) return;
-            $this->transaction_started = true;
+            //if(!$this->is_connected || $this->transaction_started) return;
+            //$this->transaction_started = true;
         }
 
         /**
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->is_connected || !$this->transaction_started) return;
-            cubrid_rollback($this->fd);
-            $this->transaction_started = false;
+            //if(!$this->is_connected || !$this->transaction_started) return;
+            //cubrid_rollback($this->fd);
+            //$this->transaction_started = false;
         }
 
         /**
          * @brief 커밋
          **/
         function commit() {
-            if(!$this->is_connected || !$this->transaction_started) return;
-            cubrid_commit($this->fd);
-            $this->transaction_started = false;
+            //if(!$this->is_connected || !$this->transaction_started) return;
+            //cubrid_commit($this->fd);
+            //$this->transaction_started = false;
         }
 
         /**
@@ -360,7 +360,7 @@
             foreach($column as $key => $val) {
                 $key_list[] = $key;
                 if($val) {
-                    if(is_numeric($val) || in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
+                    if(in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
                     else $val_list[] = "'".$this->addQuotes($val)."'";
                 } else $val_list[] = "null";
             }
@@ -379,7 +379,7 @@
                 if(!isset($args->{$key})) continue;
 
                 if($vla) {
-                    if(is_numeric($val) || in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
+                    if(in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
                     else $update_list[] = sprintf('"%s" = \'%s\'', $key, $this->addQuotes($val));
                 } else $update_list[] = "null";
             }
