@@ -261,6 +261,16 @@
         }
 
         /**
+         * @brief 컬럼의 타입을 구해옴
+         * 컬럼의 경우 a.b 와 같이 되어 있는 경우가 있어서 별도 함수가 필요
+         **/
+        function getColumnType($column_type_list, $name) {
+            if(strpos($name,'.')===false) return $column_type_list[$name];
+            list($prefix, $name) = explode('.',$name);
+            return $column_type_list[$name];
+        }
+
+        /**
          * @brief 이름, 값, operation, type으로 값을 변경
          * like, like_prefix의 경우 value자체가 변경됨
          * type == number가 아니면 addQuotes()를 하고 ' ' 로 묶음

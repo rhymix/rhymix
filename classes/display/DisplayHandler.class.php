@@ -18,6 +18,9 @@
          * @brief 모듈객체를 받아서 content 출력
          **/
         function printContent(&$oModule) {
+
+            if(!$oModule->getTemplateFile()) return;
+
             // header 출력
             $this->_printHeader();
 

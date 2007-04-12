@@ -91,7 +91,7 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
-            cubrid_commit($this->fd);
+            @cubrid_commit($this->fd);
             @cubrid_disconnect($this->fd);
         }
 
@@ -309,6 +309,7 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
+            $condition = "";
             foreach($output->conditions as $key => $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $k =>$v) {
@@ -317,15 +318,19 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $output->column_type[$name];
+                    $type = $this->getColumnType($output->column_type,$name);
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type);
+                    if(!$value) $value = $v['value'];
+                    if(strpos($name,'.')===false) $name = '"'.$name.'"';
 
                     $str = $this->getConditionPart($name, $value, $operation);
+
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
                 }
+
                 if($sub_condition) {
                     if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
                     $condition .= '('.$sub_condition.')';
@@ -349,14 +354,15 @@
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
-                if($output->column_type[$name]!='number') {
+                if($this->getColumnType($output->column_type,$name)!='number') {
                     $value = "'".$this->addQuotes($value)."'";
                     if(!$value) $value = 'null';
                 } else {
                     if(!$value) $value = 0;
                 }
 
-                $column_list[] = '"'.$name.'"';
+                if(strpos($name,'.')===false) $column_list[] = '"'.$name.'"';
+                else $column_list[] = $name;
                 $value_list[] = $value;
             }
 
@@ -376,12 +382,15 @@
             // 컬럼 정리 
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
+
                 $name = $val['name'];
+
                 $value = $val['value'];
-                if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                if($this->getColumnType($output->column_type,$name)!='number') $value = "'".$this->addQuotes($value)."'";
                 else $value = (int)$value;
 
-                $column_list[] = sprintf('"%s" = %s', $name, $value);
+                if(strpos($name,'.')===false) $name = '"'.$name.'"';
+                $column_list[] = sprintf('%s = %s', $name, $value);
             }
 
             // 조건절 정리
@@ -435,8 +444,14 @@
                         if($alias) $column_list[] = sprintf('"%s" as "%s"', $name, $alias);
                         else $column_list[] = sprintf('"%s"',$name);
                     } else {
-                        if($alias) $column_list[] = sprintf('%s as "%s"', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
+                        if(strpos($name,'.')!=false) {
+                            list($prefix, $name) = explode('.',$name);
+                            if($alias) $column_list[] = sprintf('%s."%s" as "%s"', $prefix, $name, $alias);
+                            else $column_list[] = sprintf('%s."%s"',$prefix,$name);
+                        } else {
+                            if($alias) $column_list[] = sprintf('%s as "%s"', $name, $alias);
+                            else $column_list[] = sprintf('%s',$name);
+                        }
                     }
                 }
                 $columns = implode(',',$column_list);
@@ -473,7 +488,7 @@
             require_once('./classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
+            $count_query = sprintf('select count(*) as "count" from %s %s', implode(',',$table_list), $condition);
             $result = $this->_query($count_query);
             $count_output = $this->_fetch($result);
             $total_count = (int)$count_output->count;
@@ -501,7 +516,7 @@
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
 
-            $query = sprintf('%s for ordery_num() between %d and %d', $query, $start_count, $list_count);
+            $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
 
             $result = $this->_query($query);
             if($this->isError()) {

@@ -288,7 +288,7 @@
                     $type = $output->column_type[$name];
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type);
+                    if(strpos($value,'.')===false) $value = $this->getConditionValue($name, $value, $operation, $type);
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;

@@ -40,11 +40,22 @@
 
                 // 테이블을 찾아서 컬럼의 속성을 구함
                 $table_file = sprintf('./modules/%s/schemas/%s.xml', $module, $table_name);
-                $table_xml = FileHandler::readFile($table_file);
-                $table_obj = parent::parse($table_xml);
-                if($table_obj->table) {
-                    foreach($table_obj->table->column as $k => $v) {
-                        $buff .= sprintf('$output->column_type["%s"] = "%s";%s', $v->attrs->name, $v->attrs->type, "\n");
+                if(!file_exists($table_file)) {
+                    $searched_list = FileHandler::readDir('./modules');
+                    $searched_count = count($searched_list);
+                    for($i=0;$i<$searched_count;$i++) {
+                        $table_file = sprintf('./modules/%s/schemas/%s.xml', $searched_list[$i], $table_name);
+                        if(file_exists($table_file)) break;
+                    }
+                }
+
+                if(file_exists($table_file)) {
+                    $table_xml = FileHandler::readFile($table_file);
+                    $table_obj = parent::parse($table_xml);
+                    if($table_obj->table) {
+                        foreach($table_obj->table->column as $k => $v) {
+                            $buff .= sprintf('$output->column_type["%s"] = "%s";%s', $v->attrs->name, $v->attrs->type, "\n");
+                        }
                     }
                 }
             }
