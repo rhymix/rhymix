@@ -255,7 +255,7 @@
             Context::set('buff', $buff);
 
             $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('print_uploaded_file_list.html');
+            $this->setTemplateFile('print_uploaded_file_list');
         }
 
         /**

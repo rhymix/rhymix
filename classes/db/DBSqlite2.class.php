@@ -292,7 +292,8 @@
                     $type = $output->column_type[$name];
                     $pipe = $v['pipe'];
 
-                    if(strpos($value,'.')===false) $value = $this->getConditionValue($name, $value, $operation, $type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type);
+                    if(!$value) $value = $v['value'];
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
@@ -323,9 +324,7 @@
                 if($output->column_type[$name]!='number') {
                     $value = "'".$this->addQuotes($value)."'";
                     if(!$value) $value = 'null';
-                } else {
-                    if(!$value) $value = 0;
-                }
+                } elseif(!$value || is_numeric($value)) $value = (int)$value;
 
                 $column_list[] = $name;
                 $value_list[] = $value;
@@ -350,7 +349,7 @@
                 $name = $val['name'];
                 $value = $val['value'];
                 if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                else $value = (int)$value;
+                elseif(!$value || is_numeric($value)) $value = (int)$value;
 
                 $column_list[] = sprintf("%s = %s", $name, $value);
             }
