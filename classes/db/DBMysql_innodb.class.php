@@ -97,6 +97,7 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
+            $this->_query("commit");
             @mysql_close($this->fd);
         }
 
