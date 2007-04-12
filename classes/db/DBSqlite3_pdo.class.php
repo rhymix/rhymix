@@ -83,7 +83,7 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
-            if(!$this->is_connected || $this->transaction_started) return;
+            if(!$this->isConnected() || $this->transaction_started) return;
             if($this->handler->beginTransaction()) $this->transaction_started = true;
         }
 
@@ -91,7 +91,7 @@
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->is_connected || !$this->transaction_started) return;
+            if(!$this->isConnected() || !$this->transaction_started) return;
             $this->handler->rollBack();
             $this->transaction_started = false;
         }
@@ -100,7 +100,7 @@
          * @brief 커밋
          **/
         function commit() {
-            if(!$this->is_connected || !$this->transaction_started) return;
+            if(!$this->isConnected() || !$this->transaction_started) return;
             $this->handler->commit();
             $this->transaction_started = false;
         }

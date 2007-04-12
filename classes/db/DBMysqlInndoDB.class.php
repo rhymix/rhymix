@@ -113,18 +113,26 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
+            if(!$this->isConnected() || $this->transaction_started) return;
+            $this->_query("begin");
         }
 
         /**
          * @brief 롤백
          **/
         function rollback() {
+            if(!$this->isConnected() || !$this->transaction_started) return;
+            $this->_query("rollback");
+            $this->transaction_started = false;
         }
 
         /**
          * @brief 커밋
          **/
         function commit() {
+            if(!$this->isConnected() || !$this->transaction_started) return;
+            $this->_query("commit");
+            $this->transaction_started = false;
         }
 
         /**
