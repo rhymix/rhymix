@@ -1,6 +1,6 @@
 <?php
     /**
-     * @class DBMysqlInndoDB
+     * @class DBMysql_innodb
      * @author zero (zero@nzeo.com)
      * @brief MySQL DBMS를 이용하기 위한 class
      * @version 0.1
@@ -8,7 +8,7 @@
      * mysql handling class
      **/
 
-    class DBMysqlInndoDB extends DB {
+    class DBMysql_innodb extends DB {
 
         /**
          * @brief Mysql DB에 접속하기 위한 정보
@@ -38,7 +38,7 @@
         /**
          * @brief constructor
          **/
-        function DBMysqlInndoDB() {
+        function DBMysql_innodb() {
             $this->_setDBInfo();
             $this->_connect();
         }
