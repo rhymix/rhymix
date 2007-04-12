@@ -9,7 +9,7 @@
         <column name="is_notice" var="is_notice" notnull="notnull" default="N" />
         <column name="is_secret" var="is_secret" notnull="notnull" default="N" />
         <column name="title" var="title" notnull="notnull" minlength="2" maxlength="250" />
-        <column name="content" var="content" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="content" var="content" notnull="notnull" />
         <column name="readed_count" var="readed_count" default="0" />
         <column name="voted_count" var="voted_count" default="0" />
         <column name="comment_count" var="voted_count" default="0" />
