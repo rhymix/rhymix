@@ -10,11 +10,14 @@
 
     class DBMysql extends DB {
 
+        /**
+         * @brief Mysql DB에 접속하기 위한 정보
+         **/
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
         /**
          * @brief mysql에서 사용될 column type
@@ -107,49 +110,6 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
-         *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
-         *         return\n
-         **/
-        function _query($query) {
-            if(!$this->isConnected()) return;
-
-            $this->query = $query;
-
-            if(__DEBUG__) $query_start = getMicroTime();
-
-            $this->setError(0,'success');
-
-            $result = @mysql_query($query, $this->fd);
-
-            if(__DEBUG__) {
-                $query_end = getMicroTime();
-                $elapsed_time = $query_end - $query_start;
-                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
-            }
-
-            if(mysql_error()) {
-                $this->setError(mysql_errno(), mysql_error());
-
-                if(__DEBUG__) {
-                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
-                }
-
-                return;
-            }
-
-            if(__DEBUG__) {
-                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
-            }
-
-            return $result;
-        }
-
-        /**
          * @brief 트랜잭션 시작
          **/
         function begin() {
@@ -168,10 +128,38 @@
         }
 
         /**
+         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         *
+         * query : query문 실행하고 result return\n
+         * fetch : reutrn 된 값이 없으면 NULL\n
+         *         rows이면 array object\n
+         *         row이면 object\n
+         *         return\n
+         **/
+        function _query($query) {
+            if(!$this->isConnected()) return;
+
+            // 쿼리 시작을 알림
+            $this->actStart($query);
+
+            // 쿼리 문 실행
+            $result = @mysql_query($query, $this->fd);
+
+            // 오류 체크
+            if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
+
+            // 쿼리 실행 종료를 알림
+            $this->actFinish();
+
+            // 결과 리턴
+            return $result;
+        }
+
+        /**
          * @brief 결과를 fetch
          **/
         function _fetch($result) {
-            if($this->isError() || !$result) return;
+            if(!$this->isConnected() || $this->isError() || !$result) return;
             while($tmp = mysql_fetch_object($result)) {
                 $output[] = $tmp;
             }

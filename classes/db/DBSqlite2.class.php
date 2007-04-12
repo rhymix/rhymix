@@ -11,7 +11,7 @@
     class DBSqlite2 extends DB {
 
         var $database = NULL; ///< database
-        var $prefix   = 'zb'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
         /**
          * @brief sqlite 에서 사용될 column type

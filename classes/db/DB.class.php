@@ -15,10 +15,7 @@
 
     class DB {
 
-        /**
-         * @brief 조건문에서 조건을 등호로 표시하는 변수
-         **/
-        var $cond_operation = array(
+        var $cond_operation = array( ///< 조건문에서 조건을 등호로 표시하는 변수
             'equal' => '=',
             'more' => '>=',
             'excess' => '>',
@@ -43,7 +40,7 @@
 
         var $supported_list = array(); ///< 지원하는 DB의 종류, classes/DB/DB***.class.php 를 이용하여 동적으로 작성됨
 
-        var $cache_file = './files/cache/queries/';
+        var $cache_file = './files/cache/queries/'; ///< query cache파일의 위치
 
         /**
          * @brief DB를 상속받는 특정 db type의 instance를 생성 후 return
@@ -111,14 +108,6 @@
         }
 
         /**
-         * @brief 에러발생시 에러 메세지를 남기고 debug 모드일때는 GLOBALS 변수에 에러 로깅
-         **/
-        function setError($errno, $errstr) {
-            $this->errno = $errno;
-            $this->errstr = $errstr;
-        }
-
-        /**
          * @brief 접속되었는지 return
          **/
         function isConnected() {
@@ -126,10 +115,44 @@
         }
 
         /**
+         * @brief 로그 남김 
+         **/
+        function actStart($query) {
+            if(!__DEBUG__) return;
+            $this->setError(0,'success');
+            $this->query = $query;
+            $this->act_start = getMicroTime();
+        }
+
+        function actFinish() {
+            if(!__DEBUG__) return;
+            $this->act_finish = getMicroTime();
+            $elapsed_time = $this->act_finish - $this->act_start;
+            $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
+
+            $str = sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
+
+            if($this->isError()) {
+                $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
+            } else {
+                $str .= "\t    Query Success\n";
+            }
+            $GLOBALS['__db_queries__'] .= $str;
+        }
+
+        /**
+         * @brief 에러발생시 에러 메세지를 남기고 debug 모드일때는 GLOBALS 변수에 에러 로깅
+         **/
+        function setError($errno = 0, $errstr = 'success') {
+            $this->errno = $errno;
+            $this->errstr = $errstr;
+        }
+
+        /**
          * @brief 오류가 발생하였는지 return
          **/
         function isError() {
-            return $error===0?true:false;
+            return $this->errno===0?false:true;
         }
 
         /**
@@ -205,8 +228,9 @@
 
         /**
          * @brief $val을 $filter_type으로 검사
+         * XmlQueryParser에서 사용하도록 함
          **/
-        function _checkFilter($key, $val, $filter_type) {
+        function checkFilter($key, $val, $filter_type) {
             global $lang;
 
             switch($filter_type) {
@@ -237,6 +261,8 @@
 
         /**
          * @brief 이름, 값, operation, type으로 값을 변경
+         * like, like_prefix의 경우 value자체가 변경됨
+         * type == number가 아니면 addQuotes()를 하고 ' ' 로 묶음
          **/
         function getConditionValue($name, $value, $operation, $type) {
             if($type == 'number') return (int)$value;
@@ -256,6 +282,7 @@
 
         /**
          * @brief 이름, 값, operation으로 조건절 작성
+         * 조건절을 완성하기 위해 세부 조건절 마다 정리를 해서 return
          **/
         function getConditionPart($name, $value, $operation) {
             switch($operation) {
