@@ -5,7 +5,7 @@
      * @brief MySQL DBMS를 이용하기 위한 class
      * @version 0.1
      *
-     * mysql handling class
+     * mysql innodb handling class
      **/
 
     class DBMysql_innodb extends DB {

@@ -11,6 +11,9 @@
 
     class DBCubrid extends DB {
 
+        /**
+         * @brief Cubrid DB에 접속하기 위한 정보
+         **/
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
@@ -19,7 +22,7 @@
         var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
 
         /**
-         * @brief mysql에서 사용될 column type
+         * @brief cubrid에서 사용될 column type
          *
          * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
          * 각 DBMS에 맞게 replace 해주어야 한다
@@ -102,6 +105,25 @@
         }
 
         /**
+         * @brief 트랜잭션 시작
+         **/
+        function begin() {
+        }
+
+        /**
+         * @brief 롤백
+         **/
+        function rollback() {
+        }
+
+        /**
+         * @brief 커밋
+         **/
+        function commit() {
+        }
+
+
+        /**
          * @brief : 쿼리문의 실행 및 결과의 fetch 처리
          *
          * query : query문 실행하고 result return\n
@@ -113,69 +135,27 @@
         function _query($query) {
             if(!$query || !$this->isConnected()) return;
 
-            $this->query = $query;
+            // 쿼리 시작을 알림
+            $this->actStart($query);
 
-            if(__DEBUG__) $query_start = getMicroTime();
-
-            $this->setError(0,'success');
-
+            // 쿼리 문 실행
             $result = @cubrid_execute($this->fd, $query);
 
-            if(__DEBUG__) {
-                $query_end = getMicroTime();
-                $elapsed_time = $query_end - $query_start;
-                $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
-            }
+            // 오류 체크
+            if(cubrid_error_code()) $this->setError(cubrid_error_code(), cubrid_error_msg());
 
-            if(cubrid_error_code()) {
+            // 쿼리 실행 종료를 알림
+            $this->actFinish();
 
-                $this->setError(cubrid_error_code(), cubrid_error_msg());
-
-                if(__DEBUG__) {
-                    $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n\t    Fail : %d\n\t\t   %s\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time, $this->errno, $this->errstr);
-                }
-
-                return;
-            }
-
-            if(__DEBUG__) {
-                $GLOBALS['__db_queries__'] .= sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
-            }
-
+            // 결과 리턴
             return $result;
-        }
-
-        /**
-         * @brief 트랜잭션 시작
-         **/
-        function begin() {
-            //if(!$this->is_connected || $this->transaction_started) return;
-            //$this->transaction_started = true;
-        }
-
-        /**
-         * @brief 롤백
-         **/
-        function rollback() {
-            //if(!$this->is_connected || !$this->transaction_started) return;
-            //cubrid_rollback($this->fd);
-            //$this->transaction_started = false;
-        }
-
-        /**
-         * @brief 커밋
-         **/
-        function commit() {
-            //if(!$this->is_connected || !$this->transaction_started) return;
-            //cubrid_commit($this->fd);
-            //$this->transaction_started = false;
         }
 
         /**
          * @brief 결과를 fetch
          **/
         function _fetch($result) {
-            if($this->isError() || !$result) return;
+            if(!$this->isConnected() || $this->isError() || !$result) return;
 
             while($tmp = cubrid_fetch($result, CUBRID_OBJECT)) {
                 $output[] = $tmp;
@@ -188,7 +168,7 @@
         }
 
         /**
-         * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
+         * @brief 1씩 증가되는 sequence값을 return (cubrid의 auto_increment는 sequence테이블에서만 사용)
          **/
         function getNextSequence() {
             $query = sprintf("select %ssequence.nextval as seq from db_root", $this->prefix);
@@ -208,7 +188,6 @@
             else $output = false;
 
             if($result) cubrid_close_request($result);
-
             return $output;
         }
 
@@ -324,71 +303,89 @@
         }
 
         /**
-         * @brief 테이블 삭제
+         * @brief 조건문 작성하여 return
          **/
-        function dropTable($target_name) {
-            $query = sprintf('drop class %s%s;', $this->prefix, $this->addQuotes($target_name));
-            $this->_query($query);
-        }
+        function getCondition($output) {
+            if(!$output->conditions) return;
 
-        /**
-         * @brief 테이블의 이름 변경 (미구현)
-         **/
-        function renameTable($source_name, $targe_name) {
-        }
+            foreach($output->conditions as $key => $val) {
+                $sub_condition = '';
+                foreach($val['condition'] as $k =>$v) {
+                    if(!$v['value']) continue;
 
-        /**
-         * @brief 테이블을 비움 (미구현)
-         **/
-        function truncateTable($target_name) {
-        }
+                    $name = $v['column'];
+                    $operation = $v['operation'];
+                    $value = $v['value'];
+                    $type = $output->column_type[$name];
+                    $pipe = $v['pipe'];
 
-        /**
-         * @brief 테이블 데이터 Dump
-         *
-         * @todo 아직 미구현
-         **/
-        function dumpTable($target_name) {
+                    $value = $this->getConditionValue($name, $value, $operation, $type);
+                    $str = $this->getConditionPart($name, $value, $operation);
+                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
+                    $sub_condition .=  $str;
+                }
+                if($sub_condition) {
+                    if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
+                    $condition .= '('.$sub_condition.')';
+                }
+            }
+
+            if($condition) $condition = ' where '.$condition;
+            return $condition;
         }
 
         /**
          * @brief insertAct 처리
          **/
-        function _executeInsertAct($tables, $column, $pass_quotes) {
-            $table = array_pop($tables);
-
-            foreach($column as $key => $val) {
-                $key_list[] = $key;
-                if($val) {
-                    if(in_array($key, $pass_quotes)) $val_list[] = $this->addQuotes($val);
-                    else $val_list[] = "'".$this->addQuotes($val)."'";
-                } else $val_list[] = "null";
+        function _executeInsertAct($output) {
+            // 테이블 정리
+            foreach($output->tables as $key => $val) {
+                $table_list[] = '"'.$this->prefix.$key.'"';
             }
 
-            $query = sprintf("insert into %s%s (%s) values (%s);", $this->prefix, $table, '"'.implode('","',$key_list).'"', implode(',', $val_list));
+            // 컬럼 정리 
+            foreach($output->columns as $key => $val) {
+                $name = $val['name'];
+                $value = $val['value'];
+                if($output->column_type[$name]!='number') {
+                    $value = "'".$this->addQuotes($value)."'";
+                    if(!$value) $value = 'null';
+                } else {
+                    if(!$value) $value = 0;
+                }
+
+                $column_list[] = '"'.$name.'"';
+                $value_list[] = $value;
+            }
+
+            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), '"'.implode('","',$column_list).'"', implode(',', $value_list));
             return $this->_query($query);
         }
 
         /**
          * @brief updateAct 처리
          **/
-        function _executeUpdateAct($tables, $column, $args, $condition, $pass_quotes) {
-            $table = array_pop($tables);
-
-            foreach($column as $key => $val) {
-                if(!isset($args->{$key})) continue;
-
-                if($vla) {
-                    if(in_array($key, $pass_quotes)) $update_list[] = sprintf('"%s" = %s', $key, $this->addQuotes($val));
-                    else $update_list[] = sprintf('"%s" = \'%s\'', $key, $this->addQuotes($val));
-                } else $update_list[] = "null";
+        function _executeUpdateAct($output) {
+            // 테이블 정리
+            foreach($output->tables as $key => $val) {
+                $table_list[] = '"'.$this->prefix.$key.'"';
             }
-            if(!count($update_list)) return;
-            $update_query = implode(',',$update_list);
 
-            if($condition) $condition = ' where '.$condition;
+            // 컬럼 정리 
+            foreach($output->columns as $key => $val) {
+                if(!isset($val['value'])) continue;
+                $name = $val['name'];
+                $value = $val['value'];
+                if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                else $value = (int)$value;
 
-            $query = sprintf("update %s%s set %s %s;", $this->prefix, $table, $update_query, $condition);
+                $column_list[] = sprintf('"%s" = %s', $name, $value);
+            }
+
+            // 조건절 정리
+            $condition = $this->getCondition($output);
+
+            $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
 
             return $this->_query($query);
         }
@@ -396,12 +393,17 @@
         /**
          * @brief deleteAct 처리
          **/
-        function _executeDeleteAct($tables, $condition, $pass_quotes) {
-            $table = array_pop($tables);
+        function _executeDeleteAct($output) {
+            // 테이블 정리
+            foreach($output->tables as $key => $val) {
+                $table_list[] = '"'.$this->prefix.$key.'"';
+            }
 
-            if($condition) $condition = ' where '.$condition;
+            // 조건절 정리
+            $condition = $this->getCondition($output);
 
-            $query = sprintf("delete from %s%s %s;", $this->prefix, $table, $condition);
+            $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
+
             return $this->_query($query);
         }
 
@@ -411,32 +413,42 @@
          * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
          * navigation이라는 method를 제공
          **/
-        function _executeSelectAct($tables, $column, $invert_columns, $condition, $navigation, $group_script, $pass_quotes) {
-            if(!count($tables)) $table = $this->prefix.array_pop($tables);
-            else { 
-                foreach($tables as $key => $val) $table_list[] = sprintf('%s%s as %s', $this->prefix, $key, $val);
+        function _executeSelectAct($output) {
+            // 테이블 정리
+            $table_list = array();
+            foreach($output->tables as $key => $val) {
+                $table_list[] = '"'.$this->prefix.$key.'" as '.$val;
             }
-            $table = implode(',',$table_list);
 
-            if(!$column) $columns = '*';
-            else {
-                foreach($invert_columns as $key => $val) {
-                    $column_list[] = sprintf('"%s" as "%s"',$val, $key);
+            if(!$output->columns) {
+                $columns = '*';
+            } else {
+                $column_list = array();
+                foreach($output->columns as $key => $val) {
+                    $name = $val['name'];
+                    $alias = $val['alias'];
+                    if($name == '*') {
+                        $column_list[] = '*';
+                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+                        if($alias) $column_list[] = sprintf('"%s" as "%s"', $name, $alias);
+                        else $column_list[] = sprintf('"%s"',$name);
+                    } else {
+                        if($alias) $column_list[] = sprintf('%s as "%s"', $name, $alias);
+                        else $column_list[] = sprintf('%s',$name);
+                    }
                 }
-                $columns = implode(',', $column_list);
+                $columns = implode(',',$column_list);
             }
 
-            if($condition) $condition = ' where '.$condition;
+            $condition = $this->getCondition($output);
 
-            if($navigation->list_count) return $this->_getNavigationData($table, $columns, $condition, $navigation);
+            if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
-            $query = sprintf("select %s from %s %s", $columns, $table, $condition);
+            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
-            $query .= ' '.$group_script;
-
-            if($navigation->index) {
-                foreach($navigation->index as $index_obj) {
-                    $index_list[] = sprintf('"%s" %s', $index_obj[0], $index_obj[1]);
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
@@ -455,29 +467,40 @@
          *
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
-        function _getNavigationData($table, $columns, $condition, $navigation) {
+        function _getNavigationData($table_list, $columns, $condition, $output) {
             require_once('./classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s", $table, $condition);
+            $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
             $result = $this->_query($count_query);
             $count_output = $this->_fetch($result);
             $total_count = (int)$count_output->count;
 
+            $list_count = $output->list_count['value'];
+            if(!$list_count) $list_count = 20;
+            $page_count = $output->page_count['value'];
+            if(!$page_count) $page_count = 10;
+            $page = $output->page->value;
+            if(!$page) $page = 1;
+
             // 전체 페이지를 구함
-            $total_page = (int)(($total_count-1)/$navigation->list_count) +1;
+            $total_page = (int)(($total_count-1)/$list_count) +1;
 
             // 페이지 변수를 체크
-            if($navigation->page > $total_page) $page = $navigation->page;
-            else $page = $navigation->page;
-            $start_count = ($page-1)*$navigation->list_count;
+            if($page > $total_page) $page = $total_page;
+            $start_count = ($page-1)*$list_count;
 
-            foreach($navigation->index as $index_obj) {
-                $index_list[] = sprintf('%s %s', $index_obj[0], $index_obj[1]);
+            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                }
+                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
 
-            $index = implode(',',$index_list);
-            $query = sprintf('select %s from %s %s order by %s for orderby_num() between %d and %d', $columns, $table, $condition, $index, $start_count, $navigation->list_count);
+            $query = sprintf('%s for ordery_num() between %d and %d', $query, $start_count, $list_count);
+
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();
@@ -486,12 +509,12 @@
                 $buff->page = 1;
                 $buff->data = array();
 
-                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
+                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
                 return $buff;
             }
 
-            $virtual_no = $total_count - ($page-1)*$navigation->list_count;
-            while($tmp = $result->fetch_object()) {
+            $virtual_no = $total_count - ($page-1)*$list_count;
+            while($tmp = cubrid_fetch($result, CUBRID_OBJECT)) {
                 $data[$virtual_no--] = $tmp;
             }
 
@@ -501,7 +524,7 @@
             $buff->page = $page;
             $buff->data = $data;
 
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
             return $buff;
         }
     }
