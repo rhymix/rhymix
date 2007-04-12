@@ -91,6 +91,7 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
+            cubrid_commit($this->fd);
             @cubrid_disconnect($this->fd);
         }
 
@@ -320,6 +321,7 @@
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type);
+
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
@@ -358,7 +360,7 @@
                 $value_list[] = $value;
             }
 
-            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), '"'.implode('","',$column_list).'"', implode(',', $value_list));
+            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
             return $this->_query($query);
         }
 
