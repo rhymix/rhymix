@@ -20,9 +20,9 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
     if(show_waiting_message) {
         var waiting_obj = xGetElementById("waitingforserverresponse");
-        waiting_obj.style.visibility = "visible";
         xTop(waiting_obj, xScrollTop()+20);
         xLeft(waiting_obj, xScrollLeft()+20);
+        waiting_obj.style.visibility = "visible";
     }
     oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg, fo_obj);
 }

@@ -236,6 +236,25 @@
         }
 
         /**
+         * @brief 이름, 값, operation, type으로 값을 변경
+         **/
+        function getConditionValue($name, $value, $operation, $type) {
+            if($type == 'number') return (int)$value;
+
+            switch($operation) {
+                case 'like_prefix' : 
+                        $value = '%'.$value;
+                    break;
+                case 'like' : 
+                        $value = '%'.$value.'%';
+                    break;
+
+            }
+
+            return "'".$this->addQuotes($value)."'";
+        }
+
+        /**
          * @brief 이름, 값, operation으로 조건절 작성
          **/
         function getConditionPart($name, $value, $operation) {
@@ -259,6 +278,15 @@
                 case 'below' : 
                         if(!$value) return;
                         return $name.' < '.$value;
+                    break;
+                case 'like_prefix' : 
+                case 'like' : 
+                        if(!$value) return;
+                        return $name.' like '.$value;
+                    break;
+                case 'in' : 
+                        if(!$value) return;
+                        return $name.' in ('.$value.')';
                     break;
                 case 'notequal' : 
                         if(!$value) return;

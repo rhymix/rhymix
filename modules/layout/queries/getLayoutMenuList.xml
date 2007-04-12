@@ -7,7 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="menu_id" var="menu_id" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="menu_id" var="menu_id" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="listorder" order="desc" />

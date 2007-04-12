@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="act" default="act" />
+        <condition operation="equal" column="act" var="act" />
     </conditions>
 </query>

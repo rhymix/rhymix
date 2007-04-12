@@ -9,6 +9,6 @@
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
     </conditions>
     <navigation>
-        <index var="list_order" order="asc" />
+        <index var="list_order" default="list_order" order="asc" />
     </navigation>
 </query>

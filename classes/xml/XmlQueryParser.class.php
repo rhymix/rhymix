@@ -165,13 +165,14 @@
                 $buff .= '$output->columns = array ( ';
                 foreach($output->columns as $key => $val) {
                     $val['default'] = $this->getDefault($val['name'], $val['default']);
-                    if($val['var']) {
-                        $buff .= sprintf('array("name"=>"%s", "value"=>$args->%s?$args->%s:%s),%s', $val['name'], $val['var'], $val['var'], $val['default'] ,"\n");
+                    if($val['var'] && strpos($val['var'],'.')===false) {
+                        $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s?$args->%s:%s),%s', $val['name'], $val['alias'], $val['var'], $val['var'], $val['default'] ,"\n");
+                        if($val['default']) $default_list[$val['var']] = $val['default'];
                         if($val['notnull']) $notnull_list[] = $val['var'];
                         if($val['minlength']) $minlength_list[$val['var']] = $val['minlength'];
                         if($val['maxlength']) $maxlength_list[$val['var']] = $val['maxlength'];
                     } else {
-                        $buff .= sprintf('array("name"=>"%s", "value"=>%s),%s', $val['name'], $val['default'] ,"\n");
+                        $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>%s),%s', $val['name'], $val['alias'], $val['default'] ,"\n");
                     }
                 }
                 $buff .= ' );'."\n";
@@ -186,13 +187,14 @@
                         $v->default = $this->getDefault($v->column, $v->default);
                         if($v->var) {
                             if(strpos($v->var,".")===false) {
+                                if($v->default) $default_list[$v->var] = $v->default;
                                 if($v->filter) $filter_list[] = $v;
                                 $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
                             } else {
                                 $buff .= sprintf('array("column"=>"%s", "value"=>"%s","pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                             }
                         } else {
-                            $buff .= sprintf('array("name"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->name, $v->default ,$v->pipe, $v->operation,"\n");
+                            $buff .= sprintf('array("column"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->default ,$v->pipe, $v->operation,"\n");
                         }
                     }
                     $buff .= ')),'."\n";
@@ -205,7 +207,7 @@
             if($output->order) {
                 $buff .= '$output->order = array(';
                 foreach($output->order as $key => $val) {
-                    $buff .= sprintf('"%s"=>"%s",', $val->var, $val->order);
+                    $buff .= sprintf('array($args->%s?$args->%s:"%s","%s"),', $val->var, $val->var, $val->default, $val->order);
                 }
                 $buff .= ');'."\n";
             }
@@ -225,31 +227,38 @@
                 $buff .= sprintf('$output->page = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page->var, $output->page->var, $output->page->var, $output->list->default,"\n");
             }
 
+            // default check
+            if(count($default_list)) {
+                foreach($default_list as $key => $val) {
+                    $pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
+                }
+            }
+
             // not null check
             if(count($notnull_list)) {
                 foreach($notnull_list as $key => $val) {
-                    $pre_buff .= 'if(!$args->'.$val.') return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
+                    $pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
                 }
             }
 
             // minlength check
             if(count($minlength_list)) {
                 foreach($minlength_list as $key => $val) {
-                    $pre_buff .= 'if(strlen($args->'.$key.')<'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
+                    $pre_buff .= 'if($args->'.$key.'&&strlen($args->'.$key.')<'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
                 }
             }
 
             // maxlength check
             if(count($maxlength_list)) {
                 foreach($maxlength_list as $key => $val) {
-                    $pre_buff .= 'if(strlen($args->'.$key.')>'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
+                    $pre_buff .= 'if($args->'.$key.'&&strlen($args->'.$key.')>'.$val.') return new Object(-1, sprintf($lang->filter->outofrange, $lang->'.$key.'?$lang->'.$key.':\''.$key.'\'));'."\n";
                 }
             }
 
             // filter check
             if(count($filter_list)) {
                 foreach($filter_list as $key => $val) {
-                    $pre_buff .= sprintf('unset($output); $output = $this->_checkFilter("%s",$args->%s,"%s"); if(!$output->toBool()) return $output;%s',$val->var,$val->var,$val->filter,"\n");
+                    $pre_buff .= sprintf('unset($_output); $_output = $this->_checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output;%s',$val->var,$val->var,$val->filter,"\n");
                 }
             }
 
@@ -276,7 +285,7 @@
 
             switch($func_name) {
                 case 'ipaddress' :
-                        $val = '"$_SERVER[\'REMOTE_ADDR\']"';
+                        $val = '$_SERVER[\'REMOTE_ADDR\']';
                     break;
                 case 'unixtime' :
                         $val = 'time()';

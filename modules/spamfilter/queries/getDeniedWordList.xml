@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <navigation>
-        <index var="sort_index" order="desc" />
+        <index var="sort_index" default="regdate" order="desc" />
     </navigation>
 </query>

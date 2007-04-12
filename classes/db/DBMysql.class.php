@@ -86,7 +86,7 @@
             $this->is_connected = true;
 
             // mysql의 경우 utf8임을 지정
-            $this->_query("SET NAMES 'utf8'");
+            $this->_query("set names 'utf8'");
         }
 
         /**
@@ -291,15 +291,18 @@
 
             foreach($output->conditions as $key => $val) {
                 $sub_condition = '';
-                foreach($val as $k =>$v) {
-                    if(!$v->value) continue;
-                    $name = $v->column;
-                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($v->value)."'";
-                    else $value = $v->value;
-                    $operation = $v->operation;
+                foreach($val['condition'] as $k =>$v) {
+                    if(!$v['value']) continue;
 
+                    $name = $v['column'];
+                    $operation = $v['operation'];
+                    $value = $v['value'];
+                    $type = $output->column_type[$name];
+                    $pipe = $v['pipe'];
+
+                    $value = $this->getConditionValue($name, $value, $operation, $type);
                     $str = $this->getConditionPart($name, $value, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$v->pipe.' ';
+                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
                 }
                 if($sub_condition) {
@@ -309,8 +312,7 @@
             }
 
             if($condition) $condition = ' where '.$condition;
-
-            return "";
+            return $condition;
         }
 
         /**
@@ -326,8 +328,12 @@
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
-                if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                if(!$value) $value = 'null';
+                if($output->column_type[$name]!='number') {
+                    $value = "'".$this->addQuotes($value)."'";
+                    if(!$value) $value = 'null';
+                } else {
+                    if(!$value) $value = 0;
+                }
 
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
@@ -393,24 +399,35 @@
                 $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
             }
 
-            if(!$column) $columns = '*';
-            else {
-                foreach($invert_columns as $key => $val) {
-                    if($val) $column_list[] = sprintf('%s as %s',$val, $key);
-                    else $column_list[] = sprintf('%s',$val);
+            if(!$output->columns) {
+                $columns = '*';
+            } else {
+                $column_list = array();
+                foreach($output->columns as $key => $val) {
+                    $name = $val['name'];
+                    $alias = $val['alias'];
+                    if($name == '*') {
+                        $column_list[] = '*';
+                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+                        if($alias) $column_list[] = sprintf('`%s` as `%s`', $name, $alias);
+                        else $column_list[] = sprintf('`%s`',$name);
+                    } else {
+                        if($alias) $column_list[] = sprintf('%s as `%s`', $name, $alias);
+                        else $column_list[] = sprintf('%s',$name);
+                    }
                 }
-                $columns = implode(',', $column_list);
+                $columns = implode(',',$column_list);
             }
 
             $condition = $this->getCondition($output);
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
-
             if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+
+            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $key, $val);
+                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
@@ -438,24 +455,30 @@
             $count_output = $this->_fetch($result);
             $total_count = (int)$count_output->count;
 
+            $list_count = $output->list_count['value'];
+            if(!$list_count) $list_count = 20;
+            $page_count = $output->page_count['value'];
+            if(!$page_count) $page_count = 10;
+            $page = $output->page->value;
+            if(!$page) $page = 1;
+
             // 전체 페이지를 구함
-            $total_page = (int)(($total_count-1)/$navigation->list_count) +1;
+            $total_page = (int)(($total_count-1)/$list_count) +1;
 
             // 페이지 변수를 체크
-            if($navigation->page > $total_page) $page = $navigation->page;
-            else $page = $navigation->page;
-            $start_count = ($page-1)*$navigation->list_count;
+            if($page > $total_page) $page = $total_page;
+            $start_count = ($page-1)*$list_count;
 
-            $query = sprintf("select %s from %s %s", implode(',',$columns), implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $index_obj[0], $index_obj[1]);
+                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
 
-            $query .= sprintf('%s limit %d, %d', $query, $start_count, $output->list_count['value']);
+            $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
 
             $result = $this->_query($query);
             if($this->isError()) {
@@ -465,11 +488,11 @@
                 $buff->page = 1;
                 $buff->data = array();
 
-                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
+                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
                 return $buff;
             }
 
-            $virtual_no = $total_count - ($page-1)*$navigation->list_count;
+            $virtual_no = $total_count - ($page-1)*$list_count;
             while($tmp = mysql_fetch_object($result)) {
                 $data[$virtual_no--] = $tmp;
             }
@@ -480,7 +503,7 @@
             $buff->page = $page;
             $buff->data = $data;
 
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $navigation->page_count);
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
             return $buff;
         }
     }

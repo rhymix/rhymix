@@ -5,7 +5,7 @@
     <columns>
         <column name="module_srl" var="module_srl" filter="number" default="0" />
         <column name="parent_srl" var="parent_srl" filter="number" default="0" />
-        <column name="content" var="content" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="content" var="content" notnull="notnull" />
         <column name="password" var="password" minlength="2" maxlength="60" />
         <column name="user_name" var="user_name" default="" />
         <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
