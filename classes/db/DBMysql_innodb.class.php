@@ -351,9 +351,11 @@
 
             // 컬럼 정리 
             foreach($output->columns as $key => $val) {
+                if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
                 if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                else $value = (int)$value;
 
                 $column_list[] = sprintf("`%s` = %s", $name, $value);
             }

@@ -125,7 +125,7 @@
         }
 
         function actFinish() {
-            if(!__DEBUG__) return;
+            if(!__DEBUG__ || !$this->query) return;
             $this->act_finish = getMicroTime();
             $elapsed_time = $this->act_finish - $this->act_start;
             $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
@@ -138,6 +138,7 @@
                 $str .= "\t    Query Success\n";
             }
             $GLOBALS['__db_queries__'] .= $str;
+            $this->query = null;
         }
 
         /**

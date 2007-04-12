@@ -166,13 +166,17 @@
                 foreach($output->columns as $key => $val) {
                     $val['default'] = $this->getDefault($val['name'], $val['default']);
                     if($val['var'] && strpos($val['var'],'.')===false) {
-                        $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s?$args->%s:%s),%s', $val['name'], $val['alias'], $val['var'], $val['var'], $val['default'] ,"\n");
+
+                        if($val['default']) $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s?$args->%s:%s),%s', $val['name'], $val['alias'], $val['var'], $val['var'], $val['default'] ,"\n");
+                        else $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s),%s', $val['name'], $val['alias'], $val['var'], "\n");
+
                         if($val['default']) $default_list[$val['var']] = $val['default'];
                         if($val['notnull']) $notnull_list[] = $val['var'];
                         if($val['minlength']) $minlength_list[$val['var']] = $val['minlength'];
                         if($val['maxlength']) $maxlength_list[$val['var']] = $val['maxlength'];
                     } else {
-                        $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>%s),%s', $val['name'], $val['alias'], $val['default'] ,"\n");
+                        if($val['default']) $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>%s),%s', $val['name'], $val['alias'], $val['default'] ,"\n");
+                        else $buff .= sprintf('array("name"=>"%s", "alias"=>"%s",),%s', $val['name'], $val['alias'], "\n");
                     }
                 }
                 $buff .= ' );'."\n";
@@ -189,12 +193,14 @@
                             if(strpos($v->var,".")===false) {
                                 if($v->default) $default_list[$v->var] = $v->default;
                                 if($v->filter) $filter_list[] = $v;
-                                $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
+                                if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
+                                else $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                             } else {
                                 $buff .= sprintf('array("column"=>"%s", "value"=>"%s","pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                             }
                         } else {
-                            $buff .= sprintf('array("column"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->default ,$v->pipe, $v->operation,"\n");
+                            if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->default ,$v->pipe, $v->operation,"\n");
+                            else $buff .= sprintf('array("column"=>"%s", "pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->pipe, $v->operation,"\n");
                         }
                     }
                     $buff .= ')),'."\n";
@@ -278,6 +284,7 @@
          * @brief column, condition등의 key에 default 값을 세팅
          **/
         function getDefault($name, $value) {
+            if(!$value) return;
             $str_pos = strpos($value, '(');
             if($str_pos===false) return '"'.$value.'"';
 

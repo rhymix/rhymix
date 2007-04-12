@@ -236,12 +236,12 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 $column_schema[] = sprintf('`%s` %s%s %s %s %s',
-                $name,
-                $this->column_type[$type],
-                $size?'('.$size.')':'',
-                $default?"default '".$default."'":'',
-                $notnull?'not null':'',
-                $auto_increment?'auto_increment':''
+                    $name,
+                    $this->column_type[$type],
+                    $size?'('.$size.')':'',
+                    $default?"default '".$default."'":'',
+                    $notnull?'not null':'',
+                    $auto_increment?'auto_increment':''
                 );
 
                 if($primary_key) $primary_list[] = $name;
@@ -342,9 +342,11 @@
 
             // 컬럼 정리 
             foreach($output->columns as $key => $val) {
+                if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
                 if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                else $value = (int)$value;
 
                 $column_list[] = sprintf("`%s` = %s", $name, $value);
             }

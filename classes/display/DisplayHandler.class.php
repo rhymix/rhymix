@@ -96,7 +96,7 @@
         function _toXmlDoc(&$oModule) {
             $xmlDoc  = "<response>\n";
             $xmlDoc .= sprintf("<error>%s</error>\n",$oModule->getError());
-            $xmlDoc .= sprintf("<message>%s</message>\n",$oModule->getMessage());
+            $xmlDoc .= sprintf("<message>%s</message>\n",str_replace(array('<','>','&'),array('&lt;','&gt;','&amp;'),$oModule->getMessage()));
 
             $variables = $oModule->getVariables();
 
