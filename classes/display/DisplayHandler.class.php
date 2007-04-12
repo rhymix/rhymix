@@ -19,8 +19,6 @@
          **/
         function printContent(&$oModule) {
 
-            if(!$oModule->getTemplateFile()) return;
-
             // header 출력
             $this->_printHeader();
 

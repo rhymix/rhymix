@@ -372,9 +372,9 @@
 
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
-            $url = sprintf("./?module=%s&act=%s&module_srl=%s&page=%s", Context::get('module'), 'dispBoardAdminSkinInfo', $module_srl, Context::get('page'));
-            header("location:".$url);
-            exit();
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile("top_refresh.html");
         }
 
         /**

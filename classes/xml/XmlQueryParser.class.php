@@ -317,11 +317,11 @@
                     break;
                 case 'plus' :
                         $args = abs($args);
-                        $val = sprintf('%s+%d', $name, $args);
+                        $val = sprintf('"%s+%d"', $name, $args);
                     break;
                 case 'minus' :
                         $args = abs($args);
-                        $val = sprintf('%s-%d', $name, $args);
+                        $val = sprintf('"%s-%d"', $name, $args);
                     break;
             }
 
