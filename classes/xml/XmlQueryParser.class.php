@@ -258,6 +258,7 @@
             // filter check
             if(count($filter_list)) {
                 foreach($filter_list as $key => $val) {
+                    if(!$notnull_list[$key]) continue;
                     $pre_buff .= sprintf('unset($_output); $_output = $this->_checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output;%s',$val->var,$val->var,$val->filter,"\n");
                 }
             }
