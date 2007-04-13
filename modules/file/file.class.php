@@ -14,10 +14,10 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('file', 'view', 'dispFileAdminList');
+            $oModuleController->insertActionForward('file', 'view', 'dispFileAdminConfig');
             $oModuleController->insertActionForward('file', 'controller', 'procFileUpload');
             $oModuleController->insertActionForward('file', 'controller', 'procFileDelete');
             $oModuleController->insertActionForward('file', 'controller', 'procFileDownload');
-            //$oModuleController->insertActionForward('file', 'controller', 'procFileAdminDeleteChecked');
             
             // 첨부파일의 기본 설정 저장
             $config->allowed_filesize = '2';
