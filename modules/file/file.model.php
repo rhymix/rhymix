@@ -30,6 +30,19 @@
         }
 
         /**
+         * @brief 파일 설정 정보를 구함
+         **/
+        function getFileConfig() {
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('file');
+
+            if(!$config->allowed_filesize) $config->allowed_filesize = '2';
+            if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
+            return $config;
+        }
+
+        /**
          * @brief 파일 정보를 구함
          **/
         function getFile($file_srl) {

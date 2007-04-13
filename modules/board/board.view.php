@@ -448,7 +448,6 @@
             $this->setTemplateFile('board_config');
         }
 
-
         /**
          * @brief 선택된 게시판의 정보 출력
          **/

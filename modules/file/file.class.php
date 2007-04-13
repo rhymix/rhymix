@@ -18,6 +18,11 @@
             $oModuleController->insertActionForward('file', 'controller', 'procFileDelete');
             $oModuleController->insertActionForward('file', 'controller', 'procFileDownload');
             //$oModuleController->insertActionForward('file', 'controller', 'procFileAdminDeleteChecked');
+            
+            // 첨부파일의 기본 설정 저장
+            $config->allowed_filesize = '2';
+            $config->allowed_filetypes = '*.*';
+            $oModuleController->insertModuleConfig('file', $config);
 
             // file 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/attach/images');

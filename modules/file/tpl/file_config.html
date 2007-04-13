@@ -1,0 +1,26 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_config.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <table border="1">
+    <tr>
+        <th rowspan="2">{$lang->allowed_filesize}</th>
+        <td><input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" />MB</td>
+    </tr>
+    <tr>
+        <td>{$lang->about_allowed_filesize}</td>
+    </tr>
+    <tr>
+        <th rowspan="2">{$lang->allowed_filetypes}</th>
+        <td><input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_allowed_filetypes}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
+</form>

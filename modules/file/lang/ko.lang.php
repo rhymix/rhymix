@@ -11,6 +11,12 @@
     $lang->status = '상태';
     $lang->is_valid = '유효';
     $lang->is_stand_by = '대기';
+    $lang->file_list = '첨부 파일 목록';
+    $lang->allowed_filesize = '허용 첨부 용량';
+    $lang->allowed_filetypes = '허용 첨부 파일 확장자';
+
+    $lang->about_allowed_filesize = '관리자를 제외한 사용자는 정하신 용량만 첨부할 수 있습니다';
+    $lang->about_allowed_filetypes = '관리자를 제외한 사용자는 정하신 확장자만 첨부할 수 있습니다.<br />( *.jpg;*.gif; 와 같이 정하시면 됩니다)';
 
     $lang->cmd_delete_checked_file = '선택항목 삭제';
     $lang->cmd_move_to_document = '문서로 이동';

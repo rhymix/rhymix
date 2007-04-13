@@ -324,5 +324,18 @@
             fpassthru($fp);
         }
 
+        /**
+         * @brief 파일 기본 정보의 추가
+         **/
+        function procFileAdminInsertConfig() {
+            // 기본 정보를 받음
+            $args = Context::gets('allowed_filesize','allowed_filetypes');
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('file',$args);
+            return $output;
+        }
+
     }
 ?>

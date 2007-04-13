@@ -60,5 +60,18 @@
             $this->setTemplateFile('file_list');
         }
 
+        /**
+         * @brief 첨부파일 정보 설정 (관리자용)
+         **/
+        function dispFileAdminConfig() {
+            $oFileModel = &getModel('file');
+            $config = $oFileModel->getFileConfig();
+            Context::set('config',$config);
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('file_config');
+        }
+
     }
 ?>
