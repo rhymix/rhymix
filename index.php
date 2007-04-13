@@ -27,7 +27,6 @@
      **/
     require_once("./config/config.inc.php");
 
-    //ob_start();
     /** 
      * @brief Context 객체를 생성하여 초기화
      * 모든 Request Argument/ 환경변수등을 세팅
@@ -48,6 +47,4 @@
     $oModuleHandler->init();
     $oModule = &$oModuleHandler->procModule();
     $oModuleHandler->displayContent($oModule);
-    //debugPrint(ob_get_contents());
-    //ob_end_flush();
 ?>
