@@ -3,6 +3,33 @@
     width:347px;
 }
 
+.calendar_input_year {
+    border:0px;
+    border-bottom:1px solid #EEEEEE;
+    background-color:#FFFFFF;
+    font-size:8pt;
+    height:12px;
+    width:28px;
+    margin-right:10px;
+    font-weight:bold;
+}
+
+.calendar_input_month {
+    border:0px;
+    border-bottom:1px solid #EEEEEE;
+    background-color:#FFFFFF;
+    font-size:8pt;
+    height:12px;
+    width:15px;
+    margin-left:10px;
+    font-weight:bold;
+}
+
+.calendar_btn {
+    border:0px;
+    margin-left:10px;
+}
+
 .calendar_title {
     padding:2px 0px 2px 0px;
     border:1px solid #DDDDDD;

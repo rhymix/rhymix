@@ -1,6 +1,7 @@
 <?php
-    $year = $_REQUEST['year'];
-    $month = $_REQUEST['month'];
+    $year = sprintf("%04d",$_REQUEST['year']);
+    $month = sprintf("%02d",$_REQUEST['month']);
+
     $method = $_REQUEST['method'];
     $fo_id = $_REQUEST['fo_id'];
 
@@ -10,8 +11,8 @@
         $month = substr($day_str,4,2);
     }
 
-    if(!$year) $year = date("Y");
-    if(!$month) $month = date("m");
+    if(!(int)$year) $year = date("Y");
+    if(!(int)$month) $month = date("m");
 
     switch($method) {
         case 'prev_year' :
@@ -84,19 +85,31 @@
 
     <div id="popup_content" class="calendar_box">
         <div class="calendar_title">
-            <table border="0" cellspacing="0" cellpadding="2" align="center">
-            <tr>
-                <td>
-                    <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year';return false;"><img src="./images/icon_pprev.gif" border="0" alt="prev year" /></a>
-                    <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month';return false;"><img src="./images/icon_prev.gif" border="0" alt="prev month" /></a>
-                </td>
-                <td><?=$year?>. <?=$month?></td>
-                <td>
-                    <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month';return false;"><img src="./images/icon_nnext.gif" border="0" alt="next month" /></a>
-                    <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year';return false;"><img src="./images/icon_next.gif" border="0" alt="next year" /></a>
-                </td>
-            </tr>
-            </table>
+            <form action="./calendar.php" method="get">
+                <input type="hidden" name="fo_id" value="<?=$fo_id?>"/>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="2" align="center">
+                <tr>
+                    <td width="40">
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year';return false;"><img src="./images/icon_pprev.gif" border="0" alt="prev year" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month';return false;"><img src="./images/icon_prev.gif" border="0" alt="prev month" /></a>
+                    </td>
+                    <td align="center">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><input type="text" name="year" value="<?=$year?>" class="calendar_input_year" maxlength="4" />-<input type="text" name="month" value="<?=$month?>" maxlength="2" class="calendar_input_month" /></td>
+                            <td><input type="image" src="./images/calendar.gif" class="calendar_btn" /></td>
+                        </tr>
+                        </table>
+                    </td>
+                    <td width="40">
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month';return false;"><img src="./images/icon_nnext.gif" border="0" alt="next month" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year';return false;"><img src="./images/icon_next.gif" border="0" alt="next year" /></a>
+                    </td>
+                </tr>
+                </table>
+
+            </form>
         </div>
 
         <div class="calendar_list">
