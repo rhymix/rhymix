@@ -17,6 +17,7 @@
         <column name="allow_mailing" var="allow_mailing" default="Y" />
         <column name="allow_message" var="allow_message" default="Y" />
         <column name="denied" var="denied" default="N" />
+        <column name="limit_date" var="limit_date" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="last_login" var="last_login" default="curdate()" />
         <column name="is_admin" var="is_admin" default="N" />

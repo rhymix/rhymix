@@ -63,8 +63,10 @@ function doFocusUserId(fo_id) {
     if(xGetCookie('user_id')) {
         fo_obj.user_id.value = xGetCookie('user_id');
         fo_obj.remember_user_id.checked = true;
+        fo_obj.password.focus();
+    } else {
+        fo_obj.user_id.focus();
     }
-    fo_obj.user_id.focus();
 }
 
 /* 로그인 후 */

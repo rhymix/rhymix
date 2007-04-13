@@ -455,10 +455,11 @@
          **/
         function procMemberAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('enable_join','redirect_url','content','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
+            $args = Context::gets('enable_join','limit_day','redirect_url','content','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
             if($args->enable_join!='Y') $args->enable_join = 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
+            $args->limit_day = (int)$args->limit_day;
             $args->agreement = $args->content;
             unset($args->content);
 
@@ -849,6 +850,12 @@
             if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
             if($password && $member_info->password != md5($password)) return new Object(-1, 'invalid_password');
 
+            // denied == 'Y' 이면 알림
+            if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
+
+            // denied_date가 현 시간보다 적으면 알림
+            if($member_info->limit_date && $member_info->limit_date >= date("YmdHis")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d H:i")));
+
             // 로그인 처리
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
@@ -879,6 +886,9 @@
             if($config->agreement && Context::get('accept_agreement')!='Y') {
                 return new Object(-1, 'msg_accept_agreement');
             }
+
+            // 임시 제한 일자가 있을 경우 제한 일자에 내용 추가
+            if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';

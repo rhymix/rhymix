@@ -22,6 +22,13 @@
         <td>{$lang->about_enable_join}</td>
     </tr>
     <tr>
+        <th rowspan="2">{$lang->limit_day}</th>
+        <td><input type="text" name="limit_day" value="{$config->limit_day}" />{$lang->unit_day}</td>
+    </tr>
+    <tr>
+        <td>{$lang->about_limit_day}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->image_name}</th>
         <td>
                 <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end-->/><br />

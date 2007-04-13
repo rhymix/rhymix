@@ -38,6 +38,8 @@
     $lang->image_mark_max_width = '가로 제한 크기';
     $lang->image_mark_max_height = '세로 제한 크기';
     $lang->enable_join = '회원 가입 허가';
+    $lang->limit_day = '임시 제한 일자';
+    $lang->limit_date = '제한일';
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
     $lang->accept_agreement = '약관동의';
@@ -114,6 +116,9 @@
 
     $lang->msg_accept_agreement = '약관에 동의하셔야 합니다'; 
 
+    $lang->msg_user_denied = '입력하신 아이디의 사용이 중지되셨습니다';
+    $lang->msg_user_limited = '입력하신 아이디는 %s 이후부터 사용하실 수 있습니다';
+
     $lang->about_user_id = '사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다';
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
     $lang->about_user_name = '이름은 2~20자 이내여야 합니다';
@@ -137,6 +142,8 @@
     $lang->about_required = '체크하시면 회원가입시 필수항목으로 입력하도록 됩니다';
 
     $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
+    $lang->about_limit_day = '회원 가입후 정해진 일자동안 인증 제한을 할 수 있습니다';
+    $lang->about_limit_date = '지정된 일자까지 해당 사용자는 로그인을 할 수 없습니다';
     $lang->about_redirect_url = '회원 가입후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다';
     $lang->about_agreement = '회원가입약관이 없을 경우 표시되지 않습니다';
 

@@ -127,6 +127,17 @@
         <td>{$lang->about_denied}</td>
     </tr>
     <tr>
+        <th rowspan="2">{$lang->limit_date}</th>
+        <td>
+            <input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
+            <span id="str_limit_date">{zdate($member_info->limit_date,"Y-m-d")}</span>
+            [<a href="#" onclick="open_calendar('limit_date','{$member_info->limit_date}');return false;">{$lang->cmd_open_calendar}</a>]
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_limit_date}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->is_admin}</th>
         <td><input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="true"<!--@end-->/></td>
     </tr>

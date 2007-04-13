@@ -93,6 +93,14 @@
     <td>{$member_info->denied}</td>
 </tr>
 <tr>
+    <th>{$lang->limit_date}</th>
+    <td>
+        <!--@if($member_info->limit_date)-->
+            {zdate($member_info->limit_date,"Y-m-d H:i")}
+        <!--@end-->
+    </td>
+</tr>
+<tr>
     <th>{$lang->is_admin}</th>
     <td>{$member_info->is_admin}</td>
 </tr>
