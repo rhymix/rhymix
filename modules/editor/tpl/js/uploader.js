@@ -2,15 +2,15 @@
  * @author zero (zero@nzeo.com)
  * @version 0.1
  * @brief 파일 업로드 관련
+ *
+ ***********************************************************************************************************************************************
+ * 제로보드XE의 게시물 파일업로드 컴포넌트는 "mmSWFUpload 1.0: Flash upload dialog - http://swfupload.mammon.se/" 를 사용합니다.
+ * - SWFUpload is (c) 2006 Lars Huring and Mammon Media and is released under the MIT License:http://www.opensource.org/licenses/mit-license.php
+ ***********************************************************************************************************************************************
+ * 감사합니다.
  **/
 var uploading_file = false;
 var uploaded_files = new Array();
-var uploader_setting = {
-    "allowed_filesize" : 30720,	
-    "allowed_filetypes" : "*.*",
-    "allowed_filetypes_description" : "All files..."
-}
-
 
 // 업로드를 하기 위한 준비 시작
 function editor_upload_init(upload_target_srl) {
@@ -26,7 +26,7 @@ function editor_upload_form_set(upload_target_srl) {
     // SWFUploader load
     var uploader_name = "swf_uploader_"+upload_target_srl;
     var embed_html = "";
-    var flashVars = 'allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
+    var flashVars = 'uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
 
     if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length) {
         embed_html = '<embed type="application/x-shockwave-flash" src="./modules/editor/tpl/images/SWFUpload.swf" width="1" height="1" id="'+uploader_name+'" name="'+uploader_name+'" quality="high" wmode="transparent" menu="false" flashvars="'+flashVars+'" />';
@@ -85,12 +85,12 @@ function editor_upload_form_set(upload_target_srl) {
 }
 
 // upload_target_srl에 등록된 파일 표시
-var prev_upload_target_srl = 0;
+var _prev_upload_target_srl = 0;
 function editor_display_uploaded_file(upload_target_srl) {
     if(typeof(upload_target_srl)=='undefined'||!upload_target_srl) {
-        if(prev_upload_target_srl) {
-            upload_target_srl = prev_upload_target_srl;
-            prev_upload_target_srl = 0;
+        if(_prev_upload_target_srl) {
+            upload_target_srl = _prev_upload_target_srl;
+            _prev_upload_target_srl = 0;
         } else return;
     }
     var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl;
@@ -101,12 +101,33 @@ function editor_display_uploaded_file(upload_target_srl) {
     iframe_obj.contentWindow.document.location.href=url;
 }
 
+// 파일 업로드 에러 핸들링
+function editor_upload_error_handle(errcode,file,msg) {
+    switch(errcode) {
+        case -10 : 
+                alert("- Error Code: HTTP Error\n- File name: "+file.name+"\n- Message: "+msg);
+            break;
+        case -20 : 
+                alert("- Error Code: No upload script\n- File name: "+file.name+"\n- Message: "+msg);
+            break;
+        case -30 :
+                alert("- Error Code: IO Error\n- File name: "+file.name+"\n- Message: "+msg);
+            break;
+        case -40 : 
+                alert("- Error Code: Security Error\n- File name: "+file.name+"\n- Message: "+msg);
+            break;
+        case -50 : 
+                alert("- Error Code: Filesize exceeds limit\n- File name: "+file.name+"\n- File size: "+file.size+"\n- Message: "+msg);
+            break;
+    }
+}
+
 // 파일 업로드
-function editorUploadFile(upload_target_srl) {
+function editor_upload_file(upload_target_srl) {
     var swf_uploader = xGetElementById("swf_uploader_"+upload_target_srl);
     if(!swf_uploader) return;
     swf_uploader.browse();
-    prev_upload_target_srl = upload_target_srl;
+    _prev_upload_target_srl = upload_target_srl;
 }
 
 // 업로드된 파일 목록을 삭제
@@ -187,6 +208,7 @@ function editor_remove_file(upload_target_srl) {
 
     iframe_obj.contentWindow.document.location.href=url;
 
+    var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
     xInnerHtml(preview_obj, "");
 }
 

@@ -98,6 +98,7 @@
     <!--%import("./js/SWFUpload.js")-->
     <script type="text/javascript">
         var zbxe_session_name = "{session_name()}";
+        var uploader_setting = { "allowed_filesize" : 30720, "allowed_filetypes" : "*.*", "allowed_filetypes_description" : "All files..." }
         editor_upload_init("{$upload_target_srl}");
     </script>
 
@@ -121,7 +122,7 @@
             </td>
             <td>
                 <div class="editor_uploader_input_area">
-                    <input type="button" value="{$lang->edit->upload_file}" class="editor_uploader_input" onclick="editorUploadFile('{$upload_target_srl}');return false;" />
+                    <input type="button" value="{$lang->edit->upload_file}" class="editor_uploader_input" onclick="editor_upload_file('{$upload_target_srl}');return false;" />
                     <input type="button" value="{$lang->edit->delete_selected}" class="editor_uploader_input" onclick="editor_remove_file('{$upload_target_srl}');return false;" />
                     <input type="button" value="{$lang->edit->link_file}" class="editor_uploader_input" onclick="editor_insert_file('{$upload_target_srl}');return false;" />
                     <input type="file" name="file" id="file_uploader_{$upload_target_srl}" class="editor_uploader_file_input" onchange="editor_file_upload(this, '{$upload_target_srl}')" value="{$lang->edit->upload}" />
