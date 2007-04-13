@@ -285,7 +285,7 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $output->column_type[$name];
+                    $type = $this->getColumnType($output->column_type,$name);
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type);
