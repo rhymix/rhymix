@@ -401,6 +401,11 @@
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
+            // 에디터를 받음
+            $oEditorModel = &getModel('editor');
+            $editor = $oEditorModel->getEditor(0, false, true);
+            Context::set('editor', $editor);
+
             // 템플릿 파일 지정
             $this->setTemplateFile('member_config');
         }

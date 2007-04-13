@@ -18,11 +18,11 @@
     </tr>
     <tr>
         <th>{$lang->writer}</th>
-        <td><div class="member_{$source_comment->member_srl}">{$source_comment->nick_name}</div></td>
+        <td><div class="member_{$source_comment->member_srl}">{htmlspecialchars($source_comment->nick_name)}</div></td>
     </tr>
     <tr>
         <th>{$lang->content}</th>
-        <td height="100" valign="top">{nl2br($source_comment->content)}</td>
+        <td height="100" valign="top">{$source_comment->content}</td>
     </tr>
     </table>
 </div>
@@ -43,7 +43,7 @@
     <!--@if(!$is_logged)-->
     <tr>
         <th>{$lang->writer}</th>
-        <td><input type="text" name="nick_name" value="{$comment->nick_name}" /></td>
+        <td><input type="text" name="nick_name" value="{htmlspecialchars($comment->nick_name)}" /></td>
     </tr>
     <tr>
         <th>{$lang->password}</th>
@@ -51,11 +51,11 @@
     </tr>
     <tr>
         <th>{$lang->email_address}</th>
-        <td><input type="text" name="email_address" value="{$comment->email_address}"/></td>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($comment->email_address)}"/></td>
     </tr>
     <tr>
         <th>{$lang->homepage}</th>
-        <td><input type="text" name="homepage" value="{$comment->homepage}" /></td>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($comment->homepage)}" /></td>
     </tr>
     <!--@end-->
 

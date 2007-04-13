@@ -100,7 +100,7 @@
             $skin_vars->colorset = $skin_info->colorset[0]->name;
 
             // 변수 정리후 query 실행
-            $args->module_srl = getNextSequence();
+            if(!$args->module_srl) $args->module_srl = getNextSequence();
             $args->skin_vars = serialize($skin_vars);
             $output = executeQuery('module.insertModule', $args);
             if(!$output->toBool()) {

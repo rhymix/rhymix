@@ -40,7 +40,7 @@
     </tr>
     <tr>
         <th rowspan="2">{$lang->browser_title}</th>
-        <td><input type="text" name="browser_title" value="{$module_info->browser_title}" /></td>
+        <td><input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" /></td>
     </tr>
     <tr>
         <td>{$lang->about_browser_title}</td>

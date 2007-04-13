@@ -12,7 +12,7 @@
 
     <div style="margin-bottom:30px">
           {$lang->category_title} :
-          <input type="text" name="category_title" value="{$selected_category->title}" />
+          <input type="text" name="category_title" value="{htmlspecialchars($selected_category->title)}" />
           <input type="submit" value="{$lang->cmd_modify}" />
           <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('category_srl','')}'" />
     </div>

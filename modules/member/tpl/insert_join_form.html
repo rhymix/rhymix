@@ -59,14 +59,14 @@
     </tr>
     <tr>
         <th rowspan="2">{$lang->column_name}</th>
-        <td><input type="text" name="column_name" value="{$join_form->column_name}" /></td>
+        <td><input type="text" name="column_name" value="{htmlspecialchars($join_form->column_name)}" /></td>
     </tr>
     <tr>
         <td>{$lang->about_column_name}</td>
     </tr>
     <tr>
         <th rowspan="2">{$lang->column_title}</th>
-        <td><input type="text" name="column_title" value="{$join_form->column_title}" /></td>
+        <td><input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" /></td>
     </tr>
     <tr>
         <td>{$lang->about_column_title}</td>
@@ -87,7 +87,7 @@
     </tr>
     <tr>
         <th rowspan="2">{$lang->description}</th>
-        <td><textarea name="description">{$join_form->description}</textarea></td>
+        <td><textarea name="description">{htmlspecialchars($join_form->description)}</textarea></td>
     </tr>
     <tr>
         <td>{$lang->about_form_description}</td>

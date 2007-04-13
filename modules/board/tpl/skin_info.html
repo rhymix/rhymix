@@ -63,10 +63,10 @@
             <th <!--@if($val->description)-->rowspan="2"<!--@end-->>{$val->title}</th>
             <td>
                 <!--@if($val->type=="text")-->
-                <input type="text" name="{$val->name}" value="{$val->value}" />
+                <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" />
 
                 <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}">{$val->value}</textarea>
+                <textarea name="{$val->name}">{htmlspecialchars($val->value)}</textarea>
 
                 <!--@elseif($val->type=="select")-->
                 <select name="{$val->name}">

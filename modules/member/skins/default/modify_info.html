@@ -26,19 +26,19 @@
     <tr>
         <th>{$lang->user_id}</th>
         <td>
-            {$member_info->user_id}
+            {htmlspecialchars($member_info->user_id)}
         </td>
     </tr>
     <tr>
         <th>{$lang->user_name}</th>
         <td>
-            {$member_info->user_name}
+            {htmlspecialchars($member_info->user_name)}
         </td>
     </tr>
     <tr>
         <th rowspan="2">{$lang->nick_name}</th>
         <td>
-            <input type="text" name="nick_name" value="{$member_info->nick_name}" />
+            <input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" />
         </td>
     </tr>
     <tr>
@@ -47,7 +47,7 @@
     <tr>
         <th>{$lang->email_address}</th>
         <td>
-            <input type="text" name="email_address" value="{$member_info->email_address}" />
+            <input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" />
         </td>
     </tr>
     <!--@if($member_config->image_name == 'Y')-->
@@ -81,7 +81,7 @@
     <tr>
         <th rowspan="2">{$lang->homepage}</th>
         <td>
-            <input type="text" name="homepage" value="{$member_info->homepage}" />
+            <input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" />
         </td>
     </tr>
     <tr>
@@ -90,7 +90,7 @@
     <tr>
         <th rowspan="2">{$lang->blog}</th>
         <td>
-            <input type="text" name="blog" value="{$member_info->blog}" />
+            <input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" />
         </td>
     </tr>
     <tr>
@@ -146,30 +146,30 @@
             <!--@if($val->required=='Y')-->
             *
             <!--@end-->
-            {$val->column_title}
+            {htmlspecialchars($val->column_title)}
         </th>
         <td>
             <!-- 일반 text -->
             <!--@if($val->column_type == 'text')--> 
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value[0]}" size="4" />-
-                <input type="text" name="{$val->column_name}" value="{$val->value[1]}" size="4" />-
-                <input type="text" name="{$val->column_name}" value="{$val->value[2]}" size="4" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />-
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />-
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" />
 
             <!-- textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}">{$val->value}</textarea>
+                <textarea name="{$val->column_name}">{htmlspecialchars($val->value)}</textarea>
 
             <!-- 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
@@ -206,12 +206,12 @@
                 </div>
 
                 <div>
-                    <input type="text" name="{$val->column_name}" value="{$val->value[1]}" />
+                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
                 </div>
 
             <!-- 일본 주소 검색 -->
             <!--@elseif($val->column_type == 'jp_zip')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- 날자 입력 -->
             <!--@elseif($val->column_type == 'date')-->

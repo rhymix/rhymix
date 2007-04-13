@@ -10,15 +10,15 @@
 <table>
 <tr>
     <th>{$lang->user_id}</th>
-    <td>{$member_info->user_id}</td>
+    <td>{htmlspecialchars($member_info->user_id)}</td>
 </tr>
 <tr>
     <th>{$lang->user_name}</th>
-    <td>{$member_info->user_name}</td>
+    <td>{htmlspecialchars($member_info->user_name)}</td>
 </tr>
 <tr>
     <th>{$lang->nick_name}</th>
-    <td>{$member_info->nick_name}</td>
+    <td>{htmlspecialchars($member_info->nick_name)}</td>
 </tr>
 <tr>
     <th>{$lang->image_name}</th>
@@ -62,15 +62,15 @@
 </tr>
 <tr>
     <th>{$lang->email_address}</th>
-    <td>{$member_info->email_address}</td>
+    <td>{htmlspecialchars($member_info->email_address)}</td>
 </tr>
 <tr>
     <th>{$lang->homepage}</th>
-    <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{$member_info->homepage}'); return false;">{$member_info->homepage}</a><!--@end--></td>
+    <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{$member_info->homepage}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
 </tr>
 <tr>
     <th>{$lang->blog}</th>
-    <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{$member_info->blog}'); return false;">{$member_info->blog}</a><!--@end--></td>
+    <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{$member_info->blog}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
 </tr>
 <tr>
     <th>{$lang->birthday}</th>
@@ -107,18 +107,18 @@
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-    <th>{$val->column_title}</th>
+    <th>{htmlspecialchars($val->column_title)}</th>
     <td>
         <!--@if($val->column_type=='tel')-->
-            {$val->value[0]} - {$val->value[1]} - {$val->value[2]}
+            {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
         <!--@elseif($val->column_type=='kr_zip')-->
-            {$val->value[0]} {$val->value[1]}
+            {htmlspecialchars($val->value[0])} {htmlspecialchars($val->value[1])}
         <!--@elseif($val->column_type=='checkbox')-->
-            {implode(",",$val->value)}
+            {htmlspecialchars(implode(",",$val->value))}
         <!--@elseif($val->column_type=='date')-->
             {zdate($val->value, "Y-m-d")}
         <!--@else-->
-            {$val->value}
+            {htmlspecialchars($val->value)}
         <!--@end-->
     </td>
 </tr>
@@ -126,7 +126,7 @@
 <!--@end-->
 <tr>
     <th>{$lang->description}</th>
-    <td>{$member_info->description}</td>
+    <td>{htmlspecialchars($member_info->description)}</td>
 </tr>
 <tr>
     <td colspan="2">

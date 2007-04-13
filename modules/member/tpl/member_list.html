@@ -24,9 +24,9 @@
     <!--@foreach($member_list as $no => $val)-->
     <tr>
         <td>{$val->member_srl}</td>
-        <td><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{$val->user_id}</a></td>
-        <td>{$val->user_name}</td>
-        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
+        <td><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
+        <td>{htmlspecialchars($val->user_name)}</td>
+        <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
         <td>{$val->allow_mailing}</td>
         <td>{$val->denied}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>

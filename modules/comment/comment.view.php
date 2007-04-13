@@ -31,6 +31,7 @@
             // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
             $comment_count = count($output->data);
             if($comment_count) {
+                $module_srl_list = array();
                 foreach($output->data as $key => $val) {
                     $module_srl = $val->module_srl;
                     if(!in_array($module_srl, $module_srl_list)) $module_srl_list[] = $module_srl;

@@ -44,10 +44,11 @@
             <!--@if($grant->is_admin == 'Y')-->
             <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
             <!--@end-->
+
             <!--@if($grant->view)-->
-                <a href="{getUrl('document_srl',$val->document_srl)}">{$val->title}</a>
+                <a href="{getUrl('document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
             <!--@else-->
-                {$val->title}
+                {htmlspecialchars($val->title)}
             <!--@end-->
 
             <!--@if($val->comment_count>0)-->

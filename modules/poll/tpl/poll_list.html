@@ -25,7 +25,7 @@
     <tr>
         <td>{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-        <td><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;"/>{$val->title}</a></td>
+        <td><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;"/>{htmlspecialchars($val->title)}</a></td>
         <td>{$val->checkcount}</td>
         <td>{$val->poll_count}</td>
         <td>{zdate($val->regdate,"Y-m-d H:i")}</td>

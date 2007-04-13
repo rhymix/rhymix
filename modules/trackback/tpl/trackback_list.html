@@ -26,8 +26,8 @@
         <td rowspan="2">{$no}</td>
         <td rowspan="2"><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
         <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-        <td><a href="#" onclick="window.open('{$val->url}');return false;">{$val->blog_name}</a></td>
-        <td>{$val->title}</td>
+        <td><a href="#" onclick="window.open('{$val->url}');return false;">{htmlspecialchars($val->blog_name)}</a></td>
+        <td>{htmlspecialchars($val->title)}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td>{$val->ipaddress}</td>
         <td rowspan="2"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>

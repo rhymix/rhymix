@@ -28,7 +28,7 @@
 
     <!--@foreach($category_list as $category_srl => $category_info)-->
     <tr>
-        <td>{$category_info->title}</td>
+        <td>{htmlspecialchars($category_info->title)}</td>
         <td>{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
         <td><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
         <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','up');return false;">{$lang->cmd_move_up}</a></td>

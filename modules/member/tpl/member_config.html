@@ -2,6 +2,7 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <input type="hidden" name="content" value="{htmlspecialchars($config->agreement)}" />
     <table border="1">
     <tr>
         <th>{$lang->skin}</th>
@@ -51,7 +52,7 @@
     </tr>
     <tr>
         <th rowspan="2">{$lang->agreement}</th>
-        <td><textarea name="agreement">{$config->agreement}</textarea></td>
+        <td>{$editor}</td>
     </tr>
     <tr>
         <td>{$lang->about_agreement}</td>

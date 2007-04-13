@@ -45,16 +45,16 @@
         <col width="*" />
         <tr>
             <th>{$lang->title}</th>
-            <td><input type="text" name="title" value="{$layout_info->layout_title}" /></td>
+            <td><input type="text" name="title" value="{htmlspecialchars($layout_info->layout_title)}" /></td>
         </tr>
         <!--@foreach($layout_info->extra_var as $id => $var)-->
         <tr>
             <th rowspan="2">{$var->name}</th>
             <!--@if($var->type == "text")-->
-            <td><input type="text" name="{$id}" value="{$var->value}" /></td>
+            <td><input type="text" name="{$id}" value="{htmlspecialchars($var->value)}" /></td>
 
             <!--@elseif($var->type == "textarea")-->
-            <td><textarea name="{$id}">{$var->value}</textarea></td>
+            <td><textarea name="{$id}">{htmlspecialchars($var->value)}</textarea></td>
 
             <!--@elseif($var->type == "select")-->
             <td>

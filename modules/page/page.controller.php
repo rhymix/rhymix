@@ -28,9 +28,6 @@
             if($args->module_srl) {
                 $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
-
-                // 만약 원래 모듈이 없으면 새로 입력하기 위한 처리
-                if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
 
             // module 모듈의 controller 객체 생성
@@ -40,7 +37,7 @@
             if($args->is_default=='Y') $oModuleController->clearDefaultModule();
 
             // module_srl의 값에 따라 insert/update
-            if(!$args->module_srl) {
+            if($module_info->module_srl != $args->module_srl) {
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
             } else {

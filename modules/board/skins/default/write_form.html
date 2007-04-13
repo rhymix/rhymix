@@ -34,17 +34,17 @@
     </tr>
     <tr>
         <th>{$lang->email_address}</th>
-        <td><input type="text" name="email_address" value="{$document->email_address}"/></td>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($document->email_address)}"/></td>
     </tr>
     <tr>
         <th>{$lang->homepage}</th>
-        <td><input type="text" name="homepage" value="{$document->homepage}" /></td>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($document->homepage)}" /></td>
     </tr>
     <!--@end-->
 
     <tr>
         <th>{$lang->title}</th>
-        <td><input type="text" name="title" value="{$document->title}" /></td>
+        <td><input type="text" name="title" value="{htmlspecialchars($document->title)}" /></td>
     </tr>
     <tr>
         <td>&nbsp;</td>

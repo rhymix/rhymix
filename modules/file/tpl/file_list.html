@@ -30,7 +30,7 @@
             <td>{$no}</td>
             <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
             <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-            <td>{$val->source_filename}</td>
+            <td>{htmlspecialchars($val->source_filename)}</td>
             <td>{$val->file_size}</td>
             <td>
                 <!--@if($val->isvalid=='Y')-->

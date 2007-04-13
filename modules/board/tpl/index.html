@@ -43,7 +43,7 @@
             <!--@end-->
         </td>
         <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
-        <td>{$val->browser_title}</td>
+        <td>{htmlspecialchars($val->browser_title)}</td>
         <td>{$val->is_default}</td>
         <td>{$val->skin}</td>
         <td>{$val->admin_id}</td>

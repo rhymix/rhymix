@@ -27,7 +27,7 @@
 </tr>
 <tr>
     <th>{$lang->browser_title}</th>
-    <td>{$module_info->browser_title}</td>
+    <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
 <tr>
     <th>{$lang->use_category}</th>
@@ -43,15 +43,15 @@
 </tr>
 <tr>
     <th>{$lang->description}</th>
-    <td>{nl2br($module_info->description)}</td>
+    <td>{nl2br(htmlspecialchars($module_info->description))}</td>
 </tr>
 <tr>
     <th>{$lang->header_text}</th>
-    <td>{$module_info->header_text}</td>
+    <td>{htmlspecialchars($module_info->header_text)}</td>
 </tr>
 <tr>
     <th>{$lang->footer_text}</th>
-    <td>{$module_info->footer_text}</td>
+    <td>{htmlspecialchars($module_info->footer_text)}</td>
 </tr>
 <tr>
     <th>{$lang->admin_id}</th>

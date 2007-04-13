@@ -14,7 +14,7 @@
     <input type="hidden" name="member_srl" value="{$member_srl}" />
     <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
     <!--@if($member_info->member_srl)-->
-    <input type="hidden" name="user_id" value="{$member_info->user_id}" />
+    <input type="hidden" name="user_id" value="{htmlspecialchars($member_info->user_id)}" />
     <!--@end-->
 
     <div>
@@ -25,7 +25,7 @@
         <th rowspan="2">{$lang->user_id}</th>
         <td>
             <!--@if($member_info->member_srl)-->
-            {$member_info->user_id}
+            {htmlspecialchars($member_info->user_id)}
             <!--@else-->
             <input type="text" name="user_id" value="" />
             <!--@end-->
@@ -43,7 +43,7 @@
     <tr>
         <th rowspan="2">{$lang->user_name}</th>
         <td>
-            <input type="text" name="user_name" value="{$member_info->user_name}" />
+            <input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" />
         </td>
     </tr>
     <tr>
@@ -52,7 +52,7 @@
     <tr>
         <th rowspan="2">{$lang->nick_name}</th>
         <td>
-            <input type="text" name="nick_name" value="{$member_info->nick_name}" />
+            <input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" />
         </td>
     </tr>
     <tr>
@@ -61,13 +61,13 @@
     <tr>
         <th>{$lang->email_address}</th>
         <td>
-            <input type="text" name="email_address" value="{$member_info->email_address}" />
+            <input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" />
         </td>
     </tr>
     <tr>
         <th rowspan="2">{$lang->homepage}</th>
         <td>
-            <input type="text" name="homepage" value="{$member_info->homepage}" />
+            <input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" />
         </td>
     </tr>
     <tr>
@@ -76,7 +76,7 @@
     <tr>
         <th rowspan="2">{$lang->blog}</th>
         <td>
-            <input type="text" name="blog" value="{$member_info->blog}" />
+            <input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" />
         </td>
     </tr>
     <tr>
@@ -172,31 +172,31 @@
         <td>
             <!-- 일반 text -->
             <!--@if($val->column_type == 'text')--> 
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
             <!-- 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value[0]}" size="4" />-
-                <input type="text" name="{$val->column_name}" value="{$val->value[1]}" size="4" />-
-                <input type="text" name="{$val->column_name}" value="{$val->value[2]}" size="4" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />-
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />-
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" />
 
             <!-- textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}">{$val->value}</textarea>
+                <textarea name="{$val->column_name}">{htmlspecialchars($val->value)}</textarea>
 
             <!-- 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
                 <!--@if($val->default_value)-->
                     <!--@foreach($val->default_value as $v)-->
-                        <input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>    {$v}
+                        <input type="checkbox" name="{$val->column_name}" value="{htmlspecialchars($v)}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>    {$v}
                     <!--@end-->
                 <!--@end-->
 
@@ -213,7 +213,7 @@
             <!-- 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                    <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
+                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" />
                     <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
                 </div>
                 <div id="zone_address_list_{$val->column_name}" style="display:none">
@@ -227,7 +227,7 @@
                 </div>
 
                 <div>
-                    <input type="text" name="{$val->column_name}" value="{$val->value[1]}" />
+                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
                 </div>
 
             <!-- 일본 주소 검색 -->
@@ -236,7 +236,7 @@
 
             <!-- 날자 입력 -->
             <!--@elseif($val->column_type == 'date')-->
-                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{htmlspecialchars($val->value)}" />
                 <span id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</span>
                 [<a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;">{$lang->cmd_open_calendar}</a>]
 
@@ -245,7 +245,7 @@
         </td>
     </tr>
     <tr>
-        <td>{$val->description}</td>
+        <td>{htmlspecialchars($val->description)}</td>
     </tr>
         <!--@end-->
     <!--@end-->

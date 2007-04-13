@@ -21,12 +21,12 @@
 
     <tr>
         <th>{$lang->title}</th>
-        <td>{$document->title}</td>
+        <td>{htmlspecialchars($document->title)}</td>
     </tr>
     <!--@if($document->homepage)-->
     <tr>
         <th>{$lang->homepage}</th>
-        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{$document->homepage}</a></td>
+        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{htmlspecialchars($document->homepage)}</a></td>
     </tr>
     <!--@end-->
     <tr>
@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <th>{$lang->writer}</th>
-        <td><div class="member_{$document->member_srl}">{$document->nick_name}</div></td>
+        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
     </tr>
     <tr>
         <th>{$lang->readed_count}</th>
@@ -64,7 +64,7 @@
     <!--@if($document->tags)-->
     <tr>
         <th>{$lang->tag}</th>
-        <td>{$document->tags}</td>
+        <td>{htmlspecialchars($document->tags)}</td>
     </tr>
     <!--@end-->
 

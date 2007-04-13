@@ -1,24 +1,6 @@
 <!--%import("js/board.js")-->
 {$module_info->header_text}
 
-<!-- 게시판 제목/ 설명 -->
-<!--@if($module_info->title || $module_info->desc)-->
-<div>
-    <table>
-    <tr>
-        <td>{$module_info->title}</td>
-    </tr>
-
-    <!--@if($module_info->desc)-->
-    <tr>
-        <td>{nl2br($module_info->desc)}</td>
-    </tr>
-    <!--@end-->
-
-    </table>
-</div>
-<!--@end-->
-
 <!-- 게시판 정보 -->
 <div>
     <!--@if($total_count)-->

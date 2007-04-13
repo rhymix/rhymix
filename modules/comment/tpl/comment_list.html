@@ -27,9 +27,9 @@
         <tr>
             <td>{$no}</td>
             <td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
-            <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-            <td>{$val->user_name}</td>
-            <td>{$val->content}</td>
+            <td><a href="#" onclick="window.open('./?mid={$val->mid}');return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a></td>
+            <td>{htmlspecialchars($val->user_name)}</td>
+            <td>{cut_str(strip_tags($val->content),50,'...')}</td>
             <td>{zdate($val->regdate,"Y-m-d")}</td>
             <td><!--@if($val->last_upgdate)-->{zdate($val->last_upgdate,"Y-m-d")}<!--@end--></td>
             <td>{$val->ipaddress}</td>
