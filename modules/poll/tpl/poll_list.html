@@ -19,6 +19,7 @@
         <th>{$lang->title}</th>
         <th>{$lang->poll_checkcount}</th>
         <th>{$lang->poll_join_count}</th>
+        <th>{$lang->cmd_view}</th>
         <th>{$lang->regdate}</th>
     </tr>
     <!--@foreach($poll_list as $no => $val)-->
@@ -28,6 +29,7 @@
         <td><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;"/>{htmlspecialchars($val->title)}</a></td>
         <td>{$val->checkcount}</td>
         <td>{$val->poll_count}</td>
+        <td><a href="#" onclick="popopen('./?module=poll&amp;act=dispPollAdminResult&amp;poll_srl={$val->poll_srl}&amp;poll_index_srl={$val->poll_index_srl}');return false;">{$lang->cmd_view}</a></td>
         <td>{zdate($val->regdate,"Y-m-d H:i")}</td>
     </tr>
     <!--@end-->
