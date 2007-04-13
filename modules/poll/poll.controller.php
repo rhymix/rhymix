@@ -136,6 +136,7 @@
 
             // 응답항목이 없으면 오류
             if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
+
             // 이미 설문하였는지 조사
             $oPollModel = &getModel('poll');
             if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
@@ -143,9 +144,9 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 설문 항목 추가
             $args->poll_srl = $poll_srl;
 
+            // 해당 글의 모든 설문조사의 응답수 올림
             $output = executeQuery('poll.updatePoll', $args);
             $output = executeQuery('poll.updatePollTitle', $args);
             if(!$output->toBool()) {
@@ -153,6 +154,7 @@
                 return $output;
             }
 
+            // 각 설문조사의 선택된 항목을 기록
             $args->poll_item_srl = implode(',',$item_srls);
             $output = executeQuery('poll.updatePollItems', $args);
             if(!$output->toBool()) {

@@ -276,7 +276,10 @@
          * type == number가 아니면 addQuotes()를 하고 ' ' 로 묶음
          **/
         function getConditionValue($name, $value, $operation, $type) {
-            if($type == 'number') return (int)$value;
+            if($type == 'number') {
+                if(strpos($value,',')===false && strpos($value,'(')===false) return (int)$value;
+                return $value;
+            }
 
             switch($operation) {
                 case 'like_prefix' : 

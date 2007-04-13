@@ -81,5 +81,45 @@
             $this->setTemplateFile('config');
         }
 
+        /**
+         * @brief 설문조사 결과
+         **/
+        function dispPollAdminResult() {
+            // 팝업 레이아웃
+            $this->setLayoutFile("popup_layout");
+
+            // 결과 뽑기
+            $args->poll_srl = Context::get('poll_srl'); 
+            $args->poll_index_srl = Context::get('poll_index_srl'); 
+
+            $output = executeQuery('poll.getPoll', $args);
+            if(!$output->data) return $this->stop('msg_poll_not_exists');
+            $poll->stop_date = $output->data->stop_date;
+            $poll->poll_count = $output->data->poll_count;
+
+            $output = executeQuery('poll.getPollTitle', $args);
+            if(!$output->data) return $this->stop('msg_poll_not_exists');
+
+            $poll->poll[$args->poll_index_srl]->title = $output->data->title;
+            $poll->poll[$args->poll_index_srl]->checkcount = $output->data->checkcount;
+            $poll->poll[$args->poll_index_srl]->poll_count = $output->data->poll_count;
+
+            $output = executeQuery('poll.getPollItem', $args);
+            foreach($output->data as $key => $val) {
+                $poll->poll[$val->poll_index_srl]->item[] = $val;
+            }
+
+            $poll->poll_srl = $poll_srl;
+
+            Context::set('poll',$poll);
+
+            // 기본 설정의 스킨, 컬러셋 설정 
+            $oModuleModel = &getModel('module');
+            $poll_config = $oModuleModel->getModuleConfig('poll');
+            Context::set('poll_config', $poll_config);
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('result');
+        }
     }
 ?>

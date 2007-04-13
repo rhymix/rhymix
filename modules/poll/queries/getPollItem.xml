@@ -7,5 +7,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="poll_srl" var="poll_srl" />
+        <condition operation="equal" column="poll_index_srl" var="poll_index_srl" pipe="and" />
     </conditions>
 </query>

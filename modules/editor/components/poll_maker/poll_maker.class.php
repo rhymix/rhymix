@@ -45,7 +45,6 @@
             $width = $matches[2];
             if(!$width) $width = 400;
             $style = sprintf('width:%dpx', $width);
-            debugPrint($style);
 
             // poll model 객체 생성해서 html 얻어와서 return
             $oPollModel = &getModel('poll');
