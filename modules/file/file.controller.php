@@ -27,7 +27,7 @@
             $output = $this->insertFile($module_srl, $upload_target_srl);
 
             // 첨부파일의 목록을 java script로 출력
-            $this->printUploadedFileList($upload_target_srl);
+            //$this->printUploadedFileList($upload_target_srl);
         }
 
 
@@ -59,7 +59,7 @@
          * @brief 첨부파일 추가
          **/
         function insertFile($module_srl, $upload_target_srl) {
-            $file_info = Context::get('file');
+            $file_info = Context::get('Filedata');
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
             if(!is_uploaded_file($file_info['tmp_name'])) return false;

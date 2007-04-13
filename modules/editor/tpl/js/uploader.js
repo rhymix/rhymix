@@ -5,6 +5,12 @@
  **/
 var uploading_file = false;
 var uploaded_files = new Array();
+var uploader_setting = {
+    "allowed_filesize" : 30720,	
+    "allowed_filetypes" : "*.*",
+    "allowed_filetypes_description" : "All files..."
+}
+
 
 // 업로드를 하기 위한 준비 시작
 function editor_upload_init(upload_target_srl) {
@@ -13,21 +19,35 @@ function editor_upload_init(upload_target_srl) {
 
 // upload_target_srl에 해당하는 form의 action을 iframe으로 변경
 function editor_upload_form_set(upload_target_srl) {
-    // input type=file의 위치 및 설정 변경
-    var uploader = xGetElementById("file_uploader_"+upload_target_srl);
+    try {
+        document.execCommand('BackgroundImageCache',false,true);
+    } catch(e) { }
+
+    // SWFUploader load
+    var uploader_name = "swf_uploader_"+upload_target_srl;
+    var embed_html = "";
+    var flashVars = 'allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
+
+    if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length) {
+        embed_html = '<embed type="application/x-shockwave-flash" src="./modules/editor/tpl/images/SWFUpload.swf" width="1" height="1" id="'+uploader_name+'" name="'+uploader_name+'" quality="high" wmode="transparent" menu="false" flashvars="'+flashVars+'" />';
+    } else {
+        embed_html = '<object id="'+uploader_name+'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1" height="1"><param name="movie" value="./modules/editor/tpl/images/SWFUpload.swf" /><param name="bgcolor" value="#000000" /><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="'+flashVars+'" /></object>';
+    }
 
     if(xIE4Up) {
-        xLeft(uploader, -40);
-        xTop(uploader, -85);
-        uploader.style.filter = "alpha(opacity=0)";
+        window.document.body.insertAdjacentHTML("afterEnd", "<div style='width:1px;height:1px;position:absolute;top:0px;left:0px'>"+embed_html+"</div>");
     } else {
-        xLeft(uploader, -15);
-        xTop(uploader, -85);
-        uploader.style.opacity = 0;
+        var dummy = xCreateElement("div");
+        dummy.style.width = "1px";
+        dummy.style.height = "1px";
+        dummy.style.position="absolute";
+        dummy.style.top="0px";
+        dummy.style.left="0px";
+        xInnerHtml(dummy, embed_html);
+        window.document.body.appendChild(dummy);
     }
-    uploader.style.display = "block";
 
-    // 업로드용 iframe을 생성
+    // 임시 iframe을 생성
     if(!xGetElementById('tmp_upload_iframe')) {
         if(xIE4Up) {
             window.document.body.insertAdjacentHTML("afterEnd", "<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>");
@@ -47,6 +67,7 @@ function editor_upload_form_set(upload_target_srl) {
     // form의 action 을 변경
     var field_obj = xGetElementById("uploaded_file_list_"+upload_target_srl);
     if(!field_obj) return;
+
     var fo_obj = field_obj.parentNode;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     fo_obj.target = 'tmp_upload_iframe';
@@ -59,30 +80,33 @@ function editor_upload_form_set(upload_target_srl) {
     var document_srl = "";
     if(fo_obj["document_srl"]) document_srl = fo_obj.document_srl.value;
 
+    // 기 등록된 파일 표시
+    editor_display_uploaded_file(upload_target_srl);
+}
+
+// upload_target_srl에 등록된 파일 표시
+var prev_upload_target_srl = 0;
+function editor_display_uploaded_file(upload_target_srl) {
+    if(typeof(upload_target_srl)=='undefined'||!upload_target_srl) {
+        if(prev_upload_target_srl) {
+            upload_target_srl = prev_upload_target_srl;
+            prev_upload_target_srl = 0;
+        } else return;
+    }
     var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl;
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
     if(!iframe_obj) return;
-
     iframe_obj.contentWindow.document.location.href=url;
 }
 
 // 파일 업로드
-function editor_file_upload(field_obj, upload_target_srl) {
-    if(uploading_file) return;
-
-    var fo_obj = field_obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-
-    uploading_file = true;
-    fo_obj.submit();
-    uploading_file = false;
-
-    var sel_obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
-    var str = 'wait for uploading...';
-    var opt_obj = new Option(str, '', true, true);
-    sel_obj.options[sel_obj.options.length] = opt_obj;
+function editorUploadFile(upload_target_srl) {
+    var swf_uploader = xGetElementById("swf_uploader_"+upload_target_srl);
+    if(!swf_uploader) return;
+    swf_uploader.browse();
+    prev_upload_target_srl = upload_target_srl;
 }
 
 // 업로드된 파일 목록을 삭제
@@ -162,6 +186,8 @@ function editor_remove_file(upload_target_srl) {
     if(!iframe_obj) return;
 
     iframe_obj.contentWindow.document.location.href=url;
+
+    xInnerHtml(preview_obj, "");
 }
 
 // 업로드 목록의 선택된 파일을 내용에 추가
