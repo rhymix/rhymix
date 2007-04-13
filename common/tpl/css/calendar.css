@@ -77,3 +77,8 @@
 .calendar_list .saturday {
     color:blue;
 }
+
+.calendar_list .today {
+    font-weight:bold;
+    background-color:#D9FAF8;
+}

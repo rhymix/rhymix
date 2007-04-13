@@ -150,8 +150,11 @@
                         $date = date("Y. m. d", mktime(0,0,0,$m, $day, $y));
                         $date_str = date("Ymd", mktime(0,0,0,$m, $day, $y));
 
+
+                        if(date("Ymd")==$date_str) $sel_class = "today";
+                        else $sel_class = "";
             ?>
-            <div class="calendar_cell <?=$class_name?>" onclick="selectDate('<?=$date?>','<?=$date_str?>');return false;"><div><?=$day?></div></div>
+            <div class="calendar_cell <?=$sel_class?> <?=$class_name?>" onclick="selectDate('<?=$date?>','<?=$date_str?>');return false;"><div><?=$day?></div></div>
             <?
                     }
                 }
