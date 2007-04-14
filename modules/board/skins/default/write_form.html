@@ -47,9 +47,7 @@
         <td><input type="text" name="title" value="{htmlspecialchars($document->title)}" /></td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
-        <td>
-
+        <td colspan="2">
             <!--@if($grant->manager)-->
             <input type="checkbox" name="is_notice" value="Y" <!--@if($document->is_notice== "Y")-->checked="true"<!--@end--> id="is_notice" />
             <label for="is_notice">{$lang->notice}</label>
@@ -69,8 +67,7 @@
         </td>
     </tr>
     <tr>
-        <th>{$lang->content}</th>
-        <td>{$editor}</td>
+        <td colspan="2">{$editor}</td>
     </tr>
     <tr>
         <th>{$lang->cmd_send_trackback}</th>
