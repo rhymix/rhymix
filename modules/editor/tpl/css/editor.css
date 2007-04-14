@@ -83,7 +83,6 @@ div.editor_drag_down_area {
     border:0;
     padding:0px;
     clear:both;
-    height:130px;
 }
 
 .editor_preview_uploaded {
@@ -111,7 +110,7 @@ div.editor_drag_down_area {
     border:1px solid #AAAAAA;
 }
 
-.editor_uploader_input_area {
+.editor_uploader_button_area {
     width:150px;
     float:left;
     clear:right;
@@ -125,13 +124,33 @@ div.editor_drag_down_area {
     position:relative;
 }
 
-.editor_uploader_input {
+.editor_uploader_button {
     display:block;
-    width:90px;
+    width:92px;
     height:18px;
     border:1px solid #AAAAAA;
     background-color:#FFFFFF;
-    margin-bottom:10px;
+    margin-bottom:3px;
+}
+
+.editor_uploader_status {
+    margin:5px 0px 5px 0px;
+}
+
+.editor_uploader_status .title {
+    color:#999999;
+}
+
+.editor_uploader_status .desc_attached {
+    color:#000000;
+    font-weight:bold;
+    margin-right:3px;
+}
+
+.editor_uploader_status .desc {
+    color:#999999;
+    font-weight:bold;
+    margin-right:10px;
 }
 
 .component_setup_window {

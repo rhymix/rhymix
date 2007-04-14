@@ -74,7 +74,6 @@
                 $attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
                 if($attached_size > $allowed_attach_size) return new Object(-1, 'msg_exceeds_limit_size');
             }
-                return new Object(-1, 'msg_exceeds_limit_size');
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
             if(eregi("\.(jpg|jpeg|gif|png|wmv|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$", $file_info['name'])) {
@@ -249,22 +248,43 @@
             $oFileModel = &getModel('file');
 
             // 첨부파일 목록을 구함
-            $file_list = $oFileModel->getFiles($upload_target_srl);
-            $file_count = count($file_list);
+            $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
+            $file_count = count($tmp_file_list);
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') {
+                $file_config->allowed_filesize = 1024;
+                $file_config->allowed_attach_size = 1024;
+                $file_config->allowed_filetypes = '*.*';
+            } else {
+                $file_config = $oFileModel->getFileConfig();
+            }
 
             // 루프를 돌면서 $buff 변수에 java script 코드를 생성
             $buff = "";
             for($i=0;$i<$file_count;$i++) {
-                $file_info = $file_list[$i];
+                $file_info = $tmp_file_list[$i];
                 if(!$file_info->file_srl) continue;
-
-                $uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
-
-                $buff .= sprintf("parent.editor_insert_uploaded_file(\"%d\", \"%d\",\"%s\", \"%d\", \"%s\", \"%s\", \"%s\");\n", $upload_target_srl, $file_info->file_srl, $file_info->source_filename, $file_info->file_size, FileHandler::filesize($file_info->file_size), $file_info->direct_download=='Y'?$uploaded_filename:'', $file_info->sid);
+                if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
+                $file_list[] = $file_info;
+                $attached_size += $file_info->file_size;
             }
 
+            // 업로드 상태 표시 작성
+            $upload_status = sprintf(
+                    '<span class="title">- %s : </span><span class="desc_attached">%s</span><span class="desc">/ %s</span><span class="title">- %s : </span><span class="desc">%s</span><span class="title">- %s : </span><span class="desc">%s</span>',
+                    Context::getLang('allowed_attach_size'),
+                    FileHandler::filesize($attached_size),
+                    FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
+                    Context::getLang('allowed_filesize'),
+                    FileHandler::filesize($file_config->allowed_filesize*1024*1024),
+                    Context::getLang('allowed_filetypes'),
+                    $file_config->allowed_filetypes
+                );
+
             Context::set('upload_target_srl', $upload_target_srl); 
-            Context::set('buff', $buff);
+            Context::set('file_list', $file_list);
+            Context::set('upload_status', $upload_status);
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_uploaded_file_list');
