@@ -329,7 +329,7 @@
          **/
         function procFileAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('allowed_filesize','allowed_filetypes');
+            $args = Context::gets('allowed_filesize','allowed_attach_size','allowed_filetypes');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');

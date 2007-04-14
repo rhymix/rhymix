@@ -97,7 +97,7 @@
     <!--%import("./js/SWFUpload.js")-->
     <script type="text/javascript">
         var zbxe_session_name = "{session_name()}";
-        var uploader_setting = { "allowed_filesize" : {$file_config->allowed_filesize}, "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "All files..." }
+        var uploader_setting = { "allowed_filesize" : {$file_config->allowed_filesize}, "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
         editor_upload_init("{$upload_target_srl}");
     </script>
 

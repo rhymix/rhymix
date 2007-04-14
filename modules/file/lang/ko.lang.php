@@ -12,11 +12,13 @@
     $lang->is_valid = '유효';
     $lang->is_stand_by = '대기';
     $lang->file_list = '첨부 파일 목록';
-    $lang->allowed_filesize = '허용 첨부 용량';
+    $lang->allowed_filesize = '파일당 허용 용량';
+    $lang->allowed_attach_size = '문서당 허용 용량';
     $lang->allowed_filetypes = '허용 첨부 파일 확장자';
 
-    $lang->about_allowed_filesize = '관리자를 제외한 사용자는 정하신 용량만 첨부할 수 있습니다';
-    $lang->about_allowed_filetypes = '관리자를 제외한 사용자는 정하신 확장자만 첨부할 수 있습니다.<br />( *.jpg;*.gif; 와 같이 정하시면 됩니다)';
+    $lang->about_allowed_filesize = '하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
+    $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
+    $lang->about_allowed_filetypes = '허용한 확장자만 첨부할 수 있습니다. "*.확장자"로 지정할 수 있고 ";" 으로 여러개 지정이 가능합니다.<br />ex) *.* or *.jpg;*.gif;<br />(관리자는 제외)';
 
     $lang->cmd_delete_checked_file = '선택항목 삭제';
     $lang->cmd_move_to_document = '문서로 이동';

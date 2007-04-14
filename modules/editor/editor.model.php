@@ -32,11 +32,13 @@
             $logged_info = Context::get('logged_info');
             if($logged_info->member_srl && $logged_info->is_admin == 'Y') {
                 $file_config->allowed_filesize = 1024*1024*1024;
+                $file_config->allowed_attach_size = 1024*1024*1024;
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $oModuleModel = &getModel('module');
                 $file_config = $oModuleModel->getModuleConfig('file');
                 $file_config->allowed_filesize = $file_config->allowed_filesize * 1024;
+                $file_config->allowed_attach_size = $file_config->allowed_attach_size * 1024;
             }
             Context::set('file_config',$file_config);
 

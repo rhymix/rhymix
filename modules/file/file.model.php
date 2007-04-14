@@ -38,6 +38,7 @@
             $config = $oModuleModel->getModuleConfig('file');
 
             if(!$config->allowed_filesize) $config->allowed_filesize = '2';
+            if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
             if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
             return $config;
         }

@@ -11,6 +11,13 @@
         <td>{$lang->about_allowed_filesize}</td>
     </tr>
     <tr>
+        <th rowspan="2">{$lang->allowed_attach_size}</th>
+        <td><input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" />MB</td>
+    </tr>
+    <tr>
+        <td>{$lang->about_allowed_attach_size}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->allowed_filetypes}</th>
         <td><input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" /></td>
     </tr>

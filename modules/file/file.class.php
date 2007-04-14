@@ -21,6 +21,7 @@
             
             // 첨부파일의 기본 설정 저장
             $config->allowed_filesize = '2';
+            $config->allowed_attach_size = '2';
             $config->allowed_filetypes = '*.*';
             $oModuleController->insertModuleConfig('file', $config);
 
