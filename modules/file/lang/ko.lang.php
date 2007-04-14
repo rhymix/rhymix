@@ -12,9 +12,9 @@
     $lang->is_valid = '유효';
     $lang->is_stand_by = '대기';
     $lang->file_list = '첨부 파일 목록';
-    $lang->allowed_filesize = '파일당 허용 용량';
-    $lang->allowed_attach_size = '문서당 허용 용량';
-    $lang->allowed_filetypes = '허용 첨부 파일 확장자';
+    $lang->allowed_filesize = '파일 제한 크기';
+    $lang->allowed_attach_size = '문서 첨부 제한';
+    $lang->allowed_filetypes = '허용 확장자';
 
     $lang->about_allowed_filesize = '하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
     $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
@@ -26,6 +26,7 @@
 
     $lang->msg_cart_is_null = '삭제할 파일을 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
+    $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다';
 
     $lang->search_target_list = array(
         'filename' => '파일이름',

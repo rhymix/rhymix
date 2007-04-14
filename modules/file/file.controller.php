@@ -25,9 +25,6 @@
             if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
 
             $output = $this->insertFile($module_srl, $upload_target_srl);
-
-            // 첨부파일의 목록을 java script로 출력
-            //$this->printUploadedFileList($upload_target_srl);
         }
 
 
@@ -63,6 +60,21 @@
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
             if(!is_uploaded_file($file_info['tmp_name'])) return false;
+
+            // 첨부파일 설정 가져옴
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin != 'Y') {
+                $oFileModel = &getModel('file');
+                $config = $oFileModel->getFileConfig();
+                $allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+
+                // 해당 문서에 첨부된 모든 파일의 용량을 가져옴 (DB에서 가져옴)
+                $size_args->upload_target_srl = $upload_target_srl;
+                $output = executeQuery('file.getAttachedFileSize', $size_args);
+                $attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
+                if($attached_size > $allowed_attach_size) return new Object(-1, 'msg_exceeds_limit_size');
+            }
+                return new Object(-1, 'msg_exceeds_limit_size');
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
             if(eregi("\.(jpg|jpeg|gif|png|wmv|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$", $file_info['name'])) {
