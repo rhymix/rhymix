@@ -26,7 +26,7 @@ function editor_upload_form_set(upload_target_srl) {
     // SWFUploader load
     var uploader_name = "swf_uploader_"+upload_target_srl;
     var embed_html = "";
-    var flashVars = 'uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
+    var flashVars = 'uploadProgressCallback=editor_upload_progress&uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
 
     if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length) {
         embed_html = '<embed type="application/x-shockwave-flash" src="./modules/editor/tpl/images/SWFUpload.swf" width="1" height="1" id="'+uploader_name+'" name="'+uploader_name+'" quality="high" wmode="transparent" menu="false" flashvars="'+flashVars+'" />';
@@ -130,7 +130,31 @@ function editor_upload_file(upload_target_srl) {
     _prev_upload_target_srl = upload_target_srl;
 }
 
-// 업로드된 파일 목록을 삭제
+// 업로드 진행상태 표시
+var _progress_start = false;
+function editor_upload_progress(file, bytesLoaded) {
+    var obj = xGetElementById('uploaded_file_list_'+_prev_upload_target_srl);
+    if(!_progress_start) {
+        while(obj.options.length) {
+            obj.remove(0);
+        }
+        _progress_start = true;
+    }
+
+    var percent = Math.ceil((bytesLoaded / file.size) * 100);
+    var filename = file.name;
+    if(filename.length>15) filename = filename.substr(0,15)+'...';
+
+    var text = filename + ' ('+percent+'%)';
+    if(!obj.options.length || obj.options[obj.options.length-1].value != file.id) {
+        var opt_obj = new Option(text, file.id, true, true);
+        obj.options[obj.options.length] = opt_obj;
+    } else {
+        obj.options[obj.options.length-1].text = text;
+    }
+}
+
+// 업로드된 파일 목록 비움
 function editor_upload_clear_list(upload_target_srl) {
     var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
     while(obj.options.length) {
@@ -143,24 +167,30 @@ function editor_upload_clear_list(upload_target_srl) {
 // 업로드된 파일 정보를 목록에 추가
 function editor_insert_uploaded_file(upload_target_srl, file_srl, filename, file_size, disp_file_size, uploaded_filename, sid) {
     var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
-    var string = filename+' ('+disp_file_size+')';
-    var opt_obj = new Option(string, file_srl, true, true);
+    if(filename.length>15) filename = filename.substr(0,15)+'...';
+    var text = filename+' ('+disp_file_size+')';
+    var opt_obj = new Option(text, file_srl, true, true);
     obj.options[obj.options.length] = opt_obj;
 
     var file_obj = {file_srl:file_srl, filename:filename, file_size:file_size, uploaded_filename:uploaded_filename, sid:sid}
     uploaded_files[file_srl] = file_obj;
 
     editor_preview(obj, upload_target_srl);
+    _progress_start = false;
 }
 
 // 파일 목록창에서 클릭 되었을 경우 미리 보기
 function editor_preview(sel_obj, upload_target_srl) {
-    if(sel_obj.options.length<1) return;
+    var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
+    if(!sel_obj.options.length) {
+        xInnerHtml(preview_obj, '');
+        return;
+    }
+
     var file_srl = sel_obj.options[sel_obj.selectedIndex].value;
     var obj = uploaded_files[file_srl];
     if(typeof(obj)=='undefined'||!obj) return;
     var uploaded_filename = obj.uploaded_filename;
-    var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
 
     if(!uploaded_filename) {
         xInnerHtml(preview_obj, '');
