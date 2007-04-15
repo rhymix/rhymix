@@ -846,9 +846,25 @@
             // user_id 에 따른 정보 가져옴
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 
-            // return 값이 없거나 비밀번호가 틀릴 경우
+            // return 값이 없으면 존재하지 않는 사용자로 지정
             if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
-            if($password && $member_info->password != md5($password)) return new Object(-1, 'invalid_password');
+
+            // 비밀번호 검사 : 우선 md5() hash값으로 비굥
+            if($password && $member_info->password != md5($password)) {
+                // 혹시나 하여.. -_-;; mysql old_password로 검사하여 맞으면 db의 비밀번호 교체
+                if($this->mysql_pre4_hash_password($password) == $member_info->password) {
+
+                    // 비밀번호 교체
+                    $password_args->member_srl = $member_info->member_srl;
+                    $password_args->password = md5($password);
+                    $output = executeQuery('member.updateMemberPassword', $password_args);
+                    if(!$output->toBool()) return $output;
+
+                // md5(), mysql old_password와도 다르면 잘못된 비빌번호 오류 메세지 리턴
+                } else {
+                    return new Object(-1, 'invalid_password');
+                }
+            }
 
             // denied == 'Y' 이면 알림
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
@@ -1330,6 +1346,28 @@
             }
 
             return $GLOBALS['_transSignatureList'][$member_srl];
+        }
+
+        /**
+         * @brief mysql old_password 의 php 구현 함수
+         * 제로보드4나 기타 mysql4.1 이전의 old_password()함수를 쓴 데이터의 사용을 위해서
+         * mysql의 password.c 소스 참조해서 구현함
+         **/
+        function mysql_pre4_hash_password($password) {
+            $nr = 1345345333;
+            $add = 7;
+            $nr2 = 0x12345671;
+
+            $password_len = strlen($password);
+            for($i=0;$i<$password_len;$i++) {
+                $char = substr($password,$i,1);
+                if($char == ' ' || $char == '\t') continue;
+                $tmp = ord($char);
+                $nr  ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
+                $nr2 += ($nr2 << 8) ^ $nr;
+                $add += $tmp;
+            }
+            return sprintf('%08x%08x', $nr, $nr2);
         }
 
     }
