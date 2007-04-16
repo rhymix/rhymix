@@ -14,7 +14,6 @@
                     <!--@foreach($main_menu->list as $key => $val)-->
                         xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
 
-                        <!-- 선택된 메뉴의 경우 2차 메뉴를 $second_menu_list에 설정 -->
                         <!--@if($val['selected'])-->
                             {@ $second_menu_list = $val['list']; }
                         <!--@end-->
@@ -34,7 +33,6 @@
                     <!--@foreach($second_menu_list as $key => $val)-->
                         xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
 
-                        <!-- 선택된 메뉴의 경우 3차 메뉴를 $third_menu_list에 설정 -->
                         <!--@if($val['selected'])-->
                             {@ $third_menu_list = $val['list']; }
                         <!--@end-->
@@ -60,12 +58,6 @@
                 <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
             </div>
 
-            <!--@if($logged_info->is_admin == 'Y')-->
-            <div>
-                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
-            </div>
-            <!--@end-->
-
             <!--@if($third_menu_list)-->
             <div>
 
@@ -82,6 +74,14 @@
                 <!-- main_menu 3차 끝 -->
             </div>
             <!--@end-->
+
+            <!-- 레이아웃 관리 메뉴 -->
+            <!--@if($logged_info->is_admin == 'Y')-->
+            <div>
+                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+            </div>
+            <!--@end-->
+
         </td>
         <td>
             <div id="content">{$content}</div>
