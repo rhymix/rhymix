@@ -8,5 +8,6 @@
         <tag name="menu_srl" />
         <tag name="xml_file" />
         <tag name="menu_title" />
+        <tag name="menu_item_srl" />
     </response>
 </filter>

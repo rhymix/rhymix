@@ -15,6 +15,7 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('menu', 'view', 'dispMenuAdminContent');
             $oModuleController->insertActionForward('menu', 'view', 'dispMenuAdminInsert');
+            $oModuleController->insertActionForward('menu', 'view', 'dispMenuAdminManagement');
 
             // 레이아웃에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/menu');

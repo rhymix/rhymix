@@ -7,5 +7,8 @@
     </columns>
     <navigation>
         <index var="sort_index" default="listorder" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
     </navigation>
 </query>

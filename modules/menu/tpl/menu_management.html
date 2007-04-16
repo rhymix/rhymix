@@ -5,8 +5,9 @@
 
 <!-- 메뉴 이동을 위해 임시로 사용하는 form -->
 <form id="fo_move_menu" action="./" method="get">
-    <input type="hidden" name="source_node_srl" />
-    <input type="hidden" name="target_node_srl" />
+    <input type="hidden" name="menu_id" />
+    <input type="hidden" name="source_item_srl" />
+    <input type="hidden" name="target_item_srl" />
 </form>
 
 
@@ -22,7 +23,8 @@
     </tr>
     </table>
 
-    <form id="fo_menu" action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
+    <form id="fo_menu" action="./" method="get" onsubmit="return procFilter(this, insert_menu_item)">
+        <input type="hidden" name="title" value="{$menu_info->title}" />
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
         <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
         <input type="hidden" name="php_file" value="{$menu_info->php_file}" />
@@ -37,10 +39,10 @@
                     <input type="checkbox" id="menu_enable_move" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label>
                 </div>
                 <div>
-                    <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenuItem('{$menu_info->menu_srl}');return false;" />
+                    <input type="button" value="{$lang->cmd_insert}" onclick="doInsertMenuItem('menu');return false;" />
                     <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('menu');return false;" />
                     <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('menu');return false;" />
-                    <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('menu');return false;" />
+                    <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" />
                 </div>
             </td>
             <td>

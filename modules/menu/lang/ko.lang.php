@@ -5,9 +5,9 @@
      * @brief  메뉴(menu) 모듈의 기본 언어팩
      **/
 
+    $lang->cmd_menu_insert = '메뉴 생성';
     $lang->cmd_menu_management = '메뉴 설정';
 
-    $lang->layout_name = '레이아웃 이름';
     $lang->menu_count = '메뉴의 수';
     $lang->menu_management = '메뉴 관리';
     $lang->depth = '단계';

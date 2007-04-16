@@ -5,5 +5,9 @@
     <response callback_func="completeDeleteMenuItem">
         <tag name="error" />
         <tag name="message" />
+        <tag name="menu_title" />
+        <tag name="xml_file" />
+        <tag name="menu_srl" />
+        <tag name="menu_item_srl" />
     </response>
 </filter>

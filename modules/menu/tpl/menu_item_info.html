@@ -1,0 +1,80 @@
+<input type="hidden" name="menu_item_srl" value="{$item_info->menu_item_srl}" />
+<input type="hidden" name="parent_srl" value="{$item_info->parent_srl}" />
+
+<table border="1" width="100%">
+<col width="100" />
+<col width="*" />
+<!--@if($item_info->parent_menu_name)-->
+<tr>
+    <th>{$lang->parent_menu_name}</th>
+    <td>{$item_info->parent_menu_name}</td>
+</tr>
+<!--@end-->
+<tr>
+    <th rowspan="2">{$lang->menu_name}</th>
+    <td><input type="text" name="menu_name" value="{htmlspecialchars($item_info->name)}" /></td>
+</tr>
+<tr>
+    <td>{$lang->about_menu_name}</td>
+</tr>
+<tr>
+    <th rowspan="2">{$lang->menu_url}</th>
+    <td><input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList','menu_id', $menu_id)}');return false;"/></td>
+</tr>
+<tr>
+    <td>{$lang->about_menu_url}</td>
+</tr>
+<tr>
+    <th rowspan="2">{$lang->menu_open_window}</th>
+    <td><input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="true"<!--@end--> /></td>
+</tr>
+<tr>
+    <td>{$lang->about_menu_open_window}</td>
+</tr>
+<tr>
+    <th rowspan="2">{$lang->menu_expand}</th>
+    <td><input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="true"<!--@end--> /></td>
+</tr>
+<tr>
+    <td>{$lang->about_menu_expand}</td>
+</tr>
+<tr>
+    <th>{$lang->menu_img_btn}</th>
+    <td>{$lang->about_menu_img_btn}</td>
+</tr>
+<tr>
+    <td>{$lang->menu_normal_btn}</td>
+    <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($item_info->normal_btn)}" /></td>
+</tr>
+<tr>
+    <td>{$lang->menu_hover_btn}</td>
+    <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($item_info->hover_btn)}" /></td>
+</tr>
+<tr>
+    <td>{$lang->menu_active_btn}</td>
+    <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($item_info->active_btn)}" /></td>
+</tr>
+<tr>
+    <th rowspan="2">{$lang->menu_group_srls}</th>
+    <td>
+        <!--@foreach($group_list as $key=>$val)-->
+        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="true"<!--@end-->/>
+        <label for="group_{$key}">{$val->title}</label>
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <td>{$lang->about_menu_group_srls}</td>
+</tr>
+<tr>
+    <td colspan="2">
+        <!--@if($item_info->name)-->
+        <input type="submit" value="{$lang->cmd_save}" />
+        <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" />
+        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" />
+        <!--@else-->
+        <input type="submit" value="{$lang->cmd_submit}" />
+        <!--@end-->
+    </td>
+</tr>
+</table>

@@ -3,13 +3,17 @@
     <actions>
         <action name="dispMenuAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispMenuAdminInsert" type="view" standalone="true" />
+        <action name="dispMenuAdminManagement" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
 
         <action name="procMenuAdminInsert" type="controller" standalone="true" />
         <action name="procMenuAdminDelete" type="controller" standalone="true" />
+
+        <action name="procMenuAdminInsertItem" type="controller" standalone="true" />
+        <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
-        <action name="procMenuAdminMove" type="controller" standalone="true" />
+        <action name="procMenuAdminMoveItem" type="controller" standalone="true" />
     </actions>
 </module>

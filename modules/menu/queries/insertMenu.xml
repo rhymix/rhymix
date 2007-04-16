@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
-        <column name="title" var="name" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
         <column name="listorder" var="listorder" notnull="notnull" />
         <column name="regdate" var="regdate" default="curdate()" />
     </columns>
