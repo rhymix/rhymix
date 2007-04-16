@@ -1,6 +1,6 @@
-<query id="deleteMenu" action="delete">
+<query id="deleteMenuItems" action="delete">
     <tables>
-        <table name="menu" />
+        <table name="menu_item" />
     </tables>
     <conditions>
         <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />

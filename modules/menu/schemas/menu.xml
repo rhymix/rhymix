@@ -1,16 +1,6 @@
 <table name="menu">
     <column name="menu_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
-    <column name="parent_srl" type="number" size="12" notnull="notnull" default="0" />
-    <column name="layout_srl" type="number" size="12" notnull="notnull" index="idx_layout_menu" />
-    <column name="menu_id" type="varchar" size="250" notnull="notnull" index="idx_layout_menu" />
-    <column name="name" type="varchar" size="250" />
-    <column name="url" type="varchar" size="250" />
-    <column name="open_window" type="char" size="1" default="N" />
-    <column name="expand" type="char" size="1" default="N" />
-    <column name="normal_btn" type="varchar" size="255" />
-    <column name="hover_btn" type="varchar" size="255" />
-    <column name="active_btn" type="varchar" size="255" />
-    <column name="group_srls" type="text" />
+    <column name="title" type="varchar" size="250" />
     <column name="listorder" type="number" size="11" default="0" inex="idx_listorder" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>
