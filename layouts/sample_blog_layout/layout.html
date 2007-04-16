@@ -1,6 +1,12 @@
 <!-- 메뉴를 출력하기 위한 javascript 소스가 담긴 파일을 import -->
 <!--%import("js/layout.js")-->
 
+<!-- tree_menu.js를 이용한 트리 메뉴 호출 -->
+<script type="text/javascript">
+    loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name?$layout_info->main_menu_name:'home'}");
+</script>
+
+
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
     {$layout_info->top_title}
 
@@ -60,6 +66,7 @@
                 <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
             </div>
 
+            <div id="menu"></div>
             <!--@if($logged_info->is_admin == 'Y')-->
             <div>
                 <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
