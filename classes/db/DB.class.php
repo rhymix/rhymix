@@ -281,6 +281,8 @@
                 return $value;
             }
 
+            $value = preg_replace('/(^\'|\'$){1}/','',$value);
+
             switch($operation) {
                 case 'like_prefix' : 
                         $value = '%'.$value;
