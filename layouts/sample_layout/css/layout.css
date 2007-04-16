@@ -1,0 +1,171 @@
+@charset "utf-8";
+
+/**
+ * 레이아웃 style 
+ **/
+
+/**
+ * 상단 로고 및 메인 1차 메뉴 
+ **/
+.layout_top {
+    border-bottom:3px solid #EEEEEE;
+    height:50px;
+}
+
+/* 상단 로고 부분 */
+.layout_logo {
+    float:left;
+}
+
+/* 상단 1차 메뉴 */
+.layout_first_menu {
+    float:right;
+    margin-top:30px;
+}
+
+/**
+ * 중간 영역 (왼쪽 메뉴 + 컨텐츠)
+ **/
+.layout_middle {
+    margin:10px 0px 10px 0px;
+    clear:both;
+}
+
+/**
+ * 좌측 메뉴 및 메인 2차 메뉴, 로그인 플러그인 및 기타
+ **/
+.layout_left {
+    width:220px;
+    margin-right:10px;
+    float:left;
+}
+
+/* 좌측 2차 메뉴 */
+.layout_second_menu {
+    border:1px solid #EEEEEE;
+    padding:5px;
+}
+
+/* 좌측 관리자 메뉴 */
+.layout_admin {
+    margin-top:10px;
+    border:3px solid #EEEEEE;
+    padding:5px;
+    text-align:center;
+}
+
+/* 컨텐츠 */
+.layout_content {
+    position:absolute;
+    left:0px;
+    right:0px;
+    padding:0px 10px 0px 240px;
+}
+
+/**
+ * 하단 메뉴 영역 
+ **/
+.layout_bottom {
+    clear:both;
+}
+
+/* 하단 메뉴 */
+.layout_bottom_menu {
+    width:100%;
+    text-align:center;
+}
+
+/**
+ * 메뉴 style, main_menu:1~3차, bottom_menu로 구성 
+ **/
+
+/* 1차 메뉴 */
+.first_menu {
+    margin-right:5px;
+    font-weight:normal;
+}
+
+.first_menu A {
+    color:#000000;
+    text-decoration:none;
+}
+
+.first_menu_selected {
+    margin-right:5px;
+    font-weight:bold;
+}
+
+.first_menu_selected A {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+/* 2차 메뉴 */
+.second_menu {
+    margin-right:5px;
+    font-weight:normal;
+    display:block;
+}
+
+.second_menu A {
+    color:#000000;
+    text-decoration:none;
+}
+
+.second_menu_selected {
+    margin-right:5px;
+    font-weight:bold;
+    display:block;
+}
+
+.second_menu_selected A {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+/* 3차 메뉴 */
+.third_menu {
+    margin-left:10px;
+    display:block;
+}
+
+.third_menu A {
+    color:#000000;
+    text-decoration:none;
+}
+
+.third_menu_selected {
+    margin-left:10px;
+    font-weight:bold;
+    display:block;
+}
+
+.third_menu_selected A {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+/* 하단 메뉴 */
+.bottom_menu {
+    margin-right:5px;
+    font-weight:normal;
+}
+
+.bottom_menu A {
+    color:#000000;
+    text-decoration:none;
+}
+
+.bottom_menu_selected {
+    margin-right:5px;
+    font-weight:bold;
+}
+
+.bottom_menu_selected A {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
