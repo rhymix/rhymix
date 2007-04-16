@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+body {
+    margin:0px;
+    padding:0px;
+}
+
 /**
  * 레이아웃 style 
  **/
@@ -8,26 +13,30 @@
  * 상단 로고 및 메인 1차 메뉴 
  **/
 .layout_top {
-    border-bottom:3px solid #EEEEEE;
-    height:50px;
+    margin:10px;
 }
 
 /* 상단 로고 부분 */
-.layout_logo {
-    float:left;
+.layout_logo A {
+    font-weight:bold;
+    font-size:16pt;
+    color:#888888;
+    text-decoration:none;
 }
 
 /* 상단 1차 메뉴 */
-.layout_first_menu {
-    float:right;
-    margin-top:30px;
+.layout_first_menu{
+    border-bottom:2px solid #DDDDDD;
+    width:100%;
+    text-align:right;
+    padding:3px 0px 3px 0px;
 }
 
 /**
  * 중간 영역 (왼쪽 메뉴 + 컨텐츠)
  **/
 .layout_middle {
-    margin:10px 0px 10px 0px;
+    margin:10px;
     clear:both;
 }
 
@@ -42,8 +51,6 @@
 
 /* 좌측 2차 메뉴 */
 .layout_second_menu {
-    border:1px solid #EEEEEE;
-    padding:5px;
 }
 
 /* 좌측 관리자 메뉴 */
@@ -54,12 +61,17 @@
     text-align:center;
 }
 
+.layout_admin A {
+    color:#AAAAAA;
+    text-decoration:none;
+}
+
 /* 컨텐츠 */
 .layout_content {
     position:absolute;
     left:0px;
-    right:0px;
-    padding:0px 10px 0px 240px;
+    padding:0px 0px 0px 240px;
+    margin-right:10px;
 }
 
 /**
@@ -81,53 +93,60 @@
 
 /* 1차 메뉴 */
 .first_menu {
-    margin-right:5px;
-    font-weight:normal;
+    background-color:#999999;
+    padding:3px 10px 3px 10px;
+    margin-left:5px;
 }
 
 .first_menu A {
-    color:#000000;
+    font-weight:normal;
+    color:#FFFFFF;
     text-decoration:none;
 }
 
 .first_menu_selected {
-    margin-right:5px;
-    font-weight:bold;
+    background-color:#000000;
+    padding:3px 10px 3px 10px;
+    margin-left:5px;
 }
 
 .first_menu_selected A {
-    color:#000000;
+    color:#FFFFFF;
     font-weight:bold;
     text-decoration:none;
 }
 
 /* 2차 메뉴 */
 .second_menu {
-    margin-right:5px;
-    font-weight:normal;
+    padding:5px 0px 5px 5px;
+    background-color:#AAAAAA;
     display:block;
+    border-bottom:1px solid #999999;
 }
 
 .second_menu A {
-    color:#000000;
+    color:#FFFFFF;
     text-decoration:none;
+    font-weight:normal;
 }
 
 .second_menu_selected {
-    margin-right:5px;
-    font-weight:bold;
+    padding:5px 0px 5px 5px;
+    background-color:#666666;
     display:block;
+    border-bottom:1px solid #444444;
 }
 
 .second_menu_selected A {
-    color:#000000;
+    color:#FFFFFF;
     font-weight:bold;
     text-decoration:none;
 }
 
 /* 3차 메뉴 */
 .third_menu {
-    margin-left:10px;
+    padding:5px 0px 5px 20px;
+    border-bottom:1px solid #EEEEEE;
     display:block;
 }
 
@@ -137,9 +156,11 @@
 }
 
 .third_menu_selected {
-    margin-left:10px;
+    padding:5px 0px 5px 20px;
+    border-bottom:1px solid #EEEEEE;
     font-weight:bold;
     display:block;
+    background-color:#EFEFEF;
 }
 
 .third_menu_selected A {
