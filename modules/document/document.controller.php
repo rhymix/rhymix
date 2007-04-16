@@ -94,6 +94,7 @@
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $obj->member_srl = $logged_info->member_srl;
+                $obj->user_id = $logged_info->user_id;
                 $obj->user_name = $logged_info->user_name;
                 $obj->nick_name = $logged_info->nick_name;
                 $obj->email_address = $logged_info->email_address;
@@ -304,21 +305,21 @@
                 return $output;
             }
 
-            // 코멘트의 이동
+            // 댓글의 이동
             $output = executeQuery('comment.updateCommentModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
 
-            // 트랙백의 이동
+            // 엮인글의 이동
             $output = executeQuery('trackback.updateTrackbackModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
 
-            // 엮인글
+            // 태그
             $output = executeQuery('tag.updateTagModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();

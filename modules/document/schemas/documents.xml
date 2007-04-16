@@ -12,6 +12,7 @@
     <column name="trackback_count" type="number" size="11" default="0" notnull="notnull" index="idx_trackback_count" />
     <column name="uploaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_uploaded_count" />
     <column name="password" type="varchar" size="60" />
+    <column name="user_id" type="varchar" size="80" />
     <column name="user_name" type="varchar" size="80" notnull="notnull" />
     <column name="nick_name" type="varchar" size="80" notnull="notnull" />
     <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />

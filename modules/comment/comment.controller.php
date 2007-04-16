@@ -71,6 +71,7 @@
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $obj->member_srl = $logged_info->member_srl;
+                $obj->user_id = $logged_info->user_id;
                 $obj->user_name = $logged_info->user_name;
                 $obj->nick_name = $logged_info->nick_name;
                 $obj->email_address = $logged_info->email_address;

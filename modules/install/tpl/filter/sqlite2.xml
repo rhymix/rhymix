@@ -20,7 +20,7 @@
         <param name="nick_name" target="nick_name" />
         <param name="email_address" target="email_address" />
     </parameter>
-    <response >
+    <response callback_func="completeInstalled">
         <tag name="error" />
         <tag name="message" />
         <tag name="redirect_url" />
