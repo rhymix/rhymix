@@ -1,6 +1,6 @@
 <query id="updateModuleLayout" action="update">
     <tables>
-        <table name="modules" />
+        <table name="module_layout" />
     </tables>
     <columns>
         <column name="layout_srl" var="layout_srl" default="0" />
