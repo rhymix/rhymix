@@ -1,0 +1,5 @@
+<table name="module_layout">
+    <column name="zbxe_url" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="menu_srl" type="number" size="11" notnull="notnull" />
+    <column name="layout_srl" type="number" size="11" notnull="notnull" />
+</table>
