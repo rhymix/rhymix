@@ -1,6 +1,11 @@
+<!-- 메뉴를 출력하기 위한 javascript 소스가 담긴 파일을 import -->
+<!--%import("js/layout.js")-->
+
+<!-- tree_menu.js를 이용한 트리 메뉴 호출 -->
 <script type="text/javascript">
     loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name?$layout_info->main_menu_name:'home'}");
 </script>
+
 
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
     {$layout_info->top_title}
@@ -8,38 +13,43 @@
     <div style="float:right">
 
         <div>
-            <!-- 1차 메뉴 -->
-            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+            <!-- main_menu 1차 시작 -->
 
-            <!--@if($val['selected'])-->
-                {@ $selected_style = 'style="font-weight:bold;"'}
-                {@ $second_menu_list = $val['list']; }
-            <!--@else-->
-                {@ $selected_style = ''; }
-            <!--@end-->
+                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
+                <script type="text/javascript">
+                    <!--@foreach($main_menu->list as $key => $val)-->
+                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
 
-            <span {$selected_style}>
-                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-            </span>
+                        <!-- 선택된 메뉴의 경우 2차 메뉴를 $second_menu_list에 설정 -->
+                        <!--@if($val['selected'])-->
+                            {@ $second_menu_list = $val['list']; }
+                        <!--@end-->
 
-            <!--@end--><!--@end-->
+                    <!--@end-->
+                <!-- 메뉴 표시 끝 -->
+                </script>
+
+            <!-- main_menu 1차 끝 -->
         </div>
 
         <div>
-            <!-- 2차 메뉴 -->
-            <!--@foreach($second_menu_list as $key => $val)--><!--@if($val['text'])-->
+            <!-- main_menu 2차 시작 -->
 
-            <!--@if($val['selected'])-->
-                {@ $selected_style = 'style="font-weight:bold;"'}
-                {@ $third_menu_list = $val['list']; }
-            <!--@else-->
-                {@ $selected_style = ''; }
-            <!--@end-->
-            <span {$selected_style}>
-                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-            </span>
+                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
+                <script type="text/javascript">
+                    <!--@foreach($second_menu_list as $key => $val)-->
+                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
 
-            <!--@end--><!--@end-->
+                        <!-- 선택된 메뉴의 경우 3차 메뉴를 $third_menu_list에 설정 -->
+                        <!--@if($val['selected'])-->
+                            {@ $third_menu_list = $val['list']; }
+                        <!--@end-->
+
+                    <!--@end-->
+                <!-- 메뉴 표시 끝 -->
+                </script>
+
+            <!-- main_menu 2차 끝 -->
         </div>
 
     </div>
@@ -65,17 +75,18 @@
 
             <!--@if($third_menu_list)-->
             <div>
-                <!-- 3차 메뉴 -->
-                <!--@foreach($third_menu_list as $key => $val)--><!--@if($val['text'])-->
-                    <!--@if($val['selected'])-->
-                        {@ $selected_style = 'style="font-weight:bold;"'}
-                    <!--@else-->
-                        {@ $selected_style = ''; }
-                    <!--@end-->
-                    <div {$selected_style}>
-                        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-                    </div>
-                <!--@end--><!--@end-->
+
+                <!-- main_menu 3차 시작 -->
+
+                    <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
+                    <script type="text/javascript">
+                        <!--@foreach($third_menu_list as $key => $val)-->
+                            xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","<br>","",{$val['selected']?'true':'false'});
+                        <!--@end-->
+                    <!-- 메뉴 표시 끝 -->
+                    </script>
+
+                <!-- main_menu 3차 끝 -->
             </div>
             <!--@end-->
         </td>
@@ -86,16 +97,25 @@
     <tr>
         <td colspan="2" align="center">
             <div style="margin-top:20px;">
-                <!--@foreach($bottom_menu->list as $key => $val)-->
-                    <!--@if($val['selected'])-->
-                        {@ $selected_style = 'style="font-weight:bold;"'}
-                    <!--@else-->
-                        {@ $selected_style = ''; }
-                    <!--@end-->
-                    <span {$selected_style}>
-                        <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-                    </span>
-                <!--@end-->
+                <!-- bottom_menu 메뉴 시작 -->
+                <!--@foreach($bottom_menu->list as $key => $val)--><!--@if($val['text'])-->
+
+                    <!-- 1. 이미지 버튼일 경우 -->
+
+                    <!-- 2. 이미지 버튼이 아닐 경우 -->
+                        <!-- 선택된 메뉴일 경우의 class(or style) 지정 -->
+                        <!--@if($val['selected'])-->
+                            {@ $selected_style = 'style="font-weight:bold;"'}
+                        <!--@else-->
+                            {@ $selected_style = ''; }
+                        <!--@end-->
+
+                        <span {$selected_style}>
+                            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+                        </span>
+                    <!-- 메뉴 표시 끝 -->
+
+                <!--@end--><!--@end-->
             </div>
         </td>
     </tr>

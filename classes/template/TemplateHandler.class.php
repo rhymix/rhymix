@@ -92,6 +92,9 @@
             // import xml filter/ css/ js/ 언어파일 <!--%filename-->
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"\)-->!is', array($this, '_compileImportCode'), $buff);
 
+            // html 주석 제거
+            $buff = preg_replace("!<\!--([^\-]+)-->(\\n)!is", '', $buff);
+
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
