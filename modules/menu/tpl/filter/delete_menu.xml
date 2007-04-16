@@ -1,15 +1,9 @@
 <filter name="delete_menu" module="menu" act="procMenuAdminDelete" confirm_msg_code="confirm_delete">
     <form>
         <node target="menu_srl" required="true" />
-        <node target="menu_srl" required="true" />
-        <node target="menu_id" required="true" />
     </form>
-    <response callback_func="completeInsertMenuMenu">
+    <response callback_func="completeDeleteMenu">
         <tag name="error" />
         <tag name="message" />
-        <tag name="menu_srl" />
-        <tag name="xml_file" />
-        <tag name="menu_id" />
-        <tag name="menu_title" />
     </response>
 </filter>

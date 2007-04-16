@@ -1,4 +1,4 @@
-<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
+<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_item_srl}" />
 <input type="hidden" name="parent_srl" value="{$menu_info->parent_srl}" />
 
 <table border="1" width="100%">
@@ -70,8 +70,8 @@
     <td colspan="2">
         <!--@if($menu_info->name)-->
         <input type="submit" value="{$lang->cmd_save}" />
-        <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertLayoutMenu('{$menu_info->menu_id}','{$menu_info->menu_srl}');return false" />
-        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteLayoutMenu('{$menu_srl}','{$menu_info->menu_id}');return false" />
+        <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertLayoutMenu('{$menu_info->menu_item_srl}');return false" />
+        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteLayoutMenu('{$menu_item_srl}');return false" />
         <!--@else-->
         <input type="submit" value="{$lang->cmd_submit}" />
         <!--@end-->

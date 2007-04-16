@@ -1,14 +1,13 @@
-<!--%import("filter/delete_layout.xml")-->
-
-<!--#include("header.html")-->
+<!--%import("filter/delete_menu.xml")-->
+<!--%import("js/menu_admin.js")-->
 
 <div>
-    {$lang->total_count} {number_format(count($layout_list))}
+    {$lang->total_count} {number_format($total_count)}
 </div>
 
 <!-- 삭제를 위한 임시 form -->
-<form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, delete_layout)">
-    <input type="hidden" name="layout_srl" value="" />
+<form id="fo_menu" action="./" method="get">
+    <input type="hidden" name="menu_srl" value="" />
 </form>
 
 <!-- 목록 -->
@@ -16,19 +15,17 @@
     <table>
     <tr>
         <th>{$lang->no}</th>
-        <th>{$lang->layout}</th>
         <th>{$lang->title}</th>
         <th>{$lang->regdate}</th>
         <th>{$lang->cmd_delete}</th>
     </tr>
 
-    <!--@foreach($layout_list as $no => $val)-->
+    <!--@foreach($menu_list as $no => $val)-->
     <tr>
-        <td>{$no+1}</td>
-        <td>{$val->layout}</td>
-        <td><a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$val->layout_srl)}';return false;">{htmlspecialchars($val->title)}</a></td>
+        <td>{$no}</td>
+        <td><a href="#" onclick="location.href='{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}';return false;">{htmlspecialchars($val->title)}</a></td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a></td>
+        <td><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 
@@ -37,5 +34,20 @@
 
 <!-- 버튼 -->
 <div>
-    [<a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}">{$lang->cmd_make}</a>]
+    [<a href="{getUrl('act','dispMenuAdminInsert','menu_srl','')}">{$lang->cmd_make}</a>]
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+<a href="{getUrl('page','','menu_srl','')}">[{$lang->first_page}]</a>
+
+<!--@while($page_no = $page_navigation->getNextPage())-->
+<!--@if($page == $page_no)-->
+{$page_no}
+<!--@else-->
+<a href="{getUrl('page',$page_no)}">[{$page_no}]</a>
+<!--@end-->
+<!--@end-->
+
+<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
 </div>

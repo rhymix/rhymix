@@ -1,54 +1,27 @@
 <!--%import("filter/insert_menu.xml")-->
-<!--%import("filter/delete_menu.xml")-->
-<!--%import("filter/move_menu.xml")-->
 <!--%import("js/menu_admin.js")-->
 
-<!-- 메뉴 이동을 위해 임시로 사용하는 form -->
-<form id="fo_move_menu" action="./" method="get">
-    <input type="hidden" name="menu_id" />
-    <input type="hidden" name="source_node_srl" />
-    <input type="hidden" name="target_node_srl" />
-</form>
+<form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
 
-<div style="margin-bottom:10px;">
-    <div>
-        <h4>{$lang->menu_management}</h4>
-        <h5>{nl2br($lang->about_menu_management)}</h5>
-    </div>
-
-    <!--@foreach($layout_info->menu as $menu_id => $menu)-->
-    <form id="fo_{$menu_id}" action="./" method="get" onsubmit="return procFilter(this, insert_layout_menu)">
-        <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-        <input type="hidden" name="layout" value="{$layout_info->layout}" />
-        <input type="hidden" name="menu_id" value="{$menu_id}" />
-        <input type="hidden" name="menu_title" value="{$menu->name}" />
-        <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
-
-        <table border="1" width="100%">
-        <col width="300" />
-        <col width="*" />
-        <tr valign="top">
-            <td>
-                <div id="menu_zone_{$menu_id}"></div>
-                <div>
-                    <input type="checkbox" id="{$menu_id}_enable_move" /> <label for="{$menu_id}_enable_move">{$lang->cmd_enable_move_menu}</label>
-                </div>
-                <div>
-                    <input type="button" value="{$lang->cmd_insert}" onclick="doInsertLayoutMenu('{$menu_id}');return false;" />
-                    <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('{$menu_id}');return false;" />
-                    <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('{$menu_id}');return false;" />
-                    <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$menu_id}');return false;" />
-                </div>
-            </td>
-            <td>
-                <div id="menu_zone_info_{$menu_id}"></div>
+    <div style="margin-bottom:10px;">
+        <table border="1">
+        <tr>
+            <th>{$lang->cmd_menu_insert}</th>
+            <td>{nl2br($lang->about_menu_management)}</td>
+        </tr>
+        <tr>
+            <th rowspan="2">{$lang->title}</th>
+            <td><input type="text" name="title" value="{$menu_info->title}" /></td>
+        </tr>
+        <tr>
+            <td>{$lang->about_title}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" value="{$lang->cmd_back}" onclick="location.href=location.href.setQuery('act','dispMenuAdminContent')" />
+                <input type="submit" value="{$lang->cmd_submit}" />
             </td>
         </tr>
         </table>
-    </form>
-    <script type="text/javascript">
-        loadTreeMenu("{$menu_info->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu_info->name} ({$lang->limit_menu_depth} : {$menu_info->maxdepth} {$lang->depth})", doGetMenuInfo, 0, doMoveTree); 
-    </script>
-    <br />
-    <!--@end-->
-</div>
+    </div>
+</form>

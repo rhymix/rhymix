@@ -1,7 +1,7 @@
-<filter name="move_menu" module="menu" act="procMenuAdminMove" confirm_msg_code="confirm_move">
+<filter name="move_menu_item" module="menu" act="procMenuAdminMoveItem" confirm_msg_code="confirm_move">
     <form />
     <parameter />
-    <response callback_func="completeMoveMenu">
+    <response callback_func="completeMoveMenuItem">
         <tag name="error" />
         <tag name="message" />
         <tag name="menu_id" />
