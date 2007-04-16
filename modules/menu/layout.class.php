@@ -15,9 +15,20 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminContent');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsert');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminMenu');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedList');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInfo');
             
+            //$oModuleController->insertActionForward('layout', 'model', 'getLayoutAdminMenuTplInfo');
+
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminInsert');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminUpdate');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminDelete');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminInsertMenu');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminDeleteMenu');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminMakeXmlFile');
+            //$oModuleController->insertActionForward('layout', 'controller', 'procLayoutAdminMoveMenu');
+
             // 레이아웃에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/layout');
 

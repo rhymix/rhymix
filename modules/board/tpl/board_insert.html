@@ -50,20 +50,6 @@
         <td>{$lang->about_browser_title}</td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->layout}</th>
-        <td>
-            <select name="layout_srl">
-                <option value="0">{$lang->notuse}</option>
-                <!--@foreach($layout_list as $key => $val)-->
-                <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="true"<!--@end-->>{$val->title} ({$val->layout})</option>
-                <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->about_layout}</td>
-    </tr>
-    <tr>
         <th rowspan="2">{$lang->skin}</th>
         <td>
             <select name="skin">

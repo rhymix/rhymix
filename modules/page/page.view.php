@@ -121,10 +121,6 @@
          * @brief 페이지 추가 폼 출력
          **/
         function dispPageAdminInsert() {
-            // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
-            Context::set('layout_list', $layout_list);
 
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');

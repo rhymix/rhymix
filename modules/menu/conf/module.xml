@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispMenuAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispMenuAdminInsert" type="view" standalone="true" />
+        <action name="dispMenuAdminInfo" type="view" standalone="true" />
+        <action name="dispMenuAdminMidList" type="view" standalone="true" />
+
+        <action name="getMenuAdminTplInfo" type="model" standalone="true" />
+
+        <action name="procMenuAdminInsert" type="controller" standalone="true" />
+        <action name="procMenuAdminDelete" type="controller" standalone="true" />
+        <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procMenuAdminMove" type="controller" standalone="true" />
+    </actions>
+</module>
