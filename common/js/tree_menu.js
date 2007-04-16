@@ -312,9 +312,11 @@ function selectNode(menu_id, node_srl, zone_id, move_url) {
     // 이전에 선택된 노드가 있었다면 원래데로 돌림
     if(prev_selected_node) {
         var prev_zone = xGetElementById(prev_selected_node.id);
-        prev_zone.style.backgroundColor = "#ffffff";
-        prev_zone.style.fontWeight = "normal";
-        prev_zone.style.color = "#000000";
+        if(prev_zone) {
+            prev_zone.style.backgroundColor = "#ffffff";
+            prev_zone.style.fontWeight = "normal";
+            prev_zone.style.color = "#000000";
+        }
     }
 
     // 선택된 노드의 글자를 변경
