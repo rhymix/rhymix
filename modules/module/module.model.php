@@ -118,7 +118,9 @@
 
             $list = $output->data;
             if(!$list) return;
+
             if(!is_array($list)) $list = array($list);
+
             foreach($list as $val) {
                 $mid_list[$val->mid] = $val;
             }

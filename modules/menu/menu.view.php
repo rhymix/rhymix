@@ -84,22 +84,10 @@
             Context::set('mid_list', $mid_list);
 
             // 메뉴을 팝업으로 지정
-            $this->setMenuFile('popup_menu');
+            $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('mid_list');
-        }
-
-        /**
-         * @brief 메뉴 목록을 보여줌
-         **/
-        function dispMenuAdminDownloadedList() {
-            // 메뉴 목록을 세팅
-            $oMenuModel = &getModel('menu');
-            $menu_list = $oMenuModel->getDownloadedMenuList();
-            Context::set('menu_list', $menu_list);
-
-            $this->setTemplateFile('downloaded_menu_list');
         }
     }
 ?>
