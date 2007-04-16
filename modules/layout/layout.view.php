@@ -73,6 +73,21 @@
             $this->setTemplateFile('layout_detail_info');
         }
 
+        /**
+         * @brief 레이아웃에서 선택할 수 있는 mid목록을 보여줌
+         **/
+        function dispLayoutAdminMidList() {
+            // mid 목록을 구해옴
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('mid_list');
+        }
 
         /**
          * @brief 레이아웃 목록을 보여줌
@@ -85,7 +100,5 @@
 
             $this->setTemplateFile('downloaded_layout_list');
         }
-
-
     }
 ?>

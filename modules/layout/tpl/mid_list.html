@@ -1,0 +1,19 @@
+<!--%import("js/layout_admin.js")-->
+<div style="width:400px">
+    <table border="1" width="400">
+    <tr>
+        <th>{$lang->mid}</th>
+        <th>{$lang->title}</th>
+        <th>{$lang->cmd_select}</th>
+    </tr>
+    <tbody>
+    <!--@foreach($mid_list as $key => $val)-->
+    <tr>
+        <td>{$key}</td>
+        <td>{$val->browser_title}</td>
+        <td><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
+    </tr>
+    <!--@end-->
+    </tbody>
+    </table>
+</div>

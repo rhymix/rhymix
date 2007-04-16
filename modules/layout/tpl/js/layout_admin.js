@@ -127,3 +127,20 @@ function doReloadTreeMenu(menu_id) {
     var response_tags = new Array('error','message','menu_id', 'xml_file', 'menu_title');
     exec_xml('layout', 'procLayoutAdminMakeXmlFile', params, completeInsertLayoutMenu, response_tags, params);
 }
+
+/* 레이아웃의 메뉴에 mid 추가 */
+function doInsertMid(mid, menu_id) {
+    if(!opener) {
+        window.close();
+        return;
+    }
+
+    var fo_obj = opener.xGetElementById("fo_"+menu_id);
+    if(!fo_obj) {
+        window.close();
+        return;
+    }
+
+    fo_obj.menu_url.value = "mid="+mid;
+    window.close();
+}

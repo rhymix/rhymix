@@ -6,6 +6,7 @@
         <action name="dispLayoutAdminMenu" type="view" standalone="true" />
         <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
         <action name="dispLayoutAdminInfo" type="view" standalone="true" />
+        <action name="dispLayoutAdminMidList" type="view" standalone="true" />
 
         <action name="getLayoutAdminMenuTplInfo" type="model" standalone="true" />
 

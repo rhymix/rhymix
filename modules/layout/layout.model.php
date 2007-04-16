@@ -230,6 +230,7 @@
 
             $node = $output->data;
             if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
+            else $node->group_srls = array();
             return $node;
         }
     }
