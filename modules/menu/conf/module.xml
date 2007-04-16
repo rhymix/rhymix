@@ -3,7 +3,6 @@
     <actions>
         <action name="dispMenuAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispMenuAdminInsert" type="view" standalone="true" />
-        <action name="dispMenuAdminInfo" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />

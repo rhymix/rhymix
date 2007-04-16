@@ -34,8 +34,11 @@
         <col width="140" />
         <col width="*" />
         <tr>
-            <th>{$lang->title}</th>
+            <th rowspan="2">{$lang->title}</th>
             <td><input type="text" name="title" value="{htmlspecialchars($layout_info->layout_title)}" /></td>
+        </tr>
+        <tr>
+            <td>{$lang->about_title}</td>
         </tr>
         <!--@foreach($layout_info->extra_var as $id => $var)-->
         <tr>

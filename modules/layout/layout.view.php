@@ -41,7 +41,7 @@
         /**
          * @brief 레이아웃 세부 정보 입력
          **/
-        function dispLayoutAdminMenu() {
+        function dispLayoutAdminModify() {
             // 선택된 레이아웃의 정보르 구해서 세팅 
             $layout_srl = Context::get('layout_srl');
 
@@ -54,7 +54,19 @@
 
             Context::set('layout_info', $layout_info);
 
-            $this->setTemplateFile('layout_info');
+            $this->setTemplateFile('layout_modify');
+        }
+
+        /**
+         * @brief 레이아웃 목록을 보여줌
+         **/
+        function dispLayoutAdminDownloadedList() {
+            // 레이아웃 목록을 세팅
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getDownloadedLayoutList();
+            Context::set('layout_list', $layout_list);
+
+            $this->setTemplateFile('downloaded_layout_list');
         }
 
         /**
@@ -71,18 +83,6 @@
 
             // 템플릿 파일 지정
             $this->setTemplateFile('layout_detail_info');
-        }
-
-        /**
-         * @brief 레이아웃 목록을 보여줌
-         **/
-        function dispLayoutAdminDownloadedList() {
-            // 레이아웃 목록을 세팅
-            $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getDownloadedLayoutList();
-            Context::set('layout_list', $layout_list);
-
-            $this->setTemplateFile('downloaded_layout_list');
         }
     }
 ?>

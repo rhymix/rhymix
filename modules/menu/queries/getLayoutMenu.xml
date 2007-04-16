@@ -1,6 +1,6 @@
 <query id="getLayoutMenu" action="select">
     <tables>
-        <table name="layout_menu" />
+        <table name="menu" />
     </tables>
     <columns>
         <column name="*" />

@@ -1,6 +1,6 @@
 <query id="insertLayoutMenu" action="insert">
     <tables>
-        <table name="layout_menu" />
+        <table name="menu" />
     </tables>
     <columns>
         <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />

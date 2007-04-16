@@ -16,11 +16,12 @@
 
             $oAdminController->insertShortCut('board');
             $oAdminController->insertShortCut('page');
-            $oAdminController->insertShortCut('member');
-            $oAdminController->insertShortCut('module');
+            $oAdminController->insertShortCut('menu');
             $oAdminController->insertShortCut('layout');
             $oAdminController->insertShortCut('addon');
             $oAdminController->insertShortCut('plugin');
+            $oAdminController->insertShortCut('member');
+            $oAdminController->insertShortCut('module');
            
             return new Object();
         }

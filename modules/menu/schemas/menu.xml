@@ -1,4 +1,4 @@
-<table name="layout_menu">
+<table name="menu">
     <column name="menu_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
     <column name="parent_srl" type="number" size="12" notnull="notnull" default="0" />
     <column name="layout_srl" type="number" size="12" notnull="notnull" index="idx_layout_menu" />

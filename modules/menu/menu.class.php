@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  layout
+     * @class  menu
      * @author zero (zero@nzeo.com)
-     * @brief  layout 모듈의 high class
+     * @brief  menu 모듈의 high class
      **/
 
-    class layout extends ModuleObject {
+    class menu extends ModuleObject {
 
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
@@ -13,14 +13,11 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminContent');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsert');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminModify');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedList');
-            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInfo');
-            
+            $oModuleController->insertActionForward('menu', 'view', 'dispMenuAdminContent');
+            $oModuleController->insertActionForward('menu', 'view', 'dispMenuAdminInsert');
+
             // 레이아웃에서 사용할 디렉토리 생성
-            FileHandler::makeDir('./files/cache/layout');
+            FileHandler::makeDir('./files/cache/menu');
 
             return new Object();
         }

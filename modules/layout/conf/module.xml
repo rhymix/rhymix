@@ -3,7 +3,9 @@
     <actions>
         <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispLayoutAdminInsert" type="view" standalone="true" />
+        <action name="dispLayoutAdminModify" type="view" standalone="true" />
         <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
+
         <action name="dispLayoutAdminInfo" type="view" standalone="true" />
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" />

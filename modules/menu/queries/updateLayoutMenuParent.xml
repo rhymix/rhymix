@@ -1,6 +1,6 @@
 <query id="updateLayoutMenuParent" action="update">
     <tables>
-        <table name="layout_menu" />
+        <table name="menu" />
     </tables>
     <columns>
         <column name="parent_srl" var="parent_srl" default="0" />

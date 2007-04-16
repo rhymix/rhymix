@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  layoutController
+     * @class  menuController
      * @author zero (zero@nzeo.com)
-     * @brief  layout 모듈의 Controller class
+     * @brief  menu 모듈의 Controller class
      **/
 
-    class layoutController extends layout {
+    class menuController extends menu {
 
         /**
          * @brief 초기화
@@ -13,78 +13,41 @@
         function init() {
         }
 
-        /**
-         * @brief 레이아웃 신규 생성
-         * 레이아웃의 신규 생성은 제목만 받아서 layouts테이블에 입력함
-         **/
-        function procLayoutAdminInsert() {
-            $args->layout_srl = getNextSequence();
-            $args->layout = Context::get('layout');
-            $args->title = Context::get('title');
-
-            $output = executeQuery("layout.insertLayout", $args);
-            if(!$output->toBool()) return $output;
-
-            $this->add('layout_srl', $args->layout_srl);
-        }
 
         /**
-         * @brief 레이아웃 정보 변경
-         * 생성된 레이아웃의 제목과 확장변수(extra_vars)를 적용한다
-         **/
-        function procLayoutAdminUpdate() {
-            // module, act, layout_srl, layout, title을 제외하면 확장변수로 판단.. 좀 구리다..
-            $extra_vars = Context::getRequestVars();
-            unset($extra_vars->module);
-            unset($extra_vars->act);
-            unset($extra_vars->layout_srl);
-            unset($extra_vars->layout);
-            unset($extra_vars->title);
-
-            // DB에 입력하기 위한 변수 설정 
-            $args = Context::gets('layout_srl','title');
-            $args->extra_vars = serialize($extra_vars);
-
-            $output = executeQuery('layout.updateLayout', $args);
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage('success_updated');
-        }
-
-        /**
-         * @brief 레이아웃 삭제
+         * @brief 메뉴 삭제
          * 삭제시 메뉴 xml 캐시 파일도 삭제
          **/
-        function procLayoutAdminDelete() {
-            $layout_srl = Context::get('layout_srl');
+        function procMenuAdminDelete() {
+            $menu_srl = Context::get('menu_srl');
 
             // 캐시 파일 삭제 
-            $cache_list = FileHandler::readDir("./files/cache/layout","",false,true);
+            $cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
-                    $pos = strpos($cache_file, $layout_srl.'_');
+                    $pos = strpos($cache_file, $menu_srl.'_');
                     if($pos>0) unlink($cache_file);
                 }
             }
 
             // DB에서 삭제
 
-            // 레이아웃 메뉴 삭제
-            $args->layout_srl = $layout_srl;
-            $output = executeQuery("layout.deleteLayoutMenus", $args);
+            // 메뉴 메뉴 삭제
+            $args->menu_srl = $menu_srl;
+            $output = executeQuery("menu.deleteMenuMenus", $args);
             if(!$output->toBool()) return $output;
 
-            // 레이아웃 삭제
-            $output = executeQuery("layout.deleteLayout", $args);
+            // 메뉴 삭제
+            $output = executeQuery("menu.deleteMenu", $args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
         }
 
         /**
-         * @brief 레이아웃에  메뉴 추가
+         * @brief 메뉴에  메뉴 추가
          **/
-        function procLayoutAdminInsertMenu() {
+        function procMenuAdminInsertMenu() {
             // 입력할 변수 정리
             $source_args = Context::getRequestVars();
             unset($source_args->module);
@@ -97,7 +60,7 @@
             // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
             $args->menu_srl = $source_args->menu_srl;
             $args->parent_srl = $source_args->parent_srl;
-            $args->layout_srl = $source_args->layout_srl;
+            $args->menu_srl = $source_args->menu_srl;
             $args->menu_id = $source_args->menu_id;
             $args->name = $source_args->menu_name;
             $args->url = trim($source_args->menu_url);
@@ -108,73 +71,73 @@
             $args->active_btn = $source_args->menu_active_btn;
             $args->group_srls = $source_args->group_srls;
 
-            $layout = Context::get('layout');
+            $menu = Context::get('menu');
 
             // 이미 존재하는지를 확인
-            $oLayoutModel = &getModel('layout');
-            $menu_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
+            $oMenuModel = &getModel('menu');
+            $menu_info = $oMenuModel->getMenuMenuInfo($args->menu_srl);
 
             // 존재하게 되면 update를 해준다
             if($menu_info->menu_srl == $args->menu_srl) {
-                $output = executeQuery('layout.updateLayoutMenu', $args);
+                $output = executeQuery('menu.updateMenuMenu', $args);
                 if(!$output->toBool()) return $output;
 
             // 존재하지 않으면 insert를 해준다
             } else {
                 $args->listorder = -1*$args->menu_srl;
-                $output = executeQuery('layout.insertLayoutMenu', $args);
+                $output = executeQuery('menu.insertMenuMenu', $args);
                 if(!$output->toBool()) return $output;
             }
 
             // 해당 메뉴의 정보를 구함
-            $layout_info = $oLayoutModel->getLayoutInfo($layout);
-            $menu_title = $layout_info->menu->{$args->menu_id}->name;
+            $menu_info = $oMenuModel->getMenuInfo($menu);
+            $menu_title = $menu_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
+            $xml_file = $this->makeXmlFile($args->menu_srl, $args->menu_id);
 
             $this->add('xml_file', $xml_file);
             $this->add('menu_srl', $args->menu_srl);
             $this->add('menu_id', $args->menu_id);
             $this->add('menu_title', $menu_title);
 
-            // 현재 mid에 해당하는 모듈의 layout_srl 을 무조건 변경
+            // 현재 mid에 해당하는 모듈의 menu_srl 을 무조건 변경
             if(eregi("^mid=", $args->url)) {
-                $target_args->layout_srl = $args->layout_srl;
+                $target_args->menu_srl = $args->menu_srl;
                 $target_args->mid = substr($args->url,4);
-                $output = executeQuery("module.updateModuleLayout", $target_args);
+                $output = executeQuery("module.updateModuleMenu", $target_args);
                 if(!$output->toBool()) return $output;
             }
         }
 
         /**
-         * @brief 레이아웃 메뉴 삭제 
+         * @brief 메뉴 메뉴 삭제 
          **/
-        function procLayoutAdminDeleteMenu() {
+        function procMenuAdminDeleteMenu() {
             // 변수 정리 
-            $args = Context::gets('layout_srl','layout','menu_srl','menu_id');
+            $args = Context::gets('menu_srl','menu','menu_srl','menu_id');
 
-            $oLayoutModel = &getModel('layout');
+            $oMenuModel = &getModel('menu');
 
             // 원정보를 가져옴 
-            $node_info = $oLayoutModel->getLayoutMenuInfo($args->menu_srl);
+            $node_info = $oMenuModel->getMenuMenuInfo($args->menu_srl);
             if($node_info->parent_srl) $parent_srl = $node_info->parent_srl;
 
             // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
-            $output = executeQuery('layout.getChildMenuCount', $args);
+            $output = executeQuery('menu.getChildMenuCount', $args);
             if(!$output->toBool()) return $output;
             if($output->data->count>0) return new Object(-1, msg_cannot_delete_for_child);
 
             // DB에서 삭제
-            $output = executeQuery("layout.deleteLayoutMenu", $args);
+            $output = executeQuery("menu.deleteMenuMenu", $args);
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
-            $layout_info = $oLayoutModel->getLayoutInfo($args->layout);
-            $menu_title = $layout_info->menu->{$args->menu_id}->name;
+            $menu_info = $oMenuModel->getMenuInfo($args->menu);
+            $menu_title = $menu_info->menu->{$args->menu_id}->name;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->layout_srl, $args->menu_id);
+            $xml_file = $this->makeXmlFile($args->menu_srl, $args->menu_id);
 
             $this->add('xml_file', $xml_file);
             $this->add('menu_id', $args->menu_id);
@@ -183,34 +146,34 @@
         }
 
         /**
-         * @brief 레이아웃의 메뉴를 이동
+         * @brief 메뉴의 메뉴를 이동
          **/
-        function procLayoutAdminMoveMenu() {
+        function procMenuAdminMoveMenu() {
             // 변수 설정 
             $menu_id = Context::get('menu_id');
             $source_node_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_node_srl'));
             $target_node_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_node_srl'));
 
             // target_node 의 값을 구함
-            $oLayoutModel = &getModel('layout');
-            $target_node = $oLayoutModel->getLayoutMenuInfo($target_node_srl);
+            $oMenuModel = &getModel('menu');
+            $target_node = $oMenuModel->getMenuMenuInfo($target_node_srl);
 
             // source_node에 target_node_srl의 parent_srl, listorder 값을 입력
             $source_args->menu_srl = $source_node_srl;
             $source_args->parent_srl = $target_node->parent_srl;
             $source_args->listorder = $target_node->listorder;
-            $output = executeQuery('layout.updateLayoutMenuParent', $source_args);
+            $output = executeQuery('menu.updateMenuMenuParent', $source_args);
             if(!$output->toBool()) return $output;
 
             // target_node의 listorder값을 +1해 준다
             $target_args->menu_srl = $target_node_srl;
             $target_args->parent_srl = $target_node->parent_srl;
             $target_args->listorder = $target_node->listorder -1;
-            $output = executeQuery('layout.updateLayoutMenuParent', $target_args);
+            $output = executeQuery('menu.updateMenuMenuParent', $target_args);
             if(!$output->toBool()) return $output;
 
             // xml파일 재생성 
-            $xml_file = $this->makeXmlFile($target_node->layout_srl, $menu_id);
+            $xml_file = $this->makeXmlFile($target_node->menu_srl, $menu_id);
 
             // return 변수 설정
             $this->add('menu_id', $menu_id);
@@ -223,19 +186,19 @@
          * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
          * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
          **/
-        function procLayoutAdminMakeXmlFile() {
+        function procMenuAdminMakeXmlFile() {
             // 입력값을 체크 
             $menu_id = Context::get('menu_id');
-            $layout = Context::get('layout');
-            $layout_srl = Context::get('layout_srl');
+            $menu = Context::get('menu');
+            $menu_srl = Context::get('menu_srl');
 
             // 해당 메뉴의 정보를 구함
-            $oLayoutModel = &getModel('layout');
-            $layout_info = $oLayoutModel->getLayoutInfo($layout);
-            $menu_title = $layout_info->menu->{$menu_id}->name;
+            $oMenuModel = &getModel('menu');
+            $menu_info = $oMenuModel->getMenuInfo($menu);
+            $menu_title = $menu_info->menu->{$menu_id}->name;
 
             // xml파일 재생성 
-            $xml_file = $this->makeXmlFile($layout_srl, $menu_id);
+            $xml_file = $this->makeXmlFile($menu_srl, $menu_id);
 
             // return 값 설정 
             $this->add('menu_id',$menu_id);
@@ -246,19 +209,19 @@
         /**
          * @brief 메뉴의 xml 파일을 만들고 위치를 return
          **/
-        function makeXmlFile($layout_srl, $menu_id) {
+        function makeXmlFile($menu_srl, $menu_id) {
             // xml파일 생성시 필요한 정보가 없으면 그냥 return
-            if(!$layout_srl || !$menu_id) return;
+            if(!$menu_srl || !$menu_id) return;
 
-            // DB에서 layout_srl에 해당하는 메뉴 목록을 listorder순으로 구해옴 
-            $args->layout_srl = $layout_srl;
+            // DB에서 menu_srl에 해당하는 메뉴 목록을 listorder순으로 구해옴 
+            $args->menu_srl = $menu_srl;
             $args->menu_id = $menu_id;
-            $output = executeQuery("layout.getLayoutMenuList", $args);
+            $output = executeQuery("menu.getMenuMenuList", $args);
             if(!$output->toBool()) return;
 
             // 캐시 파일의 이름을 지정
-            $xml_file = sprintf("./files/cache/layout/%s_%s.xml.php", $layout_srl, $menu_id);
-            $php_file = sprintf("./files/cache/layout/%s_%s.php", $layout_srl, $menu_id);
+            $xml_file = sprintf("./files/cache/menu/%s_%s.xml.php", $menu_srl, $menu_id);
+            $php_file = sprintf("./files/cache/menu/%s_%s.php", $menu_srl, $menu_id);
 
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
             $list = $output->data;
@@ -342,7 +305,7 @@
 
         /**
          * @brief array로 정렬된 노드들을 php code로 변경하여 return
-         * 레이아웃에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
+         * 메뉴에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
          * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
          * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
          **/

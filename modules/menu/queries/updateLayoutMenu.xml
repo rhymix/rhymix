@@ -1,6 +1,6 @@
 <query id="updateLayoutMenu" action="update">
     <tables>
-        <table name="layout_menu" />
+        <table name="menu" />
     </tables>
     <columns>
         <column name="name" var="name" notnull="notnull" />

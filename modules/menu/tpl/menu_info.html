@@ -19,7 +19,7 @@
 </tr>
 <tr>
     <th rowspan="2">{$lang->menu_url}</th>
-    <td><input type="text" name="menu_url" value="{htmlspecialchars($menu_info->url)}" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','layout','act','dispLayoutAdminMidList','menu_id', $menu_id)}');return false;"/></td>
+    <td><input type="text" name="menu_url" value="{htmlspecialchars($menu_info->url)}" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList','menu_id', $menu_id)}');return false;"/></td>
 </tr>
 <tr>
     <td>{$lang->about_menu_url}</td>

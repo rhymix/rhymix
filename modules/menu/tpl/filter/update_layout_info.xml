@@ -1,9 +1,0 @@
-<filter name="update_layout_info" module="layout" act="procLayoutAdminUpdate" confirm_msg_code="confirm_submit">
-    <form>
-        <node target="title" required="true" />
-    </form>
-    <response>
-        <tag name="error" />
-        <tag name="message" />
-    </response>
-</filter>
