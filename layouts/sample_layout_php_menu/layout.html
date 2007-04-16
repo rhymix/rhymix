@@ -1,123 +1,100 @@
-<!-- 메뉴를 출력하기 위한 javascript 소스가 담긴 파일을 import -->
-<!--%import("js/layout.js")-->
+<!-- 레이아웃과 연동될 css 파일 import -->
+<!--%import("css/layout.css")-->
 
-<!-- tree_menu.js를 이용한 트리 메뉴 호출 -->
-<script type="text/javascript">
-    loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name?$layout_info->main_menu_name:'home'}");
-</script>
+<!-- 상단 로고 및 main_menu 1차 출력 -->
+<div class="layout_top">
+    <div class="layout_logo">
+        <a href="./">{$layout_info->top_title}</a>
+    </div>
 
+    <div class="layout_first_menu">
 
-<div style="height:50px;border:1px solid;margin-bottom:10px;">
-    {$layout_info->top_title}
+        <!-- main_menu 1차 시작 -->
+        <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
 
-    <div style="float:right">
+            <!--@if($val['selected'])-->
+                {@ $class_name = 'first_menu_selected'}
+                {@ $second_menu_list = $val['list']}
+            <!--@else-->
+                {@ $class_name = 'first_menu'}
+            <!--@end-->
 
-        <div>
-            <!-- main_menu 1차 시작 -->
+            <span class="{$class_name}">
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
 
-                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                <script type="text/javascript">
-                    <!--@foreach($main_menu->list as $key => $val)-->
-                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
+        <!--@end--><!--@end-->
+        <!-- main_menu 1차 끝 -->
 
-                        <!-- 선택된 메뉴의 경우 2차 메뉴를 $second_menu_list에 설정 -->
-                        <!--@if($val['selected'])-->
-                            {@ $second_menu_list = $val['list']; }
-                        <!--@end-->
+    </div>
+</div>
 
+<!-- 왼쪽 2차 메뉴 및 로그인과 기타 플러그인 부분 -->
+<div class="layout_left">
+    <!-- 로그인 플러그인 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
+
+    <!-- main_menu 2차 시작 -->
+    <div class="layout_second_menu">
+        <!--@foreach($second_menu_list as $key => $val)--><!--@if($val['text'])-->
+
+            <!--@if($val['selected'])-->
+                {@ $class_name = 'second_menu_selected'}
+            <!--@else-->
+                {@ $class_name = 'second_menu'}
+            <!--@end-->
+
+            <span class="{$class_name}">
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
+
+            <!--@if($val['selected'])-->
+                <!-- main_menu 3차 시작 -->
+                <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
+                    <!--@if($v['selected'])-->
+                        {@ $class_name = 'third_menu_selected'}
+                    <!--@else-->
+                        {@ $class_name = 'third_menu'}
                     <!--@end-->
-                <!-- 메뉴 표시 끝 -->
-                </script>
 
-            <!-- main_menu 1차 끝 -->
-        </div>
+                    <span class="{$class_name}">
+                        <a href="#" onclick="return move_url('{$v['href']}','{$v['open_window']}');">{$v['text']}</a>
+                    </span>
+                <!--@end--><!--@end-->
+            <!--@end-->
 
-        <div>
-            <!-- main_menu 2차 시작 -->
+        <!--@end--><!--@end-->
+        <!-- main_menu 2차 끝 -->
+    </div>
 
-                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                <script type="text/javascript">
-                    <!--@foreach($second_menu_list as $key => $val)-->
-                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
+    <!--@if($logged_info->is_admin == 'Y')-->
+    <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
+    <div class="layout_admin">
+        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+    </div>
+    <!--@end-->
+</div>
 
-                        <!-- 선택된 메뉴의 경우 3차 메뉴를 $third_menu_list에 설정 -->
-                        <!--@if($val['selected'])-->
-                            {@ $third_menu_list = $val['list']; }
-                        <!--@end-->
+<!-- 컨텐츠 출력 부분 -->
+<div class="layout_content">
+    <div id="content">{$content}</div>
 
-                    <!--@end-->
-                <!-- 메뉴 표시 끝 -->
-                </script>
+    <!-- bottom_menu 메뉴 시작 -->
+    <div class="layout_bottom">
+        <!--@foreach($bottom_menu->list as $key => $val)-->
 
-            <!-- main_menu 2차 끝 -->
-        </div>
+        <!--@if($val['selected'])-->
+            {@ $class_name = 'bottom_menu_selected'}
+        <!--@else-->
+            {@ $class_name = 'bottom_menu'}
+        <!--@end-->
 
+        <span class="{$class_name}">
+            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+        </span>
+
+        <!--@end-->
     </div>
 
 </div>
 
-<div>
-    <table border="0" width="100%" style="table-layout:fixed">
-    <col width="220" />
-    <col width="*" />
-    <tr valign="top">
-        <td>
-            <div>
-                <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
-            </div>
-
-            <div id="menu"></div>
-            <!--@if($logged_info->is_admin == 'Y')-->
-            <div>
-                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
-            </div>
-            <!--@end-->
-
-            <!--@if($third_menu_list)-->
-            <div>
-
-                <!-- main_menu 3차 시작 -->
-
-                    <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                    <script type="text/javascript">
-                        <!--@foreach($third_menu_list as $key => $val)-->
-                            xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","<br>","",{$val['selected']?'true':'false'});
-                        <!--@end-->
-                    <!-- 메뉴 표시 끝 -->
-                    </script>
-
-                <!-- main_menu 3차 끝 -->
-            </div>
-            <!--@end-->
-        </td>
-        <td>
-            <div id="content">{$content}</div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="center">
-            <div style="margin-top:20px;">
-                <!-- bottom_menu 메뉴 시작 -->
-                <!--@foreach($bottom_menu->list as $key => $val)--><!--@if($val['text'])-->
-
-                    <!-- 1. 이미지 버튼일 경우 -->
-
-                    <!-- 2. 이미지 버튼이 아닐 경우 -->
-                        <!-- 선택된 메뉴일 경우의 class(or style) 지정 -->
-                        <!--@if($val['selected'])-->
-                            {@ $selected_style = 'style="font-weight:bold;"'}
-                        <!--@else-->
-                            {@ $selected_style = ''; }
-                        <!--@end-->
-
-                        <span {$selected_style}>
-                            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-                        </span>
-                    <!-- 메뉴 표시 끝 -->
-
-                <!--@end--><!--@end-->
-            </div>
-        </td>
-    </tr>
-    </table>
-</div>

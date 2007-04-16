@@ -177,7 +177,8 @@
             }
 
             // 현재 페이지의 정보를 $zbxe_url이라는 변수로 등록 (common/tpl/common_header.tpl에서 javascript 변수로 설정함)
-            if($_REQUEST['mid']) $zbxe_url = sprintf('mid=%s',$_REQUEST['mid']);
+            //if($_REQUEST['mid']) $zbxe_url = sprintf('mid=%s',$_REQUEST['mid']);
+            if($this->mid) $zbxe_url = sprintf('mid=%s',$this->mid);
             elseif($_REQUEST['module']) $zbxe_url = sprintf('module=%s',$_REQUEST['module']);
             elseif($_REQUEST['document_srl']) $zbxe_url = sprintf('mid=%s', $this->mid);
             else $zbxe_url = Context::getRequestUri();
