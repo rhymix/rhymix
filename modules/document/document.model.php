@@ -72,6 +72,13 @@
                 $document->uploaded_list = $file_list;
             }
 
+            // 태그 정리
+            if($document->tags) {
+                $tag_list = explode(',',$document->tags);
+                $tag_count = count($tag_list);
+                for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
+            }
+
             $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);
             
             return $document;
@@ -181,7 +188,7 @@
                             if($search_keyword=='Y') $args->s_is_secret = 'Y';
                             else $args->s_is_secret = '';
                         break;
-                    case 'tags' :
+                    case 'tag' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_tags = $search_keyword;
                         break;

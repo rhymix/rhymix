@@ -61,10 +61,14 @@
     </tr>
     <!--@end-->
 
-    <!--@if($document->tags)-->
+    <!--@if($document->tag_list)-->
     <tr>
         <th>{$lang->tag}</th>
-        <td>{htmlspecialchars($document->tags)}</td>
+        <td>
+            <!--@foreach($document->tag_list as $val)-->
+                <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+            <!--@end-->
+        </td>
     </tr>
     <!--@end-->
 

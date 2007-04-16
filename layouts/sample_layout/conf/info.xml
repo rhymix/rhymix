@@ -34,7 +34,7 @@
         </var>
     </extra_vars>
     <menus>
-        <menu id="main_menu">
+        <menu id="main_menu" default="true">
             <name xml:lang="ko">주 메뉴</name>
             <maxdepth>2</maxdepth>
         </menu>

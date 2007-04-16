@@ -203,7 +203,7 @@
             $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);
             for($i=0;$i<$menu_count;$i++) {
                 $id = $menus[$i]->attrs->id;
-
+                if($menus[$i]->attrs->default == "true") $buff .= sprintf('$layout_info->default_menu = "%s";', $id);
                 $buff .= sprintf('$layout_info->menu->{%s}->id = "%s";',$id, $menus[$i]->attrs->id);
                 $buff .= sprintf('$layout_info->menu->{%s}->name = "%s";',$id, $menus[$i]->name->body);
                 $buff .= sprintf('$layout_info->menu->{%s}->maxdepth = "%s";',$id, $menus[$i]->maxdepth->body);
