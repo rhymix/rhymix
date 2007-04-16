@@ -102,9 +102,6 @@
         <table border="1" width="100%">
         <col width="300" />
         <col width="*" />
-        <tr>
-            <th colspan="2">{$menu->name} ({$lang->limit_menu_depth} : {$menu->maxdepth} {$lang->depth})</th>
-        </tr>
         <tr valign="top">
             <td>
                 <div id="menu_zone_{$menu_id}"></div>
@@ -125,7 +122,7 @@
         </table>
     </form>
     <script type="text/javascript">
-        loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name}", doGetMenuInfo, 0, doMoveTree); 
+        loadTreeMenu("{$menu->xml_file}", "{$menu_id}", "menu_zone_{$menu_id}", "{$menu->name} ({$lang->limit_menu_depth} : {$menu->maxdepth} {$lang->depth})", doGetMenuInfo, 0, doMoveTree); 
     </script>
     <br />
     <!--@end-->

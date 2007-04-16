@@ -327,7 +327,7 @@ function selectNode(menu_id, node_srl, zone_id, move_url) {
     if(typeof(move_url)=="undefined"||move_url==true) {
         var func = node_callback_func[menu_id];
         func(menu_id, node_info_list[menu_id][node_srl]);
-        toggleFolder(zone_id);
+        //toggleFolder(zone_id);
     }
 }
 
