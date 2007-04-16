@@ -1,25 +1,39 @@
-<!-- tree_menu.js를 이용한 트리 메뉴 호출 -->
-<script type="text/javascript">
-    loadTreeMenu("{$main_menu->xml_file}", "main_menu", "menu", "{$layout_info->main_menu_name?$layout_info->main_menu_name:'home'}");
-</script>
-
 <!-- 레이아웃과 연동될 css 파일 import -->
 <!--%import("css/layout.css")-->
 
-<!-- 상단 로고 및 main_menu 1차 출력 -->
+<!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
+<script type="text/javascript">
+    loadTreeMenu("{$blog_menu->xml_file}", "blog_menu", "menu", "{$layout_info->blog_menu_name?$layout_info->blog_menu_name:'home'}");
+</script>
+
+
+
+
+<!-- 상단 로고 및 상단 메뉴 출력 -->
 <div class="layout_top">
     <div class="layout_logo">
         <a href="./">{$layout_info->top_title}</a>
     </div>
 
     <div class="layout_first_menu">
-        <!-- main_menu 1차 시작 -->
-        <script type="text/javascript">
-            xe_print_menu('main_menu', 1);
-        </script>
-        <!-- main_menu 1차 끝 -->
-    </div>
 
+        <!-- top_menu 시작 -->
+        <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
+
+            <!--@if($val['selected'])-->
+                {@ $class_name = 'first_menu_selected'}
+            <!--@else-->
+                {@ $class_name = 'first_menu'}
+            <!--@end-->
+
+            <span class="{$class_name}">
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
+
+        <!--@end--><!--@end-->
+        <!-- top_menu 끝 -->
+
+    </div>
 </div>
 
 <!-- 왼쪽 2차 메뉴 및 로그인과 기타 플러그인 부분 -->
@@ -27,12 +41,8 @@
     <!-- 로그인 플러그인 -->
     <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
 
-    <!-- main_menu 2차 시작 -->
-    <div class="layout_second_menu">
-        <script type="text/javascript">
-            xe_print_menu('main_menu', 2, true);
-        </script>
-    </div>
+    <!-- 블로그 메뉴 출력 -->
+    <div id="menu"></div>
 
     <!--@if($logged_info->is_admin == 'Y')-->
     <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
@@ -45,14 +55,5 @@
 <!-- 컨텐츠 출력 부분 -->
 <div class="layout_content">
     <div id="content">{$content}</div>
-
-    <!-- bottom_menu 메뉴 시작 -->
-    <div class="layout_bottom">
-        <div class="layout_bottom_menu">
-            <script type="text/javascript">
-                xe_print_menu('bottom_menu', 1);
-            </script>
-        </div>
-    </div>
-
 </div>
+

@@ -85,9 +85,6 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
 // 트리메뉴 XML정보를 이용해서 정해진 zone에 출력
 var manual_select_node_srl = '';
 function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
-    var xmlDoc = oXml.getResponseXml();
-    if(!xmlDoc) return null;
-
     // 그리기 위한 object를 찾아 놓음
     var menu_id = param.menu_id;
     var zone_id = param.zone_id;
@@ -97,6 +94,12 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var html = "";
 
     if(title) html = '<div style="padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;">'+title+'</div>';
+
+    var xmlDoc = oXml.getResponseXml();
+    if(!xmlDoc) {
+        xInnerHtml(zone, html);
+        return null;
+    }
 
     tree_menu_folder_list[menu_id] = new Array();
 
