@@ -1,6 +1,36 @@
 <!-- 메뉴를 출력하기 위한 javascript 소스가 담긴 파일을 import -->
 <!--%import("js/layout.js")-->
 
+<!-- 메뉴를 미리 javscript object에 등록 -->
+<script type="text/javascript">
+
+    <!-- main_menu 메뉴 생성 -->
+    <!--@foreach($main_menu->list as $first_menu)-->
+
+        xe_add_menu('main_menu', 1, "{htmlspecialchars($first_menu['text'])}","{htmlspecialchars($first_menu['href'])}","{$first_menu['open_window']}","{$first_menu['normal_btn']}","{$first_menu['hover_btn']}","{$first_menu['active_btn']}","", "", {$first_menu['selected']?'true':'false'});
+
+        <!-- 선택된 메뉴일 경우 2차 메뉴 생성 -->
+        <!--@if($first_menu['selected'])--><!--@foreach($first_menu['list'] as $second_menu)-->
+
+            xe_add_menu('main_menu', 2, "{htmlspecialchars($second_menu['text'])}","{htmlspecialchars($second_menu['href'])}","{$second_menu['open_window']}","{$second_menu['normal_btn']}","{$second_menu['hover_btn']}","{$second_menu['active_btn']}","<br />", "", {$second_menu['selected']?'true':'false'});
+
+            <!-- 선택된 메뉴일 경우 3차 메뉴 생성 -->
+            <!--@if($second_menu['selected'])--><!--@foreach($second_menu['list'] as $third_menu)-->
+
+                xe_add_menu('main_menu', 3, "{htmlspecialchars($third_menu['text'])}","{htmlspecialchars($third_menu['href'])}","{$third_menu['open_window']}","{$third_menu['normal_btn']}","{$third_menu['hover_btn']}","{$third_menu['active_btn']}","<br />", "", {$third_menu['selected']?'true':'false'});
+
+            <!--@end--><!--@end-->
+
+        <!--@end--><!--@end-->
+    <!--@end-->
+
+    <!-- bottom_menu 메뉴 생성 -->
+    <!--@foreach($bottom_menu->list as $first_menu)-->
+        xe_add_menu('bottom_menu', 1, "{htmlspecialchars($first_menu['text'])}","{htmlspecialchars($first_menu['href'])}","{$first_menu['open_window']}","{$first_menu['normal_btn']}","{$first_menu['hover_btn']}","{$first_menu['active_btn']}","", "", {$first_menu['selected']?'true':'false'});
+    <!--@end-->
+
+</script>
+
 <div style="height:50px;border:1px solid;margin-bottom:10px;">
     {$layout_info->top_title}
 
@@ -8,42 +38,11 @@
 
         <div>
             <!-- main_menu 1차 시작 -->
-
-                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                <script type="text/javascript">
-                    <!--@foreach($main_menu->list as $key => $val)-->
-                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
-
-                        <!--@if($val['selected'])-->
-                            {@ $second_menu_list = $val['list']; }
-                        <!--@end-->
-
-                    <!--@end-->
-                <!-- 메뉴 표시 끝 -->
-                </script>
-
+            <script type="text/javascript">
+                xe_print_menu('main_menu', 1);
+            </script>
             <!-- main_menu 1차 끝 -->
         </div>
-
-        <div>
-            <!-- main_menu 2차 시작 -->
-
-                <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                <script type="text/javascript">
-                    <!--@foreach($second_menu_list as $key => $val)-->
-                        xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","", "", {$val['selected']?'true':'false'});
-
-                        <!--@if($val['selected'])-->
-                            {@ $third_menu_list = $val['list']; }
-                        <!--@end-->
-
-                    <!--@end-->
-                <!-- 메뉴 표시 끝 -->
-                </script>
-
-            <!-- main_menu 2차 끝 -->
-        </div>
-
     </div>
 
 </div>
@@ -58,22 +57,13 @@
                 <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
             </div>
 
-            <!--@if($third_menu_list)-->
             <div>
-
-                <!-- main_menu 3차 시작 -->
-
-                    <!-- 메뉴 표시 시작 : js/layout.js의 xe_print_menu() 함수를 이용해서 메뉴를 출력한다 (텍스트 혹은 이미지 버튼에 대한 처리를 위해서) -->
-                    <script type="text/javascript">
-                        <!--@foreach($third_menu_list as $key => $val)-->
-                            xe_print_menu("{htmlspecialchars($val['text'])}","{htmlspecialchars($val['href'])}","{$val['open_window']}","{$val['normal_btn']}","{$val['hover_btn']}","{$val['active_btn']}","<br>","",{$val['selected']?'true':'false'});
-                        <!--@end-->
-                    <!-- 메뉴 표시 끝 -->
-                    </script>
-
-                <!-- main_menu 3차 끝 -->
+                <!-- main_menu 2차 시작 -->
+                <script type="text/javascript">
+                    xe_print_menu('main_menu', 2, true);
+                </script>
+                <!-- main_menu 2차 끝 -->
             </div>
-            <!--@end-->
 
             <!-- 레이아웃 관리 메뉴 -->
             <!--@if($logged_info->is_admin == 'Y')-->
@@ -91,24 +81,10 @@
         <td colspan="2" align="center">
             <div style="margin-top:20px;">
                 <!-- bottom_menu 메뉴 시작 -->
-                <!--@foreach($bottom_menu->list as $key => $val)--><!--@if($val['text'])-->
-
-                    <!-- 1. 이미지 버튼일 경우 -->
-
-                    <!-- 2. 이미지 버튼이 아닐 경우 -->
-                        <!-- 선택된 메뉴일 경우의 class(or style) 지정 -->
-                        <!--@if($val['selected'])-->
-                            {@ $selected_style = 'style="font-weight:bold;"'}
-                        <!--@else-->
-                            {@ $selected_style = ''; }
-                        <!--@end-->
-
-                        <span {$selected_style}>
-                            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
-                        </span>
-                    <!-- 메뉴 표시 끝 -->
-
-                <!--@end--><!--@end-->
+                    <script type="text/javascript">
+                        xe_print_menu('bottom_menu', 1);
+                    </script>
+                <!-- 메뉴 표시 끝 -->
             </div>
         </td>
     </tr>

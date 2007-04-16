@@ -1,5 +1,15 @@
 /**
+ * @brief sample_layout 메뉴 출력용 javascript
+ * @author zero (zero@nzeo.com)
+ **/
+
+// 메뉴를 담을 javascript 변수
+var xe_layout_menu = new Array();
+
+/**
  * @brief sample_layout에서 메뉴를 출력하는 함수
+ * menu_name : 레이아웃 설정상의 메뉴 이름
+ * depth : 단계 
  * text : 메뉴 명
  * href : 연결할 주소
  * open_window : [Y|N] 새창으로 띄울 것인지에 대한 값
@@ -10,7 +20,7 @@
  * selected_class : 이미지 버튼이 아닐 경우 선택된 문자열에 대한 css class (지정 안되어 있으면 <span style="font-weight:bold">..</span>로 처리
  * selected : 선택된 메뉴라면 true, 아니면 false
  **/
-function xe_print_menu(text, href, open_window, normal_btn, hover_btn, active_btn, modifier, selected_class, selected) {
+function xe_add_menu(menu_name, depth, text, href, open_window, normal_btn, hover_btn, active_btn, modifier, selected_class, selected) {
     // 텍스트나 이미지 버튼이 없으면 패스~
     if(!text && !normal_btn) return;
 
@@ -44,5 +54,21 @@ function xe_print_menu(text, href, open_window, normal_btn, hover_btn, active_bt
     // modifier 출력
     if(modifier) html += modifier;
 
-    document.write(html);
+    if(!xe_layout_menu[menu_name]) xe_layout_menu[menu_name] = new Array();
+    if(!xe_layout_menu[menu_name][depth]) xe_layout_menu[menu_name][depth] = new Array();
+    xe_layout_menu[menu_name][depth][xe_layout_menu[menu_name][depth].length] = html;
+}
+
+/**
+ * @brief xe_layout_menu에 있는 메뉴를 출력
+ * menu_name : 레이아웃 설정상의 메뉴 이름
+ * depth : 입력된 단계
+ * print_child : true로 하면 메뉴 출력중 하위 메뉴가 있을 시 출력
+ **/
+function xe_print_menu(menu_name, depth, print_child) {
+    if(!xe_layout_menu[menu_name] || !xe_layout_menu[menu_name][depth]) return;
+    for(var i=0;i<xe_layout_menu[menu_name][depth].length;i++) {
+        document.write(xe_layout_menu[menu_name][depth][i]);
+        if(typeof(print_child)!='undefined' && print_child==true) xe_print_menu(menu_name, depth+1, print_child);
+    }
 }
