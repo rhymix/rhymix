@@ -34,6 +34,19 @@
         }
 
         /**
+         * @brief 등록된 모든 메뉴를 return
+         **/
+        function getMenus() {
+            // 일단 DB에서 정보를 가져옴
+            $args->menu_srl = $menu_srl;
+            $output = executeQuery('menu.getMenus', $args);
+            if(!$output->data) return;
+            $menus = $output->data;
+            if(!is_array($menus)) $menus = array($menus);
+            return $menus;
+        }
+
+        /**
          * @brief DB 에 생성된 한개의 메뉴 정보를 구함
          * 생성된 메뉴의 DB정보+XML정보를 return
          **/

@@ -63,6 +63,19 @@
             <td>{$var->description}</td>
         </tr>
         <!--@end-->
+        <!--@foreach($layout_info->menu as $menu_id => $menu_info)-->
+        <tr>
+            <th>{$menu_info->name} ({$menu_id})</th>
+            <td>
+                <select name="{$menu_id}">
+                    <option value="0">------------------------</option>
+                    <!--@foreach($menu_list as $key => $val)-->
+                    <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                </select>
+            </td>
+        </tr>
+        <!--@end-->
         <tr>
             <td colspan="2" align="center">
                 <!--@if($module=='admin')-->

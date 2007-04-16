@@ -1,0 +1,11 @@
+<query id="getMenus" action="select">
+    <tables>
+        <table name="menu" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <navigation>
+        <index var="sort_index" default="listorder" order="asc" />
+    </navigation>
+</query>

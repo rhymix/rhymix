@@ -155,16 +155,17 @@
             for($i=0;$i<$menu_count;$i++) {
                 $id = $menus[$i]->attrs->id;
                 if($menus[$i]->attrs->default == "true") $buff .= sprintf('$layout_info->default_menu = "%s";', $id);
-                $buff .= sprintf('$layout_info->menu->{%s}->id = "%s";',$id, $menus[$i]->attrs->id);
-                $buff .= sprintf('$layout_info->menu->{%s}->name = "%s";',$id, $menus[$i]->name->body);
-                $buff .= sprintf('$layout_info->menu->{%s}->maxdepth = "%s";',$id, $menus[$i]->maxdepth->body);
-                $buff .= sprintf('$layout_info->menu->{%s}->xml_file = "./files/cache/layout/".$layout_srl."_%s.xml.php";',$id, $id);
-                $buff .= sprintf('$layout_info->menu->{%s}->php_file = "./files/cache/layout/".$layout_srl."_%s.php";',$id, $id);
+                $buff .= sprintf('$layout_info->menu->%s->id = "%s";',$id, $menus[$i]->attrs->id);
+                $buff .= sprintf('$layout_info->menu->%s->name = "%s";',$id, $menus[$i]->name->body);
+                $buff .= sprintf('$layout_info->menu->%s->maxdepth = "%s";',$id, $menus[$i]->maxdepth->body);
+
+                $buff .= sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $id, $id);
+                $buff .= sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$id, $id);
+                $buff .= sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$id, $id);
             }
 
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);
-
             if(file_exists($cache_file)) include $cache_file;
             return $layout_info;
         }

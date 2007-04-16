@@ -54,6 +54,11 @@
 
             Context::set('layout_info', $layout_info);
 
+            // 메뉴 목록을 가져옴
+            $oMenuModel = &getModel('menu');
+            $menu_list = $oMenuModel->getMenus();
+            Context::set('menu_list', $menu_list);
+
             $this->setTemplateFile('layout_modify');
         }
 
