@@ -1,11 +1,10 @@
-<filter name="delete_layout_menu" module="layout" act="procLayoutAdminDeleteMenu" confirm_msg_code="confirm_delete">
+<filter name="delete_menu" module="menu" act="procMenuAdminDelete" confirm_msg_code="confirm_delete">
     <form>
-        <node target="layout_srl" required="true" />
-        <node target="layout" required="true" />
+        <node target="menu_srl" required="true" />
         <node target="menu_srl" required="true" />
         <node target="menu_id" required="true" />
     </form>
-    <response callback_func="completeInsertLayoutMenu">
+    <response callback_func="completeInsertMenuMenu">
         <tag name="error" />
         <tag name="message" />
         <tag name="menu_srl" />

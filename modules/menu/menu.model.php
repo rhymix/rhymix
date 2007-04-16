@@ -67,7 +67,7 @@
          * @brief DB 에 생성된 메뉴의 목록을 구함
          * 생성되었다는 것은 DB에 등록이 되었다는 것을 의미 
          **/
-        function getMenuList() {
+        function getMenuItemList() {
             $output = executeQuery('menu.getMenuList');
             if(!$output->data) return;
 

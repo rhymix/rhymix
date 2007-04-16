@@ -41,23 +41,7 @@
 
             Context::set('menu_info', $menu_info);
 
-            $this->setTemplateFile('menu_info');
-        }
-
-        /**
-         * @brief 메뉴의 상세 정보(conf/info.xml)를 팝업 출력
-         **/
-        function dispMenuAdminInfo() {
-            // 선택된 메뉴 정보를 구함 
-            $oMenuModel = &getModel('menu');
-            $menu_info = $oMenuModel->getMenuInfo(Context::get('selected_menu'));
-            Context::set('menu_info', $menu_info);
-
-            // 메뉴을 팝업으로 지정
-            $this->setMenuFile('popup_menu');
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('menu_detail_info');
+            $this->setTemplateFile('menu_insert');
         }
 
         /**

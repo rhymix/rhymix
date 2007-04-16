@@ -1,11 +1,4 @@
-/* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
-function completeInsertLayout(ret_obj) {
-      var layout_srl = ret_obj['layout_srl'];
-      var url = location.href.setQuery('act','dispLayoutAdminMenu').setQuery('layout_srl',layout_srl);
-      location.href = url;
-} 
-
-/* 레이아웃메뉴 입력후 */ 
+/* 메뉴 입력후 */ 
 function completeInsertLayoutMenu(ret_obj) {
     var menu_id = ret_obj['menu_id'];
     var xml_file = ret_obj['xml_file'];
@@ -18,16 +11,7 @@ function completeInsertLayoutMenu(ret_obj) {
     if(!menu_srl) xInnerHtml("menu_zone_info_"+menu_id, "");
 } 
 
-/* 레이아웃 삭제 */
-function doDeleteLayout(layout_srl) {
-    var fo_obj = xGetElementById("fo_layout");
-    if(!fo_obj) return;
-    fo_obj.layout_srl.value = layout_srl;
-
-    procFilter(fo_obj, delete_layout);
-}
-
-/* 레이아웃 메뉴 삭제 */
+/* 메뉴 삭제 */
 function doDeleteLayoutMenu(menu_srl, menu_id) {
       var fo_obj = xGetElementById("fo_"+menu_id);
       if(!fo_obj) return;
@@ -35,7 +19,7 @@ function doDeleteLayoutMenu(menu_srl, menu_id) {
       procFilter(fo_obj, delete_layout_menu);
 }
 
-/* 레이아웃 메뉴에를 클릭시 적용할 함수 */
+/* 메뉴 클릭시 적용할 함수 */
 function doGetMenuInfo(menu_id, obj) {
     // layout, menu_id, node_srl을 추출
     var fo_obj = xGetElementById("fo_layout");
