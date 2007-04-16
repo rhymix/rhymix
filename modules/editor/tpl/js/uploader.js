@@ -254,7 +254,7 @@ function editor_insert_file(upload_target_srl) {
     var uploaded_filename = file_obj.uploaded_filename;
 
     // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
-    if(uploaded_filename) {
+    if(uploaded_filename.indexOf("binaries")==-1) {
         // 이미지 파일의 경우 image_link 컴포넌트 열결
         if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
             openComponent("image_link", upload_target_srl, uploaded_filename);
