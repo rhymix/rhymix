@@ -1,4 +1,4 @@
-<query id="updateLayoutMenuParent" action="update">
+<query id="updateMenuParent" action="update">
     <tables>
         <table name="menu" />
     </tables>

@@ -1,8 +1,8 @@
-<query id="deleteLayoutMenu" action="delete">
+<query id="deleteMenu" action="delete">
     <tables>
-        <table name="menu" />
+        <table name="menu_item" />
     </tables>
     <conditions>
-        <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="menu_item_srl" var="menu_item_srl" filter="number" notnull="notnull" />
     </conditions>
 </query>

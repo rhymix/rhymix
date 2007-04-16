@@ -1,4 +1,4 @@
-<query id="getLayoutMenuList" action="select">
+<query id="getMenuList" action="select">
     <tables>
         <table name="menu" />
     </tables>
@@ -6,7 +6,7 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
         <condition operation="equal" column="menu_id" var="menu_id" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>

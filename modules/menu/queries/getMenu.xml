@@ -1,4 +1,4 @@
-<query id="getLayoutMenu" action="select">
+<query id="getMenu" action="select">
     <tables>
         <table name="menu" />
     </tables>
