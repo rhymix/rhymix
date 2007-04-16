@@ -41,6 +41,8 @@ function xe_print_menu(menu_name, depth, print_child) {
         var menu_obj = menu_list[menu_key];
         if(typeof(menu_obj)=='undefined'||!menu_obj) continue;
 
+        if(!menu_obj.text && !menu_obj.normal_btn) continue;
+
         var className = menu_obj.className;
         if(menu_obj.selected) className = menu_obj.selectedClassName;
 

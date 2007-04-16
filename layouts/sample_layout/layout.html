@@ -46,38 +46,37 @@ xe_layout_menu['bottom_menu'][1][{$first_key}] = { "text":"{htmlspecialchars($fi
 
 </div>
 
-<!-- 중간 영역 -->
-<div class="layout_middle">
+<!-- 왼쪽 2차 메뉴 및 로그인과 기타 플러그인 부분 -->
+<div class="layout_left">
+    <!-- 로그인 플러그인 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
 
-    <!-- 왼쪽 2차 메뉴 및 로그인과 기타 플러그인 부분 -->
-    <div class="layout_left">
-        <!-- 로그인 플러그인 -->
-        <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
-
-        <!-- main_menu 2차 시작 -->
-        <div class="layout_second_menu">
-            <script type="text/javascript">
-                xe_print_menu('main_menu', 2, true);
-            </script>
-        </div>
-
-        <!--@if($logged_info->is_admin == 'Y')-->
-        <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
-        <div class="layout_admin">
-            <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
-        </div>
-        <!--@end-->
-    </div>
-
-    <!-- 컨텐츠 출력 부분 -->
-    <div class="layout_content" id="content">{$content}</div>
-</div>
-
-<!-- bottom_menu 메뉴 시작 -->
-<div class="layout_bottom">
-    <div class="layout_bottom_menu">
+    <!-- main_menu 2차 시작 -->
+    <div class="layout_second_menu">
         <script type="text/javascript">
-            xe_print_menu('bottom_menu', 1);
+            xe_print_menu('main_menu', 2, true);
         </script>
     </div>
+
+    <!--@if($logged_info->is_admin == 'Y')-->
+    <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
+    <div class="layout_admin">
+        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminMenu','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+    </div>
+    <!--@end-->
+</div>
+
+<!-- 컨텐츠 출력 부분 -->
+<div class="layout_content">
+    <div id="content">{$content}</div>
+
+    <!-- bottom_menu 메뉴 시작 -->
+    <div class="layout_bottom">
+        <div class="layout_bottom_menu">
+            <script type="text/javascript">
+                xe_print_menu('bottom_menu', 1);
+            </script>
+        </div>
+    </div>
+
 </div>

@@ -13,7 +13,7 @@ body {
  * 상단 로고 및 메인 1차 메뉴 
  **/
 .layout_top {
-    margin:10px;
+    margin:10px 10px 0px 10px;
 }
 
 /* 상단 로고 부분 */
@@ -25,7 +25,7 @@ body {
 }
 
 /* 상단 1차 메뉴 */
-.layout_first_menu{
+.layout_first_menu {
     border-bottom:2px solid #DDDDDD;
     width:100%;
     text-align:right;
@@ -33,20 +33,15 @@ body {
 }
 
 /**
- * 중간 영역 (왼쪽 메뉴 + 컨텐츠)
- **/
-.layout_middle {
-    margin:10px;
-    clear:both;
-}
-
-/**
  * 좌측 메뉴 및 메인 2차 메뉴, 로그인 플러그인 및 기타
  **/
 .layout_left {
     width:220px;
-    margin-right:10px;
     float:left;
+    margin-top:10px;
+    position:absolute;
+    left:10px;
+    z-index:10;
 }
 
 /* 좌측 2차 메뉴 */
@@ -70,8 +65,11 @@ body {
 .layout_content {
     position:absolute;
     left:0px;
-    padding:0px 0px 0px 240px;
-    margin-right:10px;
+    padding:10px 10px 0px 240px;
+    z-index:1;
+}
+
+#content {
 }
 
 /**
@@ -79,6 +77,7 @@ body {
  **/
 .layout_bottom {
     clear:both;
+    margin-top:20px;
 }
 
 /* 하단 메뉴 */
@@ -190,3 +189,4 @@ body {
     font-weight:bold;
     text-decoration:none;
 }
+
