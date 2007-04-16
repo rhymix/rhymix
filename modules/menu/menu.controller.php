@@ -124,7 +124,7 @@
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
             // url에 mid=? 있을 경우 기록 남김
-            if(sbustr($args->url,0,4)=='mid=') {
+            if(substr($args->url,0,4)=='mid=') {
                 $mid = substr($args->url,4);
                 $oModuleController = &getController('module');
                 $oModuleController->updateModuleMenu($mid, $args->menu_srl);
