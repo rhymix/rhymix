@@ -9,6 +9,7 @@
         <column name="modules.browser_title" alias="browser_title" />
         <column name="modules.description" alias="description" />
         <column name="modules.module" alias="module" />
+        <column name="modules.layout_srl" alias="layout_srl" />
         <column name="modules.is_default" alias="is_default" />
         <column name="modules.menu_srl" alias="menu_srl" />
         <column name="modules.extra_vars" alias="extra_vars" />
