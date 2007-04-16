@@ -30,6 +30,20 @@
         }
 
         /**
+         * @brief 메뉴 제목 변경 
+         **/
+        function procMenuAdminUpdate() {
+            // 입력할 변수 정리
+            $args->title = Context::get('title');
+            $args->menu_srl = Context::get('menu_srl');
+
+            $output = executeQuery('menu.updateMenu', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_registed');
+        }
+
+        /**
          * @brief 메뉴 삭제
          * menu_item과 xml 캐시 파일 모두 삭제
          **/
@@ -108,6 +122,10 @@
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->menu_srl);
+
+            // url에 mid=? 또는 module=? 가 있을 경우 기록 남김
+            if(eregi("^(mid|module)", $args->url)) {
+            }
 
             $this->add('xml_file', $xml_file);
             $this->add('menu_srl', $args->menu_srl);

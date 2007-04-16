@@ -9,8 +9,8 @@
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
 
         <action name="procMenuAdminInsert" type="controller" standalone="true" />
+        <action name="procMenuAdminUpdate" type="controller" standalone="true" />
         <action name="procMenuAdminDelete" type="controller" standalone="true" />
-
         <action name="procMenuAdminInsertItem" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
