@@ -73,7 +73,7 @@
         <th>{$lang->plugin}</th>
         <td>
                 <!--@foreach($plugin_list as $plugin)-->
-                <a href="#" onclick="popopen('./?module=plugin&amp;act=dispPluginGenerateCodeInPage&amp;selected_plugin={$plugin->plugin}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$plugin->title}</a>
+                [<a href="#" onclick="popopen('./?module=plugin&amp;act=dispPluginGenerateCodeInPage&amp;selected_plugin={$plugin->plugin}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$plugin->title}</a>]
                 <!--@end-->
         </td>
     </tr>
