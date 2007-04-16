@@ -22,6 +22,17 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         return;
     }
 
+    var orig_width = 0;
+    var orig_height = 0;
+    var node = opener.editorPrevNode;
+    if(node) {
+        orig_width = parseInt(xWidth(node),10)-6;
+        orig_height = parseInt(xHeight(node),10)-6;
+
+        plugin_code = plugin_code.replace(/width([^p]+)px/ig,'width:'+orig_width+'px');
+        plugin_code = plugin_code.replace(/height([^p]+)px/ig,'height:'+orig_height+'px');
+    }
+
     opener.editorFocus(module_srl);
     var iframe_obj = opener.editorGetIFrame(module_srl);
     opener.editorReplaceHTML(iframe_obj, plugin_code);
