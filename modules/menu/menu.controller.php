@@ -123,8 +123,11 @@
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
-            // url에 mid=? 또는 module=? 가 있을 경우 기록 남김
-            if(eregi("^(mid|module)", $args->url)) {
+            // url에 mid=? 있을 경우 기록 남김
+            if(sbustr($args->url,0,4)=='mid=') {
+                $mid = substr($args->url,4);
+                $oModuleController = &getController('module');
+                $oModuleController->updateModuleMenu($mid, $args->menu_srl);
             }
 
             $this->add('xml_file', $xml_file);

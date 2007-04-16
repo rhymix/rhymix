@@ -1,0 +1,9 @@
+<filter name="update_menu_title" module="menu" act="procMenuAdminUpdate" confirm_msg_code="confirm_modify">
+    <form>
+        <node target="menu_srl" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -41,9 +41,30 @@
             unset($extra_vars->layout);
             unset($extra_vars->title);
 
-            // DB에 입력하기 위한 변수 설정 
             $args = Context::gets('layout_srl','title');
+
+            // 레이아웃의 정보를 가져옴
+            $oLayoutModel = &getModel('layout');
+            $layout_info = $oLayoutModel->getLayout($args->layout_srl);
+            $menus = get_object_vars($layout_info->menu);
+            if(count($menus)) {
+                foreach($menus as $menu_id => $val) {
+                    $menu_srl = Context::get($menu_id);
+                    if($menu_srl) {
+                        $menu_srl_list[] = $menu_srl;
+                    }
+                }
+
+                // 정해진 메뉴가 있으면 해당 메뉴에 속한 모듈/mid의 layout값을 모두 변경
+                if(count($menu_srl_list)) {
+                    $oModuleController = &getController('module');
+                    $oModuleController->updateModuleLayout($args->layout_srl, implode(',',$menu_srl_list));
+                }
+            }
+            
+            // DB에 입력하기 위한 변수 설정 
             $args->extra_vars = serialize($extra_vars);
+
 
             $output = executeQuery('layout.updateLayout', $args);
             if(!$output->toBool()) return $output;
