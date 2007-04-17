@@ -19,6 +19,11 @@
             <type>text</type>
             <description xml:lang="ko">트리메뉴의 가장 상위에 표시될 이름을 입력하세요.</description>
         </var>
+        <var id="home_url">
+            <name xml:lang="ko">홈 url</name>
+            <type>text</type>
+            <description xml:lang="ko">home이나 상단 제목 클릭시 이동할 홈 url을 입력해주세요.</description>
+        </var>
         <var id="colorset">
             <name xml:lang="ko">컬러셋</name>
             <type>select</type>
