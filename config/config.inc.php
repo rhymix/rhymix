@@ -29,7 +29,7 @@
      * 2 : 1 + DB 쿼리
      * 3 : 모든 로그
      **/
-    define('__DEBUG__', 3);
+    define('__DEBUG__', 1);
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());
 

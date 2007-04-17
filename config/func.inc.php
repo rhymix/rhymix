@@ -143,8 +143,7 @@
         if(!$buff) return;
 
         if(__DEBUG_OUTPUT__==1) {
-            $header = sprintf("<!--\n%s\n-->", print_r($buff,true));
-            Context::addHtmlHeader($header);
+            print sprintf("<!--\n%s\n-->", print_r($buff,true));
         } else {
             $debug_file = "./files/_debug_message.php";
             $buff = sprintf("%s\n",print_r($buff,true));
