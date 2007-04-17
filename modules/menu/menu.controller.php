@@ -143,6 +143,7 @@
             $this->add('menu_srl', $args->menu_srl);
             $this->add('menu_item_srl', $args->menu_item_srl);
             $this->add('menu_title', $menu_title);
+            $this->add('parent_srl', $args->parent_srl);
         }
 
         /**

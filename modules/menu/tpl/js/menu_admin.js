@@ -68,12 +68,17 @@ function completeInsertMenuItem(ret_obj) {
     var menu_title = ret_obj['menu_title'];
     var menu_srl = ret_obj['menu_srl'];
     var menu_item_srl = ret_obj['menu_item_srl'];
+    var parent_srl = ret_obj['parent_srl'];
 
     if(!xml_file) return;
 
     loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, doGetMenuItemInfo, menu_item_srl, doMoveTree);
 
     if(!menu_srl) xInnerHtml("menu_zone_info", "");
+    else {
+        var params = {node_srl:menu_item_srl, parent_srl:parent_srl}
+        doGetMenuItemInfo('menu', params)
+    }
 } 
 
 
