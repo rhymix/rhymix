@@ -73,6 +73,7 @@
                     <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
                     <!--@end-->
                 </select>
+                <input type="button" value="{$lang->cmd_management}" onclick="doMenuManagement('{$menu_id}');return false;"/>
             </td>
         </tr>
         <!--@end-->
