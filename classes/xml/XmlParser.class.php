@@ -74,10 +74,7 @@
             $output = array_shift($this->output);
 
             // 디버그를 위한 컴파일 시작 시간 저장
-            if(__DEBUG__) {
-                $parsing_elapsed = getMicroTime() - $start;
-                $GLOBALS['__xmlparse_elapsed__'] += $parsing_elapsed;
-            }
+            if(__DEBUG__) $GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
 
             return $output;
         }
