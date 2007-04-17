@@ -652,7 +652,7 @@
          * @brief HtmlHeader 추가
          **/
         function _addHtmlHeader($header) {
-            $this->html_header .= ($this->html_header?"\n":"").$header;
+            $this->html_header .= "\n".$header;
         }
 
         /**

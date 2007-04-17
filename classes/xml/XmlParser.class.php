@@ -35,7 +35,7 @@
          **/
         function parse($input = '') {
             // 디버그를 위한 컴파일 시작 시간 저장
-            if(__DEBUG__) $start = getMicroTime();
+            if(__DEBUG__==3) $start = getMicroTime();
 
             $this->lang = Context::getLangType();
 
@@ -74,7 +74,7 @@
             $output = array_shift($this->output);
 
             // 디버그를 위한 컴파일 시작 시간 저장
-            if(__DEBUG__) $GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
+            if(__DEBUG__==3) $GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
 
             return $output;
         }

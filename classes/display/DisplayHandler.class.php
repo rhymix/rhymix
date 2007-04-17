@@ -137,31 +137,44 @@
         /**
          * @brief 디버그 모드일 경우 디버기 메세지 출력
          *
-         * __DEBUG__가 true일 경우 각 부분의 실행시간등을 debugPrint 함수를 이용해서 출력\n
-         * 개발시나 테스트시에 config/config.inc.php의 __DEBUG__를 true로 세팅하고\n
+         * __DEBUG__가 1이상일 경우 각 부분의 실행시간등을 debugPrint 함수를 이용해서 출력\n
+         * 개발시나 테스트시에 config/config.inc.php의 __DEBUG__를 세팅하고\n
          * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함\n
          **/
         function _debugOutput() {
             if(!__DEBUG__) return;
             $end = getMicroTime();
 
+            // debug string 작성 시작
             $buff  = "\n\n** Debug at ".date('Y-m-d H:i:s')." ************************************************************\n";
+
+            // Request/Response 정보 작성
             $buff .= "\n- Request/ Response info\n";
             $buff .= sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s\n", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']?'?':'', $_SERVER['QUERY_STRING']);
             $buff .= sprintf("\tRequest method \t\t\t: %s\n", $_SERVER['REQUEST_METHOD']);
             $buff .= sprintf("\tResponse method \t\t: %s\n", Context::getResponseMethod());
             $buff .= sprintf("\tResponse contents size\t\t: %d byte\n", $this->getContentSize());
-            if($GLOBALS['__db_queries__']) {
-            $buff .= "\n- DB Queries\n";
-            $buff .= $GLOBALS['__db_queries__'];
-            }
-            $buff .= "\n- Elapsed time\n";
 
-            if($GLOBALS['__db_elapsed_time__']) $buff .= sprintf("\tDB queries elapsed time\t\t: %0.5f sec\n", $GLOBALS['__db_elapsed_time__']);
-            $buff .= sprintf("\tclass file load elapsed time \t: %0.5f sec\n", $GLOBALS['__elapsed_class_load__']);
-            $buff .= sprintf("\tTemplate compile elapsed time\t: %0.5f sec\n", $GLOBALS['__template_elapsed__']);
-            $buff .= sprintf("\tXmlParse compile elapsed time\t: %0.5f sec\n", $GLOBALS['__xmlparse_elapsed__']);
-            $buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__xmlparse_elapsed__']-$GLOBALS['__db_elapsed_time__']-$GLOBALS['__elapsed_class_load__']);
+            // DB 로그 작성
+            if(__DEBUG__>1) {
+                if($GLOBALS['__db_queries__']) {
+                $buff .= "\n- DB Queries\n";
+                $buff .= $GLOBALS['__db_queries__'];
+                }
+                $buff .= "\n- Elapsed time\n";
+
+                if($GLOBALS['__db_elapsed_time__']) $buff .= sprintf("\tDB queries elapsed time\t\t: %0.5f sec\n", $GLOBALS['__db_elapsed_time__']);
+            }
+
+            // 기타 로그 작성
+            if(__DEBUG__==3) {
+                $buff .= sprintf("\tclass file load elapsed time \t: %0.5f sec\n", $GLOBALS['__elapsed_class_load__']);
+                $buff .= sprintf("\tTemplate compile elapsed time\t: %0.5f sec\n", $GLOBALS['__template_elapsed__']);
+                $buff .= sprintf("\tXmlParse compile elapsed time\t: %0.5f sec\n", $GLOBALS['__xmlparse_elapsed__']);
+                $buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__xmlparse_elapsed__']-$GLOBALS['__db_elapsed_time__']-$GLOBALS['__elapsed_class_load__']);
+            }
+
+            // 전체 실행 시간 작성
             $buff .= sprintf("\tTotal elapsed time \t\t: %0.5f sec", $end-__StartTime__);
 
             debugPrint($buff, false);

@@ -140,15 +140,21 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        if($buff == null) $buff = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $debug_file = "./files/_debug_message.php";
-        $buff = sprintf("%s\n",print_r($buff,true));
+        if(!$buff) return;
 
-        if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
+        if(__DEBUG_OUTPUT__==1) {
+            $header = sprintf("<!--\n%s\n-->", print_r($buff,true));
+            Context::addHtmlHeader($header);
+        } else {
+            $debug_file = "./files/_debug_message.php";
+            $buff = sprintf("%s\n",print_r($buff,true));
 
-        if(@!$fp = fopen($debug_file,"a")) return;
-        fwrite($fp, $buff);
-        fclose($fp);
+            if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
+
+            if(@!$fp = fopen($debug_file,"a")) return;
+            fwrite($fp, $buff);
+            fclose($fp);
+        }
     }
 
     /**

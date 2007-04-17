@@ -16,13 +16,22 @@
     require_once("./config/func.inc.php");
 
     /**
-     * @brief debug mode = true 일때 files/_debug_message.php 에 디버그 내용이 쌓임
+     * @brief 디버그 메세지의 출력 장소 
+     * 0 : files/_debug_message.php 에 연결하여 출력
+     * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최상단에 주석으로 표시
      **/
-    define('__DEBUG__', true);
-    if(__DEBUG__) {
-        // 여기서부터 시작 시간으로 설정
-        define('__StartTime__', getMicroTime());
-    }
+    define('__DEBUG_OUTPUT__', 1);
+
+    /**
+     * @brief 디버깅 메세지 출력
+     * 0 : 디버그 메세지를 생성/ 출력하지 않음
+     * 1 : 전체 실행 시간에 대해서만 메세지 생성/ 출력
+     * 2 : 1 + DB 쿼리
+     * 3 : 모든 로그
+     **/
+    define('__DEBUG__', 3);
+
+    if(__DEBUG__) define('__StartTime__', getMicroTime());
 
     /**
      * @brief 기본적인 class 파일 include
