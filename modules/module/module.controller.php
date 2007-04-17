@@ -280,7 +280,7 @@
          * @brief 지정된 menu_srl에 속한 mid 의 layout_srl을 변경 
          **/
         function updateModuleLayout($layout_srl, $menu_srl_list) {
-            if(!count($menu_srls)) return;
+            if(!count($menu_srl_list)) return;
 
             $args->layout_srl = $layout_srl;
             $args->menu_srls = implode(',',$menu_srl_list);

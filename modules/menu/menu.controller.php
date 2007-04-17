@@ -136,7 +136,7 @@
 
                 // 해당 mid의 메뉴값을 선택된 메뉴로 변경
                 $oModuleController = &getController('module');
-                $oModuleController->updateModuleMenu($args);
+                $oModuleController->updateModuleMenu($mid_args);
             }
 
             $this->add('xml_file', $xml_file);
@@ -403,12 +403,14 @@
          * 레이아웃에서 메뉴를 지정할때 지정된 메뉴의 기본 레이아웃을 매핑
          **/
         function updateMenuLayout($layout_srl, $menu_srl_list) {
-            if(!count($menu_srls)) return;
+            if(!count($menu_srl_list)) return;
 
             // 일단 menu_srls의 값을 지움
-            $args->menu_srls = $menu_srls;
+            $args->menu_srls = implode(',',$menu_srl_list);
             $output = executeQuery('menu.deleteMenuLayout', $args);
             if(!$output->toBool()) return $output;
+
+            $args->layout_srl = $layout_srl;
 
             // menu_srls, layout_srl 매핑
             for($i=0;$i<count($menu_srl_list);$i++) {
