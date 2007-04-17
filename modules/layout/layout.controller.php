@@ -55,10 +55,15 @@
                     }
                 }
 
-                // 정해진 메뉴가 있으면 해당 메뉴에 속한 모듈/mid의 layout값을 모두 변경
+                // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
                 if(count($menu_srl_list)) {
+                    // 해당 메뉴와 레이아웃 값을 매핑
+                    $oMenuController = &getController('menu');
+                    $oMenuController->updateMenuLayout($args->layout_srl, $menu_srl_list);
+
+                    // 해당 메뉴에 속한 mid의 layout값을 모두 변경
                     $oModuleController = &getController('module');
-                    $oModuleController->updateModuleLayout($args->layout_srl, implode(',',$menu_srl_list));
+                    $oModuleController->updateModuleLayout($args->layout_srl, $menu_srl_list);
                 }
             }
             

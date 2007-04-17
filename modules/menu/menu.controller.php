@@ -126,8 +126,17 @@
             // url에 mid=? 있을 경우 기록 남김
             if(substr($args->url,0,4)=='mid=') {
                 $mid = substr($args->url,4);
+
+                $mid_args->menu_srl = $args->menu_srl;
+                $mid_args->mid = $mid;
+
+                // menu_srl에 해당하는 레이아웃 값을 구함
+                $output = executeQuery('menu.getMenuLayout', $args); 
+                if($output->data->layout_srl) $mid_args->layout_srl = $output->data->layout_srl;
+
+                // 해당 mid의 메뉴값을 선택된 메뉴로 변경
                 $oModuleController = &getController('module');
-                $oModuleController->updateModuleMenu($mid, $args->menu_srl);
+                $oModuleController->updateModuleMenu($args);
             }
 
             $this->add('xml_file', $xml_file);
@@ -388,5 +397,26 @@
             }
             return $output;
         }
+
+        /**
+         * @brief 메뉴와 레이아웃 매핑
+         * 레이아웃에서 메뉴를 지정할때 지정된 메뉴의 기본 레이아웃을 매핑
+         **/
+        function updateMenuLayout($layout_srl, $menu_srl_list) {
+            if(!count($menu_srls)) return;
+
+            // 일단 menu_srls의 값을 지움
+            $args->menu_srls = $menu_srls;
+            $output = executeQuery('menu.deleteMenuLayout', $args);
+            if(!$output->toBool()) return $output;
+
+            // menu_srls, layout_srl 매핑
+            for($i=0;$i<count($menu_srl_list);$i++) {
+                $args->menu_srl = $menu_srl_list[$i];
+                $output = executeQuery('menu.insertMenuLayout', $args);
+                if(!$output->toBool()) return $output;
+            }
+        }
+
     }
 ?>

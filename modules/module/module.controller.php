@@ -272,18 +272,18 @@
         /**
          * @brief 지정된 menu_srl에 속한 mid 의 menu_srl 을 변경 
          **/
-        function updateModuleMenu($mid, $menu_srl) {
-            $args->mid = $mid;
-            $args->menu_srl = $menu_srl;
+        function updateModuleMenu($args) {
             return executeQuery('module.updateModuleMenu', $args);
         }
 
         /**
          * @brief 지정된 menu_srl에 속한 mid 의 layout_srl을 변경 
          **/
-        function updateModuleLayout($layout_srl, $menu_srls) {
+        function updateModuleLayout($layout_srl, $menu_srl_list) {
+            if(!count($menu_srls)) return;
+
             $args->layout_srl = $layout_srl;
-            $args->menu_srls = $menu_srls;
+            $args->menu_srls = implode(',',$menu_srl_list);
             return executeQuery('module.updateModuleLayout', $args);
         }
     }
