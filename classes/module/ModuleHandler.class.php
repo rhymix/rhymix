@@ -237,7 +237,7 @@
         /**
          * @brief 모듈 객체를 생성함
          **/
-        function getModuleInstance($module, $type = 'view') {
+        function &getModuleInstance($module, $type = 'view') {
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return NULL;
 

@@ -22,7 +22,7 @@
      * @param type disp, proc, controller, class
      * @return module instance
      **/
-    function getModule($module_name, $type = 'view') {
+    function &getModule($module_name, $type = 'view') {
         return ModuleHandler::getModuleInstance($module_name, $type);
     }
 
