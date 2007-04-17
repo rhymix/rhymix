@@ -14,6 +14,7 @@ body {
  **/
 .layout_top {
     margin:10px 10px 0px 10px;
+    width:890px;
 }
 
 /* 상단 로고 부분 */
@@ -67,6 +68,7 @@ body {
     left:0px;
     padding:10px 10px 0px 240px;
     z-index:1;
+    width:660px;
 }
 
 #content {
