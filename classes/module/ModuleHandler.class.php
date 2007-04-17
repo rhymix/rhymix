@@ -241,6 +241,8 @@
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return NULL;
 
+            if(__DEBUG__) $start_time = getMicroTime();
+
             // global 변수에 미리 생성해 둔 객체가 없으면 새로 생성
             if(!$GLOBALS['_loaded_module'][$module][$type]) {
 
@@ -295,6 +297,8 @@
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type] = $oModule;
             }
+
+            if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type];

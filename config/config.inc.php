@@ -20,12 +20,6 @@
      **/
     define('__DEBUG__', true);
     if(__DEBUG__) {
-        
-        // php5이상이면 error handling을 handleError() 로 set
-        //if (version_compare(phpversion(), '5.0') > 0) {
-            //set_error_handler("handleError");
-        //}
-
         // 여기서부터 시작 시간으로 설정
         define('__StartTime__', getMicroTime());
     }
@@ -35,7 +29,7 @@
      *
      * php5 기반으로 바꾸게 되면 _autoload를 이용할 수 있기에 제거 대상
      **/
-    if(__DEBUG__) define('__RequireClassStartTime__', getMicroTime());
+    if(__DEBUG__) define('__ClassLosdStartTime__', getMicroTime());
     require_once("./classes/handler/Handler.class.php");
     require_once("./classes/xml/XmlParser.class.php");
     require_once("./classes/context/Context.class.php");
@@ -47,7 +41,7 @@
     require_once("./classes/module/ModuleObject.class.php");
     require_once("./classes/module/ModuleHandler.class.php");
     require_once("./classes/display/DisplayHandler.class.php");
-    if(__DEBUG__) define('__RequireClassEndTime__', getMicroTime());
+    if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLosdStartTime__;
 
     /**
      * @brief 세션 설정
