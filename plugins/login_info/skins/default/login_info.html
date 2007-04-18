@@ -3,81 +3,45 @@
     <!--%import("normal/style.css")-->
 <!--@end-->
 
-<!-- 로그인 사용자일 경우 로그인 정보를 출력 -->
-<!--@if($logged_info)-->
-    <!--%import("./filter/logout.xml")-->
-    <div class="login_plugin">
+<!--%import("./filter/logout.xml")-->
+<div class="login_plugin">
 
-        <!-- 닉네임 + 로그아웃 -->
-        <div class="top_box">
-            <div class="logout">
-                <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
-            </div>
-            <div class="nick_name">
-                <div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div>
-            </div>
+    <!-- 닉네임 + 로그아웃 -->
+    <div class="top_box">
+        <div class="logout">
+            <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
         </div>
-
-        <div class="info_box">
-
-            <!-- 정보 수정 링크 -->
-            <div class="member_info">
-                <a href="#" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;">{$lang->cmd_view_member_info}</a>
-            </div>
-
-            <div class="friend_list">
-                <a href="#" onclick="popopen('{getUrl('','module','member','act','dispMemberFriend')}','sendMessage');return false;">{$lang->cmd_view_friend}</a>
-            </div>
-
-            <div class="message_box">
-                <a href="#" onclick="location.href='{getUrl('act','dispMemberMessages')}';return false;">{$lang->cmd_view_message_box}</a>
-            </div>
-
-            <!-- 관리자일 경우 관리자 링크 -->
-            <!--@if($logged_info->is_admin=="Y")-->
-                <div class="link_admin">
-                    <a href="#" onclick="winopen('./?module=admin');return false;">{$lang->cmd_management}</a>
-                </div>
-            <!--@end-->
-
-            <!-- 최종 록그인 시간 -->
-            <div class="last_login">
-                {$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}
-            </div>
-
+        <div class="nick_name">
+            <div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div>
         </div>
     </div>
 
-<!-- 비로그인 사용자일 경우 로그인 폼을 출력 -->
-<!--@else-->
-    <!--%import("./filter/login.xml")-->
-    <!--%import("./js/login.js")-->
+    <div class="info_box">
 
-    <div class="login_plugin">
-        <form action="./" method="get" onsubmit="return procFilter(this, plugin_login)" id="fo_login_plugin">
-            <div class="login_box">
-                <div class="header">{$lang->user_id}</div>
-                <div class="body">
-                    <div><input type="text" name="user_id" id="login_form_user_id" class="input" /></div>
-                    <div>
-                        <input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" />
-                        <label for="chk_remember_user_id">{$lang->remember_user_id}</label>
-                    </div>
-                </div>
+        <!-- 정보 수정 링크 -->
+        <div class="member_info">
+            <a href="#" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;">{$lang->cmd_view_member_info}</a>
+        </div>
 
+        <div class="friend_list">
+            <a href="#" onclick="popopen('{getUrl('','module','member','act','dispMemberFriend')}','sendMessage');return false;">{$lang->cmd_view_friend}</a>
+        </div>
 
-                <div class="header">{$lang->password}</div>
-                <div class="body"><input type="password" name="password" class="input" /></div>
+        <div class="message_box">
+            <a href="#" onclick="location.href='{getUrl('act','dispMemberMessages')}';return false;">{$lang->cmd_view_message_box}</a>
+        </div>
+
+        <!-- 관리자일 경우 관리자 링크 -->
+        <!--@if($logged_info->is_admin=="Y")-->
+            <div class="link_admin">
+                <a href="#" onclick="winopen('./?module=admin');return false;">{$lang->cmd_management}</a>
             </div>
+        <!--@end-->
 
-            <div class="button_area">
-                <input type="submit" value="{$lang->cmd_login}" class="submit_button" /> 
-                <input type="button" value="{$lang->cmd_signup}" class="signup_button" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}';return false;" />
-            </div>
-        </form>
+        <!-- 최종 록그인 시간 -->
+        <div class="last_login">
+            {$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}
+        </div>
 
-        <script type="text/javascript">
-            xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_plugin"); });
-        </script>
     </div>
-<!--@end-->
+</div>

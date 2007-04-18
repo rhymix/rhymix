@@ -24,7 +24,8 @@
             Context::set('colorset', $args->colorset);
 
             // 템플릿 파일을 지정
-            $tpl_file = 'login_info';
+            if(Context::get('is_logged')) $tpl_file = 'login_info';
+            else $tpl_file = 'login_form';
 
             // 템플릿 컴파일
             $oTemplate = new TemplateHandler();
