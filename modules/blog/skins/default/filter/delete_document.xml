@@ -1,4 +1,4 @@
-<filter name="delete_document" module="board" act="procBoardDeleteDocument">
+<filter name="delete_document" module="blog" act="procBlogDeleteDocument">
   <form>
     <node target="document_srl" required="true" />
   </form>

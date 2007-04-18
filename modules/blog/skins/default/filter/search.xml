@@ -1,4 +1,4 @@
-<filter name="search" module="board">
+<filter name="search" module="blog">
   <form>
     <node target="search_target" required="true" />
     <node target="search_keyword" minlegnth="2" maxlength="40" required="true" />

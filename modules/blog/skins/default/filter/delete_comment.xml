@@ -1,4 +1,4 @@
-<filter name="delete_comment" module="board" act="procBoardDeleteComment">
+<filter name="delete_comment" module="blog" act="procBlogDeleteComment">
   <form>
     <node target="comment_srl" required="true" />
   </form>
