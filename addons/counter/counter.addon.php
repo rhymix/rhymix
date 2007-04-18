@@ -12,8 +12,8 @@
      * 파일내에서 이루어집니다.
      **/
 
-    // called_position가 before_module_init 일때만 실행
-    if($called_position == 'before_module_init') {
+    // called_position가 before_module_init 이고 module이 admin이 아닐 경우
+    if($called_position == 'before_module_init' && $this->module != 'admin') {
         Context::addJsFile('./modules/counter/tpl/js/counter.js');
     }
 ?>

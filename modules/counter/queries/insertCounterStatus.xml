@@ -1,8 +1,0 @@
-<query id="insertCounterStatus" action="insert">
-    <tables>
-        <table name="counter_status" />
-    </tables>
-    <columns>
-        <column name="regdate" var="regdate" default="curdate()" />
-    </columns>
-</query>

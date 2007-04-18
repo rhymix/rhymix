@@ -6,7 +6,7 @@
         <column name="count(*)" alias="count"/>
     </columns>
     <conditions>
-        <condition operation="equal" column="regdate" var="regdate" default="curdate()" notnull="notnull" />
-        <condition operation="equal" column="ipaddress" var="ipaddress" default="ipaddress()" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" default="ipaddress()" notnull="notnull" />
+        <condition operation="like_tail" column="regdate" var="regdate" notnull="notnull" pipe="and" />
     </conditions>
 </query>

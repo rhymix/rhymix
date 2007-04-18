@@ -1,13 +1,13 @@
 <query id="updateCounterUnique" action="update">
     <tables>
-        <table name="documents" />
+        <table name="counter_status" />
     </tables>
     <columns>
         <column name="unique_visitor" default="plus(1)" />
         <column name="pageview" default="plus(1)" />
     </columns>
     <conditions>
-        <condition operation="equal" column="regdate" default="00000000000000" />
-        <condition operation="equal" column="regdate" default="curdate()" pipe="or" />
+        <condition operation="equal" column="regdate" notnull="notnull" default="00000000000000" />
+        <condition operation="equal" column="regdate" var="regdate" notnull="notnull" pipe="or" />
     </conditions>
 </query>

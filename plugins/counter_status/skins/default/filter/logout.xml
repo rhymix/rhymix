@@ -1,0 +1,7 @@
+<filter name="plugin_logout" module="member" act="procMemberLogout">
+  <form />
+  <response>
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

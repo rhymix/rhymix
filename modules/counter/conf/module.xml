@@ -3,5 +3,6 @@
     <grants />
     <actions>
         <action name="dispCounterAdminIndex" type="view" admin_index="true" standalone="true" />
+        <action name="procCounterExecute" type="controller" standalone="true" />
     </actions>
 </module>

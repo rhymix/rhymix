@@ -14,18 +14,71 @@
         }
 
         /**
-         * @brief 로그 등록 
+         * @brief 카운터 기록
          **/
-        function insertLog() {
-            return executeQuery('counter.insertCounterLog');
+        function procCounterExecute() {
+            // 로그를 검사
+            $oCounterModel = &getModel('counter');
+
+            // 오늘자 row가 있는지 체크하여 없으면 등록
+            if(!$oCounterModel->isInsertedTodayStatus()) {
+                $this->insertTodayStatus();
+
+            // 기존 row가 있으면 사용자 체크 
+            } else {
+
+                // 등록되어 있지 않은 아이피일 경우
+                if(!$oCounterModel->isLogged()) {
+                    // 로그 등록
+                    $this->insertLog();
+
+                    // unique 및 pageview 등록
+                    $this->insertUniqueVisitor();
+                } else {
+                    // pageview 등록
+                    $this->insertPageView();
+                }
+            }
         }
 
         /**
-         * @brief 현황 등록
+         * @brief 로그 등록 
          **/
-        function insertStatus() {
-            return executeQuery('counter.insertCounterStatus');
+        function insertLog() {
+            $args->regdate = date("YmdHis");
+            $args->user_agent = $_SERVER['HTTP_USER_AGENT'];
+            return executeQuery('counter.insertCounterLog', $args);
         }
 
+        /**
+         * @brief unique visitor 등록
+         **/
+        function insertUniqueVisitor() {
+            $args->regdate = date("Ymd000000");
+            return executeQuery('counter.updateCounterUnique', $args);
+        }
+
+        /**
+         * @brief pageview 등록
+         **/
+        function insertPageView() {
+            $args->regdate = date("Ymd000000");
+            return executeQuery('counter.updateCounterPageview', $args);
+        }
+
+        /**
+         * @brief 오늘자 카운터 status 추가
+         **/
+        function insertTodayStatus($regdate = 0) {
+            if($regdate) $args->regdate = $regdate;
+            else $args->regdate = date("Ymd000000");
+            executeQuery('counter.insertTodayStatus', $args);
+
+            // 로그 등록
+            $this->insertLog();
+
+            // unique 및 pageview 등록
+            $this->insertUniqueVisitor();
+        }
     }
 ?>

@@ -1,4 +1,4 @@
-<query id="getCounterStatus.xml" action="select">
+<query id="getCounterStatus" action="select">
     <tables>
         <table name="counter_status" />
     </tables>
@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="regdate" var="regdate" notnull="notnull" />
+        <condition operation="in" column="regdate" var="regdate" notnull="notnull" />
     </conditions>
 </query>
