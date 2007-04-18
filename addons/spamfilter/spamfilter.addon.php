@@ -11,7 +11,7 @@
      **/
 
     // called_position가 before_module_proc 일때만 실행
-    if($this->called_position != 'before_module_proc') return;
+    if($called_position != 'before_module_proc') return;
 
     // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
     $effecived_target = array(
