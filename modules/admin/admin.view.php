@@ -32,6 +32,8 @@
             // 현재 실행중인 모듈을 구해 놓음
             $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z]+)(.*)/', '\\2\\3', $this->act));
             Context::set('running_module', $running_module);
+
+            Context::setBrowserTitle("ZeroboardXE Admin Page");
         }
 
         /**
