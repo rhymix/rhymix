@@ -1,11 +1,12 @@
-<query id="getDeniedIPList" action="select">
+<query id="getCounterLog" action="select">
     <tables>
-        <table name="spamfilter_denied_ip" />
+        <table name="counter_log" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="count(*)" alias="count"/>
     </columns>
-    <navigation>
-        <index var="sort_index" default="regdate" order="desc" />
-    </navigation>
+    <conditions>
+        <condition operation="equal" column="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" default="ipaddress()" notnull="notnull" pipe="and" />
+    </conditions>
 </query>

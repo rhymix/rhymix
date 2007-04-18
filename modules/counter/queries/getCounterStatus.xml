@@ -1,11 +1,11 @@
-<query id="getDeniedIPList" action="select">
+<query id="getCounterStatus.xml" action="select">
     <tables>
-        <table name="spamfilter_denied_ip" />
+        <table name="counter_status" />
     </tables>
     <columns>
         <column name="*" />
     </columns>
-    <navigation>
-        <index var="sort_index" default="regdate" order="desc" />
-    </navigation>
+    <conditions>
+        <condition operation="equal" column="regdate" var="regdate" notnull="notnull" />
+    </conditions>
 </query>

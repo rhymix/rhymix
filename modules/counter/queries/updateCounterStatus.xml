@@ -1,4 +1,4 @@
-<query id="updateDocument" action="update">
+<query id="updateCounterStatus" action="update">
     <tables>
         <table name="documents" />
     </tables>
