@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="list" default="guest">
+            <title xml:lang="ko">목록</title>
+            <title xml:lang="en">list</title>
+        </grant>
+        <grant name="view" default="guest">
+            <title xml:lang="ko">열람</title>
+            <title xml:lang="en">view</title>
+        </grant>
+        <grant name="write_document" default="guest">
+            <title xml:lang="ko">글 작성</title>
+            <title xml:lang="en">write document</title>
+        </grant>
+        <grant name="write_comment" default="guest">
+            <title xml:lang="ko">댓글 작성</title>
+            <title xml:lang="en">write comment</title>
+        </grant>
+        <grant name="fileupload" default="guest">
+            <title xml:lang="ko">파일 첨부</title>
+            <title xml:lang="en">file upload</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">관리</title>
+            <title xml:lang="en">manager</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispBoardContent" type="view" index="true" />
+        <action name="dispBoardWrite" type="view" />
+        <action name="dispBoardDelete" type="view" />
+        <action name="dispBoardReplyComment" type="view" />
+        <action name="dispBoardModifyComment" type="view" />
+        <action name="dispBoardDeleteComment" type="view" />
+        <action name="dispBoardDeleteTrackback" type="view" />
+        <action name="dispBoardMessage" type="view" />
+        <action name="dispBoardRss" type="view" />
+
+        <action name="procBoardInsertDocument" type="controller" />
+        <action name="procBoardDeleteDocument" type="controller" />
+        <action name="procBoardVoteDocument" type="controller" />
+        <action name="procBoardInsertComment" type="controller" />
+        <action name="procBoardDeleteComment" type="controller" />
+        <action name="procBoardDeleteTrackback" type="controller" />
+        <action name="procBoardVerificationPassword" type="controller" />
+        <action name="procBoardDeleteFile" type="controller" />
+        <action name="procBoardUploadFile" type="controller" />
+        <action name="procBoardDownloadFile" type="controller" />
+
+        <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispBoardAdminModuleConfig" type="view" standalone="true" />
+        <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
+        <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
+        <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminCategoryInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminManageDocument" type="view" />
+
+        <action name="procBoardAdminAddCart" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procBoardAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertBoard" type="controller" standalone="true" />
+        <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procBoardAdminManageCheckedDocument" type="controller" standalone="true" />
+    </actions>
+</module>

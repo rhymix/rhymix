@@ -1,0 +1,55 @@
+<!--%import("filter/insert_category.xml")-->
+<!--%import("filter/update_category.xml")-->
+
+<!--#include("./header.html")-->
+
+<!-- 카테고리의 위/아래, 삭제와 관련된 form -->
+<form id="fo_category_info" action="./" method="get">
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+    <input type="hidden" name="category_srl" value="" />
+    <input type="hidden" name="mode" value="" />
+</form>
+
+<div>
+    <table>
+    <tr>
+        <th>{$lang->category_title}</th>
+        <th>{$lang->last_update}</th>
+        <th>{$lang->cmd_modify}</th>
+        <th colspan="2">{$lang->cmd_move}</th>
+        <th>{$lang->cmd_delete}</th>
+    </tr>
+
+    <!--@if(!count($category_list))-->
+    <tr>
+        <td colspan="6">{$lang->msg_category_is_null}</td>
+    </tr>
+    <!--@end-->
+
+    <!--@foreach($category_list as $category_srl => $category_info)-->
+    <tr>
+        <td>{htmlspecialchars($category_info->title)}</td>
+        <td>{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
+        <td><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','up');return false;">{$lang->cmd_move_up}</a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','down');return false;">{$lang->cmd_move_down}</a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+
+    </table>
+</div>
+
+<!-- 카테고리 추가 -->
+<form action="./" method="post" onsubmit="return procFilter(this, insert_category)">
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+    <input type="hidden" name="category_srl" value="" />
+
+    <div>
+        {$lang->category_title} :
+        <input type="text" name="category_title" />
+        <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    </div>
+
+</form>

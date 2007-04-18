@@ -1,0 +1,130 @@
+<!--%import("filter/vote.xml")-->
+
+<!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
+<form id="fo_document_info" action="./" method="get">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+</form>
+
+<!-- 글 내용 보여주기 -->
+<div>
+    <table border="1" width="100%" style="table-layout:fixed">
+    <col width="120" />
+    <col width="*" />
+
+    <!--@if($category_list && $document->category_srl)-->
+    <tr>  
+        <th>{$lang->category}</th>
+        <td>{$category_list[$document->category_srl]->title}</td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <th>{$lang->title}</th>
+        <td>{htmlspecialchars($document->title)}</td>
+    </tr>
+    <!--@if($document->homepage)-->
+    <tr>
+        <th>{$lang->homepage}</th>
+        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{htmlspecialchars($document->homepage)}</a></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th>{$lang->date}</th>
+        <td>{zdate($document->regdate,"Y-m-d H:i:s")}</td>
+    </tr>
+    <tr>
+        <th>{$lang->writer}</th>
+        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->readed_count}</th>
+        <td>{$document->readed_count}</td>
+    </tr>
+    <tr>
+        <th>{$lang->voted_count}</th>
+        <td>{$document->voted_count}</td>
+    </tr>
+    <tr>
+        <th>{$lang->content}</th>
+        <td height="100" valign="top">{$document->content}</td>
+    </tr>
+    <tr>
+        <th>{$lang->document_url}</th>
+        <td>{getUrl()}{$document->document_srl}</td>
+    </tr>
+
+    <!--@if($document->allow_trackback=='Y')-->
+    <tr>
+        <th>{$lang->trackback_url}</th>
+        <td>{getUrl()}trackback/{$document->document_srl}</td>
+    </tr>
+    <!--@end-->
+
+    <!--@if($document->tag_list)-->
+    <tr>
+        <th>{$lang->tag}</th>
+        <td>
+            <!--@foreach($document->tag_list as $val)-->
+                <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+
+    <!--@if($document->uploaded_count && $document->uploaded_list)-->
+    <tr>
+        <th>{$lang->uploaded_file}</th>
+        <td>
+            <!--@foreach($document->uploaded_list as $key => $file)-->
+                <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <th>ipaddress</th>
+        <td>{$document->ipaddress}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <!--@if($document->allow_comment=='Y')-->
+                {$lang->allow_comment}
+            <!--@end-->
+
+            <!--@if($document->lock_comment=='Y')-->
+                {$lang->lock_comment}
+            <!--@end-->
+
+            <!--@if($document->allow_trackback=='Y')-->
+                {$lang->allow_trackback}
+            <!--@end-->
+        </td>
+    </tr>
+    </table>
+</div>
+
+<!-- 관련 링크 -->
+<div>
+    <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
+    <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
+
+    <!--@if($document->is_granted)-->
+    <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
+    <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
+    <!--@end-->
+</div>
+
+
+<!-- 엮인글 파일 include -->
+<!--@if($document->allow_trackback=='Y')-->
+    <a name="trackback"></a>
+    <!--#include("./trackback.html")-->
+<!--@end-->
+
+<!-- 댓글 파일 include -->
+<!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+    <a name="comment"></a>
+    <!--#include("./comment.html")-->
+<!--@end-->

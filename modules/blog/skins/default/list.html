@@ -1,0 +1,121 @@
+<!--%import("filter/search.xml")-->
+<!--#include("header.html")-->
+
+<!-- 게시물 내용 include -->
+<!--@if($document && $grant->view)-->
+    <!--#include("./view_document.html")-->
+<!--@end-->
+
+<!-- 목록 -->
+<div>
+    <table width="100%" border="1">
+    <tr>
+        <th>{$lang->no}</th>
+
+        <!--@if($category_list)-->
+        <th>
+            <form action="./" method="get">
+                <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
+                    <option value="">{$lang->category}</option>
+                    <!--@foreach($category_list as $val)-->
+                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                    <!--@end-->
+                </select>
+            </form>
+        </th>
+    <!--@end-->
+
+        <th>{$lang->title}</th>
+        <th>{$lang->writer}</th>
+        <th>{$lang->readed_count}</th>
+        <th>{$lang->voted_count}</th>
+        <th>{$lang->date}</th>
+    </tr>
+
+    <!--@foreach($document_list as $no => $val)-->
+    <tr>
+        <td>{$no}</td>
+
+        <!--@if($category_list)-->
+        <td>{$category_list[$val->category_srl]->title}</td>
+        <!--@end-->
+
+        <td>
+            <!--@if($grant->is_admin == 'Y')-->
+            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
+            <!--@end-->
+
+            <!--@if($grant->view)-->
+                <a href="{getUrl('document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
+            <!--@else-->
+                {htmlspecialchars($val->title)}
+            <!--@end-->
+
+            <!--@if($val->comment_count>0)-->
+                [<a href="{getUrl('document_srl',$val->document_srl)}#comment">{$val->comment_count}</a>]
+            <!--@end-->
+
+            <!--@if($val->trackback_count>0)-->
+                [<a href="{getUrl('document_srl',$val->document_srl)}#trackback">{$val->trackback_count}</a>]
+            <!--@end-->
+
+        </td>
+        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
+        <td>{$val->readed_count}</td>
+        <td>{$val->voted_count}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+    </tr>
+    <!--@end-->
+    </table>
+</div>
+
+<!-- 버튼 -->
+<div>
+    <!--@if($grant->write_document)-->
+        <!-- 글쓰기 버튼 -->
+        <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
+    <!--@end-->
+
+    <!--@if($logged_info->is_admin == 'Y')-->
+        <!-- 문서 관리 버튼 -->
+        <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
+    <!--@end-->
+</div>
+
+<!--@if($grant->view)-->
+
+<!-- 검색 -->
+<div>
+    <form action="./" method="get" onsubmit="return procFilter(this, search)">
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="category" value="{$category}" />
+
+        <select name="search_target">
+            <!--@foreach($search_option as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+        <input type="submit" value="{$lang->cmd_search}" />
+        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','document_srl','')}'"/>
+    </form>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+<a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
+
+<!--@while($page_no = $page_navigation->getNextPage())-->
+<!--@if($page == $page_no)-->
+{$page_no}
+<!--@else-->
+<a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+<!--@end-->
+<!--@end-->
+
+<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+</div>
+
+<!--@end-->
+
+<!--#include("footer.html")-->
