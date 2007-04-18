@@ -8,5 +8,7 @@ xAddEventListener(window,'load',doCallCounter);
 
 // counter 모듈을 호출하는 함수
 function doCallCounter() {
+    show_waiting_message = false;
     exec_xml('counter','procCounterExecute');
+    show_waiting_message = true;
 }
