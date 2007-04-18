@@ -1,4 +1,4 @@
-<filter name="manage_checked_document" module="board" act="procBoardAdminManageCheckedDocument">
+<filter name="manage_checked_document" module="blog" act="procBlogAdminManageCheckedDocument">
     <form />
     <response callback_func="completeManageDocument">
         <tag name="error" />

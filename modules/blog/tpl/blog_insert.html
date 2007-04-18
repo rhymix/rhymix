@@ -1,5 +1,5 @@
-<!--%import("filter/insert_board.xml")-->
-<!--%import("js/board_admin.js")-->
+<!--%import("filter/insert_blog.xml")-->
+<!--%import("js/blog_admin.js")-->
 
 <!--@if($module_srl)-->
     <!--#include("header.html")-->
@@ -13,7 +13,7 @@
     <!--@end-->
 </div>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_board)" enctype="multipart/form-data">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_blog)" enctype="multipart/form-data">
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="module_srl" value="{$module_srl}" />
     <!--@if($module_info->is_default=='Y')-->
@@ -124,7 +124,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispBoardAdminContent')}'" />
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispBlogAdminContent')}'" />
             <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
         </td>
     </tr>

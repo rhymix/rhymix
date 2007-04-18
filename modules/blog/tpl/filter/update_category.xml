@@ -1,4 +1,4 @@
-<filter name="update_category" module="board" act="procBoardAdminUpdateCategory">
+<filter name="update_category" module="blog" act="procBlogAdminUpdateCategory">
     <form>
         <node target="category_srl" required="true" />
         <node target="mode" required="true" />

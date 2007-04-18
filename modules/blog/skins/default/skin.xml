@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
-  <title xml:lang="ko">게시판 기본 스킨</title>
+  <title xml:lang="ko">블로그 기본 스킨</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">board모듈의 default스킨</description>
+    <description xml:lang="ko">blog 모듈의 default스킨</description>
   </maker>
   <colorset>
     <color name="normal" src="screenshot/normal.gif">

@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 
-<!-- 게시판 정보 -->
+<!-- 정보 -->
 <div>
     {$lang->total_count} {number_format($total_count)}, 
     {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
@@ -32,7 +32,7 @@
         <th>{$lang->cmd_delete}</th>
     </tr>
 
-    <!--@foreach($board_list as $no => $val)-->
+    <!--@foreach($blog_list as $no => $val)-->
     <tr>
         <td>{$no}</td>
         <td>
@@ -42,14 +42,14 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
+        <td><a href="{getUrl('act','dispBlogAdminBlogInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
         <td>{htmlspecialchars($val->browser_title)}</td>
         <td>{$val->is_default}</td>
         <td>{$val->skin}</td>
         <td>{$val->admin_id}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="./?mid={$val->mid}" target="_blank">{$lang->cmd_move}</a></td>
-        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBlogAdminDeleteBlog','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
 
@@ -58,7 +58,7 @@
 
 <!-- 버튼 -->
 <div>
-    [<a href="{getUrl('act','dispBoardAdminInsertBoard','module_srl','')}">{$lang->cmd_make}</a>]
+    [<a href="{getUrl('act','dispBlogAdminInsertBlog','module_srl','')}">{$lang->cmd_make}</a>]
 </div>
 
 <!-- 페이지 네비게이션 -->

@@ -1,4 +1,4 @@
-<filter name="insert_category" module="board" act="procBoardAdminInsertCategory" confirm_msg_code="confirm_submit">
+<filter name="insert_category" module="blog" act="procBlogAdminInsertCategory" confirm_msg_code="confirm_submit">
     <form>
         <node target="module_srl" required="true" />
         <node target="category_title" required="true" />

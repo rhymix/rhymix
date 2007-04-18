@@ -1,4 +1,4 @@
-<query id="getAllBoard" action="select">
+<query id="getAllBlog" action="select">
     <tables>
         <table name="modules" />
     </tables>
@@ -6,7 +6,7 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module" default="board" />
+        <condition operation="equal" column="module" default="blog" />
     </conditions>
     <navigation>
         <index var="sort_index" default="mid" order="asc" />

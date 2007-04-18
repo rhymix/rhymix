@@ -3,7 +3,7 @@
 <!--@if($source_comment)-->
     <!--#include("header.html")-->
 <!--@else-->
-    <!--%import("js/board.js")-->
+    <!--%import("js/blog.js")-->
 <!--@end-->
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
@@ -64,7 +64,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <!--@if($act&&$act!='dispBoardContent')-->
+            <!--@if($act&&$act!='dispBlogContent')-->
                 <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
             <!--@end-->
 

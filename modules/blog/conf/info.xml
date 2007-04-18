@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
-    <title xml:lang="ko">게시판</title>
+    <title xml:lang="ko">블로그</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">게시판의 기능을 담당하는 모듈. 게시판의 생성/추가 관리등의 관리자 기능도 포함합니다.</description>
+        <description xml:lang="ko">
+            블로그의 기능을 담당하는 모듈. 
+            게시판과 비슷하지만 보여지는 view가 다르고 블로그에 적합한 method가 추가되었음.
+            레이아웃과 기본 메뉴를 직접 담당
+        </description>
     </author>
 </module>

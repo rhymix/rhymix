@@ -15,6 +15,7 @@
             $oAdminController = &getController('admin');
 
             $oAdminController->insertShortCut('board');
+            $oAdminController->insertShortCut('blog');
             $oAdminController->insertShortCut('page');
             $oAdminController->insertShortCut('menu');
             $oAdminController->insertShortCut('layout');

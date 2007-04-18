@@ -1,5 +1,3 @@
-<!--%import("filter/vote.xml")-->
-
 <!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
 <form id="fo_document_info" action="./" method="get">
     <input type="hidden" name="mid" value="{$mid}" />
@@ -40,10 +38,6 @@
     <tr>
         <th>{$lang->readed_count}</th>
         <td>{$document->readed_count}</td>
-    </tr>
-    <tr>
-        <th>{$lang->voted_count}</th>
-        <td>{$document->voted_count}</td>
     </tr>
     <tr>
         <th>{$lang->content}</th>
@@ -108,11 +102,10 @@
 <!-- 관련 링크 -->
 <div>
     <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
-    <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
 
     <!--@if($document->is_granted)-->
-    <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
-    <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
+    <a href="{getUrl('act','dispBlogWrite')}">[{$lang->cmd_modify}]</a> 
+    <a href="{getUrl('act','dispBlogDelete')}">[{$lang->cmd_delete}]</a> 
     <!--@end-->
 </div>
 

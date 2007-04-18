@@ -52,11 +52,11 @@
 
             <tr>
                 <td colspan="2">
-                    <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
+                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
 
                     <!--@if($val->is_granted)-->
-                    <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
-                    <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
+                    <a href="{getUrl('act','dispBlogModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
+                    <a href="{getUrl('act','dispBlogDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
                     <!--@end-->
                 </td>
             </tr>

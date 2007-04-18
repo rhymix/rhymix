@@ -1,11 +1,11 @@
 /**
- * @file   modules/board/js/board_admin.js
+ * @file   modules/blog/js/blog_admin.js
  * @author zero (zero@nzeo.com)
- * @brief  board 모듈의 관리자용 javascript
+ * @brief  blog 모듈의 관리자용 javascript
  **/
 
 /* 모듈 생성 후 */
-function completeInsertBoard(ret_obj) {
+function completeInsertBlog(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
 
@@ -14,19 +14,19 @@ function completeInsertBoard(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminBoardInfo');
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminBlogInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
 
 /* 모듈 삭제 후 */
-function completeDeleteBoard(ret_obj) {
+function completeDeleteBlog(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('act','dispBoardAdminContent').setQuery('module_srl','');
+    var url = location.href.setQuery('act','dispBlogAdminContent').setQuery('module_srl','');
     if(page) url = url.setQuery('page',page);
     location.href = url;
 }
@@ -50,7 +50,7 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminCategoryInfo');
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminCategoryInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
@@ -88,7 +88,7 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminGrantInfo');
+    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminGrantInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }

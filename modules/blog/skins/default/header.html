@@ -1,7 +1,7 @@
-<!--%import("js/board.js")-->
+<!--%import("js/blog.js")-->
 {$module_info->header_text}
 
-<!-- 게시판 정보 -->
+<!-- 정보 -->
 <div>
     <!--@if($total_count)-->
     {$lang->document_count} : {number_format($total_count)}, 
@@ -26,7 +26,7 @@
     <!--@end-->
 
     <!--@if($logged_info->is_admin =='Y')-->
-        <a href="{getUrl('act','dispBoardAdminBoardInfo')}">[{$lang->cmd_management}]</a>
+        <a href="{getUrl('act','dispBlogAdminBlogInfo')}">[{$lang->cmd_management}]</a>
     <!--@end-->
 </div>
 

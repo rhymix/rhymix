@@ -1,7 +1,7 @@
-<!--%import("filter/delete_board.xml")-->
-<!--%import("js/board_admin.js")-->
+<!--%import("filter/delete_blog.xml")-->
+<!--%import("js/blog_admin.js")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_board)">
+<form action="./" method="get" onsubmit="return procFilter(this, delete_blog)">
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
@@ -24,7 +24,7 @@
     <tr>
         <td colspan="2">
             <input type="submit" value="{$lang->cmd_delete}" />
-            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispBoardAdminContent')}'" />
+            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispBlogAdminContent')}'" />
         </td>
     </tr>
     </table>

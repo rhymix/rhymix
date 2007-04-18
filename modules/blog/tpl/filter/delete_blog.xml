@@ -1,8 +1,8 @@
-<filter name="delete_board" module="board" act="procBoardAdminDeleteBoard">
+<filter name="delete_blog" module="blog" act="procBlogAdminDeleteBlog">
     <form>
         <node target="module_srl" required="true" />
     </form>
-    <response callback_func="completeDeleteBoard">
+    <response callback_func="completeDeleteBlog">
         <tag name="error" />
         <tag name="message" />
         <tag name="page" />

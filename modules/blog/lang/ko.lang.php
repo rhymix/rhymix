@@ -2,13 +2,13 @@
     /**
      * @file   ko.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  게시판(board) 모듈의 기본 언어팩
+     * @brief  블로그(blog) 모듈의 기본 언어팩
      **/
 
     // 버튼에 사용되는 언어
-    $lang->cmd_board_list = '게시판 목록';
-    $lang->cmd_module_config = '게시판  공통 설정';
-    $lang->cmd_view_info = '게시판 정보';
+    $lang->cmd_blog_list = '블로그 목록';
+    $lang->cmd_module_config = '블로그  공통 설정';
+    $lang->cmd_view_info = '블로그 정보';
     $lang->cmd_manage_category = '분류관리';
     $lang->cmd_manage_grant = '권한관리';
     $lang->cmd_manage_skin = '스킨관리';

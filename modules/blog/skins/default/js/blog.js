@@ -1,21 +1,8 @@
 /**
- * @file   modules/board/js/board.js
+ * @file   modules/blog/js/blog.js
  * @author zero (zero@nzeo.com)
- * @brief  board 모듈의 javascript
+ * @brief  blog 모듈의 javascript
  **/
-
-/* 관리자가 카트 선택시 세션에 넣음 */
-function doAddCart(mid, obj) {
-    var srl = obj.value;
-    var check_flag = obj.checked?'add':'remove';
-
-    var params = new Array();
-    params["mid"] = mid;
-    params["srl"] = srl;
-    params["check_flag"] = check_flag;
-
-    exec_xml("board","procBoardAdminAddCart", params, null);
-}
 
 /* 글쓰기 작성후 */
 function completeDocumentInserted(ret_obj) {
@@ -50,19 +37,6 @@ function completeDeleteDocument(ret_obj) {
 /* 검색 실행 */
 function completeSearch(fo_obj, params) {
     fo_obj.submit();
-}
-
-/* 추천, 추천은 별도의 폼입력이 필요 없어 직접 필터 사용 */
-function doVote() {
-    var fo_obj = document.getElementById('fo_document_info');
-    procFilter(fo_obj, vote);
-}
-
-function completeVote(ret_obj) {
-    var error = ret_obj['error'];
-    var message = ret_obj['message'];
-    alert(message);
-    location.href = location.href;
 }
 
 // 현재 페이지 reload

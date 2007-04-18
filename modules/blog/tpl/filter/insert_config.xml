@@ -1,4 +1,4 @@
-<filter name="insert_config" module="board" act="procBoardAdminInsertConfig" confirm_msg_code="confirm_submit">
+<filter name="insert_config" module="blog" act="procBlogAdminInsertConfig" confirm_msg_code="confirm_submit">
     <form />
     <response>
         <tag name="error" />

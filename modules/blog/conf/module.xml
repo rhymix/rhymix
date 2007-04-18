@@ -27,45 +27,42 @@
         </grant>
     </grants>
     <actions>
-        <action name="dispBoardContent" type="view" index="true" />
-        <action name="dispBoardWrite" type="view" />
-        <action name="dispBoardDelete" type="view" />
-        <action name="dispBoardReplyComment" type="view" />
-        <action name="dispBoardModifyComment" type="view" />
-        <action name="dispBoardDeleteComment" type="view" />
-        <action name="dispBoardDeleteTrackback" type="view" />
-        <action name="dispBoardMessage" type="view" />
-        <action name="dispBoardRss" type="view" />
+        <action name="dispBlogContent" type="view" index="true" />
+        <action name="dispBlogWrite" type="view" />
+        <action name="dispBlogDelete" type="view" />
+        <action name="dispBlogReplyComment" type="view" />
+        <action name="dispBlogModifyComment" type="view" />
+        <action name="dispBlogDeleteComment" type="view" />
+        <action name="dispBlogDeleteTrackback" type="view" />
+        <action name="dispBlogMessage" type="view" />
+        <action name="dispBlogRss" type="view" />
 
-        <action name="procBoardInsertDocument" type="controller" />
-        <action name="procBoardDeleteDocument" type="controller" />
-        <action name="procBoardVoteDocument" type="controller" />
-        <action name="procBoardInsertComment" type="controller" />
-        <action name="procBoardDeleteComment" type="controller" />
-        <action name="procBoardDeleteTrackback" type="controller" />
-        <action name="procBoardVerificationPassword" type="controller" />
-        <action name="procBoardDeleteFile" type="controller" />
-        <action name="procBoardUploadFile" type="controller" />
-        <action name="procBoardDownloadFile" type="controller" />
+        <action name="procBlogInsertDocument" type="controller" />
+        <action name="procBlogDeleteDocument" type="controller" />
+        <action name="procBlogInsertComment" type="controller" />
+        <action name="procBlogDeleteComment" type="controller" />
+        <action name="procBlogDeleteTrackback" type="controller" />
+        <action name="procBlogVerificationPassword" type="controller" />
+        <action name="procBlogDeleteFile" type="controller" />
+        <action name="procBlogUploadFile" type="controller" />
+        <action name="procBlogDownloadFile" type="controller" />
 
-        <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispBoardAdminModuleConfig" type="view" standalone="true" />
-        <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
-        <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
-        <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
-        <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />
-        <action name="dispBoardAdminCategoryInfo" type="view" standalone="true" />
-        <action name="dispBoardAdminGrantInfo" type="view" standalone="true" />
-        <action name="dispBoardAdminManageDocument" type="view" />
+        <action name="dispBlogAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispBlogAdminModuleConfig" type="view" standalone="true" />
+        <action name="dispBlogAdminBlogInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />
+        <action name="dispBlogAdminDeleteBlog" type="view" standalone="true" />
+        <action name="dispBlogAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminCategoryInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminManageDocument" type="view" />
 
-        <action name="procBoardAdminAddCart" type="controller" standalone="true" />
-        <action name="procBoardAdminInsertGrant" type="controller" standalone="true" />
-        <action name="procBoardAdminUpdateSkinInfo" type="controller" standalone="true" />
-        <action name="procBoardAdminInsertBoard" type="controller" standalone="true" />
-        <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
-        <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
-        <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
-        <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procBoardAdminManageCheckedDocument" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procBlogAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertBlog" type="controller" standalone="true" />
+        <action name="procBlogAdminDeleteBlog" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertCategory" type="controller" standalone="true" />
+        <action name="procBlogAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>

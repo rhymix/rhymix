@@ -1,11 +1,6 @@
 <!--%import("filter/search.xml")-->
 <!--#include("header.html")-->
 
-<!-- 게시물 내용 include -->
-<!--@if($document && $grant->view)-->
-    <!--#include("./view_document.html")-->
-<!--@end-->
-
 <!-- 목록 -->
 <div>
     <table width="100%" border="1">
@@ -24,49 +19,136 @@
             </form>
         </th>
     <!--@end-->
-
-        <th>{$lang->title}</th>
-        <th>{$lang->writer}</th>
-        <th>{$lang->readed_count}</th>
-        <th>{$lang->voted_count}</th>
-        <th>{$lang->date}</th>
     </tr>
+    </table>
+
+
 
     <!--@foreach($document_list as $no => $val)-->
-    <tr>
-        <td>{$no}</td>
+    <!-- 글 내용 보여주기 -->
+    <div>
+        <table border="1" width="100%" style="table-layout:fixed">
+        <col width="120" />
+        <col width="*" />
 
-        <!--@if($category_list)-->
-        <td>{$category_list[$val->category_srl]->title}</td>
+        <!--@if($category_list && $val->category_srl)-->
+        <tr>  
+            <th>{$lang->category}</th>
+            <td>{$category_list[$val->category_srl]->title}</td>
+        </tr>
         <!--@end-->
 
-        <td>
-            <!--@if($grant->is_admin == 'Y')-->
-            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
-            <!--@end-->
+        <tr>
+            <th>{$lang->title}</th>
+            <td>{htmlspecialchars($val->title)}</td>
+        </tr>
+        <!--@if($val->homepage)-->
+        <tr>
+            <th>{$lang->homepage}</th>
+            <td><a href="{$val->homepage}" onclick="winopen('{$val->homepage}'); return false;">{htmlspecialchars($val->homepage)}</a></td>
+        </tr>
+        <!--@end-->
+        <tr>
+            <th>{$lang->date}</th>
+            <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        </tr>
+        <tr>
+            <th>{$lang->writer}</th>
+            <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
+        </tr>
+        <tr>
+            <th>{$lang->readed_count}</th>
+            <td>{$val->readed_count}</td>
+        </tr>
+        <tr>
+            <th>{$lang->voted_count}</th>
+            <td>{$val->voted_count}</td>
+        </tr>
+        <tr>
+            <th>{$lang->content}</th>
+            <td height="100" valign="top">{$val->content}</td>
+        </tr>
+        <tr>
+            <th>{$lang->document_url}</th>
+            <td>{getUrl()}{$val->document_srl}</td>
+        </tr>
 
-            <!--@if($grant->view)-->
-                <a href="{getUrl('document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
-            <!--@else-->
-                {htmlspecialchars($val->title)}
-            <!--@end-->
+        <!--@if($val->allow_trackback=='Y')-->
+        <tr>
+            <th>{$lang->trackback_url}</th>
+            <td>{getUrl()}trackback/{$val->document_srl}</td>
+        </tr>
+        <!--@end-->
 
-            <!--@if($val->comment_count>0)-->
-                [<a href="{getUrl('document_srl',$val->document_srl)}#comment">{$val->comment_count}</a>]
-            <!--@end-->
+        <!--@if($val->tag_list)-->
+        <tr>
+            <th>{$lang->tag}</th>
+            <td>
+                <!--@foreach($val->tag_list as $val)-->
+                    <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+                <!--@end-->
+            </td>
+        </tr>
+        <!--@end-->
 
-            <!--@if($val->trackback_count>0)-->
-                [<a href="{getUrl('document_srl',$val->document_srl)}#trackback">{$val->trackback_count}</a>]
-            <!--@end-->
+        <!--@if($val->uploaded_count && $val->uploaded_list)-->
+        <tr>
+            <th>{$lang->uploaded_file}</th>
+            <td>
+                <!--@foreach($val->uploaded_list as $key => $file)-->
+                    <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+                <!--@end-->
+            </td>
+        </tr>
+        <!--@end-->
 
-        </td>
-        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        <td>{$val->readed_count}</td>
-        <td>{$val->voted_count}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-    </tr>
+        <tr>
+            <th>ipaddress</th>
+            <td>{$val->ipaddress}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <!--@if($val->allow_comment=='Y')-->
+                    {$lang->allow_comment}
+                <!--@end-->
+
+                <!--@if($val->lock_comment=='Y')-->
+                    {$lang->lock_comment}
+                <!--@end-->
+
+                <!--@if($val->allow_trackback=='Y')-->
+                    {$lang->allow_trackback}
+                <!--@end-->
+            </td>
+        </tr>
+        </table>
+    </div>
+
+    <!-- 관련 링크 -->
+    <div>
+        <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
+        <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
+
+        <!--@if($val->is_granted)-->
+        <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
+        <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
+        <!--@end-->
+    </div>
+
+
+    <!-- 엮인글 파일 include -->
+    <!--@if($val->allow_trackback=='Y')-->
+        <a name="trackback"></a>
+        <!--#include("./trackback.html")-->
     <!--@end-->
-    </table>
+
+    <!-- 댓글 파일 include -->
+    <!--@if($grant->write_comment&&$val->allow_comment=='Y')-->
+        <a name="comment"></a>
+        <!--#include("./comment.html")-->
+    <!--@end-->
+
+    <!--@end-->
 </div>
 
 <!-- 버튼 -->
@@ -74,11 +156,6 @@
     <!--@if($grant->write_document)-->
         <!-- 글쓰기 버튼 -->
         <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
-    <!--@end-->
-
-    <!--@if($logged_info->is_admin == 'Y')-->
-        <!-- 문서 관리 버튼 -->
-        <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
     <!--@end-->
 </div>
 
