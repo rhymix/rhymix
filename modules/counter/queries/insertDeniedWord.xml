@@ -1,9 +1,0 @@
-<query id="insertDeniedIP" action="insert">
-    <tables>
-        <table name="spamfilter_denied_word" />
-    </tables>
-    <columns>
-        <column name="word" var="word" notnull="notnull" />
-        <column name="regdate" var="regdate" default="curdate()" />
-    </columns>
-</query>
