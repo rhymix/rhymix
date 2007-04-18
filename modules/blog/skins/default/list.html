@@ -3,11 +3,9 @@
 
 <!-- 목록 -->
 <div>
+    <!--@if($category_list)-->
     <table width="100%" border="1">
     <tr>
-        <th>{$lang->no}</th>
-
-        <!--@if($category_list)-->
         <th>
             <form action="./" method="get">
                 <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
@@ -18,11 +16,9 @@
                 </select>
             </form>
         </th>
-    <!--@end-->
     </tr>
     </table>
-
-
+    <!--@end-->
 
     <!--@foreach($document_list as $no => $val)-->
     <!-- 글 내용 보여주기 -->
@@ -130,8 +126,8 @@
         <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
 
         <!--@if($val->is_granted)-->
-        <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
-        <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
+        <a href="{getUrl('act','dispBlogWrite')}">[{$lang->cmd_modify}]</a> 
+        <a href="{getUrl('act','dispBlogDelete')}">[{$lang->cmd_delete}]</a> 
         <!--@end-->
     </div>
 
@@ -155,7 +151,7 @@
 <div>
     <!--@if($grant->write_document)-->
         <!-- 글쓰기 버튼 -->
-        <a href="{getUrl('act','dispBoardWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
+        <a href="{getUrl('act','dispBlogWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
     <!--@end-->
 </div>
 
