@@ -1,0 +1,4 @@
+<table name="spamfilter_denied_word">
+    <column name="word" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>
