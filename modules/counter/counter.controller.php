@@ -17,6 +17,10 @@
          * @brief 카운터 기록
          **/
         function procCounterExecute() {
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 로그를 검사
             $oCounterModel = &getModel('counter');
 
@@ -39,6 +43,8 @@
                     $this->insertPageView();
                 }
             }
+
+            $oDB->commit();
         }
 
         /**
