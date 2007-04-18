@@ -40,3 +40,12 @@
     padding:1px;
     margin:4px;
 }
+
+.slide_gallery_filename {
+    margin:5px 0px 10px 0px;    
+}
+
+.slide_gallery_filename A {
+    color:#000000;
+    text-decoration:none;
+}

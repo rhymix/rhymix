@@ -21,6 +21,7 @@ function slide_gallery_add_image(srl, image_url) {
     // 이미지갤러리쇼 고유번호를 세팅
     obj.srl = srl;
     obj.idx = slide_gallery_images[srl].length;
+    obj.image_url = image_url;
 
     // 원본 이미지를 미리 로딩
     obj.image = new Image();
@@ -150,6 +151,12 @@ function display_gallery_image(obj, is_first_display) {
             slide_gallery_images[obj.srl][i].thumbnail.style.filter = "alpha(opacity=50)";
         }
     }
+
+    // 파일 이름 추가
+    var source_filename = obj.image_url;
+    var tmp_arr = source_filename.split('/');
+    var filename = tmp_arr[tmp_arr.length-1];
+    xInnerHtml("zone_gallery_image_filename_"+obj.srl, "<a href='#' onclick=\"winopen('"+source_filename+"');return false;\">"+unescape(filename)+"</a>");
 
     // 네이게이션 영역의 숫자 변경
     var zone_navigator = xGetElementById("zone_gallery_navigator_status_"+obj.srl);
