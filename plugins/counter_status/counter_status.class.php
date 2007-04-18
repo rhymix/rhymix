@@ -14,6 +14,16 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            // 전체, 어제, 오늘 접속 현황을 가져옴
+            $oCounterModel = &getModel('counter');
+
+            $output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')));
+            foreach($output as $key => $val) {
+                if(!$key) Context::set('total_counter', $val);
+                elseif($key == date("Ymd")) Context::set('today_counter', $val);
+                else Context::set('yesterday_counter', $val);
+            }
+
             // 변수 설정
             Context::set('style', $args->style);
 
@@ -28,7 +38,5 @@
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
-
-
     }
 ?>

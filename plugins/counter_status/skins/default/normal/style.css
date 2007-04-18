@@ -1,151 +1,19 @@
-.login_plugin {
+.counter_plugin {
     border:3px solid #DDDDDD;
     padding:6px;
-    height:80px;
     margin-bottom:10px;
+    color:#999999;
+    font-family:tahoma;
+    font-size:8pt;
 }
 
-.login_plugin .top_box {
-    height:22px;
-    border-bottom:2px dotted #DDDDDD;
-    overflow:hidden;
-    margin-bottom:5px;
-}
-
-.login_plugin .top_box .nick_name {
+.counter_plugin .header {
     font-weight:bold;
     float:left;
-    color:#555555;
+    width:50px;
+    margin-right:10px;
 }
 
-.login_plugin .top_box .logout {
-    float:right;
-}
-
-.login_plugin .top_box .logout A {
-    text-decoration:none;
-    color:#737CF5;
-}
-
-.login_plugin .top_box .logout A:hover {
-    font-weight:bold;
-    letter-spacing:-1px;
-    color:#151F9E;
-}
-
-
-.login_plugin .info_box {
-    clear:both;
-    color:#555555;
-}
-
-.login_plugin .info_box A:link {
-    text-decoration:none;
-    color:#555555;
-}
-
-.login_plugin .info_box A:visited {
-    text-decoration:none;
-    color:#555555;
-}
-
-.login_plugin .info_box A:hover {
-    text-decoration:none;
-    font-weight:bold;
-    letter-spacing:-1px;
-    color:#555555;
-}
-
-.login_plugin .info_box div {
-    padding-left:15px;
-    margin:0px 0px 4px 0px;
-}
-
-.login_plugin .info_box .member_info {
-    background:url("../images/icon_profile.gif") no-repeat left;
-    float:left;
-    width:90px;
-}
-
-.login_plugin .info_box .friend_list {
-    background:url("../images/icon_friend_list.gif") no-repeat left;
-    float:left;
-}
-
-.login_plugin .info_box .message_box {
-    background:url("../images/icon_message_box.gif") no-repeat left;
-    float:left;
-    width:90px;
-}
-
-.login_plugin .info_box .link_admin {
-    background:url("../images/icon_key.gif") no-repeat left;
-    float:left;
-}
-
-.login_plugin .info_box .link_admin A {
-    color:#cd0000;
-}
-
-.login_plugin .info_box .last_login {
-    clear:left;
-    background:url("../images/icon_last_login.gif") no-repeat left;
-    padding-left:15px;
-    margin-bottom:4px;
-}
-
-
-.login_plugin .login_box {
-    height:40px;
-}
-
-.login_plugin .header {
-    float:left;
-    clear:left;
-    width:80px;
-    margin-bottom:5px;
-    font-weight:bold;
-    color:#555555;
-}
-
-.login_plugin .body {
-    float:left;
-    width:100px;
-    margin-bottom:5px;
-}
-
-.login_plugin .body .input {
-    width:90px;
-    height:13px;
-    border:1px solid #AAAAAA;
-    color:#555555;
-}
-
-.login_plugin .body label {
-    cursor:pointer;
-}
-
-.login_plugin .button_area {
-    clear:both;
-    height:20px;
-    margin-top:5px;
-    text-align:center;
-}
-
-.login_plugin .button_area .submit_button {
-    width:80px;
-    height:18px;
-    border:1px solid #AAAAAA;
-    background-color:#555555;
-    color:#FFFFFF;
-    font-weight:bold;
-}
-
-.login_plugin .button_area .signup_button {
-    width:80px;
-    height:18px;
-    border:1px solid #555555;
-    background-color:#FFFFFF;
-    color:#000000;
-    font-weight:bold;
+.counter_plugin .footer {
+    clear:right;
 }

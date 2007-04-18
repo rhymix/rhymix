@@ -34,26 +34,30 @@
          * @brief 플러그인 객체를 return
          **/
         function getObject($plugin) {
-            // 일단 플러그인의 위치를 찾음
-            $oPluginModel = &getModel('plugin');
-            $path = $oPluginModel->getPluginPath($plugin);
+            if(!$GLOBALS['_xe_loaded_plugins_'][$plugin]) {
+                // 일단 플러그인의 위치를 찾음
+                $oPluginModel = &getModel('plugin');
+                $path = $oPluginModel->getPluginPath($plugin);
 
-            // 플러그인 클래스 파일을 찾고 없으면 에러 출력 (html output)
-            $class_file = sprintf('%s%s.class.php', $path, $plugin);
-            if(!file_exists($class_file)) return sprintf(Context::getLang('msg_plugin_is_not_exists'), $plugin);
+                // 플러그인 클래스 파일을 찾고 없으면 에러 출력 (html output)
+                $class_file = sprintf('%s%s.class.php', $path, $plugin);
+                if(!file_exists($class_file)) return sprintf(Context::getLang('msg_plugin_is_not_exists'), $plugin);
 
-            // 플러그인 클래스를 include
-            require_once($class_file);
+                // 플러그인 클래스를 include
+                require_once($class_file);
             
-            // 객체 생성
-            $eval_str = sprintf('$oPlugin = new %s();', $plugin);
-            @eval($eval_str);
-            if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
-            if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
+                // 객체 생성
+                $eval_str = sprintf('$oPlugin = new %s();', $plugin);
+                @eval($eval_str);
+                if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
 
-            $oPlugin->plugin_path = $path;
+                if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
 
-            return $oPlugin;
+                $oPlugin->plugin_path = $path;
+
+                $GLOBALS['_xe_loaded_plugins_'][$plugin] = $oPlugin;
+            }
+            return $GLOBALS['_xe_loaded_plugins_'][$plugin];
         }
 
     }

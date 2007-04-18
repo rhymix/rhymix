@@ -1,5 +1,5 @@
 <table name="counter_status">
-    <column name="regdate" type="date" primary_key="primary_key" />
+    <column name="regdate" type="number" size="11" notnull="notnull" primary_key="primary_key" />
     <column name="unique_visitor" type="number" size="11" default="0" />
     <column name="pageview" type="number" size="11" default="0" />
 </table>

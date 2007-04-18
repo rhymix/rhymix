@@ -293,7 +293,9 @@
                 case 'like' : 
                         $value = '%'.$value.'%';
                     break;
-
+                case 'in' :
+                    return "'".$value."'";
+                    break;
             }
 
             return "'".$this->addQuotes($value)."'";

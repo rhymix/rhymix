@@ -54,16 +54,18 @@
          * @brief unique visitor 등록
          **/
         function insertUniqueVisitor() {
-            $args->regdate = date("Ymd000000");
-            return executeQuery('counter.updateCounterUnique', $args);
+            $args->regdate = date("Ymd");
+            executeQuery('counter.updateCounterUnique', $args);
+            executeQuery('counter.updateTotalCounterUnique');
         }
 
         /**
          * @brief pageview 등록
          **/
         function insertPageView() {
-            $args->regdate = date("Ymd000000");
-            return executeQuery('counter.updateCounterPageview', $args);
+            $args->regdate = date("Ymd");
+            executeQuery('counter.updateCounterPageview', $args);
+            executeQuery('counter.updateTotalCounterPageview');
         }
 
         /**
@@ -71,7 +73,7 @@
          **/
         function insertTodayStatus($regdate = 0) {
             if($regdate) $args->regdate = $regdate;
-            else $args->regdate = date("Ymd000000");
+            else $args->regdate = date("Ymd");
             executeQuery('counter.insertTodayStatus', $args);
 
             // 로그 등록

@@ -17,8 +17,8 @@
 
             $oCounterController = &getController('counter');
 
-            // 00000000000000 일자로 기록될 전체 방문 기록 row 추가
-            $oCounterController->insertTodayStatus('00000000000000');
+            // 00000000 일자로 기록될 전체 방문 기록 row 추가
+            $oCounterController->insertTodayStatus('000000');
 
             // 오늘자 row입력
             $oCounterController->insertTodayStatus();
