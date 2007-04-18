@@ -1,14 +1,12 @@
 <?php
     /**
-     * @class login_info
+     * @class counter_status
      * @author zero (zero@nzeo.com)
      * @version 0.1
-     * @brief 로그인 폼을 출력하는 플러그인
-     *
-     * $logged_info를 이용하며 이는 미리 설정되어 있음
+     * @brief counter 모듈의 데이터를 이용하여 counter 현황을 출력
      **/
 
-    class login_info extends PluginHandler {
+    class counter_status extends PluginHandler {
 
         /**
          * @brief 플러그인의 실행 부분
@@ -24,7 +22,7 @@
             Context::set('colorset', $args->colorset);
 
             // 템플릿 파일을 지정
-            $tpl_file = 'login_info';
+            $tpl_file = 'counter_status';
 
             // 템플릿 컴파일
             $oTemplate = new TemplateHandler();

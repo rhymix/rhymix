@@ -1,0 +1,10 @@
+<query id="insertTodayStatus" action="insert">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" notnull="notnull" />
+        <column name="unique_visitor" default="0" />
+        <column name="pageview" default="0" />
+    </columns>
+</query>
