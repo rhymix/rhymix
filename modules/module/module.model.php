@@ -491,6 +491,9 @@
                 $info->path = $path;
                 $info->admin_index_act = $info->admin_index_act;
 
+                if($table_count > $created_table_count) $info->is_installed = false;
+                else $info->is_installed = true;
+
                 $list[] = $info;
             }
             return $list;

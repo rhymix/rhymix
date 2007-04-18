@@ -32,3 +32,15 @@ function doAddShortCut(module) {
     fo_obj.selected_module.value = module;
     procFilter(fo_obj, insert_shortcut);
 }
+
+/* 모듈 설치 */
+function doInstallModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
+}
+
+function completeInstallModule(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = location.href;
+}

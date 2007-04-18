@@ -10,6 +10,7 @@
     $lang->module_category = "모듈 카테고리";
     $lang->module_info = "모듈 정보";
     $lang->add_shortcut = "관리자 메뉴에 추가";
+    $lang->module_action = "동작";
 
     $lang->module_maker = "모듈 제작자";
     $lang->module_history = "변경 사항 ";
@@ -17,6 +18,8 @@
     $lang->category_title = "카테고리 이름";
 
     $lang->cmd_add_shortcut = "바로가기 추가";
+    $lang->cmd_install = "설치";
+    $lang->cmd_update = "업데이트";
 
     $lang->msg_new_module = "모듈 생성";
     $lang->msg_update_module = "모듈 수정";

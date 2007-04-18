@@ -6,6 +6,8 @@
         <action name="dispInstallCheckEnv" type="view" standalone="true" />
         <action name="dispInstallSelectDB" type="view" standalone="true" />
         <action name="dispInstallForm" type="view" standalone="true" />
+
         <action name="procInstall" type="controller" standalone="true" />
+        <action name="procInstallAdminInstall" type="controller" standalone="true" />
     </actions>
 </module>

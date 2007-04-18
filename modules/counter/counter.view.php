@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  spamfilterView
+     * @class  counterView
      * @author zero (zero@nzeo.com)
-     * @brief  spamfilter 모듈의 View class
+     * @brief  counter 모듈의 View class
      **/
 
-    class spamfilterView extends spamfilter {
+    class counterView extends counter {
 
         /**
          * @brief 초기화
@@ -16,44 +16,10 @@
         }
 
         /**
-         * @brief 스팸필터의 설정 화면
+         * @brief 관리자 페이지 초기화면
          **/
-        function dispSpamfilterAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('spamfilter');
-            Context::set('config',$config);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('index');
+        function dispCounterAdminIndex() {
         }
 
-        /**
-         * @brief 금지 목록 출력
-         **/
-        function dispSpamfilterAdminDeniedIPList() {
-            // 등록된 금지 IP 목록을 가져옴
-            $oSpamFilterModel = &getModel('spamfilter');
-            $ip_list = $oSpamFilterModel->getDeniedIPList();
-
-            Context::set('ip_list', $ip_list);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('denied_ip_list');
-        }
-
-        /**
-         * @brief 금지 목록 출력
-         **/
-        function dispSpamfilterAdminDeniedWordList() {
-            // 등록된 금지 Word 목록을 가져옴
-            $oSpamFilterModel = &getModel('spamfilter');
-            $word_list = $oSpamFilterModel->getDeniedWordList();
-
-            Context::set('word_list', $word_list);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('denied_word_list');
-        }
     }
 ?>

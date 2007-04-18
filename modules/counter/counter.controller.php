@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  spamfilterController
+     * @class  counterController
      * @author zero (zero@nzeo.com)
-     * @brief  spamfilter 모듈의 controller class
+     * @brief  counter 모듈의 controller class
      **/
 
-    class spamfilterController extends spamfilter {
+    class counterController extends counter {
 
         /**
          * @brief 초기화
@@ -14,101 +14,17 @@
         }
 
         /**
-         * @brief 스팸필터 설정
-         **/
-        function procSpamfilterAdminInsertConfig() {
-            // 기본 정보를 받음
-            $args = Context::gets('interval','limit_count','check_trackback');
-            if($args->check_trackback!='Y') $args->check_trackback = 'N';
-
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('spamfilter',$args);
-            return $output;
-        }
-        
-        /**
-         * @brief 금지 IP등록
-         **/
-        function procSpamfilterAdminInsertDeniedIP() {
-            $ipaddress = Context::get('ipaddress');
-            return $this->insertIP($ipaddress);
-        }
-
-        /**
-         * @brief 금지 IP삭제
-         **/
-        function procSpamfilterAdminDeleteDeniedIP() {
-            $ipaddress = Context::get('ipaddress');
-            return $this->deleteIP($ipaddress);
-        }
-        
-        /**
-         * @brief 금지 Word등록
-         **/
-        function procSpamfilterAdminInsertDeniedWord() {
-            $word = Context::get('word');
-            return $this->insertWord($word);
-        }
-
-        /**
-         * @brief 금지 Word삭제
-         **/
-        function procSpamfilterAdminDeleteDeniedWord() {
-            $word = Context::get('word');
-            return $this->deleteWord($word);
-        }
-
-        /**
-         * @brief IP 등록
-         * 등록된 IP는 스패머로 간주
-         **/
-        function insertIP($ipaddress) {
-            $args->ipaddress = $ipaddress;
-            return executeQuery('spamfilter.insertDeniedIP', $args);
-        }
-
-        /**
-         * @brief IP 제거
-         * 스패머로 등록된 IP를 제거
-         **/
-        function deleteIP($ipaddress) {
-            if(!$ipaddress) return;
-
-            $args->ipaddress = $ipaddress;
-            return executeQuery('spamfilter.deleteDeniedIP', $args);
-        }
-
-        /**
-         * @brief 스팸단어 등록
-         * 등록된 단어가 포함된 글은 스팸글로 간주
-         **/
-        function insertWord($word) {
-            if(!$word) return;
-
-            $args->word = $word;
-            return executeQuery('spamfilter.insertDeniedWord', $args);
-        }
-
-        /**
-         * @brief 스팸단어 제거
-         * 스팸 단어로 등록된 단어 제거
-         **/
-        function deleteWord($word) {
-            if(!$word) return;
-
-            $args->word = $word;
-            return executeQuery('spamfilter.deleteDeniedWord', $args);
-        }
-
-        /**
-         * @brief 로그 등록
-         * 현 접속 IP를 로그에 등록, 로그의 간격이 특정 시간 이내일 경우 도배로 간주하여
-         * 스패머로 등록할 수 있음
+         * @brief 로그 등록 
          **/
         function insertLog() {
-            $output = executeQuery('spamfilter.insertLog');
-            return $output;
+            return executeQuery('counter.insertCounterLog');
+        }
+
+        /**
+         * @brief 현황 등록
+         **/
+        function insertStatus() {
+            return executeQuery('counter.insertCounterStatus');
         }
 
     }

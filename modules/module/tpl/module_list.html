@@ -16,16 +16,16 @@
     <td>{$lang->table_count}</td>
     <td>{$lang->installed_path}</td>
     <td>{$lang->module_info}</td>
+    <td>{$lang->module_action}</td>
     <td>{$lang->add_shortcut}</td>
 </tr>
 <!--@foreach($module_list as $key => $val)-->
 <tr>
-    <td rowspan="2">
+    <td>
         <!--@if($val->admin_index_act)-->
-            <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> <br /> ({$val->module})
+            <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
         <!--@else-->
-            {$val->title} <br />
-            ({$val->module})
+            {$val->title} ({$val->module})
         <!--@end-->
     </td>
     <td>{$val->version}</td>
@@ -42,15 +42,17 @@
     </td>
     <td>{$val->path}</td>
     <td><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
-    <td rowspan="2">
+    <td>
+        <!--@if(!$val->is_installed)-->
+            <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
+        <!--@elseif($val->need_update)-->
+            <a href="#">{$lang->cmd_update}</a>
+        <!--@end-->
+    </td>
+    <td>
         <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
         <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
         <!--@end-->
-    </td>
-</tr>
-<tr>
-    <td colspan="6">
-        {nl2br($val->author->description)}
     </td>
 </tr>
 <!--@end-->
