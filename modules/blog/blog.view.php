@@ -1,16 +1,16 @@
 <?php
     /**
-     * @class  boardView
+     * @class  blogView
      * @author zero (zero@nzeo.com)
-     * @brief  board 모듈의 View class
+     * @brief  blog 모듈의 View class
      **/
 
-    class boardView extends board {
+    class blogView extends blog {
 
         /**
          * @brief 초기화
          *
-         * board 모듈은 일반 사용과 관리자용으로 나누어진다.\n
+         * blog 모듈은 일반 사용과 관리자용으로 나누어진다.\n
          **/
         function init() {
             if(substr_count($this->act, 'Admin')) $this->initAdmin();
@@ -47,13 +47,13 @@
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
-            // 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
+            // 템플릿 경로 지정 (blog의 경우 tpl에 관리자용 템플릿 모아놓음)
             $template_path = sprintf("%stpl/",$this->module_path);
             $this->setTemplatePath($template_path);
         }
 
         /**
-         * @brief 일반 게시판 호출시에 관련 정보를 세팅해줌
+         * @brief 일반 블로그 호출시에 관련 정보를 세팅해줌
          **/
         function initNormal() {
             // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
@@ -77,15 +77,15 @@
             $this->setTemplatePath($template_path);
 
             // rss url
-            if($this->grant->view) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBoardRss'));
+            if($this->grant->view) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
         }
 
         /**
          * @brief 목록 및 선택된 글 출력
          **/
-        function dispBoardContent() {
+        function dispBlogContent() {
             // 권한 체크
-            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->list) return $this->dispBlogMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -167,9 +167,9 @@
         /**
          * @brief 글 작성 화면 출력
          **/
-        function dispBoardWrite() {
+        function dispBlogWrite() {
             // 권한 체크
-            if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_document) return $this->dispBlogMessage('msg_not_permitted');
 
             // GET parameter에서 document_srl을 가져옴
             $document_srl = Context::get('document_srl');
@@ -205,9 +205,9 @@
         /**
          * @brief 문서 삭제 화면 출력
          **/
-        function dispBoardDelete() {
+        function dispBlogDelete() {
             // 권한 체크
-            if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_document) return $this->dispBlogMessage('msg_not_permitted');
 
             // 삭제할 문서번호를 가져온다
             $document_srl = Context::get('document_srl');
@@ -219,7 +219,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$document) return $this->dispBoardContent();
+            if(!$document) return $this->dispBlogContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
@@ -232,9 +232,9 @@
         /**
          * @brief 댓글의 답글 화면 출력
          **/
-        function dispBoardReplyComment() {
+        function dispBlogReplyComment() {
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBlogMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -248,7 +248,7 @@
             $source_comment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$source_comment) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$source_comment) return $this->dispBlogMessage('msg_invalid_request');
 
             // 필요한 정보들 세팅
             Context::set('document_srl',$document_srl);
@@ -265,9 +265,9 @@
         /**
          * @brief 댓글 수정 폼 출력
          **/
-        function dispBoardModifyComment() {
+        function dispBlogModifyComment() {
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBlogMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -281,7 +281,7 @@
             $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$comment) return $this->dispBlogMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
@@ -300,9 +300,9 @@
         /**
          * @brief 댓글 삭제 화면 출력
          **/
-        function dispBoardDeleteComment() {
+        function dispBlogDeleteComment() {
             // 권한 체크
-            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_comment) return $this->dispBlogMessage('msg_not_permitted');
 
             // 삭제할 댓글번호를 가져온다
             $comment_srl = Context::get('comment_srl');
@@ -314,7 +314,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$comment) return $this->dispBoardContent();
+            if(!$comment) return $this->dispBlogContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
@@ -327,7 +327,7 @@
         /**
          * @brief 엮인글 삭제 화면 출력
          **/
-        function dispBoardDeleteTrackback() {
+        function dispBlogDeleteTrackback() {
             // 삭제할 댓글번호를 가져온다
             $trackback_srl = Context::get('trackback_srl');
 
@@ -337,7 +337,7 @@
             $trackback = $output->data;
 
             // 삭제하려는 글이 없으면 에러
-            if(!$trackback) return $this->dispBoardContent();
+            if(!$trackback) return $this->dispBlogContent();
 
             Context::set('trackback',$trackback);
 
@@ -347,7 +347,7 @@
         /**
          * @brief 메세지 출력
          **/
-        function dispBoardMessage($msg_code) {
+        function dispBlogMessage($msg_code) {
             $msg = Context::getLang($msg_code);
             if(!$msg) $msg = $msg_code;
             Context::set('message', $msg);
@@ -357,9 +357,9 @@
         /**
          * @brief RSS 출력
          **/
-        function dispBoardRss() {
+        function dispBlogRss() {
             // 권한 체크
-            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->list) return $this->dispBlogMessage('msg_not_permitted');
 
             // 컨텐츠 추출
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
@@ -412,22 +412,22 @@
         }
 
         /**
-         * @brief 게시판 관리 목록 보여줌
+         * @brief 블로그 관리 목록 보여줌
          **/
-        function dispBoardAdminContent() {
-            // 등록된 board 모듈을 불러와 세팅
+        function dispBlogAdminContent() {
+            // 등록된 blog 모듈을 불러와 세팅
             $args->sort_index = "module_srl";
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
-            $output = executeQuery('board.getBoardList', $args);
+            $output = executeQuery('blog.getBlogList', $args);
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
-            Context::set('board_list', $output->data);
+            Context::set('blog_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
             // 템플릿 파일 지정
@@ -435,26 +435,26 @@
         }
 
         /**
-         * @brief 게시판에 필요한 기본 설정들
+         * @brief 블로그에 필요한 기본 설정들
          **/
-        function dispBoardAdminModuleConfig() {
+        function dispBlogAdminModuleConfig() {
 
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('board');
+            $config = $oModuleModel->getModuleConfig('blog');
             Context::set('config',$config);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('board_config');
+            $this->setTemplateFile('blog_config');
         }
 
         /**
-         * @brief 선택된 게시판의 정보 출력
+         * @brief 선택된 블로그의 정보 출력
          **/
-        function dispBoardAdminBoardInfo() {
+        function dispBlogAdminBlogInfo() {
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
+            if(!Context::get('module_srl')) return $this->dispBlogAdminContent();
 
             // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
             if($this->module_info->layout_srl) {
@@ -472,13 +472,13 @@
             }
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('board_info');
+            $this->setTemplateFile('blog_info');
         }
 
         /**
-         * @brief 게시판 추가 폼 출력
+         * @brief 블로그 추가 폼 출력
          **/
-        function dispBoardAdminInsertBoard() {
+        function dispBlogAdminInsertBlog() {
 
             // 스킨 목록을 구해옴
             $oModuleModel = &getModel('module');
@@ -486,15 +486,15 @@
             Context::set('skin_list',$skin_list);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('board_insert');
+            $this->setTemplateFile('blog_insert');
         }
 
         /**
-         * @brief 게시판 삭제 화면 출력
+         * @brief 블로그 삭제 화면 출력
          **/
-        function dispBoardAdminDeleteBoard() {
+        function dispBlogAdminDeleteBlog() {
 
-            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
+            if(!Context::get('module_srl')) return $this->dispBlogAdminContent();
 
             $module_info = Context::get('module_info');
 
@@ -505,13 +505,13 @@
             Context::set('module_info',$module_info);
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('board_delete');
+            $this->setTemplateFile('blog_delete');
         }
 
         /**
          * @brief 스킨 정보 보여줌
          **/
-        function dispBoardAdminSkinInfo() {
+        function dispBlogAdminSkinInfo() {
 
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
             $module_info = Context::get('module_info');
@@ -538,7 +538,7 @@
         /**
          * @brief 카테고리의 정보 출력
          **/
-        function dispBoardAdminCategoryInfo() {
+        function dispBlogAdminCategoryInfo() {
 
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
@@ -570,7 +570,7 @@
         /**
          * @brief 권한 목록 출력
          **/
-        function dispBoardAdminGrantInfo() {
+        function dispBlogAdminGrantInfo() {
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
 
@@ -584,34 +584,6 @@
             Context::set('group_list', $group_list);
 
             $this->setTemplateFile('grant_list');
-        }
-
-        /**
-         * @brief 선택한 목록 출력
-         **/
-        function dispBoardAdminManageDocument() {
-            // 선택한 목록을 세션에서 가져옴
-            $flag_list = $_SESSION['document_management'][$this->module_srl];
-
-            // 목록이 있으면 게시글을 가져옴
-            if(count($flag_list)) $document_srl_list = array_keys($flag_list);
-            if(is_array($document_srl_list) && count($document_srl_list)) {
-                $oDocumentModeul = &getModel('document');
-                $document_list = $oDocumentModeul->getDocuments($document_srl_list, $this->grant->is_admin);
-                Context::set('document_list', $document_list);
-            }
-
-            // 게시판의 목록을 가져옴
-            $output = executeQuery('board.getAllBoard', $args);
-            $board_list = $output->data;
-            if($board_list && !is_array($board_list)) $board_list = array($board_list);
-            Context::set('board_list', $board_list);
-
-            // 팝업 레이아웃 선택
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('popup_layout');
-
-            $this->setTemplateFile('checked_list');
         }
     }
 ?>

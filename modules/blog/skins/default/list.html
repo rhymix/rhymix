@@ -16,134 +16,13 @@
                 </select>
             </form>
         </th>
-    </tr>
     </table>
     <!--@end-->
 
-    <!--@foreach($document_list as $no => $val)-->
-    <!-- 글 내용 보여주기 -->
-    <div>
-        <table border="1" width="100%" style="table-layout:fixed">
-        <col width="120" />
-        <col width="*" />
-
-        <!--@if($category_list && $val->category_srl)-->
-        <tr>  
-            <th>{$lang->category}</th>
-            <td>{$category_list[$val->category_srl]->title}</td>
-        </tr>
+    <!--@foreach($document_list as $no => $document)-->
+        <!--@if($document && $grant->view)-->
+            <!--#include("./view_document.html")-->
         <!--@end-->
-
-        <tr>
-            <th>{$lang->title}</th>
-            <td>{htmlspecialchars($val->title)}</td>
-        </tr>
-        <!--@if($val->homepage)-->
-        <tr>
-            <th>{$lang->homepage}</th>
-            <td><a href="{$val->homepage}" onclick="winopen('{$val->homepage}'); return false;">{htmlspecialchars($val->homepage)}</a></td>
-        </tr>
-        <!--@end-->
-        <tr>
-            <th>{$lang->date}</th>
-            <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        </tr>
-        <tr>
-            <th>{$lang->writer}</th>
-            <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        </tr>
-        <tr>
-            <th>{$lang->readed_count}</th>
-            <td>{$val->readed_count}</td>
-        </tr>
-        <tr>
-            <th>{$lang->voted_count}</th>
-            <td>{$val->voted_count}</td>
-        </tr>
-        <tr>
-            <th>{$lang->content}</th>
-            <td height="100" valign="top">{$val->content}</td>
-        </tr>
-        <tr>
-            <th>{$lang->document_url}</th>
-            <td>{getUrl()}{$val->document_srl}</td>
-        </tr>
-
-        <!--@if($val->allow_trackback=='Y')-->
-        <tr>
-            <th>{$lang->trackback_url}</th>
-            <td>{getUrl()}trackback/{$val->document_srl}</td>
-        </tr>
-        <!--@end-->
-
-        <!--@if($val->tag_list)-->
-        <tr>
-            <th>{$lang->tag}</th>
-            <td>
-                <!--@foreach($val->tag_list as $val)-->
-                    <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
-                <!--@end-->
-            </td>
-        </tr>
-        <!--@end-->
-
-        <!--@if($val->uploaded_count && $val->uploaded_list)-->
-        <tr>
-            <th>{$lang->uploaded_file}</th>
-            <td>
-                <!--@foreach($val->uploaded_list as $key => $file)-->
-                    <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
-                <!--@end-->
-            </td>
-        </tr>
-        <!--@end-->
-
-        <tr>
-            <th>ipaddress</th>
-            <td>{$val->ipaddress}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <!--@if($val->allow_comment=='Y')-->
-                    {$lang->allow_comment}
-                <!--@end-->
-
-                <!--@if($val->lock_comment=='Y')-->
-                    {$lang->lock_comment}
-                <!--@end-->
-
-                <!--@if($val->allow_trackback=='Y')-->
-                    {$lang->allow_trackback}
-                <!--@end-->
-            </td>
-        </tr>
-        </table>
-    </div>
-
-    <!-- 관련 링크 -->
-    <div>
-        <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
-        <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
-
-        <!--@if($val->is_granted)-->
-        <a href="{getUrl('act','dispBlogWrite')}">[{$lang->cmd_modify}]</a> 
-        <a href="{getUrl('act','dispBlogDelete')}">[{$lang->cmd_delete}]</a> 
-        <!--@end-->
-    </div>
-
-
-    <!-- 엮인글 파일 include -->
-    <!--@if($val->allow_trackback=='Y')-->
-        <a name="trackback"></a>
-        <!--#include("./trackback.html")-->
-    <!--@end-->
-
-    <!-- 댓글 파일 include -->
-    <!--@if($grant->write_comment&&$val->allow_comment=='Y')-->
-        <a name="comment"></a>
-        <!--#include("./comment.html")-->
-    <!--@end-->
-
     <!--@end-->
 </div>
 

@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  boardController
+     * @class  blogController
      * @author zero (zero@nzeo.com)
-     * @brief  board 모듈의 Controller class
+     * @brief  blog 모듈의 Controller class
      **/
 
-    class boardController extends board {
+    class blogController extends blog {
 
         /**
          * @brief 초기화
@@ -16,7 +16,7 @@
         /**
          * @brief 문서 입력
          **/
-        function procBoardInsertDocument() {
+        function procBlogInsertDocument() {
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
@@ -65,7 +65,7 @@
         /**
          * @brief 문서 삭제
          **/
-        function procBoardDeleteDocument() {
+        function procBlogDeleteDocument() {
             // 문서 번호 확인
             $document_srl = Context::get('document_srl');
 
@@ -86,20 +86,9 @@
         }
 
         /**
-         * @brief 추천
-         **/
-        function procBoardVoteDocument() {
-            // document module controller 객체 생성
-            $oDocumentController = &getController('document');
-
-            $document_srl = Context::get('document_srl');
-            return $oDocumentController->updateVotedCount($document_srl);
-        }
-
-        /**
          * @brief 코멘트 추가
          **/
-        function procBoardInsertComment() {
+        function procBlogInsertComment() {
             // 댓글 입력에 필요한 데이터 추출
             $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage');
             $obj->module_srl = $this->module_srl;
@@ -146,7 +135,7 @@
         /**
          * @brief 코멘트 삭제
          **/
-        function procBoardDeleteComment() {
+        function procBlogDeleteComment() {
             // 댓글 번호 확인
             $comment_srl = Context::get('comment_srl');
             if(!$comment_srl) return $this->doError('msg_invalid_request');
@@ -166,7 +155,7 @@
         /**
          * @brief 엮인글 삭제
          **/
-        function procBoardDeleteTrackback() {
+        function procBlogDeleteTrackback() {
             $trackback_srl = Context::get('trackback_srl');
 
             // trackback module의 controller 객체 생성
@@ -183,7 +172,7 @@
         /**
          * @brief 문서와 댓글의 비밀번호를 확인
          **/
-        function procBoardVerificationPassword() {
+        function procBlogVerificationPassword() {
             // 비밀번호와 문서 번호를 받음
             $password = md5(Context::get('password'));
             $document_srl = Context::get('document_srl');
@@ -218,63 +207,9 @@
         }
 
         /**
-         * @brief 관리자가 글 선택시 세션에 담음
-         **/
-        function procBoardAdminAddCart() {
-            $document_srl = Context::get('srl');
-            $check_flag = Context::get('check_flag');
-            if(!$document_srl || !in_array($check_flag, array('add','remove'))) return;
-
-            $flag_list = $_SESSION['document_management'][$this->module_srl];
-
-            if($check_flag == 'remove') unset($flag_list[$document_srl]);
-            else $flag_list[$document_srl] = true;
-
-            $_SESSION['document_management'][$this->module_srl] = $flag_list;
-        }
-
-        /**
-         * @brief 세션에 담긴 선택글의 이동/ 삭제
-         **/
-        function procBoardAdminManageCheckedDocument() {
-            $type = Context::get('type');
-            $module_srl = Context::get('target_board');
-            $flag_list = $_SESSION['document_management'][$this->module_srl];
-
-            $document_srl_list = array_keys($flag_list);
-
-            $oDocumentController = &getController('document');
-            $document_srl_count = count($document_srl_list);
-
-            if($type == 'move') {
-                if(!$module_srl) return new Object(-1, 'fail_to_move');
-                else {
-                    $output = $oDocumentController->moveDocumentModule($document_srl_list, $module_srl, $this->module_srl);
-                    if(!$output->toBool()) return new Object(-1, 'fail_to_move');
-                    $msg_code = 'success_moved';
-                    $_SESSION['document_management'][$this->module_srl] = null;
-                }
-
-            } elseif($type =='delete') {
-                $oDB = &DB::getInstance();
-                $oDB->begin();
-                for($i=0;$i<$document_srl_count;$i++) {
-                    $document_srl = $document_srl_list[$i];
-                    $output = $oDocumentController->deleteDocument($document_srl, true);
-                    if(!$output->toBool()) return new Object(-1, 'fail_to_delete');
-                }
-                $oDB->commit();
-                $msg_code = 'success_deleted';
-                $_SESSION['document_management'][$this->module_srl] = null;
-            }
-
-            $this->setMessage($msg_code);
-        }
- 
-        /**
          * @brief 권한 추가
          **/
-        function procBoardAdminInsertGrant() {
+        function procBlogAdminInsertGrant() {
             $module_srl = Context::get('module_srl');
 
             // 현 모듈의 권한 목록을 가져옴
@@ -298,7 +233,7 @@
         /**
          * @brief 스킨 정보 업데이트
          **/
-        function procBoardAdminUpdateSkinInfo() {
+        function procBlogAdminUpdateSkinInfo() {
             // module_srl에 해당하는 정보들을 가져오기
             $module_srl = Context::get('module_srl');
             $oModuleModel = &getModel('module');
@@ -378,14 +313,14 @@
         }
 
         /**
-         * @brief 게시판 추가
+         * @brief 블로그 추가
          **/
-        function procBoardAdminInsertBoard() {
+        function procBlogAdminInsertBlog() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','module_category_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
-            $args->module = 'board';
-            $args->mid = $args->board_name;
-            unset($args->board_name);
+            $args = Context::gets('module_srl','module_category_srl','blog_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+            $args->module = 'blog';
+            $args->mid = $args->blog_name;
+            unset($args->blog_name);
             if($args->is_default!='Y') $args->is_default = 'N';
 
             // 기본 값외의 것들을 정리
@@ -394,7 +329,7 @@
             unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
-            unset($extra_var->board_name);
+            unset($extra_var->blog_name);
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
@@ -431,9 +366,9 @@
         }
 
         /**
-         * @brief 게시판 삭제
+         * @brief 블로그 삭제
          **/
-        function procBoardAdminDeleteBoard() {
+        function procBlogAdminDeleteBlog() {
             $module_srl = Context::get('module_srl');
 
             // 원본을 구해온다
@@ -441,7 +376,7 @@
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
 
-            $this->add('module','board');
+            $this->add('module','blog');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
@@ -449,7 +384,7 @@
         /**
          * @brief 카테고리 추가
          **/
-        function procBoardAdminInsertCategory() {
+        function procBlogAdminInsertCategory() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $module_srl = Context::get('module_srl');
             $category_title = Context::get('category_title');
@@ -467,7 +402,7 @@
         /**
          * @brief 카테고리의 내용 수정
          **/
-        function procBoardAdminUpdateCategory() {
+        function procBlogAdminUpdateCategory() {
             $module_srl = Context::get('module_srl');
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
@@ -504,15 +439,15 @@
         }
 
         /**
-         * @brief 게시판 기본 정보의 추가
+         * @brief 블로그 기본 정보의 추가
          **/
-        function procBoardAdminInsertConfig() {
+        function procBlogAdminInsertConfig() {
             // 기본 정보를 받음
             $args = Context::gets('test');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('board',$args);
+            $output = $oModuleController->insertModuleConfig('blog',$args);
             return $output;
         }
     }

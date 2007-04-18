@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  board
+     * @class  blog
      * @author zero (zero@nzeo.com)
-     * @brief  board 모듈의 high class
+     * @brief  blog 모듈의 high class
      **/
 
-    class board extends ModuleObject {
+    class blog extends ModuleObject {
 
         var $search_option = array('title','content','title_content','user_name','user_id','tag'); ///< 검색 옵션
 
@@ -22,20 +22,15 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminContent');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminModuleConfig');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminBoardInfo');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminInsertBoard');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminDeleteBoard');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminSkinInfo');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminCategoryInfo');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminGrantInfo');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertGrant');
-            $oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateSkinInfo');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminDeleteBoard');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertCategory');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateCategory');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertConfig');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminContent');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminModuleConfig');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminBlogInfo');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminInsertBlog');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminDeleteBlog');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminSkinInfo');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminCategoryInfo');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminGrantInfo');
+            $oModuleController->insertActionForward('blog', 'controller', 'procBlogAdminUpdateSkinInfo');
 
             return new Object();
         }
