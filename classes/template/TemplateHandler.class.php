@@ -42,12 +42,11 @@
             // 일단 컴파일
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
 
-            if(__DEBUG__==3) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
-
             // Context와 compiled_tpl_file로 컨텐츠 생성
             $output = $this->_fetch($compiled_tpl_file, $buff);
 
-            // 컴파일된 파일을 실행
+            if(__DEBUG__==3) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
+
             return $output; 
         }
 

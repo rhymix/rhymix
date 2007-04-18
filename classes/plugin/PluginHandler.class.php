@@ -14,12 +14,20 @@
          * <div plugin='플러그인'...></div> 태그 사용 templateHandler에서 PluginHandler::execute()를 실행하는 코드로 대체하게 된다
          **/
         function execute($plugin, $args) {
+            // 디버그를 위한 플러그인 실행 시간 저장
+            if(__DEBUG__==3) $start = getMicroTime();
+
             // $plugin의 객체를 받음 
             $oPlugin = PluginHandler::getObject($plugin);
-            if(!$oPlugin) return;
 
             // 플러그인 실행
-            return $oPlugin->proc($args);
+            if($oPlugin) {
+                $output = $oPlugin->proc($args);
+            }
+
+            if(__DEBUG__==3) $GLOBALS['__plugin_excute_elapsed__'] += getMicroTime() - $start;
+
+            return $output;
         }
 
         /**
