@@ -14,35 +14,21 @@
     </color>
   </colorset>
   <extra_vars>
-    <var name="top_title">
-        <name xml:lang="ko">상단 제목</name>
-        <type>text</type>
+    <var name="top_title" type="text">
+        <title xml:lang="ko">상단 제목</title>
         <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
     </var>
     <var name="logo_image" type="image" width="60" height="60">
-      <title xml:lang="ko">로고이미지</title>
-    </var>
-    <var name="home_url">
-        <name xml:lang="ko">홈 url</name>
-        <type>text</type>
-        <description xml:lang="ko">home이나 상단 제목(로고이미지) 클릭시 이동할 홈 url을 입력해주세요.</description>
-    </var>
-    <var name="colorset">
-        <name xml:lang="ko">컬러셋</name>
-        <type>select</type>
-        <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
-        <options>
-            <name xml:lang="ko">적색</name>
-            <value>red</value>
-        </options>
-        <options>
-            <name xml:lang="ko">청색</name>
-            <value>blue</value>
-        </options>
+        <title xml:lang="ko">로고이미지</title>
+        <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
     </var>
     <var name="memo" type="textarea">
-      <title xml:lang="ko">프로필</title>
-      <default lang="ko">간단한 프로필을 입력해주세요</default>
+        <title xml:lang="ko">프로필</title>
+        <description lang="ko">간단한 프로필을 입력해주세요</description>
+    </var>
+    <var name="memo" type="textarea">
+        <title xml:lang="ko">분류 메뉴명</title>
+        <description lang="ko">분류 메뉴의 제목을 입력해주세요.</description>
     </var>
   </extra_vars>
 </skin>

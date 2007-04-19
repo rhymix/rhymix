@@ -83,7 +83,7 @@
             $this->setTemplatePath($template_path);
 
             // rss url
-            if($this->grant->view) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
+            if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
         }
 
         /**
@@ -101,7 +101,7 @@
             $oDocumentModel = &getModel('document');
 
             // document_srl이 있다면 해당 글을 구해오자
-            if($this->grant->view && $document_srl) {
+            if($this->grant->list && $document_srl) {
 
                 // 글을 구함
                 $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager, true);

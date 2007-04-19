@@ -3,14 +3,20 @@
 
 <!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    //loadTreeMenu("{$blog_menu->xml_file}", "blog_menu", "menu", "{$layout_info->main_menu_name?$layout_info->main_menu_name:'home'}");
+    //loadTreeMenu("{$blog_menu->xml_file}", "blog_menu", "menu", "{$module_info->main_menu_name?$module_info->main_menu_name:'home'}");
 </script>
 
 
 <!-- 상단 로고 및 상단 메뉴 출력 -->
 <div class="layout_top">
     <div class="layout_logo">
-        <a href="{$layout_info->home_url}">{$layout_info->top_title}</a>
+        <!--@if($module_info->logo_image)-->
+            <a href="./?mid={$mid}"><img src="{$module_info->logo_image}" border="0" alt="{$module_info->browser_title}"/></a>
+        <!--@end-->
+
+        <!--@if($module_info->top_title)-->
+            <a href="./?mid={$mid}">{$module_info->top_title}</a>
+        <!--@end-->
     </div>
 
     <div class="layout_first_menu">
@@ -34,21 +40,34 @@
     </div>
 </div>
 
-<!-- 왼쪽 2차 메뉴 및 로그인과 기타 플러그인 부분 -->
+<!-- 왼쪽 분류 출력 -->
 <div class="layout_left">
-    <!-- 로그인 플러그인 -->
-    <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="login_info" skin="default" colorset="normal" style="width:100px;height:100px;"/>
-
-    <!-- 카운터 플러그인 -->
-    <img src="./common/tpl/images/blank.gif" class="zbxe_plugin_output" plugin="counter_status" skin="default" colorset="normal" style="width:100px;height:100px;"/>
-
     <!-- 블로그 메뉴 출력 -->
     <div id="menu"></div>
 
     <!--@if($logged_info->is_admin == 'Y')-->
-    <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
+    <!-- 관리자일 경우 블로그 관리 메뉴 -->
     <div class="layout_admin">
-        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+        <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+    </div>
+    <!--@end-->
+
+    <!--@if($rss_url)-->
+    <div>
+        <a href="{$rss_url}">rss</a>
+    </div>
+    <!--@end-->
+
+    <!--@if($grant->list)-->
+    <!-- 검색 -->
+    <div>
+        <form action="./" method="get" onsubmit="return procFilter(this, search)">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="category" value="{$category}" />
+            <input type="hidden" name="search_target" value="title_content" />
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+            <input type="submit" value="{$lang->cmd_search}" />
+        </form>
     </div>
     <!--@end-->
 </div>

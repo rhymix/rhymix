@@ -10,37 +10,30 @@
         </description>
     </author>
     <extra_vars>
-        <var name="top_title">
-            <name xml:lang="ko">상단 제목</name>
-            <type>text</type>
-            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
-        </var>
-        <var name="main_menu_name">
-            <name xml:lang="ko">메인 메뉴 명</name>
-            <type>text</type>
-            <description xml:lang="ko">트리메뉴의 가장 상위에 표시될 이름을 입력하세요.</description>
-        </var>
-        <var name="colorset">
-            <name xml:lang="ko">컬러셋</name>
-            <type>select</type>
+        <var name="colorset" type="select">
+            <title xml:lang="ko">컬러셋</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
-            <options>
-                <name xml:lang="ko">적색</name>
+            <options name="red">
+                <title xml:lang="ko">적색</title>
                 <value>red</value>
             </options>
-            <options>
-                <name xml:lang="ko">청색</name>
+            <options name="blue">
+                <title xml:lang="ko">청색</title>
                 <value>blue</value>
             </options>
         </var>
+        <var name="top_title" type="text">
+            <title xml:lang="ko">상단 제목</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
+        </var>
     </extra_vars>
     <menus>
-        <menu id="main_menu" default="true">
-            <name xml:lang="ko">주 메뉴</name>
+        <menu name="main_menu" default="true">
+            <title xml:lang="ko">주 메뉴</title>
             <maxdepth>2</maxdepth>
         </menu>
-        <menu id="bottom_menu">
-            <name xml:lang="ko">하단 메뉴 </name>
+        <menu name="bottom_menu">
+            <title xml:lang="ko">하단 메뉴 </title>
             <maxdepth>1</maxdepth>
         </menu>
     </menus>

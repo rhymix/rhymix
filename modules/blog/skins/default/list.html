@@ -3,24 +3,8 @@
 
 <!-- 목록 -->
 <div>
-    <!--@if($category_list)-->
-    <table width="100%" border="1">
-    <tr>
-        <th>
-            <form action="./" method="get">
-                <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
-                    <option value="">{$lang->category}</option>
-                    <!--@foreach($category_list as $val)-->
-                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
-                    <!--@end-->
-                </select>
-            </form>
-        </th>
-    </table>
-    <!--@end-->
-
     <!--@foreach($document_list as $no => $document)-->
-        <!--@if($document && $grant->view)-->
+        <!--@if($document && $grant->list)-->
             <!--#include("./view_document.html")-->
         <!--@end-->
     <!--@end-->
@@ -34,24 +18,7 @@
     <!--@end-->
 </div>
 
-<!--@if($grant->view)-->
-
-<!-- 검색 -->
-<div>
-    <form action="./" method="get" onsubmit="return procFilter(this, search)">
-        <input type="hidden" name="mid" value="{$mid}" />
-        <input type="hidden" name="category" value="{$category}" />
-
-        <select name="search_target">
-            <!--@foreach($search_option as $key => $val)-->
-            <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-        <input type="submit" value="{$lang->cmd_search}" />
-        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','document_srl','')}'"/>
-    </form>
-</div>
+<!--@if($grant->list)-->
 
 <!-- 페이지 네비게이션 -->
 <div>
