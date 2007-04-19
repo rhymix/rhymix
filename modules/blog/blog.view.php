@@ -47,9 +47,17 @@
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
+            // 만약 블로그 서비스 페이지에서 관리자 기능 호출시 레이아웃을 지정
+            if($this->mid) {
+                $layout_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+
+                // 레이아웃 지정
+                $this->setLayoutPath($layout_path);
+                $this->setLayoutFile("layout");
+            }
+
             // 템플릿 경로 지정 (blog의 경우 tpl에 관리자용 템플릿 모아놓음)
-            $template_path = sprintf("%stpl/",$this->module_path);
-            $this->setTemplatePath($template_path);
+            $this->setTemplatePath($this->module_path."tpl");
         }
 
         /**
