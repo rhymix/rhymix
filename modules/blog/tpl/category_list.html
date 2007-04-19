@@ -1,18 +1,17 @@
-<!--%import("filter/update_category_title.xml")-->
-<!--%import("filter/insert_category_item.xml")-->
-<!--%import("filter/delete_category_item.xml")-->
-<!--%import("filter/move_category_item.xml")-->
+<!--%import("filter/insert_category.xml")-->
+<!--%import("filter/delete_category.xml")-->
+<!--%import("filter/move_category.xml")-->
 <!--#include("./header.html")-->
 
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
 <form id="fo_move_category" action="./" method="get">
     <input type="hidden" name="category_id" />
-    <input type="hidden" name="source_item_srl" />
-    <input type="hidden" name="target_item_srl" />
+    <input type="hidden" name="source_category_srl" />
+    <input type="hidden" name="target_category_srl" />
 </form>
 
 <div style="margin-bottom:10px;">
-    <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category_item)">
+    <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
         <input type="hidden" name="title" value="{$category_info->title}" />
         <input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
         <input type="hidden" name="xml_file" value="{$category_info->xml_file}" />
