@@ -41,6 +41,11 @@ body {
     z-index:10;
 }
 
+#blog_category {
+    padding:10px;
+    margin-bottom:10px;
+}
+
 /* 컨텐츠 */
 .layout_content {
     position:absolute;

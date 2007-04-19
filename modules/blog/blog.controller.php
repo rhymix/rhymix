@@ -459,6 +459,39 @@
         }
 
         /**
+         * @brief 카테고리 이동
+         **/
+        function procBlogAdminMoveCategory() {
+            $source_category_srl = Context::get('source_category_srl');
+            $target_category_srl = Context::get('target_category_srl');
+
+            $oBlogModel = &getModel('blog');
+            $target_category = $oBlogModel->getCategoryInfo($target_category_srl);
+            $source_category = $oBlogModel->getCategoryInfo($source_category_srl);
+
+            // source_category에 target_category_srl의 parent_srl, listorder 값을 입력
+            $source_args->category_srl = $source_category_srl;
+            $source_args->parent_srl = $target_category->parent_srl;
+            $source_args->listorder = $target_category->listorder;
+            $output = executeQuery('blog.updateCategoryParent', $source_args);
+            if(!$output->toBool()) return $output;
+
+            // target_category의 listorder값을 +1해 준다
+            $target_args->category_srl = $target_category_srl;
+            $target_args->parent_srl = $target_category->parent_srl;
+            $target_args->listorder = $target_category->listorder -1;
+            $output = executeQuery('blog.updateCategoryParent', $target_args);
+            if(!$output->toBool()) return $output;
+
+            // xml파일 재생성 
+            $xml_file = $this->makeXmlFile($target_category->module_srl);
+
+            // return 변수 설정
+            $this->add('xml_file', $xml_file);
+            $this->add('source_category_srl', $source_category_srl);
+        }
+
+        /**
          * @brief xml 파일을 갱신
          * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
          * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n

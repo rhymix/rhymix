@@ -30,9 +30,9 @@
         <title xml:lang="ko">프로필</title>
         <description lang="ko">간단한 프로필을 입력해주세요</description>
     </var>
-    <var name="memo" type="textarea">
-        <title xml:lang="ko">분류 메뉴명</title>
-        <description lang="ko">분류 메뉴의 제목을 입력해주세요.</description>
+    <var name="category_name" type="text">
+        <title xml:lang="ko">카테고리명</title>
+        <description lang="ko">카테고리의 이름을 입력해주세요.</description>
     </var>
   </extra_vars>
 </skin>

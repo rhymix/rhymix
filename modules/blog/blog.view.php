@@ -15,6 +15,9 @@
         function init() {
             if(substr_count($this->act, 'Admin')) $this->initAdmin();
             else $this->initNormal();
+
+            // 카테고리 xml 파일 위치 지정
+            $this->module_info->category_xml_file = sprintf('./files/cache/blog_category/%d.xml.php', $this->module_info->module_srl);
         }
 
         /**
@@ -66,8 +69,6 @@
         function initNormal() {
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
-
-            Context::set('module_info',$this->module_info);
         
             // 기본 모듈 정보들 설정
             $this->list_count = $this->module_info->list_count?$this->module_info->list_count:1;
@@ -85,6 +86,8 @@
 
             // rss url
             if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
+
+            Context::set('module_info',$this->module_info);
         }
 
         /**

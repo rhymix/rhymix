@@ -3,7 +3,7 @@
 
 <!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    //loadTreeMenu("{$blog_menu->xml_file}", "blog_menu", "menu", "{$module_info->main_menu_name?$module_info->main_menu_name:'home'}");
+    loadTreeMenu("{$module_info->category_xml_file}", "blog_category", "blog_category", "{$module_info->category_name?$module_info->category_name:'category'}");
 </script>
 
 
@@ -62,7 +62,7 @@
     <!--@end-->
 
     <!-- 블로그 메뉴 출력 -->
-    <div id="menu"></div>
+    <div id="blog_category"></div>
 
     <!--@if($rss_url)-->
         <!-- rss 버튼 -->

@@ -181,8 +181,9 @@ function completeInsertCategory(ret_obj) {
 
 /* 카테고리를 드래그하여 이동한 후 실행할 함수 , 이동하는 category_srl과 대상 category_srl을 받음 */
 function doMoveTree(category_id, source_category_srl, target_category_srl) {
+    source_category_srl = source_category_srl.replace(/menu_category_/,'');
+    target_category_srl = target_category_srl.replace(/menu_category_/,'');
     var fo_obj = xGetElementById("fo_move_category");
-    fo_obj.category_id.value = category_id;
     fo_obj.source_category_srl.value = source_category_srl;
     fo_obj.target_category_srl.value = target_category_srl;
 
@@ -199,11 +200,7 @@ function completeMoveCategory(ret_obj) {
     var source_category_srl = ret_obj['source_category_srl'];
     var xml_file = ret_obj['xml_file'];
 
-    var fo_category = xGetElementById("fo_category");
-    if(!fo_category) return;
-
-    var title = fo_category.title.value;
-    loadTreeMenu(xml_file, 'category', "category_zone_category", title, doGetCategoryInfo, source_category_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'category', "zone_category", category_title, doGetCategoryInfo, source_category_srl, doMoveTree);
 }
 
 /* 카테고리 목록 갱신 */

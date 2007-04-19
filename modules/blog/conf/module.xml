@@ -64,5 +64,6 @@
         <action name="procBlogAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBlogAdminDeleteCategory" type="controller" standalone="true" />
         <action name="procBlogAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procBlogAdminMoveCategory" type="controller" standalone="true" />
     </actions>
 </module>
