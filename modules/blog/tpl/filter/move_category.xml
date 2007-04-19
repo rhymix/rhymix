@@ -1,0 +1,10 @@
+<filter name="move_menu_item" module="menu" act="procMenuAdminMoveItem" confirm_msg_code="confirm_move">
+    <form />
+    <parameter />
+    <response callback_func="completeMoveMenuItem">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="xml_file" />
+        <tag name="source_item_srl" />
+    </response>
+</filter>
