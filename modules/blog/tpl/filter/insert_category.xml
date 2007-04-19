@@ -1,14 +1,14 @@
-<filter name="insert_menu_item" module="menu" act="procMenuAdminInsertItem" confirm_msg_code="confirm_submit">
+<filter name="insert_category" module="blog" act="procBlogAdminInsertItem" confirm_msg_code="confirm_submit">
     <form>
-        <node target="menu_srl" required="true" />
+        <node target="category_srl" required="true" />
     </form>
-    <response callback_func="completeInsertMenuItem">
+    <response callback_func="completeInsertBlogItem">
         <tag name="error" />
         <tag name="message" />
-        <tag name="menu_srl" />
+        <tag name="module_srl" />
         <tag name="xml_file" />
-        <tag name="menu_title" />
-        <tag name="menu_item_srl" />
+        <tag name="category_title" />
+        <tag name="category_srl" />
         <tag name="parent_srl" />
     </response>
 </filter>
