@@ -54,11 +54,6 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
 
     if(typeof(title)=='undefined') title = '';
 
-    // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
-    var oXml = new xml_handler();
-    oXml.reset();
-    oXml.xml_path = url;
-
     // 사용자 정의 함수가 없다면 moveTreeMenu()라는 기본적인 동작을 하는 함수를 대입
     if(typeof(callback_func)=='undefined') {
         callback_func = moveTreeMenu;
@@ -74,6 +69,13 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
 
     // 직접 선택시키려는 메뉴 인자값이 없으면 초기화
     if(typeof(manual_select_node_srl)=='undefined') manual_select_node_srl = '';
+
+    // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
+    if(!url) return;
+
+    var oXml = new xml_handler();
+    oXml.reset();
+    oXml.xml_path = url;
 
     // menu_id, zone_id는 계속 달고 다녀야함 
     var param = {menu_id:menu_id, zone_id:zone_id, title:title, manual_select_node_srl:manual_select_node_srl}

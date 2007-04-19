@@ -47,6 +47,8 @@
         <action name="procBlogUploadFile" type="controller" />
         <action name="procBlogDownloadFile" type="controller" />
 
+        <action name="getBlogAdminCategoryTplInfo" type="model" standalone="true" />
+
         <action name="dispBlogAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispBlogAdminBlogInfo" type="view" standalone="true" />
         <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />

@@ -65,8 +65,7 @@
             // 메뉴의 정보를 가져옴
             $oMenuModel = &getModel('menu');
             $menu_info = $oMenuModel->getMenu($menu_srl);
-            if($menu_info->menu_srl == $menu_srl) Context::set('menu_info', $menu_info);
-            else return $this->dispMenuAdminContent();
+            if($menu_info->menu_srl != $menu_srl) return $this->dispMenuAdminContent();
 
             Context::set('menu_info', $menu_info);
 

@@ -27,10 +27,10 @@
                     <input type="checkbox" id="category_enable_move" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label>
                 </div>
                 <div>
-                    <input type="button" value="{$lang->cmd_insert}" onclick="doInsertMenuItem(0);return false;" />
+                    <input type="button" value="{$lang->cmd_insert}" onclick="doInsertCategory(0);return false;" />
                     <input type="button" value="{$lang->cmd_open_all}" onclick="openAllTreeMenu('category');return false;" />
                     <input type="button" value="{$lang->cmd_close_all}" onclick="closeAllTreeMenu('category');return false;" />
-                    <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeMenu('{$category_info->category_srl}');return false;" />
+                    <input type="button" value="{$lang->cmd_remake_cache}" onclick="doReloadTreeCategory('{$category_info->category_srl}');return false;" />
                 </div>
             </td>
             <td>
@@ -42,6 +42,6 @@
     </form>
 
     <script type="text/javascript">
-        loadTreeMenu("{$category_info->xml_file}", "category", "category_zone_category", "{$lang->category}", doGetMenuItemInfo, 0, doMoveTree); 
+        loadTreeMenu("{$category_info->xml_file}", "category", "category_zone_category", "{$lang->category}", doGetCategoryInfo, 0, doMoveTree); 
     </script>
 </div>

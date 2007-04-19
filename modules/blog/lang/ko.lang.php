@@ -51,7 +51,7 @@
 
     $lang->about_category_name = '카테고리 이름을 입력해주세요';
     $lang->about_expand = '선택하시면 늘 펼쳐진 상태로 있게 합니다';
-    $lang->category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
 
     $lang->msg_new_module = '모듈 생성';
     $lang->msg_update_module = '모듈 수정';
