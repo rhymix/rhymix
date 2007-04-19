@@ -12,7 +12,7 @@
 <!--@end-->
 <tr>
     <th rowspan="2">{$lang->category_name}</th>
-    <td><input type="text" name="name" value="{htmlspecialchars($category_info->name)}" /></td>
+    <td><input type="text" name="category_name" value="{htmlspecialchars($category_info->name)}" /></td>
 </tr>
 <tr>
     <td>{$lang->about_category_name}</td>
@@ -41,7 +41,7 @@
         <!--@if($category_info->name)-->
         <input type="submit" value="{$lang->cmd_save}" />
         <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertCategory('{$category_info->category_srl}');return false" />
-        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteCategoryItem('{$category_srl->category_srl}');return false" />
+        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" />
         <!--@else-->
         <input type="submit" value="{$lang->cmd_submit}" />
         <!--@end-->

@@ -531,11 +531,11 @@
          **/
         function dispBlogAdminCategoryInfo() {
             // module_srl을 구함
-            $module_srl = Context::get('module_srl');
+            $module_srl = $this->module_info->module_srl;
 
-            // 메뉴의 정보를 가져옴
-            $oMenuModel = &getModel('blog');
-            $category_info = $oMenuModel->getCategory($module_srl);
+            // 카테고리 정보를 가져옴
+            $oBlogModel = &getModel('blog');
+            $category_info = $oBlogModel->getCategory($module_srl);
 
             Context::set('category_info', $category_info);
 

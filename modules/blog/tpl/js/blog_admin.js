@@ -123,7 +123,7 @@ function completeManageDocument(ret_obj) {
 function doInsertCategory(parent_srl) {
     if(typeof(parent_srl)=='undefined') parent_srl = 0;
     var params = {node_srl:0, parent_srl:parent_srl}
-    doGetCategoryInfo('category', params);
+    doGetCategoryInfo(null, params);
     deSelectNode();
 }
 
@@ -155,28 +155,26 @@ function doGetCategoryInfo(category_id, obj) {
 /* 서버로부터 받아온 카테고리 정보를 출력 */
 function completeGetCategoryTplInfo(ret_obj, response_tags) {
     var tpl = ret_obj['tpl'];
-    xInnerHtml("category_zone_info", tpl);
+    xInnerHtml("category_info", tpl);
     var fo_obj = xGetElementById("fo_category");
-    fo_obj.name.focus();
+    fo_obj.category_name.focus();
 }
 
 /* 카테고리 아이템 입력후 */ 
 function completeInsertCategory(ret_obj) {
-    var category_id = ret_obj['category_id'];
     var xml_file = ret_obj['xml_file'];
-    var category_title = ret_obj['category_title'];
     var category_srl = ret_obj['category_srl'];
-    var category_category_srl = ret_obj['category_category_srl'];
+    var module_srl = ret_obj['module_srl'];
     var parent_srl = ret_obj['parent_srl'];
 
     if(!xml_file) return;
 
-    loadTreeMenu(xml_file, 'category', 'category_zone_category', category_title, doGetCategoryInfo, category_category_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, doGetCategoryInfo, category_srl, doMoveTree);
 
-    if(!category_srl) xInnerHtml("category_zone_info", "");
+    if(!category_srl) xInnerHtml("category_info", "");
     else {
-        var params = {node_srl:category_zone_info, parent_srl:parent_srl}
-        doGetCategoryInfo('category', params)
+        var params = {node_srl:category_srl, parent_srl:parent_srl}
+        doGetCategoryInfo(null, params)
     }
 } 
 
@@ -209,17 +207,17 @@ function completeMoveCategory(ret_obj) {
 }
 
 /* 카테고리 목록 갱신 */
-function doReloadTreeMenu(module_srl) {
+function doReloadTreeCategory(module_srl) {
     var params = new Array();
     params["module_srl"] = module_srl;
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
-    var response_tags = new Array('error','message', 'xml_file', 'category_title');
+    var response_tags = new Array('error','message', 'xml_file');
     exec_xml('blog', 'procBlogAdminMakeXmlFile', params, completeInsertCategory, response_tags, params);
 }
 
 /* 카테고리 삭제 */
-function doDeleteCategoryItem(category_srl) {
+function doDeleteCategory(category_srl) {
       var fo_obj = xGetElementById("fo_category");
       if(!fo_obj) return;
 
@@ -228,13 +226,12 @@ function doDeleteCategoryItem(category_srl) {
 
 /* 카테고리 아이템 삭제 후 */ 
 function completeDeleteCategory(ret_obj) {
-    var category_title = ret_obj['category_title'];
     var module_srl = ret_obj['module_srl'];
     var category_srl = ret_obj['category_srl'];
     var xml_file = ret_obj['xml_file'];
     alert(ret_obj['message']);
 
-    loadTreeMenu(xml_file, 'category', 'category_zone_category', category_title, doGetCategoryInfo, category_srl, doMoveTree);
-    xInnerHtml("category_zone_info", "");
+    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, doGetCategoryInfo, category_srl, doMoveTree);
+    xInnerHtml("category_info", "");
 } 
 

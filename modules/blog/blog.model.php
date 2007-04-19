@@ -20,14 +20,7 @@
          * 생성된 메뉴의 DB정보+XML정보를 return
          **/
         function getCategory($module_srl) {
-            // 일단 DB에서 정보를 가져옴
-            $args->module_srl = $module_srl;
-            $output = executeQuery('blog.getCategory', $args);
-            if(!$output->data) return;
-            
-            $category_info = $output->data;
             $category_info->xml_file = sprintf('./files/cache/blog_category/%s.xml.php',$module_srl);
-            $category_info->php_file = sprintf('./files/cache/blog_category/%s.php',$module_srl);
             return $category_info;
         }
 
@@ -37,7 +30,7 @@
          **/
         function getCategoryInfo($category_srl) {
             // category_srl이 있으면 해당 메뉴의 정보를 가져온다
-            $args->category_srl= $menu_item_srl;
+            $args->category_srl= $category_srl;
             $output = executeQuery('blog.getCategoryInfo', $args);
             $node = $output->data;
             if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);

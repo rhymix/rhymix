@@ -1,7 +1,7 @@
-<filter name="move_category" module="menu" act="procBlogAdminMoveItem" confirm_msg_code="confirm_move">
+<filter name="move_category" module="menu" act="procBlogAdminMoveCategory" confirm_msg_code="confirm_move">
     <form />
     <parameter />
-    <response callback_func="completeMoveBlogItem">
+    <response callback_func="completeMoveBlogCategory">
         <tag name="error" />
         <tag name="message" />
         <tag name="xml_file" />

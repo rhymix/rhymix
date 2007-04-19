@@ -59,4 +59,5 @@
     $lang->msg_grant_is_null = '등록된 권한 대상이 없습니다';
     $lang->msg_no_checked_document = '선택된 게시물이 없습니다';
     $lang->msg_move_failed = '이동 실패하였습니다';
+    $lang->msg_cannot_delete_for_child = '하부 카테고리가 있는 카테고리는 삭제하실 수 없습니다';
 ?>

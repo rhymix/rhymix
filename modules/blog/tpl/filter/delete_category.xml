@@ -2,12 +2,10 @@
     <form>
         <node target="category_srl" required="true" />
     </form>
-    <response callback_func="completeDeleteBlogItem">
+    <response callback_func="completeDeleteCategory">
         <tag name="error" />
         <tag name="message" />
-        <tag name="category_title" />
         <tag name="xml_file" />
-        <tag name="module_srl" />
         <tag name="category_srl" />
     </response>
 </filter>

@@ -397,25 +397,15 @@
          **/
         function procBlogAdminInsertCategory() {
             // 입력할 변수 정리
-            $source_args = Context::getRequestVars();
-            unset($source_args->module);
-            unset($source_args->act);
+            $args = Context::gets('module_srl','category_srl','parent_srl','name','expand','group_srls');
 
-            if($source_args->expand !="Y") $source_args->expand = "N";
-            $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
-            $source_args->parent_srl = (int)$source_args->parent_srl;
-
-            // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
-            $args->module_srl = $source_args->module_srl;
-            $args->category_srl = $source_args->category_srl;
-            $args->parent_srl = $source_args->parent_srl;
-            $args->name = $source_args->menu_name;
-            $args->expand = $source_args->menu_expand;
-            $args->group_srls = $source_args->group_srls;
+            if($args->expand !="Y") $args->expand = "N";
+            $args->group_srls = str_replace('|@|',',',$args->group_srls);
+            $args->parent_srl = (int)$args->parent_srl;
 
             // 이미 존재하는지를 확인
             $oBlogModel = &getModel('blog');
-            $category_info = $oMenuModel->getCategoryInfo($args->category_srl);
+            $category_info = $oBlogModel->getCategoryInfo($args->category_srl);
 
             // 존재하게 되면 update를 해준다
             if($category_info->category_srl == $args->category_srl) {
@@ -433,10 +423,56 @@
             $xml_file = $this->makeXmlFile($args->module_srl);
 
             $this->add('xml_file', $xml_file);
-            $this->add('module_srl', $args->menu_srl);
-            $this->add('category_srl', $args->menu_item_srl);
-            $this->add('category_title', $category_title);
+            $this->add('module_srl', $args->module_srl);
+            $this->add('category_srl', $args->category_srl);
             $this->add('parent_srl', $args->parent_srl);
+        }
+
+        /**
+         * @brief 카테고리 삭제
+         **/
+        function procBlogAdminDeleteCategory() {
+            // 변수 정리 
+            $args = Context::gets('module_srl','category_srl');
+
+            $oBlogModel = &getModel('blog');
+
+            // 원정보를 가져옴 
+            $category_info = $oBlogModel->getCategoryInfo($args->category_srl);
+            if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
+
+            // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
+            $output = executeQuery('blog.getChildCategoryCount', $args);
+            if(!$output->toBool()) return $output;
+            if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
+
+            // DB에서 삭제
+            $output = executeQuery("blog.deleteCategory", $args);
+            if(!$output->toBool()) return $output;
+
+            // XML 파일을 갱신하고 위치을 넘겨 받음
+            $xml_file = $this->makeXmlFile($args->module_srl);
+
+            $this->add('xml_file', $xml_file);
+            $this->add('category_srl', $parent_srl);
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief xml 파일을 갱신
+         * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
+         * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
+         * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
+         **/
+        function procBlogAdminMakeXmlFile() {
+            // 입력값을 체크 
+            $module_srl = Context::get('module_srl');
+
+            // xml파일 재생성 
+            $xml_file = $this->makeXmlFile($module_srl);
+
+            // return 값 설정 
+            $this->add('xml_file',$xml_file);
         }
 
         /**
