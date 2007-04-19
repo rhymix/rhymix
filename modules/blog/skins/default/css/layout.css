@@ -6,10 +6,6 @@ body {
 }
 
 /**
- * 레이아웃 style 
- **/
-
-/**
  * 상단 로고 및 메인 1차 메뉴 
  **/
 .layout_top {
@@ -45,23 +41,6 @@ body {
     z-index:10;
 }
 
-/* 좌측 2차 메뉴 */
-.layout_second_menu {
-}
-
-/* 좌측 관리자 메뉴 */
-.layout_admin {
-    margin-top:10px;
-    border:3px solid #EEEEEE;
-    padding:5px;
-    text-align:center;
-}
-
-.layout_admin A {
-    color:#AAAAAA;
-    text-decoration:none;
-}
-
 /* 컨텐츠 */
 .layout_content {
     position:absolute;
@@ -71,28 +50,7 @@ body {
     width:660px;
 }
 
-#content {
-}
-
-/**
- * 하단 메뉴 영역 
- **/
-.layout_bottom {
-    clear:both;
-    margin-top:20px;
-}
-
-/* 하단 메뉴 */
-.layout_bottom_menu {
-    width:100%;
-    text-align:center;
-}
-
-/**
- * 메뉴 style, main_menu:1~3차, bottom_menu로 구성 
- **/
-
-/* 1차 메뉴 */
+/* 상단 메뉴 */
 .first_menu {
     background-color:#999999;
     padding:3px 10px 3px 10px;
@@ -117,78 +75,64 @@ body {
     text-decoration:none;
 }
 
-/* 2차 메뉴 */
-.second_menu {
-    padding:5px 0px 5px 5px;
-    background-color:#AAAAAA;
-    display:block;
-    border-bottom:1px solid #999999;
+/* 프로필 영역 */
+.layout_profile {
+    border:2px solid #EEEEEE;
+    text-align:center;
+    padding:10px 0px 10px 0px;
+    margin-bottom:10px;
 }
 
-.second_menu A {
-    color:#FFFFFF;
-    text-decoration:none;
-    font-weight:normal;
+.layout_profile .profile_image {
+    margin-bottom:10px;
 }
 
-.second_menu_selected {
-    padding:5px 0px 5px 5px;
-    background-color:#666666;
-    display:block;
-    border-bottom:1px solid #444444;
+.layout_profile .profile{
+    color:#555555;
+    text-align:left;
+    padding:0px 10px 0px 10px;
 }
 
-.second_menu_selected A {
-    color:#FFFFFF;
-    font-weight:bold;
-    text-decoration:none;
+/* rss 버튼 */
+.layout_rss {
+    border:2px solid #EEEEEE;
+    height:20px;
+    text-align:center;
+    margin-bottom:10px;
 }
 
-/* 3차 메뉴 */
-.third_menu {
-    padding:5px 0px 5px 20px;
-    border-bottom:1px solid #EEEEEE;
-    display:block;
+/* 검색 */
+.layout_search {
+    border:2px solid #EEEEEE;
+    padding:10px;
+    margin-bottom:10px;
 }
 
-.third_menu A {
-    color:#000000;
-    text-decoration:none;
+.layout_search .search_keyword {
+    border:1px solid #EEEEEE;
+    width:100px;
 }
 
-.third_menu_selected {
-    padding:5px 0px 5px 20px;
-    border-bottom:1px solid #EEEEEE;
-    font-weight:bold;
-    display:block;
-    background-color:#EFEFEF;
+.layout_search .search_button {
+    border:1px solid #AAAAAA;
+    background-color:#FFFFFF;
+    width:40px;
 }
 
-.third_menu_selected A {
-    color:#000000;
-    font-weight:bold;
-    text-decoration:none;
+/* 좌측 관리자 메뉴 */
+.layout_admin {
+    border:3px solid #EEEEEE;
+    padding:5px;
+    text-align:center;
+    margin-bottom:10px;
 }
 
-/* 하단 메뉴 */
-.bottom_menu {
-    margin-right:5px;
-    font-weight:normal;
-}
-
-.bottom_menu A {
-    color:#000000;
+.layout_admin A {
+    color:#AAAAAA;
     text-decoration:none;
 }
 
-.bottom_menu_selected {
-    margin-right:5px;
-    font-weight:bold;
-}
 
-.bottom_menu_selected A {
-    color:#000000;
-    font-weight:bold;
-    text-decoration:none;
+/* 내용 */
+#content {
 }
-

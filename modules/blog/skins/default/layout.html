@@ -9,6 +9,7 @@
 
 <!-- 상단 로고 및 상단 메뉴 출력 -->
 <div class="layout_top">
+
     <div class="layout_logo">
         <!--@if($module_info->logo_image)-->
             <a href="./?mid={$mid}"><img src="{$module_info->logo_image}" border="0" alt="{$module_info->browser_title}"/></a>
@@ -42,34 +43,54 @@
 
 <!-- 왼쪽 분류 출력 -->
 <div class="layout_left">
+    <!--@if($module_info->profile || $module_info->profile_image)-->
+        <!-- 프로필 -->
+        <div class="layout_profile">
+            <!--@if($module_info->profile_image)-->
+            <div class="profile_image">
+                <img src="{$module_info->profile_image}" border="0" alt="profile image" />
+            </div>
+            <!--@end-->
+
+            <!--@if($module_info->profile)-->
+            <div class="profile">
+                {$module_info->profile}
+            </div>
+            <!--@end-->
+            
+        </div>
+    <!--@end-->
+
     <!-- 블로그 메뉴 출력 -->
     <div id="menu"></div>
 
-    <!--@if($logged_info->is_admin == 'Y')-->
-    <!-- 관리자일 경우 블로그 관리 메뉴 -->
-    <div class="layout_admin">
-        <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
-    </div>
-    <!--@end-->
-
     <!--@if($rss_url)-->
-    <div>
-        <a href="{$rss_url}">rss</a>
-    </div>
+        <!-- rss 버튼 -->
+        <div class="layout_rss">
+            <a href="{$rss_url}">rss</a>
+        </div>
     <!--@end-->
 
     <!--@if($grant->list)-->
-    <!-- 검색 -->
-    <div>
-        <form action="./" method="get" onsubmit="return procFilter(this, search)">
-            <input type="hidden" name="mid" value="{$mid}" />
-            <input type="hidden" name="category" value="{$category}" />
-            <input type="hidden" name="search_target" value="title_content" />
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-            <input type="submit" value="{$lang->cmd_search}" />
-        </form>
-    </div>
+        <!-- 검색 -->
+        <div class="layout_search">
+            <form action="./" method="get" onsubmit="return procFilter(this, search)">
+                <input type="hidden" name="mid" value="{$mid}" />
+                <input type="hidden" name="category" value="{$category}" />
+                <input type="hidden" name="search_target" value="title_content" />
+                <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+                <input type="submit" class="search_button" value="{$lang->cmd_search}" />
+            </form>
+        </div>
     <!--@end-->
+
+    <!--@if($logged_info->is_admin == 'Y')-->
+        <!-- 관리자일 경우 블로그 관리 메뉴 -->
+        <div class="layout_admin">
+            <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+        </div>
+    <!--@end-->
+
 </div>
 
 <!-- 컨텐츠 출력 부분 -->

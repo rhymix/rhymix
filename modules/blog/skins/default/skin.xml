@@ -22,7 +22,11 @@
         <title xml:lang="ko">로고이미지</title>
         <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
     </var>
-    <var name="memo" type="textarea">
+    <var name="profile_image" type="image" width="60" height="60">
+        <title xml:lang="ko">프로필 이미지</title>
+        <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 200px이 가장 보기 좋습니다)</description>
+    </var>
+    <var name="profile" type="textarea">
         <title xml:lang="ko">프로필</title>
         <description lang="ko">간단한 프로필을 입력해주세요</description>
     </var>

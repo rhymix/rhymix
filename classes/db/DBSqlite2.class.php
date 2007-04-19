@@ -452,7 +452,7 @@
             if(!$list_count) $list_count = 20;
             $page_count = $output->page_count['value'];
             if(!$page_count) $page_count = 10;
-            $page = $output->page->value;
+            $page = $output->page['value'];
             if(!$page) $page = 1;
 
             // 전체 페이지를 구함

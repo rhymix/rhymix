@@ -495,11 +495,11 @@
             if(!$list_count) $list_count = 20;
             $page_count = $output->page_count['value'];
             if(!$page_count) $page_count = 10;
-            $page = $output->page->value;
+            $page = $output->page['value'];
             if(!$page) $page = 1;
 
             // 전체 페이지를 구함
-            $total_page = (int)(($total_count-1)/$list_count) +1;
+            $total_page = (int)(($total_count-1)/$list_count)+1;
 
             // 페이지 변수를 체크
             if($page > $total_page) $page = $total_page;
