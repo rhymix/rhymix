@@ -325,7 +325,6 @@
 
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
-            if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
             unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
@@ -391,63 +390,6 @@
             $this->add('module','blog');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
-        }
-
-        /**
-         * @brief 카테고리 추가
-         **/
-        function procBlogAdminInsertCategory() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $module_srl = Context::get('module_srl');
-            $category_title = Context::get('category_title');
-
-            // module_srl이 있으면 원본을 구해온다
-            $oDocumentController = &getController('document');
-            $output = $oDocumentController->insertCategory($module_srl, $category_title);
-            if(!$output->toBool()) return $output;
-
-            $this->add('page',Context::get('page'));
-            $this->add('module_srl',$module_srl);
-            $this->setMessage('success_registed');
-        }
-
-        /**
-         * @brief 카테고리의 내용 수정
-         **/
-        function procBlogAdminUpdateCategory() {
-            $module_srl = Context::get('module_srl');
-            $category_srl = Context::get('category_srl');
-            $mode = Context::get('mode');
-
-            $oDocumentModel = &getModel('document');
-            $oDocumentController = &getController('document');
-
-            switch($mode) {
-                case 'up' :
-                        $output = $oDocumentController->moveCategoryUp($category_srl);
-                        $msg_code = 'success_moved';
-                    break;
-                case 'down' :
-                        $output = $oDocumentController->moveCategoryDown($category_srl);
-                        $msg_code = 'success_moved';
-                    break;
-                case 'delete' :
-                        $output = $oDocumentController->deleteCategory($category_srl);
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $selected_category = $oDocumentModel->getCategory($category_srl);
-                        $args->category_srl = $selected_category->category_srl;
-                        $args->title = Context::get('category_title');
-                        $args->list_order = $selected_category->list_order;
-                        $output = $oDocumentController->updateCategory($args);
-                        $msg_code = 'success_updated';
-                    break;
-            }
-            if(!$output->toBool()) return $output;
-
-            $this->add('module_srl', $module_srl);
-            $this->setMessage($msg_code);
         }
     }
 ?>

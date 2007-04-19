@@ -12,7 +12,6 @@
         <param name="layout_srl" target="layout_srl" />
         <param name="skin" target="skin" />
         <param name="browser_title" target="browser_title" />
-        <param name="use_category" target="use_category" />
         <param name="list_count" target="list_count" />
         <param name="page_count" target="page_count" />
         <param name="is_default" target="is_default" />

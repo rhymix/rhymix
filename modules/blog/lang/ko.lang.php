@@ -25,6 +25,9 @@
     $lang->skin_maker = '스킨제작자';
     $lang->skin_maker_homepage = '홈페이지';
 
+    $lang->cmd_enable_move_category = "카테고리 위치 변경 (선택후 위 메뉴를 드래그하세요)";
+    $lang->cmd_remake_cache = "캐시파일 재생성";
+
     // 주절 주절..
     $lang->about_mid = '모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+숫자만 가능)';
     $lang->about_category = '분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류의 관리는 <a href=\"./?module=admin&amp;act=dispCategory&amp;mo=module\">모듈관리 > 모듈카테고리</a>에서 하실 수 있습니다.';

@@ -64,13 +64,6 @@
          * @brief 일반 블로그 호출시에 관련 정보를 세팅해줌
          **/
         function initNormal() {
-            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
-            if($this->module_info->use_category=='Y') {
-                $oDocumentModel = &getModel('document');
-                $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
-                Context::set('category_list', $this->category_list);
-            }
-
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 
@@ -149,7 +142,6 @@
             // 검색 옵션
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
-            if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
 
             $args->sort_index = 'list_order'; ///< 소팅 값
 
@@ -383,7 +375,6 @@
 
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
-            if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
 
             $args->sort_index = 'list_order'; ///< 소팅 값
 
@@ -543,28 +534,7 @@
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
 
-            // 카테고리의 목록을 구해옴
-            $oDocumentModel = &getModel('document');
-            $category_list = $oDocumentModel->getCategoryList($module_srl);
-            Context::set('category_list', $category_list);
-
-            // 수정하려는 카테고리가 있다면해당 카테고리의 정보를 가져옴
-            $category_srl = Context::get('category_srl');
-
-            if($category_srl) {
-
-                $selected_category = $oDocumentModel->getCategory($category_srl);
-
-                if(!$selected_category) Context::set('category_srl','');
-                else Context::set('selected_category',$selected_category);
-
-                $this->setTemplateFile('category_update_form');
-
-            } else {
-
-                $this->setTemplateFile('category_list');
-
-            }
+            $this->setTemplateFile('category_list');
         }
 
         /**

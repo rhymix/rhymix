@@ -12,7 +12,6 @@
         var $skin = "default"; ///< 스킨 이름
         var $list_count = 1; ///< 한 페이지에 나타날 글의 수
         var $page_count = 10; ///< 페이지의 수
-        var $category_list = NULL; ///< 카테고리 목록
 
         var $editor = 'default'; ///< 에디터 종류
 
