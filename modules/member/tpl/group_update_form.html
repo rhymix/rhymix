@@ -15,11 +15,11 @@
 
     <div style="margin-bottom:30px">
         {$lang->group_title} : <input type="text" name="title" value="{$selected_group->title}" /><br />
-        <!--@if($selected_group->is_default!='Y')-->
+        <!--@if($selected_group->is_default!='Y' && $selected_group->is_admin!='Y')-->
         {$lang->is_default} : <input type="checkbox" name="is_default" value="Y" /><br />
         <!--@end-->
         {$lang->description} :<input type="text" name="description" value="{$selected_group->description}" /><br />
-        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('group_srl','')}';return false;" />
+        <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('group_srl','')}';return false;" />
         <input type="submit" value="{$lang->cmd_modify}" accesskey="s" />
     </div>
 

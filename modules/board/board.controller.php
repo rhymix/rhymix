@@ -425,6 +425,19 @@
 
             if(!$output->toBool()) return $output;
 
+            // 신규 입력일 경우 기본 권한 설정 (file upload, manager권한을 관리그룹으로 정함)
+            if($msg_code == 'success_registed') {
+                $oMemberModel = &getModel('member');
+                $admin_group = $oMemberModel->getAdminGroup();
+                $admin_group_srl = $admin_group->group_srl;
+
+                $module_srl = $output->get('module_srl');
+                $grants = serialize(array('fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
+
+                $oModuleController = &getController('module');
+                $oModuleController->updateModuleGrant($module_srl, $grants);
+            }
+
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);

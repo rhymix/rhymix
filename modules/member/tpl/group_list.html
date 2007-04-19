@@ -36,7 +36,7 @@
         <td>{$group_info->is_default}</td>
         <td><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
         <td>
-            <!--@if($group_info->is_default!='Y')-->
+            <!--@if($group_info->is_default!='Y' && $group_info->is_admin !='Y')-->
             <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a>
             <!--@end-->
         </td>

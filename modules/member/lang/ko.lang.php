@@ -8,6 +8,10 @@
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
 
+    $lang->default_group_1 = "준회원";
+    $lang->default_group_2 = "정회원";
+    $lang->admin_group = "관리그룹";
+
     $lang->remember_user_id = '아이디 저장';
 
     $lang->already_logged = '이미 로그인되어 있습니다';

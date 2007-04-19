@@ -60,9 +60,6 @@
 
     $lang->admin_title = '관리자정보';
 
-    $lang->default_group_1 = "준회원";
-    $lang->default_group_2 = "정회원";
-
     $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다';
 
     $lang->success_installed = '설치가 되었습니다';

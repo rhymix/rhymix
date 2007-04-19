@@ -17,8 +17,6 @@
             $oModuleController->insertActionForward('plugin', 'view', 'dispPluginGenerateCode');
             $oModuleController->insertActionForward('plugin', 'view', 'dispPluginGenerateCodePage');
             $oModuleController->insertActionForward('plugin', 'view', 'dispPluginAdminDownloadedList');
-            //$oModuleController->insertActionForward('plugin', 'controller', 'procPluginGenerateCode');
-            //$oModuleController->insertActionForward('plugin', 'controller', 'procPluginGetColorsetList');
 
             // plugin 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/cache/plugin');

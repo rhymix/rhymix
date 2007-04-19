@@ -17,8 +17,6 @@
             $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminList');
             $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminCategory');
             $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminInfo');
-            //$oModuleController->insertActionForward('module', 'controller', 'procModuleAdminInsertCategory');
-            //$oModuleController->insertActionForward('module', 'controller', 'procModuleAdminUpdateCategory');
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');

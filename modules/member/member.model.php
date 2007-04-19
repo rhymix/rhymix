@@ -279,6 +279,14 @@
         }
 
         /**
+         * @brief 관리자 그룹을 가져옴
+         **/
+        function getAdminGroup() {
+            $output = executeQuery('member.getAdminGroup');
+            return $output->data;
+        }
+
+        /**
          * @brief group_srl에 해당하는 그룹 정보 가져옴
          **/
         function getGroup($group_srl) {

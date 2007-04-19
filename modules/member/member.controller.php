@@ -832,7 +832,14 @@
          * @brief 관리자를 추가한다
          **/
         function insertAdmin($args) {
+            // 관리자임을 설정
             $args->is_admin = 'Y';
+
+            // 관리자 그룹을 구해와서 설정
+            $oMemberModel = &getModel('member');
+            $admin_group = $oMemberModel->getAdminGroup();
+            $args->group_srl_list = $admin_group->group_srl;
+
             return $this->insertMember($args);
         }
 

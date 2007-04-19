@@ -19,9 +19,6 @@
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
-            //$oModuleController->insertActionForward('page', 'controller', 'procPageAdminInsert');
-            //$oModuleController->insertActionForward('page', 'controller', 'procPageAdminDelete');
-            //$oModuleController->insertActionForward('page', 'controller', 'procPageAdminInsertConfig');
 
             // page 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/cache/page');

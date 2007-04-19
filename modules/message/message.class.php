@@ -15,7 +15,6 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('message', 'view', 'dispMessage');
             $oModuleController->insertActionForward('message', 'view', 'dispMessageAdminConfig');
-            //$oModuleController->insertActionForward('message', 'controller', 'procMessageAdminInsertConfig');
 
             return new Object();
         }

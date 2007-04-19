@@ -43,34 +43,6 @@
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
 
-            //$oModuleController->insertActionForward('member', 'model', 'getmemberMenu');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberLogin');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberLogout');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberInsert');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberModifyInfo');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberModifyPassword');
-
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberSendMessage');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessage');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteMessages');
-
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriend');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberMoveFriend');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriend');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAddFriendGroup');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberRenameFriendGroup');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteFriendGroup');
-
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsert');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminDelete');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertConfig');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertGroup');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateGroup');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertJoinForm');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateJoinForm');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminInsertDeniedID');
-            //$oModuleController->insertActionForward('member', 'controller', 'procMemberAdminUpdateDeniedID');
-
             // 기본 정보를 세팅
             $args->enable_join = 'Y';
             $args->image_name = 'Y';
@@ -84,13 +56,20 @@
             // 멤버 컨트롤러 객체 생성
             $oMemberController = &getController('member');
 
-            // 그룹을 입력
+            // 관리자, 정회원, 준회원 그룹을 입력
+            $group_args->title = Context::getLang('admin_group');
+            $group_args->is_default = 'N';
+            $group_args->is_admin = 'Y';
+            $output = $oMemberController->insertGroup($group_args);
+
             $group_args->title = Context::getLang('default_group_1');
             $group_args->is_default = 'Y';
+            $group_args->is_admin = 'N';
             $output = $oMemberController->insertGroup($group_args);
 
             $group_args->title = Context::getLang('default_group_2');
             $group_args->is_default = 'N';
+            $group_args->is_admin = 'N';
             $oMemberController->insertGroup($group_args);
 
             // 관리자 정보 세팅

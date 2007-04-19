@@ -15,7 +15,6 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('trackback', 'controller', 'procTrackbackReceive');
             $oModuleController->insertActionForward('trackback', 'view', 'dispTrackbackAdminList');
-            //$oModuleController->insertActionForward('trackback', 'controller', 'procTrackbackAdminDeleteChecked');
 
             return new Object();
         }

@@ -5,6 +5,8 @@
     <column name="is_notice" type="char" size="1" default="N" notnull="notnull" index="idx_is_notice" />
     <column name="is_secret" type="char" size="1" default="N" notnull="notnull" index="idx_is_secret" />
     <column name="title" type="varchar" size="250" />
+    <column name="title_bold" type="char" size="1" default="N" notnull="notnull" />
+    <column name="title_color" type="char" size="7" />
     <column name="content" type="bigtext" notnull="notnull" />
     <column name="readed_count" type="number" size="11" default="0" notnull="notnull" index="idx_readed_count" />
     <column name="voted_count" type="number" size="11" default="0" notnull="notnull" index="idx_voted_count" />
@@ -21,6 +23,7 @@
     <column name="tags" type="text" />
     <column name="regdate" type="date" index="idx_regdate " />
     <column name="last_update" type="date" index="idx_last_update" />
+    <column name="last_updater" type="varchar" size="80" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
     <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
     <column name="update_order" type="number" size="11" notnull="notnull" index="idx_update_order" />
