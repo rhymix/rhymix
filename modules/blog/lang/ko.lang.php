@@ -10,6 +10,7 @@
     $lang->cmd_module_config = '블로그  공통 설정';
     $lang->cmd_view_info = '블로그 정보';
     $lang->cmd_manage_category = '분류관리';
+    $lang->cmd_manage_menu = '메뉴관리';
     $lang->cmd_manage_grant = '권한관리';
     $lang->cmd_manage_skin = '스킨관리';
     $lang->cmd_manage_document = '게시글 관리';
@@ -21,7 +22,7 @@
     $lang->use_category = '분류 사용';
     $lang->category_title = '분류명';
     $lang->parent_category_name = '상위 카테고리명';
-    $lang->category_name = '카테고리명';
+    $lang->category_name = '분류명';
     $lang->expand = '펼침';
     $lang->category_group_srls = '그룹제한';
     $lang->checked_count = '선택된 글 수';

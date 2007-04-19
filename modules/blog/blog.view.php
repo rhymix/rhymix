@@ -553,6 +553,13 @@
         }
 
         /**
+         * @brief 메뉴 출력
+         **/
+        function dispBlogAdminMenuInfo() {
+            $this->setTemplateFile('category_list');
+        }
+
+        /**
          * @brief 권한 목록 출력
          **/
         function dispBlogAdminGrantInfo() {

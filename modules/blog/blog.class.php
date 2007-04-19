@@ -25,6 +25,7 @@
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminDeleteBlog');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminSkinInfo');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminCategoryInfo');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminMenuInfo');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminGrantInfo');
             $oModuleController->insertActionForward('blog', 'controller', 'procBlogAdminUpdateSkinInfo');
 
