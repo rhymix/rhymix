@@ -30,6 +30,9 @@
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminGrantInfo');
             $oModuleController->insertActionForward('blog', 'controller', 'procBlogAdminUpdateSkinInfo');
 
+            // 캐쉬로 사용할 디렉토리 생성
+            FileHandler::makeDir('./files/cache/blog_category');
+
             return new Object();
         }
 

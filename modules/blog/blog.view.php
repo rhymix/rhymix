@@ -530,9 +530,14 @@
          * @brief 카테고리의 정보 출력
          **/
         function dispBlogAdminCategoryInfo() {
-
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
+
+            // 메뉴의 정보를 가져옴
+            $oMenuModel = &getModel('blog');
+            $category_info = $oMenuModel->getCategory($module_srl);
+
+            Context::set('category_info', $category_info);
 
             $this->setTemplateFile('category_list');
         }

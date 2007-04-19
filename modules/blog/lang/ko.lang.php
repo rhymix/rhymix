@@ -13,12 +13,17 @@
     $lang->cmd_manage_grant = '권한관리';
     $lang->cmd_manage_skin = '스킨관리';
     $lang->cmd_manage_document = '게시글 관리';
+    $lang->cmd_make_child = '하위 카테고리 추가';
 
     // 항목
     $lang->header_text = '상단 내용';
     $lang->footer_text = '하단 내용';
     $lang->use_category = '분류 사용';
     $lang->category_title = '분류명';
+    $lang->parent_category_name = '상위 카테고리명';
+    $lang->category_name = '카테고리명';
+    $lang->expand = '펼침';
+    $lang->category_group_srls = '그룹제한';
     $lang->checked_count = '선택된 글 수';
 
     $lang->skin_default_info = '스킨 기본정보';
@@ -43,6 +48,10 @@
 
     $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.<br />,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)';
     $lang->about_grant = '특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다';
+
+    $lang->about_category_name = '카테고리 이름을 입력해주세요';
+    $lang->about_expand = '선택하시면 늘 펼쳐진 상태로 있게 합니다';
+    $lang->category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
 
     $lang->msg_new_module = '모듈 생성';
     $lang->msg_update_module = '모듈 수정';
