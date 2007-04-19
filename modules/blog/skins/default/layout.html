@@ -3,7 +3,7 @@
 
 <!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    loadTreeMenu("{$module_info->category_xml_file}", "blog_category", "blog_category", "{$module_info->category_name?$module_info->category_name:'category'}");
+    loadTreeMenu("{$module_info->category_xml_file}", "blog_category", "blog_category", "{$module_info->category_name?$module_info->category_name:'category'}", "./?mid={$mid}");
 </script>
 
 
@@ -57,6 +57,13 @@
                 {$module_info->profile}
             </div>
             <!--@end-->
+
+            <!--@if($logged_info->is_admin == 'Y')-->
+                <!-- 관리자일 경우 블로그 관리 메뉴 -->
+                <div class="layout_admin">
+                    <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+                </div>
+            <!--@end-->
             
         </div>
     <!--@end-->
@@ -81,13 +88,6 @@
                 <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
                 <input type="submit" class="search_button" value="{$lang->cmd_search}" />
             </form>
-        </div>
-    <!--@end-->
-
-    <!--@if($logged_info->is_admin == 'Y')-->
-        <!-- 관리자일 경우 블로그 관리 메뉴 -->
-        <div class="layout_admin">
-            <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
         </div>
     <!--@end-->
 

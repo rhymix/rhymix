@@ -25,6 +25,17 @@
         }
 
         /**
+         * @brief 특정 모듈의 전체 카테고리를 구함
+         **/
+        function getCategoryList($module_srl) {
+            $args->module_srl = $module_srl;
+            $args->sort_index = 'listorder';
+            $output = executeQuery('blog.getBlogCategories', $args);
+            if(!$output->toBool()) return;
+            return $output->data;
+        }
+
+        /**
          * @brief 특정 카테고리의 정보를 return
          * 이 정보중에 group_srls의 경우는 , 로 연결되어 들어가며 사용시에는 explode를 통해 array로 변환 시킴
          **/

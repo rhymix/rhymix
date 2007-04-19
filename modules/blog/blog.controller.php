@@ -514,18 +514,19 @@
         function makeXmlFile($module_srl) {
             // xml파일 생성시 필요한 정보가 없으면 그냥 return
             if(!$module_srl) return;
-            
-            // DB에서 module_srl 에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴 
-            $args->module_srl = $module_srl;
-            $args->sort_index = 'listorder';
-            $output = executeQuery('blog.getBlogCategories', $args);
-            if(!$output->toBool()) return;
 
             // 캐시 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
 
+            // 모듈정보를 구해옴
+            $oModuleModel = &getModel('module');
+            $this->module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
+            // DB에서 module_srl 에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴 
+            $oBlogModel = &getModel('blog');
+            $list = $oBlogModel->getCategoryList($module_srl);
+
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
-            $list = $output->data;
             if(!$list) {
                 $xml_buff = "<root />";
                 FileHandler::writeFile($xml_file, $xml_buff);
@@ -576,10 +577,11 @@
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'node_srl="%s" text=\'<?=(%s?"%s":"")?>\' expand="%s" ',
+                        'node_srl="%s" text="<?=(%s?"%s":"")?>" url="%s" expand="%s" ',
                         $category_srl,
                         $group_check_code,
                         $name,
+                        sprintf('./?mid=%s&amp;category=%d', $this->module_info->mid, $category_srl),
                         $expand
                 );
                 

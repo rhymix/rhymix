@@ -87,6 +87,15 @@
             // rss url
             if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
 
+            // 카테고리 목록을 가져오고 선택된 카테고리의 값을 설정
+            $oBlogModel = &getModel('blog');
+            $category_list = $oBlogModel->getCategoryList($this->module_info->module_srl);
+            if(count($category_list)) {
+                foreach($category_list as $key => $val) {
+                    $this->category_list[$val->category_srl] = $val;
+                }
+            }
+
             Context::set('module_info',$this->module_info);
         }
 
@@ -146,6 +155,9 @@
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
 
+            $category_srl = Context::get('category');
+            if($this->category_list[$category_srl]) $args->category_srl = $category_srl;
+
             $args->sort_index = 'list_order'; ///< 소팅 값
 
             // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
@@ -164,11 +176,6 @@
                 $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
             }
             Context::set('search_option', $search_option);
-
-            // 관리자일 경우 체크한 문서들의 목록을 세팅
-            if($this->grant->is_admin) {
-                Context::set('check_list',$_SESSION['document_management'][$this->module_srl]);
-            }
 
             $this->setTemplateFile('list');
         }

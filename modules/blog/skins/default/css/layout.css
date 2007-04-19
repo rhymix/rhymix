@@ -95,7 +95,7 @@ body {
 .layout_profile .profile{
     color:#555555;
     text-align:left;
-    padding:0px 10px 0px 10px;
+    padding:0px 10px 10px 10px;
 }
 
 /* rss 버튼 */
@@ -126,10 +126,10 @@ body {
 
 /* 좌측 관리자 메뉴 */
 .layout_admin {
-    border:3px solid #EEEEEE;
-    padding:5px;
+    border-top:1px solid #EEEEEE;
     text-align:center;
-    margin-bottom:10px;
+    padding-top:10px;
+    margin:10px 5px 0px 10px;
 }
 
 .layout_admin A {

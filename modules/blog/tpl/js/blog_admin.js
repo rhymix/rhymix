@@ -169,7 +169,7 @@ function completeInsertCategory(ret_obj) {
 
     if(!xml_file) return;
 
-    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, doGetCategoryInfo, category_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, '',doGetCategoryInfo, category_srl, doMoveTree);
 
     if(!category_srl) xInnerHtml("category_info", "");
     else {
@@ -200,7 +200,7 @@ function completeMoveCategory(ret_obj) {
     var source_category_srl = ret_obj['source_category_srl'];
     var xml_file = ret_obj['xml_file'];
 
-    loadTreeMenu(xml_file, 'category', "zone_category", category_title, doGetCategoryInfo, source_category_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'category', "zone_category", category_title, '', doGetCategoryInfo, source_category_srl, doMoveTree);
 }
 
 /* 카테고리 목록 갱신 */
@@ -228,7 +228,7 @@ function completeDeleteCategory(ret_obj) {
     var xml_file = ret_obj['xml_file'];
     alert(ret_obj['message']);
 
-    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, doGetCategoryInfo, category_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, '', doGetCategoryInfo, category_srl, doMoveTree);
     xInnerHtml("category_info", "");
 } 
 

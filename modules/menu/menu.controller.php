@@ -318,7 +318,7 @@
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
-                        'node_srl="%s" text=\'<?=(%s?"%s":"")?>\' url=\'<?=(%s?"%s":"")?>\' open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
+                        'node_srl="%s" text="<?=(%s?"%s":"")?>" url="<?=(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
                         $menu_item_srl,
                         $group_check_code,
                         $name,

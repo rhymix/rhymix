@@ -41,7 +41,7 @@ var node_callback_func = new Array();
 var node_move_callback_func = new Array();
 
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
-function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select_node_srl, callback_move_func) {
+function loadTreeMenu(url, menu_id, zone_id, title, index_url , callback_func, manual_select_node_srl, callback_move_func) {
     // 일단 그릴 곳을 찾아서 사전 작업을 함 (그릴 곳이 없다면 아예 시도를 안함)
     var zone = xGetElementById(zone_id);
     if(typeof(zone)=="undefined") return;
@@ -77,8 +77,10 @@ function loadTreeMenu(url, menu_id, zone_id, title, callback_func, manual_select
     oXml.reset();
     oXml.xml_path = url;
 
+    if(!index_url) index_url= "#";
+
     // menu_id, zone_id는 계속 달고 다녀야함 
-    var param = {menu_id:menu_id, zone_id:zone_id, title:title, manual_select_node_srl:manual_select_node_srl}
+    var param = {"menu_id":menu_id, "zone_id":zone_id, "title":title, "index_url":index_url, "manual_select_node_srl":manual_select_node_srl}
 
     // 요청후 drawTreeMenu()함수를 호출 (xml_handler.js에서 request method를 직접 이용)
     oXml.request(drawTreeMenu, oXml, null, null, null, param);
@@ -91,11 +93,12 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var menu_id = param.menu_id;
     var zone_id = param.zone_id;
     var title = param.title;
+    var index_url = param.index_url;
     if(param.manual_select_node_srl) manual_select_node_srl = param.manual_select_node_srl;
     var zone = xGetElementById(zone_id);
     var html = "";
 
-    if(title) html = '<div style="padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;">'+title+'</div>';
+    if(title) html = '<div style="cursor:pointer;padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</div>';
 
     var xmlDoc = oXml.getResponseXml();
     if(!xmlDoc) {
@@ -395,7 +398,7 @@ function moveTreeMenu(menu_id, node) {
     // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
     if(url) {
         // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
-        if(url.indexOf('://')==-1) {
+        if(url.indexOf('://')==-1 && url.indexOf('.')==-1) {
             url = "./?"+url;
         }
 

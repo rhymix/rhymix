@@ -72,7 +72,7 @@ function completeInsertMenuItem(ret_obj) {
 
     if(!xml_file) return;
 
-    loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, doGetMenuItemInfo, menu_item_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, '', doGetMenuItemInfo, menu_item_srl, doMoveTree);
 
     if(!menu_srl) xInnerHtml("menu_zone_info", "");
     else {
@@ -106,7 +106,7 @@ function completeMoveMenuItem(ret_obj) {
     if(!fo_menu) return;
 
     var title = fo_menu.title.value;
-    loadTreeMenu(xml_file, 'menu', "menu_zone_menu", title, doGetMenuItemInfo, source_item_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'menu', "menu_zone_menu", title, '', doGetMenuItemInfo, source_item_srl, doMoveTree);
 }
 
 /* 메뉴 목록 갱신 */
@@ -135,7 +135,7 @@ function completeDeleteMenuItem(ret_obj) {
     var xml_file = ret_obj['xml_file'];
     alert(ret_obj['message']);
 
-    loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, doGetMenuItemInfo, menu_item_srl, doMoveTree);
+    loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, '', doGetMenuItemInfo, menu_item_srl, doMoveTree);
     xInnerHtml("menu_zone_info", "");
 } 
 

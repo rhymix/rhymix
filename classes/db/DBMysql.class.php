@@ -452,7 +452,8 @@
             if(!$page) $page = 1;
 
             // 전체 페이지를 구함
-            $total_page = (int)(($total_count-1)/$list_count)+1;
+            if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
+            else $total_page = 1;
 
             // 페이지 변수를 체크
             if($page > $total_page) $page = $total_page;
