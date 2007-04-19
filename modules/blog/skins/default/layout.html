@@ -81,10 +81,8 @@
     <!--@if($grant->list)-->
         <!-- 검색 -->
         <div class="layout_search">
-            <form action="./" method="get" onsubmit="return procFilter(this, search)">
+            <form action="./" method="get">
                 <input type="hidden" name="mid" value="{$mid}" />
-                <input type="hidden" name="category" value="{$category}" />
-                <input type="hidden" name="search_target" value="title_content" />
                 <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
                 <input type="submit" class="search_button" value="{$lang->cmd_search}" />
             </form>

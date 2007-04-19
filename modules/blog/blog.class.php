@@ -7,8 +7,6 @@
 
     class blog extends ModuleObject {
 
-        var $search_option = array('title','content','title_content','user_name','user_id','tag'); ///< 검색 옵션
-
         var $skin = "default"; ///< 스킨 이름
         var $list_count = 1; ///< 한 페이지에 나타날 글의 수
         var $page_count = 10; ///< 페이지의 수

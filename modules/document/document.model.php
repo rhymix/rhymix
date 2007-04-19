@@ -143,8 +143,8 @@
             $query_id = 'document.getDocumentList';
 
             // 검색 옵션 정리
-            $search_target = trim(Context::get('search_target'));
-            $search_keyword = trim(Context::get('search_keyword'));
+            $search_target = $obj->search_target;
+            $search_keyword = $obj->search_keyword;
             if($search_target && $search_keyword) {
                 switch($search_target) {
                     case 'title' :
@@ -153,6 +153,11 @@
                         break;
                     case 'content' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'title_content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
                             $args->s_content = $search_keyword;
                         break;
                     case 'user_id' :
