@@ -9,22 +9,22 @@
         </description>
     </author>
     <extra_vars>
-        <var id="top_title">
+        <var name="top_title">
             <name xml:lang="ko">상단 제목</name>
             <type>text</type>
             <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
         </var>
-        <var id="main_menu_name">
+        <var name="main_menu_name">
             <name xml:lang="ko">메인 메뉴 명</name>
             <type>text</type>
             <description xml:lang="ko">트리메뉴의 가장 상위에 표시될 이름을 입력하세요.</description>
         </var>
-        <var id="home_url">
+        <var name="home_url">
             <name xml:lang="ko">홈 url</name>
             <type>text</type>
             <description xml:lang="ko">home이나 상단 제목 클릭시 이동할 홈 url을 입력해주세요.</description>
         </var>
-        <var id="colorset">
+        <var name="colorset">
             <name xml:lang="ko">컬러셋</name>
             <type>select</type>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>

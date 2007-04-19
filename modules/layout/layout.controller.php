@@ -94,6 +94,7 @@
             }
 
             // 레이아웃 삭제
+            $args->layout_srl = $layout_srl;
             $output = executeQuery("layout.deleteLayout", $args);
             if(!$output->toBool()) return $output;
 

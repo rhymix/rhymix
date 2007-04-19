@@ -152,8 +152,6 @@
             $list = FileHandler::readDir($skin_path);
             if(!count($list)) return;
 
-            $oXmlParser = new XmlParser();
-
             foreach($list as $skin_name) {
                 unset($skin_info);
                 $skin_info = $this->loadSkinInfo($path, $skin_name);
@@ -177,10 +175,11 @@
 
             // XmlParser 객체 생성
             $oXmlParser = new XmlParser();
-            $xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
+            $_xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
 
             // 스킨 정보가 없으면 return
-            if(!$xml_obj) return;
+            if(!$_xml_obj->skin) return;
+            $xml_obj = $_xml_obj->skin;
 
             // 스킨이름
             $skin_info->title = $xml_obj->title->body;
@@ -193,10 +192,10 @@
             $skin_info->maker->description = $xml_obj->maker->description->body;
 
             // colorset
-            if(!is_array($xml_obj->colorset->color)) $colorset[] = $xml_obj->colorset->color;
-            else $colorset = $xml_obj->colorset->color;
+            $colorset = $xml_obj->colorset->color;
+            if($colorset) {
+                if(!is_array($colorset)) $colorset = array($colorset);
 
-            if($colorset[0]->attrs->name) {
                 foreach($colorset as $color) {
                     $name = $color->attrs->name;
                     $title = $color->title->body;
@@ -213,21 +212,22 @@
             }
 
             // 스킨에서 사용되는 변수들
-            if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
-            else $extra_vars = $xml_obj->extra_vars->var;
+            $extra_vars = $xml_obj->extra_vars->var;
+            if($extra_vars) {
+                
+                if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
-            if($extra_vars[0]->attrs->name) {
                 foreach($extra_vars as $var) {
-                        $name = $var->attrs->name;
-                        $type = $var->attrs->type;
-                        $title = $var->title->body;
-                        $description = $var->description->body;
-                        if($var->default) {
-                            unset($default);
-                            if(is_array($var->default)) {
-                                for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
-                            } else {
-                                $default = $var->default->body;
+                    $name = $var->attrs->name;
+                    $type = $var->attrs->type;
+                    $title = $var->title->body;
+                    $description = $var->description->body;
+                    if($var->default) {
+                        unset($default);
+                        if(is_array($var->default)) {
+                            for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
+                        } else {
+                            $default = $var->default->body;
                         }
                     }
 

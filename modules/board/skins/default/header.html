@@ -1,6 +1,19 @@
 <!--%import("js/board.js")-->
 {$module_info->header_text}
 
+<!-- 스킨의 제목/내용으로 내용 구성 -->
+<!--@if($module_info->title || $module_info->memo)-->
+<div style="border:1px solid #EEEEEE;padding:10px;margin-bottom:10px;">
+    <!--@if($module_info->title)-->
+    <span style="font-weight:bold">{$module_info->title}</span><br>
+    <!--@end-->
+
+    <!--@if($module_info->memo)-->
+    {nl2br($module_info->memo)}
+    <!--@end-->
+</div>
+<!--@end-->
+
 <!-- 게시판 정보 -->
 <div>
     <!--@if($total_count)-->

@@ -14,40 +14,35 @@
     </color>
   </colorset>
   <extra_vars>
-    <var name="title" type="text">
-      <title xml:lang="ko">제목</title>
-      <description xml:lang="ko">그냥 테스트용입니다</description>
-    </var>
-    <var name="title2" type="text">
-      <title xml:lang="ko">제목 2</title>
-      <default>haha</default>
-    </var>
-    <var name="memo" type="textarea">
-      <title xml:lang="ko">내용</title>
-      <default lang="ko">내용의 기본값</default>
-    </var>
-    <var name="select" type="select">
-      <title xml:lang="ko">선택1</title>
-      <default>1</default>
-      <default>2</default>
-      <default>3</default>
-      <default>4</default>
-      <default>5</default>
-    </var>
-    <var name="checkbox" type="checkbox">
-      <title xml:lang="ko">다중선택</title>
-      <default>a</default>
-      <default>b</default>
-      <default>c</default>
-    </var>
-    <var name="radio" type="radio">
-      <title xml:lang="ko">하나선택</title>
-      <default>A</default>
-      <default>B</default>
-      <default>C</default>
+    <var name="top_title">
+        <name xml:lang="ko">상단 제목</name>
+        <type>text</type>
+        <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
     </var>
     <var name="logo_image" type="image" width="60" height="60">
       <title xml:lang="ko">로고이미지</title>
     </var>
+    <var name="home_url">
+        <name xml:lang="ko">홈 url</name>
+        <type>text</type>
+        <description xml:lang="ko">home이나 상단 제목(로고이미지) 클릭시 이동할 홈 url을 입력해주세요.</description>
+    </var>
+    <var name="colorset">
+        <name xml:lang="ko">컬러셋</name>
+        <type>select</type>
+        <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+        <options>
+            <name xml:lang="ko">적색</name>
+            <value>red</value>
+        </options>
+        <options>
+            <name xml:lang="ko">청색</name>
+            <value>blue</value>
+        </options>
+    </var>
+    <var name="memo" type="textarea">
+      <title xml:lang="ko">프로필</title>
+      <default lang="ko">간단한 프로필을 입력해주세요</default>
+    </var>
   </extra_vars>
-<skin>
+</skin>

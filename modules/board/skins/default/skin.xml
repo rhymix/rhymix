@@ -16,38 +16,11 @@
   <extra_vars>
     <var name="title" type="text">
       <title xml:lang="ko">제목</title>
-      <description xml:lang="ko">그냥 테스트용입니다</description>
-    </var>
-    <var name="title2" type="text">
-      <title xml:lang="ko">제목 2</title>
-      <default>haha</default>
+      <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
     </var>
     <var name="memo" type="textarea">
-      <title xml:lang="ko">내용</title>
+      <title xml:lang="ko">게시판 설명</title>
       <default lang="ko">내용의 기본값</default>
     </var>
-    <var name="select" type="select">
-      <title xml:lang="ko">선택1</title>
-      <default>1</default>
-      <default>2</default>
-      <default>3</default>
-      <default>4</default>
-      <default>5</default>
-    </var>
-    <var name="checkbox" type="checkbox">
-      <title xml:lang="ko">다중선택</title>
-      <default>a</default>
-      <default>b</default>
-      <default>c</default>
-    </var>
-    <var name="radio" type="radio">
-      <title xml:lang="ko">하나선택</title>
-      <default>A</default>
-      <default>B</default>
-      <default>C</default>
-    </var>
-    <var name="logo_image" type="image" width="60" height="60">
-      <title xml:lang="ko">로고이미지</title>
-    </var>
   </extra_vars>
-<skin>
+</skin>

@@ -131,10 +131,10 @@
                 unset($options);
                 $var = $extra_vars[$i];
 
-                $buff .= sprintf('$layout_info->extra_var->%s->name = "%s";', $var->attrs->id, $var->name->body);
-                $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $var->attrs->id, $var->type->body);
-                $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $var->attrs->id, $var->attrs->id);
-                $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $var->attrs->id, str_replace('"','\"',$var->description->body));
+                $buff .= sprintf('$layout_info->extra_var->%s->name = "%s";', $var->attrs->name, $var->name->body);
+                $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $var->attrs->name, $var->type->body);
+                $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $var->attrs->name, $var->attrs->name);
+                $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $var->attrs->name, str_replace('"','\"',$var->description->body));
 
                 $options = $var->options;
                 if(!$options) continue;
@@ -142,7 +142,7 @@
                 if(!is_array($options)) $options = array($options);
                 $options_count = count($options);
                 for($j=0;$j<$options_count;$j++) {
-                    $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->id, $options[$j]->value->body, $options[$j]->name->body);
+                    $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->name->body);
                 }
             }
 

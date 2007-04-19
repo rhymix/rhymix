@@ -69,11 +69,17 @@
             Context::set('module_info',$this->module_info);
         
             // 기본 모듈 정보들 설정
-            $this->list_count = $this->module_info->list_count?$this->module_info->list_count:20;
+            $this->list_count = $this->module_info->list_count?$this->module_info->list_count:1;
             $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
 
-            // 스킨 템플릿 경로 지정
+            // 스킨 경로 구함
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+
+            // 레이아웃 지정
+            $this->setLayoutPath($template_path);
+            $this->setLayoutFile("layout");
+
+            // 템플릿 지정
             $this->setTemplatePath($template_path);
 
             // rss url
