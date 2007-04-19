@@ -219,7 +219,7 @@ function doReloadTreeMenu(module_srl) {
 }
 
 /* 카테고리 삭제 */
-function doDeleteCategory(category_srl) {
+function doDeleteCategoryItem(category_srl) {
       var fo_obj = xGetElementById("fo_category");
       if(!fo_obj) return;
 

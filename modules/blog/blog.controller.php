@@ -391,5 +391,133 @@
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
+
+        /**
+         * @brief 카테고리 추가
+         **/
+        function procBlogAdminInsertCategory() {
+            // 입력할 변수 정리
+            $source_args = Context::getRequestVars();
+            unset($source_args->module);
+            unset($source_args->act);
+
+            if($source_args->expand !="Y") $source_args->expand = "N";
+            $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
+            $source_args->parent_srl = (int)$source_args->parent_srl;
+
+            // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
+            $args->module_srl = $source_args->module_srl;
+            $args->category_srl = $source_args->category_srl;
+            $args->parent_srl = $source_args->parent_srl;
+            $args->name = $source_args->menu_name;
+            $args->expand = $source_args->menu_expand;
+            $args->group_srls = $source_args->group_srls;
+
+            // 이미 존재하는지를 확인
+            $oBlogModel = &getModel('blog');
+            $category_info = $oMenuModel->getCategoryInfo($args->category_srl);
+
+            // 존재하게 되면 update를 해준다
+            if($category_info->category_srl == $args->category_srl) {
+                $output = executeQuery('blog.updateCategory', $args);
+                if(!$output->toBool()) return $output;
+
+            // 존재하지 않으면 insert를 해준다
+            } else {
+                $args->listorder = -1*$args->category_srl;
+                $output = executeQuery('blog.insertCategory', $args);
+                if(!$output->toBool()) return $output;
+            }
+
+            // XML 파일을 갱신하고 위치을 넘겨 받음
+            $xml_file = $this->makeXmlFile($args->module_srl);
+
+            $this->add('xml_file', $xml_file);
+            $this->add('module_srl', $args->menu_srl);
+            $this->add('category_srl', $args->menu_item_srl);
+            $this->add('category_title', $category_title);
+            $this->add('parent_srl', $args->parent_srl);
+        }
+
+        /**
+         * @brief 블로그 카테고리를 xml파일로 저장
+         **/
+        function makeXmlFile($module_srl) {
+            // xml파일 생성시 필요한 정보가 없으면 그냥 return
+            if(!$module_srl) return;
+            
+            // DB에서 module_srl 에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴 
+            $args->module_srl = $module_srl;
+            $args->sort_index = 'listorder';
+            $output = executeQuery('blog.getBlogCategories', $args);
+            if(!$output->toBool()) return;
+
+            // 캐시 파일의 이름을 지정
+            $xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
+
+            // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
+            $list = $output->data;
+            if(!$list) {
+                $xml_buff = "<root />";
+                FileHandler::writeFile($xml_file, $xml_buff);
+                return $xml_file;
+            }
+
+            // 구해온 데이터가 하나라면 array로 바꾸어줌
+            if(!is_array($list)) $list = array($list);
+
+            // 루프를 돌면서 tree 구성
+            $list_count = count($list);
+            for($i=0;$i<$list_count;$i++) {
+                $node = $list[$i];
+                $category_srl = $node->category_srl;
+                $parent_srl = $node->parent_srl;
+
+                $tree[$parent_srl][$category_srl] = $node;
+            }
+
+            // xml 캐시 파일 생성
+            $xml_buff = sprintf('<?php header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $this->getXmlTree($tree[0], $tree));
+
+            // 파일 저장
+            FileHandler::writeFile($xml_file, $xml_buff);
+            return $xml_file;
+        }
+
+        /**
+         * @brief array로 정렬된 노드들을 parent_srl을 참조하면서 recursive하게 돌면서 xml 데이터 생성
+         * 메뉴 xml파일은 node라는 tag가 중첩으로 사용되며 이 xml doc으로 관리자 페이지에서 메뉴를 구성해줌\n
+         * (tree_menu.js 에서 xml파일을 바로 읽고 tree menu를 구현)
+         **/
+        function getXmlTree($source_node, $tree) {
+            if(!$source_node) return;
+            foreach($source_node as $category_srl => $node) {
+                $child_buff = "";
+
+                // 자식 노드의 데이터 가져옴
+                if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree);
+
+                // 변수 정리 
+                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
+                $expand = $node->expand;
+                $group_srls = $node->group_srls;
+
+                // node->group_srls값이 있으면 
+                if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
+                else $group_check_code = "true";
+
+                $attribute = sprintf(
+                        'node_srl="%s" text=\'<?=(%s?"%s":"")?>\' expand="%s" ',
+                        $category_srl,
+                        $group_check_code,
+                        $name,
+                        $expand
+                );
+                
+                if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
+                else $buff .=  sprintf('<node %s />', $attribute);
+            }
+            return $buff;
+        }
     }
 ?>

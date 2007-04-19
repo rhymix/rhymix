@@ -1,8 +1,8 @@
-<filter name="insert_category" module="blog" act="procBlogAdminInsertItem" confirm_msg_code="confirm_submit">
+<filter name="insert_category" module="blog" act="procBlogAdminInsertCategory" confirm_msg_code="confirm_submit">
     <form>
-        <node target="category_srl" required="true" />
+        <node target="module_srl" required="true" />
     </form>
-    <response callback_func="completeInsertBlogItem">
+    <response callback_func="completeInsertCategory">
         <tag name="error" />
         <tag name="message" />
         <tag name="module_srl" />
