@@ -380,9 +380,12 @@
         /**
          * @brief 게시판 추가
          **/
-        function procBoardAdminInsertBoard() {
+        function procBoardAdminInsertBoard($args = null) {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','module_category_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+            if(!$args) {
+                $args = Context::gets('module_srl','module_category_srl','board_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+            }
+
             $args->module = 'board';
             $args->mid = $args->board_name;
             unset($args->board_name);
@@ -418,25 +421,24 @@
             if(!$args->module_srl) {
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
+
+                // 파일업로드, 댓글 파일업로드, 관리에 대한 권한 지정
+                if($output->toBool()) {
+                    $oMemberModel = &getModel('member');
+                    $admin_group = $oMemberModel->getAdminGroup();
+                    $admin_group_srl = $admin_group->group_srl;
+
+                    $module_srl = $output->get('module_srl');
+                    $grants = serialize(array('fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
+
+                    $oModuleController->updateModuleGrant($module_srl, $grants);
+                }
             } else {
                 $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
             }
 
             if(!$output->toBool()) return $output;
-
-            // 신규 입력일 경우 기본 권한 설정 (file upload, manager권한을 관리그룹으로 정함)
-            if($msg_code == 'success_registed') {
-                $oMemberModel = &getModel('member');
-                $admin_group = $oMemberModel->getAdminGroup();
-                $admin_group_srl = $admin_group->group_srl;
-
-                $module_srl = $output->get('module_srl');
-                $grants = serialize(array('fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
-
-                $oModuleController = &getController('module');
-                $oModuleController->updateModuleGrant($module_srl, $grants);
-            }
 
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));

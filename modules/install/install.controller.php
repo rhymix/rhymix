@@ -122,11 +122,12 @@
          **/
         function installDownloadedModule() { 
             // 수동으로 설치를 할 목록
-            $manual_modules = array('install','module');
+            $manual_modules = array('install','module','member');
 
             // install, module 모듈은 미리 설치 
             $this->installModule('install', './modules/install/');
             $this->installModule('module', './modules/module/');
+            $this->installModule('member', './modules/member/');
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
             $module_list = FileHandler::readDir('./modules/', NULL, false, true);

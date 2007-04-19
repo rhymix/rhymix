@@ -21,9 +21,6 @@
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
 
-            // 기본 모듈을 생성
-            $oModule = &getController('module');
-            $oModule->makeDefaultModule();
             return new Object();
         }
 

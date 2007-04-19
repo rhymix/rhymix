@@ -46,24 +46,6 @@
         }
 
         /**
-         * @brief 기본 모듈 생성
-         **/
-        function makeDefaultModule() {
-            // 설치된 기본 모듈이 있는지 확인
-            $output = executeQuery('module.getDefaultMidInfo');
-            if($output->data) return;
-
-            // 기본 데이터 세팅
-            $args->mid = 'board';
-            $args->browser_title = '테스트 모듈';
-            $args->is_default = 'Y';
-            $args->module = 'board';
-            $args->skin = 'default';
-
-            return $this->insertModule($args);
-        }
-
-        /**
          * @brief 모듈의 기본 정보 입력
          * 모듈의 정보를 입력받은 데이터를 serialize하여 등록한다.
          **/

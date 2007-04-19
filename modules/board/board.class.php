@@ -31,6 +31,21 @@
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminGrantInfo');
             $oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateSkinInfo');
 
+            // 기본 게시판 생성
+            // 설치된 기본 모듈이 있는지 확인
+            $output = executeQuery('module.getDefaultMidInfo');
+            if($output->data) return new Object();
+
+            // 기본 데이터 세팅
+            $args->board_name = 'board';
+            $args->browser_title = 'test module';
+            $args->is_default = 'Y';
+            $args->skin = 'default';
+
+            // 게시판 controller 생성
+            $oBoardController = &getController('board');
+            $oBoardController->procBoardAdminInsertBoard($args);
+
             return new Object();
         }
 

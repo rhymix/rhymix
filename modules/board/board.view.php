@@ -404,10 +404,9 @@
                 $comment_srl = getNextSequence();
                 Context::set('comment_srl', $comment_srl);
             }
-
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $comment_editor = $oEditorModel->getEditor($comment_srl, $this->grant->fileupload);
+            $comment_editor = $oEditorModel->getEditor($comment_srl, $this->grant->comment_fileupload);
             Context::set('comment_editor', $comment_editor);
         }
 

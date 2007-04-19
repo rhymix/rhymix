@@ -22,7 +22,7 @@
             <div>
             <!--@foreach($group_list as $k => $v)-->
                 <span>
-                <input type="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants)&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="true"<!--@end-->/> 
+                <input type="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="true"<!--@end-->/> 
                 <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
                 </span>
             <!--@end-->

@@ -353,6 +353,18 @@
             if(!$args->module_srl) {
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
+
+                // 글작성, 파일첨부, 댓글 파일첨부, 관리에 대한 권한 지정
+                if($output->toBool()) {
+                    $oMemberModel = &getModel('member');
+                    $admin_group = $oMemberModel->getAdminGroup();
+                    $admin_group_srl = $admin_group->group_srl;
+
+                    $module_srl = $output->get('module_srl');
+                    $grants = serialize(array('write_document'=>array($admin_group_srl), 'fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
+
+                    $oModuleController->updateModuleGrant($module_srl, $grants);
+                }
             } else {
                 $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
