@@ -94,6 +94,13 @@
                 foreach($category_list as $key => $val) {
                     $this->category_list[$val->category_srl] = $val;
                 }
+                Context::set('category_list', $this->category_list);
+            }
+
+            $category_srl = Context::get('category');
+            if($this->category_list[$category_srl]) {
+                $this->category_srl = $category_srl;
+                Context::set('zbxe_url', sprintf("mid=%s&category=%d", $this->module_info->mid, $this->category_srl));
             }
 
             Context::set('module_info',$this->module_info);
@@ -154,9 +161,7 @@
             // 검색 옵션
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
-
-            $category_srl = Context::get('category');
-            if($this->category_list[$category_srl]) $args->category_srl = $category_srl;
+            $args->category_srl = $this->category_srl;
 
             $args->sort_index = 'list_order'; ///< 소팅 값
 

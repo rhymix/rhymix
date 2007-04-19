@@ -581,7 +581,7 @@
                         $category_srl,
                         $group_check_code,
                         $name,
-                        sprintf('./?mid=%s&amp;category=%d', $this->module_info->mid, $category_srl),
+                        sprintf('mid=%s&amp;category=%d', $this->module_info->mid, $category_srl),
                         $expand
                 );
                 

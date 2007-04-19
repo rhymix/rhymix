@@ -398,9 +398,7 @@ function moveTreeMenu(menu_id, node) {
     // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
     if(url) {
         // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
-        if(url.indexOf('://')==-1 && url.indexOf('.')==-1) {
-            url = "./?"+url;
-        }
+        if(url.indexOf('://')==-1) url = "./?"+url;
 
         // open_window에 따라서 처리
         if(open_window != "Y") location.href=url;
