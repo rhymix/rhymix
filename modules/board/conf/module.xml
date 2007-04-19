@@ -49,7 +49,6 @@
         <action name="procBoardDownloadFile" type="controller" />
 
         <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispBoardAdminModuleConfig" type="view" standalone="true" />
         <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
         <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
         <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
@@ -65,7 +64,6 @@
         <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
         <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
-        <action name="procBoardAdminInsertConfig" type="controller" standalone="true" />
         <action name="procBoardAdminManageCheckedDocument" type="controller" standalone="true" />
     </actions>
 </module>

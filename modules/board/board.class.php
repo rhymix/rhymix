@@ -23,19 +23,13 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminContent');
-            $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminModuleConfig');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminBoardInfo');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminInsertBoard');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminDeleteBoard');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminSkinInfo');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminCategoryInfo');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminGrantInfo');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertGrant');
             $oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateSkinInfo');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminDeleteBoard');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertCategory');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateCategory');
-            //$oModuleController->insertActionForward('board', 'controller', 'procBoardAdminInsertConfig');
 
             return new Object();
         }
