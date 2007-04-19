@@ -17,7 +17,7 @@
             <select name="category_srl" >
                 <option value="">{$lang->category}</option>
                 <!--@foreach($category_list as $val)-->
-                <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$document->category_srl)-->selected="true"<!--@end-->>{$val->name}</option>
+                <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$document->category_srl)-->selected="true"<!--@end-->>{$val->title}</option>
                 <!--@end-->
             </select>
         </td>

@@ -403,6 +403,9 @@
             $args->group_srls = str_replace('|@|',',',$args->group_srls);
             $args->parent_srl = (int)$args->parent_srl;
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 이미 존재하는지를 확인
             $oBlogModel = &getModel('blog');
             $category_info = $oBlogModel->getCategoryInfo($args->category_srl);
@@ -410,17 +413,41 @@
             // 존재하게 되면 update를 해준다
             if($category_info->category_srl == $args->category_srl) {
                 $output = executeQuery('blog.updateCategory', $args);
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+                $oDocumentController = &getController('document');
+                $document_args->category_srl = $args->category_srl;
+                $document_args->title = $args->name ;
+                $output = $oDocumentController->updateCategory($document_args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
 
             // 존재하지 않으면 insert를 해준다
             } else {
                 $args->listorder = -1*$args->category_srl;
                 $output = executeQuery('blog.insertCategory', $args);
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+                $oDocumentController = &getController('document');
+                $output = $oDocumentController->insertCategory($args->module_srl, $args->name, $args->category_srl);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->module_srl);
+
+            $oDB->commit();
 
             $this->add('xml_file', $xml_file);
             $this->add('module_srl', $args->module_srl);
@@ -435,6 +462,9 @@
             // 변수 정리 
             $args = Context::gets('module_srl','category_srl');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             $oBlogModel = &getModel('blog');
 
             // 원정보를 가져옴 
@@ -443,15 +473,34 @@
 
             // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
             $output = executeQuery('blog.getChildCategoryCount', $args);
-            if(!$output->toBool()) return $output;
-            if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            if($output->data->count>0) {
+                $oDB->rollback();
+                return new Object(-1, 'msg_cannot_delete_for_child');
+            }
 
             // DB에서 삭제
             $output = executeQuery("blog.deleteCategory", $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $oDocumentController = &getController('document');
+            $output = $oDocumentController->deleteCategory($args->category_srl);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->module_srl);
+
+            $oDB->commit();
 
             $this->add('xml_file', $xml_file);
             $this->add('category_srl', $parent_srl);

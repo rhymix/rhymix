@@ -495,8 +495,9 @@
         /**
          * @brief 카테고리 추가
          **/
-        function insertCategory($module_srl, $title) {
-            $args->list_order = $args->category_srl = getNextSequence();
+        function insertCategory($module_srl, $title, $category_srl = 0) {
+            if(!$category_srl) $args->list_order = $args->category_srl = getNextSequence();
+            else $args->list_order = $args->category_srl = $category_srl;
             $args->module_srl = $module_srl;
             $args->title = $title;
             $args->document_count = 0;

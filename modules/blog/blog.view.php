@@ -88,14 +88,9 @@
             if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
 
             // 카테고리 목록을 가져오고 선택된 카테고리의 값을 설정
-            $oBlogModel = &getModel('blog');
-            $category_list = $oBlogModel->getCategoryList($this->module_info->module_srl);
-            if(count($category_list)) {
-                foreach($category_list as $key => $val) {
-                    $this->category_list[$val->category_srl] = $val;
-                }
-                Context::set('category_list', $this->category_list);
-            }
+            $oDocumentModel = &getModel('document');
+            $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
+            Context::set('category_list', $this->category_list);
 
             $category_srl = Context::get('category');
             if($this->category_list[$category_srl]) {
