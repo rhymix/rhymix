@@ -435,20 +435,6 @@
         }
 
         /**
-         * @brief 블로그에 필요한 기본 설정들
-         **/
-        function dispBlogAdminModuleConfig() {
-
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('blog');
-            Context::set('config',$config);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('blog_config');
-        }
-
-        /**
          * @brief 선택된 블로그의 정보 출력
          **/
         function dispBlogAdminBlogInfo() {

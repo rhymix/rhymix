@@ -437,18 +437,5 @@
             $this->add('module_srl', $module_srl);
             $this->setMessage($msg_code);
         }
-
-        /**
-         * @brief 블로그 기본 정보의 추가
-         **/
-        function procBlogAdminInsertConfig() {
-            // 기본 정보를 받음
-            $args = Context::gets('test');
-
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('blog',$args);
-            return $output;
-        }
     }
 ?>

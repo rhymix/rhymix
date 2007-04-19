@@ -23,7 +23,6 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminContent');
-            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminModuleConfig');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminBlogInfo');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminInsertBlog');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminDeleteBlog');

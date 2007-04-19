@@ -48,7 +48,6 @@
         <action name="procBlogDownloadFile" type="controller" />
 
         <action name="dispBlogAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispBlogAdminModuleConfig" type="view" standalone="true" />
         <action name="dispBlogAdminBlogInfo" type="view" standalone="true" />
         <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />
         <action name="dispBlogAdminDeleteBlog" type="view" standalone="true" />
@@ -63,6 +62,5 @@
         <action name="procBlogAdminDeleteBlog" type="controller" standalone="true" />
         <action name="procBlogAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBlogAdminUpdateCategory" type="controller" standalone="true" />
-        <action name="procBlogAdminInsertConfig" type="controller" standalone="true" />
     </actions>
 </module>
