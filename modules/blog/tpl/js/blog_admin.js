@@ -10,12 +10,10 @@ function completeInsertBlog(ret_obj) {
     var message = ret_obj['message'];
 
     var page = ret_obj['page'];
-    var module_srl = ret_obj['module_srl'];
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminBlogInfo');
-    if(page) url.setQuery('page',page);
+    var url = location.href.setQuery('act','dispBlogAdminBlogInfo');
     location.href = url;
 }
 

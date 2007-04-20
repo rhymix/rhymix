@@ -23,8 +23,6 @@
     <response callback_func="completeInsertBlog">
         <tag name="error" />
         <tag name="message" />
-        <tag name="module" />
-        <tag name="act" />
         <tag name="page" />
         <tag name="module_srl" />
     </response>
