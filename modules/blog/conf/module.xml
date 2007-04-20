@@ -37,6 +37,8 @@
         <action name="dispBlogMessage" type="view" />
         <action name="dispBlogRss" type="view" />
 
+        <action name="getBlogCommentEditorForm" type="model" />
+
         <action name="procBlogInsertDocument" type="controller" />
         <action name="procBlogDeleteDocument" type="controller" />
         <action name="procBlogInsertComment" type="controller" />

@@ -16,6 +16,34 @@
         }
 
         /**
+         * @brief 블로그의 코멘트 폼을 찾아서 return
+         **/
+        function getBlogCommentEditorForm() {
+            $document_srl = Context::get('document_srl');
+
+            $upload_target_srl = getNextSequence();
+
+            // 에디터 모듈의 getEditor를 호출하여 세팅
+            $oEditorModel = &getModel('editor');
+            $comment_editor = $oEditorModel->getEditor($upload_target_srl, false);
+
+            // 변수 설정 
+            Context::set('comment_editor', $comment_editor);
+            Context::set('document_srl', $document_srl);
+            Context::set('comment_srl', $upload_target_srl);
+
+            // template 가져옴
+            $oTemplate = new TemplateHandler();
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+            $tpl = $oTemplate->compile($template_path, 'comment_form');
+
+            // 결과 설정
+            $this->add('document_srl', $document_srl);
+            $this->add('upload_target_srl', $upload_target_srl);
+            $this->add('tpl', $tpl);
+        }
+
+        /**
          * @brief DB 에 생성된 카테고리 정보를 구함
          * 생성된 메뉴의 DB정보+XML정보를 return
          **/

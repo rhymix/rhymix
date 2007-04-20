@@ -124,15 +124,11 @@
                     unset($document_srl);
                     Context::set('document_srl','',true);
 
-                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅 
+                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크
                 } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
-
                     // 브라우저 타이틀
                     $browser_title = $this->module_info->browser_title.' - '.$document->title;
                     Context::setBrowserTitle($browser_title);
-
-                    // 댓글
-                    $this->setCommentEditor();
                 }
 
                 Context::set('document', $document);
@@ -173,6 +169,10 @@
                 $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
             }
             Context::set('search_option', $search_option);
+
+            // 블로그의 코멘트는 ajax로 호출되기에 미리 css, js파일을 import
+            Context::addJsFile('./modules/editor/tpl/js/editor.js');
+            Context::addCSSFile('./modules/editor/tpl/css/editor.css');
 
             $this->setTemplateFile('list');
         }

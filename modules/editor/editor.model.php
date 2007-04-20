@@ -59,7 +59,6 @@
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
-
         /**
          * @brief 자동저장되어 있는 정보를 가져옴
          **/

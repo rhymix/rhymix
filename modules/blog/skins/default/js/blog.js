@@ -6,11 +6,44 @@
 
 /**
  * 댓글 오픈
+ * 댓글의 경우 editor를 동반해서 불러야 하기에 ajax로 tpl파일을 가져와서 쓰는걸로 한다.
  **/
+var _opend_comment = new Array();
 function doDisplayComment(document_srl) {
     var comment_zone = xGetElementById('comment_'+document_srl);
-    if(comment_zone.style.display == "none") comment_zone.style.display = "block";
+
+    // 닫혀 있는 상태라면 한번이라도 열렸었는지 검사하여 열린적이 없다면 에디터를 가져온다
+    if(comment_zone.style.display != "block") {
+        if(!_opend_comment[document_srl]) {
+            _opend_comment[document_srl] = true;
+            doGetCommentEditorForm(document_srl);
+        }
+        comment_zone.style.display = "block";
+    }
     else comment_zone.style.display = "none";
+}
+
+function doGetCommentEditorForm(document_srl) {
+    var params = new Array();
+    params['document_srl'] = document_srl;
+
+    var response_tags = new Array('error','message','document_srl','upload_target_srl','tpl');
+    exec_xml('blog','getBlogCommentEditorForm', params, completeCommentEditorForm, response_tags);
+}
+
+var editor_path = "./modules/editor/tpl";
+function completeCommentEditorForm(ret_obj) {
+    var document_srl = ret_obj['document_srl'];
+    var upload_target_srl = ret_obj['upload_target_srl'];
+    var tpl = ret_obj['tpl'];
+    var comment_form_zone = xGetElementById('comment_form_'+document_srl);
+    if(!comment_form_zone) return;
+    
+    // tpl 입력
+    xInnerHtml(comment_form_zone, tpl);
+
+    // 에디터 실행
+    editorStart(upload_target_srl);
 }
 
 /**
@@ -18,7 +51,7 @@ function doDisplayComment(document_srl) {
  **/
 function doDisplayTrackback(document_srl) {
     var trackback_zone = xGetElementById('trackback_'+document_srl);
-    if(trackback_zone.style.display == "none") trackback_zone.style.display = "block";
+    if(trackback_zone.style.display != "block") trackback_zone.style.display = "block";
     else trackback_zone.style.display = "none";
 }
 

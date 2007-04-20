@@ -1,8 +1,10 @@
+<!--%import("filter/insert_comment.xml")-->
+
 <!-- 댓글 정보 출력 -->
-<a name="comment_top_{$document_srl}"></a>
+<a name="comment_top_{$document->document_srl}"></a>
 
 <!-- 댓글 출력 -->
-<div id="comment_{$document_srl}" style="display:none">
+<div id="comment_{$document->document_srl}" style="display:none">
     <!-- 댓글 목록 -->
 
     <!--@if($document->comment_list)-->
@@ -65,6 +67,6 @@
 
     <!-- 댓글 입력 폼 -->
     <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
-        <div id="comment_form_{$document_srl}"></div>
+        <div id="comment_form_{$document->document_srl}"></div>
     <!--@end-->
 </div>
