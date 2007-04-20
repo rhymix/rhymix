@@ -1,96 +1,54 @@
 <!-- 글 내용 보여주기 -->
-<div>
-    <table border="1" width="100%" style="table-layout:fixed">
-    <col width="120" />
-    <col width="*" />
-
+<div class="content_box">
     <!--@if($category_list && $document->category_srl)-->
-    <tr>  
-        <th>{$lang->category}</th>
-        <td>{$category_list[$document->category_srl]->title}</td>
-    </tr>
+    <div class="category_title">
+        {$lang->category} : {$category_list[$document->category_srl]->title}
+    </div>
     <!--@end-->
 
-    <tr>
-        <th>{$lang->title}</th>
-        <td>{htmlspecialchars($document->title)}</td>
-    </tr>
-    <!--@if($document->homepage)-->
-    <tr>
-        <th>{$lang->homepage}</th>
-        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{htmlspecialchars($document->homepage)}</a></td>
-    </tr>
+    <div class="title">
+        {htmlspecialchars($document->title)}
+    </div>
+
+    <div class="p_link">
+        {$lang->document_url} : {getUrl()}{$document->document_srl}
+    </div>
+
+    <div class="date">
+        {zdate($document->regdate,"Y-m-d H:i:s")}
+    </div>
+
+    <!--@if($module_info->display_writer == "on")-->
+    <div>
+        {$lang->writer} : <div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div>
+    </div>
     <!--@end-->
-    <tr>
-        <th>{$lang->date}</th>
-        <td>{zdate($document->regdate,"Y-m-d H:i:s")}</td>
-    </tr>
-    <tr>
-        <th>{$lang->writer}</th>
-        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
-    </tr>
-    <tr>
-        <th>{$lang->readed_count}</th>
-        <td>{$document->readed_count}</td>
-    </tr>
-    <tr>
-        <th>{$lang->content}</th>
-        <td height="100" valign="top">{$document->content}</td>
-    </tr>
-    <tr>
-        <th>{$lang->document_url}</th>
-        <td>{getUrl()}{$document->document_srl}</td>
-    </tr>
+
+    <div class="content">{$document->content}</div>
 
     <!--@if($document->allow_trackback=='Y')-->
-    <tr>
-        <th>{$lang->trackback_url}</th>
-        <td>{getUrl()}trackback/{$document->document_srl}</td>
-    </tr>
+    <div>
+        {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
+    </div>
     <!--@end-->
 
     <!--@if($document->tag_list)-->
-    <tr>
-        <th>{$lang->tag}</th>
-        <td>
-            <!--@foreach($document->tag_list as $val)-->
-                <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
-            <!--@end-->
-        </td>
-    </tr>
+    <div>
+        {$lang->tag} :
+        <!--@foreach($document->tag_list as $val)-->
+            <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+        <!--@end-->
+    </div>
     <!--@end-->
 
     <!--@if($document->uploaded_count && $document->uploaded_list)-->
-    <tr>
-        <th>{$lang->uploaded_file}</th>
-        <td>
-            <!--@foreach($document->uploaded_list as $key => $file)-->
-                <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
-            <!--@end-->
-        </td>
-    </tr>
+    <div>
+        {$lang->uploaded_file} :
+        <!--@foreach($document->uploaded_list as $key => $file)-->
+            <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
+        <!--@end-->
+    </div>
     <!--@end-->
-
-    <tr>
-        <th>ipaddress</th>
-        <td>{$document->ipaddress}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <!--@if($document->allow_comment=='Y')-->
-                {$lang->allow_comment}
-            <!--@end-->
-
-            <!--@if($document->lock_comment=='Y')-->
-                {$lang->lock_comment}
-            <!--@end-->
-
-            <!--@if($document->allow_trackback=='Y')-->
-                {$lang->allow_trackback}
-            <!--@end-->
-        </td>
-    </tr>
-    </table>
 </div>
 
 <!-- 관련 링크 -->
