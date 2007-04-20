@@ -22,10 +22,15 @@
             $args->layout = Context::get('layout');
             $args->title = Context::get('title');
 
-            $output = executeQuery("layout.insertLayout", $args);
+            $output = $this->insertLayout($args);
             if(!$output->toBool()) return $output;
 
             $this->add('layout_srl', $args->layout_srl);
+        }
+
+        function insertLayout($args) {
+            $output = executeQuery("layout.insertLayout", $args);
+            return $output;
         }
 
         /**
@@ -70,11 +75,15 @@
             // DB에 입력하기 위한 변수 설정 
             $args->extra_vars = serialize($extra_vars);
 
-
-            $output = executeQuery('layout.updateLayout', $args);
+            $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_updated');
+        }
+
+        function updateLayout($args) {
+            $output = executeQuery('layout.updateLayout', $args);
+            return $output;
         }
 
         /**
@@ -95,11 +104,16 @@
 
             // 레이아웃 삭제
             $args->layout_srl = $layout_srl;
-            $output = executeQuery("layout.deleteLayout", $args);
+
+            $output = $this->deleteLayout($args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
         }
 
+        function deleteLayout($args) {
+            $output = executeQuery("layout.deleteLayout", $args);
+            return $output;
+        }
     }
 ?>

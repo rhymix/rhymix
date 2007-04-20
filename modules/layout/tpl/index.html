@@ -25,10 +25,25 @@
     <!--@foreach($layout_list as $no => $val)-->
     <tr>
         <td>{$no+1}</td>
-        <td>{$val->layout}</td>
-        <td><a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{htmlspecialchars($val->title)}</a></td>
+        <td>
+            {$val->layout}
+            <!--@if($val->module_srl)-->
+            (module) 
+            <!--@end-->
+        </td>
+        <td>
+            <!--@if(!$val->module_srl)-->
+                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{htmlspecialchars($val->title)}</a>
+            <!--@else-->
+                {htmlspecialchars($val->title)}
+            <!--@end-->
+        </td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a></td>
+        <td>
+            <!--@if(!$val->module_srl)-->
+                <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a>
+            <!--@end-->
+        </td>
     </tr>
     <!--@end-->
 

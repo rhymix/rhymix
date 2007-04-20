@@ -8,7 +8,7 @@
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
         <column name="skin" var="skin" minlength="1" maxlength="250" />
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
-        <column name="layout_srl" var="layout_srl" notnull="notnull" />
+        <column name="layout_srl" var="layout_srl" />
         <column name="description" var="description" />
         <column name="content" var="content" />
         <column name="module" var="module" notnull="notnull" maxlength="80"/>

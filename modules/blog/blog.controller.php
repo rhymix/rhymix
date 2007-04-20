@@ -325,10 +325,12 @@
 
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
-            unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
             unset($extra_var->blog_name);
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
@@ -350,8 +352,12 @@
 
             // module_srl의 값에 따라 insert/update
             if(!$args->module_srl) {
+                // 블로그 등록
                 $output = $oModuleController->insertModule($args);
-                $msg_code = 'success_registed';
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
 
                 // 글작성, 파일첨부, 댓글 파일첨부, 관리에 대한 권한 지정
                 if($output->toBool()) {
@@ -362,14 +368,52 @@
                     $module_srl = $output->get('module_srl');
                     $grants = serialize(array('write_document'=>array($admin_group_srl), 'fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
 
-                    $oModuleController->updateModuleGrant($module_srl, $grants);
+                    $output = $oModuleController->updateModuleGrant($module_srl, $grants);
+                    if(!$output->toBool()) {
+                        $oDB->rollback();
+                        return $output;
+                    }
                 }
+
+                // 레이아웃 등록
+                $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
+                $layout_args->layout = 'blog';
+                $layout_args->title = sprintf('%s (%s)',$args->browser_title, $args->mid);
+                $layout_args->layout_path = sprintf('./modules/blog/skin/%s/layout.html', $args->skin);
+
+                $oLayoutController = &getController('layout');
+                $output = $oLayoutController->insertLayout($layout_args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+                $msg_code = 'success_registed';
             } else {
+                // 블로그 데이터 수정
                 $output = $oModuleController->updateModule($args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+                // 레이아웃 수정
+                $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
+                $layout_args->title = $args->browser_title;
+                $layout_args->extra_vars = $args->extra_vars;
+                $layout_args->layout_path = sprintf('./modules/blog/skin/%s/layout.html', $args->skin);
+
+                $oLayoutController = &getController('layout');
+                $output = $oLayoutController->updateLayout($layout_args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
                 $msg_code = 'success_updated';
             }
 
-            if(!$output->toBool()) return $output;
+            $oDB->commit();
 
             $this->add('page',Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
@@ -382,10 +426,28 @@
         function procBlogAdminDeleteBlog() {
             $module_srl = Context::get('module_srl');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // 원본을 구해온다
             $oModuleController = &getController('module');
             $output = $oModuleController->deleteModule($module_srl);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 레이아웃 삭제
+            $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
+
+            $oLayoutController = &getController('layout');
+            $output = $oLayoutController->deleteLayout($layout_args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $oDB->commit();
 
             $this->add('module','blog');
             $this->add('page',Context::get('page'));

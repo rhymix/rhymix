@@ -5,6 +5,7 @@
     <columns>
         <column name="title" var="title" notnull="notnull" />
         <column name="extra_vars" var="extra_vars" />
+        <column name="layout_path" var="layout_path" />
     </columns>
     <conditions>
         <condition operation="equal" column="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
