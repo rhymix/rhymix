@@ -4,6 +4,24 @@
  * @brief  blog 모듈의 javascript
  **/
 
+/**
+ * 댓글 오픈
+ **/
+function doDisplayComment(document_srl) {
+    var comment_zone = xGetElementById('comment_'+document_srl);
+    if(comment_zone.style.display == "none") comment_zone.style.display = "block";
+    else comment_zone.style.display = "none";
+}
+
+/**
+ * 엮인글 오픈
+ **/
+function doDisplayTrackback(document_srl) {
+    var trackback_zone = xGetElementById('trackback_'+document_srl);
+    if(trackback_zone.style.display == "none") trackback_zone.style.display = "block";
+    else trackback_zone.style.display = "none";
+}
+
 /* 글쓰기 작성후 */
 function completeDocumentInserted(ret_obj) {
     var error = ret_obj['error'];

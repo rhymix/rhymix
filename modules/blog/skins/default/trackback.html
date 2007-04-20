@@ -1,16 +1,11 @@
-<!-- 엮인글 정보 출력 -->
-<div>
-    {$lang->trackback} : {count($document->trackback_list)}
-</div>
-
 <!-- 엮인글 목록 -->
+<div id="trackback_{$document_srl}" style="display:none">
 <!--@if($document->trackback_list)-->
-<div>
     <!--@foreach($document->trackback_list as $key => $val)-->
     <a name="trackback_{$val->trackback_srl}"></a>
 
     <div style="margin-left:{$val->depth*15}px" >
-        <table>
+        <table border="1">
         <col width="120" />
         <col width="*" />
         <tr>
@@ -42,5 +37,5 @@
     </div>
 
     <!--@end-->
-</div>
 <!--@end-->
+</div>

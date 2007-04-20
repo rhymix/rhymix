@@ -9,29 +9,21 @@
     <!--@end-->
 </div>
 
-<!-- 버튼 -->
-<div>
-    <!--@if($grant->write_document)-->
-        <!-- 글쓰기 버튼 -->
-        <a href="{getUrl('act','dispBlogWrite','document_srl','')}">[{$lang->cmd_write}]</a> 
-    <!--@end-->
-</div>
-
 <!--@if($grant->list)-->
 
 <!-- 페이지 네비게이션 -->
-<div>
-<a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
+<div style="margin-top:20px;text-align:center">
+    <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
 
-<!--@while($page_no = $page_navigation->getNextPage())-->
-<!--@if($page == $page_no)-->
-{$page_no}
-<!--@else-->
-<a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
-<!--@end-->
-<!--@end-->
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+    <!--@if($page == $page_no)-->
+    {$page_no}
+    <!--@else-->
+    <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+    <!--@end-->
+    <!--@end-->
 
-<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
 </div>
 
 <!--@end-->

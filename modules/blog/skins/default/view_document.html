@@ -103,6 +103,11 @@
     <!--@end-->
 </div>
 
+<!-- 댓글/ 엮인글 정보 출력 -->
+<div>
+    <a href="#" onclick="doDisplayComment('{$document_srl}');return false;">{$lang->comment} : {count($document->comment_list)}</a>, 
+    <a href="#" onclick="doDisplayTrackback('{$document_srl}');return false;">{$lang->trackback} : {count($document->trackback_list)}</a>
+</div>
 
 <!-- 엮인글 파일 include -->
 <!--@if($document->allow_trackback=='Y')-->

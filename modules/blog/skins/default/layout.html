@@ -58,8 +58,12 @@
             <!--@end-->
 
             <!--@if($logged_info->is_admin == 'Y')-->
-                <!-- 관리자일 경우 블로그 관리 메뉴 -->
+
                 <div class="layout_admin">
+                    <!-- 글쓰기 버튼 -->
+                    <a href="{getUrl('act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a> |
+
+                    <!-- 관리자일 경우 블로그 관리 메뉴 -->
                     <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
                 </div>
             <!--@end-->
@@ -77,16 +81,14 @@
         </div>
     <!--@end-->
 
-    <!--@if($grant->list)-->
-        <!-- 검색 -->
-        <div class="layout_search">
-            <form action="./" method="get">
-                <input type="hidden" name="mid" value="{$mid}" />
-                <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-                <input type="submit" class="search_button" value="{$lang->cmd_search}" />
-            </form>
-        </div>
-    <!--@end-->
+    <!-- 검색 -->
+    <div class="layout_search">
+        <form action="./" method="get">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+            <input type="submit" class="search_button" value="{$lang->cmd_search}" />
+        </form>
+    </div>
 
 </div>
 

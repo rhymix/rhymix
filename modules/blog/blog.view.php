@@ -158,7 +158,7 @@
             $args->sort_index = 'list_order'; ///< 소팅 값
 
             // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
-            $output = $oDocumentModel->getDocumentList($args);
+            $output = $oDocumentModel->getDocumentList($args, true);
 
             // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
             Context::set('total_count', $output->total_count);

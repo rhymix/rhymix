@@ -119,7 +119,7 @@
         /**
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
-        function getDocumentList($obj) {
+        function getDocumentList($obj, $get_extra_info = false) {
 
             if(!in_array($obj->sort_index, array('list_order', 'update_order'))) $obj->sort_index = 'list_order';
 
@@ -234,13 +234,50 @@
             $oMemberModel = &getModel('member');
             $member_srl = $oMemberModel->getLoggedMemberSrl();
 
+            // document controller 객체 생성
+            $oDocumentController = &getController('document');
+
             foreach($output->data as $key => $document) {
+                // 권한 부여
                 $is_granted = false;
 
-                if($this->isGranted($document->document_srl) || $is_admin) $is_granted = true;
+                if($this->isGranted($document->document_srl)) $is_granted = true;
                 elseif($member_srl && $member_srl == $document->member_srl) $is_granted = true;
 
-                $output->data[$key]->is_granted = $is_granted;
+                $document->is_granted = $is_granted;
+
+                $document_srl = $document->document_srl;
+
+                // 댓글 가져오기
+                if($document->comment_count && $document->allow_comment == 'Y') {
+                    $oCommentModel = &getModel('comment');
+                    $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
+                }
+
+                // 트랙백 가져오기
+                if($document->trackback_count && $document->allow_trackback == 'Y') {
+                    $oTrackbackModel = &getModel('trackback');
+                    $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
+                }
+
+                // 첨부파일 가져오기
+                if($document->uploaded_count) {
+                    $oFileModel = &getModel('file');
+                    $file_list = $oFileModel->getFiles($document_srl, $is_admin);
+                    $document->uploaded_list = $file_list;
+                }
+
+                // 태그 정리
+                if($document->tags) {
+                    $tag_list = explode(',',$document->tags);
+                    $tag_count = count($tag_list);
+                    for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
+                }
+
+                $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);
+
+                $output->data[$key] = $document;
+            
             }
             return $output;
         }
