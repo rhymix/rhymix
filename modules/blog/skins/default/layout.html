@@ -2,7 +2,7 @@
 <!--%import("css/layout.css")-->
 <!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    loadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "blog_category", "blog_category", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$mid}");
+    loadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "blog_category", "blog_category", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
 </script>
 
 <!-- 기본 변수들 세팅 -->
@@ -20,11 +20,11 @@
 
     <div class="layout_logo">
         <!--@if($layout_info->logo_image)-->
-            <a href="./?mid={$mid}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
+            <a href="./?mid={$layout_info->mid}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
         <!--@end-->
 
         <!--@if($layout_info->top_title)-->
-            <a href="./?mid={$mid}">{$layout_info->top_title}</a>
+            <a href="./?mid={$layout_info->mid}">{$layout_info->top_title}</a>
         <!--@end-->
     </div>
 
@@ -71,10 +71,9 @@
 
                 <div class="layout_admin">
                     <!-- 글쓰기 버튼 -->
-                    <a href="{getUrl('act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a> |
-
+                    <a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a> |
                     <!-- 관리자일 경우 블로그 관리 메뉴 -->
-                    <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+                    <a href="#" onclick="location.href='{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
                 </div>
             <!--@end-->
             

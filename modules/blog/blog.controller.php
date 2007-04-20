@@ -328,6 +328,7 @@
 
             // serialize하여 저장
             $obj->category_xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
+            $obj->mid = $module_info->mid;
             $skin_vars = serialize($obj);
 
             $oModuleController = &getController('module');

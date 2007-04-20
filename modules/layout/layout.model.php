@@ -103,6 +103,14 @@
             $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
                 include $cache_file;
+
+                if($layout_info->extra_var) {
+                    foreach($vars as $key => $value) {
+                        if(!$layout_info->extra_var->{$key} && !$layout_info->{$key}) {
+                            $layout_info->{$key} = $value;
+                        }
+                    }
+                }
                 return $layout_info;
             }
 
