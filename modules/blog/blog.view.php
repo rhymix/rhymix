@@ -15,9 +15,6 @@
         function init() {
             if(substr_count($this->act, 'Admin')) $this->initAdmin();
             else $this->initNormal();
-
-            // 카테고리 xml 파일 위치 지정
-            $this->module_info->category_xml_file = sprintf('./files/cache/blog_category/%d.xml.php', $this->module_info->module_srl);
         }
 
         /**
@@ -37,10 +34,7 @@
             // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
             if($module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info) {
-                    Context::set('module_srl','');
-                    $this->act = 'list';
-                } else {
+                if($module_info->module_srl == $module_srl) {
                     $this->module_info = $module_info;
                     Context::set('module_info',$module_info);
                 }
@@ -50,14 +44,8 @@
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
-            // 만약 블로그 서비스 페이지에서 관리자 기능 호출시 레이아웃을 지정
-            if($this->mid) {
-                $layout_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
-
-                // 레이아웃 지정
-                $this->setLayoutPath($layout_path);
-                $this->setLayoutFile("layout");
-            }
+            // 만약 블로그 서비스 페이지에서 관리자 기능 호출시 관련 정보를 위해서 initNoraml() method 호출
+            if($this->mid) $this->initNormal();
 
             // 템플릿 경로 지정 (blog의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path."tpl");
@@ -77,28 +65,37 @@
             // 스킨 경로 구함
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
 
-            // 레이아웃 지정
+            // 레이아웃 경로와 파일 지정 (블로그는 자체 레이아웃을 가지고 있음)
             $this->setLayoutPath($template_path);
             $this->setLayoutFile("layout");
 
             // 템플릿 지정
             $this->setTemplatePath($template_path);
 
-            // rss url
-            if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
-
             // 카테고리 목록을 가져오고 선택된 카테고리의 값을 설정
             $oDocumentModel = &getModel('document');
             $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
             Context::set('category_list', $this->category_list);
 
+            // 선택된 카테고리 목록이 있으면 zbxe_url을 변경하여 트리메뉴에서 카테고리까지 참조할 수 있도록 함
             $category_srl = Context::get('category');
             if($this->category_list[$category_srl]) {
                 $this->category_srl = $category_srl;
                 Context::set('zbxe_url', sprintf("mid=%s&category=%d", $this->module_info->mid, $this->category_srl));
             }
 
+            // 카테고리 xml 파일 위치 지정
+            $this->module_info->category_xml_file = sprintf('./files/cache/blog_category/%d.xml.php', $this->module_info->module_srl);
+
+            // 레이아웃의 정보를 속이기 위해서  layout_srl을 현 블로그의 module_srl로 입력
+            $this->module_info->layout_srl = $this->module_info->module_srl;
+
+            // 모듈정보와 레이아웃에서 사용하기 위한 레이아웃 정보를 세팅
             Context::set('module_info',$this->module_info);
+            Context::set('layout_info',$this->module_info);
+
+            // rss url 만듬
+            if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
         }
 
         /**
@@ -553,9 +550,12 @@
         }
 
         /**
-         * @brief 메뉴 출력
+         * @brief 메뉴 정보
          **/
         function dispBlogAdminMenuInfo() {
+            // module_srl을 구함
+            $module_srl = $this->module_info->module_srl;
+
             $this->setTemplateFile('category_list');
         }
 

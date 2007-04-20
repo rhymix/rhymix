@@ -303,10 +303,21 @@
             }
 
             // serialize하여 저장
+            $obj->category_xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
             $skin_vars = serialize($obj);
 
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
+
+            // 레이아웃 확장변수 수정
+            $layout_args->extra_vars = $skin_vars;
+            $layout_args->layout_srl = $module_srl;
+            $oLayoutController = &getController('layout');
+            $output = $oLayoutController->updateLayout($layout_args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
@@ -378,8 +389,8 @@
                 // 레이아웃 등록
                 $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
                 $layout_args->layout = 'blog';
-                $layout_args->title = sprintf('%s (%s)',$args->browser_title, $args->mid);
-                $layout_args->layout_path = sprintf('./modules/blog/skin/%s/layout.html', $args->skin);
+                $layout_args->title = sprintf('%s - %s',$args->browser_title, $args->mid);
+                $layout_args->layout_path = sprintf('./modules/blog/skins/%s/layout.html', $args->skin);
 
                 $oLayoutController = &getController('layout');
                 $output = $oLayoutController->insertLayout($layout_args);
@@ -400,8 +411,7 @@
                 // 레이아웃 수정
                 $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
                 $layout_args->title = $args->browser_title;
-                $layout_args->extra_vars = $args->extra_vars;
-                $layout_args->layout_path = sprintf('./modules/blog/skin/%s/layout.html', $args->skin);
+                $layout_args->layout_path = sprintf('./modules/blog/skins/%s/layout.html', $args->skin);
 
                 $oLayoutController = &getController('layout');
                 $output = $oLayoutController->updateLayout($layout_args);

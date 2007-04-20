@@ -35,14 +35,10 @@
             $args->layout_srl = $layout_srl;
             $output = executeQuery('layout.getLayout', $args);
             if(!$output->data) return;
-            
-            // layout, extra_vars를 정리한 후 xml 파일 정보를 불러옴 (불러올때 결합)
-            $info = $output->data;
-            $layout_title = $info->title;
-            $layout = $info->layout;
-            $vars = unserialize($info->extra_vars);
 
-            return $this->getLayoutInfo($layout, $layout_srl, $layout_title, $vars);
+            // layout, extra_vars를 정리한 후 xml 파일 정보를 정리해서 return
+            $layout_info = $this->getLayoutInfo($layout, $output->data);
+            return $layout_info;
         }
 
         /**
@@ -82,13 +78,25 @@
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다.. 
          **/
-        function getLayoutInfo($layout, $layout_srl = 0, $layout_title = "", $vars = null) {
+        function getLayoutInfo($layout, $info = null) {
+            if($info) {
+                $layout_title = $info->title;
+                $layout = $info->layout;
+                $layout_srl = $info->layout_srl;
+                $vars = unserialize($info->extra_vars);
+
+                if($info->module_srl) {
+                    $layout_path = preg_replace('/([a-zA-Z0-9\_\.]+)(\.html)$/','',$info->layout_path);
+                    $xml_file = sprintf('%sskin.xml', $layout_path);
+                }
+            } 
+
             // 요청된 모듈의 경로를 구한다. 없으면 return
-            $layout_path = $this->getLayoutPath($layout);
-            if(!$layout_path) return;
+            if(!$layout_path) $layout_path = $this->getLayoutPath($layout);
+            if(!is_dir($layout_path)) return;
 
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $xml_file = sprintf("%sconf/info.xml", $layout_path);
+            if(!$xml_file) $xml_file = sprintf("%sconf/info.xml", $layout_path);
             if(!file_exists($xml_file)) return;
 
             // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
@@ -101,7 +109,9 @@
             // cache 파일이 없으면 xml parsing하고 변수화 한 후에 캐시 파일에 쓰고 변수 바로 return
             $oXmlParser = new XmlParser();
             $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-            $xml_obj = $tmp_xml_obj->layout;
+            if($tmp_xml_obj->layout) $xml_obj = $tmp_xml_obj->layout;
+            elseif($tmp_xml_obj->skin) $xml_obj = $tmp_xml_obj->skin;
+
             if(!$xml_obj) return;
 
             $buff = '';

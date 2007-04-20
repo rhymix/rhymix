@@ -1,9 +1,8 @@
 <!-- 레이아웃과 연동될 css 파일 import -->
 <!--%import("css/layout.css")-->
-
 <!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    loadTreeMenu("{$module_info->category_xml_file}", "blog_category", "blog_category", "{$module_info->category_name?$module_info->category_name:'category'}", "./?mid={$mid}");
+    loadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "blog_category", "blog_category", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$mid}");
 </script>
 
 
@@ -11,12 +10,12 @@
 <div class="layout_top">
 
     <div class="layout_logo">
-        <!--@if($module_info->logo_image)-->
-            <a href="./?mid={$mid}"><img src="{$module_info->logo_image}" border="0" alt="{$module_info->browser_title}"/></a>
+        <!--@if($layout_info->logo_image)-->
+            <a href="./?mid={$mid}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
         <!--@end-->
 
-        <!--@if($module_info->top_title)-->
-            <a href="./?mid={$mid}">{$module_info->top_title}</a>
+        <!--@if($layout_info->top_title)-->
+            <a href="./?mid={$mid}">{$layout_info->top_title}</a>
         <!--@end-->
     </div>
 
@@ -43,25 +42,25 @@
 
 <!-- 왼쪽 분류 출력 -->
 <div class="layout_left">
-    <!--@if($module_info->profile || $module_info->profile_image)-->
+    <!--@if($layout_info->profile || $layout_info->profile_image)-->
         <!-- 프로필 -->
         <div class="layout_profile">
-            <!--@if($module_info->profile_image)-->
+            <!--@if($layout_info->profile_image)-->
             <div class="profile_image">
-                <img src="{$module_info->profile_image}" border="0" alt="profile image" />
+                <img src="{$layout_info->profile_image}" border="0" alt="profile image" />
             </div>
             <!--@end-->
 
-            <!--@if($module_info->profile)-->
+            <!--@if($layout_info->profile)-->
             <div class="profile">
-                {$module_info->profile}
+                {$layout_info->profile}
             </div>
             <!--@end-->
 
             <!--@if($logged_info->is_admin == 'Y')-->
                 <!-- 관리자일 경우 블로그 관리 메뉴 -->
                 <div class="layout_admin">
-                    <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$module_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+                    <a href="#" onclick="location.href='{getUrl('act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
                 </div>
             <!--@end-->
             
