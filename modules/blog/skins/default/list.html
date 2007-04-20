@@ -2,10 +2,14 @@
 
 <!-- 목록 -->
 <div>
-    <!--@foreach($document_list as $no => $document)-->
-        <!--@if($document && $grant->list)-->
-            <!--#include("./view_document.html")-->
+    <!--@if($document_list)-->
+        <!--@foreach($document_list as $no => $document)-->
+            <!--@if($document && $grant->list)-->
+                <!--#include("./view_document.html")-->
+            <!--@end-->
         <!--@end-->
+    <!--@else-->
+        {$lang->no_documents}
     <!--@end-->
 </div>
 

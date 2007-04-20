@@ -30,18 +30,18 @@
     $lang->cmd_add_indent = '들이기';
     $lang->cmd_remove_indent = '빼내기';
     $lang->cmd_management = '관리';
-    $lang->cmd_make = "생성";
-    $lang->cmd_select = "선택";
-    $lang->cmd_select_all = "모두선택";
-    $lang->cmd_unselect_all = "모두해제";
-    $lang->cmd_close_all = "모두닫기";
-    $lang->cmd_open_all = "모두열기";
-    $lang->cmd_reload = "다시읽기";
-    $lang->cmd_close = "닫기";
-    $lang->cmd_open = "열기";
-    $lang->cmd_setup = "설정";
-    $lang->cmd_apply = "적용";
-    $lang->cmd_open_calendar = "날자 선택";
+    $lang->cmd_make = '생성';
+    $lang->cmd_select = '선택';
+    $lang->cmd_select_all = '모두선택';
+    $lang->cmd_unselect_all = '모두해제';
+    $lang->cmd_close_all = '모두닫기';
+    $lang->cmd_open_all = '모두열기';
+    $lang->cmd_reload = '다시읽기';
+    $lang->cmd_close = '닫기';
+    $lang->cmd_open = '열기';
+    $lang->cmd_setup = '설정';
+    $lang->cmd_apply = '적용';
+    $lang->cmd_open_calendar = '날자 선택';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';
@@ -78,21 +78,21 @@
     $lang->lock_comment = '댓글잠금';
     $lang->allow_trackback = '엮인글허용';
     $lang->uploaded_file = '첨부파일';
-    $lang->grant = "권한";
-    $lang->target = "대상";
-    $lang->total = "전체";
-    $lang->total_count = "전체개수";
-    $lang->ipaddress = "IP 주소";
-    $lang->path = "경로";
-    $lang->cart = "선택항목";
+    $lang->grant = '권한';
+    $lang->target = '대상';
+    $lang->total = '전체';
+    $lang->total_count = '전체개수';
+    $lang->ipaddress = 'IP 주소';
+    $lang->path = '경로';
+    $lang->cart = '선택항목';
 
-    $lang->mid = "모듈이름";
-    $lang->layout = "레이아웃";
-    $lang->plugin = "플러그인 ";
-    $lang->module = "모듈";
-    $lang->skin = "스킨";
-    $lang->colorset = "컬러셋";
-    $lang->extra_vars = "확장변수";
+    $lang->mid = '모듈이름';
+    $lang->layout = '레이아웃';
+    $lang->plugin = '플러그인 ';
+    $lang->module = '모듈';
+    $lang->skin = '스킨';
+    $lang->colorset = '컬러셋';
+    $lang->extra_vars = '확장변수';
 
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
@@ -101,7 +101,7 @@
 
     $lang->document_count = '글수';
     $lang->page_count = '페이지수';
-    $lang->list_count = "목록 수";
+    $lang->list_count = '목록 수';
     $lang->readed_count = '조회수';
     $lang->voted_count = '추천수';
     $lang->member_count = '회원수';
@@ -114,23 +114,25 @@
     $lang->last_page = '끝페이지';
     $lang->search_target = '검색대상';
     $lang->search_keyword = '검색어';
-    $lang->is_default = "기본";
+    $lang->is_default = '기본';
+
+    $lang->no_documents = '등록된 글이 없습니다';
 
     $lang->board_manager = '게시판 관리';
     $lang->member_manager = '회원 관리';
     $lang->layout_manager = '레이아웃 관리';
 
-    $lang->use = "사용";
-    $lang->notuse = "미사용";
-    $lang->not_exists = "없음";
+    $lang->use = '사용';
+    $lang->notuse = '미사용';
+    $lang->not_exists = '없음';
 
-    $lang->unit_sec = "초";
-    $lang->unit_min = "분";
-    $lang->unit_hour = "시";
-    $lang->unit_day = "일";
-    $lang->unit_week = "주";
-    $lang->unit_month = "월";
-    $lang->unit_year = "년";
+    $lang->unit_sec = '초';
+    $lang->unit_min = '분';
+    $lang->unit_hour = '시';
+    $lang->unit_day = '일';
+    $lang->unit_week = '주';
+    $lang->unit_month = '월';
+    $lang->unit_year = '년';
 
     // 설명 관련 
     $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
@@ -147,7 +149,7 @@
     $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다';
     $lang->msg_error_occured = '오류가 발생하였습니다';
     $lang->msg_not_founded = '대상을 찾을 수 없습니다';
-    $lang->msg_no_result = "검색 결과가 없습니다";
+    $lang->msg_no_result = '검색 결과가 없습니다';
 
     $lang->msg_not_permitted_act = '요청하신 action을 실행할 수 있는 권한이 없습니다';
     $lang->msg_module_is_not_exists = '요청하신 모듈을 찾을 수 없습니다';
