@@ -247,6 +247,25 @@
                 }
             }
 
+            // 메뉴 종류 (레이아웃을 위한 설정)
+            if($xml_obj->menus->menu) {
+                $menus = $xml_obj->menus->menu;
+                if(!is_array($menus)) $menus = array($menus);
+
+                $menu_count = count($menus);
+                $skin_info->menu_count = $menu_count;
+                for($i=0;$i<$menu_count;$i++) {
+                    unset($obj);
+
+                    $obj->name = $menus[$i]->attrs->name;
+                    if($menus[$i]->attrs->default == "true") $obj->default = true;
+                    $obj->title = $menus[$i]->title->body;
+                    $obj->maxdepth = $menus[$i]->maxdepth->body;
+
+                    $skin_info->menu->{$obj->name} = $obj;
+                }
+            }
+
             return $skin_info;
         }
 

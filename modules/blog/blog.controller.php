@@ -302,6 +302,30 @@
                 }
             }
 
+            // 메뉴 관리
+            $menus = get_object_vars($skin_info->menu);
+            if(count($menus)) {
+                foreach($menus as $menu_id => $val) {
+                    $menu_srl = Context::get($menu_id);
+                    if($menu_srl) {
+                        $obj->menu->{$menu_id} = $menu_srl;
+                        $obj->{$menu_id} = $menu_srl;
+                        $menu_srl_list[] = $menu_srl;
+                    }
+                }
+
+                // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
+                if(count($menu_srl_list)) {
+                    // 해당 메뉴와 레이아웃 값을 매핑
+                    $oMenuController = &getController('menu');
+                    $oMenuController->updateMenuLayout($module_srl, $menu_srl_list);
+
+                    // 해당 메뉴에 속한 mid의 layout값을 모두 변경
+                    $oModuleController = &getController('module');
+                    $oModuleController->updateModuleLayout($module_srl, $menu_srl_list);
+                }
+            }
+
             // serialize하여 저장
             $obj->category_xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
             $skin_vars = serialize($obj);

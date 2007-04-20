@@ -56,7 +56,6 @@
         <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />
         <action name="dispBlogAdminDeleteBlog" type="view" standalone="true" />
         <action name="dispBlogAdminCategoryInfo" type="view" standalone="true" />
-        <action name="dispBlogAdminMenuInfo" type="view" standalone="true" />
         <action name="dispBlogAdminSkinInfo" type="view" standalone="true" />
         <action name="dispBlogAdminGrantInfo" type="view" standalone="true" />
         <action name="dispBlogAdminManageDocument" type="view" />

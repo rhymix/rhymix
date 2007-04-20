@@ -164,7 +164,7 @@
             // 메뉴
             if($xml_obj->menus->menu) {
                 $menus = $xml_obj->menus->menu;
-                if(!is_array($menus)) $menus[] = $menus;
+                if(!is_array($menus)) $menus = array($menus);
 
                 $menu_count = count($menus);
                 $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);

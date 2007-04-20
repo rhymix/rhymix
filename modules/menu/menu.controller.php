@@ -377,7 +377,7 @@
 
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(in_array(Context::get("zbxe_url"),array(%s))?1:0),"list"=>array(%s)',
+                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(%s&&in_array(Context::get("zbxe_url"),array(%s))?1:0),"list"=>array(%s)',
                         $node->menu_item_srl, 
                         $group_check_code,
                         $name,
@@ -389,6 +389,7 @@
                         $normal_btn,
                         $hover_btn,
                         $active_btn,
+                        $selected,
                         $selected,
                         $child_buff
                 );

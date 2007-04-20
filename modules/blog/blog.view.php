@@ -90,6 +90,15 @@
             // 레이아웃의 정보를 속이기 위해서  layout_srl을 현 블로그의 module_srl로 입력
             $this->module_info->layout_srl = $this->module_info->module_srl;
 
+            // 메뉴 등록시 메뉴 정보를 구해옴
+            if($this->module_info->menu) {
+                foreach($this->module_info->menu as $menu_id => $menu_srl) {
+                    $menu_php_file = sprintf("./files/cache/menu/%s.php", $menu_srl);
+                    if(file_exists($menu_php_file)) include($menu_php_file);
+                    Context::set($menu_id, $menu);
+                }
+            }
+
             // 모듈정보와 레이아웃에서 사용하기 위한 레이아웃 정보를 세팅
             Context::set('module_info',$this->module_info);
             Context::set('layout_info',$this->module_info);
@@ -529,6 +538,18 @@
                 }
             }
 
+            // skin_info에 menu값을 지정 
+            if(count($skin_info->menu)) {
+                foreach($skin_info->menu as $key => $val) {
+                    if($module_info->{$key}) $skin_info->menu->{$key}->menu_srl = $module_info->{$key};
+                }
+            }
+
+            // 메뉴를 가져옴
+            $oMenuModel = &getModel('menu');
+            $menu_list = $oMenuModel->getMenus();
+            Context::set('menu_list', $menu_list);
+
             Context::set('skin_info', $skin_info);
             $this->setTemplateFile('skin_info');
         }
@@ -545,16 +566,6 @@
             $category_info = $oBlogModel->getCategory($module_srl);
 
             Context::set('category_info', $category_info);
-
-            $this->setTemplateFile('category_list');
-        }
-
-        /**
-         * @brief 메뉴 정보
-         **/
-        function dispBlogAdminMenuInfo() {
-            // module_srl을 구함
-            $module_srl = $this->module_info->module_srl;
 
             $this->setTemplateFile('category_list');
         }

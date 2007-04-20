@@ -48,6 +48,22 @@
 
             </td>
         </tr>
+
+        <!--@if($skin_info->menu)-->
+        <!--@foreach($skin_info->menu as $menu_name => $menu_info)-->
+        <tr>
+            <th>{$menu_info->title}<br />({$menu_name})</th>
+            <td>
+                <select name="{$menu_name}">
+                    <option value="0">------------------------</option>
+                    <!--@foreach($menu_list as $key => $val)-->
+                    <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                </select>
+            </td>
+        </tr>
+        <!--@end-->
+        <!--@end-->
         </table>
     </div>
 
