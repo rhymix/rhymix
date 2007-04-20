@@ -399,6 +399,13 @@
                     return $output;
                 }
 
+                // 기본 카테고리 등록
+                $category_args->module_srl = $module_srl;
+                $category_args->category_srl = getNextSequence();
+                $category_args->name = 'Story';
+                $category_args->expand = 'N';
+                $this->procBlogAdminInsertCategory($category_args);
+
                 $msg_code = 'success_registed';
             } else {
                 // 블로그 데이터 수정
@@ -439,7 +446,7 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 원본을 구해온다
+            // 블로그 모듈 삭제
             $oModuleController = &getController('module');
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) {
@@ -457,6 +464,15 @@
                 return $output;
             }
 
+            // 블로그 카테고리 삭제
+            $category_args->module_srl = $module_srl;
+            $output = executeQuery('blog.deleteCategories', $category_args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+            @unlink( sprintf('./files/cache/blog_category/%d.xml.php', $module_srl) );
+
             $oDB->commit();
 
             $this->add('module','blog');
@@ -467,9 +483,9 @@
         /**
          * @brief 카테고리 추가
          **/
-        function procBlogAdminInsertCategory() {
+        function procBlogAdminInsertCategory($args = null) {
             // 입력할 변수 정리
-            $args = Context::gets('module_srl','category_srl','parent_srl','name','expand','group_srls');
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','name','expand','group_srls');
 
             if($args->expand !="Y") $args->expand = "N";
             $args->group_srls = str_replace('|@|',',',$args->group_srls);
