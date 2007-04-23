@@ -110,7 +110,7 @@
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
             // strip white spaces..
-            $buff = preg_replace('/\s+/', ' ', $buff);
+            // $buff = preg_replace('/ +/', ' ', $buff);
 
             // 컴파일된 코드를 파일에 저장
             FileHandler::writeFile($compiled_tpl_file, $buff);
