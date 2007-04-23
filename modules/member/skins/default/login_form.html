@@ -7,19 +7,19 @@
     <col width="*" />
     <tr>
         <th rowspan="2">{$lang->user_id}</th>
-        <td><input type="text" name="user_id" /></td>
+        <td><input type="text" name="user_id" tabindex="1" /></td>
     </tr>
     <tr>
-        <td><input type="checkbox" name="remember_user_id" value="Y" /> {$lang->remember_user_id}</td>
+        <td><input type="checkbox" name="remember_user_id" value="Y" tabindex="4" /> {$lang->remember_user_id}</td>
     </tr>
     <tr>
         <th>{$lang->password}</th>
-        <td><input type="password" name="password" value="" /></td>
+        <td><input type="password" name="password" value="" tabindex="2" /></td>
     </tr>
     <tr>
         <td colspan="2">
+            <input type="submit" value="{$lang->cmd_login}" tabindex="3" />
             <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-            <input type="submit" value="{$lang->cmd_login}" />
         </td>
     </tr>
     <tr>

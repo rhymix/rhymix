@@ -885,10 +885,17 @@
 
             unset($member_info->password);
 
+            // 사용자 그룹 설정
+            $group_srl_list = array_keys($member_info->group_list);
+
+            // 관리자 그룹일 경우 관리자로 지정
+            $admin_group = $oMemberModel->getAdminGroup();
+            if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $member_info->is_admin = 'Y';
+            
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['member_srl'] = $member_info->member_srl;
             $_SESSION['logged_info'] = $member_info;
-            $_SESSION['group_srls'] = array_keys($member_info->group_list);
+            $_SESSION['group_srls'] = $group_srl_list;
             $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
 
             // 사용자 정보의 최근 로그인 시간을 기록
