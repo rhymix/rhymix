@@ -1,31 +1,28 @@
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table border="1">
-    <tr>
-        <th rowspan="2">{$lang->interval}</th>
-        <td><input type="text" name="interval" value="{$config->interval?$config->interval:60}" /> {$lang->unit_sec}</td>
-    </tr>
-    <tr>
-        <td>{$lang->about_interval}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->limit_count}</th>
-        <td><input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_limit_count}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->check_trackback}</th>
-        <td><input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="true"<!--@end--> /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_check_trackback}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-        </td>     
-    </tr>
-    </table>    
+<!--%import("js/counter_admin.js")-->
+
+<!-- 일자를 옮기는 form -->
+<form action="./" method="get" id="fo_counter">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="selected_date" value="{$selected_date}" />
 </form>
+
+<!-- 전체현황 -->
+<div>
+    <h3>{$lang->total_counter}</h3>
+
+    <ul>
+        <li>{$lang->unique_visitor} : {number_format($total_counter->unique_visitor)}</li>
+        <li>{$lang->pageview} : {number_format($total_counter->pageview)}</li>
+    </ul>
+</div>
+
+<!-- 선택된 일자 현황 -->
+<div>
+    <h3><span id='str_selected_date'>{zdate($selected_date, "Y-m-d")}</span> <a href="#" onclick="open_calendar(null, '{$selected_date}', 'changeSelectedDate');return false;">{$lang->cmd_select_date}</a></h3>
+
+    <ul>
+        <li>{$lang->unique_visitor} : {number_format($selected_day_counter->unique_visitor)}</li>
+        <li>{$lang->pageview} : {number_format($selected_day_counter->pageview)}</li>
+    </ul>
+</div>

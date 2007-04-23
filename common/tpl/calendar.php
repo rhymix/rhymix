@@ -4,6 +4,7 @@
 
     $method = $_REQUEST['method'];
     $fo_id = $_REQUEST['fo_id'];
+    $callback_func = $_REQUEST['callback_func'];
 
     $day_str = $_REQUEST['day_str'];
     if($day_str && strlen($day_str)) {
@@ -59,7 +60,7 @@
     <link rel="stylesheet" href="./css/calendar.css" type="text/css" />
 
     <script type="text/javascript">
-        function selectDate(date_str, date_val) {
+        function selectDate(date_str, date_val, callback_func) {
             if(!opener) {
                 window.close();
                 return;
@@ -68,13 +69,11 @@
             var date_obj = opener.xGetElementById("date_<?=$fo_id?>");
             var str_obj = opener.xGetElementById("str_<?=$fo_id?>");
 
-            if(!date_obj || !str_obj) {
-                window.close();
-                return;
-            }
+            if(date_obj) date_obj.value = date_val;
 
-            date_obj.value = date_val;
-            xInnerHtml(str_obj, date_str);
+            if(str_obj) xInnerHtml(str_obj, date_str);
+
+            if(callback_func) eval('opener.'+callback_func+'('+date_val+')');
 
             window.close();
 
@@ -87,12 +86,13 @@
         <div class="calendar_title">
             <form action="./calendar.php" method="get">
                 <input type="hidden" name="fo_id" value="<?=$fo_id?>"/>
+                <input type="hidden" name="callback_func" value="<?=$callback_func?>"/>
 
                 <table width="100%" border="0" cellspacing="0" cellpadding="2" align="center">
                 <tr>
                     <td width="40">
-                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year';return false;"><img src="./images/icon_pprev.gif" border="0" alt="prev year" /></a>
-                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month';return false;"><img src="./images/icon_prev.gif" border="0" alt="prev month" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year&amp;callback_func=<?=$callback_func?>';return false;"><img src="./images/icon_pprev.gif" border="0" alt="prev year" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month&amp;callback_func=<?=$callback_func?>';return false;"><img src="./images/icon_prev.gif" border="0" alt="prev month" /></a>
                     </td>
                     <td align="center">
                         <table border="0" cellspacing="0" cellpadding="0">
@@ -103,8 +103,8 @@
                         </table>
                     </td>
                     <td width="40">
-                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month';return false;"><img src="./images/icon_nnext.gif" border="0" alt="next month" /></a>
-                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year';return false;"><img src="./images/icon_next.gif" border="0" alt="next year" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month&amp;callback_func=<?=$callback_func?>';return false;"><img src="./images/icon_nnext.gif" border="0" alt="next month" /></a>
+                        <a href="#" onclick="location.href='./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year&amp;callback_func=<?=$callback_func?>';return false;"><img src="./images/icon_next.gif" border="0" alt="next year" /></a>
                     </td>
                 </tr>
                 </table>
@@ -154,7 +154,7 @@
                         if(date("Ymd")==$date_str) $sel_class = "today";
                         else $sel_class = "";
             ?>
-            <div class="calendar_cell <?=$sel_class?> <?=$class_name?>" onclick="selectDate('<?=$date?>','<?=$date_str?>');return false;"><div><?=$day?></div></div>
+            <div class="calendar_cell <?=$sel_class?> <?=$class_name?>" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><div><?=$day?></div></div>
             <?
                     }
                 }

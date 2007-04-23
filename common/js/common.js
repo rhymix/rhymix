@@ -26,6 +26,7 @@ String.prototype.getQuery = function(key) {
 String.prototype.setQuery = function(key, val) {
     var idx = this.indexOf('?');
     var uri = this;
+    uri = uri.replace(/#$/,'');
     if(idx != -1) {
         uri = this.substr(0, idx);
         var query_string = this.substr(idx+1, this.length);
@@ -499,8 +500,13 @@ function setMemberMenuObjCursor() {
 }
 
 // 날자 선택 (달력 열기)
-function open_calendar(fo_id, day_str) {
+function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
-    var url = "./common/tpl/calendar.php?fo_id="+fo_id+"&day_str="+day_str;
+
+    var url = "./common/tpl/calendar.php?";
+    if(fo_id) url+="fo_id="+fo_id;
+    if(day_str) url+="&day_str="+day_str;
+    if(callback_func) url+="&callback_func="+callback_func;
+
     popopen(url, 'Calendar');
 }
