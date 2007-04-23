@@ -485,8 +485,7 @@
             $hostname = $_SERVER['SERVER_NAME'];
             $port = $_SERVER['SERVER_PORT'];
             if($port!=80) $hostname .= ":{$port}";
-            $path = $_SERVER['REDIRECT_URL'];
-            $path = $_SERVER['REDIRECT_URL']?$_SERVER['REDIRECT_URL']:preg_replace('/([a-zA-Z0-9\_]+).php/i','',$_SERVER['PHP_SELF']);
+            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
             return sprintf("http://%s%s",$hostname,$path);
         }
 
