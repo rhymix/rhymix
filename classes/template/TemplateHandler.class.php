@@ -109,6 +109,9 @@
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
+            // strip white spaces..
+            $buff = preg_replace('/\s+/', ' ', $buff);
+
             // 컴파일된 코드를 파일에 저장
             FileHandler::writeFile($compiled_tpl_file, $buff);
 
