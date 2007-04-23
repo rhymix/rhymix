@@ -284,17 +284,17 @@
             $value = preg_replace('/(^\'|\'$){1}/','',$value);
 
             switch($operation) {
-                case 'like_tail' : 
+                case 'like_prefix' : 
                         $value = $value.'%';
                     break;
-                case 'like_prefix' : 
+                case 'like_tail' : 
                         $value = '%'.$value;
                     break;
                 case 'like' : 
                         $value = '%'.$value.'%';
                     break;
                 case 'in' :
-                    return "'".$value."'";
+                        return "'".$value."'";
                     break;
             }
 

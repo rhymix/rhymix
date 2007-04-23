@@ -27,15 +27,16 @@
             // counter model 객체 생성
             $oCounterModel = &getModel('counter');
 
-            // 전체 카운터 현황 가져오기
+            // 전체 카운터 및 지정된 일자의 현황 가져오기
             $status = $oCounterModel->getStatus(array(0,$selected_date));
             Context::set('total_counter', $status[0]);
             Context::set('selected_day_counter', $status[$selected_date]);
 
-
-            // 정해진 일자 현황 가져오기
-
             // 시간, 일, 월, 년도별로 데이터 가져오기
+            $type = Context::get('type');
+            if(!$type) $type = 'hour';
+            $detail_status = $oCounterModel->getHourlyStatus($type, $selected_date);
+            Context::set('detail_status', $detail_status);
             
             // 표시
             $this->setTemplateFile('index');

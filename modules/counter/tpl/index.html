@@ -26,3 +26,52 @@
         <li>{$lang->pageview} : {number_format($selected_day_counter->pageview)}</li>
     </ul>
 </div>
+
+<!-- 시간대별, 일자별, 월별, 년별 로그 보기 -->
+<div>
+    <h3>
+        {$lang->unique_visitor}
+        <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
+        <a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a>
+        <!--@end-->
+    </h3>
+</div>
+
+<!-- unique visitor 그래프 -->
+<div>
+    <table border="1" width="100%">
+    <col width="80" />
+    <col width="*" />
+    <!--@foreach($detail_status->list as $key => $val)-->
+    <!--@if($detail_status->sum>0)-->
+        {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
+        {@$img_width = sprintf("%0.0f", $val / $detail_status->max * 100 )}
+    <!--@else-->
+        {@$percent = 0}
+        {@$img_width = 1}
+    <!--@end-->
+    <tr>
+        <th>
+            <!-- 시간대별 -->
+            <!--@if($type == 'year')-->
+                {$key} {$lang->unit_year}
+            <!--@elseif($type == 'month')-->
+                {$key} {$lang->unit_month}
+            <!--@elseif($type == 'day')-->
+                {$key} {$lang->unit_day}
+            <!--@else-->
+                {$key} {$lang->unit_hour}
+            <!--@end-->
+        </th>
+        <td>
+            <div style="width:400px;float:left;padding-top:5px;">
+                <img src="./images/blank.gif" height="3" width="{$img_width}%" alt="{$percent}%" style="background-color:blue;border:1px solid darkblue;"/>
+            </div>
+            <div style="float:left;margin-left:20px;">
+                {number_format($val)} ({$percent}%)
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+    </table>
+</div>
