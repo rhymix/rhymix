@@ -181,7 +181,7 @@ function XmlJsFilterExecuteFilter(filter, value) {
                 return regx.test(value);
             break;
         case "alpha_number" :
-                var regx = /^[a-zA-Z0-9]*$/; 
+                var regx = /^[a-zA-Z0-9\_]*$/; 
                 return regx.test(value);
             break;
         case "number" :

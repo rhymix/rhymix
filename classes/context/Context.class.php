@@ -191,6 +191,7 @@
          * @brief 지정된 언어파일 로드
          **/
         function loadLang($path) {
+            return;
             $oContext = &Context::getInstance();
             $oContext->_loadLang($path);
         }

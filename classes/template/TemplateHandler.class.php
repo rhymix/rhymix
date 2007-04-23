@@ -19,7 +19,14 @@
          * @brief TemplateHandler의 기생성된 객체를 return
          **/
         function &getInstance() {
-            if(!$GLOBALS['__TemplateHandler__']) $GLOBALS['__TemplateHandler__'] = new TemplateHandler();
+            if(__DEBUG__==3) {
+                if(!isset($GLOBALS['__TemplateHandlerCalled__'])) $GLOBALS['__TemplateHandlerCalled__']=1;
+                else $GLOBALS['__TemplateHandlerCalled__']++;
+            }
+
+            if(!$GLOBALS['__TemplateHandler__']) {
+                $GLOBALS['__TemplateHandler__'] = new TemplateHandler();
+            }
             return $GLOBALS['__TemplateHandler__'];
         }
 
@@ -78,6 +85,9 @@
             $buff = FileHandler::readFile($tpl_file);
             if(!$buff) return;
 
+            // include 변경 <!--#include($path, $filename)-->
+            $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
+
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
             $buff = preg_replace_callback('!img([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
@@ -89,9 +99,6 @@
 
             // <!--@, --> 의 변경
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
-
-            // include 변경 <!--#include($path, $filename)-->
-            $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
             // import xml filter/ css/ js/ 언어파일 <!--%filename-->
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"\)-->!is', array($this, '_compileImportCode'), $buff);
@@ -194,30 +201,43 @@
             if(substr($arg,0,2)=='./') $arg = substr($arg,2);
 
             // 1단계로 해당 tpl 내의 파일을 체크
-            $filename = sprintf("%s/%s", dirname($this->tpl_file), $arg);
+            $source_filename = sprintf("%s/%s", dirname($this->tpl_file), $arg);
 
             // 2단계로 root로부터 경로를 체크
-            if(!file_exists($filename)) $filename = './'.$arg;
-            if(!file_exists($filename)) return;
+            if(!file_exists($source_filename)) $source_filename = './'.$arg;
+            if(!file_exists($source_filename)) return;
 
             // path, filename으로 분리
-            $tmp_arr = explode('/', $filename);
+            $tmp_arr = explode('/', $source_filename);
             $filename = array_pop($tmp_arr);
             $path = implode('/', $tmp_arr).'/';
 
+            // 원본 파일을 읽음
+            $include_buff = FileHandler::readFile($source_filename);
+
             // include 시도
             $output = sprintf(
-            '<?php%s'.
-            '$oTemplate = &TemplateHandler::getInstance();%s'.
-            'print $oTemplate->compile(\'%s\',\'%s\');%s'.
-            '?>%s',
-            "\n",
-            "\n",
-            $path,
-            $filename,
-            "\n",
-            "\n"
+                '<?php%s'.
+                'if(filectime("%s")<%d) { %s ?>'.
+                '%s%s'.
+                '<?php } else { '.
+                '$oTemplate = &TemplateHandler::getInstance();%s'.
+                'print $oTemplate->compile(\'%s\',\'%s\');%s'.
+                ' } ?>%s',
+
+                "\n",
+
+                $source_filename, time(), "\n",
+
+                $include_buff, "\n",
+
+                "\n",
+
+                $path, $filename, "\n",
+
+                "\n"
             );
+
             return $output;
         }
 
