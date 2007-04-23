@@ -1,1 +1,42 @@
-관리자 페이지..
+<div>
+    <h1>{$lang->welcome_to_zeroboard_xe}</h1>
+</div>
+
+<!-- 사용자 링크 -->
+<div>
+    <h3>{$lang->zeroboard_xe_user_links}</h3>
+</div>
+<div>
+    <ul>
+        <!--@foreach($lang->xe_user_links as $key => $val)-->
+            <li>{$key} : <a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+<!-- 개발자 링크 -->
+<div>
+    <h3>{$lang->zeroboard_xe_developer_links}</h3>
+</div>
+<div>
+    <ul>
+        <!--@foreach($lang->xe_developer_links as $key => $val)-->
+            <li>{$key} : <a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+<!-- 주요 메뉴 바로 가기 -->
+<div>
+    <h3>{$lang->zeroboard_xe_usefulness_module}</h3>
+    <ul>
+        <!--@foreach($lang->xe_usefulness_modules as $key => $val)-->
+            <li>{$val} : <a href="#" onclick="location.href='{getUrl('','module','admin','act',$key)}';return false;">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+<!-- 하단 라이센스 -->
+<div>
+    <h4>{$lang->xe_license}</h4>
+</div>
