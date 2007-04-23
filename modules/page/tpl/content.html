@@ -1,6 +1,6 @@
 {$page_content}
 
-<!--@if($logged_info->is_admin == 'Y')-->
+<!--@if($grant->is_admin)-->
 <div>
     <a href="#" onclick="location.href='{getUrl('act','dispPageAdminInsert','module_srl',$module_info->module_srl)}';return false;">{$lang->cmd_modify}</a>
 </div>

@@ -58,7 +58,7 @@ xe_layout_menu['bottom_menu'][1][{$first_key}] = { "text":"{htmlspecialchars($fi
         </script>
     </div>
 
-    <!--@if($logged_info->is_admin == 'Y')-->
+    <!--@if($grant->is_admin)-->
     <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
     <div class="layout_admin">
         <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
