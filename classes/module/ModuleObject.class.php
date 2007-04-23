@@ -122,6 +122,7 @@
                     // 모듈의 개별 설정에서 이 권한에 대한 그룹 지정이 있으면 체크
                     if(count($this->module_info->grants[$grant_name])) {
                         $group_srls = $this->module_info->grants[$grang_name];
+                        if(!is_array($group_srls)) $group_srls = array($group_srls);
 
                         if(count($user_group)) {
                             foreach($user_group as $group_srl) {
