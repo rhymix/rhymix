@@ -19,6 +19,7 @@
          * @brief 관리자 페이지 초기화면
          **/
         function dispCounterAdminIndex() {
+            $this->setTemplateFile('index');
         }
 
     }

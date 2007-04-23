@@ -54,6 +54,7 @@
         'dispFileAdminList' => '첨부파일 관리',
         'dispPollAdminList' => '설문조사 관리',
         'dispSpamfilterAdminConfig' => '스팸필터 관리',
+        'dispCounterAdminIndex' => '카운터 로그',
 
     );
 
