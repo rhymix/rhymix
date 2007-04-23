@@ -33,8 +33,9 @@
             Context::set('comment_srl', $upload_target_srl);
 
             // template 가져옴
-            $oTemplate = new TemplateHandler();
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+
+            $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($template_path, 'comment_form');
 
             // 결과 설정
@@ -115,8 +116,7 @@
             Context::set('category_info', $category_info);
 
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'category_info');
 
             // return 할 변수 설정

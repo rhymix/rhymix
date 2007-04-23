@@ -32,8 +32,7 @@
 
                 // 레이아웃을 컴파일
                 if(__DEBUG__==3) $start = getMicroTime();
-                require_once("./classes/template/TemplateHandler.class.php");
-                $oTemplate = new TemplateHandler();
+                $oTemplate = &TemplateHandler::getInstance();
 
                 $layout_path = $oModule->getLayoutPath();
                 $layout_file = $oModule->getLayoutFile();
@@ -122,8 +121,7 @@
          **/
         function _toHTMLDoc(&$oModule) {
             // template handler 객체 생성
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
 
             // module tpl 변환
             $template_path = $oModule->getTemplatePath();

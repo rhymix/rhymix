@@ -16,6 +16,14 @@
         var $tpl_file = ''; ///< 컴파일 대상 파일
 
         /**
+         * @brief TemplateHandler의 기생성된 객체를 return
+         **/
+        function &getInstance() {
+            if(!$GLOBALS['__TemplateHandler__']) $GLOBALS['__TemplateHandler__'] = new TemplateHandler();
+            return $GLOBALS['__TemplateHandler__'];
+        }
+
+        /**
          * @brief 주어진 tpl파일의 컴파일
          **/
         function compile($tpl_path, $tpl_filename) {
@@ -200,7 +208,7 @@
             // include 시도
             $output = sprintf(
             '<?php%s'.
-            '$oTemplate = new TemplateHandler();%s'.
+            '$oTemplate = &TemplateHandler::getInstance();%s'.
             'print $oTemplate->compile(\'%s\',\'%s\');%s'.
             '?>%s',
             "\n",

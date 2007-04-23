@@ -50,6 +50,7 @@
     require_once("./classes/module/ModuleObject.class.php");
     require_once("./classes/module/ModuleHandler.class.php");
     require_once("./classes/display/DisplayHandler.class.php");
+    require_once("./classes/template/TemplateHandler.class.php");
     if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLosdStartTime__;
 
     /**

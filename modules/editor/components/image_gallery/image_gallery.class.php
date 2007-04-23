@@ -29,8 +29,7 @@
 
             Context::set("tpl_path", $tpl_path);
 
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
@@ -64,8 +63,7 @@
             if($gallery_info->gallery_style == "list") $tpl_file = 'list_gallery.html';
             else $tpl_file = 'slide_gallery.html';
 
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 

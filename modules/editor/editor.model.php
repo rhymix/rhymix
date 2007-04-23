@@ -54,8 +54,7 @@
                 $oFileController = &getController('file');
                 $oFileController->setUploadEnable($upload_target_srl);
             }
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 

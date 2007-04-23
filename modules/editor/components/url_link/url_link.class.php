@@ -27,8 +27,7 @@
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
 
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 

@@ -33,8 +33,7 @@
             $emoticon_list = FileHandler::readDir($tpl_path.'/images');
             Context::set('emoticon_list', $emoticon_list);
 
-            require_once("./classes/template/TemplateHandler.class.php");
-            $oTemplate = new TemplateHandler();
+            $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 
