@@ -206,7 +206,7 @@
 
             // 캐시된 xml파일이 있으면 include 후 정보 return
             if(file_exists($cache_file) && filectime($cache_file) > filectime($xml_file)) {
-                @include $cache_file;
+                @include($cache_file);
                 return $xml_info;
             }
 

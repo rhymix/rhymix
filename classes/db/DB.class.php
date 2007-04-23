@@ -202,7 +202,7 @@
 
             if($source_args) $args = clone($source_args);
 
-            $output = include($cache_file);
+            $output = @include($cache_file);
 
             if( (is_a($output, 'Object')||is_subclass_of($output,'Object'))&&!$output->toBool()) return $output;
 

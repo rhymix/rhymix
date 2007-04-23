@@ -102,7 +102,7 @@
             // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
             $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
-                include $cache_file;
+                @include($cache_file);
 
                 if($layout_info->extra_var) {
                     foreach($vars as $key => $value) {
@@ -191,7 +191,7 @@
 
             $buff = '<?php if(!defined("__ZBXE__")) exit(); '.$buff.' ?>';
             FileHandler::writeFile($cache_file, $buff);
-            if(file_exists($cache_file)) include $cache_file;
+            if(file_exists($cache_file)) @include($cache_file);
             return $layout_info;
         }
 

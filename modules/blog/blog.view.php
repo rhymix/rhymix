@@ -94,7 +94,7 @@
             if($this->module_info->menu) {
                 foreach($this->module_info->menu as $menu_id => $menu_srl) {
                     $menu_php_file = sprintf("./files/cache/menu/%s.php", $menu_srl);
-                    if(file_exists($menu_php_file)) include($menu_php_file);
+                    if(file_exists($menu_php_file)) @include($menu_php_file);
                     Context::set($menu_id, $menu);
                 }
             }

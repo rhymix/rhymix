@@ -106,7 +106,7 @@
 
             // db 정보 설정
             $db_config_file = $this->getConfigFile();
-            if(file_exists($db_config_file)) include $db_config_file;
+            if(file_exists($db_config_file)) @include($db_config_file);
 
             $this->_setDBInfo($db_info);
         }
@@ -208,7 +208,7 @@
             if(!file_exists($filename)) return;
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
-            include ($filename);
+            @include($filename);
         }
 
         /**

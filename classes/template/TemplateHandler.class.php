@@ -88,6 +88,9 @@
             // include 변경 <!--#include($path, $filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
+            // include 변경 <!--#include($path, $filename)-->
+            $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
+
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
             $buff = preg_replace_callback('!img([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
@@ -327,7 +330,7 @@
                 $eval_str = "?>".$buff;
                 eval($eval_str);
             } else {
-                @include $compiled_tpl_file;
+                @include($compiled_tpl_file);
             }
 
             $output = ob_get_contents();
