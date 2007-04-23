@@ -28,7 +28,9 @@ function doGetCommentEditorForm(document_srl) {
     params['document_srl'] = document_srl;
 
     var response_tags = new Array('error','message','document_srl','upload_target_srl','tpl');
+    show_waiting_message = false;
     exec_xml('blog','getBlogCommentEditorForm', params, completeCommentEditorForm, response_tags);
+    show_waiting_message = true;
 }
 
 var editor_path = "./modules/editor/tpl";
