@@ -56,8 +56,8 @@
     <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
 
     <!--@if($document->is_granted)-->
-    <a href="{getUrl('act','dispBlogWrite')}">[{$lang->cmd_modify}]</a> 
-    <a href="{getUrl('act','dispBlogDelete')}">[{$lang->cmd_delete}]</a> 
+    <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
+    <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document)}">[{$lang->cmd_delete}]</a> 
     <!--@end-->
 </div>
 
