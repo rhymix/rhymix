@@ -104,7 +104,7 @@
             Context::set('layout_info',$this->module_info);
 
             // rss url
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBoardRss'));
+            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
         }
 
         /**
@@ -374,45 +374,6 @@
             if(!$msg) $msg = $msg_code;
             Context::set('message', $msg);
             $this->setTemplateFile('message');
-        }
-
-        /**
-         * @brief RSS 출력
-         **/
-        function dispBlogRss() {
-            // 권한 체크
-            if(!$this->grant->list) return $this->dispBlogMessage('msg_not_permitted');
-
-            // 컨텐츠 추출
-            $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
-            $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
-
-            $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
-            $args->search_keyword = Context::get('search_keyword'); ///< 검색어
-
-            $args->sort_index = 'list_order'; ///< 소팅 값
-
-            $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($args);
-            $document_list = $output->data;
-
-            // rss 제목 및 정보등을 추출
-            $info->title = Context::getBrowserTitle();
-            $info->description = $this->module_info->description;
-            $info->language = Context::getLangType();
-            $info->date = gmdate("D, d M Y H:i:s");
-            $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
-            $info->total_count = $output->total_count;
-
-            // RSS 모듈을 불러서 출력할 내용을 지정
-            $oRssView = &getView('rss');
-            $oRssView->dispRss($info, $document_list);
-
-            // RSS 모듈의 tempate을 가져옴
-            $this->setTemplatePath($oRssView->getTemplatePath());
-            $this->setTemplateFile($oRssView->getTemplateFile());
         }
 
         /**

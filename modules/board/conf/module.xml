@@ -39,7 +39,6 @@
         <action name="dispBoardDeleteComment" type="view" />
         <action name="dispBoardDeleteTrackback" type="view" />
         <action name="dispBoardMessage" type="view" />
-        <action name="dispBoardRss" type="view" />
 
         <action name="procBoardInsertDocument" type="controller" />
         <action name="procBoardDeleteDocument" type="controller" />

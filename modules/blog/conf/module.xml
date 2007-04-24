@@ -35,7 +35,6 @@
         <action name="dispBlogDeleteComment" type="view" />
         <action name="dispBlogDeleteTrackback" type="view" />
         <action name="dispBlogMessage" type="view" />
-        <action name="dispBlogRss" type="view" />
 
         <action name="getBlogCommentEditorForm" type="model" />
 

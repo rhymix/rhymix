@@ -17,38 +17,47 @@
         }
 
         /**
-         * @brief 설정 
-         **/
-        function dispRssAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('rss');
-            Context::set('config',$config);
-            Context::set('rss_types',$this->rss_types);
-
-            // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('index');
-        }
-
-        /**
          * @brief RSS 출력
          **/
-        function dispRss($info, $content) {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+        function dispRss() {
+            // RSS를 출력하고자 하는 mid를 구함 (없으면 오류)
+            $mid = Context::get('mid');
+            if(!$mid) return $this->dispError();
+
+            // 모듈의 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('rss');
+            $module_info = $oModuleModel->getModuleInfoByMid($mid);
+            if(!$module_info->mid != $mid) return $this->dispError();
 
             // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
-            if($config->rss_disable=='Y') return $this->dispError();
+            if($config->open_rss == 'N') return $this->dispError();
 
-            // RSS 출력 형식을 체크
-            $rss_type = $config->rss_type;
-            if(!$this->rss_types[$rss_type]) $rss_type = $this->default_rss_type;
+            // 출력할 컨텐츠 추출
+            $args->module_srl = $module_info->module_srl; 
+            $args->page = Context::get('page'); 
+            $args->list_count = 20;
+            $args->page_count = 10;
 
-            if(count($content)) {
+            $args->search_target = Context::get('search_target'); 
+            $args->search_keyword = Context::get('search_keyword'); 
+            if($module_info->use_category=='Y') $args->category_srl = Context::get('category'); 
+            $args->sort_index = 'list_order'; 
+
+            $oDocumentModel = &getModel('document');
+            $output = $oDocumentModel->getDocumentList($args);
+            $document_list = $output->data;
+
+            // rss 제목 및 정보등을 추출
+            $info->title = Context::getBrowserTitle();
+            $info->description = $this->module_info->description;
+            $info->language = Context::getLangType();
+            $info->date = gmdate("D, d M Y H:i:s");
+            $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
+            $info->total_count = $output->total_count;
+
+            if(count($document_list)) {
                 $idx = 0;
-                foreach($content as $key => $item) {
+                foreach($document_list as $key => $item) {
                     $year = substr($item->regdate,0,4);
                     $month = substr($item->regdate,4,2);
                     $day = substr($item->regdate,6,2);
@@ -74,7 +83,7 @@
 
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl/');
-            $this->setTemplateFile($rss_type);
+            $this->setTemplateFile('rss20');
         }
 
         /**

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <actions />
+    <actions>
+        <action name="dispRss" type="view" standalone="true" />
+    </actions>
 </module>

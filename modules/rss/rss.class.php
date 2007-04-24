@@ -7,16 +7,13 @@
 
     class rss extends ModuleObject {
 
-        var $default_rss_type = "rss20";
-        var $rss_types = array(
-                "rss20" => "rss 2.0",
-                "rss10" => "rss 1.0",
-            );
-
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
+            // action forward에 등록 
+            $oModuleController = &getController('module');
+            $oModuleController->insertActionForward('rss', 'view', 'dispRss');
 
             return new Object();
         }
