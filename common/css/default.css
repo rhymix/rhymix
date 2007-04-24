@@ -14,8 +14,8 @@ a.bold {
 }
 
 .editor_blue_text { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
-.editor_red_text { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347; }
-.editor_yellow_text { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460; }
+.editor_red_text { color: #f42126; text-decoration:none; border-bottom:2px solid #e54347;}
+.editor_yellow_text { color: #c9bd00; text-decoration:none; border-bottom:2px solid #ece460;}
 .editor_green_text { color: #08830B; text-decoration:none; border-bottom:2px solid #08830B;}
 
 .folder_opener { display: block; }
