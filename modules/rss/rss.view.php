@@ -68,7 +68,14 @@
 
                     $item->author = $item->user_name;
                     $item->link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
-                    $item->description = $item->content;
+
+                    // 전문 공개일 경우 
+                    if($module_info->open_rss=='Y') {
+                        $item->description = $item->content;
+                    // 요약 공개일 경우
+                    } else {
+                        $item->description = cut_str(strip_tags($item->content),100,'...');
+                    }
                     $item->date = gmdate("D, d M Y H:i:s", $time);
                     $content[$idx++] = $item;
                 }

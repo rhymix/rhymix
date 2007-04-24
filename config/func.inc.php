@@ -115,7 +115,7 @@
         $unicode_str = iconv("UTF-8","UCS-2",$string);
         if(strlen($unicode_str) < $cut_size*2) return $string;
 
-        $output = substr($unicode_str, 0, $cut_size*2);
+        $output_str = substr($unicode_str, 0, $cut_size*2);
         return iconv("UCS-2","UTF-8",$output_str).$tail;
     }
 
