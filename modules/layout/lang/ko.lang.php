@@ -12,6 +12,7 @@
     $lang->layout_history = "변경 사항 ";
     $lang->layout_info = "레이아웃 정보";
     $lang->layout_list = '레이아웃 목록';
+    $lang->menu_count = '메뉴수';
     $lang->downloaded_list = '다운로드 목록';
 
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";

@@ -97,14 +97,19 @@
 
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
             if(!$xml_file) $xml_file = sprintf("%sconf/info.xml", $layout_path);
-            if(!file_exists($xml_file)) return;
+            if(!file_exists($xml_file)) {
+                $layout_info->layout = $layout;
+                $layout_info->path = $layout_path;
+                $layout_info->layout_title = $layout_title;
+                return $layout_info;
+            }
 
             // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
             $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
                 @include($cache_file);
 
-                if($layout_info->extra_var) {
+                if($layout_info->extra_var && $vars) {
                     foreach($vars as $key => $value) {
                         if(!$layout_info->extra_var->{$key} && !$layout_info->{$key}) {
                             $layout_info->{$key} = $value;

@@ -5,34 +5,45 @@
     <table border="1" width="100%">
     <tr>
         <td>{$lang->layout_name}</td>
+        <td>{$lang->layout_info}</td>
         <td>{$lang->version}</td>
         <td>{$lang->author}</td>
         <td>{$lang->menu_count}</td>
         <td>{$lang->date}</td>
         <td>{$lang->path}</td>
-        <td>{$lang->layout_info}</td>
         <td>{$lang->cmd_make}</td>
     </tr>
 
     <!--@foreach($layout_list as $key => $val)-->
-    <tr>
-        <td rowspan="2">
-            {$val->title} <br />
-            ({$val->layout})
-        </td>
-        <td>{$val->version}</td>
-        <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-        <td>{$val->menu_count}</td>
-        <td>{$val->author->date}</td>
-        <td>{$val->path}</td>
-        <td><a href="#" onclick="popopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info');return false">{$lang->cmd_view}</a></td>
-        <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}">{$lang->cmd_make}</a></td>
-    </tr>
-    <tr>
-        <td colspan="7">
-            {nl2br($val->author->description)}
-        </td>
-    </tr>
+
+        <!-- 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
+        <!--@if($val->title)-->
+        <tr>
+            <td rowspan="2">
+                {$val->title} <br />
+                ({$val->layout})
+            </td>
+            <td><a href="#" onclick="popopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info');return false">{$lang->cmd_view}</a></td>
+            <td>{$val->version}</td>
+            <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+            <td>{$val->menu_count}</td>
+            <td>{$val->author->date}</td>
+            <td>{$val->path}</td>
+            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}">{$lang->cmd_make}</a></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                {nl2br($val->author->description)}
+            </td>
+        </tr>
+        <!-- 레이아웃 정보 파일(conf/info.xml)이 없는 경우 -->
+        <!--@else-->
+        <tr>
+            <td colspan="6">{$val->layout}</td>
+            <td>{$val->path}</td>
+            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}">{$lang->cmd_make}</a></td>
+        </tr>
+        <!--@end-->
     <!--@end-->
 
     </table>

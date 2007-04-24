@@ -14,14 +14,18 @@
         <th>{$lang->path}</th>
         <td>{$layout_info->path}</td>
     </tr>
+    <!--@if($layout_info->author->homepage)-->
     <tr>  
         <th>{$lang->author}</th>
         <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
     </tr>
+    <!--@end-->
+    <!--@if($layout_info->author->description)-->
     <tr>  
         <th>{$lang->description}</th>
         <td>{nl2br($layout_info->author->description)}</td>
     </tr>
+    <!--@end-->
     </table>
 </div>
 
