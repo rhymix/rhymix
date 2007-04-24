@@ -26,6 +26,8 @@
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트. 거의 사용할 일은 없음
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
+        var $rewrite = false;
+
         /**
          * @brief 언어 정보
          *
@@ -350,6 +352,20 @@
         function _setRequestArgument() {
             if($this->_getRequestMethod() == 'XMLRPC') return;
             if(!count($_REQUEST)) return;
+
+            if($_SERVER['REDIRECT_QUERY_STRING']) {
+                $this->rewrite = true;
+                $tmp_str = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'],'?')+1);
+                if($tmp_str) {
+                    $tmp_arr = explode('&',$tmp_str);
+                    $tmp_cnt = count($tmp_arr);
+                    for($i=0;$i<$tmp_cnt;$i++) {
+                        list($key, $val) = explode('=', $tmp_arr[$i]);
+                        if($key && $val) $this->_set($key, $val);
+                    }
+                }
+            }
+
             foreach($_REQUEST as $key => $val) {
                 if(is_array($val)) {
                     for($i=0;$i<count($val);$i++) {

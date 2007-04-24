@@ -44,7 +44,7 @@ String.prototype.setQuery = function(key, val) {
         }
         return uri+"?"+q_list.join("&");
     } else {
-        if(val.trim()) return uri+"?"+key+"="+val;
+        if(val.toString().trim()) return uri+"?"+key+"="+val;
         else return uri;
     }
 }

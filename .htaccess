@@ -1,6 +1,6 @@
 RewriteEngine On
-RewriteRule ^rss/([[:alnum:]]+)$ ./?mid=$1&act=dispRss [L]
-RewriteRule ^trackback/([[:digit:]]+)$ ./?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
-RewriteRule ^admin ./?module=admin [L]
-RewriteRule ^([[:digit:]]+)$ ./?document_srl=$1 [L]
-RewriteRule ^([[:alnum:]]+)$ ./?mid=$1 [L]
+RewriteRule ^rss/([[:alnum:]]+)$ ./index.php?mid=$1&act=dispRss [L]
+RewriteRule ^trackback/([[:digit:]]+)$ ./index.php?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
+RewriteRule ^admin$ ./index.php?module=admin [L]
+RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
+RewriteRule ^([a-zA-Z0-9_]+)$ ./index.php?mid=$1 [L]
