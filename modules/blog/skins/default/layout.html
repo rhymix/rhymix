@@ -17,6 +17,29 @@
     {@$layout_info->profile = "profile"}
 <!--@end-->
 
+<!-- 블로그 기본 기능 메뉴 출력 -->
+<div class="blog_default_menu">
+    <!-- 로그인 -->
+    <!--@if(!$is_logged)-->
+        <a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a>
+    <!--@else-->
+        <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
+    <!--@end-->
+
+    <!-- 관리 기능 -->
+    <!--@if($grant->is_admin)-->
+        <!-- 관리자일 경우 블로그 관리 메뉴 -->
+        <a href="#" onclick="location.href='{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+    <!--@end-->
+
+    <!-- RSS -->
+    <!--@if($rss_url)-->
+        <!-- rss 버튼 -->
+        <a href="{$rss_url}">rss</a>
+    <!--@end-->
+
+
+</div>
 
 <!-- 상단 로고 및 상단 메뉴 출력 -->
 <div class="layout_top">
@@ -74,9 +97,7 @@
 
                 <div class="layout_admin">
                     <!-- 글쓰기 버튼 -->
-                    <a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a> |
-                    <!-- 관리자일 경우 블로그 관리 메뉴 -->
-                    <a href="#" onclick="location.href='{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_management}</a>
+                    <a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a> 
                 </div>
             <!--@end-->
             
@@ -85,13 +106,6 @@
 
     <!-- 블로그 메뉴 출력 -->
     <div id="blog_category"></div>
-
-    <!--@if($rss_url)-->
-        <!-- rss 버튼 -->
-        <div class="layout_rss">
-            <a href="{$rss_url}">rss</a>
-        </div>
-    <!--@end-->
 
     <!-- 검색 -->
     <div class="layout_search">

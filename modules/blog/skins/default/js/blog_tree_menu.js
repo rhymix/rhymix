@@ -201,7 +201,7 @@ function blogDrawNode(parent_node) {
 
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
-                        '<span id="'+zone_id+'_folder" '+click_str+'></span>'+
+                        '<div id="'+zone_id+'_folder" '+click_str+'></div>'+
                         '<span id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode('+node_srl+')">'+text+'</span>'+
                     '</div>';
 

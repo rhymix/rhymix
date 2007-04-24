@@ -5,13 +5,6 @@
     margin-bottom:3px;
 }
 
-#blog_category .title_box .unselected {
-}
-
-#blog_category .title_box .selected {
-    font-weight:bold;
-}
-
 #blog_category .node_item {
 }
 
@@ -35,26 +28,26 @@
 
 #blog_category .page {
     cursor:pointer;
-    padding-left:18px;
     width:18px;
     height:18px;
     background:url(../images/tree_menu/page.gif) no-repeat left;
+    float:left;
 }
 
 #blog_category .folder_open {
     cursor:pointer;
     width:18px;
     height:18px;
-    padding-left:18px;
     background:url(../images/tree_menu/page_folder.gif) no-repeat left;
+    float:left;
 }
 
 #blog_category .folder_close {
     cursor:pointer;
     width:18px;
     height:18px;
-    padding-left:18px;
     background:url(../images/tree_menu/folder.gif) no-repeat left;
+    float:left;
 }
 
 #blog_category .item_open {

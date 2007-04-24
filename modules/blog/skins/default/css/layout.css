@@ -6,6 +6,15 @@ body {
 }
 
 /**
+ * 블로그 기본 기능 
+ **/
+.blog_default_menu {
+    margin:5px 10px 0px 10px;
+    width:890px;
+    text-align:right;
+}
+
+/**
  * 상단 로고 및 메인 1차 메뉴 
  **/
 .layout_top {
@@ -98,17 +107,9 @@ body {
     padding:0px 10px 10px 10px;
 }
 
-/* rss 버튼 */
-.layout_rss {
-    border:2px solid #EEEEEE;
-    height:20px;
-    text-align:center;
-    margin-bottom:10px;
-}
-
 /* 검색 */
 .layout_search {
-    border:2px solid #EEEEEE;
+    border-top:2px solid #EEEEEE;
     padding:10px;
     margin-bottom:10px;
 }
