@@ -19,6 +19,7 @@
         <param name="header_text" target="header_text" />
         <param name="footer_text" target="footer_text" />
         <param name="admin_id" target="admin_id" />
+        <param name="open_rss" target="open_rss" />
     </parameter>
     <response callback_func="completeInsertBlog">
         <tag name="error" />

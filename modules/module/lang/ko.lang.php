@@ -22,6 +22,12 @@
     $lang->skin_default_info = '스킨 기본정보';
     $lang->skin_maker = '스킨제작자';
     $lang->skin_maker_homepage = '제작자 홈페이지';
+    $lang->open_rss = 'RSS 공개';
+    $lang->open_rss_types = array(
+        'Y' => '전문 공개 ',
+        'H' => '요약 공개',
+        'N' => '공개하지 않음',
+    );
 
     $lang->cmd_add_shortcut = "바로가기 추가";
     $lang->cmd_install = "설치";
@@ -33,6 +39,7 @@
 
     $lang->msg_new_module = "모듈 생성";
     $lang->msg_update_module = "모듈 수정";
+    $lang->msg_module_name_exists = "이미 존재하는 모듈이름입니다. 다른 이름을 입력해주세요.";
     $lang->msg_category_is_null = '등록된 분류가 없습니다';
     $lang->msg_grant_is_null = '등록된 권한 대상이 없습니다';
     $lang->msg_no_checked_document = '선택된 게시물이 없습니다';
@@ -53,4 +60,5 @@
     $lang->about_page_count = '목록 하단 페이지 이동 하는 링크의 수를 지정하실 수 있습니다. (기본 10개)';
     $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.<br />,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)';
     $lang->about_grant = '특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다';
+    $lang->about_open_rss = '현재 모듈에 대한 RSS 공개를 선택하실 수 있습니다. 글 보는 권한과 상관없이 옵션에 따라 RSS가 공개됩니다';
 ?>

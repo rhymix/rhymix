@@ -103,8 +103,8 @@
             Context::set('module_info',$this->module_info);
             Context::set('layout_info',$this->module_info);
 
-            // rss url 만듬
-            if($this->grant->list) Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBlogRss'));
+            // rss url
+            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispBoardRss'));
         }
 
         /**

@@ -28,6 +28,17 @@
     <tr>
         <td>{$lang->about_mid}</td>
     </tr>
+
+    <!--@if($module_info->is_default!='Y')-->
+    <tr>
+        <th rowspan="2">{$lang->is_default}</th>
+        <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_default}</td>
+    </tr>
+    <!--@end-->
+
     <tr>
         <th rowspan="2">{$lang->category}</th>
         <td>
@@ -42,6 +53,7 @@
     <tr>
         <td>{$lang->about_category}</td>
     </tr>
+
     <tr>
         <th rowspan="2">{$lang->browser_title}</th>
         <td><input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" /></td>
@@ -84,6 +96,19 @@
         <td>{$lang->about_use_category}</td>
     </tr>
     <tr>
+        <th rowspan="2">{$lang->open_rss}</th>
+        <td>
+            <select name="open_rss">
+                <!--@foreach($lang->open_rss_types as $key=>$val)-->
+                <option value="{$key}" <!--@if($module_info->open_rss==$key)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>{$lang->about_open_rss}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->list_count}</th>
         <td><input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}" /></td>
     </tr>
@@ -97,16 +122,6 @@
     <tr>
         <td>{$lang->about_page_count}</td>
     </tr>
-
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th rowspan="2">{$lang->is_default}</th>
-        <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_default}</td>
-    </tr>
-    <!--@end-->
 
     <tr>
         <th rowspan="2">{$lang->description}</th>

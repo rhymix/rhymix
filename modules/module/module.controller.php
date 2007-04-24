@@ -73,6 +73,13 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
+            // 이미 존재하는 모듈 이름인지 체크
+            $output = executeQuery('module.isExistsModuleName', $args);
+            if(!$output->toBool() || $output->data->count) {
+                $oDB->rollback();
+                return new Object(-1, 'msg_module_name_exists');
+            }
+
             // module model 객체 생성
             $oModuleModel = &getModel('module');
 
@@ -101,10 +108,31 @@
          * @brief 모듈의 정보를 수정
          **/
         function updateModule($args) {
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 이미 존재하는 모듈 이름인지 체크
+            $output = executeQuery('module.isExistsModuleName', $args);
+            if(!$output->toBool() || $output->data->count) {
+                $oDB->rollback();
+                return new Object(-1, 'msg_module_name_exists');
+            }
+
             $output = executeQuery('module.updateModule', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
 
             $output->add('module_srl',$args->module_srl);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $oDB->commit();
+
             return $output;
         }
 

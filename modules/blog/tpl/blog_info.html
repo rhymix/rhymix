@@ -20,6 +20,10 @@
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
 <tr>
+    <th>{$lang->open_rss}</th>
+    <td>{$lang->open_rss_types[$module_info->open_rss]}</td>
+</tr>
+<tr>
     <th>{$lang->list_count}</th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>

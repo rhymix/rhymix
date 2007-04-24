@@ -15,6 +15,7 @@
         <column name="menu_srl" var="menu_srl" filter="number" />
         <column name="extra_vars" var="extra_vars" />
         <column name="admin_id" var="admin_id" maxlength="80" />
+        <column name="open_rss" var="open_rss" default="Y" notnull="notnull" />
         <column name="header_text" var="header_text" />
         <column name="footer_text" var="footer_text" />
     </columns>

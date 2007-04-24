@@ -383,7 +383,7 @@
         function procBoardAdminInsertBoard($args = null) {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             if(!$args) {
-                $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+                $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id','open_rss');
             }
 
             $args->module = 'board';
