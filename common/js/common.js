@@ -30,13 +30,17 @@ String.prototype.setQuery = function(key, val) {
     if(idx != -1) {
         uri = this.substr(0, idx);
         var query_string = this.substr(idx+1, this.length);
-        var args = {}
+        var args = new Array();
         query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+
         args[key] = val;
+
         var q_list = new Array();
         for(var i in args) {
-            if(!args[i].trim()) continue;
-            q_list[q_list.length] = i+'='+args[i];
+            var arg = args[i];
+            if(!arg.toString().trim()) continue;
+
+            q_list[q_list.length] = i+'='+arg;
         }
         return uri+"?"+q_list.join("&");
     } else {

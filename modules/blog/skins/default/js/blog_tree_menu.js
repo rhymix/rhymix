@@ -249,8 +249,6 @@ function blogSelectNode(node_srl) {
     var node = blog_node_info_list[node_srl];
     if(!node) return;
 
-    var url = node.getAttribute("url");
-    var open_window = node.getAttribute("open_window");
     var hasChild = false;
     if(node.hasChildNodes()) hasChild = true;
 
@@ -261,16 +259,6 @@ function blogSelectNode(node_srl) {
         return;
     }
 
-    // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
-    if(url) {
-        // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
-        if(url.indexOf('://')==-1) url = "./?"+url;
-
-        // open_window에 따라서 처리
-        if(open_window != "Y") location.href=url;
-        else {
-            var win = window.open(url);
-            win.focus();
-        }
-    }
+    var url = location.href.setQuery('category',node_srl);
+    location.href = url;
 }
