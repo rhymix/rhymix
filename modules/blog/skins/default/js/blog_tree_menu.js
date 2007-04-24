@@ -202,7 +202,7 @@ function blogDrawNode(parent_node) {
         // 왼쪽 폴더/페이지와 텍스트 위치를 맞추기 위해;;; table태그 일단 사용. 차후 바꾸자..
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
-                        '<table border="0" cellspacing="0" cellpadding="2"><tr><td><img src="./common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
+                        '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="./common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
                         '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode('+node_srl+');return false;">'+text+'</a></td></tr></table>'+
                     '</div>';
 
