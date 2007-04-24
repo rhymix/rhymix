@@ -30,7 +30,9 @@
 <!-- 시간대별, 일자별, 월별, 년별 로그 보기 -->
 <div>
     <h3>
+        {$lang->cmd_select_counter_type[$type]}
         {$lang->unique_visitor}
+
         <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
         <a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a>
         <!--@end-->
@@ -39,7 +41,7 @@
 
 <!-- unique visitor 그래프 -->
 <div>
-    <table border="1" width="100%">
+    <table border="1">
     <col width="80" />
     <col width="*" />
     <!--@foreach($detail_status->list as $key => $val)-->
