@@ -249,16 +249,6 @@ function blogSelectNode(node_srl) {
     var node = blog_node_info_list[node_srl];
     if(!node) return;
 
-    var hasChild = false;
-    if(node.hasChildNodes()) hasChild = true;
-
-    // url이 없고 child가 있으면 해당 폴더 토글한다 
-    if(!url && hasChild) {
-        var zone_id = "menu_blog_category_"+node_srl;
-        blogToggleFolder(zone_id);
-        return;
-    }
-
     var url = location.href.setQuery('category',node_srl);
     location.href = url;
 }
