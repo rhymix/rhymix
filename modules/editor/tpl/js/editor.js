@@ -133,7 +133,7 @@ function editorEnableAutoSave(fo_obj, upload_target_srl) {
     var title = fo_obj.title.value;
     var content = fo_obj.content.value;
     _autoSaveObj = {"fo_obj":fo_obj, "upload_target_srl":upload_target_srl, "title":title, "content":content};
-    setTimeout(_editorAutoSave, 30000);
+    setTimeout(_editorAutoSave, 15000);
 }
 
 function _editorAutoSave() {
@@ -154,7 +154,7 @@ function _editorAutoSave() {
 
             xTop("editor_autosaved_message", xScrollTop()+10);
             xGetElementById("editor_autosaved_message").style.display = "block";
-            setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 3000);
+            setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 15000);
             show_waiting_message = false;
             exec_xml("editor","procEditorSaveDoc", params, _editorAutoSaved);
             show_waiting_message = true;
@@ -162,7 +162,7 @@ function _editorAutoSave() {
         }
     }
 
-    setTimeout(_editorAutoSave, 3000);
+    setTimeout(_editorAutoSave, 15000);
 }
 
 function _editorAutoSaved(ret_obj) {
