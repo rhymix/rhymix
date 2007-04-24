@@ -104,16 +104,9 @@ function completeReload(ret_obj) {
 function completeInsertComment(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
-    var mid = ret_obj['mid'];
-    var document_srl = ret_obj['document_srl'];
-    var comment_srl = ret_obj['comment_srl'];
-
-    var url = "./?mid="+mid+"&document_srl="+document_srl;
-    if(comment_srl) url += "#comment_"+comment_srl;
 
     alert(message);
-
-    location.href = url;
+    location.href = location.href;
 }
 
 /* 댓글 삭제 */
