@@ -1,8 +1,10 @@
 <!-- 레이아웃과 연동될 css 파일 import -->
 <!--%import("css/layout.css")-->
-<!-- 블로그 메뉴를 common/js/tree_menu.js를 이용해서 표시 -->
+<!--%import("js/blog_tree_menu.js")-->
+
+<!-- 블로그 메뉴를 js/blog_tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    loadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "blog_category", "blog_category", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
+    blogLoadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
 </script>
 
 <!-- 기본 변수들 세팅 -->

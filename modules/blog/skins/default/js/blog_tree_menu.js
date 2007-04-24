@@ -14,64 +14,43 @@ var blog_tree_menu_folder_list = new Array();
 var blog_node_info_list = new Array();
 
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
-function blogLoadTreeMenu(url, menu_id, zone_id, title, index_url) {
+function blogLoadTreeMenu(xml_url, title, index_url) {
     // 일단 그릴 곳을 찾아서 사전 작업을 함 (그릴 곳이 없다면 아예 시도를 안함)
-    var zone = xGetElementById(zone_id);
+    var zone = xGetElementById("blog_category");
     if(typeof(zone)=="undefined") return;
 
-    // 관리가 아닌 사용일경우는 menu_id를 변경
-    if(typeof(callback_func)=='undefined') menu_id = 'display_'+menu_id;
-
     // 노드 정보들을 담을 변수 세팅
-    blog_node_info_list[menu_id] = new Array();
+    blog_node_info_list = new Array();
 
-    if(typeof(title)=='undefined') title = '';
+    // 제목이 없으면 제목을 category로 지정
+    if(typeof(title)=="undefined" || !title) title = "category";
 
-    // 사용자 정의 함수가 없다면 moveTreeMenu()라는 기본적인 동작을 하는 함수를 대입
-    if(typeof(callback_func)=='undefined') {
-        callback_func = moveTreeMenu;
-    }
+    // index url이 없으면 현재 # 으로 대체
+    if(!index_url) index_url= "#";
 
-    if(typeof(callback_move_func)=='undefined') {
-        callback_move_func = null;
-    }
-
-    // 한 페이지에 다수의 menu_id가 있을 수 있으므로 menu_id별로 함수를 저장
-    node_callback_func[menu_id] = callback_func;
-    node_move_callback_func[menu_id] = callback_move_func;
-
-    // 직접 선택시키려는 메뉴 인자값이 없으면 초기화
-    if(typeof(manual_select_node_srl)=='undefined') manual_select_node_srl = '';
-
-    // xml_handler를 이용해서 직접 메뉴 xml파일(layout module에서 생성)을 읽음
-    if(!url) return;
-
+    // xml_handler를 이용해서 직접 메뉴 xml파일를 읽음
+    if(!xml_url) return;
     var oXml = new xml_handler();
     oXml.reset();
     oXml.xml_path = url;
 
-    if(!index_url) index_url= "#";
-
     // menu_id, zone_id는 계속 달고 다녀야함 
-    var param = {"menu_id":menu_id, "zone_id":zone_id, "title":title, "index_url":index_url, "manual_select_node_srl":manual_select_node_srl}
+    var param = {"title":title, "index_url":index_url}
 
     // 요청후 drawTreeMenu()함수를 호출 (xml_handler.js에서 request method를 직접 이용)
-    oXml.request(drawTreeMenu, oXml, null, null, null, param);
+    oXml.request(blogDrawTreeMenu, oXml, null, null, null, param);
 }
 
 // 트리메뉴 XML정보를 이용해서 정해진 zone에 출력
-var manual_select_node_srl = '';
-function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
-    // 그리기 위한 object를 찾아 놓음
-    var menu_id = param.menu_id;
-    var zone_id = param.zone_id;
+function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
     var title = param.title;
     var index_url = param.index_url;
-    if(param.manual_select_node_srl) manual_select_node_srl = param.manual_select_node_srl;
-    var zone = xGetElementById(zone_id);
+
+    var zone = xGetElementById("blog_category");
     var html = "";
 
-    if(title) html = '<div style="cursor:pointer;padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</div>';
+    // 제목 지정 
+    html = '<div class="blog_category_title"style="cursor:pointer;padding-left:18px;margin-bottom:5px;background:url('+tree_menu_icon_path+'folder.gif) no-repeat left;" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</div>';
 
     var xmlDoc = oXml.getResponseXml();
     if(!xmlDoc) {
