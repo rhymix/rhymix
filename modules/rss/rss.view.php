@@ -27,7 +27,7 @@
             // 모듈의 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByMid($mid);
-            if(!$module_info->mid != $mid) return $this->dispError();
+            if($module_info->mid != $mid) return $this->dispError();
 
             // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
             if($config->open_rss == 'N') return $this->dispError();
@@ -70,13 +70,13 @@
                     $item->link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
                     $item->description = $item->content;
                     $item->date = gmdate("D, d M Y H:i:s", $time);
-                    $output[$idx++] = $item;
+                    $content[$idx++] = $item;
                 }
             }
 
             // RSS 출력물에서 사용될 변수 세팅
             Context::set('info', $info);
-            Context::set('content', $output);
+            Context::set('content', $content);
 
             // 결과 출력을 XMLRPC로 강제 지정
             Context::setResponseMethod("XMLRPC");
