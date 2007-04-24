@@ -59,4 +59,5 @@
     );
 
     $lang->xe_license = '제로보드XE는 GPL을 따릅니다';
+    $lang->about_shortcut = '자주 사용하는 모듈에 등록된 모듈의 바로가기를 삭제할 수 있습니다';
 ?>

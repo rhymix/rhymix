@@ -1,6 +1,11 @@
 <!--%import("filter/toggle_activate_addon.xml")-->
 <!--%import("js/addon.js")-->
 
+<!-- 설명 -->
+<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
+    {nl2br($lang->about_addon)}
+</div>
+
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
 <form id="fo_addon" action="./" method="get">
     <input type="hidden" name="addon" value="" />
