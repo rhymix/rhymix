@@ -12,6 +12,7 @@
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
+            Context::addJsFile('./common/js/tree_menu.js');
         }
 
         /**

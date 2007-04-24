@@ -527,6 +527,7 @@
             $category_info = $oBlogModel->getCategory($module_srl);
 
             Context::set('category_info', $category_info);
+            Context::addJsFile('./common/js/tree_menu.js');
 
             $this->setTemplateFile('category_list');
         }
