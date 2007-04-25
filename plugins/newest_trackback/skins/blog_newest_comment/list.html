@@ -1,0 +1,28 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("normal/style.css")-->
+<!--@end-->
+
+<div class="newest_comment_default_{$colorset}" style="width:100%">
+    <div class="newest_comment_default_box">
+
+        <!--@if($plugin_info->title)-->
+        <div class="title_box">
+            <div class="title">{$plugin_info->title}</div>
+            <!--@if($module_name)-->
+            <div class="more"><a href="{getUrl('','mid',$plugin_info->module_name)}">more</a></div>
+            <!--@end-->
+        </div>
+        <!--@end-->
+
+        <div class="comment_box">
+            <!--@foreach($plugin_info->comment_list as $val)-->
+            <div class="comment">
+                <a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{cut_str($val->content,15,'...')}</a>
+                - {$val->user_name}
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+</div>
