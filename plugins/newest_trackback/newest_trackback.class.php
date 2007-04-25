@@ -1,12 +1,12 @@
 <?php
     /**
-     * @class newest_comment
+     * @class newest_trackback
      * @author zero (zero@nzeo.com)
-     * @brief 최근 댓글을 출력하는 플러그인
+     * @brief 최근 엮인글을 출력하는 플러그인
      * @version 0.1
      **/
 
-    class newest_comment extends PluginHandler {
+    class newest_trackback extends PluginHandler {
 
         /**
          * @brief 플러그인의 실행 부분
@@ -23,20 +23,20 @@
             if(!$list_count) $list_count = 5;
             $mid_list = explode(",",$args->mid_list);
 
-            // CommentModel::getCommentList()를 이용하기 위한 변수 정리
+            // TrackbackModel::getTrackbackList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;
             $obj->sort_index = $order_target;
             $obj->list_count = $list_count;
 
-            // comment 모듈의 model 객체를 받아서 getCommentList() method를 실행
-            $oCommentModel = &getModel('comment');
-            $output = $oCommentModel->getNewestCommentList($obj);
+            // trackback 모듈의 model 객체를 받아서 getTrackbackList() method를 실행
+            $oTrackbackModel = &getModel('trackback');
+            $output = $oTrackbackModel->getNewestTrackbackList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
             
             $plugin_info->title = $title;
-            $plugin_info->comment_list = $output->data;
+            $plugin_info->trackback_list = $output->data;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
             $plugin_info->width = trim($matches[3][0]);
