@@ -33,12 +33,16 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         plugin_code = plugin_code.replace(/height([^p]+)px/ig,'height:'+orig_height+'px');
     }
 
-    opener.editorFocus(module_srl);
-    var iframe_obj = opener.editorGetIFrame(module_srl);
-    opener.editorReplaceHTML(iframe_obj, plugin_code);
-    opener.editorFocus(module_srl);
-
-    window.close();
+    // 부모창에 에디터가 있으면 에디터에 추가
+    if(opener.editorGetIFrame) {
+        var iframe_obj = opener.editorGetIFrame(module_srl);
+        if(iframe_obj) {
+            opener.editorFocus(module_srl);
+            opener.editorReplaceHTML(iframe_obj, plugin_code);
+            opener.editorFocus(module_srl);
+        }
+    }
+    //window.close();
 } 
 
 /* 플러그인 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
