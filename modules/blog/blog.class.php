@@ -27,6 +27,7 @@
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminCategoryInfo');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminMenuInfo');
             $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminGrantInfo');
+            $oModuleController->insertActionForward('blog', 'view', 'dispBlogAdminPluginSetup');
             $oModuleController->insertActionForward('blog', 'controller', 'procBlogAdminUpdateSkinInfo');
 
             // 캐쉬로 사용할 디렉토리 생성

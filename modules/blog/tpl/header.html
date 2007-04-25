@@ -1,5 +1,16 @@
 <!--%import("js/blog_admin.js")-->
 
+<!-- 블로그 관리 메뉴 설정 -->
+{@ 
+    $blog_menu_list = array(
+        'dispBlogAdminBlogInfo'=>$lang->cmd_view_info,
+        'dispBlogAdminCategoryInfo'=>$lang->cmd_manage_category,
+        'dispBlogAdminGrantInfo'=>$lang->cmd_manage_grant,
+        'dispBlogAdminSkinInfo'=>$lang->cmd_manage_skin,
+        'dispBlogAdminPluginSetup'=>$lang->cmd_plugin_setup,
+    ); 
+}
+
 
 <!--@if($module_info)-->
 <div style="margin-bottom:20px;">
@@ -8,10 +19,10 @@
     <!--@else-->
         <span>[<a href="#" onclick="location.href=location.href.setQuery('act',''); return false;">{$lang->cmd_back}</a>]</span>
     <!--@end-->
-    <span <!--@if($act=='dispBlogAdminBlogInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBlogAdminBlogInfo')}">{$lang->cmd_view_info}</a>]</span>
-    <span <!--@if($act=='dispBlogAdminCategoryInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBlogAdminCategoryInfo')}">{$lang->cmd_manage_category}</a>]</span>
-    <span <!--@if($act=='dispBlogAdminGrantInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBlogAdminGrantInfo')}">{$lang->cmd_manage_grant}</a>]</span>
-    <span <!--@if($act=='dispBlogAdminSkinInfo')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBlogAdminSkinInfo')}">{$lang->cmd_manage_skin}</a>]</span>
+
+    <!--@foreach($blog_menu_list as $key => $val)-->
+    <span <!--@if($act==$key)-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act',$key)}">{$val}</a>]</span>
+    <!--@end-->
 </div>
 
 <div style="margin-bottom:20px;font-weight:bold;">
