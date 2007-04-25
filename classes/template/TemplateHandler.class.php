@@ -33,22 +33,21 @@
         /**
          * @brief 주어진 tpl파일의 컴파일
          **/
-        function compile($tpl_path, $tpl_filename) {
-            $this->tpl_path = $tpl_path;
-
+        function compile($tpl_path, $tpl_filename, $tpl_file = '') {
             // 디버그를 위한 컴파일 시작 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
 
             // 변수 체크
-            $this->tpl_path = ereg_replace('(\/+)$', '', $this->tpl_path).'/';
+            $tpl_path = ereg_replace('(\/+)$', '', $tpl_path).'/';
             if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
 
             // tpl_file 변수 생성
-            $tpl_file = $this->tpl_path.$tpl_filename;
+            if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
 
             // tpl_file이 비어 있거나 해당 파일이 없으면 return
             if(!$tpl_file || !file_exists($tpl_file)) return;
 
+            $this->tpl_path = $tpl_path;
             $this->tpl_file = $tpl_file;
 
             // compiled된(or 될) 파일이름을 구함
@@ -252,7 +251,8 @@
          **/
         function _compileImportCode($matches) {
             // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
-            $base_path = dirname($this->tpl_file).'/';
+            //$base_path = dirname($this->tpl_file).'/';
+            $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
 

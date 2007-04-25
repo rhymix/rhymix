@@ -36,24 +36,26 @@
 
                 $layout_path = $oModule->getLayoutPath();
                 $layout_file = $oModule->getLayoutFile();
+                $edited_layout_file = $oModule->getEditedLayoutFile();
+
                 if(!$layout_path) $layout_path = './common/tpl/';
                 if(!$layout_file) $layout_file = 'default_layout.html';
-                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file);
+
+                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+
                 if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
                 // 각 플러그인, 에디터 컴포넌트의 코드 변경
                 if(__DEBUG__==3) $start = getMicroTime();
+
                 $oContext = &Context::getInstance();
                 $zbxe_final_content= $oContext->transContent($zbxe_final_content);
+
                 if(__DEBUG__==3) $GLOBALS['__trans_plugin_editor_elapsed__'] = getMicroTime()-$start;
 
                 // 최종 결과를 common_layout에 넣어버림 
                 Context::set('zbxe_final_content', $zbxe_final_content);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
-
-                // rewrite module을 위한 코드 
-                // $output = preg_replace("/([0-9]+)\?(.*)/",'?\\2',$output);
-
             } else {
                 $output = $content;
             }

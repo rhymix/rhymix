@@ -63,6 +63,36 @@
         }
 
         /**
+         * @brief 레이아웃 코드 편집
+         **/
+        function dispLayoutAdminEdit() {
+            // 선택된 레이아웃의 정보르 구해서 세팅 
+            $layout_srl = Context::get('layout_srl');
+
+            // 레이아웃의 정보를 가져옴
+            $oLayoutModel = &getModel('layout');
+            $layout_info = $oLayoutModel->getLayout($layout_srl);
+
+            // 등록된 레이아웃이 없으면 오류 표시
+            if(!$layout_info) return $this->dispLayoutAdminContent();
+            Context::set('layout_info', $layout_info);
+            
+            // 레이아웃 코드 가져오기
+            $layout_file = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
+            if(!file_exists($layout_file)) $layout_file = sprintf('%s%s', $layout_info->path, 'layout.html');
+
+            $layout_code = FileHandler::readFile($layout_file);
+            Context::set('layout_code', $layout_code);
+
+            // 플러그인 목록을 세팅
+            $oPluginModel = &getModel('plugin');
+            $plugin_list = $oPluginModel->getDownloadedPluginList();
+            Context::set('plugin_list', $plugin_list);
+
+            $this->setTemplateFile('layout_edit');
+        }
+
+        /**
          * @brief 레이아웃 목록을 보여줌
          **/
         function dispLayoutAdminDownloadedList() {

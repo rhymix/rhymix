@@ -16,6 +16,7 @@
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminContent');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInsert');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminModify');
+            $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminEdit');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminDownloadedList');
             $oModuleController->insertActionForward('layout', 'view', 'dispLayoutAdminInfo');
             

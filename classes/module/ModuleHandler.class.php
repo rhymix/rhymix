@@ -198,7 +198,6 @@
                         foreach($layout_info->extra_var as $var_id => $val) {
                             $layout_info->{$var_id} = $val->value;
                         }
-                        //unset($layout_info->extra_var);
                     }
                     
                     // 레이아웃 정보중 menu를 Context::set
@@ -214,6 +213,10 @@
 
                     $oModule->setLayoutPath($layout_info->path);
                     $oModule->setLayoutFile('layout');
+
+                    // 레이아웃이 수정되었을 경우 수정본을 지정
+                    $edited_layout = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
+                    if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                 }
             }
 

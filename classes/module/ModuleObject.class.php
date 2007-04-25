@@ -22,6 +22,7 @@
 
         var $layout_path = ''; ///< 레이아웃 경로
         var $layout_file = ''; ///< 레이아웃 파일
+        var $edited_layout_file = ''; ///< 관리자 모드에서 수정된 레이아웃 파일
 
         var $stop_proc = false; ///< action 수행중 stop()를 호출하면 ModuleObject::proc()를 수행하지 않음
 
@@ -208,6 +209,21 @@
          **/
         function getTemplatePath() {
             return $this->template_path;
+        }
+
+        /**
+         * @brief edited layout 파일 지정
+         **/
+        function setEditedLayoutFile($filename) {
+            if(substr($filename,-5)!='.html') $filename .= '.html';
+            $this->edited_layout_file = $filename;
+        }
+
+        /**
+         * @brief layout 파일 return
+         **/
+        function getEditedLayoutFile() {
+            return $this->edited_layout_file;
         }
 
         /**

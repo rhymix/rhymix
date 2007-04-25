@@ -115,5 +115,19 @@
             $output = executeQuery("layout.deleteLayout", $args);
             return $output;
         }
+
+        /**
+         * @brief 레이아웃 코드 추가
+         **/
+        function procLayoutAdminCodeUpdate() {
+            $layout_srl = Context::get('layout_srl');
+            $code = Context::get('code');
+            if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
+
+            $layout_file = sprintf('./files/cache/layout/%d.html', $layout_srl);
+            FileHandler::writeFile($layout_file, $code);
+
+            $this->setMessage('success_updated');
+        }
     }
 ?>
