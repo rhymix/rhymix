@@ -57,7 +57,6 @@
         <action name="dispBlogAdminCategoryInfo" type="view" standalone="true" />
         <action name="dispBlogAdminSkinInfo" type="view" standalone="true" />
         <action name="dispBlogAdminGrantInfo" type="view" standalone="true" />
-        <action name="dispBlogAdminPluginSetup" type="view" standalone="true" />
 
         <action name="procBlogAdminInsertGrant" type="controller" standalone="true" />
         <action name="procBlogAdminUpdateSkinInfo" type="controller" standalone="true" />

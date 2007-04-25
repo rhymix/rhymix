@@ -12,8 +12,9 @@
     $lang->cmd_manage_menu = '메뉴관리';
     $lang->cmd_make_child = '하위 카테고리 추가';
     $lang->cmd_enable_move_category = "카테고리 위치 변경 (선택후 위 메뉴를 드래그하세요)";
-    $lang->cmd_remake_cache = "캐시파일 재생성";
-    $lang->cmd_layout_setup = "레이아웃 설정";
+    $lang->cmd_remake_cache = '캐시파일 재생성';
+    $lang->cmd_layout_setup = '레이아웃 설정';
+    $lang->cmd_layout_edit = '레이아웃 편집';
 
     // 항목
     $lang->parent_category_name = '상위 카테고리명';

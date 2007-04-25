@@ -62,16 +62,6 @@
             $this->list_count = $this->module_info->list_count?$this->module_info->list_count:1;
             $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
 
-            // 스킨 경로 구함
-            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
-
-            // 레이아웃 경로와 파일 지정 (블로그는 자체 레이아웃을 가지고 있음)
-            $this->setLayoutPath($template_path);
-            $this->setLayoutFile("layout");
-
-            // 템플릿 지정
-            $this->setTemplatePath($template_path);
-
             // 카테고리 목록을 가져오고 선택된 카테고리의 값을 설정
             $oDocumentModel = &getModel('document');
             $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
@@ -83,6 +73,25 @@
                 $this->category_srl = $category_srl;
                 Context::set('zbxe_url', sprintf("mid=%s&category=%d", $this->module_info->mid, $this->category_srl));
             }
+
+            // 스킨 경로 구함
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+            $this->setTemplatePath($template_path);
+
+            // rss url
+            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
+
+            /**
+             * 블로그는 자체 레이아웃을 관리하기에 이와 관련된 세팅을 해줌
+             **/
+            /*
+            // 레이아웃 경로와 파일 지정 (블로그는 자체 레이아웃을 가지고 있음)
+            $this->setLayoutPath($template_path);
+            $this->setLayoutFile("layout");
+
+            // 수정된 레이아웃 파일이 있으면 지정
+            $edited_layout = sprintf('./files/cache/layout/%d.html', $this->module_info->module_srl);
+            if(file_exists($edited_layout)) $this->setEditedLayoutFile($edited_layout);
 
             // 카테고리 xml 파일 위치 지정
             $this->module_info->category_xml_file = sprintf('./files/cache/blog_category/%d.xml.php', $this->module_info->module_srl);
@@ -99,12 +108,12 @@
                 }
             }
 
-            // 모듈정보와 레이아웃에서 사용하기 위한 레이아웃 정보를 세팅
-            Context::set('module_info',$this->module_info);
+            // layout_info 변수 설정 
             Context::set('layout_info',$this->module_info);
+            */
 
-            // rss url
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
+            // 모듈정보 세팅
+            Context::set('module_info',$this->module_info);
         }
 
         /**
@@ -549,13 +558,6 @@
             Context::set('group_list', $group_list);
 
             $this->setTemplateFile('grant_list');
-        }
-
-        /**
-         * @brief 플러그인 설정
-         **/
-        function dispBlogAdminLayoutSetup() {
-            $this->setTemplateFile('layout_setup');
         }
     }
 ?>
