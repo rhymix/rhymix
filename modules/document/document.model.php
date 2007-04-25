@@ -248,30 +248,32 @@
 
                 $document_srl = $document->document_srl;
 
-                // 댓글 가져오기
-                if($document->comment_count && $document->allow_comment == 'Y') {
-                    $oCommentModel = &getModel('comment');
-                    $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
-                }
+                if($get_extra_info) {
+                    // 댓글 가져오기
+                    if($document->comment_count && $document->allow_comment == 'Y') {
+                        $oCommentModel = &getModel('comment');
+                        $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
+                    }
 
-                // 트랙백 가져오기
-                if($document->trackback_count && $document->allow_trackback == 'Y') {
-                    $oTrackbackModel = &getModel('trackback');
-                    $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
-                }
+                    // 트랙백 가져오기
+                    if($document->trackback_count && $document->allow_trackback == 'Y') {
+                        $oTrackbackModel = &getModel('trackback');
+                        $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
+                    }
 
-                // 첨부파일 가져오기
-                if($document->uploaded_count) {
-                    $oFileModel = &getModel('file');
-                    $file_list = $oFileModel->getFiles($document_srl, $is_admin);
-                    $document->uploaded_list = $file_list;
-                }
+                    // 첨부파일 가져오기
+                    if($document->uploaded_count) {
+                        $oFileModel = &getModel('file');
+                        $file_list = $oFileModel->getFiles($document_srl, $is_admin);
+                        $document->uploaded_list = $file_list;
+                    }
 
-                // 태그 정리
-                if($document->tags) {
-                    $tag_list = explode(',',$document->tags);
-                    $tag_count = count($tag_list);
-                    for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
+                    // 태그 정리
+                    if($document->tags) {
+                        $tag_list = explode(',',$document->tags);
+                        $tag_count = count($tag_list);
+                        for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
+                    }
                 }
 
                 $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);

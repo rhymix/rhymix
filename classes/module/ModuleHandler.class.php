@@ -65,7 +65,7 @@
             $oModuleModel = &getModel('module');
 
             // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
-            if($this->document_srl) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+            if($this->document_srl && !$this->mid) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
             if($this->module && $module_info->module != $this->module) unset($module_info);
 
             // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
