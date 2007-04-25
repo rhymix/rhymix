@@ -105,6 +105,62 @@
         }
 
         /**
+         * @brief 레이아웃 미리 보기
+         **/
+        function dispLayoutAdminPreview() {
+            $layout_srl = Context::get('layout_srl');
+            $code = Context::get('code');
+
+            if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
+            //$code = str_replace(array('&lt;','&gt;','&quot;'), array('<','>','"'), $code);
+
+            // 레이아웃 정보 가져오기
+            $oLayoutModel = &getModel('layout');
+            $layout_info = $oLayoutModel->getLayout($layout_srl);
+            if(!$layout_info) return new Object(-1, 'msg_invalid_request');
+
+            // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
+            if($layout_info->extra_var_count) {
+                foreach($layout_info->extra_var as $var_id => $val) {
+                    $layout_info->{$var_id} = $val->value;
+                }
+            }
+
+            // 레이아웃 정보중 menu를 Context::set
+            if($layout_info->menu_count) {
+                foreach($layout_info->menu as $menu_id => $menu) {
+                    if(file_exists($menu->php_file)) @include($menu->php_file);
+                    Context::set($menu_id, $menu);
+                }
+            }
+
+            Context::set('layout_info', $layout_info);
+            Context::set('content', Context::getLang('layout_preview_content'));
+
+            // 코드를 임시로 저장
+            $edited_layout_file = sprintf('./files/cache/layout/tmp.tpl');
+            FileHandler::writeFile($edited_layout_file, $code);
+
+            // 컴파일
+            $oTemplate = &TemplateHandler::getInstance();
+
+            $layout_path = $layout_info->path;
+            $layout_file = 'layout';
+
+            $layout_tpl = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+
+            // 플러그인등을 변환
+            $oContext = &Context::getInstance();
+            $layout_tpl = $oContext->transContent($layout_tpl);
+            Context::set('layout_tpl', $layout_tpl);
+            
+            // 임시 파일 삭제
+            @unlink($edited_layout_file);
+
+            $this->setTemplateFile('layout_preview');
+        }
+
+        /**
          * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
          **/
         function dispLayoutAdminInfo() {

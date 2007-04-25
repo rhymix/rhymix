@@ -1,0 +1,10 @@
+<filter name="reset_layout_code" module="layout" act="procLayoutAdminCodeReset" confirm_msg_code="confirm_reset">
+    <form>
+        <node target="layout_srl" required="true" />
+        <node target="code" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

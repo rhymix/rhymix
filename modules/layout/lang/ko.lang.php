@@ -8,7 +8,7 @@
     $lang->cmd_layout_management = '레이아웃 설정';
     $lang->cmd_layout_edit = '레이아웃 편집';
     $lang->cmd_preview = '미리 보기';
-    $lang->cmd_load_source = '원본 불러오기';
+    $lang->cmd_reset = '초기화';
 
     $lang->layout_name = '레이아웃 이름';
     $lang->layout_maker = "레이아웃 제작자";
@@ -17,6 +17,7 @@
     $lang->layout_list = '레이아웃 목록';
     $lang->menu_count = '메뉴수';
     $lang->downloaded_list = '다운로드 목록';
+    $lang->layout_preview_content = '내용이 출력되는 부분입니다';
 
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";
 

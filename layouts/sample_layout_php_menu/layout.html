@@ -4,7 +4,7 @@
 <!-- 상단 로고 및 main_menu 1차 출력 -->
 <div class="layout_top">
     <div class="layout_logo">
-        <a href="./">{$layout_info->top_title}</a>
+        <a href="{$layout_info->index_url}"><!--@if(!$layout_info->top_title)-->top title<!--@else-->{$layout_info->top_title}<!--@end--></a>
     </div>
 
     <div class="layout_first_menu">

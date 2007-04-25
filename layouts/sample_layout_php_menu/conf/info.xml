@@ -26,6 +26,10 @@
             <title xml:lang="ko">상단 제목</title>
             <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
         </var>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <description xml:lang="ko">로고나 제목을 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+        </var>
     </extra_vars>
     <menus>
         <menu name="main_menu" default="true">

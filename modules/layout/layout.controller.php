@@ -102,6 +102,9 @@
                 }
             }
 
+            $layout_file = sprintf('./files/cache/layout/%d.html', $layout_srl);
+            if(file_exists($layout_file)) @unlink($layout_file);
+
             // 레이아웃 삭제
             $args->layout_srl = $layout_srl;
 
@@ -128,6 +131,19 @@
             FileHandler::writeFile($layout_file, $code);
 
             $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 레이아웃 코드 초기화
+         **/
+        function procLayoutAdminCodeReset() {
+            $layout_srl = Context::get('layout_srl');
+            if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
+
+            $layout_file = sprintf('./files/cache/layout/%d.html', $layout_srl);
+            @unlink($layout_file);
+
+            $this->setMessage('success_reset');
         }
     }
 ?>
