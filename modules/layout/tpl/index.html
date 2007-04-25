@@ -24,6 +24,8 @@
         <th>{$lang->layout}</th>
         <th>{$lang->title}</th>
         <th>{$lang->regdate}</th>
+        <th>{$lang->cmd_layout_management}</th>
+        <th>{$lang->cmd_layout_edit}</th>
         <th>{$lang->cmd_delete}</th>
     </tr>
 
@@ -36,14 +38,16 @@
             (module) 
             <!--@end-->
         </td>
+        <td>{htmlspecialchars($val->title)}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td>
             <!--@if(!$val->module_srl)-->
-                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{htmlspecialchars($val->title)}</a>
-            <!--@else-->
-                {htmlspecialchars($val->title)}
+                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
             <!--@end-->
         </td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>
+            <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_edit}</a>
+        </td>
         <td>
             <!--@if(!$val->module_srl)-->
                 <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a>

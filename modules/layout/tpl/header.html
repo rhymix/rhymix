@@ -11,7 +11,10 @@
 <!-- 레이아웃 수정 메뉴 -->
 <!--@if($layout_info)-->
     <div style="margin-bottom:20px;">
-        <span <!--@if($act=='dispLayoutAdminModify')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispLayoutAdminModify')}">{$lang->cmd_layout_management}</a>]</span>
-        <span <!--@if($act=='dispLayoutAdminEdit')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispLayoutAdminEdit')}">{$lang->cmd_layout_edit}</a>]</span>
+        <!--@if($act=='dispLayoutAdminModify')-->
+            {$lang->cmd_layout_management}
+        <!--@elseif($act=='dispLayoutAdminEdit')-->
+            {$lang->cmd_layout_edit}</a>
+        <!--@end-->
     </div>
 <!--@end-->
