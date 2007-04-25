@@ -19,7 +19,7 @@
     <tr>
         <td>{$val->title}</td>
         <td>
-            <div>
+            <div style="float:left">
             <!--@foreach($group_list as $k => $v)-->
                 <span>
                 <input type="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="true"<!--@end-->/> 
@@ -27,7 +27,7 @@
                 </span>
             <!--@end-->
             </div>
-            <div>
+            <div style="float:right">
                 <input type="button" value="{$lang->cmd_select_all}" onclick="doSelectAll(this, '{$key}')"/>
                 <input type="button" value="{$lang->cmd_unselect_all}" onclick="doUnSelectAll(this, '{$key}')"/>
             </div>
