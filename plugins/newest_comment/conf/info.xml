@@ -1,41 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="0.1">
-    <title xml:lang="ko">최근 문서 출력</title>
+    <title xml:lang="ko">최근 댓글 출력</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">최근 문서 (document)를 출력하는 플러그인입니다.</description>
+        <description xml:lang="ko">최근 댓글 (comment)를 출력하는 플러그인입니다.</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
             <type>text</type>
             <description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
-        </var>
-        <var id="order_target">
-            <name xml:lang="ko">정렬 대상</name>
-            <type>select</type>
-            <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-            <options>
-                <name xml:lang="ko">최신 등록순</name>
-                <value>list_order</value>
-            </options>
-            <options>
-                <name xml:lang="ko">최근 변경순</name>
-                <value>update_order</value>
-            </options>
-        </var>
-        <var id="order_type">
-            <name xml:lang="ko">정렬 방법</name>
-            <type>select</type>
-            <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
-            <options>
-                <name xml:lang="ko">내림차순</name>
-                <value>desc</value>
-            </options>
-            <options>
-                <name xml:lang="ko">올림차순</name>
-                <value>asc</value>
-            </options>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
