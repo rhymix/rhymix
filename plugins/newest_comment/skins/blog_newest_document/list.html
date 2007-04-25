@@ -1,0 +1,30 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("normal/style.css")-->
+<!--@end-->
+
+<div class="newest_document_default_{$colorset}" style="width:100%">
+    <div class="newest_document_default_box">
+
+        <!--@if($plugin_info->title)-->
+        <div class="title_box">
+            <div class="title">{$plugin_info->title}</div>
+            <!--@if($module_name)-->
+            <div class="more"><a href="{getUrl('','mid',$plugin_info->module_name)}">more</a></div>
+            <!--@end-->
+        </div>
+        <!--@end-->
+
+        <div class="document_box">
+            <!--@foreach($plugin_info->document_list as $val)-->
+            <div class="document">
+                <a href="{getUrl('','document_srl',$val->document_srl,'comment_count', $val->comment_count)}">{$val->title}</a>
+                <!--@if($val->comment_count)-->
+                <span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">( {$val->comment_count} )</a></span>
+                <!--@end-->
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+</div>
