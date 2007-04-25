@@ -81,6 +81,9 @@
             // rss url
             if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
 
+            // 레이아웃의 정보를 속이기 위해서  layout_srl을 현 블로그의 module_srl로 입력
+            $this->module_info->layout_srl = $this->module_info->module_srl;
+
             /**
              * 블로그는 자체 레이아웃을 관리하기에 이와 관련된 세팅을 해줌
              **/
@@ -94,9 +97,6 @@
 
             // 카테고리 xml 파일 위치 지정
             $this->module_info->category_xml_file = sprintf('./files/cache/blog_category/%d.xml.php', $this->module_info->module_srl);
-
-            // 레이아웃의 정보를 속이기 위해서  layout_srl을 현 블로그의 module_srl로 입력
-            $this->module_info->layout_srl = $this->module_info->module_srl;
 
             // 메뉴 등록시 메뉴 정보를 구해옴
             if($this->module_info->menu) {
