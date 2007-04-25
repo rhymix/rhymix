@@ -8,22 +8,22 @@
     <col width="*" />
     <tr>  
         <th>{$lang->layout}</th>
-        <td>{$layout_info->title} ver {$layout_info->version} ({$layout_info->layout})</td>
+        <td>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
     </tr>
     <tr>  
         <th>{$lang->path}</th>
-        <td>{$layout_info->path}</td>
+        <td>{$selected_layout->path}</td>
     </tr>
-    <!--@if($layout_info->author->homepage)-->
+    <!--@if($selected_layout->author->homepage)-->
     <tr>  
         <th>{$lang->author}</th>
-        <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->name}</a></td>
+        <td><a href="#" onclick="window.open('{$selected_layout->author->homepage}');return false;">{$selected_layout->author->name}</a></td>
     </tr>
     <!--@end-->
-    <!--@if($layout_info->author->description)-->
+    <!--@if($selected_layout->author->description)-->
     <tr>  
         <th>{$lang->description}</th>
-        <td>{nl2br($layout_info->author->description)}</td>
+        <td>{nl2br($selected_layout->author->description)}</td>
     </tr>
     <!--@end-->
     </table>
@@ -32,19 +32,19 @@
 <div style="margin-bottom:10px;">
     <form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
         <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-        <input type="hidden" name="layout" value="{$layout_info->layout}" />
+        <input type="hidden" name="layout" value="{$selected_layout->layout}" />
 
         <table border="1" width="100%">
         <col width="140" />
         <col width="*" />
         <tr>
             <th rowspan="2">{$lang->title}</th>
-            <td><input type="text" name="title" value="{htmlspecialchars($layout_info->layout_title)}" /></td>
+            <td><input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" /></td>
         </tr>
         <tr>
             <td>{$lang->about_title}</td>
         </tr>
-        <!--@foreach($layout_info->extra_var as $name => $var)-->
+        <!--@foreach($selected_layout->extra_var as $name => $var)-->
         <tr>
             <th rowspan="2">{$var->title}</th>
             <!--@if($var->type == "text")-->
@@ -67,7 +67,7 @@
             <td>{$var->description}</td>
         </tr>
         <!--@end-->
-        <!--@foreach($layout_info->menu as $menu_name => $menu_info)-->
+        <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
         <tr>
             <th>{$menu_info->title}<br />({$menu_name})</th>
             <td>

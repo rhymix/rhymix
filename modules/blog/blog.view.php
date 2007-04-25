@@ -84,7 +84,6 @@
             /**
              * 블로그는 자체 레이아웃을 관리하기에 이와 관련된 세팅을 해줌
              **/
-            /*
             // 레이아웃 경로와 파일 지정 (블로그는 자체 레이아웃을 가지고 있음)
             $this->setLayoutPath($template_path);
             $this->setLayoutFile("layout");
@@ -110,7 +109,6 @@
 
             // layout_info 변수 설정 
             Context::set('layout_info',$this->module_info);
-            */
 
             // 모듈정보 세팅
             Context::set('module_info',$this->module_info);

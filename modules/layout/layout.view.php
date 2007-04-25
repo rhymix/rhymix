@@ -52,7 +52,7 @@
             // 등록된 레이아웃이 없으면 오류 표시
             if(!$layout_info) return $this->dispLayoutAdminContent();
 
-            Context::set('layout_info', $layout_info);
+            Context::set('selected_layout', $layout_info);
 
             // 메뉴 목록을 가져옴
             $oMenuModel = &getModel('menu');
@@ -75,7 +75,7 @@
 
             // 등록된 레이아웃이 없으면 오류 표시
             if(!$layout_info) return $this->dispLayoutAdminContent();
-            Context::set('layout_info', $layout_info);
+            Context::set('selected_layout', $layout_info);
             
             // 레이아웃 코드 가져오기
             $layout_file = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
