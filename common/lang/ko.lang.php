@@ -10,6 +10,7 @@
     $lang->cmd_reply = '답글';
     $lang->cmd_delete = '삭제';
     $lang->cmd_modify = '수정';
+    $lang->cmd_edit = '편집';
     $lang->cmd_view = '보기';
     $lang->cmd_view_all = '전체 보기';
     $lang->cmd_list = '목록';
