@@ -554,13 +554,8 @@
         /**
          * @brief 플러그인 설정
          **/
-        function dispBlogAdminPluginSetup() {
-            // 플러그인 목록을 세팅
-            $oPluginModel = &getModel('plugin');
-            $plugin_list = $oPluginModel->getDownloadedPluginList();
-            Context::set('plugin_list', $plugin_list);
-
-            $this->setTemplateFile('plugin_setup');
+        function dispBlogAdminLayoutSetup() {
+            $this->setTemplateFile('layout_setup');
         }
     }
 ?>

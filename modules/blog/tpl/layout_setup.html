@@ -1,0 +1,12 @@
+<!--#include("./header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+
+    <!-- 설명 -->
+    <div>
+        {$lang->about_layout_setup}
+    </div>
+
+</form>
