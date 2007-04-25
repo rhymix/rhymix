@@ -2,21 +2,19 @@
 }
 
 .newest_document_default_normal .newest_document_default_box {
-    padding:5px;  
+    margin-bottom:5px;
 }
 
 .newest_document_default_normal .newest_document_default_box .title_box {
-    border:1px solid #EEEEEE;
     padding:5px;
     height:14px;
     overflow:hidden;
+    color:#888888;
 }
 
 .newest_document_default_normal .newest_document_default_box .title_box .title {
-    background:url(./title_bullet.gif) no-repeat left;
     font-weight:bold; 
     height:14px;
-    padding-left:20px;
     float:left;
 }
 
@@ -29,18 +27,14 @@
 }
 
 .newest_document_default_normal .newest_document_default_box .document_box {
-    padding:3px 3px 3px 20px;
+    padding:5px 3px 3px 1px;
     clear:both;
-    border-bottom:1px solid #EEEEEE;
-    height:16px;
-    margin:0px 0px 2px 0px;
+    border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
 .newest_document_default_normal .newest_document_default_box .document {
-    padding:0px 0px 5px 20px;
-    background:url(./document_bullet.gif) no-repeat left;
-    float:left;
+    padding:0px 0px 5px 5px;
 }
 
 .newest_document_default_normal .newest_document_default_box .document A {
