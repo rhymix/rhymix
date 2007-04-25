@@ -1,24 +1,24 @@
-.newest_document_default_normal {
+.newest_comment_default_normal {
 }
 
-.newest_document_default_normal .newest_document_default_box {
+.newest_comment_default_normal .newest_comment_default_box {
     margin-bottom:5px;
 }
 
-.newest_document_default_normal .newest_document_default_box .title_box {
+.newest_comment_default_normal .newest_comment_default_box .title_box {
     padding:5px;
     height:14px;
     overflow:hidden;
     color:#888888;
 }
 
-.newest_document_default_normal .newest_document_default_box .title_box .title {
+.newest_comment_default_normal .newest_comment_default_box .title_box .title {
     font-weight:bold; 
     height:14px;
     float:left;
 }
 
-.newest_document_default_normal .newest_document_default_box .title_box .more A {
+.newest_comment_default_normal .newest_comment_default_box .title_box .more A {
     float:right;
     color:#AAAAAA;
     text-decoration:none;
@@ -26,46 +26,47 @@
     font-weight:bold;
 }
 
-.newest_document_default_normal .newest_document_default_box .document_box {
+.newest_comment_default_normal .newest_comment_default_box .comment_box {
     padding:5px 3px 3px 1px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.newest_document_default_normal .newest_document_default_box .document {
+.newest_comment_default_normal .newest_comment_default_box .comment {
     padding:0px 0px 5px 5px;
+    color:#AAAAAA;
 }
 
-.newest_document_default_normal .newest_document_default_box .document A {
+.newest_comment_default_normal .newest_comment_default_box .comment A {
     text-decoration:none;
     color:#555555;
 }
 
-.newest_document_default_normal .newest_document_default_box .document A:hover {
+.newest_comment_default_normal .newest_comment_default_box .comment A:hover {
     text-decoration:underline;
     color:#000000;
 }
 
-.newest_document_default_normal .newest_document_default_box .document A:visited {
+.newest_comment_default_normal .newest_comment_default_box .comment A:visited {
     color:#AAAAAA;
 }
 
-.newest_document_default_normal .newest_document_default_box .document .comment A {
+.newest_comment_default_normal .newest_comment_default_box .comment .comment A {
     font-size:7pt;
     font-family:tahoma;
     color:#AAAAAA;
     letter-spacing:-1px;
 }
 
-.newest_document_default_normal .newest_document_default_box .document .writer {
+.newest_comment_default_normal .newest_comment_default_box .comment .writer {
     font-size:9pt;
     font-family:tahoma;
     color:#AAAAAA;
 }
 
 
-.newest_document_default_normal .newest_document_default_box .regdate {
+.newest_comment_default_normal .newest_comment_default_box .regdate {
     color:#AAAAAA;
     font-size:8pt;
     font-family:tahoma;
