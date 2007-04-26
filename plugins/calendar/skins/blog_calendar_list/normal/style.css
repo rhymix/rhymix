@@ -20,19 +20,14 @@
 
 .calendar_normal .calendar_box .calendar_box {
     padding:5px;
-    clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
 .calendar_normal .calendar_box .week {
-    clear:both;
 }
 
 .calendar_normal .calendar_box .item_box {
-    float:left;
-    width:20px;
-    height:20px;
     border:1px solid #EEEEEE;
     margin:1px;
     text-align:right;
@@ -50,17 +45,22 @@
     color:#666666;
 }
 
+.calendar_normal .calendar_box .today {
+    background-color:yellow; 
+}
+
 .calendar_normal .calendar_box .unselected_item {
 }
 
 .calendar_normal .calendar_box .selected_item {
     font-weight:bold;
+    text-decoration:underline;
 }
 
 .calendar_normal .calendar_box .item_box {
-    float:left;
     margin-right:5px;
     color:#AAAAAA;
+    height:20px;
 }
 
 .calendar_normal .calendar_box .item_box div {
@@ -68,15 +68,5 @@
 }
 
 .calendar_normal .calendar_box .item_box A {
-    text-decoration:none;
     color:green;
 }
-
-.calendar_normal .calendar_box .item_box A:hover {
-    text-decoration:underline;
-}
-
-.calendar_normal .calendar_box .item_box A:visited {
-    text-decoration:none;
-}
-

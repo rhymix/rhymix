@@ -14,11 +14,11 @@
         <!--@end-->
 
         {@ $day = ''}
+        <table border="0" cellspacing="0" cellpadding="0" width="99%" style="table-layout:fixed">
         <!--@for($i=0;$i<6;$i++)-->
-            <div class="week">
             <!--@if($day < $plugin_info->last_day)-->
+            <tr>
             <!--@for($j=0;$j<7;$j++)-->
-                <!--@if($day < $plugin_info->last_day)-->
 
                 {@ $num = $i*7 + $j}
                 <!--@if(!$started && $num >= $plugin_info->start_week)-->
@@ -27,6 +27,12 @@
                 <!--@elseif($started)-->
                     {@ $day++}
                     {@ $cur_date = $plugin_info->cur_date.sprintf('%02d',$day) }
+                <!--@end-->
+
+                <!--@if($cur_date == date("Ymd"))-->
+                    {@ $today_class = "today"}
+                <!--@else-->
+                    {@ $today_class = ""}
                 <!--@end-->
 
                 <!--@if($j==0)-->
@@ -45,20 +51,24 @@
                     {@ $day_link = ''}
                 <!--@end-->
 
-                <div class="item_box">
-                    <div  class="{$cell_class_name} {$item_class_name}">
-                        <!--@if($day_link)-->
-                            <a href="#" onclick="location.href='{$day_link}'">{$day}</a>
-                        <!--@else-->
-                            {$day}
-                        <!--@end-->
+                <td>
+                    <div class="item_box {$today_class}">
+                        <div  class="{$cell_class_name} {$item_class_name}">
+                            <!--@if($day < $plugin_info->last_day)-->
+                                <!--@if($day_link)-->
+                                    <a href="#" onclick="location.href='{$day_link}'">{$day}</a>
+                                <!--@else-->
+                                    {$day}
+                                <!--@end-->
+                            <!--@end-->
+                        </div>
                     </div>
-                </div>
+                </td>
 
-                <!--@end-->
             <!--@end-->
+            </tr>
             <!--@end-->
-            </div>
         <!--@end-->
+        </table>
     </div>
 </div>
