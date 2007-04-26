@@ -1,12 +1,12 @@
 <?php
     /**
-     * @class archive_list
+     * @class calendar
      * @author zero (zero@nzeo.com)
      * @brief 보관현황 목록 출력
      * @version 0.1
      **/
 
-    class archive_list extends PluginHandler {
+    class calendar extends PluginHandler {
 
         /**
          * @brief 플러그인의 실행 부분
@@ -30,7 +30,7 @@
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
             
             $plugin_info->title = $title;
-            $plugin_info->archive_list = $output->data;
+            $plugin_info->calendar = $output->data;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
             $plugin_info->width = trim($matches[3][0]);
