@@ -19,12 +19,16 @@
             $title = $args->title;
             $mid_list = explode(",",$args->mid_list);
 
-            // DocumentModel::getMonthlyArchivedList()를 이용하기 위한 변수 정리
+            // DocumentModel::getDailyArchivedList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;
+            $obj->regdate = date("Ym");
 
-            // document 모듈의 model 객체를 받아서 getMonthlyArchivedList() method를 실행
+            // document 모듈의 model 객체를 받아서 getDailyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getgetMonthlyArchivedList($obj);
+            $output = $oDocumentModel->getDailyArchivedList($obj);
+            print "<xmp>";
+            print_r($output);
+            print "</xmp>";
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];

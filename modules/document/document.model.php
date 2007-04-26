@@ -361,7 +361,7 @@
         /**
          * @brief 월별 글 보관현황을 가져옴
          **/
-        function getgetMonthlyArchivedList($obj) {
+        function getMonthlyArchivedList($obj) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
@@ -371,9 +371,31 @@
             // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
-            $args->list_count = $obj->list_count;
 
             $output = executeQuery('document.getMonthlyArchivedList', $args);
+            if(!$output->toBool()) return $output;
+
+            if(!is_array($output->data)) $output->data = array($output->data);
+
+            return $output;
+        }
+
+        /**
+         * @brief 특정달의 일별 글 현황을 가져옴
+         **/
+        function getDailyArchivedList($obj) {
+            if($obj->mid) {
+                $oModuleModel = &getModel('module');
+                $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+                unset($obj->mid);
+            }
+
+            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
+            else $args->module_srl = $obj->module_srl;
+            $args->regdate = $obj->regdate;
+
+            $output = executeQuery('document.getDailyArchivedList', $args);
             if(!$output->toBool()) return $output;
 
             if(!is_array($output->data)) $output->data = array($output->data);

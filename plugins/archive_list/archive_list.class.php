@@ -24,7 +24,7 @@
 
             // document 모듈의 model 객체를 받아서 getMonthlyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getgetMonthlyArchivedList($obj);
+            $output = $oDocumentModel->getMonthlyArchivedList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];

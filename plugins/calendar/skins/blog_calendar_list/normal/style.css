@@ -1,51 +1,51 @@
-.archive_list_normal {
+.calendar_normal {
 }
 
-.archive_list_normal .archive_list_box {
+.calendar_normal .calendar_box {
     margin-bottom:5px;
 }
 
-.archive_list_normal .archive_list_box .title_box {
+.calendar_normal .calendar_box .title_box {
     padding:5px;
     height:14px;
     overflow:hidden;
     color:#888888;
 }
 
-.archive_list_normal .archive_list_box .title_box .title {
+.calendar_normal .calendar_box .title_box .title {
     font-weight:bold; 
     height:14px;
     float:left;
 }
 
-.archive_list_normal .archive_list_box .archive_box {
+.calendar_normal .calendar_box .archive_box {
     padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.archive_list_normal .archive_list_box .archive {
+.calendar_normal .calendar_box .archive {
     float:left;
     margin-right:5px;
     color:#AAAAAA;
 }
 
-.archive_list_normal .archive_list_box .archive A {
+.calendar_normal .calendar_box .archive A {
     text-decoration:none;
     color:#555555;
 }
 
-.archive_list_normal .archive_list_box .archive A:hover {
+.calendar_normal .calendar_box .archive A:hover {
     text-decoration:underline;
     color:#000000;
 }
 
-.archive_list_normal .archive_list_box .archive A:visited {
+.calendar_normal .calendar_box .archive A:visited {
     color:#AAAAAA;
 }
 
-.archive_list_normal .archive_list_box .archive .archive A {
+.calendar_normal .calendar_box .archive .archive A {
     font-size:7pt;
     font-family:tahoma;
     color:#AAAAAA;
