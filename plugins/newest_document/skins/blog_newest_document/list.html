@@ -4,15 +4,12 @@
     <!--%import("normal/style.css")-->
 <!--@end-->
 
-<div class="newest_document_default_{$colorset}" style="width:100%">
-    <div class="newest_document_default_box">
+<div class="newest_document_blog_{$colorset}" style="width:100%">
+    <div class="newest_document_blog_box">
 
         <!--@if($plugin_info->title)-->
         <div class="title_box">
             <div class="title">{$plugin_info->title}</div>
-            <!--@if($module_name)-->
-            <div class="more"><a href="{getUrl('','mid',$plugin_info->module_name)}">more</a></div>
-            <!--@end-->
         </div>
         <!--@end-->
 
@@ -21,7 +18,7 @@
             <div class="document">
                 <a href="{getUrl('','document_srl',$val->document_srl,'comment_count', $val->comment_count)}">{$val->title}</a>
                 <!--@if($val->comment_count)-->
-                <span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">( {$val->comment_count} )</a></span>
+                &nbsp;<span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">*{$val->comment_count}</a></span>
                 <!--@end-->
             </div>
             <!--@end-->
