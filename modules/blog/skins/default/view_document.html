@@ -6,26 +6,26 @@
     </div>
     <!--@end-->
 
-    <div class="title" style="clear:both;height:25px;">
-        <div style="font-weight:bold;font-size:18px;float:left;">
-            {htmlspecialchars($document->title)}
-        </div>
+    <div class="title" style="clear:right;height:25px;">
         <div class="date" style="float:right;">
             {zdate($document->regdate,"Y-m-d H:i:s")}
         </div>
+        <div style="font-weight:bold;font-size:18px;float:left;">
+            {htmlspecialchars($document->title)}
+        </div>
     </div>
 
-    <div style="clear:both;height:20px;">
-        <div class="p_link" style="float:left;">
-            {$lang->document_url} : {getUrl()}{$document->document_srl}
-        </div>
-
+    <div style="clear:right;height:20px;">
         <div style="float:right;">
             <!--@if($document->is_granted)-->
             <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
             <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
             <!--@end-->
         </div>
+        <div class="p_link" style="float:left;">
+            {$lang->document_url} : {getUrl()}{$document->document_srl}
+        </div>
+    </div>
 
     <!--@if($module_info->display_writer == "on")-->
     <div>
