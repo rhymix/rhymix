@@ -18,36 +18,65 @@
     float:left;
 }
 
-.calendar_normal .calendar_box .archive_box {
+.calendar_normal .calendar_box .calendar_box {
     padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.calendar_normal .calendar_box .archive {
+.calendar_normal .calendar_box .week {
+    clear:both;
+}
+
+.calendar_normal .calendar_box .item_box {
+    float:left;
+    width:20px;
+    height:20px;
+    border:1px solid #EEEEEE;
+    margin:1px;
+    text-align:right;
+}
+
+.calendar_normal .calendar_box .sunday {
+    color:darkred;
+}
+
+.calendar_normal .calendar_box .saturday {
+    color:darkblue;
+}
+
+.calendar_normal .calendar_box .week {
+    color:#666666;
+}
+
+.calendar_normal .calendar_box .unselected_item {
+}
+
+.calendar_normal .calendar_box .selected_item {
+    font-weight:bold;
+}
+
+.calendar_normal .calendar_box .item_box {
     float:left;
     margin-right:5px;
     color:#AAAAAA;
 }
 
-.calendar_normal .calendar_box .archive A {
+.calendar_normal .calendar_box .item_box div {
+    margin-right:2px;
+}
+
+.calendar_normal .calendar_box .item_box A {
     text-decoration:none;
-    color:#555555;
+    color:green;
 }
 
-.calendar_normal .calendar_box .archive A:hover {
+.calendar_normal .calendar_box .item_box A:hover {
     text-decoration:underline;
-    color:#000000;
 }
 
-.calendar_normal .calendar_box .archive A:visited {
-    color:#AAAAAA;
+.calendar_normal .calendar_box .item_box A:visited {
+    text-decoration:none;
 }
 
-.calendar_normal .calendar_box .archive .archive A {
-    font-size:7pt;
-    font-family:tahoma;
-    color:#AAAAAA;
-    letter-spacing:-1px;
-}

@@ -26,15 +26,18 @@
             // document 모듈의 model 객체를 받아서 getDailyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDailyArchivedList($obj);
-            print "<xmp>";
-            print_r($output);
-            print "</xmp>";
 
             // 템플릿 파일에서 사용할 변수들을 세팅
+            $plugin_info->cur_date = date('Ym');
+            $plugin_info->last_day = date('t');
+            $plugin_info->start_week= date('L');
+
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
-            
             $plugin_info->title = $title;
-            $plugin_info->calendar = $output->data;
+
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) $plugin_info->calendar[$val->month] = $val->count;
+            }
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
             $plugin_info->width = trim($matches[3][0]);
