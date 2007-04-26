@@ -1,0 +1,24 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("normal/style.css")-->
+<!--@end-->
+
+<div class="tag_list_{$colorset}" style="width:100%">
+    <div class="tag_list_box">
+
+        <!--@if($plugin_info->title)-->
+        <div class="title_box">
+            <div class="title">{$plugin_info->title}</div>
+        </div>
+        <!--@end-->
+
+        <div class="tag_box">
+            <!--@foreach($plugin_info->tag_list as $val)-->
+            <div class="tag">
+                <a href="{getUrl('mid',$mid,'search_target','tag','search_keyword',$val->tag)}">{cut_str($val->tag,15,'...')}</a>
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+</div>
