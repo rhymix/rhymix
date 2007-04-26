@@ -1,12 +1,12 @@
 <?php
     /**
-     * @class newest_trackback
+     * @class tag_list
      * @author zero (zero@nzeo.com)
-     * @brief 최근 엮인글을 출력하는 플러그인
+     * @brief 태그 목록 출력
      * @version 0.1
      **/
 
-    class newest_trackback extends PluginHandler {
+    class tag_list extends PluginHandler {
 
         /**
          * @brief 플러그인의 실행 부분

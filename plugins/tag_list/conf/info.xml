@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="0.1">
-    <title xml:lang="ko">최근 트랙백 출력</title>
+    <title xml:lang="ko">태그 목록 출력</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">최근 트랙백 (trackback)을 출력하는 플러그인입니다.</description>
+        <description xml:lang="ko">선택된 모듈의 태그 목록을 정해진 순위만큼 노출하여 줍니다</description>
     </author>
     <extra_vars>
         <var id="title">
@@ -14,12 +14,12 @@
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
             <type>text</type>
-            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 20개)</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <type>mid_list</type>
-            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+            <description xml:lang="ko">선택하신 모듈에 등록된 태그를 대상으로 합니다.</description>
         </var>
     </extra_vars>
 </plugin>

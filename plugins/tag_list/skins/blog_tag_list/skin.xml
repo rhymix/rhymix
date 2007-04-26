@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
-  <title xml:lang="ko">블로그 스타일의 최신 엮인글 목록</title>
+  <title xml:lang="ko">태그 목록 출력</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">블로그 스타일로 최신 엮인글 출력합니다.</description>
+    <description xml:lang="ko">태그 목록을 출력합니다.</description>
   </maker>
   <colorset>
     <color name="normal">
