@@ -1,13 +1,12 @@
 <!-- 글 내용 보여주기 -->
 <div class="content_box">
-    <!--@if($category_list && $document->category_srl)-->
-    <div class="category_title">
-        {$lang->category} : {$category_list[$document->category_srl]->title}
-    </div>
-    <!--@end-->
 
     <div class="title" style="clear:right;height:25px;">
         <div class="date" style="float:right;">
+            <!--@if($category_list && $document->category_srl)-->
+            {$category_list[$document->category_srl]->title} -
+            <!--@end-->
+
             {zdate($document->regdate,"Y-m-d H:i:s")}
         </div>
         <div style="font-weight:bold;font-size:18px;float:left;">
