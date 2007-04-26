@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">월별 보관 현황 목록 출력</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">월별 보관 현황 목록을 출력합니다.</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">기본 컬러</title>
+    </color>
+  </colorset>
+</skin>
