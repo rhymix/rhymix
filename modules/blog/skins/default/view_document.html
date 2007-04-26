@@ -7,7 +7,7 @@
         </div>
         <div style="font-weight:bold;font-size:18px;float:left;">
             <!--@if($category_list && $document->category_srl)-->
-            {$category_list[$document->category_srl]->title} -
+            [{$category_list[$document->category_srl]->title}]
             <!--@end-->
 
             {htmlspecialchars($document->title)}
