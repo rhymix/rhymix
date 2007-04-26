@@ -4,22 +4,19 @@
     <!--%import("normal/style.css")-->
 <!--@end-->
 
-<div class="newest_tag_default_{$colorset}" style="width:100%">
-    <div class="newest_tag_default_box">
+<div class="tag_list_{$colorset}" style="width:100%">
+    <div class="tag_list_box">
 
         <!--@if($plugin_info->title)-->
         <div class="title_box">
             <div class="title">{$plugin_info->title}</div>
-            <!--@if($module_name)-->
-            <div class="more"><a href="{getUrl('','mid',$plugin_info->module_name)}">more</a></div>
-            <!--@end-->
         </div>
         <!--@end-->
 
         <div class="tag_box">
             <!--@foreach($plugin_info->tag_list as $val)-->
             <div class="tag">
-                <a href="{getUrl('mid',$mid,'search_target','tag','search_keyword',$val->tag)}">{cut_str($val->tag,15,'...')} ({$val->count})</a>
+                <a href="{getUrl('mid',$mid,'search_target','tag','search_keyword',$val->tag)}">{cut_str($val->tag,15,'...')}</a>
             </div>
             <!--@end-->
         </div>

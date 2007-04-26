@@ -1,75 +1,53 @@
-.newest_tag_default_normal {
+.tag_list_normal {
 }
 
-.newest_tag_default_normal .newest_tag_default_box {
+.tag_list_normal .tag_list_box {
     margin-bottom:5px;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .title_box {
+.tag_list_normal .tag_list_box .title_box {
     padding:5px;
     height:14px;
     overflow:hidden;
     color:#888888;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .title_box .title {
+.tag_list_normal .tag_list_box .title_box .title {
     font-weight:bold; 
     height:14px;
     float:left;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .title_box .more A {
-    float:right;
-    color:#AAAAAA;
-    text-decoration:none;
-    font-family:tahoma;
-    font-weight:bold;
-}
-
-.newest_tag_default_normal .newest_tag_default_box .tag_box {
+.tag_list_normal .tag_list_box .tag_box {
     padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .tag {
+.tag_list_normal .tag_list_box .tag {
     float:left;
     margin-right:5px;
     color:#AAAAAA;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .tag A {
+.tag_list_normal .tag_list_box .tag A {
     text-decoration:none;
     color:#555555;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .tag A:hover {
+.tag_list_normal .tag_list_box .tag A:hover {
     text-decoration:underline;
     color:#000000;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .tag A:visited {
+.tag_list_normal .tag_list_box .tag A:visited {
     color:#AAAAAA;
 }
 
-.newest_tag_default_normal .newest_tag_default_box .tag .tag A {
+.tag_list_normal .tag_list_box .tag .tag A {
     font-size:7pt;
     font-family:tahoma;
     color:#AAAAAA;
     letter-spacing:-1px;
-}
-
-.newest_tag_default_normal .newest_tag_default_box .tag .writer {
-    font-size:9pt;
-    font-family:tahoma;
-    color:#AAAAAA;
-}
-
-
-.newest_tag_default_normal .newest_tag_default_box .regdate {
-    color:#AAAAAA;
-    font-size:8pt;
-    font-family:tahoma;
-    float:right;
 }
