@@ -3,11 +3,20 @@
     <!--@if($category_list && $document->category_srl)-->
     <div class="category_title">
         {$lang->category} : {$category_list[$document->category_srl]->title}
+
     </div>
     <!--@end-->
 
     <div class="title">
-        {htmlspecialchars($document->title)}
+        <h2>{htmlspecialchars($document->title)}</h2>
+    </div>
+
+    <!-- 관련 링크 -->
+    <div>
+        <!--@if($document->is_granted)-->
+        <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
+        <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
+        <!--@end-->
     </div>
 
     <div class="p_link">
@@ -48,16 +57,6 @@
             <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
         <!--@end-->
     </div>
-    <!--@end-->
-</div>
-
-<!-- 관련 링크 -->
-<div>
-    <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
-
-    <!--@if($document->is_granted)-->
-    <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
-    <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
     <!--@end-->
 </div>
 
