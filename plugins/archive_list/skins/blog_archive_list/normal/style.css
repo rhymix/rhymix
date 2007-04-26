@@ -1,51 +1,51 @@
-.tag_list_normal {
+.archive_list_normal {
 }
 
-.tag_list_normal .tag_list_box {
+.archive_list_normal .archive_list_box {
     margin-bottom:5px;
 }
 
-.tag_list_normal .tag_list_box .title_box {
+.archive_list_normal .archive_list_box .title_box {
     padding:5px;
     height:14px;
     overflow:hidden;
     color:#888888;
 }
 
-.tag_list_normal .tag_list_box .title_box .title {
+.archive_list_normal .archive_list_box .title_box .title {
     font-weight:bold; 
     height:14px;
     float:left;
 }
 
-.tag_list_normal .tag_list_box .tag_box {
+.archive_list_normal .archive_list_box .archive_box {
     padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.tag_list_normal .tag_list_box .tag {
+.archive_list_normal .archive_list_box .archive {
     float:left;
     margin-right:5px;
     color:#AAAAAA;
 }
 
-.tag_list_normal .tag_list_box .tag A {
+.archive_list_normal .archive_list_box .archive A {
     text-decoration:none;
     color:#555555;
 }
 
-.tag_list_normal .tag_list_box .tag A:hover {
+.archive_list_normal .archive_list_box .archive A:hover {
     text-decoration:underline;
     color:#000000;
 }
 
-.tag_list_normal .tag_list_box .tag A:visited {
+.archive_list_normal .archive_list_box .archive A:visited {
     color:#AAAAAA;
 }
 
-.tag_list_normal .tag_list_box .tag .tag A {
+.archive_list_normal .archive_list_box .archive .archive A {
     font-size:7pt;
     font-family:tahoma;
     color:#AAAAAA;
