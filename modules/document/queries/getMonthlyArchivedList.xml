@@ -3,13 +3,13 @@
         <table name="documents" />
     </tables>
     <columns>
-        <column name="substring(regdate,1,6)" alias="month"/>
+        <column name="substr(regdate,1,6)" alias="month"/>
         <column name="count(*)" alias="count" />
     </columns>
     <conditions>
         <condition operation="in" column="module_srl" var="module_srl" filter="number" />
     </conditions>
     <groups>
-        <group column="substring(regdate,1,6)" />
+        <group column="substr(regdate,1,6)" />
     </groups>
 </query>
