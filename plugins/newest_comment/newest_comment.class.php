@@ -19,7 +19,7 @@
             $title = $args->title;
             $order_target = $args->order_target;
             $order_type = $args->order_type;
-            $list_count = (int)$args->list_order;
+            $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
             $mid_list = explode(",",$args->mid_list);
 

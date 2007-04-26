@@ -17,26 +17,23 @@
         function proc($args) {
             // 플러그인 자체적으로 설정한 변수들을 체크
             $title = $args->title;
-            $order_target = $args->order_target;
-            $order_type = $args->order_type;
-            $list_count = (int)$args->list_order;
-            if(!$list_count) $list_count = 5;
+            $list_count = (int)$args->list_count;
+            if(!$list_count) $list_count = 20;
             $mid_list = explode(",",$args->mid_list);
 
-            // TrackbackModel::getTrackbackList()를 이용하기 위한 변수 정리
+            // TagModel::getTagList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;
-            $obj->sort_index = $order_target;
             $obj->list_count = $list_count;
 
-            // trackback 모듈의 model 객체를 받아서 getTrackbackList() method를 실행
-            $oTrackbackModel = &getModel('trackback');
-            $output = $oTrackbackModel->getNewestTrackbackList($obj);
+            // tag 모듈의 model 객체를 받아서 getTagList() method를 실행
+            $oTagModel = &getModel('tag');
+            $output = $oTagModel->getTagList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
             
             $plugin_info->title = $title;
-            $plugin_info->trackback_list = $output->data;
+            $plugin_info->tag_list = $output->data;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
             $plugin_info->width = trim($matches[3][0]);

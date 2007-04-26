@@ -4,8 +4,8 @@
     <!--%import("normal/style.css")-->
 <!--@end-->
 
-<div class="newest_trackback_default_{$colorset}" style="width:100%">
-    <div class="newest_trackback_default_box">
+<div class="newest_tag_default_{$colorset}" style="width:100%">
+    <div class="newest_tag_default_box">
 
         <!--@if($plugin_info->title)-->
         <div class="title_box">
@@ -16,11 +16,10 @@
         </div>
         <!--@end-->
 
-        <div class="trackback_box">
-            <!--@foreach($plugin_info->trackback_list as $val)-->
-            <div class="trackback">
-                <a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,15,'...')}</a>
-                - {cut_str($val->blog_name,10,'...')}
+        <div class="tag_box">
+            <!--@foreach($plugin_info->tag_list as $val)-->
+            <div class="tag">
+                <a href="{getUrl('mid',$mid,'search_target','tag','search_keyword',$val->tag)}">{cut_str($val->tag,15,'...')} ({$val->count})</a>
             </div>
             <!--@end-->
         </div>

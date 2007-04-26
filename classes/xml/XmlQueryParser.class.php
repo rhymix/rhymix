@@ -126,8 +126,8 @@
             }
 
             // group 정리
-            $groups = $xml_obj->query->groups->group;
-            if($groups) {
+            $group_list = $xml_obj->query->groups->group;
+            if($group_list) {
                 if(!is_array($group_list)) $group_list = array($group_list);
                 for($i=0;$i<count($group_list);$i++) {
                     $group = $group_list[$i];
@@ -242,6 +242,11 @@
             // page 정리
             if($output->page) {
                 $buff .= sprintf('$output->page = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page->var, $output->page->var, $output->page->var, $output->list->default,"\n");
+            }
+
+            // group by 정리
+            if($output->groups) {
+                $buff .= sprintf('$output->groups = array("%s");%s', implode('","',$output->groups),"\n");
             }
 
             // default check

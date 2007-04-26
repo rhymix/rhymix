@@ -163,8 +163,9 @@
             $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
 
             // 검색 옵션
+            $args->search_target = trim(Context::get('search_target')); ///< 검색대상
             $args->search_keyword = trim(Context::get('search_keyword')); ///< 검색어
-            if($args->search_keyword) $args->search_target = "title_content"; ///< 검색 고정
+            if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; ///< 검색 고정
             $args->category_srl = $this->category_srl;
 
             $args->sort_index = 'list_order'; ///< 소팅 값

@@ -1,24 +1,24 @@
-.newest_trackback_default_normal {
+.newest_tag_default_normal {
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box {
+.newest_tag_default_normal .newest_tag_default_box {
     margin-bottom:5px;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .title_box {
+.newest_tag_default_normal .newest_tag_default_box .title_box {
     padding:5px;
     height:14px;
     overflow:hidden;
     color:#888888;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .title_box .title {
+.newest_tag_default_normal .newest_tag_default_box .title_box .title {
     font-weight:bold; 
     height:14px;
     float:left;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .title_box .more A {
+.newest_tag_default_normal .newest_tag_default_box .title_box .more A {
     float:right;
     color:#AAAAAA;
     text-decoration:none;
@@ -26,47 +26,48 @@
     font-weight:bold;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback_box {
-    padding:5px 3px 3px 1px;
+.newest_tag_default_normal .newest_tag_default_box .tag_box {
+    padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
     overflow:hidden;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback {
-    padding:0px 0px 5px 5px;
+.newest_tag_default_normal .newest_tag_default_box .tag {
+    float:left;
+    margin-right:5px;
     color:#AAAAAA;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback A {
+.newest_tag_default_normal .newest_tag_default_box .tag A {
     text-decoration:none;
     color:#555555;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback A:hover {
+.newest_tag_default_normal .newest_tag_default_box .tag A:hover {
     text-decoration:underline;
     color:#000000;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback A:visited {
+.newest_tag_default_normal .newest_tag_default_box .tag A:visited {
     color:#AAAAAA;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback .trackback A {
+.newest_tag_default_normal .newest_tag_default_box .tag .tag A {
     font-size:7pt;
     font-family:tahoma;
     color:#AAAAAA;
     letter-spacing:-1px;
 }
 
-.newest_trackback_default_normal .newest_trackback_default_box .trackback .writer {
+.newest_tag_default_normal .newest_tag_default_box .tag .writer {
     font-size:9pt;
     font-family:tahoma;
     color:#AAAAAA;
 }
 
 
-.newest_trackback_default_normal .newest_trackback_default_box .regdate {
+.newest_tag_default_normal .newest_tag_default_box .regdate {
     color:#AAAAAA;
     font-size:8pt;
     font-family:tahoma;

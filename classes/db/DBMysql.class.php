@@ -414,6 +414,8 @@
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
+            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
@@ -460,6 +462,8 @@
             $start_count = ($page-1)*$list_count;
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+
+            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
             if(count($output->order)) {
                 foreach($output->order as $key => $val) {
