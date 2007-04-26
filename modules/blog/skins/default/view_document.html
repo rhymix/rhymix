@@ -3,32 +3,29 @@
     <!--@if($category_list && $document->category_srl)-->
     <div class="category_title">
         {$lang->category} : {$category_list[$document->category_srl]->title}
-
     </div>
     <!--@end-->
 
-    <div class="title">
-        <h2>{htmlspecialchars($document->title)}</h2>
+    <div class="title" style="clear:both;height:25px;">
+        <div style="font-weight:bold;font-size:18px;float:left;">
+            {htmlspecialchars($document->title)}
+        </div>
+        <div class="date" style="float:right;">
+            {zdate($document->regdate,"Y-m-d H:i:s")}
+        </div>
     </div>
 
     <div style="clear:both;height:20px;">
-        <div class="date" style="float:left;">
-            {zdate($document->regdate,"Y-m-d H:i:s")}
-        </div>
-
-        <div class="p_link" style="float:right;">
+        <div class="p_link" style="float:left;">
             {$lang->document_url} : {getUrl()}{$document->document_srl}
         </div>
-    </div>
 
-    <!-- 관련 링크 -->
-    <div style="text-align:right">
-        <!--@if($document->is_granted)-->
-        <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
-        <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
-        <!--@end-->
-    </div>
-
+        <div style="float:right;">
+            <!--@if($document->is_granted)-->
+            <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
+            <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
+            <!--@end-->
+        </div>
 
     <!--@if($module_info->display_writer == "on")-->
     <div>
