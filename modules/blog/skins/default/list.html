@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
 
 <!-- 목록 -->
-<div>
+<div style="margin-bottom:20px;">
     <!--@if($document_list)-->
         <!--@foreach($document_list as $no => $document)-->
             <!--@if($document && $grant->list)-->
@@ -16,7 +16,7 @@
 <!--@if($grant->list)-->
 
 <!-- 페이지 네비게이션 -->
-<div style="margin-top:20px;text-align:center">
+<div style="text-align:right">
     <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
 
     <!--@while($page_no = $page_navigation->getNextPage())-->

@@ -11,6 +11,16 @@
         <h2>{htmlspecialchars($document->title)}</h2>
     </div>
 
+    <div style="clear:both;">
+        <div class="date" style="float:left;">
+            {zdate($document->regdate,"Y-m-d H:i:s")}
+        </div>
+
+        <div class="p_link" style="float:right;">
+            {$lang->document_url} : {getUrl()}{$document->document_srl}
+        </div>
+    </div>
+
     <!-- 관련 링크 -->
     <div>
         <!--@if($document->is_granted)-->
@@ -19,13 +29,6 @@
         <!--@end-->
     </div>
 
-    <div class="p_link">
-        {$lang->document_url} : {getUrl()}{$document->document_srl}
-    </div>
-
-    <div class="date">
-        {zdate($document->regdate,"Y-m-d H:i:s")}
-    </div>
 
     <!--@if($module_info->display_writer == "on")-->
     <div>
@@ -33,29 +36,33 @@
     </div>
     <!--@end-->
 
-    <div class="content">{$document->content}</div>
+    <div style="margin:10px 0px 10px 0px;padding:5px 0px 5px 0px;min-height:80px;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;" class="content">{$document->content}</div>
 
-    <!--@if($document->allow_trackback=='Y')-->
-    <div>
-        {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
-    </div>
-    <!--@end-->
+    <div style="clear:both;height:20px;margin:0px 0px 10px 0px">
+        <!--@if($document->tag_list)-->
+        <div style="color:#888888;float:left;">
+            {$lang->tag} :
+            <!--@foreach($document->tag_list as $val)-->
+                <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+            <!--@end-->
+        </div>
+        <!--@end-->
 
-    <!--@if($document->tag_list)-->
-    <div>
-        {$lang->tag} :
-        <!--@foreach($document->tag_list as $val)-->
-            <a href="{getUrl('search_target','tag','search_keyword',$val,'document_srl','')}">{htmlspecialchars($val)}</a>
+        <!--@if($document->allow_trackback=='Y')-->
+        <div style="color:#888888;float:right;">
+            {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
+        </div>
         <!--@end-->
     </div>
-    <!--@end-->
 
     <!--@if($document->uploaded_count && $document->uploaded_list)-->
-    <div>
-        {$lang->uploaded_file} :
+    <div style="border:1px solid #DDDDDD;padding:10px;margin-bottom:10px;">
+        <div>{$lang->uploaded_file}</div>
+        <div>
         <!--@foreach($document->uploaded_list as $key => $file)-->
             <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
         <!--@end-->
+        </div>
     </div>
     <!--@end-->
 </div>
