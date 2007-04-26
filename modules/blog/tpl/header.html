@@ -21,7 +21,7 @@
     <!--@end-->
 
     <!--@foreach($blog_menu_list as $key => $val)-->
-    <span <!--@if($act==$key)-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act',$key)}">{$val}</a>]</span>
+    <span <!--@if($act==$key)-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act',$key,'layout_srl',$module_srl)}">{$val}</a>]</span>
     <!--@end-->
 </div>
 
