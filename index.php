@@ -14,7 +14,7 @@
      * zeroboard XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
      * - 공식홈페이지   : http://www.zeroboard.com
-     * - 개발자 포험    : http://dev.zeroboard.com
+     * - 개발자 포험    : http://www.zeroboard.com/dev_forum
      * - 매뉴얼         : http://www.zeroboard.com/wiki/manual
      * - 이슈트래킹     : http://trac.zeroboard.com
      * - SVN Repository : http://svn.zeroboard.com
