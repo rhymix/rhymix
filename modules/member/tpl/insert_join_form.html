@@ -7,7 +7,7 @@
 
 <form id="fo_join_form" action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
     <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
-    <input type="hidden" name="default_value" value="{implode($join_form->default_value,'|@|')}" />
+    <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 
     <table>
     <tr id="zone_column_type">
