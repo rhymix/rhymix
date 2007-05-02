@@ -84,10 +84,10 @@
             $buff = FileHandler::readFile($tpl_file);
             if(!$buff) return;
 
-            // include 변경 <!--#include($path, $filename)-->
+            // include 변경 <!--#include($filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // include 변경 <!--#include($path, $filename)-->
+            // include 변경 <!--#include($filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
