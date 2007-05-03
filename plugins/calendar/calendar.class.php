@@ -29,8 +29,9 @@
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             $plugin_info->cur_date = date('Ym');
+            $plugin_info->today_str = sprintf('%2d%s %2d%s',date('m'), Context::getLang('unit_month'), date('d'), Context::getLang('unit_day'));
             $plugin_info->last_day = date('t');
-            $plugin_info->start_week= date('L');
+            $plugin_info->start_week= date('w', mktime(0,0,0,date('m'),1,date('Y')));
 
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
             $plugin_info->title = $title;

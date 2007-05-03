@@ -236,7 +236,7 @@
 
             switch($filter_type) {
                 case 'email' :
-                case 'email_adderss' :
+                case 'email_address' :
                         if(!eregi('^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'homepage' :
