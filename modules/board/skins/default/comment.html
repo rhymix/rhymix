@@ -54,7 +54,7 @@
                 <td colspan="2">
                     <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
 
-                    <!--@if($val->is_granted)-->
+                    <!--@if($val->is_granted || !$val->member_srl)-->
                     <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>
                     <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_delete}]</a>
                     <!--@end-->

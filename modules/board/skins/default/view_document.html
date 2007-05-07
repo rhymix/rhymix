@@ -110,7 +110,7 @@
     <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
     <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
 
-    <!--@if($document->is_granted)-->
+    <!--@if($document->is_granted || !$document->member_srl)-->
     <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
     <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
     <!--@end-->
