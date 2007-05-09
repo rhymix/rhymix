@@ -7,15 +7,12 @@
 
 .archive_list_normal .archive_list_box .title_box {
     padding:5px;
-    height:14px;
     overflow:hidden;
     color:#888888;
 }
 
 .archive_list_normal .archive_list_box .title_box .title {
     font-weight:bold; 
-    height:14px;
-    float:left;
 }
 
 .archive_list_normal .archive_list_box .archive_box {
@@ -26,7 +23,6 @@
 }
 
 .archive_list_normal .archive_list_box .archive {
-    float:left;
     margin-right:5px;
     color:#AAAAAA;
 }
