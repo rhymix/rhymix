@@ -21,17 +21,25 @@
 
             // DocumentModel::getDailyArchivedList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;
-            $obj->regdate = date("Ym");
+
+            if(Context::get('search_target')=='regdate') {
+                $regdate = Context::get('search_keyword');
+                if($regdate) $obj->regdate = zdate($regdate, 'Ym');
+            }
+            if(!$obj->regdate) $obj->regdate = date('Ym');
 
             // document 모듈의 model 객체를 받아서 getDailyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDailyArchivedList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            $plugin_info->cur_date = date('Ym');
-            $plugin_info->today_str = sprintf('%2d%s %2d%s',date('m'), Context::getLang('unit_month'), date('d'), Context::getLang('unit_day'));
-            $plugin_info->last_day = date('t');
-            $plugin_info->start_week= date('w', mktime(0,0,0,date('m'),1,date('Y')));
+            $plugin_info->cur_date = $obj->regdate;
+            $plugin_info->today_str = sprintf('%4d%s %2d%s',zdate($obj->regdate, 'Y'), Context::getLang('unit_year'), zdate($obj->regdate,'m'), Context::getLang('unit_month'));
+            $plugin_info->last_day = date('t', ztime($obj->regdate));
+            $plugin_info->start_week= date('w', ztime($obj->regdate));
+
+            $plugin_info->prev_month = date('Ym', mktime(1,0,0,zdate($obj->regdate,'m'),1,zdate($obj->regdate,'Y'))-60*60*24);
+            $plugin_info->next_month = date('Ym', mktime(1,0,0,zdate($obj->regdate,'m'),$plugin_info->last_day,zdate($obj->regdate,'Y'))+60*60*24);
 
             if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
             $plugin_info->title = $title;

@@ -120,12 +120,11 @@
     }
 
     /**
-     * @brief YYYYMMDDHHIISS 형식의 시간값을 원하는 시간 포맷으로 변형
+     * @brief YYYYMMDDHHIISS 형식의 시간값을 unix time으로 변경
      * @param str YYYYMMDDHHIISS 형식의 시간값
-     * @param format php date()함수의 시간 포맷
-     * @return string
+     * @return int
      **/
-    function zdate($str, $format = "Y-m-d H:i:s") {
+    function ztime($str) {
         if(!$str) return;
         $hour = (int)substr($str,8,2);
         $min = (int)substr($str,10,2);
@@ -133,7 +132,18 @@
         $year = (int)substr($str,0,4);
         $month = (int)substr($str,4,2);
         $day = (int)substr($str,6,2);
-        return date($format, mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year));
+        return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year);
+    }
+
+    /**
+     * @brief YYYYMMDDHHIISS 형식의 시간값을 원하는 시간 포맷으로 변형
+     * @param str YYYYMMDDHHIISS 형식의 시간값
+     * @param format php date()함수의 시간 포맷
+     * @return string
+     **/
+    function zdate($str, $format = "Y-m-d H:i:s") {
+        if(!$str) return;
+        return date($format, ztime($str));
     }
 
     /**

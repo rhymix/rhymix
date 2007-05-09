@@ -18,6 +18,12 @@
     float:left;
 }
 
+.calendar_normal .calendar_box .title_box .move_month {
+    font-weight:bold; 
+    height:14px;
+    float:right;
+}
+
 .calendar_normal .calendar_box .calendar_box {
     padding:5px;
     border:3px solid #EEEEEE;
