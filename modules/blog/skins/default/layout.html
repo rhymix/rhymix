@@ -111,7 +111,7 @@
     <div class="layout_search">
         <form action="./" method="get">
             <input type="hidden" name="mid" value="{$layout_info->mid}" />
-            <input type="text" class="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+            <input type="text" class="search_keyword" name="search_keyword" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
             <input type="submit" class="search_button" value="{$lang->cmd_search}" />
         </form>
     </div>
