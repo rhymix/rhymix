@@ -127,7 +127,13 @@
      **/
     function zdate($str, $format = "Y-m-d H:i:s") {
         if(!$str) return;
-        return date($format, mktime(substr($str,8,2), substr($str,10,2), substr($str,12,2), substr($str,4,2), substr($str,6,2), substr($str,0,4)));
+        $hour = (int)substr($str,8,2);
+        $min = (int)substr($str,10,2);
+        $sec = (int)substr($str,12,2);
+        $year = (int)substr($str,0,4);
+        $month = (int)substr($str,4,2);
+        $day = (int)substr($str,6,2);
+        return date($format, mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year));
     }
 
     /**

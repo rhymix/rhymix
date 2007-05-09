@@ -165,7 +165,14 @@
             // 검색 옵션
             $args->search_target = trim(Context::get('search_target')); ///< 검색대상
             $args->search_keyword = trim(Context::get('search_keyword')); ///< 검색어
-            if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; ///< 검색 고정
+
+            // 키워드 검색이 아닌 검색일 경우 목록의 수를 40개로 고정
+            if($args->search_target && $args->search_keyword) $args->list_count = 40;
+
+            // 키워드 검색의 경우 제목,내용으로 검색 대상 고정
+            if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; 
+
+            // 블로그 카테고리 
             $args->category_srl = $this->category_srl;
 
             $args->sort_index = 'list_order'; ///< 소팅 값
