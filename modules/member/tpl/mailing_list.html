@@ -1,0 +1,59 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_denied_id.xml")-->
+<!--%import("filter/update_denied_id.xml")-->
+
+<!-- 정보 -->
+<div>
+    {number_format($total_count)}, 
+    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+</div>
+
+<!-- 목록 -->
+<div>
+    <table border="1">
+    <tr>
+        <th>{$lang->no}</th>
+        <th>{$lang->title}</th>
+        <th>{$lang->regdate}</th>
+        <th>{$lang->send_start_date}</th>
+        <th>{$lang->send_finish_date}</th>
+        <th>{$lang->sended_count}</th>
+        <th>{$lang->cmd_send}</th>
+    </tr>
+    <!--@foreach($member_list as $no => $val)-->
+    <tr>
+        <td>{$no}</td>
+        <td><a href="#" onclick="location.href='{getUrl('act','dispMemberAdminInsertMailing','mailing_srl',$val->mailing_srl)}';return false;">{$val->title}</a></td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>{zdate($val->send_start_date,"Y-m-d")}</td>
+        <td>{zdate($val->send_finish_date,"Y-m-d")}</td>
+        <td>{number_format($val->sended_count)}</td>
+        <td>
+            <!--@if(!$val->send_finish_date)-->
+                <a href="#">{$lang->cmd_send}</a>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+    </table>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+    <a href="{getUrl('page','','mailing_srl','')}">[{$lang->first_page}]</a>
+
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            {$page_no}
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'mailing_srl','')}">[{$page_no}]</a>
+        <!--@end-->
+    <!--@end-->
+
+    <a href="{getUrl('page',$page_navigation->last_page,'mailing_srl','')}">[{$lang->last_page}]</a>
+</div>
+
+<!-- 작성 버튼 -->
+<div>
+    [<a href="#" onclick="location.href='{getUrl('act','dispMemberAdminInsertMailing')}';return false;">{$lang->cmd_make}</a>]
+</div>

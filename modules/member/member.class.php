@@ -74,9 +74,13 @@
 
             // 관리자 정보 세팅
             $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
+            if($admin_info->user_id) {
+                // 관리자 정보 입력
+                $oMemberController->insertAdmin($admin_info);
 
-            // 관리자 정보 입력
-            $oMemberController->insertAdmin($admin_info);
+                // 로그인 처리시킴
+                $output = $oMemberController->doLogin($admin_info->user_id);
+            }
 
             // 금지 아이디 등록 (기본 + 모듈명)
             $oModuleModel = &getModel('module');
@@ -90,10 +94,6 @@
             $oMemberController->insertDeniedID('telnet','');
             $oMemberController->insertDeniedID('ftp','');
             $oMemberController->insertDeniedID('http','');
-
-            // 로그인 처리시킴
-            $output = $oMemberController->doLogin($admin_info->user_id);
-            if(!$output) return $output;
 
             // member 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/member_extra_info/attach/image_name');

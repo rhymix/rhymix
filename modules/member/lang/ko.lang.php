@@ -12,6 +12,10 @@
     $lang->default_group_2 = "정회원";
     $lang->admin_group = "관리그룹";
 
+    $lang->send_start_date = "발송 시작일";
+    $lang->send_finish_date = "발송 완료일";
+    $lang->sended_count = "발송 대상자";
+
     $lang->remember_user_id = '아이디 저장';
 
     $lang->already_logged = '이미 로그인되어 있습니다';

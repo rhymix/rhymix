@@ -513,5 +513,6 @@
 
             $this->setTemplateFile('denied_id_list');
         }
+
     }
 ?>

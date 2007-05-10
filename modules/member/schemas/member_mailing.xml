@@ -1,0 +1,10 @@
+<table name="member_mailing">
+    <column name="mailing_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="title" type="varchar" size="255" notnull="notnull" />
+    <column name="content" type="text" notnull="notnull" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="send_start_date" type="date" />
+    <column name="send_finish_date" type="date" />
+    <column name="sended_count" type="number" size="11" default="0" notnull="notnull" />
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+</table>
