@@ -7,24 +7,16 @@
 
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
-
     $lang->default_group_1 = "준회원";
     $lang->default_group_2 = "정회원";
     $lang->admin_group = "관리그룹";
-
-    $lang->send_start_date = "발송 시작일";
-    $lang->send_finish_date = "발송 완료일";
-    $lang->sended_count = "발송 대상자";
-
     $lang->remember_user_id = '아이디 저장';
-
     $lang->already_logged = '이미 로그인되어 있습니다';
     $lang->denied_user_id = '사용금지된 아이디입니다';
     $lang->null_user_id = '사용자 아이디를 입력해주세요';
     $lang->null_password = '비밀번호를 입력해주세요';
     $lang->invalid_user_id= '존재하지 않는 사용자 아이디입니다';
     $lang->invalid_password = '잘못된 비밀번호입니다';
-
     $lang->allow_mailing = '메일링 가입';
     $lang->allow_message = '쪽지 수신 허용';
     $lang->allow_message_type = array(
@@ -32,7 +24,6 @@
              'N' => '거부',
              'F' => '친구만 허용',
         );
-
     $lang->denied = '사용중지';
     $lang->is_admin = '최고관리 권한';
     $lang->group = '소속 그룹';
