@@ -87,6 +87,7 @@
             // 기본 설정의 스킨, 컬러셋 설정 
             $oModuleModel = &getModel('module');
             $poll_config = $oModuleModel->getModuleConfig('poll');
+            if(!$poll_config->skin) $poll_config->skin = 'default';
             Context::set('poll_config', $poll_config);
             $tpl_path = sprintf("%sskins/%s/", $this->module_path, $poll_config->skin);
 
