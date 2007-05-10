@@ -6,11 +6,6 @@
         <description xml:lang="ko">달력을 표시하고 등록된 글이 있는 날에 표시와 링크를 해줍니다.</description>
     </author>
     <extra_vars>
-        <var id="title">
-            <name xml:lang="ko">제목</name>
-            <type>text</type>
-            <description xml:lang="ko">달력 제목으로 출력됩니다.</description>
-        </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <type>mid_list</type>

@@ -7,15 +7,13 @@
 <div class="calendar_{$colorset}" style="width:100%">
     <div class="calendar_box">
 
-        <!--@if($plugin_info->title)-->
         <div class="title_box">
-            <div class="title">{$plugin_info->title} ({$plugin_info->today_str})</div>
+            <div class="title">{$plugin_info->today_str}</div>
             <div class="move_month">
                 <a href="{getUrl('search_target','regdate','search_keyword',$plugin_info->prev_month)}">prev</a> |
                 <a href="{getUrl('search_target','regdate','search_keyword',$plugin_info->next_month)}">next</a>
             </div>
         </div>
-        <!--@end-->
 
         {@ $day = ''}
         <table border="0" cellspacing="0" cellpadding="0" width="99%" style="table-layout:fixed">
