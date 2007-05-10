@@ -2,7 +2,7 @@
     /**
      * @class tag_list
      * @author zero (zero@nzeo.com)
-     * @brief 태그 목록 출력
+     * @brief 꼬리표 목록 출력
      * @version 0.1
      **/
 

@@ -15,7 +15,7 @@
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <type>mid_list</type>
-            <description xml:lang="ko">선택하신 모듈에 등록된 태그를 대상으로 합니다.</description>
+            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
         </var>
     </extra_vars>
 </plugin>
