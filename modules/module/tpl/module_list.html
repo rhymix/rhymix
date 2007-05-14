@@ -47,10 +47,10 @@
     <td>{$val->path}</td>
     <td><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
     <td>
-        <!--@if(!$val->is_installed)-->
-            <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
-        <!--@elseif($val->need_update)-->
+        <!--@if($val->need_update)-->
             <a href="#">{$lang->cmd_update}</a>
+        <!--@else-->
+            <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
         <!--@end-->
     </td>
     <td>
