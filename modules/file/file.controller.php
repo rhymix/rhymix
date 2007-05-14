@@ -348,6 +348,7 @@
             header("Cache-Control: ");
             header("Pragma: ");
             header("Content-Type: application/octet-stream");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
             header("Content-Length: " .(string)($file_obj->file_size));
             header('Content-Disposition: attachment; filename="'.$filename.'"');

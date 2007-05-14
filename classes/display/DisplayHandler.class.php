@@ -155,8 +155,8 @@
             // DB 로그 작성
             if(__DEBUG__>1) {
                 if($GLOBALS['__db_queries__']) {
-                $buff .= "\n- DB Queries\n";
-                $buff .= $GLOBALS['__db_queries__'];
+                    $buff .= "\n- DB Queries\n";
+                    $buff .= $GLOBALS['__db_queries__'];
                 }
                 $buff .= "\n- Elapsed time\n";
 
