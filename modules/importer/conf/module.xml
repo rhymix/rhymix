@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" />
+
+        <action name="procImporterAdminImport" type="controller" standalone="true" />
+    </actions>
+</module>
