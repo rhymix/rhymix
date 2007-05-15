@@ -14,11 +14,21 @@
          **/
         function readFile($file_name) {
             if(!file_exists($file_name)) return;
-            if(filesize($file_name)<1) return;
+
+            $filesize = filesize($file_name);
+
+            if($filesize<1) return;
+
             $fp = fopen($file_name, "r");
-            $buff = fread($fp, filesize($file_name));
-            fclose($fp);
-            return trim($buff);
+            $buff = '';
+            if($fp) {
+                while(!feof($fp) || strlen($buff)<$filesize) {
+                    $str = fgets($fp, 1024);
+                    $buff .= $str;
+                }
+                fclose($fp);
+            }
+            return $buff;
         }
 
         /**

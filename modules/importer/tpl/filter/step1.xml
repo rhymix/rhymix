@@ -1,0 +1,12 @@
+<filter name="step1" module="importer" act="procImporterAdminStep1">
+    <form>
+        <node target="source_type" required="true" filter="alpha" />
+    </form>
+    <parameter />
+    <response callback_func="completeStep1">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="next_step" />
+        <tag name="module_list" />
+    </response>
+</filter>

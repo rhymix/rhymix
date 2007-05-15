@@ -14,7 +14,6 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('importer', 'view', 'dispImporterAdminContent');
-            $oModuleController->insertActionForward('importer', 'controller', 'procImporterAdminImport');
 
             return new Object();
         }

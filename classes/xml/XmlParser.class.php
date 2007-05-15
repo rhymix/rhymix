@@ -23,7 +23,6 @@
          **/
         function loadXmlFile($filename) {
             if(!file_exists($filename)) return;
-
             $buff = FileHandler::readFile($filename);
 
             $oXmlParser = new XmlParser();
@@ -58,7 +57,6 @@
             } else {
                 unset($this->lang);
             }
-
 
             $this->oParser = xml_parser_create();
 

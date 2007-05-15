@@ -1,0 +1,10 @@
+<filter name="import_xml" module="importer" act="procImporterAdminImport">
+    <form>
+        <node target="xml_file" required="true" />
+    </form>
+    <parameter />
+    <response callback_func="completeImport">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -6,27 +6,39 @@
      **/
 
     // 버튼에 사용되는 언어
-    $lang->cmd_importer_list = 'Importer 목록';
-    $lang->cmd_module_config = 'Importer  공통 설정';
-    $lang->cmd_view_info = 'Importer 정보';
-    $lang->cmd_manage_menu = '메뉴관리';
-    $lang->cmd_make_child = '하위 카테고리 추가';
-    $lang->cmd_enable_move_category = "카테고리 위치 변경 (선택후 위 메뉴를 드래그하세요)";
-    $lang->cmd_remake_cache = '캐시파일 재생성';
-    $lang->cmd_layout_setup = '레이아웃 설정';
-    $lang->cmd_layout_edit = '레이아웃 편집';
+    $lang->cmd_sync_member = '동기화';
 
     // 항목
-    $lang->parent_category_name = '상위 카테고리명';
-    $lang->category_name = '분류명';
-    $lang->expand = '펼침';
-    $lang->category_group_srls = '그룹제한';
+    $lang->source_type = '이전 대상';
+    $lang->type_member = '회원 정보';
+    $lang->type_module = '게시물 정보';
+    $lang->type_syncmember = '회원정보 동기화';
+    $lang->target_module = '대상 모듈';
+    $lang->xml_file = 'XML 파일';
+
+    $lang->import_step_title = array(
+        1 => 'Step 1. 이전 대상 선택',
+        12 => 'Step 1-2. 대상 모듈 선택',
+        13 => 'Step 1-3. 대상 분류 선택',
+        2 => 'Step 2. XML파일 업로드',
+        3 => 'Step 2. 회원정보와 게시물의 정보 동기화',
+    );
+
+    $lang->import_step_desc = array(
+        1 => '이전을 하려는 XML파일의 종류를 선택해주세요.',
+        12 => '데이터 이전을 할 대상 모듈을 선택해주세요.',
+        13 => '데이터 이전을 할 대상 분류를 선택해주세요.',
+        2 => "데이터 이전을 할 XML파일의 위치를 입력해주세요.\n같은 계정일 경우 상대 또는 절대 경로를, 다른 서버에 업로드 되어 있으면 http://주소.. 를 입력해주세요",
+        3 => '회원정보와 게시물의 정보가 이전후에 맞지 않을 수 있습니다. 이 때 동기화를 하시면 user_id를 기반으로 올바르게 동작하도록 합니다.',
+    );
+
+    // 안내/경고
+    $lang->msg_sync_member = '동기화 버튼을 클릭하시면 회원정보와 게시물정보의 동기화를 시작합니다.';
+    $lang->msg_no_xml_file = 'XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요';
 
     // 주절 주절..
-    $lang->about_category_name = '카테고리 이름을 입력해주세요';
-    $lang->about_expand = '선택하시면 늘 펼쳐진 상태로 있게 합니다';
-    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
-    $lang->about_layout_setup = 'Importer의 레이아웃 코드를 직접 수정할 수 있습니다. 플러그인 코드를 원하는 곳에 삽입하시거나 관리하세요';
-
-    $lang->about_importer = "Importer를 만드시고 관리할 수 있는 Importer 모듈입니다.\nImporter 모듈은 Importer 스킨에 포함된 레이아웃을 이용하니 생성후 꼭 분류 및 스킨 관리를 통해서 Importer를 꾸미시기 바랍니다.\nImporter내에 다른 게시판을 연결하시고 싶을때에는 메뉴모듈로 메뉴를 만들고 나서 스킨관리에 연결해 주시면 됩니다";
+    $lang->about_type_member = '데이터 이전 대상이 회원정보일 경우 선택해주세요';
+    $lang->about_type_module = '데이터 이전 대상이 게시판등의 게시물 정보일 경우 선택해주세요';
+    $lang->about_type_syncmember = '회원정보와 게시물정보등을 이전후 회원정보 동기화 해야 할때 선택해주세요';
+    $lang->about_importer = "제로보드4, zb5beta 또는 다른 프로그램의 데이터를 제로보드XE 데이터로 이전할 수 있습니다.\n이전을 위해서는 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성후 업로드해주셔야 합니다.";
 ?>
