@@ -36,7 +36,7 @@
     $lang->msg_sync_member = '동기화 버튼을 클릭하시면 회원정보와 게시물정보의 동기화를 시작합니다.';
     $lang->msg_no_xml_file = 'XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요';
     $lang->msg_invalid_xml_file = '잘못된 형식의 XML파일입니다';
-    $lang->msg_import_finished = '데이터 입력이 완료되었습니다. 상황에 따라 입력되지 못한 데이터가 있을 수 있습니다.';
+    $lang->msg_import_finished = '%d개의 데이터 입력이 완료되었습니다. 상황에 따라 입력되지 못한 데이터가 있을 수 있습니다.';
 
     // 주절 주절..
     $lang->about_type_member = '데이터 이전 대상이 회원정보일 경우 선택해주세요';

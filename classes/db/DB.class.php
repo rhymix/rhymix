@@ -118,14 +118,14 @@
          * @brief 로그 남김 
          **/
         function actStart($query) {
-            if(__DEBUG__ < 2) return;
+            if(__DEBUG__ < 2 && !defined('__STOP_DEBUG__')) return;
             $this->setError(0,'success');
             $this->query = $query;
             $this->act_start = getMicroTime();
         }
 
         function actFinish() {
-            if(__DEBUG__ < 2 || !$this->query) return;
+            if(__DEBUG__ < 2 || !$this->query || defined('__STOP_DEBUG__')) return;
             $this->act_finish = getMicroTime();
             $elapsed_time = $this->act_finish - $this->act_start;
             $GLOBALS['__db_elapsed_time__'] += $elapsed_time;

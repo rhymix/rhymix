@@ -11,6 +11,8 @@
         var $oMemberController = null;
         var $oDocumentController = null;
 
+        var $imported_count = 0;
+
         /**
          * @brief 초기화
          **/
@@ -82,7 +84,11 @@
          * @brief import 실행
          **/
         function procImporterAdminImport() {
-            set_time_limit(0);
+            // 실행시간 무한대로 설정
+            @set_time_limit(0);
+
+            // 디버그 메세지의 양이 무척 커지기에 디버그 메세지 생성을 중단
+            define('__STOP_DEBUG__', true);
 
             // 변수 체크
             $module_srl = Context::get('module_srl');
@@ -95,8 +101,10 @@
             $this->oXml = new XmlParser();
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
-            if($module_srl) return $this->importModule($xml_file, $module_srl, $category_srl);
-            return $this->importMember($xml_file);
+            if($module_srl) $this->importModule($xml_file, $module_srl, $category_srl);
+            else $this->importMember($xml_file);
+
+            $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->imported_count) );
         }
 
         /**
@@ -108,28 +116,21 @@
 
             $this->oMemberController = &getController('member');
 
-            $fp = fopen($xml_file, "r");
-            $readed_size = 0;
+            $fp = @fopen($xml_file, "r");
             if($fp) {
-                while(!feof($fp) && $readed_size<=$filesize) {
-                    $str = fgets($fp, 256);
-                    $readed_size += strlen($str);
-
+                $buff = '';
+                while(!feof($fp)) {
+                    $str = fgets($fp,1024);
                     $buff .= $str;
-                    $buff = preg_replace_callback('!<member user_id="([^\"]*)">([^<]*)</member>!is', array($this, '_importMember'), $buff);
-
-                    if(eregi('</root>', $str)) break;
+                    $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), $buff);
                 }
                 fclose($fp);
             }
-
-            return new Object(0,'msg_import_finished');
         }
 
         function _importMember($matches) {
             $user_id = $matches[1];
-            $buff = sprintf('<member>%s</member>',base64_decode($matches[2]));
-            $xml_doc = $this->oXml->parse($buff);
+            $xml_doc = $this->oXml->parse($matches[0]);
 
             $args->user_id = $xml_doc->member->user_id->body;
             $args->user_name = $xml_doc->member->user_name->body;
@@ -142,32 +143,27 @@
             $args->allow_mailing = $xml_doc->member->allow_mailing->body;
             $args->allow_message = 'Y';
             $output = $this->oMemberController->insertMember($args);
-
             if($output->toBool()) {
                 $member_srl = $output->get('member_srl');
                 if($xml_doc->member->image_nickname->body) {
                     $image_nickname = base64_decode($xml_doc->member->image_nickname->body);
-                    $fp = fopen('./files/cache/tmp_imagefile','w');
-                    fwrite($fp, $image_nickname);
-                    fclose($fp);
-
+                    FileHandler::writeFile('./files/cache/tmp_imagefile', $image_nickname);
                     $this->oMemberController->insertImageName($member_srl, './files/cache/tmp_imagefile');
+                    @unlink('./files/cache/tmp_imagefile');
                 }
                 if($xml_doc->member->image_mark->body) {
                     $image_mark = base64_decode($xml_doc->member->image_mark->body);
-                    $fp = fopen('./files/cache/tmp_imagefile','w');
-                    fwrite($fp, $image_mark);
-                    fclose($fp);
-
+                    FileHandler::writeFile('./files/cache/tmp_imagefile', $image_mark);
                     $this->oMemberController->insertImageMark($member_srl, './files/cache/tmp_imagefile');
+                    @unlink('./files/cache/tmp_imagefile');
                 }
-                @unlink('./files/cache/tmp_imagefile');
                 if($xml_doc->member->signature->body) {
                     $oMemberController->putSignature($member_srl, $xml_doc->member->signature->body);
                 }
-            }
 
-            usleep(100);
+                $this->imported_count ++;
+                if(!$this->imported_count%500) usleep(200);
+            }
             return '';
         }
 
