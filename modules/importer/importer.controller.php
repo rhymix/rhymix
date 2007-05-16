@@ -209,9 +209,9 @@
             if($fp) {
                 $buff = '';
                 while(!feof($fp)) {
-                    $str = fgets($fp,1024);
+                    $str = fread($fp,1024);
                     $buff .= $str;
-
+                    flush();
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) break;
@@ -239,7 +239,7 @@
                 foreach($files as $key => $val) {
                     $filename = $val->attrs->name;
                     $downloaded_count = (int)$val->downloaded_count->body;
-                    $file_buff = base64_decode($val->buff);
+                    $file_buff = base64_decode($val->buff->body);
 
                     $tmp_filename = './files/cache/tmp_uploaded_file';
                     FileHandler::writeFile($tmp_filename, $file_buff);
