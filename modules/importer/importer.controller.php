@@ -111,7 +111,7 @@
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
             if($this->module_srl) {
-                $this->limit_count = 100;
+                $this->limit_count = 10;
                 $this->importDocument($xml_file);
             } else {
                 $this->importMember($xml_file);
