@@ -36,6 +36,8 @@
 
             $this->first_page = $first_page;
             $this->last_page = $last_page;
+
+            if($total_page < $this->page_count) $this->page_count = $total_page;
         }
 
         /**
