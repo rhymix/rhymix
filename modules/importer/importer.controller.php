@@ -121,7 +121,7 @@
                 $buff = '';
                 while(!feof($fp)) {
                     $str = fgets($fp,1024);
-                    $buff .= $str;
+                    $buff .= trim($str);
                     $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), $buff);
                 }
                 fclose($fp);
@@ -147,22 +147,22 @@
                 $member_srl = $output->get('member_srl');
                 if($xml_doc->member->image_nickname->body) {
                     $image_nickname = base64_decode($xml_doc->member->image_nickname->body);
-                    FileHandler::writeFile('./files/cache/tmp_imagefile', $image_nickname);
-                    $this->oMemberController->insertImageName($member_srl, './files/cache/tmp_imagefile');
-                    @unlink('./files/cache/tmp_imagefile');
+                    FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_nickname);
+                    $this->oMemberController->insertImageName($member_srl, './files/cache/tmp_imagefile.gif');
+                    @unlink('./files/cache/tmp_imagefile.gif');
                 }
                 if($xml_doc->member->image_mark->body) {
                     $image_mark = base64_decode($xml_doc->member->image_mark->body);
-                    FileHandler::writeFile('./files/cache/tmp_imagefile', $image_mark);
-                    $this->oMemberController->insertImageMark($member_srl, './files/cache/tmp_imagefile');
-                    @unlink('./files/cache/tmp_imagefile');
+                    FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_mark);
+                    $this->oMemberController->insertImageMark($member_srl, './files/cache/tmp_imagefile.gif');
+                    @unlink('./files/cache/tmp_imagefile.gif');
                 }
                 if($xml_doc->member->signature->body) {
-                    $oMemberController->putSignature($member_srl, $xml_doc->member->signature->body);
+                    $this->oMemberController->putSignature($member_srl, base64_decode($xml_doc->member->signature->body));
                 }
 
                 $this->imported_count ++;
-                if(!$this->imported_count%500) usleep(200);
+                if(!$this->imported_count%50) usleep(100);
             }
             return '';
         }

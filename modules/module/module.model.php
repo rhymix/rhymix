@@ -374,22 +374,25 @@
          * 캐시된 설정 정보가 없으면 만들 후 캐시하고 return
          **/
         function getModuleConfig($module) {
-            $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
+            if($GLOBALS['__ModuleConfig__'][$module]) {
+                $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
 
-            if(!file_exists($cache_file)) {
-                $args->module = $module;
-                $output = executeQuery('module.getModuleConfig', $args);
+                if(!file_exists($cache_file)) {
+                    $args->module = $module;
+                    $output = executeQuery('module.getModuleConfig', $args);
 
-                $config = base64_encode($output->data->config);
+                    $config = base64_encode($output->data->config);
 
-                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $config = "%s"; ?>', $config);
+                    $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $config = "%s"; ?>', $config);
 
-                FileHandler::writeFile($cache_file, $buff);
+                    FileHandler::writeFile($cache_file, $buff);
+                }
+
+                if(!$config && file_exists($cache_file)) @include($cache_file);
+
+                $GLOBALS['__ModuleConfig__'][$module] = unserialize(base64_decode($config));
             }
-
-            if(!$config && file_exists($cache_file)) @include($cache_file);
-
-            return unserialize(base64_decode($config));
+            return $GLOBALS['__ModuleConfig__'][$module];
         }
 
 

@@ -132,7 +132,7 @@
             if(!file_exists($source_file)) return;
 
             // 이미지 정보를 구함
-            list($width, $height, $type, $attrs) = getimagesize($source_file);
+            list($width, $height, $type, $attrs) = @getimagesize($source_file);
             switch($type) {
                 case '1' :
                         $type = 'gif';
@@ -161,26 +161,26 @@
             if($resize_height>0 && $new_height > $resize_height) $new_height = $resize_height;
 
             // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
-            if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($new_width, $new_height);
-            else $thumb = imagecreate($new_width, $new_height);
+            if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($new_width, $new_height);
+            else $thumb = @imagecreate($new_width, $new_height);
 
             switch($type) {
                 case 'gif' : 
-                        $source = imagecreatefromgif($source_file);
+                        $source = @imagecreatefromgif($source_file);
                     break;
                 // jpg
                 case 'jpeg' : 
                 case 'jpg' : 
-                        $source = imagecreatefromjpeg($source_file);
+                        $source = @imagecreatefromjpeg($source_file);
                     break;
                 // png
                 case 'png' : 
-                        $source = imagecreatefrompng($source_file);
+                        $source = @imagecreatefrompng($source_file);
                     break;
                 // bmp
                 case 'wbmp' : 
                 case 'bmp' : 
-                        $source = imagecreatefromwbmp($source_file);
+                        $source = @imagecreatefromwbmp($source_file);
                     break;
                 default :
                     return;
