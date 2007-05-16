@@ -80,14 +80,20 @@
 
 <!-- step 2. XML 파일 지정 -->
 <div id="step2" style="display:none">
-    <form action="./" method="get" onsubmit="return doStep2(this)">
+    <form action="./" method="get" onsubmit="return doStep2(this)" id="fo_step2">
         <input type="hidden" name="module_srl" value="" />
         <input type="hidden" name="category_srl" value="" />
+        <input type="hidden" name="position" value="0" />
         <div style="font-weight:bold">{$lang->import_step_title[2]}</div>
         <div>{$lang->import_step_desc[2]}</div>
         <div>
             <input type="text" name="xml_file" value="./" />
             <input type="submit" value="{$lang->cmd_next}" />
+        </div>
+        <div id="step2_status" style="display:none">
+            <div>{$lang->msg_importing}</div>
+            <div id="step2_position"></div>
+            <div><input type="button" onclick="procFilter(); return false" value="{$lang->cmd_continue}" /></div>
         </div>
     </form>
 </div>

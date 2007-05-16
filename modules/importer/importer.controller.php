@@ -11,7 +11,9 @@
         var $oMemberController = null;
         var $oDocumentController = null;
 
+        var $position = 0;
         var $imported_count = 0;
+        var $limit_count = 500;
 
         /**
          * @brief 초기화
@@ -94,6 +96,7 @@
             $module_srl = Context::get('module_srl');
             $category_srl = Context::get('category_list');
             $xml_file = Context::get('xml_file');
+            $this->position = (int)Context::get('position');
 
             // 파일을 찾을 수 없으면 에러 표시
             if(!file_exists($xml_file)) return new Object(-1,'msg_no_xml_file');
@@ -104,7 +107,13 @@
             if($module_srl) $this->importModule($xml_file, $module_srl, $category_srl);
             else $this->importMember($xml_file);
 
-            $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->imported_count) );
+            if($this->position+$this->limit_count > $this->imported_count) {
+                $this->add('is_finished', 'Y');
+                $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->imported_count) );
+            } else {
+                $this->add('position', $this->imported_count);
+                $this->add('is_finished', 'N');
+            }
         }
 
         /**
@@ -121,14 +130,22 @@
                 $buff = '';
                 while(!feof($fp)) {
                     $str = fgets($fp,1024);
-                    $buff .= trim($str);
-                    $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), $buff);
+                    $buff .= $str;
+
+                    $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), trim($buff));
+
+                    if($this->position+$this->limit_count <= $this->imported_count) break;
                 }
                 fclose($fp);
             }
         }
 
         function _importMember($matches) {
+            if($this->position > $this->imported_count) {
+                $this->imported_count++;
+                return;
+            }
+
             $user_id = $matches[1];
             $xml_doc = $this->oXml->parse($matches[0]);
 
@@ -162,7 +179,6 @@
                 }
 
                 $this->imported_count ++;
-                if(!$this->imported_count%50) usleep(100);
             }
             return '';
         }

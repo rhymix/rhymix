@@ -29,7 +29,7 @@
             $this->page_count = $page_count;
             $this->point = 0;
 
-            $first_page = $cur_page-(int)($page_count/2);
+            $first_page = $cur_page - (int)($page_count/2);
             if($first_page<1) $first_page = 1;
             $last_page = $total_page;
             if($last_page>$total_page) $last_page = $total_page;
@@ -43,7 +43,7 @@
          **/
         function getNextPage() {
             $page = $this->first_page+$this->point++;
-            if($page > $this->last_page) $page = 0;
+            if($this->point > $this->page_count) $page = 0;
             return $page;
         }
     }

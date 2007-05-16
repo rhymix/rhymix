@@ -76,11 +76,29 @@ function doStep2(fo_obj) {
     }
 
     procFilter(fo_obj, import_xml);
+
+    xGetElementById('step2_status').style.display = 'block';
     return false;
 }
 
 /* Step Complete Import */
 function completeImport(ret_obj) {
-    alert(ret_obj["message"]);
-    location.href = location.href;
+    var message = ret_obj['message'];
+    var is_finished = ret_obj['is_finished'];
+    var position = ret_obj['position'];
+
+    if(is_finished=='Y') {
+        alert(ret_obj["message"]);
+        location.href = location.href;
+    } else {
+        var fo_obj = xGetElementById('fo_step2');
+        fo_obj.position.value = position;
+        xInnerHtml('step2_position', position);
+        procFilter(fo_obj, import_xml);
+    }
+}
+
+function doManualProcess() {
+    var fo_obj = xGetElementById('fo_step2');
+    procFilter(fo_obj, import_xml);
 }
