@@ -31,7 +31,7 @@
 
             $first_page = $cur_page-(int)($page_count/2);
             if($first_page<1) $first_page = 1;
-            $last_page = $first_page+$page_count-1;
+            $last_page = $total_page;
             if($last_page>$total_page) $last_page = $total_page;
 
             $this->first_page = $first_page;

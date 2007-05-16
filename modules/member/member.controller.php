@@ -725,6 +725,16 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') return $this->stop('msg_not_uploaded_image_name');
 
+            $this->insertImageName($member_srl, $file['tmp_name']);
+
+            // 페이지 리프레쉬
+            $this->setRefreshPage();
+        }
+
+        function insertImageName($member_srl, $target_file) {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+
             // 정해진 사이즈를 구함
             $max_width = $config->image_name_max_width;
             if(!$max_width) $max_width = "90";
@@ -732,10 +742,7 @@
             if(!$max_height) $max_height = "20";
 
             $target_filename = sprintf('files/attach/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
-
-            // 페이지 리프레쉬
-            $this->setRefreshPage();
+            FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
         }
 
         /**
@@ -778,6 +785,16 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') return $this->stop('msg_not_uploaded_image_mark');
 
+            $this->insertImageMark($member_srl, $file['tmp_name']);
+
+            // 페이지 리프레쉬
+            $this->setRefreshPage();
+        }
+
+        function insertImageMark($member_srl, $target_file) {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+
             // 정해진 사이즈를 구함
             $max_width = $config->image_mark_max_width;
             if(!$max_width) $max_width = "20";
@@ -785,10 +802,8 @@
             if(!$max_height) $max_height = "20";
             
             $target_filename = sprintf('files/attach/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            FileHandler::createImageFile($file['tmp_name'], $target_filename, $max_width, $max_height, 'gif');
+            FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
 
-            // 페이지 리프레쉬
-            $this->setRefreshPage();
         }
 
         /**

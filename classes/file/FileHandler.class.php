@@ -22,7 +22,7 @@
             $fp = fopen($file_name, "r");
             $buff = '';
             if($fp) {
-                while(!feof($fp) || strlen($buff)<$filesize) {
+                while(!feof($fp) && strlen($buff)<=$filesize) {
                     $str = fgets($fp, 1024);
                     $buff .= $str;
                 }
