@@ -10,10 +10,16 @@
         var $oXml = null;
         var $oMemberController = null;
         var $oDocumentController = null;
+        var $oFileController = null;
+        var $oCommentController = null;
+        var $oTrackbackController = null;
 
         var $position = 0;
         var $imported_count = 0;
         var $limit_count = 500;
+
+        var $module_srl = 0;
+        var $category_srl = 0;
 
         /**
          * @brief 초기화
@@ -93,8 +99,8 @@
             define('__STOP_DEBUG__', true);
 
             // 변수 체크
-            $module_srl = Context::get('module_srl');
-            $category_srl = Context::get('category_list');
+            $this->module_srl = Context::get('module_srl');
+            $this->category_srl = Context::get('category_list');
             $xml_file = Context::get('xml_file');
             $this->position = (int)Context::get('position');
 
@@ -104,8 +110,12 @@
             $this->oXml = new XmlParser();
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
-            if($module_srl) $this->importModule($xml_file, $module_srl, $category_srl);
-            else $this->importMember($xml_file);
+            if($this->module_srl) {
+                $this->limit_count = 100;
+                $this->importDocument($xml_file);
+            } else {
+                $this->importMember($xml_file);
+            }
 
             if($this->position+$this->limit_count > $this->imported_count) {
                 $this->add('is_finished', 'Y');
@@ -184,33 +194,130 @@
         }
 
         /**
-         * @brief 게시물 import
+         * @brief 게시물정보 import
          **/
-        function importModule($xml_file) {
+        function importDocument($xml_file) {
             $filesize = filesize($xml_file);
             if($filesize<1) return;
 
             $this->oDocumentController = &getController('document');
+            $this->oFileController = &getController('file');
+            $this->oCommentController = &getController('comment');
+            $this->oTrackbackController = &getController('trackback');
 
-            $fp = fopen($xml_file, "r");
-            $readed_size = 0;
+            $fp = @fopen($xml_file, "r");
             if($fp) {
-                while(!feof($fp) && $readed_size<=$filesize) {
-                    $str = fgets($fp, 1024);
-                    $readed_size += strlen($str);
-
+                $buff = '';
+                while(!feof($fp)) {
+                    $str = fgets($fp,1024);
                     $buff .= $str;
-                    $buff = preg_replace_callback('!<document sequence="([^\"]*)">([^<]*)</document>!is', array($this, '_importModule'), $buff);
+
+                    $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
+
+                    if($this->position+$this->limit_count <= $this->imported_count) break;
                 }
                 fclose($fp);
             }
-            
-            return new Object(-1,'haha');
         }
 
-        function _importModule($matches) {
-            $user_id = $matches[1];
-            $xml_doc = sprintf('<document>%s</document>',base64_decode($matches[2]));
+        function _importDocument($matches) {
+            if($this->position > $this->imported_count) {
+                $this->imported_count++;
+                return;
+            }
+
+            $sequence = $matches[1];
+            $xml_doc = $this->oXml->parse($matches[0]);
+
+            // 문서 번호 미리 따오기 
+            $args->document_srl = getNextSequence();
+
+            // 첨부파일 미리 등록
+            $files = $xml_doc->document->files->file;
+            if($files && !is_array($files)) $files = array($files);
+            if(count($files)) {
+                foreach($files as $key => $val) {
+                    $filename = $val->attrs->name;
+                    $downloaded_count = (int)$val->downloaded_count->body;
+                    $file_buff = base64_decode($val->buff);
+
+                    $tmp_filename = './files/cache/tmp_uploaded_file';
+                    FileHandler::writeFile($tmp_filename, $file_buff);
+
+                    $file_info['tmp_name'] = $tmp_filename;
+                    $file_info['name'] = $filename;
+                    $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $downloaded_count);
+                }
+            }
+
+            // 문서 입력
+            $args->module_srl = $this->module_srl;
+            $args->category_srl = $this->category_srl;
+            $args->is_notice = $xml_doc->document->is_notice->body;
+            $args->is_secret = $xml_doc->document->is_secret->body;
+            $args->title = $xml_doc->document->title->body;
+            $args->content = $xml_doc->document->content->body;
+            $args->readed_count = $xml_doc->document->readed_count->body;
+            $args->voted_count = $xml_doc->document->voted_count->body;
+            $args->comment_count = $xml_doc->document->comment_count->body;
+            $args->trackback_count = $xml_doc->document->trackback_count->body;
+            $args->uploaded_count = $xml_doc->document->uploaded_count->body;
+            $args->password = $xml_doc->document->password->body;
+            $args->nick_name = $xml_doc->document->nick_name->body;
+            $args->member_srl = -1;
+            $args->user_id = $xml_doc->document->user_id->body;
+            $args->user_name = $xml_doc->document->user_name->body;
+            $args->email_address = $xml_doc->document->email_address->body;
+            $args->homepage = $xml_doc->document->homepage->body;
+            $args->tags = $xml_doc->document->tags->body;
+            $args->regdate = $xml_doc->document->regdate->body;
+            $args->ipaddress = $xml_doc->document->ipaddress->body;
+            $args->allow_comment = $xml_doc->document->allow_comment->body;
+            $args->lock_comment = $xml_doc->document->lock_comment->body;
+            $args->allow_trackback = $xml_doc->document->allow_trackback->body;
+            $output = $this->oDocumentController->insertDocument($args, true);
+            if(!$output->toBool()) return;
+
+            // 코멘트 입력
+            $comments = $xml_doc->document->comments->comment;
+            if($comments && !is_array($comments)) $comments = array($comments);
+            if(count($comments)) {
+                foreach($comments as $key => $val) {
+                    $comment_args->document_srl = $args->document_srl;
+                    $comment_args->comment_srl = getNextSequence();
+                    $comment_args->module_srl = $this->module_srl;
+                    $comment_args->parent_srl = $val->parent_srl->body;
+                    $comment_args->content = $val->content->body;
+                    $comment_args->password = $val->password->body;
+                    $comment_args->nick_name = $val->nick_name->body;
+                    $comment_args->user_id = $val->user_id->body;
+                    $comment_args->user_name = $val->user_name->body;
+                    $comment_args->member_srl = -1;
+                    $comment_args->email_address = $val->email_address->body;
+                    $comment_args->regdate = $val->regdate->body;
+                    $comment_args->ipaddress = $val->ipaddress->body;
+                    $this->oCommentController->insertComment($comment_args, true);
+                }
+            }
+
+            // 트랙백 입력
+            $trackbacks = $xml_doc->document->trackbacks->trackback;
+            if($trackbacks && !is_array($trackbacks)) $trackbacks = array($trackbacks);
+            if(count($trackbacks)) {
+                foreach($trackbacks as $key => $val) {
+                    $trackback_args->document_srl = $args->document_srl;
+                    $trackback_args->module_srl = $this->module_srl;
+                    $trackback_args->url = $val->url->body;
+                    $trackback_args->title = $val->title->body;
+                    $trackback_args->blog_name = $val->blog_name->body;
+                    $trackback_args->excerpt = $val->excerpt->body;
+                    $trackback_args->regdate = $val->regdate->body;
+                    $trackback_args->ipaddress = $val->ipaddress->body;
+                    $this->oTrackbackController->insertTrackback($trackback_args, true);
+                }
+            }
+
+            $this->imported_count ++;
             return '';
         }
     }

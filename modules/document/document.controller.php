@@ -46,7 +46,7 @@
         /**
          * @brief 문서 입력
          **/
-        function insertDocument($obj) {
+        function insertDocument($obj, $manual_inserted = false) {
 
             // begin transaction
             $oDB = &DB::getInstance();
@@ -83,15 +83,15 @@
             $obj->tags = $oTagController->insertTag($obj->module_srl, $obj->document_srl, $obj->tags);
 
             // 글 입력
-            $obj->readed_count = 0;
+            if(!$obj->readed_count) $obj->readed_count = 0;
             $obj->update_order = $obj->list_order = $obj->document_srl * -1;
-            if($obj->password) $obj->password = md5($obj->password);
+            if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 
             // 공지사항일 경우 list_order에 무지막지한 값;;을 입력
             if($obj->is_notice=='Y') $obj->list_order = $this->notice_list_order;
 
             // 로그인 된 회원일 경우 회원의 정보를 입력
-            if(Context::get('is_logged')) {
+            if(Context::get('is_logged')&&!$manual_inserted) {
                 $logged_info = Context::get('logged_info');
                 $obj->member_srl = $logged_info->member_srl;
                 $obj->user_id = $logged_info->user_id;
@@ -112,10 +112,6 @@
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($obj->category_srl) $this->updateCategoryCount($obj->category_srl);
 
-            // 자동 저장 문서 삭제
-            $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc();
-
             // 첨부 파일이 있었을 경우 해당 첨부파일들의 valid값을 Y로 변경
             if($obj->uploaded_count) {
                 $oFileController = &getController('file');
@@ -124,6 +120,12 @@
 
             // commit
             $oDB->commit();
+
+            // 자동 저장 문서 삭제
+            if(!$manual_inserted) {
+                $oEditorController = &getController('editor');
+                $oEditorController->deleteSavedDoc();
+            }
 
             // return
             $this->addGrant($obj->document_srl);

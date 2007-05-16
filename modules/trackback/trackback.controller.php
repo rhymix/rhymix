@@ -42,18 +42,26 @@
             Context::setRequestMethod("XMLRPC");
 
             $obj = Context::gets('document_srl','url','title','excerpt');
+            if(!$obj->document_srl) return $this->stop('fail');
 
+            return $this->insertTrackback($obj);
+        }
+
+        function insertTrackback($obj, $manual_inserted = false) {
             // GET으로 넘어온 document_srl을 참조, 없으면 오류~
             $document_srl = $obj->document_srl;
-            if(!$document_srl) return $this->stop('fail');
 
-            // document model 객체 생성후 원본글을 가져옴
-            $oDocumentModel = &getModel('document');
-            $document = $oDocumentModel->getDocument($document_srl);
+            if(!$manual_inserted) {
+                // document model 객체 생성후 원본글을 가져옴
+                $oDocumentModel = &getModel('document');
+                $document = $oDocumentModel->getDocument($document_srl);
 
-            // 원본글이 없거나 트랙백 허용을 하지 않으면 오류 표시
-            if(!$document_srl) return $this->stop('fail');
-            if($document->allow_trackback=='N') return $this->stop('fail');
+                // 원본글이 없거나 트랙백 허용을 하지 않으면 오류 표시
+                if(!$document_srl) return $this->stop('fail');
+                if($document->allow_trackback=='N') return new Object(-1,'fail');
+
+                $obj->module_srl = $document->module_srl;
+            }
 
             // 엮인글 정리
             $obj = Context::convertEncoding($obj);
@@ -62,28 +70,28 @@
 
             // 엮인글를 입력
             $obj->list_order = $obj->trackback_srl = getNextSequence();
-            $obj->module_srl = $document->module_srl;
             $output = executeQuery('trackback.insertTrackback', $obj);
+            if(!$output->toBool()) return $output;
 
             // 입력에 이상이 없으면 해당 글의 엮인글 수를 올림
-            if(!$output->toBool()) return $this->stop( 'fail');
+            if(!$manual_inserted) {
+                // trackback model 객체 생성
+                $oTrackbackModel = &getModel('trackback');
 
-            // trackback model 객체 생성
-            $oTrackbackModel = &getModel('trackback');
+                // 해당 글의 전체 엮인글 수를 구해옴
+                $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
 
-            // 해당 글의 전체 엮인글 수를 구해옴
-            $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
+                // document controller 객체 생성
+                $oDocumentController = &getController('document');
 
-            // document controller 객체 생성
-            $oDocumentController = &getController('document');
+                // 해당글의 엮인글 수를 업데이트
+                $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
 
-            // 해당글의 엮인글 수를 업데이트
-            $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
+                // 결과 return
+                if(!$output->toBool()) return $output;
+            }
 
-            // 결과 return
-            if(!$output->toBool()) return $this->stop('fail');
-
-            $this->setMessage('success');
+            return new Object();
         }
 
         /**

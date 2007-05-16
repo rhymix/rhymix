@@ -24,7 +24,12 @@
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
 
-            $output = $this->insertFile($module_srl, $upload_target_srl);
+            $file_info = Context::get('Filedata');
+
+            // 정상적으로 업로드된 파일이 아니면 오류 출력
+            if(!is_uploaded_file($file_info['tmp_name'])) return false;
+
+            $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
 
 
@@ -55,12 +60,7 @@
         /**
          * @brief 첨부파일 추가
          **/
-        function insertFile($module_srl, $upload_target_srl) {
-            $file_info = Context::get('Filedata');
-
-            // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(!is_uploaded_file($file_info['tmp_name'])) return false;
-
+        function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0) {
             // 첨부파일 설정 가져옴
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin != 'Y') {
@@ -103,6 +103,7 @@
             $args->direct_download = $direct_download;
             $args->source_filename = $file_info['name'];
             $args->uploaded_filename = $filename;
+            $args->download_count = $download_count;
             $args->file_size = filesize($filename);
             $args->comment = NULL;
             $args->member_srl = $member_srl;

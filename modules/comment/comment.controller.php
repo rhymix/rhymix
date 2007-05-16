@@ -48,7 +48,7 @@
         /**
          * @brief 댓글 입력
          **/
-        function insertComment($obj) {
+        function insertComment($obj, $manual_inserted = false) {
 
             // document_srl에 해당하는 글이 있는지 확인
             $document_srl = $obj->document_srl;
@@ -58,25 +58,27 @@
             $oDocumentModel = &getModel('document');
 
             // 원본글을 가져옴
-            $document = $oDocumentModel->getDocument($document_srl);
+            if(!$manual_inserted) {
+                $document = $oDocumentModel->getDocument($document_srl);
 
-            if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
-            if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
+                if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
+                if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
 
-            $obj->list_order = $obj->comment_srl * -1;
-            if($obj->password) $obj->password = md5($obj->password);
-            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+                if($obj->password) $obj->password = md5($obj->password);
+                if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
-            // 로그인 된 회원일 경우 회원의 정보를 입력
-            if(Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
-                $obj->member_srl = $logged_info->member_srl;
-                $obj->user_id = $logged_info->user_id;
-                $obj->user_name = $logged_info->user_name;
-                $obj->nick_name = $logged_info->nick_name;
-                $obj->email_address = $logged_info->email_address;
-                $obj->homepage = $logged_info->homepage;
+                // 로그인 된 회원일 경우 회원의 정보를 입력
+                if(Context::get('is_logged')) {
+                    $logged_info = Context::get('logged_info');
+                    $obj->member_srl = $logged_info->member_srl;
+                    $obj->user_id = $logged_info->user_id;
+                    $obj->user_name = $logged_info->user_name;
+                    $obj->nick_name = $logged_info->nick_name;
+                    $obj->email_address = $logged_info->email_address;
+                    $obj->homepage = $logged_info->homepage;
+                }
             }
+            $obj->list_order = $obj->comment_srl * -1;
 
             // begin transaction
             $oDB = &DB::getInstance();
@@ -97,20 +99,22 @@
                 return $output;
             }
 
-            // comment model객체 생성
-            $oCommentModel = &getModel('comment');
+            if(!$manual_inserted) {
+                // comment model객체 생성
+                $oCommentModel = &getModel('comment');
 
-            // 해당 글의 전체 댓글 수를 구해옴
-            $comment_count = $oCommentModel->getCommentCount($document_srl);
+                // 해당 글의 전체 댓글 수를 구해옴
+                $comment_count = $oCommentModel->getCommentCount($document_srl);
 
-            // document의 controller 객체 생성
-            $oDocumentController = &getController('document');
+                // document의 controller 객체 생성
+                $oDocumentController = &getController('document');
 
-            // 해당글의 댓글 수를 업데이트
-            $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
+                // 해당글의 댓글 수를 업데이트
+                $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
 
-            // 댓글의 권한을 부여
-            $this->addGrant($obj->comment_srl);
+                // 댓글의 권한을 부여
+                $this->addGrant($obj->comment_srl);
+            }
 
             // commit
             $oDB->commit();
