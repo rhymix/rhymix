@@ -16,7 +16,7 @@
 
         var $position = 0;
         var $imported_count = 0;
-        var $limit_count = 500;
+        var $limit_count = 50;
 
         var $module_srl = 0;
         var $category_srl = 0;
@@ -96,7 +96,7 @@
             @set_time_limit(0);
 
             // 디버그 메세지의 양이 무척 커지기에 디버그 메세지 생성을 중단
-            define('__STOP_DEBUG__', true);
+            //define('__STOP_DEBUG__', true);
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
@@ -110,12 +110,8 @@
             $this->oXml = new XmlParser();
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
-            if($this->module_srl) {
-                $this->limit_count = 10;
-                $this->importDocument($xml_file);
-            } else {
-                $this->importMember($xml_file);
-            }
+            if($this->module_srl) $this->importDocument($xml_file);
+            else $this->importMember($xml_file);
 
             if($this->position+$this->limit_count > $this->imported_count) {
                 $this->add('is_finished', 'Y');
@@ -229,8 +225,9 @@
             $sequence = $matches[1];
             $xml_doc = $this->oXml->parse($matches[0]);
 
-            // 문서 번호 미리 따오기 
+            // 문서 번호와 내용 미리 구해 놓기
             $args->document_srl = getNextSequence();
+            $args->content = $xml_doc->document->content->body;
 
             // 첨부파일 미리 등록
             $files = $xml_doc->document->files->file;
@@ -245,7 +242,10 @@
                     if(FileHandler::getRemoteFile($url, $tmp_filename)) {
                         $file_info['tmp_name'] = $tmp_filename;
                         $file_info['name'] = $filename;
-                        $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count);
+                        $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count, true);
+
+                        // 컨텐츠의 내용 수정 (이미지 첨부파일 관련)
+                        $args->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $args->document_srl, $filename), $args->content);
                     }
                     @unlink($tmp_filename);
                 }
@@ -257,7 +257,6 @@
             $args->is_notice = $xml_doc->document->is_notice->body;
             $args->is_secret = $xml_doc->document->is_secret->body;
             $args->title = $xml_doc->document->title->body;
-            $args->content = $xml_doc->document->content->body;
             $args->readed_count = $xml_doc->document->readed_count->body;
             $args->voted_count = $xml_doc->document->voted_count->body;
             $args->comment_count = $xml_doc->document->comment_count->body;
@@ -276,6 +275,7 @@
             $args->allow_comment = $xml_doc->document->allow_comment->body;
             $args->lock_comment = $xml_doc->document->lock_comment->body;
             $args->allow_trackback = $xml_doc->document->allow_trackback->body;
+            
             $output = $this->oDocumentController->insertDocument($args, true);
             if(!$output->toBool()) return;
 

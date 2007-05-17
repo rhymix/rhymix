@@ -75,10 +75,10 @@ function doStep2(fo_obj) {
         fo_obj.category_srl.value = category_srl;
     }
 
-    fo_obj.submit();
-    //procFilter(fo_obj, import_xml);
+    procFilter(fo_obj, import_xml);
 
     xGetElementById('step2_status').style.display = 'block';
+
     return false;
 }
 
