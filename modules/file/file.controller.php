@@ -60,19 +60,21 @@
         /**
          * @brief 첨부파일 추가
          **/
-        function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0) {
-            // 첨부파일 설정 가져옴
-            $logged_info = Context::get('logged_info');
-            if($logged_info->is_admin != 'Y') {
-                $oFileModel = &getModel('file');
-                $config = $oFileModel->getFileConfig();
-                $allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+        function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false) {
+            if(!$manual_insert) {
+                // 첨부파일 설정 가져옴
+                $logged_info = Context::get('logged_info');
+                if($logged_info->is_admin != 'Y') {
+                    $oFileModel = &getModel('file');
+                    $config = $oFileModel->getFileConfig();
+                    $allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 
-                // 해당 문서에 첨부된 모든 파일의 용량을 가져옴 (DB에서 가져옴)
-                $size_args->upload_target_srl = $upload_target_srl;
-                $output = executeQuery('file.getAttachedFileSize', $size_args);
-                $attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-                if($attached_size > $allowed_attach_size) return new Object(-1, 'msg_exceeds_limit_size');
+                    // 해당 문서에 첨부된 모든 파일의 용량을 가져옴 (DB에서 가져옴)
+                    $size_args->upload_target_srl = $upload_target_srl;
+                    $output = executeQuery('file.getAttachedFileSize', $size_args);
+                    $attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
+                    if($attached_size > $allowed_attach_size) return new Object(-1, 'msg_exceeds_limit_size');
+                }
             }
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
@@ -90,7 +92,8 @@
             if(!FileHandler::makeDir($path)) return false;
 
             // 파일 이동
-            if(!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
+            if(!$manual_insert&&!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
+            elseif($manual_insert) @rename($file_info['tmp_name'], $filename);
 
             // 사용자 정보를 구함
             $oMemberModel = &getModel('member');

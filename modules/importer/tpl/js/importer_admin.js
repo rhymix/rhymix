@@ -78,7 +78,6 @@ function doStep2(fo_obj) {
     procFilter(fo_obj, import_xml);
 
     xGetElementById('step2_status').style.display = 'block';
-
     return false;
 }
 
