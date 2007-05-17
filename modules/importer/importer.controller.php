@@ -100,7 +100,7 @@
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
-            $this->category_srl = Context::get('category_list');
+            $this->category_srl = Context::get('category_srl');
             $xml_file = Context::get('xml_file');
             $this->position = (int)Context::get('position');
 
