@@ -237,16 +237,17 @@
             if($files && !is_array($files)) $files = array($files);
             if(count($files)) {
                 foreach($files as $key => $val) {
-                    $filename = $val->attrs->name;
-                    $downloaded_count = (int)$val->downloaded_count->body;
-                    $file_buff = base64_decode($val->buff->body);
+                    $filename = $val->filename->body;
+                    $url = $val->url->body;
+                    $download_count = (int)$val->download_count->body;
 
                     $tmp_filename = './files/cache/tmp_uploaded_file';
-                    FileHandler::writeFile($tmp_filename, $file_buff);
-
-                    $file_info['tmp_name'] = $tmp_filename;
-                    $file_info['name'] = $filename;
-                    $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $downloaded_count);
+                    if(FileHandler::getRemoteFile($url, $tmp_filename)) {
+                        $file_info['tmp_name'] = $tmp_filename;
+                        $file_info['name'] = $filename;
+                        $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count);
+                    }
+                    @unlink($tmp_filename);
                 }
             }
 

@@ -126,6 +126,35 @@
         }
 
         /**
+         * @brief 원격파일을 다운받아서 특정 위치에 저장
+         **/
+        function getRemoteFile($url, $target_filename) {
+            $url_info = parse_url($url);
+
+            if(!$url_info['port']) $url_info['port'] = 80;
+
+            $fp = fsockopen($url_info['host'], $url_info['port']);
+            if(!$fp) return;
+
+            $header = sprintf("GET %s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host']); 
+            fwrite($fp, $header);
+
+            $ft = fopen($target_filename, 'w');
+            if(!$ft) return;
+
+            $begin = false;
+            while(!feof($fp)) {
+                $str = fgets($fp, 1024);
+                if($begin) fwrite($ft, $str);
+                if(!trim($str)) $begin = true;
+            }
+            fclose($ft);
+            fclose($fp);
+
+            return true;
+        }
+
+        /**
          * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
          **/
         function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '') {
