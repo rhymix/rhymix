@@ -1,12 +1,4 @@
 <!--%import("filter/insert_comment.xml")-->
-
-<!-- 댓글 정보 출력 -->
-<a name="comment_top_{$document->document_srl}"></a>
-
-<!-- 댓글 출력 -->
-<div id="comment_{$document->document_srl}" style="display:none">
-    <!-- 댓글 목록 -->
-
     <!--@if($document->comment_list)-->
 
         <!--@foreach($document->comment_list as $key => $val)-->
@@ -69,4 +61,3 @@
     <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
         <div id="comment_form_{$document->document_srl}"></div>
     <!--@end-->
-</div>

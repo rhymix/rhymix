@@ -81,6 +81,8 @@
 <!-- step 2. XML 파일 지정 -->
 <div id="step2" style="display:none">
     <form action="./" method="get" onsubmit="return doStep2(this)" id="fo_step2">
+        <input type="hidden" name="module" value="importer" />
+        <input type="hidden" name="action" value="procImporterAdminImport" />
         <input type="hidden" name="module_srl" value="" />
         <input type="hidden" name="category_srl" value="" />
         <input type="hidden" name="position" value="0" />

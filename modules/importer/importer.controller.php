@@ -96,7 +96,7 @@
             @set_time_limit(0);
 
             // 디버그 메세지의 양이 무척 커지기에 디버그 메세지 생성을 중단
-            //define('__STOP_DEBUG__', true);
+            define('__STOP_DEBUG__', true);
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
@@ -110,8 +110,13 @@
             $this->oXml = new XmlParser();
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
-            if($this->module_srl) $is_finished = $this->importDocument($xml_file);
-            else $is_finished = $this->importMember($xml_file);
+            if($this->module_srl) {
+                $this->limit_count = 20;
+                $is_finished = $this->importDocument($xml_file);
+            } else {
+                $this->limit_count = 50;
+                $is_finished = $this->importMember($xml_file);
+            }
 
             if($this->position+$this->limit_count > $this->imported_count) {
                 $this->add('is_finished', 'Y');
