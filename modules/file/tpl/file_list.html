@@ -1,4 +1,5 @@
 <!--%import("filter/delete_checked.xml")-->
+<!--%import("js/file_admin.js")-->
 <!--#include("header.html")-->
 
 <div>
@@ -6,14 +7,15 @@
     {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
     <input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
     <div>
         <table>
         <tr>
-            <th colspan="2">{$lang->no}</th>
+            <th>{$lang->no}</th>
+            <th><input type="checkbox" onclick="doCheckAll(); return false;" /></th>
             <th>{$lang->module}</th>
             <th>{$lang->file_name}</th>
             <th>{$lang->file_size}</th>

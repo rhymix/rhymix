@@ -96,7 +96,7 @@
             @set_time_limit(0);
 
             // 디버그 메세지의 양이 무척 커지기에 디버그 메세지 생성을 중단
-            define('__STOP_DEBUG__', true);
+            //define('__STOP_DEBUG__', true);
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
@@ -110,8 +110,8 @@
             $this->oXml = new XmlParser();
 
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
-            if($this->module_srl) $this->importDocument($xml_file);
-            else $this->importMember($xml_file);
+            if($this->module_srl) $is_finished = $this->importDocument($xml_file);
+            else $is_finished = $this->importMember($xml_file);
 
             if($this->position+$this->limit_count > $this->imported_count) {
                 $this->add('is_finished', 'Y');
@@ -131,6 +131,8 @@
 
             $this->oMemberController = &getController('member');
 
+            $is_finished = true;
+
             $fp = @fopen($xml_file, "r");
             if($fp) {
                 $buff = '';
@@ -140,10 +142,15 @@
 
                     $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), trim($buff));
 
-                    if($this->position+$this->limit_count <= $this->imported_count) break;
+                    if($this->position+$this->limit_count <= $this->imported_count) {
+                        $is_finished = false;
+                        break;
+                    }
                 }
                 fclose($fp);
             }
+
+            return $is_finished;
         }
 
         function _importMember($matches) {
@@ -201,6 +208,8 @@
             $this->oCommentController = &getController('comment');
             $this->oTrackbackController = &getController('trackback');
 
+            $is_finished = true;
+
             $fp = @fopen($xml_file, "r");
             if($fp) {
                 $buff = '';
@@ -210,10 +219,15 @@
                     flush();
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
-                    if($this->position+$this->limit_count <= $this->imported_count) break;
+                    if($this->position+$this->limit_count <= $this->imported_count) {
+                        $is_finished = false;
+                        break;
+                    }
                 }
                 fclose($fp);
             }
+
+            return $is_finished;
         }
 
         function _importDocument($matches) {

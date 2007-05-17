@@ -133,23 +133,23 @@
 
             if(!$url_info['port']) $url_info['port'] = 80;
 
-            $fp = fsockopen($url_info['host'], $url_info['port']);
+            $fp = @fsockopen($url_info['host'], $url_info['port']);
             if(!$fp) return;
 
             $header = sprintf("GET %s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host']); 
-            fwrite($fp, $header);
+            @fwrite($fp, $header);
 
-            $ft = fopen($target_filename, 'w');
+            $ft = @fopen($target_filename, 'w');
             if(!$ft) return;
 
             $begin = false;
             while(!feof($fp)) {
                 $str = fgets($fp, 1024);
-                if($begin) fwrite($ft, $str);
+                if($begin) @fwrite($ft, $str);
                 if(!trim($str)) $begin = true;
             }
-            fclose($ft);
-            fclose($fp);
+            @fclose($ft);
+            @fclose($fp);
 
             return true;
         }

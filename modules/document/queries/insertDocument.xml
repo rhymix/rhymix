@@ -12,8 +12,8 @@
         <column name="content" var="content" notnull="notnull" />
         <column name="readed_count" var="readed_count" default="0" />
         <column name="voted_count" var="voted_count" default="0" />
-        <column name="comment_count" var="voted_count" default="0" />
-        <column name="trackback_count" var="voted_count" default="0" />
+        <column name="comment_count" var="comment_count" default="0" />
+        <column name="trackback_count" var="trackback_count" default="0" />
         <column name="uploaded_count" var="uploaded_count" default="0" />
         <column name="password" var="password" minlength="2" maxlength="60" />
         <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
