@@ -75,8 +75,7 @@ function doStep2(fo_obj) {
         fo_obj.category_srl.value = category_srl;
     }
 
-    //procFilter(fo_obj, import_xml);
-    fo_obj.submit();
+    procFilter(fo_obj, import_xml);
 
 
     xGetElementById('step2_status').style.display = 'block';
@@ -96,8 +95,7 @@ function completeImport(ret_obj) {
         var fo_obj = xGetElementById('fo_step2');
         fo_obj.position.value = position;
         xInnerHtml('step2_position', position);
-        //procFilter(fo_obj, import_xml);
-        fo_obj.submit();
+        procFilter(fo_obj, import_xml);
     }
 }
 

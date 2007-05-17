@@ -118,7 +118,7 @@
                 $is_finished = $this->importMember($xml_file);
             }
 
-            if($this->position+$this->limit_count > $this->imported_count) {
+            if($is_finished) {
                 $this->add('is_finished', 'Y');
                 $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->imported_count) );
             } else {
@@ -221,7 +221,6 @@
                 while(!feof($fp)) {
                     $str = fread($fp,1024);
                     $buff .= $str;
-                    flush();
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) {
@@ -296,44 +295,45 @@
             $args->allow_trackback = $xml_doc->document->allow_trackback->body;
             
             $output = $this->oDocumentController->insertDocument($args, true);
-            if(!$output->toBool()) return;
+            if($output->toBool()) {
 
-            // 코멘트 입력
-            $comments = $xml_doc->document->comments->comment;
-            if($comments && !is_array($comments)) $comments = array($comments);
-            if(count($comments)) {
-                foreach($comments as $key => $val) {
-                    $comment_args->document_srl = $args->document_srl;
-                    $comment_args->comment_srl = getNextSequence();
-                    $comment_args->module_srl = $this->module_srl;
-                    $comment_args->parent_srl = $val->parent_srl->body;
-                    $comment_args->content = $val->content->body;
-                    $comment_args->password = $val->password->body;
-                    $comment_args->nick_name = $val->nick_name->body;
-                    $comment_args->user_id = $val->user_id->body;
-                    $comment_args->user_name = $val->user_name->body;
-                    $comment_args->member_srl = -1;
-                    $comment_args->email_address = $val->email_address->body;
-                    $comment_args->regdate = $val->regdate->body;
-                    $comment_args->ipaddress = $val->ipaddress->body;
-                    $this->oCommentController->insertComment($comment_args, true);
+                // 코멘트 입력
+                $comments = $xml_doc->document->comments->comment;
+                if($comments && !is_array($comments)) $comments = array($comments);
+                if(count($comments)) {
+                    foreach($comments as $key => $val) {
+                        $comment_args->document_srl = $args->document_srl;
+                        $comment_args->comment_srl = getNextSequence();
+                        $comment_args->module_srl = $this->module_srl;
+                        $comment_args->parent_srl = $val->parent_srl->body;
+                        $comment_args->content = $val->content->body;
+                        $comment_args->password = $val->password->body;
+                        $comment_args->nick_name = $val->nick_name->body;
+                        $comment_args->user_id = $val->user_id->body;
+                        $comment_args->user_name = $val->user_name->body;
+                        $comment_args->member_srl = -1;
+                        $comment_args->email_address = $val->email_address->body;
+                        $comment_args->regdate = $val->regdate->body;
+                        $comment_args->ipaddress = $val->ipaddress->body;
+                        $this->oCommentController->insertComment($comment_args, true);
+                    }
                 }
-            }
 
-            // 트랙백 입력
-            $trackbacks = $xml_doc->document->trackbacks->trackback;
-            if($trackbacks && !is_array($trackbacks)) $trackbacks = array($trackbacks);
-            if(count($trackbacks)) {
-                foreach($trackbacks as $key => $val) {
-                    $trackback_args->document_srl = $args->document_srl;
-                    $trackback_args->module_srl = $this->module_srl;
-                    $trackback_args->url = $val->url->body;
-                    $trackback_args->title = $val->title->body;
-                    $trackback_args->blog_name = $val->blog_name->body;
-                    $trackback_args->excerpt = $val->excerpt->body;
-                    $trackback_args->regdate = $val->regdate->body;
-                    $trackback_args->ipaddress = $val->ipaddress->body;
-                    $this->oTrackbackController->insertTrackback($trackback_args, true);
+                // 트랙백 입력
+                $trackbacks = $xml_doc->document->trackbacks->trackback;
+                if($trackbacks && !is_array($trackbacks)) $trackbacks = array($trackbacks);
+                if(count($trackbacks)) {
+                    foreach($trackbacks as $key => $val) {
+                        $trackback_args->document_srl = $args->document_srl;
+                        $trackback_args->module_srl = $this->module_srl;
+                        $trackback_args->url = $val->url->body;
+                        $trackback_args->title = $val->title->body;
+                        $trackback_args->blog_name = $val->blog_name->body;
+                        $trackback_args->excerpt = $val->excerpt->body;
+                        $trackback_args->regdate = $val->regdate->body;
+                        $trackback_args->ipaddress = $val->ipaddress->body;
+                        $this->oTrackbackController->insertTrackback($trackback_args, true);
+                    }
                 }
             }
 
