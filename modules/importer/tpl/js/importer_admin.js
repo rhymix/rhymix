@@ -94,7 +94,7 @@ function completeImport(ret_obj) {
     } else {
         var fo_obj = xGetElementById('fo_step2');
         fo_obj.position.value = position;
-        xInnerHtml('step2_position', position);
+        xInnerHtml('step2_position', message);
         procFilter(fo_obj, import_xml);
     }
 }

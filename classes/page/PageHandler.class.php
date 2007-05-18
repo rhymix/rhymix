@@ -45,7 +45,7 @@
          **/
         function getNextPage() {
             $page = $this->first_page+$this->point++;
-            if($this->point > $this->page_count) $page = 0;
+            if($this->point > $this->page_count || $page > $this->last_page) $page = 0;
             return $page;
         }
     }

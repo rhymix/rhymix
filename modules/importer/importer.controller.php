@@ -14,6 +14,7 @@
         var $oCommentController = null;
         var $oTrackbackController = null;
 
+        var $total_count = '';
         var $position = 0;
         var $imported_count = 0;
         var $limit_count = 50;
@@ -124,6 +125,7 @@
             } else {
                 $this->add('position', $this->imported_count);
                 $this->add('is_finished', 'N');
+                $this->setMessage( sprintf(Context::getLang('msg_importing'), $this->total_count, $this->imported_count) );
             }
         }
 
@@ -145,6 +147,7 @@
                     $str = fgets($fp,1024);
                     $buff .= $str;
 
+                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
                     $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) {
@@ -221,6 +224,7 @@
                 while(!feof($fp)) {
                     $str = fread($fp,1024);
                     $buff .= $str;
+                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) {
@@ -354,6 +358,15 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('msg_sync_completed');
+        }
+
+        /**
+         * @brief <root>정보를 읽어서 정보를 구함
+         **/
+        function _parseRootInfo($matches) {
+            $root = $matches[0].'</root>';
+            $xml_doc = $this->oXml->parse($root);
+            $this->total_count = $xml_doc->root->attrs->count;
         }
     }
 ?>
