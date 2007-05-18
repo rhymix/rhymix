@@ -16,7 +16,7 @@
 
     <div style="clear:right;height:20px;">
         <div style="float:right;">
-            <!--@if($document->is_granted)-->
+            <!--@if($document->is_granted || $grant->manager)-->
             <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
             <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
             <!--@end-->

@@ -97,7 +97,7 @@
             @set_time_limit(0);
 
             // 디버그 메세지의 양이 무척 커지기에 디버그 메세지 생성을 중단
-            define('__STOP_DEBUG__', true);
+            //define('__STOP_DEBUG__', true);
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
