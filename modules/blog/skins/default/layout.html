@@ -21,8 +21,10 @@
 <div class="blog_default_menu">
     <!-- 로그인 -->
     <!--@if(!$is_logged)-->
-        <a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a>
+        <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+        <a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> 
     <!--@else-->
+        <a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a>
         <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
     <!--@end-->
 
