@@ -1314,6 +1314,8 @@
          **/
         function transImageName($matches) {
             $member_srl = $matches[2];
+            if($member_srl<0) return $matches[4];
+
             $text = $matches[4];
             if(!$member_srl) return $matches[0];
 
