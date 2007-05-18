@@ -6,5 +6,6 @@
         <action name="procImporterAdminStep1" type="controller" standalone="true" />
         <action name="procImporterAdminStep12" type="controller" standalone="true" />
         <action name="procImporterAdminImport" type="controller" standalone="true" />
+        <action name="procImporterAdminSync" type="controller" standalone="true" />
     </actions>
 </module>

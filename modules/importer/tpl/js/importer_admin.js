@@ -103,3 +103,14 @@ function doManualProcess() {
     var fo_obj = xGetElementById('fo_step2');
     procFilter(fo_obj, import_xml);
 }
+
+/* 회원정보와 게시물의 싱크 */
+function doStep3(fo_obj) {
+    exec_xml('importer','procImporterAdminSync', new Array(), completeStep3);
+    return false;
+}
+
+function completeStep3(ret_obj) {
+    alert(ret_obj['message']);
+    location.href=location.href;
+}

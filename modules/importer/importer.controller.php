@@ -340,5 +340,20 @@
             $this->imported_count ++;
             return '';
         }
+
+        /**
+         * @brief 회원정보와 게시물 정보를 싱크
+         **/
+        function procImporterAdminSync() {
+            // 게시물정보 싱크
+            $output = executeQuery('importer.updateDocumentSync');
+            if(!$output->toBool()) return $output;
+
+            // 댓글정보 싱크
+            $output = executeQuery('importer.updateCommentSync');
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('msg_sync_completed');
+        }
     }
 ?>

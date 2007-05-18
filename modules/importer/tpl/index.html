@@ -100,14 +100,16 @@
 
 <!-- step 3. 회원 동기화 시작 버튼 -->
 <div id="step3" style="display:none">
-    <div style="font-weight:bold">{$lang->import_step_title[3]}</div>
-    <div>{$lang->import_step_desc[3]}</div>
-    <div>
-        {$lang->msg_sync_member}
-    </div>
-    <div>
-        <input type="button" value="{$lang->cmd_sync_member}" />
-    </div>
+    <form action="./" method="get" onsubmit="return doStep3(this)">
+        <div style="font-weight:bold">{$lang->import_step_title[3]}</div>
+        <div>{$lang->import_step_desc[3]}</div>
+        <div>
+            {$lang->msg_sync_member}
+        </div>
+        <div>
+            <input type="submit" value="{$lang->cmd_sync_member}" />
+        </div>
+    </form>
 </div>
 
 <!-- final step. 진행 완료 또는 실패 메세지 -->

@@ -336,7 +336,7 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'`';
+                $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
             }
 
             // 컬럼 정리 
@@ -344,10 +344,13 @@
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
-                if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                elseif(!$value || is_numeric($value)) $value = (int)$value;
+                if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
+                else {
+                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                    elseif(!$value || is_numeric($value)) $value = (int)$value;
 
-                $column_list[] = sprintf("`%s` = %s", $name, $value);
+                    $column_list[] = sprintf("`%s` = %s", $name, $value);
+                }
             }
 
             // 조건절 정리

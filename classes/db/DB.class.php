@@ -298,6 +298,7 @@
                     break;
             }
 
+            if(strpos($name,'.')!==false && strpos($value,'.')!==false) return $value;
             return "'".$this->addQuotes($value)."'";
         }
 
