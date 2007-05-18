@@ -340,7 +340,8 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
+                //$table_list[] = '`'.$this->prefix.$key.'` as '.$val;
+                $table_list[] = '`'.$this->prefix.$key.'`';
             }
 
             // 컬럼 정리 
