@@ -250,6 +250,6 @@ function blogSelectNode(node_srl) {
     var node = blog_node_info_list[node_srl];
     if(!node) return;
 
-    var url = location.href.setQuery('category',node_srl);
+    var url = location.href.setQuery('category',node_srl).setQuery('page','').setQuery('search_target','').setQuery('search_keyword','');
     location.href = url;
 }

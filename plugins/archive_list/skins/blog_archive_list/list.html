@@ -15,7 +15,7 @@
         <div class="archive_box">
             <!--@foreach($plugin_info->archive_list as $val)-->
             <div class="archive">
-                <a href="{getUrl('mid',$mid,'search_target','regdate','search_keyword',$val->month)}">{zdate($val->month,'Y. m')} ({$val->count})</a>
+                <a href="{getUrl('mid',$mid,'search_target','regdate','search_keyword',$val->month,'category','','page','')}">{zdate($val->month,'Y. m')} ({$val->count})</a>
             </div>
             <!--@end-->
         </div>
