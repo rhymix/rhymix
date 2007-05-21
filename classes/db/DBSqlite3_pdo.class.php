@@ -375,30 +375,59 @@
          * @brief updateAct 처리
          **/
         function _executeUpdateAct($output) {
-            // 테이블 정리
-            foreach($output->tables as $key => $val) {
-                //$table_list[] = '`'.$this->prefix.$key.'` as '.$val;
-                $table_list[] = '`'.$this->prefix.$key.'`';
-            }
-
-            // 컬럼 정리 
-            foreach($output->columns as $key => $val) {
-                if(!isset($val['value'])) continue;
-                $name = $val['name'];
-                $value = $val['value'];
-                if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
-                else {
-                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                    elseif(!$value || is_numeric($value)) $value = (int)$value;
-
-                    $column_list[] = sprintf("`%s` = %s", $name, $value);
+            // 대상 테이블이 2개 이상일 경우
+            if(count(array_values($output->tables) > 1)) {
+                // 테이블 정리
+                foreach($output->tables as $key => $val) {
+                    $table_list[$val] = $this->prefix.$val;
                 }
+                list($target_table) = array_values($table_list);
+
+                // 조건절 정리
+                $condition = $this->getCondition($output);
+                foreach($table_list as $key => $val) {
+                    $condition = eregi_replace($key.'\\.', $val.'.', $condition);
+                }
+
+                // 컬럼 정리 
+                foreach($output->columns as $key => $val) {
+                    if(!isset($val['value'])) continue;
+                    $name = $val['name'];
+                    $value = $val['value'];
+                    list($s_prefix, $s_column) = explode('.',$name);
+                    list($t_prefix, $t_column) = explode('.',$value);
+
+                    $s_table = $table_list[$s_prefix];
+                    $t_table = $table_list[$t_prefix];
+                    $column_list[] = sprintf(' %s = (select %s from %s %s) ', $s_column, $t_column, $t_table, $condition);
+                }
+
+                $query = sprintf('update %s set %s', $target_table, implode(',', $column_list));
+
+            // 대상 테이블이 1개일 경우
+            } else {
+                // 테이블 정리
+                list($target_table) = array_keys($output->tables);
+
+                // 컬럼 정리 
+                foreach($output->columns as $key => $val) {
+                    if(!isset($val['value'])) continue;
+                    $name = $val['name'];
+                    $value = $val['value'];
+                    if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
+                    else {
+                        if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                        elseif(!$value || is_numeric($value)) $value = (int)$value;
+
+                        $column_list[] = sprintf("`%s` = %s", $name, $value);
+                    }
+                }
+
+                // 조건절 정리
+                $condition = $this->getCondition($output);
+
+                $query = sprintf("update %s set %s %s", $target_table, implode(',',$column_list), $condition);
             }
-
-            // 조건절 정리
-            $condition = $this->getCondition($output);
-
-            $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
 
             $this->_prepare($query);
             return $this->_execute();
