@@ -375,13 +375,40 @@
          * @brief updateAct 처리
          **/
         function _executeUpdateAct($output) {
-            // 대상 테이블이 2개 이상일 경우
-            if(count(array_values($output->tables) > 1)) {
+            $table_count = count(array_values($output->tables));
+
+            // 대상 테이블이 1개일 경우
+            if($table_count == 1) {
+                // 테이블 정리
+                list($target_table) = array_keys($output->tables);
+                $target_table = $this->prefix.$target_table;
+
+                // 컬럼 정리 
+                foreach($output->columns as $key => $val) {
+                    if(!isset($val['value'])) continue;
+                    $name = $val['name'];
+                    $value = $val['value'];
+                    if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
+                    else {
+                        if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                        elseif(!$value || is_numeric($value)) $value = (int)$value;
+
+                        $column_list[] = sprintf("`%s` = %s", $name, $value);
+                    }
+                }
+
+                // 조건절 정리
+                $condition = $this->getCondition($output);
+
+                $query = sprintf("update %s set %s %s", $target_table, implode(',',$column_list), $condition);
+
+            // 대상 테이블이 2개일 경우 (sqlite에서 update 테이블을 1개 이상 지정 못해서 이렇게 꽁수로... 다른 방법이 있으려나..)
+            } elseif($table_count == 2) {
                 // 테이블 정리
                 foreach($output->tables as $key => $val) {
                     $table_list[$val] = $this->prefix.$val;
                 }
-                list($target_table) = array_values($table_list);
+                list($source_table, $target_table) = array_values($table_list);
 
                 // 조건절 정리
                 $condition = $this->getCondition($output);
@@ -402,31 +429,9 @@
                     $column_list[] = sprintf(' %s = (select %s from %s %s) ', $s_column, $t_column, $t_table, $condition);
                 }
 
-                $query = sprintf('update %s set %s', $target_table, implode(',', $column_list));
-
-            // 대상 테이블이 1개일 경우
+                $query = sprintf('update %s set %s where exists(select * from %s %s)', $source_table, implode(',', $column_list), $target_table, $condition);
             } else {
-                // 테이블 정리
-                list($target_table) = array_keys($output->tables);
-
-                // 컬럼 정리 
-                foreach($output->columns as $key => $val) {
-                    if(!isset($val['value'])) continue;
-                    $name = $val['name'];
-                    $value = $val['value'];
-                    if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
-                    else {
-                        if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                        elseif(!$value || is_numeric($value)) $value = (int)$value;
-
-                        $column_list[] = sprintf("`%s` = %s", $name, $value);
-                    }
-                }
-
-                // 조건절 정리
-                $condition = $this->getCondition($output);
-
-                $query = sprintf("update %s set %s %s", $target_table, implode(',',$column_list), $condition);
+                return;
             }
 
             $this->_prepare($query);
