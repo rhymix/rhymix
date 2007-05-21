@@ -373,7 +373,7 @@
             else $args->module_srl = $obj->module_srl;
 
             $output = executeQuery('document.getMonthlyArchivedList', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()||!$output->data) return $output;
 
             if(!is_array($output->data)) $output->data = array($output->data);
 
