@@ -60,10 +60,32 @@
         }
 
         /**
+         * @brief 추가된 변수의 key, value들을 추가
+         **/
+        function adds($object) {
+            if( (is_object($object) && count(array_keys($object))) || (is_array($object) && count($object))) {
+                foreach($object as $key => $val) $this->add($key, $val);
+            }
+        }
+
+        /**
          * @brief 추가된 변수의 key에 해당하는 값을 return
          **/
         function get($key) {
             return $this->variables[$key];
+        }
+
+        /**
+         * @brief 추가된 변수의 key들에 해당하는 값을 return
+         **/
+        function gets() {
+            $num_args = func_num_args();
+            $args_list = func_get_args();
+            for($i=0;$i<$num_args;$i++) {
+                $key = $args_list[$i];
+                $output->{$key} = $this->gets($key);
+            }
+            return $output;
         }
 
         /**
@@ -86,6 +108,5 @@
         function toBoolean() {
         return $this->toBool();
         }
-
     }
 ?>
