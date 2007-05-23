@@ -374,7 +374,7 @@
          * 캐시된 설정 정보가 없으면 만들 후 캐시하고 return
          **/
         function getModuleConfig($module) {
-            if($GLOBALS['__ModuleConfig__'][$module]) {
+            if(!$GLOBALS['__ModuleConfig__'][$module]) {
                 $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
 
                 if(!file_exists($cache_file)) {
