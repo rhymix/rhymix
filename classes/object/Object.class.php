@@ -33,7 +33,7 @@
          * @brief error 코드를 return
          **/
         function getError() {
-        return $this->error;
+            return $this->error;
         }
 
         /**

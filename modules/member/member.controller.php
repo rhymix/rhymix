@@ -913,6 +913,9 @@
             $_SESSION['group_srls'] = $group_srl_list;
             $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
 
+            Context::set('is_logged', true);
+            Context::set('logged_info', $member_info);
+
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
