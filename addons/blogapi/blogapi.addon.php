@@ -158,6 +158,86 @@
                         FileHandler::removeDir($tmp_uploaded_path);
                     }
                 break;
+
+            // 글 수정
+            case 'metaWeblog.editPost' :
+                    $tmp_val = $params[0]->value->string->body;
+                    $tmp_arr = explode('/', $tmp_val);
+                    $document_srl = array_pop($tmp_arr);
+
+                    $oDocumentModel = &getModel('document');
+                    $source_obj = $oDocumentModel->getDocument($document_srl);
+                    $obj = $oDocumentModel->getDocument($document_srl);
+
+                    if(!$obj->is_granted) {
+                        $content = getXmlRpcFailure(1, 'no permisstion');
+                        break;
+                    }
+
+                    $info = $params[3];
+
+                    // 글, 제목, 카테고리 정보 구함
+                    for($i=0;$i<count($info->value->struct->member);$i++) {
+                        $val = $info->value->struct->member[$i];
+                        switch($val->name->body) {
+                            case 'title' :
+                                    $obj->title = $val->value->string->body;
+                                break;
+                            case 'description' :
+                                    $obj->content = $val->value->string->body;
+                                break;
+                            case 'categories' :
+                                    $categories = $val->value->array->data->value;
+                                    if(!is_array($categories)) $categories = array($categories);
+                                    $category = $categories[0]->string->body;
+                                    if($category && $category_list) {
+                                        foreach($category_list as $category_srl => $category_info) {
+                                            if($category_info->title == $category) $obj->category_srl = $category_srl;
+                                        }
+                                    }
+                                break;
+                            case 'tagwords' :
+                                    $tags = $val->value->array->data->value;
+                                    if(!is_array($tags)) $tags = array($tags);
+                                    for($j=0;$j<count($tags);$j++) {
+                                        $tag_list[] = $tags[$j]->string->body;
+                                    }
+                                    if(count($tag_list)) $obj->tags = implode(',',$tag_list);
+                                break;
+                        }
+
+                    }
+
+                    // 문서 번호 설정
+                    $obj->document_srl = $document_srl;
+                    $obj->module_srl = $this->module_srl;
+
+                    // 첨부파일 정리
+                    if(is_dir($tmp_uploaded_path)) {
+                        $file_list = FileHandler::readDir($tmp_uploaded_path);
+                        $file_count = count($file_list);
+                        if($file_count) {
+                            $oFileController = &getController('file');
+                            for($i=0;$i<$file_count;$i++) {
+                                $file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
+                                $file_info['name'] = $file_list[$i];
+                                $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
+                            }
+                            $obj->uploaded_count += $file_count;
+                        }
+                    }
+                    $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
+
+                    $oDocumentController = &getController('document');
+                    $output = $oDocumentController->updateDocument($source_obj,$obj);
+
+                    if(!$output->toBool()) {
+                        $content = getXmlRpcFailure(1, $output->getMessage());
+                    } else {
+                        $content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
+                        FileHandler::removeDir($tmp_uploaded_path);
+                    }
+                break;
         }
     }
 
