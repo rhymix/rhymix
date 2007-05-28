@@ -103,6 +103,7 @@
          * @brief user_id에 해당하는 사용자 정보 return
          **/
         function getMemberInfoByUserID($user_id) {
+            if(!$user_id) return;
             if(!$this->member_info[$user_id]) {
                 $args->user_id = $user_id;
                 $output = executeQuery('member.getMemberInfo', $args);

@@ -869,7 +869,7 @@
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 
             // return 값이 없으면 존재하지 않는 사용자로 지정
-            if($member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
+            if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
 
             // 비밀번호 검사 : 우선 md5() hash값으로 비굥
             if($password && $member_info->password != md5($password)) {

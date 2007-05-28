@@ -25,9 +25,8 @@
     if($params && !is_array($params)) $params = array($params);
 
     // user_id, password를 구해서 로그인 시도
-    $appkey = $params[0]->value->string->body;
-    $user_id = $params[1]->value->string->body;
-    $password = $params[2]->value->string->body;
+    $user_id = trim($params[1]->value->string->body);
+    $password = trim($params[2]->value->string->body);
 
     // member controller을 이용해서 로그인 시도
     $oMemberController = &getController('member');
@@ -242,6 +241,11 @@
     }
 
     header("Content-Type: text/xml; charset=UTF-8");
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
     print $content;
 
     exit();
