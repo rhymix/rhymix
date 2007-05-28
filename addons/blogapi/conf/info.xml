@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+  <title xml:lang="ko">기본 카운터 애드온</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">
+        제로보드XE의 기본 카운터 모듈을 이용하여 접속 정보를 기록합니다.
+        이 애드온을 켜셔야 접속 정보 수집이 됩니다.
+    </description>
+  </author>
+</addon>

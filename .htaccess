@@ -4,3 +4,4 @@ RewriteRule ^trackback/([[:digit:]]+)$ ./index.php?module=trackback&act=procTrac
 RewriteRule ^admin$ ./index.php?module=admin [L]
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
 RewriteRule ^([a-zA-Z0-9_]+)$ ./index.php?mid=$1 [L]
+RewriteRule ^blogapi/(.*)$ ./index.php?act=blogapi&mid=$1 [L]
