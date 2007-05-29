@@ -48,11 +48,11 @@
 
     <div class="layout_logo">
         <!--@if($layout_info->logo_image)-->
-            <a href="./?mid={$layout_info->mid}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
+            <a href="{getUrl('','mid',$layout_info->mid)}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
         <!--@end-->
 
         <!--@if($layout_info->top_title)-->
-            <a href="./?mid={$layout_info->mid}">{$layout_info->top_title}</a>
+            <a href="{getUrl('','mid',$layout_info->mid)}">{$layout_info->top_title}</a>
         <!--@end-->
     </div>
 

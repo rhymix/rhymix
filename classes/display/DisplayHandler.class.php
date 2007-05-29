@@ -156,7 +156,7 @@
          * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함\n
          **/
         function _debugOutput() {
-            if(!__DEBUG__) return;
+            if(!__DEBUG__ || Context::getResponseMethod()!='HTML') return;
             $end = getMicroTime();
 
             // debug string 작성 시작
@@ -207,7 +207,7 @@
          * @brief RequestMethod에 맞춰 헤더 출력
          ***/
         function _printHeader() {
-            if(Context::getResponseMethod() == 'XMLRPC') return $this->_printXMLHeader();
+            if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
             else return $this->_printHTMLHeader();
         }
 

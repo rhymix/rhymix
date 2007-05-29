@@ -13,7 +13,7 @@
         function moduleInstall() {
             // action forward에 등록 
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('rss', 'view', 'dispRss');
+            $oModuleController->insertActionForward('rss', 'view', 'rss');
 
             return new Object();
         }
