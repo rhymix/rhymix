@@ -459,7 +459,7 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function getUrl($num_args, $args_list) {
+        function getUrl($num_args=0, $args_list=array()) {
             $oContext = &Context::getInstance();
             return $oContext->_getUrl($num_args, $args_list);
         }
@@ -467,7 +467,7 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function _getUrl($num_args, $args_list) {
+        function _getUrl($num_args=0, $args_list=array()) {
             if(!$this->get_vars || $args_list[0]=='') {
                 $get_vars = null;
                 if($args_list[0]=='') {
