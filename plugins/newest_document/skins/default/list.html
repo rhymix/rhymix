@@ -20,7 +20,7 @@
         <!--@foreach($plugin_info->document_list as $val)-->
         <div class="document_box">
             <div class="document">
-                <a href="{getUrl('','document_srl',$val->document_srl,'comment_count', $val->comment_count)}">{$val->title}</a>
+                <a href="{getUrl('','document_srl',$val->document_srl,'comment_count', $val->comment_count)}">{cut_str($val->title,20)}</a>
                 <!--@if($val->comment_count)-->
                 <span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">( {$val->comment_count} )</a></span>
                 <!--@end-->

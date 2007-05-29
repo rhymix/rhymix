@@ -22,11 +22,10 @@
     padding:5px;
     clear:both;
     border:3px solid #EEEEEE;
-    overflow:hidden;
 }
 
 .tag_list_normal .tag_list_box .tag {
-    float:left;
+    display:inline;
     margin-right:5px;
     color:#AAAAAA;
 }
