@@ -41,6 +41,7 @@
          **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->multimedia_src;
+            $style = $xml_obj->attrs->style;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$style,$matches);
             $width = trim($matches[3][0]);
