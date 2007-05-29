@@ -69,11 +69,11 @@
 
             $this->content_size = strlen($output);
 
-            // 디버깅 데이터 출력
-            $this->_debugOutput();
-
             // 컨텐츠 출력
             $this->display($output);
+
+            // 디버깅 데이터 출력
+            $this->_debugOutput();
         }
 
         /**
