@@ -14,7 +14,7 @@ function completeInsertBoard(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminBoardInfo');
+    var url = current_url.setQuery('act','dispBoardAdminBoardInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
@@ -50,9 +50,7 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminCategoryInfo');
-    if(page) url.setQuery('page',page);
-    location.href = url;
+    location.href = location.href;
 }
 
 /* 권한 관련 */
@@ -88,9 +86,7 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminGrantInfo');
-    if(page) url.setQuery('page',page);
-    location.href = url;
+    location.href = location.href;
 }
 
 /* 카테고리 이동 */

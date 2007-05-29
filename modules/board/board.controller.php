@@ -396,7 +396,6 @@
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
             if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
-            unset($extra_var->mo);
             unset($extra_var->act);
             unset($extra_var->page);
             unset($extra_var->board_name);
