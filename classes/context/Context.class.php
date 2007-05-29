@@ -487,11 +487,8 @@
                 $url_list[] = sprintf("%s=%s",$key, $val);
             }
 
-            preg_match("/([a-zA-Z\_]+)\.php/i", $_SERVER['PHP_SELF'], $match);
-            $filename = $match[0];
-            if($filename == 'index.php') $filename = '';
-
-            return './'.$filename.'?'.htmlspecialchars(implode('&', $url_list));
+            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
+            return sprintf('%s?%s', $path, htmlspecialchars(implode('&',$url_list)));
         }
 
         /**

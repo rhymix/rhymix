@@ -56,8 +56,11 @@
                 // 최종 결과를 common_layout에 넣어버림 
                 Context::set('zbxe_final_content', $zbxe_final_content);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
+
             } else {
+
                 $output = $content;
+
             }
 
             // 애드온 실행
@@ -70,7 +73,21 @@
             $this->_debugOutput();
 
             // 컨텐츠 출력
-            print trim($output);
+            $this->display($output);
+        }
+
+        /**
+         * @brief 최종 결과물의 출력
+         **/
+        function display($content) {
+            if(Context::getResponseMethod()=="XMLRPC") {
+                print $content;
+                return;
+            }
+
+            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
+
+            print preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $content);
         }
 
         /**

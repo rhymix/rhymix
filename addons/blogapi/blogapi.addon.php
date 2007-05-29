@@ -1,5 +1,6 @@
 <?php
     if(!defined("__ZBXE__")) exit();
+    //debugPrint($GLOBALS['HTTP_RAW_POST_DATA']);
 
     /**
      * @file blogapicounter.addon.php
@@ -23,6 +24,9 @@
     $method_name = $xmlDoc->methodcall->methodname->body;
     $params = $xmlDoc->methodcall->params->param;
     if($params && !is_array($params)) $params = array($params);
+
+    // blogger.deletePost일 경우 첫번째 인자 값 삭제
+    if($method_name == 'blogger.deletePost') array_shift($params);
 
     // user_id, password를 구해서 로그인 시도
     $user_id = trim($params[1]->value->string->body);
@@ -142,10 +146,9 @@
                                 $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
                             }
                             $obj->uploaded_count = $file_count;
-                            $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
                         }
                     }
-
+                    $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
                     $output = $oDocumentController->insertDocument($obj);
@@ -236,6 +239,19 @@
                         $content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
                         FileHandler::removeDir($tmp_uploaded_path);
                     }
+                break;
+
+            // 글삭제
+            case 'blogger.deletePost' :
+                    $tmp_val = $params[0]->value->string->body;
+                    $tmp_arr = explode('/', $tmp_val);
+                    $document_srl = array_pop($tmp_arr);
+
+                    $oDocumentController = &getController('document');
+                    $output = $oDocumentController->deleteDocument($document_srl);
+                    if(!$output->toBool()) $content = getXmlRpcFailure(1, $output->getMessage());
+                    else $content = getXmlRpcResponse(true);
+
                 break;
         }
     }
