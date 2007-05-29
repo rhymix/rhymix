@@ -1316,10 +1316,10 @@
          * member_extra_info 애드온에서 요청이 됨
          **/
         function transImageName($matches) {
-            $member_srl = $matches[2];
-            if($member_srl<0) return $matches[4];
+            $member_srl = $matches[3];
+            if($member_srl<0) return $matches[5];
 
-            $text = $matches[4];
+            $text = $matches[5];
             if(!$member_srl) return $matches[0];
 
             // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
@@ -1342,10 +1342,10 @@
                         $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" style="margin-top:%dpx;"/>', $image_name->file, $image_name->width, $image_name->height, $top_margin);
                     }
 
-                    if($image_mark->width) $buff = sprintf('<div style="background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx">%s</div>', $image_mark->file, $image_mark->width+2, $image_mark->height, $text);
+                    if($image_mark->width) $buff = sprintf('<%s style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx">%s</%s>', $matches[1],$image_mark->file, $image_mark->width+2, $image_mark->height, $text, $matches[6]);
                     else $buff = $text;
 
-                    $GLOBALS['_transImageNameList'][$member_srl] = str_replace($matches[4], $buff, $matches[0]);
+                    $GLOBALS['_transImageNameList'][$member_srl] = str_replace($matches[5], $buff, $matches[0]);
                 }
             }
 
