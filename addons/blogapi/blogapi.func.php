@@ -25,30 +25,28 @@
     }
 
     function _getEncodedVal($val, $is_sub_set = false) {
-        if(is_int($val)) $buff = sprintf("<param><value><i4>%d</i4></value></param>\n", $val);
-        elseif(is_double($val)) $buff = sprintf("<param><value><double>%f</double></value></param>\n", $val);
-        elseif(is_bool($val)) $buff = sprintf("<param><value><boolean>%d</boolean></value></param>\n", $val?1:0);
+        if(is_int($val)) $buff = sprintf("<value><i4>%d</i4></value>", $val);
+        elseif(is_double($val)) $buff = sprintf("<value><double>%f</double></value>", $val);
+        elseif(is_bool($val)) $buff = sprintf("<value><boolean>%d</boolean></value>", $val?1:0);
         elseif(is_object($val)) {
             $values = get_object_vars($val);
             $val_count = count($values);
             $buff = "<value><struct>";
             foreach($values as $k => $v) {
-               $buff .= sprintf("<member>\n<name>%s</name>\n<value>%s</value>\n</member>\n", htmlspecialchars($k), _getEncodedVal($v));
+               $buff .= sprintf("<member>\n<name>%s</name>\n%s</member>\n", htmlspecialchars($k), _getEncodedVal($v, true));
             }
             $buff .= "</struct></value>\n";
-            if(!$is_sub_set) $buff = '<param>'.$buff.'</param>';
         } elseif(is_array($val)) {
             $val_count = count($val);
-            $buff = "<param><value><array>\n<data>";
+            $buff = "<value><array>\n<data>";
             for($i=0;$i<$val_count;$i++) {
                 $buff .= _getEncodedVal($val[$i], true);
-                //sprintf("<value>%s</value>\n", _getEncodedVal($val[$i]));
             }
-            $buff .= "</data>\n</array></value></param>";
+            $buff .= "</data>\n</array></value>";
         } else {
-            $buff = sprintf("<param><value><string>%s</string></value></param>\n", $val);
+            $buff = sprintf("<value><string>%s</string></value>\n", $val);
         }
-        //return sprintf("<param>\n<value>%s</value>\n</param>", $buff);
+        if(!$is_sub_set) return sprintf("<param>\n%s</param>", $buff);
         return $buff;
     }
 ?>
