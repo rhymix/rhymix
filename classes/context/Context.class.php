@@ -510,7 +510,7 @@
                 $url .= ($url?'&':'').$key.'='.$val;
             }
 
-            return $this->path.'?'.$url;
+            return $this->path.'?'.htmlspecialchars($url);
 
         }
 
