@@ -344,6 +344,8 @@
                 return $output;
             }
 
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('default_layout.html');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
         }

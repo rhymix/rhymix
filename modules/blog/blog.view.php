@@ -75,7 +75,7 @@
             }
 
             // 스킨 경로 구함
-            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             $this->setTemplatePath($template_path);
 
             // rss url

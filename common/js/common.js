@@ -8,9 +8,9 @@
  * @brief location.href에서 특정 key의 값을 return
  **/
 String.prototype.getQuery = function(key) {
-    var idx = current_url.indexOf('?');
+    var idx = this.indexOf('?');
     if(idx == -1) return null;
-    var query_string = current_url.substr(idx+1, current_url.length);
+    var query_string = this.substr(idx+1, this.length);
     var args = {}
     query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
@@ -24,12 +24,12 @@ String.prototype.getQuery = function(key) {
  * @brief location.href에서 특정 key의 값을 return
  **/
 String.prototype.setQuery = function(key, val) {
-    var idx = current_url.indexOf('?');
-    var uri = current_url;
+    var idx = this.indexOf('?');
+    var uri = this;
     uri = uri.replace(/#$/,'');
     if(idx != -1) {
-        uri = current_url.substr(0, idx);
-        var query_string = current_url.substr(idx+1, current_url.length);
+        uri = this.substr(0, idx);
+        var query_string = this.substr(idx+1, this.length);
         var args = new Array();
         query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 

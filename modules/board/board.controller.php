@@ -373,6 +373,8 @@
             $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
 
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('default_layout.html');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
         }
