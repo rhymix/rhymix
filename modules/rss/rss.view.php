@@ -19,7 +19,7 @@
         /**
          * @brief RSS 출력
          **/
-        function dispRss() {
+        function rss() {
             // RSS를 출력하고자 하는 mid를 구함 (없으면 오류)
             $mid = Context::get('mid');
             if(!$mid) return $this->dispError();

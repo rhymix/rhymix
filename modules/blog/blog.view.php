@@ -79,7 +79,7 @@
             $this->setTemplatePath($template_path);
 
             // rss url
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
+            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','rss'));
 
             // 레이아웃의 정보를 속이기 위해서  layout_srl을 현 블로그의 module_srl로 입력
             $this->module_info->layout_srl = $this->module_info->module_srl;

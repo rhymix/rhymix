@@ -178,6 +178,8 @@
 
             $this->setTemplatePath($oMessageView->getTemplatePath());
             $this->setTemplateFile($oMessageView->getTemplateFile());
+
+            return $this;
         }
 
         /**

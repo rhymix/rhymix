@@ -46,7 +46,13 @@
             <!--@end-->
 
             <!--@if($grant->view)-->
-                <a href="{getUrl('document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
+                <!-- 검색중일 경우는 새창으로 -->
+                <!--@if($search_target && $search_keyword)-->
+                    <a href="#" onclick="winopen('{getUrl('','document_srl',$val->document_srl)}','viewDocument');return false;">{htmlspecialchars($val->title)}</a>
+                <!-- 검색을 하지 않을 시에는 현재창으로 -->
+                <!--@else-->
+                    <a href="{getUrl('','document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
+                <!--@end-->
             <!--@else-->
                 {htmlspecialchars($val->title)}
             <!--@end-->

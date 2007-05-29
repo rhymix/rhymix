@@ -51,13 +51,13 @@
     </tr>
     <tr>
         <th>{$lang->document_url}</th>
-        <td>{getUrl()}{$document->document_srl}</td>
+        <td>{getUrl('','document_srl',$document->document_srl)}</td>
     </tr>
 
     <!--@if($document->allow_trackback=='Y')-->
     <tr>
         <th>{$lang->trackback_url}</th>
-        <td>{getUrl()}trackback/{$document->document_srl}</td>
+        <td>{getUrl('','document_srl',$document->document_srl,'act','trackback')}</td>
     </tr>
     <!--@end-->
 

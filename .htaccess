@@ -1,13 +1,7 @@
 RewriteEngine On
 
-# rss
-RewriteRule ^([a-zA-Z0-9_]+)/rss$ ./index.php?mid=$1&act=dispRss [L]
-
-# trackback
-RewriteRule ^([[:digit:]]+)/trackback$ ./index.php?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
-
-# blog api permanent link 
-RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?act=blogapi&mid=$1 [L]
+# page 
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 
 # administrator page
 RewriteRule ^admin$ ./index.php?module=admin [L]
@@ -15,8 +9,14 @@ RewriteRule ^admin$ ./index.php?module=admin [L]
 # document permanent link
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
 
-# module + document permanent link
+# document + act permanent link
+RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$2 [L]
+
+# mid + document permanent link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
+
+# mid + act permanent link
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?mid=$1&act=$2 [L]
 
 # module permanent link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]

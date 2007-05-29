@@ -26,7 +26,8 @@
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트. 거의 사용할 일은 없음
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
-        var $rewrite = false;
+        var $allow_rewrite = false;
+        var $path = '';
 
         /**
          * @brief 언어 정보
@@ -89,6 +90,12 @@
                 $this->_set('is_logged', false);
                 $this->_set('logged_info', NULL);
             }
+
+            // rewrite 모듈사용 상태 체크
+            if(in_array('mod_rewrite',apache_get_modules())) $this->allow_rewrite = true;
+
+            // 상대 경로 설정
+            $this->path = $this->getRequestUri();
         }
 
         /**
@@ -353,19 +360,6 @@
             if($this->_getRequestMethod() == 'XMLRPC') return;
             if(!count($_REQUEST)) return;
 
-            if($_SERVER['REDIRECT_QUERY_STRING']) {
-                $this->rewrite = true;
-                $tmp_str = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'],'?')+1);
-                if($tmp_str) {
-                    $tmp_arr = explode('&',$tmp_str);
-                    $tmp_cnt = count($tmp_arr);
-                    for($i=0;$i<$tmp_cnt;$i++) {
-                        list($key, $val) = explode('=', $tmp_arr[$i]);
-                        if($key && $val) $this->_set($key, $val);
-                    }
-                }
-            }
-
             foreach($_REQUEST as $key => $val) {
                 if(is_array($val)) {
                     for($i=0;$i<count($val);$i++) {
@@ -463,32 +457,50 @@
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
         function _getUrl($num_args, $args_list) {
-            if(!is_object($this->get_vars) || $args_list[0]=='') {
+            if(!$this->get_vars || $args_list[0]=='') {
                 $get_vars = null;
                 if($args_list[0]=='') {
                     array_shift($args_list);
                     $num_args = count($args_list);
                 }
             } else {
-                $get_vars = clone($this->get_vars);
+                $get_vars = get_object_vars($this->get_vars);
             }
 
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];
-                $val = $args_list[$i+1];
-                $get_vars->{$key} = trim($val);
+                $val = trim($args_list[$i+1]);
+                if(!$val) unset($get_vars[$key]);
+                else $get_vars[$key] = $val;
             }
 
-            $var_count = count(get_object_vars($get_vars));
-            if(!$var_count) return;
+            $var_count = count($get_vars);
+            if(!$var_count) return '';
 
+            // rewrite모듈을 사용하고 인자의 값이 2개 이하일 경우
+            if($this->allow_rewrite && $var_count < 3) {
+                $var_keys = array_keys($get_vars);
+
+                if($var_count == 1) {
+                    if($var_keys[0]=='mid') return $this->path.$get_vars['mid'];
+                    elseif($var_keys[0]=='document_srl') return $this->path.$get_vars['document_srl'];
+                } elseif($var_count == 2) {
+                    asort($var_keys);
+                    $target = implode('.',$var_keys);
+                    if($target=='act.mid' && !ereg('([A-Z]+)',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
+                    elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['document_srl']);
+                    elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$this->path,$get_vars['document_srl'],$get_vars['act']);
+                }
+            }
+
+            // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
                 if(!$val) continue;
-                $url_list[] = sprintf("%s=%s",$key, $val);
+                $url .= ($url?'&':'').$key.'='.$val;
             }
 
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
-            return sprintf('%s?%s', $path, htmlspecialchars(implode('&',$url_list)));
+            return $this->path.'?'.$url;
+
         }
 
         /**

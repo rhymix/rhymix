@@ -77,7 +77,7 @@
             $this->setTemplatePath($template_path);
 
             // rss url
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','dispRss'));
+            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','rss'));
         }
 
         /**

@@ -38,11 +38,12 @@
         /**
          * @brief 엮인글 입력
          **/
-        function procTrackbackReceive() {
+        function trackback() {
             Context::setRequestMethod("XMLRPC");
 
             $obj = Context::gets('document_srl','url','title','excerpt');
-            if(!$obj->document_srl) return $this->stop('fail');
+
+            if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
 
             return $this->insertTrackback($obj);
         }

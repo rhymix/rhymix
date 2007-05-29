@@ -1,6 +1,5 @@
 <?php
     if(!defined("__ZBXE__")) exit();
-    //debugPrint($GLOBALS['HTTP_RAW_POST_DATA']);
 
     /**
      * @file blogapicounter.addon.php
@@ -12,7 +11,7 @@
      **/
 
     // called_position가 before_module_proc일때 실행
-    if($called_position != 'before_module_proc' || $_REQUEST['act'] != 'blogapi') return;
+    if($called_position != 'before_module_proc' || $_REQUEST['act'] != 'api') return;
 
     // 관련 func 파일 읽음
     require_once('./addons/blogapi/blogapi.func.php');
@@ -151,6 +150,8 @@
                     $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
+                    $obj->allow_comment = 'Y';
+                    $obj->allow_trackback = 'Y';
                     $output = $oDocumentController->insertDocument($obj);
 
                     if(!$output->toBool()) {
