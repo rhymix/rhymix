@@ -96,6 +96,17 @@
 
             // 상대 경로 설정
             $this->path = $this->getRequestUri();
+
+            // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
+            if($this->get_vars) {
+                foreach($this->get_vars as $key => $val) {
+                    if(!$val) continue;
+                    $url .= ($url?'&':'').$key.'='.$val;
+                }
+                Context::set('current_url',sprintf('%s?%s',$this->path, $url));
+            } else {
+                Context::set('current_url',$this->getUrl());
+            }
         }
 
         /**

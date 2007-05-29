@@ -125,5 +125,7 @@ function completeDeleteTrackback(ret_obj) {
 function doChangeCategory(sel_obj, url) {
     var category_srl = sel_obj.options[sel_obj.selectedIndex].value;
     if(!category_srl) location.href=url;
-    else location.href=url+'&category='+category_srl;
+    else {
+        location.href = location.href.setQuery('category',category_srl);
+    }
 }

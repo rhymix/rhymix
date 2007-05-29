@@ -103,7 +103,7 @@
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
         <input type="submit" value="{$lang->cmd_search}" />
-        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('search_target','','search_keyword','','page','1','document_srl','')}'"/>
+        <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','mid',$mid)}';return false;"/>
     </form>
 </div>
 
