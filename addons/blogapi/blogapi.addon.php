@@ -48,12 +48,13 @@
 
         // 임시 파일 저장 장소 지정
         $tmp_uploaded_path = sprintf('./files/cache/blogapi/%s/%s/', $this->mid, $user_id);
+        $uploaded_target_path = sprintf('/files/cache/blogapi/%s/%s/', $this->mid, $user_id);
 
         switch($method_name) {
             // 블로그 정보
             case 'blogger.getUsersBlogs' :
-                    $obj->blogid = $this->mid;
                     $obj->url = Context::getRequestUri().$this->mid;
+                    $obj->blogid = $this->mid;
                     $obj->blogName = $this->module_info->browser_title;
                     $blog_list = array($obj);
 
@@ -80,16 +81,23 @@
 
             // 파일 업로드
             case 'metaWeblog.newMediaObject' :
-                    $fileinfo = $params[3];
-                    $filedata = base64_decode($fileinfo->value->struct->member[0]->value->base64->body);
-                    $filename = $fileinfo->value->struct->member[1]->value->string->body;
+                    $fileinfo = $params[3]->value->struct->member;
+                    foreach($fileinfo as $key => $val) {
+                        $nodename = $val->name->body;
+                        if($nodename == 'bits') $filedata = base64_decode($val->value->base64->body);
+                        elseif($nodename == 'name') $filename = $val->value->string->body;
+                    }
+
+                    $tmp_arr = explode('/',$filename);
+                    $filename = array_pop($tmp_arr);
 
                     if(!is_dir($tmp_uploaded_path)) FileHandler::makeDir($tmp_uploaded_path);
 
                     $target_filename = sprintf('%s%s', $tmp_uploaded_path, $filename);
                     FileHandler::writeFile($target_filename, $filedata);
+                    $obj->url = 'http://blog.nzeo.com/'.$target_filename;
 
-                    $content = getXmlRpcResponse('{UPLOADED_PATH}'.$filename);
+                    $content = getXmlRpcResponse($obj);
                 break;
 
             // 글작성
@@ -147,7 +155,7 @@
                             $obj->uploaded_count = $file_count;
                         }
                     }
-                    $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
+                    $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
                     $obj->allow_comment = 'Y';
@@ -157,9 +165,10 @@
                     if(!$output->toBool()) {
                         $content = getXmlRpcFailure(1, $output->getMessage());
                     } else {
-                        $content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
-                        FileHandler::removeDir($tmp_uploaded_path);
+                        //$content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
+                        $content = getXmlRpcResponse(''.$document_srl);
                     }
+                    FileHandler::removeDir($tmp_uploaded_path);
                 break;
 
             // 글 수정
@@ -224,12 +233,16 @@
                             for($i=0;$i<$file_count;$i++) {
                                 $file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
                                 $file_info['name'] = $file_list[$i];
+
+                                $moved_filename = sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $file_info['name']);
+                                if(file_exists($moved_filename)) continue;
+
                                 $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
                             }
                             $obj->uploaded_count += $file_count;
                         }
                     }
-                    $obj->content = str_replace($this->mid.'/{UPLOADED_PATH}',sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
+                    $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
                     $output = $oDocumentController->updateDocument($source_obj,$obj);
