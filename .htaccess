@@ -1,8 +1,22 @@
 RewriteEngine On
-RewriteRule ^rss/([[:alnum:]]+)$ ./index.php?mid=$1&act=dispRss [L]
-RewriteRule ^trackback/([[:digit:]]+)$ ./index.php?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
+
+# rss
+RewriteRule ^([a-zA-Z0-9_]+)/rss$ ./index.php?mid=$1&act=dispRss [L]
+
+# trackback
+RewriteRule ^([[:digit:]]+)/trackback$ ./index.php?module=trackback&act=procTrackbackReceive&document_srl=$1 [L]
+
+# blog api permanent link 
+RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?act=blogapi&mid=$1 [L]
+
+# administrator page
 RewriteRule ^admin$ ./index.php?module=admin [L]
+
+# document permanent link
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
+
+# module + document permanent link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)$ ./index.php?mid=$1 [L]
-RewriteRule ^blogapi/(.*)$ ./index.php?act=blogapi&mid=$1 [L]
+
+# module permanent link
+RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
