@@ -11,7 +11,7 @@
             <!--@if($search_target && $search_keyword)-->
                 <div>
                     <!-- 일자, 제목 출력-->
-                    [{zdate($document->regdate, "Y-m-d")}] <a href="#" onclick="winopen('{getUrl('document_srl',$document->document_srl)}');return false;">{$document->title}</a> 
+                    [{zdate($document->regdate, "Y-m-d")}] <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}');return false;">{$document->title}</a> 
 
                     <!-- 댓글이 있으면 댓글의 수 출력 -->
                     <!--@if($document->comment_count)-->({number_format($document->comment_count)})<!--@end-->
