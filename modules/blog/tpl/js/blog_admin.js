@@ -13,7 +13,7 @@ function completeInsertBlog(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispBlogAdminBlogInfo');
+    var url = current_url.setQuery('act','dispBlogAdminBlogInfo');
     location.href = url;
 }
 
@@ -24,7 +24,7 @@ function completeDeleteBlog(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('act','dispBlogAdminContent').setQuery('module_srl','');
+    var url = current_url.setQuery('act','dispBlogAdminContent').setQuery('module_srl','');
     if(page) url = url.setQuery('page',page);
     location.href = url;
 }
@@ -48,7 +48,7 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminCategoryInfo');
+    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminCategoryInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
@@ -86,7 +86,7 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminGrantInfo');
+    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBlogAdminGrantInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }

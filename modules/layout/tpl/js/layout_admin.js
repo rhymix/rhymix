@@ -1,7 +1,7 @@
 /* 레이아웃 신규 생성시 완료 후 요청하는 함수 */
 function completeInsertLayout(ret_obj) {
       var layout_srl = ret_obj['layout_srl'];
-      var url = location.href.setQuery('act','dispLayoutAdminModify').setQuery('layout_srl',layout_srl);
+      var url = current_url.setQuery('act','dispLayoutAdminModify').setQuery('layout_srl',layout_srl);
       location.href = url;
 } 
 
@@ -39,6 +39,6 @@ function doMenuManagement(menu_id) {
     if(sel_obj.selectedIndex == 0) return;
     var menu_srl = sel_obj.options[sel_obj.selectedIndex].value;
 
-    var url = location.href.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
+    var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
     location.href = url;
 }

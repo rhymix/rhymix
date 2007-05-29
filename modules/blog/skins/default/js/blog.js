@@ -67,7 +67,7 @@ function completeDocumentInserted(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
     if(category_srl) url = url.setQuery('category',category_srl);
     location.href = url;
 }

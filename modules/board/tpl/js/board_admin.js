@@ -14,7 +14,7 @@ function completeInsertBoard(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminBoardInfo');
+    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminBoardInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
@@ -26,7 +26,7 @@ function completeDeleteBoard(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('act','dispBoardAdminContent').setQuery('module_srl','');
+    var url = current_url.setQuery('act','dispBoardAdminContent').setQuery('module_srl','');
     if(page) url = url.setQuery('page',page);
     location.href = url;
 }
@@ -50,7 +50,7 @@ function completeUpdateCategory(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminCategoryInfo');
+    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminCategoryInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }
@@ -88,7 +88,7 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminGrantInfo');
+    var url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispBoardAdminGrantInfo');
     if(page) url.setQuery('page',page);
     location.href = url;
 }

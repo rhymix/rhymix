@@ -27,7 +27,7 @@ function completeDocumentInserted(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
     if(category_srl) url = url.setQuery('category',category_srl);
     location.href = url;
 }
@@ -126,6 +126,6 @@ function doChangeCategory(sel_obj, url) {
     var category_srl = sel_obj.options[sel_obj.selectedIndex].value;
     if(!category_srl) location.href=url;
     else {
-        location.href = location.href.setQuery('category',category_srl);
+        location.href = current_url.setQuery('category',category_srl);
     }
 }

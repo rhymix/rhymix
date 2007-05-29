@@ -2,7 +2,7 @@
 function completeInsertMenu(ret_obj) {
     var menu_srl = ret_obj['menu_srl'];
     alert(ret_obj['message']);
-    location.href = location.href.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
+    location.href = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
 } 
 
 /* 메뉴 삭제 */
@@ -17,7 +17,7 @@ function doDeleteMenu(menu_srl) {
 function completeDeleteMenu(ret_obj) {
     var menu_srl = ret_obj['menu_srl'];
     alert(ret_obj['message']);
-    location.href = location.href.setQuery('act','dispMenuAdminContent').setQuery('menu_srl','');
+    location.href = current_url.setQuery('act','dispMenuAdminContent').setQuery('menu_srl','');
 } 
 
 /* 빈 메뉴 아이템 추가 */

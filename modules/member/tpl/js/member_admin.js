@@ -7,7 +7,7 @@ function completeInsert(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminInfo').setQuery('member_srl',member_srl);
+    var url = current_url.setQuery('act','dispMemberAdminInfo').setQuery('member_srl',member_srl);
     if(page) url = url.setQuery('page', page);
 
     location.href = url;
@@ -21,7 +21,7 @@ function completeDelete(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminList');
+    var url = current_url.setQuery('act','dispMemberAdminList');
 
     location.href = url;
 }
@@ -34,7 +34,7 @@ function completeInsertGroup(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminGroupList');
+    var url = current_url.setQuery('act','dispMemberAdminGroupList');
 
     location.href = url;
 }
@@ -51,7 +51,7 @@ function doUpdateGroup(group_srl, mode, message) {
 
 function completeUpdateGroup(ret_obj) {
     var page = ret_obj['page'];
-    var url = location.href.setQuery('act','dispMemberAdminGroupList');
+    var url = current_url.setQuery('act','dispMemberAdminGroupList');
     location.href = url;
 }
 
@@ -64,7 +64,7 @@ function completeInsertDeniedID(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminDeniedIDList');
+    var url = current_url.setQuery('act','dispMemberAdminDeniedIDList');
     location.href = url;
 }
 
@@ -96,7 +96,7 @@ function completeUpdateJoinForm(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminJoinFormList');
+    var url = current_url.setQuery('act','dispMemberAdminJoinFormList');
 
     location.href = url;
 }
@@ -109,7 +109,7 @@ function completeInsertJoinForm(ret_obj) {
 
     alert(message);
 
-    var url = location.href.setQuery('act','dispMemberAdminJoinFormList');
+    var url = current_url.setQuery('act','dispMemberAdminJoinFormList');
 
     location.href = url;
 }

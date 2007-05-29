@@ -25,7 +25,7 @@ function filterAlertMessage(ret_obj) {
 
     if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
 
-    if(typeof(act)!="undefined" && act) url = location.href.setQuery("act", act);
+    if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
     else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
 
     location.href = url;

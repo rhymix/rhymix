@@ -22,8 +22,8 @@ function completeLogin(ret_obj, response_tags, params, fo_obj) {
         xSetCookie('user_id', fo_obj.user_id.value, expire);
     }
 
-    var url =  location.href.setQuery('act','');
-    location.href = location.href.setQuery('act','');
+    var url =  current_url.setQuery('act','');
+    location.href = url;
 }
 
 

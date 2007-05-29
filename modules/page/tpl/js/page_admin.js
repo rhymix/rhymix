@@ -16,10 +16,10 @@ function completeInsertPage(ret_obj) {
 
     var url = '';
     if(location.href.getQuery('module')=='admin') {
-        url = location.href.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
+        url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
         if(page) url = url.setQuery('page',page);
     } else {
-        url = location.href.setQuery('act','').setQuery('module_srl','');
+        url = current_url.setQuery('act','').setQuery('module_srl','');
     }
 
     location.href = url;
@@ -33,7 +33,7 @@ function completeDeletePage(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = location.href.setQuery('act','dispPageAdminContent');
+    var url = current_url.setQuery('act','dispPageAdminContent');
     if(page) url = url.setQuery('page',page);
 
     location.href = url;
@@ -43,5 +43,5 @@ function completeDeletePage(ret_obj) {
 function doChangeCategory(sel_obj, url) {
     var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
     if(!module_category_srl) location.href=url;
-    else location.href = location.href.setQuery('module_category_srl',module_category_srl);
+    else location.href = current_url.setQuery('module_category_srl',module_category_srl);
 }

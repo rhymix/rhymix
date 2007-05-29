@@ -7,7 +7,7 @@ function completeInsert(ret_obj, response_tags, args, fo_obj) {
     alert(message);
 
     if(redirect_url) location.href = redirect_url;
-    else location.href = location.href.setQuery('act','');
+    else location.href = current_url.setQuery('act','');
 }
 
 /* 정보 수정 */
@@ -17,7 +17,7 @@ function completeModify(ret_obj, response_tags, args, fo_obj) {
 
     alert(message);
 
-    location.href = location.href.setQuery('act','dispMemberInfo');
+    location.href = current_url.setQuery('act','dispMemberInfo');
 }
 
 /* 이미지 업로드 */
@@ -77,13 +77,13 @@ function completeLogin(ret_obj, response_tags, params, fo_obj) {
         xSetCookie('user_id', fo_obj.user_id.value, expire);
     }
 
-    var url =  location.href.setQuery('act','');
-    location.href = location.href.setQuery('act','');
+    var url =  current_url.setQuery('act','');
+    location.href = current_url.setQuery('act','');
 }
 
 /* 로그아웃 후 */
 function completeLogout(ret_obj) {
-    location.href = location.href.setQuery('act','');
+    location.href = current_url.setQuery('act','');
 }
 
 /* 이미지 이름, 마크 삭제 */
@@ -125,7 +125,7 @@ function doDeleteMessage(message_srl) {
 
 function completeDeleteMessage(ret_obj) {
     alert(ret_obj['message']);
-    location.href = location.href.setQuery('message_srl','');
+    location.href = current_url.setQuery('message_srl','');
 }
 
 /* 개별 쪽지 보관 */
@@ -139,7 +139,7 @@ function doStoreMessage(message_srl) {
 
 function completeStoreMessage(ret_obj) {
     alert(ret_obj['message']);
-    location.href = location.href.setQuery('message_srl','');
+    location.href = current_url.setQuery('message_srl','');
 }
 
 /* 친구 추가 후 */
@@ -168,7 +168,7 @@ function doDeleteFriendGroup(friend_group_srl) {
 
 function completeDeleteFriendGroup(ret_obj) {
     alert(ret_obj['message']);
-    location.href = location.href.setQuery('friend_group_srl','');
+    location.href = current_url.setQuery('friend_group_srl','');
 }
 
 /* 친구 그룹의 이름 변경 */
