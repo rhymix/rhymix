@@ -8,15 +8,6 @@
     blogLoadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
 </script>
 
-<!-- 기본 변수들 세팅 -->
-<!--@if(!$layout_info->top_title)-->
-    {@$layout_info->top_title = "title"}
-<!--@end-->
-
-<!--@if(!$layout_info->profile)-->
-    {@$layout_info->profile = "profile"}
-<!--@end-->
-
 <!-- 블로그 기본 기능 메뉴 출력 -->
 <div class="blog_default_menu">
     <!-- 로그인 -->
