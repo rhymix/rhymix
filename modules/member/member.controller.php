@@ -828,7 +828,7 @@
         function putSignature($member_srl, $signature) {
             $path = sprintf('files/attach/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
-            if(!trim($signature)) return @unlink($filename);
+            if(!trim($signature) || trim(strtolower($signature))=='<br>') return @unlink($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
