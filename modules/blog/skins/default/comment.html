@@ -43,7 +43,7 @@
 
             <tr>
                 <td colspan="2">
-                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_reply}]</a>
+                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$val->comment_srl,'document_srl',$document->document_srl)}">[{$lang->cmd_reply}]</a>
 
                     <!--@if($val->is_granted)-->
                     <a href="{getUrl('act','dispBlogModifyComment','comment_srl',$val->comment_srl)}">[{$lang->cmd_modify}]</a>

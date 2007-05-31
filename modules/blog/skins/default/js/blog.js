@@ -106,7 +106,7 @@ function completeInsertComment(ret_obj) {
     var message = ret_obj['message'];
 
     alert(message);
-    location.href = location.href;
+    location.href = current_url.setQuery('comment_srl','').setQuery('act','');
 }
 
 /* 댓글 삭제 */
