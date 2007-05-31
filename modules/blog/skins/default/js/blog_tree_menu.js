@@ -13,6 +13,19 @@ var blog_tree_menu_folder_list = new Array();
 // 노드의 정보를 가지고 있을 변수
 var blog_node_info_list = new Array();
 
+// 카테고리별 문서 수를 가지고 있는 전역 변수
+var category_document_count = new Array();
+
+// 카테고리의 문서 갯수를 세팅하는 함수
+function setDocumentCount(node_srl, document_count) {
+    category_document_count[node_srl] = document_count;
+}
+
+// 카테고리의 node_srl로 문서 갯수를 리턴하는 함수
+function getDocumentCount(node_srl) {
+    return parseInt(category_document_count[node_srl],10);
+}
+
 // 트리메뉴의 정보를 담고 있는 xml파일을 읽고 drawTreeMenu()를 호출하는 함수
 function blogLoadTreeMenu(xml_url, title, index_url) {
     // 일단 그릴 곳을 찾아서 사전 작업을 함 (그릴 곳이 없다면 아예 시도를 안함)
@@ -199,11 +212,15 @@ function blogDrawNode(parent_node) {
         var text_class = "unselected";
         if(selected) text_class = "selected";
 
+        var document_count_text = "";
+        var document_count = getDocumentCount(node_srl);
+        if(document_count>0) document_count_text = '<span class="document_count">('+document_count+')</span>';
+
         // 왼쪽 폴더/페이지와 텍스트 위치를 맞추기 위해;;; table태그 일단 사용. 차후 바꾸자..
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
                         '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="./common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
-                        '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode('+node_srl+');return false;">'+text+'</a></td></tr></table>'+
+                        '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode('+node_srl+');return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
                     '</div>';
 
         if(hasChild && child_html) html += child_html;

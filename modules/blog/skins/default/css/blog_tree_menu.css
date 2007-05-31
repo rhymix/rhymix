@@ -27,6 +27,11 @@
     padding:1px 2px 1px 2px;
 }
 
+#blog_category .document_count {
+    color:#AAAAAA;
+    font-size:8px;
+}
+
 #blog_category .page {
     cursor:pointer;
     background:url(../images/tree_menu/page.gif) no-repeat left;

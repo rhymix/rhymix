@@ -3,10 +3,16 @@
 <!--%import("css/blog_tree_menu.css")-->
 <!--%import("js/blog_tree_menu.js")-->
 
-<!-- 블로그 메뉴를 js/blog_tree_menu.js를 이용해서 표시 -->
+<!-- 블로그 카테고리의 글 갯수를 javascript변수로 설정 -->
+<script type="text/javascript">
+    <!--@foreach($category_list as $key => $val)-->setDocumentCount({$key}, {(int)$val->document_count});<!--@end-->
+</script>
+
+<!-- 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
     blogLoadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
 </script>
+
 
 <!-- 블로그 기본 기능 메뉴 출력 -->
 <div class="blog_default_menu">
