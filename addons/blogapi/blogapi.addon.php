@@ -6,8 +6,8 @@
      * @author zero (zero@nzeo.com)
      * @brief blogAPI 애드온
      *
-     * 파이어폭스의 performancing, zoundry 등의 외부 툴을 이용하여 글을 입력할 수 있게 합니다.
-     * 모듈 실행 이전(before_module_proc)에 호출이 되어야 하며 정상동작후에는 모듈의 실행을 취소한다.
+     * ms live writer, 파이어폭스의 performancing, zoundry 등의 외부 툴을 이용하여 글을 입력할 수 있게 합니다.
+     * 모듈 실행 이전(before_module_proc)에 호출이 되어야 하며 정상동작후에는 강제 종료를 한다.
      **/
 
     // called_position가 before_module_proc일때 실행
