@@ -99,7 +99,7 @@
 
             // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
             
-            if($this->getResponseMethod()=='GET') {
+            if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
                         if(!$val) continue;
