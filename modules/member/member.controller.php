@@ -1361,15 +1361,14 @@
             if(!$member_srl) return $matches[0];
 
             // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
-            if(!$GLOBALS['_transSignatureList'][$member_srl]) {
+            if(!isset($GLOBALS['_transSignatureList'][$member_srl])) {
                 $oMemberModel = &getModel('member');
 
                 $signature = $oMemberModel->getSignature($member_srl);
 
                 // 서명이 없으면 빈 내용을 등록
                 if(!$signature) {
-                    $GLOBALS['_transSignatureList'][$member_srl] = $matches[0];
-                    return '';
+                    $GLOBALS['_transSignatureList'][$member_srl] = null;
 
                 // 서명이 있으면 글의 내용 다음에 추가
                 } else {
