@@ -1369,12 +1369,11 @@
                 // 서명이 없으면 빈 내용을 등록
                 if(!$signature) {
                     $GLOBALS['_transSignatureList'][$member_srl] = $matches[0];
+                    return '';
 
                 // 서명이 있으면 글의 내용 다음에 추가
                 } else {
-
                     $document = $matches[0].'<div class="member_signature">'.$signature.'</div>';
-
                     $GLOBALS['_transSignatureList'][$member_srl] = $document;
                 }
             }
