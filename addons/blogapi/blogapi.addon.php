@@ -13,7 +13,7 @@
     // called_position가 after_module_proc일때 rsd태그 삽입
     if($called_position == 'after_module_proc') {
         // 현재 모듈의 rsd주소를 만듬
-        $rsd_url = sprintf('%s%s/api', Context::getRequestUri(), $this->module);
+        $rsd_url = sprintf('%s%s/api', Context::getRequestUri(), $this->mid);
 
         // 헤더에 rsd태그 삽입
         Context::addHtmlHeader("    ".'<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$rsd_url.'" />');
@@ -330,7 +330,7 @@
         default :
 
                 $homepagelink = getUrl('','mid',$this->mid);
-                $api_url = sprintf('%s%s/api', Context::getRequestUri(), $this->module);
+                $api_url = sprintf('%s%s/api', Context::getRequestUri(), $this->mid);
                 $content = <<<RSDContent
 <?xml version="1.0" ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >
