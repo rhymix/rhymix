@@ -745,7 +745,7 @@
                         $category_srl,
                         $group_check_code,
                         $name,
-                        sprintf('mid=%s&amp;category=%d', $this->module_info->mid, $category_srl),
+                        getUrl('','mid',$this->module_info->mid,'category',$category_srl),
                         $expand
                 );
                 
