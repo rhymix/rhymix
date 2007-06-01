@@ -4,7 +4,10 @@
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <description xml:lang="ko">
-        외부 툴을 이용해서 글을 입력할 수 있는 BlogApi 애드온입니다.
+        metaWeblog를 지원하는 blogApi애드온입니다.
+        사용으로 설정하시면 각 모듈마다 RSD 태그를 노출합니다.
+        api의 주소는 http://설치주소/모듈명/api 입니다.
+        사용아로 하셔야 RSD태그 및 api가 동작을 합니다.
     </description>
   </author>
 </addon>
