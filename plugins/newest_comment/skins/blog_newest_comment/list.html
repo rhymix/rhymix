@@ -16,7 +16,7 @@
         <div class="comment_box">
             <!--@foreach($plugin_info->comment_list as $val)-->
             <div class="comment">
-                <a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{cut_str(strip_tags($val->content),15,'...')}</a>
+                <a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{cut_str(strip_tags($val->content),13,'...')}</a>
                 <!--@if($val->member_srl)-->
                     <span class="member_{$val->member_srl} writer">{$val->nick_name}</span>
                 <!--@else-->
