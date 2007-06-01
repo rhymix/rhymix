@@ -304,9 +304,9 @@
                         $post->userid = $val->user_id;
                         $post->mt_allow_pings = 0;
                         $post->mt_allow_comments = $val->allow_comment=='Y'?1:0;
-                        $post->description = $val->content;
+                        $post->description = htmlspecialchars($val->content);
                         $post->postid = $val->document_srl;
-                        $post->title = $val->title;
+                        $post->title = htmlspecialchars($val->title);
 
                         $year = substr($val->regdate,0,4);
                         $month = substr($val->regdate,4,2);
