@@ -26,6 +26,7 @@
                 <!--@if(!$started && $num >= $plugin_info->start_week)-->
                     {@ $started = true}
                     {@ $day = 1}
+                    {@ $cur_date = $plugin_info->cur_date.sprintf('%02d',$day) }
                 <!--@elseif($started)-->
                     {@ $day++}
                     {@ $cur_date = $plugin_info->cur_date.sprintf('%02d',$day) }
