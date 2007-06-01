@@ -771,7 +771,10 @@
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
             // <img ...> 코드를 <img ... /> 코드로 변환
-            $content = preg_replace('/<img([^>^\/]*)(\/>|>)/i','<img$1 />', $content);
+            $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
+
+            // blogapi tool에서 삽입된 코드 삭제
+            //$content = str_replace('atomicselection="true"','',$content);
 
             return $content;
         }
