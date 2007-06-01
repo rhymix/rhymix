@@ -220,7 +220,7 @@ function blogDrawNode(parent_node) {
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
                         '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="./common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
-                        '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode('+node_srl+');return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
+                        '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode("'+url+'");return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
                     '</div>';
 
         if(hasChild && child_html) html += child_html;
@@ -262,11 +262,6 @@ function blogToggleFolder(zone_id) {
 }
 
 // 노드 클릭시
-function blogSelectNode(node_srl) {
-    // url과 open_window값을 구함
-    var node = blog_node_info_list[node_srl];
-    if(!node) return;
-
-    var url = current_url.setQuery('category',node_srl).setQuery('page','').setQuery('search_target','').setQuery('search_keyword','');
+function blogSelectNode(url) {
     location.href = url;
 }
