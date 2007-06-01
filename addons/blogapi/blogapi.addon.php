@@ -297,6 +297,9 @@
                     $content = getXmlRpcFailure(1, 'post not founded');
                     printContent($content);
                 } else {
+                    $oContext = &Context::getInstance();
+
+
                     $posts = array();
                     foreach($output->data as $key => $val) {
                         $post = null;
@@ -304,7 +307,7 @@
                         $post->userid = $val->user_id;
                         $post->mt_allow_pings = 0;
                         $post->mt_allow_comments = $val->allow_comment=='Y'?1:0;
-                        $post->description = htmlspecialchars($val->content);
+                        $post->description = htmlspecialchars($oContext->transContent($val->content));
                         $post->postid = $val->document_srl;
                         $post->title = htmlspecialchars($val->title);
 
