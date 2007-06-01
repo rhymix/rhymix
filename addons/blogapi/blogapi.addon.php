@@ -51,7 +51,6 @@
         }
     }
 
-
     // 카테고리의 정보를 구해옴
     $oDocumentModel = &getModel('document');
     $category_list = $oDocumentModel->getCategoryList($this->module_srl);
@@ -284,6 +283,44 @@
                 else $content = getXmlRpcResponse(true);
 
                 printContent($content);
+            break;
+
+        // 최신글 받기
+        case 'metaWeblog.getRecentPosts' :
+                // 목록을 구하기 위한 옵션
+                $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
+                $args->page = 1;
+                $args->list_count = 20;
+                $args->sort_index = 'list_order'; ///< 소팅 값
+                $output = $oDocumentModel->getDocumentList($args);
+                if(!$output->toBool() || !$output->data) {
+                    $content = getXmlRpcFailure(1, 'post not founded');
+                    printContent($content);
+                } else {
+                    $posts = array();
+                    foreach($output->data as $key => $val) {
+                        $post = null;
+                        $post->link = $post->permaLink = getUrl('','mid',$this->mid,'document_srl',$val->document_srl);
+                        $post->userid = $val->user_id;
+                        $post->mt_allow_pings = 0;
+                        $post->mt_allow_comments = $val->allow_comment=='Y'?1:0;
+                        $post->description = $val->content;
+                        $post->postid = $val->document_srl;
+                        $post->title = $val->title;
+
+                        $year = substr($val->regdate,0,4);
+                        $month = substr($val->regdate,4,2);
+                        $day = substr($val->regdate,6,2);
+                        $hour = substr($val->regdate,8,2);
+                        $min = substr($val->regdate,10,2);
+                        $sec = substr($val->regdate,12,2);
+                        $time = mktime($hour,$min,$sec,$month,$day,$year);
+                        $post->dateCreated = gmdate("D, d M Y H:i:s", $time);
+                        $posts[] = $post;
+                    }
+                    $content = getXmlRpcResponse($posts);
+                    printContent($content);
+                }
             break;
 
         // 아무런 요청이 없을 경우 RSD 출력

@@ -52,7 +52,7 @@
             $info->description = $this->module_info->description;
             $info->language = Context::getLangType();
             $info->date = gmdate("D, d M Y H:i:s");
-            $info->link = sprintf("%s?mid=%s", Context::getRequestUri(), Context::get('mid'));
+            $info->link = getUrl('','mid',Context::get('mid'));
             $info->total_count = $output->total_count;
 
             if(count($document_list)) {
