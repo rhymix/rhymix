@@ -131,7 +131,7 @@ function blogDrawNode(parent_node) {
         var zone_id = "blog_category_"+node_srl;
         blog_tree_menu_folder_list[blog_tree_menu_folder_list.length] = zone_id;
 
-        if(url && typeof(zbxe_url)!="undefined" && (zbxe_url == url || url.substr(-1*zbxe_url.length)==zbxe_url)) {
+        if(url && typeof(zbxe_url)!="undefined" && (zbxe_url == url || url.lastIndexOf(zbxe_url)!=-1) ) {
             selected = true;
             blog_menu_selected = true;
         }
