@@ -1,11 +1,12 @@
+<!--%import("filter/insert_comment.xml")-->
+<!--%import("js/blog.js")-->
+
 <!--@if($source_comment)-->
     <!--#include("header.html")-->
-    <!--%import("js/blog.js")-->
 <!--@end-->
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($source_comment)-->
-<!--%import("filter/insert_comment.xml")-->
 <div>
     <table border="1" width="100%">
     <col width="120" />
@@ -29,7 +30,7 @@
 <!-- 글쓰기 폼 -->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />
     <input type="hidden" name="comment_srl" value="{$comment_srl}" />
     <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
     <input type="hidden" name="parent_srl" value="{$parent_srl}" />

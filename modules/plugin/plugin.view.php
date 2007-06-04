@@ -15,18 +15,6 @@
         }
         
         /**
-         * @brief 플러그인 목록을 보여줌
-         **/
-        function dispPluginAdminDownloadedList() {
-            // 플러그인 목록을 세팅
-            $oPluginModel = &getModel('plugin');
-            $plugin_list = $oPluginModel->getDownloadedPluginList();
-            Context::set('plugin_list', $plugin_list);
-
-            $this->setTemplateFile('downloaded_plugin_list');
-        }
-
-        /**
          * @brief 플러그인의 상세 정보(conf/info.xml)를 팝업 출력
          **/
         function dispPluginInfo() {

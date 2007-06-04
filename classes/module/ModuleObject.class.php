@@ -156,7 +156,7 @@
             $this->grant = $grant;
             Context::set('grant', $grant);
 
-            $this->init();
+            if(method_exists($this, 'init')) $this->init();
         }
 
         /**
@@ -285,7 +285,8 @@
                     $forward = $oModuleModel->getActionForward($this->act);
                     if($forward->module && $forward->type && $forward->act) {
 
-                        $oModule = &getModule($forward->module, $forward->type);
+                        $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
+                        $oModule = &getModule($forward->module, $forward->type, $kind);
                         $xml_info = $oModuleModel->getModuleActionXml($forward->module);
                         $oModule->setAct($forward->act);
                         $oModule->init();

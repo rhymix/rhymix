@@ -128,9 +128,10 @@
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
             $grant = $xml_info->action->{$this->act}->grant;
+            $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
 
             // 모듈 객체 생성
-            $oModule = &$this->getModuleInstance($this->module, $type);
+            $oModule = &$this->getModuleInstance($this->module, $type, $kind);
             if(!is_object($oModule)) {
                 $this->error = 'msg_module_is_not_exists';
                 return;

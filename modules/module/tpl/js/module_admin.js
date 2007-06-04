@@ -22,7 +22,7 @@ function completeUpdateCategory(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('act','dispModuleAdminCategory');
+    var url = current_url.setQuery('act','dispModuleAdminCategory').setQuery('module_category_srl','');
     location.href = url;
 }
 

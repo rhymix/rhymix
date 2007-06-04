@@ -32,7 +32,6 @@
             $oModuleController->insertActionForward('board', 'controller', 'procBoardAdminUpdateSkinInfo');
 
             // 기본 게시판 생성
-            // 설치된 기본 모듈이 있는지 확인
             $output = executeQuery('module.getDefaultMidInfo');
             if($output->data) return new Object();
 
@@ -43,7 +42,7 @@
             $args->skin = 'default';
 
             // 게시판 controller 생성
-            $oBoardController = &getController('board');
+            $oBoardController = &getAdminController('board');
             $oBoardController->procBoardAdminInsertBoard($args);
 
             return new Object();

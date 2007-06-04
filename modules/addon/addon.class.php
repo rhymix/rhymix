@@ -18,7 +18,7 @@
             $oModuleController->insertActionForward('addon', 'view', 'dispAddonAdminIndex');
             
             // 몇가지 애드온을 기본으로 설치 상태로 지정
-            $oAddonController = &getController('addon');
+            $oAddonController = &getAdminController('addon');
             $oAddonController->doActivate('spamfilter');
             $oAddonController->doActivate('message');
             $oAddonController->doActivate('member_extra_info');

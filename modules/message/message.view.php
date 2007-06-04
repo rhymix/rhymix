@@ -31,19 +31,5 @@
             $this->setTemplateFile('system_message');
         }
 
-        /**
-         * @brief 설정 
-         **/
-        function dispMessageAdminConfig() {
-            // 스킨 목록을 구해옴
-            $oModuleModel = &getModel('module');
-            $skin_list = $oModuleModel->getskins($this->module_path);
-            Context::set('skin_list', $skin_list);
-
-            // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('config');
-        }
-
     }
 ?>

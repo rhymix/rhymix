@@ -13,7 +13,7 @@
          **/
         function init() {
             // 설치가 되어 있으면 오류
-            if($this->act != 'procInstallAdminInstall' && Context::isInstalled()) return $this->dispMessage('msg_already_installed');
+            if(Context::isInstalled()) return $this->dispMessage('msg_already_installed');
         }
 
         /**
@@ -47,18 +47,6 @@
 
             // 설치 완료 메세지 출력
             $this->setMessage('msg_install_completed');
-        }
-
-        /**
-         * @brief 모듈 설치
-         **/
-        function procInstallAdminInstall() {
-            $module_name = Context::get('module_name');
-            if(!$module_name) return new object(-1, 'invalid_request');
-
-            $this->installModule($module_name, './modules/'.$module_name);
-
-            $this->setMessage('success_installed');
         }
 
         /**

@@ -53,12 +53,5 @@
             return executeQuery('tag.deleteTag', $args);
         }
 
-        /**
-         * @brief 특정 모듈의 태그 삭제
-         **/
-        function deleteModuleTags($module_srl) {
-            $args->module_srl = $module_srl;
-            return executeQuery('tag.deleteModuleTags', $args);
-        }
     }
 ?>

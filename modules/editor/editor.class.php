@@ -17,7 +17,7 @@
             $oModuleController->insertActionForward('editor', 'view', 'dispEditorAdminSetupComponent');
 
             // 기본 에디터 컴포넌트를 추가
-            $oEditorController = &getController('editor');
+            $oEditorController = &getAdminController('editor');
             $oEditorController->insertComponent('colorpicker_text',true);
             $oEditorController->insertComponent('colorpicker_bg',true);
             $oEditorController->insertComponent('emoticon',true);
