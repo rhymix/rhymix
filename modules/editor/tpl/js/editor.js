@@ -84,10 +84,8 @@ function editorStart(upload_target_srl) {
     xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
     // 플러그인 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
-    if(xUA.indexOf('opera')==-1) {
-        xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
-        xAddEventListener(document,'dblclick',editorSearchComponent);
-    }
+    xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+    xAddEventListener(document,'dblclick',editorSearchComponent);
 
     xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
