@@ -15,12 +15,6 @@
          * @brief 초기화
          **/
         function init() {
-        }
-
-        /**
-         * @brief 일반 페이지 초기화
-         **/
-        function initNormal() {
             // 회원 관리 정보를 받음
             $oModuleModel = &getModel('module');
             $this->member_config = $oModuleModel->getModuleConfig('member');
@@ -37,8 +31,6 @@
          * @brief 회원 정보 출력
          **/
         function dispMemberInfo() {
-            $this->initNormal();
-
             $oMemberModel = &getModel('member');
 
             $member_srl = Context::get('member_srl');
@@ -67,8 +59,6 @@
          * @brief 회원 가입 폼 출력
          **/
         function dispMemberSignUpForm() {
-            $this->initNormal();
-
             $oMemberModel = &getModel('member');
 
             // 로그인한 회원일 경우 해당 회원의 정보를 받음
@@ -87,8 +77,6 @@
          * @brief 회원 정보 수정
          **/
         function dispMemberModifyInfo() {
-            $this->initNormal();
-
             $oMemberModel = &getModel('member');
 
             // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
@@ -120,8 +108,6 @@
          * @brief 로그인 폼 출력
          **/
         function dispMemberLoginForm() {
-            $this->initNormal();
-
             // 템플릿 파일 지정
             $this->setTemplateFile('login_form');
         }
@@ -130,8 +116,6 @@
          * @brief 회원 비밀번호 수정
          **/
         function dispMemberModifyPassword() {
-            $this->initNormal();
-
             $oMemberModel = &getModel('member');
 
             // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
@@ -151,8 +135,6 @@
          * @brief 로그아웃 출력
          **/
         function dispMemberLogout() {
-            $this->initNormal();
-
             // 템플릿 파일 지정
             $this->setTemplateFile('logout');
         }
@@ -161,8 +143,6 @@
          * @brief 쪽지함 출력
          **/
         function dispMemberMessages() {
-            $this->initNormal();
-
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
@@ -200,7 +180,6 @@
          * @brief 새 쪽지 보여줌
          **/
         function dispMemberNewMessage() {
-            $this->initNormal();
             $this->setLayoutFile('popup_layout');
 
             // 로그인이 되어 있지 않으면 오류 표시
@@ -225,7 +204,6 @@
          * @brief 쪽지 발송 출력
          **/
         function dispMemberSendMessage() {
-            $this->initNormal();
             $this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
@@ -252,7 +230,6 @@
          * @brief 친구 목록 보기
          **/
         function dispMemberFriend() {
-            $this->initNormal();
             $this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
@@ -293,7 +270,6 @@
          * @brief 친구 추가
          **/
         function dispMemberAddFriend() {
-            $this->initNormal();
             $this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
@@ -320,7 +296,6 @@
          * @brief 친구 그룹 추가
          **/
         function dispMemberAddFriendGroup() {
-            $this->initNormal();
             $this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
