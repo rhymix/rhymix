@@ -477,13 +477,27 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args->password = trim(Context::get('password'));
+            $current_password = trim(Context::get('current_password'));
+            $password = trim(Context::get('password'));
 
-            // 로그인 정보
+            // 로그인한 유저의 정보를 가져옴
             $logged_info = Context::get('logged_info');
-            $args->member_srl = $logged_info->member_srl;
+            $member_srl = $logged_info->member_srl;
+
+            // member model 객체 생성
+            $oMemberModel = &getModel('member');
+
+            // member_srl 에 따른 정보 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+            // 현재 비밀번호가 맞는지 확인
+            if(!$current_password || ($member_info->password != md5($current_password) && $this->mysql_pre4_hash_password($current_password) != $member_info->password)) {
+                return new Object(-1, 'invalid_password');
+            }
 
             // member_srl의 값에 따라 insert/update
+            $args->member_srl = $member_srl;
+            $args->password = $password;
             $output = $this->updateMemberPassword($args);
             if(!$output->toBool()) return $output;
 

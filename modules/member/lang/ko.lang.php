@@ -47,6 +47,7 @@
     $lang->friend_group = '친구 그룹';
     $lang->default_friend_group = '그룹 미지정';
     $lang->member_info = '회원 정보';
+    $lang->current_password = '현재 비밀번호';
 
     $lang->search_target_list = array(
         'user_id' => '아이디',
