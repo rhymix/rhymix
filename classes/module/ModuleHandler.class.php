@@ -241,14 +241,16 @@
         /**
          * @brief 모듈 객체를 생성함
          **/
-        function &getModuleInstance($module, $type = 'view') {
+        function &getModuleInstance($module, $type = 'view', $kind = '') {
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return NULL;
 
             if(__DEBUG__==3) $start_time = getMicroTime();
 
+            if($kind != 'admin') $kind = 'svc';
+
             // global 변수에 미리 생성해 둔 객체가 없으면 새로 생성
-            if(!$GLOBALS['_loaded_module'][$module][$type]) {
+            if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
 
                 /**
                  * 모듈의 위치를 파악
@@ -264,12 +266,22 @@
                 // 객체의 이름을 구함
                 switch($type) {
                     case 'controller' :
-                            $instance_name = sprintf("%s%s",$module,"Controller");
-                            $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                            if($kind == 'admin') {
+                                $instance_name = sprintf("%sAdmin%s",$module,"Controller");
+                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
+                            } else {
+                                $instance_name = sprintf("%s%s",$module,"Controller");
+                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                            }
                         break;
                     case 'model' :
-                            $instance_name = sprintf("%s%s",$module,"Model");
-                            $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                            if($kind == 'admin') {
+                                $instance_name = sprintf("%sAdmin%s",$module,"Model");
+                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
+                            } else {
+                                $instance_name = sprintf("%s%s",$module,"Model");
+                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                            }
                         break;
                     case 'class' :
                             $instance_name = $module;
@@ -277,8 +289,13 @@
                         break;
                     default :
                             $type = 'view';
-                            $instance_name = sprintf("%s%s",$module,"View");
-                            $class_file = sprintf('%s%s.view.php', $class_path, $module, $type);
+                            if($kind == 'admin') {
+                                $instance_name = sprintf("%sAdmin%s",$module,"View");
+                                $class_file = sprintf('%s%s.admin.view.php', $class_path, $module, $type);
+                            } else {
+                                $instance_name = sprintf("%s%s",$module,"View");
+                                $class_file = sprintf('%s%s.view.php', $class_path, $module, $type);
+                            }
                         break;
                 }
 
@@ -299,13 +316,13 @@
                 $oModule->setModulePath($class_path);
 
                 // GLOBALS 변수에 생성된 객체 저장
-                $GLOBALS['_loaded_module'][$module][$type] = $oModule;
+                $GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
             }
 
             if(__DEBUG__==3) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
 
             // 객체 리턴
-            return $GLOBALS['_loaded_module'][$module][$type];
+            return $GLOBALS['_loaded_module'][$module][$type][$kind];
         }
     }
 ?>
