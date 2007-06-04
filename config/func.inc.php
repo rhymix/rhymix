@@ -20,10 +20,11 @@
      * @brief ModuleHandler::getModuleObject($module_name, $type)을 쓰기 쉽게 함수로 선언
      * @param module_name 모듈이름
      * @param type disp, proc, controller, class
+     * @param kind admin, null
      * @return module instance
      **/
-    function &getModule($module_name, $type = 'view') {
-        return ModuleHandler::getModuleInstance($module_name, $type);
+    function &getModule($module_name, $type = 'view', $kind = '') {
+        return ModuleHandler::getModuleInstance($module_name, $type, $kind);
     }
 
     /**
@@ -36,6 +37,15 @@
     }
 
     /**
+     * @brief module의 admin controller 객체 생성용
+     * @param module_name 모듈이름
+     * @return module admin controller instance
+     **/
+    function &getAdminController($module_name) {
+        return getModule($module_name, 'controller','admin'); 
+    }
+
+    /**
      * @brief module의 view 객체 생성용
      * @param module_name 모듈이름
      * @return module view instance
@@ -45,12 +55,30 @@
     }
 
     /**
+     * @brief module의 admin view 객체 생성용
+     * @param module_name 모듈이름
+     * @return module admin view instance
+     **/
+    function &getAdminView($module_name) {
+        return getModule($module_name, 'view','admin'); 
+    }
+
+    /**
      * @brief module의 model 객체 생성용
      * @param module_name 모듈이름
      * @return module model instance
      **/
     function &getModel($module_name) {
         return getModule($module_name, 'model'); 
+    }
+
+    /**
+     * @brief module의 admin model 객체 생성용
+     * @param module_name 모듈이름
+     * @return module admin model instance
+     **/
+    function &getAdminModel($module_name) {
+        return getModule($module_name, 'model','admin'); 
     }
 
     /**
