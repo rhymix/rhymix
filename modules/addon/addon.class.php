@@ -23,6 +23,7 @@
             $oAddonController->doActivate('message');
             $oAddonController->doActivate('member_extra_info');
             $oAddonController->doActivate('counter');
+            $oAddonController->doActivate('blogapi');
             $oAddonController->procAddonAdminToggleActivate();
             return new Object();
         }

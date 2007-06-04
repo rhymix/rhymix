@@ -12,7 +12,7 @@
          **/
         function moduleInstall() {
             // 게시판, 회원관리, 레이아웃관리등 자주 사용될 module을 admin_shortcut에 등록
-            $oAdminController = &getController('admin');
+            $oAdminController = &getAdminController('admin');
 
             $oAdminController->insertShortCut('board');
             $oAdminController->insertShortCut('blog');

@@ -244,7 +244,8 @@
             $admin_group = $oMemberModel->getAdminGroup();
             $args->group_srl_list = $admin_group->group_srl;
 
-            return $this->insertMember($args);
+            $oMemberController = &getController('member');
+            return $oMemberController->insertMember($args);
         }
 
         /**

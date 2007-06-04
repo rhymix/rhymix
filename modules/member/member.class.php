@@ -55,28 +55,29 @@
 
             // 멤버 컨트롤러 객체 생성
             $oMemberController = &getController('member');
+            $oMemberAdminController = &getAdminController('member');
 
             // 관리자, 정회원, 준회원 그룹을 입력
             $group_args->title = Context::getLang('admin_group');
             $group_args->is_default = 'N';
             $group_args->is_admin = 'Y';
-            $output = $oMemberController->insertGroup($group_args);
+            $output = $oMemberAdminController->insertGroup($group_args);
 
             $group_args->title = Context::getLang('default_group_1');
             $group_args->is_default = 'Y';
             $group_args->is_admin = 'N';
-            $output = $oMemberController->insertGroup($group_args);
+            $output = $oMemberAdminController->insertGroup($group_args);
 
             $group_args->title = Context::getLang('default_group_2');
             $group_args->is_default = 'N';
             $group_args->is_admin = 'N';
-            $oMemberController->insertGroup($group_args);
+            $oMemberAdminController->insertGroup($group_args);
 
             // 관리자 정보 세팅
             $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
             if($admin_info->user_id) {
                 // 관리자 정보 입력
-                $oMemberController->insertAdmin($admin_info);
+                $oMemberAdminController->insertAdmin($admin_info);
 
                 // 로그인 처리시킴
                 $output = $oMemberController->doLogin($admin_info->user_id);
@@ -86,14 +87,14 @@
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
             foreach($module_list as $key => $val) {
-                $oMemberController->insertDeniedID($val->module,'');
+                $oMemberAdminController->insertDeniedID($val->module,'');
             }
-            $oMemberController->insertDeniedID('www','');
-            $oMemberController->insertDeniedID('root','');
-            $oMemberController->insertDeniedID('administrator','');
-            $oMemberController->insertDeniedID('telnet','');
-            $oMemberController->insertDeniedID('ftp','');
-            $oMemberController->insertDeniedID('http','');
+            $oMemberAdminController->insertDeniedID('www','');
+            $oMemberAdminController->insertDeniedID('root','');
+            $oMemberAdminController->insertDeniedID('administrator','');
+            $oMemberAdminController->insertDeniedID('telnet','');
+            $oMemberAdminController->insertDeniedID('ftp','');
+            $oMemberAdminController->insertDeniedID('http','');
 
             // member 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/member_extra_info/attach/image_name');

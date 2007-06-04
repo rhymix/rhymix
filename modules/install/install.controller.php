@@ -119,6 +119,7 @@
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
             $module_list = FileHandler::readDir('./modules/', NULL, false, true);
+            debugPrint($module_list);
             foreach($module_list as $module_path) {
                 // 모듈 이름을 구함
                 $tmp_arr = explode('/',$module_path);
