@@ -394,7 +394,12 @@
         function procMemberInsert() {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
+
+            // 관리자가 회원가입을 허락하였는지 검사
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+
+            // 약관에 동의하였는지 검사 (약관이 있을 경우만) 
+            if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // 필수 정보들을 미리 추출
             $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message');
@@ -625,6 +630,17 @@
         }
 
         /**
+         * @brief member_srl에 group_srl을 추가
+         **/
+        function addMemberToGroup($member_srl,$group_srl) {
+            $args->member_srl = $member_srl;
+            $args->group_srl = $group_srl;
+
+            // 추가
+            return  executeQuery('member.addMemberToGroup',$args);
+        }
+
+        /**
          * @brief 로그인 시킴
          **/
         function doLogin($user_id, $password = '') {
@@ -697,9 +713,6 @@
             // 멤버 설정 정보에서 가입약관 부분을 재확인
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-            if($config->agreement && Context::get('accept_agreement')!='Y') {
-                return new Object(-1, 'msg_accept_agreement');
-            }
 
             // 임시 제한 일자가 있을 경우 제한 일자에 내용 추가
             if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);

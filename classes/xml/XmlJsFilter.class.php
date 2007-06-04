@@ -79,6 +79,7 @@
             $module = $xml_obj->filter->attrs->module;
             $act = $xml_obj->filter->attrs->act;
             $extend_filter = $xml_obj->filter->attrs->extend_filter;
+            debugPrint($extend_filter);
 
             $field_node = $xml_obj->filter->form->node;
             if($field_node && !is_array($field_node)) $field_node = array($field_node);

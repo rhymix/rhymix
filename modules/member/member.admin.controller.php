@@ -41,12 +41,14 @@
                 if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
             }
 
+            $oMemberController = &getController('member');
+
             // member_srl의 값에 따라 insert/update
             if(!$args->member_srl) {
-                $output = $this->insertMember($args);
+                $output = $oMemberController->insertMember($args);
                 $msg_code = 'success_registed';
             } else {
-                $output = $this->updateMember($args);
+                $output = $oMemberController->updateMember($args);
                 $msg_code = 'success_updated';
             }
 
@@ -54,7 +56,7 @@
 
             // 서명 저장
             $signature = Context::get('signature');
-            $this->putSignature($args->member_srl, $signature);
+            $oMemberController->putSignature($args->member_srl, $signature);
 
             // 결과 리턴
             $this->add('member_srl', $args->member_srl);
@@ -68,7 +70,8 @@
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             $member_srl = Context::get('member_srl');
 
-            $output = $this->deleteMember($member_srl);
+            $oMemberController = &getController('member');
+            $output = $oMemberController->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
 
             $this->add('page',Context::get('page'));
@@ -202,8 +205,7 @@
             $user_id = Context::get('user_id');
             $description = Context::get('description');
 
-            $oMemberController = &getController('member');
-            $output = $oMemberController->insertDeniedID($user_id, $description);
+            $output = $this->insertDeniedID($user_id, $description);
             if(!$output->toBool()) return $output;
 
             $this->add('group_srl','');
@@ -218,11 +220,9 @@
             $user_id = Context::get('user_id');
             $mode = Context::get('mode');
 
-            $oMemberController = &getController('member');
-
             switch($mode) {
                 case 'delete' :
-                        $output = $oMemberController->deleteDeniedID($user_id);
+                        $output = $this->deleteDeniedID($user_id);
                         if(!$output->toBool()) return $output;
                         $msg_code = 'success_deleted';
                     break;
@@ -245,17 +245,6 @@
             $args->group_srl_list = $admin_group->group_srl;
 
             return $this->insertMember($args);
-        }
-
-        /**
-         * @brief member_srl에 group_srl을 추가
-         **/
-        function addMemberToGroup($member_srl,$group_srl) {
-            $args->member_srl = $member_srl;
-            $args->group_srl = $group_srl;
-
-            // 추가
-            return  executeQuery('member.addMemberToGroup',$args);
         }
 
         /**
