@@ -23,11 +23,11 @@
 
         var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
 
-        var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트. 거의 사용할 일은 없음
+        var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
-        var $allow_rewrite = false;
-        var $path = '';
+        var $allow_rewrite = false; ///< rewrite module 허용일 경우 true로 세팅
+        var $path = ''; ///< zbxe의 경로
 
         /**
          * @brief 언어 정보
@@ -98,7 +98,6 @@
             $this->path = $this->getRequestUri();
 
             // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
-            
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
@@ -289,14 +288,14 @@
          **/
         function convertEncoding($source_obj) {
             $charset_list = array(
-            'UTF-8', 'EUC-KR', 'CP949', 'ISO-8859-1', 'EUC-JP', 'SHIFT_JIS', 'CP932',
-            'EUC-CN', 'HZ', 'GBK', 'GB18030', 'EUC-TW', 'BIG5', 'CP950', 'BIG5-HKSCS',
-            'ISO-2022-CN', 'ISO-2022-CN-EXT', 'ISO-2022-JP', 'ISO-2022-JP-2', 'ISO-2022-JP-1',
-            'ISO-8859-6', 'ISO-8859-8', 'JOHAB', 'ISO-2022-KR', 'CP1255', 'CP1256', 'CP862',
-            'ASCII', 'ISO-8859-1', 'ISO-8850-2', 'ISO-8850-3', 'ISO-8850-4', 'ISO-8850-5',
-            'ISO-8850-7', 'ISO-8850-9', 'ISO-8850-10', 'ISO-8850-13', 'ISO-8850-14',
-            'ISO-8850-15', 'ISO-8850-16', 'CP1250', 'CP1251', 'CP1252', 'CP1253', 'CP1254',
-            'CP1257', 'CP850', 'CP866',
+                'UTF-8', 'EUC-KR', 'CP949', 'ISO-8859-1', 'EUC-JP', 'SHIFT_JIS', 'CP932',
+                'EUC-CN', 'HZ', 'GBK', 'GB18030', 'EUC-TW', 'BIG5', 'CP950', 'BIG5-HKSCS',
+                'ISO-2022-CN', 'ISO-2022-CN-EXT', 'ISO-2022-JP', 'ISO-2022-JP-2', 'ISO-2022-JP-1',
+                'ISO-8859-6', 'ISO-8859-8', 'JOHAB', 'ISO-2022-KR', 'CP1255', 'CP1256', 'CP862',
+                'ASCII', 'ISO-8859-1', 'ISO-8850-2', 'ISO-8850-3', 'ISO-8850-4', 'ISO-8850-5',
+                'ISO-8850-7', 'ISO-8850-9', 'ISO-8850-10', 'ISO-8850-13', 'ISO-8850-14',
+                'ISO-8850-15', 'ISO-8850-16', 'CP1250', 'CP1251', 'CP1252', 'CP1253', 'CP1254',
+                'CP1257', 'CP850', 'CP866',
             );
 
             $obj = clone($source_obj);
@@ -360,13 +359,11 @@
          * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
          **/
         function _setRequestMethod($type = '') {
-            if($type) {
-                $this->request_method = $type;
-                return;
-            }
+            if($type) return $this->request_method = $type;
 
-            if($GLOBALS['HTTP_RAW_POST_DATA']) $this->request_method = "XMLRPC";
-            else $this->request_method = $_SERVER['REQUEST_METHOD'];
+            if($GLOBALS['HTTP_RAW_POST_DATA']) return $this->request_method = "XMLRPC";
+
+            $this->request_method = $_SERVER['REQUEST_METHOD'];
         }
 
         /**
@@ -396,7 +393,7 @@
         }
 
         /**
-         * @brief XML RPC일때역시 
+         * @brief XML RPC일때
          **/
         function _setXmlRpcArgument() {
             if($this->_getRequestMethod() != 'XMLRPC') return;
