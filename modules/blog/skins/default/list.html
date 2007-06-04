@@ -2,9 +2,12 @@
 
 <!-- 검색이 일어났을 경우 -->
 <!--@if($search_target && $search_keyword)-->
-
-
-    {$search_keyword}
+    {$lang->search_target} : 
+    <!--@if($search_target == 'regdate')-->
+        {zdate($search_keyword, 'Y-m-d')}
+    <!--@else-->
+        {$search_keyword}
+    <!--@end-->
 <!--@end-->
 
 
