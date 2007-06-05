@@ -168,12 +168,15 @@ function displayMultimedia(src, width, height, auto_start) {
  * @brief 화면내에서 상위 영역보다 이미지가 크면 리사이즈를 하고 클릭시 원본을 보여줄수 있도록 변경
  **/
 function resizeImageContents() {
-    var objs = xGetElementsByTagName("img");
+    var objs = xGetElementsByTagName("IMG");
     for(var i in objs) {
         var obj = objs[i];
-        var parent = xParent(obj);
+        var parent = obj.parentNode;
         if(!obj||!parent) continue;
-
+        while(parent.nodeName != "TD" && parent.nodeName != "DIV") {
+            parent = parent.parentNode;
+        }
+        if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
         var parent_width = xWidth(parent);
         var obj_width = xWidth(obj);
         if(parent_width>=obj_width) continue;
@@ -182,6 +185,8 @@ function resizeImageContents() {
         obj.source_width = obj_width;
         obj.source_height = xHeight(obj);
         xWidth(obj, xWidth(parent)-1);
+        var per = parent_width/obj_width;
+        xHeight(obj, xHeight(obj)*per);
 
         xAddEventListener(obj,"click", showOriginalImage);
     }

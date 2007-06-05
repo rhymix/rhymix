@@ -41,11 +41,14 @@
          **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->src;
-            $alt = $xml_obj->attrs->alt;
+            $style = $xml_obj->attrs->style;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
             $align = $xml_obj->attrs->align;
             $border = $xml_obj->attrs->border;
+
+            $tmp_arr = explode('/',$src);
+            $alt = array_pop($tmp_arr);
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             if(!$alt) $alt = $src;
@@ -58,6 +61,7 @@
             if($height) $output[] = "height=\"".$height."\"";
             if($align) $output[] = "align=\"".$align."\"";
             if($border) $output[] = "border=\"".$border."\"";
+            if($style) $output[] = "style=\"".$style."\"";
             return "<img ".implode(" ", $output)." />";
         }
 
