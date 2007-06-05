@@ -91,7 +91,7 @@
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
-            $buff = preg_replace_callback('!img([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
+            $buff = preg_replace_callback('!(img|input)([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
             $buff = preg_replace_callback('/\{[^@^ ]([^\}]+)\}/i', array($this, '_compileVarToContext'), $buff);
@@ -130,14 +130,14 @@
          **/
         function _compileImgPath($matches) {
             $str1 = $matches[0];
-            $str2 = $matches[2];
-            $path = $str2;
+            $str2 = $path = $matches[3];
 
             if(!eregi("^([a-z0-9\_\.])",$path)) return $str1;
 
             $path = preg_replace('/^(\.\/|\/)/','',$path);
             $path = '<?=$this->tpl_path?>'.$path;
-            return str_replace($str2, $path, $str1);
+            $output = str_replace($str2, $path, $str1);
+            return $output;
         }
 
         /**

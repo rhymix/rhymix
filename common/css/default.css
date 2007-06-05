@@ -1,16 +1,36 @@
 @charset "utf-8";
+/*
+NHN UIT Lab. WebStandardization Team
+Jeong, Chan Myeong 070529~070529
+*/
 
-body, div, td, p, a {
-    font-family:arial, sans-serif;
-    font-size:12px;
+/* default.css - Type Selector Definition */
+* { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
+html, body { height:100%;}
+html { width:100%; position:relative;}
+body { font-size:.75em; margin:2em;}
+img { border:none;}
+label { cursor:pointer;}
+select { height:1.6em;}
+select:hover,
+select:focus { background:#eeeeee;}
+option { padding-right:.5em;}
+li { list-style:none;}
+a { text-decoration:none;}
+a:hover { text-decoration:underline;}
+address { font-style:normal;}
+
+/* Input Style Definition */
+.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb;}
+.inputTypeText:hover,
+.inputTypeText:focus { background:#eeeeee;}
+
+a.bold {
+    font-weight:bold;
 }
 
 FORM {
     display:inline;
-}
-
-a.bold {
-    font-weight:bold;
 }
 
 .editor_blue_text { color: #145ff9; text-decoration:none; border-bottom:2px solid #4a7fec;}
