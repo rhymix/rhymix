@@ -173,7 +173,7 @@ function resizeImageContents() {
         var obj = objs[i];
         var parent = obj.parentNode;
         if(!obj||!parent) continue;
-        while(parent.nodeName != "TD" && parent.nodeName != "DIV") {
+        while(parent.parentNode && parent.nodeName != "TD" && parent.nodeName != "DIV") {
             parent = parent.parentNode;
         }
         if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
