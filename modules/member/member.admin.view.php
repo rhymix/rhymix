@@ -72,7 +72,7 @@
 
             // 에디터를 받음
             $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getEditor(0, false, true);
+            $editor = $oEditorModel->getEditor(0, false, false);
             Context::set('editor', $editor);
 
             // 템플릿 파일 지정

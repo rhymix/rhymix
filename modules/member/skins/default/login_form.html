@@ -35,6 +35,7 @@
 </form>
 
 <!-- OpenID -->
+<!--@if($member_config->enable_openid=='Y')-->
 <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
     <table border="1">
     <tr>
@@ -48,6 +49,7 @@
     </tr>
     </table>
 </form>
+<!--@end-->
 
 <script type="text/javascript">
         xAddEventListener(window, "load", function() { doFocusUserId('fo_member_login'); });

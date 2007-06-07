@@ -15,6 +15,13 @@
         </td>
     </tr>
     <tr>
+        <th rowspan="2">{$lang->enable_openid}</th>
+        <td><input type="checkbox" name="enable_openid" value="Y" <!--@if($config->enable_openid=='Y')-->checked="true"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_enable_openid}</td>
+    </tr>
+    <tr>
         <th rowspan="2">{$lang->enable_join}</th>
         <td><input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end-->/></td>
     </tr>

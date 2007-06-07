@@ -513,7 +513,6 @@
             }
 
             return $this->path.'?'.htmlspecialchars($url);
-
         }
 
         /**

@@ -45,6 +45,7 @@
 
             // 기본 정보를 세팅
             $args->enable_join = 'Y';
+            $args->enable_openid = 'N';
             $args->image_name = 'Y';
             $args->image_mark = 'Y';
             $args->image_name_max_width = '90';

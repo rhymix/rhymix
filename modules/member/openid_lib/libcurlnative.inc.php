@@ -325,7 +325,7 @@ function curl_setopt($ch,$option,$value) {
 		case CURLOPT_VERBOSE:
 		case CURLOPT_NETRC:
 		default:
-			trigger_error("CURL emulation does not implement CURL option "._curlopt_name($option),E_USER_WARNING);
+			//trigger_error("CURL emulation does not implement CURL option "._curlopt_name($option),E_USER_WARNING);
 			break;
 	}
 }

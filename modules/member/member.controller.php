@@ -35,6 +35,10 @@
          * @brief openid로그인
          **/
         function procMemberOpenIDLogin() {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
+
             ob_start();
             require('./modules/member/openid_lib/class.openid.php');
             require_once('./modules/member/openid_lib/libcurlemu.inc.php');
@@ -64,6 +68,10 @@
          * @brief openid 인증 체크
          **/
         function procMemberOpenIDValidate() {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
+
             ob_start();
             require('./modules/member/openid_lib/class.openid.php');
             require_once('./modules/member/openid_lib/libcurlemu.inc.php');

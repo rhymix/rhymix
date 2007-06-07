@@ -37,6 +37,7 @@
     $lang->image_mark = '이미지 마크';
     $lang->image_mark_max_width = '가로 제한 크기';
     $lang->image_mark_max_height = '세로 제한 크기';
+    $lang->enable_openid = 'OpenID 지원';
     $lang->enable_join = '회원 가입 허가';
     $lang->limit_day = '임시 제한 일자';
     $lang->limit_date = '제한일';
@@ -143,6 +144,7 @@
     $lang->about_form_description = '설명란에 입력을 하시면 가입시 표시가 됩니다';
     $lang->about_required = '체크하시면 회원가입시 필수항목으로 입력하도록 됩니다';
 
+    $lang->about_enable_openid = 'OpenID 지원을 할 경우 체크하시면 됩니다';
     $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
     $lang->about_limit_day = '회원 가입후 정해진 일자동안 인증 제한을 할 수 있습니다';
     $lang->about_limit_date = '지정된 일자까지 해당 사용자는 로그인을 할 수 없습니다';
