@@ -98,6 +98,7 @@
                 if(!$output->toBool()) {
                     $args->password = md5(getmicrotime());
                     $output = $this->insertMember($args);
+                    $this->doLogin($args->user_id);
                 }
 
                 // 페이지 이동
