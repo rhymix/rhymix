@@ -221,6 +221,7 @@
             $include_buff = FileHandler::readFile($source_filename);
 
             // include 시도
+            /*
             $output = sprintf(
                 '<?php%s'.
                 'if(filectime("%s")<%d) { %s ?>'.
@@ -235,6 +236,21 @@
                 $source_filename, time(), "\n",
 
                 $include_buff, "\n",
+
+                "\n",
+
+                $path, $filename, "\n",
+
+                "\n"
+            );
+            */
+            $output = sprintf(
+                '<?php%s'.
+                '$oTemplate = &TemplateHandler::getInstance();%s'.
+                'print $oTemplate->compile(\'%s\',\'%s\');%s'.
+                '?>%s',
+
+                "\n",
 
                 "\n",
 
