@@ -69,7 +69,8 @@ function editorStart(upload_target_srl) {
         '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
         '<style>'+
-        'html {position:static;}'+
+        'html {position:static}'+
+        'body {margin:0em}'+
         '</style>'+
         '</head><body upload_target_srl="'+upload_target_srl+'">'+
         content+
