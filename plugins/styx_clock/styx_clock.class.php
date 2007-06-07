@@ -22,9 +22,6 @@
             // 템플릿 파일을 지정
             $tpl_file = 'clock';
 
-            // 플러그인 자체적으로 설정한 변수들을 체크
-            $best = $args->best;
-
             $theme = $args->theme;
             if($theme != "white") $theme = "black";
 
@@ -35,7 +32,7 @@
             if(!$width) $width = 200;
             $plugin_info->width = $width;
 
-            $plugin_info->src = sprintf("%s/clock.swf?best=%s&theme=%s&day=%s", $tpl_path, $best, $theme, $day);
+            $plugin_info->src = sprintf("%s/clock.swf?theme=%s&day=%s", $tpl_path, $theme, $day);
 
             Context::set('plugin_info', $plugin_info);
 
