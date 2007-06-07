@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="0.1">
+    <title xml:lang="ko">플래시 시계</title>
+    <author email_address="styx@bystyx.com" link="http://www.bystyx.com" date="2007. 2. 28">
+        <name xml:lang="ko">스틱스 </name>
+        <description xml:lang="ko">플래쉬로 된 시계를 출력합니다.</description>
+    </author>
+    <extra_vars>
+        <var id="best">
+            <name xml:lang="ko">제목</name>
+            <type>text</type>
+            <description xml:lang="ko">시계내의 제목을 바꿀 수 있습니다. (공백으로 하면 나타나지 않습니다)</description>
+        </var>
+        <var id="width">
+            <name xml:lang="ko">가로길이</name>
+            <type>text</type>
+            <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 200)</description>
+        </var>
+        <var id="theme">
+            <name xml:lang="ko">테마</name>
+            <type>select</type>
+            <description xml:lang="ko">흰색/검은색 배경색에 따라 조절하시면 됩니다.</description>
+            <options>
+                <name xml:lang="ko">흰색 배경</name>
+                <value>white</value>
+            </options>
+            <options>
+                <name xml:lang="ko">검은색 배경</name>
+                <value>black</value>
+            </options>
+        </var>
+        <var id="day">
+            <name xml:lang="ko">일자 표시</name>
+            <type>select</type>
+            <description xml:lang="ko">시계내에 일자를 표시하는 기능을 끄거나 캬실 수 있습니다.</description>
+            <options>
+                <name xml:lang="ko">나타냄</name>
+                <value></value>
+            </options>
+            <options>
+                <name xml:lang="ko">숨김</name>
+                <value>false</value>
+            </options>
+        </var>
+    </extra_vars>
+</plugin>

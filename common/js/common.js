@@ -132,33 +132,26 @@ function toggleDisplay(obj, opt) {
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
 function displayMultimedia(src, width, height, auto_start) {
-    var ext = src.split(".");
-    var type = ext[ext.length-1];
-
     if(auto_start) auto_start = "true";
     else auto_start = "false";
 
     var clsid = "";
     var codebase = "";
     var html = "";
-    switch(type) {
-        case "flv" :
-                html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
-            break;
-        case "swf" :
-                clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
-                codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0"; 
-                html = ""+
-                    "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" hegiht=\""+height+"\" >"+
-                    "<param name=\"movie\" value=\""+src+"\" />"+
-                    "<param name=\"quality\" value=\"high\" />"+
-                    "<embed src=\""+src+"\" autostart=\""+auto_start+"\" "+style+"></embed>"+
-                    "<\/object>";
-            break;
-        default : 
-                html = ""+
-                    "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" hegiht=\""+height+"\"></embed>";
-            break;
+
+    if(/\.swf/i.test(src)) {
+        clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
+        codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0"; 
+        html = ""+
+            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" hegiht=\""+height+"\" >"+
+            "<param name=\"movie\" value=\""+src+"\" />"+
+            "<param name=\"quality\" value=\"high\" />"+
+            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" hegiht=\""+height+"\"></embed>"+
+            "<\/object>";
+    } else if(/\.flv/i.test(src)) {
+        html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
+    } else {
+        html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" hegiht=\""+height+"\"></embed>";
     }
 
     document.writeln(html);
