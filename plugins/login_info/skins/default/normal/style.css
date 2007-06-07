@@ -1,7 +1,6 @@
 .login_plugin {
     border:3px solid #DDDDDD;
     padding:6px;
-    height:80px;
     margin-bottom:10px;
 }
 
@@ -148,4 +147,12 @@
     background-color:#FFFFFF;
     color:#000000;
     font-weight:bold;
+}
+
+.openid_user_id { 
+    background: url(../images/login-bg.gif) left no-repeat;
+    background-color: #ffffff; 
+    background-position: 0 50%;
+    color: #000;
+    padding-left: 18px; 
 }

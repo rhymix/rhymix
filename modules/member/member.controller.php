@@ -52,7 +52,6 @@
 
             $openid->SetRequiredFields(array('email','fullname'));
             $openid->SetOptionalFields(array('dob'));
-            ob_clean();
 
             if (!$openid->GetOpenIDServer()) {
                 $error = $openid->GetError();
@@ -63,6 +62,7 @@
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
             }
+            ob_clean();
         }
 
         /** 

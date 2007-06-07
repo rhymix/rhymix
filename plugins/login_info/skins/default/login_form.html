@@ -4,6 +4,7 @@
 <!--@end-->
 
 <!--%import("./filter/login.xml")-->
+<!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
 <div class="login_plugin">
@@ -32,4 +33,22 @@
     <script type="text/javascript">
         xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_plugin"); });
     </script>
+
+    <!-- OpenID -->
+    <!--@if($member_config->enable_openid=='Y')-->
+    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
+        <table border="1">
+        <tr>
+            <th>{$lang->openid}</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="user_id" tabindex="1" class="openid_user_id" />
+                <input type="submit" value="{$lang->cmd_login}" tabindex="2" />
+            </td>
+        </tr>
+        </table>
+    </form>
+    <!--@end-->
+
 </div>

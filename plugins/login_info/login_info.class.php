@@ -27,6 +27,11 @@
             if(Context::get('is_logged')) $tpl_file = 'login_info';
             else $tpl_file = 'login_form';
 
+            // 회원 관리 정보를 받음
+            $oModuleModel = &getModel('module');
+            $this->member_config = $oModuleModel->getModuleConfig('member');
+            Context::set('member_config', $this->member_config);
+
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
