@@ -50,18 +50,19 @@
             $openid->SetIdentity($user_id);
             $openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
 
-            $openid->SetRequiredFields(array('email','fullname','dob'));
+            $openid->SetRequiredFields(array('email','fullname'));
+            $openid->SetOptionalFields(array('dob'));
+            ob_clean();
 
             if (!$openid->GetOpenIDServer()) {
                 $error = $openid->GetError();
                 $this->setError(-1);
                 $this->setMessage($error['description']);
             } else {
-                $openid->SetApprovedURL( getUrl('','module','member','act','procMemberOpenIDValidate') );
+                $openid->SetApprovedURL( sprintf('%s?module=member&act=procMemberOpenIDValidate', Context::getRequestUri()) );
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
             }
-            ob_clean();
         }
 
         /** 
@@ -79,18 +80,39 @@
             $openid = new SimpleOpenID;
             $openid->SetIdentity($_GET['openid_identity']);
             $openid_validation_result = $openid->ValidateWithServer();
+            ob_clean();
 
+            // 인증 성공
             if ($openid_validation_result == true) {
+                // 기본 정보들을 받음
+                $args->user_id = $args->nick_name = preg_replace('/^http:\/\//i','',Context::get('openid_identity'));
+                $args->email_address = Context::get('openid_sreg_email');
+                $args->user_name = Context::get('openid_sreg_fullname');
+                if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
+                $args->birthday = Context::get('openid_sreg_dob');
+
+                // 자체 인증 시도
+                $output = $this->doLogin($args->user_id);
+
+                // 자체 인증 실패시 회원 가입시킴
+                if(!$output->toBool()) {
+                    $args->password = md5(getmicrotime());
+                    $output = $this->insertMember($args);
+                }
+
+                // 페이지 이동
+                header("location:./");
+                exit();
+
+
+            // 인증 실패
             } else if($openid->IsError() == true) {
                 $error = $openid->GetError();
                 return $this->stop($error['description']);
             } else {
                 return $this->stop('invalid_authorization');
             }
-            ob_clean();
-            print "<xmp>";
-            print_r($_REQUEST);
-            print "</xmp>";
+
         }
 
 
