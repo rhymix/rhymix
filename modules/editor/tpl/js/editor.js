@@ -68,7 +68,10 @@ function editorStart(upload_target_srl) {
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
-        '</head><body style="background-color:#FFFFFF;font-family:'+default_font+';font-size:9pt;" upload_target_srl="'+upload_target_srl+'">'+
+        '<style>'+
+        'html {position:static;}'+
+        '</style>'+
+        '</head><body upload_target_srl="'+upload_target_srl+'">'+
         content+
         "\n"+
         '</body></html>'+
