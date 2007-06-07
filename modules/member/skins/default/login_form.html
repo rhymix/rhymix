@@ -1,8 +1,12 @@
 <!--%import("filter/login.xml")-->
-<!--%import("js/member.js")-->
+<!--%import("filter/openid_login.xml")-->
 
+<!--%import("js/member.js")-->
+<!--%import("css/module.css")-->
+
+<!-- 제로보드XE 로그인 폼 -->
 <form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
-    <table>
+    <table border="1">
     <col width="120" />
     <col width="*" />
     <tr>
@@ -28,7 +32,21 @@
         </td>
     </tr>
     </table>
+</form>
 
+<!-- OpenID -->
+<form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
+    <table border="1">
+    <tr>
+        <th>{$lang->openid}</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="user_id" tabindex="1" class="openid_user_id" />
+            <input type="submit" value="{$lang->cmd_login}" tabindex="2" />
+        </td>
+    </tr>
+    </table>
 </form>
 
 <script type="text/javascript">

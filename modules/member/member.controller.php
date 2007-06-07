@@ -32,6 +32,61 @@
         }
 
         /**
+         * @brief openid로그인
+         **/
+        function procMemberOpenIDLogin() {
+            ob_start();
+            require('./modules/member/openid_lib/class.openid.php');
+            require_once('./modules/member/openid_lib/libcurlemu.inc.php');
+
+            $user_id = Context::get('user_id');
+
+            $openid = new SimpleOpenID();
+
+            $openid->SetIdentity($user_id);
+            $openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
+
+            $openid->SetRequiredFields(array('email','fullname','dob'));
+
+            if (!$openid->GetOpenIDServer()) {
+                $error = $openid->GetError();
+                $this->setError(-1);
+                $this->setMessage($error['description']);
+            } else {
+                $openid->SetApprovedURL( getUrl('','module','member','act','procMemberOpenIDValidate') );
+                $url = $openid->GetRedirectURL();
+                $this->add('redirect_url', $url);
+            }
+            ob_clean();
+        }
+
+        /** 
+         * @brief openid 인증 체크
+         **/
+        function procMemberOpenIDValidate() {
+            ob_start();
+            require('./modules/member/openid_lib/class.openid.php');
+            require_once('./modules/member/openid_lib/libcurlemu.inc.php');
+
+            $openid = new SimpleOpenID;
+            $openid->SetIdentity($_GET['openid_identity']);
+            $openid_validation_result = $openid->ValidateWithServer();
+
+            if ($openid_validation_result == true) {
+            } else if($openid->IsError() == true) {
+                $error = $openid->GetError();
+                return $this->stop($error['description']);
+            } else {
+                return $this->stop('invalid_authorization');
+            }
+            ob_clean();
+            print "<xmp>";
+            print_r($_REQUEST);
+            print "</xmp>";
+        }
+
+
+        /**
          * @brief 로그아웃
          **/
         function procMemberLogout() {

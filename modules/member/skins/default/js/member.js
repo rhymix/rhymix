@@ -86,6 +86,13 @@ function completeLogout(ret_obj) {
     location.href = current_url.setQuery('act','');
 }
 
+/* 오픈아이디 로그인 후 */
+function completeOpenIDLogin(ret_obj, response_tags) {
+    var redirect_url =  ret_obj['redirect_url'];
+    location.href = redirect_url;
+}
+
+
 /* 이미지 이름, 마크 삭제 */
 function doDeleteImageName(member_srl) {
         var fo_obj = xGetElementById("fo_insert_member");

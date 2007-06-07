@@ -29,6 +29,8 @@
         <action name="getMemberMenu" type="model" standalone="true" />
 
         <action name="procMemberLogin" type="controller" standalone="true" />
+        <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
+        <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" />

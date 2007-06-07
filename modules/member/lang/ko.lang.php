@@ -15,6 +15,7 @@
     $lang->denied_user_id = '사용금지된 아이디입니다';
     $lang->null_user_id = '사용자 아이디를 입력해주세요';
     $lang->null_password = '비밀번호를 입력해주세요';
+    $lang->invalid_authorization = '인증이 되지 않았습니다';
     $lang->invalid_user_id= '존재하지 않는 사용자 아이디입니다';
     $lang->invalid_password = '잘못된 비밀번호입니다';
     $lang->allow_mailing = '메일링 가입';
@@ -48,6 +49,7 @@
     $lang->default_friend_group = '그룹 미지정';
     $lang->member_info = '회원 정보';
     $lang->current_password = '현재 비밀번호';
+    $lang->openid = 'OpenID';
 
     $lang->search_target_list = array(
         'user_id' => '아이디',
