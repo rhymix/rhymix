@@ -7,7 +7,7 @@ Jeong, Chan Myeong 070529~070529
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
 html, body { height:100%;}
-html { width:100%; position:relative;}
+html { width:100%; }
 body { font-size:.75em; margin:2em;}
 img { border:none;}
 label { cursor:pointer;}
