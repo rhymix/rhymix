@@ -503,6 +503,7 @@
                     if($target=='act.mid' && !ereg('([A-Z]+)',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
                     elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['document_srl']);
                     elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$this->path,$get_vars['document_srl'],$get_vars['act']);
+                    elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$this->path,$get_vars['mid'],$get_vars['page']);
                 }
             }
 
