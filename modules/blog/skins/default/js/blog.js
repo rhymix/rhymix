@@ -45,7 +45,7 @@ function completeCommentEditorForm(ret_obj) {
     xInnerHtml(comment_form_zone, tpl);
 
     // 에디터 실행
-    editorStart(upload_target_srl);
+    editorStart(upload_target_srl, true, 100);
 }
 
 /**
