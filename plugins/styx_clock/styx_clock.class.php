@@ -32,7 +32,7 @@
             if(!$width) $width = 200;
             $plugin_info->width = $width;
 
-            $plugin_info->src = sprintf("%s/%s/clock.swf?theme=%s&day=%s", $tpl_path, $colorset, $theme, $day);
+            $plugin_info->src = sprintf("%s%s/%s/clock.swf?theme=%s&day=%s", Context::getRequestUri(), $tpl_path, $colorset, $theme, $day);
 
             Context::set('plugin_info', $plugin_info);
 

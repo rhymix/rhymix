@@ -110,6 +110,9 @@ function move_url(url, open_wnidow) {
     if(!url) return false;
     if(typeof(open_wnidow)=='undefined') open_wnidow = false;
     if(open_wnidow=='N') open_wnidow = false;
+
+    if(/^\./.test(url)) url = request_uri+url;
+
     if(open_wnidow) {
         winopen(url);
     } else {

@@ -52,7 +52,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
 function xml_handler() {
     this.obj_xmlHttp = null;
     this.method_name = null;
-    this.xml_path = "./index.php";
+    this.xml_path = request_uri+"index.php";
 
     this.params = new Array();
 
