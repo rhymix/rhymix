@@ -15,10 +15,12 @@ var blog_node_info_list = new Array();
 
 // 카테고리별 문서 수를 가지고 있는 전역 변수
 var category_document_count = new Array();
+var total_document_count = 0;
 
 // 카테고리의 문서 갯수를 세팅하는 함수
 function setDocumentCount(node_srl, document_count) {
     category_document_count[node_srl] = document_count;
+    total_document_count += document_count;
 }
 
 // 카테고리의 node_srl로 문서 갯수를 리턴하는 함수
@@ -77,7 +79,7 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
     // 제목 지정 
     var title_class = "selected";
     if(blog_menu_selected) title_class = "unselected";
-    html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span></div>'+html;
+    html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span> <span class="document_count">('+total_document_count+')</span></div>'+html;
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함
     if(!zone) {
