@@ -6,8 +6,11 @@
     <description xml:lang="ko">플래시 시계를 출력합니다.</description>
   </maker>
   <colorset>
-    <color name="normal">
-      <title xml:lang="ko">기본</title>
+    <color name="moto">
+      <title xml:lang="ko">moto</title>
+    </color>
+    <color name="vis">
+      <title xml:lang="ko">vis</title>
     </color>
   </colorset>
 </skin>

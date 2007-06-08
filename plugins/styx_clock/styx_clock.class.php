@@ -17,7 +17,7 @@
         function proc($args) {
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->plugin_path, $args->skin);
-            Context::set('colorset', $args->colorset);
+            $colorset = $args->colorset;
 
             // 템플릿 파일을 지정
             $tpl_file = 'clock';
@@ -32,7 +32,7 @@
             if(!$width) $width = 200;
             $plugin_info->width = $width;
 
-            $plugin_info->src = sprintf("%s/clock.swf?theme=%s&day=%s", $tpl_path, $theme, $day);
+            $plugin_info->src = sprintf("%s/%s/clock.swf?theme=%s&day=%s", $tpl_path, $colorset, $theme, $day);
 
             Context::set('plugin_info', $plugin_info);
 
