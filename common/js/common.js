@@ -143,15 +143,15 @@ function displayMultimedia(src, width, height, auto_start) {
         clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0"; 
         html = ""+
-            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" hegiht=\""+height+"\" >"+
+            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" >"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" hegiht=\""+height+"\"></embed>"+
+            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
         html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
     } else {
-        html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" hegiht=\""+height+"\"></embed>";
+        html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
     }
 
     document.writeln(html);
