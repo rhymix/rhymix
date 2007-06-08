@@ -41,6 +41,14 @@
         }
 
         /**
+         * @brief 자동저장된 문서 삭제
+         **/
+        function procEditorRemoveSavedDoc() {
+            $oEditorController = &getController('editor');
+            $oEditorController->deleteSavedDoc();
+        }
+
+        /**
          * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 
          **/
         function procEditorCall() {

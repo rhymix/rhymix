@@ -46,6 +46,8 @@ function editorStart(upload_target_srl, resizable, height) {
             if(confirm(fo_obj._saved_doc_message.value)) {
                 fo_obj.title.value = saved_title;
                 fo_obj.content.value = saved_content;
+            } else {
+                editorRemoveSavedDoc();
             }
         }
     }
@@ -166,6 +168,10 @@ function _editorAutoSave() {
 function _editorAutoSaved(ret_obj) {
     setTimeout(_editorAutoSave, 60000);
     return null;
+}
+
+function editorRemoveSavedDoc() {
+    exec_xml("editor","procEditorRemoveSavedDoc");
 }
 
 // 에디터의 전체 내용 return
