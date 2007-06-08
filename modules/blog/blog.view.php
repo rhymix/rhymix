@@ -191,7 +191,13 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getEditor($document_srl, $this->grant->fileupload, true);
+            $option->allow_fileupload = $this->grant->fileupload;
+            $option->enable_autosave = true;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 400;
+            $editor = $oEditorModel->getEditor($document_srl, $option);
             Context::set('editor', $editor);
 
             $this->setTemplateFile('write_form');
@@ -359,10 +365,14 @@
                 $comment_srl = getNextSequence();
                 Context::set('comment_srl', $comment_srl);
             }
-
-            // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $comment_editor = $oEditorModel->getEditor($comment_srl, $this->grant->fileupload);
+            $option->allow_fileupload = $this->grant->comment_fileupload;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 400;
+            $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
             Context::set('comment_editor', $comment_editor);
         }
 

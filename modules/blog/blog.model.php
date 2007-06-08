@@ -25,7 +25,13 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $comment_editor = $oEditorModel->getEditor($upload_target_srl, false);
+            $option->allow_fileupload = $this->grant->comment_fileupload;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 100;
+            $comment_editor = $oEditorModel->getEditor($upload_target_srl, $option);
 
             // 변수 설정 
             Context::set('comment_editor', $comment_editor);

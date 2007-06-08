@@ -72,7 +72,13 @@
 
             // 에디터를 받음
             $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getEditor(0, false, false);
+            $option->allow_fileupload = false;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 300;
+            $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
             // 템플릿 파일 지정
@@ -105,7 +111,13 @@
             // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
             if($this->member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
-                $editor = $oEditorModel->getEditor($this->member_info->member_srl, false, false);
+                $option->allow_fileupload = false;
+                $option->enable_autosave = false;
+                $option->enable_default_component = true;
+                $option->enable_component = true;
+                $option->resizable = false;
+                $option->height = 200;
+                $editor = $oEditorModel->getEditor($this->member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
 

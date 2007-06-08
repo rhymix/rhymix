@@ -95,7 +95,13 @@
             // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
             if($member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
-                $editor = $oEditorModel->getEditor($member_info->member_srl, false, false);
+                $option->allow_fileupload = false;
+                $option->enable_autosave = false;
+                $option->enable_default_component = true;
+                $option->enable_component = true;
+                $option->resizable = false;
+                $option->height = 200;
+                $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
 
@@ -220,7 +226,13 @@
 
             // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
             $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getEditor($logged_info->member_srl, false, false);
+            $option->allow_fileupload = false;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = false;
+            $option->height = 300;
+            $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);
 
             $this->setTemplateFile('send_message');

@@ -4,7 +4,7 @@
 <!-- 에디터 활성화 -->
 <script type="text/javascript">
     var editor_path = "{$editor_path}";
-    editorInit("{$upload_target_srl}");
+    editorInit("{$upload_target_srl}", {$enable_resizable}, {$editor_height});
 </script>
 
 <!-- 자동저장용 폼 -->
@@ -16,60 +16,64 @@
 
 <!-- 에디터 -->
 <div class="editor_content">
+
+    <!--@if($enable_default_component)-->
     <div class="editor_area_1">
 
-    <!-- 폰트 종류와 크기 -->
-    <div class="editor_fontbox">
-        <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
-            <option value="">{$lang->edit->fontname}</option>
-            <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-            <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
-            <!--@end-->
-        </select>
+        <!-- 폰트 종류와 크기 -->
+        <div class="editor_fontbox">
+            <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
+                <option value="">{$lang->edit->fontname}</option>
+                <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+                <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+                <!--@end-->
+            </select>
 
-        <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
-            <option value="" selected="selected">{$lang->edit->fontsize}</option>
-            <option value="1">8pt</option>
-            <option value="2">10pt</option>
-            <option value="3">12pt</option>
-            <option value="4">14pt</option>
-            <option value="5">18pt</option>
-            <option value="6">24pt</option>
-            <option value="7">36pt</option>
-        </select>
+            <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
+                <option value="" selected="selected">{$lang->edit->fontsize}</option>
+                <option value="1">8pt</option>
+                <option value="2">10pt</option>
+                <option value="3">12pt</option>
+                <option value="4">14pt</option>
+                <option value="5">18pt</option>
+                <option value="6">24pt</option>
+                <option value="7">36pt</option>
+            </select>
 
-        <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
-            <option value="">{$lang->edit->header}</option>
-            <!--@foreach($lang->edit->header_list as $key=>$obj)-->
-            <option value="{$key}">{$obj}</option>
-            <!--@end-->
-        </select>
+            <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
+                <option value="">{$lang->edit->header}</option>
+                <!--@foreach($lang->edit->header_list as $key=>$obj)-->
+                <option value="{$key}">{$obj}</option>
+                <!--@end-->
+            </select>
+        </div>
+
+        <!-- 에디팅 관련 아이콘 -->
+        <div class="editor_iconbox">
+            <img src="../components/colorpicker_text/icon.gif" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_colorpicker_text" />
+            <img src="../components/colorpicker_bg/icon.gif" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_colorpicker_bg" />
+            <img src="./images/bold.gif" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Bold" />
+            <img src="./images/italic.gif" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Italic" />
+            <img src="./images/underline.gif" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Underline" />
+            <img src="./images/strike.gif" title="{$lang->edit->help_strike}" alt="{$lang->edit->help_strike}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_StrikeThrough" />
+            <img src="./images/undo.gif" title="{$lang->edit->help_undo}" alt="{$lang->edit->help_undo}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_undo" />
+            <img src="./images/redo.gif" title="{$lang->edit->help_redo}" alt="{$lang->edit->help_redo}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_redo" />
+        </div>
+
+        <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox">
+            <img src="./images/align_left.gif" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifyleft" class="editor_icon" />
+            <img src="./images/align_center.gif" title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifycenter" class="editor_icon" />
+            <img src="./images/align_right.gif" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifyright" class="editor_icon" />
+            <img src="./images/remove_indent.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_outdent" class="editor_icon" />
+            <img src="./images/add_indent.gif" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_indent" class="editor_icon" />
+            <img src="./images/list_number.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_insertorderedlist" class="editor_icon" />
+            <img src="./images/list_bullet.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_insertunorderedlist" class="editor_icon" />
+        </div>
+
     </div>
+    <!--@end-->
 
-    <!-- 에디팅 관련 아이콘 -->
-    <div class="editor_iconbox">
-        <img src="../components/colorpicker_text/icon.gif" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_colorpicker_text" />
-        <img src="../components/colorpicker_bg/icon.gif" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_colorpicker_bg" />
-        <img src="./images/bold.gif" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Bold" />
-        <img src="./images/italic.gif" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Italic" />
-        <img src="./images/underline.gif" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_Underline" />
-        <img src="./images/strike.gif" title="{$lang->edit->help_strike}" alt="{$lang->edit->help_strike}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_StrikeThrough" />
-        <img src="./images/undo.gif" title="{$lang->edit->help_undo}" alt="{$lang->edit->help_undo}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_undo" />
-        <img src="./images/redo.gif" title="{$lang->edit->help_redo}" alt="{$lang->edit->help_redo}" class="editor_icon" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_redo" />
-    </div>
-
-    <div id="editor_paragraph_{$upload_target_srl}" class="editor_iconbox">
-        <img src="./images/align_left.gif" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifyleft" class="editor_icon" />
-        <img src="./images/align_center.gif" title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifycenter" class="editor_icon" />
-        <img src="./images/align_right.gif" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_justifyright" class="editor_icon" />
-        <img src="./images/remove_indent.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_outdent" class="editor_icon" />
-        <img src="./images/add_indent.gif" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_indent" class="editor_icon" />
-        <img src="./images/list_number.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_insertorderedlist" class="editor_icon" />
-        <img src="./images/list_bullet.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" onmouseover="this.className='editor_icon_over'" onmouseout="this.className='editor_icon'" id="component_{$upload_target_srl}_insertunorderedlist" class="editor_icon" />
-    </div>
-
-    </div>
-
+    <!--@if($enable_component)-->
     <div class="editor_area_2">
         <!-- 컴포넌트 -->
         <div id="editor_component_{$upload_target_srl}" class="editor_iconbox">
@@ -80,6 +84,7 @@
             <!--@end-->
         </div>
     </div>
+    <!--@end-->
 
     <div class="editor_area_about_dbl">
         {$lang->about_dblclick_in_editor}

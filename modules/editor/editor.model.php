@@ -10,37 +10,69 @@
         /**
          * @brief 에디터를 return
          **/
-        function getEditor($upload_target_srl, $allow_fileupload = false, $enable_autosave = false) {
-            // 저장된 임시본이 있는지 검사
+        function getEditor($upload_target_srl, $option = null) {
+            // 옵션 설정
+            if(!$option->allow_fileupload) $allow_fileupload = false;
+            else $allow_fileupload = true;
+
+            if(!$option->enable_autosave) $enable_autosave = false;
+            else $enable_autosave = true;
+
+            if(!$option->enable_default_component) $enable_default_component = false;
+            else $enable_default_component = true;
+
+            if(!$option->enable_component) $enable_component = false;
+            else $enable_component = true;
+
+            if(!$option->resizable) $resizable = 'false';
+            else $resizable = 'true';
+
+            if(!$option->height) $editor_height = 400;
+            else $editor_height = $option->height;
+
+            // 대상 문서 번호 설정
+            Context::set('upload_target_srl', $upload_target_srl);
+
+            // 업로드 가능 변수 설정
+            if($allow_fileupload) {
+                // 첨부파일 모듈의 정보를 구함
+                $logged_info = Context::get('logged_info');
+                if($logged_info->member_srl && $logged_info->is_admin == 'Y') {
+                    $file_config->allowed_filesize = 1024*1024*1024;
+                    $file_config->allowed_attach_size = 1024*1024*1024;
+                    $file_config->allowed_filetypes = '*.*';
+                } else {
+                    $oModuleModel = &getModel('module');
+                    $file_config = $oModuleModel->getModuleConfig('file');
+                    $file_config->allowed_filesize = $file_config->allowed_filesize * 1024;
+                    $file_config->allowed_attach_size = $file_config->allowed_attach_size * 1024;
+                }
+                Context::set('file_config',$file_config);
+            }
+            Context::set('allow_fileupload', $allow_fileupload);
+
+            // 자동백업 기능 체크
             if($enable_autosave) {
                 $saved_doc = $this->getSavedDoc($upload_target_srl);
                 Context::set('saved_doc', $saved_doc);
             }
             Context::set('enable_autosave', $enable_autosave);
 
-            // 업로드를 위한 변수 설정
-            Context::set('upload_target_srl', $upload_target_srl);
-            Context::set('allow_fileupload', $allow_fileupload);
-
-            // 에디터 컴포넌트를 구함
-            if(!Context::get('component_list')) {
-                $component_list = $this->getComponentList();
-                Context::set('component_list', $component_list);
+            // 에디터 컴포넌트 체크
+            if($enable_component) {
+                if(!Context::get('component_list')) {
+                    $component_list = $this->getComponentList();
+                    Context::set('component_list', $component_list);
+                }
             }
+            Context::set('enable_component', $enable_component);
+            Context::set('enable_default_component', $enable_default_component);
 
-            // 첨부파일 모듈의 정보를 구함
-            $logged_info = Context::get('logged_info');
-            if($logged_info->member_srl && $logged_info->is_admin == 'Y') {
-                $file_config->allowed_filesize = 1024*1024*1024;
-                $file_config->allowed_attach_size = 1024*1024*1024;
-                $file_config->allowed_filetypes = '*.*';
-            } else {
-                $oModuleModel = &getModel('module');
-                $file_config = $oModuleModel->getModuleConfig('file');
-                $file_config->allowed_filesize = $file_config->allowed_filesize * 1024;
-                $file_config->allowed_attach_size = $file_config->allowed_attach_size * 1024;
-            }
-            Context::set('file_config',$file_config);
+            // resizable 가능한지 변수 설정
+            Context::set('enable_resizable', $resizable);
+
+            // 에디터 크기 설정
+            Context::set('editor_height', $editor_height);
 
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
             $tpl_path = $this->module_path.'tpl';

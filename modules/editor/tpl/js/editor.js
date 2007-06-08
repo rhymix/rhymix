@@ -17,17 +17,19 @@ function editorGetIFrame(upload_target_srl) {
 }
 
 // editor 초기화를 onload이벤트 후에 시작시킴
-function editorInit(upload_target_srl) {
-    var start_func = function() { editorStart(upload_target_srl); }
-    xAddEventListener(window, 'load', start_func);
+function editorInit(upload_target_srl, resizable, height) {
+    xAddEventListener(window, 'load', function() { editorStart(upload_target_srl, resizable, height); });
 }
 
 // editor 시작 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
-function editorStart(upload_target_srl) {
+function editorStart(upload_target_srl, resizable, height) {
+    if(typeof(height)=="undefined"||!height) height = 350;
+    if(typeof(resizable)=="undefined"||!resizable) resizable = false;
+    else resizable = true;
 
     // iframe_area를 찾음
     var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
-    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='border:0px;width:99%;height:300px;margin:0px;'></iframe>");
+    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='border:0px;width:99%;height:"+height+"px;margin:0px;'></iframe>");
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
@@ -53,9 +55,6 @@ function editorStart(upload_target_srl) {
 
     // 대상 form의 content object에서 데이터를 구함
     var content = fo_obj.content.value;
-
-    // 기본 폰트를 가져옴
-    var default_font = xGetElementById('editor_font_'+upload_target_srl).options[1].value;
 
     // iframe내의 document object 
     var contentDocument = iframe_obj.contentWindow.document;
@@ -104,10 +103,7 @@ function editorStart(upload_target_srl) {
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, upload_target_srl);
 
     // 팝업 윈도우일 경우 드래그바 숨김
-    if(typeof(_isPoped)!="undefined" && _isPoped) {
-        xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
-        setFixedPopupSize();
-    }
+    if(resizable == false) xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
