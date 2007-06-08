@@ -153,7 +153,7 @@
                 if($component_list->{$component_name}) continue;
 
                 // DB에 입력
-                $oEditorController = &getController('editor');
+                $oEditorController = &getAdminController('editor');
                 $oEditorController->insertComponent($component_name, false);
 
                 // component_list에 추가

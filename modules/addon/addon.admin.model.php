@@ -27,7 +27,7 @@
          **/
         function getAddonList() {
             // activated된 애드온 목록을 구함
-            $activated_addons = $this->getActivatedAddons();
+            $inserted_addons = $this->getInsertedAddon();
 
             // 다운받은 애드온과 설치된 애드온의 목록을 구함
             $searched_list = FileHandler::readDir('./addons');
@@ -42,14 +42,23 @@
                 $path = $this->getAddonPath($addon_name);
 
                 // 해당 애드온의 정보를 구함
+                unset($info);
                 $info = $this->getAddonInfoXml($addon_name);
-                unset($obj);
 
                 $info->addon = $addon_name;
                 $info->path = $path;
+                $info->activated = false;
 
-                if(in_array($addon_name, $activated_addons)) $info->activated = true;
-                else $info->activated = false;
+                // DB에 입력되어 있는지 확인
+                if(!in_array($addon_name, array_keys($inserted_addons))) {
+                    // DB에 입력되어 있지 않으면 입력 (model에서 이런짓 하는거 싫지만 귀찮아서.. ㅡ.ㅜ)
+                    $oAddonAdminController = &getAdminController('addon');
+                    $oAddonAdminController->doInsert($addon_name);
+
+                // 활성화 되어 있는지 확인
+                } else {
+                    if($inserted_addons[$addon_name]->is_used=='Y') $info->activated = true;
+                }
 
                 $list[] = $info;
             }
@@ -99,13 +108,27 @@
                 $addon_info->history[] = $obj;
             }
 
+            // 확장변수
+            if($xml_obj->extra_vars) {
+                if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
+                else $extra_vars = $xml_obj->extra_vars->var;
+
+                foreach($extra_vars as $key => $val) {
+                    unset($obj);
+                    $obj->name = $val->attrs->name;
+                    $obj->title = $val->title->body;
+                    $obj->description = $val->description->body;
+                    $addon_info->extra_vars[] = $obj;
+                }
+            }
+
             return $addon_info;
         }
 
         /**
          * @brief 활성화된 애드온 목록을 구해옴
          **/
-        function getActivatedAddons() {
+        function getInsertedAddon() {
             $args->list_order = 'addon';
             $output = executeQuery('addon.getAddons', $args);
             if(!$output->data) return array();
@@ -114,7 +137,7 @@
             $activated_count = count($output->data);
             for($i=0;$i<$activated_count;$i++) {
                 $addon = $output->data[$i];
-                $addon_list[] = $addon->addon;
+                $addon_list[$addon->addon] = $addon;
             }
             return $addon_list;
         }

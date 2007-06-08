@@ -20,6 +20,7 @@
     <td>{$lang->date}</td>
     <td>{$lang->installed_path}</td>
     <td>{$lang->addon_info}</td>
+    <td>{$lang->cmd_setup}</td>
     <td>{$lang->use}</td>
 </tr>
 
@@ -34,6 +35,11 @@
     <td>{$val->author->date}</td>
     <td>{$val->path}</td>
     <td rowspan="2"><a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_view}</a></td>
+    <td rowspan="2">
+        <!--@if($val->extra_vars)-->
+            <a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_setup}</a>
+        <!--@end-->
+    </td>
     <td rowspan="2">
         <!--@if($val->activated)-->
         <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>

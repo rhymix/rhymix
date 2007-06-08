@@ -7,5 +7,6 @@
     </columns>
     <conditions>
       <condition operation="equal" column="addon" var="addon" notnull="notnull" />
+      <condition operation="equal" column="is_used" default="Y" notnull="notnull" pipe="and" />
     </conditions>
 </query>

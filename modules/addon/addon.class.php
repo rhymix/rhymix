@@ -17,13 +17,21 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('addon', 'view', 'dispAddonAdminIndex');
             
-            // 몇가지 애드온을 기본으로 설치 상태로 지정
+            // 몇가지 애드온을 등록
             $oAddonController = &getAdminController('addon');
-            $oAddonController->doActivate('spamfilter');
-            $oAddonController->doActivate('message');
+            $oAddonController->doInsert('blogapi');
+            $oAddonController->doInsert('counter');
+            $oAddonController->doInsert('member_extra_info');
+            $oAddonController->doInsert('naver_search');
+            $oAddonController->doInsert('openid_delegation_id');
+            $oAddonController->doInsert('rainbow_link');
+            $oAddonController->doInsert('spamfilter');
+
+            // 몇가지 애드온을 기본 활성화 상태로 변경
             $oAddonController->doActivate('member_extra_info');
             $oAddonController->doActivate('counter');
             $oAddonController->doActivate('blogapi');
+            $oAddonController->doActivate('spamfilter');
             $oAddonController->procAddonAdminToggleActivate();
             return new Object();
         }

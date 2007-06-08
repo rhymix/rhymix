@@ -46,13 +46,23 @@
         }
 
         /**
+         * @brief 애드온 추가
+         * DB에 애드온을 추가함
+         **/
+        function doInsert($addon) {
+            $args->addon = $addon;
+            $args->is_used = 'Y';
+            return executeQuery('addon.insertAddon', $args);
+        }
+
+        /**
          * @brief 애드온 활성화 
-         *
-         * addons라는 테이블에 애드온의 이름을 등록하는 것으로 활성화를 시키게 된다
+         * addons라는 테이블에 애드온의 활성화 상태를 on 시켜줌
          **/
         function doActivate($addon) {
             $args->addon = $addon;
-            return executeQuery('addon.insertAddon', $args);
+            $args->is_used = 'Y';
+            return executeQuery('addon.updateAddon', $args);
         }
 
         /**
@@ -62,8 +72,17 @@
          **/
         function doDeactivate($addon) {
             $args->addon = $addon;
-            return executeQuery('addon.deleteAddon', $args);
+            $args->is_used = 'N';
+            return executeQuery('addon.updateAddon', $args);
         }
 
+        /**
+         * @brief 애드온 설정
+         **/
+        function doSetup($addon, $extra_vars) {
+            $args->addon = $addon;
+            $args->extra_vars = serialize($extra_vars);
+            return executeQuery('addon.updateAddon', $args);
+        }
     }
 ?>
