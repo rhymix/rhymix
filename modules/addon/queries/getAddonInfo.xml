@@ -1,0 +1,9 @@
+<query id="getAddonInfo" action="select">
+    <tables>
+      <table name="addons" />
+    </tables>
+    <columns />
+    <conditions>
+      <condition operation="equal" column="addon" var="addon" notnull="notnull" />
+    </conditions>
+</query>

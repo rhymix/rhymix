@@ -1,0 +1,41 @@
+<!--%import("filter/setup_addon.xml")-->
+
+<div style="width:400px">
+    <form action="./" method="get" onsubmit="return procFilter(this, setup_addon);">
+        <input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
+        <table border="1" width="100%">
+        <tr>
+            <th>{$lang->title}</th>
+            <td>{$addon_info->title} ver. {$addon_info->version}</td>
+        </tr>
+        <tr>
+            <th>{$lang->author}</th>
+            <td>{$addon_info->author->name}</td>
+        </tr>
+        <tr>
+            <th>{$lang->homepage}</th>
+            <td><a href="#" onclick="winopen('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
+        </tr>
+        <tr>
+            <th colspan="2">{$lang->extra_vars}</th>
+        </tr>
+
+        <!--@foreach($addon_info->extra_vars as $key => $val)-->
+        <tr>
+            <th rowspan="2">{$val->title}</th>
+            <td><input type="text" name="{$val->name}" value="{$val->value}" class="editor_input" /></td>
+        </tr>
+        <tr>
+            <td>{$val->description}</td>
+        </tr>
+        <!--@end-->
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="{$lang->cmd_apply}" class="editor_button" />
+                <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
+            </td>
+        </tr>
+        </table>
+    </form>
+</div>

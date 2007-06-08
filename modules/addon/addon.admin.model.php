@@ -27,7 +27,7 @@
          **/
         function getAddonList() {
             // activated된 애드온 목록을 구함
-            $inserted_addons = $this->getInsertedAddon();
+            $inserted_addons = $this->getInsertedAddons();
 
             // 다운받은 애드온과 설치된 애드온의 목록을 구함
             $searched_list = FileHandler::readDir('./addons');
@@ -86,6 +86,7 @@
             $info->title = $xml_obj->title->body;
 
             // 작성자 정보
+            $addon_info->addon_name = $addon;
             $addon_info->title = $xml_obj->title->body;
             $addon_info->version = $xml_obj->attrs->version;
             $addon_info->author->name = $xml_obj->author->name->body;
@@ -110,6 +111,13 @@
 
             // 확장변수
             if($xml_obj->extra_vars) {
+
+                // DB에 설정된 내역을 가져온다
+                $db_args->addon = $addon;
+                $output = executeQuery('addon.getAddonInfo',$db_args);
+                $extra_vals = unserialize($output->data->extra_vars);
+
+                // 확장변수를 정리
                 if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
                 else $extra_vars = $xml_obj->extra_vars->var;
 
@@ -118,6 +126,7 @@
                     $obj->name = $val->attrs->name;
                     $obj->title = $val->title->body;
                     $obj->description = $val->description->body;
+                    $obj->value = $extra_vals->{$obj->name};
                     $addon_info->extra_vars[] = $obj;
                 }
             }
@@ -128,7 +137,7 @@
         /**
          * @brief 활성화된 애드온 목록을 구해옴
          **/
-        function getInsertedAddon() {
+        function getInsertedAddons() {
             $args->list_order = 'addon';
             $output = executeQuery('addon.getAddons', $args);
             if(!$output->data) return array();

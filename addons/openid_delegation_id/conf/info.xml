@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+    <title xml:lang="ko">OpenID delegation ID</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">
+            본인의 도메인을 사용하여 오픈아이디로 활용할 수 있도록 합니다.
+            꼭 설정을 통해서 openid provider관련 값을 입력후 사용해주세요.
+        </description>
+    </author>
+    <extra_vars>
+        <var name="server">
+            <title xml:lang="ko">server</title>
+            <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
+        </var>
+        <var name="delegate">
+            <title xml:lang="ko">delegate</title>
+            <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
+        </var>
+        <var name="xrds">
+            <title xml:lang="ko">xrds</title>
+            <description xml:lang="ko">X-XRDS-Location값을 입력해주세요.</description>
+        </var>
+    </extra_vars>
+</addon>

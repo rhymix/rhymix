@@ -3,6 +3,8 @@
     <actions>
         <action name="dispAddonAdminIndex" type="view" standalone="true" admin_index="true" />
         <action name="dispAddonAdminInfo" type="view" standalone="true" />
+        <action name="dispAddonAdminSetup" type="view" standalone="true" />
         <action name="procAddonAdminToggleActivate" type="controller" standalone="true" />
+        <action name="procAddonAdminSetupAddon" type="controller" standalone="true" />
     </actions>
 </module>

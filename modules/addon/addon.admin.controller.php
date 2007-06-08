@@ -31,18 +31,34 @@
 
             // 모듈에서 애드온을 사용하기 위한 캐시 파일 생성
             $buff = "";
-            $addon_list = $oAddonModel->getActivatedAddons();
-            $addon_count = count($addon_list);
-            for($i=0;$i<$addon_count;$i++) {
-                $addon = trim($addon_list[$i]);
-                if(!$addon) continue;
+            $addon_list = $oAddonModel->getInsertedAddons();
+            foreach($addon_list as $addon=> $val) {
+                if($val->is_used != 'Y') continue;
 
-                $buff .= sprintf(' if(file_exists("./addons/%s/%s.addon.php")) { $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $addon, $addon, $addon, $addon, $addon);
+                if($val->extra_vars) {
+                    unset($extra_vars);
+                    $extra_vars = base64_encode($val->extra_vars);
+                }
+
+                $buff .= sprintf(' if(file_exists("./addons/%s/%s.addon.php")) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $addon, $addon, $extra_vars, $addon, $addon, $addon);
             }
 
             $buff = sprintf('<?if(!defined("__ZBXE__"))exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
+        }
+
+        /**
+         * @brief 애드온 설정 정보 입력
+         **/
+        function procAddonAdminSetupAddon() {
+            $args = Context::getRequestVars();
+            $addon_name = $args->addon_name;
+            unset($args->module);
+            unset($args->act);
+            unset($args->addon_name);
+
+            $this->doSetup($addon_name, $args);
         }
 
         /**
