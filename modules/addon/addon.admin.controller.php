@@ -67,7 +67,7 @@
          **/
         function doInsert($addon) {
             $args->addon = $addon;
-            $args->is_used = 'Y';
+            $args->is_used = 'N';
             return executeQuery('addon.insertAddon', $args);
         }
 
