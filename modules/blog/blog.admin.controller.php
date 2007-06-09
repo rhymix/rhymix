@@ -43,7 +43,10 @@
         function procBlogAdminUpdateSkinInfo() {
             // module_srl에 해당하는 정보들을 가져오기
             $module_srl = Context::get('module_srl');
+
             $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             $skin = $module_info->skin;
 
@@ -124,11 +127,10 @@
                 // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
                 if(count($menu_srl_list)) {
                     // 해당 메뉴와 레이아웃 값을 매핑
-                    $oMenuController = &getController('menu');
-                    $oMenuController->updateMenuLayout($module_srl, $menu_srl_list);
+                    $oMenuAdminController = &getAdminController('menu');
+                    $oMenuAdminController->updateMenuLayout($module_srl, $menu_srl_list);
 
                     // 해당 메뉴에 속한 mid의 layout값을 모두 변경
-                    $oModuleController = &getController('module');
                     $oModuleController->updateModuleLayout($module_srl, $menu_srl_list);
                 }
             }
@@ -138,14 +140,13 @@
             $obj->mid = $module_info->mid;
             $skin_vars = serialize($obj);
 
-            $oModuleController = &getController('module');
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
 
             // 레이아웃 확장변수 수정
             $layout_args->extra_vars = $skin_vars;
             $layout_args->layout_srl = $module_srl;
-            $oLayoutController = &getController('layout');
-            $output = $oLayoutController->updateLayout($layout_args);
+            $oLayoutAdminController = &getAdminController('layout');
+            $output = $oLayoutAdminController->updateLayout($layout_args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
