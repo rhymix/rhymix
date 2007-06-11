@@ -43,6 +43,9 @@
 
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($template_path, 'comment_form');
+            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
+            $tpl = preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $tpl);
+
 
             // 결과 설정
             $this->add('document_srl', $document_srl);

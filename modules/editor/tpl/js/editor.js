@@ -67,8 +67,8 @@ function editorStart(upload_target_srl, resizable, height) {
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
-        '<link rel="stylesheet" href="./common/css/default.css" type="text/css" />'+
-        '<link rel="stylesheet" href="'+editor_path+'/css/editor.css" type="text/css" />'+
+        '<link rel="stylesheet" href="'+request_uri+'/common/css/default.css" type="text/css" />'+
+        '<link rel="stylesheet" href="'+request_uri+editor_path+'/css/editor.css" type="text/css" />'+
         '<style>'+
         'html {position:static}'+
         'body {margin:0px}'+
@@ -397,7 +397,7 @@ function editorEventCheck(evt) {
 // 컴포넌트 팝업 열기
 function openComponent(component_name, upload_target_srl, manual_url) {
     editorPrevSrl = upload_target_srl;
-    var popup_url = "./?module=editor&act=dispEditorPopup&upload_target_srl="+upload_target_srl+"&component="+component_name;
+    var popup_url = request_uri+"?module=editor&act=dispEditorPopup&upload_target_srl="+upload_target_srl+"&component="+component_name;
     if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
 
     popopen(popup_url, 'editorComponent');
@@ -425,7 +425,7 @@ function editorSearchComponent(evt) {
         var upload_target_srl = tobj.getAttribute("upload_target_srl");
         var plugin = obj.getAttribute("plugin");
         editorPrevNode = obj;
-        popopen("?module=plugin&act=dispPluginGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
+        popopen(request_uri+"?module=plugin&act=dispPluginGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
         return;
     }
 
