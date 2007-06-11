@@ -1012,32 +1012,26 @@
             if(!$GLOBALS['_transImageNameList'][$member_srl]) {
                 $oMemberModel = &getModel('member');
 
-                $image_name = $oMemberModel->getImageName($member_srl);
-                $image_mark = $oMemberModel->getImageMark($member_srl);
+                $GLOBALS['_transImageNameList'][$member_srl]['image_name'] = $oMemberModel->getImageName($member_srl);
+                $GLOBALS['_transImageNameList'][$member_srl]['image_mark'] = $oMemberModel->getImageMark($member_srl);
+            } 
+            $image_name = $GLOBALS['_transImageNameList'][$member_srl]['image_name'];
+            $image_mark = $GLOBALS['_transImageNameList'][$member_srl]['image_mark'];
 
-                // 이미지이름이나 마크가 없으면 원본 정보를 세팅
-                if(!$image_name && !$image_mark) {
-                    $GLOBALS['_transImageNameList'][$member_srl] = $matches[0];
+            // 이미지이름이나 마크가 없으면 원본 정보를 세팅
+            if(!$image_name && !$image_mark) return $matches[0];
 
-                // 이름이나 마크가 하나라도 있으면 변경
-                } else {
-
-                    if($image_name->width) {
-                        if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
-                        else $top_margin = 0;
-                        $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" style="margin-top:%dpx;"/>', $image_name->file, $image_name->width, $image_name->height, $top_margin);
-                    }
-
-                    if($image_mark->width) {
-                        $matches[0] = str_replace('<'.$matches[6], sprintf('<%s style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx" ', $matches[1],$image_mark->file, $image_mark->width+2, $image_mark->height), $matches[0] );
-                    }
-
-                    $GLOBALS['_transImageNameList'][$member_srl] = str_replace($matches[5], $text, $matches[0]);
-
-                }
+            if($image_name->width) {
+                if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
+                else $top_margin = 0;
+                $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" style="margin-top:%dpx;"/>', $image_name->file, $image_name->width, $image_name->height, $top_margin);
             }
 
-            return $GLOBALS['_transImageNameList'][$member_srl];
+            if($image_mark->width) {
+                $matches[0] = str_replace('<'.$matches[6], sprintf('<%s style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx" ', $matches[1],$image_mark->file, $image_mark->width+2, $image_mark->height), $matches[0] );
+            }
+
+            return str_replace($matches[5], $text, $matches[0]);
         }
 
         /**
