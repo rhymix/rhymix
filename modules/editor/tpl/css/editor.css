@@ -1,191 +1,39 @@
 @charset "utf-8";
 
-div.editor_content {
-    margin:3px;
-}
+.xeEditor .optionABC { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat -3px bottom;}
+.xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
+.xeEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}
+.xeEditor .optionABC .buttonGroup img { float:left; display:block; margin-left:-1px; cursor:pointer;}
+.xeEditor .optionA,
+.xeEditor .optionB,
+.xeEditor .optionC { float:left; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat left bottom; padding:.5em 0 .5em .7em; overflow:hidden;}
+.xeEditor .optionA *,
+.xeEditor .optionB *,
+.xeEditor .optionC * { vertical-align:middle;}
+.xeEditor .optionA { background-position:-3px bottom; padding-left:0;}
+.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1;}
+.xeEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
+.xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
+.xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
+.xeEditor .optionE { padding:.5em; overflow:hidden; border-left:1px solid #ffffff; float:left;}
+.xeEditor .textAreaWrap { padding:1em; }
+.xeEditor #editorInfo { background:#fbfbfb; padding:1em; border:1px solid #e1e1dd; color:#999999; position:relative; margin-bottom:.8em;}
+.xeEditor .close { cursor:pointer; position:absolute; top:0; right:0; _top:3px; _right:15px;}
+.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em;}
+.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;position:relative;cursor:move;}
+.xeEditor .editor_iframe_box { clear:both; border:1px solid #EFEFEF; }
 
-div.editor_area_1 {
-}
+div.editor_autosaved_message { font-size:9pt; font-weight:bold; color:#888888; display:none; position:absolute; top:10px; right:10px; }
 
-div.editor_area_2 {
-    clear:left;
-}
-
-div.editor_area_about_dbl {
-    clear:left;
-    border:1px dotted #DDDDDD;
-    padding:3px;
-    font-size:9pt;
-    color:#888888;
-}
-
-div.editor_fontbox {
-    margin : 3px 3px 3px 0px;
-    float:left;
-}
-
-div.editor_fontbox select {
-    width:70px;
-    height:18px;
-}
-
-div.editor_iconbox {
-    margin : 3px 3px 3px 0px;
-    white-space:nowrap;
-    font-size:1pt;
-    float:left;
-}
-
-img.editor_icon {
-    height : 16px;
-    border : 1px solid #EEEEEE;
-    background-color : #FFFFFF;
-    padding:1px;
-    cursor : pointer;
-    margin-right:1px;
-}
-
-img.editor_icon_over {
-    height : 16px;
-    border : 1px solid #A8C2E8;
-    background-color : #FFFFFF;
-    padding:1px;
-    cursor : pointer;
-    margin-right:1px;
-}
-
-div.editor_parabox {
-    margin : 3px 3px 3px 0px;
-    font-size:9pt;
-    text-align:right;
-    display:none;
-    float:right;
-}
-
-div.editor_iframe_box {
-    clear:left;
-    border:1px solid #EFEFEF; 
-    margin:3px 0px 0px 0px;
-}
-
-div.editor_drag_down_area {
-    width:100%;
-    height:15px;
-    background:url(../images/icon_drag_down.gif) no-repeat center;
-    background-color:#EFEFEF;
-    cursor:s-resize;
-    position:relative;
-    margin-top:10px;
-}
-
-.editor_uploader_box {
-    margin:10px 0px 0px 5px;
-    border:0;
-    padding:0px;
-    clear:both;
-}
-
-.editor_preview_uploaded {
-    float:left;
-    width:110px;
-    height:110px;
-    padding:5px;
-    border:1px solid #AAAAAA;
-    margin-right:10px;
-    text-align:center;
-}
-
-.editor_uploader {
-    float:left;
-    width:300px;
-    height:120px;
-    margin-right:10px;
-    padding-right:10px;
-    border-right:1px dotted #AAAAAA;
-}
-
-.uploaded_file_list {
-    width:100%;
-    height:122px;
-    border:1px solid #AAAAAA;
-}
-
-.editor_uploader_button_area {
-    width:150px;
-    float:left;
-    clear:right;
-}
-
-.editor_uploader_file_input {
-    display:none;
-    height:18px;
-    border:1px solid #AAAAAA;
-    background-color:#FFFFFF;
-    position:relative;
-}
-
-.editor_uploader_button {
-    display:block;
-    width:92px;
-    height:18px;
-    border:1px solid #AAAAAA;
-    background-color:#FFFFFF;
-    margin-bottom:3px;
-}
-
-.editor_uploader_status {
-    margin:5px 0px 5px 0px;
-height:20px;
-}
-
-.editor_uploader_status .title {
-    color:#999999;
-}
-
-.editor_uploader_status .desc_attached {
-    color:#000000;
-    font-weight:bold;
-    margin-right:3px;
-}
-
-.editor_uploader_status .desc {
-    color:#999999;
-    font-weight:bold;
-    margin-right:10px;
-}
-
-.component_setup_window {
-    width:800px;
-}
-
-.component_view_window {
-    width:600px;
-}
-
-.editor_input {
-    border:1px solid #AAAAAA;
-    height:14px;
-    font-size:9pt;
-    width:200px;
-}
-
-.editor_button {
-    border:1px solid #AAAAAA;
-    background-color:#FFFFFF;
-    height:17px;
-    font-size:9pt;
-}
-
-.about_component_icon {
-    vertical-align:middle;
-}
-
-div.editor_autosaved_message {
-    font-size:9pt;
-    font-weight:bold;
-    color:#888888;
-    display:none;
-    position:absolute;
-    top:10px;
-    right:10px;
-}
+.xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
+.xeEditor #textAreaDrag {}
+.xeEditor .fileAttach { padding:0 1em .5em 1em;}
+.xeEditor .fileAttach .preview { padding:5px; width:110px; height:110px; border:1px solid #e1e1dd; background:#fbfbfb; float:left; margin-right:.5em;}
+.xeEditor .fileAttach .preview img { width:110px; height:110px; float:left; display:block;}
+.xeEditor .fileAttach .fileListArea { float:left; width:50%; margin-right:.7em; padding-bottom:.5em; margin-bottom:1em}
+.xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em;}
+.xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
+.xeEditor .fileAttach .fileListArea .info { color:#3f4040; font:.75em Tahoma; text-align:left;}
+.xeEditor .fileAttach .fileListArea .info strong { color:#ff6600; font:bold 1em Tahoma;}
+.xeEditor .fileAttach .fileUploadControl { float:left;}
+.xeEditor .fileAttach .fileUploadControl li { float:left; clear:both; margin-bottom:.3em;}

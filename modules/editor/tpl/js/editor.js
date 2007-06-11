@@ -602,3 +602,23 @@ function editorDragStop(evt) {
     editorDragObj.obj = null;
     editorDragObj.id = '';
 }
+
+// Editor Option Button 
+function eOptionOver(obj) {
+    obj.style.marginTop='-21px';	
+    obj.style.zIndex='99';	
+}
+function eOptionOut(obj) {
+    obj.style.marginTop='0';	
+    obj.style.zIndex='1';	
+}
+function eOptionClick(obj) {
+    obj.style.marginTop='-42px';	
+    obj.style.zIndex='99';
+}
+
+// Editor Info Close
+function closeEditorInfo() {
+    xGetElementById('editorInfo').style.display='none';	
+}
+

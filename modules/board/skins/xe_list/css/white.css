@@ -228,24 +228,6 @@ Jeong, Chan Myeong 070601~070630
 .boardEditor .userNameAndPw .emailAddress { width:6em;}
 .boardEditor .userNameAndPw .homePage { width:6em;}
 .boardEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
-.boardEditor .optionABC { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/white/bgBoardEditorOption.gif) no-repeat -3px bottom;}
-.boardEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
-.boardEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}
-.boardEditor .optionABC .buttonGroup img { float:left; display:block; margin-left:-1px; cursor:pointer;}
-.boardEditor .optionA,
-.boardEditor .optionB,
-.boardEditor .optionC { float:left; background:#ffffff url(../images/white/bgBoardEditorOption.gif) no-repeat left bottom; padding:.5em 0 .5em .7em; overflow:hidden;}
-.boardEditor .optionA *,
-.boardEditor .optionB *,
-.boardEditor .optionC * { vertical-align:middle;}
-.boardEditor .optionA { background-position:-3px bottom; padding-left:0;}
-.boardEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1;}
-.boardEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
-.boardEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
-.boardEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
-.boardEditor .optionE { padding:.5em; overflow:hidden; border-left:1px solid #ffffff; float:left;}
-.boardEditor .textAreaWrap { position:relative; padding:1em;}
-.boardEditor .textArea { overflow:auto; clear:both; width:100%; _width:96%; height:20em; border:none; font-size:1em;}
 .boardEditor .buttonReply { position:relative; float:left; left:50%; margin:.5em 0 0 -2em; _padding-bottom:1em;}
 
 /* boardWrite */
@@ -260,27 +242,12 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .option dd { float:left; margin-right:1em; padding-top:.2em; _padding-top:.1em;}
 .boardWrite .option dd * { vertical-align:middle;}
 .boardWrite .inputTypeText { background:#fbfbfb;}
-.boardWrite .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
-.boardWrite #editorInfo { background:#fbfbfb; padding:1em; width:94%; border:1px solid #e1e1dd; color:#999999; position:relative; margin-bottom:.8em;}
-.boardWrite .close { cursor:pointer; position:absolute; top:0; right:0;}
-.boardWrite #textAreaDragIndicator { text-align:center; background:url(../images/white/lineTextAreaDrag.gif) repeat-x left center; cursor:pointer; margin-bottom:1em;}
-.boardWrite #textAreaDrag {}
-.boardWrite .fileAttach { padding:0 1em .5em 1em;}
-.boardWrite .fileAttach .preview { padding:5px; width:110px; height:110px; border:1px solid #e1e1dd; background:#fbfbfb; float:left; margin-right:.5em;}
-.boardWrite .fileAttach .preview img { width:110px; height:110px; float:left; display:block;}
-.boardWrite .fileAttach .fileListArea { float:left; width:50%; margin-right:.7em; padding-bottom:.5em;}
-.boardWrite .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em;}
-.boardWrite .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
-.boardWrite .fileAttach .fileListArea .info { color:#3f4040; font:.75em Tahoma; text-align:right;}
-.boardWrite .fileAttach .fileListArea .info strong { color:#ff6600; font:bold 1em Tahoma;}
-.boardWrite .fileAttach .fileUploadControl { float:left;}
-.boardWrite .fileAttach .fileUploadControl li { float:left; clear:both; margin-bottom:.3em;}
 .boardWrite .trackbackURI { clear:both; border-top:1px solid #eff0ed; padding:4px 0 .8em 0;}
 .boardWrite .trackbackURI label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:6em;}
-.boardWrite .trackbackURI .inputTypeText { width:70%;}
+.boardWrite .trackbackURI .inputTypeText { width:50%;}
 .boardWrite .tag { clear:both; border-top:1px solid #eff0ed; padding:.8em 0;}
 .boardWrite .tag label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:6em;}
-.boardWrite .tag .inputTypeText { width:70%;}
+.boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
 .boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:8.5em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
 .boardWrite .buttonWrite { position:relative; float:left; left:50%; margin:1em 0 0 -2em; _padding-bottom:1em;}

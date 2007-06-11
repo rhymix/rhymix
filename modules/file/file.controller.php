@@ -259,7 +259,7 @@
 
             // 업로드 상태 표시 작성
             $upload_status = sprintf(
-                    '<span class="title">- %s : </span><span class="desc_attached">%s</span><span class="desc">/ %s</span><span class="title">- %s : </span><span class="desc">%s</span><span class="title">- %s : </span><span class="desc">%s</span>',
+                    '<span class="title">%s : </span><span class="desc_attached">%s</span><span class="desc">/ %s</span><br /><span class="title">%s : </span><span class="desc">%s</span> (<span class="title">%s : </span><span class="desc">%s</span>)',
                     Context::getLang('allowed_attach_size'),
                     FileHandler::filesize($attached_size),
                     FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
