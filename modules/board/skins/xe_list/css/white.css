@@ -176,28 +176,32 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .replyAndTrackback a strong { color:#ff6600;}
 .boardRead .replyAndTrackback a#toggleReply { background:url(../images/white/buttonToggleReply.gif) no-repeat right top;}
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/white/buttonToggleReply.gif) no-repeat right -13px;}
-.boardRead #reply,
+
 .boardRead #trackback { padding:.6em .6em; color:#666666;}
-.boardRead #reply li,
-.boardRead #trackback li { padding:.6em .8em .6em 1.6em; line-height:1.25em;}
-.boardRead #reply p,
+.boardRead #trackback li { padding:.6em .8em .6em 1.6em; line-height:1.25em; clear:both;}
 .boardRead #trackback p { display:inline; margin-bottom:1em;}
 .boardRead #trackback a { color:#666666;}
-.boardRead .replyOption { display:inline; white-space:nowrap; margin-left:.2em;}
-.boardRead .replyOption img { vertical-align:middle;}
-.boardRead #reply address,
-.boardRead #trackback address { display:block; padding:0 .3em 0 0;}
-.boardRead #reply address a,
+.boardRead #trackback address { display:block; padding:0 .3em 0 0; float:left; }
 .boardRead #trackback address a { font-size:.9em; color:#3074a5; margin-right:.3em;}
-.boardRead #reply address .date,
 .boardRead #trackback address .date { font:.8em Tahoma; color:#cccccc;}
+
+.boardRead #reply { padding:.6em .6em; color:#666666;}
+.boardRead #reply li { padding:.6em .8em .6em 1.6em; line-height:1.25em; clear:both;}
+.boardRead #reply p { display:inline; margin-bottom:1em;}
+.boardRead #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin-right:.3em;}
+.boardRead #reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+.boardRead #reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
+
+.boardRead #reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
+.boardRead #reply .replyOption img { vertical-align:middle;}
+
+.boardRead #reply .replyContent { clear:left; }
 .boardRead #reply .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .2em .9em;}
 
-.boardRead #reply li .fileAttached { position:relative; _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
-.boardRead #reply li .fileAttached h5 { position:absolute; top:1em; left:1.5em; font-weight:normal; color:#999999; float:left; font-size:1em; margin-right:.5em; line-height:1.5em;}
-.boardRead #reply li .fileAttached ul { float:left; padding:1em 1em .8em 0; margin-left:5em; _margin-left:2.5em;}
-.boardRead #reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em;}
-.boardRead #reply li .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; position:relative; color:#444444; background:url(../images/white/iconFile.gif) no-repeat left top;}
+.boardRead #reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
+.boardRead #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
+.boardRead #reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
+.boardRead #reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
 .boardRead #reply li .fileAttached li a:visited { color:#777777;}
 
 /* boardEditor */

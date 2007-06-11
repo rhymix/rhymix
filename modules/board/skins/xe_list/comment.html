@@ -10,7 +10,7 @@
         <li>
         <!--@end-->
 
-            {$val->content}
+            <div class="member_{$val->member_srl} author">{htmlspecialchars($val->nick_name)}</div>
 
             <div class="replyOption">
                 <!--@if($val->is_granted || !$val->member_srl)-->
@@ -20,21 +20,21 @@
                     <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="18" /></a> 
             </div>
 
-            <address>
-                <span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span>
-                <span class="date">
-                    {zdate($val->regdate, "Y.m.d H:i")}
-                    <!--@if($grant->is_admin)-->
-                        ({$val->ipaddress})
-                    <!--@end-->
-                </span>
-            </address>
+            <div class="date">
+                {zdate($val->regdate, "Y.m.d H:i")}
+                <!--@if($grant->is_admin)-->
+                    ({$val->ipaddress})
+                <!--@end-->
+            </div>
+
+            <div class="replyContent">
+            {$val->content}
+            </div>
 
             <!--@if($val->uploaded_count && $val->uploaded_list)-->
                 <div class="fileAttached">
-                    <h5>{$lang->uploaded_file} : </h5>
                     <ul>
-                        <!--@foreach($document->uploaded_list as $key => $file)-->
+                        <!--@foreach($val->uploaded_list as $key => $file)-->
                         <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
                         <!--@end-->
                     </ul>
