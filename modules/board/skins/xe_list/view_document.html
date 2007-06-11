@@ -1,0 +1,117 @@
+<!--%import("filter/vote.xml")-->
+
+<!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
+<form id="fo_document_info" action="./" method="get">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+</form>
+
+<!-- 글 내용 보여주기 -->
+<div class="boardRead">
+    <div class="originalContent">
+        <div class="readHeader">
+            <div class="titleAndCategory">
+                <h4>{htmlspecialchars($document->title)}</h4>
+                <!--@if($module_info->use_category == "Y" && $document->category_srl)-->
+                <span class="vr">|</span><span class="category">{$category_list[$document->category_srl]->title}</span>
+                <!--@end-->
+            </div>
+
+            <div class="dateAndModify">
+                <span class="date">
+                    <strong>{zdate($document->regdate,"Y.m.d")}</strong> {zdate($document->regdate,"H:i:s")}
+                    <!--@if($grant->is_admin)-->
+                        ({$document->ipaddress})
+                    <!--@end-->
+                </span>
+
+                <!--@if($document->is_granted || !$document->member_srl)-->
+                <ul>
+                    <li><a href="{getUrl('act','dispBoardWrite')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="{getUrl('act','dispBoardDelete')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                </ul>
+                <!--@end-->
+            </div>
+        </div>
+        
+        <dl class="uri">
+            <dt>{$lang->document_url} :</dt>
+            <dd>{getUrl('','document_srl',$document->document_srl)}</dd>
+            <!--@if($document->allow_trackback=='Y')-->
+            <dt>{$lang->trackback_url} :</dt>
+            <dd>{getUrl('','document_srl',$document->document_srl,'act','trackback')}</dd>
+            <!--@end-->
+        </dl>
+        <div class="readBody">{$document->content}</div>
+        <div class="readFooter">
+            <!--@if($document->tag_list)-->
+            <div class="tag">
+                <h5><img src="./images/{$module_info->colorset}/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /></h5>
+                <ul>
+                    <!--@foreach($document->tag_list as $val)-->
+                        <li><a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}">{htmlspecialchars($val)}</a>,</li>
+                    <!--@end-->
+                </ul>
+            </div>
+            <!--@end-->
+
+            <!--@if($document->uploaded_count && $document->uploaded_list)-->
+            <div class="fileAttached">
+                <h5>{$lang->uploaded_file} : </h5>
+                <ul>
+                    <!--@foreach($document->uploaded_list as $key => $file)-->
+                    <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                    <!--@end-->
+                </ul>
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+
+    <ul class="replyAndTrackback">
+        <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+            <li class="reply"><a href="#comment">{$lang->comment} <strong>{count($document->comment_list)}</strong></a></li>
+        <!--@end-->
+
+        <!--@if($document->allow_trackback=='Y')-->
+            <li class="trackback"><a href="#trackback">{$lang->trackback} <strong>{count($document->trackback_list)}</strong></a></li>
+        <!--@end-->
+    </ul>
+
+    <!-- 엮인글 파일 include -->
+    <!--@if($document->allow_trackback=='Y')-->
+        <a name="trackback"></a>
+        <!--#include("./trackback.html")-->
+    <!--@end-->
+
+    <!-- 댓글 파일 include -->
+    <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+        <a name="comment"></a>
+        <!--#include("./comment.html")-->
+    <!--@end-->
+
+</div>
+
+<!--
+    <tr>
+        <th>{$lang->writer}</th>
+        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->readed_count}</th>
+        <td>{$document->readed_count}</td>
+    </tr>
+    <tr>
+        <th>{$lang->voted_count}</th>
+        <td>{$document->voted_count}</td>
+    </tr>
+    </table>
+<div>
+    <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
+    <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
+</div>
+
+-->
+
+
+

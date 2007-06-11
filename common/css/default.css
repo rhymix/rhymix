@@ -1,8 +1,4 @@
 @charset "utf-8";
-/*
-NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
-Jeong, Chan Myeong 070601~070630
-*/
 
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
@@ -12,8 +8,6 @@ body { font-size:.75em; margin:2em;}
 img { border:none;}
 label { cursor:pointer;}
 select { height:1.6em;}
-select:hover,
-select:focus { background:#eeeeee;}
 option { padding-right:.5em;}
 li { list-style:none;}
 a { text-decoration:none;}
@@ -21,9 +15,10 @@ a:hover { text-decoration:underline;}
 address { font-style:normal;}
 
 /* Input Style Definition */
-.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb;}
+.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 .inputTypeText:hover,
-.inputTypeText:focus { background:#eeeeee;}
+.inputTypeText:focus { background:#f4f4f4;}
+.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; padding:3px; background:#ffffff;}
 
 a.bold {
     font-weight:bold;
@@ -43,54 +38,6 @@ a.bold {
     background-color:#FFFFFF;
     border:3px dotted #039311;
     display:block;
-}
-
-h1 {
-    font-size:25px;
-    font-weight:bold;
-    background-color:#efefef;
-    color:#0f217c;
-    padding:0px 5px 0px 5px;
-    border-bottom:1px solid #445bcd;
-}
-
-h2 {
-    font-size:20px;
-    font-weight:bold;
-    background-color:#efefef;
-    color:#0f217c;
-    padding:0px 5px 0px 5px;
-    border-bottom:1px solid #445bcd;
-}
-
-h3 {
-    color:#0f217c;
-    font-size:20px;
-    font-weight:bold;
-    background-color:#efefef;
-    border-bottom:1px solid #445bcd;
-    padding:0px 5px 0px 5px;
-}
-
-h4 {
-    color:#0f217c;
-    font-size:15px;
-    font-weight:normal;
-    background-color:#efefef;
-    border-bottom:1px solid #445bcd;
-    padding:0px 5px 0px 5px;
-}
-
-h5 {
-    font-size:12px;
-    font-weight:normal;
-    line-height:0px;
-}
-
-h6 {
-    font-size:11px;
-    font-weight:normal;
-    line-height:0px;
 }
 
 .member_signature {

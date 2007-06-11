@@ -135,6 +135,7 @@ div.editor_drag_down_area {
 
 .editor_uploader_status {
     margin:5px 0px 5px 0px;
+height:20px;
 }
 
 .editor_uploader_status .title {

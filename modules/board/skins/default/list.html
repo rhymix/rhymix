@@ -45,6 +45,10 @@
             <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
             <!--@end-->
 
+            <!--@if($module_info->subject_cut_size>0)-->
+                {@ $val->title = cut_str($val->title,$module_info->subject_cut_size)}
+            <!--@end-->
+
             <!--@if($grant->view)-->
                 <!-- 검색중일 경우는 새창으로 -->
                 <!--@if($search_target && $search_keyword)-->

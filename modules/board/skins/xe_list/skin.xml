@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
-  <title xml:lang="ko">게시판 기본 스킨</title>
+  <title xml:lang="ko">제로보드XE 게시판 기본 스킨(목록형)</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">board모듈의 default스킨</description>
+    <name xml:lang="ko">(주)NHN</name>
+    <description xml:lang="ko">
+        제로보드XE 게시판의 목록형 기본 스킨입니다.
+        디자인 : 서기정 
+        HTML/CSS : 정찬명
+    </description>
   </maker>
   <colorset>
-    <color name="normal" src="screenshot/normal.gif">
-      <title xml:lang="ko">기본</title>
-    </color>
-    <color name="deep" src="screenshot/blue.gif">
-      <title xml:lang="ko">이상한거</title>
+    <color name="white" src="screenshot/white.gif">
+      <title xml:lang="ko">하얀색(기본)</title>
     </color>
   </colorset>
   <extra_vars>
@@ -18,9 +19,9 @@
       <title xml:lang="ko">제목</title>
       <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
     </var>
-    <var name="memo" type="textarea">
-      <title xml:lang="ko">게시판 설명</title>
-      <description lang="ko">내용의 기본값</description>
+    <var name="sub_title" type="text">
+      <title xml:lang="ko">간단한 설명</title>
+      <description lang="ko">제목 옆에 나타날 간단한 설명을 적어주세요.</description>
     </var>
     <var name="subject_cut_size" type="text">
       <title xml:lang="ko">제목 글자수</title>

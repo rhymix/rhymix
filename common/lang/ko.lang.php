@@ -79,7 +79,7 @@
     $lang->allow_comment = '댓글허용';
     $lang->lock_comment = '댓글잠금';
     $lang->allow_trackback = '엮인글허용';
-    $lang->uploaded_file = '첨부파일';
+    $lang->uploaded_file = '첨부';
     $lang->grant = '권한';
     $lang->target = '대상';
     $lang->total = '전체';
