@@ -31,9 +31,10 @@ Jeong, Chan Myeong 070601~070630
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
 
 /* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;}
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
 .buttonTypeA:hover { text-decoration:none;}
 .buttonTypeA img { vertical-align:middle;}
+.buttonTypeA input { height:24px; }
 .buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeA .icon { margin:0 .2em;}
@@ -48,6 +49,14 @@ Jeong, Chan Myeong 070601~070630
 /* button of list page */
 .buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
 .buttonLeft { position:relative; float:left; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-left:.5em; overflow:visible;}
+.buttonLeft ul { float:left; }
+.buttonLeft ul li { float:left; margin-right:.3em;}
+
+.boardRead .dateAndModify { float:right; white-space:nowrap;}
+.boardRead .dateAndModify .date { font-size:.8em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
+.boardRead .dateAndModify .date strong { font-size:1em; font-family:Tahoma;}
+.boardRead .dateAndModify ul { display:inline;}
+.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
 /* boardSearch */
 .boardSearch { text-align:center; clear:both; width:100%;}
@@ -178,12 +187,13 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/white/buttonToggleReply.gif) no-repeat right -13px;}
 
 .boardRead #trackback { padding:.6em .6em; color:#666666;}
-.boardRead #trackback li { padding:.6em .8em .6em 1.6em; line-height:1.25em; clear:both;}
+.boardRead #trackback li { padding:.6em .8em .6em 1.6em; line-height:1.25em; }
 .boardRead #trackback p { display:inline; margin-bottom:1em;}
-.boardRead #trackback a { color:#666666;}
-.boardRead #trackback address { display:block; padding:0 .3em 0 0; float:left; }
-.boardRead #trackback address a { font-size:.9em; color:#3074a5; margin-right:.3em;}
-.boardRead #trackback address .date { font:.8em Tahoma; color:#cccccc;}
+.boardRead #trackback a { color:#666666; }
+.boardRead #trackback div  { clear:both; }
+.boardRead #trackback address { display:block; padding:0 .3em 0 0; }
+.boardRead #trackback address a { font-size:.9em; color:#3074a5; margin-right:.3em; float:left;}
+.boardRead #trackback address .date { font:.8em Tahoma; color:#cccccc; float:right;}
 
 .boardRead #reply { padding:.6em .6em; color:#666666;}
 .boardRead #reply li { padding:.6em .8em .6em 1.6em; line-height:1.25em; clear:both;}

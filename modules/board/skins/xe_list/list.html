@@ -107,12 +107,17 @@
         <!--@end-->
     </div>
 
-    <!--@if($grant->is_admin)-->
-    <!-- 문서 관리 버튼 -->
     <div class="buttonLeft">
-            <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" />{$lang->cmd_manage_document}<img src="./images/blank.gif" alt="" class="rightCap" /></a> 
+
+        <ul>
+            <li><a href="{getUrl('act','','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+
+            <!--@if($grant->is_admin)-->
+            <!-- 문서 관리 버튼 -->
+            <li><a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" />{$lang->cmd_manage_document}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <!--@end-->
+        </ul>
     </div>
-    <!--@end-->
 
     <!-- 검색 -->
     <form action="./" method="get" onsubmit="return procFilter(this, search)" class="boardSearch" id="fo_search">

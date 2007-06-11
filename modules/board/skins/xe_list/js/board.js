@@ -17,6 +17,12 @@ function doAddCart(mid, obj) {
     exec_xml("board","procBoardAdminAddCart", params, null);
 }
 
+/* 글쓰기 submit */
+function doSubmit() {
+    var fo_obj = xGetElementById('fo_write');
+    procFilter(fo_write, insert);
+}
+
 /* 글쓰기 작성후 */
 function completeDocumentInserted(ret_obj) {
     var error = ret_obj['error'];
