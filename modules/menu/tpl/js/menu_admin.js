@@ -153,6 +153,6 @@ function doInsertMid(mid, menu_id) {
         return;
     }
 
-    fo_obj.menu_url.value = "mid="+mid;
+    fo_obj.menu_url.value = mid;
     window.close();
 }

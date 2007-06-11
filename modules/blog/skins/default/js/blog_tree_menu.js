@@ -115,7 +115,6 @@ function blogDrawNode(parent_node) {
         var text = node.getAttribute("text");
         var url = node.getAttribute("url");
         var expand = node.getAttribute("expand");
-        
         if(!text) continue;
 
         // 자식 노드가 있는지 확인
@@ -132,8 +131,9 @@ function blogDrawNode(parent_node) {
         // zone_id 값을 세팅
         var zone_id = "blog_category_"+node_srl;
         blog_tree_menu_folder_list[blog_tree_menu_folder_list.length] = zone_id;
-
-        if(url && typeof(zbxe_url)!="undefined" && ( url.substr(url.length-zbxe_url.length, url.length) == zbxe_url)) {
+        
+        var current_category = current_url.getQuery('category');
+        if(current_category == node_srl) {
             selected = true;
             blog_menu_selected = true;
         }
@@ -221,7 +221,7 @@ function blogDrawNode(parent_node) {
         // 왼쪽 폴더/페이지와 텍스트 위치를 맞추기 위해;;; table태그 일단 사용. 차후 바꾸자..
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
-                        '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="./common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
+                        '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="'+request_uri+'/common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
                         '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode(\''+url+'\');return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
                     '</div>';
 

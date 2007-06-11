@@ -491,8 +491,8 @@
             $var_count = count($get_vars);
             if(!$var_count) return '';
 
-            // rewrite모듈을 사용하고 인자의 값이 2개 이하일 경우
-            if($this->allow_rewrite && $var_count < 3) {
+            // rewrite모듈을 사용하고 인자의 값이 4개 이하일 경우
+            if($this->allow_rewrite && $var_count < 4) {
                 $var_keys = array_keys($get_vars);
 
                 if($var_count == 1) {
@@ -504,7 +504,19 @@
                     if($target=='act.mid' && !ereg('([A-Z]+)',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
                     elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['document_srl']);
                     elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$this->path,$get_vars['document_srl'],$get_vars['act']);
-                    //elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$this->path,$get_vars['mid'],$get_vars['page']);
+                    elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$this->path,$get_vars['mid'],$get_vars['page']);
+                    elseif($target=='category.mid')  return sprintf('%s%s/category/%s',$this->path,$get_vars['mid'],$get_vars['category']);
+                } elseif($var_count == 3) {
+                    asort($var_keys);
+                    $target = implode('.',$var_keys);
+                    if($target=='category.mid.page') {
+                        return sprintf('%s%s/category/%s/page/%s',$this->path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
+                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='tag') {
+                        return sprintf('%s%s/tag/%s',$this->path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='regdate') {
+                        if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$this->path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
+                        elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$this->path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
+                    }
                 }
             }
 

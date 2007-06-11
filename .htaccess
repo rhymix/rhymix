@@ -21,6 +21,23 @@ RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?mid=$1&act=$2 [L]
 # mid + page permanent link
 RewriteRule ^([a-zA-Z0-9_]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&page=$2 [L]
 
+# mid + category permanent link
+RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&category=$2 [L]
+
+# mid + category + page
+RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&category=$2&page=$3 [L]
+
+# mid + search target regdate (year+month)
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+){0,4}/([[:digit:]]+){0,2}$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3 [L]
+
+# mid + search target regdate (year+month+day)
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+){0,4}/([[:digit:]]+){0,2}/([[:digit:]]+){0,2}$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3$4 [L]
+
+# mid + search target tag
+RewriteRule ^([a-zA-Z0-9_]+)/tag/(.*)$ ./index.php?mid=$1&search_target=tag&search_keyword=$2 [L]
+
+# mid + search target writer
+RewriteRule ^([a-zA-Z0-9_]+)/writer/(.*)$ ./index.php?mid=$1&search_target=nick_name&search_keyword=$2 [L]
 
 # module permanent link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]

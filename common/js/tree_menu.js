@@ -170,7 +170,7 @@ function drawNode(parent_node, menu_id) {
         tree_menu_folder_list[menu_id][tree_menu_folder_list[menu_id].length] = zone_id;
 
         // url을 확인하여 현재의 url과 동일하다고 판단되면 manual_select_node_srl 에 값을 추가 (관리자페이지일 경우는 무시함)
-        if(node_callback_func[menu_id] == moveTreeMenu && url && typeof(zbxe_url)!="undefined" && zbxe_url == url) manual_select_node_srl = node_srl;
+        if(node_callback_func[menu_id] == moveTreeMenu && url && current_url.getQuery('mid') == url) manual_select_node_srl = node_srl;
 
         // manual_select_node_srl이 node_srl과 같으면 펼침으로 처리
         if(manual_select_node_srl == node_srl) expand = "Y";

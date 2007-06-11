@@ -177,15 +177,6 @@
                 }
             }
 
-            // 현재 페이지의 정보를 $zbxe_url이라는 변수로 등록 (common/tpl/common_header.tpl에서 javascript 변수로 설정함)
-            if(!Context::get('zbxe_url')) {
-                if($this->mid) $zbxe_url = sprintf('mid=%s',$this->mid);
-                elseif($_REQUEST['module']) $zbxe_url = sprintf('module=%s',$_REQUEST['module']);
-                elseif($_REQUEST['document_srl']) $zbxe_url = sprintf('mid=%s', $this->mid);
-                else $zbxe_url = Context::getRequestUri();
-                Context::set('zbxe_url', $zbxe_url);
-            }
-
             // 해당 모듈에 layout_srl이 있는지 확인
             if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
                 // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경

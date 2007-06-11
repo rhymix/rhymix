@@ -10,7 +10,7 @@
 
 <!-- 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    blogLoadTreeMenu("./files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "./?mid={$layout_info->mid}");
+    blogLoadTreeMenu("{getUrl()}/files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "{getUrl('','mid',$mid)}");
 </script>
 
 
@@ -58,7 +58,6 @@
         <!-- top_menu 시작 -->
 
         <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
-
             <!--@if($val['selected'])-->
                 {@ $class_name = 'first_menu_selected'}
             <!--@else-->

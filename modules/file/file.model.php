@@ -26,7 +26,7 @@
          * @brief 다운로드 경로를 구함
          **/
         function getDownloadUrl($file_srl, $sid) {
-            return "./?module=file&amp;act=procFileDownload&amp;file_srl=".$file_srl."&amp;sid=".$sid;
+            return getUrl('','module','file','act','procFileDownload','file_srl',$file_srl,'sid',$sid);
         }
 
         /**

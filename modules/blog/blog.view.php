@@ -25,13 +25,6 @@
             $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
             Context::set('category_list', $this->category_list);
 
-            // 선택된 카테고리 목록이 있으면 zbxe_url을 변경하여 트리메뉴에서 카테고리까지 참조할 수 있도록 함
-            $category_srl = Context::get('category');
-            if($this->category_list[$category_srl]) {
-                $this->category_srl = $category_srl;
-                Context::set('zbxe_url', sprintf("mid=%s&category=%d", $this->module_info->mid, $this->category_srl));
-            }
-
             // 스킨 경로 구함
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             $this->setTemplatePath($template_path);
