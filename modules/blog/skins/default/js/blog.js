@@ -5,6 +5,18 @@
  **/
 
 /**
+ * url에 #comment_번호가 있을 경우 댓글창을 열고 위치 이동
+ **/
+if(location.href.indexOf('#comment')>0) {
+    function openCommentAndMove() {
+        doDisplayComment(current_url.getQuery('document_srl'));
+        location.href = location.href;
+    }
+
+    xAddEventListener(window,'load', openCommentAndMove);
+}
+
+/**
  * 댓글 오픈
  * 댓글의 경우 editor를 동반해서 불러야 하기에 ajax로 tpl파일을 가져와서 쓰는걸로 한다.
  **/
