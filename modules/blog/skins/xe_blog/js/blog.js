@@ -68,7 +68,7 @@ function completeCommentEditorForm(ret_obj) {
 
     // 에디터 실행
     editorStart(upload_target_srl, true, 100);
-    editor_upload_init(upload_target_srl);
+    editor_upload_form_set(upload_target_srl);
 }
 
 /**
