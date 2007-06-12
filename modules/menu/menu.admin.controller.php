@@ -153,10 +153,10 @@
             // 변수 정리 
             $args = Context::gets('menu_srl','menu_item_srl');
 
-            $oMenuModel = &getModel('menu');
+            $oMenuAdminModel = &getAdminModel('menu');
 
             // 원정보를 가져옴 
-            $item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
+            $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
             if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
 
             // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
@@ -169,7 +169,7 @@
             if(!$output->toBool()) return $output;
 
             // 해당 메뉴의 정보를 구함
-            $menu_info = $oMenuModel->getMenu($args->menu_srl);
+            $menu_info = $oMenuAdminModel->getMenu($args->menu_srl);
             $menu_title = $menu_info->title;
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
