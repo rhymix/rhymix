@@ -8,7 +8,7 @@
         <a name="trackback_{$val->trackback_srl}"></a>
         <address>
             <a href="#" onclick="winopen('{$val->url}');return false;">{htmlspecialchars($val->blog_name)}</a> 
-            <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/{$module_info->colorset}/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
+            <a href="{getUrl('act','dispBlogDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/{$module_info->colorset}/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
             <span class="date">
                 {zdate($val->regdate, "Y.m.d H:i")}
                 ({$val->ipaddress})
