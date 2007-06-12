@@ -147,7 +147,7 @@
 
             // 블로그의 코멘트는 ajax로 호출되기에 미리 css, js파일을 import
             Context::addJsFile('./modules/editor/tpl/js/editor.js');
-            Context::addJsFile('./modules/editor/tpl/js/_uploader.js');
+            Context::addJsFile('./modules/editor/tpl/js/uploader.js');
             Context::addCSSFile('./modules/editor/tpl/css/editor.css');
 
             $this->setTemplateFile('list');
