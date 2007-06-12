@@ -20,7 +20,7 @@ function doAddCart(mid, obj) {
 /* 글쓰기 submit */
 function doSubmit() {
     var fo_obj = xGetElementById('fo_write');
-    procFilter(fo_write, insert);
+    procFilter(fo_obj, insert);
 }
 
 /* 글쓰기 작성후 */
@@ -77,6 +77,12 @@ function completeReload(ret_obj) {
     var message = ret_obj['message'];
 
     location.href = location.href;
+}
+
+/* 댓글쓰기 submit */
+function doCommentSubmit() {
+    var fo_obj = xGetElementById('fo_comment_write');
+    procFilter(fo_obj, insert);
 }
 
 /* 댓글 글쓰기 작성후 */

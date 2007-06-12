@@ -39,7 +39,7 @@
             Context::set('comment_srl', $upload_target_srl);
 
             // template 가져옴
-            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->skin);
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($template_path, 'comment_form');

@@ -24,10 +24,10 @@
             $oEditorController->insertComponent('url_link',true);
             $oEditorController->insertComponent('image_link',true);
             $oEditorController->insertComponent('multimedia_link',true);
-            $oEditorController->insertComponent('poll_maker',true);
             $oEditorController->insertComponent('quotation',true);
-            $oEditorController->insertComponent('image_gallery',true);
             $oEditorController->insertComponent('table_maker',true);
+            $oEditorController->insertComponent('poll_maker',true);
+            $oEditorController->insertComponent('image_gallery',true);
 
             // 에디터 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/editor');
