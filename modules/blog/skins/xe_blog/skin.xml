@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+    <title xml:lang="ko">제로보드XE 블로그 기본 스킨</title>
+    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">(주)NHN</name>
+        <description xml:lang="ko">
+            제로보드XE 블로그 기본 스킨입니다.
+            디자인 : 서기정 
+            HTML/CSS : 정찬명
+        </description>
+    </maker>
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+        </color>
+    </colorset>
+    <extra_vars>
+        <var name="top_title" type="text">
+            <title xml:lang="ko">상단 제목</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
+        </var>
+        <var name="logo_image" type="image" width="60" height="60">
+            <title xml:lang="ko">로고이미지</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
+        </var>
+        <var name="profile_image" type="image" width="60" height="60">
+            <title xml:lang="ko">프로필 이미지</title>
+            <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 200px이 가장 보기 좋습니다)</description>
+        </var>
+        <var name="profile" type="textarea">
+            <title xml:lang="ko">프로필</title>
+            <description lang="ko">간단한 프로필을 입력해주세요</description>
+        </var>
+        <var name="category_name" type="text">
+            <title xml:lang="ko">카테고리명</title>
+            <description lang="ko">카테고리의 이름을 입력해주세요.</description>
+        </var>
+        <var name="display_writer" type="select">
+            <title xml:lang="ko">글쓴이 표시</title>
+            <description lang="ko">다수가 블로그를 함께 운영시에 글쓴이의 이름을 표시할 수 있습니다.</description>
+            <default>off</default>
+            <default>on</default>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="top_menu" default="true">
+            <title xml:lang="ko">상단 메뉴</title>
+            <maxdepth>1</maxdepth>
+        </menu>
+    </menus>
+</skin>

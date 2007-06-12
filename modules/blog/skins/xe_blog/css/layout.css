@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+body {
+    margin:0px;
+    padding:0px;
+}
+
+/**
+ * 블로그 기본 기능 
+ **/
+.blog_default_menu {
+    margin:5px 10px 0px 10px;
+    width:890px;
+    text-align:right;
+}
+
+/**
+ * 상단 로고 및 메인 1차 메뉴 
+ **/
+.layout_top {
+    margin:10px 10px 0px 10px;
+    width:890px;
+}
+
+/* 상단 로고 부분 */
+.layout_logo A {
+    font-weight:bold;
+    font-size:16pt;
+    color:#888888;
+    text-decoration:none;
+}
+
+/* 상단 1차 메뉴 */
+.layout_first_menu {
+    border-bottom:2px solid #DDDDDD;
+    width:100%;
+    text-align:right;
+    padding:3px 0px 3px 0px;
+}
+
+/**
+ * 좌측 메뉴 및 메인 2차 메뉴, 로그인 플러그인 및 기타
+ **/
+.layout_left {
+    width:220px;
+    float:left;
+    margin-top:10px;
+    position:absolute;
+    left:10px;
+    z-index:10;
+}
+
+#blog_category {
+    padding:10px;
+    margin-bottom:10px;
+}
+
+/* 컨텐츠 */
+.layout_content {
+    position:absolute;
+    left:0px;
+    padding:10px 10px 0px 240px;
+    z-index:1;
+    width:660px;
+}
+
+/* 상단 메뉴 */
+.first_menu {
+    background-color:#999999;
+    padding:3px 10px 3px 10px;
+    margin-left:5px;
+}
+
+.first_menu A {
+    font-weight:normal;
+    color:#FFFFFF;
+    text-decoration:none;
+}
+
+.first_menu_selected {
+    background-color:#000000;
+    padding:3px 10px 3px 10px;
+    margin-left:5px;
+}
+
+.first_menu_selected A {
+    color:#FFFFFF;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+/* 프로필 영역 */
+.layout_profile {
+    border:2px solid #EEEEEE;
+    text-align:center;
+    padding:10px 0px 10px 0px;
+    margin-bottom:10px;
+}
+
+.layout_profile .profile_image {
+    margin-bottom:10px;
+}
+
+.layout_profile .profile{
+    color:#555555;
+    text-align:left;
+    padding:0px 10px 10px 10px;
+}
+
+/* 검색 */
+.layout_search {
+    border-top:2px solid #EEEEEE;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.layout_search .search_keyword {
+    border:1px solid #EEEEEE;
+    width:100px;
+}
+
+.layout_search .search_button {
+    border:1px solid #AAAAAA;
+    background-color:#FFFFFF;
+    width:40px;
+}
+
+/* 좌측 관리자 메뉴 */
+.layout_admin {
+    border-top:1px solid #EEEEEE;
+    text-align:center;
+    padding-top:10px;
+    margin:10px 5px 0px 10px;
+}
+
+.layout_admin A {
+    color:#AAAAAA;
+    text-decoration:none;
+}
+
+
+/* 내용 */
+#content {
+}

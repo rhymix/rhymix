@@ -11,7 +11,7 @@
         <column name="content" var="content" notnull="notnull" />
         <column name="uploaded_count" var="uploaded_count" default="0" />
         <column name="password" var="password" minlength="2" maxlength="60" />
-        <column name="nick_name" var="nick_name" minlength="1" maxlength="40" notnull="notnull" />
+        <column name="nick_name" var="nick_name" minlength="1" maxlength="40" />
         <column name="member_srl" var="member_srl" default="0" filter="number" />
         <column name="user_name" var="user_name" default="" />
         <column name="email_address" var="email_address" filter="email" maxlength="250" />
