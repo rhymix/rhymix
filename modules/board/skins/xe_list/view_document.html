@@ -18,17 +18,33 @@
             </div>
 
             <div class="dateAndModify">
-                <span class="date">
-                    <strong>{zdate($document->regdate,"Y.m.d")}</strong> {zdate($document->regdate,"H:i:s")}
-                    <!--@if($grant->is_admin)-->
-                        ({$document->ipaddress})
-                    <!--@end-->
+                <span class="num">
+                    {$lang->readed_count}:
+                    <strong>{$document->readed_count}</strong>
+                    ,
                 </span>
+
+                <!--@if($document->voted_count>0)-->
+                <span class="num">
+                    {$lang->voted_count}:
+                    <strong>{$document->voted_count}</strong>
+                    ,
+                </span>
+                <!--@end-->
+
+                <span class="num">
+                    <strong>{zdate($document->regdate,"Y.m.d")}</strong> {zdate($document->regdate,"H:i:s")}
+                </span>
+                <!--@if($grant->is_admin)-->
+                <span class="ipaddress">
+                        ({$document->ipaddress})
+                </span>
+                <!--@end-->
 
                 <!--@if($document->is_granted || !$document->member_srl)-->
                 <ul>
-                    <li><a href="{getUrl('act','dispBoardWrite')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-                    <li><a href="{getUrl('act','dispBoardDelete')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="{getUrl('act','dispBoardWrite','document_srl',$document->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="{getUrl('act','dispBoardDelete','document_srl',$document->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
                 </ul>
                 <!--@end-->
             </div>
@@ -37,19 +53,29 @@
         <dl class="uri">
             <dt>{$lang->document_url} :</dt>
             <dd>{getUrl('','document_srl',$document->document_srl)}</dd>
+
             <!--@if($document->allow_trackback=='Y')-->
             <dt>{$lang->trackback_url} :</dt>
             <dd>{getUrl('','document_srl',$document->document_srl,'act','trackback')}</dd>
             <!--@end-->
         </dl>
-        <div class="readBody">{$document->content}</div>
+
+        <div class="userInfo">
+            <div class="author member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div>
+        </div>
+
+        <div class="readBody"><p>{$document->content}</p></div>
+
         <div class="readFooter">
             <!--@if($document->tag_list)-->
             <div class="tag">
                 <h5><img src="./images/{$module_info->colorset}/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /></h5>
                 <ul>
-                    <!--@foreach($document->tag_list as $val)-->
-                        <li><a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}">{htmlspecialchars($val)}</a>,</li>
+                    <!--@for($i=0;$i<count($document->tag_list);$i++)-->
+                        {@ $tag = $document->tag_list[$i]; }
+                        <li>
+                            <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}">{htmlspecialchars($tag)}</a><!--@if($i<count($document->tag_list)-1)-->,<!--@end-->
+                        </li>
                     <!--@end-->
                 </ul>
             </div>
@@ -76,42 +102,22 @@
         <!--@if($document->allow_trackback=='Y')-->
             <li class="trackback"><a href="#trackback">{$lang->trackback} <strong>{count($document->trackback_list)}</strong></a></li>
         <!--@end-->
+
+            <li class="button">
+                <a href="{getUrl('document_srl','')}">{$lang->cmd_list}</a>
+                <a href="#" onclick="doVote();return false;">{$lang->cmd_vote}</a>
+            </li>
     </ul>
-
-    <!-- 엮인글 파일 include -->
-    <!--@if($document->allow_trackback=='Y')-->
-        <a name="trackback"></a>
-        <!--#include("./trackback.html")-->
-    <!--@end-->
-
-    <!-- 댓글 파일 include -->
-    <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
-        <a name="comment"></a>
-        <!--#include("./comment.html")-->
-    <!--@end-->
-
 </div>
 
-<!--
-    <tr>
-        <th>{$lang->writer}</th>
-        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
-    </tr>
-    <tr>
-        <th>{$lang->readed_count}</th>
-        <td>{$document->readed_count}</td>
-    </tr>
-    <tr>
-        <th>{$lang->voted_count}</th>
-        <td>{$document->voted_count}</td>
-    </tr>
-    </table>
-<div>
-    <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
-    <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
-</div>
+<!-- 엮인글 파일 include -->
+<!--@if($document->allow_trackback=='Y')-->
+    <a name="trackback"></a>
+    <!--#include("./trackback.html")-->
+<!--@end-->
 
--->
-
-
-
+<!-- 댓글 파일 include -->
+<!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+    <a name="comment"></a>
+    <!--#include("./comment.html")-->
+<!--@end-->

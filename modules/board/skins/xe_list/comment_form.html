@@ -7,24 +7,21 @@
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($source_comment)-->
-<div>
-    <table border="1" width="100%">
-    <col width="120" />
-    <col width="*" />
-    <tr>
-        <th>{$lang->date}</th>
-        <td>{$source_comment->regdate}</td>
-    </tr>
-    <tr>
-        <th>{$lang->writer}</th>
-        <td><div class="member_{$source_comment->member_srl}">{htmlspecialchars($source_comment->nick_name)}</div></td>
-    </tr>
-    <tr>
-        <th>{$lang->content}</th>
-        <td height="100" valign="top">{$source_comment->content}</td>
-    </tr>
-    </table>
-</div>
+<ul id="reply">
+    <li>
+        <div class="member_{$source_comment->member_srl} author">{htmlspecialchars($source_comment->nick_name)}</div>
+        <div class="date">
+            {zdate($source_comment->regdate, "Y.m.d H:i")}
+            <!--@if($grant->is_admin)-->
+                ({$source_comment->ipaddress})
+            <!--@end-->
+        </div>
+
+        <div class="replyContent">
+        {$source_comment->content}
+        </div>
+    </li>
+</ul>
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
@@ -56,14 +53,14 @@
 
             <div>{$comment_editor}</div>
 
-        </fieldset>
+            <div class="buttonWrite">
+                <!--@if($act&&$act!='dispBoardContent')-->
+                    <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" />
+                <!--@end-->
+                <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+            </div>
 
-        <div class="buttonWrite">
-            <!--@if($act&&$act!='dispBoardContent')-->
-                <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-            <!--@end-->
-            <a href="#" onclick="doCommentSubmit();return false;" class="buttonTypeA" accesskey="s"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_registration}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
-        </div>
+        </fieldset>
 
     </form>
 </div>

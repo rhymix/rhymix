@@ -2,13 +2,13 @@
 <ul id="reply">
 
     <!--@foreach($document->comment_list as $key => $val)-->
-        <a name="comment_{$key}"></a>
 
-        <!--@if($val->depth)-->
-        <li style="margin-left:{($val->depth-1)*1.3 + 1.7}em" class="replyIndent">
-        <!--@else-->
-        <li>
-        <!--@end-->
+        <li <!--@if($val->depth)-->class="reply"<!--@end-->>
+            <!--@if($val->depth)-->
+            <div style="margin-left:{($val->depth-1)*1.3}em" class="replyIndent">
+            <!--@end-->
+
+            <a name="comment_{$key}"></a>
 
             <div class="member_{$val->member_srl} author">{htmlspecialchars($val->nick_name)}</div>
 
@@ -39,6 +39,10 @@
                         <!--@end-->
                     </ul>
                 </div>
+            <!--@end-->
+
+            <!--@if($val->depth)-->
+            </div>
             <!--@end-->
         </li>
     <!--@end-->

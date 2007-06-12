@@ -74,12 +74,12 @@
             // 4. 자신의 쪽지함 보기 기능 추가
             $menu_str = Context::getLang('cmd_view_message_box');
             $menu_link = "location.href.setQuery('act','dispMemberMessages')";
-            $menu_list .= sprintf("\n%s,%s,move_url(%s,'sendMessage', true)", './modules/member/tpl/images/icon_message_box.gif', $menu_str, $menu_link);
+            $menu_list .= sprintf("\n%s,%s,move_url(%s,'sendMessage', true)", Context::getRequestUri().'/modules/member/tpl/images/icon_message_box.gif', $menu_str, $menu_link);
 
             // 5. 친구 목록 보기
             $menu_str = Context::getLang('cmd_view_friend');
             $menu_link = "location.href.setQuery('module','member').setQuery('act','dispMemberFriend')";
-            $menu_list .= sprintf("\n%s,%s,popopen(%s,'sendMessage', true)", './modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
+            $menu_list .= sprintf("\n%s,%s,popopen(%s,'sendMessage', true)", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
 
 
         // 아니라면 쪽지 발송, 친구 등록 추가
@@ -92,14 +92,14 @@
             if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
                 $menu_str = Context::getLang('cmd_send_message');
                 $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',$member_srl);
-                $menu_list .= sprintf("\n%s,%s,popopen('%s','sendMessage')", './modules/member/tpl/images/icon_write_message.gif', $menu_str, $menu_link);
+                $menu_list .= sprintf("\n%s,%s,popopen('%s','sendMessage')", Context::getRequestUri().'/modules/member/tpl/images/icon_write_message.gif', $menu_str, $menu_link);
             }
 
             // 5. 친구 등록 메뉴를 만듬 (이미 등록된 친구가 아닐 경우) 
             if(!$this->isAddedFriend($member_srl)) {
                 $menu_str = Context::getLang('cmd_add_friend');
                 $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',$member_srl);
-                $menu_list .= sprintf("\n%s,%s,popopen('%s','addFriend')", './modules/member/tpl/images/icon_add_friend.gif', $menu_str, $menu_link);
+                $menu_list .= sprintf("\n%s,%s,popopen('%s','addFriend')", Context::getRequestUri().'/modules/member/tpl/images/icon_add_friend.gif', $menu_str, $menu_link);
             }
         }
 

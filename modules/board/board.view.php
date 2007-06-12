@@ -71,7 +71,7 @@
                     Context::setBrowserTitle($browser_title);
 
                     // 댓글
-                    $this->setCommentEditor();
+                    $this->setCommentEditor(0, 100);
                 }
 
                 Context::set('document', $document);
@@ -220,7 +220,7 @@
             Context::set('source_comment',$source_comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor();
+            $this->setCommentEditor(0, 400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -241,21 +241,21 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+            $source_comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$source_comment) return $this->dispBoardMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
-            if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
+            if($comment_srl&&$source_comment&&!$source_comment->is_granted) return $this->setTemplateFile('input_password_form');
 
             // 필요한 정보들 세팅
             Context::set('document_srl',$document_srl);
             Context::set('comment_srl',$comment_srl);
-            Context::set('comment', $comment);
+            Context::set('source_comment', $source_comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl);
+            $this->setCommentEditor($comment_srl, 400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -322,11 +322,12 @@
          * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
          * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
          **/
-        function setCommentEditor($comment_srl=0) {
+        function setCommentEditor($comment_srl=0, $height = 100) {
             if(!$comment_srl) {
                 $comment_srl = getNextSequence();
                 Context::set('comment_srl', $comment_srl);
             }
+
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
             $option->allow_fileupload = $this->grant->comment_fileupload;
@@ -334,7 +335,7 @@
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = true;
-            $option->height = 100;
+            $option->height = $height;
             $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
             Context::set('comment_editor', $comment_editor);
         }

@@ -1,17 +1,21 @@
+<!-- 검색을 위한 xml filter import-->
 <!--%import("filter/search.xml")-->
+
+<!-- header.html include -->
 <!--#include("header.html")-->
 
-<!-- 게시물 내용 include -->
+<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
 <!--@if($document && $grant->view)-->
     <!--#include("./view_document.html")-->
 <!--@end-->
 
-<!-- 목록 -->
-    <table cellspacing="0" summary="" class="boardList">
+<!-- 목록 출력 -->
+<table cellspacing="0" summary="" class="boardList">
     <thead>
         <tr>
-            <th scope="col" class="num">&nbsp;</th>
+            <th scope="col" class="num">{$lang->no}</th>
             <!--@if($module_info->use_category == "Y")-->
+            <!-- 카테고리 사용시 카테고리 선택 표시 -->
             <th scope="col" class="category">
                 <form action="./" method="get">
                     <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
@@ -33,13 +37,27 @@
     </thead>
 
     <tbody>
+    <!--@if(!$document_list)-->
+    <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+        <tr class="bg0">
+            <td colspan="<!--@if($module_info->use_category=="Y")-->7<!--@else-->6<!--@end-->" class="title">
+                {$lang->no_documents}
+            </td>
+        </tr>
+    <!--@end-->
+
     <!--@foreach($document_list as $no => $val)-->
+
         <!--@if($val->is_notice=="Y")-->
+
         <tr class="notice">
             <td class="num">{$lang->notice}</td>
+
         <!--@else-->
+
         <tr class="bg{($no+1)%2+1}">
             <td class="num">{$no}</td>
+
         <!--@end-->
 
             <!--@if($module_info->use_category == "Y")-->
@@ -56,10 +74,8 @@
                 <!--@end-->
 
                 <!--@if($grant->view)-->
-                    <!-- 검색중일 경우는 새창으로 -->
                     <!--@if($search_target && $search_keyword)-->
                         <a href="#" onclick="winopen('{getUrl('','document_srl',$val->document_srl)}','viewDocument');return false;">{htmlspecialchars($val->title)}</a>
-                    <!-- 검색을 하지 않을 시에는 현재창으로 -->
                     <!--@else-->
                         <a href="{getUrl('','document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
                     <!--@end-->
@@ -68,11 +84,11 @@
                 <!--@end-->
                 
                 <!--@if($val->comment_count>0)-->
-                    <span class="replyAndTrackback" title="Replies">(<strong>{$val->comment_count}</strong>)</span>
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$val->comment_count}</strong></span>
                 <!--@end-->
 
                 <!--@if($val->trackback_count>0)-->
-                    <span class="replyAndTrackback" title="Trackbacks">[<strong>{$val->trackback_count}</strong>]</span>
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$val->trackback_count}</strong></span>
                 <!--@end-->
             </td>
             <td class="author"><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
@@ -82,7 +98,7 @@
         </tr>
     <!--@end-->
     </tbody>
-    </table>
+</table>
 
 <!--@if($grant->view)-->
 
@@ -100,24 +116,26 @@
         <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
     </div>
 
-    <!-- 글쓰기 버튼 -->
+    <!-- 글쓰기, 목록 버튼 -->
     <div class="buttonRight">
-        <!--@if($grant->write_document)-->
-            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconWrite.gif" width="12" height="11" class="icon" alt="" />{$lang->cmd_write}<img src="./images/blank.gif" alt="" class="rightCap" /></a> 
-        <!--@end-->
-    </div>
-
-    <div class="buttonLeft">
 
         <ul>
-            <li><a href="{getUrl('act','','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="{getUrl('act','','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconList.gif" alt="" width="12" height="13" class="icon" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
 
-            <!--@if($grant->is_admin)-->
-            <!-- 문서 관리 버튼 -->
-            <li><a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" />{$lang->cmd_manage_document}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <!--@if($grant->write_document)-->
+            <li><a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconWrite.gif" width="12" height="11" class="icon" alt="" />{$lang->cmd_write}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
             <!--@end-->
         </ul>
     </div>
+
+    <!--@if($grant->is_admin)-->
+    <!-- 문서 관리 버튼 -->
+    <div class="buttonLeft">
+        <ul>
+            <li><a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" />{$lang->cmd_manage_document}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+    <!--@end-->
 
     <!-- 검색 -->
     <form action="./" method="get" onsubmit="return procFilter(this, search)" class="boardSearch" id="fo_search">

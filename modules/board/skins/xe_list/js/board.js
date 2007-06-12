@@ -82,7 +82,7 @@ function completeReload(ret_obj) {
 /* 댓글쓰기 submit */
 function doCommentSubmit() {
     var fo_obj = xGetElementById('fo_comment_write');
-    procFilter(fo_obj, insert);
+    procFilter(fo_obj, insert_comment);
 }
 
 /* 댓글 글쓰기 작성후 */

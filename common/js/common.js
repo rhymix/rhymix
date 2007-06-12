@@ -428,7 +428,7 @@ function chkMemberMenu(evt) {
     if(!member_srl) return;
 
     // 현재 글의 mid, module를 구함
-    var mid = location.href.getQuery("mid");
+    var mid = current_url.getQuery("mid");
 
     // 서버에 메뉴를 요청
     var params = new Array();

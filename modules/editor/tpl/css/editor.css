@@ -1,5 +1,6 @@
 @charset "utf-8";
 
+.xeEditor { border-top:1px solid #eaeae7; } 
 .xeEditor .optionABC { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat -3px bottom;}
 .xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
 .xeEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}

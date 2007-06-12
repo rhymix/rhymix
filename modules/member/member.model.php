@@ -52,12 +52,12 @@
                 // 회원 정보 보기
                 $menu_str = Context::getLang('cmd_view_member_info');
                 $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
-                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', './modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
+                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
 
                 // 아이디로 검색
                 $menu_str = Context::getLang('cmd_view_own_document');
                 $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
-                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', './modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
+                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
             }
 
             // 다른 사람의 아이디를 클릭한 경우
@@ -66,14 +66,14 @@
                 // 메일 보내기 
                 $menu_str = Context::getLang('cmd_send_email');
                 $menu_url = sprintf('%s <%s>', $user_name, $email_address);
-                $menu_list[] = sprintf('%s,%s,sendMailTo(\'%s\')', './modules/member/tpl/images/icon_sendmail.gif', $menu_str, $menu_url);
+                $menu_list[] = sprintf('%s,%s,sendMailTo(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_sendmail.gif', $menu_str, $menu_url);
             }
 
             // 홈페이지 보기
-            if($member_info->homepage) $menu_list[] = sprintf("%s,%s,winopen('%s')", './modules/member/tpl/images/icon_homepage.gif',Context::getLang('homepage'), $member_info->homepage);
+            if($member_info->homepage) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_homepage.gif',Context::getLang('homepage'), $member_info->homepage);
 
             // 블로그 보기
-            if($member_info->blog) $menu_list[] = sprintf("%s,%s,winopen('%s')", './modules/member/tpl/images/icon_blog.gif', Context::getLang('blog'), $member_info->blog);
+            if($member_info->blog) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_blog.gif', Context::getLang('blog'), $member_info->blog);
 
             // 정보를 저장
             $this->add("menu_list", implode("\n",$menu_list));

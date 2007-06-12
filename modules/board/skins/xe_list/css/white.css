@@ -16,67 +16,20 @@ Jeong, Chan Myeong 070601~070630
 
 /* boardInformation */
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
-.articleNum { float:left; background:url(../images/white/iconArticle.gif) no-repeat .5em center; padding:.4em 0 0 2em;}
+.articleNum { float:left; background:url(../images/white/iconArticle.gif) no-repeat left top; padding:0 0 0 1.5em; margin:.5em 0 0 0;}
 .articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
+
 .accountNavigation { float:right; overflow:hidden;}
 .accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/white/line_1x10_e0e0e0.gif) no-repeat left .4em;}
 .accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666;}
 .accountNavigation li.rss { background:none; padding-top:.4em;}
 .accountNavigation li.join { background:none; padding-top:.4em;}
 .accountNavigation li.join a { display:block; background:url(../images/white/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.myInfo { background:none; padding-top:.4em;}
+.accountNavigation li.myInfo { padding-top:.4em;}
 .accountNavigation li.myInfo a { display:block; background:url(../images/white/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.admin { padding-top:.4em;}
+.accountNavigation li.admin { background:none; padding-top:.4em;}
 .accountNavigation li.admin a { display:block; background:url(../images/white/iconAdmin.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
-
-/* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
-.buttonTypeA:hover { text-decoration:none;}
-.buttonTypeA img { vertical-align:middle;}
-.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeA .icon { margin:0 .2em;}
-
-.buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
-.buttonTypeB:hover { text-decoration:none;}
-.buttonTypeB img { vertical-align:middle;}
-.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeB .icon { margin:0 .2em;}
-
-/* button of list page */
-.buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
-.buttonLeft { position:relative; float:left; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-left:.5em; overflow:visible;}
-.buttonLeft ul { float:left; }
-.buttonLeft ul li { float:left; margin-right:.3em;}
-
-.boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify .date { font-size:.8em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
-.boardRead .dateAndModify .date strong { font-size:1em; font-family:Tahoma;}
-.boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
-
-/* boardSearch */
-.boardSearch { text-align:center; clear:both; width:100%;}
-.boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
-.boardSearch fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
-.boardSearch * { vertical-align:middle;} 
-.boardSearch select { float:left;}
-.boardSearch input { float:left; margin:0 .3em; background:#fbfbfb;}
-.searchButton ul { overflow:hidden;}
-.searchButton li { float:left; margin-right:.3em;}
-
-/* pageNavigation */
-.pageNavigation { position:relative; display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .8em Tahoma; }
-.pageNavigation a { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
-.pageNavigation a:hover { background:#F7F7F7; text-decoration:none; }
-.pageNavigation a:visited { color:#999999;}
-.pageNavigation a.goToFirst,
-.pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
-.pageNavigation a.goToFirst img,
-.pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
-.pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
 /* boardList */
 .boardList { width:100%; position:relative; border:1px solid #e0e1db;}
@@ -117,8 +70,9 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}
 .boardList td input { _margin:-3px;}
-.boardList td .replyAndTrackback { font:.8em Tahoma; color:#ff6600; cursor:default; position:relative; top:-.2em;}
-.boardList td.title.bold .replyAndTrackback { font:.6em Tahoma; color:#ff6600; cursor:default; position:relative; top:.3em;}
+.boardList td .replyAndTrackback { font:.8em Tahoma; color:#ff6600; position:relative; top:-.2em;}
+.boardList td .replyAndTrackback img.trackback { margin-bottom:-.1em;}
+.boardList td.title.bold .replyAndTrackback { font:.6em Tahoma; color:#ff6600; position:relative; top:.3em;}
 .boardList td .replyAndTrackback strong { font:bold 1em Tahoma;}
 
 .boardList td .thumbnailSmall { margin:0 .3em 0 .3em;}
@@ -140,23 +94,82 @@ Jeong, Chan Myeong 070601~070630
 .boardList.thumbnail div.readAndRecommend .vr { color:#dddddd;}
 .boardList.thumbnail div.readAndRecommend strong.num { font:bold .8em Tahoma; color:#ff6600;}
 
-/* boardRead */
-.boardRead { position:relative; _width:100%; margin:1em 0 0 0; border:1px solid #e0e1db;}
-.boardRead .originalContent { padding:2em 1.2em 2em 1.2em;}
-.boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
-.boardRead .titleAndCategory { float:left;}
-.boardRead .titleAndCategory h4 { font-size:1.4em; display:inline; padding-left:.2em;}
-.boardRead .titleAndCategory .vr { font-size:.9em; margin:0 .3em; color:#c5c7c0;}
-.boardRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
+/* pageNavigation */
+.pageNavigation { display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .8em Tahoma; }
+.pageNavigation a { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+.pageNavigation a:hover { background:#F7F7F7; text-decoration:none; }
+.pageNavigation a:visited { color:#999999;}
+.pageNavigation a.goToFirst,
+.pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
+.pageNavigation a.goToFirst img,
+.pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
+.pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+
+/* buttonType */
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
+.buttonTypeA:hover { text-decoration:none;}
+.buttonTypeA img { vertical-align:middle;}
+.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
+.buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
+.buttonTypeA .icon { margin:0 .2em;}
+
+.buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
+.buttonTypeB:hover { text-decoration:none;}
+.buttonTypeB img { vertical-align:middle;}
+.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
+.buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
+.buttonTypeB .icon { margin:0 .2em;}
+
+/* button of list page */
+.buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
+.buttonRight  ul { float:left; }
+.buttonRight  ul li { float:left; margin-right:.3em;}
+.buttonLeft { position:relative; float:left; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-left:.5em; overflow:visible;}
+.buttonLeft ul { float:left; }
+.buttonLeft ul li { float:left; margin-right:.3em;}
+
 .boardRead .dateAndModify { float:right; white-space:nowrap;}
 .boardRead .dateAndModify .date { font-size:.8em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
 .boardRead .dateAndModify .date strong { font-size:1em; font-family:Tahoma;}
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
-.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em;}
+
+/* boardSearch */
+.boardSearch { text-align:center; clear:both; width:100%;}
+.boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
+.boardSearch fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
+.boardSearch * { vertical-align:middle;} 
+.boardSearch select { float:left;}
+.boardSearch input { float:left; margin:0 .3em; background:#fbfbfb;}
+.searchButton ul { overflow:hidden;}
+.searchButton li { float:left; margin-right:.3em;}
+
+
+/* boardRead */
+.boardRead { position:relative; _width:100%; margin:1em 0 0 0; border:1px solid #e0e1db;}
+.boardRead .originalContent { padding:2em 1.2em 2em 1.2em;}
+.boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
+
+.boardRead .titleAndCategory { float:left;}
+.boardRead .titleAndCategory h4 { font-size:1.4em; display:inline; padding-left:.2em;}
+.boardRead .titleAndCategory .vr { font-size:.9em; margin:0 .3em; color:#c5c7c0;}
+.boardRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
+
+.boardRead .dateAndModify { float:right; white-space:nowrap;}
+.boardRead .dateAndModify .num { font-size:.9em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
+.boardRead .dateAndModify .num strong { font-size:1em; font-family:Tahoma;}
+.boardRead .dateAndModify .ipaddress { font-size:.9em; font-family:Tahoma; color:#555555; margin-right:.5em; float:left; position:relative; top:.3em;}
+.boardRead .dateAndModify ul { display:inline;}
+.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
+
+.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:right;}
 .boardRead dl.uri dt { float:left; clear:left; font-size:.9em; margin-right:.3em; color:#999999;}
 .boardRead dl.uri dd { clear:right; font:.8em Tahoma; color:#c5c7c0;}
-.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em;}
+
+.boardRead .userInfo { float:left; white-space:nowrap;}
+.boardRead .userInfo .author { float:left; padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
+
+.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both;}
 .boardRead .readBody p { margin:1em 0; line-height:1.5em;}
 .boardRead .readBody .alignLeft { float:left; margin:0 1em 1em 0; }
 .boardRead .readBody .alignRight { float:right; margin:0 0 1em 1em; }
@@ -184,34 +197,37 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .replyAndTrackback a strong { color:#ff6600;}
 .boardRead .replyAndTrackback a#toggleReply { background:url(../images/white/buttonToggleReply.gif) no-repeat right top;}
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/white/buttonToggleReply.gif) no-repeat right -13px;}
+.boardRead .replyAndTrackback li.button { float:right; }
+.boardRead .replyAndTrackback li.button a { display:inline; padding:0; margin:0 1em 0 1em;}
 
-.boardRead #trackback { padding:.6em .6em; color:#666666;}
-.boardRead #trackback li { padding:.6em .8em .6em 1.6em; line-height:1.25em; }
-.boardRead #trackback p { display:inline; margin-bottom:1em;}
-.boardRead #trackback a { color:#666666; }
-.boardRead #trackback div  { clear:both; }
-.boardRead #trackback address { display:block; padding:0 .3em 0 0; }
-.boardRead #trackback address a { font-size:.9em; color:#3074a5; margin-right:.3em; float:left;}
-.boardRead #trackback address .date { font:.8em Tahoma; color:#cccccc; float:right;}
+#trackbacks { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em;}
+#trackbacks li { padding:.6em .8em .6em .6em; line-height:1.25em; border-bottom:1px dotted #EEEEEE;}
+#trackbacks p { display:inline; margin-bottom:1em;}
+#trackbacks a { color:#666666; }
+#trackbacks div  { clear:both; }
+#trackbacks address { display:block; padding:0 .3em 0 0; }
+#trackbacks address a { font-size:.9em; color:#3074a5; margin-right:.3em; float:left;}
+#trackbacks address .date { font:.8em Tahoma; color:#cccccc; float:right;}
 
-.boardRead #reply { padding:.6em .6em; color:#666666;}
-.boardRead #reply li { padding:.6em .8em .6em 1.6em; line-height:1.25em; clear:both;}
-.boardRead #reply p { display:inline; margin-bottom:1em;}
-.boardRead #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin-right:.3em;}
-.boardRead #reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
-.boardRead #reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
+#reply { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
+#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE;}
+#reply p { display:inline; margin-bottom:1em;}
+#reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin-right:.3em;}
+#reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+#reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
-.boardRead #reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
-.boardRead #reply .replyOption img { vertical-align:middle;}
+#reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
+#reply .replyOption img { vertical-align:middle;}
 
-.boardRead #reply .replyContent { clear:left; }
-.boardRead #reply .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .2em .9em;}
+#reply .replyContent { clear:left; }
+#reply .reply { background-color:#FAFAFA;}
+#reply .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
-.boardRead #reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
-.boardRead #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
-.boardRead #reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
-.boardRead #reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
-.boardRead #reply li .fileAttached li a:visited { color:#777777;}
+#reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
+#reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
+#reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
+#reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
+#reply li .fileAttached li a:visited { color:#777777;}
 
 /* boardEditor */
 .boardEditor { padding:.5em 0 1em 0; width:100%; overflow:hidden;}
@@ -232,7 +248,7 @@ Jeong, Chan Myeong 070601~070630
 /* boardWrite */
 .boardWrite { width:100%; position:relative;}
 .boardWrite .userNameAndPw { margin-bottom:-1px;}
-.boardWrite .boardEditor fieldset { width:auto; position:relative; border:1px solid #eaeae7; border-top:none;}
+.boardWrite .boardEditor fieldset { width:auto; position:relative;}
 .boardWrite div.title { border-bottom:1px solid #eff0ed; border-top:1px solid #eff0ed; padding:.5em 0; white-space:nowrap;}
 .boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:6em; white-space:nowrap;}
 .boardWrite div.title input#title { width:60%;}
@@ -249,4 +265,5 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
 .boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:8.5em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
-.boardWrite .buttonWrite { position:relative; float:left; left:50%; margin:1em 0 0 -2em; _padding-bottom:1em;}
+.boardWrite .buttonWrite { text-align:center; margin:.5em 0 1em 0; clear:both;}
+.boardWrite .buttonWrite input { border:1px solid #999999; background-color:#FFFFFF; color:#999999; height:1.5em; width:5em; _padding-top:.1em; cursor:pointer;}
