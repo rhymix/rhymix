@@ -147,7 +147,6 @@
 
             // 블로그의 코멘트는 ajax로 호출되기에 미리 css, js파일을 import
             Context::addJsFile('./modules/editor/tpl/js/editor.js');
-            Context::addJsFile('./modules/editor/tpl/js/uploader.js');
             Context::addCSSFile('./modules/editor/tpl/css/editor.css');
 
             $this->setTemplateFile('list');
@@ -360,7 +359,7 @@
                 Context::set('comment_srl', $comment_srl);
             }
             $oEditorModel = &getModel('editor');
-            $option->allow_fileupload = $this->grant->comment_fileupload;
+            $option->allow_fileupload = false;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
             $option->enable_component = true;
