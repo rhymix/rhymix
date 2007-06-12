@@ -195,7 +195,12 @@
             $query = sprintf("insert into %ssequence (seq) values (NULL)", $this->prefix);
             $this->_prepare($query);
             $result = $this->_execute();
-            return $this->handler->lastInsertId();
+            $sequence = $this->handler->lastInsertId();
+            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $this->_prepare($query);
+            $result = $this->_execute();
+
+            return $sequence;
         }
 
         /**

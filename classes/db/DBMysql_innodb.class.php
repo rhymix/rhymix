@@ -182,7 +182,11 @@
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
             $this->_query($query);
-            return mysql_insert_id();
+            $sequence = mysql_insert_id();
+            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $this->_query($query);
+
+            return $sequence;
         }
 
         /**

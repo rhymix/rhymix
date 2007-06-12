@@ -171,9 +171,13 @@
          * @brief 1씩 증가되는 sequence값을 return
          **/
         function getNextSequence() {
-            $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
+            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
             $this->_query($query);
-            return sqlite_last_insert_rowid($this->fd);
+            $sequence = sqlite_last_insert_rowid($this->fd);
+            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $this->_query($query);
+
+            return $sequence;
         }
 
         /**
