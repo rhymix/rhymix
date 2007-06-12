@@ -91,7 +91,7 @@
                     unset($document_srl);
                     Context::set('document_srl','',true);
 
-                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크
+                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅
                 } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
                     // 브라우저 타이틀
                     $browser_title = $this->module_info->browser_title.' - '.$document->title;
@@ -100,6 +100,9 @@
 
                 Context::set('document', $document);
             }
+
+            // 댓글
+            $this->setCommentEditor(0, 100);
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
             if($document_srl && !$page) {
@@ -251,7 +254,7 @@
             Context::set('source_comment',$source_comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor();
+            $this->setCommentEditor(0,400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -286,7 +289,7 @@
             Context::set('comment', $comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl);
+            $this->setCommentEditor($comment_srl,400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -353,18 +356,18 @@
          * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
          * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
          **/
-        function setCommentEditor($comment_srl=0) {
+        function setCommentEditor($comment_srl=0, $height = 100) {
             if(!$comment_srl) {
                 $comment_srl = getNextSequence();
                 Context::set('comment_srl', $comment_srl);
             }
             $oEditorModel = &getModel('editor');
-            $option->allow_fileupload = false;
+            $option->allow_fileupload = $this->grant->comment_fileupload;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = true;
-            $option->height = 400;
+            $option->height = $height;
             $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
             Context::set('comment_editor', $comment_editor);
         }

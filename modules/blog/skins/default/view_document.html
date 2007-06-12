@@ -64,26 +64,23 @@
 
 <!-- 댓글/ 엮인글 정보 출력 -->
 <div>
-    <a href="#" onclick="doDisplayComment('{$document->document_srl}');return false;">{$lang->comment} : {count($document->comment_list)}</a>, 
-    <a href="#" onclick="doDisplayTrackback('{$document->document_srl}');return false;">{$lang->trackback} : {count($document->trackback_list)}</a>
+    <a href="#comment_top_{$document->document_srl}">{$lang->comment} : {count($document->comment_list)}</a>, 
+    <a href="#trackback_{$document->document_srl}">{$lang->trackback} : {count($document->trackback_list)}</a>
 </div>
 
 <!-- 엮인글 목록 -->
-<a name="trackback_{$document->document}"></a>
+<a name="trackback_{$document->document_srl}"></a>
 
-<div id="trackback_{$document->document_srl}" style="display:none">
 <!-- 엮인글 파일 include -->
 <!--@if($document->allow_trackback=='Y')-->
         <!--#include("./trackback.html")-->
 <!--@end-->
-</div>
 
 <!-- 댓글 정보 출력 -->
 <a name="comment_top_{$document->document_srl}"></a>
 
-<div id="comment_{$document->document_srl}" style="display:none">
 <!-- 댓글 파일 include -->
 <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+    {@ $document_srl = $document->document_srl; }
     <!--#include("./comment.html")-->
 <!--@end-->
-</div>

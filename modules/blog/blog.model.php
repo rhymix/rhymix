@@ -1,4 +1,3 @@
-
 <?php
     /**
      * @class  blogModel
@@ -13,44 +12,6 @@
          * @brief 초기화
          **/
         function init() {
-        }
-
-        /**
-         * @brief 블로그의 코멘트 폼을 찾아서 return
-         **/
-        function getBlogCommentEditorForm() {
-            $document_srl = Context::get('document_srl');
-
-            $upload_target_srl = getNextSequence();
-
-            // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorModel = &getModel('editor');
-            $option->allow_fileupload = false;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = 100;
-            $comment_editor = $oEditorModel->getEditor($upload_target_srl, $option);
-
-            // 변수 설정 
-            Context::set('comment_editor', $comment_editor);
-            Context::set('document_srl', $document_srl);
-            Context::set('comment_srl', $upload_target_srl);
-
-            // template 가져옴
-            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
-
-            $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile($template_path, 'comment_form');
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
-            $tpl = preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $tpl);
-
-
-            // 결과 설정
-            $this->add('document_srl', $document_srl);
-            $this->add('upload_target_srl', $upload_target_srl);
-            $this->add('tpl', $tpl);
         }
 
         /**

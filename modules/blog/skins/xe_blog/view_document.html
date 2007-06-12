@@ -84,27 +84,24 @@
 
     <ul class="replyAndTrackback">
         <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
-            <li class="reply"><a href="#" onclick="doDisplayComment('{$document->document_srl}');return false;">{$lang->comment} <strong>{count($document->comment_list)}</strong></a></li>
+            <li class="reply"><a href="#trackback_{$document->document_srl}">{$lang->comment} <strong>{count($document->comment_list)}</strong></a></li>
         <!--@end-->
 
         <!--@if($document->allow_trackback=='Y')-->
-            <li class="trackback"><a href="#" onclick="doDisplayTrackback('{$document->document_srl}');return false;">{$lang->trackback} <strong>{count($document->trackback_list)}</strong></a></li>
+            <li class="trackback"><a href="#comment_top_{$document->document_srl}">{$lang->trackback} <strong>{count($document->trackback_list)}</strong></a></li>
         <!--@end-->
     </ul>
 </div>
 
 <!-- 엮인글 파일 include -->
-<a name="trackback_{$document->document}"></a>
-<div id="trackback_{$document->document_srl}" style="display:none">
+<a name="trackback_{$document->document_srl}"></a>
 <!--@if($document->allow_trackback=='Y')-->
     <!--#include("./trackback.html")-->
 <!--@end-->
-</div>
 
 <!-- 댓글 파일 include -->
 <a name="comment_top_{$document->document_srl}"></a>
-<div id="comment_{$document->document_srl}" style="display:none">
 <!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+    {@ $document_srl = $document->document_srl; }
     <!--#include("./comment.html")-->
 <!--@end-->
-</div>

@@ -17,6 +17,10 @@
             <title xml:lang="ko">파일 첨부</title>
             <title xml:lang="en">file upload</title>
         </grant>
+        <grant name="comment_fileupload" default="guest">
+            <title xml:lang="ko">댓글 파일 첨부</title>
+            <title xml:lang="en">comment file upload</title>
+        </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
             <title xml:lang="en">manager</title>
@@ -31,8 +35,6 @@
         <action name="dispBlogDeleteComment" type="view" />
         <action name="dispBlogDeleteTrackback" type="view" />
         <action name="dispBlogMessage" type="view" />
-
-        <action name="getBlogCommentEditorForm" type="model" />
 
         <action name="procBlogInsertDocument" type="controller" />
         <action name="procBlogDeleteDocument" type="controller" />
