@@ -265,5 +265,7 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
 .boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:8.5em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
-.boardWrite .buttonWrite { text-align:center; margin:.5em 0 1em 0; clear:both;}
-.boardWrite .buttonWrite input { border:1px solid #999999; background-color:#FFFFFF; color:#999999; height:1.5em; width:5em; _padding-top:.1em; cursor:pointer;}
+
+.buttonWrite ul { text-align:center; clear:both; display:block;}
+.buttonWrite li { margin-top:.5em; float:right; margin-right:.3em;}
+.buttonWrite input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; }
