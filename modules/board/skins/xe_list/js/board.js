@@ -17,12 +17,6 @@ function doAddCart(mid, obj) {
     exec_xml("board","procBoardAdminAddCart", params, null);
 }
 
-/* 글쓰기 submit */
-function doSubmit() {
-    var fo_obj = xGetElementById('fo_write');
-    procFilter(fo_obj, insert);
-}
-
 /* 글쓰기 작성후 */
 function completeDocumentInserted(ret_obj) {
     var error = ret_obj['error'];
@@ -77,12 +71,6 @@ function completeReload(ret_obj) {
     var message = ret_obj['message'];
 
     location.href = location.href;
-}
-
-/* 댓글쓰기 submit */
-function doCommentSubmit() {
-    var fo_obj = xGetElementById('fo_comment_write');
-    procFilter(fo_obj, insert_comment);
 }
 
 /* 댓글 글쓰기 작성후 */
