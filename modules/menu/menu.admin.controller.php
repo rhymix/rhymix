@@ -123,9 +123,9 @@
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
-            // url에 mid=? 있을 경우 기록 남김
-            if(substr($args->url,0,4)=='mid=') {
-                $mid = substr($args->url,4);
+            // url이 mid일 경우 기록 남김 
+            if(eregi('^([a-zA-Z0-9\_\-]+)$', $args->url)) {
+                $mid = $args->url;
 
                 $mid_args->menu_srl = $args->menu_srl;
                 $mid_args->mid = $mid;
@@ -379,7 +379,7 @@
 
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(%s&&in_array(Context::get("mid"),array(%s))?1:0),"list"=>array(%s)',
+                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"list"=>array(%s)',
                         $node->menu_item_srl, 
                         $group_check_code,
                         $name,

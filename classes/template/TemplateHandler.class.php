@@ -19,7 +19,7 @@
          * @brief TemplateHandler의 기생성된 객체를 return
          **/
         function &getInstance() {
-            if(__DEBUG__==3 && !defined('__STOP_DEBUG__')) {
+            if(__DEBUG__==3 ) {
                 if(!isset($GLOBALS['__TemplateHandlerCalled__'])) $GLOBALS['__TemplateHandlerCalled__']=1;
                 else $GLOBALS['__TemplateHandlerCalled__']++;
             }
@@ -35,7 +35,7 @@
          **/
         function compile($tpl_path, $tpl_filename, $tpl_file = '') {
             // 디버그를 위한 컴파일 시작 시간 저장
-            if(__DEBUG__==3 && !defined('__STOP_DEBUG__') ) $start = getMicroTime();
+            if(__DEBUG__==3 ) $start = getMicroTime();
 
             // 변수 체크
             $tpl_path = ereg_replace('(\/+)$', '', $tpl_path).'/';
@@ -59,7 +59,7 @@
             // Context와 compiled_tpl_file로 컨텐츠 생성
             $output = $this->_fetch($compiled_tpl_file, $buff);
 
-            if(__DEBUG__==3 && !defined('__STOP_DEBUG__')) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
+            if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
 
             return $output; 
         }

@@ -38,3 +38,10 @@ div.editor_autosaved_message { font-size:9pt; font-weight:bold; color:#888888; d
 .xeEditor .fileAttach .fileListArea .info strong { color:#ff6600; font:bold 1em Tahoma;}
 .xeEditor .fileAttach .fileUploadControl { float:left;}
 .xeEditor .fileAttach .fileUploadControl li { float:left; clear:both; margin-bottom:.3em;}
+
+.xeEditor .fileAttach .fileUploadControl .uploaderButton { display:block; cursor:pointer; background:url(../images/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
+.xeEditor .fileAttach .fileUploadControl .uploaderButton:hover { text-decoration:none;}
+.xeEditor .fileAttach .fileUploadControl .uploaderButton img { vertical-align:middle;}
+.xeEditor .fileAttach .fileUploadControl .uploaderButton .leftCap { width:2px; height:21px; background:url(../images/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
+.xeEditor .fileAttach .fileUploadControl .uploaderButton .rightCap { width:2px; height:21px; background:url(../images/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
+.xeEditor .fileAttach .fileUploadControl .uploaderButton .icon { margin:0 .2em;}

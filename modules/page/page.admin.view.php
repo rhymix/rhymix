@@ -136,6 +136,12 @@
             $editor = $oEditorModel->getEditor($module_srl, $option);
             Context::set('editor', $editor);
 
+            // 레이아웃 목록을 구해옴
+            $oLayoutMode = &getModel('layout');
+            $layout_list = $oLayoutMode->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_insert');
         }

@@ -55,9 +55,8 @@
             if(count($menus)) {
                 foreach($menus as $menu_id => $val) {
                     $menu_srl = Context::get($menu_id);
-                    if($menu_srl) {
-                        $menu_srl_list[] = $menu_srl;
-                    }
+                    if(!$menu_srl) continue;
+                    $menu_srl_list[] = $menu_srl;
                 }
 
                 // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
