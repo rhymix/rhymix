@@ -113,9 +113,7 @@
             } else {
                 return $this->stop('invalid_authorization');
             }
-
         }
-
 
         /**
          * @brief 로그아웃
