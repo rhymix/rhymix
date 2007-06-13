@@ -800,7 +800,6 @@
             $buff = $matches[0];
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
             $buff = str_replace("&","&amp;",$buff);
-            debugPrint($buff);
 
             // 플러그인에서 생성된 코드 (img, div태그내에 editor_plugin코드 존재)의 parameter를 추출
             $oXmlParser = new XmlParser();
