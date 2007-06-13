@@ -94,7 +94,8 @@
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
+            $args->sort_index = Context::get('sort_index');
+            $args->order_type = Context::get('order_type');
 
             // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
             $output = $oDocumentModel->getDocumentList($args);

@@ -121,7 +121,8 @@
          **/
         function getDocumentList($obj, $get_extra_info = false) {
 
-            if(!in_array($obj->sort_index, array('list_order', 'update_order'))) $obj->sort_index = 'list_order';
+            if(!in_array($obj->sort_index, array('list_order','regdate','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; ///< 소팅 값
+            if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
             if($obj->mid) {
@@ -137,6 +138,7 @@
             $args->category_srl = $obj->category_srl?$obj->category_srl:'';
 
             $args->sort_index = $obj->sort_index;
+            $args->order_type = $obj->order_type;
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;

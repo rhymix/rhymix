@@ -29,10 +29,20 @@
             <!--@end-->
             <th scope="col" class="title">{$lang->title}</th>
             <th class="author" scope="col">{$lang->writer}</th>
-            <th class="reading" scope="col"><a href="#">{$lang->readed_count}<img src="./images/{$module_info->colorset}/buttonDescending.gif" alt="" width="5" height="3" class="sort" /></a></th>
 
-            <th class="recommend" scope="col"><a href="#">{$lang->voted_count}<img src="./images/{$module_info->colorset}/buttonDescending.gif" alt="" width="5" height="3" class="sort" /></a></th>
-            <th scope="col" class="date">{$lang->date}</th>
+            <!--@if($order_type == "desc")-->
+                {@ $order_icon = "buttonDescending.gif" }
+                {@ $order_type = "asc"; }
+            <!--@else-->
+                {@ $order_icon = "buttonAscending.gif" }
+                {@ $order_type = "desc"; }
+            <!--@end-->
+
+            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+
+            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+
+            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
         </tr>
     </thead>
 
@@ -120,7 +130,7 @@
     <div class="buttonRight">
 
         <ul>
-            <li><a href="{getUrl('act','','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconList.gif" alt="" width="12" height="13" class="icon" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconList.gif" alt="" width="12" height="13" class="icon" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
 
             <!--@if($grant->write_document)-->
             <li><a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconWrite.gif" width="12" height="11" class="icon" alt="" />{$lang->cmd_write}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>

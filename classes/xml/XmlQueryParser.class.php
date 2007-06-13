@@ -224,7 +224,7 @@
             if($output->order) {
                 $buff .= '$output->order = array(';
                 foreach($output->order as $key => $val) {
-                    $buff .= sprintf('array($args->%s?$args->%s:"%s","%s"),', $val->var, $val->var, $val->default, $val->order);
+                    $buff .= sprintf('array($args->%s?$args->%s:"%s",in_array($args->%s,array("asc","desc"))?$args->%s:"asc"),', $val->var, $val->var, $val->default, $val->order, $val->order);
                 }
                 $buff .= ');'."\n";
             }
