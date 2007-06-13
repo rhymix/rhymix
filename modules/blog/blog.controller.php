@@ -120,7 +120,7 @@
             // comment_srl이 있으면 수정으로
             } else {
                 $obj->parent_srl = $comment->parent_srl;
-                $output = $oCommentController->updateComment($obj);
+                $output = $oCommentController->updateComment($obj, $this->grant->manager);
                 $comment_srl = $obj->comment_srl;
             }
 
