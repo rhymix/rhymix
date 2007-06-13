@@ -780,6 +780,9 @@
             // <br> 코드 변환
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
+            // <P> => <p> 코드 변환
+            $content = preg_replace('/<(\/){0,1}P([^>]*)>/','<$1p$2>', $content);
+
             // <img ...> 코드를 <img ... /> 코드로 변환
             $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
 
