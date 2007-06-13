@@ -41,7 +41,6 @@ body {
     margin-top:10px;
     position:absolute;
     left:10px;
-    z-index:10;
 }
 
 /* 좌측 2차 메뉴 */
@@ -63,10 +62,7 @@ body {
 
 /* 컨텐츠 */
 .layout_content {
-    position:absolute;
-    left:0px;
     padding:10px 10px 0px 240px;
-    z-index:1;
 }
 
 #content {
