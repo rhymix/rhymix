@@ -475,7 +475,7 @@
         }
 
         /**
-         * @brief 회원 가입 or 정보 수정
+         * @brief 회원 가입
          **/
         function procMemberInsert() {
             $oModuleModel = &getModel('module');
@@ -516,7 +516,7 @@
         }
 
         /**
-         * @brief 회원 가입 or 정보 수정
+         * @brief 회원 정보 수정
          **/
         function procMemberModifyInfo() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -550,6 +550,8 @@
             // 서명 저장
             $signature = Context::get('signature');
             $this->putSignature($args->member_srl, $signature);
+
+            $this->setSessionInfo($args);
 
             // 결과 리턴
             $this->add('member_srl', $args->member_srl);
@@ -776,33 +778,47 @@
             // denied_date가 현 시간보다 적으면 알림
             if($member_info->limit_date && $member_info->limit_date >= date("YmdHis")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d H:i")));
 
-            // 로그인 처리
-            $_SESSION['is_logged'] = true;
-            $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-
-            unset($member_info->password);
-
-            // 사용자 그룹 설정
-            $group_srl_list = array_keys($member_info->group_list);
-
-            // 관리자 그룹일 경우 관리자로 지정
-            $admin_group = $oMemberModel->getAdminGroup();
-            if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $member_info->is_admin = 'Y';
-            
-            // 세션에 로그인 사용자 정보 저장
-            $_SESSION['member_srl'] = $member_info->member_srl;
-            $_SESSION['logged_info'] = $member_info;
-            $_SESSION['group_srls'] = $group_srl_list;
-            $_SESSION['is_admin'] = $member_info->is_admin=='Y'?true:false;
-
-            Context::set('is_logged', true);
-            Context::set('logged_info', $member_info);
-
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
 
+            $this->setSessionInfo($member_info);
+
             return $output;
+        }
+
+        /**
+         * @brief 세션 정보 갱싱 또는 생성
+         **/
+        function setSessionInfo($member_info) {
+            if(!$member_info->member_srl) return;
+
+            // 로그인 처리
+            $_SESSION['is_logged'] = true;
+            $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION['member_srl'] = $member_info->member_srl;
+            $_SESSION['is_admin'] = false;
+
+            unset($member_info->password);
+
+            // 사용자 그룹 설정
+            if($member_info->group_list) {
+                $group_srl_list = array_keys($member_info->group_list);
+                $_SESSION['group_srls'] = $group_srl_list;
+
+                // 관리자 그룹일 경우 관리자로 지정
+                $oMemberModel = &getModel('member');
+                $admin_group = $oMemberModel->getAdminGroup();
+                if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = true;
+            }
+            
+            // 세션에 로그인 사용자 정보 저장
+            foreach($member_info as $key => $val) {
+                $_SESSION['logged_info']->{$key} = $val;
+            }
+
+            Context::set('is_logged', true);
+            Context::set('logged_info', $member_info);
         }
 
 
@@ -955,6 +971,10 @@
             }
 
             $oDB->commit();
+
+            // 세션에 저장
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            $_SESSION['logged_info'] = $member_info;
 
             $output->add('member_srl', $args->member_srl);
             return $output;

@@ -248,7 +248,7 @@
             if(!$source_comment) return $this->dispBlogMessage('msg_invalid_request');
 
             // 필요한 정보들 세팅
-            Context::set('document_srl',$document_srl);
+            Context::set('document_srl',$source_comment->document_srl);
             Context::set('parent_srl',$parent_srl);
             Context::set('comment_srl',NULL);
             Context::set('source_comment',$source_comment);
