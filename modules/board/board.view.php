@@ -241,18 +241,18 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $source_comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+            $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$source_comment) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
-            if($comment_srl&&$source_comment&&!$source_comment->is_granted) return $this->setTemplateFile('input_password_form');
+            if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
 
             // 필요한 정보들 세팅
             Context::set('document_srl',$document_srl);
             Context::set('comment_srl',$comment_srl);
-            Context::set('source_comment', $source_comment);
+            Context::set('comment', $comment);
 
             // 댓글 에디터 세팅 
             $this->setCommentEditor($comment_srl, 400);
