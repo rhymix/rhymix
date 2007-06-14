@@ -58,23 +58,24 @@
             if(count($document_list)) {
                 $idx = 0;
                 foreach($document_list as $key => $item) {
-                    $year = substr($item->regdate,0,4);
-                    $month = substr($item->regdate,4,2);
-                    $day = substr($item->regdate,6,2);
-                    $hour = substr($item->regdate,8,2);
-                    $min = substr($item->regdate,10,2);
-                    $sec = substr($item->regdate,12,2);
+                    $year = substr($item->get('regdate'),0,4);
+                    $month = substr($item->get('regdate'),4,2);
+                    $day = substr($item->get('regdate'),6,2);
+                    $hour = substr($item->get('regdate'),8,2);
+                    $min = substr($item->get('regdate'),10,2);
+                    $sec = substr($item->get('regdate'),12,2);
                     $time = mktime($hour,$min,$sec,$month,$day,$year);
 
-                    $item->author = $item->user_name;
-                    $item->link = sprintf("%s?document_srl=%d", Context::getRequestUri(), $item->document_srl);
+                    $item->author = $item->getNickName();
+                    $item->link = $item->getPermanentUrl();
+                    $item->title = $item->getTitleText();
 
                     // 전문 공개일 경우 
                     if($module_info->open_rss=='Y') {
-                        $item->description = $item->content;
+                        $item->description = $item->getContentText();
                     // 요약 공개일 경우
                     } else {
-                        $item->description = cut_str(strip_tags($item->content),100,'...');
+                        $item->description = cut_str(strip_tags($item->getContentText()),100,'...');
                     }
                     $item->date = gmdate("D, d M Y H:i:s", $time);
                     $content[$idx++] = $item;
