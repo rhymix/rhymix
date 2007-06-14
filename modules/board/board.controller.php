@@ -29,11 +29,11 @@
             $oDocumentController = &getController('document');
 
             // 이미 존재하는 글인지 체크
-            $document = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 
             // 이미 존재하는 경우 수정
-            if($document->document_srl == $obj->document_srl) {
-                $output = $oDocumentController->updateDocument($document, $obj);
+            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+                $output = $oDocumentController->updateDocument($oDocument, $obj);
                 $msg_code = 'success_updated';
 
             // 그렇지 않으면 신규 등록
