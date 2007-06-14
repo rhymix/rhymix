@@ -82,6 +82,9 @@
             // 구해진 클래스의 객체 생성후 isSupported method를 통해 지원 여부를 판단
             for($i=0;$i<count($supported_list);$i++) {
                 $db_type = $supported_list[$i];
+
+                if(version_compare(phpversion(), '5.0') < 0 && eregi('pdo',$db_type)) continue;
+
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
                 $class_file = sprintf("./classes/db/%s.class.php", $class_name);
                 if(!file_exists($class_file)) continue;

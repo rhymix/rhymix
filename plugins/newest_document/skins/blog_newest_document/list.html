@@ -14,11 +14,11 @@
         <!--@end-->
 
         <div class="document_box">
-            <!--@foreach($plugin_info->document_list as $val)-->
+            <!--@foreach($plugin_info->document_list as $oDocument)-->
             <div class="document">
-                <a href="{getUrl('','document_srl',$val->document_srl)}#{$val->comment_count}">{htmlspecialchars(cut_str($val->title,20))}</a>
-                <!--@if($val->comment_count)-->
-                &nbsp;<span class="comment"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_top_{$val->document_srl}">*{$val->comment_count}</a></span>
+                <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a>
+                <!--@if($oDocument->getCommentCount())-->
+                &nbsp;<span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment_top_{$oDocument->document_srl}">*{$oDocument->getCommentCount()}</a></span>
                 <!--@end-->
             </div>
             <!--@end-->

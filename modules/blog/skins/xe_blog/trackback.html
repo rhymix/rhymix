@@ -1,9 +1,9 @@
 <!-- 엮인글 목록 -->
 
-<!--@if($document->trackback_list)-->
+<!--@if($oDocument->getTrackbackCount())-->
 <ul id="trackbacks">
 
-    <!--@foreach($document->trackback_list as $key => $val)-->
+    <!--@foreach($oDocument->getTrackbacks as $key => $val)-->
     <li>
         <a name="trackback_{$val->trackback_srl}"></a>
         <address>

@@ -63,7 +63,10 @@
          * @brief 추가된 변수의 key, value들을 추가
          **/
         function adds($object) {
-            if( (is_object($object) && count(array_keys($object))) || (is_array($object) && count($object))) {
+            if(is_object($object)) {
+                $vars = get_object_vars($object);
+                foreach($vars as $key => $val) $this->add($key, $val);
+            } elseif(is_array($object)) {
                 foreach($object as $key => $val) $this->add($key, $val);
             }
         }

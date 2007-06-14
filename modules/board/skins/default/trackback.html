@@ -1,12 +1,12 @@
 <!-- 엮인글 정보 출력 -->
 <div>
-    {$lang->trackback} : {count($document->trackback_list)}
+    {$lang->trackback} : {$oDocument->getTrackbackCount()}
 </div>
 
 <!-- 엮인글 목록 -->
-<!--@if($document->trackback_list)-->
+<!--@if($oDocument->getTrackbackCount())-->
 <div>
-    <!--@foreach($document->trackback_list as $key => $val)-->
+    <!--@foreach($oDocument->getTrackbacks as $key => $val)-->
     <a name="trackback_{$val->trackback_srl}"></a>
 
     <div style="margin-left:{$val->depth*15}px" >

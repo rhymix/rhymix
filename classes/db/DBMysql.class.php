@@ -47,7 +47,8 @@
          * @brief 설치 가능 여부를 return
          **/
         function isSupported() {
-            if(!function_exists('mysql_connect') || mysql_get_client_info() < "4.1.00") return false;
+            //if(!function_exists('mysql_connect') || mysql_get_client_info() < "4.1.00") return false;
+            if(!function_exists('mysql_connect')) return false;
             return true;
         }
 

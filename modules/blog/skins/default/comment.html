@@ -1,6 +1,8 @@
-    <!--@if($document->comment_list)-->
+<!--%import("filter/insert_comment.xml")-->
 
-        <!--@foreach($document->comment_list as $key => $val)-->
+<!--@if($oDocument->getCommentCount())-->
+
+    <!--@foreach($oDocument->getComments() as $key => $val)-->
         <a name="comment_{$key}"></a>
         <div style="margin-left:{$val->depth*15}px" >
             <table border="1" width="100%">
@@ -56,6 +58,6 @@
     <!--@end-->
 
     <!-- 댓글 입력 폼 -->
-    <!--@if($grant->write_comment && $document->lock_comment == 'N')-->
+    <!--@if($grant->write_comment && !$oDocument->isLocked())-->
         <!--#include("./comment_form.html")-->
     <!--@end-->

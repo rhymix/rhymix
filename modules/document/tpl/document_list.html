@@ -24,26 +24,26 @@
             <th>{$lang->date}</th>
         </tr>
 
-        <!--@foreach($document_list as $no => $val)-->
+        <!--@foreach($document_list as $no => $oDocument)-->
         <tr>
             <td>{$no}</td>
-            <td><input type="checkbox" name="cart" value="{$val->document_srl}" /></td>
-            <td><a href="#" onclick="window.open('./?mid={$module_list[$val->module_srl]->mid}');return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a></td>
+            <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
+            <td><a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
             <td>
-                <a href="#" onclick="window.open('./?document_srl={$val->document_srl}');return false">{htmlspecialchars($val->title)}</a>
+                <a href="#" onclick="window.open('./?document_srl={$oDocument->document_srl}');return false">{$oDocument->getTitleText()}</a>
 
-                <!--@if($val->comment_count>0)-->
-                    [{$val->comment_count}]
+                <!--@if($oDocument->getCommentCount())-->
+                    [{$oDocument->getCommentCount()}]
                 <!--@end-->
 
-                <!--@if($val->trackback_count>0)-->
-                    [{$val->trackback_count}]
+                <!--@if($oDocument->getTrackbackCount())-->
+                    [{$oDocument->getTrackbackCount()}]
                 <!--@end-->
             </td>
-            <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->user_name)}</div></td>
-            <td>{$val->readed_count}</td>
-            <td>{$val->voted_count}</td>
-            <td>{zdate($val->regdate,"Y-m-d")}</td>
+            <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getUserName()}</div></td>
+            <td>{$oDocument->get('readed_count')}</td>
+            <td>{$oDocument->get('voted_count')}</td>
+            <td>{$oDocument->getRegdate("Y-m-d")}</td>
         </tr>
         <!--@end-->
 

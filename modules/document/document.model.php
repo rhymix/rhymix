@@ -23,71 +23,17 @@
         /**
          * @brief 문서 가져오기
          **/
-        function getDocument($document_srl, $is_admin=false, $get_extra_info=false) {
-            // DB에서 가져옴
-            $args->document_srl = $document_srl;
-            $output = executeQuery('document.getDocument', $args);
-            $document = $output->data;
-            if(!$document) return;
+        function getDocument($document_srl, $is_admin = false) {
+            $oDocument = new documentItem($document_srl);
+            if($is_admin) $oDocument->setGrant();
 
-            // 이 문서에 대한 권한이 있는지 확인
-            if($this->isGranted($document->document_srl) || $is_admin) {
-                $document->is_granted = true;
-            } elseif($document->member_srl) {
-                $oMemberModel = &getModel('member');
-                $member_srl = $oMemberModel->getLoggedMemberSrl();
-                if($member_srl && $member_srl ==$document->member_srl) $document->is_granted = true;
-            } 
-
-            // 비밀글이고 권한이 없을 경우 제목과 내용을 숨김
-            if($document->is_secret=='Y' && !$document->is_granted) {
-                $document->title =  $document->content = Context::getLang('msg_is_secret');
-            }
-            
-            // 확장 정보(코멘트나 기타 등등) 플래그가 false이면 기본 문서 정보만 return
-            if(!$get_extra_info) return $document;
-
-            // document controller 객체 생성
-            $oDocumentController = &getController('document');
-
-            // 조회수 업데이트
-            if($buff = $oDocumentController->updateReadedCount($document)) $document->readed_count++;
-
-            // 댓글 가져오기
-            if($document->comment_count && $document->allow_comment == 'Y') {
-                $oCommentModel = &getModel('comment');
-                $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
-            }
-
-            // 트랙백 가져오기
-            if($document->trackback_count && $document->allow_trackback == 'Y') {
-                $oTrackbackModel = &getModel('trackback');
-                $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
-            }
-
-            // 첨부파일 가져오기
-            if($document->uploaded_count) {
-                $oFileModel = &getModel('file');
-                $file_list = $oFileModel->getFiles($document_srl, $is_admin);
-                $document->uploaded_list = $file_list;
-            }
-
-            // 태그 정리
-            if($document->tags) {
-                $tag_list = explode(',',$document->tags);
-                $tag_count = count($tag_list);
-                for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
-            }
-
-            $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);
-            
-            return $document;
-        }
+            return $oDocument;
+       }
 
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
          **/
-        function getDocuments($document_srl_list, $is_admin=false) {
+        function getDocuments($document_srl_list, $is_admin = false) {
             if(is_array($document_srl_list)) $document_srls = implode(',',$document_srl_list);
 
             // DB에서 가져옴
@@ -97,21 +43,17 @@
             if(!$document_list) return;
             if(!is_array($document_list)) $document_list = array($document_list);
 
-            // 권한 체크
-            $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getLoggedMemberSrl();
-
             $document_count = count($document_list);
             for($i=0;$i<$document_count;$i++) {
-                $document = $document_list[$i];
-                $is_granted = false;
+                $document_srl = $attribute->document_srl;
+                $attribute = $document_list[$i];
 
-                if($this->isGranted($document->document_srl) || $is_admin) {
-                    $is_granted = true;
-                } elseif($member_srl && $member_srl == $document->member_srl) {
-                    $is_granted = true;
-                } 
-                $document_list[$i]->is_granted = $is_granted;
+                $oDocument = null;
+                $oDocument = new documentItem();
+                $oDocument->setAttribute($attribute);
+                if($is_admin) $oDocument->setGrant();
+
+                $document_list[$document_srl] = $oDocument;
             }
             return $document_list;
         }
@@ -119,9 +61,9 @@
         /**
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
-        function getDocumentList($obj, $get_extra_info = false) {
-
-            if(!in_array($obj->sort_index, array('list_order','regdate','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; ///< 소팅 값
+        function getDocumentList($obj) {
+            // 정렬 대상과 순서 체크 
+            if(!in_array($obj->sort_index, array('list_order','regdate','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; 
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
@@ -135,8 +77,8 @@
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
 
+            // 변수 체크
             $args->category_srl = $obj->category_srl?$obj->category_srl:'';
-
             $args->sort_index = $obj->sort_index;
             $args->order_type = $obj->order_type;
             $args->page = $obj->page?$obj->page:1;
@@ -232,55 +174,15 @@
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
 
-            // 권한 체크
-            $oMemberModel = &getModel('member');
-            $member_srl = $oMemberModel->getLoggedMemberSrl();
+            foreach($output->data as $key => $attribute) {
+                $document_srl = $attribute->document_srl;
 
-            // document controller 객체 생성
-            $oDocumentController = &getController('document');
+                $oDocument = null;
+                $oDocument = new documentItem();
+                $oDocument->setAttribute($attribute);
+                if($is_admin) $oDocument->setGrant();
 
-            foreach($output->data as $key => $document) {
-                // 권한 부여
-                $is_granted = false;
-
-                if($this->isGranted($document->document_srl)) $is_granted = true;
-                elseif($member_srl && $member_srl == $document->member_srl) $is_granted = true;
-
-                $document->is_granted = $is_granted;
-
-                $document_srl = $document->document_srl;
-
-                if($get_extra_info) {
-                    // 댓글 가져오기
-                    if($document->comment_count && $document->allow_comment == 'Y') {
-                        $oCommentModel = &getModel('comment');
-                        $document->comment_list = $oCommentModel->getCommentList($document_srl, $is_admin);
-                    }
-
-                    // 트랙백 가져오기
-                    if($document->trackback_count && $document->allow_trackback == 'Y') {
-                        $oTrackbackModel = &getModel('trackback');
-                        $document->trackback_list = $oTrackbackModel->getTrackbackList($document_srl, $is_admin);
-                    }
-
-                    // 첨부파일 가져오기
-                    if($document->uploaded_count) {
-                        $oFileModel = &getModel('file');
-                        $file_list = $oFileModel->getFiles($document_srl, $is_admin);
-                        $document->uploaded_list = $file_list;
-                    }
-
-                    // 태그 정리
-                    if($document->tags) {
-                        $tag_list = explode(',',$document->tags);
-                        $tag_count = count($tag_list);
-                        for($i=0;$i<$tag_count;$i++) if(trim($tag_list[$i])) $document->tag_list[] = trim($tag_list[$i]);
-                    }
-                }
-
-                $document->content = sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $document_srl, $document->member_srl, $document->content, $document_srl, $document->member_srl);
-
-                $output->data[$key] = $document;
+                $output->data[$key] = $oDocument;
             
             }
             return $output;

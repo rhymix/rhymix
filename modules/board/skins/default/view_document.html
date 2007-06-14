@@ -3,7 +3,7 @@
 <!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
 <form id="fo_document_info" action="./" method="get">
     <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
 </form>
 
 <!-- 글 내용 보여주기 -->
@@ -12,72 +12,69 @@
     <col width="120" />
     <col width="*" />
 
-    <!--@if($category_list && $document->category_srl)-->
+    <!--@if($category_list && $oDocument->document->category_srl)-->
     <tr>  
         <th>{$lang->category}</th>
-        <td>{$category_list[$document->category_srl]->title}</td>
+        <td>{$category_list[$oDocument->get('category_srl')]->title}</td>
     </tr>
     <!--@end-->
 
     <tr>
         <th>{$lang->title}</th>
-        <td>{htmlspecialchars($document->title)}</td>
+        <td>{$oDocument->getTitleText()}</td>
     </tr>
-    <!--@if($document->homepage)-->
-    <tr>
-        <th>{$lang->homepage}</th>
-        <td><a href="{$document->homepage}" onclick="winopen('{$document->homepage}'); return false;">{htmlspecialchars($document->homepage)}</a></td>
-    </tr>
-    <!--@end-->
     <tr>
         <th>{$lang->date}</th>
-        <td>{zdate($document->regdate,"Y-m-d H:i:s")}</td>
+        <td>{$oDocument->getRegdate('Y-m-d H:i:s')}</td>
     </tr>
     <tr>
         <th>{$lang->writer}</th>
-        <td><div class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</div></td>
+        <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
     </tr>
     <tr>
         <th>{$lang->readed_count}</th>
-        <td>{$document->readed_count}</td>
+        <td>{$oDocument->get('readed_count')}</td>
     </tr>
     <tr>
         <th>{$lang->voted_count}</th>
-        <td>{$document->voted_count}</td>
+        <td>{$oDocument->get('voted_count')}</td>
     </tr>
     <tr>
         <th>{$lang->content}</th>
-        <td height="100" valign="top">{$document->content}</td>
+        <td height="100" valign="top">{$oDocument->getContent()}</td>
     </tr>
     <tr>
         <th>{$lang->document_url}</th>
-        <td>{getUrl('','document_srl',$document->document_srl)}</td>
+        <td>{$oDocument->getPermanentUrl()}</td>
     </tr>
 
-    <!--@if($document->allow_trackback=='Y')-->
+    <!--@if($oDocument->allowTrackback())-->
     <tr>
         <th>{$lang->trackback_url}</th>
-        <td>{getUrl('','document_srl',$document->document_srl,'act','trackback')}</td>
+        <td>{$oDocument->getTrackbackUrl()}</td>
     </tr>
     <!--@end-->
 
-    <!--@if($document->tag_list)-->
+    {@ $tag_list = $oDocument->get('tag_list') }
+    <!--@if(count($tag_list))-->
     <tr>
         <th>{$lang->tag}</th>
         <td>
-            <!--@foreach($document->tag_list as $val)-->
-                <a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}">{htmlspecialchars($val)}</a>
+            <!--@for($i=0;$i<count($tag_list);$i++)-->
+                {@ $tag = $tag_list[$i]; }
+                <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
             <!--@end-->
         </td>
     </tr>
     <!--@end-->
 
-    <!--@if($document->uploaded_count && $document->uploaded_list)-->
+    <!--@if($oDocument->hasUploadedFiles())-->
     <tr>
         <th>{$lang->uploaded_file}</th>
         <td>
-            <!--@foreach($document->uploaded_list as $key => $file)-->
-                <div><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</div>
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
+            <!--@foreach($uploaded_list as $key => $file)-->
+                <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
             <!--@end-->
         </td>
     </tr>
@@ -85,19 +82,19 @@
 
     <tr>
         <th>ipaddress</th>
-        <td>{$document->ipaddress}</td>
+        <td>{$oDocument->get('ipaddress')}</td>
     </tr>
     <tr>
         <td colspan="2">
-            <!--@if($document->allow_comment=='Y')-->
+            <!--@if($oDocument->allowComment())-->
                 {$lang->allow_comment}
             <!--@end-->
 
-            <!--@if($document->lock_comment=='Y')-->
+            <!--@if($oDocument->isLocked())-->
                 {$lang->lock_comment}
             <!--@end-->
 
-            <!--@if($document->allow_trackback=='Y')-->
+            <!--@if($oDocument->allowTrackback())-->
                 {$lang->allow_trackback}
             <!--@end-->
         </td>
@@ -110,7 +107,7 @@
     <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
     <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
 
-    <!--@if($document->is_granted || !$document->member_srl)-->
+    <!--@if($oDocument->isEditable())-->
     <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
     <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
     <!--@end-->
@@ -118,13 +115,13 @@
 
 
 <!-- 엮인글 파일 include -->
-<!--@if($document->allow_trackback=='Y')-->
+<!--@if($oDocument->allowTrackback())-->
     <a name="trackback"></a>
     <!--#include("./trackback.html")-->
 <!--@end-->
 
 <!-- 댓글 파일 include -->
-<!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
+<!--@if($grant->write_comment && $oDocument->allowComment())-->
     <a name="comment"></a>
     <!--#include("./comment.html")-->
 <!--@end-->

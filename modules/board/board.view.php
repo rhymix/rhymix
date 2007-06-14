@@ -51,31 +51,31 @@
             // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
             $oDocumentModel = &getModel('document');
 
-            // document_srl이 있다면 해당 글을 구해오자
+            // 선택된 문서 표시를 위한 객체 생성 
+            $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+
+            // document_srl이 있다면 해당 글을 구해와서 $oDocument로 세팅
             if($this->grant->view && $document_srl) {
 
                 // 글을 구함
-                $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager, true);
+                $oDocument->setDocument($document_srl);
+                if($this->grant->manager) $oDocument->setGrant();
 
-                // 찾아지지 않았다면 초기화
-                if($document->document_srl != $document_srl) {
-                    unset($document);
-                    unset($document_srl);
+                if(!$oDocument->isExists()) {
                     Context::set('document_srl','',true);
+                } else {
+                    // 브라우저 타이틀 설정
+                    Context::setBrowserTitle($oDocument->getTitleText());
 
-                // 글이 찾아졌으면 댓글 권한과 허용 여부를 체크하여 댓글 에디터 세팅 
-                } elseif($this->grant->write_comment && $document->allow_comment == 'Y' && $document->lock_comment != 'Y') {
-
-                    // 브라우저 타이틀
-                    $browser_title = $this->module_info->browser_title.' - '.$document->title;
-                    Context::setBrowserTitle($browser_title);
-
-                    // 댓글
-                    $this->setCommentEditor(0, 100);
+                    // 조회수 증가
+                    $oDocument->updateReadedCount();
                 }
 
-                Context::set('document', $document);
             }
+            Context::set('oDocument', $oDocument);
+
+            // 댓글에디터 설정
+            $this->setCommentEditor(0, 100);
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
             if($document_srl && !$page) {
@@ -93,7 +93,6 @@
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
-
             $args->sort_index = Context::get('sort_index');
             $args->order_type = Context::get('order_type');
 
@@ -135,22 +134,18 @@
             // document 모듈 객체 생성
             $oDocumentModel = &getModel('document');
 
-            // 지정된 글이 없다면 (신규) 새로운 번호를 만든다
-            if($document_srl) {
-                $document = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
-                if(!$document) {
-                    unset($document_srl);
-                    Context::set('document_srl','');
-                }
-            }
+            $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+            $oDocument->setDocument($document_srl);
+
+            if(!$oDocument->isExists()) Context::set('document_srl','');
 
             if(!$document_srl) $document_srl = getNextSequence();
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
-            if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
+            if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
 
             Context::set('document_srl',$document_srl);
-            Context::set('document', $document);
+            Context::set('oDocument', $oDocument);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');

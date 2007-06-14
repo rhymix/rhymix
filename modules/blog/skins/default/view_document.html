@@ -3,60 +3,63 @@
 
     <div class="title" style="clear:right;height:25px;">
         <div style="font-weight:bold;font-size:18px;float:left;">
-            <!--@if($category_list && $document->category_srl)-->
-            [{$category_list[$document->category_srl]->title}]
+            <!--@if($oDocument->get('category_srl'))-->
+            [{$category_list[$oDocument->get('category_srl')]->title}]
             <!--@end-->
 
-            {htmlspecialchars($document->title)}
+            {$oDocument->getTitleText()}
         </div>
     </div>
 
     <div style="clear:right;height:20px;">
         <div class="date" style="float:left;">
-            {zdate($document->regdate,"Y-m-d H:i:s")}
+            <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
             <!--@if($module_info->display_writer == "on")-->
-              by <span class="member_{$document->member_srl}">{htmlspecialchars($document->nick_name)}</span>
+                <span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span>
             <!--@end-->
         </div>
         <div style="float:right;">
-            <!--@if($document->is_granted || $grant->manager)-->
-            <a href="{getUrl('act','dispBlogWrite','document_srl',$document->document_srl)}">[{$lang->cmd_modify}]</a> 
-            <a href="{getUrl('act','dispBlogDelete','document_srl',$document->document_srl)}">[{$lang->cmd_delete}]</a> 
+            <!--@if($oDocument->isEditable())-->
+            <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}">[{$lang->cmd_modify}]</a> 
+            <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}">[{$lang->cmd_delete}]</a> 
             <!--@end-->
         </div>
     </div>
 
 
-    <div style="overflow:hidden;width:660px;margin:10px 0px 10px 0px;padding:5px 0px 5px 0px;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;" class="content">{$document->content}</div>
+    <div style="overflow:hidden;width:660px;margin:10px 0px 10px 0px;padding:5px 0px 5px 0px;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;" class="content">{$oDocument->getContent()}</div>
 
     <div style="margin:10px 0px 10px 0px">
-        {$lang->document_url} : {getUrl()}{$document->document_srl}
+        {$lang->document_url} : {$oDocument->getPermanentUrl()}
     </div>
 
     <div style="clear:both;height:20px;margin:0px 0px 10px 0px">
-        <!--@if($document->tag_list)-->
+        {@ $tag_list = $oDocument->get('tag_list') }
+        <!--@if(count($tag_list))-->
         <div style="color:#888888;float:left;">
-            {$lang->tag} :
-            <!--@foreach($document->tag_list as $val)-->
+            <!--@for($i=0;$i<count($tag_list);$i++)-->
+                {@ $tag = $tag_list[$i]; }
+                {$lang->tag} :
                 <a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}">{htmlspecialchars($val)}</a>
             <!--@end-->
         </div>
         <!--@end-->
 
-        <!--@if($document->allow_trackback=='Y')-->
+        <!--@if($oDocument->allowTrackback())-->
         <div style="color:#888888;float:right;">
-            {$lang->trackback_url} : {getUrl()}trackback/{$document->document_srl}
+            {$lang->trackback_url} : {$oDocument->getTrackbackUrl()}
         </div>
         <!--@end-->
     </div>
 
-    <!--@if($document->uploaded_count && $document->uploaded_list)-->
+    <!--@if($oDocument->hasUploadedFiles())-->
     <div style="border:1px solid #DDDDDD;padding:10px;margin-bottom:10px;">
         <div>{$lang->uploaded_file}</div>
         <div>
-        <!--@foreach($document->uploaded_list as $key => $file)-->
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
+            <!--@foreach($uploaded_list as $key => $file)-->
             <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
-        <!--@end-->
+            <!--@end-->
         </div>
     </div>
     <!--@end-->
@@ -64,23 +67,28 @@
 
 <!-- 댓글/ 엮인글 정보 출력 -->
 <div>
-    <a href="#comment_top_{$document->document_srl}">{$lang->comment} : {count($document->comment_list)}</a>, 
-    <a href="#trackback_{$document->document_srl}">{$lang->trackback} : {count($document->trackback_list)}</a>
+    <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+        <a href="#comment_top_{$oDocument->document_srl}">{$lang->comment} : {$oDocument->getCommentCount()}</a>, 
+    <!--@end-->
+
+    <!--@if($oDocument->allowTrackback())-->
+        <a href="#trackback_{$oDocument->document_srl}">{$lang->trackback} : {$oDocument->getTrackbackCount()}</a>
+    <!--@end-->
 </div>
 
 <!-- 엮인글 목록 -->
-<a name="trackback_{$document->document_srl}"></a>
+<a name="trackback_{$oDocument->document_srl}"></a>
 
 <!-- 엮인글 파일 include -->
-<!--@if($document->allow_trackback=='Y')-->
+<!--@if($oDocument->allowTrackback())-->
         <!--#include("./trackback.html")-->
 <!--@end-->
 
 <!-- 댓글 정보 출력 -->
-<a name="comment_top_{$document->document_srl}"></a>
+<a name="comment_top_{$oDocument->document_srl}"></a>
 
 <!-- 댓글 파일 include -->
-<!--@if($grant->write_comment&&$document->allow_comment=='Y')-->
-    {@ $document_srl = $document->document_srl; }
+<!--@if($grant->write_comment && $oDocument->allowComment())-->
+    {@ $document_srl = $oDocument->document_srl; }
     <!--#include("./comment.html")-->
 <!--@end-->

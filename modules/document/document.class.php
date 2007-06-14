@@ -5,6 +5,8 @@
      * @brief  document 모듈의 high 클래스
      **/
 
+    require_once('./modules/document/document.item.php');
+
     class document extends ModuleObject {
 
         // 공지사항용 값

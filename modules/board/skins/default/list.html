@@ -2,7 +2,7 @@
 <!--#include("header.html")-->
 
 <!-- 게시물 내용 include -->
-<!--@if($document && $grant->view)-->
+<!--@if($oDocument->isExists() && $grant->view)-->
     <!--#include("./view_document.html")-->
 <!--@end-->
 
@@ -32,48 +32,44 @@
         <th>{$lang->date}</th>
     </tr>
 
-    <!--@foreach($document_list as $no => $val)-->
+    <!--@foreach($document_list as $no => $document)-->
     <tr>
         <td>{$no}</td>
 
         <!--@if($category_list)-->
-        <td>{$category_list[$val->category_srl]->title}</td>
+        <td>{$category_list[$document->get('category_srl')]->title}</td>
         <!--@end-->
 
         <td>
             <!--@if($grant->is_admin)-->
-            <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
-            <!--@end-->
-
-            <!--@if($module_info->subject_cut_size>0)-->
-                {@ $val->title = cut_str($val->title,$module_info->subject_cut_size)}
+            <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
             <!--@end-->
 
             <!--@if($grant->view)-->
                 <!-- 검색중일 경우는 새창으로 -->
                 <!--@if($search_target && $search_keyword)-->
-                    <a href="#" onclick="winopen('{getUrl('','document_srl',$val->document_srl)}','viewDocument');return false;">{htmlspecialchars($val->title)}</a>
+                    <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 <!-- 검색을 하지 않을 시에는 현재창으로 -->
                 <!--@else-->
-                    <a href="{getUrl('','document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
+                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 <!--@end-->
             <!--@else-->
-                {htmlspecialchars($val->title)}
+                {$document->getTitleText($module_info->subject_cut_size)}
             <!--@end-->
 
-            <!--@if($val->comment_count>0)-->
-                [<a href="{getUrl('document_srl',$val->document_srl)}#comment">{$val->comment_count}</a>]
+            <!--@if($document->getCommentCount())-->
+                [<a href="{getUrl('document_srl',$document->document_srl)}#comment">{$document->getCommentCount()}</a>]
             <!--@end-->
 
-            <!--@if($val->trackback_count>0)-->
-                [<a href="{getUrl('document_srl',$val->document_srl)}#trackback">{$val->trackback_count}</a>]
+            <!--@if($document->trackback_count>0)-->
+                [<a href="{getUrl('document_srl',$document->document_srl)}#trackback">{$document->getTrackbackCount()}</a>]
             <!--@end-->
 
         </td>
-        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        <td>{$val->readed_count}</td>
-        <td>{$val->voted_count}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
+        <td>{$document->get('readed_count')}</td>
+        <td>{$document->get('voted_count')}</td>
+        <td>{$document->getRegdate("Y-m-d")}</td>
     </tr>
     <!--@end-->
     </table>

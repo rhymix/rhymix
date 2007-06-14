@@ -5,7 +5,7 @@
 <!--#include("header.html")-->
 
 <!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
-<!--@if($document && $grant->view)-->
+<!--@if($oDocument->isExists() && $grant->view)-->
     <!--#include("./view_document.html")-->
 <!--@end-->
 
@@ -56,9 +56,9 @@
         </tr>
     <!--@end-->
 
-    <!--@foreach($document_list as $no => $val)-->
+    <!--@foreach($document_list as $no => $document)-->
 
-        <!--@if($val->is_notice=="Y")-->
+        <!--@if($document->isNotice())-->
 
         <tr class="notice">
             <td class="num">{$lang->notice}</td>
@@ -71,40 +71,36 @@
         <!--@end-->
 
             <!--@if($module_info->use_category == "Y")-->
-            <td class="category">{$category_list[$val->category_srl]->title}</td>
+            <td class="category">{$category_list[$document->get('category_srl')]->title}</td>
             <!--@end-->
 
             <td class="title">
                 <!--@if($grant->is_admin)-->
-                    <input type="checkbox" value="{$val->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$val->document_srl])-->checked="true"<!--@end--> /> 
-                <!--@end-->
-
-                <!--@if($module_info->subject_cut_size>0)-->
-                    {@ $val->title = cut_str($val->title,$module_info->subject_cut_size)}
+                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
                 <!--@end-->
 
                 <!--@if($grant->view)-->
                     <!--@if($search_target && $search_keyword)-->
-                        <a href="#" onclick="winopen('{getUrl('','document_srl',$val->document_srl)}','viewDocument');return false;">{htmlspecialchars($val->title)}</a>
+                        <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
                     <!--@else-->
-                        <a href="{getUrl('','document_srl',$val->document_srl)}">{htmlspecialchars($val->title)}</a>
+                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                     <!--@end-->
                 <!--@else-->
-                    {htmlspecialchars($val->title)}
+                    {$document->getTitleText($module_info->subject_cut_size)}
                 <!--@end-->
                 
-                <!--@if($val->comment_count>0)-->
-                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$val->comment_count}</strong></span>
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
                 <!--@end-->
 
-                <!--@if($val->trackback_count>0)-->
-                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$val->trackback_count}</strong></span>
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
                 <!--@end-->
             </td>
-            <td class="author"><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-            <td class="reading">{$val->readed_count}</td>
-            <td class="recommend">{$val->voted_count}</td>
-            <td class="date">{zdate($val->regdate,"Y-m-d")}</td>
+            <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
+            <td class="reading">{$document->get('readed_count')}</td>
+            <td class="recommend">{$document->get('voted_count')}</td>
+            <td class="date">{$document->getRegdate('Y-m-d')}</td>
         </tr>
     <!--@end-->
     </tbody>

@@ -227,11 +227,11 @@
             $oDocumentModel = &getModel('document');
 
             // 기존 문서가 있는지 확인
-            $document = $oDocumentModel->getDocument($document_srl, $is_admin);
-            if($document->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
+            $oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+            if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 
             // 권한이 있는지 확인
-            if(!$document->is_granted&&!$is_admin) return new Object(-1, 'msg_not_permitted');
+            if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
             // 글 삭제
             $args->document_srl = $document_srl;
@@ -260,7 +260,7 @@
             }
 
             // 카테고리가 있으면 카테고리 정보 변경
-            if($document->category_srl) $this->updateCategoryCount($document->category_srl);
+            if($document->category_srl) $this->updateCategoryCount($oDocument->get('category_srl'));
 
             // commit
             $oDB->commit();
@@ -271,8 +271,10 @@
         /**
          * @brief 해당 document의 조회수 증가
          **/
-        function updateReadedCount($document) {
-            $document_srl = $document->document_srl;
+        function updateReadedCount($oDocument) {
+            $document_srl = $oDocument->document_srl;
+            $member_srl = $oDocument->get('member_srl');
+            $logged_info = Context::get('logged_info');
 
             // session에 정보로 조회수를 증가하였다고 생각하면 패스
             if($_SESSION['readed_document'][$document_srl]) return false;
@@ -284,21 +286,18 @@
             }
 
             // document의 작성자가 회원일때 조사
-            if($document->member_srl) {
-                // member model 객체 생성
-                $oMemberModel = &getModel('member');
-                $member_srl = $oMemberModel->getLoggedMemberSrl();
+            if($member_srl) {
 
                 // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
-                if($member_srl && $member_srl == $document->member_srl) {
+                if($member_srl && $logged_info->member_srl == $member_srl) {
                     $_SESSION['readed_document'][$document_srl] = true;
                     return false;
                 }
             }
 
             // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
-            if($member_srl) {
-                $args->member_srl = $member_srl;
+            if($logged_info->member_srl) {
+                $args->member_srl = $logged_info->member_srl;
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }

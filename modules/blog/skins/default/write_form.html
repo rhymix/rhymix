@@ -3,7 +3,7 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="content" value="{htmlspecialchars($document->content)}" />
+    <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
 
     <table border="1" width="100%">
@@ -17,7 +17,7 @@
             <select name="category_srl" >
                 <option value="">{$lang->category}</option>
                 <!--@foreach($category_list as $val)-->
-                <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$document->category_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$oDocument->get('category_srl'))-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                 <!--@end-->
             </select>
         </td>
@@ -26,7 +26,7 @@
     <!--@if(!$is_logged)-->
     <tr>
         <th>{$lang->writer}</th>
-        <td><input type="text" name="nick_name" value="{$document->nick_name}" /></td>
+        <td><input type="text" name="nick_name" value="{$oDocument->getNickName()}" /></td>
     </tr>
     <tr>
         <th>{$lang->password}</th>
@@ -34,35 +34,35 @@
     </tr>
     <tr>
         <th>{$lang->email_address}</th>
-        <td><input type="text" name="email_address" value="{htmlspecialchars($document->email_address)}"/></td>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}"/></td>
     </tr>
     <tr>
         <th>{$lang->homepage}</th>
-        <td><input type="text" name="homepage" value="{htmlspecialchars($document->homepage)}" /></td>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" /></td>
     </tr>
     <!--@end-->
 
     <tr>
         <th>{$lang->title}</th>
-        <td><input type="text" name="title" value="{htmlspecialchars($document->title)}" /></td>
+        <td><input type="text" name="title" value="{$oDocument->getTitleText()}" /></td>
     </tr>
     <tr>
         <td colspan="2">
             <!--@if($grant->manager)-->
-            <input type="checkbox" name="is_notice" value="Y" <!--@if($document->is_notice== "Y")-->checked="true"<!--@end--> id="is_notice" />
+            <input type="checkbox" name="is_notice" value="Y" <!--@if($oDocument->isNotice())-->checked="true"<!--@end--> id="is_notice" />
             <label for="is_notice">{$lang->notice}</label>
             <!--@end-->
 
-            <input type="checkbox" name="is_secret" value="Y" <!--@if($document->is_secret== "Y")-->checked="true"<!--@end--> id="is_secret" />
+            <input type="checkbox" name="is_secret" value="Y" <!--@if($oDocument->isSecret())-->checked="true"<!--@end--> id="is_secret" />
             <label for="is_secret">{$lang->secret}</label>
 
-            <input type="checkbox" name="allow_comment" value="Y" <!--@if($document->allow_comment != "N")-->checked="true"<!--@end--> id="allow_comment" />
+            <input type="checkbox" name="allow_comment" value="Y" <!--@if($oDocument->allowComment())-->checked="true"<!--@end--> id="allow_comment" />
             <label for="allow_comment">{$lang->allow_comment}</label>
 
-            <input type="checkbox" name="lock_comment" value="Y" <!--@if($document->lock_comment == "Y")-->checked="true"<!--@end--> id="lock_comment" />
+            <input type="checkbox" name="lock_comment" value="Y" <!--@if($oDocument->isLocked())-->checked="true"<!--@end--> id="lock_comment" />
             <label for="lock_comment">{$lang->lock_comment}</label>
 
-            <input type="checkbox" name="allow_trackback" value="Y" <!--@if($document->allow_trackback != "N")-->checked="true"<!--@end--> id="allow_trackback" />
+            <input type="checkbox" name="allow_trackback" value="Y" <!--@if($oDocument->allowTrackback())-->checked="true"<!--@end--> id="allow_trackback" />
             <label for="allow_trackback">{$lang->allow_trackback}</label>
         </td>
     </tr>
@@ -87,7 +87,7 @@
     <tr>
         <th>{$lang->tag}</th>
         <td>
-            <input type="text" name="tags" value="{htmlspecialchars($document->tags)}" /> <br />
+            <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" /> <br />
             {$lang->about_tag}
         </td>
     </tr>

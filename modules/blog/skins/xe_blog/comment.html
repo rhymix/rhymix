@@ -1,9 +1,9 @@
 <!--%import("filter/insert_comment.xml")-->
 
-<!--@if($document->comment_list)-->
+<!--@if($oDocument->getCommentCount())-->
 <ul id="reply">
 
-    <!--@foreach($document->comment_list as $key => $val)-->
+    <!--@foreach($oDocument->getComments() as $key => $val)-->
 
         <li <!--@if($val->depth)-->class="reply"<!--@end-->>
             <!--@if($val->depth)-->
@@ -53,6 +53,6 @@
 <!--@end-->
 
 <!-- 댓글 입력 폼 -->
-<!--@if($grant->write_comment && $document->lock_comment == 'N')-->
+<!--@if($grant->write_comment && !$oDocument->isLocked())-->
     <!--#include("./comment_form.html")-->
 <!--@end-->

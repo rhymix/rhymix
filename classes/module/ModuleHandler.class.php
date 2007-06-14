@@ -152,7 +152,7 @@
         /**
          * @ 실행된 모듈의 컨텐츠를 출력
          **/
-        function displayContent(&$oModule = NULL) {
+        function displayContent($oModule = NULL) {
             // 설정된 모듈이 정상이지 않을 경우 message 모듈 객체 생성
             if(!$oModule || !is_object($oModule)) {
                 $this->error = 'msg_module_is_not_exists';
