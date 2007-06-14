@@ -92,7 +92,7 @@
             }
 
             // rewrite 모듈사용 상태 체크
-            if(file_exists('./htaccess')&&in_array('mod_rewrite',apache_get_modules())) $this->allow_rewrite = true;
+            if(file_exists('./.htaccess')&&in_array('mod_rewrite',apache_get_modules())) $this->allow_rewrite = true;
 
             // 상대 경로 설정
             $this->path = $this->getRequestUri();
