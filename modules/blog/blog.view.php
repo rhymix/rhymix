@@ -131,7 +131,7 @@
             if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; 
 
             // 블로그 카테고리 
-            $args->category_srl = $this->category_srl;
+            $args->category_srl = (int)Context::get('category');
 
             $args->sort_index = 'list_order'; ///< 소팅 값
 

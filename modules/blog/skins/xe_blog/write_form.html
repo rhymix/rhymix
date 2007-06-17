@@ -27,14 +27,12 @@
             <div class="title">
                 <label for="title" class="title">{$lang->title}</label>
 
-                <!--@if($module_info->use_category=="Y")-->
                 <select name="category_srl" >
                     <option value="">{$lang->category}</option>
                     <!--@foreach($category_list as $val)-->
                     <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$oDocument->get('category_srl'))-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                     <!--@end-->
                 </select>
-                <!--@end-->
 
                 <input type="text" name="title" id="title" class="inputTypeText" value="{$oDocument->getTitleText()}" />
             </div>
