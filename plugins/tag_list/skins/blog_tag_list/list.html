@@ -16,7 +16,7 @@
         <div class="tag_box">
             <!--@foreach($plugin_info->tag_list as $val)-->
             <div class="tag">
-                <a href="{getUrl('mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
             </div>
             <!--@end-->
         </div>

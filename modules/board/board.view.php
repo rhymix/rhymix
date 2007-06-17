@@ -174,16 +174,16 @@
             // 지정된 글이 있는지 확인
             if($document_srl) {
                 $oDocumentModel = &getModel('document');
-                $document = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$document) return $this->dispBoardContent();
+            if(!$oDocument->isExists()) return $this->dispBoardContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
-            if($document&&!$document->is_granted) return $this->setTemplateFile('input_password_form');
+            if(!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
 
-            Context::set('document',$document);
+            Context::set('oDocument',$oDocument);
 
             $this->setTemplateFile('delete_form');
         }
