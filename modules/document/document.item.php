@@ -105,7 +105,7 @@
         }
         
         function getTitleText($cut_size = 0) {
-            return htmlspecialchars($this->getTitle());
+            return htmlspecialchars($this->getTitle($cut_size));
         }
 
         function getTitle($cut_size = 0) {
