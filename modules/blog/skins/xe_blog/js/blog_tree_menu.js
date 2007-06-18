@@ -72,7 +72,7 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
     var node_list = xmlDoc.getElementsByTagName("node");
     if(node_list.length>0) {
         var root = xmlDoc.getElementsByTagName("root")[0];
-        var output = blogDrawNode(root);
+        var output = blogDrawNode(root,0);
         html += output.html;
     }
 
@@ -81,7 +81,7 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
     if(blog_menu_selected) title_class = "unselected";
     var title_html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span> <span class="document_count">';
     if(total_document_count) title_html += '('+total_document_count+')';
-    html = title_html+'</span></div>'+html;
+    html = title_html+'</span></div><div class="category_list">'+html+'</div>';
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함
     if(!zone) {
@@ -101,7 +101,7 @@ function blogDrawTeeMenu(html) {
 }
 
 // root부터 시작해서 recursive하게 노드를 표혐
-function blogDrawNode(parent_node) {
+function blogDrawNode(parent_node, depth) {
     var output = {html:"", expand:"N"}
 
     for (var i=0; i< parent_node.childNodes.length; i++) {
@@ -157,20 +157,24 @@ function blogDrawNode(parent_node) {
             blog_tree_menu_folder_list[blog_tree_menu_folder_list.length] = child_zone_id;
             
             // html을 받아옴 
-            child_output = blogDrawNode(node);
+            child_output = blogDrawNode(node, depth+1);
             var chtml = child_output.html;
             var cexpand = child_output.expand;
             if(cexpand == "Y") expand = "Y";
 
             // 무조건 펼침이 아닐 경우
             if(expand!="Y") {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'" class="line_close">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" class="item_close">'+chtml+'</div>';
+                var line_class = "line_close";
+                if(hasNextSibling) line_class = "item_close";
+                if(depth==0) line_class = "line_null";
+                child_html += '<div id="'+child_zone_id+'" class="'+line_class+'">'+chtml+'</div>';
 
             // 무조건 펼침일 경우
             } else {
-                if(!hasNextSibling) child_html += '<div id="'+child_zone_id+'" class="line_open"">'+chtml+'</div>';
-                else child_html += '<div id="'+child_zone_id+'" class="item_open">'+chtml+'</div>';
+                var line_class = "line_open";
+                if(hasNextSibling) line_class = "item_open";
+                if(depth==0) line_class = "line_null";
+                child_html += '<div id="'+child_zone_id+'" class="'+line_class+'">'+chtml+'</div>';
             }
         }
 
@@ -208,6 +212,8 @@ function blogDrawNode(parent_node) {
             }
         }
 
+        if(depth==0) line_class = 'line_null';
+
 
         // html 작성
         var click_str = ' class="'+folder_class+'"' ;
@@ -223,7 +229,7 @@ function blogDrawNode(parent_node) {
         // 왼쪽 폴더/페이지와 텍스트 위치를 맞추기 위해;;; table태그 일단 사용. 차후 바꾸자..
         html += '<div id="'+zone_id+'" class="node_item">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
-                        '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="20"><img src="'+request_uri+'/common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
+                        '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="19"><img src="'+request_uri+'/common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
                         '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode(\''+url+'\');return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
                     '</div>';
 

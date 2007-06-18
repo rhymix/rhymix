@@ -1,5 +1,20 @@
 @charset "utf-8";
 
+/* 
+Used Hack 
+IE6 & Below 
+{ property:value; _property:value;}
+IE7 Only
+*:first-child+html #selector
+IE7 & IE6 & Below
+*:first-child+html #selector,
+* html #selector {}
+*/
+
+/* Special Class Selector */
+.fr { float:right;}
+.fl { float:left;}
+
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
 html, body { height:100%;}

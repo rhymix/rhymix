@@ -1,51 +1,35 @@
-#blog_category .title_box {
-    cursor:pointer;
-    padding-left:18px;
-    background:url(../images/tree_menu/folder.gif) no-repeat left;
-    margin-bottom:3px;
-}
+#blog_category { position:relative; border:1px solid #e0e1db; background:url(../images/white/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
 
-#blog_category .node_item A {
-    text-decoration:none;
-}
+#blog_category .title_box { position:relative; border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; }
 
-#blog_category .selected {
-    background-color:#0E078F;
-    font-weight:bold;
-    color:#FFFFFF;
-    font-size:9pt;
-    cursor:pointer;
-    padding:1px 2px 1px 2px;
-}
+#blog_category .category_list { padding:.8em 0 .8em 0; }
 
-#blog_category .unselected {
-    background-color:#FFFFFF;
-    font-weight:normal;
-    color:#000000;
-    font-size:9pt;
-    cursor:pointer;
-    padding:1px 2px 1px 2px;
-}
+#blog_category .node_item a { color:#6b6b6b; }
+
+#blog_category .selected { font-family:Tahoma; font-weight:bold; cursor:default; font-size:1em; color:#54564b; }
+
+#blog_category .unselected { cursor:pointer; font-family:Tahoma; font-size:1em; color:#54564b;  }
 
 #blog_category .document_count {
     margin-left:5px;
     color:#AAAAAA;
-    font-size:9px;
+    font-family:tahoma;
+    font-size:.8em;
 }
 
 #blog_category .page {
     cursor:pointer;
-    background:url(../images/tree_menu/page.gif) no-repeat left;
+    background:url(../images/white/iconList.gif) no-repeat left;
 }
 
 #blog_category .folder_open {
     cursor:pointer;
-    background:url(../images/tree_menu/page_folder.gif) no-repeat left;
+    background:url(../images/white/iconFolderClose.gif) no-repeat left;
 }
 
 #blog_category .folder_close {
     cursor:pointer;
-    background:url(../images/tree_menu/folder.gif) no-repeat left;
+    background:url(../images/white/iconFolderClose.gif) no-repeat left;
 }
 
 #blog_category .item_open {
@@ -56,6 +40,10 @@
 #blog_category .item_close {
     display:none;
     padding-left:18px;
+}
+
+#blog_category .line_null {
+    padding-left:13px;
 }
 
 #blog_category .line_open {
