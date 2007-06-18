@@ -1,0 +1,39 @@
+<!--%import("filter/leave_member.xml")-->
+<!--%import("js/member.js")-->
+
+<div>
+    {$lang->msg_leave_member}
+</div>
+
+<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, leave_member)">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+<input type="hidden" name="page" value="{$page}" />
+
+    <div>
+        {$lang->member_default_info}
+    </div>
+    <table border="1">
+    <tr>
+        <th>{$lang->user_id}</th>
+        <td>
+            {$member_info->user_id}
+        </td>
+    </tr>
+    <tr>
+        <th rowspan="3">{$lang->password1}</th>
+        <td>
+            <input type="password" name="password" value="" />
+        </td>
+    </tr>
+    </table>
+
+    <table border="1">
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispMemberInfo','member_srl','')}'" />
+            <input type="submit" value="{$lang->cmd_leave}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
+</form>

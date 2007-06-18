@@ -17,6 +17,7 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSignUpForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberModifyInfo');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberModifyPassword');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberLeave');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLoginForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
 
@@ -64,11 +65,13 @@
             $group_args->is_admin = 'Y';
             $output = $oMemberAdminController->insertGroup($group_args);
 
+            unset($group_args);
             $group_args->title = Context::getLang('default_group_1');
             $group_args->is_default = 'Y';
             $group_args->is_admin = 'N';
             $output = $oMemberAdminController->insertGroup($group_args);
 
+            unset($group_args);
             $group_args->title = Context::getLang('default_group_2');
             $group_args->is_default = 'N';
             $group_args->is_admin = 'N';

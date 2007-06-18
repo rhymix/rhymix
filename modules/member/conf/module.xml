@@ -35,6 +35,7 @@
         <action name="procMemberInsert" type="controller" standalone="true" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" />
+        <action name="procMemberLeave" type="controller" standalone="true" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" />
         <action name="procMemberInsertImageMark" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />

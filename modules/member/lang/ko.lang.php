@@ -99,6 +99,7 @@
 
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
+    $lang->msg_leave_member = '회원 탈퇴';
     $lang->msg_group_is_null = '등록된 그룹이 없습니다';
     $lang->msg_not_delete_default = '기본 항목을 삭제할 수 없습니다';
     $lang->msg_not_exists_member = '존재하지 않는 사용자입니다';

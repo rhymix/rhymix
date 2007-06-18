@@ -592,6 +592,39 @@
         }
 
         /**
+         * @brief 탈퇴
+         **/
+        function procMemberLeave() {
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+            // 필수 정보들을 미리 추출
+            $password = trim(Context::get('password'));
+
+            // 로그인한 유저의 정보를 가져옴
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            // member model 객체 생성
+            $oMemberModel = &getModel('member');
+
+            // member_srl 에 따른 정보 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+            // 현재 비밀번호가 맞는지 확인
+            if(!$password || ($member_info->password != md5($password) && $this->mysql_pre4_hash_password($password) != $member_info->password)) {
+                return new Object(-1, 'invalid_password');
+            }
+
+            $output = $this->deleteMember($member_srl);
+            if(!$output->toBool()) return $output;
+
+            $_SESSION['is_logged'] = false;
+            $_SESSION['logged_info'] = null;
+
+            $this->setMessage('success_leaved');
+        }
+
+        /**
          * @brief 이미지 이름을 추가 
          **/
         function procMemberInsertImageName() {

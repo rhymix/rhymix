@@ -164,6 +164,7 @@
     $lang->success_moved = '이동되었습니다';
     $lang->success_sended = '발송되었습니다';
     $lang->success_reset = '초기화되었습니다';
+    $lang->success_leaved = '탈퇴되었습니다';
 
     $lang->fail_to_delete = '삭제되었습니다';
     $lang->fail_to_move = '이동되었습니다';
@@ -177,6 +178,7 @@
     $lang->confirm_delete = '삭제하시겠습니까?';
     $lang->confirm_move = '이동하시겠습니까?';
     $lang->confirm_reset = '초기화 하시겠습니까??';
+    $lang->confirm_leave = '탈퇴 하시겠습니까??';
 
     $lang->column_type = '형식';
     $lang->column_type_list['text'] = '한줄 입력칸 (text)';

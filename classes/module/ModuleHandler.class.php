@@ -129,6 +129,7 @@
             $type = $xml_info->action->{$this->act}->type;
             $grant = $xml_info->action->{$this->act}->grant;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
+            if(!$kind && $this->module == 'admin') $kind = 'admin';
 
             // 모듈 객체 생성
             $oModule = &$this->getModuleInstance($this->module, $type, $kind);

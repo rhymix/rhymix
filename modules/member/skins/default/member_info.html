@@ -92,6 +92,7 @@
         <!--@if($member_info->member_srl == $logged_info->member_srl)-->
         <input type="button" value="{$lang->cmd_modify_member_info}" onclick="location.href='{getUrl('act','dispMemberModifyInfo','member_srl','')}';return false;" />
         <input type="button" value="{$lang->cmd_modify_member_password}" onclick="location.href='{getUrl('act','dispMemberModifyPassword','member_srl','')}'; return false;"/>
+        <input type="button" value="{$lang->cmd_leave}" onclick="location.href='{getUrl('act','dispMemberLeave','member_srl','')}'; return false;"/>
         <input type="button" value="{$lang->cmd_view_message_box}" onclick="location.href='{getUrl('act','dispMemberMessages','member_srl','','message_type','R','message_srl','')}'; return false;"/>
         <input type="button" value="{$lang->cmd_view_friend}" onclick="popopen('{getUrl('module','member','act','dispMemberFriend')}'); return false;"/>
         <!--@end-->

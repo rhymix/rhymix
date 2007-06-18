@@ -20,6 +20,16 @@ function completeModify(ret_obj, response_tags, args, fo_obj) {
     location.href = current_url.setQuery('act','dispMemberInfo');
 }
 
+/* 회원 탈퇴 */ 
+function completeLeave(ret_obj, response_tags, args, fo_obj) {
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+
+    alert(message);
+
+    location.href = current_url.setQuery('act','');
+}
+
 /* 이미지 업로드 */
 function _doUploadImage(fo_obj, act) {
     // 업로드용 iframe을 생성

@@ -1,0 +1,12 @@
+<filter name="leave_member" module="member" act="procMemberLeave" confirm_msg_code="confirm_leave">
+    <form>
+        <node target="password" required="true" maxlength="20" />
+    </form>
+    <parameter>
+        <param name="password" target="password" />
+    </parameter>
+    <response callback_func="completeLeave">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
