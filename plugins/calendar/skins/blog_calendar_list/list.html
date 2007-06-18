@@ -48,7 +48,11 @@
 
                 <!--@if($plugin_info->calendar[$cur_date])-->
                     {@ $item_class_name = "selected_item"}
-                    {@ $day_link = getUrl('','mid',$mid,'search_target','regdate','search_keyword',$cur_date) }
+                    <!--@if($layout_info->mid)-->
+                      {@ $day_link = getUrl('','mid',$layout_info->mid,'search_target','regdate','search_keyword',$cur_date) }
+                    <!--@else-->
+                      {@ $day_link = getUrl('','mid',$mid,'search_target','regdate','search_keyword',$cur_date) }
+                    <!--@end-->
                 <!--@else-->
                     {@ $item_class_name = "unselected_item"}
                     {@ $day_link = ''}
