@@ -4,19 +4,18 @@
 
 <div class="counter_plugin">
 
-    <!--@if($total_counter)-->
-    <div class="header">Total</div>
-    <div class="footer">{$total_counter->unique_visitor} / {$total_counter->pageview}</div>
-    <!--@end-->
+    <ul>
+      <!--@if($total_counter)-->
+      <li><strong>Total</strong> : {$total_counter->unique_visitor}</li>
+      <!--@end-->
 
-    <!--@if($today_counter)-->
-    <div class="header">Today</div>
-    <div class="footer">{$today_counter->unique_visitor} / {$today_counter->pageview}</div>
-    <!--@end-->
+      <!--@if($today_counter)-->
+      <li><strong>Today</strong> : {$today_counter->unique_visitor}</li>
+      <!--@end-->
 
-    <!--@if($yesterday_counter)-->
-    <div class="header">Yesterday</div>
-    <div class="footer">{$yesterday_counter->unique_visitor} / {$yesterday_counter->pageview}</div>
-    <!--@end-->
+      <!--@if($yesterday_counter)-->
+      <li><strong>Yesterday</strong> : {$yesterday_counter->unique_visitor}</li>
+      <!--@end-->
+    </ul>
 
 </div>

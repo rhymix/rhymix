@@ -6,14 +6,3 @@
     font-family:tahoma;
     font-size:8pt;
 }
-
-.counter_plugin .header {
-    font-weight:bold;
-    float:left;
-    width:50px;
-    margin-right:10px;
-}
-
-.counter_plugin .footer {
-    clear:right;
-}
