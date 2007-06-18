@@ -22,6 +22,7 @@
     $lang->category_name = '분류명';
     $lang->expand = '펼침';
     $lang->category_group_srls = '그룹제한';
+    $lang->search_result = '검색결과';
 
     // 주절 주절..
     $lang->about_category_name = '카테고리 이름을 입력해주세요';
