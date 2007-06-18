@@ -50,7 +50,7 @@
         }
 
         function isGranted() {
-            if($_SESSION['own_attribute'][$this->document_srl]) return true;
+            if($_SESSION['own_document'][$this->document_srl]) return true;
 
             if(!Context::get('is_logged')) return false;
 
@@ -64,7 +64,7 @@
         }
 
         function setGrant() {
-            $_SESSION['own_attribute'][$this->document_srl] = true;
+            $_SESSION['own_document'][$this->document_srl] = true;
         }
 
         function allowComment() {

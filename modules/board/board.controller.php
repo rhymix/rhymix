@@ -186,6 +186,7 @@
         function procBoardVerificationPassword() {
             // 비밀번호와 문서 번호를 받음
             $password = md5(Context::get('password'));
+
             $document_srl = Context::get('document_srl');
             $comment_srl = Context::get('comment_srl');
 
@@ -194,26 +195,23 @@
                 // 문서번호에 해당하는 글이 있는지 확인
                 $oCommentModel = &getModel('comment');
                 $data = $oCommentModel->getComment($comment_srl);
-                // comment_srl이 없으면 문서가 대상
-            } else {
-                // 문서번호에 해당하는 글이 있는지 확인
-                $oDocumentModel = &getModel('document');
-                $data = $oDocumentModel->getDocument($document_srl);
-            }
+                if(!$data) return new Object(-1, 'msg_invalid_request');
 
-            // 글이 없을 경우 에러
-            if(!$data) return new Object(-1, 'msg_invalid_request');
+                // 문서의 비밀번호와 입력한 비밀번호의 비교
+                if($data->password != $password) return new Object(-1, 'msg_invalid_password');
 
-            // 문서의 비밀번호와 입력한 비밀번호의 비교
-            if($data->password != $password) return new Object(-1, 'msg_invalid_password');
-
-            // 해당 글에 대한 권한 부여
-            if($comment_srl) {
                 $oCommentController = &getController('comment');
                 $oCommentController->addGrant($comment_srl);
             } else {
-                $oDocumentController = &getController('document');
-                $oDocumentController->addGrant($document_srl);
+                // 문서번호에 해당하는 글이 있는지 확인
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+                if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
+
+                // 문서의 비밀번호와 입력한 비밀번호의 비교
+                if($oDocument->get('password') != $password) return new Object(-1, 'msg_invalid_password');
+
+                $oDocument->setGrant();
             }
         }
 
