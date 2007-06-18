@@ -405,7 +405,7 @@ function origImageDragMouseMove(evt) {
  * 이름 클릭시 MemberModel::getMemberMenu 를 호출하여 그 결과를 보여줌 (사용자의 속성에 따라 메뉴가 달라지고 애드온의 연결을 하기 위해서임) 
  **/
 xAddEventListener(document, 'click', chkMemberMenu);
-xAddEventListener(window, 'load', setMemberMenuObjCursor);
+xAddEventListener(window, 'load', function() { setMemberMenuObjCursor(xGetElementsByTagName("div")); xGetElementsByTagName("span"); } );
 var loaded_member_menu_list = new Array();
 
 // className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
@@ -424,7 +424,7 @@ function chkMemberMenu(evt) {
     }
     if(!obj || !obj.className || obj.className.search("member_")==-1) return;
 
-    var member_srl = parseInt(obj.className.replace(/member_([0-9]+)/,'$1'),10);
+    var member_srl = parseInt(obj.className.replace(/member_([0-9]+)/ig,'$1').replace(/([^0-9]*)/ig,''),10);
     if(!member_srl) return;
 
     // 현재 글의 mid, module를 구함
@@ -493,13 +493,13 @@ function displayMemberMenu(ret_obj, response_tags, params) {
 }
 
 // className = "member_*" 의 object의 cursor를 pointer로 본경
-function setMemberMenuObjCursor() {
-    var list = xGetElementsByTagName("div");
-    for (var i = 0; i < list.length; ++i) {
-        var node = list[i];
-        if(node.className && node.className.search(/member_([0-9]+)/)!=-1) {
-            var member_srl = node.className.replace(/member_([0-9]+)/,'$1');
-            if(member_srl>0) node.style.cursor = "pointer";
+function setMemberMenuObjCursor(obj) {
+    for (var i = 0; i < obj.length; ++i) {
+        var node = obj[i];
+        if(node.className && node.className.search(/member_([0-9]+)/ig)!=-1) {
+            var member_srl = parseInt(node.className.replace(/member_([0-9]+)/ig,'$1').replace(/([^0-9]*)/ig,''),10);
+            if(member_srl<1) continue;
+            node.style.cursor = "pointer";
         }
     }
 }
