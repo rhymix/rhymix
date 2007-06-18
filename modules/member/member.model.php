@@ -10,7 +10,6 @@
         /**
          * @brief 자주 호출될거라 예상되는 데이터는 내부적으로 가지고 있자...
          **/
-        var $member_info = NULL;
         var $member_groups = NULL;
         var $join_form_list = NULL;
 
@@ -104,17 +103,14 @@
          **/
         function getMemberInfoByUserID($user_id) {
             if(!$user_id) return;
-            if(!$this->member_info[$user_id]) {
-                $args->user_id = $user_id;
-                $output = executeQuery('member.getMemberInfo', $args);
-                if(!$output) return $output;
 
-                $member_info = $this->arrangeMemberInfo($output->data);
-                $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+            $args->user_id = $user_id;
+            $output = executeQuery('member.getMemberInfo', $args);
+            if(!$output) return $output;
 
-                $this->member_info[$user_id] = $member_info;
-            }
-            return $this->member_info[$user_id];
+            $member_info = $this->arrangeMemberInfo($output->data);
+            $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+            return $member_info;
         }
 
         /**
@@ -122,17 +118,13 @@
          **/
         function getMemberInfoByMemberSrl($member_srl) {
             if(!$member_srl) return;
-            if(!$this->member_info[$member_srl]) {
-                $args->member_srl = $member_srl;
-                $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
-                if(!$output) return $output;
+            $args->member_srl = $member_srl;
+            $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
+            if(!$output) return $output;
 
-                $member_info = $this->arrangeMemberInfo($output->data);
-                $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
-
-                $this->member_info[$member_srl] = $member_info;
-            }
-            return $this->member_info[$member_srl];
+            $member_info = $this->arrangeMemberInfo($output->data);
+            $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+            return $member_info;
         }
 
         /**

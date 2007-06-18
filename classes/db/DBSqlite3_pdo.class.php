@@ -113,8 +113,8 @@
         /**
          * @brief 커밋
          **/
-        function commit() {
-            if(!$this->isConnected() || !$this->transaction_started) return;
+        function commit($force = false) {
+            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
             $this->handler->commit();
             $this->transaction_started = false;
         }

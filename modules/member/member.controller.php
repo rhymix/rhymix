@@ -98,7 +98,7 @@
                 if(!$output->toBool()) {
                     $args->password = md5(getmicrotime());
                     $output = $this->insertMember($args);
-                    $this->doLogin($args->user_id);
+                    $output = $this->doLogin($args->user_id);
                 }
 
                 // 페이지 이동
@@ -896,7 +896,7 @@
                 }
             }
 
-            $oDB->commit();
+            $oDB->commit(true);
 
             $output->add('member_srl', $args->member_srl);
             return $output;

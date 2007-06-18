@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member_srl" var="member_srl" filter="member_srl" notnull="notnull" />
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
     </conditions>
 </query>
