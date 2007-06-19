@@ -150,11 +150,13 @@
         }
 
         function getCommentCount() {
+            if(!$this->isGranted() && $this->isSecret()) return 0;
             return $this->get('comment_count');
         }
 
         function getComments() {
             if(!$this->allowComment() || !$this->get('comment_count')) return;
+            if(!$this->isGranted() && $this->isSecret()) return;
 
             $oCommentModel = &getModel('comment');
             return $oCommentModel->getCommentList($this->document_srl, $is_admin);
