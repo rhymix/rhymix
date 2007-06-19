@@ -288,20 +288,22 @@
 
             switch($operation) {
                 case 'like_prefix' : 
-                        $value = $value.'%';
+                        $value = "'".$value.'%'."'";
                     break;
                 case 'like_tail' : 
-                        $value = '%'.$value;
+                        $value = "'".'%'.$value."'";
                     break;
                 case 'like' : 
-                        $value = '%'.$value.'%';
+                        $value = "'".'%'.$value.'%'."'";
                     break;
                 case 'in' :
                         return "'".$value."'";
                     break;
             }
 
+
             if(strpos($name,'.')!==false && strpos($value,'.')!==false) return $value;
+
             return "'".$this->addQuotes($value)."'";
         }
 
