@@ -7,7 +7,6 @@
 
     // 기본적으로 사용되는 action 언어
     $lang->cmd_write = '쓰기';
-    $lang->cmd_comment_registration = '댓글 등록';
     $lang->cmd_reply = '답글';
     $lang->cmd_delete = '삭제';
     $lang->cmd_modify = '수정';
@@ -19,6 +18,7 @@
     $lang->cmd_next = '다음';
     $lang->cmd_send_trackback = '엮인글발송';
     $lang->cmd_registration = $lang->cmd_submit = '등록';
+    $lang->cmd_comment_registration = '댓글 등록';
     $lang->cmd_insert = '추가';
     $lang->cmd_save = '저장';
     $lang->cmd_input = '입력';
@@ -210,5 +210,4 @@
     $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력해주셔야 합니다';
     $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해주셔야 합니다';
     $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력해주셔야 합니다';
-
 ?>
