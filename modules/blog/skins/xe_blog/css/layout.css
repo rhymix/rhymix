@@ -141,3 +141,6 @@ div#calendar table td.posted a { text-decoration:underline;}
 .buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeB .icon { margin:0 .2em;}
+
+/* powered by zbxe */
+#poweredbyzbxe { text-align:center; margin-top:2em;}
