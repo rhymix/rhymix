@@ -13,11 +13,6 @@
                 <span class="num">
                     <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
                 </span>
-                <!--@if($grant->is_admin)-->
-                <span class="ipaddress">
-                    ({$oDocument->get('ipaddress')})
-                </span>
-                <!--@end-->
 
                 <!--@if($oDocument->isEditable())-->
                 <ul>
@@ -41,6 +36,9 @@
         <!--@if($module_info->display_writer == "on")-->
         <div class="userInfo">
             <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+            <!--@if($grant->is_admin)-->
+            <div class="ipaddress">{$oDocument->get('ipaddress')}</div>
+                <!--@end-->
         </div>
         <!--@end-->
 

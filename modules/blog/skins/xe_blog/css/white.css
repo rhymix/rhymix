@@ -127,16 +127,16 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .dateAndModify { float:right; white-space:nowrap;}
 .boardRead .dateAndModify .num { font-size:.9em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
 .boardRead .dateAndModify .num strong { font-size:1em; font-family:Tahoma;}
-.boardRead .dateAndModify .ipaddress { font-size:.9em; font-family:Tahoma; color:#555555; margin-right:.5em; float:left; position:relative; top:.3em;}
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
-.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:right;}
+.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:left;}
 .boardRead dl.uri dt { float:left; clear:left; font-size:.9em; margin-right:.3em; color:#999999;}
 .boardRead dl.uri dd { clear:right; font:.8em Tahoma; color:#c5c7c0;}
 
-.boardRead .userInfo { float:left; white-space:nowrap;}
-.boardRead .userInfo .author { float:left; padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
+.boardRead .userInfo { float:right; white-space:nowrap;}
+.boardRead .userInfo .author { padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
+.boardRead .userInfo .ipaddress { font-size:.9em; font-family:Tahoma; color:#888888; margin-right:.5em; }
 
 .boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both;}
 .boardRead .readBody p { margin:1em 0; line-height:1.5em;}
