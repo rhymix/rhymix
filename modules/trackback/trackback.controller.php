@@ -33,13 +33,13 @@
             if(!$manual_inserted) {
                 // document model 객체 생성후 원본글을 가져옴
                 $oDocumentModel = &getModel('document');
-                $document = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);
 
                 // 원본글이 없거나 트랙백 허용을 하지 않으면 오류 표시
-                if(!$document_srl) return $this->stop('fail');
-                if($document->allow_trackback=='N') return new Object(-1,'fail');
+                if(!$oDocument->isExists()) return $this->stop('fail');
+                if(!$oDocument->allowTrackback()) return new Object(-1,'fail');
 
-                $obj->module_srl = $document->module_srl;
+                $obj->module_srl = $oDocument->get('module_srl');
             }
 
             // 엮인글 정리

@@ -98,6 +98,11 @@
             return $this->variables;
         }
 
+        function getObjectVars() {
+            foreach($this->variables as $key => $val) $output->{$key} = $val;
+            return $output;
+        }
+
         /**
          * @brief error값이 0이 아니면 오류
          **/

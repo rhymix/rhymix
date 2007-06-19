@@ -78,7 +78,6 @@
             $args->list_count = $obj->list_count;
 
             $output = executeQuery('trackback.getNewestTrackbackList', $args);
-            if(!$output->toBool()) return $output;
 
             return $output;
         }

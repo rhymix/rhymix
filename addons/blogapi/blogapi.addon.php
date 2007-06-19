@@ -192,10 +192,10 @@
                 $document_srl = array_pop($tmp_arr);
 
                 $oDocumentModel = &getModel('document');
-                $source_obj = $oDocumentModel->getDocument($document_srl);
-                $obj = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+                $obj = $oDocument->getObjectVars();
 
-                if(!$obj->is_granted) {
+                if(!$oDocument->isGranted()) {
                     $content = getXmlRpcFailure(1, 'no permisstion');
                     break;
                 }
@@ -259,7 +259,7 @@
                 $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $filename), $obj->content);
 
                 $oDocumentController = &getController('document');
-                $output = $oDocumentController->updateDocument($source_obj,$obj);
+                $output = $oDocumentController->updateDocument($oDocument,$obj);
 
                 if(!$output->toBool()) {
                     $content = getXmlRpcFailure(1, $output->getMessage());
@@ -301,22 +301,22 @@
 
 
                     $posts = array();
-                    foreach($output->data as $key => $val) {
+                    foreach($output->data as $key => $oDocument) {
                         $post = null;
-                        $post->link = $post->permaLink = getUrl('','mid',$this->mid,'document_srl',$val->document_srl);
-                        $post->userid = $val->user_id;
+                        $post->link = $post->permaLink = getUrl('','mid',$this->mid,'document_srl',$oDocument->document_srl);
+                        $post->userid = $oDocument->get('user_id');
                         $post->mt_allow_pings = 0;
-                        $post->mt_allow_comments = $val->allow_comment=='Y'?1:0;
-                        $post->description = htmlspecialchars($oContext->transContent($val->content));
-                        $post->postid = $val->document_srl;
-                        $post->title = htmlspecialchars($val->title);
+                        $post->mt_allow_comments = $oDocument->allowComment()=='Y'?1:0;
+                        $post->description = htmlspecialchars($oContext->transContent($oDocument->get('content')));
+                        $post->postid = $oDocument->document_srl;
+                        $post->title = htmlspecialchars($oDocument->get('title'));
 
-                        $year = substr($val->regdate,0,4);
-                        $month = substr($val->regdate,4,2);
-                        $day = substr($val->regdate,6,2);
-                        $hour = substr($val->regdate,8,2);
-                        $min = substr($val->regdate,10,2);
-                        $sec = substr($val->regdate,12,2);
+                        $year = substr($oDocument->get('regdate'),0,4);
+                        $month = substr($oDocument->get('regdate'),4,2);
+                        $day = substr($oDocument->get('regdate'),6,2);
+                        $hour = substr($oDocument->get('regdate'),8,2);
+                        $min = substr($oDocument->get('regdate'),10,2);
+                        $sec = substr($oDocument->get('regdate'),12,2);
                         $time = mktime($hour,$min,$sec,$month,$day,$year);
                         $post->dateCreated = gmdate("D, d M Y H:i:s", $time);
                         $posts[] = $post;

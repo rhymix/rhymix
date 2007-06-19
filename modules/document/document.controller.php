@@ -326,22 +326,22 @@
 
             // 문서 원본을 가져옴
             $oDocumentModel = &getModel('document');
-            $document = $oDocumentModel->getDocument($document_srl, false, false);
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 
             // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
-            if($document->ipaddress == $_SERVER['REMOTE_ADDR']) {
+            if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
                 $_SESSION['voted_document'][$document_srl] = true;
                 return new Object(-1, 'failed_voted');
             }
 
             // document의 작성자가 회원일때 조사
-            if($document->member_srl) {
+            if($oDocument->get('member_srl')) {
                 // member model 객체 생성
                 $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
 
                 // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
-                if($member_srl && $member_srl == $document->member_srl) {
+                if($member_srl && $member_srl == $oDocument->get('member_srl')) {
                     $_SESSION['voted_document'][$document_srl] = true;
                     return new Object(-1, 'failed_voted');
                 }

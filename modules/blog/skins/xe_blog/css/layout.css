@@ -9,7 +9,7 @@ Jeong, Chan Myeong 070601~070630
 #content { width:100%; position:relative; padding-bottom:2em; background-color:#FFFFFF;}
 
 /* Blog Layout - Common */
-#bodyWrap { position:relative; width:810px; margin:0 auto;}
+#bodyWrap { position:relative; width:820px; margin:0 auto; background-color:#FFFFFF;}
 
 /* Blog Layout - Content Body */
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
@@ -21,7 +21,7 @@ Jeong, Chan Myeong 070601~070630
 #columnRight {}
 
 /* Blog Layout - Content */
-#content { float:left; width:620px; overflow:hidden;}
+#content { float:left; width:620px; overflow:hidden; padding-right:10px;}
 
 #bodyWrap #accountNavigation { float:right; margin:1em 1em 0 0; padding-bottom:.5em; overflow:hidden;}
 #bodyWrap #accountNavigation li { float:left; margin-right:-1px; background:url(../images/white/blogHeaderVr.gif) no-repeat right center;}

@@ -30,10 +30,10 @@
 
                 // 이미 존재하는 글인지 체크
                 $document_srl = Context::get('document_srl');
-                $document = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);
 
                 // 이미 존재하는 글이라면 return
-                if($document->document_srl == $document_srl) return;
+                if($oDocument->isExists()) return;
             break;
         // 댓글 작성시 신규 등록이 아니면 패스~
         case 'procInsertComment' :
