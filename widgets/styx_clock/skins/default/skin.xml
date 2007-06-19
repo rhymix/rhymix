@@ -12,5 +12,8 @@
     <color name="vis">
       <title xml:lang="ko">vis</title>
     </color>
+    <color name="red">
+      <title xml:lang="ko">red</title>
+    </color>
   </colorset>
 </skin>
