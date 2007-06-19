@@ -253,19 +253,24 @@ function blogToggleFolder(zone_id) {
     var line_obj = xGetElementById(zone_id+'_line');
     var folder_obj = xGetElementById(zone_id+'_folder');
 
+
     // 대상의 자식 노드들이 숨겨져 있다면 열고 아니면 닫기
     if(folder_obj.className == "folder_open") {
         child_zone.style.display = "none";
 
-        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'minus_bottom';
-        else line_obj.className = 'minus';
+        if(!line_obj.className.search('null')) {
+            if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'minus_bottom';
+            else line_obj.className = 'minus';
+        }
 
         folder_obj.className = 'folder_close'
     } else {
         child_zone.style.display = "block";
 
-        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'plus_bottom';
-        else line_obj.className = 'plus';
+        if(!line_obj.className.search('null')) {
+            if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'plus_bottom';
+            else line_obj.className = 'plus';
+        }
 
         folder_obj.className = 'folder_open';
     }
