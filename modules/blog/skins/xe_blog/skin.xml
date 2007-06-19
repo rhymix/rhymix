@@ -23,13 +23,17 @@
             <title xml:lang="ko">부제</title>
             <description xml:lang="ko">레이아웃의 상단에 큰 제목 아래 부제목을 입력하세요.</description>
         </var>
-        <var name="logo_image" type="image" width="60" height="60">
+        <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
         </var>
-        <var name="profile_image" type="image" width="60" height="60">
+        <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
+        </var>
+        <var name="background_image" type="image">
+            <title xml:lang="ko">배경 이미지</title>
+            <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
         </var>
         <var name="profile" type="textarea">
             <title xml:lang="ko">프로필</title>

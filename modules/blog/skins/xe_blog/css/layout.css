@@ -6,7 +6,7 @@ Jeong, Chan Myeong 070601~070630
 */
 
 /* Common Layout of Content Group */
-#content { width:100%; position:relative; padding-bottom:2em;}
+#content { width:100%; position:relative; padding-bottom:2em; background-color:#FFFFFF;}
 
 /* Blog Layout - Common */
 #bodyWrap { position:relative; width:810px; margin:0 auto;}
@@ -23,9 +23,9 @@ Jeong, Chan Myeong 070601~070630
 /* Blog Layout - Content */
 #content { float:left; width:620px; overflow:hidden;}
 
-#bodyWrap #accountNavigation { float:right; padding-bottom:.5em; overflow:hidden;}
+#bodyWrap #accountNavigation { float:right; margin:1em 1em 0 0; padding-bottom:.5em; overflow:hidden;}
 #bodyWrap #accountNavigation li { float:left; margin-right:-1px; background:url(../images/white/blogHeaderVr.gif) no-repeat right center;}
-#bodyWrap #accountNavigation li a { display:block; float:left; padding:0 .75em; color:#999999; white-space:nowrap;}
+#bodyWrap #accountNavigation li a { display:block; float:left; padding:0 .75em; color:#888888; white-space:nowrap;}
 
 .accountNavigation { float:right; padding-bottom:.5em; overflow:hidden;}
 .accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/white/line_1x10_e0e0e0.gif) no-repeat left .4em;}
@@ -67,7 +67,7 @@ Jeong, Chan Myeong 070601~070630
 .boxTypeB .showAll { color:#000000; font-size:.9em; white-space:nowrap; display:inline-block; position:relative; left:1.2em; padding-right:.6em; background:url(../images/white/iconArrow00.gif) no-repeat right center;}
 
 /* Profile */
-div#profile { padding:10px; overflow:hidden;}
+div#profile { padding:10px; overflow:hidden; background-color:#FFFFFF; }
 div#profile img.profile { width:160px; display:block; margin-bottom:1.2em;}
 div#profile dl#hello {}
 div#profile dl#hello dt { color:#333333; margin-bottom:.2em;}
@@ -80,6 +80,8 @@ div#profile ul#admin li.write a { background:url(../images/white/iconWrite.gif) 
 div#profile ul#admin li.setup { padding-left:.7em; background:url(../images/white/blogHeaderVr.gif) no-repeat left center;}
 div#profile ul#admin li.setup a { background:url(../images/white/iconSetup.gif) no-repeat left center;}
 div#profile ul#admin li a { color:#666666;}
+
+div#blog_category { background-color:#FFFFFF; }
 
 /* Search Box */
 div#searchBox { margin-bottom:.7em; overflow:hidden; width:100%;}

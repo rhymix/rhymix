@@ -3,6 +3,15 @@
 <!--%import("css/blog_tree_menu.css")-->
 <!--%import("js/blog_tree_menu.js")-->
 
+<!--@if($layout_info->background_image)-->
+<style type="text/css">
+  body {  
+    background-repeat:repeat-x;
+    background-image:url({getUrl()}{$layout_info->background_image});
+  }       
+</style>
+<!--@end-->
+
 <script type="text/javascript">
     // 블로그 카테고리의 글 갯수를 javascript변수로 설정 
     <!--@foreach($category_list as $key => $val)-->setDocumentCount({$key}, {(int)$val->document_count});<!--@end-->
@@ -14,26 +23,27 @@
 
 <div id="bodyWrap">
 
-    <!-- 회원 관련 기능 -->
-    <ul id="accountNavigation">
-        <!-- 로그인 되었을 때 -->
-        <!--@if(!$is_logged)-->
-            <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-            <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> </li>
-
-        <!-- 비로그인 상태 -->
-        <!--@else-->
-            <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
-            <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a></li>
-        <!--@end-->
-
-
-        <!-- RSS -->
-          <li class="rss"><a href="{getUrl('','mid',$layout_info->mid,'act','rss')}"><img src="./images/{$module_info->colorset}/iconRss.gif" alt="RSS" width="12" height="12" /></a></li>
-    </ul>
-
     <!-- 상단 타이틀 및 메뉴 -->
     <div id="header">
+
+        <!-- 회원 관련 기능 -->
+        <ul id="accountNavigation">
+            <!-- 로그인 되었을 때 -->
+            <!--@if(!$is_logged)-->
+                <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+                <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> </li>
+
+            <!-- 비로그인 상태 -->
+            <!--@else-->
+                <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+                <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a></li>
+            <!--@end-->
+
+
+            <!-- RSS -->
+              <li class="rss"><a href="{getUrl('','mid',$layout_info->mid,'act','rss')}"><img src="./images/{$layout_info->colorset}/iconRss.gif" alt="RSS" width="12" height="12" /></a></li>
+        </ul>
+
 
         <h1>
             <!--@if($layout_info->logo_image)-->
@@ -94,6 +104,8 @@
 					</fieldset>
 				</form>
 			</div>
+
+            <!-- 왼쪽 위젯 위치 -->
 
         </div>
 

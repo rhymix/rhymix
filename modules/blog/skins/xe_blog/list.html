@@ -26,8 +26,8 @@
             <tr class="bg{($no+1)%2+1}">
                 <td class="num">{$no}</td>
                 <td class="title"><a href="#" onclick="winopen('{$oDocument->getPermanentUrl()}');return false;">{$oDocument->getTitleText()}</a></td>
-                <td class="reply"><!--@if($oDocument->getCommentCount())-->{number_format($oDocument->getCommentCount())}<!--@end--></td>
-                <td class="reply"><!--@if($oDocument->getTrackbackCount())-->{number_format($oDocument->getTrackbackCount())}<!--@end--></td>
+                <td class="reply"><!--@if($oDocument->getCommentCount())-->{number_format($oDocument->getCommentCount())}<!--@else-->&nbsp;<!--@end--></td>
+                <td class="reply"><!--@if($oDocument->getTrackbackCount())-->{number_format($oDocument->getTrackbackCount())}<!--@else-->&nbsp;<!--@end--></td>
                 <td class="date">{$oDocument->getRegdate("Y. m. d")}</td>
             </tr>
         </tbody>
