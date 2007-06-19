@@ -288,13 +288,13 @@
 
             switch($operation) {
                 case 'like_prefix' : 
-                        $value = "'".$value.'%'."'";
+                        $value = $value.'%';
                     break;
                 case 'like_tail' : 
-                        $value = "'".'%'.$value."'";
+                        $value = '%'.$value;
                     break;
                 case 'like' : 
-                        $value = "'".'%'.$value.'%'."'";
+                        $value = '%'.$value.'%';
                     break;
                 case 'in' :
                         return "'".$value."'";
