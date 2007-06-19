@@ -777,6 +777,9 @@
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
             $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'_transEditorComponent'), $content);
 
+            // body 내의 <style ..></style>를 header로 이동
+            $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $content);
+
             // <br> 코드 변환
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
@@ -790,6 +793,14 @@
             //$content = str_replace('atomicselection="true"','',$content);
 
             return $content;
+        }
+
+        /**
+         * @brief <body>내의 <style태그를 header로 이동
+         **/
+        function _moveStyleToHeader($matches) {
+            $this->addHtmlHeader($matches[0]);
+            return '';
         }
 
         /**
