@@ -6,13 +6,13 @@ Jeong, Chan Myeong 070601~070630
 */
 
 /* Blog Layout - Common */
-#bodyWrap { position:relative; width:830px; _width:840px; margin:0 auto; background-color:#FFFFFF;}
+#bodyWrap { position:relative; width:830px; margin:0 auto; background-color:#FFFFFF;}
 
 /* Blog Layout - Content Body */
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
 
 /* Blog Layout - ColumnLeft */
-#columnLeft { float:left; width:182px; margin:0px 8px 0px 10px; }
+#columnLeft { float:left; width:182px; margin:0px 8px 0px 0px; padding-left:10px;}
 
 /* Blog Layout - ColumnRight */
 #columnRight {}
