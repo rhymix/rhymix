@@ -571,10 +571,7 @@ function editorDragStart(evt) {
     editorDragObj.id = id.substr('editor_drag_bar_'.length);
 
     xAddEventListener(document, 'mousemove', editorDragMove, false);
-    xAddEventListener(editorDragObj.obj, 'mouseout', editorDragMove, false);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    if(iframe_obj) xAddEventListener(iframe_obj.contentWindow.document, 'mouseover', editorDragStop, false);
+    xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
 }
 
 function editorDragMove(evt) {
@@ -582,7 +579,10 @@ function editorDragMove(evt) {
 
     var e = new xEvent(evt);
     var h = e.pageY - editorDragObj.y;
+
+    editorDragObj.isDrag = true;
     editorDragObj.y = e.pageY;
+    editorDragObj.obj = e.target;
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
     xHeight(iframe_obj, xHeight(iframe_obj)+h);
@@ -592,10 +592,7 @@ function editorDragStop(evt) {
     if(!editorDragObj.isDrag) return;
 
     xRemoveEventListener(document, 'mousemove', editorDragMove, false);
-    xRemoveEventListener(editorDragObj.obj, 'mouseout', editorDragMove, false);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    if(iframe_obj) xRemoveEventListener(iframe_obj.contentWindow.document, 'mouseover', editorDragStop, false);
+    xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
 
     editorDragObj.isDrag = false;
     editorDragObj.y = 0;
