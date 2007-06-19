@@ -14,12 +14,14 @@
     if($called_position != 'before_module_proc') return;
 
     // 이 애드온이 동작할 대상 (이 부분은 특별히 정해진 규약이 없다)
-    $effecived_target = array(
-        'board' => array('procInsertDocument', 'procInsertComment', 'procReceiveTrackback'),
+    $effecived_target_act = array(
+        'procBoardInsertDocument', 'procBoardInsertComment',
+        'procBlogInsertComment',
+        'trackback',
     );
 
     // spam filter모듈이 적용될 module+act를 체크
-    if(!in_array($this->act, $effecived_target[$this->module])) return;
+    if(!in_array($this->act, $effecived_target_act)) return;
 
     // 각 모듈별 act에 대해서도 피해갈 부분이 있으면 피해감
     switch($this->act) {
