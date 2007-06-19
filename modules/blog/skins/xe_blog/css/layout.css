@@ -5,11 +5,8 @@ NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
 Jeong, Chan Myeong 070601~070630
 */
 
-/* Common Layout of Content Group */
-#content { width:100%; position:relative; padding-bottom:2em; background-color:#FFFFFF;}
-
 /* Blog Layout - Common */
-#bodyWrap { position:relative; width:830px; margin:0 auto; background-color:#FFFFFF;}
+#bodyWrap { position:relative; width:830px; _width:840px; margin:0 auto; background-color:#FFFFFF;}
 
 /* Blog Layout - Content Body */
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
