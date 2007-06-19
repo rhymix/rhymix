@@ -6,7 +6,7 @@
 <!-- 엮인글 목록 -->
 <!--@if($oDocument->getTrackbackCount())-->
 <div>
-    <!--@foreach($oDocument->getTrackbacks as $key => $val)-->
+    <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
     <a name="trackback_{$val->trackback_srl}"></a>
 
     <div style="margin-left:{$val->depth*15}px" >

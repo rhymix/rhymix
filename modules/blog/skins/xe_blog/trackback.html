@@ -3,7 +3,7 @@
 <!--@if($oDocument->getTrackbackCount())-->
 <ul id="trackbacks">
 
-    <!--@foreach($oDocument->getTrackbacks as $key => $val)-->
+    <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
     <li>
         <a name="trackback_{$val->trackback_srl}"></a>
         <address>
