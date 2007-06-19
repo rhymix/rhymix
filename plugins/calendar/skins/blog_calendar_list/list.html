@@ -8,28 +8,28 @@
     <div class="calendar_box">
 
         <div class="title_box">
-            <div class="title">{$plugin_info->today_str}</div>
+            <div class="title">{$widget_info->today_str}</div>
             <div class="move_month">
-                <a href="{getUrl('search_target','regdate','search_keyword',$plugin_info->prev_month)}">prev</a> |
-                <a href="{getUrl('search_target','regdate','search_keyword',$plugin_info->next_month)}">next</a>
+                <a href="{getUrl('search_target','regdate','search_keyword',$widget_info->prev_month)}">prev</a> |
+                <a href="{getUrl('search_target','regdate','search_keyword',$widget_info->next_month)}">next</a>
             </div>
         </div>
 
         {@ $day = ''}
         <table border="0" cellspacing="0" cellpadding="0" width="99%" style="table-layout:fixed">
         <!--@for($i=0;$i<6;$i++)-->
-            <!--@if($day < $plugin_info->last_day)-->
+            <!--@if($day < $widget_info->last_day)-->
             <tr>
             <!--@for($j=0;$j<7;$j++)-->
 
                 {@ $num = $i*7 + $j}
-                <!--@if(!$started && $num >= $plugin_info->start_week)-->
+                <!--@if(!$started && $num >= $widget_info->start_week)-->
                     {@ $started = true}
                     {@ $day = 1}
-                    {@ $cur_date = $plugin_info->cur_date.sprintf('%02d',$day) }
+                    {@ $cur_date = $widget_info->cur_date.sprintf('%02d',$day) }
                 <!--@elseif($started)-->
                     {@ $day++}
-                    {@ $cur_date = $plugin_info->cur_date.sprintf('%02d',$day) }
+                    {@ $cur_date = $widget_info->cur_date.sprintf('%02d',$day) }
                 <!--@end-->
 
                 <!--@if($cur_date == date("Ymd"))-->
@@ -46,7 +46,7 @@
                     {@ $cell_class_name = "week"}
                 <!--@end-->
 
-                <!--@if($plugin_info->calendar[$cur_date])-->
+                <!--@if($widget_info->calendar[$cur_date])-->
                     {@ $item_class_name = "selected_item"}
                     <!--@if($layout_info->mid)-->
                       {@ $day_link = getUrl('','mid',$layout_info->mid,'search_target','regdate','search_keyword',$cur_date) }
@@ -61,7 +61,7 @@
                 <td>
                     <div class="item_box {$today_class}">
                         <div  class="{$cell_class_name} {$item_class_name}">
-                            <!--@if($day <= $plugin_info->last_day)-->
+                            <!--@if($day <= $widget_info->last_day)-->
                                 <!--@if($day_link)-->
                                     <a href="{$day_link}">{$day}</a>
                                 <!--@else-->

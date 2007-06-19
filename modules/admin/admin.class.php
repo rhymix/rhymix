@@ -20,7 +20,7 @@
             $oAdminController->insertShortCut('menu');
             $oAdminController->insertShortCut('layout');
             $oAdminController->insertShortCut('addon');
-            $oAdminController->insertShortCut('plugin');
+            $oAdminController->insertShortCut('widget');
             $oAdminController->insertShortCut('member');
             $oAdminController->insertShortCut('module');
            

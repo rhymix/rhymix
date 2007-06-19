@@ -46,7 +46,7 @@ a.bold { font-weight:bold; }
 .folder_closer { display: none; }
 .folder_area { display: none; }
 
-.zbxe_plugin_output { background:url(../tpl/images/plugin.gif) no-repeat center; background-color:#FFFFFF; border:3px dotted #039311; display:block; }
+.zbxe_widget_output { background:url(../tpl/images/widget.gif) no-repeat center; background-color:#FFFFFF; border:3px dotted #039311; display:block; }
 
 .member_signature { margin-top:10px; border:1px solid #DDDDDD; padding:10px; }
 

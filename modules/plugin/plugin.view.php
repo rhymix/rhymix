@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  pluginView
+     * @class  widgetView
      * @author zero (zero@nzeo.com)
-     * @brief  plugin 모듈의 View class
+     * @brief  widget 모듈의 View class
      **/
 
-    class pluginView extends plugin {
+    class widgetView extends widget {
 
         /**
          * @brief 초기화
@@ -15,29 +15,29 @@
         }
         
         /**
-         * @brief 플러그인의 상세 정보(conf/info.xml)를 팝업 출력
+         * @brief 위젯의 상세 정보(conf/info.xml)를 팝업 출력
          **/
-        function dispPluginInfo() {
-            // 선택된 플러그인 정보를 구함
-            $oPluginModel = &getModel('plugin');
-            $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
-            Context::set('plugin_info', $plugin_info);
+        function dispWidgetInfo() {
+            // 선택된 위젯 정보를 구함
+            $oWidgetModel = &getModel('widget');
+            $widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
+            Context::set('widget_info', $widget_info);
 
-            // 플러그인을 팝업으로 지정
+            // 위젯을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('plugin_detail_info');
+            $this->setTemplateFile('widget_detail_info');
         }
 
         /**
-         * @brief 플러그인의 코드 생성기
+         * @brief 위젯의 코드 생성기
          **/
-        function dispPluginGenerateCode() {
-            // 선택된 플러그인 정보를 구함
-            $oPluginModel = &getModel('plugin');
-            $plugin_info = $oPluginModel->getPluginInfo(Context::get('selected_plugin'));
-            Context::set('plugin_info', $plugin_info);
+        function dispWidgetGenerateCode() {
+            // 선택된 위젯 정보를 구함
+            $oWidgetModel = &getModel('widget');
+            $widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
+            Context::set('widget_info', $widget_info);
 
             // mid 목록을 가져옴
             $oModuleModel = &getModel('module');
@@ -45,22 +45,22 @@
             Context::set('mid_list', $mid_list);
 
             // 스킨의 정보를 구함
-            $skin_list = $oModuleModel->getSkins($plugin_info->path);
+            $skin_list = $oModuleModel->getSkins($widget_info->path);
             Context::set('skin_list', $skin_list);
 
-            // 플러그인을 팝업으로 지정
+            // 위젯을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 
             // 템플릿 파일 지정
-            $this->setTemplateFile('plugin_generate_code');
+            $this->setTemplateFile('widget_generate_code');
         }
 
         /**
          * @brief 페이지 관리에서 사용될 코드 생성 팝업
          **/
-        function dispPluginGenerateCodeInPage() {
-            $this->dispPluginGenerateCode();
-            $this->setTemplateFile('plugin_generate_code_in_page');
+        function dispWidgetGenerateCodeInPage() {
+            $this->dispWidgetGenerateCode();
+            $this->setTemplateFile('widget_generate_code_in_page');
         }
 
     }

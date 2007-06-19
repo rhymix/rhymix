@@ -7,14 +7,14 @@
 <div class="newest_document_blog_{$colorset}" style="width:100%">
     <div class="newest_document_blog_box">
 
-        <!--@if($plugin_info->title)-->
+        <!--@if($widget_info->title)-->
         <div class="title_box">
-            <div class="title">{$plugin_info->title}</div>
+            <div class="title">{$widget_info->title}</div>
         </div>
         <!--@end-->
 
         <div class="document_box">
-            <!--@foreach($plugin_info->document_list as $oDocument)-->
+            <!--@foreach($widget_info->document_list as $oDocument)-->
             <div class="document">
                 <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a>
                 <!--@if($oDocument->getCommentCount())-->

@@ -1,25 +1,25 @@
-<!--%import("css/plugin.css")-->
+<!--%import("css/widget.css")-->
 
-<div class="plugin_detail_info_window">
+<div class="widget_detail_info_window">
 
-    <div class="plugin_title">{$lang->plugin_maker}</div>
+    <div class="widget_title">{$lang->widget_maker}</div>
 
-    <div class="plugin_header">{$lang->title}</div>
-    <div class="plugin_body">{$plugin_info->title} ver {$plugin_info->version}</div>
+    <div class="widget_header">{$lang->title}</div>
+    <div class="widget_body">{$widget_info->title} ver {$widget_info->version}</div>
 
-    <div class="plugin_header">{$lang->author}</div>
-    <div class="plugin_body"><a href="mailto:{$plugin_info->author->email_address}">{$plugin_info->author->name}</a></div>
+    <div class="widget_header">{$lang->author}</div>
+    <div class="widget_body"><a href="mailto:{$widget_info->author->email_address}">{$widget_info->author->name}</a></div>
 
-    <div class="plugin_header">{$lang->homepage}</div>
-    <div class="plugin_body"><a href="#" onclick="window.open('{$plugin_info->author->homepage}');return false;">{$plugin_info->author->homepage}</a></div>
+    <div class="widget_header">{$lang->homepage}</div>
+    <div class="widget_body"><a href="#" onclick="window.open('{$widget_info->author->homepage}');return false;">{$widget_info->author->homepage}</a></div>
 
-    <div class="plugin_header">{$lang->regdate}</div>
-    <div class="plugin_body">{$plugin_info->author->date}</div>
+    <div class="widget_header">{$lang->regdate}</div>
+    <div class="widget_body">{$widget_info->author->date}</div>
 
-    <div class="plugin_header">{$lang->description}</div>
-    <div class="plugin_body">{nl2br($plugin_info->author->description)}</div>
+    <div class="widget_header">{$lang->description}</div>
+    <div class="widget_body">{nl2br($widget_info->author->description)}</div>
 
-    <div class="plugin_button_area">
+    <div class="widget_button_area">
         <a href="#" onclick="window.close();">{$lang->cmd_close}</a>
     </div>
 

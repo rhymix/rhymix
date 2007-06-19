@@ -11,13 +11,13 @@
 <div class="newest_document_default_{$colorset}" style="width:100%">
     <div class="newest_document_default_box">
         <div class="title_box">
-            <div class="title">{$plugin_info->title}</div>
+            <div class="title">{$widget_info->title}</div>
             <!--@if($module_name)-->
-            <div class="more"><a href="{getUrl('','mid',$plugin_info->module_name)}">more</a></div>
+            <div class="more"><a href="{getUrl('','mid',$widget_info->module_name)}">more</a></div>
             <!--@end-->
         </div>
 
-        <!--@foreach($plugin_info->document_list as $oDocument)-->
+        <!--@foreach($widget_info->document_list as $oDocument)-->
         <div class="document_box">
             <div class="document">
                 <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a>

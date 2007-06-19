@@ -28,7 +28,7 @@ function editor_upload_form_set(upload_target_srl) {
     var embed_html = "";
     var flashVars = 'uploadProgressCallback=editor_upload_progress&uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape('../../../../?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
 
-    if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length) {
+    if(navigator.widgets&&navigator.mimeTypes&&navigator.mimeTypes.length) {
         embed_html = '<embed type="application/x-shockwave-flash" src="./modules/editor/tpl/images/SWFUpload.swf" width="1" height="1" id="'+uploader_name+'" name="'+uploader_name+'" quality="high" wmode="transparent" menu="false" flashvars="'+flashVars+'" />';
     } else {
         embed_html = '<object id="'+uploader_name+'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1" height="1"><param name="movie" value="./modules/editor/tpl/images/SWFUpload.swf" /><param name="bgcolor" value="#000000" /><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="menu" value="false" /><param name="flashvars" value="'+flashVars+'" /></object>';

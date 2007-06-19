@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin version="0.1">
+<widget version="0.1">
     <title xml:lang="ko">꼬리표 목록 출력</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
@@ -22,4 +22,4 @@
             <description xml:lang="ko">선택하신 모듈에 등록된 꼬리표를 대상으로 합니다.</description>
         </var>
     </extra_vars>
-</plugin>
+</widget>

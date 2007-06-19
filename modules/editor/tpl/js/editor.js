@@ -88,7 +88,7 @@ function editorStart(upload_target_srl, resizable, height) {
     else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
     xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
-    // 플러그인 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
+    // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
     xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
     xAddEventListener(document,'dblclick',editorSearchComponent);
 
@@ -411,8 +411,8 @@ function editorSearchComponent(evt) {
     editorPrevNode = null;
     var obj = e.target;
     
-    // 플러그인인지 일단 체크
-    if(obj.getAttribute("plugin")) {
+    // 위젯인지 일단 체크
+    if(obj.getAttribute("widget")) {
         // upload_target_srl을 찾음
         var tobj = obj;
         while(tobj && tobj.nodeName != "BODY") {
@@ -423,9 +423,9 @@ function editorSearchComponent(evt) {
             return;
         }
         var upload_target_srl = tobj.getAttribute("upload_target_srl");
-        var plugin = obj.getAttribute("plugin");
+        var widget = obj.getAttribute("widget");
         editorPrevNode = obj;
-        popopen(request_uri+"?module=plugin&act=dispPluginGenerateCodeInPage&selected_plugin="+plugin+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
+        popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
         return;
     }
 

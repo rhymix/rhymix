@@ -1,23 +1,23 @@
 <!--%import("filter/generate_code_in_page.xml")-->
-<!--%import("js/plugin_admin.js")-->
-<!--%import("css/plugin.css")-->
+<!--%import("js/widget_admin.js")-->
+<!--%import("css/widget.css")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);" id="fo_plugin">
-<input type="hidden" name="selected_plugin" value="{$selected_plugin}" />
+<form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);" id="fo_widget">
+<input type="hidden" name="selected_widget" value="{$selected_widget}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-<div class="plugin_detail_info_window">
+<div class="widget_detail_info_window">
 
-    <div class="plugin_title">{$plugin_info->title} ver {$plugin_info->version}</div>
+    <div class="widget_title">{$widget_info->title} ver {$widget_info->version}</div>
 
-    <div class="plugin_description">{$lang->about_plugin_code_in_page}</div>
+    <div class="widget_description">{$lang->about_widget_code_in_page}</div>
 
-    <div class="plugin_header">{$lang->description}</div>
-    <div class="plugin_body">{nl2br($plugin_info->author->description)}</div>
+    <div class="widget_header">{$lang->description}</div>
+    <div class="widget_body">{nl2br($widget_info->author->description)}</div>
 
-    <div class="plugin_header">{$lang->skin}</div>
-    <div class="plugin_body">
-        <select name="skin" onchange="doDisplaySkinColorset(this,'');return false;" id="plugin_skin">
+    <div class="widget_header">{$lang->skin}</div>
+    <div class="widget_body">
+        <select name="skin" onchange="doDisplaySkinColorset(this,'');return false;" id="widget_skin">
             <option value="">&nbsp;</option>
         <!--@foreach($skin_list as $key => $val)-->
             <option value="{$key}">{$val->title} ({$key})</option>
@@ -26,17 +26,17 @@
     </div>
 
     <div id="colorset_area" style="display:none">
-        <div class="plugin_header">{$lang->colorset}</div>
-        <div class="plugin_body">
-            <select name="colorset" id="plugin_colorset">
+        <div class="widget_header">{$lang->colorset}</div>
+        <div class="widget_body">
+            <select name="colorset" id="widget_colorset">
             </select>
         </div>
     </div>
 
-    <!--@foreach($plugin_info->extra_var as $id => $var)-->
-    <div class="plugin_header">{$var->name}</div>
+    <!--@foreach($widget_info->extra_var as $id => $var)-->
+    <div class="widget_header">{$var->name}</div>
 
-    <div class="plugin_body">
+    <div class="widget_body">
         <!--@if($var->type == "text")-->
         <input type="text" name="{$id}" value="" />
 
@@ -52,19 +52,19 @@
 
         <!--@elseif($var->type == "mid_list")-->
             <!--@foreach($mid_list as $key => $val)-->
-                <div class="plugin_mid_list">
+                <div class="widget_mid_list">
                     <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
                     <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
                 </div>
             <!--@end-->
         <!--@end-->
     </div>
-    <div class="plugin_var_description">{$var->description}</div>
+    <div class="widget_var_description">{$var->description}</div>
     <!--@end-->
 
-    <div class="plugin_button_area">
-        <input type="submit" value="{$lang->cmd_insert}" class="plugin_button" />
-        <input type="button" onclick="self.close()" value="{$lang->cmd_close}" class="plugin_button" />
+    <div class="widget_button_area">
+        <input type="submit" value="{$lang->cmd_insert}" class="widget_button" />
+        <input type="button" onclick="self.close()" value="{$lang->cmd_close}" class="widget_button" />
     </div>
 
 </div>
@@ -72,5 +72,5 @@
 </form>
 
 <script type="text/javascript">
-    xAddEventListener(window, "load", doFillPluginVars);
+    xAddEventListener(window, "load", doFillWidgetVars);
 </script>

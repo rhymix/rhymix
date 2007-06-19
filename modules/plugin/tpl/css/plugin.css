@@ -1,11 +1,11 @@
 @charset "utf-8";
 
-.plugin_detail_info_window {
+.widget_detail_info_window {
     width:600px;
     clear:both;
 }
 
-.plugin_title {
+.widget_title {
     font-weight:bold;
     font-size:10pt;
     text-align:center;
@@ -14,7 +14,7 @@
     background-color:#444444;
 }
 
-.plugin_description {
+.widget_description {
     margin:5px 2px 10px 2px;
     border:1px solid #EEEEEE;
     color:#444444;
@@ -22,7 +22,7 @@
     padding:5px;
 }
 
-.plugin_header {
+.widget_header {
     clear:left;
     font-weight:bold;
     float:left;
@@ -31,20 +31,20 @@
     padding:5px 0px 5px 0px;
 }
 
-.plugin_body {
+.widget_body {
     float:left;
     width:490px;
     padding:5px 0px 5px 0px;
 }
 
-.plugin_var_description {
+.widget_var_description {
     clear:both;
     padding:5px 0px 5px 0px;
     margin-left:100px;
     color:#AAAAAA;
 }
 
-.plugin_button_area {
+.widget_button_area {
     clear:both;
     text-align:center;
     padding:5px 0px 5px 0px;
@@ -52,14 +52,14 @@
     border-top:1px solid #AAAAAA;
 }
 
-.plugin_button {
+.widget_button {
     border:1px solid #AAAAAA;
     background-color:#FFFFFF;
     font-weight:bold;
     height:16px;
 }
 
-.plugin_code_area {
+.widget_code_area {
     clear:both;
     padding:4px;
     border:1px solid #AAAAAA;
@@ -67,7 +67,7 @@
     height:100px;
 }
 
-.plugin_code_area textarea {
+.widget_code_area textarea {
     border:0px;
     height:100px;
     width:570px;
@@ -75,7 +75,7 @@
     font-size:8pt;
 }
 
-.plugin_mid_list {
+.widget_mid_list {
     float:left;
     margin-right:10px;
 }

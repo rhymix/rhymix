@@ -7,14 +7,14 @@
 <div class="tag_list_{$colorset}" style="width:100%">
     <div class="tag_list_box">
 
-        <!--@if($plugin_info->title)-->
+        <!--@if($widget_info->title)-->
         <div class="title_box">
-            <div class="title">{$plugin_info->title}</div>
+            <div class="title">{$widget_info->title}</div>
         </div>
         <!--@end-->
 
         <div class="tag_box">
-            <!--@foreach($plugin_info->tag_list as $val)-->
+            <!--@foreach($widget_info->tag_list as $val)-->
             <div class="tag">
               <!--@if(!$layout_info->mid)-->
                 <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>

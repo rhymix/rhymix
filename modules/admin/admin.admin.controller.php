@@ -31,7 +31,7 @@
             $args->module = Context::get('selected_module');
 
             // 삭제 불가능 바로가기의 처리
-            if(in_array($args->module, array('module','addon','plugin','layout'))) return new Object(-1, 'msg_manage_module_cannot_delete');
+            if(in_array($args->module, array('module','addon','widget','layout'))) return new Object(-1, 'msg_manage_module_cannot_delete');
 
             $output = executeQuery('admin.deleteShortCut', $args);
             if(!$output->toBool()) return $output;

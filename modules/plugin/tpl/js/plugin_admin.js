@@ -1,23 +1,23 @@
 /**
- * @file   modules/plugin/js/plugin_admin.js
+ * @file   modules/widget/js/widget_admin.js
  * @author zero (zero@nzeo.com)
- * @brief  plugin 모듈의 관리자용 javascript
+ * @brief  widget 모듈의 관리자용 javascript
  **/
 
 /* 생성된 코드를 textarea에 출력 */
 function completeGenerateCode(ret_obj) {
-    var plugin_code = ret_obj["plugin_code"];
+    var widget_code = ret_obj["widget_code"];
 
-    var zone = xGetElementById("plugin_code");
-    zone.value = plugin_code;
+    var zone = xGetElementById("widget_code");
+    zone.value = widget_code;
 } 
 
 /* 생성된 코드를 에디터에 출력 */
 function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
-    var plugin_code = ret_obj["plugin_code"];
+    var widget_code = ret_obj["widget_code"];
     var module_srl = fo_obj.module_srl.value;
 
-    if(!opener || !plugin_code || !module_srl) {
+    if(!opener || !widget_code || !module_srl) {
         window.close(); 
         return;
     }
@@ -29,8 +29,8 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         orig_width = parseInt(xWidth(node),10)-6;
         orig_height = parseInt(xHeight(node),10)-6;
 
-        plugin_code = plugin_code.replace(/width([^p]+)px/ig,'width:'+orig_width+'px');
-        plugin_code = plugin_code.replace(/height([^p]+)px/ig,'height:'+orig_height+'px');
+        widget_code = widget_code.replace(/width([^p]+)px/ig,'width:'+orig_width+'px');
+        widget_code = widget_code.replace(/height([^p]+)px/ig,'height:'+orig_height+'px');
     }
 
     // 부모창에 에디터가 있으면 에디터에 추가
@@ -38,14 +38,14 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         var iframe_obj = opener.editorGetIFrame(module_srl);
         if(iframe_obj) {
             opener.editorFocus(module_srl);
-            opener.editorReplaceHTML(iframe_obj, plugin_code);
+            opener.editorReplaceHTML(iframe_obj, widget_code);
             opener.editorFocus(module_srl);
         }
     }
     //window.close();
 } 
 
-/* 플러그인 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
+/* 위젯 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
 function doDisplaySkinColorset(sel, colorset) {
     var skin = sel.options[sel.selectedIndex].value;
     if(!skin) {
@@ -55,18 +55,18 @@ function doDisplaySkinColorset(sel, colorset) {
     }
 
     var params = new Array();
-    params["selected_plugin"] = xGetElementById("fo_plugin").selected_plugin.value;
+    params["selected_widget"] = xGetElementById("fo_widget").selected_widget.value;
     params["skin"] = skin;
     params["colorset"] = colorset;
 
     var response_tags = new Array("error","message","colorset_list");
 
-    exec_xml("plugin", "procPluginGetColorsetList", params, completeGetSkinColorset, response_tags, params);
+    exec_xml("widget", "procWidgetGetColorsetList", params, completeGetSkinColorset, response_tags, params);
 }
 
 /* 서버에서 받아온 컬러셋을 표시 */
 function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
-    var sel = xGetElementById("fo_plugin").plugin_colorset;
+    var sel = xGetElementById("fo_widget").widget_colorset;
     var length = sel.options.length;
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);
@@ -86,10 +86,10 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
     setFixedPopupSize();
 }
 
-/* 페이지 모듈에서 내용의 플러그인을 더블클릭하여 수정하려고 할 경우 */
+/* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
 var selected_node = null;
-function doFillPluginVars() {
-    if(!opener || !opener.editorPrevNode || !opener.editorPrevNode.getAttribute("plugin")) return;
+function doFillWidgetVars() {
+    if(!opener || !opener.editorPrevNode || !opener.editorPrevNode.getAttribute("widget")) return;
 
     selected_node = opener.editorPrevNode;
 
@@ -97,7 +97,7 @@ function doFillPluginVars() {
     var skin = selected_node.getAttribute("skin");
     var colorset = selected_node.getAttribute("colorset");
 
-    var fo_obj = xGetElementById("fo_plugin");
+    var fo_obj = xGetElementById("fo_widget");
 
     for(var name in fo_obj) {
         var node = fo_obj[name];
@@ -136,8 +136,8 @@ function doFillPluginVars() {
     }
 
     //  컬러셋 설정
-    if(skin && xGetElementById("plugin_colorset").options.length<1 && colorset) {
-        doDisplaySkinColorset(xGetElementById("plugin_skin"), colorset);
+    if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
+        doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
     }
 
 }

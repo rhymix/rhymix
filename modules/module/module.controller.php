@@ -158,7 +158,7 @@
 
             // addon 삭제
 
-            // plugin 삭제
+            // widget 삭제
 
             // document 삭제
             $oDocumentController = &getAdminController('document');

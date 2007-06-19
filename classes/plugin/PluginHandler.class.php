@@ -1,63 +1,63 @@
 <?php
     /**
-     * @class PluginHandler
+     * @class WidgetHandler
      * @author zero (zero@nzeo.com)
-     * @brief 플러그인의 실행을 담당
+     * @brief 위젯의 실행을 담당
      **/
 
-    class PluginHandler {
+    class WidgetHandler {
 
-        var $plugin_path = '';
+        var $widget_path = '';
 
         /**
-         * @brief 플러그인을 찾아서 실행하고 결과를 출력
-         * <div plugin='플러그인'...></div> 태그 사용 templateHandler에서 PluginHandler::execute()를 실행하는 코드로 대체하게 된다
+         * @brief 위젯을 찾아서 실행하고 결과를 출력
+         * <div widget='위젯'...></div> 태그 사용 templateHandler에서 WidgetHandler::execute()를 실행하는 코드로 대체하게 된다
          **/
-        function execute($plugin, $args) {
-            // 디버그를 위한 플러그인 실행 시간 저장
+        function execute($widget, $args) {
+            // 디버그를 위한 위젯 실행 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
 
-            // $plugin의 객체를 받음 
-            $oPlugin = PluginHandler::getObject($plugin);
+            // $widget의 객체를 받음 
+            $oWidget = WidgetHandler::getObject($widget);
 
-            // 플러그인 실행
-            if($oPlugin) {
-                $output = $oPlugin->proc($args);
+            // 위젯 실행
+            if($oWidget) {
+                $output = $oWidget->proc($args);
             }
 
-            if(__DEBUG__==3) $GLOBALS['__plugin_excute_elapsed__'] += getMicroTime() - $start;
+            if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
 
             return $output;
         }
 
         /**
-         * @brief 플러그인 객체를 return
+         * @brief 위젯 객체를 return
          **/
-        function getObject($plugin) {
-            if(!$GLOBALS['_xe_loaded_plugins_'][$plugin]) {
-                // 일단 플러그인의 위치를 찾음
-                $oPluginModel = &getModel('plugin');
-                $path = $oPluginModel->getPluginPath($plugin);
+        function getObject($widget) {
+            if(!$GLOBALS['_xe_loaded_widgets_'][$widget]) {
+                // 일단 위젯의 위치를 찾음
+                $oWidgetModel = &getModel('widget');
+                $path = $oWidgetModel->getWidgetPath($widget);
 
-                // 플러그인 클래스 파일을 찾고 없으면 에러 출력 (html output)
-                $class_file = sprintf('%s%s.class.php', $path, $plugin);
-                if(!file_exists($class_file)) return sprintf(Context::getLang('msg_plugin_is_not_exists'), $plugin);
+                // 위젯 클래스 파일을 찾고 없으면 에러 출력 (html output)
+                $class_file = sprintf('%s%s.class.php', $path, $widget);
+                if(!file_exists($class_file)) return sprintf(Context::getLang('msg_widget_is_not_exists'), $widget);
 
-                // 플러그인 클래스를 include
+                // 위젯 클래스를 include
                 require_once($class_file);
             
                 // 객체 생성
-                $eval_str = sprintf('$oPlugin = new %s();', $plugin);
+                $eval_str = sprintf('$oWidget = new %s();', $widget);
                 @eval($eval_str);
-                if(!is_object($oPlugin)) return sprintf(Context::getLang('msg_plugin_object_is_null'), $plugin);
+                if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 
-                if(!method_exists($oPlugin, 'proc')) return sprintf(Context::getLang('msg_plugin_proc_is_null'), $plugin);
+                if(!method_exists($oWidget, 'proc')) return sprintf(Context::getLang('msg_widget_proc_is_null'), $widget);
 
-                $oPlugin->plugin_path = $path;
+                $oWidget->widget_path = $path;
 
-                $GLOBALS['_xe_loaded_plugins_'][$plugin] = $oPlugin;
+                $GLOBALS['_xe_loaded_widgets_'][$widget] = $oWidget;
             }
-            return $GLOBALS['_xe_loaded_plugins_'][$plugin];
+            return $GLOBALS['_xe_loaded_widgets_'][$widget];
         }
 
     }

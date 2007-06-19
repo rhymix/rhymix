@@ -3,7 +3,7 @@
   <title xml:lang="ko">달력 및 글 현황 표시</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
-    <description xml:lang="ko">calendar플러그인의 블로그에 어울리는 기본 스킨입니다.</description>
+    <description xml:lang="ko">calendar위젯의 블로그에 어울리는 기본 스킨입니다.</description>
   </maker>
   <colorset>
     <color name="normal">

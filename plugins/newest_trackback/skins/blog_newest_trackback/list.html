@@ -6,14 +6,14 @@
 <div class="newest_trackback_{$colorset}" style="width:100%">
     <div class="newest_trackback_box">
 
-        <!--@if($plugin_info->title)-->
+        <!--@if($widget_info->title)-->
         <div class="title_box">
-            <div class="title">{$plugin_info->title}</div>
+            <div class="title">{$widget_info->title}</div>
         </div>
         <!--@end-->
 
         <div class="trackback_box">
-            <!--@foreach($plugin_info->trackback_list as $val)-->
+            <!--@foreach($widget_info->trackback_list as $val)-->
             <div class="trackback">
                 <a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,15,'...')}</a>
                 - <a href="#" onclick="winopen('{$val->url}');return false;">{cut_str($val->blog_name,10,'...')}</a>

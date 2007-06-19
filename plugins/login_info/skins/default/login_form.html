@@ -7,8 +7,8 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<div class="login_plugin">
-    <form action="./" method="get" onsubmit="return procFilter(this, plugin_login)" id="fo_login_plugin">
+<div class="login_widget">
+    <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
         <div class="login_box">
             <div class="header">{$lang->user_id}</div>
             <div class="body">
@@ -31,7 +31,7 @@
     </form>
 
     <script type="text/javascript">
-        xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_plugin"); });
+        xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
     </script>
 
     <!-- OpenID -->

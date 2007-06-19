@@ -767,11 +767,11 @@
         }
 
         /**
-         * @brief 내용의 플러그인이나 기타 기능에 대한 code를 실제 code로 변경
+         * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
-            // 플러그인 코드 변경 
-            $content = preg_replace_callback('!<img([^\>]*)plugin=([^\>]*?)\>!is', array($this,'_transPlugin'), $content);
+            // 위젯 코드 변경 
+            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'_transWidget'), $content);
             
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
@@ -812,7 +812,7 @@
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
             $buff = str_replace("&","&amp;",$buff);
 
-            // 플러그인에서 생성된 코드 (img, div태그내에 editor_plugin코드 존재)의 parameter를 추출
+            // 위젯에서 생성된 코드 (img, div태그내에 editor_widget코드 존재)의 parameter를 추출
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
             if($xml_doc->div) $xml_doc = $xml_doc->div;
@@ -832,9 +832,9 @@
         }
 
         /**
-         * @brief 플러그인 코드를 실제 php코드로 변경
+         * @brief 위젯 코드를 실제 php코드로 변경
          **/
-        function _transPlugin($matches) {
+        function _transWidget($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
             $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
@@ -846,13 +846,13 @@
             if($xml_doc->img) $vars = $xml_doc->img->attrs;
             else $vars = $xml_doc->attrs;
 
-            if(!$vars->plugin) return "";
+            if(!$vars->widget) return "";
 
-            // 플러그인의 이름을 구함
-            $plugin = $vars->plugin;
-            unset($vars->plugin);
+            // 위젯의 이름을 구함
+            $widget = $vars->widget;
+            unset($vars->widget);
             
-            return PluginHandler::execute($plugin, $vars);
+            return WidgetHandler::execute($widget, $vars);
         }
 
     }

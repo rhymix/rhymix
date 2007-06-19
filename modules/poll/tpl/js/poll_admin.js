@@ -4,7 +4,7 @@
  * @brief  poll 모듈의 관리자용 javascript
  **/
 
-/* 플러그인 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
+/* 위젯 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
 function doDisplaySkinColorset(sel, colorset) {
     var skin = sel.options[sel.selectedIndex].value;
 

@@ -120,10 +120,10 @@
             if(!$module_srl) $module_srl = getNextSequence();
             Context::set('module_srl',$module_srl);
 
-            // 플러그인 목록을 세팅
-            $oPluginModel = &getModel('plugin');
-            $plugin_list = $oPluginModel->getDownloadedPluginList();
-            Context::set('plugin_list', $plugin_list);
+            // 위젯 목록을 세팅
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            Context::set('widget_list', $widget_list);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');

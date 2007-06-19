@@ -7,7 +7,7 @@
     * Response Method에 따라서 html or xml 출력방법을 결정한다
     * xml : oModule의 variables를 simple xml 로 출력
     * html : oModule의 template/variables로 html을 만들고 contents_html로 처리
-    *        plugin이나 layout의 html과 연동하여 출력
+    *        widget이나 layout의 html과 연동하여 출력
     **/
 
     class DisplayHandler extends Handler {
@@ -45,13 +45,13 @@
 
                 if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
-                // 각 플러그인, 에디터 컴포넌트의 코드 변경
+                // 각 위젯, 에디터 컴포넌트의 코드 변경
                 if(__DEBUG__==3) $start = getMicroTime();
 
                 $oContext = &Context::getInstance();
                 $zbxe_final_content= $oContext->transContent($zbxe_final_content);
 
-                if(__DEBUG__==3) $GLOBALS['__trans_plugin_editor_elapsed__'] = getMicroTime()-$start;
+                if(__DEBUG__==3) $GLOBALS['__trans_widget_editor_elapsed__'] = getMicroTime()-$start;
 
                 // 최종 결과를 common_layout에 넣어버림 
                 Context::set('zbxe_final_content', $zbxe_final_content);
@@ -187,14 +187,14 @@
                 $buff .= sprintf("\tXmlParse compile elapsed time\t: %0.5f sec\n", $GLOBALS['__xmlparse_elapsed__']);
                 $buff .= sprintf("\tPHP elapsed time \t\t: %0.5f sec\n", $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__xmlparse_elapsed__']-$GLOBALS['__db_elapsed_time__']-$GLOBALS['__elapsed_class_load__']);
 
-                // 플러그인 실행 시간 작성
-                $buff .= sprintf("\n\tPlugins elapsed time \t\t: %0.5f sec", $GLOBALS['__plugin_excute_elapsed__']);
+                // 위젯 실행 시간 작성
+                $buff .= sprintf("\n\tWidgets elapsed time \t\t: %0.5f sec", $GLOBALS['__widget_excute_elapsed__']);
 
                 // 레이아웃 실행 시간
                 $buff .= sprintf("\n\tLayout compile elapsed time \t: %0.5f sec", $GLOBALS['__layout_compile_elapsed__']);
 
-                // 플러그인, 에디터 컴포넌트 치환 시간
-                $buff .= sprintf("\n\tTrans plugin&editor elapsed time: %0.5f sec\n\n", $GLOBALS['__trans_plugin_editor_elapsed__']);
+                // 위젯, 에디터 컴포넌트 치환 시간
+                $buff .= sprintf("\n\tTrans widget&editor elapsed time: %0.5f sec\n\n", $GLOBALS['__trans_widget_editor_elapsed__']);
             }
 
             // 전체 실행 시간 작성

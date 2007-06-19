@@ -7,14 +7,14 @@
 <div class="newest_comment_{$colorset}" style="width:100%">
     <div class="newest_comment_box">
 
-        <!--@if($plugin_info->title)-->
+        <!--@if($widget_info->title)-->
         <div class="title_box">
-            <div class="title">{$plugin_info->title}</div>
+            <div class="title">{$widget_info->title}</div>
         </div>
         <!--@end-->
 
         <div class="comment_box">
-            <!--@foreach($plugin_info->comment_list as $val)-->
+            <!--@foreach($widget_info->comment_list as $val)-->
             <div class="comment">
                 <a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str(strip_tags($val->content),13,'...'))}</a>
                 <!--@if($val->member_srl)-->

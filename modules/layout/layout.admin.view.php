@@ -84,10 +84,10 @@
             $layout_code = FileHandler::readFile($layout_file);
             Context::set('layout_code', $layout_code);
 
-            // 플러그인 목록을 세팅
-            $oPluginModel = &getModel('plugin');
-            $plugin_list = $oPluginModel->getDownloadedPluginList();
-            Context::set('plugin_list', $plugin_list);
+            // 위젯 목록을 세팅
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            Context::set('widget_list', $widget_list);
 
             $this->setTemplateFile('layout_edit');
         }
@@ -149,7 +149,7 @@
 
             $layout_tpl = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
-            // 플러그인등을 변환
+            // 위젯등을 변환
             $oContext = &Context::getInstance();
             $layout_tpl = $oContext->transContent($layout_tpl);
             Context::set('layout_tpl', $layout_tpl);

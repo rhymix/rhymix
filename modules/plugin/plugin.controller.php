@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  pluginController
+     * @class  widgetController
      * @author zero (zero@nzeo.com)
-     * @brief  plugin 모듈의 Controller class
+     * @brief  widget 모듈의 Controller class
      **/
 
-    class pluginController extends plugin {
+    class widgetController extends widget {
 
         /**
          * @brief 초기화
@@ -14,16 +14,16 @@
         }
 
         /**
-         * @brief 플러그인의 생성된 코드를 return
+         * @brief 위젯의 생성된 코드를 return
          **/
-        function procPluginGenerateCode() {
+        function procWidgetGenerateCode() {
             // 변수 정리
             $vars = Context::getRequestVars();
-            $plugin = $vars->selected_plugin;
+            $widget = $vars->selected_widget;
 
             unset($vars->module);
             unset($vars->act);
-            unset($vars->selected_plugin);
+            unset($vars->selected_widget);
 
             $attribute = array();
             if($vars) {
@@ -34,20 +34,20 @@
             }
 
             $blank_img_path = "./common/tpl/images/blank.gif";
-            $plugin_code = sprintf('<img src="%s" class="zbxe_plugin_output" plugin="%s" %s style="width:100px;height:100px;"/>', $blank_img_path, $plugin, implode(' ',$attribute));
+            $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="width:100px;height:100px;"/>', $blank_img_path, $widget, implode(' ',$attribute));
 
             // 코드 출력
-            $this->add('plugin_code', $plugin_code);
+            $this->add('widget_code', $widget_code);
         }
 
         /**
-         * @brief 선택된 플러그인 - 스킨의 컬러셋을 return
+         * @brief 선택된 위젯 - 스킨의 컬러셋을 return
          **/
-        function procPluginGetColorsetList() {
-            $plugin = Context::get('selected_plugin');
+        function procWidgetGetColorsetList() {
+            $widget = Context::get('selected_widget');
             $skin = Context::get('skin');
 
-            $path = sprintf('./plugins/%s/', $plugin);
+            $path = sprintf('./widgets/%s/', $widget);
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($path, $skin);
 

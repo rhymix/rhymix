@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispPluginInfo" type="view" standalone="true" />
-        <action name="dispPluginGenerateCode" type="view" standalone="true" />
-        <action name="dispPluginGenerateCodeInPage" type="view" standalone="true" />
+        <action name="dispWidgetInfo" type="view" standalone="true" />
+        <action name="dispWidgetGenerateCode" type="view" standalone="true" />
+        <action name="dispWidgetGenerateCodeInPage" type="view" standalone="true" />
 
-        <action name="dispPluginAdminDownloadedList" type="view" standalone="true" admin_index="true" />
+        <action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" />
 
-        <action name="procPluginGenerateCode" type="controller" standalone="true" />
-        <action name="procPluginGetColorsetList" type="controller" standalone="true" />
+        <action name="procWidgetGenerateCode" type="controller" standalone="true" />
+        <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
     </actions>
 </module>

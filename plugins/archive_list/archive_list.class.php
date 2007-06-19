@@ -6,16 +6,16 @@
      * @version 0.1
      **/
 
-    class archive_list extends PluginHandler {
+    class archive_list extends WidgetHandler {
 
         /**
-         * @brief 플러그인의 실행 부분
+         * @brief 위젯의 실행 부분
          *
-         * ./plugins/플러그인/conf/info.xml 에 선언한 extra_vars를 args로 받는다
+         * ./widgets/위젯/conf/info.xml 에 선언한 extra_vars를 args로 받는다
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 플러그인 자체적으로 설정한 변수들을 체크
+            // 위젯 자체적으로 설정한 변수들을 체크
             $title = $args->title;
             $mid_list = explode(",",$args->mid_list);
 
@@ -27,17 +27,17 @@
             $output = $oDocumentModel->getMonthlyArchivedList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $plugin_info->module_name = $mid_list[0];
+            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
             
-            $plugin_info->title = $title;
-            $plugin_info->archive_list = $output->data;
+            $widget_info->title = $title;
+            $widget_info->archive_list = $output->data;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
-            $plugin_info->width = trim($matches[3][0]);
-            Context::set('plugin_info', $plugin_info);
+            $widget_info->width = trim($matches[3][0]);
+            Context::set('widget_info', $widget_info);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
-            $tpl_path = sprintf('%sskins/%s', $this->plugin_path, $args->skin);
+            $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
             Context::set('colorset', $args->colorset);
 
             // 템플릿 파일을 지정

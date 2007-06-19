@@ -91,7 +91,7 @@
 
     $lang->mid = '모듈이름';
     $lang->layout = '레이아웃';
-    $lang->plugin = '플러그인 ';
+    $lang->widget = '위젯 ';
     $lang->module = '모듈';
     $lang->skin = '스킨';
     $lang->colorset = '컬러셋';

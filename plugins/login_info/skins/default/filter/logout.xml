@@ -1,4 +1,4 @@
-<filter name="plugin_logout" module="member" act="procMemberLogout">
+<filter name="widget_logout" module="member" act="procMemberLogout">
   <form />
   <response>
     <tag name="error" />

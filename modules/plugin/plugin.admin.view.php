@@ -1,11 +1,11 @@
 <?php
     /**
-     * @class  pluginAdminView
+     * @class  widgetAdminView
      * @author zero (zero@nzeo.com)
-     * @brief  plugin 모듈의 admin view class
+     * @brief  widget 모듈의 admin view class
      **/
 
-    class pluginAdminView extends plugin {
+    class widgetAdminView extends widget {
 
         /**
          * @brief 초기화
@@ -15,15 +15,15 @@
         }
         
         /**
-         * @brief 플러그인 목록을 보여줌
+         * @brief 위젯 목록을 보여줌
          **/
-        function dispPluginAdminDownloadedList() {
-            // 플러그인 목록을 세팅
-            $oPluginModel = &getModel('plugin');
-            $plugin_list = $oPluginModel->getDownloadedPluginList();
-            Context::set('plugin_list', $plugin_list);
+        function dispWidgetAdminDownloadedList() {
+            // 위젯 목록을 세팅
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            Context::set('widget_list', $widget_list);
 
-            $this->setTemplateFile('downloaded_plugin_list');
+            $this->setTemplateFile('downloaded_widget_list');
         }
     }
 ?>
