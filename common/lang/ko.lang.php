@@ -7,6 +7,7 @@
 
     // 기본적으로 사용되는 action 언어
     $lang->cmd_write = '쓰기';
+    $lang->cmd_comment_registration = '댓글 등록';
     $lang->cmd_reply = '답글';
     $lang->cmd_delete = '삭제';
     $lang->cmd_modify = '수정';

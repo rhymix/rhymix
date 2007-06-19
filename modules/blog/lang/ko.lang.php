@@ -15,7 +15,6 @@
     $lang->cmd_remake_cache = '캐시파일 재생성';
     $lang->cmd_layout_setup = '레이아웃 설정';
     $lang->cmd_layout_edit = '레이아웃 편집';
-    $lang->cmd_comment_registration = '댓글 등록';
 
     // 항목
     $lang->parent_category_name = '상위 카테고리명';
