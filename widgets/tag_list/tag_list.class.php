@@ -44,7 +44,7 @@
             Context::set('colorset', $args->colorset);
 
             // 템플릿 파일을 지정
-            $tpl_file = 'list';
+            $tpl_file = 'tags';
 
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
