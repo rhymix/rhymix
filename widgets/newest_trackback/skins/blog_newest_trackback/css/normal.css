@@ -3,4 +3,4 @@ div#newestTrackback h2 { position:relative; border-left:1px solid #ffffff; borde
 /*:first-child+html .boxTypeB h2 { height:20px;} */
 div#newestTrackback .trackbackList { padding:1.2em; overflow:hidden;}
 div#newestTrackback .trackbackList li { display:block; color:#a4a4a4; margin-right:.1em; line-height:1.5em;}
-div#newestTrackback .trackbackList li a { color:#a4a4a4; font-weight:bold; }
+div#newestTrackback .trackbackList li a { color:#a4a4a4; }
