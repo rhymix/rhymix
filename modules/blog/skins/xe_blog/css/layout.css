@@ -102,24 +102,6 @@ div#neighbor #neighborList li ul { display:none; padding:.7em 0 0 0;}
 div#neighbor #neighborList li ul li { padding:0 0 .6em .6em; margin-left:-.6em; background:url(../images/white/iconLineBD.gif) no-repeat left 5px;}
 div#neighbor #neighborList li ul li a{ font-weight:normal;}
 
-/* Calendar */
-div#calendar { padding:1.2em .8em;}
-div#calendar table { width:100%;}
-div#calendar table caption { font:bold 1.5em Tahoma; color:#9a9a9a; padding-bottom:.6em;}
-div#calendar table caption .mm { font:bold 1em Tahoma; color:#54564b;}
-div#calendar table caption a { padding:.2em;}
-div#calendar table caption a img { vertical-align:middle;}
-div#calendar table th,
-div#calendar table td { padding:.25em 0;}
-div#calendar table th { font-weight:normal; font-size:.9em; color:#9a9a9a;}
-div#calendar table th.sun { color:#fe3614;}
-div#calendar table td { text-align:center;}
-div#calendar table td a { font:.9em Tahoma; color:#9a9a9a;}
-div#calendar table td.sun { color:#fe3614;}
-div#calendar table td.sun a { color:#fe3614;}
-div#calendar table td.today a { font-weight:bold; color:#54564b;}
-div#calendar table td.posted a { text-decoration:underline;}
-
 /* buttonType */
 .buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
 .buttonTypeA:hover { text-decoration:none;}

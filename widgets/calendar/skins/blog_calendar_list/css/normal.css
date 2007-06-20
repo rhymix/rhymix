@@ -13,5 +13,6 @@ div#calendar table td { text-align:center;}
 div#calendar table td a { font:.9em Tahoma; color:#9a9a9a;}
 div#calendar table td.sun { color:#fe3614;}
 div#calendar table td.sun a { color:#fe3614;}
+div#calendar table td.today { font-weight:bold; color:#54564b;}
 div#calendar table td.today a { font-weight:bold; color:#54564b;}
 div#calendar table td.posted a { text-decoration:underline;}
