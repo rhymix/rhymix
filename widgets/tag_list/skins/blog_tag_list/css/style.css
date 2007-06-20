@@ -1,52 +1,7 @@
-.tag_list_normal {
-}
-
-.tag_list_normal .tag_list_box {
-    margin-bottom:5px;
-}
-
-.tag_list_normal .tag_list_box .title_box {
-    padding:5px;
-    height:14px;
-    overflow:hidden;
-    color:#888888;
-}
-
-.tag_list_normal .tag_list_box .title_box .title {
-    font-weight:bold; 
-    height:14px;
-    float:left;
-}
-
-.tag_list_normal .tag_list_box .tag_box {
-    padding:5px;
-    clear:both;
-    border:3px solid #EEEEEE;
-}
-
-.tag_list_normal .tag_list_box .tag {
-    display:inline;
-    margin-right:5px;
-    color:#AAAAAA;
-}
-
-.tag_list_normal .tag_list_box .tag A {
-    text-decoration:none;
-    color:#555555;
-}
-
-.tag_list_normal .tag_list_box .tag A:hover {
-    text-decoration:underline;
-    color:#000000;
-}
-
-.tag_list_normal .tag_list_box .tag A:visited {
-    color:#AAAAAA;
-}
-
-.tag_list_normal .tag_list_box .tag .tag A {
-    font-size:7pt;
-    font-family:tahoma;
-    color:#AAAAAA;
-    letter-spacing:-1px;
-}
+div#tag { padding-bottom:1em;}
+div#tag .tagList { padding:1.2em; overflow:hidden;}
+div#tag .tagList li { display:inline; color:#a4a4a4; margin-right:.1em; line-height:1.5em;}
+div#tag .tagList li a { color:#a4a4a4;}
+div#tag .tagList li.typeA a { color:#fe3614; font-weight:bold;}
+div#tag .tagList li.typeB a { color:#fe3614;}
+div#tag .tagList li.typeC a { font-weight:bold;}
