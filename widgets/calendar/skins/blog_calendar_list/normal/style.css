@@ -1,78 +1,17 @@
-.calendar_normal {
-}
-
-.calendar_normal .calendar_box {
-    margin-bottom:5px;
-}
-
-.calendar_normal .calendar_box .title_box {
-    padding:5px;
-    height:14px;
-    overflow:hidden;
-    color:#888888;
-}
-
-.calendar_normal .calendar_box .title_box .title {
-    font-weight:bold; 
-    height:14px;
-    float:left;
-}
-
-.calendar_normal .calendar_box .title_box .move_month {
-    font-weight:bold; 
-    height:14px;
-    float:right;
-}
-
-.calendar_normal .calendar_box .calendar_box {
-    padding:5px;
-    border:3px solid #EEEEEE;
-    overflow:hidden;
-}
-
-.calendar_normal .calendar_box .week {
-}
-
-.calendar_normal .calendar_box .item_box {
-    border:1px solid #EEEEEE;
-    margin:1px;
-    text-align:right;
-}
-
-.calendar_normal .calendar_box .sunday {
-    color:darkred;
-}
-
-.calendar_normal .calendar_box .saturday {
-    color:darkblue;
-}
-
-.calendar_normal .calendar_box .week {
-    color:#666666;
-}
-
-.calendar_normal .calendar_box .today {
-    background-color:yellow; 
-}
-
-.calendar_normal .calendar_box .unselected_item {
-}
-
-.calendar_normal .calendar_box .selected_item {
-    font-weight:bold;
-    text-decoration:underline;
-}
-
-.calendar_normal .calendar_box .item_box {
-    margin-right:5px;
-    color:#AAAAAA;
-    height:20px;
-}
-
-.calendar_normal .calendar_box .item_box div {
-    margin-right:2px;
-}
-
-.calendar_normal .calendar_box .item_box A {
-    color:green;
-}
+/* Calendar */
+div#calendar { padding:1.2em .8em; position:relative; border:1px solid #e0e1db; margin-bottom:.7em;}
+div#calendar table { width:100%;}
+div#calendar table caption { font:bold 1.5em Tahoma; color:#9a9a9a; padding-bottom:.6em;}
+div#calendar table caption .mm { font:bold 1em Tahoma; color:#54564b;}
+div#calendar table caption a { padding:.2em;}
+div#calendar table caption a img { vertical-align:middle;}
+div#calendar table th,
+div#calendar table td { padding:.25em 0;}
+div#calendar table th { font-weight:normal; font-size:.9em; color:#9a9a9a;}
+div#calendar table th.sun { color:#fe3614;}
+div#calendar table td { text-align:center;}
+div#calendar table td a { font:.9em Tahoma; color:#9a9a9a;}
+div#calendar table td.sun { color:#fe3614;}
+div#calendar table td.sun a { color:#fe3614;}
+div#calendar table td.today a { font-weight:bold; color:#54564b;}
+div#calendar table td.posted a { text-decoration:underline;}
