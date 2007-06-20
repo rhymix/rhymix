@@ -19,7 +19,7 @@
             <th scope="col" class="category">
                 <form action="./" method="get">
                     <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
-                        <option selected="selected">{$lang->category}</option>
+                        <option value="" selected="selected">{$lang->category}</option>
                         <!--@foreach($category_list as $val)-->
                         <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                         <!--@end-->
