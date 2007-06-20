@@ -14,7 +14,7 @@
     </div>
     <ul class="documentList">
         <!--@foreach($widget_info->document_list as $oDocument)-->
-            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText()}</a></li>
+            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(13)}</a></li>
         <!--@end-->
     </ul>
 </div>
