@@ -3,4 +3,4 @@
 /*:first-child+html .boxTypeB h2 { height:20px;} */
 .newestComment .commentList { padding:1.2em; overflow:hidden;}
 .newestComment .commentList li { display:block; color:#a4a4a4; margin-right:.1em; line-height:1.5em;}
-.newestComment .commentList li a { color:#a4a4a4;}
+.newestComment .commentList li a { color:#a4a4a4;  white-space:nowrap}

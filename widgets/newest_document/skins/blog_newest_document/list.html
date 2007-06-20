@@ -9,12 +9,12 @@
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
         <!--@else-->
-            <h2>tags</h2>
+            <h2>newest documents</h2>
         <!--@end-->
     </div>
     <ul class="documentList">
         <!--@foreach($widget_info->document_list as $oDocument)-->
-            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a></li>
+            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText()}</a></li>
         <!--@end-->
     </ul>
 </div>
