@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+div#memberModule .openid_user_id { background: url(../images/openid_input_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; color: #000; padding-left: 18px; }
+
+div#memberModule .smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
+div#memberModule .smallBox.w268 { width:268px;}
+div#memberModule .smallBox.w298 { width:298px;}
+div#memberModule .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
+div#memberModule .smallBox .header h3 { float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; background:url(../images/normal/lineH3.gif) no-repeat right bottom;}
+div#memberModule .smallBox .login { position:relative; border:none; padding:2em 0 1.5em 2em;}
+div#memberModule .smallBox .login legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+div#memberModule .smallBox .login dl { overflow:hidden; width:162px; float:left;}
+div#memberModule .smallBox .login dl dt { float:left; width:55px; color:#54564b; height:24px; padding-top:3px;}
+div#memberModule .smallBox .login dl dd { float:left; width:105px; height:27px;}
+div#memberModule .smallBox .login dl dd input { width:90px;}
+div#memberModule .smallBox .login .loginButton { display:block; float:left; margin-top:27px; _margin-top:28px;}
+div#memberModule *:first-child+html .smallBox .login .loginButton { margin-top:28px;}
+div#memberModule .smallBox .login .keep { float:left; clear:both; white-space:nowrap; position:relative; left:55px; _left:52px;}
+div#memberModule *:first-child+html .smallBox .login .keep { left:52px;}
+div#memberModule .smallBox .login .keep input { vertical-align:middle;}
+div#memberModule .smallBox .login .keep label { font-size:11px; color:#999999;}
+div#memberModule .smallBox .help { background:#f5f5f3; border-top:1px solid #eaebe7; overflow:hidden; padding:1.1em; text-align:center; height:1em;}
+div#memberModule .smallBox .help li { display:inline; padding:0 .3em 0 .6em; background:url(../images/normal/line_1x10_e0e0e0.gif) no-repeat left center;}
+div#memberModule .smallBox .help li:first-child { background:none;}
+div#memberModule .smallBox .help li.first-child { _background:none;}
+div#memberModule .smallBox .help li a { font-size:11px; color:#54564b;}
+div#memberModule .smallBox .text { color:#54564b; text-align:center; padding:4em 2em 5em 2em;}
+div#memberModule .smallBox .text p { margin-bottom:.5em;}
+div#memberModule .smallBox .button { position:relative; background:#f5f5f3; border-top:1px solid #eaebe7; overflow:hidden; padding:.5em; height:2em;}
+div#memberModule .smallBox.w268 .button ul { position:absolute; left:95px; }
+div#memberModule .smallBox.w298 .button ul { position:absolute; left:110px; }
+div#memberModule .smallBox .button ul li { float:left; margin-right:.5em;}
+div#memberModule .smallBox .complex { padding:1.5em 2em 2em 2em;}
+div#memberModule .smallBox .leftHeaderType { border-top:1px solid #e0e1db; border-left:1px solid #e0e1db; width:100%;}
+div#memberModule .smallBox .leftHeaderType th,
+div#memberModule .smallBox .leftHeaderType td { border-right:1px solid #e0e1db; border-bottom:1px solid #e0e1db; padding:.8em 1em .6em 1em;}
+div#memberModule .smallBox .leftHeaderType th { color:#333333; text-align:left; background:#f5f5f3;}
+div#memberModule .smallBox .leftHeaderType td { color:#444444;}
+div#memberModule .smallBox .inputTypeText { background:#fbfbfb;}
+div#memberModule .smallBox .group { border:1px solid #e0e1db; border-width:1px 0; overflow:hidden; padding:.5em 0; margin-top:.7em;}
+div#memberModule .smallBox .group select { float:left; width:180px; margin-top:1px;}
+div#memberModule .readMessage { border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
+div#memberModule .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
+div#memberModule .readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/normal/iconArrow99.gif) no-repeat left .3em;}
+div#memberModule .readMessage .messageHeader address { float:right; white-space:nowrap;}
+div#memberModule .readMessage .messageHeader address em { font-size:.9em; font-style:normal; color:#333333; margin-right:.3em;}
+div#memberModule .readMessage .messageHeader address em a { color:#333333;}
+div#memberModule .readMessage .messageHeader address .date { font:.8em Tahoma; color:#999999;}
+div#memberModule .readMessage .messageBody { border:1px solid #e0e1db; margin:0 1.5em 1.5em 1.5em; padding:1em; position:relative; color:#666666;}
+div#memberModule .readMessage .deleteOrKeep { padding:.5em 0; overflow:hidden; background:#f5f5f3; border-top:1px solid #eaebe7; _width:100%;}
+div#memberModule .readMessage .deleteOrKeep li { position:relative; left:40%; float:left; margin-right:.5em;}
+div#memberModule .joinTable { width:100%; border:1px solid #e0e1db;}
+div#memberModule .joinTable caption { padding:2em 0 .5em 1.5em; font-weight:bold; text-align:left; background:url(../images/normal/iconH3.gif) no-repeat .5em 2em;}
+div#memberModule .joinTable tr.first-child th,
+div#memberModule .joinTable tr.first-child td { border-top:none;}
+div#memberModule .joinTable th,
+div#memberModule .joinTable td { border-top:1px solid #eaebe7; padding:.5em;}
+div#memberModule .joinTable th { background:#f5f5f3; text-align:left; padding:.5em 1em;}
+div#memberModule .joinTable td { border-left:1px solid #eaebe7;}
+div#memberModule .joinTable td input { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb; vertical-align:middle; float:left; margin-right:.5em; margin-bottom:.5em; color:#666666;}
+div#memberModule .joinTable td input.radio,
+div#memberModule .joinTable td input.check { border:none; padding:0; margin:0; background:none; margin-top:.4em;}
+div#memberModule .joinTable td input.w4em { width:4em;}
+div#memberModule .joinTable td input.w2em { width:2em;}
+div#memberModule .joinTable td select { float:left; margin-right:.5em;}
+div#memberModule .joinTable td .fl { margin-right:.5em;}
+div#memberModule .joinTable td br { clear:both;}
+div#memberModule .joinTable td p { float:left; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
+div#memberModule .joinTable td label { float:left; color:#3f4040; padding-top:.3em; margin-right:.5em;}
+div#memberModule .buttonTypeWrite.join { margin-top:1.2em;}
