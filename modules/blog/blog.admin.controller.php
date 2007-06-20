@@ -251,7 +251,7 @@
                 }
 
                 // 레이아웃 수정
-                $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
+                $layout_args->layout_srl = $layout_args->module_srl = $module_srl = $output->get('module_srl');
                 $layout_args->title = $args->browser_title;
                 $layout_args->layout_path = sprintf('./modules/blog/skins/%s/layout.html', $args->skin);
 
