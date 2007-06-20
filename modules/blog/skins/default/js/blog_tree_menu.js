@@ -79,9 +79,9 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
     // 제목 지정 
     var title_class = "selected";
     if(blog_menu_selected) title_class = "unselected";
-    html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span> <span class="document_count">';
-    if(total_document_count) html += '('+total_document_count+')';
-    html + ='</span></div>'+html;
+    var title_html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span> <span class="document_count">';
+    if(total_document_count) title_html += '('+total_document_count+')';
+    html = title_html+'</span></div>'+html;
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함
     if(!zone) {
