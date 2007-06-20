@@ -114,6 +114,35 @@
         </form>
     </div>
 
+    <!-- 왼쪽 위젯 출력 위치 -->
+
+    <!-- 최근문서 출력 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="normal" title="latest documents" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 최근댓글 출력 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="normal" title="latest comments" list_count="10" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 꼬리표들 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="normal" title="popular tags" list_count="60" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 엮인글들 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="normal" title="latest trackbacks" list_count="5" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 월별 현황들 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="normal" title="archive list" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 달력 -->
+    <br />
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="normal" mid_list="{$layout_info->mid}" style="width:100px;height:100px;"/>
+
+    <!-- 카운터 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="counter_status" skin="styx_flash" colorset="normal" style="width:100px;height:100px;"/>
+
+    <!-- powered by zbxe -->
+    <div id="poweredbyzbxe">
+      <a href="#" onclick="window.open('http://www.zeroboard.com');return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+    </div>
+
 </div>
 
 <!-- 컨텐츠 출력 부분 -->

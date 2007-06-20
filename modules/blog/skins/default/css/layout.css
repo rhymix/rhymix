@@ -142,3 +142,7 @@ body {
 /* 내용 */
 #content {
 }
+
+/* powered by zbxe */
+#poweredbyzbxe { text-align:center; margin-top:2em; }
+#poweredbyzbxe img { width:138px; height:35px; border:0;}
