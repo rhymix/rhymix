@@ -10,7 +10,7 @@
 
 <!-- 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 -->
 <script type="text/javascript">
-    blogLoadTreeMenu("{getUrl()}/files/cache/blog_category/{$layout_info->layout_srl}.xml.php", "{$layout_info->category_name?$layout_info->category_name:'category'}", "{getUrl('','mid',$mid)}");
+    blogLoadTreeMenu("{$layout_info->category_xml_file}", "{$layout_info->category_name?$layout_info->category_name:'category'}", "{getUrl('','mid',$mid)}");
 </script>
 
 
