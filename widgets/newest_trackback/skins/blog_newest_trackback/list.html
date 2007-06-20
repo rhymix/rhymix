@@ -1,24 +1,25 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
 <!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("normal/style.css")-->
+    <!--%import("css/normal.css")-->
 <!--@end-->
-<div class="newest_trackback_{$colorset}" style="width:100%">
-    <div class="newest_trackback_box">
 
+<div id="newestTrackback">
+    <div class="header">
         <!--@if($widget_info->title)-->
-        <div class="title_box">
-            <div class="title">{$widget_info->title}</div>
-        </div>
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>tags</h2>
         <!--@end-->
-
-        <div class="trackback_box">
-            <!--@foreach($widget_info->trackback_list as $val)-->
-            <div class="trackback">
-                <a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,15,'...')}</a>
-                - <a href="#" onclick="winopen('{$val->url}');return false;">{cut_str($val->blog_name,10,'...')}</a>
-            </div>
-            <!--@end-->
-        </div>
     </div>
+
+    <ul class="trackbackList">
+        <!--@foreach($widget_info->trackback_list as $val)-->
+        <li>
+            <div class="title"><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,15,'...')}</a></div>
+            <div class="name">from <a href="#" onclick="winopen('{$val->url}');return false;">{cut_str($val->blog_name,10,'...')}</a></div>
+        </li>
+        <!--@end-->
+    </ul>
+
 </div>
