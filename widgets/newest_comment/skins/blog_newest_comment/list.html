@@ -1,29 +1,21 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
 <!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("normal/style.css")-->
+    <!--%import("css/normal.css")-->
 <!--@end-->
 
-<div class="newest_comment_{$colorset}" style="width:100%">
-    <div class="newest_comment_box">
-
+<div class="newestComment">
+    <div class="header">
         <!--@if($widget_info->title)-->
-        <div class="title_box">
-            <div class="title">{$widget_info->title}</div>
-        </div>
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>tags</h2>
         <!--@end-->
-
-        <div class="comment_box">
-            <!--@foreach($widget_info->comment_list as $val)-->
-            <div class="comment">
-                <a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str(strip_tags($val->content),13,'...'))}</a>
-                <!--@if($val->member_srl)-->
-                    <span class="member_{$val->member_srl} writer">{$val->nick_name}</span>
-                <!--@else-->
-                    <span class="writer">{$val->nick_name}</span>
-                <!--@end-->
-            </div>
-            <!--@end-->
-        </div>
     </div>
+
+    <ul class="commentList">
+        <!--@foreach($widget_info->comment_list as $val)-->
+            <li><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str(strip_tags($val->content),13,'...'))}</a></li>
+        <!--@end-->
+    </ul>
 </div>
