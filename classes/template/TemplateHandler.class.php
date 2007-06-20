@@ -57,7 +57,7 @@
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
 
             // Context와 compiled_tpl_file로 컨텐츠 생성
-            $output = $this->_fetch($compiled_tpl_file, $buff);
+            $output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
 
             if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
 
@@ -310,8 +310,9 @@
         /**
          * @brief ob_* 함수를 이용하여 fetch...
          **/
-        function _fetch($compiled_tpl_file, $buff = NULL) {
+        function _fetch($compiled_tpl_file, $buff = NULL, $tpl_path = '') {
             $__Context = &$GLOBALS['__Context__'];
+            $__Context->tpl_path = $tpl_path;
 
             if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
 

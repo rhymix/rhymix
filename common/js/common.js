@@ -144,7 +144,7 @@ function displayMultimedia(src, width, height, auto_start) {
 
     if(/\.swf/i.test(src)) {
         clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
-        codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.c-ab#version=6,0,29,0"; 
+        codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = ""+
             "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" >"+
             "<param name=\"movie\" value=\""+src+"\" />"+
