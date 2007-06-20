@@ -1,27 +1,20 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
 <!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("normal/style.css")-->
+    <!--%import("css/normal.css")-->
 <!--@end-->
 
-<div class="newest_document_blog_{$colorset}" style="width:100%">
-    <div class="newest_document_blog_box">
-
+<div class="newestDocument">
+    <div class="header">
         <!--@if($widget_info->title)-->
-        <div class="title_box">
-            <div class="title">{$widget_info->title}</div>
-        </div>
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>tags</h2>
         <!--@end-->
-
-        <div class="document_box">
-            <!--@foreach($widget_info->document_list as $oDocument)-->
-            <div class="document">
-                <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a>
-                <!--@if($oDocument->getCommentCount())-->
-                &nbsp;<span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment_top_{$oDocument->document_srl}">*{$oDocument->getCommentCount()}</a></span>
-                <!--@end-->
-            </div>
-            <!--@end-->
-        </div>
     </div>
+    <ul class="documentList">
+        <!--@foreach($widget_info->document_list as $oDocument)-->
+            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a></li>
+        <!--@end-->
+    </ul>
 </div>
