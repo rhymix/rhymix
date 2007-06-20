@@ -23,7 +23,7 @@
 
 <!-- 스킨의 상세 설명 -->
 <!--@if($module_info->comment)-->
-<div class="boardComment">{$module_info->comment} <a href="#">asdf</a></div>
+<div class="boardComment">{$module_info->comment}</div>
 <!--@end-->
 
 <!-- 게시판 정보 -->
@@ -35,7 +35,7 @@
     <!--@end-->
 
     <!-- 로그인 정보 -->
-    <ul id="accountNavigation">
+    <ul class="accountNavigation">
 
     <!--@if($rss_url)-->
         <li class="rss"><a href="{$rss_url}"><img src="./images/{$module_info->colorset}/iconRss.gif" alt="RSS" width="12" height="12" /></a></li>

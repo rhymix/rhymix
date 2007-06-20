@@ -205,7 +205,7 @@
          * @brief 새 쪽지 보여줌
          **/
         function dispMemberNewMessage() {
-            $this->setLayoutFile('popup_layout');
+            //$this->setLayoutFile('popup_layout');
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -229,7 +229,7 @@
          * @brief 쪽지 발송 출력
          **/
         function dispMemberSendMessage() {
-            $this->setLayoutFile("popup_layout");
+            //$this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -261,7 +261,7 @@
          * @brief 친구 목록 보기
          **/
         function dispMemberFriend() {
-            $this->setLayoutFile("popup_layout");
+            //$this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -301,7 +301,7 @@
          * @brief 친구 추가
          **/
         function dispMemberAddFriend() {
-            $this->setLayoutFile("popup_layout");
+            //$this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -327,7 +327,7 @@
          * @brief 친구 그룹 추가
          **/
         function dispMemberAddFriendGroup() {
-            $this->setLayoutFile("popup_layout");
+            //$this->setLayoutFile("popup_layout");
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');

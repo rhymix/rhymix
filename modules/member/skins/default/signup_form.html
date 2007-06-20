@@ -1,136 +1,91 @@
-<!--#include("./common.html")-->
+<!--#include("./common_header.html")-->
 <!--%import("filter/signup.xml")-->
 
 <!--%import("../../tpl/js/krzip_search.js")-->
 
-<div>
-    {$lang->msg_new_member}
-</div>
+	<div class="boardHeader">
+		<h3>{$lang->msg_new_member}</h3>
+	</div>
 
-<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
-<input type="hidden" name="mid" value="{$mid}" />
-<input type="hidden" name="document_srl" value="{$document_srl}" />
-<input type="hidden" name="page" value="{$page}" />
+    <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="page" value="{$page}" />
 
     <!--@if(!$is_logged && $member_config->agreement)-->
-    <div>
-        <table border="1">
-        <tr>
-            <td>{nl2br($member_config->agreement)}</td>
-        </tr>
-        <tr>
-            <td>
-                <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
-                <label for="accept_agree">{$lang->about_accept_agreement}</label>
-            </td>
-        </tr>
-        </table>
+    <div class="agreementBox">
+        {nl2br($member_config->agreement)}
+
+        <div class="button">
+            <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+            <label for="accept_agree">{$lang->about_accept_agreement}</label>
+        </div>
     </div>
     <!--@end-->
 
-    <div>
-        {$lang->member_default_info}
-    </div>
-    <table border="1">
-    <tr>
-        <th rowspan="2">{$lang->user_id}</th>
-        <td>
-            <input type="text" name="user_id" value="" />
-        </td>
+    <table cellspacing="0" class="joinTable">
+    <col width="20%" />
+    <col width="80%" />
+    <caption>{$lang->member_default_info}</caption>
+    <tr class="first-child">
+        <th scope="row">{$lang->user_id} *</th>
+        <td><input type="text" name="user_id" value="" /> <p>{$lang->about_user_id}</p> </td>
     </tr>
     <tr>
-        <td>{$lang->about_user_id}</td>
+        <th scope="row">{$lang->password} *</th>
+        <td><input type="password" name="password1" value="" /><p>{$lang->about_password}</p></td>
     </tr>
     <tr>
-        <th rowspan="3">{$lang->password1}</th>
-        <td>
-            <input type="password" name="password1" value="" />
-        </td>
+        <th scope="row">{$lang->password2} *</th>
+        <td><input type="password" name="password2" value="" /></td>
     </tr>
     <tr>
-        <td>
-            <input type="password" name="password2" value="" /> {$lang->password2}
-        </td>
+        <th scope="row">{$lang->user_name} *</th>
+        <td><input type="text" name="user_name" value="" /> <p>{$lang->about_user_name}</p></td>
     </tr>
     <tr>
-        <td>{$lang->about_password}</td>
+        <th scope="row">{$lang->nick_name} *</th>
+        <td><input type="text" name="nick_name" value="" /> <p>{$lang->about_nick_name}</p></td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->user_name}</th>
-        <td>
-            <input type="text" name="user_name" value="" />
-        </td>
+        <th scope="row">{$lang->email_address} *</th>
+        <td><input type="text" name="email_address" value="" /> <p>{$lang->about_email_address}</p></td>
     </tr>
     <tr>
-        <td>{$lang->about_user_name}</td>
+        <th scope="row">{$lang->homepage}</th>
+        <td><input type="text" name="homepage" value="" /> <p>{$lang->about_homepage}</p></td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->nick_name}</th>
-        <td>
-            <input type="text" name="nick_name" value="" />
-        </td>
+        <th scope="row">{$lang->blog}</th>
+        <td><input type="text" name="blog" value="" /> <p>{$lang->about_blog_url}</p></td>
     </tr>
     <tr>
-        <td>{$lang->about_nick_name}</td>
-    </tr>
-    <tr>
-        <th>{$lang->email_address}</th>
-        <td>
-            <input type="text" name="email_address" value="" />
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->homepage}</th>
-        <td>
-            <input type="text" name="homepage" value="" />
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->about_homepage}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->blog}</th>
-        <td>
-            <input type="text" name="blog" value="" />
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->about_blog}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->birthday}</th>
+        <th scope="row">{$lang->birthday} *</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <span id="str_birthday"></span>
-            [<a href="#" onclick="open_calendar('birthday','');return false;">{$lang->cmd_open_calendar}</a>]
+            <div class="str_birthday" id="str_birthday">&nbsp;</div>
+            <div class="button_birthday"><a href="#" onclick="open_calendar('birthday','');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+            <p>{$lang->about_birthday}</p>
         </td>
     </tr>
     <tr>
-        <td>{$lang->about_birthday}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->allow_mailing}</th>
-        <td><input type="checkbox" name="allow_mailing" value="Y" checked="true" /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_allow_mailing}</td>
+        <th scope="row">{$lang->allow_mailing}</th>
+        <td><input type="checkbox" name="allow_mailing" value="Y" checked="true" /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
     </table>
 
-    <!--@if($extend_form_list)-->
-    <div>
-        {$lang->member_extend_info}
-    </div>
 
-    <table border="1">
-    <!--@foreach($extend_form_list as $key => $val)-->
-        <!--@if($val->is_active=='Y')-->
-    <tr>
-        <th rowspan="2">
-            <!--@if($val->required=='Y')-->
-            *
-            <!--@end-->
-            {$val->column_title}
+    <!--@if($extend_form_list)-->
+    <table cellspacing="0" class="joinTable">
+    <col width="20%" />
+    <col width="80%" />
+    <caption>{$lang->member_extend_info}</caption>
+    {@ $dummy_chk = 0 }
+    <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
+    <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
+        <th scope="row">
+            {htmlspecialchars($val->column_title)}
+            <!--@if($val->required=='Y')-->*<!--@end-->
         </th>
         <td>
             <!-- 일반 text -->
@@ -205,22 +160,19 @@
 
             <!--@end-->
 
+            <p>{$val->description}</p>
         </td>
     </tr>
-    <tr>
-        <td>{$val->description}</td>
-    </tr>
-        <!--@end-->
-    <!--@end-->
+    <!--@end--><!--@end-->
     </table>
     <!--@end-->
 
-    <table border="1">
-    <tr>
-        <td colspan="2">
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}'" />
-            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-        </td>
-    </tr>
-    </table>
+    <div class="button">
+        <ul>
+            <li><a href="{getUrl('act','','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_signup}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
+        </ul>
+    </div>
 </form>
+
+<!--#include("./common_footer.html")-->

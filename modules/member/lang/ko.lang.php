@@ -127,8 +127,9 @@
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
     $lang->about_user_name = '이름은 2~20자 이내여야 합니다';
     $lang->about_nick_name = '닉네임은 2~20자 이내여야 합니다';
+    $lang->about_email_address = '메일주소는 메일인증 후 비밀번호 변경이나 찾기등에 사용됩니다.';
     $lang->about_homepage = '홈페이지가 있을 경우 입력해주세요';
-    $lang->about_blog = '운영하는 블로그가 있을 경우 입력해주세요';
+    $lang->about_blog_url = '운영하는 블로그가 있을 경우 입력해주세요';
     $lang->about_birthday = '생년월일을 입력해주세요';
     $lang->about_allow_mailing = '메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다';
     $lang->about_allow_message = '쪽시 수신 여부를 결정할 수 있습니다';

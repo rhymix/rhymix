@@ -1,22 +1,5 @@
-<!--#include("./common.html")-->
+<!--#include("./common_header.html")-->
 <!--%import("filter/logout.xml")-->
-
-    <table>
-    <tr>
-        <th>{$lang->cmd_logout}</th>
-    </tr>
-    <tr>
-        <td>{$lang->confirm_logout}</td>
-    </tr>
-    <tr>
-        <td>
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','','member_srl','')}'" />
-            <input type="submit" value="{$lang->cmd_logout}" />
-        </td>
-    </tr>
-    </table>
-
-
 
 <form action="./" method="get" onsubmit="return procFilter(this, logout)">
 <input type="hidden" name="mid" value="{$mid}" />
@@ -30,10 +13,11 @@
     </div>
     <div class="button">
         <ul>
-            <li><a href="#" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_logout}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="{getUrl('act','','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_logout}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
         </ul>
     </div>
 </div>
 
 </form>
+<!--#include("./common_footer.html")-->

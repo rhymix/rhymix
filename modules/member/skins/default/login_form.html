@@ -1,54 +1,59 @@
-<!--#include("./common.html")-->
+<!--#include("./common_header.html")-->
 <!--%import("filter/login.xml")-->
 <!--%import("filter/openid_login.xml")-->
 
 <!-- 제로보드XE 로그인 폼 -->
-<form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
-    <table border="1">
-    <col width="120" />
-    <col width="*" />
-    <tr>
-        <th rowspan="2">{$lang->user_id}</th>
-        <td><input type="text" name="user_id" /></td>
-    </tr>
-    <tr>
-        <td><input type="checkbox" name="remember_user_id" value="Y" /> {$lang->remember_user_id}</td>
-    </tr>
-    <tr>
-        <th>{$lang->password}</th>
-        <td><input type="password" name="password" value="" /></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="{$lang->cmd_login}" />
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <a href="#" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}'">{$lang->cmd_signup}</a>
-        </td>
-    </tr>
-    </table>
-</form>
+<div class="smallBox w268">
 
-<!-- OpenID -->
+    <div class="header">
+        <h3>{$lang->cmd_login}</h3>
+    </div>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
+        <fieldset class="login">
+            <dl>
+                <dt><label for="uid">{$lang->user_id}</label></dt>
+                <dd><input type="text" name="user_id" id="uid" class="inputTypeText" /></dd>
+                <dt><label for="upw">{$lang->password}</label></dt>
+                <dd><input type="password" name="password" id="upw" value="" class="inputTypeText" /></dd>
+            </dl>
+
+            <span class="loginButton buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+
+            <p class="keep">
+                <input type="checkbox" name="remember_user_id" id="keepid" value="Y" />
+                <label for="keepid">{$lang->remember_user_id}</label>
+            </p>
+        </fieldset>
+    </form>
+
+    <ul class="help">
+        <!--<li class="first-child"><a href="#">아이디 찾기</a></li>-->
+        <!--<li><a href="#">비밀번호 찾기</a></li>-->
+        <li><a href="#" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}'">{$lang->cmd_signup}</a></li>
+    </ul>
+</div>
+
 <!--@if($member_config->enable_openid=='Y')-->
-<form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
-    <table border="1">
-    <tr>
-        <th>{$lang->openid}</th>
-    </tr>
-    <tr>
-        <td>
-            <input type="text" name="user_id" class="openid_user_id" />
-            <input type="submit" value="{$lang->cmd_login}" />
-        </td>
-    </tr>
-    </table>
-</form>
+<!-- OpenID 로그인 폼 -->
+<div class="smallBox w268">
+
+    <div class="header">
+        <h3>{$lang->openid}</h3>
+    </div>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
+        <fieldset class="login">
+            <input type="text" name="user_id" id="open_uid" class="openid_user_id" />
+            <span class="openid_button buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+        </fieldset>
+    </form>
+
+</div>
 <!--@end-->
 
 <script type="text/javascript">
         xAddEventListener(window, "load", function() { doFocusUserId('fo_member_login'); });
 </script>
+
+<!--#include("./common_footer.html")-->
