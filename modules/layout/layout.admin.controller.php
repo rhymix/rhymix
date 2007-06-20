@@ -82,6 +82,10 @@
 
         function updateLayout($args) {
             $output = executeQuery('layout.updateLayout', $args);
+            if($output->toBool()) {
+                $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $args->layout_srl, Context::getLangType());
+                @unlink($cache_file);
+            }
             return $output;
         }
 

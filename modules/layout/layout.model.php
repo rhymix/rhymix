@@ -105,7 +105,9 @@
             }
 
             // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
-            $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
+            if(!$layout_srl) $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
+            else $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout_srl, Context::getLangType());
+
             if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
                 @include($cache_file);
 
