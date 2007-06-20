@@ -138,4 +138,5 @@ div#calendar table td.posted a { text-decoration:underline;}
 .buttonTypeB .icon { margin:0 .2em;}
 
 /* powered by zbxe */
-#poweredbyzbxe { text-align:center; margin-top:2em;}
+#poweredbyzbxe { text-align:center; margin-top:2em; }
+#poweredbyzbxe img { width:138px; height:35px; border:0;}
