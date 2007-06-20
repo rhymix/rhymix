@@ -67,7 +67,7 @@
                 <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" />
 
                 <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->name}" style="width:400px;height:120px;">{htmlspecialchars($val->value)}</textarea>
 
                 <!--@elseif($val->type=="select")-->
                 <select name="{$val->name}">
