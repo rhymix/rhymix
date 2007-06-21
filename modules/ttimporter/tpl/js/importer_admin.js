@@ -9,8 +9,6 @@ function completeImport(ret_obj) {
     var message = ret_obj['message'];
     var is_finished = ret_obj['is_finished'];
     var position = ret_obj['position'];
-    alert(message);
-    alert(position);
 
     xGetElementById("import_status").style.display = "block";
 

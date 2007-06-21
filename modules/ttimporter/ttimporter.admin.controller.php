@@ -20,7 +20,6 @@
         var $url = '';
 
         var $module_srl = 0;
-        var $category_srl = 0;
         var $category_list = array();
 
         /**
@@ -165,8 +164,10 @@
             $args->homepage = $logged_info->homepage;
 
             $tag_list = array();
-            for($i=0;$i<count($xml_doc->post->tag);$i++) {
-                $tag_list[] = $xml_doc->post->tag[$i]->body;
+            $tags = $xml_doc->post->tag;
+            if($tags && !is_array($tags)) $tags = array($tags);
+            for($i=0;$i<count($tags);$i++) {
+                $tag_list[] = $tags[$i]->body;
             }
             $args->tags = implode(',',$tag_list);
             $args->regdate = date("YmdHis", $xml_doc->post->created->body);
@@ -198,6 +199,26 @@
                         $comment_args->regdate = date("YmdHis",$val->written->body);
                         $comment_args->ipaddress = $val->commenter->ip->body;
                         $this->oCommentController->insertComment($comment_args, true);
+
+                        if($val->comment) {
+                            $val = $val->comment;
+                            unset($child_comment_args);
+                            $child_comment_args->document_srl = $args->document_srl;
+                            $child_comment_args->comment_srl = getNextSequence();
+                            $child_comment_args->module_srl = $this->module_srl;
+                            $child_comment_args->parent_srl = $comment_args->comment_srl;
+                            $child_comment_args->content = $val->content->body;
+                            $child_comment_args->password = '';
+                            $child_comment_args->nick_name = $val->commenter->name->body;
+                            $child_comment_args->user_id = '';
+                            $child_comment_args->user_name = '';
+                            $child_comment_args->member_srl = 0;
+                            $child_comment_args->email_address = '';
+                            $child_comment_args->regdate = date("YmdHis",$val->written->body);
+                            $child_comment_args->ipaddress = $val->commenter->ip->body;
+                            $this->oCommentController->insertComment($child_comment_args, true);
+                        }
+
                     }
                 }
 
@@ -230,7 +251,7 @@
          **/
         function _parseCategoryInfo($matches) {
             $xml_doc = $this->oXml->parse($matches[0]);
-            if(!$xml_doc->category->priority) return;
+            if(!$xml_doc->category->priority) return $matches[0];
 
             $title = trim($xml_doc->category->name->body);
             if(!$title || $this->category_list[$title]) return;
