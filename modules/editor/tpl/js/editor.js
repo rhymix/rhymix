@@ -29,7 +29,7 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // iframe_area를 찾음
     var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
-    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='width:100%;height:"+height+"px;'></iframe>");
+    xInnerHtml(iframe_area, '<iframe id="editor_iframe_'+upload_target_srl+'" frameBorder="0" style="width:100%;height:'+height+'px;"></iframe>');
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
