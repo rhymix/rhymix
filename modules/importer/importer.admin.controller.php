@@ -99,6 +99,7 @@
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
+            $this->category_srl = Context::get('category_srl');
             $xml_file = Context::get('xml_file');
             $this->position = (int)Context::get('position');
 
@@ -222,7 +223,7 @@
                     $str = fread($fp,1024);
                     $buff .= $str;
                     $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
-                    $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), trim($buff));
+                    if(!$this->category_srl) $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), trim($buff));
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) {
@@ -273,7 +274,8 @@
 
             // 문서 입력
             $args->module_srl = $this->module_srl;
-            $args->category_srl = $this->category_list[$xml_doc->document->category->body];
+            if($this->category_srl) $args->category_srl = $this->category_srl;
+            elseif($xml_doc->document->category->body) $args->category_srl = $this->category_list[$xml_doc->document->category->body];
             $args->is_notice = $xml_doc->document->is_notice->body;
             $args->is_secret = $xml_doc->document->is_secret->body;
             $args->title = $xml_doc->document->title->body;
