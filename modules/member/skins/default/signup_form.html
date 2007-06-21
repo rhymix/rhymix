@@ -63,7 +63,7 @@
         <th scope="row">{$lang->birthday} *</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <div class="str_birthday" id="str_birthday">&nbsp;</div>
+            <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">&nbsp;</div>
             <div class="button_birthday"><a href="#" onclick="open_calendar('birthday','');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
             <p>{$lang->about_birthday}</p>
         </td>

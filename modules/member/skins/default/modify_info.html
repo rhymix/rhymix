@@ -91,7 +91,7 @@
         <th scope="row">{$lang->birthday} *</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
-            <div class="str_birthday" id="str_birthday">{zdate($member_info->birthday,"Y-m-d")}</div>
+            <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">{zdate($member_info->birthday,"Y-m-d")}</div>
             <div class="button_birthday"><a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
             <p>{$lang->about_birthday}</p>
         </td>

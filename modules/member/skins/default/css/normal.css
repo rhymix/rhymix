@@ -113,7 +113,7 @@ div#memberModule .agreementBox .button { margin-top:2em; padding-top:1em; border
 div#memberModule .textarea {  clear:both; width:30em; height:5em; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:1px; margin-right:.3em; font-size:1em; }
 div#memberModule .checkbox li {  float:left; margin-right:2em; }
 div#memberModule .checkbox li input {  border:0px; } 
-div#memberModule .str_birthday { float:left; width:80px;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px 3px 3px 18px; margin-right:.3em;}
+div#memberModule .str_birthday { cursor:pointer; float:left; width:80px;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px 3px 3px 18px; margin-right:.3em;}
 div#memberModule .button_birthday { float:left; margin-right:1em; } 
 div#memberModule .krZip .buttonZip { float:left; margin-right:1em; } 
 div#memberModule .krZip input { width:30em; }
