@@ -73,13 +73,13 @@
 
             // 4. 자신의 쪽지함 보기 기능 추가
             $menu_str = Context::getLang('cmd_view_message_box');
-            $menu_link = "location.href.setQuery('act','dispMemberMessages')";
-            $menu_list .= sprintf("\n%s,%s,move_url(%s,'sendMessage', true)", Context::getRequestUri().'/modules/member/tpl/images/icon_message_box.gif', $menu_str, $menu_link);
+            $menu_link = "current_url.setQuery('act','dispMemberMessages')";
+            $menu_list .= sprintf("\n%s,%s,move_url(%s,'Y')", Context::getRequestUri().'/modules/member/tpl/images/icon_message_box.gif', $menu_str, $menu_link);
 
             // 5. 친구 목록 보기
             $menu_str = Context::getLang('cmd_view_friend');
-            $menu_link = "location.href.setQuery('module','member').setQuery('act','dispMemberFriend')";
-            $menu_list .= sprintf("\n%s,%s,popopen(%s,'sendMessage', true)", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
+            $menu_link = "current_url.setQuery('act','dispMemberFriend')";
+            $menu_list .= sprintf("\n%s,%s,move_url(%s,'Y')", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
 
 
         // 아니라면 쪽지 발송, 친구 등록 추가

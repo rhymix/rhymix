@@ -116,6 +116,7 @@ Jeong, Chan Myeong 070601~070630
 .buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeA .icon { margin:0 .2em;}
+.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
 
 .buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
 .buttonTypeB:hover { text-decoration:none;}
@@ -123,6 +124,7 @@ Jeong, Chan Myeong 070601~070630
 .buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeB .icon { margin:0 .2em;}
+.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:4px;}
 
 /* button of list page */
 .buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
@@ -273,3 +275,13 @@ Jeong, Chan Myeong 070601~070630
 .buttonWrite ul { text-align:center; clear:both; display:block;}
 .buttonWrite li { margin-top:.5em; float:right; margin-right:.3em;}
 .buttonWrite input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
+
+.smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
+.smallBox.w268 { width:268px;}
+.smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
+.smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
+.smallBox .complex { padding:1.5em 2em 2em 2em;}
+.smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 0em;}
+.smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em;}
+.smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+.smallBox .inputPassword .button { display:block; float:right; margin-left:.4em;}

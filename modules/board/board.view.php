@@ -242,11 +242,12 @@
             // 댓글이 없다면 오류
             if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
 
+            Context::set('document_srl',$comment->document_srl);
+
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
 
             // 필요한 정보들 세팅
-            Context::set('document_srl',$document_srl);
             Context::set('comment_srl',$comment_srl);
             Context::set('comment', $comment);
 
@@ -274,6 +275,8 @@
 
             // 삭제하려는 글이 없으면 에러
             if(!$comment) return $this->dispBoardContent();
+
+            Context::set('document_srl',$comment->document_srl);
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');

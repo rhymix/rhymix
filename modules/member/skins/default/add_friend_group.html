@@ -1,28 +1,35 @@
 <!--#include("./common_header.html")-->
 <!--%import("filter/add_friend_group.xml")-->
 
-<div style="width:400px;">
+<div class="smallBox w298pop">
     <form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
-        <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
-        <div style="font-weight:bold">
-            <!--@if($friend_group->friend_group_srl)-->
-                {$lang->cmd_rename_friend_group}
-            <!--@else-->
-                {$lang->cmd_add_friend_group}
-            <!--@end-->
+    <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
+        <div class="header">
+            <h3>
+                <!--@if($friend_group->friend_group_srl)-->
+                    {$lang->cmd_rename_friend_group}
+                <!--@else-->
+                    {$lang->cmd_add_friend_group}
+                <!--@end-->
+            </h3>
         </div>
-        <div>
-            {$lang->friend_group} : <input type="text" name="title" value="{htmlspecialchars($friend_group->title)}" />
+
+        <div class="text">
+            <p>{$lang->msg_insert_group_name}</p>
+            <input name="title" type="text" class="inputTypeText" value="{htmlspecialchars($friend_group->title)}"/>
         </div>
-        <div>
-            <!--@if($friend_group->friend_group_srl)-->
-                <input type="submit" value="{$lang->cmd_modify}" />
-            <!--@else-->
-                <input type="submit" value="{$lang->cmd_insert}" />
-            <!--@end-->
-            <input type="button" value="{$lang->cmd_close}" onclick="window.close();return false;"/>
+
+        <div class="button">
+            <ul>
+                <!--@if($friend_group->friend_group_srl)-->
+                <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_modify}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
+                <!--@else-->
+                <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_insert}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
+                <!--@end-->
+                <li><a href="#" onclick="window.close();return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            </ul>
         </div>
     </form>
-
 </div>
+
 <!--#include("./common_footer.html")-->

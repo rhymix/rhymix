@@ -108,8 +108,9 @@ function sendMailTo(to) {
  **/
 function move_url(url, open_wnidow) {
     if(!url) return false;
-    if(typeof(open_wnidow)=='undefined') open_wnidow = false;
+    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
     if(open_wnidow=='N') open_wnidow = false;
+    else open_wnidow = true;
 
     if(/^\./.test(url)) url = request_uri+url;
 
@@ -241,6 +242,14 @@ function setFixedPopupSize() {
     var w = xWidth("popup_content");
     var h = xHeight("popup_content");
 
+    var obj_list = xGetElementsByTagName('div');
+    for(i=0;i<obj_list.length;i++) {
+        var ww = xWidth(obj_list[i]);
+        var id = obj_list[i].id;
+        if(id == 'waitingforserverresponse' || id == 'fororiginalimagearea' || id == 'fororiginalimageareabg') continue;
+        if(ww>w) w = ww;
+    }
+
     // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
     if(xUA.indexOf('windows')>0) {
         if(xOp7Up) w += 10;
@@ -248,8 +257,7 @@ function setFixedPopupSize() {
         else w += 6;
     }
     window.resizeTo(w,h);
-
-    var w1 = xWidth(window.document.body);
+   
     var h1 = xHeight(window.document.body);
     window.resizeBy(0,h-h1);
 }

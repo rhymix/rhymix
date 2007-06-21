@@ -144,20 +144,22 @@
 
             <!-- 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />-
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />-
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" />
 
             <!-- textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->column_name}" class="textarea">{htmlspecialchars($val->value)}</textarea>
 
             <!-- 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
                 <!--@if($val->default_value)-->
+                    <ul class="checkbox">
                     <!--@foreach($val->default_value as $v)-->
-                        <input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>{$v}
+                        <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="true"<!--@end-->/>{$v}</li>
                     <!--@end-->
+                    </ul>
                 <!--@end-->
 
             <!-- 단일 선택 -->
@@ -172,22 +174,24 @@
 
             <!-- 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
-                <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                    <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
-                    <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
-                </div>
-                <div id="zone_address_list_{$val->column_name}" style="display:none">
-                    <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
-                    <input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" />
-                    <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
-                </div>
-                <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-                    <input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
-                    <input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" />
-                </div>
+                <div class="krZip">
+                    <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
+                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
+                        <div class="buttonZip"><a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                    </div>
+                    <div id="zone_address_list_{$val->column_name}" style="display:none">
+                        <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
+                        <div class="buttonZip"><a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_select}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                        <div class="buttonZip"><a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                    </div>
+                    <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
+                        <input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
+                        <div class="buttonZip"><a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_search}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                    </div>
 
-                <div>
-                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
+                    <div class="address2">
+                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
+                    </div>
                 </div>
 
             <!-- 일본 주소 검색 -->
@@ -197,12 +201,12 @@
             <!-- 날자 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <span id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</span>
-                [<a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;">{$lang->cmd_open_calendar}</a>]
+                <div class="str_birthday" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+                <div class="button_birthday"><a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
 
             <!--@end-->
 
-            <p>{$val->description}</p>
+            <div class="extendDesc">{$val->description}</div>
         </td>
     </tr>
     <!--@end--><!--@end-->

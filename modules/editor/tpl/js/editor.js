@@ -29,7 +29,7 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // iframe_area를 찾음
     var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
-    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='border:0px;width:99%;height:"+height+"px;margin:0px;'></iframe>");
+    xInnerHtml(iframe_area, "<iframe id='editor_iframe_"+upload_target_srl+"' frameBorder='0' style='height:"+height+"px;'></iframe>");
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
@@ -617,5 +617,8 @@ function eOptionClick(obj) {
 // Editor Info Close
 function closeEditorInfo() {
     xGetElementById('editorInfo').style.display='none';	
+    var expire = new Date();
+    expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
+    xSetCookie('EditorInfo', '1', expire);
 }
 

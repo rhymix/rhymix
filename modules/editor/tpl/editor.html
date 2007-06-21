@@ -104,14 +104,14 @@
         </div>
     </div>
     <!--@end-->
-
     <div class="textAreaWrap">
-
+        <!--@if(!$_COOKIE['EditorInfo'])-->
         <div id="editorInfo">
             <img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo()">
             {$lang->about_dblclick_in_editor}
             <span id="for_ie_help_{$upload_target_srl}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
         </div>
+        <!--@end-->
 
         <div class="editor_iframe_box" id="editor_iframe_area_{$upload_target_srl}"></div>
     </div>

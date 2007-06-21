@@ -22,7 +22,7 @@ html { width:100%; position:relative;}
 body { font-size:.75em; margin:2em;}
 img { border:none;}
 label { cursor:pointer;}
-select { height:1.6em;}
+/*select { height:1.6em;}*/
 option { padding-right:.5em;}
 li { list-style:none;}
 a { text-decoration:none;}

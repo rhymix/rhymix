@@ -114,6 +114,7 @@
     $lang->msg_content_is_null = '내용을 입력해주세요';
     $lang->msg_allow_message_to_friend = '친구에게만 쪽지 수신을 허용한 사용자라서 쪽지 발송을 하지 못했습니다';
     $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다';
+    $lang->msg_insert_group_name = '그룹명을 입력해 주세요';
 
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';

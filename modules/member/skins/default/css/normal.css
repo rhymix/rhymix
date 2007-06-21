@@ -1,9 +1,11 @@
 @charset "utf-8";
 
-
 div#memberModule .smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
 div#memberModule .smallBox.w268 { width:268px;}
 div#memberModule .smallBox.w298 { width:298px;}
+div#memberModule .smallBox.w268pop { width:268px; margin:0; padding:0;}
+div#memberModule .smallBox.w298pop { width:298px; margin:0; padding:0;}
+div#memberModule .smallBox.w600pop { width:600px; margin:0; padding:0;}
 div#memberModule .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 div#memberModule .smallBox .header h3 { float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; background:url(../images/normal/lineH3.gif) no-repeat right bottom;}
 div#memberModule .smallBox .login { position:relative; border:none; padding:2em 0 1.5em 2em;}
@@ -36,12 +38,18 @@ div#memberModule .smallBox .leftHeaderType th { color:#333333; text-align:left; 
 div#memberModule .smallBox .leftHeaderType td { color:#444444;}
 div#memberModule .smallBox .inputTypeText { background:#fbfbfb;}
 div#memberModule .smallBox .group { border:1px solid #e0e1db; border-width:1px 0; overflow:hidden; padding:.5em 0; margin-top:.7em;}
-div#memberModule .smallBox .group select { float:left; width:180px; margin-top:1px;}
+div#memberModule .smallBox .group select { float:left; width:11em; margin-top:1px;}
+div#memberModule .smallBox .pwModify { border:none;}
+div#memberModule .smallBox .pwModify legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+div#memberModule .smallBox .pwModify input { width:9em;}
+div#memberModule .smallBox .pwModify br { display:block; margin-bottom:.2em}
+div#memberModule .smallBox .pwModify p { text-align:center; margin-top:1em; color:#54564b;}
+
 div#memberModule .readMessage { border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
 div#memberModule .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
 div#memberModule .readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/normal/iconArrow99.gif) no-repeat left .3em;}
 div#memberModule .readMessage .messageHeader address { float:right; white-space:nowrap;}
-div#memberModule .readMessage .messageHeader address em { font-size:.9em; font-style:normal; color:#333333; margin-right:.3em;}
+div#memberModule .readMessage .messageHeader address em { font-size:.9em; font-style:normal; color:#333333; margin-right:.3em; float:left;}
 div#memberModule .readMessage .messageHeader address em a { color:#333333;}
 div#memberModule .readMessage .messageHeader address .date { font:.8em Tahoma; color:#999999;}
 div#memberModule .readMessage .messageBody { border:1px solid #e0e1db; margin:0 1.5em 1.5em 1.5em; padding:1em; position:relative; color:#666666;}
@@ -79,6 +87,7 @@ div#memberModule .buttonTypeB input { border:none; cursor:pointer; background:ur
 div#memberModule .buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/normal/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 div#memberModule .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/normal/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 div#memberModule .buttonTypeB .icon { margin:0 .2em;}
+div#memberModule .buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/normal/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}
 
 div#memberModule .openid_button { display:inline; float:left;} 
 div#memberModule .openid_user_id { background: url(../images/openid_input_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; line-height:1em; vertical-align:middle; float:left; margin-right:.5em; margin-bottom:.5em; color:#666666;}
@@ -88,7 +97,7 @@ div#memberModule .boardHeader h3 { float:left; clear:both; font-size:1.2em; padd
 div#memberModule .boardHeader .essential { position:absolute; top:1.5em; right:1em; color:#54564b; font-size:.9em;}
 div#memberModule .boardHeader .essential:first-letter { color:#ff0000;}
 div#memberModule .boardHeader2 { width:100%; overflow:hidden; padding:1em 0 1em 0; color:#444444;}
-div#memberModule .boardHeader2 h3 { float:left; font-size:1.4em; padding-left:1.2em; background:url(../img/iconH3.gif) no-repeat .5em center;}
+div#memberModule .boardHeader2 h3 { float:left; font-size:1.4em; padding-left:1.2em; background:url(../images/normal/iconH3.gif) no-repeat .5em center;}
 div#memberModule .boardHeader2 .info { float:right; position:relative; top:.4em;}
 div#memberModule .boardHeader2 .info q { quotes:none; font-weight:bold;}
 div#memberModule .boardHeader2 .info strong { font:bold .9em Tahoma; color:#ff6600;}
@@ -100,11 +109,95 @@ div#memberModule .button ul li { float:left; margin-right:.5em;}
 div#memberModule .agreementBox { border:1px solid #AAAAAA; margin:.5em 0 .5em 0; padding:1em 1em 0 1em; }
 div#memberModule .agreementBox .button { margin-top:2em; padding-top:1em; border-top:1px solid #eaebe7; overflow:hidden;}
 
-div#memberModule .str_birthday { float:left; width:80px; height:21px; border-bottom:1px solid #EEEEEE; margin-right:.3em;}
+
+div#memberModule .textarea {  clear:both; width:30em; height:5em; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:1px; margin-right:.3em; font-size:1em; }
+div#memberModule .checkbox li {  float:left; margin-right:2em; }
+div#memberModule .checkbox li input {  border:0px; } 
+div#memberModule .str_birthday { float:left; width:80px;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px 3px 3px 18px; margin-right:.3em;}
 div#memberModule .button_birthday { float:left; margin-right:1em; } 
+div#memberModule .krZip .buttonZip { float:left; margin-right:1em; } 
+div#memberModule .krZip input { width:30em; }
+div#memberModule .krZip .address2 { clear:both; }
+div#memberModule .krZip .buttonZip { float:left; margin-right:1em; } 
+div#memberModule .extendDesc { clear:both; margin-top:0; font-size:.9em; color:#999999; }
 
 div#memberModule .memberImage { clear:both; }
 div#memberModule .memberImage .info { margin-bottom:.5em; float:left; margin-right:1em;}
 div#memberModule .memberImage .form { float:left; }
 div#memberModule .memberImage .form input { height:1.5em; margin:0 .3em 0 0; padding:0;}
 div#memberModule .memberImage .button { float:left; margin:0 .3em 0 0; padding:0;}
+
+
+div#memberModule .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
+div#memberModule .friendNum { float:left; background:url(../images/normal/iconFriend.gif) no-repeat .5em .4em; padding:.4em 0 0 2em;}
+div#memberModule .friendNum strong { font:bold 11px Tahoma; color:#ff6600;}
+
+div#memberModule .boardList { width:100%; position:relative; border:1px solid #e0e1db;}
+div#memberModule .boardList tr:first-child td, .boardList tr.first-child td { border-top:1px solid #e0e1db;}
+div#memberModule .boardList tr.bg1 { background:#ffffff}
+div#memberModule .boardList tr.bg2 { background:#fbfbfb;}
+
+div#memberModule .boardList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.8em .5em .5em .5em; background:#ffffff url(../images/normal/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
+div#memberModule .boardList th a { color:#3e3f3e;}
+div#memberModule .boardList th:first-child, .boardList th.first-child { background-position:-3px bottom; border-left:1px solid #ffffff;}
+div#memberModule .boardList th.check { padding:0;}
+div#memberModule .boardList th.registDate {}
+div#memberModule .boardList th.friendGroup {}
+div#memberModule .boardList th.userId {}
+div#memberModule .boardList th.userName {}
+div#memberModule .boardList th.userNick {}
+div#memberModule .boardList th select, .boardList th input { vertical-align:middle;}
+
+div#memberModule .boardList td { border-top:1px solid #eff0ed; padding:.5em;}
+div#memberModule .boardList td.registDate { font:.8em Tahoma; color:#999999; text-align:center;}
+div#memberModule .boardList td.check { text-align:center;}
+div#memberModule .boardList td.user { color:#333333; font-size:.9em;}
+div#memberModule .boardList td.user a { color:#333333;}
+div#memberModule .boardList td.userId { font:.9em Tahoma;}
+div#memberModule .boardList td.userName {}
+div#memberModule .boardList td.userNick { font-size:.9em; color:#999999;}
+div#memberModule .boardList td.friendGroup {}
+div#memberModule .boardList td.sendMessage { text-align:center; padding:0;}
+div#memberModule .boardList td.sendMessage .buttonFixedLeft { float:left; position:relative; margin-left:1em;}
+div#memberModule .boardList td input { _margin:-3px;}
+div#memberModule .boardList td.title {}
+div#memberModule .boardList td.title.bold { font-size:1.2em; font-weight:bold;}
+div#memberModule .boardList td.title.bold a { position:relative; top:.3em;}
+div#memberModule .boardList td.title * { vertical-align:middle;} 
+div#memberModule .boardList td.title, .boardList td.title a { color:#444444;}
+div#memberModule .boardList td.title a:visited { color:#777777;}
+div#memberModule .boardList td.checkDate { font:.8em Tahoma; color:#333333; text-align:center;}
+
+/* pageNavigation */
+div#memberModule .pageNavigation { position:relative; display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .8em Tahoma; }
+div#memberModule .pageNavigation a { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+div#memberModule .pageNavigation a:hover { background:#F7F7F7; text-decoration:none; }
+div#memberModule .pageNavigation a:visited { color:#999999;}
+div#memberModule .pageNavigation a.goToFirst { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
+div#memberModule .pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
+div#memberModule .pageNavigation a.goToFirst img, .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
+div#memberModule .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+
+
+/* button of list page */
+div#memberModule .buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
+div#memberModule .buttonRight ul li { float:right; margin-left:.3em;}
+div#memberModule .buttonLeft { position:relative; float:left; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-left:.5em; overflow:visible;}
+div#memberModule .buttonLeft ul li { float:left; margin-right:.3em;}
+div#memberModule .buttonLeft ul li select { position:relative; top:1px; _top:2px;}
+
+
+div#memberModule .instantMessage { float:right; overflow:hidden;}
+div#memberModule .instantMessage li { float:left; padding:0 .8em 0 .8em; margin-left:-1px; background:url(../images/normal/line_1x10_e0e0e0.gif) no-repeat left center;}
+div#memberModule .instantMessage li a { display:block; float:left; height:1em; _height:1.1em; overflow:hidden; font-size:1em; white-space:nowrap; color:#666666; padding-left:1.8em; background:url(../images/normal/iconInstantMessage.gif) no-repeat left top;}
+div#memberModule .instantMessage li.on a { background-position:left -14px; font-weight:bold;}
+div#memberModule .instantMessage li a strong { color:#ff6600;}
+
+div#memberModule .boardWrite { width:100%; position:relative;}
+div#memberModule .boardWrite .boardEditor fieldset { width:auto; position:relative; border:1px solid #eaeae7; border-top:none;}
+div#memberModule .boardWrite div.to { border-top:1px solid #eff0ed; padding:.5em 0; white-space:nowrap;}
+div#memberModule .boardWrite div.to label.to { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:6em; white-space:nowrap;}
+div#memberModule .boardWrite div.to input#to { width:70%;}
+div#memberModule .boardWrite div.title { border-bottom:1px solid #eff0ed; border-top:1px solid #eff0ed; padding:.5em 0; white-space:nowrap;}
+div#memberModule .boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:6em; white-space:nowrap;}
+div#memberModule .boardWrite div.title input#title { width:70%;}

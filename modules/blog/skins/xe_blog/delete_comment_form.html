@@ -1,23 +1,28 @@
 <!--%import("filter/delete_comment.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_comment)">
+<div class="smallBox w268">
+
+    <div class="header">
+        <h3>{$lang->confirm_delete}</h3>
+    </div>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, delete_comment)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="comment_srl" value="{$comment_srl}" />
 
-    <table>
-    <tr>
-        <th colspan="2">{$lang->confirm_delete}</th>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="{$lang->cmd_delete}" />
-            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" />
-        </td>
-    </tr>
-    </table>
-</form>
+        <fieldset class="inputPassword">
+            <div class="button">
+                <span class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+            </div>
+            <div class="button">
+                <a href="{getUrl('act','')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
+            </div>
+        </fieldset>
+
+    </form>
+</div>
 
 <!--#include("footer.html")-->

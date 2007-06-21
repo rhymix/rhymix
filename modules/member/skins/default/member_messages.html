@@ -1,113 +1,107 @@
 <!--#include("./common_header.html")-->
 <!--%import("filter/delete_checked_message.xml")-->
 
-<!-- 정보 -->
-<div>
-    <!--@foreach($lang->message_box as $key => $val)-->
-        <!--@if($key == $message_type)-->
-            <span style="font-weight:bold">
-            {$lang->message_box[$message_type]} ({number_format($total_count)}) 
-            </span>
-        <!--@else-->
-            <a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val}</a>
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('act','')}">{$lang->cmd_back}</a>
-</div>
-
-<!-- 내용 -->
-<!--@if($message)-->
-<div>
-    <table border="1">
-    <tr>
-        <th>
-            <!--@if($message->message_type == "S")-->
-            {$lang->receiver}
-            <!--@else-->
-            {$lang->sender}
+	<div class="boardHeader">
+        <h3>
+            <!--@foreach($lang->message_box as $key => $val)-->
+                <!--@if($key == $message_type)-->
+                    {$val}
+                <!--@end-->
             <!--@end-->
-        </th>
-        <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
-    </tr>
-    <tr>    
-        <th>{$lang->title}</th>
-        <td>{htmlspecialchars($message->title)}</td>
-    </tr>
-    <tr>
-        <td colspan="2">{$message->content}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMessage('{$message->message_srl}');return false;" />
+        </h3>
+    </div>
+
+    <!--@if($message)-->
+    <div class="readMessage">
+        <div class="messageHeader">
+            <h4>{$message->title}</h4>
+            <address>
+                <em>{$message->nick_name} ({$message->user_id}) <span class="date">{zdate($message->regdate, "Y.m.d H:i:s")}</span></em>
+            </address>
+        </div>
+
+        <div class="messageBody">{$message->title}</div>
+
+        <ul class="deleteOrKeep">
             <!--@if($message->message_type == "R")-->
-            <input type="button" value="{$lang->cmd_store}" onclick="doStoreMessage('{$message->message_srl}');return false;" />
+            <li><a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_store}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
             <!--@end-->
-        </td>
-    </tr>
-    </table>
-</div>
-<!--@end-->
+            <li><a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+    <!--@end-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
+	<div class="boardInformation">
+        <ul class="instantMessage">
+            <!--@foreach($lang->message_box as $key => $val)-->
+                <!--@if($key == $message_type)-->
+                    <li class="on"><a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val} <strong>{$total_count}</strong></a></li>
+                <!--@else-->
+                    <li><a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val}</a></li>
+                <!--@end-->
+            <!--@end-->
+        </ul>
+    </div>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
     <input type="hidden" name="message_type" value="{$message_type}" />
 
-    <!-- 목록 -->
-    <div>
-        <table border="1">
+        <table cellspacing="0" summary="받은 쪽지 목록" class="boardList">
+        <thead>
         <tr>
-            <th><input type="checkbox" name="check_all" onclick="doCheckAll(this, 'fo_message_list');"/></th>
-            <th>
+            <th scope="col" class="check first-child"><input name="check_all" type="checkbox" onclick="doCheckAll(this, 'fo_message_list');" /></th>
+            <th scope="col" class="user">
                 <!--@if($message_type == "S")-->
                     {$lang->receiver}
                 <!--@else-->
                     {$lang->sender}
                 <!--@end-->
             </th>
-            <th>{$lang->title}</th>
-            <th>{$lang->regdate}</th>
-            <th>{$lang->readed_date}</th>
+            <th scope="col" class="title">{$lang->title}</th>
+            <th scope="col" class="registDate">{$lang->regdate}</th>
+            <th scope="col" class="checkDate last-child">{$lang->readed_date}</th>
         </tr>
-        <!--@foreach($message_list as $no => $val)-->
-        <tr>
-            <td><input type="checkbox" name="message_srl_list" value="{$val->message_srl}" /></td>
-            <td><div class="member_{$val->member_srl}">{$val->nick_name} ({$val->user_id})</div></td>
-            <td>
-                <!--@if($val->readed=='Y')-->
-                    <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
-                <!--@else-->
-                    <span style="font-weight:bold"><a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a></span>
-                <!--@end-->
-            </td>
-            <td>{zdate($val->regdate,"Y-m-d")}</td>
-            <td>
-                <!--@if($val->readed=="Y")-->
-                    {zdate($val->readed_date,"Y-m-d H:i:s")}
-                <!--@end-->
-            </td>
-        </tr>
-        <!--@end-->
+        </thead>
+
+        <tbody>
+            <!--@foreach($message_list as $no => $val)-->
+            <tr class="bg{($no+1)%2+1}">
+                <td class="check"><input name="message_srl_list" type="checkbox" value="{$val->message_srl}" /></td>
+                <td class="user"><div class="member_{$val->member_srl}">{$val->nick_name}<br />({$val->user_id})</div></td>
+                <td class="title">
+                    <!--@if($val->readed=='Y')-->
+                        <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
+                    <!--@else-->
+                        <span style="font-weight:bold"><a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a></span>
+                    <!--@end-->
+                </td>
+                <td class="registDate">{zdate($val->regdate,"Y-m-d")}</td>
+                <td class="checkDate"><!--@if($val->readed=="Y")-->{zdate($val->readed_date,"Y-m-d H:i:s")}<!--@else-->&nbsp;<!--@end--></td>
+            </tr>
+            <!--@end-->
+        </tbody>
         </table>
-    </div>
 
-    <!-- 버튼 -->
-    <div>
-        <input type="submit" value="{$lang->cmd_delete}" />
-    </div>
+        <!-- 페이지 네비게이션 -->
+        <div class="pageNavigation">
+            <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <span class="current">{$page_no}</span> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+        </div>
 
-</form>
+        <div class="buttonRight">
+            <a href="{getUrl('act','','message_type','','target_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
+        </div>
+        <div class="buttonLeft">
+            <span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" /><input type="submit" value="{$lang->cmd_delete}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+        </div>
 
-<!-- 페이지 네비게이션 -->
-<div>
-    <a href="{getUrl('page','','message_srl','')}">[{$lang->first_page}]</a>
+    </form>
 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            {$page_no}
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'message_srl','')}">[{$page_no}]</a>
-        <!--@end-->
-    <!--@end-->
-
-    <a href="{getUrl('page',$page_navigation->last_page,'message_srl','')}">[{$lang->last_page}]</a>
-</div>
 <!--#include("./common_footer.html")-->

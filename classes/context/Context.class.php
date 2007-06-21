@@ -65,6 +65,7 @@
             // context 변수를 $GLOBALS의 변수로 지정
             $this->context = &$GLOBALS['__Context__'];
             $this->context->lang = &$GLOBALS['lang'];
+            $this->context->_COOKIE = $_COOKIE;
 
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();

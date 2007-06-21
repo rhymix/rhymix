@@ -198,3 +198,11 @@ function doMoveFriend() {
     var fo_obj = xGetElementById('fo_friend_list');
     procFilter(fo_obj, move_friend);
 }
+
+/* 친구 그룹 선택 */
+function doJumpFriendGroup() {
+    var sel_obj = xGetElementById('jumpMenu');
+    var sel_idx = sel_obj.selectedIndex;
+    var sel_val = sel_obj.options[sel_idx].value;
+    location.href = current_url.setQuery('friend_group_srl', sel_val);
+}

@@ -88,6 +88,7 @@
     $lang->ipaddress = 'IP 주소';
     $lang->path = '경로';
     $lang->cart = '선택항목';
+    $lang->friend = '친구';
 
     $lang->mid = '모듈이름';
     $lang->layout = '레이아웃';
