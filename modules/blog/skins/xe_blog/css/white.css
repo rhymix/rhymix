@@ -243,7 +243,7 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 .smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
 .smallBox .complex { padding:1.5em 2em 2em 2em;}
-.smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 0em;}
-.smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em;}
+.smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
+.smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
-.smallBox .inputPassword .button { display:block; float:right; margin-left:.4em;}
+.smallBox .inputPassword .button { display:block; float:left; margin-right:.2em;}
