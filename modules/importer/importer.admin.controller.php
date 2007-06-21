@@ -21,6 +21,7 @@
 
         var $module_srl = 0;
         var $category_srl = 0;
+        var $category_list = array();
 
         /**
          * @brief 초기화
@@ -98,7 +99,6 @@
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
-            $this->category_srl = Context::get('category_srl');
             $xml_file = Context::get('xml_file');
             $this->position = (int)Context::get('position');
 
@@ -222,6 +222,7 @@
                     $str = fread($fp,1024);
                     $buff .= $str;
                     $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
+                    $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), trim($buff));
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
                     if($this->position+$this->limit_count <= $this->imported_count) {
@@ -272,7 +273,7 @@
 
             // 문서 입력
             $args->module_srl = $this->module_srl;
-            $args->category_srl = $this->category_srl;
+            $args->category_srl = $this->category_list[$xml_doc->document->category->body];
             $args->is_notice = $xml_doc->document->is_notice->body;
             $args->is_secret = $xml_doc->document->is_secret->body;
             $args->title = $xml_doc->document->title->body;
@@ -362,6 +363,37 @@
             $root = $matches[0].'</root>';
             $xml_doc = $this->oXml->parse($root);
             $this->total_count = $xml_doc->root->attrs->count;
+        }
+
+        /**
+         * @brief <categories>정보를 읽어서 정보를 구함
+         **/
+        function _parseCategoryInfo($matches) {
+            $xml_doc = $this->oXml->parse($matches[0]);
+
+            $category_list = $xml_doc->categories->category;
+            if(!$category_list) return;
+
+            if(!is_array($category_list)) $category_list = array($category_list);
+
+            $oDocumentModel = &getModel('document');
+            $tmp_category_list = $oDocumentModel->getCategoryList($this->module_srl);
+            if(count($tmp_category_list)) {
+                foreach($tmp_category_list as $key => $val) $this->category_list[$val->title] = $key;
+            } else {
+                $this->category_list = array();
+            }
+
+            $oDocumentController = &getAdminController('document');
+
+            foreach($category_list as $key => $val) {
+                $title = $val->body;
+                if($this->category_list[$title]) continue;
+
+                $output = $oDocumentController->insertCategory($this->module_srl, $title);
+                debugPrint($output);
+                $this->category_list[$title] = $output->get('category_srl');
+            }
         }
     }
 ?>

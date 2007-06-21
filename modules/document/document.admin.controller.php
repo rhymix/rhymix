@@ -118,11 +118,15 @@
         function insertCategory($module_srl, $title, $category_srl = 0) {
             if(!$category_srl) $args->list_order = $args->category_srl = getNextSequence();
             else $args->list_order = $args->category_srl = $category_srl;
+
             $args->module_srl = $module_srl;
             $args->title = $title;
             $args->document_count = 0;
 
-            return executeQuery('document.insertCategory', $args);
+            $output = executeQuery('document.insertCategory', $args);
+            if($output->toBool()) $output->add('category_srl', $args->category_srl);
+
+            return $output;
         }
 
         /**
