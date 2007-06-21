@@ -1,0 +1,40 @@
+<!--%import("js/importer_admin.js")-->
+<!--%import("filter/import_tt.xml")-->
+
+<!-- 설명 -->
+<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
+    {nl2br($lang->about_tt_importer)}
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, import_tt);" id="fo_import">
+    <input type="hidden" name="position" value="0" />
+
+    <div style="font-weight:bold">{$lang->target_module}</div>
+    <div>
+        <select name="module_srl">
+        <!--@foreach($module_list as $key => $val)-->
+        <option value="{$val->module_srl}">{$val->browser_title} - {$key}</option>
+        <!--@end-->
+        </select>
+    </div>
+
+    <div style="font-weight:bold">{$lang->target_file}</div>
+    <div>
+        <input type="text" name="xml_file" value="../rainnypub.com.xml" />
+    </div>
+
+    <div style="font-weight:bold">{$lang->target_url}</div>
+    <div>
+        <input type="text" name="url" value="http://rainny.n4blog.com" />
+    </div>
+
+    <div>
+        <input type="submit" value="{$lang->cmd_registration}" />
+    </div>
+
+    <div id="import_status" style="display:none">
+        <div id="step2_position"></div>
+        <div><input type="button" onclick="doManualProcess(); return false" value="{$lang->cmd_continue}" /></div>
+    </div>
+
+</form>

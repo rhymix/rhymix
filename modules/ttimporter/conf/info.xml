@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1">
+    <title xml:lang="ko">TatterTools XML Importer</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">
+            태터툴즈의 백업파일을 제로보드XE에 입력을 하는 모듈입니다.
+            첨부파일 포함하지 않은 백업파일이 필요합니다.
+            첨부파일은 원주소에서 직접 다운로드를 하게 됩니다.
+        </description>
+    </author>
+</module>
