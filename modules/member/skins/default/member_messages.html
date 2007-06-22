@@ -20,7 +20,7 @@
             </address>
         </div>
 
-        <div class="messageBody">{$message->title}</div>
+        <div class="messageBody">{$message->content}</div>
 
         <ul class="deleteOrKeep">
             <!--@if($message->message_type == "R")-->
@@ -46,7 +46,7 @@
     <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
     <input type="hidden" name="message_type" value="{$message_type}" />
 
-        <table cellspacing="0" summary="받은 쪽지 목록" class="boardList">
+        <table cellspacing="0" class="boardList">
         <thead>
         <tr>
             <th scope="col" class="check first-child"><input name="check_all" type="checkbox" onclick="doCheckAll(this, 'fo_message_list');" /></th>
