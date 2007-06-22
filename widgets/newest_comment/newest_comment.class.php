@@ -38,8 +38,6 @@
             $widget_info->title = $title;
             $widget_info->comment_list = $output->data;
 
-            preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$args->style,$matches);
-            $widget_info->width = trim($matches[3][0]);
             Context::set('widget_info', $widget_info);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)

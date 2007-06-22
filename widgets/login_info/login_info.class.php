@@ -16,9 +16,6 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 변수 설정
-            Context::set('style', $args->style);
-
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
             Context::set('colorset', $args->colorset);

@@ -28,10 +28,9 @@
             $day = $args->day;
             if($day != "false") $day = "true";
 
-            $width = $args->width;
-            if(!$width) $width = 200;
-            $widget_info->width = $width;
-
+            $clock_width = $args->clock_width;
+            if(!$clock_width) $clock_width = 200;
+            $widget_info->clock_width = $clock_width;
             $widget_info->src = sprintf("%s%s/%s/clock.swf?theme=%s&amp;day=%s", Context::getRequestUri(), $tpl_path, $colorset, $theme, $day);
 
             Context::set('widget_info', $widget_info);

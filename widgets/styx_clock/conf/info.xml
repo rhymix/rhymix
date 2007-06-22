@@ -6,7 +6,7 @@
         <description xml:lang="ko">플래쉬로 된 시계를 출력합니다.</description>
     </author>
     <extra_vars>
-        <var id="width">
+        <var id="clock_width">
             <name xml:lang="ko">가로길이</name>
             <type>text</type>
             <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 200)</description>

@@ -22,17 +22,6 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         return;
     }
 
-    var orig_width = 0;
-    var orig_height = 0;
-    var node = opener.editorPrevNode;
-    if(node) {
-        orig_width = parseInt(xWidth(node),10)-6;
-        orig_height = parseInt(xHeight(node),10)-6;
-
-        widget_code = widget_code.replace(/width([^p]+)px/ig,'width:'+orig_width+'px');
-        widget_code = widget_code.replace(/height([^p]+)px/ig,'height:'+orig_height+'px');
-    }
-
     // 부모창에 에디터가 있으면 에디터에 추가
     if(opener.editorGetIFrame) {
         var iframe_obj = opener.editorGetIFrame(module_srl);
@@ -42,7 +31,7 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
             opener.editorFocus(module_srl);
         }
     }
-    //window.close();
+    window.close();
 } 
 
 /* 위젯 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
@@ -116,9 +105,13 @@ function doFillWidgetVars() {
                 break;
             case "checkbox" :
                     var val = selected_node.getAttribute(name);
-                    for(var i=0;i<fo_obj[name].length;i++) {
-                        var v = fo_obj[name][i].value;
-                        if(val.indexOf(v)!=-1) fo_obj[name][i].checked="true";
+                    if(fo_obj[name].length) {
+                        for(var i=0;i<fo_obj[name].length;i++) {
+                            var v = fo_obj[name][i].value;
+                            if(val.indexOf(v)!=-1) fo_obj[name][i].checked="true";
+                        }
+                    } else {
+                        if(fo_obj[name].value == val) fo_obj[name].checked ="true";
                     }
                 break;
             case "select" :
@@ -134,6 +127,8 @@ function doFillWidgetVars() {
         }
 
     }
+
+    fo_obj.widget_width.value = xWidth(selected_node)+4;
 
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {

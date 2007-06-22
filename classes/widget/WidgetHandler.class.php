@@ -25,6 +25,11 @@
                 $output = $oWidget->proc($args);
             }
 
+            if($args->style) {
+                $args->style = preg_replace("/height([^;]*);/i","",$args->style);
+                $output = sprintf("<div style=\"%s\">%s</div>", $args->style, $output);
+            }
+
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
 
             return $output;

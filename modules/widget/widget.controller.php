@@ -21,6 +21,8 @@
             $vars = Context::getRequestVars();
             $widget = $vars->selected_widget;
 
+            $blank_img_path = "./common/tpl/images/blank.gif";
+
             unset($vars->module);
             unset($vars->act);
             unset($vars->selected_widget);
@@ -33,8 +35,18 @@
                 }
             }
 
-            $blank_img_path = "./common/tpl/images/blank.gif";
-            $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="width:100px;height:100px;"/>', $blank_img_path, $widget, implode(' ',$attribute));
+            if($vars->widget_fix_width == 'Y') {
+                $style = "";
+
+                $vars->widget_width = $vars->widget_width - $vars->widget_margin_left - $vars->widget_margin_right;
+                $style .= sprintf("%s:%spx;", "width", trim($vars->widget_width));
+                $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $vars->widget_margin_top, $vars->widget_margin_right,$vars->widget_margin_bottom,$vars->widget_margin_left);
+                if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
+                $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
+            } else {
+                $widget_code = sprintf('<img width="100" height="100" src="%s" class="zbxe_widget_output" widget="%s" %s />', $blank_img_path, $widget, implode(' ',$attribute));
+            }
+            debugPrint($widget_code);
 
             // 코드 출력
             $this->add('widget_code', $widget_code);
