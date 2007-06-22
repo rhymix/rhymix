@@ -28,7 +28,7 @@
                 </form>
             </th>
             <!--@end-->
-            <th scope="col" class="title">{$lang->title}</th>
+            <th scope="col" class="title" colspan="2">{$lang->title}</th>
             <th class="author" scope="col">{$lang->writer}</th>
 
             <!--@if($order_type == "desc")-->
@@ -63,26 +63,13 @@
 
         <tr class="notice">
             <td class="num">{$lang->notice}</td>
-
-        <!--@else-->
-
-        <tr class="bg{($no+1)%2+1}">
-            <td class="num">{$no}</td>
-
-        <!--@end-->
-
             <!--@if($module_info->use_category == "Y")-->
             <td class="category">{$category_list[$document->get('category_srl')]->title}</td>
             <!--@end-->
-
-            <td class="title">
-                <!--@if($module_info->display_thumnail=='Y' && $document->thumbnailExists(100))-->
-                    <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
-                <!--@end-->
+            <td class="title" colspan="2">
                 <!--@if($grant->is_admin)-->
                     <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
                 <!--@end-->
-
                 <!--@if($grant->view)-->
                     <!--@if($search_target && $search_keyword)-->
                         <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
@@ -106,6 +93,55 @@
             <td class="recommend">{$document->get('voted_count')}</td>
             <td class="date">{$document->getRegdate('Y-m-d')}</td>
         </tr>
+
+        <!--@else-->
+
+        <tr class="bg{($no+1)%2+1}">
+            <td class="num" rowspan="2">{$no}</td>
+
+            <!--@if($module_info->use_category == "Y")-->
+            <td class="category" rowspan="2">{$category_list[$document->get('category_srl')]->title}</td>
+            <!--@end-->
+
+            <td rowspan="2" class="thumb">
+                <!--@if($grant->is_admin)-->
+                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
+                <!--@end-->
+                <!--@if($module_info->display_thumnail=='Y' && $document->thumbnailExists(100))-->
+                    <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
+                <!--@else-->
+                    <img src="./images/blank.gif" width="1" height="1" alt="" />
+                <!--@end-->
+            </td>
+
+            <td class="title bold">
+                <!--@if($grant->view)-->
+                    <!--@if($search_target && $search_keyword)-->
+                        <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@else-->
+                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@end-->
+                <!--@else-->
+                    {$document->getTitleText($module_info->subject_cut_size)}
+                <!--@end-->
+                
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                <!--@end-->
+
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                <!--@end-->
+            </td>
+            <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
+            <td class="reading">{$document->get('readed_count')}</td>
+            <td class="recommend">{$document->get('voted_count')}</td>
+            <td class="date">{$document->getRegdate('Y-m-d')}</td>
+        </tr>
+        <tr class="bg{($no+1)%2+1}">
+            <td colspan="<!--@if($module_info->use_category=="Y")-->6<!--@else-->5<!--@end-->" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(140)}</a></td>
+        </tr>
+        <!--@end-->
     <!--@end-->
     </tbody>
 </table>

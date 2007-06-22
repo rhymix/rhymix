@@ -128,6 +128,11 @@
             return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $this->get('content'), $this->document_srl, $this->get('member_srl'));
         }
 
+        function getSummary($str_size = 50) {
+            $content = strip_tags($this->get('content'));
+            return cut_str($content, $str_size, '...');
+        }
+
         function getRegdate($format = 'Y.m.d H:i:s') {
             return zdate($this->get('regdate'), $format);
         }
