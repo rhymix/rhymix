@@ -46,6 +46,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; padding:0;}
 .boardList th.category { padding:0 .2em 0 .5em;}
 .boardList th.category.thumbStyle { background-position:-3px bottom !important; border-left:1px solid #ffffff; text-align:left;}
+.boardList th.category select { width:7em; }
 .boardList th.title {}
 .boardList th.author {}
 .boardList th.reading { white-space:nowrap;}
@@ -125,6 +126,8 @@ Jeong, Chan Myeong 070601~070630
 .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeB .icon { margin:0 .2em;}
 .buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:4px;}
+
+.buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/white/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}
 
 /* button of list page */
 .buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}

@@ -18,12 +18,13 @@
             <!-- 카테고리 사용시 카테고리 선택 표시 -->
             <th scope="col" class="category">
                 <form action="./" method="get">
-                    <select name="category" onchange="doChangeCategory(this, '{getUrl('category','')}')" >
+                    <select name="category" id="board_category">
                         <option value="" selected="selected">{$lang->category}</option>
                         <!--@foreach($category_list as $val)-->
                         <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                         <!--@end-->
                     </select>
+                    <input type="button" name="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
                 </form>
             </th>
             <!--@end-->

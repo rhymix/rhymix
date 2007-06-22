@@ -122,10 +122,9 @@ function completeDeleteTrackback(ret_obj) {
 }
 
 /* 카테고리 이동 */
-function doChangeCategory(sel_obj, url) {
-    var category_srl = sel_obj.options[sel_obj.selectedIndex].value;
-    if(!category_srl) location.href=url;
-    else {
-        location.href = current_url.setQuery('category',category_srl);
-    }
+function doChangeCategory() {
+    var sel_obj = xGetElementById("board_category");
+    var sel_idx = sel_obj.selectedIndex;
+    var category_srl = sel_obj.options[sel_idx].value;
+    location.href = current_url.setQuery('category',category_srl);
 }
