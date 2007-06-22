@@ -95,7 +95,7 @@ function editorStart(upload_target_srl, resizable, height) {
     xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
 
-    if(xIE4Up) {
+    if(xIE4Up && xGetElementById('for_ie_help_'+upload_target_srl)) {
         xGetElementById('for_ie_help_'+upload_target_srl).style.display = "block";
     }
 
