@@ -14,7 +14,7 @@
     <!--@foreach($category_list as $key => $val)-->setDocumentCount({$key}, {(int)$val->document_count});<!--@end-->
 
     // 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 
-    blogLoadTreeMenu("{$layout_info->category_xml_file}", "{$layout_info->category_name?$layout_info->category_name:'category'}", "{getUrl('','mid',$mid)}");
+    blogLoadTreeMenu("{$layout_info->category_xml_file}", "{$layout_info->category_name?$layout_info->category_name:'categories'}", "{getUrl('','mid',$layout_info->mid)}");
 </script>
 
 
