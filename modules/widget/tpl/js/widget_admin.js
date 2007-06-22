@@ -16,7 +16,6 @@ function completeGenerateCode(ret_obj) {
 function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     var widget_code = ret_obj["widget_code"];
     var module_srl = fo_obj.module_srl.value;
-
     if(!opener || !widget_code || !module_srl) {
         window.close(); 
         return;
@@ -128,7 +127,7 @@ function doFillWidgetVars() {
 
     }
 
-    fo_obj.widget_width.value = xWidth(selected_node)+4;
+    fo_obj.widget_width.value = xWidth(selected_node)-6;
 
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
