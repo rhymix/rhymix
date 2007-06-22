@@ -31,5 +31,11 @@
       <title xml:lang="ko">제목 글자수</title>
       <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
     </var>
+    <var name="display_thumnail" type="select">
+      <title xml:lang="ko">썸네일 표시</title>
+      <description lang="ko">게시물에 이미지가 포함되어 있으면 목록에서 썸네일을 표시합니다.</description>
+      <default>N</default>
+      <default>Y</default>
+    </var>
   </extra_vars>
 </skin>

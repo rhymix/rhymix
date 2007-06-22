@@ -173,6 +173,50 @@
             return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
         }
 
+        function thumbnailExists($width) {
+            if(!$this->getThumbnail($width)) return false;
+            return true;
+        }
+
+        function getThumbnail($width = 80) {
+            if(!preg_match('!<img([^>]*?)(\/){0,1}>!is',$this->get('content'),$matches)) return;
+
+            $document_path = sprintf('files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
+            if(!is_dir($document_path)) FileHandler::makeDir($document_path);
+
+            $thumbnail_file = sprintf('%sthumbnail_%d.gif', $document_path, $width);
+
+            if(!file_exists($thumbnail_file)) {
+
+                $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
+
+                preg_match('!src=("|\'){0,1}([^"|^\'|^\ ]*)("|\'| ){0,1}!is', $matches[0], $src_matches);
+                $src = $src_matches[2];
+
+                // 첨부된 파일일 경우
+                if(substr($src,0,7)=='./files') {
+                    copy($src, $tmp_file);
+
+                // 웹에서 링크한 경우
+                } else {
+                    FileHandler::getRemoteFile($src, $tmp_file);
+                }
+
+                // 파일정보를 보아서 가로/세로크기가 64보다 작으면 무시시킴
+                list($width, $height, $type, $attrs) = @getimagesize($tmp_file);
+
+                if($width <= 64 && $height <= 64) FileHandler::writeFile($thumbnail_file, '', 'w');
+                else FileHandler::createImageFile($tmp_file, $thumbnail_file, 100, 100, 'gif');
+
+                @unlink($tmp_file);
+            } 
+
+            if(filesize($thumbnail_file)<1) return;
+
+            $thumbnail_url = Context::getRequestUri().$thumbnail_file;
+            return $thumbnail_url;
+        }
+
         function hasUploadedFiles() {
             return $this->get('uploaded_count')? true : false;
         }
