@@ -191,7 +191,7 @@
             $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item_srl'));
 
             // target_item 의 값을 구함
-            $oMenuModel = &getModel('menu');
+            $oMenuModel = &getAdminModel('menu');
             $target_item = $oMenuModel->getMenuItemInfo($target_item_srl);
 
             // source_item에 target_item_srl의 parent_srl, listorder 값을 입력
