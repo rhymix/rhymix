@@ -104,9 +104,6 @@
             <!--@end-->
 
             <td rowspan="2" class="thumb">
-                <!--@if($grant->is_admin)-->
-                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
-                <!--@end-->
                 <!--@if($module_info->display_thumnail=='Y' && $document->thumbnailExists(100))-->
                     <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
                 <!--@else-->
@@ -115,6 +112,9 @@
             </td>
 
             <td class="title bold">
+                <!--@if($grant->is_admin)-->
+                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
+                <!--@end-->
                 <!--@if($grant->view)-->
                     <!--@if($search_target && $search_keyword)-->
                         <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
