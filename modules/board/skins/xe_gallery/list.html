@@ -1,0 +1,210 @@
+<!-- 검색을 위한 xml filter import-->
+<!--%import("filter/search.xml")-->
+
+<!-- header.html include -->
+<!--#include("header.html")-->
+
+<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+<!--@if($oDocument->isExists() && $grant->view)-->
+    <!--#include("./view_document.html")-->
+<!--@end-->
+
+<!-- 목록 출력 -->
+<table cellspacing="0" summary="" class="boardList">
+    <thead>
+        <tr>
+            <th scope="col" class="num">{$lang->no}</th>
+            <!--@if($module_info->use_category == "Y")-->
+            <!-- 카테고리 사용시 카테고리 선택 표시 -->
+            <th scope="col" class="category">
+                <form action="./" method="get">
+                    <select name="category" id="board_category">
+                        <option value="" selected="selected">{$lang->category}</option>
+                        <!--@foreach($category_list as $val)-->
+                        <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="true"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                        <!--@end-->
+                    </select>
+                    <input type="button" name="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
+                </form>
+            </th>
+            <!--@end-->
+            <th scope="col" class="title" colspan="2">{$lang->title}</th>
+            <th class="author" scope="col">{$lang->writer}</th>
+
+            <!--@if($order_type == "desc")-->
+                {@ $order_icon = "buttonDescending.gif" }
+                {@ $order_type = "asc"; }
+            <!--@else-->
+                {@ $order_icon = "buttonAscending.gif" }
+                {@ $order_type = "desc"; }
+            <!--@end-->
+
+            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+
+            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+
+            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+        </tr>
+    </thead>
+
+    <tbody>
+    <!--@if(!$document_list)-->
+    <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+        <tr class="bg0">
+            <td colspan="<!--@if($module_info->use_category=="Y")-->7<!--@else-->6<!--@end-->" class="title">
+                {$lang->no_documents}
+            </td>
+        </tr>
+    <!--@end-->
+
+    <!--@foreach($document_list as $no => $document)-->
+
+        <!--@if($document->isNotice())-->
+
+        <tr class="notice">
+            <td class="num">{$lang->notice}</td>
+            <!--@if($module_info->use_category == "Y")-->
+            <td class="category">{$category_list[$document->get('category_srl')]->title}</td>
+            <!--@end-->
+            <td class="title" colspan="2">
+                <!--@if($grant->is_admin)-->
+                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
+                <!--@end-->
+                <!--@if($grant->view)-->
+                    <!--@if($search_target && $search_keyword)-->
+                        <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@else-->
+                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@end-->
+                <!--@else-->
+                    {$document->getTitleText($module_info->subject_cut_size)}
+                <!--@end-->
+                
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                <!--@end-->
+
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                <!--@end-->
+            </td>
+            <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
+            <td class="reading">{$document->get('readed_count')}</td>
+            <td class="recommend">{$document->get('voted_count')}</td>
+            <td class="date">{$document->getRegdate('Y-m-d')}</td>
+        </tr>
+
+        <!--@else-->
+
+        <tr class="bg{($no+1)%2+1}">
+            <td class="num" rowspan="2">{$no}</td>
+
+            <!--@if($module_info->use_category == "Y")-->
+            <td class="category" rowspan="2">{$category_list[$document->get('category_srl')]->title}</td>
+            <!--@end-->
+
+            <td rowspan="2" class="thumb">
+                <!--@if($module_info->display_thumnail=='Y' && $document->thumbnailExists(100))-->
+                    <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
+                <!--@else-->
+                    <img src="./images/blank.gif" width="1" height="1" alt="" />
+                <!--@end-->
+            </td>
+
+            <td class="title bold">
+                <!--@if($grant->is_admin)-->
+                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="true"<!--@end--> /> 
+                <!--@end-->
+                <!--@if($grant->view)-->
+                    <!--@if($search_target && $search_keyword)-->
+                        <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@else-->
+                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <!--@end-->
+                <!--@else-->
+                    {$document->getTitleText($module_info->subject_cut_size)}
+                <!--@end-->
+                
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                <!--@end-->
+
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                <!--@end-->
+            </td>
+            <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
+            <td class="reading">{$document->get('readed_count')}</td>
+            <td class="recommend">{$document->get('voted_count')}</td>
+            <td class="date">{$document->getRegdate('Y-m-d')}</td>
+        </tr>
+        <tr class="bg{($no+1)%2+1}">
+            <td colspan="<!--@if($module_info->use_category=="Y")-->6<!--@else-->5<!--@end-->" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(140)}</a></td>
+        </tr>
+        <!--@end-->
+    <!--@end-->
+    </tbody>
+</table>
+
+<!--@if($grant->view)-->
+
+    <!-- 페이지 네비게이션 -->
+    <div class="pageNavigation">
+
+        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <span class="current">{$page_no}</span> 
+            <!--@else-->
+                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    </div>
+
+    <!-- 글쓰기, 목록 버튼 -->
+    <div>
+    <div class="buttonRight">
+
+        <ul>
+            <li><a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconList.gif" alt="" width="12" height="13" class="icon" />{$lang->cmd_list}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+
+            <!--@if($grant->write_document)-->
+            <li><a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconWrite.gif" width="12" height="11" class="icon" alt="" />{$lang->cmd_write}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            <!--@end-->
+        </ul>
+    </div>
+
+    <!--@if($grant->is_admin)-->
+    <!-- 문서 관리 버튼 -->
+    <div class="buttonLeft">
+        <ul>
+            <li><a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$module_info->colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" />{$lang->cmd_manage_document}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+    <!--@end-->
+    </div>
+
+    <!-- 검색 -->
+    <form action="./" method="get" onsubmit="return procFilter(this, search)" class="boardSearch" id="fo_search">
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="category" value="{$category}" />
+
+        <fieldset>
+            <legend>{$lang->cmd_search}</legend>
+            <select name="search_target">
+                <!--@foreach($search_option as $key => $val)-->
+                <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
+            <ul class="searchButton">
+                <li><a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_search}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                <li><a href="#"  onclick="location.href='{getUrl('','mid',$mid)}';return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+            </ul>
+        </fieldset>
+    </form>
+
+<!--@end-->
+
+<!--#include("footer.html")-->

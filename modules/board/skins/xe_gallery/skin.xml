@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">제로보드XE 게시판 기본 스킨(웹진형)</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">(주)NHN</name>
+    <description xml:lang="ko">
+        제로보드XE 게시판의 웹진형태 기본 스킨입니다.
+        디자인 : 서기정 
+        HTML/CSS : 정찬명
+    </description>
+  </maker>
+  <colorset>
+    <color name="white" src="screenshot/white.gif">
+      <title xml:lang="ko">하얀색(기본)</title>
+    </color>
+  </colorset>
+  <extra_vars>
+    <var name="title" type="text">
+        <title xml:lang="ko">게시판 제목</title>
+        <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+    </var>
+    <var name="sub_title" type="text">
+        <title xml:lang="ko">게시판 부제목</title>
+        <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
+    </var>
+    <var name="comment" type="textarea">
+        <title xml:lang="ko">게시판 상세 설명</title>
+        <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+    </var>
+    <var name="subject_cut_size" type="text">
+      <title xml:lang="ko">제목 글자수</title>
+      <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+    </var>
+  </extra_vars>
+</skin>
