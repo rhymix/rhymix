@@ -13,6 +13,22 @@
     $lang->widget_info = '위젯 정보';
     $lang->widget_code = '코드';
 
+    $lang->widget_fix_width = '가로크기 고정';
+    $lang->widget_width = '가로크기';
+    $lang->widget_position = '위치';
+    $lang->widget_position_none = '줄바꿈';
+    $lang->widget_position_left = '왼쪽';
+    $lang->widget_position_right = '오른쪽';
+    $lang->widget_margin = '여백';
+    $lang->widget_margin_top = '위';
+    $lang->widget_margin_right = '오른쪽';
+    $lang->widget_margin_bottom = '아래 ';
+    $lang->widget_margin_left= '왼쪽';
+    $lang->about_widget_fix_width = '선택하시면 가로크기가 고정됩니다.';
+    $lang->about_widget_width = '가로 크기를 선택해주세요.';
+    $lang->about_widget_position = '한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.';
+    $lang->about_widget_margin = '한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.';
+
     $lang->msg_widget_is_not_exists = '%s 위젯을 찾을 수 없습니다';
     $lang->msg_widget_object_is_null = '%s 위젯의 객체 생성을 할 수가 없습니다';
     $lang->msg_widget_proc_is_null = '%s 위젯의 proc() 를 실행할 수가 없습니다';

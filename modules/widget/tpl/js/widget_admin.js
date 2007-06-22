@@ -127,7 +127,11 @@ function doFillWidgetVars() {
 
     }
 
-    fo_obj.widget_width.value = xWidth(selected_node)-6;
+    var marginLeft = parseInt(selected_node.style.marginLeft.replace(/px$/,''),10);
+    var marginRight = parseInt(selected_node.style.marginRight.replace(/px$/,''),10);
+    var border = parseInt(selected_node.style.border);
+
+    fo_obj.widget_width.value = xWidth(selected_node) + marginLeft + marginRight - 6;
 
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {

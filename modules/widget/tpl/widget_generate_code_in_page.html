@@ -69,39 +69,36 @@
     </div>
 
     <div style="border:1px solid #EEEEEE;margin-bottom:5px; ">
-        <div class="widget_header">가로 크기 고정</div>
+        <div class="widget_header">{$lang->widget_fix_width}</div>
         <div class="widget_body">
-            <input type="checkbox" value="Y" name="widget_fix_width" /> 선택하시면 가로크기가 고정됩니다.
-        </div>
-        <div class="widget_header">줄변경</div>
-        <div class="widget_body">
-            <input type="checkbox" value="Y" name="widget_cr" /> 선택하시면 이 위젯은 줄을 바꾼후 출력됩니다.
+            <input type="checkbox" value="Y" name="widget_fix_width" />
+            {$lang->about_widget_fix_width}
         </div>
 
-        <div class="widget_header">가로 크기</div>
+        <div class="widget_header">{$lang->widget_width}</div>
         <div class="widget_body">
             <input type="text" value="400" name="widget_width" size="3" />px
-            가로 크기를 선택해주세요.
+            {$lang->about_widget_width}
         </div>
 
-        <div class="widget_header">위치</div>
+        <div class="widget_header">{$lang->widget_position}</div>
         <div class="widget_body">
             <select name="widget_position">
-                <option value="">줄차지</option>
-                <option value="left">왼쪽</option>
-                <option value="right">오른쪽</option>
+                <option value="">{$lang->widget_position_none}</option>
+                <option value="left">{$lang->widget_position_left}</option>
+                <option value="right">{$lang->widget_position_right}</option>
             </select>
-            한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.
+            {$lang->about_widget_position}
         </div>
 
-        <div class="widget_header">여백</div>
+        <div class="widget_header">{$lang->widget_margin}</div>
         <div class="widget_body">
-            위 <input type="text" name="widget_margin_top" value="0" size="2" />
-            오른쪽 <input type="text" name="widget_margin_right" value="0" size="2" />
-            아래 <input type="text" name="widget_margin_bottom" value="0" size="2" />
-            왼쪽 <input type="text" name="widget_margin_left" value="0" size="2" />
+            {$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" />
+            {$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" />
+            {$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" />
+            {$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" />
             <br />
-            한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.
+            {$lang->about_widget_margin}
         </div>
     </div>
 
