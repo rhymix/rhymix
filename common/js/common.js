@@ -304,6 +304,7 @@ function showOriginalImage(evt) {
     for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "hidden";
 
     xAddEventListener(orig_image, "mousedown", origImageDragEnable);
+    xAddEventListener(orig_image, "dblclick", closeOriginalImage);
     xAddEventListener(window, "scroll", closeOriginalImage);
     xAddEventListener(window, "resize", closeOriginalImage);
 
