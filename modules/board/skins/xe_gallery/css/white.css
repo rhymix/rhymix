@@ -87,14 +87,14 @@ Jeong, Chan Myeong 070601~070630
 
 .boardList.thumbnail { margin-top:-1px; border-bottom:none;}
 .boardList.thumbnail td { border-top:none; border-bottom:1px solid #eff0ed; padding:1.5em 0 0 1.5em; overflow:hidden;}
-.boardList.thumbnail div.cell { float:left; width:130px; margin:0 1.5em 0 0; padding-bottom:1.5em;}
+.boardList.thumbnail div.cell { float:left; width:128px; height:200px; margin:0 1.5em 0 0; padding-bottom:1.5em;}
 .boardList.thumbnail div.cell img.thumb { padding:2px; border:1px solid #e0e1db; display:block; margin-bottom:1em;}
 .boardList.thumbnail div.title { color:#444444; margin-bottom:.2em; padding-left:3px;}
 .boardList.thumbnail div.title a { color:#444444;}
-.boardList.thumbnail div.nameAndDate { font-size:.9em; color:#999999; margin-bottom:.2em; padding-left:3px;}
-.boardList.thumbnail div.nameAndDate a { color:#999999;}
-.boardList.thumbnail div.nameAndDate .date { font:.8em Tahoma; color:#999999;}
-.boardList.thumbnail div.readAndRecommend { font-size:.9em; color:#666666; padding-left:3px;}
+.boardList.thumbnail div.nameAndDate { font-size:.9em; color:#999999; margin-bottom:.2em; padding-left:3px; clear:both;}
+.boardList.thumbnail div.nameAndDate .author { float:left; color:#999999; margin-right:.3em; margin-top:.3em}
+.boardList.thumbnail div.nameAndDate .date { float:left; font:.8em Tahoma; color:#999999; margin-top:.3em}
+.boardList.thumbnail div.readAndRecommend { padding-top:2px; clear:both; font-size:.9em; color:#666666; padding-left:3px;}
 .boardList.thumbnail div.readAndRecommend .num { font:.8em Tahoma;}
 .boardList.thumbnail div.readAndRecommend .vr { color:#dddddd;}
 .boardList.thumbnail div.readAndRecommend strong.num { font:bold .8em Tahoma; color:#ff6600;}

@@ -104,14 +104,14 @@
             return htmlspecialchars($this->get('nick_name'));
         }
         
-        function getTitleText($cut_size = 0) {
-            return htmlspecialchars($this->getTitle($cut_size));
+        function getTitleText($cut_size = 0, $tail='...') {
+            return htmlspecialchars($this->getTitle($cut_size, $tail));
         }
 
-        function getTitle($cut_size = 0) {
+        function getTitle($cut_size = 0, $tail='...') {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
-            if($cut_size) return cut_str($this->get('title'), $cut_size);
+            if($cut_size) return cut_str($this->get('title'), $cut_size, $tail);
 
             return $this->get('title');
         }
@@ -207,11 +207,14 @@
                     FileHandler::getRemoteFile($src, $tmp_file);
                 }
 
-                // 파일정보를 보아서 가로/세로크기가 64보다 작으면 무시시킴
-                list($width, $height, $type, $attrs) = @getimagesize($tmp_file);
+                FileHandler::writeFile($thumbnail_file, '', 'w');
 
-                if($width <= 64 && $height <= 64) FileHandler::writeFile($thumbnail_file, '', 'w');
-                else FileHandler::createImageFile($tmp_file, $thumbnail_file, 100, 100, 'gif');
+                if(file_exists($tmp_file)) {
+                    // 파일정보를 보아서 가로/세로크기가 64보다 작으면 무시시킴
+                    list($s_width, $s_height, $s_type, $s_attrs) = @getimagesize($tmp_file);
+
+                    if($s_width > 64 || $s_height > 64) FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
+                }
 
                 @unlink($tmp_file);
             } 

@@ -104,7 +104,7 @@
             <!--@end-->
 
             <td rowspan="2" class="thumb">
-                <!--@if($module_info->display_thumnail=='Y' && $document->thumbnailExists(100))-->
+                <!--@if($document->thumbnailExists(100))-->
                     <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
                 <!--@else-->
                     <img src="./images/blank.gif" width="1" height="1" alt="" />
