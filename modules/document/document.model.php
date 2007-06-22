@@ -107,7 +107,6 @@
                     case 'user_id' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_user_id = $search_keyword;
-                            $query_id = 'document.getDocumentListWithinMember';
                             $args->sort_index = 'documents.'.$args->sort_index;
                         break;
                     case 'member_srl' :

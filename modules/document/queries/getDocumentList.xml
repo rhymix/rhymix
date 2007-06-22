@@ -12,6 +12,7 @@
             <condition operation="like" column="title" var="s_title" />
             <condition operation="like" column="content" var="s_content" pipe="or" />
             <condition operation="like" column="user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="user_id" var="s_user_id" pipe="or" />
             <condition operation="like" column="nick_name" var="s_nick_name" pipe="or" />
             <condition operation="like" column="email_address" var="s_email_addres" pipe="or" />
             <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
