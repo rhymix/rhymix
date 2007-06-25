@@ -20,6 +20,7 @@ function fixAdminLayoutFooter() {
     var footerHeight = xHeight(xGetElementById('footer'));
     var clientHeight = xClientHeight();
     var newHeight = clientHeight - footerHeight - headerHeight + 71 + 38;
+    if(typeof(editor_height)!='undefined') newHeight += editor_height;
 
     if(newHeight<bodyHeight) newHeight = bodyHeight;
     xHeight(xGetElementById('cBody'), newHeight);

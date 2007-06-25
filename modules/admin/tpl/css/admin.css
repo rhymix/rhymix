@@ -90,6 +90,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 
 /* tableStyle */
 .infoText { border:1px solid #f2f2f0; margin-bottom:12px; background:#f9f9f6; padding:1.2em; color:#7b7972; font-size:.9em; line-height:1.4em;}
+.gap1 { margin-top:1em; }
 .tableSummaryType1 { font:bold .8em Tahoma; color:#a0a0a0; margin-bottom:10px;}
 .tableSummaryType1 strong { font:bold 1em Tahoma; color:#ff1a00;}
 .tableType1 { width:100%; border-bottom:2px solid #c1c0bd;}
@@ -171,3 +172,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 #category_list .checkbox { margin-top:1em; border:0px; }
 #category_info { float:left; width:370px; padding-left:10px; }
 /* ----- Category Manager | End ----- */
+
+.widget_item { float: left; white-space:nowrap; background-color:#FEFEFE; line-height:150%; margin-right:1em; }
+.layout_editor_box { padding:10px; border:1px solid #DDDDDD; }
+.layout_editor { width:100%; height:500px; border:0px;}

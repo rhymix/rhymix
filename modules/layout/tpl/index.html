@@ -1,15 +1,8 @@
 <!--%import("filter/delete_layout.xml")-->
 
-<!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_layout)}
-</div>
-
 <!--#include("header.html")-->
 
-<div>
-    {$lang->total_count} {number_format(count($layout_list))}
-</div>
+<div class="infoText gap1">{nl2br($lang->about_layout)}</div>
 
 <!-- 삭제를 위한 임시 form -->
 <form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, delete_layout)">
@@ -17,21 +10,22 @@
 </form>
 
 <!-- 목록 -->
-<div>
-    <table>
+<table cellspacing="0" class="tableType1">
+<thead>
     <tr>
-        <th>{$lang->no}</th>
-        <th>{$lang->layout}</th>
-        <th>{$lang->title}</th>
-        <th>{$lang->regdate}</th>
-        <th>{$lang->cmd_layout_management}</th>
-        <th>{$lang->cmd_layout_edit}</th>
-        <th>{$lang->cmd_delete}</th>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">{$lang->layout}</th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_layout_management}</th>
+        <th scope="col">{$lang->cmd_layout_edit}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
     </tr>
-
+</thead>
+<tbody>
     <!--@foreach($layout_list as $no => $val)-->
     <tr>
-        <td>{$no+1}</td>
+        <td class="tahoma">{$no+1}</td>
         <td>
             {$val->layout}
             <!--@if($val->module_srl)-->
@@ -39,27 +33,26 @@
             <!--@end-->
         </td>
         <td>{htmlspecialchars($val->title)}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">
             <!--@if(!$val->module_srl)-->
                 <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
             <!--@end-->
         </td>
-        <td>
+        <td class="tahoma">
             <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_edit}</a>
         </td>
-        <td>
+        <td class="tahoma">
             <!--@if(!$val->module_srl)-->
                 <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a>
             <!--@end-->
         </td>
     </tr>
     <!--@end-->
-
-    </table>
-</div>
+</tbody>
+</table>
 
 <!-- 버튼 -->
-<div>
-    [<a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}">{$lang->cmd_make}</a>]
-</div>
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>

@@ -1,10 +1,8 @@
 <!--%import("filter/toggle_activate_addon.xml")-->
 <!--%import("js/addon.js")-->
 
-<!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_addon)}
-</div>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+<div class="infoText">{nl2br($lang->about_addon)}</div>
 
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
 <form id="fo_addon" action="./" method="get">
@@ -12,47 +10,51 @@
 </form>
 
 <!-- 애드온의 목록 -->
-<table border="1" width="100%">
-<tr>
-    <td>{$lang->addon_name}</td>
-    <td>{$lang->version}</td>
-    <td>{$lang->author}</td>
-    <td>{$lang->date}</td>
-    <td>{$lang->installed_path}</td>
-    <td>{$lang->addon_info}</td>
-    <td>{$lang->cmd_setup}</td>
-    <td>{$lang->use}</td>
-</tr>
+<table cellspacing="0" class="tableType3">
+<thead>
+    <tr>
+        <th scope="col">{$lang->addon_name}</th>
+        <th scope="col">{$lang->version}</th>
+        <th scope="col">{$lang->author}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->installed_path}</th>
+        <th scope="col">{$lang->addon_info}</th>
+        <th scope="col">{$lang->cmd_setup}</th>
+        <th scope="col">{$lang->use}</th>
+    </tr>
+</thead>
 
+<tbody>
 <!--@foreach($addon_list as $key => $val)-->
 <tr>
-    <td rowspan="2">
+    <th scope="row" rowspan="2">
         {$val->title} <br />
         ({$val->addon})
-    </td>
-    <td>{$val->version}</td>
+    </th>
+    <td class="tahoma">{$val->version}</td>
     <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-    <td>{$val->author->date}</td>
-    <td>{$val->path}</td>
-    <td rowspan="2"><a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_view}</a></td>
-    <td rowspan="2">
+    <td class="tahoma">{$val->author->date}</td>
+    <td class="tahoma">{$val->path}</td>
+    <td class="tahoma"><a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_view}</a></td>
+    <td class="tahoma">
         <!--@if($val->extra_vars)-->
             <a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_setup}</a>
         <!--@end-->
     </td>
-    <td rowspan="2">
+    <td class="tahoma">
         <!--@if($val->activated)-->
-        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>
+        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" class="red">{$lang->notuse}</a>
         <!--@else-->
-        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->use}</a>
+        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" class="blue">{$lang->use}</a>
         <!--@end-->
     </td>
 </tr>
 <tr>
-    <td colspan="4">
+    <td colspan="7" class="colSpan">
         {nl2br($val->author->description)}
     </td>
 </tr>
 <!--@end-->
+</tbody>
 
 </table>

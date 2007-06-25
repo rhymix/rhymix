@@ -3,37 +3,50 @@
 
 <!--#include("header.html")-->
 
-<table border="1" width="100%">
-<tr>
-    <th>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</th>
-</tr>
-<tr>
-    <td>{nl2br($lang->about_layout_code)}</td>
-</tr>
+<table cellspacing="0" class="tableType3 gap1">
+<thead>
+    <tr>
+        <th scope="col">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td class="left">{nl2br($lang->about_layout_code)}</td>
+    </tr>
+</tbody>
 </table>
 
-<div style="margin-bottom:10px;border:1px solid #DDDDDD;padding:5px;">
-    <div style="font-weight:bold">{$lang->widget}</div>
-    <div>
-        <!--@foreach($widget_list as $widget)-->
-        [<a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCode&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$widget->title}</a>]
-        <!--@end-->
-    </div>
-</div>
+<table cellspacing="0" class="tableType3 gap1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->widget}</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td class="left">
+            <!--@foreach($widget_list as $widget)-->
+            <div class="widget_item">[<a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCode&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$widget->title}</a>]</div>
+            <!--@end-->
+        </td>
+    </tr>
+</tbody>
+</table>
 
-<div style="margin-bottom:10px;">
+<div class="gap1">
     <form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_code);">
         <input type="hidden" name="layout_srl" value="{$layout_srl}" />
         <input type="hidden" name="module" value="layout" />
         <input type="hidden" name="act" value="" />
 
-        <div>
-            <textarea name="code" style="width:99%;height:400px;border:2px solid #DDDDDD;">{htmlspecialchars($layout_code)}</textarea>
+        <div class="layout_editor_box">
+            <textarea name="code" class="layout_editor">{htmlspecialchars($layout_code)}</textarea>
         </div>
-        <div>
-            <input type="submit" value="{$lang->cmd_save}" />
-            <input type="button" value="{$lang->cmd_preview}" onclick="doPreviewLayoutCode();return false" />
-            <input type="button" value="{$lang->cmd_reset}" onclick="doResetLayoutCode('{$layout_srl}');return false" />
-        </div>
+
+        <ul class="buttonRight">
+            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><a href="#" onclick="doPreviewLayoutCode();return false"  class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_preview}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#"  onclick="doResetLayoutCode('{$layout_srl}');return false"  class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_reset}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
     </form>
 </div>

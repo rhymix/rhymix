@@ -1,20 +1,14 @@
 <!--%import("js/layout_admin.js")-->
 
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
 <!-- 관리자 페이지용 메뉴 -->
 <!--@if($module == 'admin')-->
-    <div style="margin-bottom:20px;">
-        <span <!--@if($act=='dispLayoutAdminContent')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispLayoutAdminContent')}">{$lang->layout_list}</a>]</span>
-        <span <!--@if($act=='dispLayoutAdminDownloadedList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispLayoutAdminDownloadedList')}">{$lang->downloaded_list}</a>]</span>
-    </div>
-<!--@end-->
 
-<!-- 레이아웃 수정 메뉴 -->
-<!--@if($layout_info)-->
-    <div style="margin-bottom:20px;">
-        <!--@if($act=='dispLayoutAdminModify')-->
-            {$lang->cmd_layout_management}
-        <!--@elseif($act=='dispLayoutAdminEdit')-->
-            {$lang->cmd_layout_edit}</a>
-        <!--@end-->
-    </div>
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispLayoutAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminContent')}">{$lang->layout_list}</a></li>
+        <li <!--@if($act=='dispLayoutAdminDownloadedList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedList')}">{$lang->downloaded_list}</a></li>
+    </ul>
+</div>
 <!--@end-->

@@ -2,96 +2,90 @@
 
 <!--#include("header.html")-->
 
-<div style="margin-bottom:10px;">
-    <table border="1" width="100%">
-    <col width="140" />
+<table cellspacing="0" class="tableType2 gap1">
+<col width="150" />
+<col />
+<tr>
+    <th scope="row">{$lang->layout}</th>
+    <td>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
+</tr>
+<tr>  
+    <th scope="row">{$lang->path}</th>
+    <td>{$selected_layout->path}</td>
+</tr>
+<!--@if($selected_layout->author->homepage)-->
+<tr>  
+    <th scope="row">{$lang->author}</th>
+    <td><a href="#" onclick="window.open('{$selected_layout->author->homepage}');return false;">{$selected_layout->author->name}</a></td>
+</tr>
+<!--@end-->
+<!--@if($selected_layout->author->description)-->
+<tr>  
+    <th scope="row">{$lang->description}</th>
+    <td>{nl2br($selected_layout->author->description)}</td>
+</tr>
+<!--@end-->
+</table>
+
+<form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<input type="hidden" name="layout" value="{$selected_layout->layout}" />
+
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
     <col width="*" />
-    <tr>  
-        <th>{$lang->layout}</th>
-        <td>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
+    <tr>
+        <th scope="row">{$lang->title}</th>
+        <td class="left">
+            <input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" />
+            <p>{$lang->about_title}</p>
+        </td>
     </tr>
-    <tr>  
-        <th>{$lang->path}</th>
-        <td>{$selected_layout->path}</td>
-    </tr>
-    <!--@if($selected_layout->author->homepage)-->
-    <tr>  
-        <th>{$lang->author}</th>
-        <td><a href="#" onclick="window.open('{$selected_layout->author->homepage}');return false;">{$selected_layout->author->name}</a></td>
+    <!--@foreach($selected_layout->extra_var as $name => $var)-->
+    <tr>
+        <th scope="row">{$var->title}</th>
+
+        <td class="left">
+        <!--@if($var->type == "text")-->
+            <input type="text" name="{$name}" value="{htmlspecialchars($var->value)}"  class="inputTypeTextArea w100"/>
+
+        <!--@elseif($var->type == "textarea")-->
+            <textarea name="{$name}" class="inputTypeTextArea w100">{htmlspecialchars($var->value)}</textarea>
+
+        <!--@elseif($var->type == "select")-->
+            <select name="{$name}">
+                <!--@foreach($var->options as $key => $val)-->
+                <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+        <!--@end-->
+            <p>{$var->description}</p>
+        </td>
     </tr>
     <!--@end-->
-    <!--@if($selected_layout->author->description)-->
-    <tr>  
-        <th>{$lang->description}</th>
-        <td>{nl2br($selected_layout->author->description)}</td>
+    <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
+    <tr>
+        <th scope="row">{$menu_info->title}<br />({$menu_name})</th>
+        <td class="left tahoma">
+            <select name="{$menu_name}">
+                <option value="0">------------------------</option>
+                <!--@foreach($menu_list as $key => $val)-->
+                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+
+            <a href="#" onclick="doMenuManagement('{$menu_name}');return false;" class="blue">{$lang->cmd_management}</a>
+        </td>
     </tr>
     <!--@end-->
     </table>
-</div>
 
-<div style="margin-bottom:10px;">
-    <form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
-        <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-        <input type="hidden" name="layout" value="{$selected_layout->layout}" />
-
-        <table border="1" width="100%">
-        <col width="140" />
-        <col width="*" />
-        <tr>
-            <th rowspan="2">{$lang->title}</th>
-            <td><input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" /></td>
-        </tr>
-        <tr>
-            <td>{$lang->about_title}</td>
-        </tr>
-        <!--@foreach($selected_layout->extra_var as $name => $var)-->
-        <tr>
-            <th rowspan="2">{$var->title}</th>
-            <!--@if($var->type == "text")-->
-            <td><input type="text" name="{$name}" value="{htmlspecialchars($var->value)}" /></td>
-
-            <!--@elseif($var->type == "textarea")-->
-            <td><textarea name="{$name}">{htmlspecialchars($var->value)}</textarea></td>
-
-            <!--@elseif($var->type == "select")-->
-            <td>
-                <select name="{$name}">
-                    <!--@foreach($var->options as $key => $val)-->
-                    <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
-                    <!--@end-->
-                </select>
-            </td>
-            <!--@end-->
-        </tr>
-        <tr>
-            <td>{$var->description}</td>
-        </tr>
+    <ul class="buttonRight">
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+        <!--@if($module=="admin")-->
+        <li><a href="{getUrl('act','dispLayoutAdminContent')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <!--@else-->
+        <li><a href="{getUrl('act','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
         <!--@end-->
-        <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
-        <tr>
-            <th>{$menu_info->title}<br />({$menu_name})</th>
-            <td>
-                <select name="{$menu_name}">
-                    <option value="0">------------------------</option>
-                    <!--@foreach($menu_list as $key => $val)-->
-                    <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
-                    <!--@end-->
-                </select>
-                <input type="button" value="{$lang->cmd_management}" onclick="doMenuManagement('{$menu_name}');return false;"/>
-            </td>
-        </tr>
-        <!--@end-->
-        <tr>
-            <td colspan="2" align="center">
-                <!--@if($module=='admin')-->
-                    <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispLayoutAdminContent')}';return false;"/>
-                <!--@else-->
-                    <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}';return false;"/>
-                <!--@end-->
-                <input type="submit" value="{$lang->cmd_save}" />
-            </td>
-        </tr>
-        </table>
-
-    </form>
-</div>
+    </ul>
+</form>

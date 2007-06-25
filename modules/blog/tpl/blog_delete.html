@@ -1,33 +1,35 @@
 <!--%import("filter/delete_blog.xml")-->
 <!--%import("js/blog_admin.js")-->
+<!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_blog)">
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
-    <table>
+    <table cellspacing="0" class="tableType4">
+    <col width="150" />
+    <col />
     <tr>
-        <th colspan="2">{$lang->confirm_delete}</th>
+        <th scope="row" colspan="2">{$lang->confirm_delete}</th>
     </tr>
     <tr>
-        <th>{$lang->module_name}</th>
+        <th scope="row">{$lang->module_name}</th>
         <td>{$module_info->mid}</td>
     </tr>
     <tr>
-        <th>{$lang->module}</th>
+        <th scope="row">{$lang->module}</th>
         <td>{$module_info->module}</td>
     </tr>
     <tr>
-        <th>{$lang->document_count}</th>
+        <th scope="row">{$lang->document_count}</th>
         <td>{$module_info->document_count}</td>
     </tr>
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="{$lang->cmd_delete}" />
-            <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispBlogAdminContent')}'" />
-        </td>
-    </tr>
     </table>
+
+    <ul class="buttonRight">
+        <li><a href="{getUrl('act','dispBlogAdminContent')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_delete}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    </ul>
 
 </form>
 

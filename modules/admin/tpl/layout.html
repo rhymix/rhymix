@@ -15,7 +15,7 @@
         <ul>
             <!--@foreach($shortcut_list as $key => $val)-->
             <li <!--@if($running_module==$val->module)-->class="on"<!--@end-->>
-                <a href="{getUrl('','module','admin','act',$val->default_act)}">{$val->title}</a>
+                <a href="{getUrl('','module','admin','act',$val->default_act)}">{cut_str($val->title,14,'..')}</a>
             </li>
             <!--@end-->
         </ul>
