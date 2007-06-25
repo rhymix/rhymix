@@ -36,12 +36,12 @@
          * @brief 특정 일의 접속 통계를 가져옴
          **/
         function getStatus($selected_date) {
-            // 여러개의 날자 로그를 가져올 경우
+            // 여러개의 날짜 로그를 가져올 경우
             if(is_array($selected_date)) {
                 $date_count = count($selected_date);
                 $args->regdate = implode(',',$selected_date);
 
-            // 단일 날자의 로그를 가져올 경우
+            // 단일 날짜의 로그를 가져올 경우
             } else {
                 if(strlen($selected_date)==8) $selected_date = $selected_date;
                 $args->regdate = $selected_date;

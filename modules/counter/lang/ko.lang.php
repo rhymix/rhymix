@@ -5,7 +5,7 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-    $lang->cmd_select_date = '날자 선택';
+    $lang->cmd_select_date = '날짜 선택';
     $lang->cmd_select_counter_type = array(
         'hour' => '시간대별',
         'day' => '일별',

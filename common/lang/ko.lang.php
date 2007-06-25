@@ -43,7 +43,7 @@
     $lang->cmd_open = '열기';
     $lang->cmd_setup = '설정';
     $lang->cmd_apply = '적용';
-    $lang->cmd_open_calendar = '날자 선택';
+    $lang->cmd_open_calendar = '날짜 선택';
     $lang->cmd_send = '발송';
 
     $lang->enable = '가능';

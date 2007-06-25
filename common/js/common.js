@@ -513,7 +513,7 @@ function setMemberMenuObjCursor(obj) {
     }
 }
 
-// 날자 선택 (달력 열기)
+// 날짜 선택 (달력 열기)
 function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
 

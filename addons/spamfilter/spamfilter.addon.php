@@ -25,8 +25,9 @@
 
     // 각 모듈별 act에 대해서도 피해갈 부분이 있으면 피해감
     switch($this->act) {
+        
         // 게시물 작성시 신규 등록이 아니면 패스~
-        case 'procInsertDocument' :
+        case 'procBoardInsertDocument' :
                 // document module의 model 객체 생성
                 $oDocumentModel = &getModel('document');
 
@@ -37,11 +38,16 @@
                 // 이미 존재하는 글이라면 return
                 if($oDocument->isExists()) return;
             break;
+
         // 댓글 작성시 신규 등록이 아니면 패스~
-        case 'procInsertComment' :
-                // 이미 존재하는 댓글인지 체크
+        case 'procBoardInsertComment' :
+        case 'procBlogInsertComment' :
                 $comment_srl = Context::get('comment_srl');
-                if($comment_srl) return;
+                $oCommentModel = &getModel('comment');
+
+                // 이미 존재하는 댓글인지 체크
+                $comment = $oCommentModel->getComment($comment_srl);
+                if($comment->comment_srl == $comment_srl) return;
             break;
     }
 

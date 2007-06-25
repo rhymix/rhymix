@@ -245,7 +245,7 @@
             <!--@elseif($val->column_type == 'jp_zip')-->
                 <input type="text" name="{$val->column_name}" value="{$val->value}" />
 
-            <!-- 날자 입력 -->
+            <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{htmlspecialchars($val->value)}" />
                 <span id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</span>
