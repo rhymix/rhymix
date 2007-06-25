@@ -24,7 +24,7 @@
                 ({$val->widget})
         </th>
         <td class="tahoma">{$val->version}</td>
-        <td class="tahoma"><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+        <td class="tahoma blue"><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
         <td class="tahoma">{$val->author->date}</td>
         <td class="tahoma left">{$val->path}</td>
         <td class="tahoma blue"><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}','widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>

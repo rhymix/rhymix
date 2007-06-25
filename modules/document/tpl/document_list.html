@@ -30,7 +30,7 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
-            <td><a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
+            <td class="blue"><a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
             <td>
                 <a href="#" onclick="window.open('./?document_srl={$oDocument->document_srl}');return false">{$oDocument->getTitleText()}</a>
 
@@ -42,7 +42,7 @@
                     [{$oDocument->getTrackbackCount()}]
                 <!--@end-->
             </td>
-            <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getUserName()}</div></td>
+            <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
             <td class="tahoma">{$oDocument->get('readed_count')}</td>
             <td class="tahoma">{$oDocument->get('voted_count')}</td>
             <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>

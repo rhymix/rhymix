@@ -3,7 +3,7 @@
         <table name="editor_components" />
     </tables>
     <columns>
-        <column name="enabled" var="enabled" default="N" />
+        <column name="enabled" var="enabled" />
         <column name="extra_vars" var="extra_vars" />
         <column name="list_order" var="list_order" />
     </columns>
