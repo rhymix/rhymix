@@ -1,41 +1,47 @@
 <!--%import("filter/setup_addon.xml")-->
 
-<div style="width:400px">
-    <form action="./" method="get" onsubmit="return procFilter(this, setup_addon);">
-        <input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
-        <table border="1" width="100%">
+<div id="popHeadder">
+    <h1>{$lang->cmd_setup}</h1>
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, setup_addon);">
+<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
         <tr>
-            <th>{$lang->title}</th>
+            <th scope="row"><label for="textfield1">{$lang->title}</label></th>
             <td>{$addon_info->title} ver. {$addon_info->version}</td>
         </tr>
         <tr>
-            <th>{$lang->author}</th>
-            <td>{$addon_info->author->name}</td>
+            <th scope="row"><label for="textfield2">{$lang->author}</label></th>
+            <td><a href="mailto:{$addon_info->author->email_address}">{$addon_info->author->name}</a></td>
         </tr>
         <tr>
-            <th>{$lang->homepage}</th>
-            <td><a href="#" onclick="winopen('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
-        </tr>
-        <tr>
-            <th colspan="2">{$lang->extra_vars}</th>
+            <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
+            <td><a href="#" onclick="window.open('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
         </tr>
 
         <!--@foreach($addon_info->extra_vars as $key => $val)-->
         <tr>
-            <th rowspan="2">{$val->title}</th>
-            <td><input type="text" name="{$val->name}" value="{$val->value}" class="editor_input" /></td>
-        </tr>
-        <tr>
-            <td>{$val->description}</td>
-        </tr>
-        <!--@end-->
-
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="{$lang->cmd_apply}" class="editor_button" />
-                <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
+            <th scope="row">{$val->title}</th>
+            <td>
+                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w100" />
+                <p>{$val->description}</p>
             </td>
         </tr>
+        <!--@end-->
         </table>
-    </form>
-</div>
+    </div>
+
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_apply}" class="editor_button" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
+        </ul>
+    </div>
+
+</form>

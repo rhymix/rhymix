@@ -1,27 +1,29 @@
-<!--#include("header.html")-->
 <!--%import("filter/delete_image_name.xml")-->
 <!--%import("filter/delete_image_mark.xml")-->
+<!--#include("header.html")-->
 
 <!-- 이미지 이름/마크를 삭제하기 위한 폼 -->
 <form action="./" method="get" id="fo_image">
     <input type="hidden" name="member_srl" />
 </form>
 
-<table>
+<table cellspacing="0" class="tableType4 gap1">
+<col width="150" />
+<col />
 <tr>
-    <th>{$lang->user_id}</th>
+    <th scope="row">{$lang->user_id}</th>
     <td>{htmlspecialchars($member_info->user_id)}</td>
 </tr>
 <tr>
-    <th>{$lang->user_name}</th>
+    <th scope="row">{$lang->user_name}</th>
     <td>{htmlspecialchars($member_info->user_name)}</td>
 </tr>
 <tr>
-    <th>{$lang->nick_name}</th>
+    <th scope="row">{$lang->nick_name}</th>
     <td>{htmlspecialchars($member_info->nick_name)}</td>
 </tr>
 <tr>
-    <th>{$lang->image_name}</th>
+    <th scope="row">{$lang->image_name}</th>
     <td>
         <!--@if($member_info->image_name->src)-->
         <div>
@@ -41,7 +43,7 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->image_mark}</th>
+    <th scope="row">{$lang->image_mark}</th>
     <td>
         <!--@if($member_info->image_mark->src)-->
         <div>
@@ -61,39 +63,39 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->email_address}</th>
+    <th scope="row">{$lang->email_address}</th>
     <td>{htmlspecialchars($member_info->email_address)}</td>
 </tr>
 <tr>
-    <th>{$lang->homepage}</th>
+    <th scope="row">{$lang->homepage}</th>
     <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{$member_info->homepage}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
 </tr>
 <tr>
-    <th>{$lang->blog}</th>
+    <th scope="row">{$lang->blog}</th>
     <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{$member_info->blog}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
 </tr>
 <tr>
-    <th>{$lang->birthday}</th>
+    <th scope="row">{$lang->birthday}</th>
     <td>{zdate($member_info->birthday,'Y-m-d')}</td>
 </tr>
 <tr>
-    <th>{$lang->allow_mailing}</th>
+    <th scope="row">{$lang->allow_mailing}</th>
     <td>{$member_info->allow_mailing}</td>
 </tr>
 <tr>
-    <th>{$lang->allow_message}</th>
+    <th scope="row">{$lang->allow_message}</th>
     <td>{$lang->allow_message_type[$member_info->allow_message]}</td>
 </tr>
 <tr>
-    <th>{$lang->signature}</th>
+    <th scope="row">{$lang->signature}</th>
     <td>{$member_info->signature}</td>
 </tr>
 <tr>
-    <th>{$lang->denied}</th>
+    <th scope="row">{$lang->denied}</th>
     <td>{$member_info->denied}</td>
 </tr>
 <tr>
-    <th>{$lang->limit_date}</th>
+    <th scope="row">{$lang->limit_date}</th>
     <td>
         <!--@if($member_info->limit_date)-->
             {zdate($member_info->limit_date,"Y-m-d H:i")}
@@ -101,11 +103,11 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->is_admin}</th>
+    <th scope="row">{$lang->is_admin}</th>
     <td>{$member_info->is_admin}</td>
 </tr>
 <tr>
-    <th>{$lang->group}</th>
+    <th scope="row">{$lang->group}</th>
     <td>
         <!--@foreach($member_info->group_list as $key => $val)-->
             {$val}
@@ -115,7 +117,7 @@
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-    <th>{htmlspecialchars($val->column_title)}</th>
+    <th scope="row">{htmlspecialchars($val->column_title)}</th>
     <td>
         <!--@if($val->column_type=='tel')-->
             {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
@@ -133,16 +135,19 @@
 <!--@end-->
 <!--@end-->
 <tr>
-    <th>{$lang->description}</th>
+    <th scope="row">{$lang->description}</th>
     <td>{htmlspecialchars($member_info->description)}</td>
 </tr>
-<tr>
-    <td colspan="2">
-        <!--@if($val->is_admin!='Y')--><input type="button" value="{$lang->cmd_delete}" onclick="location.href='{getUrl('act','dispMemberAdminDeleteForm','member_srl', $member_info->member_srl)}';return false; "/><!--@end-->
-        <input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispMemberAdminList')}';return false;" />
-        <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispMemberAdminInsert')}';return false;" />
-    </td>
-</tr>
 </table>
+
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispMemberAdminInsert')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@if($val->is_admin!='Y')-->
+    <li><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+    <!--@if($module=="admin")-->
+    <li><a href="{getUrl('act','dispMemberAdminList','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+</ul>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

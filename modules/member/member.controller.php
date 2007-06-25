@@ -1005,7 +1005,11 @@
 
             // 세션에 저장
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-            $_SESSION['logged_info'] = $member_info;
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->member_srl == $member_srl) {
+                $_SESSION['logged_info'] = $member_info;
+            }
 
             $output->add('member_srl', $args->member_srl);
             return $output;

@@ -1,58 +1,34 @@
-<table border="1" width="400">
-<col width="100" />
-<col width="300" />
-<tr>
-    <th colspan="2">{$lang->addon_maker}</th>
-</tr>
-<tr>
-    <th>{$lang->title}</th>
-    <td>{$addon_info->title} ver. {$addon_info->version}</td>
-</tr>
-<tr>
-    <th>{$lang->author}</th>
-    <td><a href="mailto:{$addon_info->author->email_address}">{$addon_info->author->name}</a></td>
-</tr>
-<tr>
-    <th>{$lang->homepage}</th>
-    <td><a href="#" onclick="window.open('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
-</tr>
-<tr>
-    <th>{$lang->regdate}</th>
-    <td>{$addon_info->author->date}</td>
-</tr>
-<tr>
-    <th>{$lang->description}</th>
-    <td>{nl2br($addon_info->author->description)}</td>
-</tr>
+<div id="popHeadder">
+    <h1>{$lang->addon_maker}</h1>
+</div>
 
-<!--@if($addon_info->history[0]->name)-->
-<tr>
-    <th colspan="2">{$lang->addon_history}</th>
-</tr>
-<!--@foreach($addon_info->history as $history)-->
-<!--@if($history->name)-->
-<tr>
-    <th>{$lang->name}</th>
-    <td><a href="mailto:{$history->email_address}">{$history->name}</a></td>
-</tr>
-<tr>
-    <th>{$lang->homepage}</th>
-    <td><a href="#" onclick="window.open('{$history->homepage}');return false;">{$history->homepage}</a></td>
-</tr>
-<tr>
-    <th>{$lang->regdate}</th>
-    <td>{$history->date}</td>
-</tr>
-<tr>
-    <th>{$lang->description}</th>
-    <td>{nl2br($history->description)}</td>
-</tr>
-<!--@end-->
-<!--@end-->
-<!--@end-->
-<tr>
-    <td colspan="2">
-      <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
-    </td>
-</tr>
-</table>
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
+    <tr>
+        <th scope="row"><label for="textfield1">{$lang->title}</label></th>
+        <td>{$addon_info->title} ver. {$addon_info->version}</td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->author}</label></th>
+        <td><a href="mailto:{$addon_info->author->email_address}">{$addon_info->author->name}</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
+        <td><a href="#" onclick="window.open('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
+        <td>{$addon_info->author->date}<td>
+    </tr>
+    <tr>
+        <th scope="row" class="borderBottomNone">{$lang->description}</th>
+        <td class="borderBottomNone">{nl2br($addon_info->author->description)}</td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter">
+    <span class="close"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span>
+</div>

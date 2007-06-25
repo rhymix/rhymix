@@ -1,56 +1,34 @@
-<table border="1" width="400">
-<col width="100" />
-<col width="300" />
-<tr>
-    <th colspan="2">{$lang->layout_maker}</th>
-</tr>
-<tr>
-    <th>{$lang->title}</th>
-    <td>{$layout_info->title} ver {$layout_info->version}</td>
-</tr>
-<tr>
-    <th>{$lang->author}</th>
-    <td><a href="mailto:{$layout_info->author->email_address}">{$layout_info->author->name}</a></td>
-</tr>
-<tr>
-    <th>{$lang->homepage}</th>
-    <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->homepage}</a></td>
-</tr>
-<tr>
-    <th>{$lang->regdate}</th>
-    <td>{$layout_info->author->date}</td>
-</tr>
-<tr>
-    <th>{$lang->description}</th>
-    <td>{nl2br($layout_info->author->description)}</td>
-</tr>
-<tr>
-    <th colspan="2">{$lang->layout_history}</th>
-</tr>
+<div id="popHeadder">
+    <h1>{$lang->layout_maker}</h1>
+</div>
 
-<!--@foreach($layout_info->history as $history)-->
-<!--@if($history->name)-->
-<tr>
-    <th>{$lang->name}</th>
-    <td><a href="mailto:{$history->email_address}">{$history->name}</a></td>
-</tr>
-<tr>
-    <th>{$lang->homepage}</th>
-    <td><a href="#" onclick="window.open('{$history->homepage}');return false;">{$history->homepage}</a></td>
-</tr>
-<tr>
-    <th>{$lang->regdate}</th>
-    <td>{$history->date}</td>
-</tr>
-<tr>
-    <th>{$lang->description}</th>
-    <td>{nl2br($history->description)}</td>
-</tr>
-<!--@end-->
-<!--@end-->
-<tr>
-    <td colspan="2">
-        <a href="#" onclick="self.close()">{$lang->cmd_close}</a>
-    </td>
-</tr>
-</table>
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->title}</th>
+        <td>{$layout_info->title} ver {$layout_info->version}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->author}</th>
+        <td><a href="mailto:{$layout_info->author->email_address}">{$layout_info->author->name}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->homepage}</th>
+        <td><a href="#" onclick="window.open('{$layout_info->author->homepage}');return false;">{$layout_info->author->homepage}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->regdate}</th>
+        <td>{$layout_info->author->date}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->description}</th>
+        <td>{nl2br($layout_info->author->description)}</td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter">
+    <span class="close"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span>
+</div>

@@ -20,6 +20,7 @@ IE7 Only
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4;}
 .inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff;}
+.inputTypeDate { width:10em; border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 
 /* Internet Explorer 6 PNG Bug Fix */
 .iePngFix { behavior:url(../js/iePngFix.htc);} 
@@ -160,7 +161,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 /* ----- Popup | Start ----- */
 
 /* popup */
-#popHeadder { height:40px; background:url(../images/popupTopBg.png) repeat-x left top;}
+#popHeadder { width:500px; height:40px; background:url(../images/popupTopBg.png) repeat-x left top;}
 #popHeadder h1 { padding:13px 0 0 19px; height:27px; background:url(../images/popupTopBgEnd.png) no-repeat right top; font-size:1.2em; color:#d8d8d8;}
 #popBody { padding:1em; background:#ffffff;}
 #popFooter { background:#f7f7f6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; width:100%;}
