@@ -1,0 +1,79 @@
+@charset "utf-8";
+/*
+NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
+Jeong, Chan Myeong 070601~070630
+*/
+
+/* 
+Used Hack 
+
+IE6 & Below 
+{ property:value; _property:value;}
+
+IE7 Only
+*:first-child+html #selector
+
+*/
+
+/* default.css - Type Selector Definition */
+* { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
+html, body { }
+html { width:100%; position:relative;}
+body { font-size:.75em; width:100%; background:#2f2f2f; margin:0em;}
+img { border:none;}
+label { cursor:pointer;}
+select { height:1.6em;}
+option { padding-right:.5em;}
+li { list-style:none;}
+a { text-decoration:none;}
+a:hover { text-decoration:underline;}
+address { font-style:normal;}
+
+/* Input Style Definition */
+.inputTypeText { border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
+.inputTypeText:hover,
+.inputTypeText:focus { background:#f4f4f4;}
+.inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff;}
+
+/* Internet Explorer 6 PNG Bug Fix */
+.iePngFix { behavior:url(../js/iePngFix.htc);} 
+
+/* Special Class Selector */
+.fr { float:right;}
+.fl { float:left;}
+.fwB { font-weight:bold;}
+
+/* ----- Header | Start ----- */
+
+#header { position:relative; height:71px; background:url(../images/headerBg.gif) repeat-x; overflow:hidden; clear:both; z-index:99;}
+#header h1 { float:left; width:180px; height:71px; position:relative; background:url(../images/h1_bg.gif) no-repeat;}
+#header h1 img { position:absolute; top:29px; left:29px;}
+#header #logout { width:470px; height:71px; float:right; background:url(../images/headerBgEnd.png) no-repeat right top;}
+#header #logout a { float:right; position:relative; top:29px; right:24px;}
+
+/* ----- Header | End ----- */
+
+#cBody { position:relative; clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
+#gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;}
+#gNavigation h2 { margin-bottom:8px;}
+#gNavigation ul { width:180px;}
+#gNavigation ul li { width:180px; height:30px; background:url(../images/menuBg.png) no-repeat left top; behavior:url(../js/iePngFix.htc);}
+#gNavigation ul li.on { background-position:left -30px; margin-top:-2px; _background:url(../images/menuBgIeFix.png) no-repeat left top;}
+#gNavigation ul li.on a { color:#ffffff; font-weight:bold;}
+#gNavigation ul li a { display:block; padding:9px 0 0 28px; height:21px; color:#606060;}
+#gNavigation .menuEdit { float:left; padding:15px 0 0 26px;}
+
+#content { float:left; width:100%; padding:71px 0 100px 0;}
+
+/* ----- Footer | Start ----- */
+
+#footer { position:relative; width:100%; clear:both; height:38px; overflow:hidden; background:url(../images/footerBg.gif) repeat-x left 3px;}
+#footer .footerLine { height:3px; width:100%; float:left; clear:both;}
+#footer .footerLeft { float:left;}
+#footer address { position:absolute; top:3px; right:0; width:350px; height:35px; background:url(../images/addressBg.gif) no-repeat right top;}
+#footer address img { position:absolute; top:15px; left:38px;}
+#footer address .version { position:absolute; top:10px; left:297px; font:.8em Tahoma; color:#ffffff;}
+#footer address .version strong { font:bold 1em Tahoma; color:#ff0000; }
+
+/* ----- Footer | End ----- */
+
