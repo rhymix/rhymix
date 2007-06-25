@@ -172,10 +172,10 @@
          * @brief 1씩 증가되는 sequence값을 return
          **/
         function getNextSequence() {
-            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
+            $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
             $this->_query($query);
             $sequence = sqlite_last_insert_rowid($this->fd);
-            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
             $this->_query($query);
 
             return $sequence;
@@ -361,7 +361,7 @@
                         if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
                         elseif(!$value || is_numeric($value)) $value = (int)$value;
 
-                        $column_list[] = sprintf("`%s` = %s", $name, $value);
+                        $column_list[] = sprintf("%s = %s", $name, $value);
                     }
                 }
 

@@ -196,7 +196,7 @@
             $this->_prepare($query);
             $result = $this->_execute();
             $sequence = $this->handler->lastInsertId();
-            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
             $this->_prepare($query);
             $result = $this->_execute();
 
@@ -398,7 +398,7 @@
                         if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
                         elseif(!$value || is_numeric($value)) $value = (int)$value;
 
-                        $column_list[] = sprintf("`%s` = %s", $name, $value);
+                        $column_list[] = sprintf("%s = %s", $name, $value);
                     }
                 }
 

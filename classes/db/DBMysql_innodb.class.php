@@ -184,7 +184,7 @@
             $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
             $this->_query($query);
             $sequence = mysql_insert_id();
-            $query = sprintf("delete from  `%ssequence`", $this->prefix);
+            $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
             $this->_query($query);
 
             return $sequence;

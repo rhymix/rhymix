@@ -1,33 +1,35 @@
-<table border="1">
-<tr>
-    <td colspan="2">{$lang->introduce_title}</td>
-</tr>
-</table>
+<!--#include("header.html")-->
 
-<!--@if($install_enable)-->
-<form method="get" action="./">
+<div id="box">
+	<h1><img src="./images/h1.png" alt="Zeroboard XE Install" width="750" height="36" class="iePngFix" /></h1>
+
+    <form method="get" action="./">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="dispInstallForm" />
 
-    <table border="1">
-    <tr>
-        <th colspan="2">{$lang->db_type}</th>
-    </tr>
-    <!--@foreach(DB::getSupportedList() as $key => $val)-->
-    <tr>
-        <td><input type="radio" name="db_type" value="{$val}" id="db_type_{$val}" <!--@if($val=="mysql")-->checked="true"<!--@end-->/><label for="db_type_{$val}">{$val}</label></td>
-        <td>{$lang->db_desc[$val]}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <td colspan="2"><input type="submit" value="{$lang->cmd_install_next}" /></td>
-    </tr>
-    </table>
+    <div id="content">
+        <h2>{$lang->select_db_type}</h2>
 
-</form>
+		<table cellspacing="0" class="tableType6">
+        <col width="180" /><col />
 
-<!--@else-->
-{$lang->cmd_install_fix_checklist}
-[<a href="./">{$lang->cmd_next}</a>]
+        <!--@foreach(DB::getSupportedList() as $key => $val)-->
+        <tr>
+            <th scope="row">
+                <input type="radio" name="db_type" value="{$val}" id="db_type_{$val}" <!--@if($val=="mysql")-->checked="true"<!--@end-->/>
+                <label for="db_type_{$val}">{$val}</label>
+            </th>
+            <td>{$lang->db_desc[$val]}</td>
+        </tr>
+        <!--@end-->
 
-<!--@end-->
+        </table>
+
+        <div class="buttonCenter">
+            <span class="fl buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_install_next}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+        </div>
+    </div>
+    <img src="./images/installBoxBottom.png" alt="" width="750" height="10" class="iePngFix" />
+
+    </form>
+</div>

@@ -9,7 +9,7 @@
     $lang->license = 
         "제로보드XE는 GPL라이센스를 따릅니다";
 
-    $lang->install_condition_title = "설치 조건";
+    $lang->install_condition_title = "필수 설치조건을 확인하세요.";
 
     $lang->install_checklist_title = array(
             'permission' => '퍼미션',
@@ -37,7 +37,7 @@
     $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다';
 
     $lang->cmd_agree_license = '라이센스에 동의합니다';
-    $lang->cmd_install_fix_checklist = '필수 조건을 설정후 다음 버튼을 눌러 주세요.';
+    $lang->cmd_install_fix_checklist = '필수 설치조건을 설정하였습니다.';
     $lang->cmd_install_next = '설치를 진행합니다';
 
     $lang->db_desc = array(
@@ -48,8 +48,10 @@
         'cubrid' => 'CUBRID DB를 이용합니다.<br />(안정화 테스트 및 튜닝이 되지 않았습니다)',
     );
 
+    $lang->form_title = 'DB &amp; 관리자 정보 입력';
     $lang->db_title = 'DB정보 입력';
     $lang->db_type = 'DB 종류';
+    $lang->select_db_type = '사용하시려는 DB를 선택해주세요.';
     $lang->db_hostname = 'DB 호스트네임';
     $lang->db_port = 'DB Port';
     $lang->db_userid = 'DB 아이디';
