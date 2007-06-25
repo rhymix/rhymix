@@ -1,10 +1,14 @@
 <!--%import("js/member_admin.js")-->
 <!--%import("js/krzip_search.js")-->
 
-<div style="margin-bottom:20px;">
-    <span <!--@if($act=='dispMemberAdminList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a>]</span>
-    <span <!--@if($act=='dispMemberAdminConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a>]</span>
-    <span <!--@if($act=='dispMemberAdminGroupList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberAdminGroupList')}">{$lang->cmd_member_group}</a>]</span>
-    <span <!--@if($act=='dispMemberAdminJoinFormList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberAdminJoinFormList')}">{$lang->cmd_manage_form}</a>]</span>
-    <span <!--@if($act=='dispMemberAdminDeniedIDList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispMemberAdminDeniedIDList')}">{$lang->cmd_manage_id}</a>]</span>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispMemberAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a></li>
+        <li <!--@if($act=='dispMemberAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a></li>
+        <li <!--@if($act=='dispMemberAdminGroupList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminGroupList')}">{$lang->cmd_member_group}</a></li>
+        <li <!--@if($act=='dispMemberAdminJoinFormList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminJoinFormList')}">{$lang->cmd_manage_form}</a></li>
+        <li <!--@if($act=='dispMemberAdminDeniedIDList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminDeniedIDList')}">{$lang->cmd_manage_id}</a></li>
+    </ul>
 </div>

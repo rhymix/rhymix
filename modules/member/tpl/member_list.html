@@ -1,99 +1,97 @@
 <!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_member)}
-</div>
-
 <!--#include("header.html")-->
 
-<!-- 정보 -->
-<div>
-    {number_format($total_count)}, 
-    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
-</div>
+<div class="infoText gap1">{nl2br($lang->about_member)}</div>
 
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
 
 <!-- 목록 -->
-<div>
-    <table>
+<table cellspacing="0" class="tableType1">
+<thead>
     <tr>
-        <th>{$lang->no}</th>
-        <th>{$lang->user_id}</th>
-        <th>{$lang->user_name}</th>
-        <th>{$lang->nick_name}</th>
-        <th>{$lang->allow_mailing}</th>
-        <th>{$lang->denied}</th>
-        <th>{$lang->regdate}</th>
-        <th>{$lang->last_login}</th>
-        <th>{$lang->cmd_delete}</th>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">{$lang->user_id}</th>
+        <th scope="col">{$lang->user_name}</th>
+        <th scope="col">{$lang->nick_name}</th>
+        <th scope="col">{$lang->allow_mailing}</th>
+        <th scope="col">{$lang->denied}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->last_login}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
     </tr>
+</thead>
+<tbody>
     <!--@foreach($member_list as $no => $val)-->
     <tr>
-        <td>{$no}</td>
+        <td class="tahoma">{$no}</td>
         <td><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
         <td>{htmlspecialchars($val->user_name)}</td>
-        <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td>{$val->allow_mailing}</td>
-        <td>{$val->denied}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td>{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="left"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+        <td class="tahoma">{$val->allow_mailing}</td>
+        <td class="tahoma">{$val->denied}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
+        <td class="tahoma red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
-    </table>
-</div>
+</tbody>
+</table>
 
 <!-- 버튼 -->
-<div>
-    [<a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}">{$lang->cmd_make}</a>]
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>
 
 <!-- 검색 -->
-<div>
-    <form action="./" method="get">
-        <input type="hidden" name="module" value="{$module}" />
-        <input type="hidden" name="act" value="{$act}" />
+<form action="./" method="get" class="adminSearch">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="{$act}" />
 
-        <div>
-            <select name="is_admin">
-                <option value="" <!--@if($is_admin!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
-                <option value="Y" <!--@if($is_admin=='Y')-->selected="true"<!--@end-->>{$lang->is_admin}</option>
-            </select>
-            <select name="is_denied">
-                <option value="" <!--@if($is_denied!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
-                <option value="Y" <!--@if($is_denied=='Y')-->selected="true"<!--@end-->>{$lang->denied}</option>
-            </select>
-            <select name="selected_group_srl">
-                <option value="0">{$lang->group}</option>
-                <!--@foreach($group_list as $key => $val)-->
-                <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="true"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-        </div>
-        <div>
-            <select name="search_target">
-                <option value="">{$lang->search_target}</option>
-                <!--@foreach($lang->search_target_list as $key => $val)-->
-                <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-            <input type="submit" value="{$lang->cmd_search}" />
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'act',$act)}'"/>
-        </div>
-    </form>
-</div>
+    <fieldset>
 
-<!-- 페이지 네비게이션 -->
-<div>
-    <a href="{getUrl('page','','member_srl','')}">[{$lang->first_page}]</a>
+        <select name="is_admin">
+            <option value="" <!--@if($is_admin!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
+            <option value="Y" <!--@if($is_admin=='Y')-->selected="true"<!--@end-->>{$lang->is_admin}</option>
+        </select>
+        <select name="is_denied">
+            <option value="" <!--@if($is_denied!='Y')-->selected="true"<!--@end-->>{$lang->total}</option>
+            <option value="Y" <!--@if($is_denied=='Y')-->selected="true"<!--@end-->>{$lang->denied}</option>
+        </select>
+        <select name="selected_group_srl">
+            <option value="0">{$lang->group}</option>
+            <!--@foreach($group_list as $key => $val)-->
+            <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+            <!--@end-->
+        </select>
 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            {$page_no}
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'member_srl','')}">[{$page_no}]</a>
-        <!--@end-->
-    <!--@end-->
-
-    <a href="{getUrl('page',$page_navigation->last_page,'member_srl','')}">[{$lang->last_page}]</a>
-</div>
+        <ul class="buttonRight">
+            <li>
+                <select name="search_target">
+                    <option value="">{$lang->search_target}</option>
+                    <!--@foreach($lang->search_target_list as $key => $val)-->
+                    <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+                    <!--@end-->
+                </select>
+            </li>
+            <li><input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" /></li>
+            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_search}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </fieldset>
+</form>
