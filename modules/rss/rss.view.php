@@ -72,7 +72,7 @@
 
                     // 전문 공개일 경우 
                     if($module_info->open_rss=='Y') {
-                        $item->description = $item->getContentText();
+                        $item->description = $item->getContent();
                     // 요약 공개일 경우
                     } else {
                         $item->description = cut_str(strip_tags($item->getContentText()),100,'...');
