@@ -785,7 +785,7 @@
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
             // 몇가지 대문자 태그를 소문자로 변경
-            $content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'_transTagToLowerCase'), $content);
+            //$content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'_transTagToLowerCase'), $content);
 
             // <img ...> 코드를 <img ... /> 코드로 변환
             $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
