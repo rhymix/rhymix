@@ -7,4 +7,6 @@
 
     // 설명문
     $lang->about_skin = "메세지 출력시 스킨을 지정하실 수 있습니다.";
+
+    $lang->admin_module_title = "시스템 메세지";
 ?>

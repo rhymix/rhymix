@@ -20,4 +20,6 @@
         'last_update' => '최근수정일 ',
         'ipaddress' => 'IP 주소',
     );
+
+    $lang->admin_module_title = "댓글";
 ?>

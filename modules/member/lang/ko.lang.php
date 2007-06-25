@@ -158,6 +158,8 @@
     $lang->about_image_mark = '사용자의 이름앞에 마크를 달 수 있습니다';
     $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다'; 
 
+    $lang->about_member_default = '회원가입시 기본 그룹으로 설정됩니다';
+
     $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입폼 관리등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입폼관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
 
     $lang->admin_module_title = "회원";

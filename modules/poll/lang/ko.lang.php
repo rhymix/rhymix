@@ -34,4 +34,5 @@
         'ipaddress' => 'IP 주소',
     );
 
+    $lang->admin_module_title = "설문조사"; 
 ?>

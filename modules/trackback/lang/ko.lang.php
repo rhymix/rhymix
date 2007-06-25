@@ -19,4 +19,6 @@
         'ipaddress' => 'IP 주소',
     );
 
+    $lang->admin_module_title = "엮인글";
+
 ?>

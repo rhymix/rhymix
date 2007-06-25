@@ -1,47 +1,52 @@
 <!--%import("js/editor_admin.js")-->
 
-<table border="1" width="100%">
-<tr>
-    <th>{$lang->component_name}</th>
-    <th>{$lang->component_version}</th>
-    <th>{$lang->component_author}</th>
-    <th>{$lang->component_link}</th>
-    <th>{$lang->component_date}</th>
-    <th>{$lang->cmd_setup}</th>
-    <th>{$lang->use}</th>
-    <th colspan="2">{$lang->cmd_move}</th>
-</tr>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<!--@foreach($component_list as $component_name => $xml_info)-->
-<tr>
-    <td rowspan="2">
-        <img src="../components/{$component_name}/icon.gif" border="0" alt="{$component_name}" />
-        {$xml_info->title}<br />({$component_name})
-    </td>
-    <td rowspan="2">{$xml_info->version}</td>
-    <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
-    <td><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
-    <td>{$xml_info->author->date}</td>
-    <td>
-        <!--@if($xml_info->extra_vars)-->
-            <a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a>
-        <!--@end-->
-    </td>
-    <td>
-        <!--@if($xml_info->enabled=='Y')-->
-            <a href="#" onclick="doDisableComponent('{$component_name}');return false;">{$lang->notuse}</a>
-        <!--@else-->
-            <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->use}</a>
-        <!--@end-->
-    </td>
-    <td><a href="#" onclick="doMoveListOrder('{$component_name}','up'); return false;">{$lang->cmd_move_up}</a></td>
-    <td><a href="#" onclick="doMoveListOrder('{$component_name}','down'); return false;">{$lang->cmd_move_down}</a></td>
-</tr>
-<tr>
-    <td colspan="7">
-        {nl2br($xml_info->description)}
-    </td>
-</tr>
-<!--@end-->
-
+<table cellspacing="0" class="tableType3">
+<thead>
+    <tr>
+        <th scope="col">{$lang->component_name}</th>
+        <th scope="col">{$lang->component_version}</th>
+        <th scope="col">{$lang->component_author}</th>
+        <th scope="col">{$lang->component_link}</th>
+        <th scope="col">{$lang->component_date}</th>
+        <th scope="col">{$lang->cmd_setup}</th>
+        <th scope="col">{$lang->use}</th>
+        <th scope="col">{$lang->cmd_move}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($component_list as $component_name => $xml_info)-->
+    <tr>
+        <th scope="row" rowspan="2">{$xml_info->title}<br />({$component_name})</th>
+        <td class="tahoam">{$xml_info->version}</td>
+        <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
+        <td class="tahoma blue"><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
+        <td class="tahoma">{$xml_info->author->date}</td>
+        <td class="tahoma">
+            <!--@if($xml_info->extra_vars)-->
+                <a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a>
+            <!--@else-->
+                &nbsp;
+            <!--@end-->
+        </td>
+        <td class="tahoma">
+            <!--@if($xml_info->enabled=='Y')-->
+                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
+            <!--@else-->
+                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
+            <!--@end-->
+        </td>
+        <td class="tahoma">
+            <a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
+            <a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7" class="left">
+            {nl2br($xml_info->description)}
+        </td>
+    </tr>
+    <!--@end-->
+</tbody>
 </table>

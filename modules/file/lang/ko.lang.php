@@ -36,4 +36,6 @@
         'ipaddress' => 'IP 주소',
     );
 
+    $lang->admin_module_title = "첨부파일"; 
+
 ?>

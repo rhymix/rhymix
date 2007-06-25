@@ -1,6 +1,10 @@
 <!--%import("js/module_admin.js")-->
 
-<div style="margin-bottom:20px;">
-    <span <!--@if($act=='dispModuleAdminContent')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a>]</span>
-    <span <!--@if($act=='dispModuleAdminCategory')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a>]</span>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispModuleAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a></li>
+        <li <!--@if($act=='dispModuleAdminCategory')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a></li>
+    </ul>
 </div>

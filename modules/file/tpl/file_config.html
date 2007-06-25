@@ -2,32 +2,32 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table border="1">
+    <table cellspacing="0" class="tableType2 gap1">
     <tr>
-        <th rowspan="2">{$lang->allowed_filesize}</th>
-        <td><input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" />MB</td>
+        <th scope="col">{$lang->allowed_filesize}</th>
+        <td>
+            <input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" class="inputTypeText" />MB
+            <p>{$lang->about_allowed_filesize}</p>
+        </td>
     </tr>
     <tr>
-        <td>{$lang->about_allowed_filesize}</td>
+        <th scope="col">{$lang->allowed_attach_size}</th>
+        <td>
+            <input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" class="inputTypeText" />MB
+            <p>{$lang->about_allowed_attach_size}</p>
+        </td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->allowed_attach_size}</th>
-        <td><input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" />MB</td>
-    </tr>
-    <tr>
-        <td>{$lang->about_allowed_attach_size}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->allowed_filetypes}</th>
-        <td><input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_allowed_filetypes}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        <th scope="col">{$lang->allowed_filetypes}</th>
+        <td>
+            <input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" class="inputTypeText" />
+            <p>{$lang->about_allowed_filetypes}</p>
         </td>
     </tr>
     </table>
+
+    <!-- 버튼 -->
+    <ul class="buttonRight">
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    </ul>
 </form>

@@ -1,6 +1,10 @@
 <!--%import("js/board_admin.js")-->
 
-<div style="margin-bottom:20px;">
-    <span <!--@if($act=='dispFileAdminList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispFileAdminList')}">{$lang->file_list}</a>]</span>
-    <span <!--@if($act=='dispFileAdminConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispFileAdminConfig')}">{$lang->cmd_module_config}</a>]</span>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispFileAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminList')}">{$lang->file_list}</a></li>
+        <li <!--@if($act=='dispFileAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminConfig')}">{$lang->cmd_module_config}</a></li>
+    </ul>
 </div>

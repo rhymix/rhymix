@@ -39,6 +39,8 @@
     <td class="tahoma">
         <!--@if($val->extra_vars)-->
             <a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}','addon_info');return false">{$lang->cmd_setup}</a>
+        <!--@else-->
+            &nbsp;
         <!--@end-->
     </td>
     <td class="tahoma">

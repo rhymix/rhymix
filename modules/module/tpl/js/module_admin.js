@@ -22,8 +22,7 @@ function completeUpdateCategory(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('act','dispModuleAdminCategory').setQuery('module_category_srl','');
-    location.href = url;
+    location.href =  current_url.setQuery('module_category_srl','');
 }
 
 /* 선택된 모듈을 관리자 메뉴의 바로가기에 등록 */

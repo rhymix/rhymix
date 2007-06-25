@@ -3,33 +3,34 @@
 <!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table border="1">
+
+    <table cellspacing="0" class="tableType3 gap1">
     <tr>
-        <th rowspan="2">{$lang->interval}</th>
-        <td><input type="text" name="interval" value="{$config->interval?$config->interval:60}" /> {$lang->unit_sec}</td>
+        <th scope="col">{$lang->interval}</th>
+        <td class="left">
+            <input type="text" name="interval" value="{$config->interval?$config->interval:60}" class="inputTypeText" /> {$lang->unit_sec}
+            <p>{$lang->about_interval}</p>
+        </td>
     </tr>
     <tr>
-        <td>{$lang->about_interval}</td>
+        <th scope="col">{$lang->limit_count}</th>
+        <td class="left">
+            <input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" class="inputTypeText" />
+            <p>{$lang->about_limit_count}</p>
+        </td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->limit_count}</th>
-        <td><input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" /></td>
+        <th scope="col">{$lang->check_trackback}</th>
+        <td class="left">
+            <input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="true"<!--@end--> />
+            {$lang->about_check_trackback}
+        </td>
     </tr>
-    <tr>
-        <td>{$lang->about_limit_count}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->check_trackback}</th>
-        <td><input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="true"<!--@end--> /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_check_trackback}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-        </td>     
-    </tr>
-    </table>    
+    </table>
+
+    <!-- 버튼 -->
+    <ul class="buttonRight">
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    </ul>
+
 </form>

@@ -1,7 +1,11 @@
 <!--%import("js/spamfilter_admin.js")-->
 
-<div style="margin-bottom:20px;">
-    <span <!--@if($act=='dispSpamfilterAdminConfig')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispSpamfilterAdminConfig','module_srl','')}">{$lang->cmd_module_config}</a>]</span>
-    <span <!--@if($act=='dispSpamfilterAdminDeniedIPList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a>]</span>
-    <span <!--@if($act=='dispSpamfilterAdminDeniedWordList')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a>]</span>
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispSpamfilterAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispSpamfilterAdminConfig','module_srl','')}">{$lang->cmd_module_config}</a></li>
+        <li <!--@if($act=='dispSpamfilterAdminDeniedIPList')-->class="on"<!--@end-->><a href="{getUrl('act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a></li>
+        <li <!--@if($act=='dispSpamfilterAdminDeniedWordList')-->class="on"<!--@end-->><a href="{getUrl('act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
+    </ul>
 </div>

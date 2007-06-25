@@ -1,38 +1,40 @@
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
 <!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_addon)}
-</div>
+<div class="infoText">{nl2br($lang->about_addon)}</div>
 
 <!-- 위젯의 목록 -->
-<div>
-    <table border="1" width="100%">
+<table cellspacing="0" class="tableType3">
+<thead>
     <tr>
-        <td>{$lang->widget_name}</td>
-        <td>{$lang->version}</td>
-        <td>{$lang->author}</td>
-        <td>{$lang->date}</td>
-        <td>{$lang->path}</td>
-        <td>{$lang->cmd_generate_code}</td>
-        <td>{$lang->widget_info}</td>
+        <th scope="col">{$lang->widget_name}</th>
+        <th scope="col">{$lang->version}</th>
+        <th scope="col">{$lang->author}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->path}</th>
+        <th scope="col">{$lang->cmd_generate_code}</th>
+        <th scope="col">{$lang->widget_info}</th>
     </tr>
+</thead>
+<tbody>
     <!--@foreach($widget_list as $key => $val)-->
     <tr>
-        <td rowspan="2">
+        <th scope="row" rowspan="2">
                 {$val->title} <br />
                 ({$val->widget})
-        </td>
-        <td>{$val->version}</td>
-        <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-        <td>{$val->author->date}</td>
-        <td>{$val->path}</td>
-    <td><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}','widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>
-    <td><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetInfo','selected_widget',$val->widget)}','widget_info');return false">{$lang->cmd_view}</a></td>
+        </th>
+        <td class="tahoma">{$val->version}</td>
+        <td class="tahoma"><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+        <td class="tahoma">{$val->author->date}</td>
+        <td class="tahoma left">{$val->path}</td>
+        <td class="tahoma blue"><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}','widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>
+        <td class="tahoma red"><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetInfo','selected_widget',$val->widget)}','widget_info');return false">{$lang->cmd_view}</a></td>
     </tr>
     <tr>
-        <td colspan="6">
+        <td colspan="6" class="left">
             {nl2br($val->author->description)}
         </td>
     </tr>
     <!--@end-->
-    </table>
-</div>
+</tbody>
+</table>

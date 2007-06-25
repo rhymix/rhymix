@@ -1,32 +1,34 @@
 <!--%import("filter/delete_checked.xml")-->
 <!--%import("js/document_admin.js")-->
 
-<!-- 문서 정보 -->
-<div>
-    {$lang->document_count} : {number_format($total_count)}, 
-    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
-    <input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="page" value="{$page}" />
 
     <!-- 목록 -->
-    <div>
-        <table>
+    <table cellspacing="0" class="tableType4">
+    <thead>
         <tr>
-            <th>{$lang->no}</th>
-            <th><input type="checkbox" onclick="doCheckAll(); return false;" /></th>
-            <th>{$lang->module}</th>
-            <th>{$lang->title}</th>
-            <th>{$lang->user_name}</th>
-            <th>{$lang->readed_count}</th>
-            <th>{$lang->voted_count}</th>
-            <th>{$lang->date}</th>
+            <th scope="col">{$lang->no}</th>
+            <th scope="col"><input type="checkbox" onclick="doCheckAll(); return false;" /></th>
+            <th scope="col">{$lang->module}</th>
+            <th scope="col">{$lang->title}</th>
+            <th scope="col">{$lang->user_name}</th>
+            <th scope="col">{$lang->readed_count}</th>
+            <th scope="col">{$lang->voted_count}</th>
+            <th scope="col">{$lang->date}</th>
         </tr>
-
+    </thead>
+    <tbody>
         <!--@foreach($document_list as $no => $oDocument)-->
         <tr>
-            <td>{$no}</td>
+            <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
             <td><a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
             <td>
@@ -41,55 +43,51 @@
                 <!--@end-->
             </td>
             <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getUserName()}</div></td>
-            <td>{$oDocument->get('readed_count')}</td>
-            <td>{$oDocument->get('voted_count')}</td>
-            <td>{$oDocument->getRegdate("Y-m-d")}</td>
+            <td class="tahoma">{$oDocument->get('readed_count')}</td>
+            <td class="tahoma">{$oDocument->get('voted_count')}</td>
+            <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
         </tr>
         <!--@end-->
-
-        </table>
-    </div>
+    </tbody>
+    </table>
 
     <!-- 버튼 -->
-    <div>
-        <input type="submit" value="{$lang->cmd_delete_checked_document}" />
-    </div>
-
+    <ul class="buttonRight">
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" /><input type="submit" value="{$lang->cmd_delete_checked_document}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    </ul>
 </form>
 
-<!-- 검색 -->
-<div>
-    <form action="./" method="get">
-        <input type="hidden" name="module" value="{$module}" />
-        <input type="hidden" name="mo" value="{$mo}" />
-        <input type="hidden" name="act" value="{$act}" />
-
-        <div>
-            <select name="search_target">
-                <option value="">{$lang->search_target}</option>
-                <!--@foreach($lang->search_target_list as $key => $val)-->
-                <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-            <input type="submit" value="{$lang->cmd_search}" />
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','module',$module,'act',$act)}'"/>
-        </div>
-    </form>
-</div>
-
-
 <!-- 페이지 네비게이션 -->
-<div>
-    <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
-
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            {$page_no}
+            <span class="current">{$page_no}</span> 
         <!--@else-->
-            <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-
-    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>
+
+<!-- 검색 -->
+<form action="./" method="get" class="adminSearch">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="{$act}" />
+
+    <fieldset>
+        <ul class="buttonRight">
+            <li>
+                <select name="search_target">
+                    <option value="">{$lang->search_target}</option>
+                    <!--@foreach($lang->search_target_list as $key => $val)-->
+                    <option value="{$key}" <!--@if($search_target==$key)-->selected="true"<!--@end-->>{$val}</option>
+                    <!--@end-->
+                </select>
+            </li>
+            <li><input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" /></li>
+            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_search}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </fieldset>
+</form>

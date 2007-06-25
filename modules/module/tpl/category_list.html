@@ -9,14 +9,16 @@
     <input type="hidden" name="mode" value="" />
 </form>
 
-<div>
-    <table>
+<table cellspacing="0" class="tableType1 gap1">
+<thead>
     <tr>
-        <th>{$lang->category_title}</th>
-        <th>{$lang->regdate}</th>
-        <th>{$lang->cmd_modify}</th>
-        <th>{$lang->cmd_delete}</th>
+        <th scope="col">{$lang->category_title}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_modify}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
     </tr>
+</thead>
+<tbody>
     <!--@if(!count($category_list))-->
     <tr>
         <td colspan="4">{$lang->msg_category_is_null}</td>
@@ -25,13 +27,13 @@
     <!--@foreach($category_list as $key => $val)-->
     <tr>
         <td>{$val->title}</td>
-        <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        <td class="tahoma blue"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
+        <td class="tahoma red"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
-    </table>
-</div>
+</tbody>
+</table>
 
 <!-- 카테고리 추가 -->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_category)">
@@ -39,10 +41,19 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="module_category_srl" value="" />
 
-<div>
-    {$lang->category_title} :
-    <input type="text" name="title" />
-    <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-</div>
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->category_title}</th>
+        <td>
+            <input type="text" name="title" class="inputTypeText w100" />
+        </td>
+    </tr>
+    </table>
+
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    </div>
 
 </form>

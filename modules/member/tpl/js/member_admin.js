@@ -52,7 +52,7 @@ function doUpdateGroup(group_srl, mode, message) {
 function completeUpdateGroup(ret_obj) {
     var page = ret_obj['page'];
     var url = current_url.setQuery('act','dispMemberAdminGroupList');
-    location.href = url;
+    location.href = current_url.setQuery('group_srl','');
 }
 
 

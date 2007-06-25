@@ -1,63 +1,60 @@
 <!--%import("filter/insert_shortcut.xml")-->
-
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_module)}
-</div>
-
 <!--#include("header.html")-->
+
+<div class="infoText gap1">{nl2br($lang->about_module)}</div>
 
 <!-- 관리자 메뉴 바로가기 추가를 위한 임시 form -->
 <form id="fo_shortcut" action="./" method="get">
     <input type="hidden" name="selected_module" value="" />
 </form>
 
-<table border="1" width="100%">
-<tr>
-    <td>{$lang->module_name}</td>
-    <td>{$lang->version}</td>
-    <td>{$lang->author}</td>
-    <td>{$lang->date}</td>
-    <td>{$lang->table_count}</td>
-    <td>{$lang->installed_path}</td>
-    <td>{$lang->module_info}</td>
-    <td>{$lang->module_action}</td>
-    <td>{$lang->add_shortcut}</td>
-</tr>
+<table cellspacing="0" class="tableType1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->module_name}</th>
+        <th scope="col">{$lang->version}</th>
+        <th scope="col">{$lang->author}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->table_count}</th>
+        <th scope="col">{$lang->installed_path}</th>
+        <th scope="col">{$lang->module_info}</th>
+        <th scope="col">{$lang->module_action}</th>
+        <th scope="col">{$lang->add_shortcut}</th>
+    </tr>
+</thead>
+<tbody>
 <!--@foreach($module_list as $key => $val)-->
-<tr>
-    <td>
-        <!--@if($val->admin_index_act)-->
-            <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
-        <!--@else-->
-            {$val->title} ({$val->module})
-        <!--@end-->
-    </td>
-    <td>{$val->version}</td>
-    <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
-    <td>{$val->author->date}</td>
-    <td>
-        <!--@if($val->created_table_count != $val->table_count)-->
-            <span style="color:red">
-        <!--@else-->
-            <span>
-        <!--@end-->
-                {$val->created_table_count}/{$val->table_count}
-            </span>
-    </td>
-    <td>{$val->path}</td>
-    <td><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
-    <td>
-        <!--@if($val->need_update)-->
-            <a href="#">{$lang->cmd_update}</a>
-        <!--@else-->
-            <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
-        <!--@end-->
-    </td>
-    <td>
-        <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
-        <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
-        <!--@end-->
-    </td>
-</tr>
-<!--@end-->
+    <tr>
+        <td>
+            <!--@if($val->admin_index_act)-->
+                <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
+            <!--@else-->
+                {$val->title} ({$val->module})
+            <!--@end-->
+        </td>
+        <td class="tahoma">{$val->version}</td>
+        <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+        <td class="tahoma">{$val->author->date}</td>
+        <td class="tahoma <!--@if($val->created_table_count != $val->table_count)-->red<!--@end-->">
+            {$val->created_table_count}/{$val->table_count}
+        </td>
+        <td class="tahoma left">{$val->path}</td>
+        <td class="tahoma blue"><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
+        <td class="tahoma red">
+            <!--@if($val->need_update)-->
+                <a href="#">{$lang->cmd_update}</a>
+            <!--@else-->
+                <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
+            <!--@end-->
+        </td>
+        <td class="tahoma blue">
+            <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
+            <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
+            <!--@else-->
+            &nbsp;
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+</tbody>
 </table>
