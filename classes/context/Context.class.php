@@ -784,8 +784,8 @@
             // <br> 코드 변환
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
-            // <P> => <p> 코드 변환
-            $content = preg_replace('/<(\/){0,1}P([^>]*)>/','<$1p$2>', $content);
+            // 몇가지 대문자 태그를 소문자로 변경
+            $content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'_transTagToLowerCase'), $content);
 
             // <img ...> 코드를 <img ... /> 코드로 변환
             $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
@@ -794,6 +794,13 @@
             //$content = str_replace('atomicselection="true"','',$content);
 
             return $content;
+        }
+
+        /**
+         * @brief IE위지윅에디터에서 태그가 대문자로 사용되기에 이를 소문자로 치환
+         **/
+        function _transTagToLowerCase($matches) {
+            return sprintf('<%s%s%s>', $matches[1], strtolower($matches[2]), $matches[3]);
         }
 
         /**
