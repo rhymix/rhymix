@@ -1,8 +1,10 @@
 <!--#include("header.html")-->
 
-<table>
+<table cellspacing="0" class="tableType4">
+<col width="150" />
+<col />
 <tr>
-    <th>{$lang->category}</th>
+    <th scope="row">{$lang->module_category}</th>
     <td>
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
@@ -12,44 +14,44 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->skin}</th>
+    <th scope="row">{$lang->skin}</th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
 <tr>
-    <th>{$lang->browser_title}</th>
+    <th scope="row">{$lang->browser_title}</th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
 <tr>
-    <th>{$lang->open_rss}</th>
+    <th scope="row">{$lang->open_rss}</th>
     <td>{$lang->open_rss_types[$module_info->open_rss]}</td>
 </tr>
 <tr>
-    <th>{$lang->list_count}</th>
+    <th scope="row">{$lang->list_count}</th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
 <tr>
-    <th>{$lang->page_count}</th>
+    <th scope="row">{$lang->page_count}</th>
     <td>{$module_info->page_count?$module_info->page_count:10}</td>
 </tr>
 <tr>
-    <th>{$lang->description}</th>
+    <th scope="row">{$lang->description}</th>
     <td>{nl2br(htmlspecialchars($module_info->description))}</td>
 </tr>
 <tr>
-    <th>{$lang->header_text}</th>
+    <th scope="row">{$lang->header_text}</th>
     <td>{htmlspecialchars($module_info->header_text)}</td>
 </tr>
 <tr>
-    <th>{$lang->footer_text}</th>
+    <th scope="row">{$lang->footer_text}</th>
     <td>{htmlspecialchars($module_info->footer_text)}</td>
 </tr>
 <tr>
-    <th>{$lang->admin_id}</th>
+    <th scope="row">{$lang->admin_id}</th>
     <td>{implode(",",$module_info->admin_id)}</td>
 </tr>
-<tr>
-    <td colspan="2">
-        <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispBlogAdminInsertBlog')}'" />
-    </td>
-</tr>
 </table>
+
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispBlogAdminInsertBlog')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <li><a href="{getUrl('act','dispBlogAdminContent','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_blog_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>

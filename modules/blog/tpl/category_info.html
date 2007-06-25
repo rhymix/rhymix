@@ -1,50 +1,49 @@
 <input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
 <input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
 
-<table border="1" width="100%">
+<table cellspacing="0" class="tableType2">
 <col width="100" />
 <col width="*" />
 <!--@if($category_info->parent_category_name)-->
 <tr>
-    <th>{$lang->parent_category_name}</th>
+    <th scope="row">{$lang->parent_category_name}</th>
     <td>{$category_info->parent_category_name}</td>
 </tr>
 <!--@end-->
 <tr>
-    <th rowspan="2">{$lang->category_name}</th>
-    <td><input type="text" name="category_name" value="{htmlspecialchars($category_info->name)}" /></td>
-</tr>
-<tr>
-    <td>{$lang->about_category_name}</td>
-</tr>
-<tr>
-    <th rowspan="2">{$lang->expand}</th>
-    <td><input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="true"<!--@end--> /></td>
-</tr>
-<tr>
-    <td>{$lang->about_expand}</td>
-</tr>
-<tr>
-    <th rowspan="2">{$lang->category_group_srls}</th>
+    <th scope="row">{$lang->category_name}</th>
     <td>
-        <!--@foreach($group_list as $key=>$val)-->
-        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="true"<!--@end-->/>
-        <label for="group_{$key}">{$val->title}</label>
-        <!--@end-->
+        <input type="text" name="category_name" value="{htmlspecialchars($category_info->name)}" class="inputTypeText" />
+        <p>{$lang->about_category_name}</p>
     </td>
 </tr>
 <tr>
-    <td>{$lang->about_category_group_srls}</td>
+    <th scope="row">{$lang->expand}</th>
+    <td>
+        <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="true"<!--@end--> class="checkbox" />
+        {$lang->about_expand}
+    </td>
 </tr>
 <tr>
-    <td colspan="2">
-        <!--@if($category_info->name)-->
-        <input type="submit" value="{$lang->cmd_save}" />
-        <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertCategory('{$category_info->category_srl}');return false" />
-        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" />
-        <!--@else-->
-        <input type="submit" value="{$lang->cmd_submit}" />
+    <th scope="row">{$lang->category_group_srls}</th>
+    <td>
+        <!--@foreach($group_list as $key=>$val)-->
+        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="true"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label>
         <!--@end-->
+        <p>{$lang->about_category_group_srls}</p>
     </td>
 </tr>
 </table>
+
+<!--@if($category_info->name)-->
+<ul class="buttonLeft">
+    <li><a href="#" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>
+<!--@end-->
+
+<ul class="buttonRight">
+    <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@if($category_info->name)-->
+    <li><a href="#" onclick="doInsertCategory('{$category_info->category_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_make_child}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+</ul>

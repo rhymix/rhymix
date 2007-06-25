@@ -11,25 +11,23 @@
     ); 
 }
 
+<h3>{$lang->admin_module_title} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <!--@if($module_info)-->
-<div style="margin-bottom:20px;">
-    <!--@if($module=='admin')-->
-        <span <!--@if($act=='dispBlogAdminContent')-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act','dispBlogAdminContent','module_srl','')}">{$lang->cmd_blog_list}</a>]</span>
-    <!--@else-->
-        <span>[<a href="#" onclick="location.href=location.href.setQuery('act',''); return false;">{$lang->cmd_back}</a>]</span>
+<div class="header4">
+    <!--@if($module_info->mid)-->
+    <h4>{$module_info->mid} <!--@if($module_info->is_default=='N')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="#" onclick="winopen('{getUrl('','mid',$module_info->mid)}'); return false;" class="view">View</a></h4>
     <!--@end-->
 
-    <!--@foreach($blog_menu_list as $key => $val)-->
-    <span <!--@if($act==$key)-->style="font-weight:bold"<!--@end-->>[<a href="{getUrl('act',$key,'layout_srl',$module_srl)}">{$val}</a>]</span>
-    <!--@end-->
-</div>
-
-<div style="margin-bottom:20px;font-weight:bold;">
-    {$lang->mid} : {$module_info->mid}
-    <!--@if($mid != $module_info->mid)-->
-        (<a href="#" onclick="location.href='./?mid={$module_info->mid}';return false">{$lang->cmd_move}</a>)
-    <!--@end-->
-    <!--@if($module_info->is_default=='Y')-->[{$lang->is_default}]<!--@end-->
+    <ul class="localNavigation">
+        <!--@if($module=='admin')-->
+            <li <!--@if($act=='dispBlogAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispBlogAdminContent','module_srl','')}">{$lang->cmd_blog_list}</a></li>
+        <!--@else-->
+            <li><a href="#" onclick="location.href=current_url.setQuery('act',''); return false;">{$lang->cmd_back}</a></li>
+        <!--@end-->
+        <!--@foreach($blog_menu_list as $key => $val)-->
+        <li <!--@if($act==$key)-->class="on"<!--@end-->><a href="{getUrl('act',$key,'layout_srl',$module_srl)}">{$val}</a></li>
+        <!--@end-->
+    </ul>
 </div>
 <!--@end-->

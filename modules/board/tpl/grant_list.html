@@ -1,45 +1,42 @@
 <!--#include("./header.html")-->
 <!--%import("filter/insert_grant.xml")-->
 
+<div class="infoText">{nl2br($lang->about_grant)}</div>
+
 <form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
-    <input type="hidden" name="page" value="{$page}" />
-    <input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
 
-    <div>
-        {$lang->about_grant}
-    </div>
-
-    <table>
+    <table cellspacing="0" class="tableType3">
+    <col width="130" />
+    <col width="*" />
+    <col width="80" />
+    <col width="80" />
+    <thead>
     <tr>
-        <th>{$lang->grant}</th>
-        <th>{$lang->target}</th>
+        <th scope="col">{$lang->grant}</th>
+        <th scope="col" colspan="3">{$lang->target}</th>
     </tr>
+    </thead>
 
-    <!--@foreach($grant_list as $key => $val)-->
-    <tr>
-        <td>{$val->title}</td>
-        <td>
-            <div style="float:left">
-            <!--@foreach($group_list as $k => $v)-->
-                <span>
-                <input type="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="true"<!--@end-->/> 
+    <tbody>
+        <!--@foreach($grant_list as $key => $val)-->
+        <tr>
+            <th scope="row">{$val->title}</th>
+            <td class="left">
+                <!--@foreach($group_list as $k => $v)-->
+                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="true"<!--@end-->/> 
                 <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-                </span>
-            <!--@end-->
-            </div>
-            <div style="float:right">
-                <input type="button" value="{$lang->cmd_select_all}" onclick="doSelectAll(this, '{$key}')"/>
-                <input type="button" value="{$lang->cmd_unselect_all}" onclick="doUnSelectAll(this, '{$key}')"/>
-            </div>
-        </td>
-    </tr>
-    <!--@end-->
-
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="{$lang->cmd_save}" />
-        </td>
-    </tr>
+                <!--@end-->
+            </td>
+            <td class="tahoma"><a href="#" onclick="doSelectAll(this, '{$key}')" class="blue">{$lang->cmd_select_all}</a></td>
+            <td class="tahoma"><a href="#" onclick="doUnSelectAll(this, '{$key}')" class="red">{$lang->cmd_unselect_all}</a></td>
+        </tr>
+        <!--@end-->
+    </tbody>
     </table>
 
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_save}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    </div>
 </form>

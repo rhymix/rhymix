@@ -10,46 +10,58 @@
     <input type="hidden" name="mode" value="" />
 </form>
 
-<div>
-    <table>
-    <tr>
-        <th>{$lang->category_title}</th>
-        <th>{$lang->last_update}</th>
-        <th>{$lang->cmd_modify}</th>
-        <th colspan="2">{$lang->cmd_move}</th>
-        <th>{$lang->cmd_delete}</th>
-    </tr>
+<table cellspacing="0" class="tableType1">
+<thead>
+<tr>
+    <th scope="col">{$lang->category_title}</th>
+    <th scope="col">{$lang->last_update}</th>
+    <th scope="col">{$lang->cmd_modify}</th>
+    <th scope="col" colspan="2">{$lang->cmd_move}</th>
+    <th scope="col">{$lang->cmd_delete}</th>
+</tr>
+</thead>
 
-    <!--@if(!count($category_list))-->
-    <tr>
-        <td colspan="6">{$lang->msg_category_is_null}</td>
-    </tr>
-    <!--@end-->
+<tbody>
+<!--@if(!count($category_list))-->
+<tr>
+    <td colspan="6">{$lang->msg_category_is_null}</td>
+</tr>
+<!--@end-->
 
-    <!--@foreach($category_list as $category_srl => $category_info)-->
-    <tr>
-        <td>{htmlspecialchars($category_info->title)}</td>
-        <td>{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
-        <td><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','up');return false;">{$lang->cmd_move_up}</a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','down');return false;">{$lang->cmd_move_down}</a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
-    </tr>
-    <!--@end-->
+<!--@foreach($category_list as $category_srl => $category_info)-->
+<tr>
+    <td class="tahoma">{htmlspecialchars($category_info->title)}</td>
+    <td class="tahoma">{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
+    <td class="tahoma blue"><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
+    <td class="tahoma"><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','up');return false;">{$lang->cmd_move_up}</a></td>
+    <td class="tahoma"><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','down');return false;">{$lang->cmd_move_down}</a></td>
+    <td class="tahoma red"><a href="#" onclick="doUpdateCategory('{$category_info->category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+</tr>
+<!--@end-->
+</tbody>
+</table>
 
-    </table>
-</div>
+<br />
 
 <!-- 카테고리 추가 -->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_category)">
-    <input type="hidden" name="page" value="{$page}" />
-    <input type="hidden" name="module_srl" value="{$module_srl}" />
-    <input type="hidden" name="category_srl" value="" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="category_srl" value="" />
 
-    <div>
-        {$lang->category_title} :
-        <input type="text" name="category_title" />
-        <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+    <table cellspacing="0" class="tableType3">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->category_title}</th>
+        <td>
+            <input type="text" name="category_title" class="inputTypeText w100" />
+        </td>
+    </tr>
+    </table>
+
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
     </div>
 
 </form>

@@ -1,32 +1,36 @@
 <!--%import("css/admin.css")-->
 <!--%import("js/admin.js")-->
 
-<div id="admin_title">
-    <a href="{getUrl('','module','admin')}">zeroboard XE</a>
-</div>
-
-<div id="admin_sub_menu">
-    <a href="{getUrl('','module','admin','act','dispMemberLogout')}">{$lang->cmd_logout}</a>
-</div>
-
-<div id="admin_main_menu">
-    <!-- 자주 쓰이는 모듈의 경우 별도 등록을 함 -->
-    <div>
-        <!--@foreach($shortcut_list as $key => $val)-->
-        <span <!--@if($running_module==$val->module)-->class="selected"<!--@end-->>
-            <a href="#" onclick="location.href='{getUrl('','module','admin','act',$val->default_act)}';return false;">{$val->title}</a>
-        </span>
-        <!--@end-->
-        [<a href="#" onclick="location.href='{getUrl('','module','admin','act','dispAdminShortCut')}';return false;">{$lang->cmd_management}</a>]
+<div id="header">
+    <h1><a href="{getUrl('','module','admin')}"><img src="./images/h1.png" alt="Zeroboard XE" width="128" height="20" class="iePngFix" /></a></h1>
+    <div id="logout" class="iePngFix">
+        <a href="{getUrl('','module','admin','act','dispMemberLogout')}"><img src="./images/buttonLogout.png" alt="{$lang->cmd_logout}" width="53" height="10" class="iePngFix" /></a>
     </div>
 </div>
 
-<!--@if($selected_module_info)-->
-<div id="admin_module_info">
-    <a href="#" onclick="location.href='{getUrl('','module','admin','act', $selected_module_info->admin_index_act)}';return false;">{$selected_module_info->title}</a> (ver {$selected_module_info->version})
-</div>
-<!--@end-->
+<div id="cBody">
 
-<div id="admin_content">
-    {$content}
+    <div id="gNavigation">
+        <h2><img src="./images/h2.gif" alt="Administration" width="180" height="45" /></h2>
+        <ul>
+            <!--@foreach($shortcut_list as $key => $val)-->
+            <li <!--@if($running_module==$val->module)-->class="on"<!--@end-->>
+                <a href="{getUrl('','module','admin','act',$val->default_act)}">{$val->title}</a>
+            </li>
+            <!--@end-->
+        </ul>
+        <div class="menuEdit">
+            <a href="{getUrl('','module','admin','act','dispAdminShortCut')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_shortcut_management}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
+        </div>
+    </div>
+
+    <div id="content">{$content}</div>
+
+</div>
+
+<div id="footer">
+    <img src="./images/footerLine.gif" alt="" class="footerLine" /><img src="./images/footerLeft.gif" alt="" width="350" height="35" class="footerLeft" />
+    <address>
+        <a href="http://www.zeroboard.com"><img src="./images/address.gif" alt="Copyright 2000, Zeroboard All Rights Reserved. Version" width="255" height="7" /><span class="version"><strong>XE</strong> Beta</span></a>
+    </address>
 </div>

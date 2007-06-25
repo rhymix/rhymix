@@ -1,44 +1,48 @@
 <!--#include("header.html")-->
 
-<!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_board)}
+<div class="infoText">{nl2br($lang->about_board)}</div>
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
-<!-- 게시판 정보 -->
-<div>
-    {$lang->total_count} {number_format($total_count)}, 
-    {$lang->page_count} : {number_format($page)} / {number_format($total_page)}
-</div>
 
 <!-- 목록 -->
-<div>
-    <table border="1" width="100%">
+<table cellspacing="0" class="tableType1">
+<thead>
     <tr>
-        <th>{$lang->no}</th>
-        <th>
-            <form action="./" method="get">
-                <select name="category" onchange="doChangeCategory(this, '{getUrl('module_category_srl','')}')" >
-                    <option value="">{$lang->category}</option>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">
+            <form action="./" method="get" onsubmit="return doChangeCategory(this);">
+                <input type="hidden" name="module" value="{$module}" />
+                <input type="hidden" name="act" value="{$act}" />
+                <select name="category">
+                    <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
                     <!--@end-->
+                    <option value="">---------</option>
+                    <option value="-1">{$lang->cmd_management}</option>
                 </select>
+                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
             </form>
         </th>
-        <th>{$lang->mid}</th>
-        <th>{$lang->browser_title}</th>
-        <th>{$lang->is_default}</th>
-        <th>{$lang->skin}</th>
-        <th>{$lang->admin_id}</th>
-        <th>{$lang->regdate}</th>
-        <th>{$lang->cmd_move}</th>
-        <th>{$lang->cmd_delete}</th>
+        <th scope="col">{$lang->mid}</th>
+        <th scope="col">{$lang->browser_title}</th>
+        <th scope="col">{$lang->is_default}</th>
+        <th scope="col">{$lang->skin}</th>
+        <th scope="col">{$lang->admin_id}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_move}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
     </tr>
+</thead>
 
+<tbody>
     <!--@foreach($board_list as $no => $val)-->
     <tr>
-        <td>{$no}</td>
+        <td class="tahoma">{$no}</td>
         <td>
             <!--@if(!$val->module_category_srl)-->
                 {$lang->not_exists}
@@ -48,34 +52,31 @@
         </td>
         <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
         <td>{htmlspecialchars($val->browser_title)}</td>
-        <td>{$val->is_default}</td>
-        <td>{$val->skin}</td>
-        <td>{$val->admin_id}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td><a href="./?mid={$val->mid}" target="_blank">{$lang->cmd_move}</a></td>
-        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="tahoma">{$val->is_default}</td>
+        <td class="tahoma">{$val->skin}</td>
+        <td class="tahoma">{$val->admin_id}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma blue"><a href="#" onclick="winopen('{getUrl('','mid',$val->mid)}'); return false;">{$lang->cmd_move}</a></td>
+        <td class="tahoma red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
-
-    </table>
-</div>
+</tbody>
+</table>
 
 <!-- 버튼 -->
-<div>
-    [<a href="{getUrl('act','dispBoardAdminInsertBoard','module_srl','')}">{$lang->cmd_make}</a>]
-</div>
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispBoardAdminInsertBoard','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>
 
 <!-- 페이지 네비게이션 -->
-<div>
-    <a href="{getUrl('page','','module_srl','')}">[{$lang->first_page}]</a>
-
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            {$page_no}
+            <span class="current">{$page_no}</span> 
         <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">[{$page_no}]</a>
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>

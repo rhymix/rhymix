@@ -1,41 +1,49 @@
 <!--#include("./header.html")-->
 
 <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-    <input type="hidden" name="module" value="{$module_info->module}" />
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="act" value="procBoardAdminUpdateSkinInfo" />
-    <input type="hidden" name="module_srl" value="{$module_srl}" />
-    <input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module" value="{$module_info->module}" />
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="act" value="procBoardAdminUpdateSkinInfo" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="page" value="{$page}" />
 
-    <div style="margin-bottom:10px;">
-        <table>
-        <tr>
-            <th colspan="2">{$lang->skin_default_info}</th>
-        </tr>
-        <tr>
-            <th>{$lang->skin}</th>
-            <td>{$skin_info->title}</td>
-        </tr>
-        <tr>
-            <th>{$lang->skin_maker}</th>
-            <td>{$skin_info->maker->name} (<a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->email_address}</a>)</td>
-        </tr>
-        <tr>
-            <th>{$lang->skin_maker_homepage}</th>
-            <td><a href="{$skin_info->maker->homepage}" target="_blank">{$skin_info->maker->homepage}</a></td>
-        </tr>
-        <tr>
-            <th>{$lang->date}</th>
-            <td>{$skin_info->maker->date}</td>
-        </tr>
-        <tr>
-            <th>{$lang->description}</th>
-            <td>{nl2br($skin_info->maker->description)}</td>
-        </tr>
-        <tr valign="top">
-            <th>{$lang->colorset}</th>
-        <td>
+    <table cellspacing="0" class="tableType3">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row" colspan="2">{$lang->skin_default_info}</th>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->skin}</th>
+        <td class="left" >{$skin_info->title}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->skin_maker}</th>
+        <td class="left" >{$skin_info->maker->name} <!--@if($skin_info->maker->email_address)-->(<a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->email_address}</a>)<!--@end--></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->skin_maker_homepage}</th>
+        <td class="left" ><a href="{$skin_info->maker->homepage}" target="_blank">{$skin_info->maker->homepage}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->date}</th>
+        <td class="left" >{$skin_info->maker->date}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->description}</th>
+        <td class="left" >{nl2br($skin_info->maker->description)}</td>
+    </tr>
+    </table>
 
+    <table cellspacing="0" class="tableType3">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row" colspan="2">{$lang->extra_vars}</th>
+    </tr>
+    <tr valign="top">
+        <th scope="row">{$lang->colorset}</th>
+        <td class="left" >
             <!--@foreach($skin_info->colorset as $key => $val)-->
             <div>
                 <!--@if($val->screenshot)-->
@@ -46,82 +54,65 @@
                 <label for="colorset_{$key}">{$val->title}</label>
             </div>
             <!--@end-->
+        </td>
+    </tr>
 
-            </td>
-        </tr>
-        </table>
-    </div>
+    <!--@foreach($skin_info->extra_vars as $key => $val)-->
+    <tr>
+        <th scope="row">{$val->title}</th>
+        <td class="left">
+            <!--@if($val->type=="text")-->
+            <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w100" />
 
-    <!--@if($skin_info->extra_vars)-->
-    <div>
-        <table>
-        <tr>
-            <th colspan="2">{$lang->extra_vars}</th>
-        </tr>
+            <!--@elseif($val->type=="textarea")-->
+            <textarea name="{$val->name}" class="inputTypeTextArea w100">{htmlspecialchars($val->value)}</textarea>
 
-        <!--@foreach($skin_info->extra_vars as $key => $val)-->
-        <tr>
-            <th <!--@if($val->description)-->rowspan="2"<!--@end-->>{$val->title}</th>
-            <td>
-                <!--@if($val->type=="text")-->
-                <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" />
+            <!--@elseif($val->type=="select")-->
+            <select name="{$val->name}">
+                <!--@foreach($val->default as $k=>$v)-->
+                <option value="{$v}" <!--@if($v==$val->value)-->selected="true"<!--@end-->>{$v}</option>
+                <!--@end-->
+            </select>
 
-                <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}" style="width:400px;height:120px;">{htmlspecialchars($val->value)}</textarea>
-
-                <!--@elseif($val->type=="select")-->
-                <select name="{$val->name}">
-                    <!--@foreach($val->default as $k=>$v)-->
-                    <option value="{$v}" <!--@if($v==$val->value)-->selected="true"<!--@end-->>{$v}</option>
-                    <!--@end-->
-                </select>
-
-                <!--@elseif($val->type=="checkbox")-->
-                    <!--@foreach($val->default as $k=>$v)-->
-                    <span>
-                        <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="true"<!--@end-->/> 
-                        <label for="ch_{$key}_{$k}">{$v}</label>
-                    </span>
-                    <!--@end-->
-
-                <!--@elseif($val->type=="radio")-->
-                    <!--@foreach($val->default as $k=>$v)-->
-                    <span>
-                        <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="true"<!--@end-->/> 
-                        <label for="ch_{$key}_{$k}">{$v}</label>
-                    </span>
+            <!--@elseif($val->type=="checkbox")-->
+                <!--@foreach($val->default as $k=>$v)-->
+                <span>
+                    <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="true"<!--@end--> class="checkbox" /> 
+                    <label for="ch_{$key}_{$k}">{$v}</label>
+                </span>
                 <!--@end-->
 
-                <!--@elseif($val->type=="image")-->
+            <!--@elseif($val->type=="radio")-->
+                <!--@foreach($val->default as $k=>$v)-->
+                <span>
+                    <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="true"<!--@end-->/> 
+                    <label for="ch_{$key}_{$k}">{$v}</label>
+                </span>
+            <!--@end-->
 
-                <!--@if($val->value)-->
-                <div>
-                    <img src="{$val->value}" /><br />
-                    <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" />
-                    <label for="del_{$val->name}">{$lang->cmd_delete}</label>
-                </div>
-                <!--@end-->
+            <!--@elseif($val->type=="image")-->
 
-                <input type="file" name="{$val->name}" value="" />
-        <!--@end-->
+            <!--@if($val->value)-->
+            <div>
+                <img src="{$val->value}" /><br />
+                <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
+                <label for="del_{$val->name}">{$lang->cmd_delete}</label>
+            </div>
+            <!--@end-->
 
-            </td>
-        </tr>
+            <input type="file" name="{$val->name}" value="" />
+            <!--@end-->
 
-        <!--@if($val->description)-->
-        <tr>
-            <td>{nl2br($val->description)}</td>
-        </tr>
-        <!--@end-->
-
-        <!--@end-->
-        </table>
-
-    </div>
+            <!--@if($val->description)-->
+            <p>{nl2br($val->description)}</p>
+            <!--@end-->
+        </td>
+    </tr>
     <!--@end-->
+    </table>
 
-    <div>
-        <input type="submit" value="{$lang->cmd_registration}" />
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
     </div>
 </form>
 

@@ -10,12 +10,21 @@
     <input type="hidden" name="category_srl" value="{$selected_category->category_srl}" />
     <input type="hidden" name="mode" value="update" />
 
-    <div style="margin-bottom:30px">
-          {$lang->category_title} :
-          <input type="text" name="category_title" value="{htmlspecialchars($selected_category->title)}" />
-          <input type="submit" value="{$lang->cmd_modify}" />
-          <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('category_srl','')}'" />
+    <table cellspacing="0" class="tableType3">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->category_title}</th>
+        <td>
+            <input type="text" name="category_title" class="inputTypeText w100"  value="{htmlspecialchars($selected_category->title)}" />
+        </td>
+    </tr>
+    </table>
+
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
     </div>
+
 
 </form>
 <!--@end-->

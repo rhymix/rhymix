@@ -10,3 +10,16 @@ function doDeleteShortCut(selected_module) {
     fo_obj.selected_module.value = selected_module;
     procFilter(fo_obj, delete_shortcut);
 }
+
+// footer를 화면 크기에 맞춰 설정
+xAddEventListener(window, 'load', fixAdminLayoutFooter);
+xAddEventListener(window, 'resize', fixAdminLayoutFooter);
+function fixAdminLayoutFooter() {
+    var headerHeight = xHeight(xGetElementById('header'));
+    var bodyHeight = xHeight(xGetElementById('cBody'));
+    var footerHeight = xHeight(xGetElementById('footer'));
+    var clientHeight = xClientHeight();
+    var newHeight = clientHeight - footerHeight - headerHeight + 71 + 38;
+    if(newHeight<bodyHeight) newHeight = bodyHeight;
+    xHeight(xGetElementById('cBody'), newHeight);
+}
