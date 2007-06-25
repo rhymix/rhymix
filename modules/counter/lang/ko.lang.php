@@ -19,4 +19,5 @@
     $lang->unique_visitor = '방문자';
     $lang->pageview = '페이지뷰';
 
+    $lang->admin_module_title = "기본 카운터";
 ?>

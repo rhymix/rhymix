@@ -15,10 +15,10 @@
     <input type="hidden" name="target_category_srl" />
 </form>
 
-<div style="margin-bottom:10px;">
+<div class="gap1">
     <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
-        <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-        <input type="hidden" name="xml_file" value="{$category_info->xml_file}" />
+    <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+    <input type="hidden" name="xml_file" value="{$category_info->xml_file}" />
 
         <div id="category_list">
             <table style="table-layout:fixed;">
@@ -27,7 +27,7 @@
                     <div id="zone_category"></div>
                     <p><input type="checkbox" class="checkbox" id="category_enable_move" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label></p>
 
-                    <ul class="buttonRight">
+                    <ul class="buttonLeft">
                         <li><a href="#" onclick="doInsertCategory(0);return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
                         <li><a href="#" onclick="openAllTreeMenu('category');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
                         <li><a href="#" onclick="closeAllTreeMenu('category');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>

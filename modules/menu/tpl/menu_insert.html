@@ -1,27 +1,26 @@
 <!--%import("filter/insert_menu.xml")-->
 <!--%import("js/menu_admin.js")-->
+<!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
 
-    <div style="margin-bottom:10px;">
-        <table border="1">
-        <tr>
-            <th>{$lang->cmd_menu_insert}</th>
-            <td>{nl2br($lang->about_menu_management)}</td>
-        </tr>
-        <tr>
-            <th rowspan="2">{$lang->title}</th>
-            <td><input type="text" name="title" value="{$menu_info->title}" /></td>
-        </tr>
-        <tr>
-            <td>{$lang->about_title}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="button" value="{$lang->cmd_back}" onclick="location.href=location.href.setQuery('act','dispMenuAdminContent')" />
-                <input type="submit" value="{$lang->cmd_submit}" />
-            </td>
-        </tr>
-        </table>
-    </div>
+    <table cellspacing="0" class="tableType2 gap1">
+    <tr>
+        <th scope="col">{$lang->cmd_menu_insert}</th>
+        <td>{nl2br($lang->about_menu_management)}</td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->title}</th>
+        <td>
+            <input type="text" name="title" value="{$menu_info->title}" class="inputTypeText" />
+            <p>{$lang->about_title}</p>
+        </td>
+    </tr>
+    </table>
+
+    <!-- 버튼 -->
+    <ul class="buttonRight">
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" /><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    </ul>
+
 </form>

@@ -1,80 +1,78 @@
 <input type="hidden" name="menu_item_srl" value="{$item_info->menu_item_srl}" />
 <input type="hidden" name="parent_srl" value="{$item_info->parent_srl}" />
 
-<table border="1" width="100%">
+<table cellspacing="0" class="tableType2">
 <col width="100" />
 <col width="*" />
 <!--@if($item_info->parent_menu_name)-->
 <tr>
-    <th>{$lang->parent_menu_name}</th>
+    <th scope="row">{$lang->parent_menu_name}</th>
     <td>{$item_info->parent_menu_name}</td>
 </tr>
 <!--@end-->
 <tr>
-    <th rowspan="2">{$lang->menu_name}</th>
-    <td><input type="text" name="menu_name" value="{htmlspecialchars($item_info->name)}" /></td>
+    <th scope="row" scope="row">{$lang->menu_name}</th>
+    <td>
+        <input type="text" name="menu_name" value="{htmlspecialchars($item_info->name)}" class="inputTypeText"/>
+        <p>{$lang->about_menu_name}</p>
+    </td>
 </tr>
 <tr>
-    <td>{$lang->about_menu_name}</td>
+    <th scope="row">{$lang->menu_url}</th>
+    <td>
+        <ul class="buttonLeft nospace">
+            <li><input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" /></li>
+            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList')}');return false;"/><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+        </ul>
+        <p class="clear">{$lang->about_menu_url}</p>
+    </td>
 </tr>
 <tr>
-    <th rowspan="2">{$lang->menu_url}</th>
-    <td><input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList')}');return false;"/></td>
+    <th scope="row">{$lang->menu_open_window}</th>
+    <td>
+        <input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="true"<!--@end--> />
+        <p>{$lang->about_menu_open_window}</p>
+    </td>
 </tr>
 <tr>
-    <td>{$lang->about_menu_url}</td>
+    <th scope="row">{$lang->menu_expand}</th>
+    <td>
+        <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="true"<!--@end--> />
+        <p>{$lang->about_menu_expand}</p>
+    </td>
 </tr>
 <tr>
-    <th rowspan="2">{$lang->menu_open_window}</th>
-    <td><input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="true"<!--@end--> /></td>
-</tr>
-<tr>
-    <td>{$lang->about_menu_open_window}</td>
-</tr>
-<tr>
-    <th rowspan="2">{$lang->menu_expand}</th>
-    <td><input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="true"<!--@end--> /></td>
-</tr>
-<tr>
-    <td>{$lang->about_menu_expand}</td>
-</tr>
-<tr>
-    <th>{$lang->menu_img_btn}</th>
+    <th scope="row">{$lang->menu_img_btn}</th>
     <td>{$lang->about_menu_img_btn}</td>
 </tr>
 <tr>
-    <td>{$lang->menu_normal_btn}</td>
-    <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($item_info->normal_btn)}" /></td>
+    <th scope="row">{$lang->menu_normal_btn}</th>
+    <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($item_info->normal_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <td>{$lang->menu_hover_btn}</td>
-    <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($item_info->hover_btn)}" /></td>
+    <th scope="row">{$lang->menu_hover_btn}</th>
+    <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($item_info->hover_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <td>{$lang->menu_active_btn}</td>
-    <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($item_info->active_btn)}" /></td>
+    <th scope="row">{$lang->menu_active_btn}</th>
+    <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($item_info->active_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <th rowspan="2">{$lang->menu_group_srls}</th>
+    <th scope="row">{$lang->menu_group_srls}</th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
         <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="true"<!--@end-->/>
         <label for="group_{$key}">{$val->title}</label>
         <!--@end-->
-    </td>
-</tr>
-<tr>
-    <td>{$lang->about_menu_group_srls}</td>
-</tr>
-<tr>
-    <td colspan="2">
-        <!--@if($item_info->name)-->
-        <input type="submit" value="{$lang->cmd_save}" />
-        <input type="button" value="{$lang->cmd_make_child}" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" />
-        <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" />
-        <!--@else-->
-        <input type="submit" value="{$lang->cmd_submit}" />
-        <!--@end-->
+        <p>{$lang->about_menu_group_srls}</p>
     </td>
 </tr>
 </table>
+
+<ul class="buttonRight">
+    <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@if($item_info->name)-->
+    <li><a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_make_child}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <li><a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+</ul>

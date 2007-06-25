@@ -17,4 +17,6 @@
     $lang->msg_invalid_xml_file = '잘못된 형식의 XML파일입니다';
     $lang->msg_importing = '%d개를 입력중입니다. (계속 멈추어 있으면 "계속진행" 버튼을 클릭해주세요)';
     $lang->msg_import_finished = '%d개의 데이터 입력이 완료되었습니다. 상황에 따라 입력되지 못한 데이터가 있을 수 있습니다.';
+
+    $lang->admin_module_title = '태터툴즈 데이터 이전'; 
 ?>

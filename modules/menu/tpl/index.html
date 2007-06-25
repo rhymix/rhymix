@@ -1,13 +1,12 @@
 <!--%import("filter/delete_menu.xml")-->
 <!--%import("js/menu_admin.js")-->
+<!--#include("header.html")-->
 
-<!-- 설명 -->
-<div style="border:1px solid #CCCCCC;margin-bottom:10px;padding:10px;">
-    {nl2br($lang->about_menu)}
-</div>
+<div class="infoText">{nl2br($lang->about_menu)}</div>
 
-<div>
-    {$lang->total_count} {number_format($total_count)}
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <!-- 삭제를 위한 임시 form -->
@@ -16,43 +15,41 @@
 </form>
 
 <!-- 목록 -->
-<div>
-    <table>
+<table cellspacing="0" class="tableType1">
+<thead>
     <tr>
-        <th>{$lang->no}</th>
-        <th>{$lang->title}</th>
-        <th>{$lang->regdate}</th>
-        <th>{$lang->cmd_delete}</th>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
     </tr>
-
+</thead>
+<tbody>
     <!--@foreach($menu_list as $no => $val)-->
     <tr>
-        <td>{$no}</td>
-        <td><a href="#" onclick="location.href='{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}';return false;">{htmlspecialchars($val->title)}</a></td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="tahoma">{$no}</td>
+        <td class="blue"><a href="#" onclick="location.href='{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}';return false;">{htmlspecialchars($val->title)}</a></td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma red"><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
-
-    </table>
-</div>
+</tbody>
+</table>
 
 <!-- 버튼 -->
-<div>
-    [<a href="{getUrl('act','dispMenuAdminInsert','menu_srl','')}">{$lang->cmd_make}</a>]
-</div>
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispMenuAdminInsert','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>
 
 <!-- 페이지 네비게이션 -->
-<div>
-<a href="{getUrl('page','','menu_srl','')}">[{$lang->first_page}]</a>
-
-<!--@while($page_no = $page_navigation->getNextPage())-->
-<!--@if($page == $page_no)-->
-{$page_no}
-<!--@else-->
-<a href="{getUrl('page',$page_no)}">[{$page_no}]</a>
-<!--@end-->
-<!--@end-->
-
-<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>
