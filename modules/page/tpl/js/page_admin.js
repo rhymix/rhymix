@@ -40,8 +40,11 @@ function completeDeletePage(ret_obj) {
 }
 
 /* 카테고리 이동 */
-function doChangeCategory(sel_obj, url) {
-    var module_category_srl = sel_obj.options[sel_obj.selectedIndex].value;
-    if(!module_category_srl) location.href=url;
-    else location.href = current_url.setQuery('module_category_srl',module_category_srl);
+function doChangeCategory(fo_obj) {
+    var module_category_srl = fo_obj.category.options[fo_obj.category.selectedIndex].value;
+    if(module_category_srl==-1) {
+        location.href = current_url.setQuery('act','dispModuleAdminCategory');
+        return false;
+    }
+    return true;
 }

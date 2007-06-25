@@ -1,8 +1,10 @@
-<table border="1" width="100%">
-<col width="120" />
-<col width="*" />
+<!--#include("header.html")-->
+
+<table cellspacing="0" class="tableType4">
+<col width="150" />
+<col />
 <tr>
-    <th>{$lang->category}</th>
+    <th scope="row">{$lang->category}</th>
     <td>
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
@@ -12,7 +14,7 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->layout}</th>
+    <th scope="row">{$lang->layout}</th>
     <td>
         <!--@if($module_info->layout_srl)-->
             {$module_info->layout_title} ({$module_info->layout})
@@ -22,7 +24,7 @@
     </td>
 </tr>
 <tr>
-    <th>{$lang->browser_title}</th>
+    <th scope="row">{$lang->browser_title}</th>
     <td>{$module_info->browser_title}</td>
 </tr>
 <tr>
@@ -31,10 +33,11 @@
 <tr>
     <td colspan="2">{$module_info->content}</td>
 </tr>
-<tr>
-    <td colspan="2">
-        <input type="button" value="{$lang->cmd_list}" onclick="location.href='{getUrl('act','dispPageAdminContent')}'" />
-        <input type="button" value="{$lang->cmd_modify}" onclick="location.href='{getUrl('act','dispPageAdminInsert')}'" />
-    </td>
-</tr>
 </table>
+
+<ul class="buttonRight">
+    <li><a href="{getUrl('act','dispPageAdminInsert')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@if($module=="admin")-->
+    <li><a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+</ul>

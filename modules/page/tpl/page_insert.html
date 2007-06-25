@@ -1,13 +1,7 @@
 <!--%import("filter/insert_page.xml")-->
 <!--%import("js/page_admin.js")-->
 
-<div>
-    <!--@if(!$module_srl)-->
-        {$lang->msg_new_module}
-    <!--@else-->
-        {$lang->msg_update_module}
-    <!--@end-->
-</div>
+<!--#include("header.html")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
@@ -16,16 +10,28 @@
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
-    <table width="100%" border="1">
+
+    <table cellspacing="0" class="tableType2">
+    <col width="150" />
+    <col />
     <tr>
-        <th rowspan="2">{$lang->mid}</th>
-        <td><input type="text" name="mid" value="{$module_info->mid}" /></td>
+        <th scope="row">{$lang->mid}</th>
+        <td>
+            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText" />
+            <p>{$lang->about_mid}</p>
+        </td>
     </tr>
+    <!--@if($module_info->is_default!='Y')-->
     <tr>
-        <td>{$lang->about_mid}</td>
+        <th scope="row">{$lang->is_default}</th>
+        <td>
+            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end--> id="fld_for_default"  class="checkbox" />
+            <label for="fld_for_default">{$lang->about_default}</label>
+        </td>
     </tr>
+    <!--@end-->
     <tr>
-        <th rowspan="2">{$lang->category}</th>
+        <th scope="row">{$lang->module_category}</th>
         <td>
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
@@ -33,20 +39,18 @@
                 <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
                 <!--@end-->
             </select>
+            <p>{$lang->about_module_category}</p>
         </td>
     </tr>
     <tr>
-        <td>{$lang->about_category}</td>
+        <th scope="row">{$lang->browser_title}</th>
+        <td>
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText" />
+            <p>{$lang->about_browser_title}</p>
+        </td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->browser_title}</th>
-        <td><input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" /></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_browser_title}</td>
-    </tr>
-    <tr>
-        <th rowspan="2">{$lang->layout}</th>
+        <th scope="row">{$lang->layout}</th>
         <td>
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
@@ -54,23 +58,11 @@
             <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="true"<!--@end-->>{$val->title} ({$val->layout})</option>
             <!--@end-->
             </select>
+            <p>{$lang->about_layout}</p>
         </td>
     </tr>
     <tr>
-        <td>{$lang->about_layout}</td>
-    </tr>
-
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th rowspan="2">{$lang->is_default}</th>
-        <td><input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="true"<!--@end-->/></td>
-    </tr>
-    <tr>
-        <td>{$lang->about_default}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th>{$lang->widget}</th>
+        <th scope="row">{$lang->widget}</th>
         <td>
                 <!--@foreach($widget_list as $widget)-->
                 [<a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$widget->title}</a>]
@@ -78,20 +70,12 @@
         </td>
     </tr>
     <tr>
-        <th colspan="2">{$lang->content}</th>
-    </tr>
-    <tr>
-        <td colspan="2">{$editor}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <!--@if($module=='admin')-->
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispPageAdminInfo','module_srl',$module_srl)}'" />
-            <!--@else-->
-            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
-            <!--@end-->
-            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
-        </td>
+        <td scope="row" colspan="2">{$editor}</td>
     </tr>
     </table>
+
+    <div class="buttonRight">
+        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    </div>
+
 </form>
