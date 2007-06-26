@@ -1,15 +1,24 @@
 <!--%import("popup.css")-->
 <!--%import("popup.js")-->
 
-<div class="editor_window">
-    <form action='./' method='post' id='fo' onSubmit="return false" style="display:inline">
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
-
-        <div><textarea name="text" id='editor' class="editor_textarea"></textarea></div>
-
-        <div class="editor_button_area">
-            <input type='button' class="editor_button" value='{$lang->cmd_insert}' onclick='insertHtml()' />
-            <input type='button' class="editor_button" value='{$lang->cmd_close}' onclick='window.close();' />
-        </div>
-    </form>
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
 </div>
+
+<form action='./' method='post' id='fo' onSubmit="return false" style="display:inline">
+
+    <div id="popBody">
+
+        <div><textarea name="text" id='editor' class="inputTypeText"></textarea></div>
+
+    </div>
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><a href="#" onclick="insertHtml()" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+
+</form>
