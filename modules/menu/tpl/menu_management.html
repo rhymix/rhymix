@@ -62,18 +62,22 @@
                     <div id="menu_zone_menu"></div>
                     <p><input type="checkbox" id="menu_enable_move" class="checkbox" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label></p>
 
-                    <ul class="buttonLeft">
-                        <li><a href="#" onclick="doInsertMenuItem(0);return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                        <li><a href="#" onclick="openAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                        <li><a href="#" onclick="closeAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                        <li><a href="#"  onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_remake_cache}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                    </ul>
                 </td>
             </tr>
             </table>
         </div>
 
         <div id="menu_zone_info"></div>
+
+        <ul class="buttonLeft">
+            <li><a href="#" onclick="doInsertMenuItem(0);return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+
+        <ul class="buttonRight">
+            <li><a href="#" onclick="openAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="closeAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#"  onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_remake_cache}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
 
     </form>
 

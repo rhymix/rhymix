@@ -154,11 +154,34 @@ function doGetCategoryInfo(category_id, obj) {
 }
 
 /* 서버로부터 받아온 카테고리 정보를 출력 */
+xAddEventListener(document,'mousedown',checkMousePosition);
+var _xPos = 0;
+var _yPos = 0;
+function checkMousePosition(e) {
+    var evt = new xEvent(e);
+    _xPos = evt.pageX;
+    _yPos = evt.pageY;
+}
+
+function hideCategoryInfo() {
+    var obj = xGetElementById('category_info');
+    obj.style.display = "none";
+}
+
 function completeGetCategoryTplInfo(ret_obj, response_tags) {
+    var obj = xGetElementById('category_info');
     var tpl = ret_obj['tpl'];
-    xInnerHtml("category_info", tpl);
+    xInnerHtml(obj, tpl);
+    obj.style.display = 'block';
+
     var fo_obj = xGetElementById("fo_category");
     fo_obj.category_name.focus();
+
+    var x = _xPos + 50;
+    var y = _yPos - xHeight(obj)/2+ xScrollTop();
+    xLeft(obj, x);
+    xTop(obj, y);
+    xRemoveEventListener(document,'mousedown',checkMousePosition);
 }
 
 /* 카테고리 아이템 입력후 */ 
@@ -172,8 +195,9 @@ function completeInsertCategory(ret_obj) {
 
     loadTreeMenu(xml_file, 'category', 'zone_category', category_title, '',doGetCategoryInfo, category_srl, doMoveTree);
 
-    if(!category_srl) xInnerHtml("category_info", "");
-    else {
+    if(!category_srl) {
+        xInnerHtml("category_info", "");
+    } else {
         var params = {node_srl:category_srl, parent_srl:parent_srl}
         doGetCategoryInfo(null, params)
     }
@@ -230,6 +254,9 @@ function completeDeleteCategory(ret_obj) {
     alert(ret_obj['message']);
 
     loadTreeMenu(xml_file, 'category', 'zone_category', category_title, '', doGetCategoryInfo, category_srl, doMoveTree);
-    xInnerHtml("category_info", "");
+
+    var obj = xGetElementById('category_info');
+    xInnerHtml(obj, "");
+    obj.style.display = 'none';
 } 
 

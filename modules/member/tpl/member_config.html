@@ -35,7 +35,7 @@
     <tr>
         <th scope="row">{$lang->limit_day}</th>
         <td>
-            <input type="text" name="limit_day" value="{$config->limit_day}" class="inputTypeText" />{$lang->unit_day}
+            <input type="text" name="limit_day" value="{$config->limit_day}" size="2" class="inputTypeText" />{$lang->unit_day}
             <p>{$lang->about_limit_day}</p>
         </td>
     </tr>
@@ -46,8 +46,8 @@
                 <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end--> class="checkbox" />
                 {$lang->about_image_name}
             </p>
-            {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" value="{$config->image_name_max_width}" class="inputTypeText" />px<br />
-            {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" value="{$config->image_name_max_height}" class="inputTypeText" />px<br />
+            {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" size="3" value="{$config->image_name_max_width}" class="inputTypeText" />px<br />
+            {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" size="2" value="{$config->image_name_max_height}" class="inputTypeText" />px<br />
         </td>
     </tr>
     <tr>
@@ -57,14 +57,14 @@
                 <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end--> class="checkbox"/>
                 {$lang->about_image_mark}
             </p>
-            {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" value="{$config->image_mark_max_width}" class="inputTypeText"/>px<br />
-            {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" value="{$config->image_mark_max_height}" class="inputTypeText"/>px<br />
+            {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" size="3" value="{$config->image_mark_max_width}" class="inputTypeText"/>px<br />
+            {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" size="2" value="{$config->image_mark_max_height}" class="inputTypeText"/>px<br />
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->redirect_url}</th>
         <td>
-            <input type="text" name="redirect_url" value="{$config->redirect_url}" class="inputTypeText" />
+            <input type="text" name="redirect_url" value="{$config->redirect_url}" class="inputTypeText w100" />
             <p>{$lang->about_redirect_url}</p>
         </td>
     </tr>
@@ -78,7 +78,7 @@
     </table>
 
     <ul class="buttonRight">
-        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_registration}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_registration}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
         <!--@if($module=="admin")-->
         <li><a href="{getUrl('act','dispMemberAdminList')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
         <!--@end-->

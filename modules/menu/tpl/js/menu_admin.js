@@ -54,11 +54,34 @@ function doGetMenuItemInfo(menu_id, obj) {
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */
+xAddEventListener(document,'mousedown',checkMousePosition);
+var _xPos = 0;
+var _yPos = 0;
+function checkMousePosition(e) {
+    var evt = new xEvent(e);
+    _xPos = evt.pageX;
+    _yPos = evt.pageY;
+}   
+
+function hideCategoryInfo() {
+    var obj = xGetElementById('menu_zone_info');
+    obj.style.display = "none";
+}
+
 function completeGetMenuItemTplInfo(ret_obj, response_tags) {
+    var obj = xGetElementById('menu_zone_info');
     var tpl = ret_obj['tpl'];
-    xInnerHtml("menu_zone_info", tpl);
+    xInnerHtml(obj, tpl);
+    obj.style.display = 'block';
+
     var fo_obj = xGetElementById("fo_menu");
     fo_obj.menu_name.focus();
+
+    var x = _xPos + 50;
+    var y = _yPos - xHeight(obj)/2 + 80 + xScrollTop();
+    xLeft(obj, x);
+    xTop(obj, y);
+    xRemoveEventListener(document,'mousedown',checkMousePosition);
 }
 
 /* 메뉴 아이템 입력후 */ 

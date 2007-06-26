@@ -23,43 +23,55 @@
     <td>{htmlspecialchars($member_info->nick_name)}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->image_name}</th>
+    <th scope="row" rowspan="2">{$lang->image_name}</th>
     <td>
         <!--@if($member_info->image_name->src)-->
-        <div>
-                <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
-                [<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
-        </div> 
+        <ul class="buttonLeft nospace">
+            <li><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></li>
+            <li><a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+        <!--@else-->
+        &nbsp;
         <!--@end-->
-        <div>
-                <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-                        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-                        <input type="hidden" name="module" value="member" />
-                        <input type="hidden" name="act" value="procMemberInsertImageName" />
-                        <input type="file" name="image_name" value="" />
-                        <input type="submit" value="{$lang->cmd_submit}" />
-                </form>
-        </div>
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->image_mark}</th>
+    <td>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+        <input type="hidden" name="module" value="member" />
+        <input type="hidden" name="act" value="procMemberInsertImageName" />
+            <ul class="buttonLeft nospace">
+                <li><input type="file" name="image_name" value="" /></li>
+                <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            </ul>
+        </form>
+    </td>
+</tr>
+<tr>
+    <th scope="row" rowspan="2">{$lang->image_mark}</th>
     <td>
         <!--@if($member_info->image_mark->src)-->
-        <div>
-                <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
-                [<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</a>]
-        </div> 
+        <ul class="buttonLeft nospace">
+            <li><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></li>
+            <li><a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+        <!--@else-->
+        &nbsp;
         <!--@end-->
-        <div>
-                <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-                        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-                        <input type="hidden" name="module" value="member" />
-                        <input type="hidden" name="act" value="procMemberInsertImageMark" />
-                        <input type="file" name="image_mark" value="" />
-                        <input type="submit" value="{$lang->cmd_submit}" />
-                </form>
-        </div>
+    </td>
+</tr>
+<tr>    
+    <td>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+        <input type="hidden" name="module" value="member" />
+        <input type="hidden" name="act" value="procMemberInsertImageMark" />
+            <ul class="buttonLeft nospace">
+                <li><input type="file" name="image_mark" value="" /></li>
+                <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            </ul>
+        </form>
     </td>
 </tr>
 <tr>
@@ -123,7 +135,7 @@
             {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
         <!--@elseif($val->column_type=='kr_zip')-->
             {htmlspecialchars($val->value[0])} {htmlspecialchars($val->value[1])}
-        <!--@elseif($val->column_type=='checkbox')-->
+        <!--@elseif($val->column_type=='checkbox' && $val->value)-->
             {htmlspecialchars(implode(",",$val->value))}
         <!--@elseif($val->column_type=='date')-->
             {zdate($val->value, "Y-m-d")}

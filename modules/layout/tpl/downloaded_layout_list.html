@@ -10,7 +10,6 @@
         <th scope="col">{$lang->menu_count}</th>
         <th scope="col">{$lang->date}</th>
         <th scope="col">{$lang->path}</th>
-        <th scope="col">{$lang->layout_info}</th>
         <th scope="col">{$lang->cmd_make}</th>
     </tr>
 </thead>
@@ -21,19 +20,18 @@
         <!--@if($val->title)-->
         <tr>
             <td rowspan="2">
-                {$val->title} <br />
+                <a href="#" onclick="popopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info');return false" class="blue">{$val->title}</a> <br />
                 ({$val->layout})
             </td>
             <td class="tahoma">{$val->version}</td>
-            <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+            <td><a href="#" onclick="window.open('{$val->author->homepage}')" class="blue">{$val->author->name}</a></td>
             <td class="tahoma">{$val->menu_count}</td>
             <td class="tahoma">{$val->author->date}</td>
             <td class="tahoma">{$val->path}</td>
-            <td class="tahoma"><a href="#" onclick="popopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info');return false" class="red">{$lang->cmd_view}</a></td>
             <td class="tahoma"><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="blue">{$lang->cmd_make}</a></td>
         </tr>
         <tr>
-            <td colspan="7" class="left">
+            <td colspan="6" class="left">
                 {nl2br($val->author->description)}
             </td>
         </tr>

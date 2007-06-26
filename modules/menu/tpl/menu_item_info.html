@@ -69,10 +69,16 @@
 </tr>
 </table>
 
+<ul class="buttonLeft">
+    <!--@if($item_info->name)-->
+    <li><a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <!--@end-->
+    <li><a href="#" onclick="hideCategoryInfo();return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+</ul>
+
 <ul class="buttonRight">
     <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
     <!--@if($item_info->name)-->
     <li><a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_make_child}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-    <li><a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
     <!--@end-->
 </ul>

@@ -36,15 +36,19 @@
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">
             <!--@if(!$val->module_srl)-->
-                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_management}</a>
+                <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}';return false;" class="blue">{$lang->cmd_layout_management}</a>
+            <!--@else-->
+                &nbsp;
             <!--@end-->
         </td>
         <td class="tahoma">
-            <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}';return false;">{$lang->cmd_layout_edit}</a>
+            <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}';return false;" class="blue">{$lang->cmd_layout_edit}</a>
         </td>
         <td class="tahoma">
             <!--@if(!$val->module_srl)-->
-                <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a>
+                <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" class="red">{$lang->cmd_delete}</a>
+            <!--@else-->
+                &nbsp;
             <!--@end-->
         </td>
     </tr>

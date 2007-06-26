@@ -413,7 +413,7 @@
                 return $output;
             }
 
-            $oDocumentController = &getController('document');
+            $oDocumentController = &getAdminController('document');
             $output = $oDocumentController->deleteCategory($args->category_srl);
             if(!$output->toBool()) {
                 $oDB->rollback();

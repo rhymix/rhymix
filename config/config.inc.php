@@ -15,7 +15,7 @@
      * 0 : files/_debug_message.php 에 연결하여 출력
      * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최상단에 주석으로 표시
      **/
-    define('__DEBUG_OUTPUT__', 1);
+    define('__DEBUG_OUTPUT__', 0);
 
     /**
      * @brief 디버깅 메세지 출력

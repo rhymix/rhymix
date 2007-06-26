@@ -64,9 +64,11 @@
     <tr>
         <th scope="row">{$lang->widget}</th>
         <td>
-                <!--@foreach($widget_list as $widget)-->
-                [<a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;">{$widget->title}</a>]
-                <!--@end-->
+            <ul class="buttonLeft nospace">
+            <!--@foreach($widget_list as $widget)-->
+                <li class="widget_item"><a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$widget->title}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <!--@end-->
+            </ul>
         </td>
     </tr>
     <tr>

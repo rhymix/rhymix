@@ -32,9 +32,9 @@
         </td>
         <td class="tahoma">
             <!--@if($xml_info->enabled=='Y')-->
-                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
+                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
             <!--@else-->
-                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
+                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
             <!--@end-->
         </td>
         <td class="tahoma">

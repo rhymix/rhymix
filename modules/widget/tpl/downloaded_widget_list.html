@@ -13,14 +13,13 @@
         <th scope="col">{$lang->date}</th>
         <th scope="col">{$lang->path}</th>
         <th scope="col">{$lang->cmd_generate_code}</th>
-        <th scope="col">{$lang->widget_info}</th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($widget_list as $key => $val)-->
     <tr>
         <th scope="row" rowspan="2">
-                {$val->title} <br />
+                <a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetInfo','selected_widget',$val->widget)}','widget_info');return false" class="blue">{$val->title}</a><br />
                 ({$val->widget})
         </th>
         <td class="tahoma">{$val->version}</td>
@@ -28,10 +27,9 @@
         <td class="tahoma">{$val->author->date}</td>
         <td class="tahoma left">{$val->path}</td>
         <td class="tahoma blue"><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}','widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>
-        <td class="tahoma red"><a href="#" onclick="popopen('{getUrl('','module','widget','act','dispWidgetInfo','selected_widget',$val->widget)}','widget_info');return false">{$lang->cmd_view}</a></td>
     </tr>
     <tr>
-        <td colspan="6" class="left">
+        <td colspan="5" class="left">
             {nl2br($val->author->description)}
         </td>
     </tr>

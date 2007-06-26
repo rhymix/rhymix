@@ -29,7 +29,7 @@
         <td class="tahoma">{$no}</td>
         <td class="blue"><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
         <td>{htmlspecialchars($val->user_name)}</td>
-        <td class="left"><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
+        <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
         <td class="tahoma">{$val->allow_mailing}</td>
         <td class="tahoma">{$val->denied}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>

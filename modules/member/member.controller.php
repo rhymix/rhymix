@@ -1079,14 +1079,14 @@
             if($image_name->width) {
                 if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
                 else $top_margin = 0;
-                $text = sprintf('<img src="%s" border="0" alt="image" width="%s" height="%s" style="margin-top:%dpx;"/>', Context::getRequestUri().$image_name->file, $image_name->width, $image_name->height, $top_margin);
+                $text = sprintf('<img src="%s" border="0" alt="image name" width="%s" height="%s" style="margin-top:%dpx;"/>', Context::getRequestUri().$image_name->file, $image_name->width, $image_name->height, $top_margin);
             }
 
             if($image_mark->width) {
                 $matches[0] = str_replace('<'.$matches[6], sprintf('<%s style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx" ', $matches[1],Context::getRequestUri().$image_mark->file, $image_mark->width+2, $image_mark->height), $matches[0] );
             }
-
-            return str_replace($matches[5], $text, $matches[0]);
+            $output = str_replace('>'.$matches[5].'<', '>'.$text.'<', $matches[0]);
+            return $output;
         }
 
         /**
