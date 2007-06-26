@@ -42,20 +42,23 @@ function getSlideShow() {
     var upload_target_srl = fo.upload_target_srl.value;
 
     var parent_list_obj = opener.xGetElementById("uploaded_file_list_"+upload_target_srl);
+    if(parent_list_obj) {
 
-    var list_obj = xGetElementById("image_list");
+        var list_obj = xGetElementById("image_list");
 
-    for(var i=0;i<parent_list_obj.length;i++) {
-        var opt = parent_list_obj.options[i];
-        var file_srl = opt.value;
-        var file_obj = opener.uploaded_files[file_srl];
-        var filename = file_obj.uploaded_filename;
-        if((/(jpg|jpeg|gif|png)$/i).test(filename)) {
-            var selected = false;
-            if(selected_images.indexOf(filename)!=-1) selected = true;
-            var opt = new Option(opt.text, opt.value, false, selected);
-            list_obj.options.add(opt);
+        for(var i=0;i<parent_list_obj.length;i++) {
+            var opt = parent_list_obj.options[i];
+            var file_srl = opt.value;
+            var file_obj = opener.uploaded_files[file_srl];
+            var filename = file_obj.uploaded_filename;
+            if((/(jpg|jpeg|gif|png)$/i).test(filename)) {
+                var selected = false;
+                if(selected_images.indexOf(filename)!=-1) selected = true;
+                var opt = new Option(opt.text, opt.value, false, selected);
+                list_obj.options.add(opt);
+            }
         }
+
     }
 }
 
