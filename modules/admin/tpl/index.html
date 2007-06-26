@@ -1,40 +1,31 @@
-<h3>{$lang->welcome_to_zeroboard_xe}</span></h3>
+<h3>{$lang->welcome_to_zeroboard_xe}</h3>
 
-<!-- 사용자 링크 -->
-<h4>{$lang->zeroboard_xe_user_links}</h3>
-<table cellspacing="0" class="tableType1">
-<thead>
-<div>
-    <ul>
-        <!--@foreach($lang->xe_user_links as $key => $val)-->
-            <li>{$key} : <a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></li>
-        <!--@end-->
-    </ul>
-</div>
+    <!-- 사용자 링크 -->
+    <table cellspacing="0" class="tableType3">
+    <col width="150" />
+    <col />
+    <tr>
+        <th colspan="2">{$lang->zeroboard_xe_user_links}</th>
+    </tr>
+    <!--@foreach($lang->xe_user_links as $key => $val)-->
+    <tr>
+        <th scope="col">{$key}</th>
+        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
 
-<!-- 개발자 링크 -->
-<div>
-    <h3>{$lang->zeroboard_xe_developer_links}</h3>
-</div>
-<div>
-    <ul>
-        <!--@foreach($lang->xe_developer_links as $key => $val)-->
-            <li>{$key} : <a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></li>
-        <!--@end-->
-    </ul>
-</div>
-
-<!-- 주요 메뉴 바로 가기 -->
-<div>
-    <h3>{$lang->zeroboard_xe_usefulness_module}</h3>
-    <ul>
-        <!--@foreach($lang->xe_usefulness_modules as $key => $val)-->
-            <li>{$val} : <a href="#" onclick="location.href='{getUrl('','module','admin','act',$key)}';return false;">{$val}</a></li>
-        <!--@end-->
-    </ul>
-</div>
-
-<!-- 하단 라이센스 -->
-<div>
-    <h4>{$lang->xe_license}</h4>
-</div>
+    <!-- 개발자 링크 -->
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
+    <col />
+    <tr>
+        <th colspan="2">{$lang->zeroboard_xe_developer_links}</th>
+    </tr>
+    <!--@foreach($lang->xe_developer_links as $key => $val)-->
+    <tr>
+        <th scope="col">{$key}</th>
+        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
