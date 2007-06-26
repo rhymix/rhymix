@@ -1,17 +1,20 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 
-<div class="editor_window">
-    <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
 
-    <div class="editor_emoticon">
-        <!--@foreach($emoticon_list as $emoticon)-->
-        <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" />
-        <!--@end-->
-    </div>
+<div id="popBody">
 
-    <div class="editor_button_area">
-        <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertImage()" />
-        <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
-    </div>
+    <!--@foreach($emoticon_list as $emoticon)-->
+    <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" class="emoticon" />
+    <!--@end-->
+
+</div>
+
+<div id="popFooter">
+    <ul class="buttonRight nospace">
+        <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    </ul>
 </div>

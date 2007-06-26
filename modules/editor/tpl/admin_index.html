@@ -18,7 +18,7 @@
 <tbody>
     <!--@foreach($component_list as $component_name => $xml_info)-->
     <tr>
-        <th scope="row" rowspan="2">{$xml_info->title}<br />({$component_name})</th>
+        <th scope="row" rowspan="2"><a href="#" onclick="popopen('{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}');return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
         <td class="tahoam">{$xml_info->version}</td>
         <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
         <td class="tahoma blue"><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>

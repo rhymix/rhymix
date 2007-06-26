@@ -36,9 +36,9 @@
         <td class="tahoma">{$val->file_size}</td>
         <td class="tahoma">
             <!--@if($val->isvalid=='Y')-->
-                {$lang->is_valid}
+                <span class="blue">{$lang->is_valid}</span>
             <!--@else-->
-                {$lang->is_stand_by}
+                <span class="red">{$lang->is_stand_by}</span>
             <!--@end-->
         </td>
         <td class="tahoma">{$val->download_count}</td>

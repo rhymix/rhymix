@@ -2,28 +2,43 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
 <form action="./" method="get" onSubmit="return false" id="fo">
-    <div class="editor_window">
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
-
-        <div class="header">{$lang->multimedia_url}</div>
-        <div class="body"><input type="text" class="multimedia_url" id="multimedia_url" value="{$manual_url}" /></div>
-
-        <div class="header">{$lang->multimedia_caption}</div>
-        <div class="body"><input type="text" class="multimedia_url" id="multimedia_caption" value="" /></div>
-
-        <div class="header">{$lang->multimedia_width}</div>
-        <div class="body"><input type="text" class="multimedia_size" id="multimedia_width" value="400" />px</div>
-
-        <div class="header">{$lang->multimedia_height}</div>
-        <div class="body"><input type="text" class="multimedia_size" id="multimedia_height" value="400" />px</div>
-
-        <div class="header">{$lang->multimedia_auto_start}</div>
-        <div class="body"><input type="checkbox" id="multimedia_auto_start" value="Y" /></div>
-
-        <div class="editor_button_area">
-            <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertMultimedia()" />
-            <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
-        </div>
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="150" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->multimedia_url}</th>
+            <td><input type="text" class="inputTypeText w100" id="multimedia_url" value="{$manual_url}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->multimedia_caption}</th>
+            <td><input type="text" class="inputTypeText w100" id="multimedia_caption" value="" /></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->multimedia_width}</th>
+            <td><input type="text" class="inputTypeText" size="3" id="multimedia_width" value="400" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->multimedia_height}</th>
+            <td><input type="text" class="inputTypeText" size="3" id="multimedia_height" value="400" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->multimedia_auto_start}</th>
+            <td><input type="checkbox" id="multimedia_auto_start" value="Y" /></td>
+        </tr>
+        </table>
     </div>
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><a href="#" onclick="insertMultimedia()" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+
 </form>

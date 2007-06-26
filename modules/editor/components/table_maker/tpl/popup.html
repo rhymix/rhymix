@@ -2,112 +2,138 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
 <form action="./" method="get" onSubmit="return false" id="fo">
-    <div class="editor_window">
 
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+    <div id="popBody">
 
-        <div class="editor_option" id="table_option" style="display:none">
+        <div id="table_option" style="display:none">
             <input name="attr" type="radio" value="table" id="table_attribute_select" onclick="doSelectOption('table');"/> <label for="table_attribute_select">{$lang->table_attribute}</label>
             <input name="attr" type="radio" value="cell" id="cell_attribute_select" onclick="doSelectOption('cell');"/> <label for="cell_attribute_select">{$lang->cell_attribute}</label>
         </div>
 
         <div id="table_attribute" style="display:none">
-
-        <div class="item_area" id="col_row_area" style="display:none" >
-            <div class="header">{$lang->table_cols_count} :</div>
-            <div class="body"><input type="text" class="table_input" id="cols_count" value="2" /></div>
-
-            <div class="header">{$lang->table_rows_count} :</div>
-            <div class="body"><input type="text" class="table_input" id="rows_count" value="1" /></div>
-        </div>
-
-        <div class="item_area">
-            <div class="header">{$lang->table_width} :</div>
-            <div class="wide_body">
-                <input type="text" class="table_input" id="width" value="100" />
-                <input type="radio" name="width_unit" id="width_unit_percent" checked="true" /><label for="width_unit_percent">%</label>
-                <input type="radio" name="width_unit" id="width_unit_pixel" /><label for="width_unit_pixel">px</label>
+            <div class="" id="col_row_area" style="display:none" >
+                <table cellspacing="0" class="tableType5 gap1">
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
+                <col width="25%" />
+                <tr>
+                    <th scope="row">{$lang->table_cols_count}</th>
+                    <td><input type="text" class="inputTypeText" size="2" id="cols_count" value="2" /></td>
+                    <th scope="row">{$lang->table_rows_count}</th>
+                    <td><input type="text" class="inputTypeText" size="2" id="rows_count" value="1" /></td>
+                </tr>
+                </table>
             </div>
-        </div>
 
-        <div class="item_area">
-            <div class="header">{$lang->table_cellspacing} :</div>
-            <div class="body"><input type="text" class="table_input" id="cellspacing" value="0" />px</div>
-
-            <div class="header">{$lang->table_cellpadding} :</div>
-            <div class="body"><input type="text" class="table_input" id="cellpadding" value="1" />px</div>
-        </div>
-
-        <div class="item_area">
-            <div class="header">{$lang->table_border} :</div>
-            <div class="body"><input type="text" class="table_input" id="border" value="1" />px</div>
-
-            <div class="header">{$lang->table_inner_border} :</div>
-            <div class="body"><input type="text" class="table_input" id="inner_border" value="0" />px</div>
-        </div>
+            <table cellspacing="0" class="tableType5 gap1">
+            <col width="25%" />
+            <col />
+            <tr>
+                <th scope="row">{$lang->table_width}</th>
+                <td>
+                    <input type="text" class="inputTypeText" size="3" id="width" value="100" />
+                    <input type="radio" name="width_unit" id="width_unit_percent" checked="true" /><label for="width_unit_percent">%</label>
+                    <input type="radio" name="width_unit" id="width_unit_pixel" /><label for="width_unit_pixel">px</label>
+                </td>
+            </tr>
+            </table>
 
         </div>
+
+        <table cellspacing="0" class="tableType5 gap1">
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <tr>
+            <th scope="row">{$lang->table_cellspacing}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="cellspacing" value="0" />px</td>
+            <th scope="row">{$lang->table_cellpadding}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="cellpadding" value="1" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->table_border}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="border" value="1" />px</td>
+            <th scope="row">{$lang->table_inner_border}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="inner_border" value="0" />px</td>
+        </tr>
+        </table>
 
         <div id="cell_attribute" style="display:none">
-            <div class="item_area">
-                <div class="header">{$lang->cell_width} :</div>
-                <div class="body">
-                    <input type="text" class="table_input" id="cell_width" value="0" />
+            <table cellspacing="0" class="tableType5 gap1">
+            <col width="25%" />
+            <col width="25%" />
+            <col width="25%" />
+            <col width="25%" />
+            <tr>
+                <th scope="row">{$lang->cell_width}</th>
+                <td>
+                    <input type="text" class="inputTypeText" size="3" id="cell_width" value="0" />
                     <input type="radio" name="cell_width_unit" id="cell_width_unit_percent" checked="true" /><label for="cell_width_unit_percent">%</label>
                     <input type="radio" name="cell_width_unit" id="cell_width_unit_pixel" /><label for="cell_width_unit_pixel">px</label>
-                </div>
-
-                <div class="header">{$lang->cell_height} :</div>
-                <div class="body"><input type="text" class="table_input" id="cell_height" value="0" />px</div>
-            </div>
+                </td>
+                <th scope="row">{$lang->cell_height}</th>
+                <td><input type="text" class="inputTypeText" size="3" id="cell_height" value="0" />px</td>
+            </tr>
+            </table>
         </div>
 
-        <div class="item_area" id="border_color_area" style="display:none">
-            <div class="header">{$lang->table_border_color} :</div>
-            <div class="wide_body">
-                <div class="editor_color_box">
-                    <script type="text/javascript">
-                        printColor("border", "{$tpl_path}/images/blank.gif");
-                    </script>
-                </div>
+        <div id="border_color_area" style="display:none">
+            <table cellspacing="0" class="tableType5 gap1">
+            <col width="25%" />
+            <col />
+            <tr>
+                <th scope="row">{$lang->table_border_color}</th>
+                <td>
+                    <div class="editor_color_box">
+                        <script type="text/javascript">
+                            printColor("border", "{$tpl_path}/images/blank.gif");
+                        </script>
+                    </div>
 
-                <div class="editor_color_input">
-                    <table border="0" cellspacing="0">
-                    <tr>
-                        <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
-                        <td>#</td>
-                        <td><input type="text" id="border_color_input" size="6" maxlength="6" class="table_input" value="000000" onkeyup="manual_select_color('border',this)"/></td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
+                    <ul class="buttonLeft">
+                        <li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
+                        <li>#<input type="text" id="border_color_input" size="6" maxlength="6" class="inputTypeText" value="000000" onkeyup="manual_select_color('border',this)"/></li>
+                    </ul>
+                </td>
+            </tr>
+            </table>
         </div>
 
-        <div class="item_area" id="bg_color_area" style="display:none">
-            <div class="header">{$lang->table_bg_color} :</div>
-            <div class="wide_body">
-                <div class="editor_color_box">
-                    <script type="text/javascript">
-                        printColor("bg", "{$tpl_path}/images/blank.gif");
-                    </script>
-                </div>
-                <div class="editor_color_input">
-                    <table border="0" cellspacing="0">
-                    <tr>
-                        <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
-                        <td>#</td>
-                        <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="table_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <div id="bg_color_area" style="display:none">
+            <table cellspacing="0" class="tableType5 gap1">
+            <col width="25%" />
+            <col />
+            <tr>
+                <th scope="row">{$lang->table_bg_color}</th>
+                <td>
+                    <div class="editor_color_box">
+                        <script type="text/javascript">
+                            printColor("bg", "{$tpl_path}/images/blank.gif");
+                        </script>
+                    </div>
 
-        <div class="editor_button_area">
-            <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertTable()" />
-            <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
+                    <ul class="buttonLeft">
+                        <li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
+                        <li>#<input type="text" id="bg_color_input" size="6" maxlength="6" class="inputTypeText" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
+                    </ul>
+                </td>
+            </tr>
+            </table>
         </div>
+    </div>
 
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><a href="#" onclick="insertTable()" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
     </div>
 </form>

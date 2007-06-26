@@ -23,6 +23,8 @@ function setPoll() {
     obj.style.display = "block";
 
     source.parentNode.insertBefore(obj, source);
+
+    setFixedPopupSize();
 }
 
 /**
@@ -55,7 +57,7 @@ xAddEventListener(window, "load", setPoll);
 function doPollAdd() {
     var obj = xCreateElement("div");
     var source = xGetElementById("poll_source");
-    if(poll_index+1>3) return null;
+    if(poll_index+1>8) return null;
     poll_index++;
 
     var html = xInnerHtml(source);
@@ -77,7 +79,7 @@ function doPollAdd() {
  * 항목 삭제
  **/
 function doPollDelete(obj) {
-    var pobj = obj.parentNode.parentNode.parentNode;
+    var pobj = obj.parentNode.parentNode.parentNode.parentNode;
     var tmp_arr = pobj.id.split('_');
     var index = tmp_arr[1];
     if(index==1) return;
@@ -101,27 +103,36 @@ function doPollDelete(obj) {
  * 새 항목 추가
  **/
 function doPollAddItem(obj) {
-    var pobj = obj.parentNode.parentNode;
-    var source = xPrevSib(pobj);
-    var new_obj = xCreateElement("div");
-    var html = xInnerHtml(source);
+    var tbl = xPrevSib(obj.parentNode.parentNode.parentNode);
+    var tbody = tbl.lastChild;
+    var tmp = tbody.firstChild;
+    var source = null;
+    while(tmp.nextSibling) {
+        tmp = tmp.nextSibling;
+        if(tmp.nodeName == "TR") source = tmp;
+    }
 
-    var idx_match = html.match(/ ([0-9]+)</i);
-    if(!idx_match) return null;
-
-    var idx = parseInt(idx_match[1],10);
-    html = html.replace( / ([0-9]+)</, ' '+(idx+1)+'<');
-    html = html.replace( /value=("){0,1}([^"^\s]*)"{0,1}/, 'value=""');
-    html = html.replace( /item_([0-9]+)_([0-9]+)/, 'item_$1_'+(idx+1));
-
-    xInnerHtml(new_obj, html);
+    var new_obj = source.cloneNode(true);
     new_obj.className = source.className;
+    source.parentNode.appendChild(new_obj);
 
-    pobj.parentNode.insertBefore(new_obj, pobj);
+    var html = xInnerHtml(new_obj);
+    var idx_match = html.match(/ ([0-9]+)</i);
+    var idx = parseInt(idx_match[1],10);
 
-    var box_obj = pobj.parentNode;
-    var box_height = xHeight(box_obj);
-    xHeight(box_obj, box_height+29);
+    var tmp = new_obj.firstChild;
+    while(tmp) {
+        if(tmp.nodeName == "TH") {
+            var html = xInnerHtml(tmp);
+            html = html.replace(/ ([0-9]+)/, ' '+(idx+1));
+            xInnerHtml(tmp, html);
+        } else if(tmp.nodeName == "TD") {
+            var html = xInnerHtml(tmp);
+            html = html.replace(/item_([0-9]+)_([0-9]+)/, 'item_$1_'+(idx+1));
+            xInnerHtml(tmp, html);
+        }
+        tmp = tmp.nextSibling;
+    }
 
     setFixedPopupSize();
 

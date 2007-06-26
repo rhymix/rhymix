@@ -2,131 +2,150 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
 <form action="./" method="get" onSubmit="return false" id="fo">
-    <div class="editor_window">
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="120" />
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+        <tr>
+            <th scope="row">{$lang->quotation_use_folder}</th>
+            <td colspan="5">
+                <input type="checkbox" id="quotation_use" value="Y" onclick="toggle_folder(this)" />
 
-        <div class="header">{$lang->quotation_use_folder}</div>
-        <div class="body"><input type="checkbox" id="quotation_use" value="Y" onclick="toggle_folder(this)" /></div>
+                <div id="folder_area" style="display:none">
+                    <table>
+                    <tr>
+                        <th scope="row">{$lang->quotation_opener}</th>
+                        <td><input type="text" class="inputTypeText" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{$lang->quotation_closer}</th>
+                        <td><input type="text" class="inputTypeText" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{$lang->folder_text_bold}</th>
+                        <td><input type="checkbox" name="bold" value="Y" id="quotation_bold" /> <label for="quotation_bold">{$lang->about_folder_text_bold}</label></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{$lang->folder_text_color}</th>
+                        <td>
+                            <div class="editor_link_type" >
+                                <input type="radio" name="color" value="blue" id="quotation_color_blue" />
+                                <label for="quotation_color_blue" class="editor_blue_text">{$lang->folder_text_color_blue}</label>
+                            </div>
+                            <div class="editor_link_type" >
+                                <input type="radio" name="color" value="red" id="quotation_color_red" />
+                                <label for="quotation_color_red" class="editor_red_text">{$lang->folder_text_color_red}</label>
+                            </div>
+                            <div class="editor_link_type" >
+                                <input type="radio" name="color" value="yellow" id="quotation_color_yellow" />
+                                <label for="quotation_color_yellow" class="editor_yellow_text">{$lang->folder_text_color_yellow}</label>
+                            </div>
+                            <div class="editor_link_type" >
+                                <input type="radio" name="color" value="green" id="quotation_color_green" />
+                                <label for="quotation_color_green" class="editor_green_text">{$lang->folder_text_color_green}</label>
+                            </div>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->quotation_padding}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="quotation_padding" value="5" />px</td>
+            <th scope="row">{$lang->quotation_margin}</th>
+            <td><input type="text" class="inputTypeText" size="2" id="quotation_margin" value="5" />px</td>
+            <th scope="row">{$lang->quotation_border_thickness}</th>
+            <td><input type="text" class="inputTypeText" size="1" id="border_thickness" value="1" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->quotation_border_style}</th>
+            <td colspan="5">
+                <div class="border_type">
+                    <input type="radio" name="border_style" value="" id="border_style_none" />
+                    <label for="border_style_none">
+                        <img src="./images/blank.gif" class="border_preview_none_color" alt="blank" />
+                        {$lang->quotation_border_style_list[0]}
+                    </label>
+                </div>
+                <div class="border_type">
+                    <input type="radio" name="border_style" value="solid" id="border_style_solid" checked="true" />
+                    <label for="border_style_solid">
+                        <img src="./images/border_solid.gif" class="border_preview_color" id="border_style_solid_icon" alt="solid" />
+                        {$lang->quotation_border_style_list[1]}
+                    </label>
+                </div>
+                <div class="border_type">
+                    <input type="radio" name="border_style" value="dotted" id="border_style_dotted" />
+                    <label for="border_style_dotted">
+                        <img src="./images/border_dotted.gif" class="border_preview_color" id="border_style_dotted_icon" alt="dotted" />
+                        {$lang->quotation_border_style_list[2]}
+                    </label>
+                </div>
+                <div class="border_type">
+                    <input type="radio" name="border_style" value="left_solid" id="border_style_left_solid" />
+                    <label for="border_style_left_solid">
+                        <img src="./images/border_left_solid.gif" class="border_preview_color" id="border_style_left_solid_icon" alt="left solid"/>
+                        {$lang->quotation_border_style_list[3]}
+                    </label>
+                </div>
+                <div class="border_type">
+                    <input type="radio" name="border_style" value="left_dotted" id="border_style_left_dotted" />
+                    <label for="border_style_left_dotted">
+                        <img src="./images/border_left_dotted.gif" class="border_preview_color" id="border_style_left_dotted_icon" alt="left dotted"/>
+                        {$lang->quotation_border_style_list[4]}
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->quotation_border_color}</th>
+            <td colspan="5">
+                <div class="editor_color_box">
+                    <script type="text/javascript">
+                        printColor("border", "{$tpl_path}/images/blank.gif");
+                    </script>
+                </div>
 
-        <div id="folder_area" style="display:none">
-            <div class="header">{$lang->quotation_opener}</div>
-            <div class="body"><input type="text" class="editor_input_long" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></div>
+                <ul class="buttonLeft">
+                    <li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
+                    <li>#<input type="text" id="border_color_input" size="6" maxlength="6" class="inputTypeText" value="000000" onkeyup="manual_select_color('border',this)"/></li>
+                </ul>
 
-            <div class="header">{$lang->quotation_closer}</div>
-            <div class="body"><input type="text" class="editor_input_long" id="quotation_closer" value="{$lang->quotation_cmd_closer}" /></div>
-
-            <div class="header">{$lang->folder_text_bold}</div>
-            <div class="body"><input type="checkbox" name="bold" value="Y" id="quotation_bold" /> <label for="quotation_bold">{$lang->about_folder_text_bold}</label></div>
-
-            <div class="header">{$lang->folder_text_color}</div>
-            <div class="body">
-                <span>
-                    <input type="radio" name="color" value="blue" id="quotation_color_blue" />
-                    <label for="quotation_color_blue" class="editor_blue_text">{$lang->folder_text_color_blue}</label>
-                </span>
-                <span>
-                    <input type="radio" name="color" value="red" id="quotation_color_red" />
-                    <label for="quotation_color_red" class="editor_red_text">{$lang->folder_text_color_red}</label>
-                </span>
-                <span>
-                    <input type="radio" name="color" value="yellow" id="quotation_color_yellow" />
-                    <label for="quotation_color_yellow" class="editor_yellow_text">{$lang->folder_text_color_yellow}</label>
-                </span>
-                <span>
-                    <input type="radio" name="color" value="green" id="quotation_color_green" />
-                    <label for="quotation_color_green" class="editor_green_text">{$lang->folder_text_color_green}</label>
-                </span>
-            </div>
-        </div>
-
-        <div class="header">{$lang->quotation_padding}</div>
-        <div class="body"><input type="text" class="editor_input" id="quotation_padding" value="5" />px</div>
-
-        <div class="header">{$lang->quotation_margin}</div>
-        <div class="body"><input type="text" class="editor_input" id="quotation_margin" value="5" />px</div>
-
-        <div class="header">{$lang->quotation_border_style}</div>
-        <div class="body">
-            <div>
-                <input type="radio" name="border_style" value="" id="border_style_none" />
-                <label for="border_style_none">
-                    <img src="./images/blank.gif" class="border_preview_none_color" alt="blank" />
-                    {$lang->quotation_border_style_list[0]}
-                </label>
-            </div>
-            <div>
-                <input type="radio" name="border_style" value="solid" id="border_style_solid" checked="true" />
-                <label for="border_style_solid">
-                    <img src="./images/border_solid.gif" class="border_preview_color" id="border_style_solid_icon" alt="solid" />
-                    {$lang->quotation_border_style_list[1]}
-                </label>
-            </div>
-            <div>
-                <input type="radio" name="border_style" value="dotted" id="border_style_dotted" />
-                <label for="border_style_dotted">
-                    <img src="./images/border_dotted.gif" class="border_preview_color" id="border_style_dotted_icon" alt="dotted" />
-                    {$lang->quotation_border_style_list[2]}
-                </label>
-            </div>
-            <div>
-                <input type="radio" name="border_style" value="left_solid" id="border_style_left_solid" />
-                <label for="border_style_left_solid">
-                    <img src="./images/border_left_solid.gif" class="border_preview_color" id="border_style_left_solid_icon" alt="left solid"/>
-                    {$lang->quotation_border_style_list[3]}
-                </label>
-            </div>
-            <div>
-                <input type="radio" name="border_style" value="left_dotted" id="border_style_left_dotted" />
-                <label for="border_style_left_dotted">
-                    <img src="./images/border_left_dotted.gif" class="border_preview_color" id="border_style_left_dotted_icon" alt="left dotted"/>
-                    {$lang->quotation_border_style_list[4]}
-                </label>
-            </div>
-        </div>
-
-        <div class="header">{$lang->quotation_border_thickness}</div>
-        <div class="body"><input type="text" class="editor_input" id="border_thickness" value="1" />px</div>
-
-        <div class="header">{$lang->quotation_border_color}</div>
-        <div class="body">
-            <div class="editor_color_box">
-            <script type="text/javascript">
-                printColor("border", "{$tpl_path}/images/blank.gif");
-            </script>
-        </div>
-        <div class="editor_color_input">
-            <table border="0" cellspacing="0">
-            <tr>
-                <td><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></td>
-                <td>#</td>
-                <td><input type="text" id="border_color_input" size="6" maxlength="6" class="editor_input" value="88EE22" onkeyup="manual_select_color('border',this)"/></td>
-            </tr>
-            </table>
-            </div>
-        </div>
-
-        <div class="header">{$lang->quotation_bg_color}</div>
-        <div class="body">
-            <div class="editor_color_box">
-                <script type="text/javascript">
-                    printColor("bg", "{$tpl_path}/images/blank.gif");
-                </script>
-            </div>
-            <div class="editor_color_input">
-                <table border="0" cellspacing="0">
-                <tr>
-                    <td><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></td>
-                    <td>#</td>
-                    <td><input type="text" id="bg_color_input" size="6" maxlength="6" class="editor_input" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></td>
-                </tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="editor_button_area">
-            <input type="button" value="{$lang->cmd_insert}" class="editor_button" onclick="insertQuotation()" />
-            <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();" />
-        </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->quotation_bg_color}</th>
+            <td colspan="5">
+                <div class="editor_color_box">
+                    <script type="text/javascript">
+                        printColor("bg", "{$tpl_path}/images/blank.gif");
+                    </script>
+                </div>
+                <ul class="buttonLeft">
+                    <li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
+                    <li>#<input type="text" id="bg_color_input" size="6" maxlength="6" class="inputTypeText" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
+                </ul>
+            </td>
+        </tr>
+        </table>
     </div>
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><a href="#" onclick="insertQuotation()" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+
 </form>

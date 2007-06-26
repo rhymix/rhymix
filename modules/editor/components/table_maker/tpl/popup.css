@@ -1,82 +1,8 @@
 @charset "utf-8";
-.editor_window {
-    width:530px;
-    text-align:center;
-}
 
-.editor_title {
-    font-size:10pt;
-    font-weight:bold;
-    clear:both;
-    height:20px;
-    background-color:#555555;
-    color:#EFEFEF;
-    vertical-align:middle;
-    padding-top:5px;
-    border-bottom:1px solid #000000;
-    text-align:center;
-}
-
-.editor_option {
-    text-align:center;
-    padding:5px 0px 5px 0px;
-    background-color:#EEEEEE;
-    margin-bottom:5px;
-}
-
-.item_area {
-    clear:left;
-}
-
-.header {
-    width:85px;
-    float:left;
-    text-align:right;
-    font-weight:bold;
-    margin:5px;
-    font-size:9pt;
-    overflow:hidden;
-}
-
-.body {
-    overflow:hidden;
-    width:140px;
-    float:left;
-    text-align:left;
-    margin:5px 5px 5px 0px;
-    font-size:9pt;
-}
-
-.wide_body {
-    width:380px;
-    float:left;
-    clear:right;
-    text-align:left;
-    margin:5px 10px 5px 0px;
-    font-size:9pt;
-}
-.table_input {
-    width:40px;
-    height:13px;
-    font-size:9pt;
-    border:1px solid #AAAAAA;
-}
-
-.editor_button_area {
-    clear:both;
-    text-align:center;
-    height:25px;
-    padding-top:3px;
-    background-color:#EEEEEE;
-}
-
-.editor_button {
-    margin-top:4px;
-    background-color:#FFFFFF;
-    border:1px solid #AAAAAA;
-    height:18px;
-    font-size:8pt;
-}
+#table_option { border:1px solid #EEEEEE; padding:.5em; color:#555555; font-weight:bold; }
+#table_option input { vertical-align:middle; }
+#table_option label { margin-left:.3em; margin-right:2em; }
 
 img.color_icon {
     width:14px;
@@ -119,8 +45,4 @@ img.bg_preview_color {
     border:1px solid #DDDDDD;
     padding:2px;
     margin-bottom:3px;
-}
-
-.editor_color_input {
-    clear:both;
 }

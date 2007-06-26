@@ -5,72 +5,81 @@
 <form action="./" method="get" onsubmit="return procFilter(this, generate_code);" id="fo_widget">
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
 
-<div class="widget_detail_info_window">
-
-    <div class="widget_title">{$lang->cmd_generate_code}</div>
-
-    <div class="widget_description">{$lang->about_widget_code}</div>
-
-    <div class="widget_header">{$lang->widget}</div>
-    <div class="widget_body">{$widget_info->title} ver {$widget_info->version}</div>
-
-    <div class="widget_header">{$lang->skin}</div>
-    <div class="widget_body">
-        <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
-            <option value="">&nbsp;</option>
-        <!--@foreach($skin_list as $key => $val)-->
-            <option value="{$key}">{$val->title} ({$key})</option>
-        <!--@end-->
-        </select>
+    <div id="popHeadder">
+        <h1>{$lang->cmd_generate_code}</h1>
     </div>
 
-    <div id="colorset_area" style="display:none">
-        <div class="widget_header">{$lang->colorset}</div>
-        <div class="widget_body">
-            <select name="colorset" id="widget_colorset">
-            </select>
-        </div>
-    </div>
+    <div id="popBody">
 
-    <!--@foreach($widget_info->extra_var as $id => $var)-->
-    <div class="widget_header">{$var->name}</div>
+        <div class="infoText">{nl2br($lang->about_widget_code)}</div>
 
-    <div class="widget_body">
-        <!--@if($var->type == "text")-->
-        <input type="text" name="{$id}" value="" />
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->widget}</th>
+            <td>{$widget_info->title} ver {$widget_info->version}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->skin}</th>
+            <td>
+                <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+                    <option value="">&nbsp;</option>
+                <!--@foreach($skin_list as $key => $val)-->
+                    <option value="{$key}">{$val->title} ({$key})</option>
+                <!--@end-->
+                </select>
 
-        <!--@elseif($var->type == "textarea")-->
-        <textarea name="{$id}"></textarea>
-
-        <!--@elseif($var->type == "select")-->
-            <select name="{$id}">
-            <!--@foreach($var->options as $key => $val)-->
-            <option value="{$key}">{$val}</option>
-            <!--@end-->
-            </select>
-
-        <!--@elseif($var->type == "mid_list")-->
-
-            <div style="height:150px;overflow:scroll">
-            <!--@foreach($mid_list as $key => $val)-->
-                <div class="widget_mid_list">
-                    <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
-                    <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                <div id="colorset_area" style="display:none">
+                    <div class="header">{$lang->colorset}</div>
+                    <div class="footer">
+                        <select name="colorset" id="widget_colorset">
+                        </select>
+                    </div>
                 </div>
-            <!--@end-->
-            </div>
+            </td>
+        </tr>
+            <!--@foreach($widget_info->extra_var as $id => $var)-->
+        <tr>
+            <th scope="row">{$var->name}</th>
+            <td>
+                <!--@if($var->type == "text")-->
+                <input type="text" name="{$id}" value="" class="inputTypeText" />
+
+                <!--@elseif($var->type == "textarea")-->
+                <textarea name="{$id}" class="inputTypeTextArea w100"></textarea>
+
+                <!--@elseif($var->type == "select")-->
+                <select name="{$id}">
+                    <!--@foreach($var->options as $key => $val)-->
+                    <option value="{$key}">{$val}</option>
+                    <!--@end-->
+                </select>
+
+                <!--@elseif($var->type == "mid_list")-->
+                    <!--@foreach($mid_list as $key => $val)-->
+                        <div class="widget_mid_list">
+                            <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
+                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                        </div>
+                    <!--@end-->
+                <!--@end-->
+                <p class="clear">{$var->description}</p>
+            </td>
+        </tr>
         <!--@end-->
-    </div>
-    <div class="widget_var_description">{$var->description}</div>
-    <!--@end-->
-
-    <div class="widget_button_area">
-        <input type="submit" value="{$lang->cmd_generate_code}" class="widget_button" />
-        <input type="button" onclick="self.close()" value="{$lang->cmd_close}" class="widget_button" />
+        <tr>
+            <th>{$lang->generated_code}</th>
+            <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w100"></textarea></td>
+        </tr>
+        </table>
     </div>
 
-    <div class="widget_code_area"><textarea readonly="true" id="widget_code"></textarea></div>
-
-</div>
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_generate_code}" class="editor_button" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
+        </ul>
+    </div>
 
 </form>

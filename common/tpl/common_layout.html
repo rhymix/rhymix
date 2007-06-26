@@ -17,7 +17,7 @@
     <!--@end--><!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
     <!--@end--><link rel="stylesheet" href="./common/css/default.css" type="text/css" />
     <!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}" type="text/css" />
-    <!--@end--><!--@if(strpos($act,'Admin')!==false)--><link rel="stylesheet" href="./modules/admin/tpl/css/admin.css" type="text/css" />
+    <!--@end--><!--@if($module=='admin' || strpos($act,'Admin')>0)--><link rel="stylesheet" href="./modules/admin/tpl/css/admin.css" type="text/css" />
     <!--@end--><script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";

@@ -1,42 +1,47 @@
 <!--%import("css/editor.css")-->
 <!--%import("filter/setup_component.xml")-->
 
-<div class="component_setup_window">
-    <form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
-        <input type="hidden" name="component_name" value="{$component_name}" />
-        <table border="1" width="100%">
+<div id="popHeadder">
+    <h1>{$lang->cmd_setup}</h1>
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
+<input type="hidden" name="component_name" value="{$component_name}" />
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
         <tr>
-            <th>{$lang->component_name}</th>
+            <th scope="row">{$lang->component_name}</th>
             <td>{$component->component_name} ver. {$component->version}</td>
         </tr>
         <tr>
-            <th>{$lang->component_author}</th>
+            <th scope="row">{$lang->component_author}</th>
             <td>{$component->author->name}</td>
         </tr>
         <tr>
-            <th>{$lang->component_link}</th>
+            <th scope="row">{$lang->component_link}</th>
             <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
-        </tr>
-        <tr>
-        <th colspan="2">{$lang->component_extra_vars}</th>
         </tr>
 
         <!--@foreach($component->extra_vars as $key => $val)-->
         <tr>
-            <th rowspan="2">{$val->title}</th>
-            <td><input type="text" name="{$key}" value="{$val->value}" class="editor_input" /></td>
-        </tr>
-        <tr>
-            <td>{$val->description}</td>
-        </tr>
-        <!--@end-->
-
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="{$lang->cmd_apply}" class="editor_button" />
-                <input type="button" value="{$lang->cmd_close}" class="editor_button" onclick="window.close();"/>
+            <th scope="row">{$val->title}</th>
+            <td>
+                <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText" />
+                <p>{$val->description}</p>
             </td>
         </tr>
+        <!--@end-->
         </table>
-    </form>
-</div>
+    </div>
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_apply}" class="editor_button" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
+        </ul>
+    </div>
+
+</form>

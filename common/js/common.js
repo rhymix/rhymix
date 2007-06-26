@@ -239,6 +239,16 @@ function svc_folder_close(id) {
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
+
+    if(xGetElementById('popBody')) {
+        if(xHeight('popBody')>600) {
+            xGetElementById('popBody').style.overflowY = 'scroll';
+            xGetElementById('popBody').style.overflowX = 'hidden';
+            xHeight('popBody', 600);
+        }
+
+    }
+
     var w = xWidth("popup_content");
     var h = xHeight("popup_content");
 

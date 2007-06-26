@@ -19,7 +19,7 @@ IE7 Only
 .inputTypeText { border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4;}
-.inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff;}
+.inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff; font-size:1em; }
 .inputTypeDate { width:10em; border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 
 /* Internet Explorer 6 PNG Bug Fix */
@@ -107,6 +107,8 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .tableType1 td.blue a { color:#158692;}
 .tableType1 td.red a { color:#c95b53;}
 .tableType1 td.red { color:#c95b53;}
+.tableType1 td .blue { color:#158692;}
+.tableType1 td .red { color:#c95b53;}
 
 .tableType2 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%;}
 .tableType2 th { border-top:1px solid #fbfbfb; border-bottom:1px solid #e4e4e4; background:#f5f5f5; padding:10px 10px 10px 2em; font-weight:normal; text-align:left; color:#606060;}
@@ -127,6 +129,8 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .tableType3 td { text-align:center; color:#636363; border-left:1px solid #ededed; padding:10px 10px 7px 10px;}
 .tableType3 td.colSpan { text-align:left; border-top:1px solid #ededed;}
 .tableType3 td a { color:#1d1d1d;}
+.tableType3 th a.blue { color:#158692;}
+.tableType3 th a.red { color:#c95b53;}
 .tableType3 .tahoma { font-size:.9em; font-family:Tahoma;}
 .tableType3 .tahoma a { font-size:1em;}
 .tableType3 td.left { text-align:left; }
@@ -161,10 +165,10 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 /* ----- Popup | Start ----- */
 
 /* popup */
-#popHeadder { width:500px; height:40px; background:url(../images/popupTopBg.png) repeat-x left top;}
+#popHeadder { width:620px; height:40px; background:url(../images/popupTopBg.png) repeat-x left top; }
 #popHeadder h1 { padding:13px 0 0 19px; height:27px; background:url(../images/popupTopBgEnd.png) no-repeat right top; font-size:1.2em; color:#d8d8d8;}
-#popBody { padding:1em; background:#ffffff;}
-#popFooter { background:#f7f7f6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; width:100%;}
+#popBody { width:600px; padding:10px; background:#ffffff;}
+#popFooter { width:620px; background:#f7f7f6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; }
 #popFooter .close { position:relative; left:50%; margin-left:-1em; float:left;}
 
 #popBody .tableType5 { border:1px solid #c1c0bd; border-left:none; border-right:none; width:100%;}

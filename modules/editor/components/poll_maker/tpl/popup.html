@@ -7,65 +7,95 @@
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
 
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
 <form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;">
-    <input type="hidden" name="component" value="{$component_info->component_name}" />
-    <input type="hidden" name="method" value="insertPoll" />
-    <input type="hidden" name="poll_srl" value="" />
-    <input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
+<input type="hidden" name="component" value="{$component_info->component_name}" />
+<input type="hidden" name="method" value="insertPoll" />
+<input type="hidden" name="poll_srl" value="" />
+<input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
 
-    <div class="editor_window">
-        <div class="editor_title">{$component_info->title} ver. {$component_info->version} <a href="#" onclick="popopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo');return false;"><img src="../../../tpl/images/about_component.gif" title="{$lang->about_component}" alt="{$lang->about_component}" class="about_component_icon" border="0" /></a></div>
+    <div id="popBody">
 
-        <div class="poll_header">
-            {$lang->poll_stop_date} : 
-            <select name="stop_year">
-                <!--@for($i=date("Y");$i<date("Y")+10;$i++)-->
-                <option value="{$i}">{$i}</option>
-                <!--@end-->
-            </select>
-            <select name="stop_month">
-                <!--@for($i=1;$i<=12;$i++)-->
-                <option value="{$i}" <!--@if($i==date("m", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
-                <!--@end-->
-            </select>
-            <select name="stop_day">
-                <!--@for($i=1;$i<=31;$i++)-->
-                <option value="{$i}" <!--@if($i==date("d", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
-                <!--@end-->
-            </select>
-            <input type="button" class="editor_button" value="{$lang->cmd_add_poll}" onclick="doPollAdd(); return false;" />
-        </div>
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->poll_stop_date}</th>
+            <td>
+                <ul class="buttonLeft nospace">
+                    <li>
+                        <select name="stop_year">
+                            <!--@for($i=date("Y");$i<date("Y")+10;$i++)-->
+                            <option value="{$i}">{$i}</option>
+                            <!--@end-->
+                        </select>
+                    </li>
+                    <li>
+                        <select name="stop_month">
+                            <!--@for($i=1;$i<=12;$i++)-->
+                            <option value="{$i}" <!--@if($i==date("m", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
+                            <!--@end-->
+                        </select>
+                    </li>
+                    <li>
+                        <select name="stop_day">
+                            <!--@for($i=1;$i<=31;$i++)-->
+                            <option value="{$i}" <!--@if($i==date("d", time()+60*60*24*30))-->selected="true"<!--@end-->>{$i}</option>
+                            <!--@end-->
+                        </select>
+                    </li>
+                    <li><a href="#" onclick="doPollAdd(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_add_poll}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                </ul>
+            </td>
+        </tr>
+        </table>
 
-        <div id="poll_source" class="poll_box" style="display:none">
+        <div id="poll_source" class="clear" style="display:none">
 
-            <div class="title_box">
-                <div class="header">{$lang->poll_title}</div>
-                <div class="body"><input type="text" name="title_tidx" class="editor_input" /></div>
+            <table cellspacing="0" class="tableType5 gap1 clear">
+            <col width="100" />
+            <col />
+            <tr>
+                <th scope="row">{$lang->poll_title}</th>
+                <td><input type="text" name="title_tidx" class="inputTypeText w100" /></td>
+            </tr>
+
+            <tr>
+                <th scope="row">{$lang->poll_item} 1</th>
+                <td><input type="text" name="item_tidx_1" class="inputTypeText w100" /></td>
+            </tr>
+
+            <tr>
+                <th scope="row">{$lang->poll_item} 2</th>
+                <td><input type="text" name="item_tidx_2" class="inputTypeText w100" /></td>
+            </tr>
+            </table>
+
+            <div class="pollButton clear">
+                <ul class="buttonLeft nospace">
+                    <li><a href="#" onclick="doPollAddItem(this); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_add_item}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="#" onclick="doPollDelete(this); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_del_poll}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                </ul>
+                <ul class="buttonRight nospace">
+                    <li><label>{$lang->poll_chk_count}</label></li>
+                    <li><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></li>
+                </ul>
             </div>
 
-            <div class="item_box">
-                <div class="sub_header">{$lang->poll_item} 1</div>
-                <div class="body"><input type="text" name="item_tidx_1" class="editor_input" /></div>
-            </div>
-
-            <div class="item_box">
-                <div class="sub_header">{$lang->poll_item} 2</div>
-                <div class="body"><input type="text" name="item_tidx_2" class="editor_input" /></div>
-            </div>
-
-            <div class="sub_button_area">
-                <div><input type="button" value="{$lang->cmd_add_item}" class="editor_button" onclick="doPollAddItem(this); return false;" /></div>
-                <div>
-                    - {$lang->poll_chk_count} : <input type="text" name="checkcount_tidx" value="1" class="editor_small_input" />
-                </div>
-                <div><input type="button" value="{$lang->cmd_del_poll}" class="editor_button" onclick="doPollDelete(this); return false;" /></div>
-            </div>
-        </div>
-
-        <div class="editor_button_area">
-            <input type="submit" class="editor_button" value="{$lang->cmd_submit}" />
-            <input type="button" class="editor_button" value="{$lang->cmd_close}" onclick="window.close(); return false;" />
         </div>
 
     </div>
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><span class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+
+
 </form>
