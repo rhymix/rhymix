@@ -183,9 +183,8 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     xTop(obj, y);
     xRemoveEventListener(document,'mousedown',checkMousePosition);
 
-    try {
-        fixAdminLayoutFooter();
-    } catch(e) {
+    if(xGetElementById('cBody')) {
+        xHeight('cBody', y + xHeight(obj) + 50);
     }
 }
 

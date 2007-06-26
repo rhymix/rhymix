@@ -194,8 +194,8 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 /* ----- Category Manager | Start ----- */
 #category_list { padding:.5em 0 .5em 0; margin-bottom:2em; }
 #category_list .checkbox { margin-top:1em; border:0px; }
-#menu_zone_info { position:absolute; top:0px; left:0px; width:600px; background-color:#FFFFFF; z-index:999; border:1px solid #888888; padding:10px; display:none;}
-#category_info { position:absolute; top:0px; left:0px; width:400px; background-color:#FFFFFF; z-index:999; border:1px solid #888888; padding:10px; display:none;}
+#menu_zone_info { position:absolute; top:0px; left:0px; width:700px; background-color:#FFFFFF; z-index:999; border:3px solid #888888; padding:10px; display:none;}
+#category_info { position:absolute; top:0px; left:0px; width:500px; background-color:#FFFFFF; z-index:999; border:3px solid #888888; padding:10px; display:none;}
 /* ----- Category Manager | End ----- */
 
 .widget_item { margin-bottom:.5em; }
