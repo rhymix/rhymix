@@ -82,6 +82,11 @@ function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     xLeft(obj, x);
     xTop(obj, y);
     xRemoveEventListener(document,'mousedown',checkMousePosition);
+
+    try {
+        fixAdminLayoutFooter();
+    } catch(e) {
+    }
 }
 
 /* 메뉴 아이템 입력후 */ 

@@ -182,6 +182,11 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     xLeft(obj, x);
     xTop(obj, y);
     xRemoveEventListener(document,'mousedown',checkMousePosition);
+
+    try {
+        fixAdminLayoutFooter();
+    } catch(e) {
+    }
 }
 
 /* 카테고리 아이템 입력후 */ 
