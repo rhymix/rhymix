@@ -29,7 +29,7 @@
 
 <!--@foreach($category_list as $category_srl => $category_info)-->
 <tr>
-    <td class="tahoma">{htmlspecialchars($category_info->title)}</td>
+    <td>{htmlspecialchars($category_info->title)}</td>
     <td class="tahoma">{zdate($category_info->last_update,"Y-m-d H:i:s")}</td>
     <td class="tahoma blue"><a href="{getUrl('category_srl',$category_info->category_srl)}">{$lang->cmd_modify}</a></td>
     <td>

@@ -78,9 +78,20 @@
          * @brief 메뉴에서 선택할 수 있는 mid목록을 보여줌
          **/
         function dispMenuAdminMidList() {
-            // mid 목록을 구해옴
             $oModuleModel = &getModel('module');
-            $mid_list = $oModuleModel->getMidList();
+
+            // 모듈 카테고리 목록을 구함
+            $module_category = $oModuleModel->getModuleCategories();
+            Context::set('module_category', $module_category);
+
+            // 모듈 목록을 구함 
+            $module_list = $oModuleModel->getModuleList();
+            Context::set('module_list', $module_list);
+
+            // mid 목록을 구해옴
+            $args->module_category_srl = Context::get('module_category_srl');
+            $args->module = Context::get('target_module');
+            $mid_list = $oModuleModel->getMidList($args);
             Context::set('mid_list', $mid_list);
 
             // 메뉴을 팝업으로 지정

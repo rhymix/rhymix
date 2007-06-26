@@ -187,6 +187,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 #popBody .tableType5 td .w100 { width:100%; display:block;}
 #popBody .tableType5 td .checkbox { margin:-3px; margin-bottom:1em; }
 #popBody .tableType5 td p { line-height:1.4em;}
+#popBody .tableType5 td.blue a { color:#158692;}
 #popBody .tableType5 .borderBottomNone { border-bottom:none;}
 
 /* ----- Popup | End ----- */
@@ -210,3 +211,5 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .title { font-size:1.5em; font-weight:bold; margin-top:2em; margin-bottom:.5em; color:#666666; }
 .desc { font-size:1em; margin-bottom:.5em; color:#ADADAD;}
 
+.w700 { width:700px; }
+.w5 { width:5em; }

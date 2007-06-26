@@ -16,7 +16,7 @@
             <form action="./" method="get" onsubmit="return doChangeCategory(this);">
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
-                <select name="category">
+                <select name="module_category_srl">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
@@ -33,7 +33,7 @@
         <th scope="col">{$lang->skin}</th>
         <th scope="col">{$lang->admin_id}</th>
         <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_move}</th>
+        <th scope="col">{$lang->cmd_view}</th>
         <th scope="col">{$lang->cmd_delete}</th>
     </tr>
 </thead>
@@ -48,13 +48,13 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{$val->mid}</a></td>
+        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></td>
         <td>{htmlspecialchars($val->browser_title)}</td>
         <td class="tahoma">{$val->is_default}</td>
         <td class="tahoma">{$val->skin}</td>
         <td class="tahoma">{$val->admin_id}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma blue"><a href="#" onclick="winopen('{getUrl('','mid',$val->mid)}'); return false;">{$lang->cmd_move}</a></td>
+        <td class="tahoma blue"><a href="#" onclick="winopen('{getUrl('','mid',$val->mid)}'); return false;">{$lang->cmd_view}</a></td>
         <td class="tahoma red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->

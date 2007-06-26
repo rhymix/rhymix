@@ -1,19 +1,67 @@
 <!--%import("js/menu_admin.js")-->
-<div style="width:450px;height:500px;overflow:scroll;">
-    <table border="1" width="400">
-    <tr>
-        <th>{$lang->mid}</th>
-        <th>{$lang->title}</th>
-        <th>{$lang->cmd_select}</th>
-    </tr>
+<div id="popHeadder" class="w700">
+    <h1>{$lang->cmd_search_mid}</h1>
+</div>
+
+<div id="popBody" class="w700">
+    <table cellspacing="0" class="tableType5">
+    <thead>
+      <tr>
+          <th scope="row">
+              <form action="./" method="get">
+                  <input type="hidden" name="module" value="{$module}" />
+                  <input type="hidden" name="act" value="{$act}" />
+                  <input type="hidden" name="target_module" value="{$target_module}" />
+                  <select name="module_category_srl" class="w5">
+                      <option value="">{$lang->module_category}</option>
+                      <!--@foreach($module_category as $key => $val)-->
+                      <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
+                      <!--@end-->
+                  </select>
+                  <input type="submit" name="go_button" value="GO" class="buttonTypeGo" />
+              </form>
+          </th>
+          <th scope="row">
+              <form action="./" method="get">
+                  <input type="hidden" name="module" value="{$module}" />
+                  <input type="hidden" name="act" value="{$act}" />
+                  <input type="hidden" name="module_category_srl" value="{$module_category_srl}" />
+                  <select name="target_module" class="w5">
+                      <option value="">{$lang->module}</option>
+                      <!--@foreach($module_list as $key => $val)-->
+                      <option value="{$val->module}" <!--@if($target_module ==$val->module)-->selected="true"<!--@end-->>{$val->module}</option>
+                      <!--@end-->
+                  </select>
+                  <input type="submit" name="go_button" value="GO" class="buttonTypeGo" />
+              </form>
+          </th>
+          <th scope="row">{$lang->mid}</th>
+          <th scope="row">{$lang->title}</th>
+          <th scope="row">{$lang->cmd_select}</th>
+      </tr>
+    </thead>
     <tbody>
     <!--@foreach($mid_list as $key => $val)-->
     <tr>
-        <td>{$key}</td>
+        <td>
+            <!--@if(!$val->module_category_srl)-->
+                {$lang->not_exists}
+            <!--@else-->
+                {$module_category[$val->module_category_srl]->title}
+            <!--@end-->
+        </td>
+        <td class="tahoma">{$val->module}</td>
+        <td class="tahoma">{$key}</td>
         <td>{$val->browser_title}</td>
-        <td><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
+        <td class="blue"><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
     </tr>
     <!--@end-->
     </tbody>
     </table>
+</div>
+
+<div id="popFooter" class="w700">
+    <ul class="buttonRight nospace">
+        <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
+    </ul>
 </div>

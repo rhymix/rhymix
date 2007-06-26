@@ -5,6 +5,10 @@
     <columns>
         <column name="*" />
     </columns>
+    <conditions>
+        <condition operation="equal" column="module_category_srl" var="module_category_srl" />
+        <condition operation="equal" column="module" var="module" pipe="and" />
+    </conditions>
     <navigation>
         <index var="sort_index" default="mid" order="asc" />
     </navigation>

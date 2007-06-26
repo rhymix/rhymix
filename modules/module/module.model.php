@@ -112,8 +112,8 @@
         /**
          * @brief DB에 생성된 mid목록을 구해옴
          **/
-        function getMidList() {
-            $output = executeQuery('module.getMidList');
+        function getMidList($args = null) {
+            $output = executeQuery('module.getMidList', $args);
             if(!$output->toBool()) return $output;
 
             $list = $output->data;
