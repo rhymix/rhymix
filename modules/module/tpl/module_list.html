@@ -25,7 +25,7 @@
 <tbody>
 <!--@foreach($module_list as $key => $val)-->
     <tr>
-        <td>
+        <td class="left blue">
             <!--@if($val->admin_index_act)-->
                 <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
             <!--@else-->
