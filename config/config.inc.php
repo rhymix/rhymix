@@ -15,7 +15,7 @@
      * 0 : files/_debug_message.php 에 연결하여 출력
      * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최상단에 주석으로 표시
      **/
-    define('__DEBUG_OUTPUT__', 0);
+    define('__DEBUG_OUTPUT__', 1);
 
     /**
      * @brief 디버깅 메세지 출력
@@ -24,7 +24,7 @@
      * 2 : 1 + DB 쿼리
      * 3 : 모든 로그
      **/
-    define('__DEBUG__', 3);
+    define('__DEBUG__', 1);
 
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
