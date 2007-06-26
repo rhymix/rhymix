@@ -10,6 +10,7 @@
     $lang->cmd_denied_word = "금지단어 목록";
 
     // 일반 단어
+    $lang->spamfilter = "스팸필터";
     $lang->denied_ip = "금지 IP";
     $lang->interval = "스팸 처리 간격";
     $lang->limit_count = "제한수";
@@ -28,6 +29,4 @@
     $lang->msg_alert_denied_word = '"%s"는 사용 금지된 단어입니다';
     $lang->msg_alert_registered_denied_ip = '금지 IP에 등록되셔서 정상적인 활동에 제한을 받게 되셨습니다. 문의는 사이트 관리자에게 해주시기 바랍니다'; 
     $lang->msg_alert_trackback_denied = '한 글에는 하나의 트랙백만 허용이 됩니다';
-
-    $lang->admin_module_title = "스팸필터";
 ?>

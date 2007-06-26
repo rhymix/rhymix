@@ -5,6 +5,7 @@
      * @brief  설문조사 (poll) 모듈의 기본 언어팩
      **/
 
+    $lang->poll = "설문조사"; 
     $lang->poll_stop_date = "설문조사 종료일";
     $lang->poll_join_count = "참가자";
     $lang->poll_checkcount = "필수 선택 항목수";
@@ -33,6 +34,4 @@
         'regdate' => '등록일',
         'ipaddress' => 'IP 주소',
     );
-
-    $lang->admin_module_title = "설문조사"; 
 ?>

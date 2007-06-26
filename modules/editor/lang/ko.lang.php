@@ -5,6 +5,7 @@
      * @brief  위지윅에디터(editor) 모듈의 기본 언어팩
      **/
 
+    $lang->editor = "위지윅 에디터";
     $lang->component_name = "컴포넌트";
     $lang->component_version = "버전";
     $lang->component_author = "제작자 ";
@@ -21,8 +22,6 @@
     $lang->msg_component_is_last_order = '선택하신 컴포넌트는 마지막에 위치하고 있습니다';
     $lang->msg_load_saved_doc = "자동저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하시면 자동저장본은 사라집니다";
     $lang->msg_auto_saved = "자동 저장되었습니다";
-
-    $lang->admin_module_title = "위지윅 에디터";
 
     $lang->cmd_disable = "비활성";
     $lang->cmd_enable = "활성";

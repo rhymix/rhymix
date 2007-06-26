@@ -5,6 +5,7 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->member = '회원';
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
     $lang->default_group_1 = "준회원";
@@ -161,6 +162,4 @@
     $lang->about_member_default = '회원가입시 기본 그룹으로 설정됩니다';
 
     $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입폼 관리등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입폼관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
-
-    $lang->admin_module_title = "회원";
 ?>

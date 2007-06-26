@@ -29,6 +29,4 @@
         "아래 레이아웃의 코드를 직접 수정후 저장하시면 서비스에 반영이 됩니다.
         꼭 미리보기를 하신 후에 저장을 하세요.
         제로보드XE의 템플릿 문법은 <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">[제로보드XE 템플릿]</a> 을 참고하시면 됩니다.";
-
-    $lang->admin_module_title = '레이아웃';
 ?>

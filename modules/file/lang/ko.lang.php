@@ -5,6 +5,7 @@
      * @brief  첨부파일(file) 모듈의 기본 언어팩
      **/
 
+    $lang->file = '첨부파일';
     $lang->file_name = '파일이름';
     $lang->file_size = '파일크기';
     $lang->download_count = '다운로드 받은 수';
@@ -35,7 +36,4 @@
         'regdate' => '등록일',
         'ipaddress' => 'IP 주소',
     );
-
-    $lang->admin_module_title = "첨부파일"; 
-
 ?>
