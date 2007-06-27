@@ -1,54 +1,47 @@
 <!-- colorset의 값에 따라 css 파일을 import 한다 -->
-<!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("normal/style.css")-->
+<!--@if($colorset=="default"||!$colorset)-->
+    <!--%import("css/default.css")-->
 <!--@end-->
 
 <!--%import("./filter/login.xml")-->
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<div class="login_widget">
-    <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
-        <div class="login_box">
-            <div class="header">{$lang->user_id}</div>
-            <div class="body">
-                <div><input type="text" name="user_id" id="login_form_user_id" class="input" /></div>
-                <div>
-                    <input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" />
-                    <label for="chk_remember_user_id">{$lang->remember_user_id}</label>
-                </div>
+<div class="box_login fc_01" id="box_login">
+  <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
+      <div class="form_field">
+            <div>
+                <input name="user_id" type="text" class="input" id="login_form_user_id" />
             </div>
+            <div>
+                <input name="password" type="password" class="input" />
+            </div>
+      </div>
 
+      <div><input type="submit" value=" " class="submit" /></div>
+  </form>
+  <ul class="option">
+    <li><input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" class="checkbox" /></li>
+    <li><label for="chk_remember_user_id">{$lang->remember_user_id}</label></li>
+    <li><a href="{getUrl('act','dispMemberSignUpForm')}" class="fc_02 btn">{$lang->cmd_signup}</a></li>
+  </ul>
+  <div class="clear"></div>
 
-            <div class="header">{$lang->password}</div>
-            <div class="body"><input type="password" name="password" class="input" /></div>
-        </div>
+  <script type="text/javascript">
+      xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
+  </script>
+</div>
 
-        <div class="button_area">
-            <input type="submit" value="{$lang->cmd_login}" class="submit_button" /> 
-            <input type="button" value="{$lang->cmd_signup}" class="signup_button" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}';return false;" />
-        </div>
-    </form>
-
-    <script type="text/javascript">
-        xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
-    </script>
-
-    <!-- OpenID -->
-    <!--@if($member_config->enable_openid=='Y')-->
-    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
-        <table border="1">
-        <tr>
-            <th>{$lang->openid}</th>
-        </tr>
-        <tr>
-            <td>
-                <input type="text" name="user_id" tabindex="1" class="openid_user_id" />
-                <input type="submit" value="{$lang->cmd_login}" tabindex="2" />
-            </td>
-        </tr>
-        </table>
-    </form>
-    <!--@end-->
-
+<!-- OpenID -->
+<!--@if($member_config->enable_openid=='Y')-->
+<div class="openid_login fc_01" id="box_login">
+  <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" >
+      <div class="buttonWrite">
+        <ul>
+          <li><input type="text" name="user_id" class="openid_user_id" /></li>
+          <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
+        </ul>
+      </div>
+  </form>
+  <!--@end-->
 </div>

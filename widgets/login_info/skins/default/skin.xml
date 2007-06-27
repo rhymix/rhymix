@@ -6,7 +6,7 @@
     <description xml:lang="ko">newest_document의 기본 스킨</description>
   </maker>
   <colorset>
-    <color name="normal">
+    <color name="default">
       <title xml:lang="ko">기본</title>
     </color>
   </colorset>

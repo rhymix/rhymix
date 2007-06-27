@@ -1,47 +1,18 @@
 <!-- colorset의 값에 따라 css 파일을 import 한다 -->
-<!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("normal/style.css")-->
+<!--@if($colorset=="default"||!$colorset)-->
+    <!--%import("css/default.css")-->
 <!--@end-->
 
 <!--%import("./filter/logout.xml")-->
-<div class="login_widget">
-
-    <!-- 닉네임 + 로그아웃 -->
-    <div class="top_box">
-        <div class="logout">
-            <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
-        </div>
-        <div class="nick_name">
-            <div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div>
-        </div>
-    </div>
-
-    <div class="info_box">
-
-        <!-- 정보 수정 링크 -->
-        <div class="member_info">
-            <a href="#" onclick="location.href='{getUrl('act','dispMemberInfo')}';return false;">{$lang->cmd_view_member_info}</a>
-        </div>
-
-        <div class="friend_list">
-            <a href="#" onclick="popopen('{getUrl('','module','member','act','dispMemberFriend')}','sendMessage');return false;">{$lang->cmd_view_friend}</a>
-        </div>
-
-        <div class="message_box">
-            <a href="#" onclick="location.href='{getUrl('act','dispMemberMessages')}';return false;">{$lang->cmd_view_message_box}</a>
-        </div>
-
-        <!-- 관리자일 경우 관리자 링크 -->
-        <!--@if($logged_info->is_admin=="Y")-->
-            <div class="link_admin">
-                <a href="#" onclick="winopen('./?module=admin');return false;">{$lang->cmd_management}</a>
-            </div>
-        <!--@end-->
-
-        <!-- 최종 록그인 시간 -->
-        <div class="last_login">
-            {$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}
-        </div>
-
-    </div>
+<div class="box_login fc_01">
+  <div class="logout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></div>
+  <div class="login_user"><div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div></div>
+  <div class="hr_dot_01"></div>
+  <div class="item profile"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></div>
+  <div class="item friend"><a href="{getUrl('act','dispMemberFriend')}">{$lang->cmd_view_friend}</a></div>
+  <div class="item message"><a href="{getUrl('act','dispMemberMessages')}">{$lang->cmd_view_message_box}</a></div>
+  <!--@if($logged_info->is_admin=="Y")-->
+  <div class="item administrative"><a href="#" onclick="winopen('./?module=admin');return false;">{$lang->cmd_management}</a></div>
+  <!--@end-->
+  <div class="item lastlogin">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
 </div>
