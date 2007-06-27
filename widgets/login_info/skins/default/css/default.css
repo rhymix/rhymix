@@ -2,9 +2,9 @@
 .fc_02 { color:#9A9893; }
 
 .box_login { border:solid 3px #D5D8DB; background:#FFFFFE; margin-bottom:10px;}
-.box_login .form_field { float:left; margin:9px 9px 0 9px; height:55px; }
+.box_login .form_field { float:left; margin:9px 9px 0 9px; _margin:3px 3px 0 3px; height:55px; }
 .box_login .form_field div { margin-top:2px; margin-bottom:3px; }
-.box_login input.submit { width:45px; height:45px; background:url(../images/default/login_btn_submit.gif) no-repeat; border:none; margin:9px 0 0 0; cursor:pointer; }
+.box_login input.submit { width:45px; height:45px; background:url(../images/default/login_btn_submit.gif) no-repeat; border:none; margin:9px 0 0 0; _margin:5px 0 0 0; cursor:pointer; }
 .box_login .input { width:140px; background-color: #ffffff;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6;  padding:2px; height:14px; margin:0px; cursor:text; color:#666666;}
 .box_login ul.option { clear:both; height:20px; margin:0 0 0 9px;}
 .box_login ul.option li { float:left; }
