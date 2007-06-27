@@ -8,7 +8,7 @@
 // For details, see: http://creativecommons.org/licenses/LGPL/2.1/
 // This must be a path to a blank image. That's all the configuration you need.
 
-if (typeof blankImg == 'undefined') var blankImg = '../img/blank.gif'; // 1x1px 짜리 투명 이미지(blank.gif)의 경로를 변경.
+if (typeof blankImg == 'undefined') var blankImg = '../images/blank.gif'; // 1x1px 짜리 투명 이미지(blank.gif)의 경로를 변경.
 var f = 'DXImageTransform.Microsoft.AlphaImageLoader';
 
 function filt(s, m)
