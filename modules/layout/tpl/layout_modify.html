@@ -27,7 +27,10 @@
 <!--@end-->
 </table>
 
-<form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, update_layout_info)">
+<!--<form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_info)" enctype="multipart/form-data" target="hidden_iframe">-->
+<form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<input type="hidden" name="module" value="layout" />
+<input type="hidden" name="act" value="procLayoutAdminUpdate" />
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="layout" value="{$selected_layout->layout}" />
 
@@ -51,6 +54,18 @@
 
         <!--@elseif($var->type == "textarea")-->
             <textarea name="{$name}" class="inputTypeTextArea w100">{htmlspecialchars($var->value)}</textarea>
+
+        <!--@elseif($var->type=="image")-->
+
+          <!--@if($var->value)-->
+          <div>
+              <img src="{$var->value}" /><br />
+              <input type="checkbox" name="del_{$name}" value="Y" id="del_{$name}" class="checkbox" />
+              <label for="del_{$name}">{$lang->cmd_delete}</label>
+          </div>
+          <!--@end-->
+
+          <input type="file" name="{$name}" value="" />
 
         <!--@elseif($var->type == "select")-->
             <select name="{$name}">
@@ -92,3 +107,5 @@
         <!--@end-->
     </ul>
 </form>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
