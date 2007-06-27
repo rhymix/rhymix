@@ -24,7 +24,7 @@
         <tr>
             <th scope="row">{$lang->skin}</th>
             <td>
-                <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
+                <select name="skin" onchange="doDisplaySkinColorset(this);return false;" id="widget_skin">
                     <option value="">&nbsp;</option>
                 <!--@foreach($skin_list as $key => $val)-->
                     <option value="{$key}">{$val->title} ({$key})</option>
