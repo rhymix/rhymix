@@ -31,9 +31,17 @@
                 <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
                     <!--@if($val['selected'])-->
                         {@ $menu_1st = $val }
+                        <!--@if($val['open_window']=='Y')-->
+                        <div class="item i_se"><a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a></div>
+                        <!--@else-->
                         <div class="item i_se"><a href="{$val['href']}">{$val['text']}</a></div>
+                        <!--@end-->
                     <!--@else-->
+                        <!--@if($val['open_window']=='Y')-->
+                        <div class="item i_nm" onmouseover="this.className = 'item i_ov';" onmouseout="this.className = 'item i_nm';"><a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a></div>
+                        <!--@else-->
                         <div class="item i_nm" onmouseover="this.className = 'item i_ov';" onmouseout="this.className = 'item i_nm';"><a href="{$val['href']}">{$val['text']}</a></div>
+                        <!--@end-->
                     <!--@end-->
                 <!--@end--><!--@end-->
                 <!-- main_menu 1차 끝 -->
@@ -66,22 +74,38 @@
 
                         <div class="item <!--@if($idx<1)-->last<!--@end-->">
                         <!--@if($val['selected'])-->
-                            <a href="{$val['href']}" class="i_se">{$val['text']}</a>
+                            <!--@if($val['open_window']=='Y')-->
+                                <a href="#" onclick="window.open('{$val['href']}');return false;" class="i_se">{$val['text']}</a>
+                            <!--@else-->
+                                <a href="{$val['href']}" class="i_se">{$val['text']}</a>
+                            <!--@end-->
 
                             <!-- main_menu 3차 시작 -->
                             <!--@if($val['list'])-->
                                 <div class="depthin">
                                 <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
                                     <!--@if($v['selected'])-->
-                                        <div class="item"><a href="{$v['href']}" class="i_se">{$v['text']}</a></div>
+                                        <!--@if($val['open_window']=='Y')-->
+                                            <div class="item"><a href="#" onclick="window.open('{$v['href']}');return false;" class="i_se">{$v['text']}</a></div>
+                                        <!--@else-->
+                                            <div class="item"><a href="{$v['href']}" class="i_se">{$v['text']}</a></div>
+                                        <!--@end-->
                                     <!--@else-->
-                                        <div class="item"><a href="{$v['href']}">{$v['text']}</a></div>
+                                        <!--@if($val['open_window']=='Y')-->
+                                            <div class="item"><a href="#" onclick="window.open('{$v['href']}');return false;">{$v['text']}</a></div>
+                                        <!--@else-->
+                                            <div class="item"><a href="{$v['href']}">{$v['text']}</a></div>
+                                        <!--@end-->
                                     <!--@end-->
                                 <!--@end--><!--@end-->
                                 </div>
                             <!--@end-->
                         <!--@else-->
-                            <a href="{$val['href']}">{$val['text']}</a>
+                            <!--@if($val['open_window']=='Y')-->
+                                <a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a>
+                            <!--@else-->
+                                <a href="{$val['href']}" class="i_se">{$val['text']}</a>
+                            <!--@end-->
                         <!--@end-->
                         </div>
                     <!--@end--><!--@end-->
