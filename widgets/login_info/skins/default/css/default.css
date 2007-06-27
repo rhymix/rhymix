@@ -15,15 +15,15 @@
 .openid_login { clear:both; height:38px; border:3px solid #D5D8DB; background-color:#FFFFFF; margin:0 0 10px 0; }
 .openid_login .openid_user_id { width:110px; _width:100px; background: url(../images/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:16px; line-height:1em; vertical-align:middle; margin-bottom:.5em; color:#666666;}
 
-.openid_login .buttonTypeA { display:block; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
-.openid_login .buttonTypeA:hover { text-decoration:none;}
-.openid_login .buttonTypeA img { vertical-align:middle;}
-.openid_login .buttonTypeA input { border:none; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
-.openid_login .buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/default/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.openid_login .buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/default/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.openid_login .buttonTypeA .icon { margin:0 .2em;}
-.openid_login .buttonWrite ul { text-align:center; clear:both; display:block;}
-.openid_login .buttonWrite li { margin-top:.5em; float:left; margin-left:.3em;}
+.openid_login .wButtonTypeA { display:block; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
+.openid_login .wButtonTypeA:hover { text-decoration:none;}
+.openid_login .wButtonTypeA img { vertical-align:middle;}
+.openid_login .wButtonTypeA input { border:none; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
+.openid_login .wButtonTypeA .leftCap { width:2px; height:24px; background:url(../images/default/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
+.openid_login .wButtonTypeA .rightCap { width:2px; height:24px; background:url(../images/default/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
+.openid_login .wButtonTypeA .icon { margin:0 .2em;}
+.openid_login .wButtonWrite ul { text-align:center; clear:both; display:block;}
+.openid_login .wButtonWrite li { margin-top:.5em; float:left; margin-left:.3em;}
 
 .box_login .item { background:url(../images/default/bul_01.gif) no-repeat left; height:16px; padding:3px 0px 0px 20px; margin-left:5px; margin-top:2px; }
 .box_login .item a { color:#666666; }
