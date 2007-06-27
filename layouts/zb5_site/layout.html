@@ -16,7 +16,9 @@
 <div id="layout_zx">
 
     <div class="lo_top">
-        <div class="logo"><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="logo" border="0" /></a></div>
+        <div class="logo">
+            <!--@if($layout_info->logo_image)--><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="logo" border="0" /></a><!--@end-->
+        </div>
     </div>
 
     <div class="lo_menu">
