@@ -13,7 +13,7 @@
 .box_login .clear { clear:both; }
 
 .openid_login { clear:both; height:38px; border:3px solid #D5D8DB; background-color:#FFFFFF; margin:0 0 10px 0; }
-.openid_login .openid_user_id { width:120px; _width:110px; background: url(../images/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:16px; line-height:1em; vertical-align:middle; margin-bottom:.5em; color:#666666;}
+.openid_login .openid_user_id { width:110px; _width:100px; background: url(../images/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:16px; line-height:1em; vertical-align:middle; margin-bottom:.5em; color:#666666;}
 
 .openid_login .buttonTypeA { display:block; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
 .openid_login .buttonTypeA:hover { text-decoration:none;}
