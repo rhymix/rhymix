@@ -36,7 +36,7 @@
             <title xml:lang="ko">홈 페이지 URL</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
         </var>
-        <var name="copyright_text" type="text">
+        <var name="copyright_text" type="textarea">
             <title xml:lang="ko">카피라이트</title>
             <description xml:lang="ko">사이트 하단에 표시될 카피라이트를 입력해주세요.</description>
         </var>
