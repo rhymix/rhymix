@@ -92,6 +92,14 @@
                 $this->_set('logged_info', NULL);
             }
 
+            //////////////////
+            //$logged_info->is_admin = 'Y';
+            //$_SESSION['logged_info'] = $logged_info;
+            //$_SESSION['is_logged'] = true;
+            //$this->_set('is_logged', true);
+            //$this->_set('logged_info', $logged_info);
+            //////////////////
+
             // rewrite 모듈사용 상태 체크
             if(file_exists('./.htaccess')&&in_array('mod_rewrite',apache_get_modules())) $this->allow_rewrite = true;
 

@@ -32,7 +32,7 @@ IE7 Only
 
 /* ----- cBody | Start ----- */
 
-h3 { position:relative; padding:22px 0 7px 0; border-bottom:2px solid #f2250d; background:url(../images/h3.gif) no-repeat 1px 24px; font-size:1.4em; margin-bottom:10px; text-indent:24px; z-index:99;}
+h3 { padding:22px 0 7px 0; border-bottom:2px solid #f2250d; background:url(../images/h3.gif) no-repeat 1px 24px; font-size:1.4em; margin-bottom:10px; text-indent:24px; z-index:99;}
 h3 .gray { color:#9d9d9d;}
 .pass { background:url(../images/h4.gif) no-repeat .5em center; padding-left:1em; color:#606060; font-size:1em;}
 .header4 { overflow:hidden;}
@@ -93,7 +93,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
 /* tableStyle */
-.infoText { border:1px solid #f2f2f0; margin-bottom:12px; background:#f9f9f6; padding:1.2em; color:#7b7972; font-size:.9em; line-height:1.4em;}
+.infoText { clear:both; border:1px solid #f2f2f0; margin-bottom:12px; background:#f9f9f6; padding:1.2em; color:#7b7972; font-size:.9em; line-height:1.4em;}
 .gap1 { margin-top:1em; }
 .tableSummaryType1 { font:bold .8em Tahoma; color:#a0a0a0; margin-bottom:10px;}
 .tableSummaryType1 strong { font:bold 1em Tahoma; color:#ff1a00;}
