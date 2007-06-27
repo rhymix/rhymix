@@ -35,6 +35,7 @@ body { margin:0; }
 
 #layout_zx .submenu { padding:10px; }
 #layout_zx .submenu .submenu_title  { background:url(../images/red/smenu_title.gif) no-repeat; height:23px; font-weight:bold; font-family:Tahoma; font-size:11px; color:#FFFFFF; padding:6px 10px 0px 10px; }
+#layout_zx .submenu .submenu_title  a { text-decoration:none; color:#FFFFFF; }
 #layout_zx .submenu .a_item { background:#FFFFFF; padding:9px; border:solid 1px #E0E8EE; border-top-width:0px; padding-top:2px;}
 #layout_zx .submenu .item   { border-bottom:solid 1px #E0E8EE; margin-top:2px; padding-top:3px; padding-bottom:5px; }
 #layout_zx .submenu .depthin       { clear:both; padding:5px 0px 2px 15px; }
