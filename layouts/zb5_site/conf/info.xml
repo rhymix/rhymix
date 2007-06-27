@@ -12,17 +12,33 @@
             <title xml:lang="ko">컬러셋</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <options name="blue">
-                <title xml:lang="ko">파란색 </title>
+                <title xml:lang="ko">파란색</title>
                 <value>blue</value>
+            </options>
+            <options name="green">
+                <title xml:lang="ko">녹색</title>
+                <value>green</value>
+            </options>
+            <options name="red">
+                <title xml:lang="ko">빨간색 </title>
+                <value>red</value>
+            </options>
+            <options name="purple">
+                <title xml:lang="ko">보라색</title>
+                <value>purple</value>
             </options>
         </var>
         <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 100px인 투명이미지가 가장 어울립니다)</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
-            <description xml:lang="ko">로고나 제목을 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+            <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+        </var>
+        <var name="copyright_text" type="text">
+            <title xml:lang="ko">카피라이트</title>
+            <description xml:lang="ko">사이트 하단에 표시될 카피라이트를 입력해주세요.</description>
         </var>
     </extra_vars>
     <menus>
