@@ -1,0 +1,101 @@
+<!-- 레이아웃과 연동될 css 파일 import -->
+<!--%import("css/layout.css")-->
+
+<!-- 상단 로고 및 main_menu 1차 출력 -->
+<div class="layout_top">
+    <div class="layout_logo">
+        <a href="{$layout_info->index_url}"><!--@if(!$layout_info->top_title)-->top title<!--@else-->{$layout_info->top_title}<!--@end--></a>
+    </div>
+
+    <div class="layout_first_menu">
+
+        <!-- main_menu 1차 시작 -->
+        <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+
+            <!--@if($val['selected'])-->
+                {@ $class_name = 'first_menu_selected'}
+                {@ $second_menu_list = $val['list']}
+            <!--@else-->
+                {@ $class_name = 'first_menu'}
+            <!--@end-->
+
+            <span class="{$class_name}">
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
+
+        <!--@end--><!--@end-->
+        <!-- main_menu 1차 끝 -->
+
+    </div>
+</div>
+
+<!-- 왼쪽 2차 메뉴 및 로그인과 기타 위젯 부분 -->
+<div class="layout_left">
+    <!-- 로그인 위젯 -->
+    <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="default" colorset="default" />
+
+    <!-- main_menu 2차 시작 -->
+    <div class="layout_second_menu">
+        <!--@foreach($second_menu_list as $key => $val)--><!--@if($val['text'])-->
+
+            <!--@if($val['selected'])-->
+                {@ $class_name = 'second_menu_selected'}
+            <!--@else-->
+                {@ $class_name = 'second_menu'}
+            <!--@end-->
+
+            <span class="{$class_name}">
+                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+            </span>
+
+            <!--@if($val['selected'])-->
+                <!-- main_menu 3차 시작 -->
+                <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
+                    <!--@if($v['selected'])-->
+                        {@ $class_name = 'third_menu_selected'}
+                    <!--@else-->
+                        {@ $class_name = 'third_menu'}
+                    <!--@end-->
+
+                    <span class="{$class_name}">
+                        <a href="#" onclick="return move_url('{$v['href']}','{$v['open_window']}');">{$v['text']}</a>
+                    </span>
+                <!--@end--><!--@end-->
+            <!--@end-->
+
+        <!--@end--><!--@end-->
+        <!-- main_menu 2차 끝 -->
+    </div>
+
+    <!--@if($grant->is_admin)-->
+    <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
+    <div class="layout_admin">
+        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a> /
+        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_edit}</a>
+    </div>
+    <!--@end-->
+</div>
+
+<!-- 컨텐츠 출력 부분 -->
+<div class="layout_content">
+    <div id="content">{$content}</div>
+
+    <!-- bottom_menu 메뉴 시작 -->
+    <div class="layout_bottom">
+        <!--@foreach($bottom_menu->list as $key => $val)-->
+
+        <!--@if($val['selected'])-->
+            {@ $class_name = 'bottom_menu_selected'}
+        <!--@else-->
+            {@ $class_name = 'bottom_menu'}
+        <!--@end-->
+
+        <span class="{$class_name}">
+            <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+        </span>
+
+        <!--@end-->
+    </div>
+
+</div>
+

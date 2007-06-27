@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout version="0.1">
+    <title xml:lang="ko">견본 레이아웃 (PHP 메뉴) </title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">
+            가장 기본적인 기능으로 이루어진 견본 레이아웃입니다.
+            main_menu, bottom_menu 2개의 메뉴로 구성되어 있으며 각 메뉴의 출력은 php 코드로 하게 됩니다.
+            레이아웃을 만들때 js menu 보다는 복잡하지만 자유도가 높습니다.
+        </description>
+    </author>
+    <extra_vars>
+        <var name="colorset" type="select">
+            <title xml:lang="ko">컬러셋</title>
+            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+            <options name="red">
+                <title xml:lang="ko">적색</title>
+                <value>red</value>
+            </options>
+            <options name="blue">
+                <title xml:lang="ko">청색</title>
+                <value>blue</value>
+            </options>
+        </var>
+        <var name="top_title" type="text">
+            <title xml:lang="ko">상단 제목</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
+        </var>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <description xml:lang="ko">로고나 제목을 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="main_menu" default="true">
+            <title xml:lang="ko">주 메뉴</title>
+            <maxdepth>2</maxdepth>
+        </menu>
+        <menu name="bottom_menu">
+            <title xml:lang="ko">하단 메뉴 </title>
+            <maxdepth>1</maxdepth>
+        </menu>
+    </menus>
+</layout>
