@@ -45,6 +45,7 @@
             unset($extra_vars->layout_srl);
             unset($extra_vars->layout);
             unset($extra_vars->title);
+            unset($extra_vars->apply_layout);
 
             $args = Context::gets('layout_srl','title');
 
@@ -60,7 +61,7 @@
                 }
 
                 // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
-                if(count($menu_srl_list)) {
+                if(count($menu_srl_list) && Context::get('apply_layout')=='Y') {
                     // 해당 메뉴와 레이아웃 값을 매핑
                     $oMenuAdminController = &getAdminController('menu');
                     $oMenuAdminController->updateMenuLayout($args->layout_srl, $menu_srl_list);
