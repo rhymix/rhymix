@@ -72,55 +72,40 @@
             }
 
             // extra_vars의 type이 image일 경우 별도 처리를 해줌
-            if($extra_vars) {
-                foreach($extra_vars as $vars) {
+            if($layout_info->extra_var) {
+                foreach($layout_info->extra_var as $name => $vars) {
                     if($vars->type!='image') continue;
 
-                    $image_obj = $obj->{$vars->name};
+                    $image_obj = $extra_vars->{$name};
+                    $extra_vars->{$name} = $layout_info->extra_var->{$name}->value;
 
                     // 삭제 요청에 대한 변수를 구함
-                    $del_var = $obj->{"del_".$vars->name};
-                    unset($obj->{"del_".$vars->name});
+                    $del_var = $extra_vars->{"del_".$name};
+                    unset($extra_vars->{"del_".$name});
                     if($del_var == 'Y') {
-                        @unlink($module_info->{$vars->name});
-                        continue;
-                    }
-
-                    // 업로드 되지 않았다면 이전 데이터를 그대로 사용
-                    if(!$image_obj['tmp_name']) {
-                        $obj->{$vars->name} = $module_info->{$vars->name};
+                        $extra_vars->{$name} = '';
+                        @unlink($extra_vars->{$name});
                         continue;
                     }
 
                     // 정상적으로 업로드된 파일이 아니면 무시
-                    if(!is_uploaded_file($image_obj['tmp_name'])) {
-                        unset($obj->{$vars->name});
-                        continue;
-                    }
+                    if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
 
                     // 이미지 파일이 아니어도 무시
-                    if(!eregi("\.(jpg|jpeg|gif|png)$", $image_obj['name'])) {
-                        unset($obj->{$vars->name});
-                        continue;
-                    }
+                    if(!eregi("\.(jpg|jpeg|gif|png)$", $image_obj['name'])) continue;
 
                     // 경로를 정해서 업로드
                     $path = sprintf("./files/attach/images/%s/", $args->layout_srl);
 
                     // 디렉토리 생성
-                    if(!FileHandler::makeDir($path)) return false;
+                    if(!FileHandler::makeDir($path)) continue;
 
                     $filename = $path.$image_obj['name'];
 
                     // 파일 이동
-                    if(!move_uploaded_file($image_obj['tmp_name'], $filename)) {
-                        unset($obj->{$vars->name});
-                        continue;
-                    }
+                    if(!move_uploaded_file($image_obj['tmp_name'], $filename)) continue;
 
-                    // 변수를 바꿈
-                    unset($obj->{$vars->name});
-                    $obj->{$vars->name} = $filename;
+                    $extra_vars->{$name} = $filename;
                 }
             }
             

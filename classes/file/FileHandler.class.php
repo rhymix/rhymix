@@ -86,6 +86,7 @@
             $path_list = explode('/', $path_string);
 
             for($i=0;$i<count($path_list);$i++) {
+                if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';
                 if(!is_dir($path)) {
                     @mkdir($path, 0707);
