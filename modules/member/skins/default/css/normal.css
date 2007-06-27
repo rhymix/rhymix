@@ -25,6 +25,7 @@ div#memberModule .smallBox .help li { display:inline; padding:0 .3em 0 .6em; bac
 div#memberModule .smallBox .help li:first-child { background:none;}
 div#memberModule .smallBox .help li.first-child { _background:none;}
 div#memberModule .smallBox .help li a { font-size:11px; color:#54564b;}
+div#memberModule .smallBox .about_openid  { font-size:11px; color:#54564b; margin:1em; }
 div#memberModule .smallBox .text { color:#54564b; text-align:center; padding:4em 2em 5em 2em;}
 div#memberModule .smallBox .text p { margin-bottom:.5em;}
 div#memberModule .smallBox .button { position:relative; background:#f5f5f3; border-top:1px solid #eaebe7; overflow:hidden; padding:.5em; height:2em;}
