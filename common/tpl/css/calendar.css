@@ -1,84 +1,22 @@
-.calendar_box {
-    float:right;
-    width:347px;
-}
+@charset "utf-8";
 
-.calendar_input_year {
-    border:0px;
-    border-bottom:1px solid #EEEEEE;
-    background-color:#FFFFFF;
-    font-size:8pt;
-    height:12px;
-    width:28px;
-    margin-right:10px;
-    font-weight:bold;
-}
-
-.calendar_input_month {
-    border:0px;
-    border-bottom:1px solid #EEEEEE;
-    background-color:#FFFFFF;
-    font-size:8pt;
-    height:12px;
-    width:15px;
-    margin-left:10px;
-    font-weight:bold;
-}
-
-.calendar_btn {
-    border:0px;
-    margin-left:10px;
-}
-
-.calendar_title {
-    padding:2px 0px 2px 0px;
-    border:1px solid #DDDDDD;
-    margin:5px 6px 3px 6px;
-}
-
-.calendar_title td {
-    font-weight:bold;
-}
-
-.calendar_list {
-    padding:2px;
-    margin:3px;
-}
-
-.calendar_cell {
-    float:left;
-    width:40px;
-    height:40px;
-    border:1px solid #EEEEEE;
-    margin:3px;
-    text-align:center;
-    cursor:pointer;
-}
-
-.calendar_cell_on {
-    float:left;
-    width:40px;
-    height:40px;
-    border:1px solid #444444;
-    margin:3px;
-    text-align:center;
-    cursor:pointer;
-}
-
-.calendar_cell div {
-    margin-top:12px;
-}
-
-.calendar_list .sunday {
-    color:red;
-    font-weight:bold;
-}
-
-.calendar_list .saturday {
-    color:blue;
-}
-
-.calendar_list .today {
-    font-weight:bold;
-    background-color:#D9FAF8;
-}
+#popBody .calendar { width:350px; border:1px solid #c1c0bd; border-left:none; border-right:none; background:#f5f5f5; overflow:hidden; position:relative;}
+#popBody .calendar .yymm { width:143px; float:left;}
+#popBody .calendar .yymm .yy { padding:9px 0 8px 0; text-align:center; border-bottom:1px solid #ededed; margin:0 15px; font:bold 1.2em Tahoma; color:#444444;}
+#popBody .calendar .yymm .mm { margin:0 15px; border-top:1px solid #ffffff; border-bottom:1px solid #ededed; padding:10px 0 5px 0; text-align:center;}
+#popBody .calendar .yymm .mm p { color:#969696; font:1.6em "Times New Roman";}
+#popBody .calendar .yymm .mm span { font:4em "Times New Roman"; color:#158692; vertical-align:middle;}
+#popBody .calendar .yymm .go { padding:7px 0 0 0; margin:0 15px; text-align:center; border-top:1px solid #ffffff;}
+#popBody .calendar .yymm .go * { vertical-align:middle;}
+#popBody .calendar .yymm .go .inputTypeY { border:1px solid #c9c9c9; text-align:center; font:.9em Tahoma; color:#282828; width:31px; height:16px;}
+#popBody .calendar .yymm .go .inputTypeM { border:1px solid #c9c9c9; text-align:center; font:.9em Tahoma; color:#282828; width:20px; height:16px;}
+#popBody .calendar .yymm .left { vertical-align:middle; margin-right:14px;}
+#popBody .calendar .yymm .right { vertical-align:middle; margin-left:14px;}
+#popBody .calendar .yymm .left img,
+#popBody .calendar .yymm .right img { vertical-align:middle; position:relative; top:2px;}
+#popBody .calendar .dd { float:left; width:207px; background:#ffffff; border-left:10px solid #ffffff;}
+#popBody .calendar .dd td { border-bottom:1px solid #ededed; height:30px; text-align:center; color:#636363; font:.9em Tahoma;}
+#popBody .calendar .dd td strong { text-decoration:underline;}
+#popBody .calendar .dd td.sun { color:#c95b53;}
+#popBody .calendar .dd .first { height:35px;}
+#popBody .calendar .dd .last td { height:35px; border-bottom:none;}
