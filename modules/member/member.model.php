@@ -52,7 +52,7 @@
             $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
 
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
-            if($mid) {
+            if($mid && strpos('Member', Context::get('act')<1)) {
                 // 아이디로 검색
                 $menu_str = Context::getLang('cmd_view_own_document');
                 $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
