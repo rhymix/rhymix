@@ -822,10 +822,17 @@
         /**
          * @brief 내용의 에디터 컴포넌트 코드를 변환
          **/
+        function _fixQuotation($matches) {
+            $key = $matches[1];
+            $val = $matches[2];
+            if(substr($val,0,1)!='"') $val = '"'.$val.'"';
+            return sprintf('%s=%s', $key, $val);
+        }
+
         function _transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
-            $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ]*)/i', array($this, _fixQuotation), $buff);
             $buff = str_replace("&","&amp;",$buff);
 
             // 위젯에서 생성된 코드 (img, div태그내에 editor_widget코드 존재)의 parameter를 추출

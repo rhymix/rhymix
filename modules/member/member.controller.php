@@ -673,7 +673,7 @@
 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-            if($config->image_mark == 'N') return new Object(0,'success');
+            if($config->image_name == 'N') return new Object(0,'success');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
