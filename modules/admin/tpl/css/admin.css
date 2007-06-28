@@ -15,6 +15,8 @@ IE7 Only
 
 */
 
+body { margin:0; }
+
 /* Input Style Definition */
 .inputTypeText { border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 .inputTypeText:hover,
