@@ -5,7 +5,7 @@
    * @brief  한국어 언어팩 (기본적인 내용만 수록)
    **/
 
-  $lang->edit->fontname = '폰트';
+  $lang->edit->fontname = '글꼴';
   $lang->edit->fontsize = '크기';
   $lang->edit->use_paragraph = '문단기능';
   $lang->edit->fontlist = array(

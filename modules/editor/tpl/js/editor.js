@@ -194,7 +194,7 @@ function editorGetSelectedHtml(upload_target_srl) {
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         var html = range.htmlText;
-        range.select();
+        //range.select();
         return html;
     } else {
         var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
