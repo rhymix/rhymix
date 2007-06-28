@@ -29,6 +29,8 @@ a { text-decoration:none;}
 a:hover { text-decoration:underline;}
 address { font-style:normal;}
 
+.iePngFix { behavior:url(./common/js/iePngFix.htc);} 
+
 /* Input Style Definition */
 .inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#ffffff;}
 .inputTypeText:hover,
