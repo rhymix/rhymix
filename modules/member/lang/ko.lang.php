@@ -87,6 +87,7 @@
     $lang->cmd_view_own_document = '작성글 보기';
     $lang->cmd_send_email = '메일 보내기';
     $lang->cmd_send_message = '쪽지 보내기';
+    $lang->cmd_reply_message = '쪽지 답장';
     $lang->cmd_view_friend = '친구 보기';
     $lang->cmd_add_friend = '친구 등록';
     $lang->cmd_view_message_box = '쪽지함 보기';
@@ -97,6 +98,7 @@
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
 
     $lang->msg_no_message = '쪽지가 없습니다';
+    $lang->message_received = '쪽지가 왔습니다';
 
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';

@@ -123,6 +123,11 @@ function completeSendMessage(ret_obj) {
     window.close();
 }
 
+function doSendMessage(member_srl) {
+    var url = current_url.setQuery('module','member').setQuery('act','dispMemberSendMessage').setQuery('receiver_srl',member_srl);
+    popopen(url, 'sendMessage');
+}
+
 /* 쪽지 모두 선택 */
 function doCheckAll(obj, fo_id) {
     var fo_obj = xGetElementById(fo_id);

@@ -1,42 +1,41 @@
-<!--#include("./common_header.html")-->
 <!--%import("filter/send_message.xml")-->
+<!--%import("js/member.js")-->
 
-<div class="smallBox w600pop">
-	<div class="header">
-        <h3>{$lang->cmd_send_message}</h3>
-    </div>
-
-    <div class="boardWrite">
-        <form action="./" method="get" onsubmit="return procFilter(this, send_message)" class="boardEditor">
-        <input type="hidden" name="content" value="" />
-        <input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
-
-            <fieldset>
-                <div class="to">
-                    <label class="to">{$lang->receiver}</label>
-                    <div class="to member_{$receiver_info->member_srl}">{$receiver_info->nick_name} ({$receiver_info->user_id})</div>
-                </div>
-                <div class="title">
-                    <label for="message_title" class="title">제 목</label>
-                    <input type="text" name="title" id="message_title" class="inputTypeText" />
-                </div>
-
-                {$editor}
-
-            </fieldset>
-
-            <div class="button">
-                <ul>
-                    <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-                    <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" /><input type="submit" value="{$lang->cmd_send_message}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-                </ul>
-            </div>
-
-        </form>
-    </div>
+<div id="popHeadder">
+    <h1>{$lang->cmd_send_message}</h1>
 </div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, send_message)">
+<input type="hidden" name="content" value="" />
+<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+        <tr>
+            <th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
+            <td><div class="member_{$receiver_info->member_srl}">{$receiver_info->nick_name} ({$receiver_info->user_id})</div></td>
+        </tr>
+        <tr>
+            <th scope="row">제 목</th>
+            <td><input type="text" name="title" id="message_title" class="inputTypeText w100" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">{$editor}</td>
+        </tr>
+        </table>
+    </div>
+
+    <div id="popFooter">
+        <ul class="buttonRight nospace">
+            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_send_message}" class="editor_button" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
+            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        </ul>
+    </div>
+
+</form>
 
 <script type="text/javascript">
     xAddEventListener(window, 'load', function() { xGetElementById("message_title").focus(); });
 </script>
-<!--#include("./common_footer.html")-->

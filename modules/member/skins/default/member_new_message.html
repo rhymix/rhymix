@@ -1,33 +1,38 @@
-<!--#include("./common_header.html")-->
+<!--%import("js/member.js")-->
+<!--@if($message)-->
+<div id="popHeadder">
+    <h1>{$lang->message_received}</h1>
+</div>
 
-<div style="width:400px;">
-    <!--@if($message)-->
-    <table border="1">
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
     <tr>
-        <th>
-            {$lang->sender}
-        </th>
+        <th scope="row">{$lang->sender}</th>
         <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
     </tr>
-    <tr>    
-        <th>{$lang->title}</th>
+    <tr>
+        <th scope="row">{$lang->title}</th>
         <td>{htmlspecialchars($message->title)}</td>
     </tr>
     <tr>
         <td colspan="2">{$message->content}</td>
     </tr>
-    <tr>
-        <td colspan="2">
-            <input type="button" value="{$lang->cmd_delete}" onclick="doDeleteMessage('{$message->message_srl}');return false;" />
-            <input type="button" value="{$lang->cmd_store}" onclick="doStoreMessage('{$message->message_srl}');return false;" />
-            <input type="button" value="{$lang->cmd_next}" onclick="location.href=location.href;return false;" />
-        </td>
-    </tr>
     </table>
-    <!--@else-->
-        <script type="text/javascript">
-            window.close();
-        </script>
-    <!--@end-->
 </div>
-<!--#include("./common_footer.html")-->
+
+<div id="popFooter">
+    <ul class="buttonRight nospace">
+        <li><a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_reply_message}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li><a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li><a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_store}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li><a href="#" onclick="location.href=location.href;return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_next}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+    </ul>
+</div>
+
+<!--@else-->
+<script type="text/javascript">
+    window.close();
+</script>
+<!--@end-->
