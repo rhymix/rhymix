@@ -14,14 +14,14 @@ function doDeleteShortCut(selected_module) {
 // footer를 화면 크기에 맞춰 설정
 xAddEventListener(window, 'load', fixAdminLayoutFooter);
 xAddEventListener(window, 'resize', fixAdminLayoutFooter);
-function fixAdminLayoutFooter() {
-    var headerHeight = xHeight(xGetElementById('header'));
-    var bodyHeight = xHeight(xGetElementById('cBody'));
-    var footerHeight = xHeight(xGetElementById('footer'));
+function fixAdminLayoutFooter(height) {
+    var headerHeight = xHeight('header');
+    var bodyHeight = xHeight('cBody');
+    var footerHeight = xHeight('footer');
     var clientHeight = xClientHeight();
     var newHeight = clientHeight - footerHeight - headerHeight + 71 + 38;
-    if(typeof(editor_height)!='undefined') newHeight += editor_height;
 
     if(newHeight<bodyHeight) newHeight = bodyHeight;
-    xHeight(xGetElementById('cBody'), newHeight);
+    if(typeof(height)=='number') newHeight += height;
+    xHeight('cBody', newHeight);
 }

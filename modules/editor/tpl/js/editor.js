@@ -106,6 +106,8 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // 팝업 윈도우일 경우 드래그바 숨김
     if(resizable == false) xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
+
+    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(height);
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
@@ -556,7 +558,7 @@ function editorChangeHeader(obj,srl) {
 /**
  * iframe 세로 크기 조절 드래그 관련
  **/
-var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0}
+var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
 xAddEventListener(document, 'mousedown', editorDragStart);
 xAddEventListener(document, 'mouseup', editorDragStop);
 function editorDragStart(evt) {
@@ -571,6 +573,8 @@ function editorDragStart(evt) {
     editorDragObj.y = e.pageY;
     editorDragObj.obj = e.target;
     editorDragObj.id = id.substr('editor_drag_bar_'.length);
+    var iframe_obj = editorGetIFrame(editorDragObj.id);
+    editorDragObj.source_height = xHeight(iframe_obj);
 
     xAddEventListener(document, 'mousemove', editorDragMove, false);
     xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
@@ -595,6 +599,9 @@ function editorDragStop(evt) {
 
     xRemoveEventListener(document, 'mousemove', editorDragMove, false);
     xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
+
+    var iframe_obj = editorGetIFrame(editorDragObj.id);
+    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(xHeight(iframe_obj)-editorDragObj.source_height);
 
     editorDragObj.isDrag = false;
     editorDragObj.y = 0;

@@ -2,11 +2,11 @@
 <!--%import("css/editor.css")-->
 <!--%import("./lang")-->
 <!-- 에디터 활성화 -->
-<script type="text/javascript">
-    var editor_height = '{$editor_path}';
+<script type="text/javascript">//<![CDATA[
+    var editor_height = '{$editor_height}';
     var editor_path = "{$editor_path}";
     editorInit("{$upload_target_srl}", {$enable_resizable}, {$editor_height});
-</script>
+//]]></script>
 
 <!-- 자동저장용 폼 -->
 <!--@if($enable_autosave)-->
