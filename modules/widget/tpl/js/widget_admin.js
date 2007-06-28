@@ -103,12 +103,16 @@ function doFillWidgetVars() {
                     node.value = val;
                 break;
             case "checkbox" :
-                    var val = selected_node.getAttribute(name);
+                    var val = selected_node.getAttribute(name).split(',');
                     if(fo_obj[name].length) {
                         for(var i=0;i<fo_obj[name].length;i++) {
                             var v = fo_obj[name][i].value;
-                            //if(val.indexOf(v)!=-1) fo_obj[name][i].checked="true";
-                            if(val == v) fo_obj[name][i].checked="true";
+                            for(var j=0;j<val.length;j++) {
+                                if(v == val[j]) {
+                                    fo_obj[name][i].checked="true";
+                                    break;
+                                }
+                            }
                         }
                     } else {
                         if(fo_obj[name].value == val) fo_obj[name].checked ="true";

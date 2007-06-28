@@ -39,13 +39,13 @@
 
             $document_srl_list = array_keys($flag_list);
 
-            $oDocumentController = &getController('document');
             $document_srl_count = count($document_srl_list);
 
             if($type == 'move') {
+                $oDocumentAdminController = &getAdminController('document');
                 if(!$module_srl) return new Object(-1, 'fail_to_move');
                 else {
-                    $output = $oDocumentController->moveDocumentModule($document_srl_list, $module_srl, $this->module_srl);
+                    $output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $module_srl, $this->module_srl);
                     if(!$output->toBool()) return new Object(-1, 'fail_to_move');
                     $msg_code = 'success_moved';
                     $_SESSION['document_management'][$this->module_srl] = null;
@@ -54,6 +54,7 @@
             } elseif($type =='delete') {
                 $oDB = &DB::getInstance();
                 $oDB->begin();
+                $oDocumentController = &getController('document');
                 for($i=0;$i<$document_srl_count;$i++) {
                     $document_srl = $document_srl_list[$i];
                     $output = $oDocumentController->deleteDocument($document_srl, true);
