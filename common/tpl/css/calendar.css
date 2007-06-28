@@ -1,5 +1,12 @@
 @charset "utf-8";
 
+body { margin:0; padding:0; }
+
+#popup_content { width:370px; overflow:hidden;}
+#popHeadder { width:370px; }
+#popBody { width:350px; }
+#popFooter { width:370px; }
+
 #popBody .calendar { width:350px; border:1px solid #c1c0bd; border-left:none; border-right:none; background:#f5f5f5; overflow:hidden; position:relative;}
 #popBody .calendar .yymm { width:143px; float:left;}
 #popBody .calendar .yymm .yy { padding:9px 0 8px 0; text-align:center; border-bottom:1px solid #ededed; margin:0 15px; font:bold 1.2em Tahoma; color:#444444;}
@@ -16,7 +23,10 @@
 #popBody .calendar .yymm .right img { vertical-align:middle; position:relative; top:2px;}
 #popBody .calendar .dd { float:left; width:207px; background:#ffffff; border-left:10px solid #ffffff;}
 #popBody .calendar .dd td { border-bottom:1px solid #ededed; height:30px; text-align:center; color:#636363; font:.9em Tahoma;}
+#popBody .calendar .dd td a { color:#636363; font:.9em Tahoma;}
 #popBody .calendar .dd td strong { text-decoration:underline;}
+#popBody .calendar .dd td strong a { text-decoration:underline;}
 #popBody .calendar .dd td.sun { color:#c95b53;}
+#popBody .calendar .dd td.sun a { color:#c95b53;}
 #popBody .calendar .dd .first { height:35px;}
 #popBody .calendar .dd .last td { height:35px; border-bottom:none;}

@@ -82,101 +82,104 @@
 </head>
 <body>
 
-<div id="popHeadder">
-    <h1>Calendar</h1>
-</div>
-
-<form action="./calendar.php" method="get">
-<input type="hidden" name="fo_id" value="<?=$fo_id?>"/>
-<input type="hidden" name="callback_func" value="<?=$callback_func?>"/>
-
-    <div id="popBody">
-
-        <div class="calendar">
-            <div class="yymm">
-                <div class="yy">
-                    <a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year&amp;callback_func=<?=$callback_func?>" class="left"><img src="../img/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><?=$year?><a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year&amp;callback_func=<?=$callback_func?>" class="right"><img src="../img/buttonRight2.gif" alt="next" width="11" height="11" /></a>
-                </div>
-                <div class="mm">
-                    <p><?=date("M", mktime(0,0,0,$month,1,$year))?></p>
-                        <a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month&amp;callback_func=<?=$callback_func?>" class="left"><img src="../img/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><span><?=$month?></span><a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month&amp;callback_func=<?=$callback_func?>" class="right"><img src="../img/buttonRight2.gif" alt="next" width="11" height="11" /></a>
-
-                </div>
-
-                <div class="go">
-                    <input type="text" class="inputTypeY" value="<?=$year?>" />
-                    <input type="text" class="inputTypeM" value="<?=$month?>" />
-                    <input name="" type="image" src="../img/buttonGo.gif" alt="Go" />
-                </div>
-            </div>
-
-            <table cellspacing="0" class="dd">
-
-            <?php
-                for($i=0;$i<6;$i++) {
-            ?>
-            <tr class="<?if($i==0){?>first<?}elseif($i==5){?>last<?}?>">
-            <?php
-                    for($j=0;$j<7;$j++) {
-                        $m = $month;
-                        $y = $year;
-
-                        $cell_no = $i*7 + $j;
-
-                        if($cell_no < $start_week) {
-                            $day = $before_month_month_day + $cell_no - $start_week + 1;
-                            $m = $month - 1;
-                            if($m<1) {
-                                $m = 12;
-                                $y = $year - 1;
-                            }
-                        } else {
-
-                            $day = $cell_no - $start_week +1;
-                            $m = $month;
-
-                            if($day > $month_day) {
-                                $day = $day - $month_day;
-                                $m = $month + 1;
-                                if($m>12) {
-                                    $m = 1;
-                                    $y = $year-1;
-                                }
-                            }
-                        }
-
-                        if($j==0) $class_name = "sun";
-                        else $class_name= "";
-
-                        $date = date("Y. m. d", mktime(0,0,0,$m, $day, $y));
-                        $date_str = date("Ymd", mktime(0,0,0,$m, $day, $y));
-
-
-            ?>
-                <td class="<?=$class_name?>">
-                    <?if(date("Ymd")==$date_str){?><strong><?}?>
-                    <?if($day){?><a href="#" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><?=$day?></a><?}else{?>&nbsp;<?}?>
-                    <?if(date("Ymd")==$date_str){?></strong><?}?>
-                </td>
-            <?
-                    }
-            ?>
-            </tr>
-            <?
-                }
-            ?>
-            </table>
-
-        </div>
+<div id="popup_content" >
+    <div id="popHeadder">
+        <h1>Calendar</h1>
     </div>
 
-</form>
-<div id="popFooter">
-    <span class="close"><a href="#" onclick="window.close();" class="buttonTypeA"><img src="../img/blank.gif" alt="" class="leftCap" />close<img src="../img/blank.gif" alt="" class="rightCap" /></a></span>
+    <form action="./calendar.php" method="get">
+    <input type="hidden" name="fo_id" value="<?=$fo_id?>"/>
+    <input type="hidden" name="callback_func" value="<?=$callback_func?>"/>
+
+        <div id="popBody">
+
+            <div class="calendar">
+                <div class="yymm">
+                    <div class="yy">
+                        <a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_year&amp;callback_func=<?=$callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><?=$year?><a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_year&amp;callback_func=<?=$callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="next" width="11" height="11" /></a>
+                    </div>
+                    <div class="mm">
+                        <p><?=date("M", mktime(0,0,0,$month,1,$year))?></p>
+                            <a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=prev_month&amp;callback_func=<?=$callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><span><?=$month?></span><a href="./calendar.php?fo_id=<?=$fo_id?>&amp;year=<?=$year?>&amp;month=<?=$month?>&amp;method=next_month&amp;callback_func=<?=$callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="next" width="11" height="11" /></a>
+
+                    </div>
+
+                    <div class="go">
+                        <input type="text" name="year" class="inputTypeY" value="<?=$year?>" />
+                        <input type="text" name="month" class="inputTypeM" value="<?=$month?>" />
+                        <input type="image" src="./images/buttonGo.gif" alt="Go" />
+                    </div>
+                </div>
+
+                <table cellspacing="0" class="dd">
+
+                <?php
+                    for($i=0;$i<6;$i++) {
+                ?>
+                <tr class="<?if($i==0){?>first<?}elseif($i==5){?>last<?}?>">
+                <?php
+                        for($j=0;$j<7;$j++) {
+                            $m = $month;
+                            $y = $year;
+
+                            $cell_no = $i*7 + $j;
+
+                            if($cell_no < $start_week) {
+                                $day = $before_month_month_day + $cell_no - $start_week + 1;
+                                $m = $month - 1;
+                                if($m<1) {
+                                    $m = 12;
+                                    $y = $year - 1;
+                                }
+                            } else {
+
+                                $day = $cell_no - $start_week +1;
+                                $m = $month;
+
+                                if($day > $month_day) {
+                                    $day = $day - $month_day;
+                                    $m = $month + 1;
+                                    if($m>12) {
+                                        $m = 1;
+                                        $y = $year-1;
+                                    }
+                                }
+                            }
+
+                            if($j==0) $class_name = "sun";
+                            else $class_name= "";
+
+                            $date = date("Y. m. d", mktime(0,0,0,$m, $day, $y));
+                            $date_str = date("Ymd", mktime(0,0,0,$m, $day, $y));
+
+
+                ?>
+                    <td class="<?=$class_name?>">
+                        <?if(date("Ymd")==$date_str){?><strong><?}?>
+                        <?if($day){?><a href="#" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><?=$day?></a><?}else{?>&nbsp;<?}?>
+                        <?if(date("Ymd")==$date_str){?></strong><?}?>
+                    </td>
+                <?
+                        }
+                ?>
+                </tr>
+                <?
+                    }
+                ?>
+                </table>
+
+            </div>
+        </div>
+
+    </form>
+    <div id="popFooter">
+        <span class="close"><a href="#" onclick="window.close();" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />close<img src="./images/blank.gif" alt="" class="rightCap" /></a></span>
+    </div>
 </div>
 
-    <script type="text/javascript">
-        xAddEventListener(window,'load', setFixedPopupSize);
-    </script>
+<script type="text/javascript">
+    xAddEventListener(window,'load', setFixedPopupSize);
+    var _isPoped = true;
+</script>
 </body>
 </html>
