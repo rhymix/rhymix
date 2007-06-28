@@ -65,7 +65,8 @@
 
                 // 메일 보내기 
                 $menu_str = Context::getLang('cmd_send_email');
-                $menu_url = sprintf('%s <%s>', $user_name, $email_address);
+                //$menu_url = sprintf('%s <%s>', $email_address, $user_name);
+                $menu_url = sprintf('%s', $email_address);
                 $menu_list[] = sprintf('%s,%s,sendMailTo(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_sendmail.gif', $menu_str, $menu_url);
             }
 

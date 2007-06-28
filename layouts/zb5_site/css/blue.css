@@ -7,13 +7,13 @@ body { margin:0; }
 #layout_zx { cursor:default; }
 
 #layout_zx .lo_top       { background:url(../images/blue/top_bg.gif) repeat-x; height:100px; }
-#layout_zx .lo_top .logo { background:url(../images/blue/top_bg_center.gif) no-repeat; width:1040px; height:100px; text-align:left; margin-left:10px;}
+#layout_zx .lo_top .logo { background:url(../images/blue/top_bg_center.gif) no-repeat; height:100px; text-align:left; margin-left:10px;}
 
 #layout_zx .lo_menu              { background:url(../images/blue/bg.gif) repeat-x; height:45px; }
 #layout_zx .lo_menu .a_left      { background:url(../images/blue/opening.gif) right no-repeat; height:35px; width:10px;}
 #layout_zx .lo_menu .a_right     { background:url(../images/blue/closing.gif) left  no-repeat; height:35px; }
 
-#layout_zx .lo_menu .a_center       { width:1040px; }
+#layout_zx .lo_menu .a_center       { width:940px; }
 #layout_zx .lo_menu .a_center .a_menu { float:right; }
 #layout_zx .lo_menu .a_center .item { width:80px; height:24px;float:left; text-align:center; padding:11px 5px 0px 5px; overflow:hidden; white-space:nowrap; }
 #layout_zx .lo_menu .a_center .item a { font-family:Tahoma;font-size:11px; font-weight:bold; color:#D8E5EF; }
@@ -27,10 +27,10 @@ body { margin:0; }
 
 #layout_zx .lo_menu .shadow { background:url(../images/blue/shadow.gif) repeat-x; height:10px; }
 
-#layout_zx .main_body_cell { width:1020px; }
-#layout_zx .tbl_home_layout           { margin-top:-10px; table-layout:fixed; width:1020px; }
+#layout_zx .main_body_cell { width:940px; }
+#layout_zx .tbl_home_layout           { margin-top:-10px; table-layout:fixed; }
 #layout_zx .tbl_home_layout .l_left   { width:220px; background:#F6F6F6; }
-#layout_zx .tbl_home_layout .l_center { width:800px; }
+#layout_zx .tbl_home_layout .l_center { width:720px; }
 #layout_zx .tbl_home_layout .l_line   { width:1px; background:#F1F2F3; }
 
 #layout_zx .submenu { padding:10px; }
@@ -47,7 +47,7 @@ body { margin:0; }
 #layout_zx .submenu .last { border-bottom:none; }
 
 #layout_zx .cprt { height:55px; background:url(../images/blue/copyright_bg.gif); text-align:center; }
-#layout_zx .cprt .fixed { width:1000px; margin-left:auto; margin-right:auto; text-align:left; }
+#layout_zx .cprt .fixed { margin-left:auto; margin-right:auto; text-align:left; }
 #layout_zx .cprt .desc { width:500px; margin-left:190px; font-family:Tahoma; font-size:11px; color:#797771; position:absolute; text-align:center; padding-top:20px; }
 #layout_zx .cprt .logo { background:url(../images/blue/copyright_zbxe.gif) no-repeat; width:120px; height:55px; float:right; }
 
