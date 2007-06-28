@@ -107,7 +107,8 @@ function doFillWidgetVars() {
                     if(fo_obj[name].length) {
                         for(var i=0;i<fo_obj[name].length;i++) {
                             var v = fo_obj[name][i].value;
-                            if(val.indexOf(v)!=-1) fo_obj[name][i].checked="true";
+                            //if(val.indexOf(v)!=-1) fo_obj[name][i].checked="true";
+                            if(val == v) fo_obj[name][i].checked="true";
                         }
                     } else {
                         if(fo_obj[name].value == val) fo_obj[name].checked ="true";
