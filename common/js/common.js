@@ -453,6 +453,7 @@ function chkMemberMenu(evt) {
     var params = new Array();
     params["member_srl"] = member_srl;
     params["cur_mid"] = mid;
+    params["cur_act"] = current_url.getQuery('act');
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 
