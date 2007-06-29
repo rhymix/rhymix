@@ -24,7 +24,7 @@
      * 2 : 1 + DB 쿼리
      * 3 : 모든 로그
      **/
-    define('__DEBUG__', 3);
+    define('__DEBUG__', 0);
 
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
