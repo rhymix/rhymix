@@ -75,6 +75,14 @@
         }
 
         /**
+         * @brief 전체 카운터 status 추가
+         **/
+        function insertTotalStatus() {
+            $args->regdate = 0;
+            executeQuery('counter.insertTodayStatus', $args);
+        }
+
+        /**
          * @brief 오늘자 카운터 status 추가
          **/
         function insertTodayStatus($regdate = 0) {
