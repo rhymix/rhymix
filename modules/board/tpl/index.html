@@ -19,7 +19,7 @@
                 <select name="module_category_srl">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
-                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="true"<!--@end-->>{$val->title}</option>
+                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
                     <!--@end-->
                     <option value="">---------</option>
                     <option value="-1">{$lang->cmd_management}</option>

@@ -84,6 +84,7 @@ function doFillWidgetVars() {
     // 스킨과 컬러셋은 기본
     var skin = selected_node.getAttribute("skin");
     var colorset = selected_node.getAttribute("colorset");
+    var widget_sequence = parseInt(selected_node.getAttribute("widget_sequence"),10);
 
     var fo_obj = xGetElementById("fo_widget");
 
@@ -109,13 +110,13 @@ function doFillWidgetVars() {
                             var v = fo_obj[name][i].value;
                             for(var j=0;j<val.length;j++) {
                                 if(v == val[j]) {
-                                    fo_obj[name][i].checked="true";
+                                    fo_obj[name][i].checked=true;
                                     break;
                                 }
                             }
                         }
                     } else {
-                        if(fo_obj[name].value == val) fo_obj[name].checked ="true";
+                        if(fo_obj[name].value == val) fo_obj[name].checked =true;
                     }
                 break;
             case "select" :
@@ -143,4 +144,6 @@ function doFillWidgetVars() {
         doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
     }
 
+    // widget sequence 설정
+    fo_obj.widget_sequence.value = widget_sequence;
 }

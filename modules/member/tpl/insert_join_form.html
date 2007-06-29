@@ -14,7 +14,7 @@
         <td>
             <select name="column_type" onchange="doShowJoinFormValue(this)">
                 <!--@foreach($lang->column_type_list as $key => $val)-->
-                <option value="{$key}" <!--@if($join_form->column_type==$key)-->selected="true"<!--@end-->>{$lang->column_type_list[$key]}</option>
+                <option value="{$key}" <!--@if($join_form->column_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
                 <!--@end-->
             </select>
             <p>{$lang->about_column_type}</p>
@@ -59,14 +59,14 @@
     <tr>
         <th scope="row">{$lang->is_active}</th>
         <td>
-            <input type="checkbox" name="is_active" value="Y" <!--@if($join_form->is_active=='Y')-->checked="true"<!--@end-->/>
+            <input type="checkbox" name="is_active" value="Y" <!--@if($join_form->is_active=='Y')-->checked="checked"<!--@end-->/>
             {$lang->about_active}
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->is_required}</th>
         <td>
-            <input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="true"<!--@end-->/>
+            <input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="checked"<!--@end-->/>
             {$lang->about_required}
         </td>
     </tr>

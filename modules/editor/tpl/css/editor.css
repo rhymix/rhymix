@@ -34,8 +34,8 @@ div.editor_autosaved_message { font-size:9pt; font-weight:bold; color:#888888; d
 .xeEditor .fileAttach .fileListArea { float:left; width:50%; margin-right:.7em; padding-bottom:.5em; margin-bottom:1em}
 .xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em;}
 .xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
-.xeEditor .fileAttach .fileListArea .info { color:#3f4040; font:1em Tahoma; text-align:left;}
-.xeEditor .fileAttach .fileListArea .info strong { color:#ff6600; font:bold 1em Tahoma;}
+.xeEditor .fileAttach .fileListArea .file_attach_info { color:#3f4040; font:1em Tahoma; text-align:left;}
+.xeEditor .fileAttach .fileListArea .file_attach_info strong { color:#ff6600; font:bold 1em Tahoma;}
 .xeEditor .fileAttach .fileUploadControl { float:left;}
 .xeEditor .fileAttach .fileUploadControl li { float:left; clear:both; margin-bottom:.3em;}
 

@@ -12,6 +12,7 @@
     $lang->widget_history = '변경사항';
     $lang->widget_info = '위젯 정보';
     $lang->widget_code = '코드';
+    $lang->widget_cache = '캐시';
 
     $lang->widget_fix_width = '크기 고정';
     $lang->widget_width = '가로크기';
@@ -28,6 +29,7 @@
     $lang->about_widget_width = '가로 크기를 선택해주세요.';
     $lang->about_widget_position = '한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.';
     $lang->about_widget_margin = '한 줄에 여러개의 위젯을 나열하고 싶을때에는 위치를 선택해주세요.';
+    $lang->about_widget_cache = '지정된 시간동안 캐시된 데이터를 이용할 수 있습니다.';
 
     $lang->generated_code = '생성된 코드';
 

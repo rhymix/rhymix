@@ -28,6 +28,7 @@ body { margin:0; }
 .fr { float:right;}
 .fl { float:left;}
 .fwB { font-weight:bold;}
+.gl3 { padding-left:2em; }
 
 /* ----- cBody | Start ----- */
 
@@ -39,9 +40,14 @@ h4 { font-size:1em; color:#f2250d; float:left; padding:.5em 0 1.2em 2em;}
 h4 .bracket { font-weight:normal; color:#9d9d9d;}
 h4 .vr { font-weight:normal; color:#d1d1d1;}
 h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:url(../images/iconView.gif) no-repeat right center;}
-.header4 .summary { font:.9em Tahoma; color:#636363; float:left; padding:.5em 0 1.2em 2em;}
-.header4 .summary .vr { font-weight:normal; color:#d1d1d1; margin:0 .5em;}
-.header4 .summary em { color:#ff1d00; font-style:normal;}
+.header4 div.summary { font:.9em Tahoma; color:#636363; float:left; padding:.5em 0 1.2em 2em;}
+.header4 div.summary .vr { font-weight:normal; color:#d1d1d1; margin:0 .5em;}
+.header4 div.summary em { color:#ff1d00; font-style:normal;}
+.header4 table.summary { border-right:1px solid #f2f2f2; width:100%; height:35px; margin-bottom:15px;}
+.header4 table.summary th { background:#969693; color:#ffffff;}
+.header4 table.summary th img { vertical-align:middle;}
+.header4 table.summary th .vr { color:#a3a39f; margin:0 4px; font-weight:normal;}
+.header4 table.summary td { border-top:1px solid #f2f2f2; border-bottom:1px solid #f2f2f2; font:.9em Tahoma; padding-left:17px;}
 
 /* ----- cBody | End ----- */
 
@@ -62,19 +68,19 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .clear { clear:both; }
 .nospace { margin:0; padding:0; }
 
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;}
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap; }
 .buttonTypeA:hover { text-decoration:none;}
 .buttonTypeA img { vertical-align:middle;}
-.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; }
-.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0; left:-1px;}
+.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; vertical-align:middle; }
+.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 -1px; }
 .buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeA .icon { margin:0 .4em 0 .2em;}
 
 .buttonTypeB { display:block; cursor:pointer; background:url(../images/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
 .buttonTypeB:hover { text-decoration:none;}
 .buttonTypeB img { vertical-align:middle;}
-.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; }
-.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0; left:-1px;}
+.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; vertical-align:middle; }
+.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 -1px; }
 .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeB .icon { margin:0 .2em;}
 
@@ -148,6 +154,8 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 
 .tableType4 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%;}
 .tableType4 th { border-top:1px solid #fbfbfb; border-bottom:1px solid #e4e4e4; background:#f5f5f5; padding:10px 10px 10px 2em; font-weight:normal; text-align:left; color:#606060;}
+.tableType4.counter th { font-size:.9em; text-align:center; padding:0;}
+.tableType4.counter th em { font:normal 1em Tahoma;}
 .tableType4 td { border-bottom:1px solid #ededed; padding:10px 10px 7px 10px; color:#7b7972;}
 .tableType4 td a { color:#1d1d1d;}
 .tableType4 .tahoma { font-size:.9em; font-family:Tahoma;}
@@ -161,6 +169,10 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .tableType4 td .w100 { width:100%; display:block;}
 .tableType4 td .checkbox { margin:-3px;}
 .tableType4 td p { line-height:1.4em;}
+.tableType4 td .graph { width:90%; position:relative;}
+.tableType4 td .graph .bar { width:100%; position:absolute; margin-top:4px;}
+.tableType4 td .graph .num { position:relative; background:#ffffff; color:#636363; font:.9em Tahoma; padding-left:10px;}
+
 
 .widgetBox { border:1px solid #c1c0bd; width:100%;}
 .widgetBox th { text-align:center; font-weight:normal; background-color:#EFEFEF; }

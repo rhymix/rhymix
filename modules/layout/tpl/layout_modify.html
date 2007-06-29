@@ -70,7 +70,7 @@
         <!--@elseif($var->type == "select")-->
             <select name="{$name}">
                 <!--@foreach($var->options as $key => $val)-->
-                <option value="{$key}" <!--@if($key==$var->value)-->selected="true"<!--@end-->>{$val}</option>
+                <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
         <!--@end-->
@@ -87,7 +87,7 @@
                     <select name="{$menu_name}">
                         <option value="0">------------------------</option>
                         <!--@foreach($menu_list as $key => $val)-->
-                        <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                        <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
                         <!--@end-->
                     </select>
                 </li>

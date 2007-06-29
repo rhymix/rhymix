@@ -20,7 +20,7 @@
 <tr>
     <th scope="row">{$lang->expand}</th>
     <td>
-        <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="true"<!--@end--> class="checkbox" />
+        <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
         {$lang->about_expand}
     </td>
 </tr>
@@ -28,7 +28,7 @@
     <th scope="row">{$lang->category_group_srls}</th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
-        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="true"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label>
+        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="checked"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label>
         <!--@end-->
         <p>{$lang->about_category_group_srls}</p>
     </td>

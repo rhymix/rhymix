@@ -1,8 +1,6 @@
 <!--%import("filter/insert_shortcut.xml")-->
 <!--#include("header.html")-->
 
-<div class="infoText gap1">{nl2br($lang->about_module)}</div>
-
 <!-- 관리자 메뉴 바로가기 추가를 위한 임시 form -->
 <form id="fo_shortcut" action="./" method="get">
     <input type="hidden" name="selected_module" value="" />
@@ -25,7 +23,7 @@
 <tbody>
 <!--@foreach($module_list as $key => $val)-->
     <tr>
-        <td class="left blue">
+        <td class="left gl3 blue">
             <!--@if($val->admin_index_act)-->
                 <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
             <!--@else-->

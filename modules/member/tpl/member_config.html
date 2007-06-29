@@ -21,14 +21,14 @@
     <tr>
         <th scope="row">{$lang->enable_openid}</th>
         <td>
-            <input type="checkbox" name="enable_openid" value="Y" <!--@if($config->enable_openid=='Y')-->checked="true"<!--@end--> class="checkbox" />
+            <input type="checkbox" name="enable_openid" value="Y" <!--@if($config->enable_openid=='Y')-->checked="checked"<!--@end--> class="checkbox" />
             {$lang->about_enable_openid}
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->enable_join}</th>
         <td>
-            <input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="true"<!--@end--> class="checkbox" />
+            <input type="checkbox" name="enable_join" value="Y" <!--@if($config->enable_join=='Y')-->checked="checked"<!--@end--> class="checkbox" />
             {$lang->about_enable_join}
         </td>
     </tr>
@@ -43,7 +43,7 @@
         <th scope="row">{$lang->image_name}</th>
         <td>
             <p>
-                <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="true"<!--@end--> class="checkbox" />
+                <input type="checkbox" name="image_name" value="Y" <!--@if($config->image_name=='Y')-->checked="checked"<!--@end--> class="checkbox" />
                 {$lang->about_image_name}
             </p>
             {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" size="3" value="{$config->image_name_max_width}" class="inputTypeText" />px<br />
@@ -54,7 +54,7 @@
         <th scope="row">{$lang->image_mark}</th>
         <td>
             <p>
-                <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="true"<!--@end--> class="checkbox"/>
+                <input type="checkbox" name="image_mark" value="Y" <!--@if($config->image_mark=='Y')-->checked="checked"<!--@end--> class="checkbox"/>
                 {$lang->about_image_mark}
             </p>
             {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" size="3" value="{$config->image_mark_max_width}" class="inputTypeText"/>px<br />

@@ -2,6 +2,29 @@
 
 <h3>{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
 
+<div class="header4">
+
+    <table cellspacing="0" class="summary">
+    <col width="124" />
+    <col />
+    <col width="164" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->total_counter}</th>
+        <td>Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
+        <th scope="row">{zdate($selected_date, "Y-m-d")} <span class="vr">|</span> <a href="#" onclick="open_calendar(null, '{$selected_date}', 'changeSelectedDate');return false;"><img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" /></a></th>
+        <td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
+    </tr>
+    </table>
+
+    <ul class="localNavigation">
+        <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
+        <li <!--@if($type==$key)-->class="on"<!--@end-->><a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+
 <!-- 일자를 옮기는 form -->
 <form action="./" method="get" id="fo_counter">
     <input type="hidden" name="module" value="{$module}" />
@@ -9,44 +32,12 @@
     <input type="hidden" name="selected_date" value="{$selected_date}" />
 </form>
 
-<!-- 전체현황 -->
-<div>
-    <h3>{$lang->total_counter}</h3>
-
-    <ul>
-        <li>{$lang->unique_visitor} : {number_format($total_counter->unique_visitor)}</li>
-        <li>{$lang->pageview} : {number_format($total_counter->pageview)}</li>
-    </ul>
-</div>
-
-<!-- 선택된 일자 현황 -->
-<div>
-    <h3><span id='str_selected_date'>{zdate($selected_date, "Y-m-d")}</span> <a href="#" onclick="open_calendar(null, '{$selected_date}', 'changeSelectedDate');return false;">{$lang->cmd_select_date}</a></h3>
-
-    <ul>
-        <li>{$lang->unique_visitor} : {number_format($selected_day_counter->unique_visitor)}</li>
-        <li>{$lang->pageview} : {number_format($selected_day_counter->pageview)}</li>
-    </ul>
-</div>
-
-<!-- 시간대별, 일자별, 월별, 년별 로그 보기 -->
-<div>
-    <h3>
-        {$lang->cmd_select_counter_type[$type]}
-        {$lang->unique_visitor}
-
-        <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
-        <a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a>
-        <!--@end-->
-    </h3>
-</div>
 
 <!-- unique visitor 그래프 -->
-<div>
-    <table border="1">
-    <col width="80" />
-    <col width="*" />
-    <!--@foreach($detail_status->list as $key => $val)-->
+<table cellspacing="0" class="tableType4 counter gap1">
+<col width="124" />
+<col />
+<!--@foreach($detail_status->list as $key => $val)-->
     <!--@if($detail_status->sum>0)-->
         {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
         {@$img_width = sprintf("%0.0f", $val / $detail_status->max * 100 )}
@@ -54,28 +45,27 @@
         {@$percent = 0}
         {@$img_width = 1}
     <!--@end-->
-    <tr>
-        <th>
-            <!-- 시간대별 -->
-            <!--@if($type == 'year')-->
-                {$key} {$lang->unit_year}
-            <!--@elseif($type == 'month')-->
-                {$key} {$lang->unit_month}
-            <!--@elseif($type == 'day')-->
-                {$key} {$lang->unit_day}
-            <!--@else-->
-                {$key} {$lang->unit_hour}
-            <!--@end-->
-        </th>
-        <td>
-            <div style="width:400px;float:left;padding-top:5px;">
-                <img src="./images/blank.gif" height="3" width="{$img_width}%" alt="{$percent}%" style="background-color:blue;border:1px solid darkblue;"/>
+<tr>
+    <th scope="row">
+        <!-- 시간대별 -->
+        <!--@if($type == 'year')-->
+            <em>{$key}</em> {$lang->unit_year}
+        <!--@elseif($type == 'month')-->
+            <em>{$key}</em> {$lang->unit_month}
+        <!--@elseif($type == 'day')-->
+            <em>{$key}</em> {$lang->unit_day}
+        <!--@else-->
+            <em>{$key}</em> {$lang->unit_hour}
+        <!--@end-->
+    </th>
+    <td>
+        <div class="graph">
+            <img src="./images/iconBar.gif" alt="" width="12" height="6" class="bar" />
+            <div class="num" style="left:{$percent}%;">
+                <strong>{number_format($val)}</strong> ({$percent}%)
             </div>
-            <div style="float:left;margin-left:20px;">
-                {number_format($val)} ({$percent}%)
-            </div>
-        </td>
-    </tr>
-    <!--@end-->
-    </table>
-</div>
+        </div>
+    </td>
+</tr>
+<!--@end-->
+</table>

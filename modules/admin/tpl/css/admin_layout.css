@@ -53,7 +53,7 @@ address { font-style:normal;}
 #cBody { position:relative; clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
 
 #gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;}
-#gNavigation h2 { margin-bottom:8px;}
+#gNavigation h2 { }
 #gNavigation ul { width:180px;}
 #gNavigation ul li { width:180px; height:30px; background:url(../images/menuBg.png) no-repeat left top; } /* behavior:url(./common/js/iePngFix.htc);}*/
 #gNavigation ul li.on { background-position:left -30px; margin-top:-2px; _background:url(../images/menuBgIeFix.png) no-repeat left top;}

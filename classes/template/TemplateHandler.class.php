@@ -288,15 +288,18 @@
                         break;
                     // css file
                     case 'css' :
+                            $meta_file = sprintf('%s%s', $base_path, $filename);
                             $output = sprintf('<?php Context::addCSSFile("%s%s"); ?>', $base_path, $filename);
                         break;
                     // js file
                     case 'js' :
+                            $meta_file = sprintf('%s%s', $base_path, $filename);
                             $output = sprintf('<?php Context::addJsFile("%s%s"); ?>', $base_path, $filename);
                         break;
                 }
             }
 
+            $output = '<!--Meta:'.$meta_file.'-->'.$output;
             return $output;
         }
 

@@ -5,6 +5,7 @@
 <form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);" id="fo_widget">
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="widget_sequence" value="" />
 
     <div id="popHeadder">
         <h1>{$lang->cmd_generate_code}</h1>
@@ -38,6 +39,13 @@
                         </select>
                     </div>
                 </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->widget_cache}</th>
+            <td>
+                <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
+                <p>{$lang->about_widget_cache}</p>
             </td>
         </tr>
             <!--@foreach($widget_info->extra_var as $id => $var)-->

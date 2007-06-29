@@ -781,6 +781,9 @@
         function transContent($content) {
             // 위젯 코드 변경 
             $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'_transWidget'), $content);
+
+            // 메타 파일 변경
+            $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'_transMeta'), $content);
             
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
@@ -809,6 +812,14 @@
          **/
         function _transTagToLowerCase($matches) {
             return sprintf('<%s%s%s>', $matches[1], strtolower($matches[2]), $matches[3]);
+        }
+
+        /**
+         * @brief <!--Meta:파일이름.(css|js)-->를 변경
+         **/
+        function _transMeta($matches) {
+            if(eregi('\.css$', $matches[1])) $this->addCSSFile($matches[1]);
+            elseif(eregi('\.js$', $matches[1])) $this->addJSFile($matches[1]);
         }
 
         /**
@@ -870,6 +881,14 @@
             else $vars = $xml_doc->attrs;
 
             if(!$vars->widget) return "";
+
+            // 캐시 체크
+            $widget_sequence = $vars->widget_sequence;
+            $widget_cache = $vars->widget_cache;
+            if($widget_cache && $widget_sequence)  {
+                $output = WidgetHandler::getCache($widget_sequence, $widget_cache);
+                if($output) return $output;
+            }
 
             // 위젯의 이름을 구함
             $widget = $vars->widget;

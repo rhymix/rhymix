@@ -27,6 +27,8 @@
             unset($vars->act);
             unset($vars->selected_widget);
 
+            if(!$vars->widget_sequence || !(int)$vars->widget_sequence) $vars->widget_sequence = getNextSequence();
+
             $attribute = array();
             if($vars) {
                 foreach($vars as $key => $val) {
@@ -34,6 +36,7 @@
                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                 }
             }
+
 
             if($vars->widget_fix_width == 'Y') {
                 $style = "";

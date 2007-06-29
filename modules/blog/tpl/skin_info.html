@@ -50,7 +50,7 @@
                 <img src="{$val->screenshot}" align="left" alt="{$val->title}" />
                 <!--@end-->
 
-                <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="true"<!--@end-->/>  
+                <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="checked"<!--@end-->/>  
                 <label for="colorset_{$key}">{$val->title}</label>
             </div>
             <!--@end-->
@@ -64,7 +64,7 @@
             <select name="{$menu_name}">
                 <option value="0">------------------------</option>
                 <!--@foreach($menu_list as $key => $val)-->
-                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="true"<!--@end-->>{$val->title}</option>
+                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
                 <!--@end-->
             </select>
         </td>
@@ -85,14 +85,14 @@
             <!--@elseif($val->type=="select")-->
             <select name="{$val->name}">
                 <!--@foreach($val->default as $k=>$v)-->
-                <option value="{$v}" <!--@if($v==$val->value)-->selected="true"<!--@end-->>{$v}</option>
+                <option value="{$v}" <!--@if($v==$val->value)-->selected="selected"<!--@end-->>{$v}</option>
                 <!--@end-->
             </select>
 
             <!--@elseif($val->type=="checkbox")-->
                 <!--@foreach($val->default as $k=>$v)-->
                 <span>
-                    <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="true"<!--@end--> class="checkbox" /> 
+                    <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
                     <label for="ch_{$key}_{$k}">{$v}</label>
                 </span>
                 <!--@end-->
@@ -100,7 +100,7 @@
             <!--@elseif($val->type=="radio")-->
                 <!--@foreach($val->default as $k=>$v)-->
                 <span>
-                    <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="true"<!--@end-->/> 
+                    <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="checked"<!--@end-->/> 
                     <label for="ch_{$key}_{$k}">{$v}</label>
                 </span>
             <!--@end-->

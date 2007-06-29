@@ -1,10 +1,12 @@
 <!--%import("css/message.css")-->
-<div>
+<div class="system_message">
     {$system_message}
+
+    <div class="system_button">
+        <a href="#" onclick="history.back(); return false;">{$lang->cmd_back}</a>
+        <!--@if(!$is_logged)-->
+        | <a href="{getUrl('','act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
+        <!--@end-->
+    </div>
 </div>
 
-<!--@if(!$is_logged)-->
-<div>
-    <a href="{getUrl('','act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
-</div>
-<!--@end-->

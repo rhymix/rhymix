@@ -9,7 +9,7 @@
         <var id="clock_width">
             <name xml:lang="ko">가로길이</name>
             <type>text</type>
-            <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 200)</description>
+            <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 200px)</description>
         </var>
         <var id="theme">
             <name xml:lang="ko">테마</name>
@@ -27,7 +27,7 @@
         <var id="day">
             <name xml:lang="ko">일자 표시</name>
             <type>select</type>
-            <description xml:lang="ko">시계내에 일자를 표시하는 기능을 끄거나 캬실 수 있습니다.</description>
+            <description xml:lang="ko">시계내에 일자를 표시하는 기능을 끄거나 켜실 수 있습니다.</description>
             <options>
                 <name xml:lang="ko">나타냄</name>
                 <value></value>

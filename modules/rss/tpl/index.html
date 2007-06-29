@@ -4,7 +4,7 @@
     <table border="1">
     <tr>
         <th rowspan="2">{$lang->rss_disable}</th>
-        <td><input type="checkbox" name="rss_disable" value="Y" <!--@if($config->rss_disable=="Y")-->checked="true"<!--@end--> />
+        <td><input type="checkbox" name="rss_disable" value="Y" <!--@if($config->rss_disable=="Y")-->checked="checked"<!--@end--> />
     </tr>
     <tr>
         <td>{$lang->about_rss_disable}</td>
@@ -14,7 +14,7 @@
         <td>
             <select name="rss_type">
                 <!--@foreach($rss_types as $key => $val)-->
-                <option value="{$key}" <!--@if($key==$config->rss_type)-->selected="true"<!--@end-->>{$val}</option>
+                <option value="{$key}" <!--@if($key==$config->rss_type)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
         </td>

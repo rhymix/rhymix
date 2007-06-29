@@ -169,7 +169,7 @@
                 $xml_info = $this->getComponentXmlInfo($component_name);
                 $xml_info->enabled = $component->enabled;
 
-                if($component->extra_vars) {
+                if($component->extra_vars && $xml_info->extra_vars) {
                     $extra_vars = unserialize($component->extra_vars);
                     foreach($xml_info->extra_vars as $key => $val) {
                         $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};

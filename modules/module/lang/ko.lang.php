@@ -6,7 +6,7 @@
      **/
 
     $lang->module_list = "모듈 목록";
-    $lang->module_index = "초기화면";
+    $lang->module_index = "모듈 목록";
     $lang->module_category = "모듈 분류";
     $lang->module_info = "모듈 정보";
     $lang->add_shortcut = "관리자 메뉴에 추가";

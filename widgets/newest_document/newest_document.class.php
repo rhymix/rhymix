@@ -49,7 +49,8 @@
 
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
-            return $oTemplate->compile($tpl_path, $tpl_file);
+            $output = $oTemplate->compile($tpl_path, $tpl_file);
+            return $output;
         }
     }
 ?>

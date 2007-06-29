@@ -16,7 +16,7 @@
         <!--@foreach(DB::getSupportedList() as $key => $val)-->
         <tr>
             <th scope="row">
-                <input type="radio" name="db_type" value="{$val}" id="db_type_{$val}" <!--@if($val=="mysql")-->checked="true"<!--@end-->/>
+                <input type="radio" name="db_type" value="{$val}" id="db_type_{$val}" <!--@if($val=="mysql")-->checked="checked"<!--@end-->/>
                 <label for="db_type_{$val}">{$val}</label>
             </th>
             <td>{$lang->db_desc[$val]}</td>

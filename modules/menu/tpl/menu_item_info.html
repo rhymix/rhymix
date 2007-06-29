@@ -30,14 +30,14 @@
 <tr>
     <th scope="row">{$lang->menu_open_window}</th>
     <td>
-        <input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="true"<!--@end--> />
+        <input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="checked"<!--@end--> />
         <p>{$lang->about_menu_open_window}</p>
     </td>
 </tr>
 <tr>
     <th scope="row">{$lang->menu_expand}</th>
     <td>
-        <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="true"<!--@end--> />
+        <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="checked"<!--@end--> />
         <p>{$lang->about_menu_expand}</p>
     </td>
 </tr>
@@ -61,7 +61,7 @@
     <th scope="row">{$lang->menu_group_srls}</th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
-        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="true"<!--@end-->/>
+        <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
         <label for="group_{$key}">{$val->title}</label>
         <!--@end-->
         <p>{$lang->about_menu_group_srls}</p>

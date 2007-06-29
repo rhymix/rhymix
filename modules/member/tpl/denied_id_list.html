@@ -2,11 +2,6 @@
 <!--%import("filter/insert_denied_id.xml")-->
 <!--%import("filter/update_denied_id.xml")-->
 
-<!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
-
 <!-- 금지아이디의 삭제와 관련된 form -->
 <form id="fo_denied_id_info" action="./" method="get">
 <input type="hidden" name="user_id" value="" />
@@ -30,7 +25,7 @@
         <td class="tahoma">{$no}</td>
         <td class="tahoma">{$val->user_id}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td>{$val->description}</td>
+        <td>{$val->description}&nbsp;</td>
         <td class="tahoma red"><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
