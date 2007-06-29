@@ -27,7 +27,8 @@
             unset($vars->act);
             unset($vars->selected_widget);
 
-            if(!$vars->widget_sequence || !(int)$vars->widget_sequence) $vars->widget_sequence = getNextSequence();
+            $vars->widget_sequence = getNextSequence();
+            if(!$vars->widget_cache) $vars->widget_cache = 0;
 
             $attribute = array();
             if($vars) {
