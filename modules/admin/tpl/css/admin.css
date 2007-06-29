@@ -54,11 +54,13 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 /* ----- Content | Start ----- */
 
 /* localNavigation */
-.localNavigation { float:right;}
-.localNavigation li { float:left; border:2px solid #e0dfde; margin-right:.3em;}
-.localNavigation li.on { border:2px solid #ff1a00; margin-right:.3em;}
-.localNavigation li a { padding:.4em 1em .2em 1em; display:block; float:left; font-size:.9em; color:#606060;}
-.localNavigation li.on a { color:#f2250d;}
+.localNavigation { float:right;margin-bottom:10px;}
+.localNavigation li { float:left; margin-right:.3em;}
+.localNavigation li.on { margin-right:.3em;}
+.localNavigation li a { padding:.4em 1em .2em 1em; display:block; float:left; font-size:.9em; color:#606060; border:2px solid #e0dfde;}
+.localNavigation li a:hover { border:2px solid #ff1a00; color:#f2250d; text-decoration:none;}
+.localNavigation li.on a { color:#f2250d; border:2px solid #ff1a00; text-decoration:none;}
+
 
 /* buttonType */
 .buttonRight { float:right; padding-top:15px;}

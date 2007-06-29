@@ -19,7 +19,7 @@
 
     <ul class="localNavigation">
         <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
-        <li <!--@if($type==$key)-->class="on"<!--@end-->><a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a></li>
+        <li <!--@if($type==$key || (!$type && $key == "hour"))-->class="on"<!--@end-->><a href="#" onclick="location.href='{getUrl('type',$key)}';return false;">{$val}</a></li>
         <!--@end-->
     </ul>
 </div>
@@ -34,7 +34,7 @@
 
 
 <!-- unique visitor 그래프 -->
-<table cellspacing="0" class="tableType4 counter gap1">
+<table cellspacing="0" class="tableType4 counter">
 <col width="124" />
 <col />
 <!--@foreach($detail_status->list as $key => $val)-->
