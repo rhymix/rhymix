@@ -18,7 +18,7 @@
 .openid_login .wButtonTypeA { display:block; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
 .openid_login .wButtonTypeA:hover { text-decoration:none;}
 .openid_login .wButtonTypeA img { vertical-align:middle;}
-.openid_login .wButtonTypeA input { border:none; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
+.openid_login .wButtonTypeA input { border:none; cursor:pointer; background:url(../images/default/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
 .openid_login .wButtonTypeA .leftCap { width:2px; height:24px; background:url(../images/default/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .openid_login .wButtonTypeA .rightCap { width:2px; height:24px; background:url(../images/default/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .openid_login .wButtonTypeA .icon { margin:0 .2em;}

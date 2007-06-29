@@ -117,7 +117,7 @@ Jeong, Chan Myeong 070601~070630
 .buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeA .icon { margin:0 .2em;}
-.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
+.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
 
 .buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
 .buttonTypeB:hover { text-decoration:none;}
@@ -125,7 +125,7 @@ Jeong, Chan Myeong 070601~070630
 .buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
 .buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .buttonTypeB .icon { margin:0 .2em;}
-.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:4px;}
+.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle;}
 
 .buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/white/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}
 
