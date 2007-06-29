@@ -217,8 +217,8 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .layout_editor_box { padding:10px; border:1px solid #DDDDDD; }
 
 /* adminSearch */
-.adminSearch { text-align:center; clear:both; width:100%;}
-.adminSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
+.adminSearch { text-align:right; clear:both; width:100%;}
+.adminSearch fieldset { border:none; display:inline; overflow:visible; }
 .adminSearch * { vertical-align:middle;} 
 
 .title { font-size:1.5em; font-weight:bold; margin-top:2em; margin-bottom:.5em; color:#666666; }
