@@ -252,7 +252,7 @@
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = false;
-            $option->height = 300;
+            $option->height = 250;
             $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);
 
