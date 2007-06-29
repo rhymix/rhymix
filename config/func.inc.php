@@ -184,7 +184,7 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        if(!$buff) return;
+        //if(!$buff) return;
 
         if(__DEBUG_OUTPUT__==1) {
             print sprintf("<!--\n%s\n-->", print_r($buff,true));

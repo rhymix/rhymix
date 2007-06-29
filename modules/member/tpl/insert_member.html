@@ -3,7 +3,7 @@
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
     <input type="hidden" name="page" value="{$page}" />
-    <input type="hidden" name="member_srl" value="{$member_srl}" />
+    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
     <!--@if($member_info->member_srl)-->
     <input type="hidden" name="user_id" value="{htmlspecialchars($member_info->user_id)}" />

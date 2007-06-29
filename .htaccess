@@ -6,22 +6,25 @@ RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 # administrator page
 RewriteRule ^admin$ ./index.php?module=admin [L]
 
+# mid + act 
+RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
+
 # document permanent link
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
 
-# document + act permanent link
+# document + act link
 RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$2 [L]
 
-# mid + document permanent link
+# mid + document link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
 
-# mid + act permanent link
+# mid + act link
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?mid=$1&act=$2 [L]
 
-# mid + page permanent link
+# mid + page link
 RewriteRule ^([a-zA-Z0-9_]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&page=$2 [L]
 
-# mid + category permanent link
+# mid + category link
 RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&category=$2 [L]
 
 # mid + category + page
@@ -39,5 +42,5 @@ RewriteRule ^([a-zA-Z0-9_]+)/tag/(.*)$ ./index.php?mid=$1&search_target=tag&sear
 # mid + search target writer
 RewriteRule ^([a-zA-Z0-9_]+)/writer/(.*)$ ./index.php?mid=$1&search_target=nick_name&search_keyword=$2 [L]
 
-# module permanent link
+# module link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]

@@ -7,6 +7,7 @@
      * @brief blogapi구현을 위한 함수 모음집
      **/
     
+    // 오류 표시
     function getXmlRpcFailure($error, $message) {
         return 
             sprintf(
@@ -16,6 +17,7 @@
             );
     }
 
+    // 결과 표시
     function getXmlRpcResponse($params) {
         $buff = '<?xml version="1.0" encoding="utf-8"?>'."\n<methodResponse><params>";
         $buff .= _getEncodedVal($params);
@@ -24,6 +26,7 @@
         return $buff;
     }
 
+    // 인코딩 처리 
     function _getEncodedVal($val, $is_sub_set = false) {
         if(is_int($val)) $buff = sprintf("<value><i4>%d</i4></value>", $val);
         elseif(is_double($val)) $buff = sprintf("<value><double>%f</double></value>", $val);
@@ -50,6 +53,7 @@
         return $buff;
     }
 
+    // 결과 출력
     function printContent($content) {
         header("Content-Type: text/xml; charset=UTF-8");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
