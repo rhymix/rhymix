@@ -380,7 +380,7 @@
          * @brief GET/POST방식일 경우 처리
          **/
         function _setRequestArgument() {
-            //if($this->_getRequestMethod() == 'XMLRPC') return;
+            if($this->_getRequestMethod() == 'XMLRPC') return;
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
