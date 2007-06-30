@@ -101,7 +101,7 @@
             //////////////////
 
             // rewrite 모듈사용 상태 체크
-            if(file_exists('./.htaccess')&&in_array('mod_rewrite',apache_get_modules())) $this->allow_rewrite = true;
+            if(file_exists('./.htaccess')&&(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))) $this->allow_rewrite = true;
 
             // 상대 경로 설정
             $this->path = $this->getRequestUri();
@@ -240,6 +240,7 @@
             $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
             if(!file_exists($filename)) $filename = sprintf('%slang/%s.lang.php', $path, $this->lang_type);
             if(!file_exists($filename)) return;
+            if(!is_array($this->loaded_lang_files)) $this->loaded_lang_files = array();
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
             @include($filename);
@@ -257,7 +258,7 @@
          * @brief lang_type을 세팅 (기본 ko)
          **/
         function _setLangType($lang_type = 'ko') {
-        $this->lang_type = $lang_type;
+            $this->lang_type = $lang_type;
         }
 
         /**
