@@ -33,7 +33,7 @@
             $oDB = &DB::getInstance();
 
             // DB접속이 가능한지 체크
-            if(!$oDB->isConnected()) return new Object(-1, 'msg_dbconnect_failed');
+            if(!$oDB->isConnected()) return $oDB->getError();
 
             $oDB->begin();
 

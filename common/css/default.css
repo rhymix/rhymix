@@ -16,10 +16,10 @@ IE7 & IE6 & Below
 .fl { float:left;}
 
 /* default.css - Type Selector Definition */
-* { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
-html, body { height:100%;}
+* { margin:0; padding:0; }
+html, body { }
 html { width:100%; position:relative;}
-body { font-size:.75em; margin:2em;}
+body { font-size:.75em; margin:0;}
 img { border:none;}
 label { cursor:pointer;}
 /*select { height:1.6em;}*/

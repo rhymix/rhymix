@@ -47,7 +47,6 @@
          * @brief 설치 가능 여부를 return
          **/
         function isSupported() {
-            //if(!function_exists('mysql_connect') || mysql_get_client_info() < "4.1.00") return false;
             if(!function_exists('mysql_connect')) return false;
             return true;
         }
@@ -76,6 +75,12 @@
             $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
+                return;
+            }
+
+            // 버전 확인후 4.1 이하면 오류 표시
+            if(mysql_get_server_info($this->fd)<"4.1") {
+                $this->setError(-1, "zeroboard xe can not install under mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
 
