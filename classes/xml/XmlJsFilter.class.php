@@ -103,7 +103,8 @@
                     // method가 존재하면 실행
                     if(method_exists($oExtendFilter, $method)) {
                         // 결과를 받음
-                        $extend_filter_list = call_user_method($method, $oExtendFilter, true);
+                        //$extend_filter_list = call_user_method($method, $oExtendFilter, true);
+                        $extend_filter_list = call_user_func(array($oExtendFilter, $method));
                         $extend_filter_count = count($extend_filter_list);
 
                         // 결과에서 lang값을 이용 문서 변수에 적용
