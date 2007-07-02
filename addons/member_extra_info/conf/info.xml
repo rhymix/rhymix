@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
+  <title xml:lang="zh-CN">用户添加信息与Communication功能激活</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         사용자의 정보중 이미지이름, 이미지마크, 서명등을 화면에 출력해주는 애드온입니다.
         이런 정보들을 사용하지 않을 경우를 대비하여 별도의 애드온으로 빼어서 실행시간을 줄여줍니다.
@@ -12,6 +14,15 @@
         3. 새로운 쪽지가 왔을 경우 팝업으로 띄움 
         4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기 기능 추가합니다.
         5. MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
+    </description>
+    <description xml:lang="zh-CN">
+        用户信息中显示在页面的昵称图像，用户图标，签名等的Add-On。
+        激活Add-On以后后才可以使用昵称图像, 用户图标, 签名等功能。
+        1. 显示之前查找定义在 &amp;lt;div class="member_会员编号"&amp;gt;....&amp;lt;/div&amp;gt; 的部分确认有没有昵称图像，用户图标后变更相关内容。
+        2. 显示之前查找定义 &amp;lt;div class="document_会员编号"&amp;gt;...&amp;lt;/div&amp;gt;的部分判断帖子的内容后，在下端添加签名。
+        3. 接收新信息时用弹窗表示
+        4. MemberModel::getMemberMenu 呼出时 对象是会员的情况添加发送信息的功能。
+        5. MemberModel::getMemberMenu 呼出时 添加好友登录菜单。
     </description>
   </author>
 </addon>

@@ -38,7 +38,7 @@ Jeong, Chan Myeong 070601~070630
 /* boardList */
 .boardList { width:100%; position:relative; border:1px solid #e0e1db;}
 .boardList tr.notice { background:#f8f8f8;}
-.boardList tr.notice .num { font:.9em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif; font-weight:bold;}
+.boardList tr.notice .num { font-size:.9em; font-weight:bold;}
 .boardList tr.bg1 { background:#ffffff}
 .boardList tr.bg2 { background:#fbfbfb;}
 .boardList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.8em .5em .5em .5em; background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom;}
@@ -66,7 +66,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title,
 .boardList td.title a { color:#444444;}
 .boardList td.title a:visited { color:#777777;}
-.boardList td.author { color:#333333; font:.95em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
+.boardList td.author { color:#333333; font-size:.95em;}
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.recommend { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
@@ -111,7 +111,7 @@ Jeong, Chan Myeong 070601~070630
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
 /* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  font-size:.9em;}
 .buttonTypeA:hover { text-decoration:none;}
 .buttonTypeA img { vertical-align:middle;}
 .buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}

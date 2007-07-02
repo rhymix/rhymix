@@ -26,6 +26,18 @@
         <tr>
             <td class="a_left"></td>
             <td class="a_center">
+                <!-- 언어 선택 -->
+                <div class="lang_type_option">
+                    <select name="lang_type" onchange="doChangeLangType(this)">
+                        <option value="{$lang_type}">{$lang_type}</option>
+                        <!--@foreach($lang_supported as $val)-->
+                            <!--@if($val != $lang_type)-->
+                                <option value="{$val}">{$val}</option>
+                            <!--@end-->
+                        <!--@end-->
+                    </select>
+                </div>
+
                 <div class="a_menu">
                 <!-- main_menu 1차 시작 -->
                 <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->

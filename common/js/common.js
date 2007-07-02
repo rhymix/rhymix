@@ -535,3 +535,15 @@ function open_calendar(fo_id, day_str, callback_func) {
 
     popopen(url, 'Calendar');
 }
+
+// 언어코드 (lang_type) 쿠키값 변경
+function doChangeLangType(obj) {
+    var val = obj.options[obj.selectedIndex].value;
+    setLangType(val);
+    location.href = location.href;
+}
+function setLangType(lang_type) {
+    var expire = new Date();
+    expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
+    xSetCookie('lang_type', lang_type, expire);
+}

@@ -2,9 +2,11 @@
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
   <title xml:lang="jp">基本接続カウンター機能拡張</title>
+  <title xml:lang="zh-CN">网站访问统计 Add-on</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">ゼロ</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         제로보드XE의 기본 카운터 모듈을 이용하여 접속 정보를 기록합니다.
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
@@ -12,6 +14,10 @@
     <description xml:lang="jp">
         セロボードXEの基本接続カウンターモジュルを利用して接続情報を記録します。
         この機能拡張をオンにしておくと接続情報が記録されます。
+    </description>
+    <description xml:lang="zh-CN">
+        zeroboardXE的网站访问统计Add-on是统计网站访问信息的        
+        把状态设定为"启用"才会采集网站访问信息.
     </description>
   </author>
 </addon>

@@ -34,7 +34,7 @@
          *
          * 기본으로 ko. HTTP_USER_AGENT나 사용자의 직접 세팅(쿠키이용)등을 통해 변경됨
          **/
-        var $lang_type = 'ko'; ///< 언어 종류
+        var $lang_type = ''; ///< 언어 종류
         var $lang = NULL; ///< 언어 데이터를 담고 있는 변수
         var $loaded_lang_files = array(); ///< 로딩된 언어파일의 목록 (재로딩을 피하기 위함)
 
@@ -69,6 +69,26 @@
 
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
+
+            // 쿠키로 설정된 언어타입 가져오기 
+            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+
+            // 등록된 기본 언어파일 찾기
+            $lang_files = FileHandler::readDir('./common/lang');
+            $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            foreach($lang_files as $key => $val) {
+                list($lang_prefix) = explode('.',$val);
+                $lang_supported[] = $lang_prefix;
+                if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+                    $this->lang_type = $lang_prefix;
+                    setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
+                    break;
+                }
+            }
+
+            Context::set('lang_supported', $lang_supported);
+
+            $this->setLangType($this->lang_type);
 
             // 기본 언어파일 로드
             $this->lang = &$GLOBALS['lang'];
@@ -238,12 +258,12 @@
             global $lang;
             if(substr($path,-1)!='/') $path .= '/';
             $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
-            if(!file_exists($filename)) $filename = sprintf('%slang/%s.lang.php', $path, $this->lang_type);
+            if(!file_exists($filename)) $filename = sprintf('%s%s.lang.php', $path, 'ko');
             if(!file_exists($filename)) return;
             if(!is_array($this->loaded_lang_files)) $this->loaded_lang_files = array();
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
-            @include($filename);
+            include($filename);
         }
 
         /**
@@ -251,7 +271,7 @@
          **/
         function setLangType($lang_type = 'ko') {
             $oContext = &Context::getInstance();
-            $oContext->_setLangType($lang);
+            $oContext->_setLangType($lang_type);
         }
 
         /**

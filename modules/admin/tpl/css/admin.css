@@ -70,7 +70,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .clear { clear:both; }
 .nospace { margin:0; padding:0; }
 
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap; }
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;  font-size:.9em;}
 .buttonTypeA:hover { text-decoration:none;}
 .buttonTypeA img { vertical-align:middle;}
 .buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; vertical-align:middle; }

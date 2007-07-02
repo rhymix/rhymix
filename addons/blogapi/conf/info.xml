@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">BlogAPI 애드온</title>
+  <title xml:lang="jp">BlogAPI 機能拡張</title>
+  <title xml:lang="zh-CN">BlogAPI Add-on</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">ゼロ</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         metaWeblog를 지원하는 blogApi애드온입니다.
         사용으로 설정하시면 각 모듈마다 RSD 태그를 노출합니다.
         api의 주소는 http://설치주소/모듈명/api 입니다.
         사용아로 하셔야 RSD태그 및 api가 동작을 합니다.
+    </description>
+    <description xml:lang="jp">
+        metaWeblog をサポートする blogApi 機能拡張です。
+        「使用する」に設定すると各モジュルごと RSD タグを出力します。
+        API のアドレスは「http://設置ＵＲＬ/モジュル名/api」です。
+        使用可にしておけば  RSD タグと API が動作します。
+    </description>
+    <description xml:lang="zh-CN">
+        支持metaWeblog的 blogApi add-on.
+        把状态设定为"启用",会使每个模块都会输出RSD标签.
+        api地址 http://安装地址/模块名/api
+        把状态设定为"启用"才会激活RSD标签及api.
     </description>
   </author>
 </addon>

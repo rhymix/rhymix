@@ -84,7 +84,7 @@ div#searchBox fieldset { border:none;}
 div#searchBox fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
 
 /* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;}
+.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; font-size:.9em;}
 .buttonTypeA:hover { text-decoration:none;}
 .buttonTypeA img { vertical-align:middle;}
 .buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }

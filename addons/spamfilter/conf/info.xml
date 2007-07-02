@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">스팸필터 애드온</title>
+  <title xml:lang="zh-CN">SpamFilter Add-On</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         SpamFilter 모듈을 이용하여 글/코멘트/트랙백 등록 이전에 스팸 필터링 및 도배 방지를 합니다.
         자세한 설정은 &quot; 스팸필터 모듈&quot; 에서 해주세요.
+    </description>
+    <description xml:lang="zh-CN">
+        利用SpamFilter 模块防止过滤恶意发表的帖子、评论、引用等功能。
+        详细的设定在 &quot; SpamFilter 模块里&quot; 设置。
     </description>
   </author>
 </addon>

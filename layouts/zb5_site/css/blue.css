@@ -53,3 +53,5 @@ body { margin:0; }
 
 #layout_zx .layout_menu { padding:10px; background:#FFFFFF;   border:solid 1px #E0E8EE; margin:0 10px 10px 10px; color:#666666; }
 #layout_zx .layout_menu a { color:#666666; }
+
+.lang_type_option {float:left; margin:8px 0 0 10px;}

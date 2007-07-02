@@ -16,7 +16,7 @@ IE7 Only
 */
 
 /* default.css - Type Selector Definition */
-* { margin:0; padding:0; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
+* { margin:0; padding:0; }
 html, body {}
 html { width:100%; position:relative;}
 body { position:relative; font-size:.75em; width:100%; background:#4d4d4d url(../images/installBg.gif) repeat-x;}
