@@ -320,6 +320,8 @@
             header("Content-Transfer-Encoding: binary\n");
 
             fpassthru($fp);
+
+            exit();
         }
 
     }

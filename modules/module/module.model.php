@@ -40,6 +40,7 @@
             if(!$output->data) {
                 $output = executeQuery('module.getDefaultMidInfo');
             }
+
             $module_info = $this->arrangeModuleInfo($output->data);
 
             return $module_info;

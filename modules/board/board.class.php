@@ -35,15 +35,25 @@
             $output = executeQuery('module.getDefaultMidInfo');
             if($output->data) return new Object();
 
-            // 기본 데이터 세팅
-            $args->board_name = 'board';
-            $args->browser_title = 'test module';
-            $args->is_default = 'Y';
-            $args->skin = 'default';
+            // 기본 모듈을 찾음
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByMid();
 
-            // 게시판 controller 생성
-            $oBoardController = &getAdminController('board');
-            $oBoardController->procBoardAdminInsertBoard($args);
+            // 기본 모듈이 없으면 새로 등록
+            if(!$module_info->module_srl)  {
+                $args->board_name = 'board';
+                $args->browser_title = 'test module';
+                $args->is_default = 'Y';
+                $args->skin = 'default';
+
+                // board 라는 이름의 모듈이 있는지 확인
+                $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
+                if($module_info->module_srl) $args->module_srl = $module_info->module_srl;
+
+                // 게시판 controller 생성
+                $oBoardController = &getAdminController('board');
+                $oBoardController->procBoardAdminInsertBoard($args);
+            }
 
             return new Object();
         }
