@@ -209,19 +209,19 @@ function drawNode(parent_node, menu_id) {
             // 무조건 펼침이 아닐 경우
             if(expand != "Y") {
                 if(!hasNextSibling) {
-                    line_icon = "minus";
+                    line_icon = "plus";
                     folder_icon = "page";
                 } else {
-                    line_icon = "minusbottom";
+                    line_icon = "plusbottom";
                     folder_icon = "page";
                 }
             // 무조건 펼침일 경우 
             } else {
                 if(!hasNextSibling) {
-                    line_icon = "plus";
+                    line_icon = "minus";
                     folder_icon = "page";
                 } else {
-                    line_icon = "plusbottom";
+                    line_icon = "minusbottom";
                     folder_icon = "page";
                 }
             }
@@ -298,13 +298,13 @@ function toggleFolder(zone_id) {
     // 대상의 자식 노드들이 숨겨져 있다면 열고 아니면 닫기
     if(child_zone.style.display == "block") {
         child_zone.style.display = "none";
-        if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_minus_bottom_icon.src;
-        else line_icon.src = tree_minus_icon.src;
+        if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_plus_bottom_icon.src;
+        else line_icon.src = tree_plus_icon.src;
 
         folder_icon.src = tree_folder_icon.src;
     } else {
-        if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_plus_bottom_icon.src;
-        else line_icon.src = tree_plus_icon.src;
+        if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_minus_bottom_icon.src;
+        else line_icon.src = tree_minus_icon.src;
         folder_icon.src = tree_open_folder_icon.src;
         child_zone.style.display = "block";
     }

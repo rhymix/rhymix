@@ -25,15 +25,19 @@
 
         <!-- 회원 관련 기능 -->
         <ul id="accountNavigation">
-            <!-- 로그인 되었을 때 -->
+            <!-- 비로그인 상태 -->
             <!--@if(!$is_logged)-->
                 <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
                 <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> </li>
-
-            <!-- 비로그인 상태 -->
+            <!-- 로그인 되었을 때 -->
             <!--@else-->
                 <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
                 <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a></li>
+
+                <!--@if($logged_info->is_admin == 'Y')-->
+                <li class="loginAndLogout"><a href="#" onclick="winopen('{getUrl('','module','admin')}');return false;">{$lang->cmd_management}</a> </li>
+                <!--@end-->
+
             <!--@end-->
 
 

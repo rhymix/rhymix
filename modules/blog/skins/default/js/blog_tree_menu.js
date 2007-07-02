@@ -251,15 +251,15 @@ function blogToggleFolder(zone_id) {
     if(folder_obj.className == "folder_open") {
         child_zone.style.display = "none";
 
-        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'minus_bottom';
-        else line_obj.className = 'minus';
+        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'plus_bottom';
+        else line_obj.className = 'plus';
 
         folder_obj.className = 'folder_close'
     } else {
         child_zone.style.display = "block";
 
-        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'plus_bottom';
-        else line_obj.className = 'plus';
+        if(line_obj.className.indexOf('bottom')>0) line_obj.className = 'minus_bottom';
+        else line_obj.className = 'minus';
 
         folder_obj.className = 'folder_open';
     }
