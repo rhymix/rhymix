@@ -12,18 +12,20 @@
     <input type="hidden" name="target_item_srl" />
 </form>
 
-<!--@if($module != 'admin')-->
+<!--@if($module == 'admin')-->
     <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
     <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
         <table cellspacing="0" class="tableType3">
         <tr>
             <th scope="col">{$lang->title}</th>
             <td>
-                <ul class="buttonLeft">
-                    <li><input type="text" name="title" value="{htmlspecialchars($menu_info->title)}" class="inputTypeText" /></li>
-                    <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_modify}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-                    <li><a href="#" onclick="location.href='{getUrl('act','dispMenuAdminContent')}';return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                </ul>
+                <div class="fl">
+                    <input type="text" name="title" value="{htmlspecialchars($menu_info->title)}" class="inputTypeText" />
+                </div>
+                <div class="fr">
+                    <span class="button"><input type="submit" value="{$lang->cmd_modify}" /></span>
+                    <a href="#" onclick="location.href='{getUrl('act','dispMenuAdminContent')}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+                </div>
             </td>
         </tr>
         <tr>
@@ -69,15 +71,15 @@
 
         <div id="menu_zone_info"></div>
 
-        <ul class="buttonLeft">
-            <li><a href="#" onclick="doInsertMenuItem(0);return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <div class="fl gap1">
+            <a href="#" onclick="doInsertMenuItem(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
+        </div>
 
-        <ul class="buttonRight">
-            <li><a href="#" onclick="openAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#" onclick="closeAllTreeMenu('menu');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#"  onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_remake_cache}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <div class="fr gap1">
+            <a href="#" onclick="openAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
+            <a href="#" onclick="closeAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
+            <a href="#"  onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+        </div>
 
     </form>
 

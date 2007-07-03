@@ -226,10 +226,12 @@
         }
 
         function hasUploadedFiles() {
+            if($this->isSecret() && !$this->isGranted()) return false;
             return $this->get('uploaded_count')? true : false;
         }
 
         function getUploadedFiles() {
+            if($this->isSecret() && !$this->isGranted()) return;
             if(!$this->get('uploaded_count')) return;
 
             $oFileModel = &getModel('file');

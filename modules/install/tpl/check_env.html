@@ -1,37 +1,31 @@
 <!--#include("header.html")-->
-<div id="box">
-    <h1><img src="./images/h1.png" alt="Zeroboard XE Install" width="750" height="36" class="iePngFix" /></h1>
 
-    <div id="content">
-        <h2>{$lang->install_condition_title}</h2>
+<h2>{$lang->install_condition_title}</h2>
 
-        <table cellspacing="0" class="tableType6">
-        <col width="180" /><col />
+<table cellspacing="0" class="tableType6">
+<col width="180" /><col />
 
-        <!--@foreach($checklist as $key => $val)-->
-        <tr>
-            <th scope="row">{$lang->install_checklist_title[$key]}</th>
-            <td>
-                <!--@if($val)-->
-                    {$lang->enable}
-                <!--@else-->
-                    <span class="none">{$lang->disable}</span>
-                    <br />{$lang->install_checklist_desc[$key]}
-                <!--@end-->
-            </td>
-        </tr>
+<!--@foreach($checklist as $key => $val)-->
+<tr>
+    <th scope="row">{$lang->install_checklist_title[$key]}</th>
+    <td>
+        <!--@if($val)-->
+            {$lang->enable}
+        <!--@else-->
+            <span class="none">{$lang->disable}</span>
+            <br />{$lang->install_checklist_desc[$key]}
         <!--@end-->
-        </table>
+    </td>
+</tr>
+<!--@end-->
+</table>
 
-        <div class="buttonCenter">
-            <!--@if($install_enable)-->
-                <span class="fl"><a href="{getUrl('','act','dispInstallSelectDB')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_install_next}<img src="./images/blank.gif" alt="" class="rightCap" /></a></span>
-            <!--@else-->
-                <span class="fl"><a href="{getUrl('','act',$act)}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_install_fix_checklist}<img src="./images/blank.gif" alt="" class="rightCap" /></a></span>
-            <!--@end-->
-        </div>
-    </div>
-    <img src="./images/installBoxBottom.png" alt="" width="750" height="10" class="iePngFix" />
-
+<div class="buttonCenter">
+    <!--@if($install_enable)-->
+        <a href="{getUrl('','act','dispInstallSelectDB')}" class="button"><span>{$lang->cmd_install_next}</span></a>
+    <!--@else-->
+        <a href="{getUrl('','act',$act)}" class="button"><span>{$lang->cmd_install_fix_checklist}</span></a>
+    <!--@end-->
 </div>
 
+<!--#include("footer.html")-->

@@ -25,10 +25,10 @@
     </tr>
     </table>
 
-    <ul class="buttonRight">
-        <li><a href="{getUrl('act','dispMemberAdminList')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_delete}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-    </ul>
+    <div class="buttonRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
+    </div>
 
 </form>
 

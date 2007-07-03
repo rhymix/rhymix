@@ -25,7 +25,7 @@
         <th scope="row">{$shortcut_info->title}</th>
         <td class="tahoma">{$shortcut_info->module}</td>
         <td class="tahoma">{zdate($shortcut_info->regdate,"Y-m-d H:i:s")}</td>
-        <td class="tahoma"><a href="#" onclick="doDeleteShortCut('{$shortcut_info->module}');return false;" class="red">{$lang->cmd_delete}</a></td>
+        <td><a href="#" onclick="doDeleteShortCut('{$shortcut_info->module}');return false;" class="red">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>

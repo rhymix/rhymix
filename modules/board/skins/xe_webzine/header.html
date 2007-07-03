@@ -44,16 +44,19 @@
     <!-- 로그인 되어 있을 경우 -->
     <!--@if($is_logged)-->
 
+        <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
+        <!--@if(!$module_info->layout_srl)-->
+        <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+        <!--@end-->
+
         <!-- 관리자이면 관리 버튼 출력 -->
         <!--@if($grant->is_admin)-->
         <li class="admin"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_management}</a></li>
         <!--@end-->
 
-        <!-- 레이아웃이 없으면 회원정보+로그아웃 버튼 출력 -->
+        <!-- 레이아웃이 없으면 로그아웃 버튼 출력 -->
         <!--@if(!$module_info->layout_srl)-->
-        <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
-
-        <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_logout}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}" class="button"><span>{$lang->cmd_logout}</span></a></li>
         <!--@end-->
 
     <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
@@ -61,7 +64,7 @@
 
         <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
 
-        <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_login}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}" class="button"><span>{$lang->cmd_login}</span></a></li>
 
     <!--@end-->
 

@@ -13,14 +13,10 @@
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="comment_srl" value="{$comment_srl}" />
 
-        <fieldset class="inputPassword">
-            <div class="button">
-                <span class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
-            </div>
-            <div class="button">
-                <a href="{getUrl('act','')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
-            </div>
-        </fieldset>
+        <div class="inputPassword tCenter gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span>
+            <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+        </div>
 
     </form>
 </div>

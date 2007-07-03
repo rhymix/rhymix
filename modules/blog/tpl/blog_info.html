@@ -51,9 +51,9 @@
 </tr>
 </table>
 
-<ul class="buttonRight">
-    <li><a href="{getUrl('act','dispBlogAdminInsertBlog')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+<div class="gap1 tRight">
+    <a href="{getUrl('act','dispBlogAdminInsertBlog')}" class="button"><span>{$lang->cmd_modify}</span></a>
     <!--@if($module=="admin")-->
-    <li><a href="{getUrl('act','dispBlogAdminContent','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_blog_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="{getUrl('act','dispBlogAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_blog_list}</span></a>
     <!--@end-->
 </ul>

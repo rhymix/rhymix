@@ -22,11 +22,11 @@
 <tr>
     <th>{$lang->widget}</th>
     <td>
-        <ul class="buttonLeft nospace">
         <!--@foreach($widget_list as $widget)-->
-            <li class="widget_item"><a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCode&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$widget->title}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <div class="fl gap1">
+            <a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCode&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
+        </div>
         <!--@end-->
-        </ul>
     </td>
 </tr>
 </table>
@@ -41,10 +41,10 @@
             <textarea name="code" class="layout_editor">{htmlspecialchars($layout_code)}</textarea>
         </div>
 
-        <ul class="buttonRight">
-            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><a href="#" onclick="doPreviewLayoutCode();return false"  class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_preview}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#"  onclick="doResetLayoutCode('{$layout_srl}');return false"  class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_reset}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+            <a href="#" onclick="doPreviewLayoutCode();return false"  class="button"><span>{$lang->cmd_preview}</span></a>
+            <a href="#"  onclick="doResetLayoutCode('{$layout_srl}');return false"  class="button"><span>{$lang->cmd_reset}</span></a>
+        </div>
     </form>
 </div>

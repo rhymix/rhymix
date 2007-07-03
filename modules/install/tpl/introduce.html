@@ -1,17 +1,11 @@
 <!--#include("header.html")-->
 
-<div id="box">
-	<h1><img src="./images/h1.png" alt="Zeroboard XE Install" width="750" height="36" class="iePngFix" /></h1>
-    <div id="content">
-        <h2>{$lang->introduce_title}</h2>
+<h2>{$lang->introduce_title}</h2>
 
-    <div id="agreement">{nl2br($lang->license)}</div>
+<div id="agreement">{nl2br($lang->license)}</div>
 
-    <ul class="buttonCenter" style="margin-left:40%">
-        <li><a href="{getUrl('','act','dispInstallCheckEnv')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_agree_license}<img src="./images/blank.gif" alt="" class="rightCap" /></a> </li>
-    </ul>
-
-	</div>
-
-    <img src="./images/installBoxBottom.png" alt="" width="750" height="10" class="iePngFix" />
+<div class="buttonCenter">
+    <a class="button" href="{getUrl('','act','dispInstallCheckEnv')}"><span>{$lang->cmd_agree_license}</span></a>
 </div>
+
+<!--#include("footer.html")-->

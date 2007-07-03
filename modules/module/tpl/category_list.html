@@ -28,8 +28,8 @@
     <tr>
         <td>{$val->title}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td class="tahoma blue"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="tahoma red"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="blue"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;" class="button"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>
@@ -52,8 +52,8 @@
     </tr>
     </table>
 
-    <div class="buttonRight">
-        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
     </div>
 
 </form>

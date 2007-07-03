@@ -16,49 +16,21 @@ IE7 Only
 */
 
 /* default.css - Type Selector Definition */
-* { margin:0; padding:0; }
-html, body {}
-html { width:100%; position:relative;}
-body { position:relative; font-size:.75em; width:100%; background:#4d4d4d url(../images/installBg.gif) repeat-x;}
-img { border:none;}
-label { cursor:pointer;}
-select { height:1.6em;}
-option { padding-right:.5em;}
-li { list-style:none;}
-a { text-decoration:none;}
-a:hover { text-decoration:underline;}
-address { font-style:normal;}
-
-/* Input Style Definition */
-.inputTypeText { border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
-.inputTypeText:hover,
-.inputTypeText:focus { background:#f4f4f4;}
-.inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff;}
-
-/* Special Class Selector */
-.fr { float:right;}
-.fl { float:left;}
+body { background:#4d4d4d url(../images/installBg.gif) repeat-x;}
 
 /* Content */
-#box { position:relative; left:50%; margin-left:-380px; margin-top:120px; width:750px;}
+#box { position:relative; left:50%; margin:120px 0 0 -380px; width:750px;}
+#box h1 { margin:0; }
+
 #content { position:relative; padding:25px 20px 20px 20px; overflow:hidden; background:#ffffff;}
-#content .iePngFix { position:absolute; bottom:-30px; left:-25px;}
-#content h2 { font-size:1em; padding-left:.5em; margin-bottom:1em;}
-#agreement { border:1px solid #c9c9c9; height:12em; padding:1.2em; overflow:auto; color:#696969; line-height:1.25em;}
+#content h2 { font-size:1em; padding-left:.5em; margin:0 0 1em 0;}
+#agreement { border:1px solid #c9c9c9; height:15em; padding:1.2em; overflow:auto; color:#696969; line-height:1.25em; margin-bottom:20px;}
 
-.buttonCenter { overflow:hidden; height:24px; padding-top:15px;}
-.buttonCenter li { float:left; margin-right:.3em;}
-.buttonCenter .fl { position:relative; left:48%;}
+.iePngFix { display:block; }
 
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;}
-.buttonTypeA:hover { text-decoration:none;}
-.buttonTypeA img { vertical-align:middle;}
-.buttonTypeA input { border:none; cursor:pointer; background:url(../images/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
-.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 -1px;  }
-.buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeA .icon { margin:0 .4em 0 .2em;}
+div.buttonCenter { text-align:center; }
 
-#content .tableType6 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%;}
+.tableType6 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%; margin-bottom:20px;}
 #content .tableType6 th { border-top:1px solid #fbfbfb; border-bottom:1px solid #e4e4e4; background:#f5f5f5; padding:10px 10px 10px 2em; font-weight:normal; text-align:left; color:#606060;}
 #content .tableType6 td { border-bottom:1px solid #ededed; padding:10px 10px 7px 10px; color:#7b7972; line-height:1.25em;}
 #content .tableType6 input,
@@ -70,7 +42,7 @@ address { font-style:normal;}
 #content .tableType6 .borderBottomNone { border-bottom:none;}
 #content .tableType6 .none { color:#c95b53;}
 
-#content .tableType7 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%;}
+#content .tableType7 { border:2px solid #c1c0bd; border-left:none; border-right:none; width:100%; margin-bottom:20px;}
 #content .tableType7 th { border-bottom:1px solid #e4e4e4; background:#e8e8e8; padding:10px 10px 10px 2em; font-weight:normal; text-align:left; color:#606060;}
 #content .tableType7 th.second { background:#f5f5f5;}
 #content .tableType7 td { border-bottom:1px solid #ededed; padding:10px 10px 7px 10px; color:#7b7972; line-height:1.25em; font-size:.9em;}
@@ -80,6 +52,6 @@ address { font-style:normal;}
 #content .tableType7 select { vertical-align:middle;}
 #content .tableType7 td .w100 { width:100%; display:block;}
 #content .tableType7 td .checkbox { margin:-3px;}
-#content .tableType7 td p { line-height:1.4em; padding-top:.5em;}
+#content .tableType7 td p { line-height:1.4em; margin:5px 0 0 0; padding:0;}
 #content .tableType7 .borderBottomNone { border-bottom:none;}
 #content .tableType7 .none { color:#c95b53;}

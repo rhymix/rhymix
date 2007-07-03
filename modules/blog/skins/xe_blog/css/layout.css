@@ -5,8 +5,11 @@ NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
 Jeong, Chan Myeong 070601~070630
 */
 
+li { list-style:none; }
+a { text-decoration:none; }
+
 /* Blog Layout - Common */
-#bodyWrap { position:relative; width:830px; margin:0 auto; background-color:#FFFFFF; padding-top:1px; }
+#bodyWrap { position:relative; width:830px; margin:0 auto; background-color:#FFFFFF; padding-top:1px; top:30px;}
 
 /* Blog Layout - Content Body */
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
@@ -82,23 +85,6 @@ div#blog_category { background-color:#FFFFFF; }
 div#searchBox { margin-bottom:.7em; overflow:hidden; width:100%;}
 div#searchBox fieldset { border:none;}
 div#searchBox fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
-
-/* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; font-size:.9em;}
-.buttonTypeA:hover { text-decoration:none;}
-.buttonTypeA img { vertical-align:middle;}
-.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
-.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeA .icon { margin:0 .2em;}
-
-.buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
-.buttonTypeB:hover { text-decoration:none;}
-.buttonTypeB img { vertical-align:middle;}
-.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
-.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeB .icon { margin:0 .2em;}
 
 /* powered by zbxe */
 #poweredbyzbxe { text-align:center; margin-top:2em; }

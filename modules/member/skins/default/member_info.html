@@ -4,9 +4,9 @@
 		<h3>{$lang->cmd_view_member_info}</h3>
 	</div>
 
-    <table cellspacing="0" class="joinTable">
-    <col width="20%" />
-    <col width="80%" />
+    <table cellspacing="0" class="memberInfoTable">
+    <col width="140" />
+    <col />
     <caption>{$lang->member_default_info}</caption>
     <tr class="first-child">
         <th scope="row">{$lang->user_id}</th>
@@ -39,15 +39,15 @@
     <!--@end-->
     <tr>
         <th scope="row">{$lang->homepage}</th>
-        <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->homepage)}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
+        <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->homepage)}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
         <th scope="row">{$lang->blog}</th>
-        <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->blog)}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
+        <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->blog)}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
         <th scope="row">{$lang->birthday}</th>
-        <td>{zdate($member_info->birthday,"Y-m-d")}</td>
+        <td><!--@if($member_info->birthday)-->{zdate($member_info->birthday,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@if($member_info->signature)-->
     <tr>
@@ -73,9 +73,9 @@
     </table>
 
     <!--@if($extend_form_list)-->
-    <table cellspacing="0" class="joinTable">
-    <col width="20%" />
-    <col width="80%" />
+    <table cellspacing="0" class="memberInfoTable">
+    <col width="140" />
+    <col />
     <caption>{$lang->member_extend_info}</caption>
     {@ $dummy_chk = 0 }
     <!--@foreach($extend_form_list as $key => $val)-->
@@ -83,13 +83,13 @@
         <th>{htmlspecialchars($val->column_title)}</th>
         <td>
             <!--@if($val->column_type=='tel' && $val->value[0] && $val->value[1] && $val->value[2])-->
-                {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
+                {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}&nbsp;
             <!--@elseif($val->column_type=='kr_zip' && $val->value[0])-->
-                {$val->value[0]} {htmlspecialchars($val->value[1])}
+                {$val->value[0]} {htmlspecialchars($val->value[1])}&nbsp;
             <!--@elseif($val->column_type=='checkbox' && count($val->value))-->
-                {htmlspecialchars(implode(",",$val->value))}
+                {htmlspecialchars(implode(",",$val->value))}&nbsp;
             <!--@elseif($val->column_type=='date' && $val->value)-->
-                {zdate($val->value, "Y-m-d")}
+                {zdate($val->value, "Y-m-d")}&nbsp;
             <!--@else-->
                 {htmlspecialchars($val->value)}&nbsp;
             <!--@end-->
@@ -99,17 +99,15 @@
     </table>
     <!--@end-->
 
-    <div class="button">
-        <ul>
-            <!--@if($member_info->member_srl == $logged_info->member_srl)-->
-            <li><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify_member_info}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify_member_password}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_leave}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="{getUrl('act','dispMemberMessages','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_view_message_box}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="{getUrl('act','dispMemberFriend','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_view_friend}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <!--@end-->
-            <li><a href="{getUrl('act','','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+    <div class="tCenter">
+        <!--@if($member_info->member_srl == $logged_info->member_srl)-->
+        <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_info}</span></a>
+        <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_password}</span></a>
+        <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
+        <a href="{getUrl('act','dispMemberMessages','member_srl','')}" class="button"><span>{$lang->cmd_view_message_box}</span></a>
+        <a href="{getUrl('act','dispMemberFriend','member_srl','')}" class="button"><span>{$lang->cmd_view_friend}</span></a>
+        <!--@end-->
+        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
     </div>
 
 <!--#include("./common_footer.html")-->

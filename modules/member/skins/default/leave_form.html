@@ -1,7 +1,7 @@
 <!--#include("./common_header.html")-->
 <!--%import("filter/leave_member.xml")-->
 
-<div class="smallBox w498">
+<div class="memberSmallBox w400">
     <div class="header">
         <h3>{$lang->msg_leave_member}</h3>
     </div>
@@ -29,11 +29,9 @@
         </fieldset>
     </div>
 
-    <div class="button">
-        <ul>
-            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_leave}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><a href="#" onclick="location.href='{getUrl('act','dispMemberInfo','member_srl','')}'" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />취소<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+    <div class="help tCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_leave}" accesskey="s" /></span>
+        <a href="#" onclick="location.href='{getUrl('act','dispMemberInfo','member_srl','')}'" class="button"><span>취소</span></a>
     </div>
 </form>
 <!--#include("./common_footer.html")-->

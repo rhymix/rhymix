@@ -71,10 +71,8 @@
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
 
-            <ul class="buttonLeft nospace">
-                <li><div id="str_birthday" class="inputTypeDate" >{zdate($member_info->birthday,"Y-m-d")}</div></li>
-                <li><a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+            <div id="str_birthday" class="inputTypeDate fl" >{zdate($member_info->birthday,"Y-m-d")}</div>
+            <a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
             <p class="clear">{$lang->about_birthday}</p>
         </td>
     </tr>
@@ -113,10 +111,8 @@
         <th scope="row">{$lang->limit_date}</th>
         <td>
             <input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-            <ul class="buttonLeft nospace">
-                <li><div id="str_limit_date" class="inputTypeDate" >{zdate($member_info->limit_date,"Y-m-d")}</div></li>
-                <li><a  href="#" onclick="open_calendar('limit_date','{$member_info->limit_date}');return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+            <div id="str_limit_date" class="inputTypeDate fl" >{zdate($member_info->limit_date,"Y-m-d")}</div>
+            <a  href="#" onclick="open_calendar('limit_date','{$member_info->limit_date}');return false;" class="button"><span>{$lang->cmd_open_calendar}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></a>
             <p class="clear">{$lang->about_limit_date}</p>
         </td>
     </tr>
@@ -208,16 +204,16 @@
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
                     <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" class="inputTypeText "/>
-                    <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+                    <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" /></span>
                 </div>
                 <div id="zone_address_list_{$val->column_name}" style="display:none">
                     <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
-                    <input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" />
-                    <input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" />
+                    <span class="button"><input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" /></span>
+                    <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" /></span>
                 </div>
                 <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
                     <input type="text" name="_tmp_address_search_{$val->column_name}" value="" class="inputTypeText" />
-                    <input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" />
+                    <span class="button"><input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" /></span>
                 </div>
 
                 <div>
@@ -231,13 +227,11 @@
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-                <ul class="buttonLeft nospace">
-                    <li nospace><div id="str_{$val->column_name}" class="inputTypeDate" >{zdate($val->value,"Y-m-d")}</span>
-                    <li><a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                </ul>
+                <div id="str_{$val->column_name}" class="inputTypeDate fl" >{zdate($val->value,"Y-m-d")}</div>
+                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
 
             <!--@end-->
-            <p class="clear">{htmlspecialchars($val->description)}</p>
+            <!--@if($val->description)--><p class="clear">{htmlspecialchars($val->description)}</p><!--@end-->
         </td>
     </tr>
         <!--@end-->
@@ -245,14 +239,12 @@
     </table>
     <!--@end-->
 
-    <ul class="buttonRight">
-
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         <!--@if($member_srl)-->
-        <li><a href="{getUrl('act','dispMemberAdminInfo')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <a href="{getUrl('act','dispMemberAdminInfo')}" class="button"><span>{$lang->cmd_cancel}</span></a>
         <!--@else-->
-        <li><a href="{getUrl('act','dispMemberAdminList')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_cancel}</span></a>
         <!--@end-->
-
-        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-    </ul>
+    </div>
 </form>

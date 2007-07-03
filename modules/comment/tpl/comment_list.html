@@ -35,7 +35,7 @@
             <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
             <td class="tahoma"><!--@if($val->last_upgdate)-->{zdate($val->last_upgdate,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
             <td class="tahoma">{$val->ipaddress}</td>
-            <td class="tahoma blue"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#comment_{$val->comment_srl}');return false">{$lang->cmd_move}</a></td>
+            <td class="blue"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#comment_{$val->comment_srl}');return false">{$lang->cmd_move}</a></td>
         </tr>
         <tr>
             <td colspan="7" class="left">
@@ -47,12 +47,12 @@
     </tbody>
     </table>
 
-    <!-- 버튼 -->
-    <ul class="buttonRight">
-        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" /><input type="submit" value="{$lang->cmd_delete_checked_comment}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-    </ul>
-
 </form>
+
+<!-- 버튼 -->
+<div class="fr gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pageNavigation">
@@ -73,18 +73,14 @@
 <input type="hidden" name="act" value="{$act}" />
 
     <fieldset>
-        <ul class="buttonRight">
-            <li>
-                <select name="search_target">
-                    <option value="">{$lang->search_target}</option>
-                    <!--@foreach($lang->search_target_list as $key => $val)-->
-                    <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                    <!--@end-->
-                </select>
-            </li>
-            <li><input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" /></li>
-            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_search}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <select name="search_target">
+            <option value="">{$lang->search_target}</option>
+            <!--@foreach($lang->search_target_list as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

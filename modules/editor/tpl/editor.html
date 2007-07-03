@@ -105,23 +105,18 @@
         </div>
     </div>
     <!--@end-->
-    <div class="textAreaWrap">
 
-        <!--@if(!$_COOKIE['EditorInfo'])-->
-        <div>
-          <div id="editorInfo">
-              <img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo()">
-              {$lang->about_dblclick_in_editor}
-              <span id="for_ie_help_{$upload_target_srl}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
-          </div>
-        </div>
-        <!--@end-->
-
-        <div class="editor_iframe_box" id="editor_iframe_area_{$upload_target_srl}"></div>
+    <!--@if(!$_COOKIE['EditorInfo'])-->
+    <div id="editorInfo" class="editorInfo" >
+        {$lang->about_dblclick_in_editor}
+        <span id="for_ie_help_{$upload_target_srl}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
+        <img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo(); return false;" />
     </div>
+    <!--@end-->
+
+    <div class="editor_iframe_box" id="editor_iframe_area_{$upload_target_srl}"></div>
 
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$upload_target_srl}"></div></div>
-
 
     <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->
@@ -142,16 +137,12 @@
         <!-- 파일 업로드 영역 -->
         <div class="fileListArea">
             <select id="uploaded_file_list_{$upload_target_srl}" size="7" class="fileList" onclick="editor_preview(this, '{$upload_target_srl}');"></select>
-            <p class="file_attach_info" id="uploader_status_{$upload_target_srl}"></p>
+            <span class="file_attach_info" id="uploader_status_{$upload_target_srl}"></span>
         </div>
 
-        <ul class="fileUploadControl">
-            <li><a href="#" onclick="editor_upload_file('{$upload_target_srl}');return false;" class="uploaderButton"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->edit->upload_file}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-
-            <li><a href="#" onclick="editor_remove_file('{$upload_target_srl}');return false;" class="uploaderButton"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->edit->delete_selected}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-
-            <li><a href="#" onclick="editor_insert_file('{$upload_target_srl}');return false;" class="uploaderButton"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->edit->link_file}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <div class="fileUploadControl"><a href="#" onclick="editor_upload_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a></div>
+        <div class="fileUploadControl"><a href="#" onclick="editor_remove_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a></div>
+        <div class="fileUploadControl"><a href="#" onclick="editor_insert_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->link_file}</span></a></div>
     </div>
     <!--@end-->
 

@@ -3,7 +3,7 @@
 <!--%import("filter/openid_login.xml")-->
 
 <!-- 제로보드XE 로그인 폼 -->
-<div class="smallBox w268">
+<div class="memberSmallBox w400">
 
     <div class="header">
         <h3>{$lang->cmd_login}</h3>
@@ -13,12 +13,12 @@
         <fieldset class="login">
             <dl>
                 <dt><label for="uid">{$lang->user_id}</label></dt>
-                <dd><input type="text" name="user_id" id="uid" class="inputTypeText" /></dd>
+                <dd><input type="text" name="user_id" id="uid" value="" class="inputTypeText w140" /></dd>
                 <dt><label for="upw">{$lang->password}</label></dt>
-                <dd><input type="password" name="password" id="upw" value="" class="inputTypeText" /></dd>
+                <dd><input type="password" name="password" id="upw" value="" class="inputTypeText w140" /></dd>
             </dl>
 
-            <span class="loginButton buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_login}" /></span>
 
             <p class="keep">
                 <input type="checkbox" name="remember_user_id" id="keepid" value="Y" />
@@ -27,16 +27,14 @@
         </fieldset>
     </form>
 
-    <ul class="help">
-        <!--<li class="first-child"><a href="#">아이디 찾기</a></li>-->
-        <!--<li><a href="#">비밀번호 찾기</a></li>-->
-        <li><a href="#" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}'">{$lang->cmd_signup}</a></li>
-    </ul>
+    <div class="help tCenter">
+        <a href="#" onclick="location.href='{getUrl('act','dispMemberSignUpForm')}'" class="button"><span>{$lang->cmd_signup}</span></a>
+    </div>
 </div>
 
 <!--@if($member_config->enable_openid=='Y')-->
 <!-- OpenID 로그인 폼 -->
-<div class="smallBox w268">
+<div class="memberSmallBox w400">
 
     <div class="header">
         <h3>{$lang->openid}</h3>
@@ -44,12 +42,16 @@
 
     <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
         <fieldset class="login">
-            <input type="text" name="user_id" id="open_uid" class="openid_user_id" />
-            <span class="openid_button buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+            <dl>
+                <dt><label for="open_uid">{$lang->user_id}</label></dt>
+                <dd><input type="text" name="user_id" id="open_uid" value="" class="openid_user_id" /></dd>
+            </dl>
+            <span class="button"><input type="submit" value="{$lang->cmd_login}" /></span>
+
         </fieldset>
     </form>
 
-    <div class="about_openid">{$lang->about_openid}</div>
+    <div class="help tLeft">{$lang->about_openid}</div>
 
 </div>
 <!--@end-->

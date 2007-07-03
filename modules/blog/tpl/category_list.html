@@ -24,15 +24,15 @@
             <div id="zone_category"></div>
             <p><input type="checkbox" class="checkbox" id="category_enable_move" onclick="hideCategoryInfo()" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label></p>
 
-            <ul class="buttonLeft">
-                <li><a href="#" onclick="doInsertCategory(0);return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+            <div class="fl gap1">
+                <a href="#" onclick="doInsertCategory(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
+            </div>
 
-            <ul class="buttonRight">
-                <li><a href="#" onclick="openAllTreeMenu('category');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                <li><a href="#" onclick="closeAllTreeMenu('category');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close_all}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                <li><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_remake_cache}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+            <div class="fr gap1">
+                <a href="#" onclick="openAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
+                <a href="#" onclick="closeAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
+                <a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+            </div>
         </div>
 
         <div id="category_info"></div>

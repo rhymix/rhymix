@@ -10,15 +10,15 @@
             </div>
 
             <div class="dateAndModify">
-                <span class="num">
+                <span class="num fr">
                     <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
                 </span>
 
                 <!--@if($oDocument->isEditable())-->
-                <ul>
-                    <li><a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-                    <li><a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-                </ul>
+                <div class="fl">
+                    <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+                    <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+                </div>
                 <!--@end-->
             </div>
         </div>

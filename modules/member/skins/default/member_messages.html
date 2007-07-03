@@ -22,12 +22,15 @@
 
         <div class="messageBody">{$message->content}</div>
 
-        <ul class="deleteOrKeep">
-            <!--@if($message->message_type == "R")-->
-            <li><a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_store}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+        <div class="deleteOrKeep tCenter">
+            <!--@if($message->message_type != "S")-->
+            <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply}</span></a>
             <!--@end-->
-            <li><a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+            <!--@if($message->message_type == "R")-->
+            <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_store}</span></a>
+            <!--@end-->
+            <a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        </div>
     </div>
     <!--@end-->
 
@@ -35,7 +38,7 @@
         <ul class="instantMessage">
             <!--@foreach($lang->message_box as $key => $val)-->
                 <!--@if($key == $message_type)-->
-                    <li class="on"><a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val} <strong>{$total_count}</strong></a></li>
+                    <li class="on"><a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val} : <strong>{$total_count}</strong></a></li>
                 <!--@else-->
                     <li><a href="{getUrl('message_type',$key,'message_srl','','page','')}">{$val}</a></li>
                 <!--@end-->
@@ -46,7 +49,12 @@
     <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
     <input type="hidden" name="message_type" value="{$message_type}" />
 
-        <table cellspacing="0" class="boardList">
+        <table cellspacing="0" class="list">
+        <col width="40" />
+        <col width="160" />
+        <col />
+        <col width="80" />
+        <col width="120" />
         <thead>
         <tr>
             <th scope="col" class="check first-child"><input name="check_all" type="checkbox" onclick="doCheckAll(this, 'fo_message_list');" /></th>
@@ -67,7 +75,7 @@
             <!--@foreach($message_list as $no => $val)-->
             <tr class="bg{($no+1)%2+1}">
                 <td class="check"><input name="message_srl_list" type="checkbox" value="{$val->message_srl}" /></td>
-                <td class="user"><div class="member_{$val->member_srl}">{$val->nick_name}<br />({$val->user_id})</div></td>
+                <td class="user"><div class="member_{$val->member_srl}">{$val->nick_name} ({$val->user_id})</div></td>
                 <td class="title">
                     <!--@if($val->readed=='Y')-->
                         <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
@@ -95,11 +103,11 @@
             <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
         </div>
 
-        <div class="buttonRight">
-            <a href="{getUrl('act','','message_type','','target_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
+        <div class="fr">
+            <a href="{getUrl('act','','message_type','','target_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
         </div>
-        <div class="buttonLeft">
-            <span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><img src="./images/{$colorset}/iconCheck.gif" width="10" height="9" class="icon" alt="" /><input type="submit" value="{$lang->cmd_delete}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+        <div class="fl">
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
         </div>
 
     </form>

@@ -35,13 +35,13 @@
 </div>
 
 <div id="popFooter">
-    <ul class="buttonRight nospace">
+    <div class="tRight gap1">
         <!--@if(count($document_list))-->
-        <li><a href="#" onclick="doManageDocument('move');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_move}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        <li><a href="#" onclick="doManageDocument('delete');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <a href="#" onclick="doManageDocument('move');return false;" class="button"><span>{$lang->cmd_move}</span></a>
+        <a href="#" onclick="doManageDocument('delete');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
-        <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
-    </ul>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    </div>
 </div>
 
 </form>

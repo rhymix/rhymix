@@ -20,10 +20,10 @@
         <tr>
             <th scope="row">{$lang->image_scale}</th>
             <td>
-                <ul class="buttonLeft nospace">
+                <ul>
                     <li><input type="text" id="width" value="0" size="4" class="inputTypeText" />px </li>
                     <li><input type="text" id="height" value="0" size="4" class="inputTypeText" />px </li>
-                    <li><a href="#" onclick="getImageScale(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_get_scale}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="#" onclick="getImageScale(); return false;" class="button"><span>{$lang->cmd_get_scale}</span></a></li>
                 </ul>
             </td>
         </tr>
@@ -73,12 +73,10 @@
         </tr>
         </table>
     </div>
-    <div id="popFooter">
-        <ul class="buttonRight nospace">
-            <li><a href="#" onclick="insertImage()" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_insert}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="insertImage()" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
     </div>
 
 </form>

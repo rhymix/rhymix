@@ -14,11 +14,11 @@
     <input type="hidden" name="trackback_srl" value="{$trackback_srl}" />
 
         <fieldset class="inputPassword">
-            <div class="button">
-                <span class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+            <div class="fl gap1">
+                <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
             </div>
-            <div class="button">
-                <a href="{getUrl('act','')}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a>
+            <div class="fr gap1">
+                <span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span>
             </div>
         </fieldset>
 

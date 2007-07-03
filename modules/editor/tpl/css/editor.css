@@ -17,12 +17,13 @@
 .xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
 .xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
 .xeEditor .optionE { padding:.5em; overflow:hidden; border-left:1px solid #ffffff; float:left;}
-.xeEditor .textAreaWrap { padding:1em; }
-.xeEditor #editorInfo { background:#fbfbfb; padding:1em; border:1px solid #e1e1dd; color:#999999; position:relative; margin-bottom:.8em;}
-.xeEditor .close { cursor:pointer; position:absolute; top:0; right:0; _top:3px; _right:15px;}
-.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em;}
-.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;position:relative;cursor:move;height:14px;}
-.xeEditor .editor_iframe_box { clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; }
+
+.xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:.5em 0 .5em 0;}
+.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:15px;}
+.xeEditor .editor_iframe_box { clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin-top:.5em; }
+
+.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em; margin-top:5px; }
+.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;cursor:move;height:14px;}
 
 div.editor_autosaved_message { font-size:9pt; font-weight:bold; color:#888888; display:none; position:absolute; top:10px; right:10px; }
 
@@ -32,12 +33,11 @@ div.editor_autosaved_message { font-size:9pt; font-weight:bold; color:#888888; d
 .xeEditor .fileAttach .preview { padding:5px; width:110px; height:110px; border:1px solid #e1e1dd; background:#fbfbfb; float:left; margin-right:.5em;}
 .xeEditor .fileAttach .preview img { width:110px; height:110px; float:left; display:block;}
 .xeEditor .fileAttach .fileListArea { float:left; width:50%; margin-right:.7em; padding-bottom:.5em; margin-bottom:1em}
-.xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em;}
+.xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em; font-size:11px;}
 .xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
-.xeEditor .fileAttach .fileListArea .file_attach_info { color:#3f4040; font:1em Tahoma; text-align:left;}
-.xeEditor .fileAttach .fileListArea .file_attach_info strong { color:#ff6600; font:bold 1em Tahoma;}
-.xeEditor .fileAttach .fileUploadControl { float:left;}
-.xeEditor .fileAttach .fileUploadControl li { float:left; clear:both; margin-bottom:.3em;}
+.xeEditor .fileAttach .fileListArea span.file_attach_info { color:#3f4040; font-size:11px; text-align:left;}
+.xeEditor .fileAttach .fileListArea span.file_attach_info strong { color:#ff6600; font-size:11px; font-weight:bold; }
+.xeEditor .fileAttach .fileUploadControl { margin-bottom:5px; }
 
 .xeEditor .fileAttach .fileUploadControl .uploaderButton { display:block; cursor:pointer; background:url(../images/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
 .xeEditor .fileAttach .fileUploadControl .uploaderButton:hover { text-decoration:none;}

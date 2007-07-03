@@ -4,6 +4,9 @@ NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
 Jeong, Chan Myeong 070601~070630
 */
 
+.gap1 { margin-top:.8em; }
+.commentButton { margin:.8em 0 .8em 0; }
+
 /* pathNavigation */
 .pathNavigation { background:url(../images/white/bullet_3x3_d8d8d8.gif) no-repeat left .4em; padding:0 0 0 .5em; color:#999999; margin:0 0 1.5em 0;}
 .pathNavigation * { font-size:.9em;}
@@ -24,14 +27,14 @@ Jeong, Chan Myeong 070601~070630
 .articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
 
 .accountNavigation { float:right; overflow:hidden;}
-.accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/white/line_1x10_e0e0e0.gif) no-repeat left .4em;}
-.accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666;}
+.accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/white/line_1x10_e0e0e0.gif) no-repeat left .4em; list-style:none;}
+.accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666; text-decoration:none;}
 .accountNavigation li.rss { background:none; padding-top:.4em;}
 .accountNavigation li.join { background:none; padding-top:.4em;}
 .accountNavigation li.join a { display:block; background:url(../images/white/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.myInfo { padding-top:.4em;}
+.accountNavigation li.myInfo { padding-top:.4em; background:none;}
 .accountNavigation li.myInfo a { display:block; background:url(../images/white/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.admin { background:none; padding-top:.4em;}
+.accountNavigation li.admin { padding-top:.4em;}
 .accountNavigation li.admin a { display:block; background:url(../images/white/iconAdmin.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
 
@@ -42,36 +45,34 @@ Jeong, Chan Myeong 070601~070630
 .boardList tr.bg1 { background:#ffffff}
 .boardList tr.bg2 { background:#fbfbfb;}
 .boardList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.8em .5em .5em .5em; background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom;}
-.boardList th a { color:#3e3f3e;}
+.boardList th a { color:#3e3f3e; text-decoration:none; }
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; padding:0;}
 .boardList th.category { padding:0 .2em 0 .5em; white-space:nowrap;}
 .boardList th.category.thumbStyle { background-position:-3px bottom !important; border-left:1px solid #ffffff; text-align:left;}
-.boardList th.category select { width:7em; }
-.boardList th.title {}
-.boardList th.author {}
+.boardList th.title select { vertical-align:middle; margin-left:1em; }
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
 .boardList th.date { border-right:1px solid #ffffff;}
 .boardList th .sort { padding:0 .2em; vertical-align:middle;}
 .boardList td { border-top:1px solid #eff0ed; padding:.5em;}
-.boardList td.num { font:.8em Tahoma; color:#999999; padding:.5em 1em;}
-.boardList td.category {}
+.boardList td.num { font:.8em Tahoma; color:#999999; padding:.5em 1em; text-align:center;}
 .boardList tr.notice td.num { padding:.5em; white-space:nowrap;}
 .boardList td.thumb { padding:.5em 0 .5em .5em; width:145px; table-layout:fixed; white-space:nowrap;}
 .boardList td.thumb * { vertical-align:middle;}
-.boardList td.title {}
+.boardList td.title {padding-left:1em; }
+.boardList td.title strong.category { font-size:1em; background:url(../images/white/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.title.bold { font-size:1.2em; font-weight:bold;}
 .boardList td.title.bold a { position:relative; top:.3em;}
 .boardList td.title * { vertical-align:middle;} 
 .boardList td.title,
-.boardList td.title a { color:#444444;}
+.boardList td.title a { color:#444444; text-decoration:none;}
 .boardList td.title a:visited { color:#777777;}
-.boardList td.author { color:#333333; font-size:.95em}
+.boardList td.author { color:#333333; font-size:.95em; padding-left:1em;}
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.recommend { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
 .boardList td.date { font:.8em Tahoma; color:#999999; text-align:center;}
-.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em;}
+.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:2em;}
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}
 .boardList td input { _margin:-3px;}
@@ -110,38 +111,11 @@ Jeong, Chan Myeong 070601~070630
 .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
-/* buttonType */
-.buttonTypeA { display:block; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; font-size:.9em;}
-.buttonTypeA:hover { text-decoration:none;}
-.buttonTypeA img { vertical-align:middle;}
-.buttonTypeA .leftCap { width:2px; height:24px; background:url(../images/white/buttonTypeALeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeA .rightCap { width:2px; height:24px; background:url(../images/white/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeA .icon { margin:0 .2em;}
-.buttonTypeA input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle; }
-
-.buttonTypeB { display:block; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
-.buttonTypeB:hover { text-decoration:none;}
-.buttonTypeB img { vertical-align:middle;}
-.buttonTypeB .leftCap { width:2px; height:21px; background:url(../images/white/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.buttonTypeB .rightCap { width:2px; height:21px; background:url(../images/white/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.buttonTypeB .icon { margin:0 .2em;}
-.buttonTypeB input { border:none; cursor:pointer; background:url(../images/white/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px;  vertical-align:middle;}
-
-.buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/white/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}
-
-/* button of list page */
-.buttonRight { position:relative; float:right; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-right:.5em; overflow:visible;}
-.buttonRight  ul { float:left; }
-.buttonRight  ul li { float:left; margin-right:.3em;}
-.buttonLeft { position:relative; float:left; top:-3em; margin:0 0 -3em 0; _top:-3.5em; padding-left:.5em; overflow:visible;}
-.buttonLeft ul { float:left; }
-.buttonLeft ul li { float:left; margin-right:.3em;}
-
 .boardRead .dateAndModify { float:right; white-space:nowrap;}
 .boardRead .dateAndModify .date { font-size:.8em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
 .boardRead .dateAndModify .date strong { font-size:1em; font-family:Tahoma;}
 .boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
+.boardRead .dateAndModify ul li { float:left; margin-left:.3em; list-style:none;}
 
 /* boardSearch */
 .boardSearch { text-align:center; clear:both; width:100%;}
@@ -151,8 +125,7 @@ Jeong, Chan Myeong 070601~070630
 .boardSearch select { float:left;}
 .boardSearch input { float:left; margin:0 .3em; background:#fbfbfb;}
 .searchButton ul { overflow:hidden;}
-.searchButton li { float:left; margin-right:.3em;}
-
+.searchButton li { float:left; margin-right:.3em; list-style:none;}
 
 /* boardRead */
 .boardRead { position:relative; _width:100%; margin:1em 0 0 0; border:1px solid #e0e1db;}
@@ -170,11 +143,11 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
-.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:left;}
+.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:right;}
 .boardRead dl.uri dt { float:left; clear:left; font-size:.9em; margin-right:.3em; color:#999999;}
 .boardRead dl.uri dd { clear:right; font:.8em Tahoma; color:#c5c7c0;}
 
-.boardRead .userInfo { float:right; white-space:nowrap;}
+.boardRead .userInfo { float:left; white-space:nowrap;}
 .boardRead .userInfo .author { padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
 .boardRead .userInfo .ipaddress { font-size:.9em; font-family:Tahoma; color:#888888; margin-right:.5em; }
 
@@ -197,29 +170,34 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .fileAttached li { display:inline; margin-right:.75em; line-height:1.5em;}
 .boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; position:relative; color:#444444; background:url(../images/white/iconFile.gif) no-repeat left top;}
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
-.boardRead .replyAndTrackback { position:relative; overflow:hidden; _width:100%; padding:.8em 0em; height:1em; background:url(../images/white/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #666760;}
-.boardRead .replyAndTrackback li { position:relative; left:1.5em; padding-left:1.4em; float:left; margin-right:1em;}
+
+.boardRead .replyAndTrackback { overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/white/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #666760;}
+.boardRead .replyAndTrackback li { margin-left:1em; padding-left:1.4em; float:left; list-style:none;}
+
 .boardRead .replyAndTrackback li.reply { background:url(../images/white/iconReply.gif) no-repeat left top;}
-.boardRead .replyAndTrackback li.reply a { _position:relative; _top:-.5em;}
+.boardRead .replyAndTrackback li.reply a { position:relative; top:-.3em; _top:-.6em;}
+
 .boardRead .replyAndTrackback li.trackback { background:url(../images/white/iconTrackback.gif) no-repeat left top;}
-.boardRead .replyAndTrackback a { display:block; float:left; color:#333333; height:1em; padding:.1em 1.5em .1em 0; white-space:nowrap;}
+.boardRead .replyAndTrackback li.trackback a { position:relative; top:-.3em; _top:0em;}
+
+.boardRead .replyAndTrackback a { color:#333333; white-space:nowrap; text-decoration:none;}
 .boardRead .replyAndTrackback a strong { color:#ff6600;}
 .boardRead .replyAndTrackback a#toggleReply { background:url(../images/white/buttonToggleReply.gif) no-repeat right top;}
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/white/buttonToggleReply.gif) no-repeat right -13px;}
-.boardRead .replyAndTrackback li.button { float:right; }
-.boardRead .replyAndTrackback li.button a { display:inline; padding:0; margin:0 1em 0 1em;}
+
+.boardRead .replyAndTrackback .listButton { float:right; margin:0 1em 0 0; position:relative; top:-5px; _top:-7px;}
 
 #trackbacks { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em;}
 #trackbacks li { padding:.6em .8em .6em .6em; line-height:1.25em; border-bottom:1px dotted #EEEEEE;}
 #trackbacks p { display:inline; margin-bottom:1em;}
-#trackbacks a { color:#666666; }
+#trackbacks a { color:#666666; text-decoration:none;}
 #trackbacks div  { clear:both; }
 #trackbacks address { display:block; padding:0 .3em 0 0; }
 #trackbacks address a { font-size:.9em; color:#3074a5; margin-right:.3em; float:left;}
 #trackbacks address .date { font:.8em Tahoma; color:#cccccc; float:right;}
 
 #reply { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
-#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE;}
+#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
 #reply p { display:inline; margin-bottom:1em;}
 #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
 #reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
@@ -232,7 +210,7 @@ Jeong, Chan Myeong 070601~070630
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
-#reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
+#reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em; list-style:none;}
 #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
 #reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
 #reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
@@ -252,14 +230,13 @@ Jeong, Chan Myeong 070601~070630
 .boardEditor .userNameAndPw .emailAddress { width:6em;}
 .boardEditor .userNameAndPw .homePage { width:6em;}
 .boardEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
-.boardEditor .buttonReply { position:relative; float:left; left:50%; margin:.5em 0 0 -2em; _padding-bottom:1em;}
 
 /* boardWrite */
 .boardWrite { width:100%; position:relative;}
 .boardWrite .userNameAndPw { margin-bottom:-1px;}
 .boardWrite .boardEditor fieldset { width:auto; position:relative;}
 .boardWrite div.title { border-bottom:1px solid #eff0ed; border-top:1px solid #eff0ed; padding:.5em 0; white-space:nowrap;}
-.boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:6em; white-space:nowrap;}
+.boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:8em; white-space:nowrap;}
 .boardWrite div.title input#title { width:60%;}
 .boardWrite .option { border-bottom:1px solid #e1e1e1; padding:.5em 0; overflow:hidden; width:100%;}
 .boardWrite .option dt { display:block; float:left; font-weight:bold; padding:.3em 0 0 1.5em; width:8em; white-space:nowrap;}
@@ -267,17 +244,13 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .option dd * { vertical-align:middle;}
 .boardWrite .inputTypeText { background:#fbfbfb;}
 .boardWrite .trackbackURI { clear:both; border-top:1px solid #eff0ed; padding:4px 0 .8em 0;}
-.boardWrite .trackbackURI label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:6em;}
+.boardWrite .trackbackURI label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
 .boardWrite .trackbackURI .inputTypeText { width:50%;}
 .boardWrite .tag { clear:both; border-top:1px solid #eff0ed; padding:.8em 0;}
-.boardWrite .tag label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:6em;}
+.boardWrite .tag label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
 .boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
 .boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:8.5em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
-
-.buttonWrite ul { text-align:center; clear:both; display:block;}
-.buttonWrite li { margin-top:.5em; float:right; margin-right:.3em;}
-.buttonWrite input { border:none; cursor:pointer; background:url(../images/white/buttonTypeACenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; white-space:nowrap;border:0px; _position:relative; _top:3px;}
 
 .smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
 .smallBox.w268 { width:268px;}
@@ -287,4 +260,3 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
-.smallBox .inputPassword .button { display:block; float:left; margin-right:.2em;}

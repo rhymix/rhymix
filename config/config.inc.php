@@ -18,6 +18,13 @@
     define('__DEBUG_OUTPUT__', 0);
 
     /**
+     * @brief DB 오류 메세지 출력 정의
+     * 0 : 출력하지 않음
+     * 1 : files/_debug_db_query.php 에 연결하여 출력
+     **/
+    define('__DEBUG_DB_OUTPUT__', 1);
+
+    /**
      * @brief 디버깅 메세지 출력
      * 0 : 디버그 메세지를 생성/ 출력하지 않음
      * 1 : 전체 실행 시간에 대해서만 메세지 생성/ 출력

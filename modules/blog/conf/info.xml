@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">블로그</title>
+    <title xml:lang="jp">ブログ</title>
+    <title xml:lang="en">Blog</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="en">zero</name>
         <description xml:lang="ko">
             블로그의 기능을 담당하는 모듈. 
             게시판과 비슷하지만 보여지는 view가 다르고 블로그에 적합한 method가 추가되었음.
             레이아웃과 기본 메뉴를 직접 담당
+        </description>
+        <description xml:lang="jp">
+            ブログの機能を担当するモジュール 
+            掲示板と似ているが内容を見せるviewが違ってブログに適切なmethodが追加されている。
+            レイアウトと基本メニュを直接担当
+        </description>
+        <description xml:lang="en">
+            This module used for blog functions.
+            It is similar to the board, but it has diffent views and new methods for blog has been included.
+            Also contains layout and basic menu.
         </description>
     </author>
 </module>

@@ -1,4 +1,7 @@
 @charset "utf-8";
+@import url(../../../../../../modules/admin/tpl/css/admin.css);
+
+li { float:left; list-style:none; margin-right:5px; }
 
 img.bg_preview_color {
     width:30px;
@@ -29,4 +32,4 @@ img.color_icon_over {
 
 .editor_color_box { clear:both; height:65px; width:400px; border:1px solid #DDDDDD; padding:2px; }
 
-.image_list { width:100%; height:100px; border:1px solid #EEEEEE; }
+.image_list { width:100%; border:1px solid #EEEEEE; }

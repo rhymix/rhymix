@@ -21,9 +21,9 @@
     <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
 
-    <table cellspacing="0" class="joinTable">
-    <col width="20%" />
-    <col width="80%" />
+    <table cellspacing="0" class="memberInfoTable">
+    <col width="130" />
+    <col />
     <caption>{$lang->member_default_info}</caption>
     <tr class="first-child">
         <th scope="row">{$lang->user_id}</th>
@@ -49,13 +49,13 @@
             <!--@if($member_info->image_name->src)-->
             <div class="memberImage">
                 <div class="info"><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></div>
-                <div class="button"><a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                <a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
             </div>
             <!--@end-->
 
             <div class="memberImage">
                 <div class="form"><input type="file" name="image_name" value="" /></div>
-                <div class="button"><a href="#" onclick="doUploadImageName();return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_registration}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                <a href="#" onclick="doUploadImageName();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
         </td>
     </tr>
@@ -67,14 +67,13 @@
             <!--@if($member_info->image_mark->src)-->
             <div class="memberImage">
                 <div class="info"><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></div>
-                <div class="button"><a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                <a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
             </div>
             <!--@end-->
 
             <div class="memberImage">
                 <div class="form"><input type="file" name="image_mark" value="" /></div>
-
-                <div class="button"><a href="#" onclick="doUploadImageMark();return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_registration}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                <a href="#" onclick="doUploadImageMark();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
         </td>
     </tr>
@@ -92,13 +91,13 @@
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
             <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">{zdate($member_info->birthday,"Y-m-d")}</div>
-            <div class="button_birthday"><a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+            <a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
             <p>{$lang->about_birthday}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->allow_mailing}</th>
-        <td><input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
+        <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
     <tr>
         <th scope="row">{$lang->allow_message}</th>
@@ -118,9 +117,9 @@
     </table>
 
     <!--@if($extend_form_list)-->
-    <table cellspacing="0" class="joinTable">
-    <col width="20%" />
-    <col width="80%" />
+    <table cellspacing="0" class="memberInfoTable">
+    <col width="130" />
+    <col />
     <caption>{$lang->member_extend_info}</caption>
     {@ $dummy_chk = 0 }
     <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
@@ -132,25 +131,25 @@
         <td>
             <!-- 일반 text -->
             <!--@if($val->column_type == 'text')--> 
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="inputTypeText" />
 
             <!-- textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}" class="textarea">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
 
             <!-- 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
@@ -176,33 +175,33 @@
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div class="krZip">
                     <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" />
-                        <div class="buttonZip"><a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="inputTypeText w300"/>
+                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
                     </div>
                     <div id="zone_address_list_{$val->column_name}" style="display:none">
-                        <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
-                        <div class="buttonZip"><a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_select}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
-                        <div class="buttonZip"><a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                        <select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
+                        <a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_select}</span></a>
+                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
                     </div>
                     <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-                        <input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
-                        <div class="buttonZip"><a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_search}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="inputTypeText w300" value="" />
+                        <a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_search}</span></a>
                     </div>
 
                     <div class="address2">
-                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
+                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText w300"/>
                     </div>
                 </div>
 
             <!-- 일본 주소 검색 -->
             <!--@elseif($val->column_type == 'jp_zip')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w300" />
 
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
                 <div class="str_birthday" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
-                <div class="button_birthday"><a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_open_calendar}<img src="./images/blank.gif" alt="" class="rightCap" /></a></div>
+                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
 
             <!--@end-->
 
@@ -213,11 +212,9 @@
     </table>
     <!--@end-->
 
-    <div class="button">
-        <ul>
-            <li><a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-        </ul>
+    <div class="tRight">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
     </div>
 </form>
 <!--#include("./common_footer.html")-->

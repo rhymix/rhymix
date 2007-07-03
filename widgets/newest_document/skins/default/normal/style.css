@@ -24,7 +24,6 @@
     float:right;
     color:#AAAAAA;
     text-decoration:none;
-    font-family:tahoma;
     font-weight:bold;
     font-size:.75em;
 }
@@ -60,14 +59,11 @@
 
 .newest_document_default_normal .newest_document_default_box .document .comment A {
     font-size:7pt;
-    font-family:tahoma;
     color:#AAAAAA;
     letter-spacing:-1px;
 }
 
 .newest_document_default_normal .newest_document_default_box .document .writer {
-    font-size:9pt;
-    font-family:tahoma;
     color:#AAAAAA;
 }
 
@@ -75,7 +71,6 @@
 .newest_document_default_normal .newest_document_default_box .regdate {
     color:#AAAAAA;
     font-size:8pt;
-    font-family:tahoma;
     float:right;
     white-space:nowrap;
 }

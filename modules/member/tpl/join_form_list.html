@@ -35,14 +35,14 @@
             <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
             <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
         </td>
-        <td class="tahoma blue"><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
-        <td class="tahoma red"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="blue"><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
+        <td class="red"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 
 <!-- 가입폼 추가 -->
-<ul class="buttonRight">
-    <li><a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-</ul>
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+</div>

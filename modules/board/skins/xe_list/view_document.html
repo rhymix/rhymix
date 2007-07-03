@@ -39,8 +39,8 @@
 
                 <!--@if($oDocument->isEditable())-->
                 <ul>
-                    <li><a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_modify}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-                    <li><a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a></li>
+                    <li><a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a></li>
                 </ul>
                 <!--@end-->
             </div>
@@ -97,16 +97,16 @@
 
     <ul class="replyAndTrackback">
         <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-            <li class="reply"><a href="#comment">{$lang->comment} <strong>{$oDocument->getCommentcount()}</strong></a></li>
+            <li class="reply"><a href="#comment">{$lang->comment} : <strong>{$oDocument->getCommentcount()}</strong></a></li>
         <!--@end-->
 
         <!--@if($oDocument->allowTrackback())-->
-            <li class="trackback"><a href="#trackback">{$lang->trackback} <strong>{$oDocument->getTrackbackCount()}</strong></a></li>
+            <li class="trackback"><a href="#trackback">{$lang->trackback} : <strong>{$oDocument->getTrackbackCount()}</strong></a></li>
         <!--@end-->
 
-            <li class="button">
-                <a href="{getUrl('document_srl','')}">{$lang->cmd_list}</a>
-                <a href="#" onclick="doVote();return false;">{$lang->cmd_vote}</a>
+            <li class="listButton">
+                <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+                <a href="#" onclick="doVote();return false;" class="button"><span>{$lang->cmd_vote}</span></a>
             </li>
     </ul>
 </div>

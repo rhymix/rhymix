@@ -35,16 +35,15 @@
 </tr>
 </table>
 
-<ul class="buttonLeft">
+<div class="fl gap1">
     <!--@if($category_info->name)-->
-    <li><a href="#" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="#" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
     <!--@end-->
-    <li><a href="#" onclick="hideCategoryInfo();return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-</ul>
-
-<ul class="buttonRight">
-    <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
+</div>
+<div class="fr gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
     <!--@if($category_info->name)-->
-    <li><a href="#" onclick="doInsertCategory('{$category_info->category_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_make_child}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="#" onclick="doInsertCategory('{$category_info->category_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
     <!--@end-->
-</ul>
+</div>

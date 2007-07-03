@@ -26,10 +26,8 @@
     <th scope="row" rowspan="2">{$lang->image_name}</th>
     <td>
         <!--@if($member_info->image_name->src)-->
-        <ul class="buttonLeft nospace">
-            <li><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></li>
-            <li><a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+        <a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <!--@else-->
         &nbsp;
         <!--@end-->
@@ -41,10 +39,8 @@
         <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
         <input type="hidden" name="module" value="member" />
         <input type="hidden" name="act" value="procMemberInsertImageName" />
-            <ul class="buttonLeft nospace">
-                <li><input type="file" name="image_name" value="" /></li>
-                <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            </ul>
+            <input type="file" name="image_name" value="" />
+            <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
         </form>
     </td>
 </tr>
@@ -52,10 +48,8 @@
     <th scope="row" rowspan="2">{$lang->image_mark}</th>
     <td>
         <!--@if($member_info->image_mark->src)-->
-        <ul class="buttonLeft nospace">
-            <li><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></li>
-            <li><a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+        <a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <!--@else-->
         &nbsp;
         <!--@end-->
@@ -67,10 +61,8 @@
         <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
         <input type="hidden" name="module" value="member" />
         <input type="hidden" name="act" value="procMemberInsertImageMark" />
-            <ul class="buttonLeft nospace">
-                <li><input type="file" name="image_mark" value="" /></li>
-                <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            </ul>
+        <input type="file" name="image_mark" value="" />
+        <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
         </form>
     </td>
 </tr>
@@ -152,14 +144,14 @@
 </tr>
 </table>
 
-<ul class="buttonRight">
-    <li><a href="{getUrl('act','dispMemberAdminInsert')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispMemberAdminInsert')}" class="button"><span>{$lang->cmd_modify}</span></a>
     <!--@if($val->is_admin!='Y')-->
-    <li><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
     <!--@end-->
     <!--@if($module=="admin")-->
-    <li><a href="{getUrl('act','dispMemberAdminList','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="{getUrl('act','dispMemberAdminList','module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
     <!--@end-->
-</ul>
+</div>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

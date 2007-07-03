@@ -65,9 +65,9 @@
 </tr>
 </table>
 
-<ul class="buttonRight">
-    <li><a href="{getUrl('act','dispBoardAdminInsertBoard')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" />{$lang->cmd_modify}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispBoardAdminInsertBoard')}" class="button"><span>{$lang->cmd_modify}</span></a>
     <!--@if($module=="admin")-->
-    <li><a href="{getUrl('act','dispBoardAdminContent','module_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_board_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="{getUrl('act','dispBoardAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_board_list}</span></a>
     <!--@end-->
-</ul>
+</div>

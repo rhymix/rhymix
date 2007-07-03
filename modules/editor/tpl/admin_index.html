@@ -21,7 +21,7 @@
         <th scope="row" rowspan="2"><a href="#" onclick="popopen('{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}');return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
         <td class="tahoam">{$xml_info->version}</td>
         <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
-        <td class="tahoma blue"><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
+        <td class="blue"><a href="#" onclick="window.open('{$xml_info->author->link}');return false;">{$xml_info->author->link}</a></td>
         <td class="tahoma">{$xml_info->author->date}</td>
         <td class="tahoma">
             <!--@if($xml_info->extra_vars)-->
@@ -30,14 +30,14 @@
                 &nbsp;
             <!--@end-->
         </td>
-        <td class="tahoma">
+        <td>
             <!--@if($xml_info->enabled=='Y')-->
                 <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
             <!--@else-->
                 <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
             <!--@end-->
         </td>
-        <td class="tahoma">
+        <td>
             <a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
             <a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
         </td>

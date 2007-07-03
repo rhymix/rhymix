@@ -130,7 +130,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
-.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:left;}
+.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:right;}
 .boardRead dl.uri dt { float:left; clear:left; font-size:.9em; margin-right:.3em; color:#999999;}
 .boardRead dl.uri dd { clear:right; font:.8em Tahoma; color:#c5c7c0;}
 
@@ -243,7 +243,4 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 .smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
 .smallBox .complex { padding:1.5em 2em 2em 2em;}
-.smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
-.smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
-.smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
-.smallBox .inputPassword .button { display:block; float:left; margin-right:.2em;}
+.smallBox .inputPassword { padding:2em 2em 1.5em 2em;}

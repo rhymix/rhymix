@@ -34,14 +34,14 @@
     <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
     <td class="tahoma">{$val->author->date}</td>
     <td class="tahoma">{$val->path}</td>
-    <td class="tahoma">
+    <td>
         <!--@if($val->extra_vars)-->
             <a href="#" onclick="popopen('{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}','addon_info');return false" class="blue">{$lang->cmd_setup}</a>
         <!--@else-->
             &nbsp;
         <!--@end-->
     </td>
-    <td class="tahoma">
+    <td>
         <!--@if($val->activated)-->
         <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" class="blue">{$lang->use}</a>
         <!--@else-->

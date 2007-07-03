@@ -98,11 +98,8 @@
 			<div id="searchBox">
 				<form action="{getUrl()}" method="post">
                     <input type="hidden" name="mid" value="{$layout_info->mid}" />
-					<fieldset>
-					<legend>검색</legend>
-					<input name="search_keyword" type="text" class="inputTypeText fl" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" style="width:125px" />
-					<span class="fr"><span class="buttonTypeB"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_search}"/><img src="./images/blank.gif" alt="" class="rightCap" /></span></span>
-					</fieldset>
+					<input name="search_keyword" type="text" class="inputTypeText w100" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+					<span class="button"><input type="submit" value="{$lang->cmd_search}"/></span>
 				</form>
 			</div>
 

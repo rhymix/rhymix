@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">제로보드XE 게시판 기본 스킨 (갤러리형)</title>
+  <title xml:lang="zh-CN">zeroboard XE board 基本皮肤（图片型）</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">(주)NHN</name>
+    <name xml:lang="zh-CN">(株)NHN</name>
     <description xml:lang="ko">
         제로보드XE 게시판의 갤러리형태의 기본 스킨입니다.
         디자인 : 서기정 
+        HTML/CSS : 정찬명
+    </description>
+   <description xml:lang="zh-CN">
+        zeroboard XE Board的图片型基本皮肤。
+        设计 : 서기정
         HTML/CSS : 정찬명
     </description>
   </maker>
   <colorset>
     <color name="white" src="screenshot/white.gif">
       <title xml:lang="ko">하얀색(기본)</title>
+      <title xml:lang="zh-CN">白色（基本）</title>
     </color>
   </colorset>
   <extra_vars>
     <var name="title" type="text">
         <title xml:lang="ko">게시판 제목</title>
+        <title xml:lang="zh-CN">board标题</title>
         <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+        <description xml:lang="zh-CN">请输入board 标题。（留空不显示）。</description>
     </var>
     <var name="sub_title" type="text">
         <title xml:lang="ko">게시판 부제목</title>
+        <title xml:lang="zh-CN">Board 副标题</title>
         <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
+        <description lang="zh-CN">请输入Board标题旁边显示的副标题。（留空不显示）</description>
     </var>
     <var name="comment" type="textarea">
         <title xml:lang="ko">게시판 상세 설명</title>
+        <title xml:lang="zh-CN">Board 详细说明</title>
         <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+        <description lang="zh-CN">请输入Board 标题下面显示的说明。（留空不显示）</description>
     </var>
   </extra_vars>
 </skin>

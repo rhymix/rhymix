@@ -16,24 +16,10 @@ IE7 Only
 */
 
 /* default.css - Type Selector Definition */
-* { margin:0; padding:0; }
-html, body { }
-html { width:100%; position:relative;}
-body { font-size:.75em; width:100%; background:#2f2f2f; margin:0;}
-img { border:none;}
-label { cursor:pointer;}
-select { height:1.6em;}
-option { padding-right:.5em;}
 li { list-style:none;}
 a { text-decoration:none;}
 a:hover { text-decoration:underline;}
 address { font-style:normal;}
-
-/* Input Style Definition */
-.inputTypeText { border:1px solid #c9c9c9; padding:3px; height:1em; line-height:1em; background:#ffffff;}
-.inputTypeText:hover,
-.inputTypeText:focus { background:#f4f4f4;}
-.inputTypeTextArea { border:1px solid #c9c9c9; padding:3px; background:#ffffff;}
 
 /* Special Class Selector */
 .fr { float:right;}
@@ -50,7 +36,7 @@ address { font-style:normal;}
 
 /* ----- Header | End ----- */
 
-#cBody { position:relative; clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
+#cBody { clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
 
 #gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;}
 #gNavigation h2 { }
@@ -61,7 +47,7 @@ address { font-style:normal;}
 #gNavigation ul li a { display:block; padding:9px 0 0 28px; height:21px; color:#606060;}
 #gNavigation ul li a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:-2px; font-weight:bold; color:#ffffff; text-decoration:none;}
 #gNavigation ul li.on a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:0; font-weight:bold; color:#ffffff; text-decoration:none;}
-#gNavigation .menuEdit { float:left; padding:15px 0 0 26px;}
+#gNavigation .menuEdit { width:180px; height:30px; text-align:center; margin-top:1em;}
 
 #content { float:left; width:100%; padding:71px 0 100px 0;}
 

@@ -136,6 +136,17 @@
 
             if($this->isError()) {
                 $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
+
+                if(__DEBUG_DB_OUTPUT==1)  {
+                    $debug_file = "./files/_debug_db_query.php";
+                    $buff = sprintf("%s\n",print_r($buff,true));
+
+                    if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
+
+                    if(@!$fp = fopen($debug_file,"a")) return;
+                    fwrite($fp, $buff);
+                    fclose($fp);
+                }
             } else {
                 $str .= "\t    Query Success\n";
             }

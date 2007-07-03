@@ -37,17 +37,17 @@
             {$val->created_table_count}/{$val->table_count}
         </td>
         <td class="tahoma left">{$val->path}</td>
-        <td class="tahoma blue"><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
-        <td class="tahoma red">
+        <td class="blue"><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
+        <td class="red">
             <!--@if($val->need_update)-->
                 <a href="#">{$lang->cmd_update}</a>
             <!--@else-->
                 <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
             <!--@end-->
         </td>
-        <td class="tahoma blue">
+        <td>
             <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
-            <a href="#" onclick="doAddShortCut('{$val->module}');return false;">{$lang->cmd_add_shortcut}</a>
+            <a href="#" onclick="doAddShortCut('{$val->module}');return false;" class="button"><span>{$lang->cmd_add_shortcut}</span></a>
             <!--@else-->
             &nbsp;
             <!--@end-->

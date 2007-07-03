@@ -246,7 +246,6 @@ function setFixedPopupSize() {
             xGetElementById('popBody').style.overflowX = 'hidden';
             xHeight('popBody', 600);
         }
-
     }
 
     var w = xWidth("popup_content");
@@ -270,6 +269,8 @@ function setFixedPopupSize() {
    
     var h1 = xHeight(window.document.body);
     window.resizeBy(0,h-h1);
+
+    window.scrollTo(0,0);
 }
 
 /**

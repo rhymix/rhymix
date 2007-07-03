@@ -27,16 +27,16 @@
         <td class="tahoma">{$val->denied}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="tahoma red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 
 <!-- 버튼 -->
-<ul class="buttonRight">
-    <li><a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" class="icon" alt="" />{$lang->cmd_make}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-</ul>
+<div class="fr gap1">
+    <a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pageNavigation">
@@ -72,19 +72,14 @@
             <option value="{$val->group_srl}" <!--@if($selected_group_srl==$val->group_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
             <!--@end-->
         </select>
-
-        <ul class="buttonRight">
-            <li>
-                <select name="search_target">
-                    <option value="">{$lang->search_target}</option>
-                    <!--@foreach($lang->search_target_list as $key => $val)-->
-                    <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                    <!--@end-->
-                </select>
-            </li>
-            <li><input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" /></li>
-            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_search}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+        <select name="search_target">
+            <option value="">{$lang->search_target}</option>
+            <!--@foreach($lang->search_target_list as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

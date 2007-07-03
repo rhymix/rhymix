@@ -1,6 +1,7 @@
 <!--%import("filter/generate_code_in_page.xml")-->
 <!--%import("js/widget_admin.js")-->
 <!--%import("css/widget.css")-->
+<!--%import("../../admin/tpl/css/admin.css")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);" id="fo_widget">
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
@@ -114,13 +115,10 @@
         </tr>
         </table>
     </div>
-    <div id="popFooter">
-        <ul class="buttonRight nospace">
-            <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_generate_code}" class="editor_button" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
-        </ul>
+    <div id="popFooter" class="tCenter gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
     </div>
-
 </form>
 
 <script type="text/javascript">

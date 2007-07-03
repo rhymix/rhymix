@@ -277,7 +277,8 @@
                 // 현재 모듈에 act값이 있으면 해당 act를 실행
                 if(method_exists($this, $this->act)) {
                     //$output = call_user_method($this->act, $this);
-                    $output = call_user_func(array($this, $this->act));
+                    //$output = call_user_func(array($this, $this->act));
+                    $output = $this->{$this->act}();
 
                 // act가 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
                 } else if(Context::isInstalled()) {
@@ -294,7 +295,8 @@
                         $oModule->setModuleInfo($this->module_info, $xml_info);
 
                         //$output = call_user_method($forward->act, $oModule);
-                        $output = call_user_func(array($oModule, $forward->act));
+                        //$output = call_user_func(array($oModule, $forward->act));
+                        $output = $oModule->{$forward->act}();
 
                         $this->setTemplatePath($oModule->getTemplatePath());
                         $this->setTemplateFile($oModule->getTemplateFile());
@@ -302,7 +304,8 @@
                     } else {
                         if($this->xml_info->default_index_act) {
                             //$output = call_user_method($this->xml_info->default_index_act, $this);
-                            $output = call_user_func(array($this, $this->xml_info->default_index_act));
+                            //$output = call_user_func(array($this, $this->xml_info->default_index_act));
+                            $output = $this->{$this->xml_info->default_index_act}();
                         } else {
                             return false;
                         }

@@ -20,10 +20,8 @@
 <tr>
     <th scope="row">{$lang->menu_url}</th>
     <td>
-        <ul class="buttonLeft nospace">
-            <li><input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" /></li>
-            <li><span class="buttonTypeB"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="button" value="{$lang->cmd_search_mid}" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList')}');return false;"/><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-        </ul>
+        <input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" />
+        <a href="#" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList')}');return false;" class="button"/><span>{$lang->cmd_search_mid}</span></a>
         <p class="clear">{$lang->about_menu_url}</p>
     </td>
 </tr>
@@ -69,16 +67,16 @@
 </tr>
 </table>
 
-<ul class="buttonLeft">
+<div class="fl gap1">
     <!--@if($item_info->name)-->
-    <li><a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_delete}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
     <!--@end-->
-    <li><a href="#" onclick="hideCategoryInfo();return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-</ul>
+    <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
+</div>
 
-<ul class="buttonRight">
-    <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+<div class="fr gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
     <!--@if($item_info->name)-->
-    <li><a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_make_child}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+    <a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
     <!--@end-->
-</ul>
+</div>

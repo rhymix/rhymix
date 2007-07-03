@@ -4,18 +4,17 @@
 <form action="./" method="get" onsubmit="return procFilter(this, logout)">
 <input type="hidden" name="mid" value="{$mid}" />
 
-<div class="smallBox w268">
+<div class="memberSmallBox w400">
     <div class="header">
         <h3>{$lang->cmd_logout}</h3>
     </div>
     <div class="text">
         <p class="fwB">{$lang->confirm_logout}</p>
     </div>
-    <div class="button">
-        <ul>
-            <li><a href="{getUrl('act','','member_srl','')}" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_cancel}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_logout}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-        </ul>
+
+    <div class="help tCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_logout}" /></span>
+        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
     </div>
 </div>
 

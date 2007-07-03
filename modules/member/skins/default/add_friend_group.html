@@ -1,9 +1,10 @@
 <!--#include("./common_header.html")-->
 <!--%import("filter/add_friend_group.xml")-->
 
-<div class="smallBox w298pop">
+<div class="memberSmallBox w500pop">
     <form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
     <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
+
         <div class="header">
             <h3>
                 <!--@if($friend_group->friend_group_srl)-->
@@ -19,15 +20,13 @@
             <input name="title" type="text" class="inputTypeText" value="{htmlspecialchars($friend_group->title)}"/>
         </div>
 
-        <div class="button">
-            <ul>
-                <!--@if($friend_group->friend_group_srl)-->
-                <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_modify}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-                <!--@else-->
-                <li><span class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_insert}" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-                <!--@end-->
-                <li><a href="#" onclick="window.close();return false;" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="./images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+        <div class="help tCenter">
+            <!--@if($friend_group->friend_group_srl)-->
+            <span class="button"><input type="submit" value="{$lang->cmd_modify}" /></span>
+            <!--@else-->
+            <span class="button"><input type="submit" value="{$lang->cmd_insert}" /></span>
+            <!--@end-->
+            <a href="#" onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
         </div>
     </form>
 </div>

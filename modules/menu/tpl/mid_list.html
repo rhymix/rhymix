@@ -4,36 +4,30 @@
 </div>
 
 <div id="popBody" class="w700">
+    <form action="./" method="get">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+
     <table cellspacing="0" class="tableType5">
     <thead>
       <tr>
           <th scope="row">
-              <form action="./" method="get">
-                  <input type="hidden" name="module" value="{$module}" />
-                  <input type="hidden" name="act" value="{$act}" />
-                  <input type="hidden" name="target_module" value="{$target_module}" />
                   <select name="module_category_srl" class="w5">
                       <option value="">{$lang->module_category}</option>
                       <!--@foreach($module_category as $key => $val)-->
                       <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
                       <!--@end-->
                   </select>
-                  <input type="submit" name="go_button" value="GO" class="buttonTypeGo" />
               </form>
           </th>
           <th scope="row">
-              <form action="./" method="get">
-                  <input type="hidden" name="module" value="{$module}" />
-                  <input type="hidden" name="act" value="{$act}" />
-                  <input type="hidden" name="module_category_srl" value="{$module_category_srl}" />
                   <select name="target_module" class="w5">
                       <option value="">{$lang->module}</option>
                       <!--@foreach($module_list as $key => $val)-->
                       <option value="{$val->module}" <!--@if($target_module ==$val->module)-->selected="selected"<!--@end-->>{$val->module}</option>
                       <!--@end-->
                   </select>
-                  <input type="submit" name="go_button" value="GO" class="buttonTypeGo" />
-              </form>
+                  <span class="button"><input type="submit" name="go_button" value="GO" /></span>
           </th>
           <th scope="row">{$lang->mid}</th>
           <th scope="row">{$lang->title}</th>
@@ -58,10 +52,12 @@
     <!--@end-->
     </tbody>
     </table>
+
+    </form>
 </div>
 
 <div id="popFooter" class="w700">
-    <ul class="buttonRight nospace">
-        <li><span class="buttonTypeA"><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></span></li>
-    </ul>
+    <div class="tCenter gap1">
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    </div>
 </div>

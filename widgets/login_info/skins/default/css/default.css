@@ -2,12 +2,26 @@
 .fc_02 { color:#9A9893; }
 
 .box_login { border:solid 3px #D5D8DB; background:#FFFFFE; margin-bottom:10px;}
+
+.box_login .user_info { padding:5px 0 0 5px; height:22px; }
+
+.box_login .hr_dot_01 { background:url(../images/default/hr_dot_01.gif) repeat-x; height:2px; overflow:hidden; clear:both; margin:6px; }
+.box_login .item { background:url(../images/default/bul_01.gif) no-repeat 5px 5px; height:16px; padding:3px 0px 0px 20px; margin-left:5px; margin-top:2px; }
+.box_login .item a { color:#666666; text-decoration:none; }
+.box_login .item { font-size:11px; letter-spacing:-1px; margin-right:10px; padding:3px 0px 0px 20px; white-space:nowrap; }
+.box_login .profile { width:70px; float:left; background:url(../images/default/icon_profile.gif) no-repeat left; }
+.box_login .message { width:70px; float:left; background:url(../images/default/icon_note.gif) no-repeat left; }
+.box_login .friend { float:left; background:url(../images/default/icon_friend.gif) no-repeat left; }
+.box_login .administrative { float:left; background:url(../images/default/icon_key.gif) no-repeat left; margin-right:0px; }
+.box_login .administrative a { color:#D80D0F; }
+.box_login .lastlogin { clear:both; padding-bottom:5px;}
+
 .box_login .form_field { float:left; margin:9px 9px 0 9px; _margin:3px 3px 0 3px; height:55px; }
 .box_login .form_field div { margin-top:2px; margin-bottom:3px; }
 .box_login input.submit { width:45px; height:45px; background:url(../images/default/login_btn_submit.gif) no-repeat; border:none; margin:9px 0 0 0; _margin:5px 0 0 0; cursor:pointer; }
 .box_login .input { width:140px; background-color: #ffffff;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6;  padding:2px; height:14px; margin:0px; cursor:text; color:#666666;}
 .box_login ul.option { clear:both; height:20px; margin:0 0 0 9px;}
-.box_login ul.option li { float:left; }
+.box_login ul.option li { float:left; list-style:none;}
 .box_login ul.option li a.btn { background:url(../images/default/bul_01.gif) no-repeat left; padding-left:10px; margin-left:14px; }
 .box_login .checkbox  { width:15px; height:15px; margin:-1px 0px 0px -1px; margin-right:2px; }
 .box_login .clear { clear:both; }
@@ -25,18 +39,3 @@
 .openid_login .wButtonWrite ul { text-align:center; clear:both; display:block;}
 .openid_login .wButtonWrite li { margin-top:.5em; float:left; margin-left:.3em;}
 
-.box_login .item { background:url(../images/default/bul_01.gif) no-repeat left; height:16px; padding:3px 0px 0px 20px; margin-left:5px; margin-top:2px; }
-.box_login .item a { color:#666666; }
-
-.box_login .hr_dot_01 { background:url(../images/default/hr_dot_01.gif) repeat-x; height:2px; overflow:hidden; clear:both; margin:4px 4px 4px 4px; }
-
-.box_login div.login_user { font-weight:bold; float:left; margin-top:2px; margin:9px 0px 2px 9px;}
-.box_login div.logout { font-weight:bold; float:right; margin-top:2px;margin:9px 9px 2px 0;}
-.box_login div.logout a { color:#888888; }
-.box_login div.item { font-size:11px; letter-spacing:-1px; margin-right:10px; padding:3px 0px 0px 20px; white-space:nowrap; }
-.box_login div.profile { width:70px; float:left; background:url(../images/default/icon_profile.gif) no-repeat left; }
-.box_login div.message { width:70px; float:left; background:url(../images/default/icon_note.gif) no-repeat left; }
-.box_login div.friend { float:left; background:url(../images/default/icon_friend.gif) no-repeat left; }
-.box_login div.administrative { float:left; background:url(../images/default/icon_key.gif) no-repeat left; margin-right:0px; }
-.box_login div.administrative a { color:#D80D0F; }
-.box_login div.lastlogin { clear:both; }

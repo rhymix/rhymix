@@ -64,20 +64,17 @@
     <tr>
         <th scope="row">{$lang->widget}</th>
         <td>
-            <ul class="buttonLeft nospace">
             <!--@foreach($widget_list as $widget)-->
-                <li class="widget_item"><a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$widget->title}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+            <div class="fl gap1"><a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a></div>
             <!--@end-->
-            </ul>
         </td>
-    </tr>
-    <tr>
-        <td colspan="2">{$editor}</td>
     </tr>
     </table>
 
-    <div class="buttonRight">
-        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_save}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    <div class="gap1">{$editor}</td>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
     </div>
 
 </form>

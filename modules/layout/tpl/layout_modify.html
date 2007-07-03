@@ -82,17 +82,13 @@
     <tr>
         <th scope="row">{$menu_info->title}<br />({$menu_name})</th>
         <td class="left tahoma">
-            <ul class="buttonLeft nospace">
-                <li>
-                    <select name="{$menu_name}">
-                        <option value="0">------------------------</option>
-                        <!--@foreach($menu_list as $key => $val)-->
-                        <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-                        <!--@end-->
-                    </select>
-                </li>
-                <li><a href="#" onclick="doMenuManagement('{$menu_name}');return false;" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_management}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            </ul>
+            <select name="{$menu_name}">
+                <option value="0">------------------------</option>
+                <!--@foreach($menu_list as $key => $val)-->
+                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <a href="#" onclick="doMenuManagement('{$menu_name}');return false;" class="button"><span>{$lang->cmd_management}</span></a>
         </td>
     </tr>
     <!--@end-->
@@ -105,14 +101,14 @@
     </tr>
     </table>
 
-    <ul class="buttonRight">
-        <li><span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" width="8" height="4" alt="" class="icon" /><input type="submit" value="{$lang->cmd_save}" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
         <!--@if($module=="admin")-->
-        <li><a href="{getUrl('act','dispLayoutAdminContent')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_list}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
         <!--@else-->
-        <li><a href="{getUrl('act','')}" class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_back}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+        <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
         <!--@end-->
-    </ul>
+    </div>
 </form>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

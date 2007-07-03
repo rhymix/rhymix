@@ -33,8 +33,8 @@
         <td class="tahoma">{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
         <td>{nl2br($group_info->description)}&nbsp;</td>
         <td class="tahoma">{$group_info->is_default}</td>
-        <td class="tahoma blue"><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="tahoma red">
+        <td class="blue"><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
+        <td class="red">
             <!--@if($group_info->is_default!='Y' && $group_info->is_admin !='Y')-->
             <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a>
             <!--@else-->
@@ -69,8 +69,8 @@
     </tr>
     </table>
 
-    <div class="buttonRight">
-        <span class="buttonTypeA"><img src="../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><img src="../../admin/tpl/images/iconCreate.gif" alt="" width="8" height="4" class="icon" /><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /><img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span>
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
     </div>
 
 </form>

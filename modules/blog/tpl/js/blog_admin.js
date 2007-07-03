@@ -186,6 +186,8 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     if(xGetElementById('cBody') && xHeight('cBody')< y+xHeight(obj)+50) {
         xHeight('cBody', y + xHeight(obj) + 50);
     }
+
+    if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
 }
 
 /* 카테고리 아이템 입력후 */ 
@@ -205,6 +207,8 @@ function completeInsertCategory(ret_obj) {
         var params = {node_srl:category_srl, parent_srl:parent_srl}
         doGetCategoryInfo(null, params)
     }
+
+    if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
 } 
 
 

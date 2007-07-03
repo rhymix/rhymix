@@ -47,7 +47,7 @@
                             <!--@end-->
                         </select>
                     </li>
-                    <li><a href="#" onclick="doPollAdd(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_add_poll}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                    <li><a href="#" onclick="doPollAdd(); return false;"><span>{$lang->cmd_add_poll}</span></a></li>
                 </ul>
             </td>
         </tr>
@@ -75,11 +75,13 @@
             </table>
 
             <div class="pollButton clear">
-                <ul class="buttonLeft nospace">
-                    <li><a href="#" onclick="doPollAddItem(this); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_add_item}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-                    <li><a href="#" onclick="doPollDelete(this); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_del_poll}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
+                <ul class="fl">
+                    <li><a href="#" onclick="doPollAddItem(this); return false;" >{$lang->cmd_add_item}</a></li>
                 </ul>
-                <ul class="buttonRight nospace">
+                <ul class="fr">
+                    <li><a href="#" onclick="doPollDelete(this); return false;" >{$lang->cmd_del_poll}</a></li>
+                </ul>
+                <ul class="fr">
                     <li><label>{$lang->poll_chk_count}</label></li>
                     <li><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></li>
                 </ul>
@@ -89,12 +91,10 @@
 
     </div>
 
-    <div id="popFooter">
-        <ul class="buttonRight nospace">
-            <li><span class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_submit}" /><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></li>
-            <li><a href="#" onclick="window.close(); return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->cmd_close}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-            <li><a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="buttonTypeA"><img src="../../../../../admin/tpl/images/blank.gif" alt="" class="leftCap" />{$lang->about_component}<img src="../../../../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></a></li>
-        </ul>
+    <div id="popFooter" class="tCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
     </div>
 
 

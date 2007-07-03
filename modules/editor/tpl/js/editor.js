@@ -29,6 +29,7 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // iframe_area를 찾음
     var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
+    xHeight(iframe_area, height);
     xInnerHtml(iframe_area, '<iframe id="editor_iframe_'+upload_target_srl+'" frameBorder="0" style="width:100%;height:'+height+'px;"></iframe>');
 
     // iframe obj를 찾음
@@ -104,7 +105,7 @@ function editorStart(upload_target_srl, resizable, height) {
 
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, upload_target_srl);
 
-    // 팝업 윈도우일 경우 드래그바 숨김
+    // 크기 변경 불가일 경우 드래그바 숨김
     if(resizable == false) xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
 
     if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(height);
