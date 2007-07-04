@@ -29,7 +29,7 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // iframe_area를 찾음
     var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
-    xHeight(iframe_area, height);
+    xHeight(iframe_area, height+10);
     xInnerHtml(iframe_area, '<iframe id="editor_iframe_'+upload_target_srl+'" frameBorder="0" style="width:100%;height:'+height+'px;"></iframe>');
 
     // iframe obj를 찾음
@@ -574,7 +574,9 @@ function editorDragStart(evt) {
     editorDragObj.y = e.pageY;
     editorDragObj.obj = e.target;
     editorDragObj.id = id.substr('editor_drag_bar_'.length);
+
     var iframe_obj = editorGetIFrame(editorDragObj.id);
+
     editorDragObj.source_height = xHeight(iframe_obj);
 
     xAddEventListener(document, 'mousemove', editorDragMove, false);
@@ -593,6 +595,7 @@ function editorDragMove(evt) {
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
     xHeight(iframe_obj, xHeight(iframe_obj)+h);
+    xHeight(iframe_obj.parentNode, xHeight(iframe_obj)+10);
 }
 
 function editorDragStop(evt) {
