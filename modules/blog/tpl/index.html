@@ -56,8 +56,8 @@
         <td class="tahoma">{$val->skin}</td>
         <td class="tahoma">{$val->admin_id}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma blue"><a href="./?mid={$val->mid}" target="_blank">{$lang->cmd_view}</a></td>
-        <td class="tahoma red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBlogAdminDeleteBlog','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="blue"><a href="./?mid={$val->mid}" target="_blank">{$lang->cmd_view}</a></td>
+        <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBlogAdminDeleteBlog','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>
