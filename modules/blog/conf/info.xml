@@ -18,9 +18,9 @@
             レイアウトと基本メニュを直接担当
         </description>
         <description xml:lang="en">
-            This module used for blog functions.
-            It is similar to the board, but it has diffent views and new methods for blog has been included.
-            Also contains layout and basic menu.
+            This module contains the blog functions.
+            It's similar to the bbs module, but it has diffent views and more suitable methods for blog has been included.
+            This module manages layout and basic menu itself.
         </description>
     </author>
 </module>

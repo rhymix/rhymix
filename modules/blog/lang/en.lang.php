@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   en.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  basic language pack for blog module
      **/
@@ -20,9 +20,9 @@
     $lang->parent_category_name = 'Parent category';
     $lang->category_name = 'Category';
     $lang->expand = 'Expand';
-    $lang->category_group_srls = '그룹제한'; //context 이해 불가능;;
+    $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search result';
-
+    
     // blah blah..
     $lang->about_category_name = 'Input category name';
     $lang->about_expand = 'By selecting this option, it will be always expanded';

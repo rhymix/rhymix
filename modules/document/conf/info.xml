@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">문서</title>
+    <title xml:lang="en">Document</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="en">Zero</name>
         <description xml:lang="ko">게시판, 블로그등의 모듈에서 사용되는 문서를 관리하는 모듈입니다. </description>
+        <description xml:lang="en">Module for managing documents used in board, blog, etc.</description>
     </author>
 </module>

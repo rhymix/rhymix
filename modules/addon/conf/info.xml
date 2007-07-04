@@ -2,10 +2,13 @@
 <module version="0.1">
   <title xml:lang="ko">애드온</title>
   <title xml:lang="en">Addon</title>
+  <title xml:lang="es">Addon</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
+    <name xml:lang="es">zero</name>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
+    <description xml:lang="es">Esto es el módulo de mantenimiento del addon que a colocar addons a encendir/apagar..</description>
   </author>
 </module>

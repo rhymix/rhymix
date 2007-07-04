@@ -50,18 +50,18 @@
     $lang->disable = 'Disable';
 
     // Essencial Words
-    $lang->no = 'No';
+    $lang->no = 'No.';
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
     $lang->category = 'Category';
     $lang->document_srl = 'Doc. No.';
-    $lang->user_id = 'ID';
+    $lang->user_id = 'User ID';
     $lang->author = 'Author';
     $lang->password = 'Password';
     $lang->password1 = 'Password';
     $lang->password2 = 'Confirm Password';
     $lang->admin_id = 'Admin ID';
-    $lang->writer = 'Writer';
+    $lang->writer = 'Author';
     $lang->user_name = 'User Name';
     $lang->nick_name = 'Nick Name';
     $lang->email_address = 'Email';
@@ -69,7 +69,7 @@
     $lang->blog = 'Blog';
     $lang->birthday = 'Birthdate';
     $lang->browser_title = 'Browser Title';
-    $lang->title = 'Title';
+    $lang->title = 'Subject';
     $lang->title_content = 'Title+Content';
     $lang->content = 'Content';
     $lang->document = 'Entry';
@@ -78,7 +78,7 @@
     $lang->trackback = 'Trackback';
     $lang->tag = 'Tag';
     $lang->allow_comment = 'Allow Comment';
-    $lang->lock_comment = 'Lock Comment';
+    $lang->lock_comment = 'Block Comment';
     $lang->allow_trackback = 'Allow Trackback';
     $lang->uploaded_file = 'Attachment';
     $lang->grant = 'Authority';
@@ -103,11 +103,11 @@
     $lang->blog_name = 'Blog Title';
     $lang->excerpt = 'Quotation';
 
-    $lang->document_count = 'Entry Count';
+    $lang->document_count = 'Total Entries';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
-    $lang->readed_count = 'Count Referred';
-    $lang->voted_count = 'Count Voted';
+    $lang->readed_count = 'Views';
+    $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Date Published';
@@ -145,18 +145,18 @@
     // Related to Message
     $lang->msg_call_server = 'Requesting to the server, please wait';
     $lang->msg_db_not_setted = 'DB configuration has not been set';
-    $lang->msg_invalid_queryid = 'Query ID value specified wrong';
-    $lang->msg_not_permitted = 'You have no permission';
+    $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
+    $lang->msg_not_permitted = 'You are not permitted to continue';
     $lang->msg_input_password = 'Please enter your password';
     $lang->msg_invalid_document = 'Invalid Entry Number';
     $lang->msg_invalid_request = 'Invalid Request';
     $lang->msg_invalid_password = 'Invalid Password';
-    $lang->msg_error_occured = 'Error has been Occured';
+    $lang->msg_error_occured = 'Error has been occured';
     $lang->msg_not_founded = 'Target could not be found';
-    $lang->msg_no_result = 'This search has no result';
+    $lang->msg_no_result = 'Your search returned no result';
 
     $lang->msg_not_permitted_act = 'You are not permitted to request the action to be executed';
-    $lang->msg_module_is_not_exists = 'Could not find the module you requested';
+    $lang->msg_module_is_not_exists = 'Could not find the module you have requested';
     $lang->msg_module_is_not_standalone = 'The module you requested could not behave independently';
 
     $lang->success_registed = 'Successfully Registered';
@@ -165,22 +165,22 @@
     $lang->success_voted = 'Successfully Voted';
     $lang->success_moved = 'Successfully Moved';
     $lang->success_sended = 'Successfully Sent';
-    $lang->success_reset = 'Successfully Reset';
+    $lang->success_reset = 'Successfully Reseted';
     $lang->success_leaved = 'Successfully Seceded';
 
     $lang->fail_to_delete = 'Deletion Failed';
     $lang->fail_to_move = 'Moving Failed';
 
     $lang->failed_voted = 'Could not be voted';
-    $lang->fail_to_delete_have_children = 'Deletion Failed, since there are one or more replies';
+    $lang->fail_to_delete_have_children = 'There are still one or more replies left; Deletion Failed';
 
-    $lang->confirm_submit = 'Confirm to Submit?';
-    $lang->confirm_logout = 'Confirm to Logout?';
-    $lang->confirm_vote = 'Confirm to Vote?';
-    $lang->confirm_delete = 'Confirm to Delete?';
-    $lang->confirm_move = 'Confirm to Move?';
-    $lang->confirm_reset = 'Confirm to Reset?';
-    $lang->confirm_leave = 'Confirm to Secede?';
+    $lang->confirm_submit = 'Sure you want to Submit?';
+    $lang->confirm_logout = 'Sure you want to Logout?';
+    $lang->confirm_vote = 'Sure you want to Vote?';
+    $lang->confirm_delete = 'Sure you want to Delete?';
+    $lang->confirm_move = 'Sure you want to Move?';
+    $lang->confirm_reset = 'Sure you want to Reset?';
+    $lang->confirm_leave = 'Sure you want to Secede?';
 
     $lang->column_type = 'Column Type';
     $lang->column_type_list['text'] = 'one-line text';
@@ -196,8 +196,8 @@
     $lang->column_name = 'Column Name';
     $lang->column_title = 'Column Title';
     $lang->default_value = 'Default Value';
-    $lang->is_active = 'Present tense';
-    $lang->is_required = 'Required field';
+    $lang->is_active = 'Active';
+    $lang->is_required = 'Required Field';
 
     // Alert messages for Javascript using by XML filter
     $lang->filter->isnull = 'Input a value for %s';
@@ -205,7 +205,7 @@
     $lang->filter->equalto = 'Invalid value assigned for %s';
     $lang->filter->invalid_email = '%s got an invalid format (eg. zbxe@zeroboard.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s got an invalid format.\\nIt takes English letters, numbers, and underbar(_) of which should start with English letters";
-    $lang->filter->invalid_homepage = '%s got an invalid format. (ex: http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = '%s got an invalid format. (eg. http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s got an invalid format. Only Korean letters are accepted';
     $lang->filter->invalid_korean_number = '%s got an invalid format. Only a combination of Korean letters and numbers is accepted';
     $lang->filter->invalid_alpha = '%s got an invalid format. Only English letters are accepted';

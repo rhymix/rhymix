@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">위지윅 에디터 </title>
+    <title xml:lang="en">WYSIWYG Editor </title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="en">Zero</name>
         <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 모듈입니다.</description>
+        <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
     </author>
 </module>
