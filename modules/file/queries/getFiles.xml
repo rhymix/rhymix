@@ -6,6 +6,6 @@
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
     </conditions>
     <navigation>
-        <index var="sort_index" defualt="file_srl" order="asc" />
+        <index var="sort_index" defualt="source_filename" order="asc" />
     </navigation>
 </query>
