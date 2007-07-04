@@ -30,7 +30,7 @@
             if($module_info->mid != $mid) return $this->dispError();
 
             // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
-            if($config->open_rss == 'N') return $this->dispError();
+            if($module_info->open_rss == 'N') return $this->dispError();
 
             // 출력할 컨텐츠 추출
             $args->module_srl = $module_info->module_srl; 
@@ -75,7 +75,7 @@
                         $item->description = $item->getContent();
                     // 요약 공개일 경우
                     } else {
-                        $item->description = cut_str(strip_tags($item->getContentText()),100,'...');
+                        $item->description = cut_str(strip_tags($item->getContent()),100,'...');
                     }
                     $item->date = gmdate("D, d M Y H:i:s", $time);
                     $content[$idx++] = $item;
