@@ -6,14 +6,13 @@
 
 #blog_category .node_item a { color:#6b6b6b; }
 
-#blog_category .selected { font-family:Tahoma; font-weight:bold; cursor:default; font-size:1em; color:#54564b; }
+#blog_category .selected { font-weight:bold; cursor:default; font-size:1em; color:#54564b; }
 
-#blog_category .unselected { cursor:pointer; font-family:Tahoma; font-size:1em; color:#54564b;  }
+#blog_category .unselected { cursor:pointer; font-size:1em; color:#54564b;  }
 
 #blog_category .document_count {
     margin-left:5px;
     color:#AAAAAA;
-    font-family:tahoma;
     font-size:.8em;
 }
 
