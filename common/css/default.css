@@ -24,12 +24,10 @@ IE7 & IE6 & Below
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; }
 html { width:100%; position:relative;}
-body { margin:0; font-size:.75em;}
+body { margin:0; font-size:.75em; font-family:sans-serif;}
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
-
-input,textarea,button { font-size:1em; }
 
 .iePngFix { behavior:url(./common/js/iePngFix.htc); } 
 
@@ -37,7 +35,7 @@ input,textarea,button { font-size:1em; }
 .inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1.2em; line-height:1em; background:#ffffff; font-size:1em;}
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4; }
-.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; padding:3px; background:#ffffff; }
+.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; padding:3px; background:#ffffff; font-size:1em;}
 
 .w40 { width:40px; }
 .w60 { width:60px; }
