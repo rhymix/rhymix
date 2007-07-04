@@ -115,7 +115,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
 /* boardRead */
-.boardRead { position:relative; margin:0; border:1px solid #e0e1db; _width:618px; _overflow:hidden; }
+.boardRead { position:relative; margin:0; border:1px solid #e0e1db; _overflow:hidden; }
 .boardRead .originalContent { padding:2em 1.2em 2em 1.2em;}
 .boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
 

@@ -9,7 +9,7 @@ li { list-style:none; }
 a { text-decoration:none; }
 
 /* Blog Layout - Common */
-#bodyWrap { position:relative; width:830px; margin:0 auto; background-color:#FFFFFF; padding-top:1px; top:30px;}
+#bodyWrap { position:relative; width:860px; margin:0 auto; background-color:#FFFFFF; padding-top:1px; top:30px;}
 
 /* Blog Layout - Content Body */
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
@@ -21,7 +21,7 @@ a { text-decoration:none; }
 #columnRight {}
 
 /* Blog Layout - Content */
-#content { float:left; width:620px; overflow:hidden; padding-right:10px; _width:618px; }
+#content { float:left; width:650px; overflow:hidden; padding-right:10px; _width:648px; }
 
 #bodyWrap #accountNavigation { float:right; margin:1em 1em 0 0; padding-bottom:.5em; overflow:hidden;}
 #bodyWrap #accountNavigation li { float:left; margin-right:-1px; background:url(../images/white/blogHeaderVr.gif) no-repeat right center;}
