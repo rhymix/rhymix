@@ -48,7 +48,7 @@ body { margin:0; }
 
 #layout_zx .cprt { height:55px; background:url(../images/purple/copyright_bg.gif); text-align:center; }
 #layout_zx .cprt .fixed { margin-left:auto; margin-right:auto; text-align:left; }
-#layout_zx .cprt .desc { width:500px; margin-left:190px; font-family:Tahoma; font-size:11px; color:#797771; position:absolute; text-align:center; padding-top:20px; }
+#layout_zx .cprt .desc { width:500px; margin-left:190px; font-size:11px; color:#797771; position:absolute; text-align:center; padding-top:20px; }
 #layout_zx .cprt .logo { background:url(../images/purple/copyright_zbxe.gif) no-repeat; width:120px; height:55px; float:right; }
 
 #layout_zx .layout_menu { padding:10px; background:#FFFFFF;   border:solid 1px #E0E8EE; margin:0 10px 10px 10px; color:#666666; }
