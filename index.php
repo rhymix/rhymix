@@ -13,12 +13,12 @@
      * @section intro 소개
      * zeroboard XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
-     * - 공식홈페이지   : http://www.zeroboard.com
-     * - 클로즈베타     : http://spring.zeroboard.com
-     * - 이슈트래킹     : http://trac.zeroboard.com
-     * - SVN Repository : http://svn.zeroboard.com
-     * - document       : http://doc.zeroboard.com
-     * - pdf 문서       : http://doc.zeroboard.com/zeroboard_xe.pdf
+     * - 공식홈페이지        : http://www.zeroboard.com
+     * - 오픈프로젝트 사이트 : http://spring.zeroboard.com
+     * - 이슈트래킹          : http://trac.zeroboard.com
+     * - SVN Repository      : http://svn.zeroboard.com/zeroboard_xe/trunk
+     * - document            : http://doc.zeroboard.com
+     * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
      *
      **/
 
