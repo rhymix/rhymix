@@ -49,7 +49,9 @@
 
         // 새로운 쪽지에 대한 플래그가 있으면 쪽지 보기 팝업 띄움 
         if(file_exists($flag_file)) {
-            $script =  sprintf('<script type="text/javascript"> popopen("%s"); </script>', './?module=member&act=dispMemberNewMessage'); 
+            @unlink($flag_file);
+            Context::loadLang('./addons/member_extra_info/lang');
+            $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() {if(confirm("%s")) { popopen("%s"); }}); </script>', Context::getLang('alert_new_message_arrived'), Context::getRequestUri().'?module=member&act=dispMemberNewMessage');
             Context::addHtmlHeader( $script );
         }
 
@@ -100,6 +102,13 @@
                 $menu_str = Context::getLang('cmd_add_friend');
                 $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','addFriend')", Context::getRequestUri().'/modules/member/tpl/images/icon_add_friend.gif', $menu_str, $menu_link);
+            }
+
+            // 6. 최고 관리자라면 회원정보 수정 메뉴 만듬
+            if($logged_info->is_admin == 'Y') {
+                $menu_str = Context::getLang('cmd_management');
+                $menu_link = "./?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=".$member_srl;
+                $menu_list .= sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
             }
         }
 
