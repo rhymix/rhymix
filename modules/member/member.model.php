@@ -38,6 +38,7 @@
                 // 회원의 정보를 구함
                 $member_info = $this->getMemberInfoByMemberSrl($member_srl);
             }
+            $member_srl = $member_info->member_srl;
 
             // 변수 정리
             $user_id = $member_info->user_id;
