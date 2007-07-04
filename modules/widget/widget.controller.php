@@ -46,7 +46,7 @@
                 $style .= sprintf("%s:%spx;", "width", trim($vars->widget_width));
                 $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $vars->widget_margin_top, $vars->widget_margin_right,$vars->widget_margin_bottom,$vars->widget_margin_left);
                 if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
-                else $style .= "clear:left;";
+                else $style .= "float:left;";
                 $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
             } else {
                 $widget_code = sprintf('<img width="100" height="100" src="%s" class="zbxe_widget_output" widget="%s" %s />', $blank_img_path, $widget, implode(' ',$attribute));
