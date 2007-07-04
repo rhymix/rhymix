@@ -46,12 +46,15 @@
                 $style .= sprintf("%s:%spx;", "width", trim($vars->widget_width));
                 $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $vars->widget_margin_top, $vars->widget_margin_right,$vars->widget_margin_bottom,$vars->widget_margin_left);
                 if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
-                else $style .= "clear:both;";
-                if($vars->widget_cr == 'Y') $style .= "clear:left;";
+                else $style .= "clear:left;";
                 $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
             } else {
                 $widget_code = sprintf('<img width="100" height="100" src="%s" class="zbxe_widget_output" widget="%s" %s />', $blank_img_path, $widget, implode(' ',$attribute));
             }
+
+            $cache_path = './files/cache/widget_cache/';
+            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
+            @unlink($cache_file);
 
             // 코드 출력
             $this->add('widget_code', $widget_code);
