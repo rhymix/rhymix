@@ -2,9 +2,11 @@
 <addon version="0.1">
     <title xml:lang="ko">OpenID delegation ID</title>
     <title xml:lang="zh-CN">OpenID delegation ID</title>
+    <title xml:lang="en">Addon for delegating domain name to OpenID</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="en">zero</name>
         <description xml:lang="ko">
             본인의 도메인을 사용하여 오픈아이디로 활용할 수 있도록 합니다.
             꼭 설정을 통해서 openid provider관련 값을 입력후 사용해주세요.
@@ -13,25 +15,35 @@
             使用本人的域名利用分散式的身份识别系统。
             必须通过openid provider相关值的设定后再使用。
         </description>
+        <description xml:lang="en">
+            This addon enables you to use your own domian name as an OpenID.
+            Just be sure to set the values related with openid provider before using.
+        </description>
     </author>
     <extra_vars>
         <var name="server">
             <title xml:lang="ko">server</title>
-            <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
             <title xml:lang="zh-CN">server</title>
+            <title xml:lang="en">server</title>
+            <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.server 值。</description>
+            <description xml:lang="en">Please input your openid.server value.</description>
         </var>
         <var name="delegate">
             <title xml:lang="ko">delegate</title>
-            <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
+            <title xml:lang="ko">delegate</title>
             <title xml:lang="zh-CN">delegate</title>
+            <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.delegate 值。</description>
+            <description xml:lang="en">Please input your openid.delegate value.</description>
         </var>
         <var name="xrds">
             <title xml:lang="ko">xrds</title>
-            <description xml:lang="ko">X-XRDS-Location값을 입력해주세요.</description>
             <title xml:lang="zh-CN">xrds</title>
+            <title xml:lang="en">xrds</title>
+            <description xml:lang="ko">X-XRDS-Location값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 X-XRDS-Location 值</description>
+            <description xml:lang="en">Please input your X-XRDS-Location value.</description>
         </var>
     </extra_vars>
 </addon>
