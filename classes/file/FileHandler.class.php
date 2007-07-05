@@ -89,8 +89,8 @@
                 if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';
                 if(!is_dir($path)) {
-                    @mkdir($path, 0707);
-                    @chmod($path, 0707);
+                    @mkdir($path, 0777);
+                    @chmod($path, 0777);
                 }
             }
 
