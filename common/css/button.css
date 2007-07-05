@@ -97,9 +97,14 @@ del.button span {
     background-position:100% -123px;
 }
 
+a.button span {
+    _padding-top:7px;
+}
+*:first-child+html a.button span { padding-top:7px; }
 
 span.button button, span.button input {
     padding-top:0px;
+    padding-bottom:3px;
     line-height:2.5;/*Opera need this*/
 }
 
@@ -117,7 +122,7 @@ a.button:hover, span.button:hover, a.button:focus, a.dom-button-focus, span.butt
     text-decoration:none;
 }
 
-a.button:hover span, span.button:hover button, a.button:focus span, span.button-behavior-hover button, span.button-behavior-hover input {
+a.button:hover span, span.button:hover input, span.button:hover button, a.button:focus span, span.button-behavior-hover button, span.button-behavior-hover input {
     background-position:100% -63px;
 }
 
