@@ -53,9 +53,9 @@
                 $oDocument->setAttribute($attribute);
                 if($is_admin) $oDocument->setGrant();
 
-                $document_list[$document_srl] = $oDocument;
+                $result[$document_srl] = $oDocument;
             }
-            return $document_list;
+            return $result;
         }
 
         /**

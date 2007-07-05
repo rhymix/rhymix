@@ -48,7 +48,7 @@
                     $output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $module_srl, $this->module_srl);
                     if(!$output->toBool()) return new Object(-1, 'fail_to_move');
                     $msg_code = 'success_moved';
-                    $_SESSION['document_management'][$this->module_srl] = null;
+                    $_SESSION['document_management'] = null;
                 }
 
             } elseif($type =='delete') {
@@ -62,7 +62,7 @@
                 }
                 $oDB->commit();
                 $msg_code = 'success_deleted';
-                $_SESSION['document_management'][$this->module_srl] = null;
+                $_SESSION['document_management'] = null;
             }
 
             $this->setMessage($msg_code);
