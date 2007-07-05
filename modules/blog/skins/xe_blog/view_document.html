@@ -10,28 +10,21 @@
             </div>
 
             <div class="dateAndModify">
-                <span class="num fr">
-                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
-                </span>
+                <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
 
                 <!--@if($oDocument->isEditable())-->
-                <div class="fl">
-                    <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
-                    <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
-                </div>
+                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
                 <!--@end-->
             </div>
         </div>
         
-        <dl class="uri">
-            <dt>{$lang->document_url} :</dt>
-            <dd>{$oDocument->getPermanentUrl()}</dd>
-
+        <ul class="uri">
+            <li>{$lang->document_url} : {$oDocument->getPermanentUrl()}</li>
             <!--@if($oDocument->allowTrackback())-->
-            <dt>{$lang->trackback_url} :</dt>
-            <dd>{$oDocument->getTrackbackUrl()}</dd>
+            <li>{$lang->trackback_url} : {$oDocument->getTrackbackUrl()}</li>
             <!--@end-->
-        </dl>
+        </ul>
 
         <!--@if($module_info->display_writer == "on")-->
         <div class="userInfo">

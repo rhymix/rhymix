@@ -108,11 +108,6 @@ Jeong, Chan Myeong 070601~070630
 .buttonLeft ul { float:left; }
 .buttonLeft ul li { float:left; margin-right:.3em;}
 
-.boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify .date { font-size:.8em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
-.boardRead .dateAndModify .date strong { font-size:1em; font-family:Tahoma;}
-.boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
 
 /* boardRead */
 .boardRead { position:relative; margin:0; border:1px solid #e0e1db; _overflow:hidden; }
@@ -125,14 +120,13 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
 
 .boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify .num { font-size:.9em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
-.boardRead .dateAndModify .num strong { font-size:1em; font-family:Tahoma;}
+.boardRead .dateAndModify { font-size:.8em; color:#999999; float:left; position:relative; top:.3em;}
+.boardRead .dateAndModify strong { font-size:1em; font-family:Tahoma;}
 .boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
+.boardRead .dateAndModify ul li { float:left; margin-left:.3em; list-style:none;}
 
-.boardRead dl.uri { overflow:hidden; margin:0 0 2em .3em; float:right;}
-.boardRead dl.uri dt { float:left; clear:left; font-size:.9em; margin-right:.3em; color:#999999;}
-.boardRead dl.uri dd { clear:right; font:.8em Tahoma; color:#c5c7c0;}
+.boardRead ul.uri { overflow:hidden; margin:0 0 2em .3em; float:right; clear:left;}
+.boardRead ul.uri li { font-size:8pt; color:#c5c7c0; }
 
 .boardRead .userInfo { float:right; white-space:nowrap;}
 .boardRead .userInfo .author { padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
