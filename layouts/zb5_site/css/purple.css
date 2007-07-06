@@ -4,7 +4,7 @@ body { margin:0; }
 
 #loading { background:url(../images/purple/loading.gif) no-repeat; width:125px; height:39px; position:absolute; left:10px; top:10px; }
 
-#layout_zx { cursor:default; }
+#layout_zx { }
 
 #layout_zx .lo_top       { background:url(../images/red/top_bg.gif) repeat-x; height:100px; }
 #layout_zx .lo_top .logo { background:url(../images/red/top_bg_center.gif) no-repeat; height:100px; text-align:left; margin-left:10px;}
