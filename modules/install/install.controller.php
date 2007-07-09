@@ -56,6 +56,10 @@
             // 각 필요한 항목 체크
             $checklist = array();
 
+            // 0. php 버전 체크 (5.2.2는 설치 불가)
+            if(phpversion()=='5.2.2') $checklist['php_version'] = false;
+            else $checklist['php_version'] = true;
+
             // 1. permission 체크
             if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
             else $checklist['permission'] = false;
@@ -76,7 +80,7 @@
             if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
             else $checklist['gd'] = false;
 
-            if(!$checklist['permission'] || !$checklist['xml'] || !$checklist['session']) $install_enable = false;
+            if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session']) $install_enable = false;
             else $install_enable = true;
 
             // 체크 결과를 Context에 저장

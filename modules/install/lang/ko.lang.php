@@ -201,6 +201,7 @@ EndOfLicense;
     $lang->install_condition_title = "필수 설치조건을 확인하세요.";
 
     $lang->install_checklist_title = array(
+            'php_version' => 'PHP Version',
             'permission' => '퍼미션',
             'xml' => 'XML 라이브러리',
             'iconv' => 'ICONV 라이브러리',
@@ -209,6 +210,7 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
+            'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다',
             'permission' => '[필수] 제로보드의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다',
             'xml' => '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다',
             'session' => '[필수] 제로보드에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다',
