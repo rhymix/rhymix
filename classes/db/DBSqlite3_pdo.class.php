@@ -173,7 +173,7 @@
                     foreach($tmp as $key => $val) {
                         $pos = strpos($key, '.');
                         if($pos) $key = substr($key, $pos+1);
-                        $obj->{$key} = $val;
+                        $obj->{$key} = str_replace("''","'",$val);
                     }
                     $output[] = $obj;
                 }
