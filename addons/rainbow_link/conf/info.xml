@@ -3,10 +3,12 @@
   <title xml:lang="ko">레인보우 링크 애드온</title>
   <title xml:lang="zh-CN">Rainbow 链接 Add-On</title>
   <title xml:lang="en">Addon for rainbow links</title>
+  <title xml:lang="es">Adición Enlace Arco Iris</title>
   <author email_address="webmaster@dynamicdrive.com" link="http://dynamicdrive.com" date="2007. 2. 28">
     <name xml:lang="ko">dynamicdrive.com</name>
     <name xml:lang="zh-CN">dynamicdrive.com</name>
     <name xml:lang="en">dynamicdrive.com</name>
+    <name xml:lang="es">dynamicdrive.com</name>
     <description xml:lang="ko">
         rainbow.js를 header에 추가하여 링크가 걸린 글의 색을 무지개색으로 나타냅니다.
         이 애드온의 rainbow.js는 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;에 저작권이 있습니다.
@@ -16,8 +18,12 @@
         此 Add-On的 rainbow.js版权属于 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;
     </description>
     <description xml:lang="en">
-        This addon adds a file named "rainbow.js" to headers, then linked text will get chameleon(rainbow) color change effect.
-        "rainbow.js" Copyrightⓒ2007 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;.
+        This addon adds a file named &quot;rainbow.js&quot; to headers, then linked text will get chameleon(rainbow) color change effect.
+        &quot;rainbow.js&quot; Copyrightⓒ2007 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;.
+    </description>
+    <description xml:lang="es">
+        incluye rainbow.js en header para mostrar enlaces en colores de arco iris.
+        &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt; tiene derecho de autor sobre rainbow.js 
     </description>
   </author>
 </addon>

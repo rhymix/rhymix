@@ -3,10 +3,12 @@
     <title xml:lang="ko">견본 레이아웃 (JS 메뉴)</title>
     <title xml:lang="zh-CN">样本布局（JS 菜单）</title>
     <title xml:lang="en">Sample Layout (Menu in JS)</title>
+    <title xml:lang="es">Diseño predeterminado (menú JS)</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="es">zero</name>
         <description xml:lang="ko">
             가장 기본적인 기능으로 이루어진 견본 레이아웃입니다.
             main_menu, bottom_menu 2개의 메뉴로 구성되어 있으며 각 메뉴의 출력은 javascript 함수를 이용해서 출력합니다.
@@ -22,25 +24,32 @@
             It has two menues each named "main_menu" and "bottom_menu", and they are displayed by using Javascript function.
             Javascript version is so convenient to create layouts, but reduces the degree of freedom though.
         </description>
+        <description xml:lang="es">
+            Es el diseño predeterminado para funciónes basicos. Tiene 2 menús de main_menu, bottom_menu. La salida de cada menu usa funciónes de javascript. Es facil de manejar diseño, pero falta de libertad.
+        </description>
     </author>
     <extra_vars>
         <var name="colorset" type="select">
             <title xml:lang="ko">컬러셋</title>
             <title xml:lang="zh-CN">颜色</title>
             <title xml:lang="en">Colorset</title>
+            <title xml:lang="es">collección de colores</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
+            <description xml:lang="es">Seleccióne la collección de colores.</description>
             <options name="red">
                 <title xml:lang="ko">적색</title>
                 <title xml:lang="zh-CN">红色</title>
                 <title xml:lang="en">Red</title>
                 <value>red</value>
+                <title xml:lang="es">Rojo</title>
             </options>
             <options name="blue">
                 <title xml:lang="ko">청색</title>
                 <title xml:lang="zh-CN">青色</title>
                 <title xml:lang="en">Blue</title>
+                <title xml:lang="es">Azul</title>
                 <value>blue</value>
             </options>
         </var>
@@ -48,17 +57,21 @@
             <title xml:lang="ko">상단 제목</title>
             <title xml:lang="zh-CN">顶部标题</title>
             <title xml:lang="en">Title on the top</title>
+            <title xml:lang="es">Título</title>
             <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
             <description xml:lang="zh-CN">请输入布局顶部显示的标题。（网站名称）</description>
             <description xml:lang="en">Please input a title to be displayed on the top of the layout.</description>
+            <description xml:lang="es">Escribe el título para la pagína de web.</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
             <title xml:lang="zh-CN">网站 URL</title>
             <title xml:lang="en">Home page URL</title>
+            <title xml:lang="es">URL de pagína de web</title>
             <description xml:lang="ko">로고나 제목을 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="zh-CN">点击网站LOGO或标题时要移动的页面URL。</description>
             <description xml:lang="en">Please input URL to the page that you want to be loaded when a logo or title is clicked.</description>
+            <description xml:lang="es">Escribe el URL para título.</description>
         </var>
     </extra_vars>
     <menus>
@@ -66,12 +79,14 @@
             <title xml:lang="ko">주 메뉴</title>
             <title xml:lang="zh-CN">主 菜单</title>
             <title xml:lang="en">Main menu</title>
+            <title xml:lang="es">menú principal</title>
             <maxdepth>2</maxdepth>
         </menu>
         <menu name="bottom_menu">
             <title xml:lang="ko">하단 메뉴 </title>
             <title xml:lang="zh-CN">底部菜单</title>
             <title xml:lang="en">Menu on the bottom </title>
+            <title xml:lang="es">sub menú </title>
             <maxdepth>1</maxdepth>
         </menu>
     </menus>

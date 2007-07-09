@@ -9,6 +9,6 @@
     <name xml:lang="es">zero</name>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
-    <description xml:lang="es">Esto es el módulo de mantenimiento del addon que a colocar addons a encendir/apagar..</description>
+    <description xml:lang="es">La Modula para applicar o desapplicar addionales</description>
   </author>
 </module>
