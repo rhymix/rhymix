@@ -17,6 +17,9 @@
          * @brief 문서 입력
          **/
         function procBlogInsertDocument() {
+            // 권한 체크
+            if(!$this->grant->write_document) return new Object(-1, 'msg_not_permitted');
+
             // 글작성시 필요한 변수를 세팅
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_srl;
@@ -89,6 +92,9 @@
          * @brief 코멘트 추가
          **/
         function procBlogInsertComment() {
+            // 권한 체크
+            if(!$this->grant->write_comment) return new Object(-1, 'msg_not_permitted');
+
             // 댓글 입력에 필요한 데이터 추출
             $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage');
             $obj->module_srl = $this->module_srl;
