@@ -1079,7 +1079,7 @@
             if($image_name->width) {
                 if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
                 else $top_margin = 0;
-                $text = sprintf('<img src="%s" border="0" alt="image name" width="%s" height="%s" style="margin-top:%dpx;"/>', Context::getRequestUri().$image_name->file, $image_name->width, $image_name->height, $top_margin);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="margin-top:%dpx;"/>', Context::getRequestUri().$image_name->file, htmlspecialchars($matches[5]), htmlspecialchars($matches[5]), $image_name->width, $image_name->height, $top_margin);
             }
 
             if($image_mark->width) {
