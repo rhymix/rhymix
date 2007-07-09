@@ -13,7 +13,7 @@
         metaWeblog를 지원하는 blogApi애드온입니다.
         사용으로 설정하시면 각 모듈마다 RSD 태그를 노출합니다.
         api의 주소는 http://설치주소/모듈명/api 입니다.
-        사용아로 하셔야 RSD태그 및 api가 동작을 합니다.
+        사용으로 하셔야 RSD태그 및 api가 동작을 합니다.
     </description>
     <description xml:lang="jp">
         metaWeblog をサポートする blogApi 機能拡張です。
