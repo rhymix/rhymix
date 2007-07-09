@@ -3,12 +3,15 @@
     <title xml:lang="ko">위지윅 에디터 </title>
     <title xml:lang="en">WYSIWYG Editor </title>
     <title xml:lang="es">Editor WYSIWYG </title>
+    <title xml:lang="zh-CN">所见即所得编辑器</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="es">zero</name>
+        <name xml:lang="zh-CN">zero</name>
         <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 모듈입니다.</description>
         <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
         <description xml:lang="es">Manejar/ transmitir módulo de componentes editores o muestra WYSIWYG editores.</description>
+        <description xml:lang="zh-CN">显示所见即所得编辑器或管理/转递编辑器组件的模块。</description>
     </author>
 </module>

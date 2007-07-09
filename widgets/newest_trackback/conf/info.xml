@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">최근 엮인글 출력</title>
+    <title xml:lang="zh-CN">输出最新引用</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">zero</name>
         <description xml:lang="ko">최근 엮인글 (trackback)을 출력하는 위젯입니다.</description>
+        <description xml:lang="zh-CN">输出最新引用 (trackback)控件。</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
+            <name xml:lang="zh-CN">标题</name>
             <type>text</type>
             <description xml:lang="ko">최근 엮인글 제목으로 출력됩니다.</description>
+            <description xml:lang="zh-CN">输出最新引用标题。</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
+            <name xml:lang="zh-CN">目录数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="zh-CN">设定输出。 (默认5个)</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
+            <name xml:lang="zh-CN">模块对象</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+            <description xml:lang="zh-CN">如：模块为notice,news,bbs等，这时选择news,将输出news的最新引用。</description>
         </var>
     </extra_vars>
 </widget>
