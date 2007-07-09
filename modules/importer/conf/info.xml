@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">제로보드 데이터 이전</title>
+    <title xml:lang="en">Zeroboard data transferation</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <description xml:lang="ko">
-            XML파일을 이용하여 회원정보 또는 게시판등의 데이터를 입력합니다.
-        </description>
+        <name xml:lang="en">Zero</name>
+        <description xml:lang="ko">XML파일을 이용하여 회원정보 또는 게시판등의 데이터를 입력합니다. </description>
+        <description xml:lang="en">Inputting member information or board's data using XML file.</description>
     </author>
 </module>
