@@ -33,8 +33,11 @@
             $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z]+)(.*)/', '\\2\\3', $this->act));
             Context::set('running_module', $running_module);
 
+            $db_info = Context::getDBInfo();
+
             Context::set('time_zone_list', $GLOBALS['time_zone']);
             Context::set('time_zone', $GLOBALS['_time_zone']);
+            Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
 
             Context::setBrowserTitle("ZeroboardXE Admin Page");
         }

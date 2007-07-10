@@ -31,10 +31,13 @@
          * @brief time zone변경
          **/
         function procInstallAdminSaveTimeZone() {
+            $use_rewrite = Context::get('use_rewrite');
+            if($use_rewrite!='Y') $use_rewrite = 'N';
             $time_zone = Context::get('time_zone');
 
             $db_info = Context::getDBInfo();
             $db_info->time_zone = $time_zone;
+            $db_info->use_rewrite = $use_rewrite;
             Context::setDBInfo($db_info);
 
             $oInstallController = &getController('install');
