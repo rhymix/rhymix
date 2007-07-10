@@ -3,6 +3,9 @@ RewriteEngine On
 # page 
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 
+# total rss
+RewriteRule ^rss$ ./index.php?module=rss&act=rss [L]
+
 # administrator page
 RewriteRule ^admin$ ./index.php?module=admin [L]
 

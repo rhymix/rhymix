@@ -8,6 +8,7 @@
     <conditions>
         <condition operation="equal" column="module_category_srl" var="module_category_srl" />
         <condition operation="equal" column="module" var="module" pipe="and" />
+        <condition operation="in" column="open_rss" var="open_rss" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="mid" order="asc" />
