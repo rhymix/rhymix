@@ -23,6 +23,11 @@
             // 설치가 되어 있는지에 대한 체크
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
 
+            // 설치시 임시로 최고관리자로 지정
+            $logged_info->is_admin = 'Y';
+            $_SESSION['logged_info'] = $logged_info;
+            Context::set('logged_info', $logged_info);
+
             // DB와 관련된 변수를 받음
             $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix','time_zone','use_rewrite');
             if($db_info->use_rewrite!='Y') $db_info->use_rewrite = 'N';

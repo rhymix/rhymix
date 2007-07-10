@@ -861,14 +861,23 @@
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
 
+            $logged_info = Context::get('logged_info');
+
             // 임시 제한 일자가 있을 경우 제한 일자에 내용 추가
             if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message= 'Y';
-            if($args->denied!='Y') $args->denied = 'N';
-            if($args->is_admin!='Y') $args->is_admin = 'N';
+
+            if($logged_info->is_admin == 'Y') {
+                if($args->denied!='Y') $args->denied = 'N';
+                if($args->is_admin!='Y') $args->is_admin = 'N';
+            } else {
+                unset($args->is_admin);
+                unset($args->denied);
+            }
+
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
@@ -942,14 +951,23 @@
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
 
+            $logged_info = Context::get('logged_info');
+
             // 수정하려는 대상의 원래 정보 가져오기
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
-            if(!$args->denied) unset($args->denied);
-            if(!$args->is_admin) unset($args->is_admin);
+
+            if($logged_info->is_admin == 'Y') {
+                if($args->denied!='Y') $args->denied = 'N';
+                if($args->is_admin!='Y') $args->is_admin = 'N';
+            } else {
+                unset($args->is_admin);
+                unset($args->denied);
+            }
+
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
