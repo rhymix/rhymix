@@ -3,12 +3,15 @@
   <title xml:lang="ko">애드온</title>
   <title xml:lang="en">Addon</title>
   <title xml:lang="es">Addon</title>
+  <title xml:lang="zh-CN">Addon</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="es">zero</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
     <description xml:lang="es">La Modula para applicar o desapplicar addionales</description>
+    <description xml:lang="zh-CN">登录Addon或设定使用/未使用的Addon管理模块。</description>
   </author>
 </module>

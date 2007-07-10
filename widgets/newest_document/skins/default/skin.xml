@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">최신글 목록 기본 스킨</title>
+  <title xml:lang="zh-CN">输出最新文章目录基本皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">최신글 목록 위젯의 기본 스킨</description>
+    <description xml:lang="zh-CN">最新文章目录Widget的基本皮肤</description>
   </maker>
   <colorset>
     <color name="normal">
       <title xml:lang="ko">기본 컬러</title>
+      <title xml:lang="zh-CN">基本颜色</title>
     </color>
     <color name="blue">
       <title xml:lang="ko">푸른계통의 컬러</title>
+      <title xml:lang="zh-CN">青翠系统颜色</title>
     </color>
   </colorset>
 </skin>
