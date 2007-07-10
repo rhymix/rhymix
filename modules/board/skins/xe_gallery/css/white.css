@@ -36,6 +36,8 @@ Jeong, Chan Myeong 070601~070630
 .accountNavigation li.myInfo a { display:block; background:url(../images/white/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 .accountNavigation li.admin { padding-top:.4em;}
 .accountNavigation li.admin a { display:block; background:url(../images/white/iconAdmin.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
+.accountNavigation li.setup { padding-top:.4em;}
+.accountNavigation li.setup a { display:block; background:url(../images/white/iconSetup.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
 
 /* boardList */

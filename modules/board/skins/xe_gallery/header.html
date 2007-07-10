@@ -49,9 +49,14 @@
         <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
         <!--@end-->
 
-        <!-- 관리자이면 관리 버튼 출력 -->
+        <!-- 관리자이면 설정 버튼 출력 -->
         <!--@if($grant->is_admin)-->
-        <li class="admin"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_management}</a></li>
+        <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
+        <!--@end-->
+
+        <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+        <!--@if($logged_info->is_admin == 'Y')-->
+        <li class="admin"><a href="#" onclick="winopen('{getUrl('','module','admin','act','dispBoardAdminContent')}'); return false;">{$lang->cmd_management}</a></li>
         <!--@end-->
 
         <!-- 레이아웃이 없으면 로그아웃 버튼 출력 -->
