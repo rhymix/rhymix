@@ -9,5 +9,6 @@
 
         <action name="procInstall" type="controller" standalone="true" />
         <action name="procInstallAdminInstall" type="controller" standalone="true" />
+        <action name="procInstallAdminSaveTimeZone" type="controller" standalone="true" />
     </actions>
 </module>

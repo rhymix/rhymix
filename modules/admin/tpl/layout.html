@@ -20,16 +20,6 @@
         <div class="menuEdit">
             <a href="{getUrl('','module','admin','act','dispAdminShortCut')}" class="button"><span>{$lang->cmd_shortcut_management}</span></a>
         </div>
-        <div class="selLangType">
-            Lang : <select name="lang_type" onchange="doChangeLangType(this)">
-                <option value="{$lang_type}">{$lang_type}</option>
-                <!--@foreach($lang_supported as $val)-->
-                    <!--@if($val != $lang_type)-->
-                        <option value="{$val}">{$val}</option>
-                    <!--@end-->
-                <!--@end-->
-            </select>
-        </div>
     </div>
 
     <div id="content">{$content}</div>

@@ -170,7 +170,7 @@
          **/
         function makeConfigFile() {
             $config_file = Context::getConfigFile();
-            if(file_exists($config_file)) return;
+            //if(file_exists($config_file)) return;
 
             $db_info = Context::getDbInfo();
             if(!$db_info) return;

@@ -1,0 +1,9 @@
+<filter name="save_time_zone" module="install" act="procInstallAdminSaveTimeZone" >
+    <form>
+        <node target="time_zone" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -31,7 +31,8 @@
 
     $lang->xe_user_links = array(
         'Official website' => 'http://www.zeroboard.com',
-        'Close Beta website' => 'http://spring.zeroboard.com',
+        //'Close Beta website' => 'http://spring.zeroboard.com',
+        'Developer\'s forum' => 'http://spring.zeroboard.com',
         //'Module morgue' => 'http://www.zeroboard.com',
         //'Addon morgue' => 'http://www.zeroboard.com',
         //'Widget morgue' => 'http://www.zeroboard.com',
@@ -41,7 +42,6 @@
     );
 
     $lang->xe_developer_links = array(
-        //'Developer\'s forum' => 'http://dev.zeroboard.com',
         //'Manual' => 'http://www.zeroboard.com/wiki/manual',
         'Issue Tracking' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',

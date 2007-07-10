@@ -27,5 +27,20 @@
             $this->setMessage('success_installed');
         }
 
+        /**
+         * @brief time zone변경
+         **/
+        function procInstallAdminSaveTimeZone() {
+            $time_zone = Context::get('time_zone');
+
+            $db_info = Context::getDBInfo();
+            $db_info->time_zone = $time_zone;
+            Context::setDBInfo($db_info);
+
+            $oInstallController = &getController('install');
+            $oInstallController->makeConfigFile();
+
+            $this->setMessage('success_updated');
+        }
     }
 ?>

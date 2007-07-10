@@ -31,7 +31,8 @@
 
     $lang->xe_user_links = array(
         '韩国官方主页' => 'http://www.zeroboard.com',
-        'closebeta主页' => 'http://spring.zeroboard.com',
+        //'closebeta主页' => 'http://spring.zeroboard.com',
+        'Developer 论坛' => 'http://spring.zeroboard.com',
         //'模块下载地址' => 'http://www.zeroboard.com',
         //'Add-On下载地址' => 'http://www.zeroboard.com',
         //'Widget下载地址' => 'http://www.zeroboard.com',
@@ -41,7 +42,6 @@
     );
 
     $lang->xe_developer_links = array(
-        //'Developer 论坛' => 'http://dev.zeroboard.com',
         //'使用手册' => 'http://www.zeroboard.com/wiki/manual',
         'Issue Tracking' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',

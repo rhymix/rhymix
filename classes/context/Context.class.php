@@ -154,8 +154,10 @@
             $db_config_file = $this->getConfigFile();
             if(file_exists($db_config_file)) @include($db_config_file);
 
-            $this->_setDBInfo($db_info);
+            if(!$db_info->time_zone) $db_info->time_zone = date("O");
 
+            $this->_setDBInfo($db_info);
+            
             $GLOBALS['_time_zone'] = $db_info->time_zone;
         }
 
