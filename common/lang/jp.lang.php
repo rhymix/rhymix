@@ -12,8 +12,8 @@
     $lang->cmd_modify = '修正';
     $lang->cmd_edit = '編集';
     $lang->cmd_view = '表示';
-    $lang->cmd_view_all = '全体表示';
-    $lang->cmd_list = '一覧';
+    $lang->cmd_view_all = 'すべて表示';
+    $lang->cmd_list = 'リスト';
     $lang->cmd_prev = '前へ';
     $lang->cmd_next = '次へ';
     $lang->cmd_send_trackback = 'トラックバック送信';
@@ -49,14 +49,14 @@
     $lang->enable = '可';
     $lang->disable = '不可';
 
-    // 기본 단어
+    // 基本用語
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
     $lang->secret = '内緒';
-    $lang->category = '分類';
+    $lang->category = 'カテゴリ';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
-    $lang->author = '作成者';
+    $lang->author = '作者';
     $lang->password = 'パスワード';
     $lang->password1 = 'パスワード';
     $lang->password2 = 'パスワード確認';
@@ -69,8 +69,8 @@
     $lang->blog = 'ブログ';
     $lang->birthday = '誕生日';
     $lang->browser_title = 'ブラウザータイトル';
-    $lang->title = '題名';
-    $lang->title_content = '題名＋内容';
+    $lang->title = 'タイトル';
+    $lang->title_content = 'タイトル＋内容';
     $lang->content = '内容';
     $lang->document = '書き込み';
     $lang->comment = 'コメント';
@@ -78,22 +78,22 @@
     $lang->trackback = 'トラックバック';
     $lang->tag = 'タグ';
     $lang->allow_comment = 'トラックバック';
-    $lang->lock_comment = 'トラックバック不許可';
+    $lang->lock_comment = 'トラックバックロック';
     $lang->allow_trackback = 'トラックバック許可';
     $lang->uploaded_file = '添付';
     $lang->grant = '権限';
     $lang->target = '対象';
-    $lang->total = '全体';
+    $lang->total = 'すべて';
     $lang->total_count = '全体数';
     $lang->ipaddress = 'ＩＰアドレス';
     $lang->path = 'パス';
     $lang->cart = '選択項目';
     $lang->friend = '友達';
 
-    $lang->mid = 'モジュル名';
+    $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';
     $lang->widget = 'ウィジェット';
-    $lang->module = 'モジュル';
+    $lang->module = 'モジュール';
     $lang->skin = 'スキン';
     $lang->colorset = 'カラーセット';
     $lang->extra_vars = '拡張変数';
@@ -117,7 +117,7 @@
     $lang->first_page = '最初のページ';
     $lang->last_page = '最後のページ';
     $lang->search_target = '検索対象';
-    $lang->search_keyword = '検索語';
+    $lang->search_keyword = 'キーワード';
     $lang->is_default = 'デフォルト';
 
     $lang->no_documents = '書き込みがありません。';
@@ -140,12 +140,12 @@
 
     // 説明関連 
     $lang->about_tag = 'タグ入力時、「,」を使うと複数登録できます。';
-    $lang->about_layout = 'レイアウトはモジュルのモジュルの枠をデザインします。上段のレイアウトメニューで管理できます。';
+    $lang->about_layout = 'レイアウトはモジュールの枠をデザインします。上のレイアウトメニューで管理できます。';
 
     // メッセージ関連
     $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください';
     $lang->msg_db_not_setted = 'DBが設定されていません';
-    $lang->msg_invalid_queryid = 'Query IDの値が無効です';
+    $lang->msg_invalid_queryid = 'クエリIDの値が無効です';
     $lang->msg_not_permitted = '権限がありません';
     $lang->msg_input_password = 'パスワードを入力してください';
     $lang->msg_invalid_document = '無効な書き込み番号です';
@@ -155,8 +155,8 @@
     $lang->msg_not_founded = '見つかりません';
     $lang->msg_no_result = '検索結果がありません';
 
-    $lang->msg_not_permitted_act = '現在の命令は実行する権限がありません';
-    $lang->msg_module_is_not_exists = 'モジュルが見つかりません';
+    $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません';
+    $lang->msg_module_is_not_exists = 'モジュールが見つかりません';
     $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは動作しません';
 
     $lang->success_registed = '登録しました';
@@ -166,7 +166,7 @@
     $lang->success_moved = '移動しました';
     $lang->success_sended = '送信しました';
     $lang->success_reset = '初期化しました';
-    $lang->success_leaved = '脱退しました';
+    $lang->success_leaved = '脱会しました';
 
     $lang->fail_to_delete = '削除に失敗しました';
     $lang->fail_to_move = '移動に失敗しました';
@@ -180,7 +180,7 @@
     $lang->confirm_delete = '削除しますか';
     $lang->confirm_move = '移動しますか';
     $lang->confirm_reset = '初期化しますか';
-    $lang->confirm_leave = '脱退しますか';
+    $lang->confirm_leave = '脱会しますか';
 
     $lang->column_type = 'タイプ';
     $lang->column_type_list['text'] = '入力フィールド(text)';
@@ -194,7 +194,7 @@
     $lang->column_type_list['date'] = '年月日';
     //$lang->column_type_list['jp_zip'] = '日本住所(zip)';
     $lang->column_name = 'コラム名';
-    $lang->column_title = 'コラム題名';
+    $lang->column_title = 'コラムタイトル';
     $lang->default_value = 'デフォルト値';
     $lang->is_active = '活性化';
     $lang->is_required = '必須';

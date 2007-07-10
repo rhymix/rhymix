@@ -4,14 +4,17 @@
     <title xml:lang="en">Administrator Module</title>
     <title xml:lang="es">Modules de administración</title>
     <title xml:lang="zh-CN">管理员模块</title>
+    <title xml:lang="jp">管理者モジュル</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="jp">ゼロ</name>
         <description xml:lang="ko">각 모듈들의 기능을 나열하고 관리자용 레이아웃을 적용하여 관리 기능을 사용할 수 있도록 하는 모듈입니다.</description>
         <description xml:lang="en">This module shows a list of features of each module, and enables you to use a quite few of managers by applying layout for administrator.</description>
         <description xml:lang="es">Lista las los funciónes de modules y aplica diseño de administración para manejar sitio.</description>
         <description xml:lang="zh-CN">列出了各模块的功能和应用管理用的布局可以管理使用功能的模块。</description>
+        <description xml:lang="jp">各モジュールの機能を羅列し、管理者用レイアウトを適用させ、管理機能が使用できるようにするモジュルです。</description>
     </author>
 </module>

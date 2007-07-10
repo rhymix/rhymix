@@ -32,7 +32,6 @@
     $lang->xe_user_links = array(
         'Pagina de web oficial' => 'http://www.zeroboard.com',
         //'Sitio para beta cerrado' => 'http://spring.zeroboard.com',
-        'Foro Abierto de desarrolladores' => 'http://spring.zeroboard.com',
         //'Depósitorio de Módulos´ => 'http://www.zeroboard.com',
         //'Depósitorio de Adiciónales' => 'http://www.zeroboard.com',
         //'Depósitorio de Widgets' => 'http://www.zeroboard.com',
@@ -43,6 +42,7 @@
 
     $lang->xe_developer_links = array(
         //'Manuales' => 'http://www.zeroboard.com/wiki/manual',
+        'Foro Abierto de desarrolladores' => 'http://spring.zeroboard.com',
         'Huellas de distribuciónes' => 'http://trac.zeroboard.com',
         'Repositor de SVN' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',

@@ -31,7 +31,6 @@
 
     $lang->xe_user_links = array(
         '공식홈페이지' => 'http://www.zeroboard.com',
-        '개발자 포럼' => 'http://spring.zeroboard.com',
         //'클로즈베타 사이트' => 'http://spring.zeroboard.com',
         //'모듈 자료실' => 'http://www.zeroboard.com',
         //'애드온 자료실' => 'http://www.zeroboard.com',
@@ -43,6 +42,7 @@
 
     $lang->xe_developer_links = array(
         //'매뉴얼' => 'http://www.zeroboard.com/wiki/manual',
+        '개발자 포럼' => 'http://spring.zeroboard.com',
         '이슈트래킹' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',

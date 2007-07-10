@@ -2,33 +2,42 @@
 <widget version="0.1">
     <title xml:lang="ko">최근 댓글 출력</title>
     <title xml:lang="zh-CN">输出最新评论</title>
+    <title xml:lang="jp">最近のコメント出力</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="jp">ゼロ</name>
         <description xml:lang="ko">최근 댓글 (comment)를 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">输出最新评论控件。</description>
+        <description xml:lang="jp">最近のコメント（comment）を出力するウィジェットです。</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
             <name xml:lang="zh-CN">标题</name>
+            <name xml:lang="jp">タイトル</name>
             <type>text</type>
             <description xml:lang="ko">최근 댓글의 제목으로 출력됩니다.</description>
             <description xml:lang="zh-CN">最新评论的文章</description>
+            <description xml:lang="jp">最近のコメント書き込みのタイトルとして出力されます。</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
             <name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="jp">リスト数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">设定输出。 (默认5个)</description>
+            <description xml:lang="jp">出力されるリストの数が指定できます（デフォルト５個）</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>
+            <name xml:lang="jp">対象モジュール</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="zh-CN">输出有评论的文章 。</description>
+            <description xml:lang="jp">選択されたモジュールに登録された書き込みを対象とします。</description>
         </var>
     </extra_vars>
 </widget>
