@@ -26,7 +26,6 @@
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
-        var $allow_rewrite = false; ///< rewrite module 허용일 경우 true로 세팅
         var $path = ''; ///< zbxe의 경로
 
         /**
@@ -112,16 +111,9 @@
                 $this->_set('logged_info', NULL);
             }
 
-            //////////////////
-            //$logged_info->is_admin = 'Y';
-            //$_SESSION['logged_info'] = $logged_info;
-            //$_SESSION['is_logged'] = true;
-            //$this->_set('is_logged', true);
-            //$this->_set('logged_info', $logged_info);
-            //////////////////
-
             // rewrite 모듈사용 상태 체크
-            if(file_exists('./.htaccess')&&(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))) $this->allow_rewrite = true;
+            if(file_exists('./.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
+            else $this->allow_rewrite = false;
 
             // 상대 경로 설정
             $this->path = $this->getRequestUri();
@@ -163,6 +155,8 @@
             if(file_exists($db_config_file)) @include($db_config_file);
 
             $this->_setDBInfo($db_info);
+
+            $GLOBALS['_time_zone'] = $db_info->time_zone;
         }
 
         /**

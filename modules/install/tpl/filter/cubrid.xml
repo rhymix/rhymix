@@ -27,6 +27,8 @@
         <param name="user_name" target="user_name" />
         <param name="nick_name" target="nick_name" />
         <param name="email_address" target="email_address" />
+        <param name="use_rewrite" target="use_rewrite" />
+        <param name="time_zone" target="time_zone" />
     </parameter>
     <response callback_func="completeInstalled">
         <tag name="error" />

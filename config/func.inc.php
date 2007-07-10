@@ -16,6 +16,48 @@
         ');
     }
 
+    $time_zone = array(
+        '-1200' => '[GMT +12:00] Baker Island Time',
+        '-1100' => '[GMT +11:00] Niue Time, Samoa Standard Time',
+        '-1000' => '[GMT +10:00] Hawaii-Aleutian Standard Time, Cook Island Time',
+        '-0930' => '[GMT +09:30] Marquesas Islands Time',
+        '-0900' => '[GMT +09:00] Alaska Standard Time, Gambier Island Time',
+        '-0800' => '[GMT +08:00] Pacific Standard Time',
+        '-0700' => '[GMT +07:00] Mountain Standard Time',
+        '-0600' => '[GMT +06:00] Central Standard Time',
+        '-0500' => '[GMT +05:00] Eastern Standard Time',
+        '-0400' => '[GMT +04:00] Atlantic Standard Time',
+        '-0330' => '[GMT +03:30] Newfoundland Standard Time',
+        '-0300' => '[GMT +03:00] Amazon Standard Time, Central Greenland Time',
+        '-0200' => '[GMT +02:00] Fernando de Noronha Time, South Georgia &amp; the South Sandwich Islands Time',
+        '-0100' => '[GMT +01:00] Azores Standard Time, Cape Verde Time, Eastern Greenland Time',
+        '0000'  => '[GMT +00:00] Western European Time, Greenwich Mean Time',
+        '+0100' => '[GMT +01:00] Central European Time, West African Time',
+        '+0200' => '[GMT +02:00] Eastern European Time, Central African Time',
+        '+0300' => '[GMT +03:00] Moscow Standard Time, Eastern African Time',
+        '+0330' => '[GMT +03:30] Iran Standard Time',
+        '+0400' => '[GMT +04:00] Gulf Standard Time, Samara Standard Time',
+        '+0430' => '[GMT +04:30] Afghanistan Time',
+        '+0500' => '[GMT +05:00] Pakistan Standard Time, Yekaterinburg Standard Time',
+        '+0530' => '[GMT +05:30] Indian Standard Time, Sri Lanka Time',
+        '+0545' => '[GMT +05:45] Nepal Time',
+        '+0600' => '[GMT +06:00] Bangladesh Time, Bhutan Time, Novosibirsk Standard Time',
+        '+0630' => '[GMT +06:30] Cocos Islands Time, Myanmar Time',
+        '+0700' => '[GMT +07:00] Indochina Time, Krasnoyarsk Standard Time',
+        '+0800' => '[GMT +08:00] Chinese Standard Time, Australian Western Standard Time, Irkutsk Standard Time',
+        '+0845' => '[GMT +08:45] Southeastern Western Australia Standard Time',
+        '+0900' => '[GMT +09:00] Japan Standard Time, Korea Standard Time, Chita Standard Time',
+        '+0930' => '[GMT +09:30] Australian Central Standard Time',
+        '+1000' => '[GMT +10:00] Australian Eastern Standard Time, Vladivostok Standard Time',
+        '+1030' => '[GMT +10:30] Lord Howe Standard Time',
+        '+1100' => '[GMT +11:00] Solomon Island Time, Magadan Standard Time',
+        '+1130' => '[GMT +11:30] Norfolk Island Time',
+        '+1200' => '[GMT +12:00] New Zealand Time, Fiji Time, Kamchatka Standard Time',
+        '+1245' => '[GMT +12:45] Chatham Islands Time',
+        '+1300' => '[GMT +13:00] Tonga Time, Phoenix Islands Time',
+        '+1400' => '[GMT +14:00] Line Island Time',
+    ) ;
+
     /**
      * @brief ModuleHandler::getModuleObject($module_name, $type)을 쓰기 쉽게 함수로 선언
      * @param module_name 모듈이름
@@ -160,7 +202,23 @@
         $year = (int)substr($str,0,4);
         $month = (int)substr($str,4,2);
         $day = (int)substr($str,6,2);
-        return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year);
+
+        $time_zone = $GLOBALS['_time_zone'];
+        if($time_zone<0) $to = -1; else $to = 1;
+        $t_hour = substr($time_zone,1,2)*$to;
+        $t_min = substr($time_zone,3,2)*$to;
+
+        $server_time_zone = date("O");
+        if($server_time_zone<0) $so = -1; else $so = 1;
+        $c_hour = substr($server_time_zone,1,2)*$so;
+        $c_min = substr($server_time_zone,3,2)*$so;
+
+        $g_min = $t_min - $c_min;
+        $g_hour = $t_hour - $c_hour;
+        
+        $gap = $g_min*60 + $g_hour*60*60;
+
+        return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year)+$gap;
     }
 
     /**

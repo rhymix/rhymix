@@ -253,6 +253,12 @@ EndOfLicense;
 
     $lang->admin_title = '관리자정보';
 
+    $lang->env_title = '환경 설정';
+    $lang->use_rewrite = 'rewrite mod 사용';
+    $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
+
+    $lang->time_zone = 'time zone';
+
     $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>';
 
     $lang->success_installed = '설치가 되었습니다';

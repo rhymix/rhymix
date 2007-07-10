@@ -50,6 +50,8 @@ div.buttonCenter { text-align:center; }
 #content .tableType7 input,
 #content .tableType7 textarea,
 #content .tableType7 select { vertical-align:middle;}
+#content .tableType7 select { width:100%; }
+#content .tableType7 select option { letter-spacing:-1px; }
 #content .tableType7 td .w100 { width:100%; display:block;}
 #content .tableType7 td .checkbox { margin:-3px;}
 #content .tableType7 td p { line-height:1.4em; margin:5px 0 0 0; padding:0;}

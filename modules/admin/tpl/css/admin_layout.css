@@ -48,6 +48,7 @@ address { font-style:normal;}
 #gNavigation ul li a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:-2px; font-weight:bold; color:#ffffff; text-decoration:none;}
 #gNavigation ul li.on a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:0; font-weight:bold; color:#ffffff; text-decoration:none;}
 #gNavigation .menuEdit { width:180px; height:30px; text-align:center; margin-top:1em;}
+#gNavigation .selLangType { width:180px; height:30px; text-align:center; margin-top:1em;}
 
 #content { float:left; width:100%; padding:71px 0 100px 0;}
 

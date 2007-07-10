@@ -14,7 +14,7 @@
          **/
         function init() {
             // template 경로를 지정
-            $this->setTemplatePath($this->module_path."tpl");
+            $this->setTemplatePath($this->module_path.'tpl');
 
             // 설치가 되어 있으면 오류
             if(Context::isInstalled()) return $this->stop('msg_already_installed');
@@ -61,6 +61,8 @@
 
             // db_type이 지정되지 않았다면 다시 초기화면 출력
             if(!Context::get('db_type')) return $this->dispInstallSelectDB();
+
+            Context::set('time_zone', $GLOBALS['time_zone']);
 
             // disp_db_info_form.html 파일 출력
             $tpl_filename = sprintf('form.%s', Context::get('db_type'));
