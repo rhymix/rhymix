@@ -20,7 +20,7 @@
     // 说明文
     $lang->about_interval = "指定的时间内不能发表新文章。";
     $lang->about_limit_count = "在指定的时间内试图多次发表新文章，系统默认为Spam后自动禁止对方的IP。";
-    $lang->about_denied_ip = "禁止 IP （通配符 "*" 如 "127.0.*.*"）";
+    $lang->about_denied_ip = "禁止 IP （通配符 \"*\" 如 \"127.0.*.*\"）";
     $lang->about_denied_word = "登录为禁止单词会不能发表包含该词语的文章";
     $lang->about_check_trackback = "在一个文章只允许一个IP引用";
 
