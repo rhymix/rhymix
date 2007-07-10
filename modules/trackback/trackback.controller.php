@@ -19,7 +19,7 @@
         function trackback() {
             Context::setRequestMethod("XMLRPC");
 
-            $obj = Context::gets('document_srl','url','title','excerpt');
+            $obj = Context::gets('document_srl','blog_name','url','title','excerpt');
 
             if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
 
@@ -129,7 +129,7 @@
             $http = parse_url($trackback_url);
             $obj->blog_name = Context::getBrowserTitle();
             $obj->title = $document->title;
-            $obj->excerpt = cut_str($document->content, 240);
+            $obj->excerpt = cut_str(strip_tags($document->content), 240);
             $obj->url = sprintf("%s?document_srl=%d", Context::getRequestUri(), $document->document_srl);
 
             // blog_name, title, excerpt, url의 문자열을 요청된 charset으로 변경
