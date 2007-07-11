@@ -81,7 +81,6 @@
                 if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
                     $this->lang_type = $lang_prefix;
                     setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
-                    break;
                 }
             }
 
@@ -275,6 +274,7 @@
          **/
         function _setLangType($lang_type = 'ko') {
             $this->lang_type = $lang_type;
+            $this->_set('lang_type',$lang_type);
         }
 
         /**
