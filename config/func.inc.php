@@ -181,6 +181,7 @@
      * 손쉽고 확실한 변환을 위해 2byte unicode로 변형한후 처리를 한다
      **/
     function cut_str($string, $cut_size, $tail='...') {
+        if(!function_exists('iconv')) return $string;
         if(!$string || !$cut_size) return $string;
         $unicode_str = iconv("UTF-8","UCS-2",$string);
         if(strlen($unicode_str) < $cut_size*2) return $string;
