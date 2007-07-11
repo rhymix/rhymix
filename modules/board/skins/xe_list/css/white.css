@@ -18,7 +18,7 @@ Jeong, Chan Myeong 070601~070630
 .boardHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-bottom:3px solid #fe3614; background:#ffffff url(../images/white/lineH3.gif) no-repeat right bottom;}
 
 /* boardComment */
-.boardComment { color:#AEAEAE; position:relative; _width:100%; border:1px solid #DDDDDD; overflow:hidden;padding:.8em; margin-top:.4em;}
+.boardComment { color:#AEAEAE; position:relative; border:1px solid #DDDDDD; overflow:hidden;padding:.8em; margin-top:.4em;}
 .boardComment a { color:#f38d2a; text-decoration:none; border-bottom:1px dotted #f38d2a;}
 
 /* boardInformation */
@@ -122,7 +122,7 @@ Jeong, Chan Myeong 070601~070630
 /* boardSearch */
 .boardSearch { text-align:center; clear:both; width:100%;}
 .boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
-.boardSearch fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
+.boardSearch fieldset legend { overflow:hidden; width:1px; height:1px; font-size:.001em;}
 .boardSearch * { vertical-align:middle;} 
 .boardSearch select { float:left;}
 .boardSearch input { float:left; margin:0 .3em; background:#fbfbfb;}
