@@ -1,4 +1,4 @@
-dksk <?php
+<?php
     /**
      * @file   modules/document/lang/es.lang.php
      * @author zero <zero@nzeo.com>
