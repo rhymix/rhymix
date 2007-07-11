@@ -120,7 +120,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
 
 .boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify { font-size:.8em; color:#999999; float:left; position:relative; top:.3em;}
+.boardRead .dateAndModify { font-size:.8em; color:#999999; position:relative; top:.3em;}
 .boardRead .dateAndModify strong { font-size:1em; font-family:Tahoma;}
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em; list-style:none;}
