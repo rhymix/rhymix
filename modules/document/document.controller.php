@@ -254,13 +254,13 @@
             $oTagController->deleteTag($document_srl, $is_admin);
 
             // 첨부 파일 삭제
-            if($document->uploaded_count) {
+            if($oDocument->hasUploadedFiles()) {
                 $oFileController = &getController('file');
                 $oFileController->deleteFiles($document_srl);
             }
 
             // 카테고리가 있으면 카테고리 정보 변경
-            if($document->category_srl) $this->updateCategoryCount($oDocument->get('category_srl'));
+            if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('category_srl'));
 
             // commit
             $oDB->commit();
