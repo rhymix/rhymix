@@ -13,8 +13,8 @@
                 <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
 
                 <!--@if($oDocument->isEditable())-->
-                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
-                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+                <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+                <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
                 <!--@end-->
             </div>
         </div>
