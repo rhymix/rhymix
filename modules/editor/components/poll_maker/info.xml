@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
     <title xml:lang="ko">설문조사 컴포넌트</title>
+    <title xml:lang="ko">投票调查组件</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="ko">zero</name>
         <description xml:lang="ko">글 작성시에 설문조사를 첨부하실 수 있습니다. 설문조사 컴포넌트는 설문조사 모듈의 설정에 영향을 받습니다.</description>
+        <description xml:lang="ko">发表文章时可以添加进行投票调查。投票调查组件是在票调查模块里设定。</description>
     </author>
 </component>

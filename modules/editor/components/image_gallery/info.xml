@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
     <title xml:lang="ko">기본 이미지 갤러리</title>
+    <title xml:lang="zh-CN">基本图像</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">zero</name>
         <description xml:lang="ko">첨부된 이미지파일을 이용하여 슬라이드/목록형 이미지 갤러리를 만들 수 있습니다.</description>
+        <description xml:lang="zh-CN">利用上传的图像文件制作幻灯片或目录型图像。</description>
     </author>
 </component>
