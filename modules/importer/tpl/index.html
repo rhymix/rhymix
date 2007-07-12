@@ -93,8 +93,8 @@
             <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
         </div>
 
-        <div id="step2_status" style="display:none" class="gap1">
-            <div id="step2_position" class="desc"></div>
+        <div id="step2_status" style="display:none;" class="gap1">
+            <div id="step2_position" style="height:150px;overflow-y:scroll;border:2px solid #DDDDDD;padding:10px;" class="desc"></div>
             <div class="tRight gap1">
                <span class="button"><input type="button" value="{$lang->cmd_continue}"  onclick="doManualProcess(); return false"  /></span>
             </div>
@@ -114,5 +114,4 @@
 </div>
 
 <!-- final step. 진행 완료 또는 실패 메세지 -->
-<div id="step_finish" style="display:none">
-</div>
+<div id="step_finish" style="display:none;"></div>

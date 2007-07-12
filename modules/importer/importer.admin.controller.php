@@ -22,6 +22,7 @@
         var $module_srl = 0;
         var $category_srl = 0;
         var $category_list = array();
+        var $msg = null;
 
         /**
          * @brief 초기화
@@ -123,7 +124,10 @@
             } else {
                 $this->add('position', $this->imported_count);
                 $this->add('is_finished', 'N');
-                $this->setMessage( sprintf(Context::getLang('msg_importing'), $this->total_count, $this->imported_count) );
+
+                $message =  sprintf(Context::getLang('msg_importing'), $this->total_count, $this->imported_count);
+                if($this->msg) $message .= "<br />".$this->msg;
+                $this->setMessage( $message );
             }
         }
 
@@ -178,7 +182,7 @@
             $args->regdate = $xml_doc->member->regdate->body;
             $args->allow_mailing = $xml_doc->member->allow_mailing->body;
             $args->allow_message = 'Y';
-            $output = $this->oMemberController->insertMember($args);
+            $output = $this->oMemberController->insertMember($args, true);
             if($output->toBool()) {
                 $member_srl = $output->get('member_srl');
                 if($xml_doc->member->image_nickname->body) {
@@ -196,9 +200,10 @@
                 if($xml_doc->member->signature->body) {
                     $this->oMemberController->putSignature($member_srl, base64_decode($xml_doc->member->signature->body));
                 }
-
-                $this->imported_count ++;
+            } else {
+                $this->msg .= $args->user_id." : ".$output->getMessage()."<br />";
             }
+            $this->imported_count ++;
             return '';
         }
 
@@ -339,6 +344,8 @@
                         $this->oTrackbackController->insertTrackback($trackback_args, true);
                     }
                 }
+            } else {
+                $this->msg .= $sequence." : ".$output->getMessage()."<br />";
             }
 
             $this->imported_count ++;
@@ -393,7 +400,6 @@
                 if($this->category_list[$title]) continue;
 
                 $output = $oDocumentController->insertCategory($this->module_srl, $title);
-                debugPrint($output);
                 $this->category_list[$title] = $output->get('category_srl');
             }
         }

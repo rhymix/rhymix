@@ -856,7 +856,7 @@
         /**
          * @brief member 테이블에 사용자 추가
          **/
-        function insertMember($args) {
+        function insertMember($args, $password_is_hashed = false) {
             // 멤버 설정 정보에서 가입약관 부분을 재확인
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -905,8 +905,8 @@
 
             // DB에 입력
             $args->member_srl = getNextSequence();
-            if($args->password) $args->password = md5($args->password);
-            else unset($args->password);
+            if($args->password && !$password_is_hashed) $args->password = md5($args->password);
+            elseif(!$args->password) unset($args->password);
 
             $output = executeQuery('member.insertMember', $args);
             if(!$output->toBool()) {
@@ -1145,16 +1145,17 @@
             $add = 7;
             $nr2 = 0x12345671;
 
-            $password_len = strlen($password);
-            for($i=0;$i<$password_len;$i++) {
-                $char = substr($password,$i,1);
-                if($char == ' ' || $char == '\t') continue;
-                $tmp = ord($char);
-                $nr  ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
+            settype($password, "string");
+
+            for ($i=0; $i<strlen($password); $i++) {
+                if ($password[$i] == ' ' || $password[$i] == '\t') continue;
+                $tmp = ord($password[$i]);
+                $nr ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
                 $nr2 += ($nr2 << 8) ^ $nr;
                 $add += $tmp;
             }
-            return sprintf('%08x%08x', $nr, $nr2);
+            $nr2 += 0x80000000;
+            return sprintf("%08lx%08lx", $nr, $nr2);
         }
     }
 ?>
