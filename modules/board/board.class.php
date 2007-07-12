@@ -44,7 +44,7 @@
                 $args->board_name = 'board';
                 $args->browser_title = 'test module';
                 $args->is_default = 'Y';
-                $args->skin = 'default';
+                $args->skin = 'xe_list';
 
                 // board 라는 이름의 모듈이 있는지 확인
                 $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
