@@ -151,17 +151,22 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .fileAttached li { display:inline; margin-right:.75em; line-height:1.5em;}
 .boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; position:relative; color:#444444; background:url(../images/white/iconFile.gif) no-repeat left top;}
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
-.boardRead .replyAndTrackback { position:relative; overflow:hidden; _width:100%; padding:.8em 0em; height:1em; background:url(../images/white/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #666760;}
-.boardRead .replyAndTrackback li { position:relative; left:1.5em; padding-left:1.4em; float:left; margin-right:1em;}
+
+.boardRead .replyAndTrackback { position:relative; overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/white/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #666760;}
+.boardRead .replyAndTrackback li { margin-left:1em; padding-left:1.4em; float:left; list-style:none;}
+
 .boardRead .replyAndTrackback li.reply { background:url(../images/white/iconReply.gif) no-repeat left top;}
-.boardRead .replyAndTrackback li.reply a { _position:relative; _top:-.5em;}
+.boardRead .replyAndTrackback li.reply a { position:relative; top:-.3em; _top:-.6em;}
+
 .boardRead .replyAndTrackback li.trackback { background:url(../images/white/iconTrackback.gif) no-repeat left top;}
-.boardRead .replyAndTrackback a { display:block; float:left; color:#333333; height:1em; padding:.1em 1.5em .1em 0; white-space:nowrap;}
+.boardRead .replyAndTrackback li.trackback a { position:relative; top:-.3em; _top:0em;}
+ 
+.boardRead .replyAndTrackback a { color:#333333; white-space:nowrap; text-decoration:none;}
 .boardRead .replyAndTrackback a strong { color:#ff6600;}
 .boardRead .replyAndTrackback a#toggleReply { background:url(../images/white/buttonToggleReply.gif) no-repeat right top;}
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/white/buttonToggleReply.gif) no-repeat right -13px;}
-.boardRead .replyAndTrackback li.button { float:right; }
-.boardRead .replyAndTrackback li.button a { display:inline; padding:0; margin:0 1em 0 1em;}
+.boardRead .replyAndTrackback .listButton { float:right; margin:0 1em 0 0; position:relative; top:-5px; _top:-7px;}
+
 
 #trackbacks { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em;}
 #trackbacks li { padding:.6em .8em .6em .6em; line-height:1.25em; border-bottom:1px dotted #EEEEEE; list-style:none;}

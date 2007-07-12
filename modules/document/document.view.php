@@ -18,9 +18,6 @@
          * 해당 글만 찾아서 그냥 출력해버린다;;
          **/
         function dispDocumentPrint() {
-            // 권한 체크
-            if(!$this->grant->view) return new Object(-1,'msg_not_permitted');
-
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
 
@@ -31,12 +28,15 @@
             $oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
             if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
 
+            // 권한 체크
+            if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
+
             // 브라우저 타이틀 설정
             Context::setBrowserTitle($oDocument->getTitleText());
 
             Context::set('oDocument', $oDocument);
 
-            $this->module_info->layout_srl = null;
+            Context::set('layout','none');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_page');
         }

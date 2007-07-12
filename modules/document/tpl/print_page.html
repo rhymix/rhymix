@@ -1,8 +1,15 @@
 <!--%import("./css/document.css")-->
 <!--%import("./css/document.css")-->
 
-<h1>{$oDocument->getTitleText()}</h1><br />
-{$oDocument->getContent()}
+<div><h1>{$oDocument->getTitleText()}</h1></div>
+
+<div class="member_{$oDocument->get('member_srl')} gap1 fl">{$oDocument->get('nick_name')}</div>
+<div class="gap1 fr">{$oDocument->getRegdate()}</div>
+
+<div class="clear"></div>
+
+<div class="gap1">{$oDocument->getContent()}</div>
+
 
 <script type="text/javascript">//<![CDATA[
     xAddEventListener(window,'load',function() { window.print(); } );

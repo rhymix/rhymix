@@ -34,9 +34,11 @@
                 if(__DEBUG__==3) $start = getMicroTime();
                 $oTemplate = &TemplateHandler::getInstance();
 
-                $layout_path = $oModule->getLayoutPath();
-                $layout_file = $oModule->getLayoutFile();
-                $edited_layout_file = $oModule->getEditedLayoutFile();
+                if(Context::get('layout') != 'none') {
+                    $layout_path = $oModule->getLayoutPath();
+                    $layout_file = $oModule->getLayoutFile();
+                    $edited_layout_file = $oModule->getEditedLayoutFile();
+                }
 
                 if(!$layout_path) $layout_path = './common/tpl/';
                 if(!$layout_file) $layout_file = 'default_layout.html';

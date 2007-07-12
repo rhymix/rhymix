@@ -67,6 +67,10 @@
             $_SESSION['own_document'][$this->document_srl] = true;
         }
 
+        function isAccessible() {
+            return $_SESSION['accessible'][$this->document_srl]==true?true:false;
+        }
+
         function allowComment() {
             return $this->get('allow_comment') == 'Y' || !$this->isExists() ? true : false;
         }
@@ -119,12 +123,14 @@
         function getContentText() {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
+            $_SESSION['accessible'][$this->document_srl] = true;
             return htmlspecialchars($this->get('content'));
         }
 
         function getContent() {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
+            $_SESSION['accessible'][$this->document_srl] = true;
             return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $this->get('content'), $this->document_srl, $this->get('member_srl'));
         }
 
