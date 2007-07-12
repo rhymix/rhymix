@@ -45,6 +45,7 @@
     $lang->cmd_apply = '適用';
     $lang->cmd_open_calendar = 'カレンダを開く';
     $lang->cmd_send = '送信';
+    $lang->cmd_print = 'Print';
 
     $lang->enable = '可';
     $lang->disable = '不可';

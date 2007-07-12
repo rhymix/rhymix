@@ -68,6 +68,8 @@
     </div>
 
     <ul class="replyAndTrackback">
+        <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a>
+
         <!--@if($grant->write_comment && $oDocument->allowComment()) -->
             <li class="reply"><a href="#trackback_{$oDocument->document_srl}">{$lang->comment} <strong>{$oDocument->getCommentCount()}</strong></a></li>
         <!--@end-->

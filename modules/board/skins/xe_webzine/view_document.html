@@ -91,6 +91,7 @@
         <!--@end-->
 
             <li class="listButton">
+                <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a>
                 <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
                 <a href="#" onclick="doVote();return false;" class="button"><span>{$lang->cmd_vote}</span></a>
             </li>

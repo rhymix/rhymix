@@ -45,6 +45,7 @@
     $lang->cmd_apply = '적용';
     $lang->cmd_open_calendar = '날짜 선택';
     $lang->cmd_send = '발송';
+    $lang->cmd_print = '인쇄';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';

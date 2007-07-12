@@ -22,6 +22,7 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminList');
+            $oModuleController->insertActionForward('document', 'view', 'dispDocumentPrint');
 
             return new Object();
         }

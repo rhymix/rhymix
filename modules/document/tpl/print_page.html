@@ -1,0 +1,11 @@
+<!--%import("./css/document.css")-->
+<!--%import("./css/document.css")-->
+
+<h1>{$oDocument->getTitleText()}</h1><br />
+{$oDocument->getContent()}
+
+<script type="text/javascript">//<![CDATA[
+    xAddEventListener(window,'load',function() { window.print(); } );
+//]]></script>
+
+

@@ -104,6 +104,7 @@
 
 <!-- 관련 링크 -->
 <div>
+    <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;">{$lang->cmd_print}</a>
     <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
     <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
 
