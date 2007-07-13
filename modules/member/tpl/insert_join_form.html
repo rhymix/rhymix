@@ -23,10 +23,12 @@
 
                 <div>
                     <select name="default_value_list" size="8" style="width:400px;height:80px;" id="default_value_listup">
+                        <!--@if($join_form->default_value)-->
                         <!--@foreach($join_form->default_value as $value_key => $value_val)-->
                             <!--@if($value_val)-->
                         <option value="{$value_val}">{$value_val}</option>
                             <!--@end-->
+                        <!--@end-->
                         <!--@end-->
                     </select>
                 </div>
@@ -36,7 +38,7 @@
                     <a href="#" onclick="doEditDefaultValue(this, 'delete');return false;">{$lang->cmd_delete}</a>
                 </div>
                 <div class="gap1">
-                    <input type="text" name="default_value_item" id="default_value_item" class="inputTypeText" />
+                    <input type="text" name="default_value_item" id="default_value_item" class="inputTypeText w400" />
                     <a href="#" onclick="doEditDefaultValue(this, 'insert');return false;">{$lang->cmd_insert}</a>
                 </div>
             </div>
@@ -45,14 +47,14 @@
     <tr>
         <th scope="row">{$lang->column_name}</th>
         <td>
-            <input type="text" name="column_name" value="{htmlspecialchars($join_form->column_name)}" class="inputTypeText" />
+            <input type="text" name="column_name" value="{htmlspecialchars($join_form->column_name)}" class="inputTypeText w400" />
             <p>{$lang->about_column_name}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->column_title}</th>
         <td>
-            <input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" class="inputTypeText" />
+            <input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" class="inputTypeText w400" />
             <p>{$lang->about_column_title}</p>
         </td>
     </tr>
@@ -73,7 +75,7 @@
     <tr>
         <th rowspan="2">{$lang->description}</th>
         <td>
-            <textarea name="description" class="inputTypeTextArea">{htmlspecialchars($join_form->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($join_form->description)}</textarea>
             <p>{$lang->about_form_description}</p>
         </td>
     </tr>
