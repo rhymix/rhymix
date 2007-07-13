@@ -143,6 +143,7 @@
          *         return\n
          **/
         function _query($query) {
+         //echo "(((".$this->backtrace().")))";
             if(!$query || !$this->isConnected()) return;
 
             // 쿼리 시작을 알림
@@ -383,7 +384,7 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
+                $table_list[] = "\"".$this->prefix.$key."\" as ".$val;
             }
 
             // 컬럼 정리 
@@ -396,7 +397,7 @@
                     if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
                     elseif(!$value || is_numeric($value)) $value = (int)$value;
 
-                    $column_list[] = sprintf("`%s` = %s", $name, $value);
+                    $column_list[] = sprintf("\"%s\" = %s", $name, $value);
                 }
             }
 
@@ -453,8 +454,9 @@
                     } else {
                         if(strpos($name,'.')!=false) {
                             list($prefix, $name) = explode('.',$name);
-                            if($alias) $column_list[] = sprintf('%s."%s" as "%s"', $prefix, $name, $alias);
-                            else $column_list[] = sprintf('%s."%s"',$prefix,$name);
+                            $deli=($name == '*') ? "" : "\"";
+                            if($alias) $column_list[] = sprintf("%s.$deli%s$deli as \"%s\"", $prefix, $name, $alias);
+                            else $column_list[] = sprintf("%s.$deli%s$deli",$prefix,$name);
                         } else {
                             if($alias) $column_list[] = sprintf('%s as "%s"', $name, $alias);
                             else $column_list[] = sprintf('%s',$name);
@@ -487,6 +489,58 @@
             $buff->data = $data;
             return $buff;
         }
+
+        /**
+         * @brief 현재 시점의 Stack trace를 보여줌.결과를 fetch
+         **/
+        function backtrace()
+        {
+            $output = "<div style='text-align: left;'>\n";
+            $output .= "<b>Backtrace:</b><br />\n";
+            $backtrace = debug_backtrace();
+        
+            foreach ($backtrace as $bt) {
+                $args = '';
+                foreach ($bt['args'] as $a) {
+                    if (!empty($args)) {
+                        $args .= ', ';
+                    }
+                    switch (gettype($a)) {
+                    case 'integer':
+                    case 'double':
+                        $args .= $a;
+                        break;
+                    case 'string':
+                        $a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
+                        $args .= "\"$a\"";
+                        break;
+                    case 'array':
+                        $args .= 'Array('.count($a).')';
+                        break;
+                    case 'object':
+                        $args .= 'Object('.get_class($a).')';
+                        break;
+                    case 'resource':
+                        $args .= 'Resource('.strstr($a, '#').')';
+                        break;
+                    case 'boolean':
+                        $args .= $a ? 'True' : 'False';
+                        break;
+                    case 'NULL':
+                        $args .= 'Null';
+                        break;
+                    default:
+                        $args .= 'Unknown';
+                    }
+                }
+                $output .= "<br />\n";
+                $output .= "<b>file:</b> {$bt['line']} - {$bt['file']}<br />\n";
+                $output .= "<b>call:</b> {$bt['class']}{$bt['type']}{$bt['function']}($args)<br />\n";
+            }
+            $output .= "</div>\n";
+            return $output;
+        }
+       
 
         /**
          * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
