@@ -12,7 +12,10 @@
             $oMemberModel = &getModel('member');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             $key = $member_info->{$addon_info->user_ad_client};
-            if($key) $addon_info->ad_client = $key;
+            if($key) {
+                $addon_info->ad_client = $key;
+                $addAdSense->ad_type = '';
+            }
         }
 
         $adsense_code = addAdSense($addon_info);
@@ -27,8 +30,8 @@ google_ad_client = "{$addon_info->ad_client}";
 google_ad_width = "{$addon_info->ad_width}";
 google_ad_height = "{$addon_info->ad_height}";
 google_ad_format = "{$addon_info->ad_format}";
-google_ad_type = "{$addon_info->ad_format}";
-google_ad_channel = "{$addon_info->ad_type}";
+google_ad_type = "{$addon_info->ad_type}";
+google_ad_channel = "{$addon_info->ad_channel}";
 google_color_border = "{$addon_info->color_border}";
 google_color_bg = "{$addon_info->color_bg}";
 google_color_link = "{$addon_info->link_color}";
