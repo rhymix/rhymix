@@ -29,8 +29,31 @@
                 else $this->doActivate($addon);
             }
 
+            $this->makeCacheFile();
+        }
+
+        /**
+         * @brief 애드온 설정 정보 입력
+         **/
+        function procAddonAdminSetupAddon() {
+            $args = Context::getRequestVars();
+            $addon_name = $args->addon_name;
+            unset($args->module);
+            unset($args->act);
+            unset($args->addon_name);
+
+            $this->doSetup($addon_name, $args);
+
+            $this->makeCacheFile();
+        }
+
+        /**
+         * @brief 캐시 파일 생성
+         **/
+        function makeCacheFile() {
             // 모듈에서 애드온을 사용하기 위한 캐시 파일 생성
             $buff = "";
+            $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons();
             foreach($addon_list as $addon=> $val) {
                 if($val->is_used != 'Y') continue;
@@ -46,19 +69,6 @@
             $buff = sprintf('<?if(!defined("__ZBXE__"))exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
-        }
-
-        /**
-         * @brief 애드온 설정 정보 입력
-         **/
-        function procAddonAdminSetupAddon() {
-            $args = Context::getRequestVars();
-            $addon_name = $args->addon_name;
-            unset($args->module);
-            unset($args->act);
-            unset($args->addon_name);
-
-            $this->doSetup($addon_name, $args);
         }
 
         /**
