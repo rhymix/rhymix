@@ -97,8 +97,8 @@
         <!--@else-->
 
         <tr class="bg{($no+1)%2+1}">
-            <td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td>
 
+            <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td>
             <!--@if($document->thumbnailExists(100))-->
             <td rowspan="2" class="thumb">
                     <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
@@ -138,7 +138,7 @@
             <td class="date">{$document->getRegdate('Y-m-d')}</td>
         </tr>
         <tr class="bg{($no+1)%2+1}">
-            <td colspan="5" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(140)}</a></td>
+            <td colspan="6" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(140)}</a></td>
         </tr>
         <!--@end-->
     <!--@end-->

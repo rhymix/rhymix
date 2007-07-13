@@ -378,9 +378,11 @@
         /**
          * @brief 해당 document의 댓글 수 증가
          **/
-        function updateCommentCount($document_srl, $comment_count) {
+        function updateCommentCount($document_srl, $comment_count, $comment_inserted = false) {
             $args->document_srl = $document_srl;
             $args->comment_count = $comment_count;
+
+            if($comment_inserted) $args->update_order = -1*getNextSequence();
 
             return executeQuery('document.updateCommentCount', $args);
         }

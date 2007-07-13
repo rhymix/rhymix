@@ -96,6 +96,20 @@
             $args->sort_index = Context::get('sort_index');
             $args->order_type = Context::get('order_type');
 
+            // 스킨에서 설정한 기본 정렬 대상을 구함
+            if(!$args->sort_index) {
+                switch($this->module_info->order_target) {
+                    case "updated" :
+                            $args->sort_index = "update_order";
+                            $args->order_type = "asc";
+                        break;
+                    default :
+                            $args->sort_index = "list_order";
+                            $args->order_type = "asc";
+                        break;
+                }
+            }
+
             // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
             $output = $oDocumentModel->getDocumentList($args);
 

@@ -23,6 +23,15 @@
     </color>
   </colorset>
   <extra_vars>
+    <var name="order_target" type="select">
+        <title xml:lang="ko">정렬 대상</title>
+        <title xml:lang="zh-CN">排列顺序</title>
+        <type>select</type>
+        <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
+        <description xml:lang="zh-CN">可排序文章的顺序。</description>
+        <default>newest</default>
+        <default>updated</default>
+    </var>
     <var name="title" type="text">
         <title xml:lang="ko">게시판 제목</title>
         <title xml:lang="zh-CN">board 标题</title>

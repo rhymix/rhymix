@@ -86,7 +86,7 @@
                 $oDocumentController = &getController('document');
 
                 // 해당글의 댓글 수를 업데이트
-                $output = $oDocumentController->updateCommentCount($document_srl, $comment_count);
+                $output = $oDocumentController->updateCommentCount($document_srl, $comment_count, true);
 
                 // 댓글의 권한을 부여
                 $this->addGrant($obj->comment_srl);

@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="comment_count" var="comment_count" notnull="notnull" />
+        <column name="update_order" var="update_order" />
     </columns>
     <conditions>
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
