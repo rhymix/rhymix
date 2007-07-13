@@ -29,8 +29,8 @@
     $lang->cmd_move = '移動';
     $lang->cmd_move_up = '上へ';
     $lang->cmd_move_down = '下へ';
-    $lang->cmd_add_indent = 'インデント';
-    $lang->cmd_remove_indent = 'インデント解除';
+    $lang->cmd_add_indent = '字下げ';
+    $lang->cmd_remove_indent = '字下げ解除';
     $lang->cmd_management = '管理';
     $lang->cmd_make = '作成';
     $lang->cmd_select = '選択';
@@ -45,7 +45,6 @@
     $lang->cmd_apply = '適用';
     $lang->cmd_open_calendar = 'カレンダを開く';
     $lang->cmd_send = '送信';
-    $lang->cmd_print = 'Print';
 
     $lang->enable = '可';
     $lang->disable = '不可';
@@ -64,12 +63,12 @@
     $lang->admin_id = '管理者ＩＤ';
     $lang->writer = '投稿者';
     $lang->user_name = '名前';
-    $lang->nick_name = 'ニック';
+    $lang->nick_name = 'ニックネーム';
     $lang->email_address = 'メールアドレス';
     $lang->homepage = 'ホームページ';
     $lang->blog = 'ブログ';
     $lang->birthday = '誕生日';
-    $lang->browser_title = 'ブラウザータイトル';
+    $lang->browser_title = 'ブラウザーのタイトル';
     $lang->title = 'タイトル';
     $lang->title_content = 'タイトル＋内容';
     $lang->content = '内容';
@@ -78,14 +77,14 @@
     $lang->description = '説明';
     $lang->trackback = 'トラックバック';
     $lang->tag = 'タグ';
-    $lang->allow_comment = 'トラックバック';
-    $lang->lock_comment = 'トラックバックロック';
+    $lang->allow_comment = 'コメント許可';
+    $lang->lock_comment = 'コメントロック';
     $lang->allow_trackback = 'トラックバック許可';
     $lang->uploaded_file = '添付';
     $lang->grant = '権限';
     $lang->target = '対象';
     $lang->total = 'すべて';
-    $lang->total_count = '全体数';
+    $lang->total_count = 'トータル数';
     $lang->ipaddress = 'ＩＰアドレス';
     $lang->path = 'パス';
     $lang->cart = '選択項目';
@@ -140,7 +139,7 @@
     $lang->unit_year = '年';
 
     // 説明関連 
-    $lang->about_tag = 'タグ入力時、「,」を使うと複数登録できます。';
+    $lang->about_tag = 'タグを入力する時、「,」を使うと複数登録できます。';
     $lang->about_layout = 'レイアウトはモジュールの枠をデザインします。上のレイアウトメニューで管理できます。';
 
     // メッセージ関連
@@ -190,7 +189,7 @@
     $lang->column_type_list['tel'] = '電話番号タイプ(phone)';
     $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
     $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';
-    $lang->column_type_list['select'] = 'セレクト(select)';
+    $lang->column_type_list['select'] = '選択(select)';
     $lang->column_type_list['kr_zip'] = '韓国住所(zip)';
     $lang->column_type_list['date'] = '年月日';
     //$lang->column_type_list['jp_zip'] = '日本住所(zip)';

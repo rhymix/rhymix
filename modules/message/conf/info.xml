@@ -2,10 +2,16 @@
 <module version="0.1">
     <title xml:lang="ko">오류 표시</title>
     <title xml:lang="jp">エラー表示</title>
+    <title xml:lang="zh-CN">显示错误信息</title>
+    <title xml:lang="en">Display Errors</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="en">zero</name>
         <description xml:lang="ko">오류 및 각종 시스템 메세지 관리 모듈</description>
         <description xml:lang="jp">エラー及びシステムメッセージ管理モジュール</description>
+        <description xml:lang="zh-CN">管理错误信息及各种系统信息。</description>
+        <description xml:lang="en">This module managers erros and system messages</description>
     </author>
 </module>

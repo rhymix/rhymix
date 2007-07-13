@@ -244,11 +244,11 @@ EndOfLicense;
 
     $lang->admin_title = '管理员信息';
 
-    $lang->env_title = '환경 설정';
-    $lang->use_rewrite = 'rewrite mod 사용';
-    $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
-    $lang->time_zone = 'time zone';
-    $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 time zone을 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다';
+    $lang->env_title = '系统环境设置';
+    $lang->use_rewrite = '使用rewrite模块';
+    $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
+    $lang->time_zone = '时区';
+    $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';
 
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能接近的地方<br/><span style="color:red">数据文件需要指定在707属性的位置。</span>';
 
