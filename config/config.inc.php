@@ -64,6 +64,7 @@
     /**
      * @brief 세션 설정
      **/
-    session_cache_limiter('no-cache, must-revalidate');
-    session_start();
+    @session_cache_limiter('no-cache, must-revalidate');
+    @ini_set("session.gc_maxlifetime", "18000"); 
+    @session_start();
 ?>
