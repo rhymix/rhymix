@@ -95,8 +95,15 @@ function completeImport(ret_obj) {
         var fo_obj = xGetElementById('fo_step2');
         fo_obj.position.value = position;
         message = message.replace(/&lt;/g,"<").replace(/&gt;/g,">");
-        xInnerHtml('step2_position', xInnerHtml('step2_position')+"<br />"+message);
+
+        var obj = xGetElementById('step2_position');
+        var txt = xInnerHtml(obj);
+        if(txt.length > 1024*256) txt = '';
+        xInnerHtml(obj, txt+message);
+        obj.scrollTop += xHeight(obj);
         procFilter(fo_obj, import_xml);
+
+
     }
 }
 

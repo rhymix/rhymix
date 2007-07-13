@@ -127,6 +127,7 @@
 
                 $message =  sprintf(Context::getLang('msg_importing'), $this->total_count, $this->imported_count);
                 if($this->msg) $message .= "<br />".$this->msg;
+                $message .= "<br />";
                 $this->setMessage( $message );
             }
         }

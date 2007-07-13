@@ -137,6 +137,7 @@
             $fp = @fsockopen($url_info['host'], $url_info['port']);
             if(!$fp) return;
 
+            $url_info['path'] = str_replace(' ','%20',$url_info['path']);
             $header = sprintf("GET %s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host']); 
             @fwrite($fp, $header);
 
