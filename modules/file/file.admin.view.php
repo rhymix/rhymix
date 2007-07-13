@@ -24,10 +24,16 @@
 
             $args->sort_index = 'file_srl'; ///< 소팅 값
             $args->isvalid = Context::get('isvalid');
+            $args->module_srl = Context::get('module_srl');
 
             // 목록 구함
             $oFileModel = &getAdminModel('file');
             $output = $oFileModel->getFileList($args);
+
+            // mid목록을 구함
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
 
             // 목록의 loop를 돌면서 mid를 구하기 위한 module_srl값을 구함
             $file_count = count($output->data);

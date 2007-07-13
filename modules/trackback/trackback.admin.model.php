@@ -53,6 +53,7 @@
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
+            $args->s_module_srl = $obj->module_srl;
 
             // trackback.getTotalTrackbackList 쿼리 실행
             $output = executeQuery('trackback.getTotalTrackbackList', $args);

@@ -6,9 +6,10 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="isvalid" var="isvalid" />
+        <condition operation="equal" column="module_srl" var="s_module_srl" />
+        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
         <group pipe="and">
-            <condition operation="like" column="uploaded_filename" var="s_filename" />
+            <condition operation="like" column="source_filename" var="s_filename" pipe="or" />
             <condition operation="more" column="file_size" var="s_filesize" pipe="or" />
             <condition operation="more" column="download_count" var="s_download_count" pipe="or" />
             <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />

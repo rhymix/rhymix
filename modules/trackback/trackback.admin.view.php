@@ -23,6 +23,12 @@
             $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
 
             $args->sort_index = 'list_order'; ///< 소팅 값
+            $args->module_srl = Context::get('module_srl');
+
+            // mid목록을 구함
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
 
             // 목록 구함
             $oTrackbackAdminModel = &getAdminModel('trackback');

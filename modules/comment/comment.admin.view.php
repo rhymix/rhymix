@@ -24,6 +24,13 @@
 
             $args->sort_index = 'list_order'; ///< 소팅 값
 
+            $args->module_srl = Context::get('module_srl');
+
+            // mid목록을 구함
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
+
             // 목록 구함, comment->getCommentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getTotalCommentList($args);

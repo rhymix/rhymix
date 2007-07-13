@@ -6,12 +6,15 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="like" column="url" var="s_url" />
-        <condition operation="like" column="blog_name" var="s_blog_name" pipe="or" />
-        <condition operation="like" column="title" var="title" pipe="or" />
-        <condition operation="like" column="exceprt" var="exceprt" pipe="or" />
-        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
-        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        <condition operation="equal" column="module_srl" var="s_module_srl" />
+        <group pipe="and">
+            <condition operation="like" column="url" var="s_url" />
+            <condition operation="like" column="blog_name" var="s_blog_name" pipe="or" />
+            <condition operation="like" column="title" var="s_title" pipe="or" />
+            <condition operation="like" column="excerpt" var="s_excerpt" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="asc" />

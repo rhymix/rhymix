@@ -201,3 +201,6 @@ select.time_zone { width:70%; position:relative; top:4px; }
 
 .w700 { width:700px; }
 .w5 { width:5em; }
+
+.nowrap { white-space:nowrap; }
+.mid_list { width:7em; }
