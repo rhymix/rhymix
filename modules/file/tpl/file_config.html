@@ -14,6 +14,7 @@
         <th scope="col">{$lang->allowed_attach_size}</th>
         <td>
             <input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" class="inputTypeText" size="3" />MB
+            / {ini_get('upload_max_filesize')}
             <p>{$lang->about_allowed_attach_size}</p>
         </td>
     </tr>

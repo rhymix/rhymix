@@ -240,8 +240,10 @@
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y') {
-                $file_config->allowed_filesize = 1024;
-                $file_config->allowed_attach_size = 1024;
+                //$file_config->allowed_filesize = 1024;
+                //$file_config->allowed_attach_size = 1024;
+                $file_config->allowed_filesize = ini_get('upload_max_filesize');
+                $file_config->allowed_attach_size = ini_get('upload_max_filesize');
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $file_config = $oFileModel->getFileConfig();
