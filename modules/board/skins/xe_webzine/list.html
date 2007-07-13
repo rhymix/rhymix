@@ -97,7 +97,7 @@
         <!--@else-->
 
         <tr class="bg{($no+1)%2+1}">
-            <td class="num" rowspan="2">{$no}</td>
+            <td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td>
 
             <!--@if($document->thumbnailExists(100))-->
             <td rowspan="2" class="thumb">
