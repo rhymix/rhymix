@@ -28,10 +28,10 @@
          * 각 DBMS에 맞게 replace 해주어야 한다
          **/
         var $column_type = array(
-            'bignumber' => 'integer',
+            'bignumber' => 'numeric(20)',
             'number' => 'integer',
             'varchar' => 'character varying',
-            'char' => 'character varying',
+            'char' => 'character',
             'text' => 'character varying(1073741823)',
             'bigtext' => 'character varying(1073741823)',
             'date' => 'character varying(14)',
@@ -93,6 +93,7 @@
             if(!$this->isConnected()) return;
             @cubrid_commit($this->fd);
             @cubrid_disconnect($this->fd);
+            $this->transaction_started = false;
         }
 
         /**
@@ -109,18 +110,26 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
+            if(!$this->isConnected() || $this->transaction_started) return;
+            $this->transaction_started = true;
         }
 
         /**
          * @brief 롤백
          **/
         function rollback() {
+            if(!$this->isConnected() || !$this->transaction_started) return;
+            @cubrid_rollback($this->fd);
+            $this->transaction_started = false;
         }
 
         /**
          * @brief 커밋
          **/
         function commit() {
+            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
+            @cubrid_commit($this->fd);
+            $this->transaction_started = false;
         }
 
 
