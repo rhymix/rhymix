@@ -962,7 +962,7 @@
 
             if($logged_info->is_admin == 'Y') {
                 if($args->denied!='Y') $args->denied = 'N';
-                if($args->is_admin!='Y') $args->is_admin = 'N';
+                if($args->is_admin!='Y' && $logged_info->member_srl != $args->member_srl) $args->is_admin = 'N';
             } else {
                 unset($args->is_admin);
                 unset($args->denied);
