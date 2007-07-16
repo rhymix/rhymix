@@ -3,42 +3,51 @@
     <title xml:lang="ko">플래시 시계</title>
     <title xml:lang="zh-CN">Flash时钟</title>
     <title xml:lang="jp">フラッシュ時計</title>
+    <title xml:lang="en">Flash Clock</title>
     <author email_address="styx@bystyx.com" link="http://www.bystyx.com" date="2007. 2. 28">
         <name xml:lang="ko">스틱스 </name>
         <name xml:lang="zh-CN">styx </name>
         <name xml:lang="jp">styx </name>
+        <name xml:lang="en">styx </name>
         <description xml:lang="ko">플래쉬로 된 시계를 출력합니다.</description>
         <description xml:lang="zh-CN">Flash时钟控件。</description>
         <description xml:lang="jp">フラッシュ時計を出力します。</description>
+        <description xml:lang="en">It will display the clock created with flash.</description>
     </author>
     <extra_vars>
         <var id="clock_width">
             <name xml:lang="ko">가로길이</name>
             <name xml:lang="zh-CN">设定宽度</name>
             <name xml:lang="jp">横幅</name>
+            <name xml:lang="en">Width</name>
             <type>text</type>
             <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 200px)</description>
             <description xml:lang="zh-CN">请设定宽度。 (默认 200px)</description>
             <description xml:lang="jp">横幅を指定することができます。（デフォルト200px）</description>
+            <description xml:lang="en">It will be able to set the width. (default is 200px)</description>
         </var>
         <var id="theme">
             <name xml:lang="ko">테마</name>
             <name xml:lang="zh-CN">主题</name>
             <name xml:lang="jp">テーマ</name>
+            <name xml:lang="en">Theme</name>
             <type>select</type>
             <description xml:lang="ko">흰색/검은색 배경색에 따라 조절하시면 됩니다.</description>
             <description xml:lang="zh-CN">请设定背景。</description>
             <description xml:lang="jp">白/黒の背景で調節します。</description>
+            <description xml:lang="en">You may select a theme according to white/black background color.</description>
             <options>
                 <name xml:lang="ko">흰색 배경</name>
                 <name xml:lang="zh-CN">白色</name>
                 <name xml:lang="jp">白の背景</name>
+                <name xml:lang="en">White Background</name>
                 <value>white</value>
             </options>
             <options>
                 <name xml:lang="ko">검은색 배경</name>
                 <name xml:lang="zh-CN">黑色</name>
                 <name xml:lang="jp">黒の背景</name>
+                <name xml:lang="en">Black Background</name>
                 <value>black</value>
             </options>
         </var>
@@ -46,20 +55,24 @@
             <name xml:lang="ko">일자 표시</name>
             <name xml:lang="zh-CN">显示日期</name>
             <name xml:lang="jp">年月日表示</name>
+            <name xml:lang="en">Date Indication</name>
             <type>select</type>
             <description xml:lang="ko">시계내에 일자를 표시하는 기능을 끄거나 켜실 수 있습니다.</description>
             <description xml:lang="zh-CN">可设定时钟内显示日期或关闭日期。</description>
             <description xml:lang="jp">時計内に年月日の表示する機能をオンまたオフすることができます。</description>
+            <description xml:lang="en">You can set on or off the function of the date indication in the clock</description>
             <options>
                 <name xml:lang="ko">나타냄</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="jp">表示</name>
+                <name xml:lang="en">Show</name>
                 <value></value>
             </options>
             <options>
                 <name xml:lang="ko">숨김</name>
                 <name xml:lang="zh-CN">关闭</name>
                 <name xml:lang="jp">隠す</name>
+                <name xml:lang="en">Hide</name>
                 <value>false</value>
             </options>
         </var>
