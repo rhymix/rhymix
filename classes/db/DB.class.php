@@ -21,7 +21,7 @@
             'excess' => '>',
             'less' => '<=',
             'below' => '<',
-            'notequal' => '!=',
+            'notequal' => '<>',
             'notnull' => 'is not null',
             'null' => 'is null',
         );
@@ -355,7 +355,7 @@
                     break;
                 case 'notequal' : 
                         if(!$value) return;
-                        return $name.' != '.$value;
+                        return $name.' <> '.$value;
                     break;
                 case 'notnull' : 
                         return $name.' is not null';
