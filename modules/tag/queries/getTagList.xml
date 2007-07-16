@@ -10,7 +10,6 @@
         <condition operation="in" column="module_srl" var="module_srl" filter="number" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="regdate" order="desc" />
         <list_count var="list_count" default="20" />
     </navigation>
     <groups>
