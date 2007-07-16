@@ -20,6 +20,7 @@
         var $database = NULL; ///< database
         var $port = 33000; ///< db server port 
         var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
 
         /**
          * @brief cubrid에서 사용될 column type
@@ -365,7 +366,21 @@
                 $name = $val['name'];
                 $value = $val['value'];
                 if($this->getColumnType($output->column_type,$name)!='number') {
-                    $value = "'".$this->addQuotes($value)."'";
+                    $clen=strlen($value);
+                    if ($clen <= $this->cutlen)
+                      $value = "'".$this->addQuotes($value)."'";
+                    else {
+                      $wrk="";
+                      $off=0;
+                      while ($off<$clen) {
+                        $wlen=$clen-$off;
+                        if ($wlen>$this->cutlen) $wlen=$this->cutlen;
+                        if ($off>0) $wrk .= "+\n";
+                        $wrk .= "'".$this->addQuotes(substr($value, $off, $wlen))."'";
+                        $off += $wlen;
+                      }
+                      $value = $wrk;
+                    }
                     if(!$value) $value = 'null';
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
 
@@ -394,7 +409,23 @@
                 $value = $val['value'];
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
-                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
+                    if($output->column_type[$name]!='number') {
+                      $clen=strlen($value);
+                      if ($clen <= $this->cutlen)
+                        $value = "'".$this->addQuotes($value)."'";
+                      else {
+                        $wrk="";
+                        $off=0;
+                        while ($off<$clen) {
+                          $wlen=$clen-$off;
+                          if ($wlen>$this->cutlen) $wlen=$this->cutlen;
+                          if ($off>0) $wrk .= "+\n";
+                          $wrk .= "'".$this->addQuotes(substr($value, $off, $wlen))."'";
+                          $off += $wlen;
+                        }
+                        $value = $wrk;
+                      }
+                    }
                     elseif(!$value || is_numeric($value)) $value = (int)$value;
 
                     $column_list[] = sprintf("\"%s\" = %s", $name, $value);
