@@ -5,6 +5,7 @@
 <script type="text/javascript">//<![CDATA[
     var editor_height = '{$editor_height}';
     var editor_path = "{$editor_path}";
+    var auto_saved_msg = "{$lang->msg_auto_saved}";
     editorInit("{$upload_target_srl}", {$enable_resizable}, {$editor_height});
 //]]></script>
 
@@ -114,6 +115,8 @@
     </div>
     <!--@end-->
 
+    <div class="editor_autosaved_message" id="editor_autosaved_message"></div>
+
     <div class="editor_iframe_box" id="editor_iframe_area_{$upload_target_srl}"></div>
 
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$upload_target_srl}"></div></div>
@@ -147,8 +150,6 @@
         <div class="clear"></div>
     </div>
     <!--@end-->
-
-    <div class="editor_autosaved_message" id="editor_autosaved_message">{$lang->msg_auto_saved} &nbsp;</div>
 </div>
 
 
