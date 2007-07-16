@@ -295,19 +295,23 @@ function toggleFolder(zone_id) {
     var line_icon = xGetElementById(zone_id+'_line_icon');
     var folder_icon = xGetElementById(zone_id+'_folder_icon');
 
+    var height = 0;
+
     // 대상의 자식 노드들이 숨겨져 있다면 열고 아니면 닫기
     if(child_zone.style.display == "block") {
+        height = xHeight(child_zone)*-1;
         child_zone.style.display = "none";
         if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_plus_bottom_icon.src;
         else line_icon.src = tree_plus_icon.src;
-
         folder_icon.src = tree_folder_icon.src;
     } else {
         if(line_icon.src.indexOf('bottom')>0) line_icon.src = tree_minus_bottom_icon.src;
         else line_icon.src = tree_minus_icon.src;
         folder_icon.src = tree_open_folder_icon.src;
         child_zone.style.display = "block";
+        height = xHeight(child_zone);
     }
+    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter( height );
 }
 
 // 노드의 글자 선택시

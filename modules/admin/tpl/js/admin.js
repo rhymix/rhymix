@@ -22,6 +22,8 @@ function fixAdminLayoutFooter(height) {
     var newHeight = clientHeight - footerHeight - headerHeight + 71 + 38;
 
     if(newHeight<bodyHeight) newHeight = bodyHeight;
-    if(typeof(height)=='number') newHeight += height;
+    if(typeof(height)=='number') {
+        newHeight += height;
+    }
     xHeight('cBody', newHeight);
 }
