@@ -575,14 +575,23 @@
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
-            if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-                }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+            if ($output->order) {
+              foreach($output->order as $key => $val) {
+                $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+              }
+              if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+              $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
             }
-
-            $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
+            else {
+              if (count($output->groups))
+                $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count, $list_count);
+              else {
+                if ($condition)
+                  $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count, $list_count);
+                else 
+                  $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count, $list_count);
+              }
+            }
 
             $result = $this->_query($query);
             if($this->isError()) {
