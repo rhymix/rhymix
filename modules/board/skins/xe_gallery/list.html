@@ -174,7 +174,7 @@
 
     <!-- 검색 -->
     <div class="boardSearch">
-    <form action="./" method="get" onsubmit="return procFilter(this, search)" id="fo_search">
+    <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search">
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="category" value="{$category}" />
 
