@@ -11,6 +11,7 @@ var thumbnail_zone_height = new Array();
 // 이미지갤러리쇼 이미지 목록에 추가
 function slide_gallery_add_image(srl, image_url) {
     if(!image_url) return;
+    if(image_url.indexOf('files')==0) image_url = request_uri+image_url;
 
     // 객체 생성
     var obj = {"srl":0, "thumbnail_url":null, "thumbnail":null, "image_url":null, "image":null}

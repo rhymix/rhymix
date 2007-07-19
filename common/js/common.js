@@ -136,6 +136,7 @@ function toggleDisplay(obj, opt) {
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
 function displayMultimedia(src, width, height, auto_start) {
+    if(src.indexOf('files')==0) src = request_uri+src;
     if(auto_start) auto_start = "true";
     else auto_start = "false";
 
@@ -153,7 +154,7 @@ function displayMultimedia(src, width, height, auto_start) {
             "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
-        html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
+        html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
     } else {
         html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
     }

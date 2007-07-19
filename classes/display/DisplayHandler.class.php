@@ -82,13 +82,10 @@
          * @brief 최종 결과물의 출력
          **/
         function display($content) {
-            if(Context::getResponseMethod()=="XMLRPC") {
-                print $content;
-                return;
-            }
-
             $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
 
+            // files로 시작되는 src나 href의 값을 절대경로로 변경
+            $content = preg_replace('!(href|src)=("|\'){0,1}files!is', '\\1=\\2'.$path.'files', $content);
             print preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $content);
         }
 

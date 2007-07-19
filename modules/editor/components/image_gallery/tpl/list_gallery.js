@@ -10,6 +10,7 @@ var list_gallery_images = new Array();
 // 이미지갤러리쇼 이미지 목록에 추가
 function list_gallery_add_image(srl, image_url) {
     if(!image_url) return;
+    if(image_url.indexOf('files')==0) image_url = request_uri+image_url;
 
     // 객체 생성
     var obj = {"srl":0, "image_url":null, "image":null}

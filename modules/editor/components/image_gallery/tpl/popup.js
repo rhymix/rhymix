@@ -50,7 +50,7 @@ function getSlideShow() {
             var opt = parent_list_obj.options[i];
             var file_srl = opt.value;
             var file_obj = opener.uploaded_files[file_srl];
-            var filename = file_obj.uploaded_filename;
+            var filename = file_obj.uploaded_filename.replace(request_uri,'');
             if((/(jpg|jpeg|gif|png)$/i).test(filename)) {
                 var selected = false;
                 if(selected_images.indexOf(filename)!=-1) selected = true;
@@ -72,7 +72,7 @@ function insertSlideShow() {
         if(opt.selected) {
             var file_srl = opt.value;
             var file_obj = opener.uploaded_files[file_srl];
-            var filename = file_obj.uploaded_filename;
+            var filename = file_obj.uploaded_filename.replace(request_uri,'');
             list[list.length] = filename;
         }
     }

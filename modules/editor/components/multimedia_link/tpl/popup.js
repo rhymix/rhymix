@@ -27,6 +27,7 @@ function insertMultimedia(obj) {
     if(typeof(opener)=="undefined") return;
 
     var url = xGetElementById("multimedia_url").value;
+    url = url.replace(request_uri,'');
 
     var caption = xGetElementById("multimedia_caption").value;
 

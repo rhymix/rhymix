@@ -72,6 +72,7 @@ function insertImage(obj) {
       return;
     }
 
+    url = url.replace(request_uri,'');
     var text = "<img editor_component=\"image_link\" src=\""+url+"\" border=\""+border+"\" ";
     if(alt) text+= " alt=\""+alt+"\"";
     if(align) text+= " align=\""+align+"\" ";
