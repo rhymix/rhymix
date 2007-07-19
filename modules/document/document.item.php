@@ -124,14 +124,21 @@
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
-            return htmlspecialchars($this->get('content'));
+
+
+            $content = $this->get('content');
+            $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
+            return htmlspecialchars($content);
         }
 
         function getContent() {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
-            return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $this->get('content'), $this->document_srl, $this->get('member_srl'));
+
+            $content = $this->get('content');
+            $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
+            return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
         }
 
         function getSummary($str_size = 50) {
