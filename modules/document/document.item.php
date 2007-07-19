@@ -190,37 +190,46 @@
         }
 
         function getThumbnail($width = 80) {
-            if(!preg_match('!<img([^>]*?)(\/){0,1}>!is',$this->get('content'),$matches)) return;
-
-            $document_path = sprintf('files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
+            $document_path = sprintf('./files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
 
             $thumbnail_file = sprintf('%sthumbnail_%d.gif', $document_path, $width);
+            $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
+
+            if(file_exists($thumbnail_file)) {
+                $modified_time = $this->get('last_update');
+                $hour = (int)substr($modified_time,8,2);
+                $min = (int)substr($modified_time,10,2);
+                $sec = (int)substr($modified_time,12,2);
+                $year = (int)substr($modified_time,0,4);
+                $month = (int)substr($modified_time,4,2);
+                $day = (int)substr($modified_time,6,2);
+                $modified_time =  mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year);
+
+                if($modified_time > filectime($thumbnail_file)) unlink($thumbnail_file);
+            }
 
             if(!file_exists($thumbnail_file)) {
-
-                $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
-
-                preg_match('!src=("|\'){0,1}([^"|^\'|^\ ]*)("|\'| ){0,1}!is', $matches[0], $src_matches);
-                $src = str_replace(getUrl(),'',$src_matches[2]);
-
-                // 첨부된 파일일 경우
-                if(eregi("^files", $src)) {
-                    copy("./".$src, $tmp_file);
-
-                // 웹에서 링크한 경우
-                } else {
-                    FileHandler::getRemoteFile($src, $tmp_file);
-                }
-
                 FileHandler::writeFile($thumbnail_file, '', 'w');
 
-                if(file_exists($tmp_file)) {
-                    // 파일정보를 보아서 가로/세로크기가 64보다 작으면 무시시킴
-                    list($s_width, $s_height, $s_type, $s_attrs) = @getimagesize($tmp_file);
+                $content = $this->get('content');
 
-                    if($s_width > 64 || $s_height > 64) FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
+                // 첨부된 파일부터 찾아봄 (DB말고 내용에서 추출)
+                preg_match_all("!(\"|')files\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches);
+                $attached_file_list = $matches[0];
+
+                if(count($attached_file_list)) {
+                    $src = preg_replace("!^(\"|')!is","",$attached_file_list[0]);
+                    copy("./".$src, $tmp_file);
+
+                // 첨부된 파일이 없으면 http로 시작하는 경로를 찾음
+                } else {
+                    preg_match('!src=("|\'){0,1}([^"|^\'|^\ ]*)("|\'| ){0,1}!is', $content, $matches);
+                    $src = $matches[2];
+                    if($src) FileHandler::getRemoteFile($src, $tmp_file);
+                    else return;
                 }
+                FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
 
                 @unlink($tmp_file);
             } 
