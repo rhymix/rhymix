@@ -202,11 +202,11 @@
                 $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
 
                 preg_match('!src=("|\'){0,1}([^"|^\'|^\ ]*)("|\'| ){0,1}!is', $matches[0], $src_matches);
-                $src = $src_matches[2];
+                $src = str_replace(getUrl(),'',$src_matches[2]);
 
                 // 첨부된 파일일 경우
-                if(substr($src,0,7)=='./files') {
-                    copy($src, $tmp_file);
+                if(eregi("^files", $src)) {
+                    copy("./".$src, $tmp_file);
 
                 // 웹에서 링크한 경우
                 } else {
