@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1">
+    <title xml:lang="ko">방명록</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 19">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">모듈 제작을 위해 sample로 제작된 모듈입니다.</description>
+    </author>
+</module>

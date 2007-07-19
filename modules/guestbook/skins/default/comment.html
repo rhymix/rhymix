@@ -1,0 +1,42 @@
+<!-- 댓글 정보 출력 -->
+<a name="comment_top_{$document->document_srl}"></a>
+
+<!-- 댓글 출력 -->
+<div class="clear">
+    <!-- 댓글 목록 -->
+
+    <!--@if($document->getCommentCount())-->
+
+        <!--@foreach($document->getComments() as $key => $val)-->
+        <a name="comment_{$key}"></a>
+        <div class="comment_box" style="margin-left:{$val->depth*15}px" >
+            <div class="fl member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
+            <div class="fr">{zdate($val->regdate, "Y-m-d H:i:s")}</div>
+            <div class="comment_content">
+                <div class="content">{$val->content}</div>
+
+                <div class="comment_sub_info">
+                    {$val->ipaddress}
+                </div>
+                <div class="button_area">
+                    <a href="{getUrl('act','dispGuestbookReplyComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_reply}</span></a>
+
+                    <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
+                    <a href="{getUrl('act','dispGuestbookModifyComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+                    <a href="{getUrl('act','dispGuestbookDeleteComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+                    <!--@end-->
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!--@end-->
+
+    <!--@end-->
+
+    <!-- 댓글 입력 폼 -->
+
+    <!--@if($grant->write_comment && !$document->isLocked())-->
+        <!--#include("./comment_form.html")-->
+    <!--@end-->
+
+</div>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">방명록 기본 스킨</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">board모듈의 default스킨</description>
+  </maker>
+  <colorset>
+    <color name="normal" src="screenshot/normal.gif">
+      <title xml:lang="ko">기본</title>
+    </color>
+  </colorset>
+  <extra_vars>
+    <var name="title" type="text">
+      <title xml:lang="ko">제목</title>
+      <description xml:lang="ko">방명록의 제목을 적어주세요.</description>
+    </var>
+    <var name="memo" type="textarea">
+      <title xml:lang="ko">방명록 설명</title>
+      <description lang="ko">내용의 기본값</description>
+    </var>
+  </extra_vars>
+</skin>
