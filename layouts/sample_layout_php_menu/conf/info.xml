@@ -23,7 +23,7 @@
         </description>
         <description xml:lang="en">
             This is a sample layout consists of the most basic features.
-            It has two menues each named "main_menu" and "bottom_menu", and they are displayed by using PHP codes.
+            It has two menues each named 'main_menu' and 'bottom_menu', and they are displayed by using PHP codes.
             PHP version is more complex to create layouts than with Javascript, but increases the degree of freedom though.
         </description>
         <description xml:lang="jp">
