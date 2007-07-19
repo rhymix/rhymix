@@ -146,7 +146,7 @@ function _editorAutoSave() {
     if(fo_obj && upload_target_srl) {
         var title = fo_obj.title.value;
         var content = editorGetContent(upload_target_srl);
-        if(title.trim() != _autoSaveObj.title.trim() || content.trim() != _autoSaveObj.content.trim()) {
+        if((fo_obj.title && title.trim() != _autoSaveObj.title.trim()) || content.trim() != _autoSaveObj.content.trim()) {
             var params = new Array();
             params["document_srl"] = upload_target_srl;
             params["title"] = title;
