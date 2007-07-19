@@ -9,6 +9,7 @@
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
+<input type="hidden" name="use_category" value="Y" />
 
     <table cellspacing="0" class="tableType2">
     <col width="150" />
@@ -71,13 +72,6 @@
                 <!--@end-->
             </select>
             <p>{$lang->about_skin}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row">{$lang->use_category}</th>
-        <td>
-            <input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="checked"<!--@end-->  class="checkbox" />
-            {$lang->about_use_category}
         </td>
     </tr>
     <tr>
