@@ -12,7 +12,7 @@
      * before_display_content 에서만 요청이 됩니다.
      **/
 
-    if($called_position != 'before_module_init') return;
+    if(Context::get('module')=='admin' || $called_position != 'before_module_init') return;
 
     // Context::addJsFile()을 이용하면 끝
     Context::addJsFile($addon_path.'js/rainbow.js');
