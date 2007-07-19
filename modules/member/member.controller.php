@@ -866,6 +866,9 @@
             // 임시 제한 일자가 있을 경우 제한 일자에 내용 추가
             if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
 
+            // 입력할 사용자의 아이디를 소문자로 변경
+            $args->user_id = strtolower($args->user_id);
+
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message= 'Y';
