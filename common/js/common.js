@@ -498,7 +498,7 @@ function displayMemberMenu(ret_obj, response_tags, params) {
 
                 if(!str || !func) continue;
 
-                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left;\" onclick=\""+func+"\">"+str+"</div>";
+                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left;\" onclick=\""+func+"\">"+str+"</div><br />";
             }
         } 
         loaded_member_menu_list[member_srl] = html;
@@ -506,6 +506,7 @@ function displayMemberMenu(ret_obj, response_tags, params) {
 
     if(html) {
         xInnerHtml(area, html);
+        xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
