@@ -92,8 +92,8 @@
                     // 정상적으로 업로드된 파일이 아니면 무시
                     if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
 
-                    // 이미지 파일이 아니어도 무시
-                    if(!eregi("\.(jpg|jpeg|gif|png)$", $image_obj['name'])) continue;
+                    // 이미지 파일이 아니어도 무시 (swf는 패스~)
+                    if(!eregi("\.(jpg|jpeg|gif|png|swf)$", $image_obj['name'])) continue;
 
                     // 경로를 정해서 업로드
                     $path = sprintf("./files/attach/images/%s/", $args->layout_srl);

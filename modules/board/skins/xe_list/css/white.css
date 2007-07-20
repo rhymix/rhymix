@@ -49,9 +49,9 @@ Jeong, Chan Myeong 070601~070630
 .boardList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.8em .5em .5em .5em; background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom;}
 .boardList th a { color:#3e3f3e; text-decoration:none; }
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; }
-.boardList th.category { padding:0 .2em 0 .5em; white-space:nowrap;}
-.boardList th.category.thumbStyle { background-position:-3px bottom !important; border-left:1px solid #ffffff; text-align:left;}
-.boardList th.title select { vertical-align:middle; margin-left:1em; }
+.boardList th.title { text-align:center; }
+.boardList th.category { text-align:left; }
+.boardList th.title select { vertical-align:middle; margin-left:.5em; }
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
 .boardList th.date { border-right:1px solid #ffffff;}
@@ -73,7 +73,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.recommend { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
-.boardList td.date { font:.8em Tahoma; color:#999999; text-align:center;}
+.boardList td.date { font:.8em Tahoma; color:#999999; text-align:center; white-space:nowrap;}
 .boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em;}
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}

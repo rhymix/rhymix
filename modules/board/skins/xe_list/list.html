@@ -13,8 +13,8 @@
 <table cellspacing="0" summary="" class="boardList">
     <thead>
         <tr>
-            <th scope="col" class="num">{$lang->no}</th>
-            <th scope="col" class="title <!--@if($module_info->use_category)-->tLeft<!--@end-->">
+            <!--@if($module_info->display_number!='N')--><th scope="col" class="num">{$lang->no}</th><!--@end-->
+            <th scope="col" class="title <!--@if($module_info->use_category == 'Y')-->category<!--@end-->">
                 <!--@if($module_info->use_category == "Y")-->
                 <!-- 카테고리 사용시 카테고리 선택 표시 -->
                     <form action="./" method="get">
@@ -30,7 +30,7 @@
                 {$lang->title}
                 <!--@end-->
             </th>
-            <th class="author" scope="col">{$lang->writer}</th>
+            <!--@if($module_info->display_author!='N')--><th class="author" scope="col">{$lang->writer}</th><!--@end-->
 
             <!--@if($order_type == "desc")-->
                 {@ $order_icon = "buttonDescending.gif" }
@@ -40,11 +40,13 @@
                 {@ $order_type = "desc"; }
             <!--@end-->
 
-            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_readed_count!='N')--><th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 
-            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_voted_count!='N')--><th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 
-            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_regdate != 'N')--><th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+
+            <!--@if($module_info->display_last_update=='Y')--><th scope="col" class="date"><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
         </tr>
     </thead>
 
@@ -63,12 +65,12 @@
         <!--@if($document->isNotice())-->
 
         <tr class="notice">
-            <td class="num">{$lang->notice}</td>
+            <!--@if($module_info->display_number!='N')--><td class="num">{$lang->notice}</td><!--@end-->
 
         <!--@else-->
 
         <tr class="bg{($no+1)%2+1}">
-            <td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td>
+            <!--@if($module_info->display_number!='N')--><td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td><!--@end-->
 
         <!--@end-->
 
@@ -103,10 +105,11 @@
                     <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
                 <!--@end-->
             </td>
-            <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
-            <td class="reading">{$document->get('readed_count')}</td>
-            <td class="recommend">{$document->get('voted_count')}</td>
-            <td class="date">{$document->getRegdate('Y-m-d')}</td>
+            <!--@if($module_info->display_author!='N')--><td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td><!--@end-->
+            <!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')}</td><!--@end-->
+            <!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')}</td><!--@end-->
+            <!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
+            <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:m')}</td><!--@end-->
         </tr>
     <!--@end-->
     </tbody>
