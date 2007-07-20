@@ -96,7 +96,7 @@
                     Context::setBrowserTitle($oDocument->getTitleText());
 
                     // 댓글에디터 설정
-                    if($this->grant->write_comment && $oDocument->allowComment() && !$oDocument->isLocked()) $this->setCommentEditor(0, 100);
+                    //if($this->grant->write_comment && $oDocument->allowComment() && !$oDocument->isLocked()) $this->setCommentEditor(0, 100);
 
                     // 조회수 증가
                     $oDocument->updateReadedCount();
@@ -106,7 +106,7 @@
             Context::set('oDocument', $oDocument);
 
             // 댓글
-            $this->setCommentEditor(0, 100);
+            //$this->setCommentEditor(0, 100);
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
             if($document_srl && !$page) {
@@ -256,7 +256,7 @@
             Context::set('source_comment',$source_comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor(0,400);
+            //$this->setCommentEditor(0,400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -292,7 +292,7 @@
             Context::set('comment', $comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl,400);
+            //$this->setCommentEditor($comment_srl,400);
 
             $this->setTemplateFile('comment_form');
         }
@@ -362,6 +362,7 @@
          * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
          **/
         function setCommentEditor($comment_srl=0, $height = 100) {
+            return;
             if(!$comment_srl) {
                 $comment_srl = getNextSequence();
                 Context::set('comment_srl', $comment_srl);

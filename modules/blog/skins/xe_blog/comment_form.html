@@ -7,7 +7,7 @@
 
 <!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($source_comment)-->
-<ul id="reply">
+<ul class="replyZone">
     <li>
         <div class="member_{$source_comment->member_srl} author">{htmlspecialchars($source_comment->nick_name)}</div>
         <div class="date">
@@ -32,7 +32,6 @@
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />
             <input type="hidden" name="comment_srl" value="{$comment_srl}" />
-            <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
             <input type="hidden" name="parent_srl" value="{$parent_srl}" />
 
             <!--@if(!$is_logged)-->
@@ -51,13 +50,15 @@
             </div>
             <!--@end-->
 
-            <div>{$comment_editor}</div>
+            <div class="commentForm">
+              <textarea class="inputTypeTextArea" name="content">{strip_tags($comment->content)}</textarea>
+              <div class="tRight">
+                  <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+              </div>
+            </div>
 
         </fieldset>
 
-        <div class="tRight gap1">
-            <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-        </div>
 
     </form>
 </div>

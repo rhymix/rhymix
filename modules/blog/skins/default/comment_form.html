@@ -32,7 +32,6 @@
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />
     <input type="hidden" name="comment_srl" value="{$comment_srl}" />
-    <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
     <input type="hidden" name="parent_srl" value="{$parent_srl}" />
 
     <table width="100%" border="1">
@@ -59,7 +58,7 @@
     <!--@end-->
 
     <tr>
-        <td colspan="2">{$comment_editor}</td>
+        <td colspan="2"><textarea class="inputTypeTextArea" name="content">{strip_tags($comment->content)}</textarea></td>
     </tr>
     <tr>
         <td colspan="2">

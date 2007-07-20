@@ -178,19 +178,19 @@ Jeong, Chan Myeong 070601~070630
 #trackbacks address a { font-size:.9em; color:#3074a5; margin-right:.3em; float:left;}
 #trackbacks address .date { font:.8em Tahoma; color:#cccccc; float:right;}
 
-#reply { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
-#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE;}
-#reply p { display:inline; margin-bottom:1em;}
-#reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
-#reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
-#reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
+ul.replyZone { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
+ul.replyZone li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE;}
+ul.replyZone p { display:inline; margin-bottom:1em;}
+ul.replyZone .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
+ul.replyZone .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+ul.replyZone .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
-#reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
-#reply .replyOption img { vertical-align:middle;}
+ul.replyZone .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
+ul.replyZone .replyOption img { vertical-align:middle;}
 
-#reply .replyContent { clear:left; }
-#reply .reply { background-color:#FAFAFA;}
-#reply .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
+ul.replyZone .replyContent { clear:left; }
+ul.replyZone .reply { background-color:#FAFAFA;}
+ul.replyZone .replyIndent { background:url(../images/white/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
 #reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em;}
 #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
@@ -202,8 +202,8 @@ Jeong, Chan Myeong 070601~070630
 .boardEditor { padding:.5em 0 1em 0; width:100%; overflow:hidden;}
 .boardEditor.reply { padding:.5em 1em 1em 1em; width:auto; overflow:hidden;}
 .boardEditor legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
-.boardEditor fieldset { _width:100%; border:1px solid #eaeae7; border-top:none;}
-.boardEditor .userNameAndPw { position:relative; background:#fbfbfb; border-top:1px solid #eaeae7; border-bottom:1px solid #e1e1e1; padding:.5em 1em; white-space:nowrap;}
+.boardEditor fieldset { _width:100%; border:1px solid #eaeae7; }
+.boardEditor .userNameAndPw { position:relative; padding:.5em 1em; white-space:nowrap;}
 .boardEditor .userNameAndPw * { vertical-align:middle;}
 .boardEditor .userNameAndPw label { margin-right:.2em; color:#666760;}
 .boardEditor .userNameAndPw input { color:#aaaaaa;}
@@ -213,6 +213,8 @@ Jeong, Chan Myeong 070601~070630
 .boardEditor .userNameAndPw .homePage { width:6em;}
 .boardEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
 .boardEditor .buttonReply { position:relative; float:left; left:50%; margin:.5em 0 0 -2em; _padding-bottom:1em;}
+.boardEditor .commentForm { width:100%; padding-bottom:.5em;}
+.boardEditor .commentForm textarea { width:632px; margin:.3em; height:100px;}
 
 /* boardWrite */
 .boardWrite { width:100%; position:relative;}
