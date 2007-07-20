@@ -105,9 +105,6 @@
             // comment 모듈의 controller 객체 생성
             $oCommentController = &getController('comment');
 
-            // comment_srl이 존재하는지 체크
-            $comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
-
             // 줄바꾸임나 태그제거등의 작업
             $obj->content = nl2br(strip_tags($obj->content));
 
@@ -144,10 +141,11 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->setMessage('success_registed');
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $obj->document_srl);
-            $this->add('comment_srl', $comment_srl);
+            $this->add('comment_srl', $obj->comment_srl);
+
+            $this->setMessage('success_registed');
         }
 
         /**
