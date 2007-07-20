@@ -542,7 +542,7 @@ function open_calendar(fo_id, day_str, callback_func) {
 function doChangeLangType(obj) {
     var val = obj.options[obj.selectedIndex].value;
     setLangType(val);
-    location.href = location.href;
+    location.reload();
 }
 function setLangType(lang_type) {
     var expire = new Date();
