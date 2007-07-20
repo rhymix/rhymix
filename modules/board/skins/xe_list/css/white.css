@@ -165,11 +165,11 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .tag li { display:inline;}
 .boardRead .readFooter .tag a { color:#444444;}
 .boardRead .readFooter .tag .tagIcon { vertical-align:middle;}
-.boardRead .readFooter .fileAttached { position:relative; _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
-.boardRead .readFooter .fileAttached h5 { position:absolute; top:1em; left:1.5em; font-weight:normal; color:#999999; float:left; font-size:1em; margin-right:.5em; line-height:1.5em;}
-.boardRead .readFooter .fileAttached ul { float:left; padding:1em 1em .8em 0; margin-left:5em; _margin-left:2.5em;}
+.boardRead .readFooter .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
+.boardRead .readFooter .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; margin:.5em .5em 0 .5em; line-height:1.5em;}
+.boardRead .readFooter .fileAttached ul { float:left; margin-top:.5em; padding-bottom:1em; }
 .boardRead .readFooter .fileAttached li { display:inline; margin-right:.75em; line-height:1.5em;}
-.boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; position:relative; color:#444444; background:url(../images/white/iconFile.gif) no-repeat left top;}
+.boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; color:#444444; background:url(../images/white/iconFile.gif) no-repeat left top;}
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
 
 .boardRead .replyAndTrackback { overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/white/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #666760;}
