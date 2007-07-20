@@ -2,9 +2,11 @@
 <skin>
   <title xml:lang="ko">제로보드XE 게시판 기본 스킨(목록형)</title>
   <title xml:lang="zh-CN">zeroboard XE Board 基本皮肤（目录型）</title>
+  <title xml:lang="en">ZeroboardXE Basic Board Skin (List Style)</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">(주)NHN</name>
     <name xml:lang="zh-CN">(株)NHN</name>
+    <name xml:lang="en">NHN Corp</name>
     <description xml:lang="ko">
         제로보드XE 게시판의 목록형 기본 스킨입니다.
         디자인 : 서기정 
@@ -15,52 +17,70 @@
         设计 : 서기정
         HTML/CSS : 정찬명
     </description>
+    <description xml:lang="en">
+        This is the basic list style board skin of ZeroboardXE.
+        Design : Ki-Jeong Seo
+        HTML/CSS : Chan-Myung Jeong
+    </description>
   </maker>
   <colorset>
     <color name="white" src="screenshot/white.gif">
       <title xml:lang="ko">하얀색(기본)</title>
       <title xml:lang="zh-CN">白色（基本）</title>
+      <title xml:lang="en">White(default)</title>
     </color>
   </colorset>
   <extra_vars>
     <var name="order_target" type="select">
         <title xml:lang="ko">정렬 대상</title>
         <title xml:lang="zh-CN">排列顺序</title>
+        <title xml:lang="en">Align</title>
         <type>select</type>
         <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
         <description xml:lang="zh-CN">可排序文章的顺序。</description>
+        <description xml:lang="en">It can align articles as registered order or modified order.</description>
         <default>newest</default>
         <default>updated</default>
     </var>
     <var name="title" type="text">
         <title xml:lang="ko">게시판 제목</title>
         <title xml:lang="zh-CN">board 标题</title>
+        <title xml:lang="en">Title of Board</title>
         <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
         <description xml:lang="zh-CN">请输入Board标题。（留空不显示）</description>
+        <description xml:lang="en">Input the title of board.</description>
     </var>
     <var name="sub_title" type="text">
         <title xml:lang="ko">게시판 부제목</title>
         <title xml:lang="zh-CN">board 副标题</title>
+        <title xml:lang="en">Subtitle of Board</title>
         <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
         <description lang="zh-CN">请输入Board标题旁边显示的副标题。（留空不显示）</description>
+        <description lang="en">Input the subtitle of board which will be displayed beside of board title.</description>
     </var>
     <var name="comment" type="textarea">
         <title xml:lang="ko">게시판 상세 설명</title>
         <title xml:lang="zh-CN">board 详细说明</title>
+        <title xml:lang="en">Description of Board</title>
         <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
         <description lang="zh-CN">请输入Board 标题下面显示的说明。（留空不显示）</description>
+        <description lang="en">Description of board can be input which will be displayed under the board title.</description>
     </var>
     <var name="subject_cut_size" type="text">
       <title xml:lang="ko">제목 글자수</title>
       <title xml:lang="zh-CN">标题字数</title>
+      <title xml:lang="en">Length of Subject</title>
       <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
       <description lang="zh-CN">可以指定标题字数。 （0或留空不检查字数）</description>
+      <description lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
     </var>
     <var name="display_thumnail" type="select">
       <title xml:lang="ko">썸네일 표시</title>
       <title xml:lang="zh-CN">Thumb-Nail 显示</title>
+      <title xml:lang="en">Show Thumbnail</title>
       <description lang="ko">게시물에 이미지가 포함되어 있으면 목록에서 썸네일을 표시합니다.</description>
       <description lang="zh-CN">文章里包含图片在目录显示Thumb-Nail。</description>
+      <description lang="en">If article has images, show thumbnail on the list.</description>
       <default>N</default>
       <default>Y</default>
     </var>

@@ -2,15 +2,19 @@
 <skin>
   <title xml:lang="ko">접속자 현황 출력 기본 스킨 </title>
   <title xml:lang="zh-CN">输出访问统计现况基本皮肤</title>
+  <title xml:lang="en">Default Counter Skin </title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="zh-CN">zero</name>
+    <name xml:lang="en">zero</name>
     <description xml:lang="ko">counter_status 의 기본 스킨</description>
     <description xml:lang="zh-CN">counter_status 的基本皮肤</description>
+    <description xml:lang="en">Default skin of counter_status</description>
   </maker>
   <colorset>
     <color name="normal">
       <title xml:lang="ko">기본</title>
+      <title xml:lang="en">default</title>
       <title xml:lang="zh-CN">基本</title>
     </color>
   </colorset>

@@ -2,10 +2,13 @@
 <component version="0.1">
     <title xml:lang="ko">표(table) 생성</title>
     <title xml:lang="zh-CN">表格(table) 生成</title>
+    <title xml:lang="en">Create Table</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="en">zero</name>
         <description xml:lang="ko">에디터에 표(table)을 생성하거나 표(table) 또는 칸(td)의 속성을 변경할 수 있습니다.</description>
         <description xml:lang="zh-CN">在编辑器里生成表格(table)或变更属性。</description>
+        <description xml:lang="en">It can create a table on editor or modify the attribution of table or td.</description>
     </author>
 </component>
