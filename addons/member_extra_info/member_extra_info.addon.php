@@ -93,21 +93,21 @@
             // 4. 쪽지 발송 메뉴를 만듬
             if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
                 $menu_str = Context::getLang('cmd_send_message');
-                $menu_link = sprintf('./?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',$member_srl);
+                $menu_link = sprintf('%s?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','sendMessage')", Context::getRequestUri().'/modules/member/tpl/images/icon_write_message.gif', $menu_str, $menu_link);
             }
 
             // 5. 친구 등록 메뉴를 만듬 (이미 등록된 친구가 아닐 경우) 
             if(!$this->isAddedFriend($member_srl)) {
                 $menu_str = Context::getLang('cmd_add_friend');
-                $menu_link = sprintf('./?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',$member_srl);
+                $menu_link = sprintf('%s?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','addFriend')", Context::getRequestUri().'/modules/member/tpl/images/icon_add_friend.gif', $menu_str, $menu_link);
             }
 
             // 6. 최고 관리자라면 회원정보 수정 메뉴 만듬
             if($logged_info->is_admin == 'Y') {
                 $menu_str = Context::getLang('cmd_management');
-                $menu_link = "./?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=".$member_srl;
+                $menu_link = sprintf("%s?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=%s",Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
             }
         }
