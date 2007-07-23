@@ -26,6 +26,15 @@
             foreach($list as $val) {
                 $shortcut_list[$val->module] = $val;
             }
+
+            // 모듈 목록을 구해와서 숏컷에 해당하는 타이틀을 추출
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
+            foreach($module_list as $key => $val) {
+                $module_name = $val->module;
+                if($shortcut_list[$module_name]) $shortcut_list[$module_name]->title = $val->title;
+            }
+
             return $shortcut_list;
         }
 
