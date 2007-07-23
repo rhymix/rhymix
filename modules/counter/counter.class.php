@@ -29,14 +29,8 @@
         /**
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
-        function moduleIsInstalled() {
-            $oDB = &DB::getInstance();
-
-            // 테이블 검사
-            if(!$oDB->isTableExists('counter_log')) return new Object(-1,'fail');
-            if(!$oDB->isTableExists('counter_status ')) return new Object(-1,'fail');
-
-            return new Object();
+        function checkUpdate() {
+            return false;
         }
 
         /**

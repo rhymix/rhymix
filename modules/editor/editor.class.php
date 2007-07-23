@@ -38,8 +38,8 @@
         /**
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
-        function moduleIsInstalled() {
-            return new Object();
+        function checkUpdate() {
+            return false;
         }
 
         /**

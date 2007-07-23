@@ -514,8 +514,14 @@
                 $info->path = $path;
                 $info->admin_index_act = $info->admin_index_act;
 
-                if($table_count > $created_table_count) $info->is_installed = false;
-                else $info->is_installed = true;
+                // 설치 유무 체크 (설치는 DB의 설치만 관리)
+                if($table_count > $created_table_count) $info->need_installed = false;
+                else $info->need_installed = true;
+
+                // 각 모듈의 module.class.php로 upgrade 유무 체크
+                $oDummy = null;
+                $oDummy = &getModule($module_name, 'class');
+                if($oDummy) $info->need_update = $oDummy->checkUpdate();
 
                 $list[] = $info;
             }

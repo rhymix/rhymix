@@ -43,8 +43,8 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          * 설치시 필수 체크 부분이 있다면 검토하는 코드를 추가할 수 있다.
          **/
-        function moduleIsInstalled() {
-            return new Object();
+        function checkUpdate() {
+            return false;
         }
 
         /**

@@ -40,9 +40,11 @@
         <td class="blue"><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
         <td class="red">
             <!--@if($val->need_update)-->
-                <a href="#">{$lang->cmd_update}</a>
-            <!--@else-->
+                <a href="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->cmd_update}</a>
+            <!--@elseif($val->need_install)-->
                 <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
+            <!--@else-->
+                &nbsp;
             <!--@end-->
         </td>
         <td>

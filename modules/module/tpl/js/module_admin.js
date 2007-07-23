@@ -43,3 +43,10 @@ function completeInstallModule(ret_obj) {
     alert(ret_obj['message']);
     location.href = location.href;
 }
+
+/* 모듈 업그레이드 */
+function doUpdateModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
+}

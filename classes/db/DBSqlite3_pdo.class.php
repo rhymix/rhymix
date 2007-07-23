@@ -214,6 +214,41 @@
         }
 
         /**
+         * @brief 특정 테이블에 특정 column 추가
+         **/
+        function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
+            $type = $this->column_type[$type];
+            if(strtoupper($type)=='INTEGER') $size = '';
+
+            $query = sprintf("alter table %s%s add %s ", $this->prefix, $table_name, $column_name);
+            if($size) $query .= sprintf(" %s(%s) ", $type, $size);
+            else $query .= sprintf(" %s ", $type);
+            if($default) $query .= sprintf(" default '%s' ", $default);
+            if($notnull) $query .= " not null ";
+
+            $this->_prepare($query);
+            return $this->_execute();
+        }
+
+        /**
+         * @brief 특정 테이블의 column의 정보를 return
+         **/
+        function isColumnExists($table_name, $column_name) {
+            $query = sprintf("pragma table_info(%s%s)", $this->prefix, $table_name);
+            $this->_prepare($query);
+            $output = $this->_execute();
+
+            if($output) {
+                $column_name = strtolower($column_name);
+                foreach($output as $key => $val) {
+                    $name = strtolower($val->name);
+                    if($column_name == $name) return true;
+                }
+            }
+            return false;
+        }
+
+        /**
          * @brief xml 을 받아서 테이블을 생성
          **/
         function createTableByXml($xml_doc) {

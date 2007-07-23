@@ -28,6 +28,20 @@
         }
 
         /**
+         * @brief 모듈 업데이트
+         **/
+        function procInstallAdminUpdate() {
+            $module_name = Context::get('module_name');
+            if(!$module_name) return new object(-1, 'invalid_request');
+
+            $oModule = &getModule($module_name, 'class');
+            if($oModule) $output = $oModule->moduleUpdate();
+            else $output = new Object(-1, 'invalid_request');
+
+            return $output;
+        }
+
+        /**
          * @brief time zone변경
          **/
         function procInstallAdminSaveTimeZone() {

@@ -25,7 +25,7 @@
             添付ファイルは、元のアドレスからダウンロードします。
         </description>
         <description xml:lang="en">
-            Module for inputting TattertTools' backup file to ZeroboardXE.
+            Module for inputting TattertTools backup file to ZeroboardXE.
             Backup file without attachment is required.
             Attachments will be downloaded from the original address.
         </description>
