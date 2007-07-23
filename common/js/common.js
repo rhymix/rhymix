@@ -175,16 +175,24 @@ function resizeImageContents() {
             parent = parent.parentNode;
         }
         if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
+
         var parent_width = xWidth(parent);
         var obj_width = xWidth(obj);
-        if(parent_width>=obj_width) continue;
+        var orig_img = new Image();
+        orig_img.src = obj.src;
+
+        if(parent_width >= obj_width && orig_img.width == obj_width) continue;
 
         obj.style.cursor = "pointer";
-        obj.source_width = obj_width;
-        obj.source_height = xHeight(obj);
-        xWidth(obj, xWidth(parent)-1);
-        var per = parent_width/obj_width;
-        xHeight(obj, xHeight(obj)*per);
+
+        obj.source_width = orig_img.width;
+        obj.source_height = orig_img.height;
+
+        if(obj_width >= parent_width) {
+            var per = parent_width/obj_width;
+            xWidth(obj, xWidth(parent)-1);
+            xHeight(obj, xHeight(obj)*per);
+        }
 
         xAddEventListener(obj,"click", showOriginalImage);
     }

@@ -152,7 +152,8 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .userInfo .author { padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
 .boardRead .userInfo .ipaddress { font-size:.9em; font-family:Tahoma; color:#888888; margin-right:.5em; }
 
-.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both;}
+.boardRead .contentBody { width:100%; overflow:hidden; }
+.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both; }
 .boardRead .readBody p { margin:1em 0; line-height:1.5em;}
 .boardRead .readBody .alignLeft { float:left; margin:0 1em 1em 0; }
 .boardRead .readBody .alignRight { float:right; margin:0 0 1em 1em; }
