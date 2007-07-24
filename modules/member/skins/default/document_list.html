@@ -38,8 +38,8 @@
     <tr class="bg{($no+1)%2+1}">
         <td class="num">{$no}</td>
         <td class="title">
-            <a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a> - 
-            <a href="#" onclick="window.open('./?document_srl={$oDocument->document_srl}');return false">{$oDocument->getTitleText()}</a>
+            <a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a> - 
+            <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
 
             <!--@if($oDocument->getCommentCount())-->
                 [{$oDocument->getCommentCount()}]
