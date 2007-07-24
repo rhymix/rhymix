@@ -7,6 +7,7 @@
         <action name="dispMemberModifyPassword" type="view" standalone="true" />
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
+        <action name="dispMemberOwnDocument" type="view" standalone="true" />
 
         <action name="dispMemberMessages" type="view" standalone="true" />
         <action name="dispMemberSendMessage" type="view" standalone="true" />

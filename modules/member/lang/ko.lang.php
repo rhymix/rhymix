@@ -73,9 +73,9 @@
     $lang->cmd_login = '로그인';
     $lang->cmd_logout = '로그아웃';
     $lang->cmd_signup = '회원 가입';
-    $lang->cmd_modify_member_info = '회원정보 수정';
+    $lang->cmd_modify_member_info = '회원 정보 수정';
     $lang->cmd_modify_member_password = '비밀번호 변경';
-    $lang->cmd_view_member_info = '회원정보 보기';
+    $lang->cmd_view_member_info = '회원 정보 보기';
     $lang->cmd_leave = '탈퇴';
 
     $lang->cmd_member_list = '회원 목록';

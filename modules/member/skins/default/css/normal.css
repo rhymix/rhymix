@@ -17,6 +17,9 @@
 
 .boardHeader { position:relative; _width:100%; border-top:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/normal/bgH3.gif) no-repeat right bottom; overflow:hidden;}
 .boardHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #e1e1dd; border-bottom:3px solid #fe3614; background:url(../images/normal/lineH3.gif) no-repeat right bottom;}
+.boardHeader .member_option { float:right; position:relative; top:1em; right:1em; }
+.boardHeader select { vertical-align:bottom; }
+.boardHeader input { vertical-align:bottom; _padding-bottom:1px;}
 .boardHeader .essential { position:absolute; top:1.5em; right:1em; color:#54564b; font-size:.9em;}
 .boardHeader .essential:first-letter { color:#ff0000;}
 
@@ -32,6 +35,7 @@
 .list th select, .list th input { vertical-align:middle;}
 .list td { border-top:1px solid #eff0ed; padding:.5em; text-align:center; height:35px;}
 .list td.registDate { font:.8em Tahoma; color:#999999; text-align:center;}
+.list td.num { font:.8em Tahoma; color:#999999; text-align:center;}
 .list td.check { text-align:center;}
 .list td.user { color:#333333; font-size:.9em;}
 .list td.user a { color:#333333;}
@@ -143,3 +147,7 @@
 .pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
 .pageNavigation a.goToFirst img, .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+
+/* Own Document */
+img.button_go { position:relative; bottom:-4px; _bottom:-2px;}
+.boardInformation strong { font:bold 11px Tahoma; color:#ff6600;}

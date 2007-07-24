@@ -1,8 +1,5 @@
+{@ $member_title = $lang->cmd_view_member_info }
 <!--#include("./common_header.html")-->
-
-	<div class="boardHeader">
-		<h3>{$lang->cmd_view_member_info}</h3>
-	</div>
 
     <table cellspacing="0" class="memberInfoTable">
     <col width="140" />
@@ -104,8 +101,6 @@
         <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_info}</span></a>
         <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_password}</span></a>
         <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
-        <a href="{getUrl('act','dispMemberMessages','member_srl','')}" class="button"><span>{$lang->cmd_view_message_box}</span></a>
-        <a href="{getUrl('act','dispMemberFriend','member_srl','')}" class="button"><span>{$lang->cmd_view_friend}</span></a>
         <!--@end-->
         <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
     </div>

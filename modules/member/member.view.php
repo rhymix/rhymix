@@ -10,6 +10,7 @@
         var $group_list = NULL; ///< 그룹 목록 정보
         var $member_info = NULL; ///< 선택된 사용자의 정보
         var $skin = 'default';
+        var $my_menu = null;
 
         /**
          * @brief 초기화
@@ -25,6 +26,14 @@
             // template path 지정
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
             $this->setTemplatePath($tpl_path);
+
+            // my_menu 변수 설정 (자신의 정보와 관련된 부분, 차후 애드온등에서 변수 조절 가능)
+            $this->my_menu = array(
+                'dispMemberInfo' => Context::getLang('cmd_view_member_info'),
+                'dispMemberMessages' => Context::getLang('cmd_view_message_box'),
+                'dispMemberFriend' => Context::getLang('cmd_view_friend'),
+                'dispMemberOwnDocument' => Context::getLang('cmd_view_own_document'),
+            );
         }
 
         /**
@@ -32,10 +41,10 @@
          **/
         function dispMemberInfo() {
             $oMemberModel = &getModel('member');
+            $logged_info = Context::get('logged_info');
 
             $member_srl = Context::get('member_srl');
             if(!$member_srl && Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
                 $member_srl = $logged_info->member_srl;
             } elseif(!$member_srl) {
                 return $this->dispMemberSignUpForm();
@@ -51,6 +60,8 @@
 
             Context::set('member_info', $member_info);
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
+
+            if($member_info->member_srl == $logged_info->member_srl) Context::set('my_menu', $this->my_menu);
 
             $this->setTemplateFile('member_info');
         }
@@ -105,9 +116,36 @@
                 Context::set('editor', $editor);
             }
 
+            if($member_info->member_srl == $logged_info->member_srl) Context::set('my_menu', $this->my_menu);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('modify_info');
+        }
+
+        /**
+         * @brief 회원 작성글 보기
+         **/
+        function dispMemberOwnDocument() {
+            $oMemberModel = &getModel('member');
+
+            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            $module_srl = Context::get('module_srl');
+            Context::set('module_srl',Context::get('selected_module_srl'));
+            Context::set('search_target','member_srl');
+            Context::set('search_keyword',$member_srl);
+
+            $oDocumentAdminView = &getAdminView('document');
+            $oDocumentAdminView->dispDocumentAdminList();
+
+            Context::get('module_srl', $module_srl);
+            Context::set('my_menu', $this->my_menu);
+
+            $this->setTemplateFile('document_list');
         }
 
         /**
@@ -133,6 +171,8 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
 
+            if($member_info->member_srl == $logged_info->member_srl) Context::set('my_menu', $this->my_menu);
+
             // 템플릿 파일 지정
             $this->setTemplateFile('modify_password');
         }
@@ -151,6 +191,8 @@
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
+
+            if($member_info->member_srl == $logged_info->member_srl) Context::set('my_menu', $this->my_menu);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('leave_form');
@@ -188,7 +230,7 @@
                 if($message->message_srl == $message_srl) Context::set('message', $message);
             }
 
-            // 각 쪽지들의 갯수 구함
+            Context::set('my_menu', $this->my_menu);
 
             // 목록 추출
             $output = $oMemberModel->getMessages($message_type);
@@ -293,6 +335,7 @@
             Context::set('page', $output->page);
             Context::set('friend_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
+            Context::set('my_menu', $this->my_menu);
 
             $this->setTemplateFile('friends_list');
         }

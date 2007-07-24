@@ -20,6 +20,7 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLeave');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLoginForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSendMessage');
@@ -113,6 +114,11 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            // dispMemberOwnDocument act의 여부 체크 (2007. 7. 24 추가)
+            $oModuleModel = &getModel('module');
+            $act = $oModuleModel->getActionForward('dispMemberOwnDocument');
+            if(!$act) return true;
+
             return false;
         }
 
@@ -120,7 +126,10 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            return new Object();
+            $oModuleController = &getController('module');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
+
+            return new Object(1, 'success_updated');
         }
     }
 ?>

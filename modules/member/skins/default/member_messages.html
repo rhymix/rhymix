@@ -1,15 +1,10 @@
+<!--@foreach($lang->message_box as $key => $val)-->
+    <!--@if($key == $message_type)-->
+        {@ $member_title = $val}
+    <!--@end-->
+<!--@end-->
 <!--#include("./common_header.html")-->
 <!--%import("filter/delete_checked_message.xml")-->
-
-	<div class="boardHeader">
-        <h3>
-            <!--@foreach($lang->message_box as $key => $val)-->
-                <!--@if($key == $message_type)-->
-                    {$val}
-                <!--@end-->
-            <!--@end-->
-        </h3>
-    </div>
 
     <!--@if($message)-->
     <div class="readMessage">
