@@ -227,7 +227,7 @@ EndOfLicense;
 
     $lang->cmd_agree_license = 'I agree with the license';
     $lang->cmd_install_fix_checklist = 'I have fixed the required conditions.';
-    $lang->cmd_install_next = 'Start installation';
+    $lang->cmd_install_next = 'Start Installation';
 
     $lang->db_desc = array(
         'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',
@@ -249,18 +249,18 @@ EndOfLicense;
     $lang->db_database_file = 'DB Database file';
     $lang->db_table_prefix = 'Table header';
 
-    $lang->admin_title = 'Admin information';
+    $lang->admin_title = 'Administration Info';
 
-    $lang->env_title = '환경 설정';
-    $lang->use_rewrite = 'rewrite mod 사용';
-    $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
+    $lang->env_title = 'Configuration';
+    $lang->use_rewrite = 'Use rewrite mod';
+    $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
     $lang->time_zone = 'time zone';
-    $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 time zone을 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다';
+    $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
 
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 
-    $lang->success_installed = 'Installation complete';
-    $lang->success_updated = 'Update complete';
+    $lang->success_installed = 'Installation Complete';
+    $lang->success_updated = 'Update Complete';
 
     $lang->msg_cannot_proc = 'Unabled to execute the request because installation environment is not provided';
     $lang->msg_already_installed = 'Already installed';

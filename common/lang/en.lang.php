@@ -104,14 +104,14 @@
     $lang->blog_name = 'Blog Title';
     $lang->excerpt = 'Quotation';
 
-    $lang->document_count = 'Total Entries';
+    $lang->document_count = 'Total Articles';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
-    $lang->readed_count = 'Views';
+    $lang->readed_count = 'Hit';
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
-    $lang->regdate = 'Date Published';
+    $lang->regdate = 'Published Date';
     $lang->last_update = 'Last Update';
     $lang->signup_date = 'Signup Date';
     $lang->last_login = 'Last Login';
@@ -121,7 +121,7 @@
     $lang->search_keyword = 'Searching Keyword';
     $lang->is_default = 'Default';
 
-    $lang->no_documents = 'No Entries!';
+    $lang->no_documents = 'No Articles';
 
     $lang->board_manager = 'Board Setting';
     $lang->member_manager = 'Member Setting';
@@ -175,13 +175,13 @@
     $lang->failed_voted = 'Could not be voted';
     $lang->fail_to_delete_have_children = 'There are still one or more replies left; Deletion Failed';
 
-    $lang->confirm_submit = 'Sure you want to Submit?';
-    $lang->confirm_logout = 'Sure you want to Logout?';
-    $lang->confirm_vote = 'Sure you want to Vote?';
-    $lang->confirm_delete = 'Sure you want to Delete?';
-    $lang->confirm_move = 'Sure you want to Move?';
-    $lang->confirm_reset = 'Sure you want to Reset?';
-    $lang->confirm_leave = 'Sure you want to Secede?';
+    $lang->confirm_submit = 'Are you sure to Submit?';
+    $lang->confirm_logout = 'Are you sure to Logout?';
+    $lang->confirm_vote = 'Are you sure to Vote?';
+    $lang->confirm_delete = 'Are you sure to Delete?';
+    $lang->confirm_move = 'Are you sure to Move?';
+    $lang->confirm_reset = 'Are you sure to Reset?';
+    $lang->confirm_leave = 'Are you sure to Leave?';
 
     $lang->column_type = 'Column Type';
     $lang->column_type_list['text'] = 'one-line text';
