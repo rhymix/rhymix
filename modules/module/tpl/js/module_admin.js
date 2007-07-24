@@ -41,7 +41,7 @@ function doInstallModule(module) {
 
 function completeInstallModule(ret_obj) {
     alert(ret_obj['message']);
-    location.href = location.href;
+    location.reload();
 }
 
 /* 모듈 업그레이드 */

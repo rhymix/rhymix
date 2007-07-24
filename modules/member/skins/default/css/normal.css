@@ -149,5 +149,5 @@
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
 /* Own Document */
-img.button_go { position:relative; bottom:-4px; _bottom:-2px;}
+img.button_go { position:relative; bottom:-4px; }
 .boardInformation strong { font:bold 11px Tahoma; color:#ff6600;}

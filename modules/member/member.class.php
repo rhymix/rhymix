@@ -129,7 +129,7 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
 
-            return new Object(1, 'success_updated');
+            return new Object(0, 'success_updated');
         }
     }
 ?>
