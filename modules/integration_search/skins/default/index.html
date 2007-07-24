@@ -1,0 +1,63 @@
+<!-- 컬러셋 체크 -->
+<!--@if($module_info->colorset != "white")-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+<!--@if($module_info->colorset == "white")-->
+    <!--%import("css/white.css")-->
+<!--@end-->
+
+<div class="boardInformation">
+    <div class="fl">
+        <span class="search">{$lang->search_keyword} : <strong>{$is_keyword}</strong></span>
+    </div>
+    <div class="fr">
+        <span class="articleNum">{$lang->document_count} : <strong>{number_format($total_count)}</strong></span>
+    </div>
+</div>
+
+<!--@if(!$document_list)-->
+<!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+<div class="no_result">
+    {$lang->no_documents}
+</div>
+<!--@else-->
+    <!--@foreach($document_list as $no => $document)-->
+    <ul class="search_result">
+        <li class="title">
+                <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a>
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                <!--@end-->
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                <!--@end-->
+        </li>
+
+        <!--@if($document->thumbnailExists(100))-->
+        <li class="thumbnail"><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a></li>
+        <!--@end-->
+
+        <li class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getSummary(140)}</a></li>
+        <li class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></li>
+        <li class="date">{$document->getRegdate('Y-m-d H:i')}</li>
+    </ul>
+    <div class="clear"></div>
+    <!--@end-->
+
+
+    <!-- 페이지 네비게이션 -->
+    <div class="pageNavigation">
+
+        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <span class="current">{$page_no}</span> 
+            <!--@else-->
+                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    </div>
+<!--@end-->

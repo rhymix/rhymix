@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="list" default="guest">
+            <title xml:lang="ko">목록</title>
+            <title xml:lang="jp">リスト</title>
+            <title xml:lang="en">list</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">관리</title>
+            <title xml:lang="jp">管理</title>
+            <title xml:lang="en">manager</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="IS" type="view" standalone="true" />
+        <action name="dispIntegration_searchAdminContent" type="view" admin_index="true" />
+        <action name="dispIntegration_searchAdminGrantInfo" type="view" />
+        <action name="dispIntegration_searchAdminSkinInfo" type="view" />
+
+        <action name="procIntegration_searchAdminInsertConfig" type="controller" />
+        <action name="procIntegration_searchAdminInsertSkin" type="controller" />
+    </actions>
+</module>

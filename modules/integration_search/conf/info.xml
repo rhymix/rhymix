@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1">
+    <title xml:lang="ko">통합검색</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 24">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">
+            선택한 모듈들을 대상으로 통합검색을 지원합니다.
+            선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 하셔야 합니다.
+        </description>
+    </author>
+</module>

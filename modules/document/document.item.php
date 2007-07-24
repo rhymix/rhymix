@@ -240,12 +240,16 @@
 
                 if(count($attached_file_list)) {
                     $src = preg_replace("!^(\"|')!is","",$attached_file_list[0]);
-                    copy("./".$src, $tmp_file);
+                    @copy("./".$src, $tmp_file);
 
                 // 첨부된 파일이 없으면 http로 시작하는 경로를 찾음
                 } else {
-                    preg_match('!src=("|\'){0,1}([^"|^\'|^\ ]*)("|\'| ){0,1}!is', $content, $matches);
-                    $src = $matches[2];
+                    preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
+                    for($i=0;$i<count($matches);$i++) {
+                        $src = $matches[$i][0];
+                        if(strpos($src,"/common/tpl")!==false || strpos($src,"/modules")!==false) continue;
+                        break;
+                    }
                     if($src) FileHandler::getRemoteFile($src, $tmp_file);
                     else return;
                 }

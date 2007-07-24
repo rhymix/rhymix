@@ -102,7 +102,7 @@
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             $skin = $module_info->skin;
 
-            // 스킨의 정보르 구해옴 (extra_vars를 체크하기 위해서)
+            // 스킨의 정보를 구해옴 (extra_vars를 체크하기 위해서)
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
 
             // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">통합 검색 기본 스킨</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 24">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">통합검색 모듈의 기본 스킨</description>
+  </maker>
+  <colorset>
+    <color name="normal" src="screenshot/normal.gif">
+      <title xml:lang="ko">기본</title>
+    </color>
+  </colorset>
+  <extra_vars>
+    <var name="memo" type="textarea">
+      <title xml:lang="ko">설명</title>
+      <description lang="ko">검색결과 상단에 결과가 출력됩니다.</description>
+    </var>
+  </extra_vars>
+</skin>

@@ -1,0 +1,5 @@
+<filter name="insert_config" module="integration_search" act="procIntegration_searchAdminInsertConfig" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter />
+    <response />
+</filter>
