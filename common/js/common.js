@@ -176,12 +176,15 @@ function resizeImageContents() {
         }
         if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
 
+        if(/\/modules\//i.test(obj.src)) continue;
+        if(/\/common\/tpl\//i.test(obj.src)) continue;
+
         var parent_width = xWidth(parent);
         var obj_width = xWidth(obj);
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width >= obj_width && orig_img.width == obj_width) continue;
+        if(parent_width > obj_width && orig_img.width == obj_width) continue;
 
         obj.style.cursor = "pointer";
 
