@@ -178,6 +178,7 @@ function resizeImageContents() {
 
         if(/\/modules\//i.test(obj.src)) continue;
         if(/\/common\/tpl\//i.test(obj.src)) continue;
+        if(/\/member_extra_info\//i.test(obj.src)) continue;
 
         var parent_width = xWidth(parent);
         var obj_width = xWidth(obj);
