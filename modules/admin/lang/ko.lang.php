@@ -5,6 +5,10 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->newest_news = "최신 소식";
+
+    $lang->env_setup = "환경 설정";
+
     $lang->item_module = "모듈 목록";
     $lang->item_addon  = "애드온 목록";
     $lang->item_widget = "위젯 목록";

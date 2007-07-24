@@ -109,7 +109,7 @@
             <!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')}</td><!--@end-->
             <!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')}</td><!--@end-->
             <!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
-            <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:m')}</td><!--@end-->
+            <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
         </tr>
     <!--@end-->
     </tbody>

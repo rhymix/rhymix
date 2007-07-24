@@ -7,6 +7,7 @@
 <table cellspacing="0" class="tableType4">
 <col width="250" />
 <col />
+<caption>{$lang->env_setup}</caption>
 <tr>
     <th scope="row">Lang</th>
     <td>
@@ -38,38 +39,58 @@
         <p>{$lang->about_time_zone}</p>
     </td>
 </tr>
-<tr>
-    <th scope="row" colspan="2">
-        <div class="tRight">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </div>
-    </th>
-</tr>
 </table>
+<div class="tRight gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+</div>
 </form>
 
-<!-- 사용자 링크 -->
-<table cellspacing="0" class="tableType3 gap1">
-<col width="250" />
-<col />
-<tr>
-    <th colspan="2" class="bold">{$lang->zeroboard_xe_user_links}</th>
-</tr>
-<!--@foreach($lang->xe_user_links as $key => $val)-->
-<tr>
-    <th scope="col">{$key}</th>
-    <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
-</tr>
-<!--@end-->
+<div class="admin_news">
+    <!--@if($news)-->
+    <table cellspacing="0" class="tableType1">
+    <caption>{$lang->newest_news}</caption>
+    <thead>
+    <tr>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->regdate}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($news as $key => $val)-->
+    <tr>
+        <td><a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
+        <td>{zdate($val->date,"Y-m-d H:i")}</td>
+    </tr>
+    <!--@end-->
+    </tbody>
+    </table>
+    <!--@end-->
+</div>
 
-<!-- 개발자 링크 -->
-<tr>
-    <th colspan="2" class="bold">{$lang->zeroboard_xe_developer_links}</th>
-</tr>
-<!--@foreach($lang->xe_developer_links as $key => $val)-->
-<tr>
-    <th scope="col">{$key}</th>
-    <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
-</tr>
-<!--@end-->
-</table>
+<div class="admin_link">
+    <!-- 사용자 링크 -->
+    <table cellspacing="0" class="tableType3">
+    <col width="250" />
+    <col />
+    <caption>{$lang->zeroboard_xe_user_links}</caption>
+    <!--@foreach($lang->xe_user_links as $key => $val)-->
+    <tr>
+        <th scope="col">{$key}</th>
+        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <!-- 개발자 링크 -->
+    <table cellspacing="0" class="tableType3">
+    <col width="250" />
+    <col />
+    <caption>{$lang->zeroboard_xe_developer_links}</caption>
+    <!--@foreach($lang->xe_developer_links as $key => $val)-->
+    <tr>
+        <th scope="col">{$key}</th>
+        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+    </tr>
+    <!--@end-->
+    </table>
+</div>

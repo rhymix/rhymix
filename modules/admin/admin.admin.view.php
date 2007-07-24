@@ -46,6 +46,33 @@
          * @brief 관리자 메인 페이지 출력
          **/
         function dispAdminIndex() {
+            // 공식사이트에서 최신 뉴스를 가져옴
+            $newest_news_url = sprintf("http://news.zeroboard.com/%s/news.php", Context::getLangType());
+            $cache_file = sprintf("./files/cache/newest_news.%s.cache.php", Context::getLangType());
+
+            // 1시간 단위로 캐싱 체크
+            if(!file_exists($cache_file) || filectime($cache_file)+ 60*60 < time()) {
+                FileHandler::getRemoteFile($newest_news_url, $cache_file);
+            }
+            if(file_exists($cache_file)) {
+                $oXml = new XmlParser();
+                $buff = $oXml->parse(FileHandler::readFile($cache_file));
+
+                $item = $buff->zbxe_news->item;
+                if($item) {
+                    if(!is_array($item)) $item = array($item);
+
+                    foreach($item as $key => $val) {
+                        $obj = null;
+                        $obj->title = $val->body;
+                        $obj->date = $val->attrs->date;
+                        $obj->url = $val->attrs->url;
+                        $news[] = $obj;
+                    }
+                    Context::set('news', $news);
+                }
+            }
+
             $this->setTemplateFile('index');
         }
 
