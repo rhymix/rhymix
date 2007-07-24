@@ -303,6 +303,26 @@
             $args->allow_comment = $xml_doc->document->allow_comment->body;
             $args->lock_comment = $xml_doc->document->lock_comment->body;
             $args->allow_trackback = $xml_doc->document->allow_trackback->body;
+            $args->extra_vars1 = $xml_doc->document->extra_vars1->body;
+            $args->extra_vars2 = $xml_doc->document->extra_vars2->body;
+            $args->extra_vars3 = $xml_doc->document->extra_vars3->body;
+            $args->extra_vars4 = $xml_doc->document->extra_vars4->body;
+            $args->extra_vars5 = $xml_doc->document->extra_vars5->body;
+            $args->extra_vars6 = $xml_doc->document->extra_vars6->body;
+            $args->extra_vars7 = $xml_doc->document->extra_vars7->body;
+            $args->extra_vars8 = $xml_doc->document->extra_vars8->body;
+            $args->extra_vars9 = $xml_doc->document->extra_vars9->body;
+            $args->extra_vars10 = $xml_doc->document->extra_vars10->body;
+            $args->extra_vars11 = $xml_doc->document->extra_vars11->body;
+            $args->extra_vars12 = $xml_doc->document->extra_vars12->body;
+            $args->extra_vars13 = $xml_doc->document->extra_vars13->body;
+            $args->extra_vars14 = $xml_doc->document->extra_vars14->body;
+            $args->extra_vars15 = $xml_doc->document->extra_vars15->body;
+            $args->extra_vars16 = $xml_doc->document->extra_vars16->body;
+            $args->extra_vars17 = $xml_doc->document->extra_vars17->body;
+            $args->extra_vars18 = $xml_doc->document->extra_vars18->body;
+            $args->extra_vars19 = $xml_doc->document->extra_vars19->body;
+            $args->extra_vars20 = $xml_doc->document->extra_vars20->body;
             
             $output = $this->oDocumentController->insertDocument($args, true);
             if($output->toBool()) {
