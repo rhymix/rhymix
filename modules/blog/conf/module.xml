@@ -9,7 +9,7 @@
         <grant name="write_document" default="guest">
             <title xml:lang="ko">글 작성</title>
             <title xml:lang="en">write document</title>
-            <title xml:lang="jp">作成</title>
+            <title xml:lang="jp">書き込む</title>
         </grant>
         <grant name="write_comment" default="guest">
             <title xml:lang="ko">댓글 작성</title>

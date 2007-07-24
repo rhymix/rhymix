@@ -19,8 +19,8 @@
     $lang->invalid_authorization = '認証できませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
-    $lang->allow_mailing = 'メーリングに入会する';
-    $lang->allow_message = 'サイト内メッセージを受信する';
+    $lang->allow_mailing = 'メーリングリスト';
+    $lang->allow_message = 'メッセージの受信';
     $lang->allow_message_type = array(
              'Y' => '全て受信',
              'N' => '全て受信しない',
@@ -42,7 +42,7 @@
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
-    $lang->redirect_url = '会員加入後移動するページ';
+    $lang->redirect_url = '加入後移動するページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->sender = '送信者';
@@ -56,15 +56,15 @@
     $lang->search_target_list = array(
         'user_id' => 'ユーザＩＤ',
         'user_name' => '名前',
-        'nick_name' => 'ニック',
+        'nick_name' => 'ニックネーム',
         'email_address' => 'メールアドレス',
         'regdate' => '加入日',
         'last_login' => '最近のログイン',
     );
 
     $lang->message_box = array(
-        'R' => 'サイト内メッセージ受信ボックス',
-        'S' => 'サイト内メッセージ送信ボックス',
+        'R' => 'メッセージ受信ボックス',
+        'S' => 'メッセージ送信ボックス',
         'T' => '保存ボックス',
     );
 
@@ -84,39 +84,39 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '加入フォーム管理';
-    $lang->cmd_view_own_document = '作成書き込みのプレビュー';
+    $lang->cmd_view_own_document = '書き込みのプレビュー';
     $lang->cmd_send_email = 'メール送信';
-    $lang->cmd_send_message = 'サイト内メッセージ送信';
-    $lang->cmd_reply_message = 'サイト内メッセージへの返信';
+    $lang->cmd_send_message = 'メッセージ送信';
+    $lang->cmd_reply_message = 'メッセージへの返信';
     $lang->cmd_view_friend = '友達表示';
     $lang->cmd_add_friend = '友達登録';
-    $lang->cmd_view_message_box = 'サイト内メッセージ表示';
+    $lang->cmd_view_message_box = 'メッセージ表示';
     $lang->cmd_store = "保存";
     $lang->cmd_add_friend_group = '友達グループ追加';
 
     $lang->msg_cart_is_null = '対象を選択してください。';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
 
-    $lang->msg_no_message = 'サイト内メッセージがありません。';
-    $lang->message_received = 'サイト内メッセージが届きました。';
+    $lang->msg_no_message = 'メッセージがありません。';
+    $lang->message_received = 'メッセージが届きました。';
 
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';
     $lang->msg_leave_member = '会員脱会';
     $lang->msg_group_is_null = '登録されたグループがありません。';
     $lang->msg_not_delete_default = '基本項目は削除できません。';
-    $lang->msg_not_exists_member = '存在しないユーザです。';
+    $lang->msg_not_exists_member = '存在しないユーザＩＤです。';
     $lang->msg_cannot_delete_admin = '管理者ＩＤは削除できません。管理者権限を解除した上で削除してみてください。';
-    $lang->msg_exists_user_id = '既に存在するＩＤです。他のＩＤを入力してください。';
+    $lang->msg_exists_user_id = '既に存在するユーザＩＤです。他のＩＤを入力してください。';
     $lang->msg_exists_email_address = '既に存在するメールアドレスです。他のメールアドレスを入力してください。';
-    $lang->msg_exists_nick_name = '既に存在するニックです。他のニックを入力してください。';
+    $lang->msg_exists_nick_name = '既に存在するニックネームです。他のニックネームを入力してください。';
     $lang->msg_signup_disabled = '会員に加入することができません。';
     $lang->msg_already_logged = '既に会員に加入されています。';
     $lang->msg_not_logged = 'ログインしていません。';
-    $lang->msg_title_is_null = 'サイト内メッセージのタイトルを入力してください。';
+    $lang->msg_title_is_null = 'メッセージのタイトルを入力してください。';
     $lang->msg_content_is_null = '内容を入力してください。';
-    $lang->msg_allow_message_to_friend = '友達からのみサイト内メッセージを受信できるように設定したユーザであるため、送信できませんでした。';
-    $lang->msg_disallow_message = 'サイト内メッセージの受信を拒否している受信者であるため、送信できませんでした。';
+    $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
+    $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
 
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
@@ -124,23 +124,23 @@
 
     $lang->msg_accept_agreement = '規約に同意しなければなりません。'; 
 
-    $lang->msg_user_denied = '入力されたＩＤは使用が中止されました。';
-    $lang->msg_user_limited = '入力されたＩＤは%s以降から使用できます。';
+    $lang->msg_user_denied = '入力されたユーザＩＤは使用が中止されました。';
+    $lang->msg_user_limited = '入力されたユーザＩＤは%s以降から使用できます。';
 
     $lang->about_user_id = 'ユーザＩＤは３～２０の英数文字で構成され、最先頭の文字は英字でなければなりません。';
     $lang->about_password = 'パスワードは６～２０文字です。';
     $lang->about_user_name = '名前は２～２０文字です。';
-    $lang->about_nick_name = 'ニックは２～２０文字です。';
+    $lang->about_nick_name = 'ニックネームは２～２０文字です。';
     $lang->about_email_address = 'メールアドレスはメール認証後、パスワード変更または検索などに使用されます。';
     $lang->about_homepage = 'ホームページがある場合は入力してください。';
     $lang->about_blog_url = '運用しているブログがあれば入力してください。';
     $lang->about_birthday = '生年月日を入力してください。';
-    $lang->about_allow_mailing = 'メーリングリスト加入にチェックされていない場合は、全体メーリングリストへの送信時にメールは受け取りません。';
-    $lang->about_allow_message = 'サイト内メッセージの受信するかを設定します。';
-    $lang->about_denied = 'チェックするとＩＤを使用できないようにします。';
+    $lang->about_allow_mailing = 'メーリングリストにチェックされていない場合は、全体メールの送信時にメールを受け取りません。';
+    $lang->about_allow_message = 'メッセージを受信するかを設定します。';
+    $lang->about_denied = 'チェックするとユーザＩＤを使用できないようにします。';
     $lang->about_is_admin = 'チェックすると最高管理者権限を取得できます。';
     $lang->about_description = '会員に対する管理者のメモ帳です。';
-    $lang->about_group = '一つのＩＤは多数のグループに属することができます。';
+    $lang->about_group = '一つのユーザＩＤは多数のグループに属することができます。';
 
     $lang->about_column_type = '追加する加入フォームのタイプを指定してください。';
     $lang->about_column_name = 'テンプレートで使用できる英文字の名前を入力してください（変数名）。';
@@ -148,7 +148,7 @@
     $lang->about_default_value = 'デフォルトで入力される値を指定することができます。';
     $lang->about_active = '活性化（有効化）にチェックを入れないと正常に表示されません。';
     $lang->about_form_description = '説明欄に入力すると加入時に表示されます。';
-    $lang->about_required = 'チェックを入れると会員加入時に必須入力事項として設定されます。';
+    $lang->about_required = 'チェックを入れると会員加入時に必須入力項目として設定されます。';
 
     $lang->about_enable_openid = 'OpenIDをサポートする際にチェックを入れます。';
     $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
@@ -163,7 +163,7 @@
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
 
-    $lang->about_openid = 'OpenIDで加入する際、ＩＤとメールなどの基本情報は、このサイトに保存されますがパスワードと認証のための処理は該当するOpenID提供サービスで行われます。';
+    $lang->about_openid = 'OpenIDで加入する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
 
-    $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、加入フォームの管理などを行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、加入フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
+    $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、加入フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、加入フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
 ?>

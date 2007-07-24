@@ -35,7 +35,7 @@
   $lang->edit->help_fontbgcolor = "テキストの背景色を指定します。";
   $lang->edit->help_bold = "テキストを太字に指定します。";
   $lang->edit->help_italic = "テキストを斜体にします。";
-  $lang->edit->help_underline = "･テキストに下線（アンダーライン）を引きます。";
+  $lang->edit->help_underline = "テキストに下線（アンダーライン）を引きます。";
   $lang->edit->help_strike = "打ち消し線を引きます。";
   $lang->edit->help_redo = "直前に取り消した処理をもう一度繰り返して実行します。";
   $lang->edit->help_undo = "直前に行った操作や処理を取り消し元に戻します。";
@@ -51,12 +51,12 @@
   $lang->edit->upload = '添付';
   $lang->edit->upload_file = 'ファイル添付'; 
   $lang->edit->link_file = 'テキスト挿入';
-  $lang->edit->delete_selected = '選択解除';
+  $lang->edit->delete_selected = '選択リスト削除';
 
   $lang->edit->icon_align_article = '一段落';
   $lang->edit->icon_align_left = '左揃え';
   $lang->edit->icon_align_middle = '中央揃え';
   $lang->edit->icon_align_right = '右揃え';
 
-  $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用などでダブルクリックすると詳細なコンポーネントの設定ができます。';
+  $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ,ダブルクリックすると詳細設定できるコンポーネントを表示します。';
 ?>

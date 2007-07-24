@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
     <title xml:lang="ko">링크 생성</title>
+    <title xml:lang="jp">リンク生成</title>
     <title xml:lang="zh-CN">链接</title>
     <title xml:lang="en">Create Link</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">에디터에 링크를 추가하거나 링크의 속성을 변경할 수 있습니다.</description>
+        <description xml:lang="jp">エディターにリンクを追加したり、属性を変更したりすることができます。</description>
         <description xml:lang="zh-CN">插入链接或编辑链接属性。</description>
         <description xml:lang="en">It can add a link to editor or modify the attribution of link.</description>
     </author>

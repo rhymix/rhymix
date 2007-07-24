@@ -4,7 +4,7 @@
   <title xml:lang="zh-CN">Rainbow 链接 Add-On</title>
   <title xml:lang="en">Addon for rainbow links</title>
   <title xml:lang="es">Adición Enlace Arco Iris</title>
-  <title xml:lang="jp">レインボーリンク機能拡張</title>
+  <title xml:lang="jp">レインボーリンク</title>
   <author email_address="webmaster@dynamicdrive.com" link="http://dynamicdrive.com" date="2007. 2. 28">
     <name xml:lang="ko">dynamicdrive.com</name>
     <name xml:lang="zh-CN">dynamicdrive.com</name>
@@ -28,8 +28,7 @@
         &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt; tiene derecho de autor sobre rainbow.js 
     </description>
     <description xml:lang="jp">
-        「rainbow.js」をヘッダーに追加し、リンクされている文字列の色を虹色で表示します。
-        この機能拡張の「 rainbow.js」は「&lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;」に著作権があります。
+        「rainbow.js」をヘッダーに追加し、リンクされている文字列の色を虹色で表示します。この機能拡張の「 rainbow.js」は「&lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;」に著作権があります。
     </description>
   </author>
 </addon>

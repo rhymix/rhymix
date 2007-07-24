@@ -2,16 +2,16 @@
 <widget version="0.1">
     <title xml:lang="ko">최근 문서 출력</title>
     <title xml:lang="zh-CN">输出最新文章</title>
-    <title xml:lang="jp">最新の書き込み 出力</title>
+    <title xml:lang="jp">最近の書き込み表示</title>
     <title xml:lang="en">Display Newest Articles</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">최근 문서 (document)를 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">输出最新文章 (document)的控件。</description>
-        <description xml:lang="jp">最新の書き込み（document）を出力するウィジェットです。</description>
+        <description xml:lang="jp">最近の書き込み（document）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget enables you to display newest articles.</description>
     </author>
     <extra_vars>
@@ -23,7 +23,7 @@
             <type>text</type>
             <description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
             <description xml:lang="zh-CN">输出最新文章标题。</description>
-            <description xml:lang="jp">最新書き込みのタイトルで出力されます。</description>
+            <description xml:lang="jp">最近の書き込みのタイトルとして表示されます。</description>
             <description xml:lang="en">It will be the title of the newest articles.</description>
         </var>
         <var id="order_target">
@@ -46,7 +46,7 @@
             <options>
                 <name xml:lang="ko">최근 변경순</name>
                 <name xml:lang="zh-CN">最新修改</name>
-                <name xml:lang="jp">最新変更順</name>
+                <name xml:lang="jp">最近変更順</name>
                 <name xml:lang="en">Newest Modified Order</name>
                 <value>update_order</value>
             </options>
@@ -84,18 +84,18 @@
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">设定输出。 (默认5个)</description>
-            <description xml:lang="jp">出力されるリストの数をしてすることができます。（デフォルト５個）</description>
+            <description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト５個）</description>
             <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>
-            <name xml:lang="jp">対象モジュール</name>
+            <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="zh-CN">如：模块为notice,news,bbs等，这时选择news,将输出news的最新文章。</description>
-            <description xml:lang="jp">選択されたモジュールに登録された書き込みを対象にします。</description>
+            <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
         </var>
     </extra_vars>

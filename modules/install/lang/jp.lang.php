@@ -5,7 +5,7 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
-    $lang->introduce_title = 'ゼロボードXEインストール';
+    $lang->introduce_title = 'ゼロボードXEのインストール';
     $lang->license = <<<EndOfLicense
 - プログラム名：ゼロボードXE（zeroboardXE）
 - ライセンス：GNU GENERAL PUBLIC LICENSE
@@ -202,6 +202,7 @@ EndOfLicense;
     $lang->install_condition_title = "インストールするための必須条件を確認してください。";
 
     $lang->install_checklist_title = array(
+            'php_version' => 'PHPバージョン',
             'permission' => 'パーミッション',
             'xml' => 'XMLライブラリ',
             'iconv' => 'ICONVライブラリ',
@@ -210,19 +211,20 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
+            'php_version' => '【必須】PHPバージョンが 5.2.2の場合は、PHPのセキュリティバグのため、インストールできません。',
             'permission' => '【必須】ゼロボードのインストールパスまたは「./files」ディレクトリのパーミッションが「707」でなければなりません',
             'xml' => '【必須】XML通信のためにXMLライブラリが必要です',
             'session' => '【必須】ゼロボードでは、セッションを使用しているため、「php.ini」の設定で「session.auto_start=0」にしなければなりません。',
-            'iconv' => 'UTF-8と多言語サポート及び文字コード変換のため「iconv」をインストールする必要があります。',
+            'iconv' => 'UTF-8と多言語サポート及び文字コード変換のため、「iconv」をインストールする必要があります。',
             'gd' => 'イメージ変換機能を使用するためには、「GD」ライブラリをインストールする必要があります。',
         );
 
-    $lang->install_checklist_xml = 'XMLライブラリインストール';
+    $lang->install_checklist_xml = 'XMLライブラリのインストール';
     $lang->install_without_xml = 'XMLライブラリがインストールされていません';
-    $lang->install_checklist_gd = 'GDライブラリインストール';
-    $lang->install_without_gd  = 'イメージ変換のためのGDライブラリがインストールされていません';
-    $lang->install_checklist_gd = 'GDライブラリインストール';
-    $lang->install_without_iconv = '文字列処理のための「 iconv」ライブラリがインストールされていません';
+    $lang->install_checklist_gd = 'GDライブラリのインストール';
+    $lang->install_without_gd  = 'イメージ変換用のGDライブラリがインストールされていません';
+    $lang->install_checklist_gd = 'GDライブラリのインストール';
+    $lang->install_without_iconv = '文字列処理のための「iconv」ライブラリがインストールされていません';
     $lang->install_session_auto_start = 'PHPの設定で「session.auto_start==1」 にするとセッション処理に問題が発生することがあります';
     $lang->install_permission_denied = 'インストールする対象のディレクトリのパーミッションが「707」になっていません';
 
@@ -231,42 +233,42 @@ EndOfLicense;
     $lang->cmd_install_next = 'インストールを続けます';
 
     $lang->db_desc = array(
-        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。',
-        'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。',
-        'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストールの際は、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）',
-        'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストールの際は、ウェブからアクセスできない場所に作成してください。',
+        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。DBは「myisam」タイプで作成されるため、トランザクション処理はできません。',
+        'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。「innodb」ではトランザクションの処理が行えます。',
+        'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。インストールの際は、DBファイルはウェブがらアクセスできない場所に作成してください。（安定化までのテストは行われていません）',
+        'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。インストールの際は、ウェブからアクセスできない場所に作成してください。',
         'cubrid' => 'CUBRID DBを利用します。<br />（安定化までのテスト及びチューニングは行われていません）',
     );
 
-    $lang->form_title = 'DB &amp; 管理者情報入力';
-    $lang->db_title = 'DB情報入力';
-    $lang->db_type = 'DBの種類';
-    $lang->select_db_type = '使用するDBを選択してください。';
-    $lang->db_hostname = 'DBのホスト名';
-    $lang->db_port = 'DBのポート番号';
-    $lang->db_userid = 'DBのユーザＩＤ';
-    $lang->db_password = 'DBのパスワード';
-    $lang->db_database = 'DBのデータベース名';
-    $lang->db_database_file = 'DBのデータベースファイル';
-    $lang->db_table_prefix = 'テーブルのプレフィックス';
+    $lang->form_title = 'データベース &amp; 管理者情報入力';
+    $lang->db_title = 'データベース情報入力';
+    $lang->db_type = 'データベースの種類';
+    $lang->select_db_type = '使用するデータベースを選択してください。';
+    $lang->db_hostname = 'ホスト名';
+    $lang->db_port = 'ポート番号';
+    $lang->db_userid = 'ユーザＩＤ';
+    $lang->db_password = 'パスワード';
+    $lang->db_database = 'データベース名';
+    $lang->db_database_file = 'データベースファイル';
+    $lang->db_table_prefix = 'テーブルプレフィックス';
 
     $lang->admin_title = '管理者情報';
 
     $lang->env_title = '環境設定';
-    $lang->use_rewrite = 'rewrite mod 使用';
-    $lang->about_rewrite = 'Webサーバで「rewrite mod」をサポートするためには、「http://アドレス/?document_srl=123」のように複雑なアドレスを「http://アドレス/123」のように簡単にすることができます。';
+    $lang->use_rewrite = 'リライトモジュール使用';
+    $lang->about_rewrite = 'Webサーバで「リライトモジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように簡単にすることができます。';
     $lang->time_zone = 'time zone';
-    $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間をサービスのローカル時間に設定できます。';
+    $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間をＷｅｂサービスをしているローカル時間に設定できます。';
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>';
 
     $lang->success_installed = '正常にインストールされました。';
     $lang->success_updated = '正常にアップデートされました。';
 
-    $lang->msg_cannot_proc = '設置できる環境が整っていないため、リクエストを実行できませんでした。';
+    $lang->msg_cannot_proc = 'インストールできる環境が整っていないため、リクエストを実行できませんでした。';
     $lang->msg_already_installed = '既にインストールされています。';
-    $lang->msg_dbconnect_failed = "DBの接続エラーです。\nDBの情報をもう一度確認してください。";
-    $lang->msg_table_is_exists = "既にDBにデーブルが作成されています。\nconfigファイルを再作成しました。";
+    $lang->msg_dbconnect_failed = "データベースの接続エラーです。\nデータベースの情報をもう一度確認してください。";
+    $lang->msg_table_is_exists = "既にデータベースにデーブルが作成されています。\nconfigファイルを再作成しました。";
     $lang->msg_install_completed = "インストールが完了しました。\nありがとうございます。";
     $lang->msg_install_failed = "インストールファイルを作成する際にエラーが発生しました。";
 ?>

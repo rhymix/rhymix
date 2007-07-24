@@ -5,8 +5,8 @@
      * @brief  Ttimporter モジュールの基本言語パッケージ
      **/
 
-    $lang->ttimporter = "TatterTools データコンバーター";
-    $lang->about_tt_importer = "TatterTools データを希望するモジュールへデータを変換し入力を行います。\n添付ファイルは、元のＵＲＬから直接ダウンロードするため、元のTatterTools が作動するようにしておいてください。";
+    $lang->ttimporter = "TTデータの移転";
+    $lang->about_tt_importer = "TatterTools データを希望するモジュールへデータを変換し、入力を行います。添付ファイルは、元のＵＲＬから直接ダウンロードするため、元のTatterTools が作動するようにしておいてください。";
 
     $lang->target_module = "対象モジュール";
     $lang->target_file = "対象XMLファイル";

@@ -10,7 +10,7 @@
     $lang->rss_type = "出力するRSSタイプ";
 
     // 説明文
-    $lang->about_rss_disable = "チェックするとRSS出力を行いません。";
+    $lang->about_rss_disable = "チェックするとRSSの出力を行いません。";
     $lang->about_rss_type = "出力するRSSタイプを指定することができます。";
 
     // エラーメッセージ

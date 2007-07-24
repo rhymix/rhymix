@@ -4,13 +4,13 @@
     <title xml:lang="zh-CN">样本布局（JS 菜单）</title>
     <title xml:lang="en">Sample Layout (Menu in JS)</title>
     <title xml:lang="es">Diseño predeterminado (menú JS)</title>
-    <title xml:lang="jp">レイアウトサンプル（ＪＳメニュー ）</title>
+    <title xml:lang="jp">レイアウトサンプル（ＪＳ）</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">
             가장 기본적인 기능으로 이루어진 견본 레이아웃입니다.
             main_menu, bottom_menu 2개의 메뉴로 구성되어 있으며 각 메뉴의 출력은 javascript 함수를 이용해서 출력합니다.
@@ -30,9 +30,7 @@
             Es el diseño predeterminado para funciónes basicos. Tiene 2 menús de main_menu, bottom_menu. La salida de cada menu usa funciónes de javascript. Es facil de manejar diseño, pero falta de libertad.
         </description>
         <description xml:lang="jp">
-            一番基本的な機能で構成されたレイアウトのサンプルです。
-            「main_menu」と「bottom_menu」２つのメニューで構成されていて、各メニューは「javascript」関数を用いて 出力します。
-            レイアウトをデザインする際に便利ですが、自由度は制限されます。
+            一番基本的な機能で構成されたレイアウトのサンプルです。「main_menu」と「bottom_menu」２つのメニューで構成されていて、各メニューは「javascript」関数を用いて 出力します。 レイアウトをデザインする際に便利ですが、自由度は制限されます。
         </description>
     </author>
     <extra_vars>

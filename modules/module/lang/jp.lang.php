@@ -37,7 +37,7 @@
     $lang->cmd_manage_skin = 'スキン管理';
     $lang->cmd_manage_document = '書き込み管理';
 
-    $lang->msg_new_module = "モジュール生成";
+    $lang->msg_new_module = "モジュール作成";
     $lang->msg_update_module = "モジュール修正";
     $lang->msg_module_name_exists = "既に存在するモジュール名です。他の名前を入力してください。";
     $lang->msg_category_is_null = '登録されているカテゴリがありません。';
@@ -46,20 +46,20 @@
     $lang->msg_move_failed = '移動することができませんでした。';
     $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することができません。';
 
-    $lang->about_browser_title = "ブラウザのタイトルに表示される内容です。RSS/Trackbackでも使用します。";
+    $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
     $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋_のみ可）。";
-    $lang->about_default = "選択すると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
+    $lang->about_default = "チェックすると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
     $lang->about_module_category = "カテゴリで管理できるようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことができます。";
     $lang->about_description= '管理用に用いられる説明です。';
-    $lang->about_default = '選択すると、サイトに「mid値」なしで接続した場合、デフォルトで表示します。';
+    $lang->about_default = 'チェックすると、サイトに「mid値」なしで接続した場合、デフォルトで表示します。';
     $lang->about_header_text = 'モジュールのヘッダーに表示される内容です（HTMLタグが使用できる）。';
     $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグが使用できる）。';
     $lang->about_skin = 'モジュールのスキンを選択することができます。';
-    $lang->about_use_category = '選択するとカテゴリ機能が使用できます。';
-    $lang->about_list_count = '１ページ当たりに表示される書き込み数が指定できます（デフォルト１個）。';
+    $lang->about_use_category = 'チェックするとカテゴリ機能が使用できます。';
+    $lang->about_list_count = '１ページ当たりに表示される書き込みの数が指定できます（デフォルト１個）。';
     $lang->about_page_count = 'リストの下段に移動できるページのリンク数が指定できます（デフォルト１０個）。';
-    $lang->about_admin_id = '該当するモジュールに対して最高権限を持つ管理者を指定することができます。<br />「,（コンマ）」で多数のＩＤで指定できます（管理者ページへのアクセスはできません）。';
+    $lang->about_admin_id = '該当するモジュールに対して最高権限を持つ管理者を指定することができます。「,（コンマ）」で区切って多数のＩＤが指定できます（管理者ページへのアクセスはできません）。';
     $lang->about_grant = '特定権限の対象をすべて解除するとログインしていない会員ユーザまで権限が与えられます。';
-    $lang->about_open_rss = '現在モジュールに対する「RSS配信」を選択することができます。書き込みを読める権限とは関係なくオプションによってRSSが配信されます。';
-    $lang->about_module = "ゼロボードXEは、基本ライブラリの他は、すべてモジュールで構成されています。\nモジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。\n頻繁に使うモジュールは、【ショットカット追加】で行うと管理しやすなります。";
+    $lang->about_open_rss = '現在のモジュールに対して「RSS配信」を選択することができます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。';
+    $lang->about_module = "ゼロボードXEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。頻繁に使うモジュールは、【ショットカット追加】で行うと管理しやすなります。";
 ?>

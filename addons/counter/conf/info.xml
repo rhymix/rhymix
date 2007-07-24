@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
-  <title xml:lang="jp">基本接続カウンター機能拡張</title>
+  <title xml:lang="jp">接続カウンター</title>
   <title xml:lang="zh-CN">网站访问统计 Add-on</title>
   <title xml:lang="en">Addon for basic counter</title>
   <title xml:lang="es">Adición Taquilla Predeterminado</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
-    <name xml:lang="jp">ゼロ</name>
+    <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="es">zero</name>
@@ -16,8 +16,7 @@
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
     </description>
     <description xml:lang="jp">
-        セロボードXEの基本接続カウンターモジュルを利用して接続情報を記録します。
-        この機能拡張をオンにしておくと接続情報が記録されます。
+        セロボードXEの接続カウンターモジュールは、接続情報を記録します。このアドオンを「使用する」に設定しておくと接続情報が記録されます。
     </description>
     <description xml:lang="zh-CN">
         zeroboardXE的网站访问统计Add-on是统计网站访问信息的        

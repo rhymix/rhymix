@@ -8,7 +8,7 @@
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">
             제로보드에서 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.
             우편번호 검색 서버는 설정을 통해 변경하실 수 있습니다.
@@ -23,7 +23,7 @@
         </description>
         <description xml:lang="jp">
             ゼロボードで運用している郵便番号サーバを利用して韓国の郵便番号を検索します。
-            郵便番号検索サーバは設定変更することができます。
+            郵便番号検索サーバは設定によって変更することができます。
         </description>
     </author>
 </module>

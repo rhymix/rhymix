@@ -17,6 +17,6 @@
     $lang->about_krzip_server_query = "郵便番号検索サーバに問い合わせるクエリのＵＲＬを入力してください。";
 
     // 에러 메세지들
-    $lang->msg_not_exists_addr = "対象の文字列では郵便番号が見つかりませんでした";
+    $lang->msg_not_exists_addr = "入力された文字列では郵便番号が見つかりませんでした";
     $lang->msg_fail_to_socket_open = "郵便番号サーバとの接続に失敗しました";
 ?>

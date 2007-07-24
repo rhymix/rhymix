@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
     <title xml:lang="ko">HTML 코드 수정</title>
+    <title xml:lang="jp">HTMLコード修正</title>
     <title xml:lang="zh-CN">HTML 代码修改</title>
     <title xml:lang="en">Modify HTML Code</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
+         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">에디터에서 HTML 코드를 직접 수정하거나 추가할 수 있습니다.\n보안 문제로 인하여 가능한 끄는 것이 좋습니다.</description>
+        <description xml:lang="jp">エディターにHTMLコードを直接修正したり、追加したりすることができます。セキュリティのため、使用しないことをお勧めします。</description>
         <description xml:lang="zh-CN">在编辑器直接修改和添加html代码。\n因安全问题推荐关闭此功能。</description>
         <description xml:lang="en">You can modify/add HTML code from editor.\nIt is recommended not to use this function because of security problems.</description>
     </author>

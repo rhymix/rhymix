@@ -7,7 +7,7 @@
     <title xml:lang="zh-CN">博客</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
@@ -18,8 +18,8 @@
         </description>
         <description xml:lang="jp">
             ブログの機能を担当するモジュール 
-            掲示板と似ているが内容を見せるviewが違ってブログに適切なmethodが追加されている。
-            レイアウトと基本メニュを直接担当
+            掲示板と似ているが、内容の表示が異なり、ブログに適切なメソッドが追加されている。
+            レイアウトと基本メニューを直接担当します。
         </description>
         <description xml:lang="en">
             This module contains the blog functions.

@@ -4,17 +4,17 @@
     <title xml:lang="en">Document</title>
     <title xml:lang="es">Documento</title>
     <title xml:lang="zh-CN">文章</title>
-    <title xml:lang="jp">ドキュメント</title>
+    <title xml:lang="jp">コンテンツ</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">게시판, 블로그등의 모듈에서 사용되는 문서를 관리하는 모듈입니다. </description>
         <description xml:lang="en">Module for managing documents used in board, blog, etc.</description>
         <description xml:lang="es">Es el módulo para manejar documentos en blog y boletínes.</description>
         <description xml:lang="zh-CN">board，博客等使用的文章管理模块。 </description>
-        <description xml:lang="jp">掲示板、ブログなどのモジュルで使用されるドキュメント（書き込み）を管理するモジュルです。</description>
+        <description xml:lang="jp">掲示板、ブログなどのモジュールで使用されるコンテンツ（書き込みなど）を管理するモジュールです。</description>
     </author>
 </module>

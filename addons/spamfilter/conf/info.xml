@@ -4,13 +4,13 @@
   <title xml:lang="zh-CN">SpamFilter Add-On</title>
   <title xml:lang="en">Addon for filtering spam</title>
   <title xml:lang="es">Adición Filtros para artículos no deseado</title>
-  <title xml:lang="jp">スパムフィルター機能拡張</title>
+  <title xml:lang="jp">スパムフィルター</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="es">zero</name>
-    <name xml:lang="jp">ゼロ</name>
+    <name xml:lang="jp">Zero</name>
     <description xml:lang="ko">
         SpamFilter 모듈을 이용하여 글/코멘트/트랙백 등록 이전에 스팸 필터링 및 도배 방지를 합니다.
         자세한 설정은 &quot; 스팸필터 모듈&quot; 에서 해주세요.
@@ -28,9 +28,7 @@
         Para configurar haga clic &quot; Configurar la modula SpamFilter.&quot;..º
     </description>
     <description xml:lang="jp">
-        SpamFilter モジュルを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。
-        更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。
-        詳細な設定は &quot; スパムフィルターモジュル &quot; で行ってください。
+        SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
     </description>
   </author>
 </addon>

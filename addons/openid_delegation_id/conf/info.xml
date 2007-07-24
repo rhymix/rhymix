@@ -4,13 +4,13 @@
     <title xml:lang="zh-CN">OpenID delegation ID</title>
     <title xml:lang="en">Addon for delegating domain name to OpenID</title>
     <title xml:lang="es">delegación ID para OpenID</title>
-    <title xml:lang="jp">OpenID用のID</title>
+    <title xml:lang="jp">OpenID</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">
             본인의 도메인을 사용하여 오픈아이디로 활용할 수 있도록 합니다.
             꼭 설정을 통해서 openid provider관련 값을 입력후 사용해주세요.
@@ -28,8 +28,7 @@
             La configuración es necesario.
         </description>
         <description xml:lang="jp">
-            保有するドメインをオープンＩＤとして活用することができます。
-            必ず設定で、OpenIDのプロバイダー関連の情報を入力してから使用してください。
+            保有するドメインをオープンＩＤとして活用することができます。必ず設定で、OpenIDのプロバイダー関連の情報を入力してから使用してください。
         </description>
     </author>
     <extra_vars>

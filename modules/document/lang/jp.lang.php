@@ -7,23 +7,23 @@
 
     $lang->cmd_delete_checked_document = '選択項目削除';
 
-    $lang->msg_cart_is_null = '削除する書き込みを選択してください';
-    $lang->msg_category_not_moved = '移動することができません';
-    $lang->msg_is_secret = '内緒設定の書き込みです';
-    $lang->msg_checked_document_is_deleted = '%d個の書き込みが削除されました';
+    $lang->msg_cart_is_null = '削除する書き込みを選択してください。';
+    $lang->msg_category_not_moved = '移動することができません。';
+    $lang->msg_is_secret = '非公開設定の書き込みです。';
+    $lang->msg_checked_document_is_deleted = '%d個の書き込みが削除されました。';
 
     // 管理者ページで検索する内容
     $lang->search_target_list = array(
         'title' => 'タイトル',
         'content' => '内容',
-        'user_id' => 'ＩＤ',
+        'user_id' => 'ユーザＩＤ',
         'member_srl' => '会員番号',
         'user_name' => 'ユーザ名',
-        'nick_name' => 'ニック',
+        'nick_name' => 'ニックネーム',
         'email_address' => 'メールアドレス',
         'homepage' => 'ホームページ',
         'is_notice' => 'お知らせ',
-        'is_secret' => '内緒設定書き込み',
+        'is_secret' => '非公開書き込み',
         'tags' => 'タグ',
         'readed_count' => '照合数（以上）',
         'voted_count' => '推薦数（以上）',

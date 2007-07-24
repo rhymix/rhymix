@@ -7,7 +7,7 @@
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">ゼロ</name>
+        <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
         <description xml:lang="ko">엮인글 관리 모듈</description>
         <description xml:lang="zh-CN">引用管理模块</description>

@@ -16,7 +16,7 @@
     $lang->cmd_list = 'リスト';
     $lang->cmd_prev = '前へ';
     $lang->cmd_next = '次へ';
-    $lang->cmd_send_trackback = 'トラックバック送信';
+    $lang->cmd_send_trackback = 'TB送信';
     $lang->cmd_registration = $lang->cmd_submit = '登録';
     $lang->cmd_comment_registration = 'コメント登録';
     $lang->cmd_insert = '挿入';
@@ -35,7 +35,7 @@
     $lang->cmd_make = '作成';
     $lang->cmd_select = '選択';
     $lang->cmd_select_all = 'すべて選択';
-    $lang->cmd_unselect_all = 'すべて選択解除';
+    $lang->cmd_unselect_all = 'すべて解除';
     $lang->cmd_close_all = 'すべて閉じる';
     $lang->cmd_open_all = 'すべて開く';
     $lang->cmd_reload = 'リロード';
@@ -45,14 +45,15 @@
     $lang->cmd_apply = '適用';
     $lang->cmd_open_calendar = 'カレンダを開く';
     $lang->cmd_send = '送信';
+    $lang->cmd_print = '印刷';
 
-    $lang->enable = '可';
+    $lang->enable = '可能';
     $lang->disable = '不可';
 
     // 基本用語
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
-    $lang->secret = '内緒';
+    $lang->secret = '非公開';
     $lang->category = 'カテゴリ';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
@@ -68,7 +69,7 @@
     $lang->homepage = 'ホームページ';
     $lang->blog = 'ブログ';
     $lang->birthday = '誕生日';
-    $lang->browser_title = 'ブラウザーのタイトル';
+    $lang->browser_title = 'ブラウザタイトル';
     $lang->title = 'タイトル';
     $lang->title_content = 'タイトル＋内容';
     $lang->content = '内容';
@@ -113,7 +114,7 @@
     $lang->regdate = '登録日';
     $lang->last_update = '最近修正日';
     $lang->signup_date = '加入日';
-    $lang->last_login = '最近のログイン';
+    $lang->last_login = '最近ログイン';
     $lang->first_page = '最初のページ';
     $lang->last_page = '最後のページ';
     $lang->search_target = '検索対象';
@@ -126,8 +127,8 @@
     $lang->member_manager = '会員管理';
     $lang->layout_manager = 'レイアウト';
 
-    $lang->use = '使用';
-    $lang->notuse = '未使用';
+    $lang->use = '使用する';
+    $lang->notuse = '使用しない';
     $lang->not_exists = 'なし';
 
     $lang->unit_sec = '秒';
@@ -140,47 +141,47 @@
 
     // 説明関連 
     $lang->about_tag = 'タグを入力する時、「,」を使うと複数登録できます。';
-    $lang->about_layout = 'レイアウトはモジュールの枠をデザインします。上のレイアウトメニューで管理できます。';
+    $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上のレイアウトメニューで管理できます。';
 
     // メッセージ関連
-    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください';
-    $lang->msg_db_not_setted = 'DBが設定されていません';
-    $lang->msg_invalid_queryid = 'クエリIDの値が無効です';
-    $lang->msg_not_permitted = '権限がありません';
-    $lang->msg_input_password = 'パスワードを入力してください';
-    $lang->msg_invalid_document = '無効な書き込み番号です';
-    $lang->msg_invalid_request = '無効なリクエストです';
-    $lang->msg_invalid_password = 'パスワードが正しくありません';
-    $lang->msg_error_occured = 'エラーが発生しました';
-    $lang->msg_not_founded = '見つかりません';
-    $lang->msg_no_result = '検索結果がありません';
+    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
+    $lang->msg_db_not_setted = 'DBが設定されていません。';
+    $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
+    $lang->msg_not_permitted = '権限がありません。';
+    $lang->msg_input_password = 'パスワードを入力してください。';
+    $lang->msg_invalid_document = '無効な書き込み番号です。';
+    $lang->msg_invalid_request = '無効なリクエストです。';
+    $lang->msg_invalid_password = 'パスワードが正しくありません。';
+    $lang->msg_error_occured = 'エラーが発生しました。';
+    $lang->msg_not_founded = '見つかりません。';
+    $lang->msg_no_result = '検索結果がありません。';
 
-    $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません';
-    $lang->msg_module_is_not_exists = 'モジュールが見つかりません';
-    $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは動作しません';
+    $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません。';
+    $lang->msg_module_is_not_exists = 'モジュールが見つかりません。';
+    $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは作動しません。';
 
-    $lang->success_registed = '登録しました';
-    $lang->success_updated = '修正しました';
-    $lang->success_deleted = '削除しました';
-    $lang->success_voted = '推薦しました';
-    $lang->success_moved = '移動しました';
-    $lang->success_sended = '送信しました';
-    $lang->success_reset = '初期化しました';
-    $lang->success_leaved = '脱会しました';
+    $lang->success_registed = '登録しました。';
+    $lang->success_updated = '修正しました。';
+    $lang->success_deleted = '削除しました。';
+    $lang->success_voted = '推薦しました。';
+    $lang->success_moved = '移動しました。';
+    $lang->success_sended = '送信しました。';
+    $lang->success_reset = '初期化しました。';
+    $lang->success_leaved = '脱会しました。';
 
-    $lang->fail_to_delete = '削除に失敗しました';
-    $lang->fail_to_move = '移動に失敗しました';
+    $lang->fail_to_delete = '削除に失敗しました。';
+    $lang->fail_to_move = '移動に失敗しました。';
 
-    $lang->failed_voted = '推薦できません';
-    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません';
+    $lang->failed_voted = '推薦できません。';
+    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
 
-    $lang->confirm_submit = '登録しますか';
-    $lang->confirm_logout = 'ログアウトしますか';
-    $lang->confirm_vote = '推薦しますか';
-    $lang->confirm_delete = '削除しますか';
-    $lang->confirm_move = '移動しますか';
-    $lang->confirm_reset = '初期化しますか';
-    $lang->confirm_leave = '脱会しますか';
+    $lang->confirm_submit = '登録しますか？';
+    $lang->confirm_logout = 'ログアウトしますか？';
+    $lang->confirm_vote = '推薦しますか？';
+    $lang->confirm_delete = '削除しますか？';
+    $lang->confirm_move = '移動しますか？';
+    $lang->confirm_reset = '初期化しますか？';
+    $lang->confirm_leave = '脱会しますか？';
 
     $lang->column_type = 'タイプ';
     $lang->column_type_list['text'] = '入力フィールド(text)';
@@ -197,7 +198,7 @@
     $lang->column_title = 'コラムタイトル';
     $lang->default_value = 'デフォルト値';
     $lang->is_active = '活性化';
-    $lang->is_required = '必須';
+    $lang->is_required = '必須項目';
 
     // xml filterで用いられているjavascript用のアラートメッセージ
     $lang->filter->isnull = '%sを入力してください';

@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">방명록 기본 스킨</title>
+  <title xml:lang="jp">ゲストブックのデフォルトスキン</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
     <description xml:lang="ko">board모듈의 default스킨</description>
+    <description xml:lang="jp">ボード（board）モジュールのデフォルトスキンです。</description>
   </maker>
   <colorset>
     <color name="normal" src="screenshot/normal.gif">
       <title xml:lang="ko">기본</title>
+      <title xml:lang="jp">デフォルト</title>
     </color>
   </colorset>
   <extra_vars>
     <var name="title" type="text">
       <title xml:lang="ko">제목</title>
+      <title xml:lang="jp">タイトル</title>
       <description xml:lang="ko">방명록의 제목을 적어주세요.</description>
+      <description xml:lang="jp">ゲストブックのタイトルを入力してください。</description>
     </var>
     <var name="memo" type="textarea">
       <title xml:lang="ko">방명록 설명</title>
+      <title xml:lang="jp">ゲストブックの説明</title>
       <description lang="ko">내용의 기본값</description>
+      <description lang="jp">内容のデフォルト値</description>
     </var>
   </extra_vars>
 </skin>
