@@ -1,17 +1,16 @@
 <?php
     /**
-     * @file   zh-CN.lang.php
+     * @file   ko.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  论坛(board) 模块的基本语言包
+     * @brief  留言本(guestbook)模块语言包
      **/
 
-    $lang->board = "board"; 
+    $lang->guestbook = "留言本"; 
 
-    // 在按钮使用的语言
-    $lang->cmd_board_list = 'board 目录';
-    $lang->cmd_module_config = 'board 共同设定';
-    $lang->cmd_view_info = 'Board 信息';
-    $lang->move_target_module = "移动目标模块";
+    // 버튼에 사용되는 언어
+    $lang->cmd_guestbook_list = '留言本目录';
+    $lang->cmd_module_config = '留言本共同设置';
+    $lang->cmd_view_info = '留言本信息';
 
-    $lang->about_board = "可以生成Board和管理的Board模块\n生成后在目录里选择模块名称可以详细设定。";
+    $lang->about_guestbook = "可生成并管理留言本的模块。\n生成留言本后在留言本目录中点击模块名既可设置更详细的相关项目。\n因留言本的模块名将变成其url中的一部分，所以请慎重填写模块名。 (ex : http://域名/zb/?mid=模块名)";
 ?>

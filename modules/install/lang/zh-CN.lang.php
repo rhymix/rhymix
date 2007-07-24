@@ -194,7 +194,8 @@ EndOfLicense;
     $lang->install_condition_title = "请确认安装时必要的环境。";
 
     $lang->install_checklist_title = array(
-            'permission' => '属性',
+            'php_version' => 'PHP 版本',
+			'permission' => '属性',
             'xml' => 'XML Library',
             'iconv' => 'ICONV  Library',
             'gd' => 'GD Library',

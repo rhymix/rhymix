@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/zh-CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  中文语言包 (只收录基本内容)
+     * @brief  简体中文语言包 (只收录基本内容)
      **/
 
     // 基本使用的 action 语言
@@ -16,7 +16,7 @@
     $lang->cmd_list = '目录';
     $lang->cmd_prev = '上一页';
     $lang->cmd_next = '下一页';
-    $lang->cmd_send_trackback = '传送引用';
+    $lang->cmd_send_trackback = '发送引用';
     $lang->cmd_registration = $lang->cmd_submit = '发表';
     $lang->cmd_comment_registration = '发表评论';
     $lang->cmd_insert = '添加';
@@ -45,27 +45,27 @@
     $lang->cmd_apply = '适用';
     $lang->cmd_open_calendar = '选择日期';
     $lang->cmd_send = '发送';
-    $lang->cmd_print = '印刷';
+	$lang->cmd_print = '打印';
 
-    $lang->enable = '使用';
+    $lang->enable = '可用';
     $lang->disable = '禁用';
 
-    // 基本单词
+    // 基本词语
     $lang->no = '编号';
     $lang->notice = '公告';
     $lang->secret = '密帖';
     $lang->category = '分类';
     $lang->document_srl = '文章编号';
     $lang->user_id = '用户名';
-    $lang->author = '发表者';
+    $lang->author = '作者';
     $lang->password = '密码';
     $lang->password1 = '密码';
     $lang->password2 = '确认密码';
-    $lang->admin_id = '管理员ID';
+    $lang->admin_id = '管理员 I D';
     $lang->writer = '昵称';
     $lang->user_name = '姓名';
     $lang->nick_name = '昵称';
-    $lang->email_address = '邮件';
+    $lang->email_address = '电子邮件';
     $lang->homepage = '主页';
     $lang->blog = '博客';
     $lang->birthday = '生日';
@@ -89,18 +89,18 @@
     $lang->ipaddress = 'IP 地址';
     $lang->path = '路径';
     $lang->cart = '选择项目';
-    $lang->friend = '朋友';
+    $lang->friend = '好友';
 
     $lang->mid = '模块名称';
     $lang->layout = '布局';
-    $lang->widget = '控件 ';
+    $lang->widget = 'Widget ';
     $lang->module = '模块';
     $lang->skin = '皮肤';
     $lang->colorset = '颜色设定';
     $lang->extra_vars = '扩展变数';
 
-    $lang->document_url = '文章地址';
-    $lang->trackback_url = '引用地址';
+    $lang->document_url = '文章';
+    $lang->trackback_url = '引用';
     $lang->blog_name = '博客名称';
     $lang->excerpt = '载自';
 
@@ -112,20 +112,20 @@
     $lang->member_count = '会员数';
     $lang->date = '日期';
     $lang->regdate = '登录日期';
-    $lang->last_update = '近期修改日期';
-    $lang->signup_date = '加入日期';
-    $lang->last_login = '最近登陆日起';
-    $lang->first_page = '第一页';
-    $lang->last_page = '最后一页';
+    $lang->last_update = '最后修改日期';
+    $lang->signup_date = '注册日期';
+    $lang->last_login = '最后登陆时间';
+    $lang->first_page = '首页';
+    $lang->last_page = '尾页';
     $lang->search_target = '搜索目标';
-    $lang->search_keyword = '关键词';
+    $lang->search_keyword = '关键字';
     $lang->is_default = '基本';
 
     $lang->no_documents = '没有文章';
 
-    $lang->board_manager = '管理板块';
-    $lang->member_manager = '管理会员';
-    $lang->layout_manager = '管理布局';
+    $lang->board_manager = 'Board 管理';
+    $lang->member_manager = '会员管理';
+    $lang->layout_manager = '布局管理';
 
     $lang->use = '使用';
     $lang->notuse = '未使用';
@@ -139,13 +139,13 @@
     $lang->unit_month = '月';
     $lang->unit_year = '年';
 
-    // 说明关联 
-    $lang->about_tag = '输入标签时请使用逗号(,)区分开.例如:踏板车,假期,秋天';
-    $lang->about_layout = '布局可设置模块的外观.请点击布局管理进行管理';
+    // 说明
+    $lang->about_tag = '用逗号隔开多个标签';
+    $lang->about_layout = '布局是布置模块的外观，在上端布局菜里单可以进行管理';
 
-    // 信息关联
-    $lang->msg_call_server = '请求中. 请您稍等.';
-    $lang->msg_db_not_setted = '数据库没有设定';
+    // 信息
+    $lang->msg_call_server = '系统正在链接服务器，请稍后。';
+    $lang->msg_db_not_setted = '还没有设定 DB';
     $lang->msg_invalid_queryid = 'Query ID值指定错误';
     $lang->msg_not_permitted = '没有权限';
     $lang->msg_input_password = '请输入密码';
@@ -153,12 +153,12 @@
     $lang->msg_invalid_request = '出错的请求';
     $lang->msg_invalid_password = '密码错误';
     $lang->msg_error_occured = '发生错误';
-    $lang->msg_not_founded = '没有找到对象';
-    $lang->msg_no_result = '没有搜索结果';
+    $lang->msg_not_founded = '没有找到相关内容';
+    $lang->msg_no_result = '找不到和您查询的相符结果';
 
     $lang->msg_not_permitted_act = '没有权限执行 action命令';
-    $lang->msg_module_is_not_exists = '没有找到模块';
-    $lang->msg_module_is_not_standalone = '模块不能单独执行';
+    $lang->msg_module_is_not_exists = '找不到您查询的模块';
+    $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
 
     $lang->success_registed = '登录成功';
     $lang->success_updated = '修改成功';
@@ -168,23 +168,20 @@
     $lang->success_sended = '发送成功';
     $lang->success_reset = '初期化成功';
     $lang->success_leaved = '注销成功';
+	
     $lang->fail_to_delete = '删除成功';
     $lang->fail_to_move = '移动成功';
-
-
-    $lang->fail_to_delete = '删除完毕';
-    $lang->fail_to_move = '转移完毕';
-
+	
     $lang->failed_voted = '您不能推荐';
     $lang->fail_to_delete_have_children = '已经有回复所以不能删除';
 
-    $lang->confirm_submit = '确认要发表吗?';
-    $lang->confirm_logout = '确认要退出吗?';
-    $lang->confirm_vote = '确认要推荐吗?';
-    $lang->confirm_delete = '确认要删除吗?';
-    $lang->confirm_move = '确认要转移吗?';
-    $lang->confirm_reset = '确认要初始化吗?';
-    $lang->confirm_leave = '确认要注销吗?';
+    $lang->confirm_submit = '确定要执行吗?';
+    $lang->confirm_logout = '确定要退出吗?';
+    $lang->confirm_vote = '确定要推荐吗?';
+    $lang->confirm_delete = '确定要删除吗?';
+    $lang->confirm_move = '确定要移动吗?';
+    $lang->confirm_reset = '确定要初始化吗?';
+    $lang->confirm_leave = '确定要注销吗?';
 
     $lang->column_type = '类型';
     $lang->column_type_list['text'] = '文本类型 (text)';
