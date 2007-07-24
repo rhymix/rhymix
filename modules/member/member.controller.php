@@ -1135,7 +1135,7 @@
                 }
             }
 
-            return $GLOBALS['_transSignatureList'][$member_srl];
+            return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];
         }
 
         /**
