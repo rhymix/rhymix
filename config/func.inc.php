@@ -230,6 +230,16 @@
      **/
     function zdate($str, $format = "Y-m-d H:i:s") {
         if(!$str) return;
+
+        switch(Context::getLangType()) {
+            case "en" :
+            case "es" :
+                    if($format == "Y-m-d") $format = "M d, Y";
+                    elseif($format == "Y-m-d H:i:s") $format = "M d, Y H:i:s";
+                    elseif($format == "Y-m-d H:i") $format = "M d, Y H:i";
+                break;
+
+        }
         return date($format, ztime($str));
     }
 
