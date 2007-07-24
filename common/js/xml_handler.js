@@ -20,6 +20,7 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
     if(show_waiting_message) {
         var waiting_obj = xGetElementById("waitingforserverresponse");
+        xInnerHtml(waiting_obj, wating_message);
         xTop(waiting_obj, xScrollTop()+20);
         xLeft(waiting_obj, xScrollLeft()+20);
         waiting_obj.style.visibility = "visible";
@@ -34,6 +35,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
 
     var waiting_obj = xGetElementById("waitingforserverresponse");
     waiting_obj.style.visibility = "hidden";
+    xInnerHtml(waiting_obj, '');
 
     var ret_obj = oXml.toZMsgObject(xmlDoc, response_tags);
     if(ret_obj["error"]!=0) {

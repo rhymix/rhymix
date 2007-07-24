@@ -23,6 +23,7 @@
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
         var current_mid = "{$mid}";
+        var wating_message = "{$lang->msg_call_server}";
     //]]></script>
 
     {Context::getHtmlHeader()}
@@ -33,7 +34,7 @@
 
 {Context::getHtmlFooter()}
 
-<div id="waitingforserverresponse" style="visibility:hidden">{$lang->msg_call_server}</div>
+<div id="waitingforserverresponse" style="visibility:hidden"></div>
 <div id="fororiginalimagearea" style="visibility:hidden">
   <div id="fororiginalimageareabg">
       <img src="./images/blank.gif" alt="original image" border="0" id="fororiginalimage" />
