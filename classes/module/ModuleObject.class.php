@@ -313,7 +313,9 @@
                         if($this->xml_info->default_index_act) {
                             //$output = call_user_method($this->xml_info->default_index_act, $this);
                             //$output = call_user_func(array($this, $this->xml_info->default_index_act));
-                            $output = $this->{$this->xml_info->default_index_act}();
+                            if(method_exists($this, $this->xml_info->default_index_act)) {
+                                $output = $this->{$this->xml_info->default_index_act}();
+                            }
                         } else {
                             return false;
                         }
