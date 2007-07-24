@@ -28,6 +28,26 @@
             <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
             <condition operation="like_prefix" column="last_update" var="s_last_update" pipe="or" />
             <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+            <condition operation="like" column="extra_vars1" var="s_extra_vars1" pipe="or" />
+            <condition operation="like" column="extra_vars2" var="s_extra_vars2" pipe="or" />
+            <condition operation="like" column="extra_vars3" var="s_extra_vars3" pipe="or" />
+            <condition operation="like" column="extra_vars4" var="s_extra_vars4" pipe="or" />
+            <condition operation="like" column="extra_vars5" var="s_extra_vars5" pipe="or" />
+            <condition operation="like" column="extra_vars6" var="s_extra_vars6" pipe="or" />
+            <condition operation="like" column="extra_vars7" var="s_extra_vars7" pipe="or" />
+            <condition operation="like" column="extra_vars8" var="s_extra_vars8" pipe="or" />
+            <condition operation="like" column="extra_vars9" var="s_extra_vars9" pipe="or" />
+            <condition operation="like" column="extra_vars10" var="s_extra_vars10" pipe="or" />
+            <condition operation="like" column="extra_vars11" var="s_extra_vars11" pipe="or" />
+            <condition operation="like" column="extra_vars12" var="s_extra_vars12" pipe="or" />
+            <condition operation="like" column="extra_vars13" var="s_extra_vars13" pipe="or" />
+            <condition operation="like" column="extra_vars14" var="s_extra_vars14" pipe="or" />
+            <condition operation="like" column="extra_vars15" var="s_extra_vars15" pipe="or" />
+            <condition operation="like" column="extra_vars16" var="s_extra_vars16" pipe="or" />
+            <condition operation="like" column="extra_vars17" var="s_extra_vars17" pipe="or" />
+            <condition operation="like" column="extra_vars18" var="s_extra_vars18" pipe="or" />
+            <condition operation="like" column="extra_vars19" var="s_extra_vars19" pipe="or" />
+            <condition operation="like" column="extra_vars20" var="s_extra_vars20" pipe="or" />
         </group>
     </conditions>
     <navigation>

@@ -9,6 +9,7 @@
 
 var alertMsg = new Array();
 var target_type_list = new Array();
+var notnull_list = new Array();
 
 /**
  * @function filterAlertMessage
@@ -223,6 +224,10 @@ function XmlJsFilterCheckFieldItem() {
         var maxlength = item[3];
         var equalto = item[4];
         var filter = item[5].split(",");
+
+        for(var j=0; j<notnull_list.length; j++) {
+            if(notnull_list[j]==target) required = true;
+        }
 
         var value = this.getValue(target);
         if(!required && !value) continue;

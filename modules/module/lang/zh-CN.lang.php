@@ -62,4 +62,6 @@
     $lang->about_grant = '全部解除特定权限的对象会没有登录的会员也有相关权限';
     $lang->about_open_rss = '可以选择对该模块的RSS的公开。不相关查看内容的权限按RSS的选项指定';
     $lang->about_module = "zeroboard XE是除了基本library以外全部是以模块构成。\n模块管理的模块是帮助显示全部已安装的模块以及管理。\n经常使用的模块通过『添加到左侧快捷菜单』可以方便管理。";
+
+    $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
 ?>

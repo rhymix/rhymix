@@ -31,5 +31,25 @@
         <column name="allow_comment" var="allow_comment" default="Y" />
         <column name="lock_comment" var="lock_comment" default="N" />
         <column name="allow_trackback" var="allow_trackback" default="Y" />
+        <column name="extra_vars1" var="extra_vars1" />
+        <column name="extra_vars2" var="extra_vars2" />
+        <column name="extra_vars3" var="extra_vars3" />
+        <column name="extra_vars4" var="extra_vars4" />
+        <column name="extra_vars5" var="extra_vars5" />
+        <column name="extra_vars6" var="extra_vars6" />
+        <column name="extra_vars7" var="extra_vars7" />
+        <column name="extra_vars8" var="extra_vars8" />
+        <column name="extra_vars9" var="extra_vars9" />
+        <column name="extra_vars10" var="extra_vars10" />
+        <column name="extra_vars11" var="extra_vars11" />
+        <column name="extra_vars12" var="extra_vars12" />
+        <column name="extra_vars13" var="extra_vars13" />
+        <column name="extra_vars14" var="extra_vars14" />
+        <column name="extra_vars15" var="extra_vars15" />
+        <column name="extra_vars16" var="extra_vars16" />
+        <column name="extra_vars17" var="extra_vars17" />
+        <column name="extra_vars18" var="extra_vars18" />
+        <column name="extra_vars19" var="extra_vars19" />
+        <column name="extra_vars20" var="extra_vars20" />
     </columns>
 </query>

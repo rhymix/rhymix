@@ -91,6 +91,20 @@
             {$lang->about_tag}
         </td>
     </tr>
+    <!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th>
+            {$val->name}
+            <!--@if($val->is_required=='Y')-->*<!--@end-->
+        </th>
+        <td>
+            <!-- 확장변수(extra_var)의 type에 따른 form을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+            <!--#include("./extra_var_form.html")-->
+        </td>
+    </tr>
+        <!--@end-->
+    <!--@end-->
     <tr>
         <td colspan="2">
             <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />

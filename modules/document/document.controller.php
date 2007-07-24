@@ -409,5 +409,25 @@
             $args->document_count = $document_count;
             return executeQuery('document.updateCategoryCount', $args);
         }
+
+        /**
+         * @brief document의 20개 확장변수를 xml js filter 적용을 위해 직접 적용
+         * 모듈정보를 받아서 20개의 확장변수를 체크하여 type, required등의 값을 체크하여 header에 javascript 코드 추가
+         **/
+        function addXmlJsFilter($module_info) {
+            $extra_vars = $module_info->extra_vars;
+            if(!$extra_vars) return;
+
+            $js_code = "";
+
+            foreach($extra_vars as $key => $val) {
+                $js_code .= sprintf('alertMsg["extra_vars%d"] = "%s";', $key, $val->name);
+                $js_code .= sprintf('target_type_list["extra_vars%d"] = "%s";', $key, $val->type);
+                if($val->is_required == 'Y') $js_code .= sprintf('notnull_list[notnull_list.length] = "extra_vars%s";',$key);
+            }
+
+            $js_code = "<script type=\"text/javascript\">//<![CDATA[\n".$js_code."\n//]]></script>";
+            Context::addHtmlHeader($js_code);
+        }
     }
 ?>

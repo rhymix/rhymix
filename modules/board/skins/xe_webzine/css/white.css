@@ -119,6 +119,15 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .dateAndModify ul { display:inline;}
 .boardRead .dateAndModify ul li { float:left; margin-left:.3em; list-style:none;}
 
+/* extraVars list */
+.extraVarsList { width:100%; border:1px solid #e0e1db; clear:both; margin-bottom:1em;}
+.extraVarsList tr.notice { background:#f8f8f8;}
+.extraVarsList tr.notice .num { font-size:.9em; font-weight:bold;}
+.extraVarsList tr.bg1 { background:#ffffff}
+.extraVarsList tr.bg2 { background:#fbfbfb;}
+.extraVarsList th { color:#3e3f3e; font-weight:bold; padding:.8em .5em .5em .5em; border-bottom:1px solid #eff0ed; border-right:1px solid #eff0ed;}
+.extraVarsList td { border-bottom:1px solid #eff0ed; padding:.5em .5em .5em 1em;}
+
 /* boardSearch */
 .boardSearch { text-align:center; clear:both; width:100%;}
 .boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
@@ -252,8 +261,11 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .tag label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
 .boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
-.boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:8.5em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
-
+.boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
+.boardWrite .extra_vars { clear:both; border-top:1px solid #eff0ed; padding:.8em 0;}
+.boardWrite .extra_vars label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
+.boardWrite .extra_vars .info { clear:both; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/white/iconArrowD8.gif) no-repeat left center;}
+.boardWrite .extra_vars ul li { float:left; margin-right:1em; }
 .smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
 .smallBox.w268 { width:268px;}
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}

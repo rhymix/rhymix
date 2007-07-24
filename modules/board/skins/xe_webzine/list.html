@@ -98,7 +98,7 @@
 
         <tr class="bg{($no+1)%2+1}">
 
-            <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" border="0" /><!--@else-->{$no}<!--@end--></td>
+            <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" alt="" border="0" /><!--@else-->{$no}<!--@end--></td>
             <!--@if($document->thumbnailExists(100))-->
             <td rowspan="2" class="thumb">
                     <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>

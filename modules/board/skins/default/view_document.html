@@ -39,6 +39,17 @@
         <th>{$lang->voted_count}</th>
         <td>{$oDocument->get('voted_count')}</td>
     </tr>
+    <!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th>{$val->name}</th>
+        <td>
+            <!-- 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+            <!--#include("./extra_var_value.html")-->
+        </th>
+    </tr>
+        <!--@end-->
+    <!--@end-->
     <tr>
         <th>{$lang->content}</th>
         <td height="100" valign="top">{$oDocument->getContent()}</td>

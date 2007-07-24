@@ -164,6 +164,12 @@
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
                         break;
+                    default :
+                            preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
+                            if($matches[1]) {
+                                $args->{"s_extra_vars".$matches[1]} = $search_keyword;
+                            }
+                        break;
                 }
             }
 

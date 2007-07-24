@@ -167,6 +167,19 @@
             }
         }
 
+        function isExtraVarsExists() {
+            for($i=1;$i<=20;$i++) {
+                if($this->get('extra_vars'.$i)) return true;
+            }
+            return false;
+        }
+
+        function getExtraValue($key) {
+            $val = $this->get('extra_vars'.$key);
+            if(strpos($val,'|@|')!==false) $val = explode('|@|', $val);
+            return $val;
+        }
+
         function getCommentCount() {
             if(!$this->isGranted() && $this->isSecret()) return 0;
             return $this->get('comment_count');

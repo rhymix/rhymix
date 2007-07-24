@@ -196,6 +196,20 @@
             unset($extra_var->act);
             unset($extra_var->page);
             unset($extra_var->board_name);
+            unset($extra_var->module_srl);
+
+            // 확장변수(20개로 제한된 고정 변수) 체크
+            $user_defined_extra_vars = array();
+            foreach($extra_var as $key => $val) {
+                if(substr($key,0,11)!='extra_vars_') continue;
+                preg_match('/^extra_vars_([0-9]+)_(.*)$/i', $key, $matches);
+                if(!$matches[1] || !$matches[2]) continue;
+
+                $user_defined_extra_vars[$matches[1]]->{$matches[2]} = $val;
+                unset($extra_var->{$key});
+            }
+            for($i=1;$i<=20;$i++) if(!$user_defined_extra_vars[$i]->name) unset($user_defined_extra_vars[$i]);
+            $extra_var->extra_vars = $user_defined_extra_vars;
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {

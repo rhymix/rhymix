@@ -87,6 +87,16 @@
                 <p class="info">{$lang->about_tag}</p>
             </div>
 
+            <!--@foreach($module_info->extra_vars as $key => $val)-->
+                <!--@if($val->name)-->
+            <div class="extra_vars">
+                <label>{$val->name} <!--@if($val->is_required=='Y')-->*<!--@end--></label>
+                <!-- 확장변수(extra_var)의 type에 따른 form을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+                <!--#include("./extra_var_form.html")-->
+            </div>
+                <!--@end-->
+            <!--@end-->
+
         </fieldset>
 
         <div class="tRight gap1">

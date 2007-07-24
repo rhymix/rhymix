@@ -44,6 +44,22 @@
             // 권한 체크
             if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
+            // 템플릿에서 사용할 검색옵션 세팅
+            $count_search_option = count($this->search_option);
+            for($i=0;$i<$count_search_option;$i++) {
+                $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
+            }
+
+            // 확장변수에서도 검색이 설정되어 있는지 확인
+            for($i=1;$i<=20;$i++) {
+                $ex_name = $this->module_info->extra_vars[$i]->name;
+                $ex_search = $this->module_info->extra_vars[$i]->search;
+                if($ex_name && $ex_search == 'Y') {
+                    $search_option['extra_vars'.$i] = $ex_name;
+                }
+            }
+            Context::set('search_option', $search_option);
+
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
             $page = Context::get('page');
@@ -120,13 +136,6 @@
             Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
-            // 템플릿에서 사용할 검색옵션 세팅
-            $count_search_option = count($this->search_option);
-            for($i=0;$i<$count_search_option;$i++) {
-                $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
-            }
-            Context::set('search_option', $search_option);
-
             // 관리자일 경우 체크한 문서들의 목록을 세팅
             if($this->grant->is_admin) {
                 Context::set('check_list',$_SESSION['document_management'][$this->module_srl]);
@@ -171,6 +180,10 @@
             $option->height = 600;
             $editor = $oEditorModel->getEditor($document_srl, $option);
             Context::set('editor', $editor);
+
+            // 확장변수처리를 위해 xml_js_filter를 직접 header에 적용
+            $oDocumentController = &getController('document');
+            $oDocumentController->addXmlJsFilter($this->module_info);
 
             $this->setTemplateFile('write_form');
         }
