@@ -46,7 +46,7 @@
         '+0700' => '[GMT +07:00] Indochina Time, Krasnoyarsk Standard Time',
         '+0800' => '[GMT +08:00] Chinese Standard Time, Australian Western Standard Time, Irkutsk Standard Time',
         '+0845' => '[GMT +08:45] Southeastern Western Australia Standard Time',
-        '+0900' => '[GMT +09:00] Japan Standard Time, Korea Standard Time, Chita Standard Time',
+        '+0900' => '[GMT +09:00] Korea Standard Time, Japan Standard Time, China Standard Time',
         '+0930' => '[GMT +09:30] Australian Central Standard Time',
         '+1000' => '[GMT +10:00] Australian Eastern Standard Time, Vladivostok Standard Time',
         '+1030' => '[GMT +10:30] Lord Howe Standard Time',
