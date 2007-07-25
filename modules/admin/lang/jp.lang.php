@@ -5,6 +5,10 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
+    $lang->newest_news = "最新ニュース";
+
+    $lang->env_setup = "環境設定";
+
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
     $lang->item_widget = "ウィジェットリスト";
@@ -26,16 +30,16 @@
     $lang->welcome_to_zeroboard_xe = 'ゼロボードXEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。クローズベタバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
 
-    $lang->zeroboard_xe_user_links = 'ユーザリンク';
-    $lang->zeroboard_xe_developer_links = 'デベロッパーリンク';
+    $lang->zeroboard_xe_user_links = 'ユーザのためのリンク';
+    $lang->zeroboard_xe_developer_links = 'デベロッパーのためのリンク';
 
     $lang->xe_user_links = array(
         '公式ホームページ' => 'http://www.zeroboard.com',
         //'クローズベタサイト' => 'http://spring.zeroboard.com',
         //'モジュルダ情報' => 'http://www.zeroboard.com',
-        //'機能拡張情報' => 'http://www.zeroboard.com',
+        //'アドオン情報' => 'http://www.zeroboard.com',
         //'ウィジェット情報' => 'http://www.zeroboard.com',
-        //'モジュルスキン情報' => 'http://www.zeroboard.com',
+        //'モジュール・スキン情報' => 'http://www.zeroboard.com',
         //'ウィジェットスキン情報' => 'http://www.zeroboard.com',
         //'レイアウトスキン情報' => 'http://www.zeroboard.com',
     );
@@ -45,8 +49,8 @@
         //'マニュアル' => 'http://www.zeroboard.com/wiki/manual',
         'イッシュートラッキング' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
-        'doxygen document' => 'http://doc.zeroboard.com',
-        'pdfドキュメント' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'Doxygen Document' => 'http://doc.zeroboard.com',
+        'PDFドキュメント' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
     );
 
     $lang->zeroboard_xe_usefulness_module = '有用なモジュール';

@@ -17,7 +17,7 @@
     <extra_vars>
         <var name="api_key">
             <title xml:lang="ko">네이버지도 api key</title>
-            <title xml:lang="jp">ネイバーマップＡＰＩキー</title>
+            <title xml:lang="jp">ＡＰＩキー</title>
             <title xml:lang="zh-CN">naver地图 api key</title>
             <title xml:lang="en">Naver Map api key</title>
             <description xml:lang="ko">http://www.naver.com/ 에서 네이버 지도 API key를 발급 받으신 후 입력해주세요.</description>

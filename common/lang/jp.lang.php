@@ -46,7 +46,6 @@
     $lang->cmd_open_calendar = 'カレンダを開く';
     $lang->cmd_send = '送信';
     $lang->cmd_print = '印刷';
-    $lang->cmd_scrap = 'Scrap';
 
     $lang->enable = '可能';
     $lang->disable = '不可';
@@ -128,8 +127,8 @@
     $lang->member_manager = '会員管理';
     $lang->layout_manager = 'レイアウト';
 
-    $lang->use = '使用する';
-    $lang->notuse = '使用しない';
+    $lang->use = '使用';
+    $lang->notuse = '未使用';
     $lang->not_exists = 'なし';
 
     $lang->unit_sec = '秒';

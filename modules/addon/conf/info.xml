@@ -15,6 +15,6 @@
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
     <description xml:lang="es">La Modula para applicar o desapplicar addionales</description>
     <description xml:lang="zh-CN">登录Addon或设定使用/未使用的Addon管理模块。</description>
-    <description xml:lang="jp">アドオンの「登録、使用する、使用しない」などを設定するための管理モジュールです。</description>
+    <description xml:lang="jp">アドオンの「登録、使用、未使用」などを設定するための管理モジュールです。</description>
   </author>
 </module>

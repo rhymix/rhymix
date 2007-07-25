@@ -59,7 +59,7 @@
             <type>select</type>
             <description xml:lang="ko">시계내에 일자를 표시하는 기능을 끄거나 켜실 수 있습니다.</description>
             <description xml:lang="zh-CN">可设定时钟内显示日期或关闭日期。</description>
-            <description xml:lang="jp">時計内に年月日を表示させる機能を使用オン・オフすることができます。</description>
+            <description xml:lang="jp">時計内に年月日を表示させる機能がオン・オフできます。</description>
             <description xml:lang="en">You can set on or off the function of the date indication in the clock</description>
             <options>
                 <name xml:lang="ko">나타냄</name>

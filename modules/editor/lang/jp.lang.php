@@ -25,6 +25,6 @@
     $lang->msg_load_saved_doc = "自動保存された書き込みがあります。復旧しますか？\n書き終わってから保存すると自動保存データは削除されます。";
     $lang->msg_auto_saved = "自動保存されました。";
 
-    $lang->cmd_disable = "使用しない";
-    $lang->cmd_enable = "使用する";
+    $lang->cmd_disable = "未使用";
+    $lang->cmd_enable = "使用";
 ?>

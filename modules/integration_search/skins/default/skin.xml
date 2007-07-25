@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">통합 검색 기본 스킨</title>
+  <title xml:lang="jp">統合検索のデフォルトスキン</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 24">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
     <description xml:lang="ko">통합검색 모듈의 기본 스킨</description>
+    <description xml:lang="jp">統合検索モジュールのデフォルトスキンです。</description>
   </maker>
   <colorset>
     <color name="normal" src="screenshot/normal.gif">
       <title xml:lang="ko">기본</title>
+      <title xml:lang="jp">デフォルト</title>
     </color>
   </colorset>
   <extra_vars>
     <var name="memo" type="textarea">
       <title xml:lang="ko">설명</title>
+      <title xml:lang="jp">説明</title>
       <description lang="ko">검색결과 상단에 결과가 출력됩니다.</description>
+      <description lang="jp">検索結果が上段に表示されます。</description>
     </var>
   </extra_vars>
 </skin>
