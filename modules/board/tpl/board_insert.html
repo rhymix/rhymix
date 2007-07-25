@@ -143,6 +143,12 @@
     <tr>
         <th scope="row">{$lang->extra_vars} {$i}</th>
         <td>
+                {@ $extra_vars_name = ''}
+                {@ $extra_vars_type = ''}
+                {@ $extra_vars_is_required = ''}
+                {@ $extra_vars_default_value = ''}
+                {@ $extra_vars_desc = ''}
+                {@ $extra_vars_search = ''}
             <!--@if($module_info->extra_vars[$i])-->
                 {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
                 {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
