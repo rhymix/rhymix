@@ -85,6 +85,7 @@
     $lang->cmd_manage_id = '禁止 I D 管理';
     $lang->cmd_manage_form = '注册样式管理';
     $lang->cmd_view_own_document = '查看内容';
+    $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_send_email = '发送邮件';
     $lang->cmd_send_message = '发送短信';
     $lang->cmd_reply_message = '回复短信';
@@ -93,6 +94,8 @@
     $lang->cmd_view_message_box = '查看短信箱';
     $lang->cmd_store = "保管";
     $lang->cmd_add_friend_group = '添加好友组';
+
+    $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = '请选择对象';
     $lang->msg_checked_file_is_deleted = '已删除%d个文件。';

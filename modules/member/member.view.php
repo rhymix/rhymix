@@ -33,6 +33,7 @@
                 'dispMemberMessages' => Context::getLang('cmd_view_message_box'),
                 'dispMemberFriend' => Context::getLang('cmd_view_friend'),
                 'dispMemberOwnDocument' => Context::getLang('cmd_view_own_document'),
+                'dispMemberScrappedDocument' => Context::getLang('cmd_view_scrapped_document'),
             );
         }
 
@@ -146,6 +147,31 @@
             Context::set('my_menu', $this->my_menu);
 
             $this->setTemplateFile('document_list');
+        }
+
+        /**
+         * @brief 회원 스크랩 게시물 보기
+         **/
+        function dispMemberScrappedDocument() {
+            $oMemberModel = &getModel('member');
+
+            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+            $logged_info = Context::get('logged_info');
+            $args->member_srl = $logged_info->member_srl;
+            $args->page = (int)Context::get('page');
+
+            $output = executeQuery('member.getScrapDocumentList', $args);
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('document_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+
+            Context::set('my_menu', $this->my_menu);
+
+            $this->setTemplateFile('scrapped_list');
         }
 
         /**

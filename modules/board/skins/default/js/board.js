@@ -129,3 +129,10 @@ function doChangeCategory(sel_obj, url) {
         location.href = current_url.setQuery('category',category_srl);
     }
 }
+
+/* 스크랩 */
+function doScrap(document_srl) {
+    var params = new Array();
+    params["document_srl"] = document_srl;
+    exec_xml("member","procMemberScrapDocument", params, null);
+}

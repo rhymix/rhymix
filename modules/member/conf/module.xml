@@ -8,6 +8,7 @@
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
+        <action name="dispMemberScrappedDocument" type="view" standalone="true" />
 
         <action name="dispMemberMessages" type="view" standalone="true" />
         <action name="dispMemberSendMessage" type="view" standalone="true" />
@@ -46,6 +47,8 @@
         <action name="procMemberStoreMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessages" type="controller" standalone="true" />
+
+        <action name="procMemberScrapDocument" type="controller" standalone="true" />
 
         <action name="procMemberAddFriend" type="controller" standalone="true" />
         <action name="procMemberMoveFriend" type="controller" standalone="true" />

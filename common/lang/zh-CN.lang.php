@@ -46,6 +46,7 @@
     $lang->cmd_open_calendar = '选择日期';
     $lang->cmd_send = '发送';
 	$lang->cmd_print = '打印';
+    $lang->cmd_scrap = 'Scrap';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';

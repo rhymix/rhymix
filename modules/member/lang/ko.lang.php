@@ -85,6 +85,7 @@
     $lang->cmd_manage_id = '금지아이디관리';
     $lang->cmd_manage_form = '가입폼관리';
     $lang->cmd_view_own_document = '작성글 보기';
+    $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_send_email = '메일 보내기';
     $lang->cmd_send_message = '쪽지 보내기';
     $lang->cmd_reply_message = '쪽지 답장';
@@ -93,6 +94,8 @@
     $lang->cmd_view_message_box = '쪽지함 보기';
     $lang->cmd_store = "보관";
     $lang->cmd_add_friend_group = '친구 그룹 추가';
+
+    $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = '대상을  선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';

@@ -46,6 +46,7 @@
     $lang->cmd_open_calendar = '날짜 선택';
     $lang->cmd_send = '발송';
     $lang->cmd_print = '인쇄';
+    $lang->cmd_scrap = '스크랩';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';

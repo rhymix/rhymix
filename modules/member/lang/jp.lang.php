@@ -85,6 +85,7 @@
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '加入フォーム管理';
     $lang->cmd_view_own_document = '書き込みのプレビュー';
+    $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_send_email = 'メール送信';
     $lang->cmd_send_message = 'メッセージ送信';
     $lang->cmd_reply_message = 'メッセージへの返信';
@@ -93,6 +94,8 @@
     $lang->cmd_view_message_box = 'メッセージ表示';
     $lang->cmd_store = "保存";
     $lang->cmd_add_friend_group = '友達グループ追加';
+
+    $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = '対象を選択してください。';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';

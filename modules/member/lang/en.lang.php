@@ -85,6 +85,7 @@
     $lang->cmd_manage_id = 'Manage Prohibited ID';
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'View Written Articles';
+    $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
@@ -93,6 +94,8 @@
     $lang->cmd_view_message_box = 'View Message Box';
     $lang->cmd_store = "Keep";
     $lang->cmd_add_friend_group = 'Add Friend Group';
+
+    $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = 'Select Target';
     $lang->msg_checked_file_is_deleted = '%d Attached files are deleted';

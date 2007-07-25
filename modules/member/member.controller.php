@@ -304,6 +304,42 @@
         }
 
         /**
+         * @brief 스크랩 기능
+         **/
+        function procMemberScrapDocument() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $document_srl = (int)Context::get('document_srl');
+            if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+            // 문서 가져오기
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+            // 변수 정리
+            $args->document_srl = $document_srl;
+            $args->member_srl = $logged_info->member_srl;
+            $args->user_id = $oDocument->get('user_id');
+            $args->user_name = $oDocument->get('user_name');
+            $args->nick_name = $oDocument->get('nick_name');
+            $args->target_member_srl = $oDocument->get('member_srl');
+            $args->title = $oDocument->get('title');
+
+            // 있는지 조사
+            $output = executeQuery('member.getScrapDocument', $args);
+            if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
+
+            // 입력
+            $output = executeQuery('member.addScrapDocument', $args);
+            if(!$output->toBool()) return $output;
+
+            $this->setError(-1);
+            $this->setMessage('success_registed');
+        }
+
+        /**
          * @brief 친구 추가
          **/
         function procMemberAddFriend() {

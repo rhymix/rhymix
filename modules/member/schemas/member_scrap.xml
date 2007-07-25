@@ -1,0 +1,11 @@
+<table name="member_scrap">
+    <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_scrap" />
+    <column name="document_srl" type="number" size="11" notnull="notnull" unique="unique_scrap" />
+    <column name="title" type="varchar" size="250" />
+    <column name="user_id" type="varchar" size="80" />
+    <column name="user_name" type="varchar" size="80" notnull="notnull" />
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" />
+    <column name="target_member_srl" type="number" size="11" notnull="notnull" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+</table>

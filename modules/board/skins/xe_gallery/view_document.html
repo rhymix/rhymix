@@ -110,6 +110,7 @@
 
             <li class="listButton">
                 <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a>
+                <!--@if($is_logged)--><a href="#" onclick="doScrap({$oDocument->document_srl}); return false;" class="button"><span>{$lang->cmd_scrap}</span></a><!--@end-->
                 <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
                 <a href="#" onclick="doVote();return false;" class="button"><span>{$lang->cmd_vote}</span></a>
             </li>
