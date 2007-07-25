@@ -3,8 +3,10 @@
     <grants />
     <actions>
         <action name="dispDocumentPrint" type="view" standalone="true" />
+        <action name="dispDocumentPreview" type="view" standalone="true" />
 
         <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
+
         <action name="procDocumentAdminDeleteChecked" type="controller" standalone="true" />
     </actions>
 </module>

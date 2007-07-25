@@ -7,8 +7,6 @@
 
     $lang->cmd_layout_management = 'レイアウト設定';
     $lang->cmd_layout_edit = 'レイアウト編集';
-    $lang->cmd_preview = 'プレビュー';
-    $lang->cmd_reset = '初期化';
 
     $lang->layout_name = 'レイアウト名';
     $lang->layout_maker = "レイアウト作者";

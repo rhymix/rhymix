@@ -7,8 +7,6 @@
 
     $lang->cmd_layout_management = '布局设定';
     $lang->cmd_layout_edit = '布局编辑';
-    $lang->cmd_preview = '预览';
-    $lang->cmd_reset = '初期化';
 
     $lang->layout_name = '布局名称';
     $lang->layout_maker = "布局作者";

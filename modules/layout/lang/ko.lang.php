@@ -7,8 +7,6 @@
 
     $lang->cmd_layout_management = '레이아웃 설정';
     $lang->cmd_layout_edit = '레이아웃 편집';
-    $lang->cmd_preview = '미리 보기';
-    $lang->cmd_reset = '초기화';
 
     $lang->layout_name = '레이아웃 이름';
     $lang->layout_maker = "레이아웃 제작자";

@@ -40,6 +40,17 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_page');
         }
+
+        /**
+         * @brief 미리 보기
+         **/
+        function dispDocumentPreview() {
+            Context::set('layout','none');
+
+            $content = Context::get('content');
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('preview_page');
+        }
         
     }
 ?>

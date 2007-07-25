@@ -47,6 +47,8 @@
     $lang->cmd_send = '발송';
     $lang->cmd_print = '인쇄';
     $lang->cmd_scrap = '스크랩';
+    $lang->cmd_preview = '미리 보기';
+    $lang->cmd_reset = '초기화';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';

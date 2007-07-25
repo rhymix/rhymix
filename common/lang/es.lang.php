@@ -47,6 +47,8 @@
     $lang->cmd_send = 'Enviar';
     $lang->cmd_print = 'Print';
     $lang->cmd_scrap = 'Scrap';
+    $lang->cmd_preview = 'Preview';
+    $lang->cmd_reset = 'Reset';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';

@@ -100,7 +100,8 @@
         </fieldset>
 
         <div class="tRight gap1">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
             <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
         </div>
     </form>

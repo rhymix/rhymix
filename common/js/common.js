@@ -562,3 +562,35 @@ function setLangType(lang_type) {
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
     xSetCookie('lang_type', lang_type, expire);
 }
+
+/* 미리보기 */
+function doDocumentPreview(obj) {
+    var fo_obj = obj;
+    while(fo_obj.nodeName != "FORM") {
+        fo_obj = fo_obj.parentNode;
+    }
+    if(fo_obj.nodeName != "FORM") return;
+
+    var content = fo_obj.content.value;
+
+    var win = window.open("","previewDocument","toolbars=no,width=700px;height:800px;");
+
+    var dummy_obj = xGetElementById("previewDocument");
+
+    if(!dummy_obj) {
+        var fo_code = '<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
+                      '<input type="hidden" name="module" value="document" />'+
+                      '<input type="hidden" name="act" value="dispDocumentPreview" />'+
+                      '<input type="hidden" name="content" />'+
+                      '</form>';
+        var dummy = xCreateElement("DIV");
+        xInnerHtml(dummy, fo_code);
+        window.document.body.insertBefore(dummy,window.document.body.lastChild);
+        dummy_obj = xGetElementById("previewDocument");
+    }
+
+    if(dummy_obj) {
+        dummy_obj.content.value = content;
+        dummy_obj.submit();
+    }
+}

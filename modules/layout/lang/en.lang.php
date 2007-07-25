@@ -7,8 +7,6 @@
 
     $lang->cmd_layout_management = 'Layout setting';
     $lang->cmd_layout_edit = 'Edit layout';
-    $lang->cmd_preview = 'Preview';
-    $lang->cmd_reset = 'Reset';
 
     $lang->layout_name = 'Layout name';
     $lang->layout_maker = "Layout maker";

@@ -47,6 +47,8 @@
     $lang->cmd_send = '发送';
 	$lang->cmd_print = '打印';
     $lang->cmd_scrap = 'Scrap';
+    $lang->cmd_preview = '预览';
+    $lang->cmd_reset = '初期化';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
