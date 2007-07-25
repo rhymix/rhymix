@@ -8,5 +8,7 @@
         <tag name="message" />
         <tag name="is_finished" />
         <tag name="position" />
+        <tag name="file_point" />
+        <tag name="total_count" />
     </response>
 </filter>

@@ -87,6 +87,16 @@ function completeImport(ret_obj) {
     var message = ret_obj['message'];
     var is_finished = ret_obj['is_finished'];
     var position = ret_obj['position'];
+    var file_point = ret_obj['file_point'];
+    var total_count = ret_obj['total_count'];
+
+    if(total_count>0) {
+        var bar = xGetElementById('bar');
+        var status = xGetElementById('bar_status');
+        var per = parseInt(position/total_count*100,10)
+        xInnerHtml(status, position+'/'+total_count+' ('+per+'%)');
+        bar.style.width = per+'%';
+    }
 
     if(is_finished=='Y') {
         alert(ret_obj["message"]);
@@ -94,16 +104,16 @@ function completeImport(ret_obj) {
     } else {
         var fo_obj = xGetElementById('fo_step2');
         fo_obj.position.value = position;
+        fo_obj.file_point.value = file_point;
+        fo_obj.total_count.value = total_count;
         message = message.replace(/&lt;/g,"<").replace(/&gt;/g,">");
 
         var obj = xGetElementById('step2_position');
         var txt = xInnerHtml(obj);
-        if(txt.length > 1024*256) txt = '';
-        xInnerHtml(obj, txt+message);
+        if(txt.length > 1024*10) txt = '';
+        if(message != "success") xInnerHtml(obj, txt+message);
         obj.scrollTop += xHeight(obj);
         procFilter(fo_obj, import_xml);
-
-
     }
 }
 

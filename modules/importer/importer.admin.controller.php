@@ -9,15 +9,18 @@
 
         var $oXml = null;
         var $oMemberController = null;
+        var $oMemberModel = null;
         var $oDocumentController = null;
         var $oFileController = null;
         var $oCommentController = null;
         var $oTrackbackController = null;
 
         var $total_count = '';
+        var $start_position = 0;
         var $position = 0;
-        var $imported_count = 0;
         var $limit_count = 50;
+        var $file_point = 0;
+        var $default_group_srl = 0;
 
         var $module_srl = 0;
         var $category_srl = 0;
@@ -102,33 +105,41 @@
             $this->module_srl = Context::get('module_srl');
             $this->category_srl = Context::get('category_srl');
             $xml_file = Context::get('xml_file');
-            $this->position = (int)Context::get('position');
+            $this->start_position = $this->position = (int)Context::get('position');
+            $this->total_count = (int)Context::get('total_count');
+            $this->file_point = (int)Context::get('file_point');
 
             // 파일을 찾을 수 없으면 에러 표시
             if(!file_exists($xml_file)) return new Object(-1,'msg_no_xml_file');
 
             $this->oXml = new XmlParser();
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // module_srl이 있으면 module데이터로 판단하여 처리, 아니면 회원정보로..
             if($this->module_srl) {
-                $this->limit_count = 20;
+                $this->limit_count = 100;
                 $is_finished = $this->importDocument($xml_file);
             } else {
-                $this->limit_count = 50;
+                $this->limit_count = 500;
                 $is_finished = $this->importMember($xml_file);
             }
 
+            $oDB->commit();
+
             if($is_finished) {
                 $this->add('is_finished', 'Y');
-                $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->imported_count) );
+                $this->add('position', $this->total_count);
+                $this->add('total_count', $this->total_count);
+                $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $this->position) );
             } else {
-                $this->add('position', $this->imported_count);
+                $this->add('position', $this->position);
+                $this->add('total_count', $this->total_count);
+                $this->add('file_point', $this->file_point);
                 $this->add('is_finished', 'N');
 
-                $message =  sprintf(Context::getLang('msg_importing'), $this->total_count, $this->imported_count);
-                if($this->msg) $message .= "<br />".$this->msg;
-                $message .= "<br />";
-                $this->setMessage( $message );
+                $this->setMessage( $this->msg );
             }
         }
 
@@ -137,13 +148,18 @@
          **/
         function importMember($xml_file) {
             $filesize = filesize($xml_file);
-            if($filesize<1) return;
+            if($filesize<1) return true;
 
             $this->oMemberController = &getController('member');
+            $this->oMemberModel = &getModel('member');
+
+            $default_group = $this->oMemberModel->getDefaultGroup();
+            $this->default_group_srl = $default_group->group_srl;
 
             $is_finished = true;
 
             $fp = @fopen($xml_file, "r");
+            if($this->file_point) fseek($fp, $this->file_point, SEEK_SET);
             if($fp) {
                 $buff = '';
                 while(!feof($fp)) {
@@ -153,8 +169,9 @@
                     $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
                     $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), trim($buff));
 
-                    if($this->position+$this->limit_count <= $this->imported_count) {
+                    if($this->start_position+$this->limit_count <= $this->position) {
                         $is_finished = false;
+                        $this->file_point = ftell($fp);
                         break;
                     }
                 }
@@ -165,46 +182,71 @@
         }
 
         function _importMember($matches) {
-            if($this->position > $this->imported_count) {
-                $this->imported_count++;
-                return;
-            }
-
             $user_id = $matches[1];
             $xml_doc = $this->oXml->parse($matches[0]);
 
-            $args->user_id = $xml_doc->member->user_id->body;
+            $args->user_id = strtolower($xml_doc->member->user_id->body);
             $args->user_name = $xml_doc->member->user_name->body;
             $args->nick_name = $xml_doc->member->nick_name->body;
             $args->homepage = $xml_doc->member->homepage->body;
+            $args->blog = $xml_doc->member->blog->body;
+            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
             $args->birthday = $xml_doc->member->birthday->body;
             $args->email_address = $xml_doc->member->email_address->body;
+            list($args->email_id, $args->email_host) = explode('@', $args->email_address);
             $args->password = $xml_doc->member->password->body;
             $args->regdate = $xml_doc->member->regdate->body;
             $args->allow_mailing = $xml_doc->member->allow_mailing->body;
+            if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             $args->allow_message = 'Y';
-            $output = $this->oMemberController->insertMember($args, true);
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message= 'Y';
+
+            $args->member_srl = getNextSequence();
+            $output = executeQuery('member.insertMember', $args);
+
+            if(!$output->toBool()) {
+                // 닉네임이 같으면 닉네임을 변경후 재 입력
+                $member_srl = $this->oMemberModel->getMemberSrlByNickName($args->nick_name);
+                if($member_srl) {
+                    $args->nick_name .= rand(111,999);
+                    $output = executeQuery('member.insertMember', $args);
+                }
+            }
+
             if($output->toBool()) {
-                $member_srl = $output->get('member_srl');
+
+                // 기본 그룹 가입 시킴 
+                $member_srl = $args->member_srl;
+                $args->group_srl = $this->default_group_srl;
+                executeQuery('member.addMemberToGroup',$args);
+
+                // 이미지네임
                 if($xml_doc->member->image_nickname->body) {
                     $image_nickname = base64_decode($xml_doc->member->image_nickname->body);
                     FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_nickname);
                     $this->oMemberController->insertImageName($member_srl, './files/cache/tmp_imagefile.gif');
                     @unlink('./files/cache/tmp_imagefile.gif');
                 }
+
+                // 이미지 마크
                 if($xml_doc->member->image_mark->body) {
                     $image_mark = base64_decode($xml_doc->member->image_mark->body);
                     FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_mark);
                     $this->oMemberController->insertImageMark($member_srl, './files/cache/tmp_imagefile.gif');
                     @unlink('./files/cache/tmp_imagefile.gif');
                 }
+
+                // 서명
                 if($xml_doc->member->signature->body) {
                     $this->oMemberController->putSignature($member_srl, base64_decode($xml_doc->member->signature->body));
                 }
             } else {
                 $this->msg .= $args->user_id." : ".$output->getMessage()."<br />";
             }
-            $this->imported_count ++;
+
+            $this->position++;
+
             return '';
         }
 
@@ -223,6 +265,7 @@
             $is_finished = true;
 
             $fp = @fopen($xml_file, "r");
+            if($this->file_point) fseek($fp, $this->file_point, SEEK_SET);
             if($fp) {
                 $buff = '';
                 while(!feof($fp)) {
@@ -232,8 +275,9 @@
                     if(!$this->category_srl) $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), trim($buff));
                     $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
 
-                    if($this->position+$this->limit_count <= $this->imported_count) {
+                    if($this->start_position+$this->limit_count <= $this->position) {
                         $is_finished = false;
+                        $this->file_point = ftell($fp);
                         break;
                     }
                 }
@@ -244,11 +288,6 @@
         }
 
         function _importDocument($matches) {
-            if($this->position > $this->imported_count) {
-                $this->imported_count++;
-                return;
-            }
-
             $sequence = $matches[1];
             $xml_doc = $this->oXml->parse($matches[0]);
 
@@ -369,7 +408,7 @@
                 $this->msg .= $sequence." : ".$output->getMessage()."<br />";
             }
 
-            $this->imported_count ++;
+            $this->position++;
             return '';
         }
 

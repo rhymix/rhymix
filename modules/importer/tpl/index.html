@@ -78,6 +78,8 @@
     <input type="hidden" name="module_srl" value="" />
     <input type="hidden" name="category_srl" value="" />
     <input type="hidden" name="position" value="0" />
+    <input type="hidden" name="file_point" value="0" />
+    <input type="hidden" name="total_count" value="0" />
 
         <div class="title">{$lang->import_step_title[2]}</div>
         <div class="desc">{$lang->import_step_desc[2]}</div>
@@ -95,7 +97,15 @@
         </div>
 
         <div id="step2_status" style="display:none;" class="gap1">
-            <div id="step2_position" style="height:150px;overflow-y:scroll;border:2px solid #DDDDDD;padding:10px;" class="desc"></div>
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom:10px;">
+            <col />
+            <col width="120" />
+            <tr>
+                <td><div id="bar" style="width:1px;height:10px;background-color:#EFEFEF;border:1px solid #888888"></div></td>
+                <td class="tRight"><span id="bar_status"></span>
+            </tr>
+            </table>
+            <div id="step2_position" style="height:100px;overflow-y:scroll;border:2px solid #DDDDDD;padding:10px;" class="desc"></div>
             <div class="tRight gap1">
                <span class="button"><input type="button" value="{$lang->cmd_continue}"  onclick="doManualProcess(); return false"  /></span>
             </div>
