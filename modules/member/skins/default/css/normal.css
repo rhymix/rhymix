@@ -37,7 +37,7 @@
 .list td.registDate { font:.8em Tahoma; color:#999999; text-align:center;}
 .list td.num { font:.8em Tahoma; color:#999999; text-align:center;}
 .list td.check { text-align:center;}
-.list td.user { color:#333333; font-size:.9em;}
+.list td.user { color:#333333; font-size:.9em; text-align:left;}
 .list td.user a { color:#333333;}
 .list td.userId { font:.9em Tahoma;}
 .list td.userNick { font-size:.9em; color:#999999;}

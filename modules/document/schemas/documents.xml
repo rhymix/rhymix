@@ -31,6 +31,7 @@
     <column name="allow_comment" type="char" size="1" default="Y" notnull="notnull" />
     <column name="lock_comment" type="char" size="1" default="N" notnull="notnull" />
     <column name="allow_trackback" type="char" size="1" default="Y" notnull="notnull" />
+    <column name="notify_message" type="char" size="1" default="N" notnull="notnull" />
     <column name="extra_vars1" type="text" />
     <column name="extra_vars2" type="text" />
     <column name="extra_vars3" type="text" />

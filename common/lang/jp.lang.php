@@ -93,6 +93,7 @@
     $lang->path = 'パス';
     $lang->cart = '選択項目';
     $lang->friend = '友達';
+    $lang->notify = 'Notify';
 
     $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';

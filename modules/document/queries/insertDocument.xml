@@ -31,6 +31,7 @@
         <column name="allow_comment" var="allow_comment" default="Y" />
         <column name="lock_comment" var="lock_comment" default="N" />
         <column name="allow_trackback" var="allow_trackback" default="Y" />
+        <column name="notify_message" var="notify_message" default="N" />
         <column name="extra_vars1" var="extra_vars1" />
         <column name="extra_vars2" var="extra_vars2" />
         <column name="extra_vars3" var="extra_vars3" />

@@ -35,10 +35,10 @@
 
             // 원본글을 가져옴
             if(!$manual_inserted) {
-                $document = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);
 
-                if($document_srl != $document->document_srl) return new Object(-1,'msg_invalid_document');
-                if($document->lock_comment=='Y') return new Object(-1,'msg_invalid_request');
+                if($document_srl != $oDocument->document_srl) return new Object(-1,'msg_invalid_document');
+                if($oDocument->isLocked()) return new Object(-1,'msg_invalid_request');
 
                 if($obj->password) $obj->password = md5($obj->password);
                 if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
@@ -94,6 +94,9 @@
 
             // commit
             $oDB->commit();
+
+            // 원본글에 알림(notify_message)가 설정되어 있으면 메세지 보냄
+            if(!$manual_inserted) $oDocument->notify(Context::getLang('comment'), $obj->content);
 
             $output->add('comment_srl', $obj->comment_srl);
             return $output;

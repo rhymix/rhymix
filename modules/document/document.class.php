@@ -38,6 +38,11 @@
              **/
             if(!$oDB->isColumnExists("documents","extra_vars20")) return true;
 
+            /**
+             * 2007. 7. 25 : 알림 필드(notify_message) 추가
+             **/
+            if(!$oDB->isColumnExists("documents","notify_message")) return true;
+
             return false;
         }
 
@@ -45,15 +50,23 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oDB = &DB::getInstance();
+
             /**
              * 2007. 7. 23 : 확장변수(extra_vars1~20까지 추가)
              **/
-            $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists("documents","extra_vars20")) {
                 for($i=1;$i<=20;$i++) {
                     $column_name = "extra_vars".$i;
                     $oDB->addColumn('documents',$column_name,'text');
                 }
+            }
+
+            /**
+             * 2007. 7. 25 : 알림 필드(notify_message) 추가
+             **/
+            if(!$oDB->isColumnExists("documents","notify_message")) {
+                $oDB->addColumn('documents',"notify_message","char",1);
             }
 
             return new Object(0,'success_updated');

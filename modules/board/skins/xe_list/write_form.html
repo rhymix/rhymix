@@ -63,6 +63,12 @@
                     <input type="checkbox" name="allow_trackback" value="Y" <!--@if($oDocument->allowTrackback())-->checked="checked"<!--@end--> id="allow_trackback" />
                     <label for="allow_trackback">{$lang->allow_trackback}</label>
                 </dd>
+                <!--@if($is_logged)-->
+                <dd>
+                    <input type="checkbox" name="notify_message" value="Y" <!--@if($oDocument->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
+                    <label for="notify_message">{$lang->notify}</label>
+                </dd>
+                <!--@end-->
             </dl>
 
             <div>{$editor}</div>

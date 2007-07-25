@@ -12,10 +12,12 @@
         <table cellspacing="0" class="leftHeaderType">
         <col width="100" />
         <col />
+        <!--@if($message->member_srl != $logged_info->member_srl)-->
         <tr>
             <th scope="row">{$lang->sender}</th>
             <td><div class="member_{$message->member_srl}">{$message->nick_name} ({$message->user_id})</div></td>
         </tr>
+        <!--@end-->
         <tr>
             <th scope="row">{$lang->title}</th>
             <td>{htmlspecialchars($message->title)}</td>
@@ -27,7 +29,9 @@
     </div>
 
     <div class="tCenter help">
-        <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply_message}</span></a>
+        <!--@if($message->member_srl != $logged_info->member_srl)-->
+            <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply_message}</span></a>
+        <!--@end-->
         <a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_store}</span></a>
         <a href="#" onclick="location.href=location.href;return false;" class="button"><span>{$lang->cmd_next}</span></a>

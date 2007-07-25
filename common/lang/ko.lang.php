@@ -93,6 +93,7 @@
     $lang->path = '경로';
     $lang->cart = '선택항목';
     $lang->friend = '친구';
+    $lang->notify = '알림';
 
     $lang->mid = '모듈이름';
     $lang->layout = '레이아웃';

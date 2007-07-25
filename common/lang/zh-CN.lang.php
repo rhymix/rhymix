@@ -93,6 +93,7 @@
     $lang->path = '路径';
     $lang->cart = '选择项目';
     $lang->friend = '好友';
+    $lang->notify = 'Notify';
 
     $lang->mid = '模块名称';
     $lang->layout = '布局';

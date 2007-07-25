@@ -95,6 +95,32 @@
         function isNotice() {
             return $this->get('is_notice') == 'Y' ? true : false;
         }
+
+        function useNotify() {
+            return $this->get('notify_message')=='Y' ? true : false;
+        }
+
+        function notify($type, $content) {
+            // useNotify가 아니면 return
+            if(!$this->useNotify()) return;
+
+            // 글쓴이가 로그인 유저가 아니면 패스~
+            if(!$this->get('member_srl')) return;
+
+            // 현재 로그인한 사용자와 글을 쓴 사용자를 비교하여 동일하면 return
+            $logged_info = Context::get('logged_info');
+            if($logged_info->member_srl == $this->get('member_srl')) return;
+
+            // 변수 정리
+            $title = sprintf("[%s] %s", $type, cut_str(strip_tags($content), 10, '...') );
+            $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>',$content, $this->getPermanentUrl(), $this->getPermanentUrl());
+            $receiver_srl = $this->get('member_srl');
+            $sender_member_srl = $logged_info->member_srl;
+
+            // 쪽지 발송
+            $oMemberController = &getController('member');
+            $oMemberController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+        }
         
         function getUserID() {
             return htmlspecialchars($this->get('user_id'));

@@ -47,7 +47,7 @@
 </tr>
 <tr>
     <th scope="row">{$lang->admin_id}</th>
-    <td>{implode(",",$module_info->admin_id)}</td>
+    <td><!--@if(is_array($module_info->admin_id))-->{implode(",",$module_info->admin_id)}<!--@end--></td>
 </tr>
 </table>
 

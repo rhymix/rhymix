@@ -93,6 +93,7 @@
     $lang->path = 'Path';
     $lang->cart = 'Selected Item';
     $lang->friend = 'Friends';
+    $lang->notify = 'Notify';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';

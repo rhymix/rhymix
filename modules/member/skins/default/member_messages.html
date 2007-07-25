@@ -11,14 +11,21 @@
         <div class="messageHeader">
             <h4>{$message->title}</h4>
             <address>
-                <em>{$message->nick_name} ({$message->user_id}) <span class="date">{zdate($message->regdate, "Y.m.d H:i:s")}</span></em>
+                <em>
+                    <!--@if($message->member_srl == $logged_info->member_srl)-->
+                        &nbsp;
+                    <!--@else-->
+                        {$message->nick_name} ({$message->user_id}) 
+                    <!--@end-->
+                    <span class="date">{zdate($message->regdate, "Y.m.d H:i:s")}</span>
+                </em>
             </address>
         </div>
 
         <div class="messageBody">{$message->content}</div>
 
         <div class="deleteOrKeep tCenter">
-            <!--@if($message->message_type != "S")-->
+            <!--@if($message->message_type != "S" && $message->member_srl != $logged_info->member_srl)-->
             <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply}</span></a>
             <!--@end-->
             <!--@if($message->message_type == "R")-->
@@ -70,7 +77,13 @@
             <!--@foreach($message_list as $no => $val)-->
             <tr class="bg{($no+1)%2+1}">
                 <td class="check"><input name="message_srl_list" type="checkbox" value="{$val->message_srl}" /></td>
-                <td class="user"><div class="member_{$val->member_srl}">{$val->nick_name} ({$val->user_id})</div></td>
+                <td class="user">
+                    <!--@if($val->member_srl == $logged_info->member_srl)-->
+                        &nbsp;
+                    <!--@else-->
+                        <div class="member_{$val->member_srl}">{$val->nick_name} ({$val->user_id})</div></td>
+                    <!--@end-->
+                </td>
                 <td class="title">
                     <!--@if($val->readed=='Y')-->
                         <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>

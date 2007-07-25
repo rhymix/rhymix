@@ -70,6 +70,10 @@
                 if(!$output->toBool()) return $output;
             }
 
+            // 원본글에 알림(notify_message)가 설정되어 있으면 메세지 보냄
+            if(!$manual_inserted) $oDocument->notify(Context::getLang('trackback'), $obj->excerpt);
+
+
             return new Object();
         }
 
