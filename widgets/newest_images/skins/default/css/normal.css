@@ -1,0 +1,7 @@
+.ni_box { border:1px solid #EEEEEE; padding:5px; }
+.ni_box .ni_item { float:left; margin:3px; list-style:none; text-align:center;}
+.ni_box .ni_item a { color:#444444; text-decoration:none; }
+.ni_box .ni_item a:visited { color:#AAAAAA; text-decoration:none; }
+.ni_box .ni_item a:hover { font-weight:bold; letter-spacing:-1px; }
+.ni_box .ni_item img { padding:5px; }
+.ni_box .ni_item img:hover { border:1px solid #888888; padding:4px;}

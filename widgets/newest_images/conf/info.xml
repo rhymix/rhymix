@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">최근 이미지 출력</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 25">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">작성된 글의 내용에 포함된 이미지를 출력하는 위젯입니다.</description>
+    </author>
+    <extra_vars>
+        <var id="title_length">
+            <name xml:lang="ko">글 제목 길이</name>
+            <type>text</type>
+            <description xml:lang="ko">정한 글자수만큼 글 제목을 잘라서 출력합니다. (기본 10자)</description>
+        </var>
+        <var id="thumbnail_width">
+            <name xml:lang="ko">이미지 가로크기</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
+        </var>
+        <var id="list_count">
+            <name xml:lang="ko">이미지 수</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
+        </var>
+        <var id="mid_list">
+            <name xml:lang="ko">대상 모듈</name>
+            <type>mid_list</type>
+            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+        </var>
+    </extra_vars>
+</widget>
