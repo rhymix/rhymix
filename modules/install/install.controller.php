@@ -13,7 +13,9 @@
          **/
         function init() {
             // 설치가 되어 있으면 오류
-            if(Context::isInstalled()) return $this->dispMessage('msg_already_installed');
+            if(Context::isInstalled()) {
+                return new Object(-1, 'msg_already_installed');
+            }
         }
 
         /**
