@@ -544,8 +544,8 @@
                 $info->admin_index_act = $info->admin_index_act;
 
                 // 설치 유무 체크 (설치는 DB의 설치만 관리)
-                if($table_count > $created_table_count) $info->need_installed = false;
-                else $info->need_installed = true;
+                if($table_count > $created_table_count) $info->need_install = treu;
+                else $info->need_install = false;
 
                 // 각 모듈의 module.class.php로 upgrade 유무 체크
                 $oDummy = null;
