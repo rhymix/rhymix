@@ -56,3 +56,4 @@ body { margin:0; }
 #layout_zx .layout_menu a { color:#666666; text-decoration:none; }
 
 .lang_type_option {float:left; margin:8px 0 0 10px;}
+.is_form { text-align:center; margin-bottom:.5em; }

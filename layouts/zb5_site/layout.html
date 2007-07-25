@@ -75,7 +75,8 @@
                 <!-- 로그인 위젯 -->
                 <img src="./images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="default" colorset="default" />
 
-                <div class="tCenter">
+                <!-- 통합검색 -->
+                <div class="is_form">
                     <form action="{getUrl()}" method="get"><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" class="inputTypeText w100" name="is_keyword" value="{$is_keyword}"/><span class="button"><input type="submit" value="{$lang->cmd_search}" /></span></form>
                 </div>
 
