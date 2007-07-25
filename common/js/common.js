@@ -185,7 +185,8 @@ function resizeImageContents() {
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width > obj_width && orig_img.width == obj_width) continue;
+        if(parent_width<0 || obj_width < 0) continue;
+        if(parent_width > obj_width && orig_img.width <= obj_width) continue;
 
         obj.style.cursor = "pointer";
 
