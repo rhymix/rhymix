@@ -573,7 +573,7 @@ function doDocumentPreview(obj) {
 
     var content = fo_obj.content.value;
 
-    var win = window.open("","previewDocument","toolbars=no,width=700px;height:800px;");
+    var win = window.open("","previewDocument","toolbars=no,width=700px;height:800px,scrollbars=yes");
 
     var dummy_obj = xGetElementById("previewDocument");
 
