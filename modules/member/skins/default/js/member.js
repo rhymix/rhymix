@@ -182,7 +182,10 @@ function completeAddFriendGroup(ret_obj) {
 }
 
 /* 친구 그룹 삭제 */
-function doDeleteFriendGroup(friend_group_srl) {
+function doDeleteFriendGroup() {
+    var obj = xGetElementById('friend_group_list');
+    if(obj.options.length<1) return;
+    var friend_group_srl = obj.options[obj.selectedIndex].value;
     var fo_obj = xGetElementById('for_delete_group');
     fo_obj.friend_group_srl.value = friend_group_srl;
     procFilter(fo_obj, delete_friend_group);
@@ -194,7 +197,10 @@ function completeDeleteFriendGroup(ret_obj) {
 }
 
 /* 친구 그룹의 이름 변경 */
-function doRenameFriendGroup(friend_group_srl) {
+function doRenameFriendGroup() {
+    var obj = xGetElementById('friend_group_list');
+    if(obj.options.length<1) return;
+    var friend_group_srl = obj.options[obj.selectedIndex].value;
     popopen("./?module=member&act=dispMemberAddFriendGroup&friend_group_srl="+friend_group_srl);
 }
 

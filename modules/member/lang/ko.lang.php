@@ -94,6 +94,7 @@
     $lang->cmd_view_message_box = '쪽지함 보기';
     $lang->cmd_store = "보관";
     $lang->cmd_add_friend_group = '친구 그룹 추가';
+    $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 
     $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
