@@ -476,6 +476,35 @@
         }
 
         /**
+         * @brief 모듈의 xml 정보만 구함
+         **/
+        function getModulesXmlInfo() {
+            // 다운받은 모듈과 설치된 모듈의 목록을 구함
+            $searched_list = FileHandler::readDir('./modules');
+            $searched_count = count($searched_list);
+            if(!$searched_count) return;
+
+            for($i=0;$i<$searched_count;$i++) {
+                // 모듈의 이름
+                $module_name = $searched_list[$i];
+
+                $path = ModuleHandler::getModulePath($module_name);
+
+                // 해당 모듈의 정보를 구함
+                $info = $this->getModuleInfoXml($module_name);
+                unset($obj);
+
+                $info->module = $module_name;
+                $info->created_table_count = $created_table_count;
+                $info->table_count = $table_count;
+                $info->path = $path;
+                $info->admin_index_act = $info->admin_index_act;
+                $list[] = $info;
+            }
+            return $list;
+        }
+
+        /**
          * @brief 모듈의 종류와 정보를 구함
          **/
         function getModuleList() {
