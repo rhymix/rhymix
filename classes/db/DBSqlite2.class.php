@@ -204,8 +204,7 @@
             if($default) $query .= sprintf(" default '%s' ", $default);
             if($notnull) $query .= " not null ";
 
-            $this->_prepare($query);
-            return $this->_execute();
+            return $this->_query($query);
         }
 
 
@@ -214,9 +213,8 @@
          **/
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("pragma table_info(%s%s)", $this->prefix, $table_name);
-            $this->_prepare($query);
-            $output = $this->_execute();
-
+            $result = $this->_query($query);
+            $output = $this->_fetch($result);
             if($output) {
                 $column_name = strtolower($column_name);
                 foreach($output as $key => $val) {
