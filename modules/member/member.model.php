@@ -515,7 +515,7 @@
             // 기타 변수들 정리
             $args->sort_index = 'message.list_order';
             $args->page = Context::get('page');
-            $args->list_count = 10;
+            $args->list_count = 20;
             $args->page_count = 10;
             return executeQuery($query_id, $args);
         }

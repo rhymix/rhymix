@@ -13,7 +13,7 @@
     </conditions>
     <navigation>
         <index var="sort_index" default="message.list_order" order="asc" />
-        <list_count var="list_count" default="10" />
+        <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />
     </navigation>
