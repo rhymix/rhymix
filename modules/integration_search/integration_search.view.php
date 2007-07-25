@@ -64,14 +64,17 @@
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
 
-            // 대상 문서들을 가져옴
-            $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($args);
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('document_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
+            // 검색어가 없으면 오류 표시
+            if($args->search_keyword) {
+                // 대상 문서들을 가져옴
+                $oDocumentModel = &getModel('document');
+                $output = $oDocumentModel->getDocumentList($args);
+                Context::set('total_count', $output->total_count);
+                Context::set('total_page', $output->total_page);
+                Context::set('page', $output->page);
+                Context::set('document_list', $output->data);
+                Context::set('page_navigation', $output->page_navigation);
+            } 
 
             // 템플릿 파일 지정
             $this->setTemplateFile('index');

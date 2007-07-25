@@ -20,7 +20,11 @@
 <!--@if(!$document_list)-->
 <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
 <div class="no_result">
-    {$lang->no_documents}
+    <!--@if(!$is_keyword)-->
+        {$lang->msg_no_keyword}
+    <!--@else-->
+        {$lang->no_search_result}
+    <!--@end-->
 </div>
 <!--@else-->
     <!--@foreach($document_list as $no => $document)-->
