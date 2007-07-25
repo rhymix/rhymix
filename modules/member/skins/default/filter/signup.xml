@@ -1,6 +1,6 @@
 <filter name="signup" module="member" act="procMemberInsert" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
     <form>
-        <node target="user_id" required="true" minlength="3" maxlength="20" filter="userid" />
+        <node target="user_id" required="true" minlength="2" maxlength="20" filter="userid" />
         <node target="password1" required="true" minlength="6" maxlength="20" />
         <node target="password2" required="true" minlength="6" maxlength="20" equalto="password1" />
         <node target="user_name" required="true" minlength="2" maxlength="20" />

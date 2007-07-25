@@ -25,7 +25,7 @@
 <tbody>
     <!--@foreach($form_list as $no => $val)-->
     <tr>
-        <td class="tahoma">{htmlspecialchars($val->column_title)}</td>
+        <td>{htmlspecialchars($val->column_title)}</td>
         <td>{$val->column_name}</td>
         <td>{$lang->column_type_list[$val->column_type]}</td>
         <td class="tahoma">{$val->is_active}</td>

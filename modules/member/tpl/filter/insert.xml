@@ -1,6 +1,6 @@
 <filter name="insert" module="member" act="procMemberAdminInsert" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit" >
     <form>
-        <node target="user_id" required="true" minlength="3" maxlength="20" />
+        <node target="user_id" required="true" minlength="2" maxlength="20" />
         <node target="user_name" required="true" minlength="2" maxlength="20" />
         <node target="nick_name" required="true" minlength="2" maxlength="20" />
         <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>

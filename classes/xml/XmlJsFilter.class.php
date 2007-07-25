@@ -92,6 +92,9 @@
             // extend_filter가 있을 경우 해당 method를 호출하여 결과를 받음
             if($extend_filter) {
 
+                // extend_filter가 있을 경우 캐시 사용을 못하도록 js 캐시 파일명을 변경
+                $this->js_file .= '.nocache.js';
+
                 // extend_filter는 module.method 로 지칭되어 이를 분리
                 list($module_name, $method) = explode('.',$extend_filter);
 
