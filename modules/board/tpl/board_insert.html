@@ -151,6 +151,7 @@
                 {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
                 {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
                 {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
+            <!--@end-->
 
             <ul class="extra_vars">
                 <li class="type_key">{$lang->column_name}</li>
@@ -180,9 +181,6 @@
                 <li class="type_key">{$lang->cmd_search}</li>
                 <li class="type_value"><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> />
             </ul>
-            <!--@else-->
-                {$lang->not_exists}
-            <!--@end-->
         </td>
     </tr>
     <!--@end-->
