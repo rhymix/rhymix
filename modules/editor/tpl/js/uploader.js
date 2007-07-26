@@ -93,7 +93,7 @@ function editor_display_uploaded_file(upload_target_srl) {
             _prev_upload_target_srl = 0;
         } else return;
     }
-    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl;
+    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&mid="+current_url.getQuery('mid');
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -230,7 +230,7 @@ function editor_remove_file(upload_target_srl) {
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
-    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl;
+    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl+"&mid="+current_url.getQuery('mid');
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
