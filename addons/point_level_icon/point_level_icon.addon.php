@@ -13,5 +13,5 @@
     if($called_position != "before_display_content") return;
 
     $oPointController = &getController('point');
-    $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9\-]*)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oPointController, 'transLevelIcon'), $output);
+    $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9\-]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oPointController, 'transLevelIcon'), $output);
 ?>
