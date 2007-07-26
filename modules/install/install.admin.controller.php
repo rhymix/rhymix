@@ -52,6 +52,7 @@
             $db_info = Context::getDBInfo();
             $db_info->time_zone = $time_zone;
             $db_info->use_rewrite = $use_rewrite;
+            $db_info->lang_type = Context::getLangType();
             Context::setDBInfo($db_info);
 
             $oInstallController = &getController('install');

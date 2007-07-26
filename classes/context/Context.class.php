@@ -71,6 +71,7 @@
 
             // 쿠키로 설정된 언어타입 가져오기 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+            else $this->lang_type = $this->db_info->lang_type;
 
             // 등록된 기본 언어파일 찾기
             $lang_files = FileHandler::readDir('./common/lang');
