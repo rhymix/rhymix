@@ -354,6 +354,23 @@
         }
 
         /**
+         * @brief 스크랩 삭제
+         **/
+        function procMemberDeleteScrap() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $document_srl = (int)Context::get('document_srl');
+            if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+            // 변수 정리
+            $args->member_srl = $logged_info->member_srl;
+            $args->document_srl = $document_srl;
+            return executeQuery('member.deleteScrapDocument', $args);
+        }
+
+        /**
          * @brief 친구 추가
          **/
         function procMemberAddFriend() {

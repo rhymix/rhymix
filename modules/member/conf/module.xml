@@ -49,6 +49,7 @@
         <action name="procMemberDeleteMessages" type="controller" standalone="true" />
 
         <action name="procMemberScrapDocument" type="controller" standalone="true" />
+        <action name="procMemberDeleteScrap" type="controller" standalone="true" />
 
         <action name="procMemberAddFriend" type="controller" standalone="true" />
         <action name="procMemberMoveFriend" type="controller" standalone="true" />

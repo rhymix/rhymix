@@ -217,3 +217,10 @@ function doJumpFriendGroup() {
     var sel_val = sel_obj.options[sel_idx].value;
     location.href = current_url.setQuery('friend_group_srl', sel_val);
 }
+
+/* 스크랩 삭제 */
+function doDeleteScrap(document_srl) {
+    var params = new Array();
+    params['document_srl'] = document_srl;
+    exec_xml('member', 'procMemberDeleteScrap', params, function() { location.reload(); });
+}
