@@ -112,7 +112,8 @@
             if($logged_info->member_srl == $this->get('member_srl')) return;
 
             // 변수 정리
-            $title = sprintf("[%s] %s", $type, cut_str(strip_tags($content), 10, '...') );
+            if($type) $title = "[".$type."] ";
+            $title .= cut_str(strip_tags($content), 10, '...');
             $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>',$content, $this->getPermanentUrl(), $this->getPermanentUrl());
             $receiver_srl = $this->get('member_srl');
             $sender_member_srl = $logged_info->member_srl;

@@ -35,11 +35,37 @@
         function procBoardAdminManageCheckedDocument() {
             $type = Context::get('type');
             $module_srl = Context::get('target_board');
+            $message_content = Context::get('message_content');
+            if($message_content) $message_content = nl2br($message_content);
+
             $flag_list = $_SESSION['document_management'][$this->module_srl];
 
             $document_srl_list = array_keys($flag_list);
-
             $document_srl_count = count($document_srl_list);
+
+            // 쪽지 발송
+            if($message_content) {
+
+                $oMemberController = &getController('member');
+                $oDocumentModel = &getModel('document');
+
+                $logged_info = Context::get('logged_info');
+
+                $title = cut_str($message_content,10,'...');
+                $sender_member_srl = $logged_info->member_srl;
+
+                for($i=0;$i<$document_srl_count;$i++) {
+                    $document_srl = $document_srl_list[$i];
+                    $oDocument = $oDocumentModel->getDocument($document_srl);
+                    if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
+
+                    if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
+                    else $purl = "";
+                    $content .= sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent());
+
+                    $oMemberController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+                }
+            }
 
             if($type == 'move') {
                 $oDocumentAdminController = &getAdminController('document');
