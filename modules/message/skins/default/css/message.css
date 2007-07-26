@@ -2,12 +2,16 @@
 
 
 .system_message {
-    margin:2em 0 0 2em;
+    margin:3em 0 0 2em;
     color:#666666;
+    border:4px solid #888888;
+    text-align:center;
+    padding:4em;
+    width:400px;
 }
 
 .system_button {
-    margin-top:1em;
+    margin-top:3em;
 }
 
 .system_message a {

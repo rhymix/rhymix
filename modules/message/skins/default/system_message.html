@@ -3,9 +3,9 @@
     {$system_message}
 
     <div class="system_button">
-        <a href="#" onclick="history.back(); return false;">{$lang->cmd_back}</a>
+        <a href="#" onclick="history.back(); return false;" class="button"><span>{$lang->cmd_back}</span></a>
         <!--@if(!$is_logged)-->
-        | <a href="{getUrl('','act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
+        | <a href="{getUrl('','act','dispMemberLoginForm')}" class="button"><span>{$lang->cmd_login}</span></a>
         <!--@end-->
     </div>
 </div>
