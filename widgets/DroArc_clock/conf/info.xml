@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">플래시 디지털 시계</title>
+    <title xml:lang="en">Flash digital Clock</title>
+    <author email_address="ac7614@empas.com" link="http://widz.inven.co.kr" date="2007. 7. 26">
+        <name xml:lang="ko">드로아크 </name>
+        <name xml:lang="en">DroArc</name>
+        <description xml:lang="ko">플래쉬로 된 디지털 시계를 출력합니다.</description>
+        <description xml:lang="en">It will display the digital clock created with flash.</description>
+    </author>
+    <extra_vars>
+        <var id="clock_width">
+            <name xml:lang="ko">가로길이</name>
+            <name xml:lang="en">Width</name>
+            <type>text</type>
+            <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 150px)</description>
+            <description xml:lang="en">It will be able to set the width. (default is 150px)</description>
+        </var>
+        <var id="clock_height">
+            <name xml:lang="ko">세로길이</name>
+            <name xml:lang="en">Height</name>
+            <type>text</type>
+            <description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
+            <description xml:lang="en">It will be able to set the width. (default is 64px)</description>
+        </var>
+    </extra_vars>
+</widget>
