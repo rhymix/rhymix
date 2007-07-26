@@ -46,9 +46,6 @@
     $lang->cmd_open_calendar = 'Select a Date';
     $lang->cmd_send = 'Send';
     $lang->cmd_print = 'Print';
-    $lang->cmd_scrap = 'Scrap';
-    $lang->cmd_preview = 'Preview';
-    $lang->cmd_reset = 'Reset';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
@@ -76,7 +73,7 @@
     $lang->title = 'Subject';
     $lang->title_content = 'Title+Content';
     $lang->content = 'Content';
-    $lang->document = 'Entry';
+    $lang->document = 'Article';
     $lang->comment = 'Comment';
     $lang->description = 'Description';
     $lang->trackback = 'Trackback';
@@ -93,7 +90,6 @@
     $lang->path = 'Path';
     $lang->cart = 'Selected Item';
     $lang->friend = 'Friends';
-    $lang->notify = 'Notify';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
@@ -115,10 +111,10 @@
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
-    $lang->regdate = 'Published Date';
-    $lang->last_update = 'Last Update';
+    $lang->regdate = 'Registered Date';
+    $lang->last_update = 'Lastest Update';
     $lang->signup_date = 'Signup Date';
-    $lang->last_login = 'Last Login';
+    $lang->last_login = 'Lastest Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Searching Target';
@@ -153,16 +149,16 @@
     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
     $lang->msg_not_permitted = 'You are not permitted to continue';
     $lang->msg_input_password = 'Please enter your password';
-    $lang->msg_invalid_document = 'Invalid Entry Number';
+    $lang->msg_invalid_document = 'Invalid Article Number';
     $lang->msg_invalid_request = 'Invalid Request';
     $lang->msg_invalid_password = 'Invalid Password';
     $lang->msg_error_occured = 'Error has been occured';
     $lang->msg_not_founded = 'Target could not be found';
-    $lang->msg_no_result = 'Your search returned no result';
+    $lang->msg_no_result = 'Nothing found';
 
-    $lang->msg_not_permitted_act = 'You are not permitted to request the action to be executed';
-    $lang->msg_module_is_not_exists = 'Could not find the module you have requested';
-    $lang->msg_module_is_not_standalone = 'The module you requested could not behave independently';
+    $lang->msg_not_permitted_act = 'You are not permitted to execute requested action';
+    $lang->msg_module_is_not_exists = 'Requested module could not be found';
+    $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 
     $lang->success_registed = 'Successfully Registered';
     $lang->success_updated = 'Successfully Updated';
@@ -170,14 +166,14 @@
     $lang->success_voted = 'Successfully Voted';
     $lang->success_moved = 'Successfully Moved';
     $lang->success_sended = 'Successfully Sent';
-    $lang->success_reset = 'Successfully Reseted';
+    $lang->success_reset = 'Successfully Reset';
     $lang->success_leaved = 'Successfully Seceded';
 
-    $lang->fail_to_delete = 'Deletion Failed';
-    $lang->fail_to_move = 'Moving Failed';
+    $lang->fail_to_delete = 'Could not be deleted';
+    $lang->fail_to_move = 'Could not be moved';
 
     $lang->failed_voted = 'Could not be voted';
-    $lang->fail_to_delete_have_children = 'There are still one or more replies left; Deletion Failed';
+    $lang->fail_to_delete_have_children = 'There are still one or more replies left; Could not be deleted';
 
     $lang->confirm_submit = 'Are you sure to Submit?';
     $lang->confirm_logout = 'Are you sure to Logout?';
@@ -206,14 +202,14 @@
 
     // Alert messages for Javascript using by XML filter
     $lang->filter->isnull = 'Input a value for %s';
-    $lang->filter->outofrange = 'Align the text lenghth of %s';
-    $lang->filter->equalto = 'Invalid value assigned for %s';
-    $lang->filter->invalid_email = '%s got an invalid format (eg. zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s got an invalid format.\\nIt takes English letters, numbers, and underbar(_) of which should start with English letters";
-    $lang->filter->invalid_homepage = '%s got an invalid format. (eg. http://www.zeroboard.com)';
-    $lang->filter->invalid_korean = '%s got an invalid format. Only Korean letters are accepted';
-    $lang->filter->invalid_korean_number = '%s got an invalid format. Only a combination of Korean letters and numbers is accepted';
-    $lang->filter->invalid_alpha = '%s got an invalid format. Only English letters are accepted';
-    $lang->filter->invalid_alpha_number = '%s got an invalid format. Only a combination of English letters and numbers is accepted';
-    $lang->filter->invalid_number = '%s got an invalid format. Only numbers are accepted';
+    $lang->filter->outofrange = 'Align the text length of %s';
+    $lang->filter->equalto = "%s's value is invalid";
+    $lang->filter->invalid_email = "%s's format is invalid. ex) zbxe@zeroboard.com";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s's format is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be English alphabet";
+    $lang->filter->invalid_homepage = "%s's format is invalid. ex) http://www.zeroboard.com";
+    $lang->filter->invalid_korean = "%s's format is invalid. Please input only Korean";
+    $lang->filter->invalid_korean_number = "%s's format is invalid. Please input Korean or numbers";
+    $lang->filter->invalid_alpha = "%s's format is invalid. Please input only alphabets";
+    $lang->filter->invalid_alpha_number = "%s's format is invalid. Please input alphabets or numbers";
+    $lang->filter->invalid_number = "%s's format is invalid. Please input only numbers";
 ?>
