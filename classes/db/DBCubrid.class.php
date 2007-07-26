@@ -193,7 +193,7 @@
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf("select * from db_attribute where class_name = '%s%s'", $this->prefix, $this->addQuotes($target_name));
+            $query = sprintf("select * from db_class where class_name = '%s%s'", $this->prefix, $target_name);
             $result = $this->_query($query);
 
             if(cubrid_num_rows($result)>0) $output = true;
@@ -223,7 +223,8 @@
          * @brief 특정 테이블의 column의 정보를 return
          **/
         function isColumnExists($table_name, $column_name) {
-            $query = sprintf("select %s from db_attribute where class_name = '%s%s'", $column_name, $this->prefix, $table_name);
+            $query = sprintf("select * from db_attribute where attr_name ='%s' and class_name = '%s%s'",
+                                $column_name, $this->prefix, $table_name);
             $result = $this->_query($query);
             if(cubrid_num_rows($result)>0) $output = true;
             else $output = false;
