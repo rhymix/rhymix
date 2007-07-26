@@ -1,8 +1,8 @@
 <?php
     /**
-     * @class styx_clock
-     * @author styx (styx@bystyx.com)
-     * @brief 플래시 시계 출력
+     * @class language_select 
+     * @author zero (zero@zeroboard.com)
+     * @brief 언어선택기
      * @version 0.1
      **/
 
