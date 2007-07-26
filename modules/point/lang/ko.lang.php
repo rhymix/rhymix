@@ -33,7 +33,7 @@
     $lang->point_insert_comment = '댓글 작성';
     $lang->point_delete_comment = '댓글 삭제';
     $lang->point_upload_file = '파일 업로드';
-    $lang->point_delete_file = '파일 업로드';
+    $lang->point_delete_file = '파일 삭제';
     $lang->point_download_file = '파일 다운로드 (이미지 제외)';
 
 
