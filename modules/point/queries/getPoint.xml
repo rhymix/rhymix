@@ -1,0 +1,11 @@
+<query id="getPoint" action="select">
+    <tables>
+        <table name="point" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="member_srl" var="member_srl" />
+    </conditions>
+</query>

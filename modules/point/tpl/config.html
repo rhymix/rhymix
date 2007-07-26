@@ -1,0 +1,64 @@
+<!--%import("filter/insert_config.xml")-->
+<!--#include("./header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config);">
+
+    <div class="infoText">{$lang->about_point_module}</div>
+    <table cellspacing="0" class="tableType2 gap1">
+    <col width="200" />
+    <col width="40" />
+    <col width="40" />
+    <col />
+    <tr>
+        <th scope="col">{$lang->max_level}</th>
+        <td colspan="3">
+            <input type="text" class="inputTypeText w80" value="{$config->max_level}" name="max_level" />
+            <p>{$lang->about_max_level}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->point_name}</th>
+        <td colspan="3">
+            <input type="text" class="inputTypeText w80" value="{$config->point_name}" name="point_name" />
+            <p>{$lang->about_point_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->level_icon}</th>
+        <td colspan="3">
+            <select name="level_icon">
+            <!--@foreach($level_icon_list as $key => $val)-->
+                <option value="{$val}" <!--@if($config->level_icon == $val)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+            </select>
+            <p>{$lang->about_level_icon}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->disable_download}</th>
+        <td colspan="3">
+            <input type="checkbox" name="disable_download" value="Y" <!--@if($config->disable_download=='Y')-->checked="checked"<!--@end--> />
+            {$lang->about_disable_download}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" rowspan="{$config->max_level}">{$lang->level_point}</th>
+        <td>1</td>
+        <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
+        <td><input type="text" name="level_step_1" value="{$config->level_step[1]}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <!--@for($i=2;$i<=$config->max_level;$i++)-->
+    <tr>
+        <td>{$i}</td>
+        <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="" /></td>
+        <td><input type="text" name="level_step_{$i}" value="{$config->level_step[$i]}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+
+</form>

@@ -1,0 +1,4 @@
+<table name="point">
+    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="point" type="number" size="11" notnull="notnull" default="0" index="idx_point" />
+</table>

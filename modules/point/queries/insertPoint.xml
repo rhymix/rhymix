@@ -1,0 +1,9 @@
+<query id="insertPoint" action="insert">
+    <tables>
+        <table name="point" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="point" var="point" filter="number" notnull="notnull" default="0" />
+    </columns>
+</query>

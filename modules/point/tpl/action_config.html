@@ -1,0 +1,45 @@
+<!--%import("filter/insert_act_config.xml")-->
+<!--#include("./header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_act_config);" id="fo_point">
+
+    <div class="infoText">{$lang->about_act_config}</div>
+    <table cellspacing="0" class="tableType2 gap1">
+    <col width="200" />
+    <col />
+    <tr>
+        <th>{$lang->point_insert_document}</th>
+        <td><input type="text" name="insert_document_act" value="{$config->insert_document_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_delete_document}</th>
+        <td><input type="text" name="delete_document_act" value="{$config->delete_document_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_insert_comment}</th>
+        <td><input type="text" name="insert_comment_act" value="{$config->insert_comment_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_delete_comment}</th>
+        <td><input type="text" name="delete_comment_act" value="{$config->delete_comment_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_upload_file}</th>
+        <td><input type="text" name="upload_file_act" value="{$config->upload_file_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_delete_file}</th>
+        <td><input type="text" name="delete_file_act" value="{$config->delete_file_act}" class="inputTypeText w100" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->point_download_file}</th>
+        <td><input type="text" name="download_file_act" value="{$config->download_file_act}" class="inputTypeText w100" /></td>
+    </tr>
+    </table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+
+</form>

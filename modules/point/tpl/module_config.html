@@ -1,0 +1,38 @@
+<!--%import("filter/insert_module_config.xml")-->
+<!--#include("./header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_module_config);" id="fo_point">
+
+    <div class="infoText">{$lang->about_module_point}</div>
+    <table cellspacing="0" class="tableType2 gap1">
+    <tr>
+        <th>&nbsp;</th>
+        <th>{$lang->point_insert_document}</th>
+        <th>{$lang->point_insert_comment}</th>
+        <th>{$lang->point_upload_file}</th>
+        <th>{$lang->point_download_file}</th>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->is_default}</th>
+        <td><input type="text" name="insert_document" value="{$config->insert_document}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="insert_comment" value="{$config->insert_comment}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="upload_file" value="{$config->upload_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <!--@foreach($mid_list as $key => $val)-->
+    <tr>
+        <th scope="col">{$val->browser_title} ({$val->mid})</th>
+        <td><input type="text" name="insert_document_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_document']}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="insert_comment_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_comment']}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="upload_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['upload_file']}" class="inputTypeText w80" /> {$config->point_name}</td>
+        <td><input type="text" name="download_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['download_file']}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+
+</form>

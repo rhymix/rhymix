@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+  <title xml:lang="ko">포인트 활성화 애드온</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">
+        포인트시스템 모듈에 설정된 내용을 바탕으로 글작성/삭제/댓글작성/삭제/파일업로드/삭제/다운로드등의 행동에 대해서 포인트를 기록합니다.
+    </description>
+  </author>
+</addon>
