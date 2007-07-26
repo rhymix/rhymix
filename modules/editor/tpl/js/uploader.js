@@ -26,7 +26,7 @@ function editor_upload_form_set(upload_target_srl) {
     // SWFUploader load
     var uploader_name = "swf_uploader_"+upload_target_srl;
     var embed_html = "";
-    var flashVars = 'uploadProgressCallback=editor_upload_progress&uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape(request_uri+'?act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
+    var flashVars = 'uploadProgressCallback=editor_upload_progress&uploadFileErrorCallback=editor_upload_error_handle&allowedFiletypesDescription='+uploader_setting["allowed_filetypes_description"]+'&autoUpload=true&allowedFiletypes='+uploader_setting["allowed_filetypes"]+'&maximumFilesize='+uploader_setting["allowed_filesize"]+'&uploadQueueCompleteCallback=editor_display_uploaded_file&uploadScript='+escape(request_uri+'?mid='+current_url.getQuery('mid')+'&act=procFileUpload&upload_target_srl='+upload_target_srl+'&PHPSESSID='+xGetCookie(zbxe_session_name));
 
     if(navigator.plugins&&navigator.mimeTypes&&navigator.mimeTypes.length) {
         embed_html = '<embed type="application/x-shockwave-flash" src="'+request_uri+'/modules/editor/tpl/images/SWFUpload.swf" width="1" height="1" id="'+uploader_name+'" name="'+uploader_name+'" quality="high" wmode="transparent" menu="false" flashvars="'+flashVars+'" />';
