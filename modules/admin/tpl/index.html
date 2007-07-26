@@ -58,8 +58,8 @@
     <tbody>
     <!--@foreach($news as $key => $val)-->
     <tr>
-        <td><a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
-        <td>{zdate($val->date,"Y-m-d H:i")}</td>
+        <td class="left">&nbsp;<a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
+        <td class="tahoma">{zdate($val->date,"Y-m-d H:i")}</td>
     </tr>
     <!--@end-->
     </tbody>

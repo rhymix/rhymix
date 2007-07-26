@@ -54,6 +54,7 @@
             if(!file_exists($cache_file) || filectime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
             }
+          
             if(file_exists($cache_file)) {
                 $oXml = new XmlParser();
                 $buff = $oXml->parse(FileHandler::readFile($cache_file));
