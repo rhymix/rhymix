@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">접속자 현황 출력 기본 스킨 </title>
   <title xml:lang="jp">接続統計表示のデフォルトスキン</title>
-  <title xml:lang="zh-CN">输出访问统计现况基本皮肤</title>
+  <title xml:lang="zh-CN">访问统计默认皮肤</title>
   <title xml:lang="en">Default Counter Skin </title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
@@ -11,7 +11,7 @@
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">counter_status 의 기본 스킨</description>
     <description xml:lang="jp">接続統計（counter_status）のデフォルトスキン</description>
-    <description xml:lang="zh-CN">counter_status 的基本皮肤</description>
+    <description xml:lang="zh-CN">访问统计默认皮肤。</description>
     <description xml:lang="en">Default skin of counter_status</description>
   </maker>
   <colorset>
@@ -19,7 +19,7 @@
       <title xml:lang="ko">기본</title>
       <title xml:lang="jp">デフォルト</title>
       <title xml:lang="en">default</title>
-      <title xml:lang="zh-CN">基本</title>
+      <title xml:lang="zh-CN">默认</title>
     </color>
   </colorset>
 </skin>

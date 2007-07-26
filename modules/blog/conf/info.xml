@@ -31,9 +31,9 @@
             Casi mismo del boletín, pero la vista es diferente, y  incluye metodo para blog. Maneja directo al diseño y menú principal.
         </description>
         <description xml:lang="zh-CN">
-            此模块用于博客功能。
-            这是一个类似board，但显示的view有差异和添加了对博客适合的method。
-            直接担当布局和基本菜单。
+            此模块负责博客功能。
+            虽然类似版面，但其显示模式不同且追加了适合博客的method。
+            包含布局和基本菜单。
         </description>
     </author>
 </module>

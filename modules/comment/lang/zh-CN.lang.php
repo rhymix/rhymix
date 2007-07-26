@@ -2,12 +2,12 @@
     /**
      * @file   modules/comment/lang/zh-CN.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  评论(comment)
+     * @brief  评论(comment)模块语言包
      **/
     $lang->cmd_delete_checked_comment = '删除所选项目';
 
-    $lang->msg_cart_is_null = '请选择要删除的对象';
-    $lang->msg_checked_comment_is_deleted = '已删除%d个内容';
+    $lang->msg_cart_is_null = '请选择要删除的评论。';
+    $lang->msg_checked_comment_is_deleted = '已删除%d个评论。';
 
     $lang->search_target_list = array(
         'content' => '内容',
@@ -17,7 +17,7 @@
         'email_address' => '电子信箱',
         'homepage' => '主页',
         'regdate' => '日期',
-        'last_update' => '最后修改日期 ',
+        'last_update' => '最后更新 ',
         'ipaddress' => 'IP 地址',
     );
 ?>

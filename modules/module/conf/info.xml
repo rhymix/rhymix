@@ -10,7 +10,7 @@
     <name xml:lang="jp">Zero</name>
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">모듈 생성 및 관리하는 모듈입니다.</description>
-    <description xml:lang="zh-CN">生成模块和管理的模块。</description>
+    <description xml:lang="zh-CN">生成及管理模块的模块。</description>
     <description xml:lang="jp">モジュールの生成、管理するモジュールです。</description>
     <description xml:lang="en">This module is for creating/managering the other modules.</description>
   </author>

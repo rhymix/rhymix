@@ -13,7 +13,7 @@
         <name xml:lang="es">zero</name>
         <description xml:lang="ko">게시판이나 블로그등의 댓글을 관리하는 모듈입니다.</description>
         <description xml:lang="jp">掲示板やブログなどのコメントを管理するモジュールです。</description>
-        <description xml:lang="zh-CN">管理Board或博客评论的模块。</description>
+        <description xml:lang="zh-CN">管理版面或博客评论的模块。</description>
         <description xml:lang="en">Module for managing board/blog''s comments</description>
         <description xml:lang="es">Es el módulo para manejar commentarios en blog o boletínes.</description>
     </author>

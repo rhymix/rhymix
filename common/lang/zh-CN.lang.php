@@ -17,7 +17,7 @@
     $lang->cmd_prev = '上一页';
     $lang->cmd_next = '下一页';
     $lang->cmd_send_trackback = '发送引用';
-    $lang->cmd_registration = $lang->cmd_submit = '发表';
+    $lang->cmd_registration = $lang->cmd_submit = '提交';
     $lang->cmd_comment_registration = '发表评论';
     $lang->cmd_insert = '添加';
     $lang->cmd_save = '保存';
@@ -26,7 +26,7 @@
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
-    $lang->cmd_move = '转移';
+    $lang->cmd_move = '查看';
     $lang->cmd_move_up = '向上';
     $lang->cmd_move_down = '向下';
     $lang->cmd_add_indent = '拉长';
@@ -46,9 +46,9 @@
     $lang->cmd_open_calendar = '选择日期';
     $lang->cmd_send = '发送';
 	$lang->cmd_print = '打印';
-    $lang->cmd_scrap = 'Scrap';
+    $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '预览';
-    $lang->cmd_reset = '初期化';
+    $lang->cmd_reset = '初始化';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -64,8 +64,8 @@
     $lang->password = '密码';
     $lang->password1 = '密码';
     $lang->password2 = '确认密码';
-    $lang->admin_id = '管理员 I D';
-    $lang->writer = '昵称';
+    $lang->admin_id = '管理员ID';
+    $lang->writer = '作者';
     $lang->user_name = '姓名';
     $lang->nick_name = '昵称';
     $lang->email_address = '电子邮件';
@@ -93,18 +93,18 @@
     $lang->path = '路径';
     $lang->cart = '选择项目';
     $lang->friend = '好友';
-    $lang->notify = 'Notify';
+    $lang->notify = '通告';
 
     $lang->mid = '模块名称';
     $lang->layout = '布局';
-    $lang->widget = 'Widget ';
+    $lang->widget = '控件 ';
     $lang->module = '模块';
     $lang->skin = '皮肤';
     $lang->colorset = '颜色设定';
     $lang->extra_vars = '扩展变数';
 
-    $lang->document_url = '文章';
-    $lang->trackback_url = '引用';
+    $lang->document_url = '文章地址';
+    $lang->trackback_url = '引用地址';
     $lang->blog_name = '博客名称';
     $lang->excerpt = '载自';
 
@@ -116,9 +116,9 @@
     $lang->member_count = '会员数';
     $lang->date = '日期';
     $lang->regdate = '登录日期';
-    $lang->last_update = '最后修改日期';
+    $lang->last_update = '最后更新';
     $lang->signup_date = '注册日期';
-    $lang->last_login = '最后登陆时间';
+    $lang->last_login = '最近登陆';
     $lang->first_page = '首页';
     $lang->last_page = '尾页';
     $lang->search_target = '搜索目标';
@@ -127,7 +127,7 @@
 
     $lang->no_documents = '没有文章';
 
-    $lang->board_manager = 'Board 管理';
+    $lang->board_manager = '版面管理';
     $lang->member_manager = '会员管理';
     $lang->layout_manager = '布局管理';
 
@@ -188,21 +188,21 @@
     $lang->confirm_leave = '确定要注销吗?';
 
     $lang->column_type = '类型';
-    $lang->column_type_list['text'] = '文本类型 (text)';
-    $lang->column_type_list['homepage'] = '主页类型 (url)';
-    $lang->column_type_list['email_address'] = '邮件类型 (email)';
-    $lang->column_type_list['tel'] = '电话号码类型 (phone)';
-    $lang->column_type_list['textarea'] = '文本区类型 (textarea)';
+    $lang->column_type_list['text'] = '单行文本输入区(text)';
+    $lang->column_type_list['homepage'] = '网址格式 (url)';
+    $lang->column_type_list['email_address'] = '邮件格式 (email)';
+    $lang->column_type_list['tel'] = '电话号码格式 (phone)';
+    $lang->column_type_list['textarea'] = '多行文本框 (textarea)';
     $lang->column_type_list['checkbox'] = '复选框 (checkbox)';
-    $lang->column_type_list['select'] = '单一选择 (select)';
+    $lang->column_type_list['select'] = '下拉列表框 (select)';
     $lang->column_type_list['kr_zip'] = '韩国地址 (zip)';
     $lang->column_type_list['date'] = '日期 (年月日)';
     //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';
-    $lang->column_name = '项目名称';
+    $lang->column_name = '项目名';
     $lang->column_title = '项目标题';
-    $lang->default_value = '基本值';
+    $lang->default_value = '缺省值';
     $lang->is_active = '激活';
-    $lang->is_required = '必填项目';
+    $lang->is_required = '必填';
 
     // 在xml filter使用的 javascript用 alert msg
     $lang->filter->isnull = '请输入%s';

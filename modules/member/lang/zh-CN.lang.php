@@ -11,19 +11,19 @@
     $lang->default_group_1 = "准会员";
     $lang->default_group_2 = "正会员";
     $lang->admin_group = "管理组";
-    $lang->remember_user_id = 'I D 保存';
+    $lang->remember_user_id = '保存ID';
     $lang->already_logged = '您已经登录';
-    $lang->denied_user_id = '使用禁止 I D。';
-    $lang->null_user_id = '请输入用户 I D.';
-    $lang->null_password = '请输入密码';
-    $lang->invalid_authorization = '还没有认证';
-    $lang->invalid_user_id= '不存在的用户 I D';
+    $lang->denied_user_id = '被禁止的用户名。';
+    $lang->null_user_id = '请输入用户名。';
+    $lang->null_password = '请输入密码。';
+    $lang->invalid_authorization = '还没有认证！';
+    $lang->invalid_user_id= '不存在的用户名！';
     $lang->invalid_password = '密码有误！';
     $lang->allow_mailing = '接收邮件';
-    $lang->allow_message = '允许接收短信';
+    $lang->allow_message = '允许接收短消息';
     $lang->allow_message_type = array(
              'Y' => '全部接收',
-             'N' => '拒绝',
+             'N' => '拒收',
              'F' => '只允许好友',
         );
     $lang->denied = '使用中止';
@@ -33,13 +33,13 @@
     $lang->group_srl = '组编号';
     $lang->signature = '签名';
     $lang->image_name = '昵称图像';
-    $lang->image_name_max_width = '宽度大小限制';
-    $lang->image_name_max_height = '高度大小限制';
+    $lang->image_name_max_width = '宽度限制';
+    $lang->image_name_max_height = '高度限制';
     $lang->image_mark = '用户图标';
-    $lang->image_mark_max_width = '宽度大小限制';
-    $lang->image_mark_max_height = '高度大小限制';
-    $lang->enable_openid = 'OpenID 支持';
-    $lang->enable_join = '允许注册会员';
+    $lang->image_mark_max_width = '宽度限制';
+    $lang->image_mark_max_height = '高度限制';
+    $lang->enable_openid = '支持OpenID';
+    $lang->enable_join = '允许会员注册';
     $lang->limit_day = '临时限制日期';
     $lang->limit_date = '限制日期';
     $lang->redirect_url = '注册会员后将移动的页面';
@@ -59,7 +59,7 @@
         'nick_name' => '昵称',
         'email_address' => '邮箱地址',
         'regdate' => '注册日期',
-        'last_login' => '最后登录日期',
+        'last_login' => '最近登录',
     );
 
     $lang->message_box = array(
@@ -72,42 +72,42 @@
 
     $lang->cmd_login = '登录';
     $lang->cmd_logout = '退出';
-    $lang->cmd_signup = '注册会员';
+    $lang->cmd_signup = '注册';
     $lang->cmd_modify_member_info = '修改会员信息';
     $lang->cmd_modify_member_password = '修改密码';
     $lang->cmd_view_member_info = '查看会员信息';
     $lang->cmd_leave = '注销';
 
     $lang->cmd_member_list = '会员目录';
-    $lang->cmd_module_config = '基本设定';
+    $lang->cmd_module_config = '基本设置';
     $lang->cmd_member_group = '管理组';
     $lang->cmd_send_mail = '发送邮件';
-    $lang->cmd_manage_id = '禁止 I D 管理';
+    $lang->cmd_manage_id = '禁止用户名管理';
     $lang->cmd_manage_form = '注册样式管理';
-    $lang->cmd_view_own_document = '查看内容';
-    $lang->cmd_view_scrapped_document = '스크랩 보기';
+    $lang->cmd_view_own_document = '查看我的帖子';
+    $lang->cmd_view_scrapped_document = '查看收藏';
     $lang->cmd_send_email = '发送邮件';
-    $lang->cmd_send_message = '发送短信';
-    $lang->cmd_reply_message = '回复短信';
+    $lang->cmd_send_message = '发送短消息';
+    $lang->cmd_reply_message = '回复短消息';
     $lang->cmd_view_friend = '查看好友';
     $lang->cmd_add_friend = '添加好友';
     $lang->cmd_view_message_box = '查看短信箱';
     $lang->cmd_store = "保管";
     $lang->cmd_add_friend_group = '添加好友组';
-    $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
+    $lang->cmd_rename_friend_group = '修改好友组名称';
 
-    $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
+    $lang->msg_alreay_scrapped = '已收藏的主题！';
 
-    $lang->msg_cart_is_null = '请选择对象';
-    $lang->msg_checked_file_is_deleted = '已删除%d个文件。';
+    $lang->msg_cart_is_null = '请选择对象。';
+    $lang->msg_checked_file_is_deleted = '已删除%d个附件。';
 
-    $lang->msg_no_message = '没有短信';
-    $lang->message_received = '收到短信';
+    $lang->msg_no_message = '没有短消息。';
+    $lang->message_received = '您有新消息。';
 
     $lang->msg_new_member = '添加会员';
     $lang->msg_update_member = '修改会员信息';
     $lang->msg_leave_member = '注销会员';
-    $lang->msg_group_is_null = '没有登录的组';
+    $lang->msg_group_is_null = '没有登录的组。';
     $lang->msg_not_delete_default = '不能删除基本项目';
     $lang->msg_not_exists_member = '不存在的用户';
     $lang->msg_cannot_delete_admin = '不能删除管理员 ID .解除管理后再删除';

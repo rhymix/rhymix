@@ -19,7 +19,7 @@
         </description>
         <description xml:lang="zh-CN">
             利用zeroboard运营的邮编服务器搜索邮编。
-            邮编搜索服务器通过服务器的设定可以修改。
+            通过设置可以修改邮编搜索服务器。
         </description>
         <description xml:lang="jp">
             ゼロボードで運用している郵便番号サーバを利用して韓国の郵便番号を検索します。

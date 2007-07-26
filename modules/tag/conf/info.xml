@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
         <description xml:lang="ko">꼬리표 관리 모듈</description>
-        <description xml:lang="zh-CN">标签管理模块</description>
+        <description xml:lang="zh-CN">标签管理模块。</description>
         <description xml:lang="jp">タグ管理用のモジュールです。</description>
         <description xml:lang="en">Module for managing tags</description>
     </author>

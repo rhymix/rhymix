@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">달력을 표시하고 등록된 글이 있는 날에 표시와 링크를 해줍니다.</description>
-        <description xml:lang="zh-CN">显示日历,有新帖的日期会在该日期增加连接。</description>
+        <description xml:lang="zh-CN">显示日历,主题日期将跟日历相关联。</description>
         <description xml:lang="jp">カレンダーを表示して書き込みがあった日にリンクを張ります。</description>
         <description xml:lang="en">It will show a calendar, and if there is an article submitted, the date will be highlighted with its url link.</description>
     </author>
@@ -22,7 +22,7 @@
             <name xml:lang="en">Target Module</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">所选择的模块为对象。</description>
+            <description xml:lang="zh-CN">将把被选模块作为关联对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
         </var>

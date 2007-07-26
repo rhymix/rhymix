@@ -12,7 +12,7 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">첨부 파일 관리하는 모듈입니다.</description>
-        <description xml:lang="zh-CN">管理上传附件的模块。</description>
+        <description xml:lang="zh-CN">管理附件的模块。</description>
         <description xml:lang="en">Module for managing attachments.</description>
         <description xml:lang="es">Es el módulo maneja archivo ajuntado.</description>
         <description xml:lang="jp">添付ファイルを管理するモジュールです。</description>

@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">제로보드XE 게시판 기본 스킨 (갤러리형)</title>
   <title xml:lang="jp">ゼロボードXE掲示板の基本スキン（ギャラリースタイル）</title>
-  <title xml:lang="zh-CN">zeroboard XE board 基本皮肤（图片型）</title>
+  <title xml:lang="zh-CN">Zeroboard XE board 基本皮肤（图片型）</title>
   <title xml:lang="en">ZeroboardXE Basic Board Skin (Gallery Style)</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">(주)NHN</name>
@@ -21,8 +21,8 @@
     </description>
    <description xml:lang="zh-CN">
         zeroboard XE Board的图片型基本皮肤。
-        设计 : 서기정
-        HTML/CSS : 정찬명
+        设计 : Ki-Jeong Seo
+        HTML/CSS : Chan-Myung Jeong
     </description>
     <description xml:lang="en">
         This is the basic gallery skin of ZeroboardXE boards.
@@ -42,12 +42,12 @@
     <var name="order_target" type="select">
         <title xml:lang="ko">정렬 대상</title>
         <title xml:lang="jp">ソート対象</title>
-        <title xml:lang="zh-CN">排列顺序</title>
+        <title xml:lang="zh-CN">排序对象</title>
         <title xml:lang="en">Align</title>
         <type>select</type>
         <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
         <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
-        <description xml:lang="zh-CN">可排序文章的顺序。</description>
+        <description xml:lang="zh-CN">可对文章按发表或最后更新顺进行排序。</description>
         <description xml:lang="en">It can align articles as registered order or modified order.</description>
         <default>newest</default>
         <default>updated</default>
@@ -55,31 +55,31 @@
     <var name="title" type="text">
         <title xml:lang="ko">게시판 제목</title>
         <title xml:lang="jp">掲示板タイトル</title>
-        <title xml:lang="zh-CN">board标题</title>
+        <title xml:lang="zh-CN">版面标题</title>
         <title xml:lang="en">Title of Board</title>
         <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
         <description xml:lang="jp">掲示板タイトルを入力してください。</description>
-        <description xml:lang="zh-CN">请输入board 标题。（留空不显示）。</description>
+        <description xml:lang="zh-CN">请输入版面标题。（留空不显示）。</description>
         <description xml:lang="en">Input the title of board.</description>
     </var>
     <var name="sub_title" type="text">
         <title xml:lang="ko">게시판 부제목</title>
         <title xml:lang="jp">掲示板サブタイトル</title>
-        <title xml:lang="zh-CN">Board 副标题</title>
+        <title xml:lang="zh-CN">版面副标题</title>
         <title xml:lang="en">Subtitle of Board</title>
         <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
         <description lang="jp">掲示板タイトルの横表示されるサブタイトルを入力してください。</description>
-        <description lang="zh-CN">请输入Board标题旁边显示的副标题。（留空不显示）</description>
+        <description lang="zh-CN">请输入显示在版面标题旁的副标题。（留空不显示）</description>
         <description lang="en">Input the subtitle of board which will be displayed beside of board title.</description>
     </var>
     <var name="comment" type="textarea">
         <title xml:lang="ko">게시판 상세 설명</title>
         <title xml:lang="jp">掲示板の説明</title>
-        <title xml:lang="zh-CN">Board 详细说明</title>
+        <title xml:lang="zh-CN">版面详细说明</title>
         <title xml:lang="en">Description of Board</title>
         <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
         <description lang="jp">掲示板タイトルの下に表示される説明文入力してください。</description>
-        <description lang="zh-CN">请输入Board 标题下面显示的说明。（留空不显示）</description>
+        <description lang="zh-CN">请输入显示在版面标题下的说明。（留空不显示）</description>
         <description lang="en">Description of board can be input which will be displayed under the board title.</description>
     </var>
   </extra_vars>

@@ -136,7 +136,7 @@
             <title xml:lang="zh-CN">背景颜色</title>
             <title xml:lang="en">Background Color</title>
             <description xml:lang="ko">배경색상을 입력해주세요.</description>
-            <description xml:lang="ko">背景色を入力してください</description>
+            <description xml:lang="jp">背景色を入力してください</description>
             <description xml:lang="zh-CN">请输入背景颜色。</description>
             <description xml:lang="en">Input background color.</description>
         </var>
@@ -166,7 +166,7 @@
             <title xml:lang="zh-CN">URL 颜色</title>
             <title xml:lang="en">URL Color</title>
             <description xml:lang="ko">URL의 글자색을 입력해주세요.</description>
-            <description xml:lang="jp">URLの色を入力してください。</description>
+            <description xml:lang="ko">URLの色を入力してください。</description>
             <description xml:lang="zh-CN">请输入URL的颜色。</description>
             <description xml:lang="en">Input color of URL.</description>
         </var>

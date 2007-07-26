@@ -6,7 +6,7 @@
      **/
 
     $lang->cmd_menu_insert = '生成菜单';
-    $lang->cmd_menu_management = '菜单设定';
+    $lang->cmd_menu_management = '菜单设置';
 
     $lang->menu = '菜单'; 
     $lang->menu_count = '菜单数';
@@ -14,22 +14,22 @@
     $lang->depth = '层级';
     $lang->parent_menu_name = '上级菜单名';
     $lang->menu_name = '菜单名';
-    $lang->menu_srl = '菜单的固有编号';
+    $lang->menu_srl = '菜单固有编号';
     $lang->menu_id = '菜单名称';
-    $lang->menu_url = '链接 url';
-    $lang->menu_open_window = '开启新窗';
+    $lang->menu_url = '链接l';
+    $lang->menu_open_window = '新窗口';
     $lang->menu_expand = '展开';
     $lang->menu_img_btn = '图片按钮';
-    $lang->menu_normal_btn = '一般';
-    $lang->menu_hover_btn = '活动链接';
-    $lang->menu_active_btn = '选择时';
-    $lang->menu_group_srls = '组限制';
+    $lang->menu_normal_btn = '普通';
+    $lang->menu_hover_btn = '鼠标滑过';
+    $lang->menu_active_btn = '激活链接';
+    $lang->menu_group_srls = '用户组';
     $lang->layout_maker = "布局作者";
-    $lang->layout_history = "变更事项 ";
+    $lang->layout_history = "更新列表 ";
     $lang->layout_info = "布局信息";
     $lang->layout_list = '布局目录';
     $lang->downloaded_list = '下载目录';
-    $lang->limit_menu_depth = '表示可能';
+    $lang->limit_menu_depth = '可显示';
 
     $lang->cmd_make_child = '添加下级菜单';
     $lang->cmd_remake_cache = "缓冲文件再生成";

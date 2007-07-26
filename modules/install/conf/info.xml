@@ -11,7 +11,7 @@
         <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">설치 관리 모듈</description>
         <description xml:lang="en">Module for managing installation</description>
-        <description xml:lang="zh-CN">安装管理模块</description>
+        <description xml:lang="zh-CN">安装管理模块。</description>
         <description xml:lang="jp">インストール管理モジュール</description>
     </author>
 </module>

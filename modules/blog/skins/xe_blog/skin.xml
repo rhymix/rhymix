@@ -2,7 +2,7 @@
 <skin>
     <title xml:lang="ko">제로보드XE 블로그 기본 스킨</title>
     <title xml:lang="jp">ゼロボードXEのブログデフォルトスキン</title>
-    <title xml:lang="zh-CN">zeroboard XE 博客基本皮肤</title>
+    <title xml:lang="zh-CN">Zeroboard XE样式皮肤</title>
     <title xml:lang="en">Default Skin of Zeroboard XE blog</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">(주)NHN</name>
@@ -20,9 +20,9 @@
             HTML/CSS：ジョンチャンミョン
         </description>
         <description xml:lang="zh-CN">
-            zeroboard XE 博客基本皮肤。
-            设计 : 서기정
-            HTML/CSS : 정찬명
+            Zeroboard XE样式皮肤。
+            设计 :  Ki-Jeong Seo
+            HTML/CSS : Chan-Myung Jeong
         </description>
         <description xml:lang="en">
             This is default skin of Zeroboard XE blog.
@@ -72,11 +72,11 @@
         <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
             <title xml:lang="jp">プロフィールイメージ</title>
-            <title xml:lang="zh-CN">档案图片</title>
+            <title xml:lang="zh-CN">博客个性图片</title>
             <title xml:lang="en">Profile Image</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
-            <description xml:lang="zh-CN">请输入档案图片。 （宽度160px图片为适合）</description>
+            <description xml:lang="zh-CN">请输入博客个性图片。 （宽度160px图片为适）</description>
             <description xml:lang="en">Input profile image (It is recommended to set width as 160px)</description>
         </var>
         <var name="background_image" type="image">
@@ -92,21 +92,21 @@
         <var name="profile" type="textarea">
             <title xml:lang="ko">프로필</title>
             <title xml:lang="jp">プロフィール</title>
-            <title xml:lang="zh-CN">档案</title>
+            <title xml:lang="zh-CN">简介</title>
             <title xml:lang="en">Profile</title>
             <description lang="ko">간단한 프로필을 입력해주세요</description>
             <description lang="jp">簡単なプロフィールを入力してください。</description>
-            <description lang="zh-CN">请输入基本档案</description>
+            <description lang="zh-CN">请输入简单介绍。</description>
             <description lang="en">Input simple profile</description>
         </var>
         <var name="category_name" type="text">
             <title xml:lang="ko">카테고리명</title>
             <title xml:lang="jp">カテゴリ名</title>
-            <title xml:lang="zh-CN">分类名称</title>
+            <title xml:lang="zh-CN">分类名</title>
             <title xml:lang="en">Category</title>
             <description lang="ko">카테고리의 이름을 입력해주세요.</description>
             <description lang="jp">カテゴリ名を入力してください。</description>
-            <description lang="zh-CN">请输入分类名称。</description>
+            <description lang="zh-CN">请输入分类名。</description>
             <description lang="en">Input the name of category.</description>
         </var>
         <var name="display_writer" type="select">

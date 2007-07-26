@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">최근 댓글 출력</title>
-    <title xml:lang="zh-CN">输出最新评论</title>
+    <title xml:lang="zh-CN">评论列表</title>
     <title xml:lang="jp">最近のコメント表示</title>
     <title xml:lang="en">Display Newest Comments</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -10,19 +10,19 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">최근 댓글 (comment)를 출력하는 위젯입니다.</description>
-        <description xml:lang="zh-CN">输出最新评论控件。</description>
+        <description xml:lang="zh-CN">显示最新评论控件。</description>
         <description xml:lang="jp">最近のコメント（comment）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget will display newest comments.</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
-            <name xml:lang="zh-CN">标题</name>
+            <name xml:lang="zh-CN">栏目名</name>
             <name xml:lang="jp">タイトル</name>
             <name xml:lang="en">Title</name>
             <type>text</type>
             <description xml:lang="ko">최근 댓글의 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">最新评论的文章</description>
+            <description xml:lang="zh-CN">显示输入的栏目名。</description>
             <description xml:lang="jp">最近のコメント書き込みのタイトルとして表示されます。</description>
             <description xml:lang="en">This will be the title of lnewest comments.</description>
         </var>
@@ -33,7 +33,7 @@
             <name xml:lang="en">The Number of List</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="zh-CN">设定输出。 (默认5个)</description>
+            <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
             <description xml:lang="jp">出力されるリストの数が指定できます（デフォルト５個）</description>
             <description xml:lang="en">You can set the number of list(default is 5).</description>
         </var>
@@ -44,7 +44,7 @@
             <name xml:lang="en">Target Module</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">输出有评论的文章 。</description>
+            <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles for the newest comments will be the ones submitted in the selected module.</description>
         </var>

@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">레이아웃을 생성/관리하는 모듈입니다.</description>
-        <description xml:lang="zh-CN">布局生成/管理模块</description>
+        <description xml:lang="zh-CN">生成/管理布局的模块。</description>
         <description xml:lang="jp">レイアウトを生成・管理するモジュールです。</description>
         <description xml:lang="en">This module is for creating/managing.</description>
     </author>

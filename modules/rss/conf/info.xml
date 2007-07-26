@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">RSS 출력을 담당하는 모듈</description>
-        <description xml:lang="zh-CN">担当 RSS 输出的模块</description>
+        <description xml:lang="zh-CN">负责RSS输出的模块。</description>
         <description xml:lang="jp">RSS出力を担うモジュールです。</description>
         <description xml:lang="en">This modules is for printing RSS.</description>
     </author>

@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
         <description xml:lang="ko">엮인글 관리 모듈</description>
-        <description xml:lang="zh-CN">引用管理模块</description>
+        <description xml:lang="zh-CN">管理引用模块。</description>
         <description xml:lang="jp">トラックバック管理モジュール</description>
         <description xnl:lang="en">Module for managing trackbacks</description>
     </author>

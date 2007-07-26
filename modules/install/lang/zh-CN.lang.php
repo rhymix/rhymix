@@ -191,31 +191,32 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "请确认安装时必要的环境。";
+    $lang->install_condition_title = "请确认安装所需环境。";
 
     $lang->install_checklist_title = array(
-            'php_version' => 'PHP 版本',
-			'permission' => '属性',
-            'xml' => 'XML Library',
-            'iconv' => 'ICONV  Library',
-            'gd' => 'GD Library',
-            'session' => 'Session.auto_start 设定',
+			'php_version' => 'PHP版本',
+            'permission' => '属性',
+            'xml' => 'XML库',
+            'iconv' => 'ICONV库',
+            'gd' => 'GD库',
+            'session' => 'Session.auto_start 设置',
         );
 
     $lang->install_checklist_desc = array(
-            'permission' => '[必须] zeroboard的安装路径或 ./files 属性是707',
-            'xml' => '[必须] 需要XML Library',
-            'session' => '[必须] php.ini 设置为 session.auto_start=0',
-            'iconv' => '需要安装iconv',
-            'gd' => '需要安装GD Library',
+			'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装zeroboard XE。',
+            'permission' => '[必须] zeroboard的安装路径或 ./files目录属性必须是707',
+            'xml' => '[必须]为了 XML通讯，将需要XML库',
+            'session' => '[必须] 为了使用缓冲功能，必须在php.ini当中设置 session.auto_start=0',
+            'iconv' => '为了UTF-8和其他语言环境之间的互相转换，必须安装iconv',
+            'gd' => '为了使用图片变换功能，必须先得安装GD库',
         );
 
-    $lang->install_checklist_xml = '安装XML Library';
-    $lang->install_without_xml = '还没有xml Library';
-    $lang->install_checklist_gd = '安装GD Library';
-    $lang->install_without_gd  = '还没有安装GD Library';
-    $lang->install_checklist_gd = '安装 GD Library';
-    $lang->install_without_iconv = '还没有安装 iconv Library';
+    $lang->install_checklist_xml = '安装XML库';
+    $lang->install_without_xml = '还没有xml库';
+    $lang->install_checklist_gd = '安装GD库';
+    $lang->install_without_gd  = '还没有安装GD库';
+    $lang->install_checklist_gd = '安装 G库';
+    $lang->install_without_iconv = '还没有安装 iconv库';
     $lang->install_session_auto_start = '设置为 session.auto_start==1 可能处理session时发生错误';
     $lang->install_permission_denied = '安装目录属性不是707';
 
@@ -232,20 +233,20 @@ EndOfLicense;
     );
 
     $lang->form_title = '输入DB &amp; 管理员信息';
-    $lang->db_title = '输入DB信息';
-    $lang->db_type = 'DB 类型';
-    $lang->select_db_type = '请选择要使用的 DB。';
-    $lang->db_hostname = 'DB 服务器名称';
-    $lang->db_port = 'DB Port';
-    $lang->db_userid = 'DB I D';
-    $lang->db_password = 'DB 密码';
-    $lang->db_database = 'DB 数据库名称';
-    $lang->db_database_file = 'DB 数据库文件';
-    $lang->db_table_prefix = '表前缀';
+    $lang->db_title = '输入数据库信息';
+    $lang->db_type = '数据库类型';
+    $lang->select_db_type = '请选择要使用的数据库。';
+    $lang->db_hostname = '服务器';
+    $lang->db_port = '数据库端口';
+    $lang->db_userid = '用户名';
+    $lang->db_password = '密码';
+    $lang->db_database = '数据库名';
+    $lang->db_database_file = '数据库文件';
+    $lang->db_table_prefix = '前缀';
 
     $lang->admin_title = '管理员信息';
 
-    $lang->env_title = '系统环境设置';
+    $lang->env_title = '环境设置';
     $lang->use_rewrite = '使用rewrite模块';
     $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
     $lang->time_zone = '时区';
@@ -253,13 +254,13 @@ EndOfLicense;
 
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能接近的地方<br/><span style="color:red">数据文件需要指定在707属性的位置。</span>';
 
-    $lang->success_installed = '已完成安装';
-    $lang->success_updated = '已完成升级';
+    $lang->success_installed = '已完成安装。';
+    $lang->success_updated = '已完成升级。';
 
-    $lang->msg_cannot_proc = '没有设置必要的安装环境，不能继续进行安装';
+    $lang->msg_cannot_proc = '不具备安装所需环境，不能继续进行。';
     $lang->msg_already_installed = '已安装';
-    $lang->msg_dbconnect_failed = "链接DB时发生错误。\n请再确认DB信息。";
+    $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
     $lang->msg_table_is_exists = "已生成数据表。\n重新生成了config文件";
     $lang->msg_install_completed = "安装完成。\n非常感谢";
-    $lang->msg_install_failed = "安装文件生成时发生错误。";
+    $lang->msg_install_failed = "生成安装文件时发生错误。";
 ?>

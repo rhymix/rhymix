@@ -10,7 +10,7 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">제로보드 XE의 기본 스팸필터입니다.</description>
-        <description xml:lang="zh-CN">zeroboard XE的基本Spam过滤模块</description>
+        <description xml:lang="zh-CN">Zeroboard XE的基本Spam过滤模块。</description>
         <description xml:lang="en">A default spam filter of Zeroboard XE.</description>
         <description xml:lang="jp">ゼロボードXEのスパムフィルターです。</description>
     </author>

@@ -12,7 +12,7 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">기본 접속 통계 프로그램입니다.</description>
-        <description xml:lang="zh-CN">基本计访问统计程序。</description>
+        <description xml:lang="zh-CN">默认访问统计程序。</description>
         <description xml:lang="en">Basic connection statistics program.</description>
         <description xml:lang="es">Es la programa basica para conecciónes estaticos.</description>
         <description xml:lang="jp">接続統計のプログラムです。</description>

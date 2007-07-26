@@ -14,7 +14,7 @@
         <description xml:lang="ko">각 모듈들의 기능을 나열하고 관리자용 레이아웃을 적용하여 관리 기능을 사용할 수 있도록 하는 모듈입니다.</description>
         <description xml:lang="en">This module shows a list of features of each module, and enables you to use a quite few of managers by applying layout for administrator.</description>
         <description xml:lang="es">Lista las los funciónes de modules y aplica diseño de administración para manejar sitio.</description>
-        <description xml:lang="zh-CN">列出了各模块的功能和应用管理用的布局可以管理使用功能的模块。</description>
+        <description xml:lang="zh-CN">列出各模块的功能并使用管理员布局，可以让其使用管理功能的模块。</description>
         <description xml:lang="jp">各モジュールの機能を羅列し、管理者用のレイアウトを適用させ、管理機能が使用できるようにするモジュールです。</description>
     </author>
 </module>

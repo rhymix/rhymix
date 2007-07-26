@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/emoticon/lang/zh-CN.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  所见即所得编辑器(editor) 模块 >  引用文 (quotation) 组件语言包
+     * @brief  网页编辑器(editor) 模块 >  引用 (quotation) 组件语言包
      **/
 
     $lang->quotation_use_folder = "使用折叠功能";
@@ -13,8 +13,8 @@
     $lang->quotation_border_color = "边框颜色";
     $lang->quotation_border_thickness = "边框粗细";
 
-    $lang->folder_text_bold = "粗体表示";
-    $lang->about_folder_text_bold = "选择将链接的字体表示为粗体";
+    $lang->folder_text_bold = "粗体显示";
+    $lang->about_folder_text_bold = "选择此项将把链接的文本显示为粗体";
 
     $lang->folder_text_color = "链接颜色";
     $lang->folder_text_color_blue = "蓝色";
