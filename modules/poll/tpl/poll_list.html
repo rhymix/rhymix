@@ -34,7 +34,7 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-            <td class="left blue"><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;"/>{htmlspecialchars($val->title)}</a></td>
+            <td class="left blue"><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;">{htmlspecialchars($val->title)}</a></td>
             <td class="tahoma">{$val->checkcount}</td>
             <td class="tahoma">{$val->poll_count}</td>
             <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
