@@ -10,5 +10,5 @@
     $lang->sample_code = "サンプルコード";
     $lang->about_target_module = "選択されたモジュールのみを検索対象とします。権限設定に注意してください。";
     $lang->about_sample_code = "上のコードをレイアウトなどに追加すると統合検索が可能になります。";
-    $lang->msg_no_keyword = "검색어를 입력해주세요";
+    $lang->msg_no_keyword = "検索語を入力してください。";
 ?>
