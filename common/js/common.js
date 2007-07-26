@@ -150,6 +150,7 @@ function displayMultimedia(src, width, height, auto_start) {
         html = ""+
             "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" >"+
             "<param name=\"wmode\" value=\"transparent\" />"+
+            "<param name=\"allowScriptAccess\" value=\"always\" />"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
             "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\"></embed>"+
