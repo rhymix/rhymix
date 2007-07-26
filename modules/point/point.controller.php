@@ -76,7 +76,7 @@
                 }
             }
 
-            $code = str_replace('<'.$matches[6], sprintf('<%s title="%s:%s%s, %s:%s/%s" style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx" ', $matches[1], Context::getLang('point'), $point, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height), $matches[0] );
+            $code = sprintf('<%s title="%s:%s%s, %s:%s/%s" style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx">%s</%s> ', $matches[6], Context::getLang('point'), $point, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height, $matches[0], $matches[6]);
             $this->member_code[$member_srl] = $code;
 
             return $this->member_code[$member_srl];

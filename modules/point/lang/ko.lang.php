@@ -40,6 +40,7 @@
     $lang->cmd_point_config = '기본 설정';
     $lang->cmd_point_module_config = '모듈별 설정';
     $lang->cmd_point_act_config = '기능별 act 설정';
+    $lang->cmd_point_member_list = '회원 포인트 목록';
 
     $lang->msg_cannot_download = '포인트가 부족하여 다운로드를 하실 수 없습니다';
 ?>

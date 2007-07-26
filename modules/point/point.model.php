@@ -50,5 +50,27 @@
             $level --;
             return $level;
         }
+
+        /**
+         * @brief 포인트 순 회원목록 가져오기
+         **/
+        function getMemberList($args = null) {
+            if(!$args) {
+                $args->list_count = 20;
+                $args->page = 1;
+            }
+            $output = executeQuery("point.getMemberList", $args);
+            if($output->total_count) {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('point');
+
+                foreach($output->data as $key => $val) {
+                    $point = $val->point;
+                    $level = $this->getLevel($val->point, $config->level_step);
+                    $output->data[$key]->level = $level;
+                }
+            }
+            return $output;
+        }
     }
 ?>

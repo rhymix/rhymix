@@ -112,6 +112,17 @@
         }
 
         /**
+         * @brief 회원 포인트 변경
+         **/
+        function procPointAdminUpdatePoint() {
+            $member_srl = Context::get('member_srl');
+            $point = Context::get('point');
+
+            $oPointController = &getController('point');
+            return $oPointController->setPoint($member_srl, $point);
+        }
+
+        /**
          * @brief 캐시파일 저장
          **/
         function cacheActList() {

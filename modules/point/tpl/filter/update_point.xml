@@ -1,0 +1,8 @@
+<filter name="update_point" module="point" act="procPointAdminUpdatePoint" confirm_msg_code="confirm_update">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

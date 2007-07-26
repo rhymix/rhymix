@@ -5,9 +5,11 @@
         <action name="dispPointAdminConfig" type="view" admin_index="true" standalone="true" />
         <action name="dispPointAdminModuleConfig" type="view" standalone="true" />
         <action name="dispPointAdminActConfig" type="view" standalone="true" />
+        <action name="dispPointAdminPointList" type="view" standalone="true" />
 
         <action name="procPointAdminInsertConfig" type="controller" standalone="true" />
         <action name="procPointAdminInsertModuleConfig" type="controller" standalone="true" />
         <action name="procPointAdminInsertActConfig" type="controller" standalone="true" />
+        <action name="procPointAdminUpdatePoint" type="controller" standalone="true" />
     </actions>
 </module>

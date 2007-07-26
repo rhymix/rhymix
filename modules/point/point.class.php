@@ -16,6 +16,7 @@
             $oModuleController->insertActionForward('point', 'view', 'dispPointAdminConfig');
             $oModuleController->insertActionForward('point', 'view', 'dispPointAdminModuleConfig');
             $oModuleController->insertActionForward('point', 'view', 'dispPointAdminActConfig');
+            $oModuleController->insertActionForward('point', 'view', 'dispPointAdminPointList');
 
             // 포인트 정보를 기록할 디렉토리 생성
             FileHandler::makeDir('./files/member_extra_info/point');
