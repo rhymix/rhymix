@@ -29,7 +29,7 @@
             // 정상적으로 업로드된 파일이 아니면 오류 출력
             if(!is_uploaded_file($file_info['tmp_name'])) return false;
 
-            $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+            return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
 
 
