@@ -40,7 +40,7 @@
             <!--@for($i=0;$i<count($tag_list);$i++)-->
                 {@ $tag = $tag_list[$i]; }
                 {$lang->tag} :
-                <a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}">{htmlspecialchars($val)}</a>
+                <a href="{getUrl('search_target','tag','search_keyword',urlencode($val),'document_srl','')}" rel="tag">{htmlspecialchars($val)}</a>
             <!--@end-->
         </div>
         <!--@end-->

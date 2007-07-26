@@ -73,7 +73,7 @@
         <td>
             <!--@for($i=0;$i<count($tag_list);$i++)-->
                 {@ $tag = $tag_list[$i]; }
-                <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
+                <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
             <!--@end-->
         </td>
     </tr>
