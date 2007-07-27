@@ -2,15 +2,21 @@
 <addon version="0.1">
   <title xml:lang="ko">포인트 레벨 아이콘 표시 애드온</title>
   <title xml:lang="jp">ポイントレベルアイコン</title>
+  <title xml:lang="en">Addon for displaying level icon</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">Zero</name>
+    <name xml:lang="en">zero</name>
     <description xml:lang="ko">
         포인트 시스템을 사용중일 경우 사용자 이름 앞에 레벨 아이콘을 표시하도록 합니다.
         레벨 아이콘은 모듈 &gt; 포인트시스템에서 선택 가능합니다.
     </description>
     <description xml:lang="jp">
         ポイントシステムを使用している場合、ユーザ名の前にレベルアイコンを表示させます。レベルアイコンは、「モジュール&gt;ポイントシステム」で選択できます。
+    </description>
+    <description xml:lang="en">
+        This addon displays level icon in front of user name when point system is using.
+        You can choose level icon on Module &gt; Point System.
     </description>
   </author>
 </addon>

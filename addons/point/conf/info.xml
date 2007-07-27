@@ -2,14 +2,19 @@
 <addon version="0.1">
   <title xml:lang="ko">포인트 활성화 애드온</title>
   <title xml:lang="jp">ポイントシステム</title>
+  <title xml:lang="en">Addon of activating point</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">Zero</name>
+    <name xml:lang="en">zero</name>
     <description xml:lang="ko">
         포인트시스템 모듈에 설정된 내용을 바탕으로 글작성/삭제/댓글작성/삭제/파일업로드/삭제/다운로드등의 행동에 대해서 포인트를 기록합니다.
     </description>
     <description xml:lang="jp">
         ポイントシステムモジュールで設定された内容を基に、書き込み作成・削除/コメント作成・削除/ファイルアップロード・削除/ダウンロードなどのユーザの活動に対してポイントを記録します。
+    </description>
+    <description xml:lang="en">
+        This addon records point on writing/deleting/adding comments/deleting comments/uploading/downloading following to point system module.
     </description>
   </author>
 </addon>
