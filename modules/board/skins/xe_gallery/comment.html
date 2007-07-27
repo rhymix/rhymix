@@ -10,8 +10,6 @@
 
             <a name="comment_{$key}"></a>
 
-            <div class="member_{$val->member_srl} author">{htmlspecialchars($val->nick_name)}</div>
-
             <div class="replyOption">
                 <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
                     <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
@@ -26,6 +24,9 @@
                     ({$val->ipaddress})
                 <!--@end-->
             </div>
+
+            <div class="author"><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></div>
+
 
             <div class="replyContent">
             {$val->content}
