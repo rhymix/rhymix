@@ -1,7 +1,24 @@
 <!-- 레이아웃과 연동될 css 파일 import -->
 <!--%import("css/layout.css")-->
 <!--%import("css/blog_tree_menu.css")-->
+
+<!-- JS 파일 로드 -->
 <!--%import("js/blog_tree_menu.js")-->
+<!--%import("js/blog.js")-->
+
+<!-- 컬러셋 체크 -->
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+<!--%import("css/common.css")-->
+<!--@if($module_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+<!--@elseif($module_info->colorset == "red")--> <!--%import("css/red.css")-->
+<!--@elseif($module_info->colorset == "green")--> <!--%import("css/green.css")-->
+<!--@elseif($module_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+<!--@else--> <!--%import("css/white.css")-->
+<!--@end-->
 
 <!--@if($layout_info->background_image)-->
   <style type="text/css">
@@ -106,26 +123,28 @@
             <!-- 왼쪽 위젯 출력 위치 -->
 
             <!-- 최근문서 출력 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="normal" title="recent entries" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="{$layout_info->colorset}" title="recent entries" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 최근댓글 출력 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="normal" title="recent comments" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="{$layout_info->colorset}" title="recent comments" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 엮인글들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="normal" title="recent trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="{$layout_info->colorset}" title="recent trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
 
             <!-- 꼬리표들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="normal" title="site tags" list_count="60" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="{$layout_info->colorset}" title="site tags" list_count="60" mid_list="{$layout_info->mid}" />
 
             <!-- 월별 현황들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="normal" title="archives" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="{$layout_info->colorset}" title="archives" mid_list="{$layout_info->mid}" />
 
             <!-- 달력 -->
-            <br />
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="normal" mid_list="{$layout_info->mid}" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="{$layout_info->colorset}" mid_list="{$layout_info->mid}" />
 
             <!-- 카운터 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="counter_status" skin="styx_flash" colorset="normal" />
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="counter_status" skin="styx_flash" colorset="{$layout_info->colorset}" />
+
+            <!-- 언어선택 위젯 -->
+            <img src="/site/common/tpl/images/blank.gif" class="zbxe_widget_output" widget="language_select" skin="default" colorset="normal" widget_cache="0" />
 
             <!-- powered by zbxe -->
             <div id="poweredbyzbxe">

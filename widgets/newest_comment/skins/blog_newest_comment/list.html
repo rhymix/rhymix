@@ -1,6 +1,14 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
-<!--@if($colorset=="normal"||!$colorset)-->
+<!--@if($colorset=="cyan")-->
+    <!--%import("css/cyan.css")-->
+<!--@elseif($colorset=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($colorset=="red")-->
+    <!--%import("css/red.css")-->
+<!--@elseif($colorset=="purple")-->
+    <!--%import("css/purple.css")-->
+<!--@else-->
     <!--%import("css/normal.css")-->
 <!--@end-->
 

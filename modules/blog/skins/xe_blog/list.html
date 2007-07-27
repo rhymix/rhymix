@@ -46,7 +46,7 @@
 <!-- 페이지 네비게이션 -->
 <div class="pageNavigation">
 
-    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
             <span class="current">{$page_no}</span> 
@@ -54,7 +54,7 @@
             <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>
 
 <!--#include("footer.html")-->
