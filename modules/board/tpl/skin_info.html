@@ -45,7 +45,12 @@
         <th scope="row">{$lang->colorset}</th>
         <td class="left">
             <!--@foreach($skin_info->colorset as $key => $val)-->
-            <div style="float:left;text-align:center;margin-bottom:1em;">
+                <!--@if($val->screenshot)-->
+                    {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; }
+                <!--@else-->
+                    {@ $_height = 20; }
+                <!--@end-->
+            <div style="float:left;text-align:center;margin-bottom:1em;height:{$_height}px;margin-right:10px;">
                 <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="checked"<!--@end-->/>  
                 <label for="colorset_{$key}">{$val->title}</label>
                 <!--@if($val->screenshot)-->
@@ -53,6 +58,7 @@
                 <img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
                 <!--@end-->
             </div>
+            <!--@if($key%2==1)--><div class="clear"></div><!--@end-->
             <!--@end-->
         </td>
     </tr>

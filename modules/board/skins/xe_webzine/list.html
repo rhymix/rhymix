@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th scope="col" class="num">{$lang->no}</th>
-            <th scope="col" colspan="2" class="title <!--@if($module_info->use_category)-->tLeft<!--@end-->">
+            <th scope="col" colspan="2" class="title <!--@if($module_info->use_category=='Y')-->tLeft<!--@end-->">
                 <!--@if($module_info->use_category == "Y")-->
                 <form action="./" method="get">
                     <select name="category" id="board_category">
@@ -23,7 +23,7 @@
                         <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                         <!--@end-->
                     </select>
-                    <input type="button" name="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
+                    <input type="button" name="go_button" id= "go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
                 </form>
                 <!--@else-->
                 {$lang->title}
@@ -39,11 +39,11 @@
                 {@ $order_type = "desc"; }
             <!--@end-->
 
-            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
 
-            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
 
-            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/{$module_info->colorset}/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
         </tr>
     </thead>
 
@@ -81,11 +81,11 @@
                 <!--@end-->
                 
                 <!--@if($document->getCommentCount())-->
-                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
                 <!--@end-->
 
                 <!--@if($document->getTrackbackCount())-->
-                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
                 <!--@end-->
             </td>
             <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
@@ -98,7 +98,7 @@
 
         <tr class="bg{($no+1)%2+1}">
 
-            <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/white/iconArrowD8.gif" alt="" border="0" /><!--@else-->{$no}<!--@end--></td>
+            <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/common/iconArrowD8.gif" alt="" border="0" /><!--@else-->{$no}<!--@end--></td>
             <!--@if($document->thumbnailExists(100))-->
             <td rowspan="2" class="thumb">
                     <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
@@ -125,11 +125,11 @@
                 <!--@end-->
                 
                 <!--@if($document->getCommentCount())-->
-                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                    <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
                 <!--@end-->
 
                 <!--@if($document->getTrackbackCount())-->
-                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
                 <!--@end-->
             </td>
             <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
@@ -167,7 +167,7 @@
     <!-- 페이지 네비게이션 -->
     <div class="pageNavigation">
 
-        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
         <!--@while($page_no = $page_navigation->getNextPage())-->
             <!--@if($page == $page_no)-->
                 <span class="current">{$page_no}</span> 
@@ -175,7 +175,7 @@
                 <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
             <!--@end-->
         <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
     </div>
 
 
