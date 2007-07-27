@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">최근 이미지 출력</title>
+    <title xml:lang="jp">最新イメージ表示</title>
     <title xml:lang="zh-CN">图片列表</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 25">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">Zero</name>
         <description xml:lang="ko">작성된 글의 내용에 포함된 이미지를 출력하는 위젯입니다.</description>
+        <description xml:lang="jp">作成されたコンテンツの内容に含まれているイメージを表示するウィジェットです。</description>
         <description xml:lang="zh-CN">显示主题当中包含图片的控件。</description>
     </author>
     <extra_vars>
         <var id="title_length">
             <name xml:lang="ko">글 제목 길이</name>
+            <name xml:lang="jp">題名の文字数</name>
             <name xml:lang="zh-CN">标题长度</name>
             <type>text</type>
             <description xml:lang="ko">정한 글자수만큼 글 제목을 잘라서 출력합니다. (기본 10자)</description>
+            <description xml:lang="jp">指定された文字数分の長さを切り取って表示します。（デフォルト10文字）</description>
             <description xml:lang="zh-CN">显示制定长度标题。 (默认为 10字)</description>
         </var>
         <var id="thumbnail_width">
             <name xml:lang="ko">이미지 가로크기</name>
+            <name xml:lang="jp">イメージ横幅</name>
             <name xml:lang="zh-CN">宽度</name>
             <type>text</type>
             <description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
+            <description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト100）。</description>
             <description xml:lang="zh-CN">可以指定要显示的图片宽度。 (默认为 100)</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">이미지 수</name>
+            <name xml:lang="jp">イメージ数</name>
             <name xml:lang="zh-CN">图片数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的图片个数 (默认为 5个)</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
+            <name xml:lang="jp">モジュール</name>
             <name xml:lang="zh-CN">对象模块</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+            <description xml:lang="jp">チェックされたコンテンツを対象とします。</description>
             <description xml:lang="zh-CN">把被选模块中的主题作为对象。</description>
         </var>
     </extra_vars>

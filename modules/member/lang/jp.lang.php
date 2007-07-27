@@ -9,7 +9,7 @@
     $lang->member_default_info = '基本情報';
     $lang->member_extend_info = '追加情報';
     $lang->default_group_1 = "準会員";
-    $lang->default_group_2 = "正式会員";
+    $lang->default_group_2 = "正会員";
     $lang->admin_group = "管理グループ";
     $lang->remember_user_id = 'ＩＤ保存';
     $lang->already_logged = '既にログインされています。';
@@ -42,7 +42,7 @@
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
-    $lang->redirect_url = '加入後移動するページ';
+    $lang->redirect_url = '加入後移動ページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->sender = '送信者';
@@ -84,7 +84,7 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '加入フォーム管理';
-    $lang->cmd_view_own_document = '書き込みのプレビュー';
+    $lang->cmd_view_own_document = 'プレビュー';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
     $lang->cmd_send_email = 'メール送信';
     $lang->cmd_send_message = 'メッセージ送信';
@@ -142,7 +142,7 @@
     $lang->about_allow_mailing = 'メーリングリストにチェックされていない場合は、全体メールの送信時にメールを受け取りません。';
     $lang->about_allow_message = 'メッセージを受信するかを設定します。';
     $lang->about_denied = 'チェックするとユーザＩＤを使用できないようにします。';
-    $lang->about_is_admin = 'チェックすると最高管理者権限を取得できます。';
+    $lang->about_is_admin = 'チェックすると最高管理者権限が取得できます。';
     $lang->about_description = '会員に対する管理者のメモ帳です。';
     $lang->about_group = '一つのユーザＩＤは多数のグループに属することができます。';
 

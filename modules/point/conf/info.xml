@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">포인트 시스템</title>
+    <title xml:lang="jp">ポイントシステム</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
         <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">
             글작성/삭제/댓글작성/삭제시에 포인트를 부여할 수 있습니다.
             포인트마다 레벨을 지정하여 사용자 이름 앞에 아이콘을 표시할 수도 있습니다.
             단 포인트 관련 애드온을 활성화 시키셔야 됩니다.
+        </description>
+        <description xml:lang="jp">
+            書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることができます。但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
         </description>
     </author>
 </module>
