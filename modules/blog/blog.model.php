@@ -39,6 +39,7 @@
          * 이 정보중에 group_srls의 경우는 , 로 연결되어 들어가며 사용시에는 explode를 통해 array로 변환 시킴
          **/
         function getCategoryInfo($category_srl) {
+            if(!$category_srl) return;
             // category_srl이 있으면 해당 메뉴의 정보를 가져온다
             $args->category_srl= $category_srl;
             $output = executeQuery('blog.getCategoryInfo', $args);
