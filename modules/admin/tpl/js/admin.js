@@ -11,19 +11,21 @@ function doDeleteShortCut(selected_module) {
     procFilter(fo_obj, delete_shortcut);
 }
 
-// footer를 화면 크기에 맞춰 설정
-xAddEventListener(window, 'load', fixAdminLayoutFooter);
-xAddEventListener(window, 'resize', fixAdminLayoutFooter);
+// footer를 화면 크기에 맞춰 설정 (폐기)
+//xAddEventListener(window, 'load', fixAdminLayoutFooter);
+//xAddEventListener(window, 'resize', fixAdminLayoutFooter);
 function fixAdminLayoutFooter(height) {
-    var headerHeight = xHeight('header');
-    var bodyHeight = xHeight('cBody');
-    var footerHeight = xHeight('footer');
-    var clientHeight = xClientHeight();
-    var newHeight = clientHeight - footerHeight - headerHeight + 71 + 38;
+    return;
+}
 
-    if(newHeight<bodyHeight) newHeight = bodyHeight;
-    if(typeof(height)=='number') {
-        newHeight += height;
-    }
-    xHeight('cBody', newHeight);
+if(xIE6) {
+    xAddEventListener(window,'load',fixAdminNaviHeight);
+}
+
+function fixAdminNaviHeight() {
+    var naviHeight = xHeight('gNavigation');
+    var bodyHeight = xHeight('content');
+    if(naviHeight<bodyHeight) xHeight('gNavigation',bodyHeight);
+    else xHeight('content',naviHeight);
+    setTimeout(fixAdminNaviHeight, 500);
 }

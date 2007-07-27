@@ -75,5 +75,28 @@
             return executeQuery($query_id, $args);
         }
 
+        /**
+         * @brief 회원 모듈의 특정 스킨에 속한 컬러셋 목록을 return
+         **/
+        function getMemberAdminColorset() {
+            $skin = Context::get('skin');
+            if(!$skin) $tpl = "";
+            else {
+                $oModuleModel = &getModel('module');
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+                Context::set('skin_info', $skin_info);
+
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+                if(!$config->colorset) $config->colorset = "white";
+                Context::set('config', $config);
+
+                $oTemplate = &TemplateHandler::getInstance();
+                $tpl = $oTemplate->compile($this->module_path.'tpl', 'colorset_list');
+            }
+
+            $this->add('tpl', $tpl);
+        }
+
     }
 ?>

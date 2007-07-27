@@ -10,13 +10,12 @@
 .memberSmallBox.w500pop { width:500px; margin:0; padding:0;}
 .memberSmallBox.w600pop { width:600px; margin:0; padding:0;}
 
-.memberSmallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
-.memberSmallBox .header h3 { margin:0; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; background:url(../images/normal/lineH3.gif) no-repeat right bottom;}
+.memberSmallBox .header { position:relative; _width:100%; background:#ffffff url(../images/common/bgH3.gif) no-repeat left bottom; overflow:hidden;}
+.memberSmallBox .header h3 { margin:0; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666; height:25px;}
 
-.boardHeader { position:relative; _width:100%; border-top:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/normal/bgH3.gif) no-repeat right bottom; overflow:hidden;}
-.boardHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #e1e1dd; border-bottom:3px solid #fe3614; background:url(../images/normal/lineH3.gif) no-repeat right bottom;}
+.boardHeader { position:relative; _width:100%; border-top:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
 .boardHeader .member_option { float:right; position:relative; top:1em; right:1em; }
 .boardHeader select { vertical-align:bottom; }
 .boardHeader input { vertical-align:bottom; _padding-bottom:1px;}
@@ -28,7 +27,7 @@
 .list tr:first-child td, .list tr.first-child td { border-top:1px solid #e0e1db; white-space:nowrap;}
 .list tr.bg1 { background:#ffffff}
 .list tr.bg2 { background:#fbfbfb;}
-.list th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.5em .2em .5em .2em; background:#ffffff url(../images/normal/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
+.list th { color:#3e3f3e; font-weight:white; border-bottom:1px solid #ffffff;  padding:.5em .2em .5em .2em; background:#ffffff url(../images/common/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
 .list th a { color:#3e3f3e;}
 .list th:first-child, .list th.first-child { background-position:-3px bottom; border-left:1px solid #ffffff;}
 .list th.check { padding:0;}
@@ -70,28 +69,28 @@
 .memberSmallBox .text p { margin-bottom:.5em;}
 
 /* friend */
-.friendNum { float:left; background:url(../images/normal/iconFriend.gif) no-repeat .5em .4em; padding:.4em 0 0 2em;}
+.friendNum { float:left; background:url(../images/common/iconFriend.gif) no-repeat .5em .4em; padding:.4em 0 0 2em;}
 .friendNum strong { font:bold 11px Tahoma; color:#ff6600;}
 
 /* message */
 .readMessage { border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
 .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
-.readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/normal/iconArrow99.gif) no-repeat left .3em;}
+.readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
 .readMessage .messageHeader address { float:right; white-space:nowrap;}
-.readMessage .messageHeader address em { font-size:1em; font-style:normal; color:#333333; margin-right:.3em; float:left;}
+.readMessage .messageHeader address em { font-size:1em; font-style:white; color:#333333; margin-right:.3em; float:left;}
 .readMessage .messageHeader address em a { color:#333333;}
 .readMessage .messageHeader address .date { font:.8em Tahoma; color:#999999; margin-left:10px;}
 .readMessage .messageBody { border:1px solid #e0e1db; margin:0 1.5em 1.5em 1.5em; padding:1em; position:relative; color:#666666;}
 .readMessage .deleteOrKeep { padding:.5em 0; overflow:hidden; background:#f5f5f3; border-top:1px solid #eaebe7; _width:100%;}
 .instantMessage { float:right; overflow:hidden;}
-.instantMessage li { float:left; padding:0 .8em 0 .8em; margin-left:-1px; background:url(../images/normal/line_1x10_e0e0e0.gif) no-repeat left center; list-style:none; }
-.instantMessage li a { text-decoration:none; display:block; float:left; height:1em; height:1.1em; overflow:hidden; font-size:1em; white-space:nowrap; color:#666666; padding-left:1.8em; background:url(../images/normal/iconInstantMessage.gif) no-repeat left top;}
+.instantMessage li { float:left; padding:0 .8em 0 .8em; margin-left:-1px; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left center; list-style:none; }
+.instantMessage li a { text-decoration:none; display:block; float:left; height:1em; height:1.1em; overflow:hidden; font-size:1em; white-space:nowrap; color:#666666; padding-left:1.8em; background:url(../images/common/iconInstantMessage.gif) no-repeat left top;}
 .instantMessage li.on a { background-position:left -14px; font-weight:bold;}
 .instantMessage li a strong { color:#ff6600;}
 
 /* member info */
 .memberInfoTable { width:100%; border:1px solid #e0e1db; margin-bottom:10px;}
-.memberInfoTable caption { padding:2em 0 .5em 1.5em; font-weight:bold; text-align:left; background:url(../images/normal/iconH3.gif) no-repeat .5em 2em;}
+.memberInfoTable caption { padding:2em 0 .5em 1.5em; font-weight:bold; text-align:left; background:url(../images/common/iconH3.gif) no-repeat .5em 2em;}
 .memberInfoTable tr.first-child th, .memberInfoTable tr.first-child td { border-top:none;}
 .memberInfoTable th, .memberInfoTable td { border-top:1px solid #eaebe7; padding:.5em;}
 .memberInfoTable th { background:#f5f5f3; text-align:left; padding:.5em 1em;}

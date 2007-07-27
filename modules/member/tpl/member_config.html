@@ -9,16 +9,6 @@
 <col width="150" />
 <col />
     <tr>
-        <th scope="row">{$lang->skin}</th>
-        <td>
-            <select name="skin">
-                <!--@foreach($skin_list as $key => $val)-->
-                <option value="{$key}">{$val->title} ({$key})</option>
-                <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
         <th scope="row">{$lang->enable_openid}</th>
         <td>
             <input type="checkbox" name="enable_openid" value="Y" <!--@if($config->enable_openid=='Y')-->checked="checked"<!--@end--> class="checkbox" />
@@ -75,6 +65,20 @@
             <p>{$lang->about_agreement}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row">{$lang->skin}</th>
+        <td>
+            <select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
+                <!--@foreach($skin_list as $key => $val)-->
+                <option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({$key})</option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->colorset}</th>
+        <td><div id="member_colorset"></div></td>
+    </tr>
     </table>
 
     <div class="tRight gap1">
@@ -85,3 +89,7 @@
     </div>
 
 </form>
+
+<script type="text/javascript">
+    doGetSkinColorset("{$config->skin}");
+</script>

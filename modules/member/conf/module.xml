@@ -29,6 +29,7 @@
         <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
 
         <action name="getMemberMenu" type="model" standalone="true" />
+        <action name="getMemberAdminColorset" type="model" standalone="true" />
 
         <action name="procMemberLogin" type="controller" standalone="true" />
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" />

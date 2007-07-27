@@ -64,6 +64,7 @@
             if(!$config->image_name_max_height) $config->image_name_max_height = 20;
             if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
             if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
+            if(!$config->skin) $config->skin = "default";
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함

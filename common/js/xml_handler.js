@@ -18,8 +18,8 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
-    if(show_waiting_message) {
-        var waiting_obj = xGetElementById("waitingforserverresponse");
+    var waiting_obj = xGetElementById("waitingforserverresponse");
+    if(show_waiting_message && waiting_obj) {
         xInnerHtml(waiting_obj, wating_message);
         xTop(waiting_obj, xScrollTop()+20);
         xLeft(waiting_obj, xScrollLeft()+20);

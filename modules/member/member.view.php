@@ -19,9 +19,11 @@
             // 회원 관리 정보를 받음
             $oModuleModel = &getModel('module');
             $this->member_config = $oModuleModel->getModuleConfig('member');
+            if(!$this->member_config->skin) $this->member_config->skin = "default";
+            if(!$this->member_config->colorset) $this->member_config->colorset = "white";
+
             Context::set('member_config', $this->member_config);
             $skin = $this->member_config->skin;
-            if(!$skin) $skin = 'default';
 
             // template path 지정
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);

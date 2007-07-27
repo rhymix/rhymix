@@ -1,8 +1,16 @@
 <!--%import("js/member.js")-->
 
-<!--@if($colorset=="normal"||!$colorset)-->
-    {@ $colorset = "normal"; } 
-    <!--%import("css/normal.css")-->
+<!--%import("css/common.css")-->
+<!--@if($member_config->colorset=="purple")-->
+    <!--%import("css/purple.css")-->
+<!--@elseif($member_config->colorset=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($member_config->colorset=="red")-->
+    <!--%import("css/red.css")-->
+<!--@elseif($member_config->colorset=="cyan")-->
+    <!--%import("css/cyan.css")-->
+<!--@else-->
+    <!--%import("css/white.css")-->
 <!--@end-->
 
 <div id="memberModule">

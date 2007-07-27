@@ -38,7 +38,7 @@ address { font-style:normal;}
 
 #cBody { clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
 
-#gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;}
+#gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;  background:#ffffff url(../images/menuBg.gif) repeat-y;}
 #gNavigation h2 { }
 #gNavigation ul { width:180px;}
 #gNavigation ul li { width:180px; height:30px; background:url(../images/menuBg.png) no-repeat left top; } /* behavior:url(./common/js/iePngFix.htc);}*/
@@ -53,12 +53,12 @@ address { font-style:normal;}
 
 /* ----- Footer | Start ----- */
 
-#footer { position:relative; width:100%; clear:both; height:38px; overflow:hidden; background:url(../images/footerBg.gif) repeat-x left 3px;}
+#footer { width:100%; clear:both; height:38px; margin-bottom:-38px; overflow:hidden; background:url(../images/footerBg.gif) repeat-x left 3px;}
 #footer .footerLine { height:3px; width:100%; float:left; clear:both;}
 #footer .footerLeft { float:left;}
-#footer address { position:absolute; top:3px; right:0; width:350px; height:35px; background:url(../images/addressBg.gif) no-repeat right top;}
-#footer address img { position:absolute; top:15px; left:38px;}
-#footer address .version { position:absolute; top:10px; left:297px; font:.8em Tahoma; color:#ffffff;}
+#footer address { float:right; width:350px; height:35px; background:url(../images/addressBg.gif) no-repeat right top;}
+#footer address img { margin:15px 10px 0 0}
+#footer address .version { font:.8em Tahoma; color:#ffffff;}
 #footer address .version strong { font:bold 1em Tahoma; color:#ff0000; }
 
 /* ----- Footer | End ----- */
