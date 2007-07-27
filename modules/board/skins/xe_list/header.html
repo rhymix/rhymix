@@ -2,13 +2,17 @@
 <!--%import("js/board.js")-->
 
 <!-- 컬러셋 체크 -->
-<!--@if($module_info->colorset != "white")-->
+<!--@if(!$module_info->colorset)-->
     {@$module_info->colorset = "white"}
 <!--@end-->
 
 <!-- CSS 파일 로드 (컬러셋에 따라서) -->
-<!--@if($module_info->colorset == "white")-->
-    <!--%import("css/white.css")-->
+<!--%import("css/common.css")-->
+<!--@if($module_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+<!--@elseif($module_info->colorset == "red")--> <!--%import("css/red.css")-->
+<!--@elseif($module_info->colorset == "green")--> <!--%import("css/green.css")-->
+<!--@elseif($module_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+<!--@else--> <!--%import("css/white.css")-->
 <!--@end-->
 
 <!-- 상단 텍스트 출력 -->

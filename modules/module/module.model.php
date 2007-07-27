@@ -201,8 +201,10 @@
                     $name = $color->attrs->name;
                     $title = $color->title->body;
                     $screenshot = $color->attrs->src;
-                    if($screenshot && file_exists($screenshot)) $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
-                    else $screenshot = "";
+                    if($screenshot) {
+                        $screenshot = sprintf("%sskins/%s/%s", $path, $skin, $screenshot);
+                        if(!file_exists($screenshot)) $screenshot = "";
+                    } else $screenshot = "";
 
                     unset($obj);
                     $obj->name = $name;
