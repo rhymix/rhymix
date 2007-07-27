@@ -56,6 +56,7 @@
     <script type="text/javascript" src="../js/xml_handler.js"></script>
 
     <link rel="stylesheet" href="../css/default.css" type="text/css" />
+    <link rel="stylesheet" href="../css/button.css" type="text/css" />
     <link rel="stylesheet" href="../../modules/admin/tpl/css/admin.css" type="text/css" />
     <link rel="stylesheet" href="./css/calendar.css" type="text/css" />
 
@@ -152,12 +153,15 @@
                             $date = date("Y. m. d", mktime(0,0,0,$m, $day, $y));
                             $date_str = date("Ymd", mktime(0,0,0,$m, $day, $y));
 
-
                 ?>
                     <td class="<?=$class_name?>">
-                        <?if(date("Ymd")==$date_str){?><strong><?}?>
-                        <?if($day){?><a href="#" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><?=$day?></a><?}else{?>&nbsp;<?}?>
-                        <?if(date("Ymd")==$date_str){?></strong><?}?>
+                        <?if($m==$month){?>
+                            <?if(date("Ymd")==$date_str){?><strong><?}?>
+                            <?if($day){?><a href="#" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><?=$day?></a><?}else{?>&nbsp;<?}?>
+                            <?if(date("Ymd")==$date_str){?></strong><?}?>
+                        <?}else{?>
+                            <span class="disable"><?if($day){?><a href="#" onclick="selectDate('<?=$date?>','<?=$date_str?>','<?=$callback_func?>');return false;"><?=$day?></a><?}else{?>&nbsp;<?}?></span>
+                        <?}?>
                     </td>
                 <?
                         }
@@ -172,8 +176,8 @@
         </div>
 
     </form>
-    <div id="popFooter">
-        <span class="close"><a href="#" onclick="window.close();" class="buttonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" />close<img src="./images/blank.gif" alt="" class="rightCap" /></a></span>
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="window.close();" class="button"><span>close</span></a>
     </div>
 </div>
 

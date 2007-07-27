@@ -30,3 +30,4 @@ body { margin:0; padding:0; }
 #popBody .calendar .dd td.sun a { color:#c95b53;}
 #popBody .calendar .dd .first { height:35px;}
 #popBody .calendar .dd .last td { height:35px; border-bottom:none;}
+#popBody .calendar .dd td .disable a { color:#CCCCCC; }
