@@ -48,42 +48,42 @@
 #blog_category .line_open {
     display:block;
     padding-left:18px;
-    background:url(../images/tree_menu/line.gif) repeat-y left;
+    /*background:url(../images/tree_menu/line.gif) repeat-y left;*/
 }
 
 #blog_category .line_close {
     display:none;
     padding-left:18px;
-    background:url(../images/tree_menu/line.gif) repeat-y left;
+    /*background:url(../images/tree_menu/line.gif) repeat-y left;*/
 }
 
 #blog_category .plus {
     padding-left:18px;
-    background:url(../images/tree_menu/plus.gif) repeat-y left;
+    /*background:url(../images/tree_menu/plus.gif) repeat-y left;*/
 }
 
 #blog_category .plus_bottom {
     padding-left:18px;
-    background:url(../images/tree_menu/plusbottom.gif) no-repeat left;
+    /*background:url(../images/tree_menu/plusbottom.gif) no-repeat left;*/
 }
 
 #blog_category .minus {
     padding-left:18px;
-    background:url(../images/tree_menu/minus.gif) repeat-y left;
+    /*background:url(../images/tree_menu/minus.gif) repeat-y left;*/
 }
 
 #blog_category .minus_bottom {
     padding-left:18px;
-    background:url(../images/tree_menu/minusbottom.gif) no-repeat left;
+    /*background:url(../images/tree_menu/minusbottom.gif) no-repeat left;*/
 }
 
 #blog_category .join {
     padding-left:18px;
-    background:url(../images/tree_menu/join.gif) repeat-y left;
+    /*background:url(../images/tree_menu/join.gif) repeat-y left;*/
 }
 
 #blog_category .join_bottom {
     padding-left:18px;
-    background:url(../images/tree_menu/joinbottom.gif) no-repeat left;
+    /*background:url(../images/tree_menu/joinbottom.gif) no-repeat left;*/
 }
 
