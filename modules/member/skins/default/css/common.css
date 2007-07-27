@@ -11,7 +11,6 @@
 .memberSmallBox.w600pop { width:600px; margin:0; padding:0;}
 
 .memberSmallBox .header { position:relative; _width:100%; background:#ffffff url(../images/common/bgH3.gif) no-repeat left bottom; overflow:hidden;}
-.memberSmallBox .header h3 { margin:0; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666; height:25px;}
 
