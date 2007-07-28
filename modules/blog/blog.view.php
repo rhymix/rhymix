@@ -206,7 +206,7 @@
          **/
         function dispBlogDelete() {
             // 권한 체크
-            if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->write_document) return $this->dispBlogMessage('msg_not_permitted');
 
             // 삭제할 문서번호를 가져온다
             $document_srl = Context::get('document_srl');
@@ -218,7 +218,7 @@
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$oDocument->isExists()) return $this->dispBoardContent();
+            if(!$oDocument->isExists()) return $this->dispBlogContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
             if(!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
