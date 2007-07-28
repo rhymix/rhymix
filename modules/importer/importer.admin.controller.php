@@ -301,11 +301,18 @@
             if(count($files)) {
                 foreach($files as $key => $val) {
                     $filename = $val->filename->body;
-                    $url = $val->url->body;
+                    $path = $val->path->body;
                     $download_count = (int)$val->download_count->body;
 
                     $tmp_filename = './files/cache/tmp_uploaded_file';
-                    if(FileHandler::getRemoteFile($url, $tmp_filename)) {
+
+                    if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
+                        $tmp_path = iconv("UTF-8","EUC-KR",$path);
+                        if(file_exists($tmp_path)) $path = $tmp_path;
+                    }
+
+                    if(file_exists($path)) {
+                        @copy($path, $tmp_filename);
                         $file_info['tmp_name'] = $tmp_filename;
                         $file_info['name'] = $filename;
                         $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count, true);
