@@ -137,8 +137,20 @@
             $fp = @fsockopen($url_info['host'], $url_info['port']);
             if(!$fp) return;
 
-            $url_info['path'] = str_replace(' ','%20',$url_info['path']);
-            $header = sprintf("GET %s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            // 한글 파일이 있으면 한글파일 부분만 urlencode하여 처리 (iconv 필수)
+            $path = $url_info['path'];
+            if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
+                $path_list = explode('/',$path);
+                $cnt = count($path_list);
+                $filename = $path_list[$cnt-1];
+                $filename = urlencode(iconv("UTF-8","EUC-KR",$filename));
+                $path_list[$cnt-1] = $filename;
+                $path = implode('/',$path_list);
+                $url_info['path'] = $path;
+            }
+
+            $header = sprintf("GET %s HTTP/2.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+
             @fwrite($fp, $header);
 
             $ft = @fopen($target_filename, 'w');
