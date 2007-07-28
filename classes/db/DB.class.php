@@ -137,7 +137,7 @@
             if($this->isError()) {
                 $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
 
-                if(__DEBUG_DB_OUTPUT==1)  {
+                if(__DEBUG_DB_OUTPUT__==1)  {
                     $debug_file = "./files/_debug_db_query.php";
                     $buff = sprintf("%s\n",print_r($buff,true));
 
