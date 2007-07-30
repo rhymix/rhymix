@@ -6,6 +6,7 @@ xAddEventListener(window,'load',fnStartInit);
 
 
 // footer를 화면 크기에 맞춰 설정
+/*
 xAddEventListener(window, 'load', fixLayoutFooter);
 xAddEventListener(window, 'resize', fixLayoutFooter);
 function fixLayoutFooter() {
@@ -20,3 +21,4 @@ function fixLayoutFooter() {
     xHeight('content_body', newHeight);
     xHeight('left_menu_table', newHeight);
 }
+*/
