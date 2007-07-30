@@ -28,7 +28,7 @@
             if(!$config->point_name) $config->point_name = 'point';
 
             $config->max_level = $args->max_level;
-            if($config->max_level>100) $config->max_level = 100;
+            if($config->max_level>1000) $config->max_level = 1000;
             if($config->max_level<1) $config->max_level = 1;
 
             $config->level_icon = $args->level_icon;

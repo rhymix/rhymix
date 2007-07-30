@@ -12,7 +12,7 @@
     $lang->about_act_config = "Each module like board/blog has action such as writing/deleting/adding comments/deleting comments.<br />You can just add act value to link module except board/blog with point system.<br />Comma(,) will distinguish multiple values.";
 
     $lang->max_level = 'Max Level';
-    $lang->about_max_level = 'You can set the max level. Level icons should be considered and 100 is the maximum value you can set';
+    $lang->about_max_level = 'You can set the max level. Level icons should be considered and 1000 is the maximum value you can set';
 
     $lang->level_icon = 'Level Icon';
     $lang->about_level_icon = 'Path of level icon is ./module/point/icons/[level].gif and max level could be different with icon set. So be careful';
