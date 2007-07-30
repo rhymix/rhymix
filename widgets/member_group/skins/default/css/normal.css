@@ -1,5 +1,5 @@
 .member_group .title_box { border:1px solid #EEEEEE; padding:5px; height:14px; overflow:hidden; margin-bottom:.3em; font-weight:bold; }
 
-.member_group .member_box { padding:3px 3px 3px 38px; clear:both; border-bottom:1px solid #EEEEEE; height:16px; overflow:hidden; margin:0px 0px 2px 0px; background:url(../images/normal/user.gif) no-repeat 15px 3px; }
+.member_group .member_box { padding:3px 3px 3px 10px; clear:both; border-bottom:1px solid #EEEEEE; height:16px; overflow:hidden; margin:0px 0px 2px 0px; }
 
 .member_group .nick_name { float:left; }
