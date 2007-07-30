@@ -79,6 +79,22 @@
         </tr>
         <!--@end-->
         <tr>
+            <th scope="row">{$lang->widget_margin}</th>
+            <td>
+                {$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" class="inputTypeText" />px
+                {$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" class="inputTypeText" />px
+                {$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" class="inputTypeText" />px
+                {$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" class="inputTypeText"/>px
+                <br />
+                {$lang->about_widget_margin}
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="tableType5 gap1">
+        <col width="100" />
+        <col />
+        <tr>
             <th scope="row">{$lang->widget_fix_width}</th>
             <td>
                 <input type="checkbox" value="Y" name="widget_fix_width" /> {$lang->about_widget_fix_width}
@@ -100,17 +116,6 @@
                     <option value="right">{$lang->widget_position_right}</option>
                 </select>
                 <p>{$lang->about_widget_position}</p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->widget_margin}</th>
-            <td>
-                {$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" class="inputTypeText" />px
-                {$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" class="inputTypeText" />px
-                {$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" class="inputTypeText" />px
-                {$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" class="inputTypeText"/>px
-                <br />
-                {$lang->about_widget_margin}
             </td>
         </tr>
         </table>

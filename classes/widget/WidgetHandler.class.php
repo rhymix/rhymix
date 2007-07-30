@@ -47,11 +47,12 @@
                 $output = $oWidget->proc($args);
             }
 
-            if($args->widget_fix_width == 'Y') {
-                $style = "";
+            $style = "";
+            $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left);
 
+            if($args->widget_fix_width == 'Y') {
                 $style .= sprintf("%s:%spx;", "width", trim($args->widget_width));
-                $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left);
+
                 if($args->widget_position) {
                     $style .= sprintf("%s:%s;", "float", trim($args->widget_position));
                     $output = sprintf('<div style="%s">%s</div>',$style, $output);
@@ -59,6 +60,8 @@
                     $style  .= "float:left;";
                     $output = sprintf('<div class="clear"></div><div style="%s">%s</div>',$style, $output);
                 }
+            } else {
+                $output = sprintf('<div style="%s">%s</div>',$style, $output);
             }
 
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;

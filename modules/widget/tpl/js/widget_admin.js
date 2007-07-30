@@ -133,10 +133,13 @@ function doFillWidgetVars() {
 
     }
 
-    var marginLeft = parseInt(selected_node.style.marginLeft.replace(/px$/,''),10);
-    var marginRight = parseInt(selected_node.style.marginRight.replace(/px$/,''),10);
-    var border = parseInt(selected_node.style.border);
-
+    var marginLeft = 0;
+    if(selected_node.style.marginLeft) marginLeft = parseInt(selected_node.style.marginLeft.replace(/px$/,''),10);
+    var marginRight = 0;
+    if(selected_node.style.marginRight) marginRight = parseInt(selected_node.style.marginRight.replace(/px$/,''),10);
+    var border = 0;
+    if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
+    
     fo_obj.widget_width.value = xWidth(selected_node) + marginLeft + marginRight - 6;
 
     //  컬러셋 설정
