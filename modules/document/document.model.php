@@ -33,8 +33,8 @@
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
          **/
-        function getDocuments($document_srl_list, $is_admin = false) {
-            if(is_array($document_srl_list)) $document_srls = implode(',',$document_srl_list);
+        function getDocuments($document_srls, $is_admin = false) {
+            if(is_array($document_srls)) $document_srls = implode(',',$document_srls);
 
             // DB에서 가져옴
             $args->document_srls = $document_srls;

@@ -13,12 +13,13 @@
 
         <li class="ni_item">
             <!--@if($oDocument->thumbnailExists($widget_info->thumbnail_width))-->
-                <a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_width}" border="0" alt="" /></a>
+                <a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_width}" border="0" alt="" class="thumbnail" /></a>
             <!--@else-->
                 <img src="./images/blank.gif" border="0" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_width}" />
             <!--@end-->
 
-            <br /><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->title_length)}</a>
+            <div><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->title_length)}</a></div>
+            <div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
         </li>
 
             {@ $count++}

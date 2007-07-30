@@ -25,19 +25,38 @@
             if(!$list_count) $list_count = 5;
             $mid_list = explode(",",$args->mid_list);
 
-            // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
+            // 템플릿 파일에서 사용할 변수들을 세팅
+            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
+
+            // 변수 정리
             $obj->mid = $mid_list;
             $obj->sort_index = $order_target;
             $obj->list_count = $list_count*2;
 
-            // document 모듈의 model 객체를 받아서 getDocumentList() method를 실행
-            $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($obj);
+            // mid에 해당하는 module_srl을 구함
+            $oModuleModel = &getModel('module');
+            $module_srl_list = $oModuleModel->getModuleSrlByMid($obj->mid);
 
-            // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
+            $obj->module_srls = implode(",",$module_srl_list);
+
+            // 정해진 모듈에서 문서별 파일 목록을 구함
+            $files_output = executeQuery("file.getOneFileInDocument", $obj);
+
+            // 결과에서 문서 번호만을 따로 추출
+            if($files_output->data) {
+                foreach($files_output->data as $key => $val) {
+                    $document_srl = $val->upload_target_srl;
+                    $document_srl_list[] = $document_srl;
+                }
+            }
+
+            if(!count($document_srl_list)) return;
+
+            $oDocumentModel = &getModel('document');
+            $documents_output = $oDocumentModel->getDocuments($document_srl_list);
+            if(!count($documents_output)) return;
             
-            $widget_info->document_list = $output->data;
+            $widget_info->document_list = $documents_output;
             $widget_info->title_length = $title_length;
             $widget_info->thumbnail_width = $thumbnail_width;
             $widget_info->list_count = $list_count;
