@@ -47,21 +47,45 @@
                 $output = $oWidget->proc($args);
             }
 
-            $style = "";
-            $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left);
-
             if($args->widget_fix_width == 'Y') {
-                $style .= sprintf("%s:%spx;", "width", trim($args->widget_width));
+                $widget_width_type = strtolower($args->widget_width_type);
+                if(!$widget_width_type||!in_array($widget_width_type,array("px","%"))) $widget_width_type = "px";
 
-                if($args->widget_position) {
-                    $style .= sprintf("%s:%s;", "float", trim($args->widget_position));
-                    $output = sprintf('<div style="%s">%s</div>',$style, $output);
+
+                if($widget_width_type == "px") {
+
+                    $style = "overflow:hidden;";
+                    $style .= sprintf("%s:%s%s;", "width", $args->widget_width - $args->widget_margin_right - $args->widget_margin_left, $widget_width_type);
+                    $style .= sprintf("margin-top:%dpx;margin-bottom:%dpx;", $args->widget_margin_top, $args->widget_margin_bottom);
+
+
+                    $inner_style = sprintf("margin-left:%dpx;margin-right:%dpx;", $args->widget_margin_left, $args->widget_margin_right);
+
+                    if($args->widget_position) {
+                        $style .= sprintf("%s:%s;", "float", $args->widget_position);
+                        $output = sprintf('<div style="%s"><div style="%s">%s</div></div>',$style, $inner_style, $output);
+                    } else {
+                        $style  .= "float:left;";
+                        $output = sprintf('<div class="clear"></div><div style="%s"><div style="%s">%s</div></div>',$style, $inner_style, $output);
+                    }
+
                 } else {
-                    $style  .= "float:left;";
-                    $output = sprintf('<div class="clear"></div><div style="%s">%s</div>',$style, $output);
+
+                    $style = sprintf("overflow:hidden;%s:%s%s;", "width", $args->widget_width, $widget_width_type);
+
+                    $output = sprintf('<div style="margin:%dpx %dpx %dpx %dpx;">%s</div>', $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left, $output);
+
+                    if($args->widget_position) {
+                        $style .= sprintf("%s:%s;", "float", $args->widget_position);
+                        $output = sprintf('<div style="%s">%s</div>',$style, $output);
+                    } else {
+                        $style  .= "float:left;";
+                        $output = sprintf('<div class="clear"></div><div style="%s">%s</div>',$style, $output);
+                    }
                 }
+
             } else {
-                $output = sprintf('<div style="%s">%s</div>',$style, $output);
+                $output = sprintf('<div style="margin:%dpx %dpx %dpx %dpx;">%s</div>', $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left, $output);
             }
 
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;

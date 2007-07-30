@@ -133,14 +133,18 @@ function doFillWidgetVars() {
 
     }
 
+/*
     var marginLeft = 0;
     if(selected_node.style.marginLeft) marginLeft = parseInt(selected_node.style.marginLeft.replace(/px$/,''),10);
     var marginRight = 0;
     if(selected_node.style.marginRight) marginRight = parseInt(selected_node.style.marginRight.replace(/px$/,''),10);
     var border = 0;
     if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
+*/
     
-    fo_obj.widget_width.value = xWidth(selected_node) + marginLeft + marginRight - 6;
+    var width_type = "px";
+    if(selected_node.getAttribute("widget_width_type")=="%") width_type = "%";
+    else fo_obj.widget_width.value = xWidth(selected_node);
 
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
@@ -149,4 +153,13 @@ function doFillWidgetVars() {
 
     // widget sequence 설정
     fo_obj.widget_sequence.value = widget_sequence;
+}
+
+function checkFixType(obj) {
+    var val = obj.options[obj.selectedIndex].value;
+    if(val != "px") {
+        var fo_obj = xGetElementById("fo_widget");
+        var width = fo_obj.widget_width.value;
+        if(width>100) fo_obj.widget_width.value = 100;
+    }
 }

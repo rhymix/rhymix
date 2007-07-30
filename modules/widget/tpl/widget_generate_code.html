@@ -77,6 +77,52 @@
         </tr>
         <!--@end-->
         <tr>
+            <th scope="row">{$lang->widget_margin}</th>
+            <td>
+                <table border="0" cellspacing="1">
+                <tr>
+                    <td colspan="2" align="center">{$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" class="inputTypeText" />px</td>
+                </tr>
+                <tr>
+                    <td>{$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" class="inputTypeText"/>px</td>
+                    <td align="right">{$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" class="inputTypeText" />px</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">{$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" class="inputTypeText" />px</td>
+                </tr>
+                </table>
+                <p>{$lang->about_widget_margin}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->widget_fix_width}</th>
+            <td>
+                <input type="checkbox" value="Y" name="widget_fix_width" /> {$lang->about_widget_fix_width}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->widget_width}</th>
+            <td>
+                <input type="text" value="50" name="widget_width" size="3" class="inputTypeText" />
+                <select name="widget_width_type" onchange="checkFixType(this)">
+                    <option value="%">%</option>
+                    <option value="px">px</option>
+                </select>
+                <p>{$lang->about_widget_width}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->widget_position}</th>
+            <td>
+                <select name="widget_position">
+                    <option value="">{$lang->widget_position_none}</option>
+                    <option value="left">{$lang->widget_position_left}</option>
+                    <option value="right">{$lang->widget_position_right}</option>
+                </select>
+                <p>{$lang->about_widget_position}</p>
+            </td>
+        </tr>
+        <tr>
             <th>{$lang->generated_code}</th>
             <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w100"></textarea></td>
         </tr>

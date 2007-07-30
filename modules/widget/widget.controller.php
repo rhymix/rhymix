@@ -21,11 +21,17 @@
             $vars = Context::getRequestVars();
             $widget = $vars->selected_widget;
 
-            $blank_img_path = "./common/tpl/images/blank.gif";
+            $blank_img_path = Context::getRequestUri()."common/tpl/images/widget_bg.jpg";
 
             unset($vars->module);
             unset($vars->act);
             unset($vars->selected_widget);
+
+            if($vars->widget_sequence) {
+                $cache_path = './files/cache/widget_cache/';
+                $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
+                @unlink($cache_file);
+            }
 
             $vars->widget_sequence = getNextSequence();
             if(!$vars->widget_cache) $vars->widget_cache = 0;
@@ -38,18 +44,17 @@
                 }
             }
 
-
-            $style = "";
-            $style .= sprintf("margin:%dpx %dpx %dpx %dpx;", $vars->widget_margin_top, $vars->widget_margin_right,$vars->widget_margin_bottom,$vars->widget_margin_left);
-
             if($vars->widget_fix_width == 'Y') {
-                $vars->widget_width = $vars->widget_width - $vars->widget_margin_left - $vars->widget_margin_right;
-                $style .= sprintf("%s:%spx;", "width", trim($vars->widget_width));
-                if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
-                else $style .= "float:left;";
+                $widget_width_type = strtolower($vars->widget_width_type);
+                if(!$widget_width_type||!in_array($widget_width_type,array("px","%"))) $widget_width_type = "px";
+
+                $style .= sprintf("%s:%s%s;", "width", trim($vars->widget_width), $widget_width_type);
+
+                //if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
+                //else $style .= "float:left;";
                 $widget_code = sprintf('<img src="%s" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
             } else {
-                $widget_code = sprintf('<img width="100" height="100" src="%s" class="zbxe_widget_output" style="%s" widget="%s" %s />', $blank_img_path, $style, $widget, implode(' ',$attribute));
+                $widget_code = sprintf('<img width="%s" height="100" src="%s" class="zbxe_widget_output" style="%s" widget="%s" %s />', "100%", $blank_img_path, $style, $widget, implode(' ',$attribute));
             }
 
             $cache_path = './files/cache/widget_cache/';

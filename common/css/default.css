@@ -60,7 +60,7 @@ a.bold { font-weight:bold; }
 .folder_closer { display: none; }
 .folder_area { display: none; }
 
-.zbxe_widget_output { background:url(../tpl/images/widget.gif) no-repeat center; background-color:#FFFFFF; border:3px dotted #039311; display:block; }
+.zbxe_widget_output { background-image:url(../tpl/images/widget_text.gif) no-repeat center bottom; display:block;}
 .member_signature { margin-top:10px; border:1px solid #DDDDDD; padding:10px; }
 
 #waitingforserverresponse { display:inline; border:2px solid #444444; background-color:#FFFFFF; padding:15px 20px 13px 20px; font-weight:bold; color:#444444; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
