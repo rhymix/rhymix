@@ -13,12 +13,6 @@
     <!--@foreach($widget_info->member_list as $key => $val)-->
     <div class="member_box">
         <div class="nick_name member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
-        <!--@if($val->homepage)-->
-        <div class="homepage">
-            <a href="{$val->homepage}" onclick="window.open(this.href);return false;">{$val->homepage}</a>
-        </div>
-        <!--@end-->
-        <div class="clear"></div>
     </div>
     <!--@end-->
 
