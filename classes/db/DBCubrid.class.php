@@ -193,7 +193,10 @@
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
-            $query = sprintf("select * from db_class where class_name = '%s%s'", $this->prefix, $target_name);
+            if($target_name == 'sequence')
+              $query = sprintf("select * from db_serial where name = '%s%s'", $this->prefix, $target_name);
+            else
+              $query = sprintf("select * from db_class where class_name = '%s%s'", $this->prefix, $target_name);
             $result = $this->_query($query);
 
             if(cubrid_num_rows($result)>0) $output = true;
