@@ -11,26 +11,22 @@
     <table cellspacing="0" class="tableType5">
     <thead>
       <tr>
-          <th scope="row">
-                  <select name="module_category_srl" class="w5">
-                      <option value="">{$lang->module_category}</option>
-                      <!--@foreach($module_category as $key => $val)-->
-                      <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-                      <!--@end-->
-                  </select>
-              </form>
-          </th>
-          <th scope="row">
-                  <select name="target_module" class="w5">
-                      <option value="">{$lang->module}</option>
-                      <!--@foreach($module_list as $key => $val)-->
-                      <option value="{$val->module}" <!--@if($target_module ==$val->module)-->selected="selected"<!--@end-->>{$val->module}</option>
-                      <!--@end-->
-                  </select>
-                  <span class="button"><input type="submit" name="go_button" value="GO" /></span>
+          <th scope="row" colspan="2" class="nowrap">
+                <select name="module_category_srl" class="w5">
+                    <option value="">{$lang->module_category}</option>
+                    <!--@foreach($module_category as $key => $val)-->
+                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                </select>
+                <select name="target_module" class="w5">
+                    <option value="">{$lang->module}</option>
+                    <!--@foreach($module_list as $key => $val)-->
+                    <option value="{$val->module}" <!--@if($target_module ==$val->module)-->selected="selected"<!--@end-->>{$val->module}</option>
+                    <!--@end-->
+                </select>
+                <span class="button"><input type="submit" name="go_button" value="GO" /></span>
           </th>
           <th scope="row">{$lang->mid}</th>
-          <th scope="row">{$lang->title}</th>
           <th scope="row">{$lang->cmd_select}</th>
       </tr>
     </thead>
@@ -45,9 +41,8 @@
             <!--@end-->
         </td>
         <td class="tahoma">{$val->module}</td>
-        <td class="tahoma">{$key}</td>
-        <td>{$val->browser_title}</td>
-        <td class="blue"><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
+        <td class="tahoma">{$val->browser_title} ({$key})</td>
+        <td class="blue tCenter"><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
     </tr>
     <!--@end-->
     </tbody>
