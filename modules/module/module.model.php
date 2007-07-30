@@ -289,7 +289,7 @@
             if(!file_exists($xml_file)) return;
 
             // 캐시된 파일이 있는지 확인
-            $cache_file = sprintf("./files/cache/module_info/%s.php", $module);
+            $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
 
             // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
             if(!file_exists($cache_file) || filectime($cache_file)<filectime($xml_file)) {
