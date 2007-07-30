@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">그룹회원 출력 위젯 기본 스킨</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 30">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">그룹회원 출력 위젯의 기본 스킨</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">기본 컬러</title>
+    </color>
+  </colorset>
+</skin>
