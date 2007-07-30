@@ -31,7 +31,7 @@
             // 변수 정리
             $obj->mid = $mid_list;
             $obj->sort_index = $order_target;
-            $obj->list_count = $list_count*2;
+            $obj->list_count = $list_count;
 
             // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
