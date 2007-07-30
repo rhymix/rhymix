@@ -30,7 +30,7 @@
         $oMemberController = &getController('member');
 
         // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
-        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9\-]*)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oMemberController, 'transImageName'), $output);
+        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oMemberController, 'transImageName'), $output);
 
         // 2. 출력문서중에 <!--AfterDocument(문서번호,회원번호)--> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
         $output = preg_replace_callback('/<!--AfterDocument\(([0-9]+),([0-9]+)\)-->/i', array($oMemberController, 'transSignature'), $output);
