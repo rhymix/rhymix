@@ -35,6 +35,7 @@
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
 
+            unset($config->level_step);
             for($i=1;$i<=$config->max_level;$i++) {
                 $key = "level_step_".$i;
                 $config->level_step[$i] = (int)$args->{$key};

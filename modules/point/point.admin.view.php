@@ -14,7 +14,6 @@
             // 설정 정보 가져오기
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
-            Context::set('config', $config);
 
             // 설정 변수 지정
             Context::set('config', $config);
