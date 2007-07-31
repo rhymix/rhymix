@@ -2,7 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">BlogAPI 애드온</title>
   <title xml:lang="jp">BlogAPI </title>
-  <title xml:lang="zh-CN">BlogAPI Add-on</title>
+  <title xml:lang="zh-CN">BlogAPI</title>
   <title xml:lang="en">Addon for BlogAPI</title>
   <title xml:lang="es">BlogAPI Adicionales</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -21,10 +21,10 @@
         MetaWeblogをサポートするBlogAPI アドオンです。「使用する」をクリックして設定すると各モジュールごとRSDのアドレスを表示します。API のアドレスは「http://インストールＵＲＬ/モジュール名/api」です。 「使用する」に設定しておけば  RSDのアドレスが表示され、 API が動作します。
     </description>
     <description xml:lang="zh-CN">
-        支持metaWeblog的 blogApi add-on.
-        把状态设定为"启用",会使每个模块都会输出RSD标签.
-        api地址 http://安装地址/模块名/api
-        把状态设定为"启用"才会激活RSD标签及api.
+        支持metaWeblog的 blogApi插件。
+        设置为"启用"时,会使每个模块都会显示RSD标签。
+        api地址为http://安装地址/模块名/api。
+        把状态设置为"使用"时，才会激活RSD标签及api。
     </description>
     <description xml:lang="en">
         This blogApi addon supports metaWeblog.
