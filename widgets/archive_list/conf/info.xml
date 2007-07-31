@@ -33,18 +33,18 @@
             <name xml:lang="en">Title</name>
             <type>text</type>
             <description xml:lang="ko">보관 현황 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">显示输入的栏目名。</description>
+            <description xml:lang="zh-CN">将显示为存档标题。</description>
             <description xml:lang="jp">バックアップリストのタイトルとして出力されます。</description>
             <description xml:lang="en">It will be the title of the report.</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
-            <name xml:lang="zh-CN">模块对象</name>
+            <name xml:lang="zh-CN">对象模块</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">被选模块为统计对象。</description>
+            <description xml:lang="zh-CN">把被选模块作为统计对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
         </var>

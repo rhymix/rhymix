@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">최근 문서 (document)를 출력하는 위젯입니다.</description>
-        <description xml:lang="zh-CN">显示新主题列表 (document)的控件。</description>
+        <description xml:lang="zh-CN">显示最新主题列表 (document)的控件。</description>
         <description xml:lang="jp">最近の書き込み（document）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget enables you to display newest articles.</description>
     </author>
@@ -22,7 +22,7 @@
             <name xml:lang="en">Title</name>
             <type>text</type>
             <description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">显示输入的栏目名。</description>
+            <description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
             <description xml:lang="jp">最近の書き込みのタイトルとして表示されます。</description>
             <description xml:lang="en">It will be the title of the newest articles.</description>
         </var>
@@ -33,7 +33,7 @@
             <name xml:lang="en">Target to be sorted</name>
             <type>select</type>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-            <description xml:lang="zh-CN">可以按照指定的顺序排序。</description>
+            <description xml:lang="zh-CN">可以按照指定的顺序进行排序。</description>
             <description xml:lang="jp">登録された順番または変更された順番にソートできます。</description>
             <description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
             <options>

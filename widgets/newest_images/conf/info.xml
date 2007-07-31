@@ -23,7 +23,7 @@
             <type>text</type>
             <description xml:lang="ko">정한 글자수만큼 글 제목을 잘라서 출력합니다. (기본 10자)</description>
             <description xml:lang="jp">指定された文字数分の長さを切り取って表示します。（デフォルト10文字）</description>
-            <description xml:lang="zh-CN">显示制定长度标题。 (默认为 10字)</description>
+            <description xml:lang="zh-CN">可以指定标题长度。(默认为10字)</description>
             <description xml:lang="en">It cuts the length of subject and displays (10 letters as default). (기본 10자)</description>
         </var>
         <var id="thumbnail_width">
@@ -34,7 +34,7 @@
             <type>text</type>
             <description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
             <description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト100）。</description>
-            <description xml:lang="zh-CN">可以指定要显示的图片宽度。 (默认为 100)</description>
+            <description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
             <description xml:lang="en">You can set the width of image. (100 as default)</description>
         </var>
         <var id="list_count">
@@ -45,7 +45,7 @@
             <type>text</type>
             <description xml:lang="ko">출력될 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
-            <description xml:lang="zh-CN">可以指定要显示的图片个数 (默认为 5个)</description>
+            <description xml:lang="zh-CN">可以指定要显示的图片个数。(默认为5个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
         </var>
         <var id="mid_list">

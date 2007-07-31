@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">월별 보관 현황 목록 출력</title>
   <title xml:lang="jp">月別のアーカイブリスト表示</title>
-  <title xml:lang="zh-CN">存档默认皮肤</title>
+  <title xml:lang="zh-CN">存档列表默认皮肤</title>
   <title xml:lang="en">Monthly Custody Status</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
@@ -10,7 +10,7 @@
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">월별 보관 현황 목록을 출력합니다.</description>
     <description xml:lang="jp">月別のアーカイブリストを表示します。</description>
-    <description xml:lang="zh-CN">显示按月统计的主题数目录。</description>
+    <description xml:lang="zh-CN">显示存档列表。</description>
     <description xml:lang="en">It displays monthly custody status.</description>
   </maker>
   <colorset>
@@ -23,25 +23,25 @@
     <color name="cyan">
       <title xml:lang="ko">청록색</title>
       <title xml:lang="jp">cyan</title>
-      <title xml:lang="zh-CN">cyan</title>
+      <title xml:lang="zh-CN">青绿色</title>
       <title xml:lang="en">cyan</title>
     </color>
     <color name="green">
       <title xml:lang="ko">초록색</title>
       <title xml:lang="jp">green</title>
-      <title xml:lang="zh-CN">green</title>
+      <title xml:lang="zh-CN">绿色</title>
       <title xml:lang="en">green</title>
     </color>
     <color name="red">
       <title xml:lang="ko">빨간색</title>
       <title xml:lang="jp">red</title>
-      <title xml:lang="zh-CN">red</title>
+      <title xml:lang="zh-CN">红色</title>
       <title xml:lang="en">red</title>
     </color>
     <color name="purple">
       <title xml:lang="ko">보라색</title>
       <title xml:lang="jp">purple</title>
-      <title xml:lang="zh-CN">purple</title>
+      <title xml:lang="zh-CN">紫色</title>
       <title xml:lang="en">purple</title>
     </color>
   </colorset>

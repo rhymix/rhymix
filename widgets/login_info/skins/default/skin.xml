@@ -11,7 +11,7 @@
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">newest_document의 기본 스킨</description>
     <description xml:lang="jp">ログイン情報表示（login_info）のデフォルトスキン</description>
-    <description xml:lang="zh-CN">登陆表单默认皮肤</description>
+    <description xml:lang="zh-CN">登陆表单默认皮肤。</description>
     <description xml:lang="en">default skin of newest_document</description>
   </maker>
   <colorset>

@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">최근 댓글 (comment)를 출력하는 위젯입니다.</description>
-        <description xml:lang="zh-CN">显示最新评论控件。</description>
+        <description xml:lang="zh-CN">显示最新评论列表的控件。</description>
         <description xml:lang="jp">最近のコメント（comment）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget will display newest comments.</description>
     </author>
@@ -22,7 +22,7 @@
             <name xml:lang="en">Title</name>
             <type>text</type>
             <description xml:lang="ko">최근 댓글의 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">显示输入的栏目名。</description>
+            <description xml:lang="zh-CN">显示为最新评论列表的输入的标题。</description>
             <description xml:lang="jp">最近のコメント書き込みのタイトルとして表示されます。</description>
             <description xml:lang="en">This will be the title of lnewest comments.</description>
         </var>

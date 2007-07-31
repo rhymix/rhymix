@@ -33,7 +33,7 @@
             <name xml:lang="en">Theme</name>
             <type>select</type>
             <description xml:lang="ko">흰색/검은색 배경색에 따라 조절하시면 됩니다.</description>
-            <description xml:lang="zh-CN">可以随设置黑/白背景色来进行调解。</description>
+            <description xml:lang="zh-CN">可以根据设置黑/白背景色来进行调解。</description>
             <description xml:lang="jp">白/黒の背景で調節します。</description>
             <description xml:lang="en">You may select a theme according to white/black background color.</description>
             <options>

@@ -10,7 +10,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">달력을 표시하고 등록된 글이 있는 날에 표시와 링크를 해줍니다.</description>
-        <description xml:lang="zh-CN">显示日历,主题日期将跟日历相关联。</description>
+        <description xml:lang="zh-CN">显示日历,发表主题日期将跟日历相关联。</description>
         <description xml:lang="jp">カレンダーを表示して書き込みがあった日にリンクを張ります。</description>
         <description xml:lang="en">It will show a calendar, and if there is an article submitted, the date will be highlighted with its url link.</description>
     </author>
