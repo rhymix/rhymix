@@ -1,4 +1,4 @@
-.member_group .title_box { border:1px solid #EEEEEE; padding:5px; height:14px; overflow:hidden; margin-bottom:.3em; font-weight:bold; }
+.member_group .title_box { background-color:#AAAAAA; padding:5px; height:14px; overflow:hidden; margin-bottom:.3em; font-weight:bold; color:#FFFFFF; border:1px solid #888888; }
 
 .member_group .member_box { padding:3px 3px 3px 10px; clear:both; border-bottom:1px solid #EEEEEE; height:16px; overflow:hidden; margin:0px 0px 2px 0px; }
 
