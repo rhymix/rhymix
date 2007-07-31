@@ -14,7 +14,7 @@
         ポイントシステムモジュールで設定された内容を基に、書き込み作成・削除/コメント作成・削除/ファイルアップロード・削除/ダウンロードなどのユーザの活動に対してポイントを記録します。
     </description>
     <description xml:lang="en">
-        This addon records point on writing/deleting/adding comments/deleting comments/uploading/downloading following to point system module.
+        This addon records point on writing/deleting/adding comments/deleting comments/uploading/downloading according to point system module.
     </description>
   </author>
 </addon>

@@ -53,7 +53,7 @@
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
 
-    // Essencial Words
+    // Essential Words
     $lang->no = 'No.';
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
@@ -116,9 +116,9 @@
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Registered Date';
-    $lang->last_update = 'Lastest Update';
-    $lang->signup_date = 'Signup Date';
-    $lang->last_login = 'Lastest Login';
+    $lang->last_update = 'Latest Update';
+    $lang->signup_date = 'Join Date';
+    $lang->last_login = 'Latest Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Searching Target';

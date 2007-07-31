@@ -13,7 +13,7 @@
         <name xml:lang="es">styx</name>
         <description xml:lang="ko">zb5beta에서 사용되던 사이트 레이아웃입니다.</description>
         <description xml:lang="zh-CN">在zb5beta 使用的布局</description>
-        <description xml:lang="en">It is layout which used into zb5beta.</description>
+        <description xml:lang="en">This layout is used to be used for zb5beta.</description>
         <description xml:lang="jp">zb5betaで使われているサイトレイアウトです。</description>
         <description xml:lang="es">Es el diseño del sitio zb5beta.</description>
     </author>
@@ -26,7 +26,7 @@
             <title xml:lang="es">colecciónes de colores</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
-            <description xml:lang="en">Select colorset.</description>
+            <description xml:lang="en">Please select colorset.</description>
             <description xml:lang="jp">希望する色を選択してください。</description>
             <description xml:lang="es">Seleccióne la colección de colores.</description>
             <options name="blue">
@@ -65,24 +65,24 @@
         <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
             <title xml:lang="zh-CN">LOGO图片</title>
-            <title xml:lang="en">Logo image</title>
+            <title xml:lang="en">Logo Image</title>
             <title xml:lang="jp">ロゴのイメージ</title>
             <title xml:lang="es">Imagén de logotipo</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 100px인 투명이미지가 가장 어울립니다)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。 （高度为100px的透明图片为释。）</description>
-            <description xml:lang="en">Please put a logo image in the the top of layout. (Transparency image's height 100px is best becoming.)</description>
+            <description xml:lang="en">Please put a logo image in the the top of layout. (transparent image with 100px of height is recommended.)</description>
             <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が100pxである透明イメージが最も合います。)</description>
             <description xml:lang="es">Cargar archivo para logotipo. (Mejor imagen transparente con altura de 100px)</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
             <title xml:lang="zh-CN">网站 URL</title>
-            <title xml:lang="en">Hompage URL</title>
+            <title xml:lang="en">Homepage URL</title>
             <title xml:lang="jp">ホームページ URL</title>
             <title xml:lang="es">URL de logotipo</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
-            <description xml:lang="en">Please put a homepage URL, when you click the logo.</description>
+            <description xml:lang="en">Please input a homepage URL, where it will connect on click.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="ko">Escribe URL para mover cuando los usuarios haga clic en logotipo.</description>
         </var>
@@ -94,7 +94,7 @@
             <title xml:lang="es">Derecho de autor</title>
             <description xml:lang="ko">사이트 하단에 표시될 카피라이트를 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入显示在网站下方的版权信息。</description>
-            <description xml:lang="en">Please put a copyright in the site's lower column.</description>
+            <description xml:lang="en">Please input a copyright which will be displayed at the bottom of site.</description>
             <description xml:lang="jp">サイト下端に表示されるコピーライトを入力してください。</description>
             <description xml:lang="es">Escriba el derecho de autor donde muestra abajo del sitio.</description>
         </var>

@@ -7,12 +7,12 @@
 
     // words used in button
     $lang->cmd_blog_list = 'Blog list';
-    $lang->cmd_module_config = 'Common blog setup';
+    $lang->cmd_module_config = 'Common blog setting';
     $lang->cmd_view_info = 'Blog info';
     $lang->cmd_manage_menu = 'Menu management';
     $lang->cmd_make_child = 'Add child category';
     $lang->cmd_enable_move_category = "Change category position (Drag the menu on top after selection)";
-    $lang->cmd_remake_cache = 'Rebuild cache file';
+    $lang->cmd_remake_cache = 'Rebuild cache files';
     $lang->cmd_layout_setup = 'Configure layout';
     $lang->cmd_layout_edit = 'Edit layout';
 
