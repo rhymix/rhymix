@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">특정 그룹 회원 출력 위젯</title>
-    <title xml:lang="zh-CN">特定用户组会员</title>
+    <title xml:lang="zh-CN">会员列表</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 30">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">Zero</name>
@@ -11,7 +11,7 @@
             아래 그룹이름 입력칸에 출력을 원하는 그룹명을 , (콤마)로 연결하여 입력하시면 됩니다.
         </description>
         <description xml:lang="zh-CN">
-            显示特定用户组会员的控件。
+            显示特定用户组会员列表的控件。
             该组用户数比要显示的用户数多时，按照最近注册日期顺来显示。(测试中的控件)
             要显示的对象用户组名称以，(逗号)来分隔。
         </description>
