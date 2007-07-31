@@ -6,3 +6,5 @@
     font-family:tahoma;
     font-size:8pt;
 }
+
+.counter_widget ul { list-style:none; }
