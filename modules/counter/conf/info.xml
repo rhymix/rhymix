@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1">
     <title xml:lang="ko">기본 카운터</title>
-    <title xml:lang="zh-CN">基本访问统计</title>
+    <title xml:lang="zh-CN">访问统计</title>
     <title xml:lang="en">Basic counter</title>
     <title xml:lang="es">Taquilla Basico</title>
     <title xml:lang="jp">接続カウンター</title>

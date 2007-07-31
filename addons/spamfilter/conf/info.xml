@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">스팸필터 애드온</title>
-  <title xml:lang="zh-CN">SpamFilter Add-On</title>
+  <title xml:lang="zh-CN">垃圾过滤</title>
   <title xml:lang="en">Addon for filtering spam</title>
   <title xml:lang="es">Adición Filtros para artículos no deseado</title>
   <title xml:lang="jp">スパムフィルター</title>
@@ -16,8 +16,8 @@
         자세한 설정은 &quot; 스팸필터 모듈&quot; 에서 해주세요.
     </description>
     <description xml:lang="zh-CN">
-        利用SpamFilter 模块防止过滤恶意发表的帖子、评论、引用等功能。
-        详细的设定在 &quot; SpamFilter 模块里&quot; 设置。
+        利用垃圾过滤模块在发表主题/评论/引用之前进行垃圾过滤。
+        请在&quot; 垃圾过滤模块&quot;中详细设置。
     </description>
     <description xml:lang="en">
         This addon filters spam and prevents users from cluttering before saving entries, comments, or trackbacks to database by setting SpamFilter module.

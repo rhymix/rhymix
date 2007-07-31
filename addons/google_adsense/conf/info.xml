@@ -24,11 +24,11 @@
             「top」または「bottom」を入力すると書き込みの上段または下段に広告を出力することができます。
         </description>
         <description xml:lang="zh-CN">
-            文章内的顶部和底部可以添加 Google AdSense
-            用户在增加扩展表里取得 Google AdSense 的代码后可以输出和写作者联动的AdSense。
-            不使用此功能或用户不输入Google AdSense的代码时输出默认设定的AdSense。
-            输入颜色时除了# 的6位数的颜色代码。
-            指定输出位置时输入top或bottom后显示在内容的顶部或底部。
+            可以把Google AdSense添加到文章的上/下端。
+            可以让用户在扩展表单里获得Google AdSense代码，从而也可以显示与作者相关联的AdSense。
+            不使用此功能或用户没有输入Google AdSense代码时，使用默认的AdSense代码。
+            输入颜色时，输入除#以外的 6位颜色代码。
+            指定显示位置时，输入top或bottom即可把AdSense显示在内容的上端或下端。
         </description>
         <description xml:lang="en">
             Google Adsense can be added at top/bottom of article.
@@ -46,34 +46,34 @@
             <title xml:lang="en">Position</title>
             <description xml:lang="ko">top : 게시글 상단, bottom : 게시글 하단 을 지정하실 수 있습니다.</description>
             <description xml:lang="jp">top : 本文の上段, bottom : 本文の下段</description>
-            <description xml:lang="zh-CN">输入top或bottom。（top : 内容顶部, bottom : 内容底部）</description>
+            <description xml:lang="zh-CN">可以指定显示位置。(top : 内容上端, bottom : 内容下端)</description>
             <description xml:lang="en">You can select top : top of article, bottom : bottom of article.</description>
         </var>
         <var name="ad_client">
             <title xml:lang="ko">구글 애드센스 키</title>
             <title xml:lang="jp">アドセンスキー</title>
-            <title xml:lang="zh-CN">google_ad_client</title>
+            <title xml:lang="zh-CN">Google Adsense Key</title>
             <title xml:lang="en">Google Adsense Key</title>
             <description xml:lang="ko">기본으로 사용될 구글 애드센스 키를 입력해주세요.</description>
             <description xml:lang="ko">デフォルトで使用するグーグルアドセンスキーを入力してください。</description>
-            <description xml:lang="zh-CN">请输入将默认使用的google_ad_client值。</description>
+            <description xml:lang="zh-CN">请输入要使用的默认Google Adsense Key。</description>
             <description xml:lang="en">Input Google Adsense key to use as default.</description>
         </var>
         <var name="user_ad_client">
             <title xml:lang="ko">회원 키 항목 이름</title>
             <title xml:lang="jp">キー項目名</title>
-            <title xml:lang="zh-CN">会员项目名称</title>
+            <title xml:lang="zh-CN">会员Key项目名</title>
             <title xml:lang="en">Name of Member Key Item</title>
             <description xml:lang="ko">회원의 구글 애드센스를 허락하시려면 가입항목중 구글 키 입력 항목 이름을 입력해주세요.</description>
             <description xml:lang="jp">グーグル・アドセンスが使用できるようするにためには、加入項目でグーグルキー入力項目名を入力してください。
             </description>
-            <description xml:lang="zh-CN">请输入允许会员使用Google AdSense时会员注册项目中显示的名称</description>
+            <description xml:lang="zh-CN">允许会员使用个人Google AdSense时，请输入要在会员注册项目中显示的Google Key项目名。</description>
             <description xml:lang="en">To permit member's Google Adsense, input name of Google key item in join items.</description>
         </var>
         <var name="ad_width">
             <title xml:lang="ko">가로 길이</title>
             <title xml:lang="jp">横幅</title>
-            <title xml:lang="zh-CN">横幅大小</title>
+            <title xml:lang="zh-CN">宽度</title>
             <title xml:lang="en">Width</title>
             <description xml:lang="ko">애드센스의 가로길이를 입력해주세요.</description>
             <description xml:lang="jp">アドセンスの横幅のサイズを入力してください</description>
@@ -83,7 +83,7 @@
         <var name="ad_height">
             <title xml:lang="ko">세로 길이</title>
             <title xml:lang="jp">縦幅</title>
-            <title xml:lang="zh-CN">高度大小</title>
+            <title xml:lang="zh-CN">高度</title>
             <title xml:lang="en">Height</title>
             <description xml:lang="ko">애드센스의 세로길이를 입력해주세요.</description>
              <description xml:lang="jp">アドセンスの立幅のサイズを入力してください。</description>
@@ -113,11 +113,11 @@
         <var name="ad_channel">
             <title xml:lang="ko">채널</title>
             <title xml:lang="jp">チャンネル</title>
-            <title xml:lang="zh-CN">渠道</title>
+            <title xml:lang="zh-CN">频道</title>
             <title xml:lang="en">Channel</title>
             <description xml:lang="ko">채널을 입력해주세요. (사용자 정의 구글 애드센스일 경우 사용되지 않습니다)</description>
             <description xml:lang="jp">チャンネルを入力してください（カスタマイズ・グーグル・アドセンスには使用されません）。</description>
-            <description xml:lang="zh-CN">请输入渠道。 (用户定义Google AdSense的情况不使用)</description>
+            <description xml:lang="zh-CN">请输入频道。 (用户自定义Google AdSense不使用频道)</description>
             <description xml:lang="en">Input channel. (It is not used for custom Google Adsense)</description>
         </var>
         <var name="color_border">
@@ -133,7 +133,7 @@
         <var name="color_bg">
             <title xml:lang="ko">배경색</title>
             <title xml:lang="jp">背景色</title>
-            <title xml:lang="zh-CN">背景颜色</title>
+            <title xml:lang="zh-CN">背景色</title>
             <title xml:lang="en">Background Color</title>
             <description xml:lang="ko">배경색상을 입력해주세요.</description>
             <description xml:lang="jp">背景色を入力してください</description>
@@ -173,11 +173,11 @@
         <var name="ui_features">
             <title xml:lang="ko">테두리 형태</title>
             <title xml:lang="jp">ボーダスタイル</title>
-            <title xml:lang="zh-CN">边框形态</title>
+            <title xml:lang="zh-CN">边框样式</title>
             <title xml:lang="en">Border Style</title>
             <description xml:lang="ko">테두리 형태를 입력해주세요.</description>
             <description xml:lang="jp">ボーダースタイルを入力してください。</description>
-            <description xml:lang="zh-CN">请输入边框形态。</description>
+            <description xml:lang="zh-CN">请输入边框样式。</description>
             <description xml:lang="en">Input style of border.</description>
         </var>
         <var name="background_image">
@@ -187,7 +187,7 @@
             <title xml:lang="en">Input background image.</title>
              <description xml:lang="ko">접근가능한 웹서버에 올린 배경 이미지의 URL을 입력해주세요.</description>
             <description xml:lang="jp">アクセス可能なＷｅｂサーバにアップロードされている背景イメージのURLを入力してください。</description>
-            <description xml:lang="zh-CN">请输入图片URL。</description>
+            <description xml:lang="zh-CN">请输入有效的图片URL。</description>
             <description xml:lang="en">Input URL of background image which is uploaded in accessible web server.</description>
         </var>
     </extra_vars>

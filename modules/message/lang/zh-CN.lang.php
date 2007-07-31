@@ -6,5 +6,5 @@
      **/
 
     $lang->message = '错误提示';
-    $lang->about_skin = "提示信息时可以指定皮肤。";
+    $lang->about_skin = "提示信息时，可以指定皮肤。";
 ?>

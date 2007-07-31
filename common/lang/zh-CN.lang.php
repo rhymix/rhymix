@@ -18,7 +18,7 @@
     $lang->cmd_next = '下一页';
     $lang->cmd_send_trackback = '发送引用';
     $lang->cmd_registration = $lang->cmd_submit = '提交';
-    $lang->cmd_comment_registration = '发表评论';
+    $lang->cmd_comment_registration = '提交评论';
     $lang->cmd_insert = '添加';
     $lang->cmd_save = '保存';
     $lang->cmd_input = '输入';
@@ -60,7 +60,7 @@
     $lang->category = '分类';
     $lang->document_srl = '文章编号';
     $lang->user_id = '用户名';
-    $lang->author = '作者';
+    $lang->author = '制作';
     $lang->password = '密码';
     $lang->password1 = '密码';
     $lang->password2 = '确认密码';
@@ -89,7 +89,7 @@
     $lang->target = '目标';
     $lang->total = '全部';
     $lang->total_count = '总数';
-    $lang->ipaddress = 'IP 地址';
+    $lang->ipaddress = 'IP地址';
     $lang->path = '路径';
     $lang->cart = '选择项目';
     $lang->friend = '好友';
@@ -111,21 +111,21 @@
     $lang->document_count = '帖子数';
     $lang->page_count = '页数';
     $lang->list_count = '目录数';
-    $lang->readed_count = '浏览数';
-    $lang->voted_count = '推荐数';
+    $lang->readed_count = '查看';
+    $lang->voted_count = '推荐';
     $lang->member_count = '会员数';
     $lang->date = '日期';
     $lang->regdate = '登录日期';
     $lang->last_update = '最后更新';
     $lang->signup_date = '注册日期';
     $lang->last_login = '最近登陆';
-    $lang->first_page = '首页';
-    $lang->last_page = '尾页';
+    $lang->first_page = '第一页';
+    $lang->last_page = '最后一页';
     $lang->search_target = '搜索目标';
     $lang->search_keyword = '关键字';
-    $lang->is_default = '基本';
+    $lang->is_default = '默认';
 
-    $lang->no_documents = '没有文章';
+    $lang->no_documents = '现没有主题。';
 
     $lang->board_manager = '版面管理';
     $lang->member_manager = '会员管理';
@@ -144,7 +144,7 @@
     $lang->unit_year = '年';
 
     // 说明
-    $lang->about_tag = '用逗号隔开多个标签';
+    $lang->about_tag = '用逗号分隔多个标签';
     $lang->about_layout = '布局是布置模块的外观，在上端布局菜里单可以进行管理';
 
     // 信息
@@ -164,22 +164,22 @@
     $lang->msg_module_is_not_exists = '找不到您查询的模块';
     $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
 
-    $lang->success_registed = '登录成功';
-    $lang->success_updated = '修改成功';
-    $lang->success_deleted = '删除成功';
-    $lang->success_voted = '推荐成功';
-    $lang->success_moved = '移动成功';
-    $lang->success_sended = '发送成功';
-    $lang->success_reset = '初期化成功';
-    $lang->success_leaved = '注销成功';
+    $lang->success_registed = '提交成功！';
+    $lang->success_updated = '修改成功！';
+    $lang->success_deleted = '删除成功！';
+    $lang->success_voted = '推荐成功！';
+    $lang->success_moved = '移动成功！';
+    $lang->success_sended = '发送成功！';
+    $lang->success_reset = '初始化成功';
+    $lang->success_leaved = '注销成功！';
 	
-    $lang->fail_to_delete = '删除成功';
-    $lang->fail_to_move = '移动成功';
+    $lang->fail_to_delete = '删除成功！';
+    $lang->fail_to_move = '移动成功！';
 	
-    $lang->failed_voted = '您不能推荐';
-    $lang->fail_to_delete_have_children = '已经有回复所以不能删除';
+    $lang->failed_voted = '您不能推荐！';
+    $lang->fail_to_delete_have_children = '不能删除有回复的评论！';
 
-    $lang->confirm_submit = '确定要执行吗?';
+    $lang->confirm_submit = '确定要提交吗?';
     $lang->confirm_logout = '确定要退出吗?';
     $lang->confirm_vote = '确定要推荐吗?';
     $lang->confirm_delete = '确定要删除吗?';
@@ -187,7 +187,7 @@
     $lang->confirm_reset = '确定要初始化吗?';
     $lang->confirm_leave = '确定要注销吗?';
 
-    $lang->column_type = '类型';
+    $lang->column_type = '格式';
     $lang->column_type_list['text'] = '单行文本输入区(text)';
     $lang->column_type_list['homepage'] = '网址格式 (url)';
     $lang->column_type_list['email_address'] = '邮件格式 (email)';

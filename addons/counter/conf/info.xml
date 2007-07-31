@@ -2,7 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
   <title xml:lang="jp">接続カウンター</title>
-  <title xml:lang="zh-CN">网站访问统计 Add-on</title>
+  <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Addon for basic counter</title>
   <title xml:lang="es">Adición Taquilla Predeterminado</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -19,8 +19,8 @@
         セロボードXEの接続カウンターモジュールは、接続情報を記録します。このアドオンを「使用」に設定しておくと接続情報が記録されます。
     </description>
     <description xml:lang="zh-CN">
-        zeroboardXE的网站访问统计Add-on是统计网站访问信息的        
-        把状态设定为"启用"才会采集网站访问信息.
+        利用ZeroboardXE的网站访问统计模块记录网站访问信息。        
+        把状态设置为"使用"时，才会记录网站访问信息.
     </description>
     <description xml:lang="en">
         This addon logs access information based on the basic counter module within Zeroboard XE.

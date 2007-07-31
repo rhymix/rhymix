@@ -2,7 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
   <title xml:lang="jp">会員情報・コミュニティ</title>
-  <title xml:lang="zh-CN">用户添加信息与Communication功能激活</title>
+  <title xml:lang="zh-CN">用户扩展信息</title>
   <title xml:lang="en">Addon for enabling facilities for providing additional information about users and communicating</title>
   <title xml:lang="es">Informaciónes addciónales del usuario y actualzación del función communicación.</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -31,13 +31,14 @@
         5. MemberModel::getMemberMenu を呼出す時、友達登録メニュを追加します
     </description>
     <description xml:lang="zh-CN">
-        用户信息中显示在页面的昵称图像，用户图标，签名等的Add-On。
-        激活Add-On以后后才可以使用昵称图像, 用户图标, 签名等功能。
-        1. 显示之前查找定义在 &amp;lt;div class="member_会员编号"&amp;gt;....&amp;lt;/div&amp;gt; 的部分确认有没有昵称图像，用户图标后变更相关内容。
-        2. 显示之前查找定义 &amp;lt;div class="document_编号"&amp;gt;...&amp;lt;/div&amp;gt;的部分判断帖子的内容后，在下端添加签名。
-        3. 接收新信息时用弹窗表示
-        4. MemberModel::getMemberMenu 呼出时 对象是会员的情况添加发送信息的功能。
-        5. MemberModel::getMemberMenu 呼出时 添加好友登录菜单。
+        此插件将把用户信息中的昵称图片，用户图标，签名等信息显示到页面当中。
+        因部分用户不使用此项功能或为了考虑页面载入速度，以插件形式提供此项功能。
+        要想使用会员扩展信息请激活此插件。
+        1. 显示之前先查找定义为 &amp;lt;div class="member_会员编号"&amp;gt;....&amp;lt;/div&amp;gt; 的部分获得会员编号后，再以会员编号确认有没有昵称图片/用户图标，有的话即可更新相关内容。
+        2. 显示之前先查找定义为 &amp;lt;div class="document_编号"&amp;gt;...&amp;lt;/div&amp;gt;的部分判断此处为主题内容后，在此处下方添加个人签名。
+        3. 收到新消息时，用弹出窗口显示。
+        4. 呼出MemberModel::getMemberMenu时，如对方是会员，就添加[发送短消息]功能。
+        5. 呼出MemberModel::getMemberMenu时，添加[加为好友]菜单。
     </description>
     <description xml:lang="en">
         Among other information about users, this addon displays image name, image mark, and signature.
