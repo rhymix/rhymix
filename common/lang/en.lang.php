@@ -46,6 +46,9 @@
     $lang->cmd_open_calendar = 'Select a Date';
     $lang->cmd_send = 'Send';
     $lang->cmd_print = 'Print';
+    $lang->cmd_scrap = 'Scrap';
+    $lang->cmd_preview = 'Preview';
+    $lang->cmd_reset = 'Reset';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
@@ -90,6 +93,7 @@
     $lang->path = 'Path';
     $lang->cart = 'Selected Item';
     $lang->friend = 'Friends';
+    $lang->notify = 'Notification';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
@@ -123,13 +127,13 @@
 
     $lang->no_documents = 'No Articles';
 
-    $lang->board_manager = 'Board Setting';
-    $lang->member_manager = 'Member Setting';
-    $lang->layout_manager = 'Layout Setting';
+    $lang->board_manager = 'Board Settings';
+    $lang->member_manager = 'Member Settings';
+    $lang->layout_manager = 'Layout Settings';
 
     $lang->use = 'Use';
     $lang->notuse = 'Disuse';
-    $lang->not_exists = 'Not exists';
+    $lang->not_exists = 'Does not exists';
 
     $lang->unit_sec = 'sec';
     $lang->unit_min = 'min';
@@ -140,8 +144,8 @@
     $lang->unit_year = 'year';
 
     // Related to Description 
-    $lang->about_tag = 'When typing tags, inserting a comma(,) between each tag allows you to input multiple tags';
-    $lang->about_layout = 'Layout decorates an appearance of your module. you could configure it from Layout menu on the top';
+    $lang->about_tag = 'You can submit multiple tags by inserting comma(,) between each tags';
+    $lang->about_layout = 'Layouts decorate an appearance of your module. you could configure it from Layout menu on the top';
 
     // Related to Message
     $lang->msg_call_server = 'Requesting to the server, please wait';
@@ -152,7 +156,7 @@
     $lang->msg_invalid_document = 'Invalid Article Number';
     $lang->msg_invalid_request = 'Invalid Request';
     $lang->msg_invalid_password = 'Invalid Password';
-    $lang->msg_error_occured = 'Error has been occured';
+    $lang->msg_error_occured = 'Error has occured';
     $lang->msg_not_founded = 'Target could not be found';
     $lang->msg_no_result = 'Nothing found';
 
@@ -173,15 +177,15 @@
     $lang->fail_to_move = 'Could not be moved';
 
     $lang->failed_voted = 'Could not be voted';
-    $lang->fail_to_delete_have_children = 'There are still one or more replies left; Could not be deleted';
+    $lang->fail_to_delete_have_children = 'Please try again after removing replies first';
 
-    $lang->confirm_submit = 'Are you sure to Submit?';
-    $lang->confirm_logout = 'Are you sure to Logout?';
-    $lang->confirm_vote = 'Are you sure to Vote?';
-    $lang->confirm_delete = 'Are you sure to Delete?';
-    $lang->confirm_move = 'Are you sure to Move?';
-    $lang->confirm_reset = 'Are you sure to Reset?';
-    $lang->confirm_leave = 'Are you sure to Leave?';
+    $lang->confirm_submit = 'Are you sure to submit?';
+    $lang->confirm_logout = 'Are you sure to logout?';
+    $lang->confirm_vote = 'Are you sure to vote?';
+    $lang->confirm_delete = 'Are you sure to delete?';
+    $lang->confirm_move = 'Are you sure to move?';
+    $lang->confirm_reset = 'Are you sure to reset?';
+    $lang->confirm_leave = 'Are you sure to leave?';
 
     $lang->column_type = 'Column Type';
     $lang->column_type_list['text'] = 'one-line text';
@@ -201,8 +205,8 @@
     $lang->is_required = 'Required Field';
 
     // Alert messages for Javascript using by XML filter
-    $lang->filter->isnull = 'Input a value for %s';
-    $lang->filter->outofrange = 'Align the text length of %s';
+    $lang->filter->isnull = 'Please input a value for %s';
+    $lang->filter->outofrange = 'Please align the text length of %s';
     $lang->filter->equalto = "%s's value is invalid";
     $lang->filter->invalid_email = "%s's format is invalid. ex) zbxe@zeroboard.com";
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s's format is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be English alphabet";
