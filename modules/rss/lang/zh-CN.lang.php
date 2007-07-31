@@ -7,7 +7,7 @@
 
     // 一般单词
     $lang->rss_disable = "关闭RSS";
-    $lang->rss_type = "将输出的RSS形式";
+    $lang->rss_type = "将显示的RSS形式";
 
     // 说明文
     $lang->about_rss_disable = "选此项不显示RSS。";

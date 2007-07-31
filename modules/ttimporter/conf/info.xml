@@ -15,7 +15,7 @@
             첨부파일은 원주소에서 직접 다운로드를 하게 됩니다.
         </description>
         <description xml:lang="zh-CN">
-            导入TatterTools的备份文件到zeroboard XE的模块。
+            导入TatterTools的备份文件到Zeroboard XE的模块。
             需要不包含附件的备份文件。
             附件将在原地址直接下载。
         </description>

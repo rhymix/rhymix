@@ -6,7 +6,7 @@
      **/
 
     $lang->ttimporter = "TatterTools 数据导入";
-    $lang->about_tt_importer = "可以把TatterTools 的数据可以导入到指定的模块当中。\n附件是在网站直接下载，需要激活原TatterTools 博客。";
+    $lang->about_tt_importer = "可以把TatterTools 的数据导入到指定的模块当中。\n因附件要在网站直接下载，所以导入前必须先激活原TatterTools 博客。";
 
     $lang->target_module = "对象模块";
     $lang->target_file = "对象xml文件";

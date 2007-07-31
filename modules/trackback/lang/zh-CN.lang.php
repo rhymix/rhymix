@@ -16,6 +16,6 @@
         'title' => '标题',
         'excerpt' => '内容',
         'regdate' => '登录日期',
-        'ipaddress' => 'IP 地址',
+        'ipaddress' => 'IP地址',
     );
 ?>
