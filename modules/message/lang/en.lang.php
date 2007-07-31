@@ -6,5 +6,5 @@
      **/
 
     $lang->message = 'Show error';
-    $lang->about_skin = "A skin will be selected when an error message shows";
+    $lang->about_skin = "You can select skins of error messages";
 ?>
