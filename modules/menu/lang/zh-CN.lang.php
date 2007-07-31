@@ -16,7 +16,7 @@
     $lang->menu_name = '菜单名';
     $lang->menu_srl = '菜单固有编号';
     $lang->menu_id = '菜单名称';
-    $lang->menu_url = '链接l';
+    $lang->menu_url = '链接';
     $lang->menu_open_window = '新窗口';
     $lang->menu_expand = '展开';
     $lang->menu_img_btn = '图片按钮';
@@ -39,14 +39,14 @@
 
     $lang->msg_cannot_delete_for_child = '有下级菜单的菜单不能删除。';
 
-    $lang->about_title = '请输入链接模块时容易区分的标题';
-    $lang->about_menu_management = "菜单管理是将构成在选择布局里使用的菜单.\n可以构成指定的层级菜单，点击菜单时可以输入详细信息。\n点击文件夹图标可以扩展菜单\n偶尔不能正常显示菜单时请按\"缓冲文件再生成\"按钮更新信息。\n* 不能正常显示指定层级以上的菜单。";
-    $lang->about_menu_name = '不是管理及图片按钮的情况将显示标题名的菜单';
-    $lang->about_menu_url = "选择菜单时移动的URL。<br />链接其他模块时只输入id值。<br />没有内容时选择菜单也没有反映。";
-    $lang->about_menu_open_window = '选择菜单时决定是否开启新窗口';
-    $lang->about_menu_expand = '使用树型（tree_menu.js）菜单时总是展开状态';
-    $lang->about_menu_img_btn = '登录图片按钮时在布局里自动替换显示图片按钮。';
-    $lang->about_menu_group_srls = '选择组只有本用户组能够查看此菜单。 —（打开xml会文件会显示）';
+    $lang->about_title = '请输入连接模块时容易区分的标题。';
+    $lang->about_menu_management = "菜单管理可以构筑被选布局中使用的菜单。\n不仅可以构筑指定级(层级)菜单，点击输入的菜单项即可对其详细设置。\n点击菜单前置图标可以展开菜单。\n偶尔不能正常显示菜单时，请按\"缓冲文件再生成\"按钮更新信息。\n* 可能不能正常显示指定级(层级)以上的菜单。";
+    $lang->about_menu_name = '输入不是图片按钮时显示为菜单名标题。';
+    $lang->about_menu_url = "点击菜单时要移动的URL。<br />连接其他模块时只输入id值即可。<br />没有内容时点击菜单也不会有什么动作。";
+    $lang->about_menu_open_window = '可以设置点击菜单时是否要在新窗口中打开。';
+    $lang->about_menu_expand = '使用树型（tree_menu.js）菜单时总是呈展开状态。';
+    $lang->about_menu_img_btn = '如登录图片按钮，在布局中自动替换显示为图片按钮。';
+    $lang->about_menu_group_srls = '如选择用户组，只有所属组用户才能看到此菜单。 —（xml文件中不能隐藏）';
 
-    $lang->about_menu = "菜单模块是不需要复杂的手作业把生成的模块通过便捷的菜单管理整理帮助建设一个完整的网站。\n菜单是只有链接模块和布局的同时通过布局显示多种形态的菜单。";
+    $lang->about_menu = "菜单模块可以通过菜单管理器整理已生成的模块并同布局相连接来轻松建设一个完整的网站。\n菜单模块虽然具有连接模块和布局并通过布局来显示多种形态菜单的信息，但它不具备管理网站的功能。";
 ?>

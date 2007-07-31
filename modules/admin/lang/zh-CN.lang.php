@@ -57,7 +57,7 @@
     $lang->zeroboard_xe_usefulness_module = '常用模块';
     $lang->xe_usefulness_modules = array(
         'dispEditorAdminIndex' => '编辑器管理',
-        'dispDocumentAdminList' => '文章管理',
+        'dispDocumentAdminList' => '主题管理',
         'dispCommentAdminList' => '评论管理',
         'dispFileAdminList' => '附件管理',
         'dispPollAdminList' => '投票管理',

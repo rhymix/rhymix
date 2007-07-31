@@ -255,7 +255,7 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能接近的地方<br/><span style="color:red">数据文件需要指定在707属性的位置。</span>';
 
     $lang->success_installed = '已完成安装。';
-    $lang->success_updated = '已完成升级。';
+    $lang->success_updated = '已完成更新。';
 
     $lang->msg_cannot_proc = '不具备安装所需环境，不能继续进行。';
     $lang->msg_already_installed = '已安装';
