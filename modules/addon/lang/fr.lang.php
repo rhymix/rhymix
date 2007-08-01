@@ -5,11 +5,11 @@
      * @brief  Paquet Francais de Langue
      **/
 
-    $lang->addon = "Adjonctions";
+    $lang->addon = "Additions";
 
-    $lang->addon_info = 'Un resume de ce adjonction';
-    $lang->addon_maker = 'Le createur de ce adjonction';
-    $lang->addon_history = 'L\'histoire de ce adjonction';
+    $lang->addon_info = 'Un resume de ce additions';
+    $lang->addon_maker = 'Le createur de ce additions';
+    $lang->addon_history = 'L\'histoire de ce additions';
 
-    $lang->about_addon = 'Les operations de service de adjonction plutot que le HTML reel results.<br/>Simply basculant n\'importe quel adjonction te permet en marche et en arret d\'employer les dispositifs utiles.';
+    $lang->about_addon = 'Les operations de service de additions plutot que le HTML reel results.<br/>Simply basculant n\'importe quel additions te permet en marche et en arret d\'employer les dispositifs utiles.';
 ?>
