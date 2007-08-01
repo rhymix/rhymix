@@ -5,6 +5,10 @@
      * @brief  English Language Pack (Only basic words are included here)
      **/
 
+    $lang->newest_news = "Latest News";
+    
+    $lang->env_setup = "Setting";
+    
     $lang->item_module = "Module List";
     $lang->item_addon  = "Addon List";
     $lang->item_widget = "Widget List";
