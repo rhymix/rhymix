@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout version="0.1">
     <title xml:lang="ko">ZBXE 공식 사이트 레이아웃</title>
+    <title xml:lang="zh-CN">ZBXE 官方网站布局</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 1">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="zh-CN">zero</name>
         <description xml:lang="ko">
             제로보드XE 공식 사이트 레이아웃입니다.
-            디자인 : 이소라 (http://ra-ra.pe.kr)
-            퍼블리싱 : 정찬명 (http://naradesign.net)
-            레이아웃 제작 : zero (http://blog.nzeo.com)
+            디자인 : 이소라 
+            퍼블리싱 : 정찬명
+            레이아웃 제작 : zero
+        </description>
+        <description xml:lang="zh-CN">
+            ZBXE 官方网站布局。
+            设计 : So-Ra Lee 
+            HTML/CSS : Chan-Myung Jeong
+            布局 : zero
         </description>
     </author>
     <extra_vars>
@@ -24,14 +32,17 @@
             <description xml:lang="es">Seleccióne la colección de colores.</description>
             <options name="default">
                 <title xml:lang="ko">기본</title>
+                <title xml:lang="zh-CN">默认</title>
                 <value>default</value>
             </options>
             <options name="black">
                 <title xml:lang="ko">검은색</title>
+                <title xml:lang="zh-CN">黑色</title>
                 <value>black</value>
             </options>
             <options name="white">
                 <title xml:lang="ko">하얀색</title>
+                <title xml:lang="zh-CN">白色</title>
                 <value>white</value>
             </options>
         </var>
