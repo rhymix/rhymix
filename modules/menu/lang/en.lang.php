@@ -2,7 +2,7 @@
     /**
      * @file   modules/menu/lang/en.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  menu module / basic language pack
+     * @brief  Menu module's basic language pack
      **/
 
     $lang->cmd_menu_insert = 'Create menu';
@@ -11,7 +11,7 @@
     $lang->menu = 'Menu'; 
     $lang->menu_count = 'No. of menu';
     $lang->menu_management = 'Menu management';
-    $lang->depth = 'Depth';
+    $lang->depth = 'Step';
     $lang->parent_menu_name = 'Parent menu name';
     $lang->menu_name = 'Menu name';
     $lang->menu_srl = 'Menu SRL';
@@ -22,19 +22,19 @@
     $lang->menu_img_btn = 'Image button';
     $lang->menu_normal_btn = 'Normal';
     $lang->menu_hover_btn = 'Mouse over';
-    $lang->menu_active_btn = 'Active';
-    $lang->menu_group_srls = 'Permission group';
+    $lang->menu_active_btn = 'When selected';
+    $lang->menu_group_srls = 'Accessable groups';
     $lang->layout_maker = "Layout maker";
     $lang->layout_history = "Update history ";
     $lang->layout_info = "Layout info";
     $lang->layout_list = 'Layout list';
-    $lang->downloaded_list = 'List downloaded';
-    $lang->limit_menu_depth = 'Expression enabled';
+    $lang->downloaded_list = 'Downloaded list';
+    $lang->limit_menu_depth = 'Display enabled';
 
     $lang->cmd_make_child = 'Add a child menu';
     $lang->cmd_remake_cache = "Re-create cache file";
     $lang->cmd_move_to_installed_list = "View created lists";
-    $lang->cmd_enable_move_menu = "Move menu(check it fist, and then drag the menu)";
+    $lang->cmd_enable_move_menu = "Move menu (Drag the top menu after selecting)";
     $lang->cmd_search_mid = "Search mid";
 
     $lang->msg_cannot_delete_for_child = 'Cannot delete a menu having a child menu.';
