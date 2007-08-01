@@ -65,7 +65,7 @@
         <th scope="row">{$lang->widget}</th>
         <td>
             <!--@foreach($widget_list as $widget)-->
-            <div class="fl gap1"><a href="#" onclick="popopen('./?module=widget&amp;act=dispWidgetGenerateCodeInPage&amp;selected_widget={$widget->widget}&amp;module_srl={$module_srl}','GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a></div>
+            <div class="fl gap1"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a></div>
             <!--@end-->
         </td>
     </tr>

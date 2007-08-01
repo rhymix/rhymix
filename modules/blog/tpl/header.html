@@ -16,14 +16,14 @@
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
-    <h4>{$module_info->mid} <!--@if($module_info->is_default=='N')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="#" onclick="winopen('{getUrl('','mid',$module_info->mid)}'); return false;" class="view">View</a></h4>
+    <h4>{$module_info->mid} <!--@if($module_info->is_default=='N')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
     <!--@end-->
 
     <ul class="localNavigation">
         <!--@if($module=='admin')-->
             <li <!--@if($act=='dispBlogAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispBlogAdminContent','module_srl','')}">{$lang->cmd_blog_list}</a></li>
         <!--@else-->
-            <li><a href="#" onclick="location.href=current_url.setQuery('act',''); return false;">{$lang->cmd_back}</a></li>
+            <li><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
         <!--@end-->
         <!--@foreach($blog_menu_list as $key => $val)-->
         <li <!--@if($act==$key)-->class="on"<!--@end-->><a href="{getUrl('act',$key,'layout_srl',$module_srl)}">{$val}</a></li>

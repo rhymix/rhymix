@@ -44,13 +44,13 @@
                     <!--@if($val['selected'])-->
                         {@ $menu_1st = $val }
                         <!--@if($val['open_window']=='Y')-->
-                        <div class="item i_se"><a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a></div>
+                        <div class="item i_se"><a href="{$val['href']}" onclick="window.open(this.href);return false;">{$val['text']}</a></div>
                         <!--@else-->
                         <div class="item i_se"><a href="{$val['href']}">{$val['text']}</a></div>
                         <!--@end-->
                     <!--@else-->
                         <!--@if($val['open_window']=='Y')-->
-                        <div class="item i_nm" onmouseover="this.className = 'item i_ov';" onmouseout="this.className = 'item i_nm';"><a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a></div>
+                        <div class="item i_nm" onmouseover="this.className = 'item i_ov';" onmouseout="this.className = 'item i_nm';"><a href="{$val['href']}" onclick="window.open(this.href);return false;">{$val['text']}</a></div>
                         <!--@else-->
                         <div class="item i_nm" onmouseover="this.className = 'item i_ov';" onmouseout="this.className = 'item i_nm';"><a href="{$val['href']}">{$val['text']}</a></div>
                         <!--@end-->
@@ -93,7 +93,7 @@
                         <div class="item <!--@if($idx<1)-->last<!--@end-->">
                         <!--@if($val['selected'])-->
                             <!--@if($val['open_window']=='Y')-->
-                                <a href="#" onclick="window.open('{$val['href']}');return false;" class="i_se">{$val['text']}</a>
+                                <a href="{$val['href']}" onclick="window.open(this.href);return false;" class="i_se">{$val['text']}</a>
                             <!--@else-->
                                 <a href="{$val['href']}" class="i_se">{$val['text']}</a>
                             <!--@end-->
@@ -104,13 +104,13 @@
                                 <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
                                     <!--@if($v['selected'])-->
                                         <!--@if($val['open_window']=='Y')-->
-                                            <div class="item"><a href="#" onclick="window.open('{$v['href']}');return false;" class="i_se">{$v['text']}</a></div>
+                                            <div class="item"><a href="{$v['href']}" onclick="window.open(this.href);return false;" class="i_se">{$v['text']}</a></div>
                                         <!--@else-->
                                             <div class="item"><a href="{$v['href']}" class="i_se">{$v['text']}</a></div>
                                         <!--@end-->
                                     <!--@else-->
                                         <!--@if($val['open_window']=='Y')-->
-                                            <div class="item"><a href="#" onclick="window.open('{$v['href']}');return false;">{$v['text']}</a></div>
+                                            <div class="item"><a href="{$v['href']}" onclick="window.open(this.href);return false;">{$v['text']}</a></div>
                                         <!--@else-->
                                             <div class="item"><a href="{$v['href']}">{$v['text']}</a></div>
                                         <!--@end-->
@@ -120,7 +120,7 @@
                             <!--@end-->
                         <!--@else-->
                             <!--@if($val['open_window']=='Y')-->
-                                <a href="#" onclick="window.open('{$val['href']}');return false;">{$val['text']}</a>
+                                <a href="{$val['href']}" onclick="window.open(this.href);return false;">{$val['text']}</a>
                             <!--@else-->
                                 <a href="{$val['href']}">{$val['text']}</a>
                             <!--@end-->
@@ -134,9 +134,9 @@
                 <!--@if($grant->is_admin)-->
                 <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
                 <div class="layout_menu">
-                    <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a> 
+                    <a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_layout_management}</a> 
                     |
-                    <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_edit}</a>
+                    <a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_edit}</a>
                 </div>
                 <!--@end-->
 

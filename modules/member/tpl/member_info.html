@@ -72,11 +72,11 @@
 </tr>
 <tr>
     <th scope="row">{$lang->homepage}</th>
-    <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{$member_info->homepage}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
+    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
 </tr>
 <tr>
     <th scope="row">{$lang->blog}</th>
-    <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{$member_info->blog}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
+    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
 </tr>
 <tr>
     <th scope="row">{$lang->birthday}</th>

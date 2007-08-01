@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <th>{$lang->blog_name}</th>
-            <td><a href="#" onclick="winopen('{$val->url}');return false;">{$val->blog_name}</a></td>
+            <td><a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->blog_name}</a></td>
         </tr>
         <tr>
             <th>{$lang->excerpt}</th>

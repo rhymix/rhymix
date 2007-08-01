@@ -39,9 +39,9 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
-            <td class="blue"><a href="#" onclick="window.open('./?mid={$module_list[$oDocument->get('module_srl')]->mid}');return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
+            <td class="blue"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
             <td>
-                <a href="#" onclick="window.open('./?document_srl={$oDocument->document_srl}');return false">{$oDocument->getTitleText()}</a>
+                <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
 
                 <!--@if($oDocument->getCommentCount())-->
                     [{$oDocument->getCommentCount()}]
@@ -95,6 +95,6 @@
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
         <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+        <a href="{getUrl('','module',$module,'act',$act)}" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

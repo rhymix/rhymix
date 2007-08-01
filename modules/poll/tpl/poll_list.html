@@ -34,11 +34,11 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-            <td class="left blue"><a href="#" onclick="winopen('./?document_srl={$val->upload_target_srl}'); return false;">{htmlspecialchars($val->title)}</a></td>
+            <td class="left blue"><a href="{getUrl('','document_srl',$val->upload_target_srl)}" onclick="winopen(this.href); return false;">{htmlspecialchars($val->title)}</a></td>
             <td class="tahoma">{$val->checkcount}</td>
             <td class="tahoma">{$val->poll_count}</td>
             <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
-            <td class="blue"><a href="#" onclick="popopen('./?module=poll&amp;act=dispPollAdminResult&amp;poll_srl={$val->poll_srl}&amp;poll_index_srl={$val->poll_index_srl}');return false;">{$lang->cmd_view}</a></td>
+            <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
         </tr>
         <!--@end-->
     </tbody>
@@ -77,6 +77,6 @@
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
         <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+        <a href="{getUrl('','module',$module,'act',$act)}" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

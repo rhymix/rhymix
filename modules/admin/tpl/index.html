@@ -76,7 +76,7 @@
     <!--@foreach($lang->xe_user_links as $key => $val)-->
     <tr>
         <th scope="col">{$key}</th>
-        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+        <td class="left blue"><a href="{$val}" onclick="winopen(this.href); return false;">{$val}</a></td>
     </tr>
     <!--@end-->
     </table>
@@ -89,7 +89,7 @@
     <!--@foreach($lang->xe_developer_links as $key => $val)-->
     <tr>
         <th scope="col">{$key}</th>
-        <td class="left blue"><a href="#" onclick="winopen('{$val}'); return false;">{$val}</a></td>
+        <td class="left blue"><a href="{$val}" onclick="winopen(this.href); return false;">{$val}</a></td>
     </tr>
     <!--@end-->
     </table>

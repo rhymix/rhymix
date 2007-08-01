@@ -54,7 +54,7 @@
         <td class="tahoma">{$val->skin}</td>
         <td class="tahoma">{$val->admin_id}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="blue"><a href="#" onclick="winopen('{getUrl('','mid',$val->mid)}'); return false;">{$lang->cmd_view}</a></td>
+        <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
         <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->

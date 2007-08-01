@@ -11,7 +11,7 @@
             <!--@if($search_target && $search_keyword)-->
                 <div>
                     <!-- 일자, 제목 출력-->
-                    [{$oDocument->getRegdate("Y-m-d")}] <a href="#" onclick="winopen('{$oDocument->getPermanentUrl()}');return false;">{$oDocument->getTitleText()}</a> 
+                    [{$oDocument->getRegdate("Y-m-d")}] <a href="{$oDocument->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a> 
 
                     <!-- 댓글이 있으면 댓글의 수 출력 -->
                     <!--@if($oDocument->getCommentCount())-->({number_format($oDocument->getCommentCount())})<!--@end-->

@@ -21,7 +21,7 @@
     <th scope="row">{$lang->menu_url}</th>
     <td>
         <input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" />
-        <a href="#" onclick="popopen('{getUrl('module','menu','act','dispMenuAdminMidList')}');return false;" class="button"/><span>{$lang->cmd_search_mid}</span></a>
+        <a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button"/><span>{$lang->cmd_search_mid}</span></a>
         <p class="clear">{$lang->about_menu_url}</p>
     </td>
 </tr>

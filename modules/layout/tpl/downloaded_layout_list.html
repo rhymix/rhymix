@@ -20,11 +20,11 @@
         <!--@if($val->title)-->
         <tr>
             <td rowspan="2">
-                <a href="#" onclick="popopen('{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}','layout_info');return false" class="blue">{$val->title}</a> <br />
+                <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
                 ({$val->layout})
             </td>
             <td class="tahoma">{$val->version}</td>
-            <td><a href="#" onclick="window.open('{$val->author->homepage}')" class="blue">{$val->author->name}</a></td>
+            <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$val->author->name}</a></td>
             <td class="tahoma">{$val->menu_count}</td>
             <td class="tahoma">{$val->author->date}</td>
             <td class="tahoma">{$val->path}</td>

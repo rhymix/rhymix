@@ -34,7 +34,7 @@
                     <option value="{$val->friend_group_srl}">{$val->title}</option>
                     <!--@end-->
                 </select>
-                <span class="fr"><a href="#"  onclick="popopen('{getUrl('act','dispMemberAddFriendGroup')}');return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a></span>
+                <span class="fr"><a href="{getUrl('act','dispMemberAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a></span>
             </div>
         </div>
 

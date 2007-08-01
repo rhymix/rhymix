@@ -25,19 +25,19 @@
     <tr>
         <td class="left gl3 blue">
             <!--@if($val->admin_index_act)-->
-                <a href="#" onclick="location.href='{getUrl('act',$val->admin_index_act)}'">{$val->title}</a> ({$val->module})
+                <a href="{getUrl('act',$val->admin_index_act)}">{$val->title}</a> ({$val->module})
             <!--@else-->
                 {$val->title} ({$val->module})
             <!--@end-->
         </td>
         <td class="tahoma">{$val->version}</td>
-        <td><a href="#" onclick="window.open('{$val->author->homepage}')">{$val->author->name}</a></td>
+        <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;">{$val->author->name}</a></td>
         <td class="tahoma">{$val->author->date}</td>
         <td class="tahoma <!--@if($val->created_table_count != $val->table_count)-->red<!--@end-->">
             {$val->created_table_count}/{$val->table_count}
         </td>
         <td class="tahoma left">{$val->path}</td>
-        <td class="blue"><a href="#" onclick="popopen('{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}','module_info');return false">{$lang->cmd_view}</a></td>
+        <td class="blue"><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->cmd_view}</a></td>
         <td class="red">
             <!--@if($val->need_install)-->
                 <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>

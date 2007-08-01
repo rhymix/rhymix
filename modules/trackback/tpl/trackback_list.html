@@ -38,12 +38,12 @@
             <th rowspan="2" class="tahoma" scope="col">
                 {$no}
             </th>
-            <td class="left blue"><a href="#" onclick="window.open('./?mid={$module_list[$val->module_srl]->mid}');return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-            <td class="blue"><a href="#" onclick="window.open('{$val->url}');return false;">{htmlspecialchars($val->blog_name)}</a></td>
+            <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{$module_list[$val->module_srl]->browser_title}</a></td>
+            <td class="blue"><a href="{$val->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->blog_name)}</a></td>
             <td>{htmlspecialchars($val->title)}</td>
             <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
             <td class="tahoma">{$val->ipaddress}</td>
-            <td class="blue"><a href="#" onclick="window.open('./?document_srl={$val->document_srl}&amp;#trackback_{$val->trackback_srl}');return false">{$lang->cmd_move}</a></td>
+            <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}')" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
         </tr>
         <tr>
             <td colspan="6">
@@ -91,6 +91,6 @@
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
         <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+        <a href="{getUrl('','module',$module,'act',$act)}" onclick="window.open(this.href);return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

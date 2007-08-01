@@ -89,7 +89,7 @@
 
                 <!--@if($grant->view)-->
                     <!--@if($search_target && $search_keyword)-->
-                        <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                        <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="winopen(this.href,'viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
                     <!--@else-->
                     <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                     <!--@end-->
@@ -130,7 +130,7 @@
     <!--@if($grant->is_admin)-->
     <!-- 문서 관리 버튼 -->
     <div class="gap1 fl">
-        <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+        <a href="{getUrl('act','dispBoardAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
     </div>
     <!--@end-->
 
@@ -164,7 +164,7 @@
             </select>
             <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
             <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a>
-            <a href="#"  onclick="location.href='{getUrl('','mid',$mid)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+            <a href="{getUrl('','mid',$mid)}" class="button"><span>{$lang->cmd_cancel}</span></a>
         </fieldset>
     </form>
     </div>

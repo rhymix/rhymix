@@ -36,11 +36,11 @@
     <!--@end-->
     <tr>
         <th scope="row">{$lang->homepage}</th>
-        <td><!--@if($member_info->homepage)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->homepage)}'); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td><!--@if($member_info->homepage)--><a href="{htmlspecialchars($member_info->homepage)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
         <th scope="row">{$lang->blog}</th>
-        <td><!--@if($member_info->blog)--><a href="#" onclick="winopen('{htmlspecialchars($member_info->blog)}'); return false;">{htmlspecialchars($member_info->blog)}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td><!--@if($member_info->blog)--><a href="{htmlspecialchars($member_info->blog)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
         <th scope="row">{$lang->birthday}</th>

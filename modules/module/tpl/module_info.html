@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->homepage}</th>
-        <td><a href="#" onclick="window.open('{$module_info->author->homepage}');return false;">{$module_info->author->homepage}</a></td>
+        <td><a href="{$module_info->author->homepage}" onclick="window.open(this.href);return false;">{$module_info->author->homepage}</a></td>
     </tr>
     <tr>
         <th scope="row">{$lang->regdate}</th>

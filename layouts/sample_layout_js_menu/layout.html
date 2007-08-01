@@ -61,8 +61,8 @@ xe_layout_menu['bottom_menu'][1][{$first_key}] = { "text":"{htmlspecialchars($fi
     <!--@if($grant->is_admin)-->
     <!-- 관리자일 경우 레이아웃 관리 메뉴 -->
     <div class="layout_admin">
-        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_layout_management}</a> /
-        <a href="#" onclick="location.href='{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}';return false;">{$lang->cmd_edit}</a>
+        <a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_layout_management}</a> /
+        <a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_edit}</a>
     </div>
     <!--@end-->
 </div>

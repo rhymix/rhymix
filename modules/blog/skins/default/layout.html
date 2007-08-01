@@ -19,16 +19,16 @@
     <!-- 로그인 -->
     <!--@if(!$is_logged)-->
         <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
-        <a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> 
+        <a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a> 
     <!--@else-->
         <a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a>
-        <a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a>
+        <a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a>
     <!--@end-->
 
     <!-- 관리 기능 -->
     <!--@if($grant->is_admin)-->
         <!-- 관리자일 경우 블로그 관리 메뉴 -->
-        <a href="#" onclick="location.href='{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}';return false;">{$lang->cmd_management}</a>
+        <a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}">{$lang->cmd_management}</a>
     <!--@end-->
 
     <!-- RSS -->
@@ -65,7 +65,7 @@
             <!--@end-->
 
             <span class="{$class_name}">
-                <a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a>
+                <a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a>
             </span>
 
         <!--@end--><!--@end-->
@@ -140,7 +140,7 @@
 
     <!-- powered by zbxe -->
     <div id="poweredbyzbxe">
-      <a href="#" onclick="window.open('http://www.zeroboard.com');return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+      <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
     </div>
 
 </div>

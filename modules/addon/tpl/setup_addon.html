@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
-            <td><a href="#" onclick="window.open('{$addon_info->author->homepage}');return false;">{$addon_info->author->homepage}</a></td>
+            <td><a href="{$addon_info->author->homepage}" onclick="window.open(this.href);return false;">{$addon_info->author->homepage}</a></td>
         </tr>
 
         <!--@foreach($addon_info->extra_vars as $key => $val)-->

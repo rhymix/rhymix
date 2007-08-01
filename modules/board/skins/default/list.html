@@ -48,7 +48,7 @@
             <!--@if($grant->view)-->
                 <!-- 검색중일 경우는 새창으로 -->
                 <!--@if($search_target && $search_keyword)-->
-                    <a href="#" onclick="winopen('{getUrl('','document_srl',$document->document_srl)}','viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                    <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 <!-- 검색을 하지 않을 시에는 현재창으로 -->
                 <!--@else-->
                     <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
@@ -84,7 +84,7 @@
 
     <!--@if($grant->is_admin)-->
         <!-- 문서 관리 버튼 -->
-        <a href="#" onclick="popopen('{getUrl('act','dispBoardAdminManageDocument')}','manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
+        <a href="{getUrl('act','dispBoardAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;">[{$lang->cmd_manage_document}]</a> 
     <!--@end-->
 </div>
 

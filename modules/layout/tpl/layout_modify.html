@@ -16,7 +16,7 @@
 <!--@if($selected_layout->author->homepage)-->
 <tr>  
     <th scope="row">{$lang->author}</th>
-    <td><a href="#" onclick="window.open('{$selected_layout->author->homepage}');return false;" class="blue">{$selected_layout->author->name}</a></td>
+    <td><a href="{$selected_layout->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$selected_layout->author->name}</a></td>
 </tr>
 <!--@end-->
 <!--@if($selected_layout->author->description)-->

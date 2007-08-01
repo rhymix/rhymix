@@ -45,14 +45,14 @@
             <!-- 비로그인 상태 -->
             <!--@if(!$is_logged)-->
                 <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-                <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLoginForm')}';return false;">{$lang->cmd_login}</a> </li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a> </li>
             <!-- 로그인 되었을 때 -->
             <!--@else-->
                 <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
-                <li class="loginAndLogout"><a href="#" onclick="location.href='{getUrl('act','dispMemberLogout')}';return false;">{$lang->cmd_logout}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 
                 <!--@if($logged_info->is_admin == 'Y')-->
-                <li class="loginAndLogout"><a href="#" onclick="winopen('{getUrl('','module','admin')}');return false;">{$lang->cmd_management}</a> </li>
+                <li class="loginAndLogout"><a href="{getUrl('','module','admin')}">{$lang->cmd_management}</a> </li>
                 <!--@end-->
 
             <!--@end-->
@@ -79,7 +79,7 @@
         <!-- top_menu 시작 -->
         <ul id="globalNavigation">
             <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
-            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="#" onclick="return move_url('{$val['href']}','{$val['open_window']}');">{$val['text']}</a></li>
+            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
             <!--@end--><!--@end-->
         </ul>
     </div>
@@ -103,7 +103,7 @@
                 <!--@if($grant->is_admin)-->
 				<ul id="admin">
 					<li class="write"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a></li>
-					<li class="setup"><a href="#" onclick="location.href='{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}';return false;">{$lang->cmd_setup}</a></li>
+					<li class="setup"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}">{$lang->cmd_setup}</a></li>
 				</ul>
                 <!--@end-->
 			</div>
@@ -148,7 +148,7 @@
 
             <!-- powered by zbxe -->
             <div id="poweredbyzbxe">
-              <a href="#" onclick="window.open('http://www.zeroboard.com');return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+              <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
             </div>
 
         </div>

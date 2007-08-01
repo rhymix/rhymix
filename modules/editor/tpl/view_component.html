@@ -15,7 +15,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->component_link}</th>
-        <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
+        <td><a href="{$component->author->link}" onclick="window.open(this.href);return false;">{$component->author->link}</a></td>
     </tr>
     <tr>
         <th scope="row">{$lang->component_description}</th>

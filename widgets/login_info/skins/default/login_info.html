@@ -16,7 +16,7 @@
     <div class="item friend"><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></div>
     <div class="item message"><a href="{getUrl('act','dispMemberMessages','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></div>
     <!--@if($logged_info->is_admin=="Y")-->
-    <div class="item administrative"><a href="#" onclick="winopen('{getUrl('','module','admin')}');return false;">{$lang->cmd_management}</a></div>
+    <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
     <!--@end-->
     <div class="item lastlogin fc_02">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
 </div>

@@ -16,7 +16,7 @@
                 </select>
                 <a href="#" onclick="doRenameFriendGroup();return false;" class="button"><span>{$lang->cmd_modify}</span></a>
                 <a href="#" onclick="doDeleteFriendGroup();return false;" class="button"><span>{$lang->cmd_delete}</span></a>
-                <a href="#" onclick="popopen('{getUrl('module','member','act','dispMemberAddFriendGroup')}');return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a>
+                <a href="{getUrl('module','member','act','dispMemberAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a>
             </div>
     </div>
 
@@ -56,7 +56,7 @@
             <td class="userName">{$val->user_name}</td>
             <td class="userNick"><div class="member_{$val->target_srl}">{$val->nick_name}</div></td>
             <td class="registDate">{zdate($val->regdate,"Y-m-d")}</td>
-            <td class="sendMessage"><a href="#" onclick="popopen('{getUrl('module','member','act','dispMemberSendMessage','receiver_srl',$val->target_srl)}','sendMessage');return false" class="button"><span>{$lang->cmd_send_message}</span></a></td>
+            <td class="sendMessage"><a href="{getUrl('module','member','act','dispMemberSendMessage','receiver_srl',$val->target_srl)}" onclick="popopen(this.href,'sendMessage');return false" class="button"><span>{$lang->cmd_send_message}</span></a></td>
         </tr>
         <!--@end-->
     </tbody>

@@ -60,7 +60,7 @@
 
         <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
         <!--@if($logged_info->is_admin == 'Y')-->
-        <li class="admin"><a href="#" onclick="winopen('{getUrl('','module','admin','act','dispBoardAdminContent')}'); return false;">{$lang->cmd_management}</a></li>
+        <li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
         <!--@end-->
 
         <!-- 레이아웃이 없으면 로그아웃 버튼 출력 -->
