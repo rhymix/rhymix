@@ -191,7 +191,7 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "请确认安装所需环境。";
+    $lang->install_condition_title = "确认安装所需环境。";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP版本',
@@ -203,40 +203,40 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装zeroboard XE。',
+	    'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装zeroboard XE。',
             'permission' => '[必须] zeroboard的安装路径或 ./files目录属性必须是707',
             'xml' => '[必须]为了 XML通讯，将需要XML库',
             'session' => '[必须] 为了使用缓冲功能，必须在php.ini当中设置 session.auto_start=0',
             'iconv' => '为了UTF-8和其他语言环境之间的互相转换，必须安装iconv',
-            'gd' => '为了使用图片变换功能，必须先得安装GD库',
+            'gd' => '为了使用图片转换功能，必须先得安装GD库',
         );
 
     $lang->install_checklist_xml = '安装XML库';
-    $lang->install_without_xml = '还没有xml库';
+    $lang->install_without_xml = '还没有安装xml库！';
     $lang->install_checklist_gd = '安装GD库';
-    $lang->install_without_gd  = '还没有安装GD库';
-    $lang->install_checklist_gd = '安装 G库';
-    $lang->install_without_iconv = '还没有安装 iconv库';
-    $lang->install_session_auto_start = '设置为 session.auto_start==1 可能处理session时发生错误';
-    $lang->install_permission_denied = '安装目录属性不是707';
+    $lang->install_without_gd  = '还没有安装负责转换图片功能的GD库！';
+    $lang->install_checklist_gd = '安装GD库';
+    $lang->install_without_iconv = '还没有安装负责处理字串的iconv库！';
+    $lang->install_session_auto_start = 'PHP设置中设置成session.auto_start==1，可能处理session时发生错误。';
+    $lang->install_permission_denied = '安装目录属性不是707！';
 
     $lang->cmd_agree_license = '同意条款';
-    $lang->cmd_install_fix_checklist = '已设定了必要的安装条件。';
-    $lang->cmd_install_next = '进行安装';
+    $lang->cmd_install_fix_checklist = '已设置了必要的安装条件。';
+    $lang->cmd_install_next = '开始进行安装';
 
     $lang->db_desc = array(
-        'mysql' => '利用php的 mysql*()函数使用mysql DB。<br />DB数据是用myisam生成所以不实现transaction。',
-        'mysql_innodb' => '利用innodb使用mysql DB。<br />innodb可以使用transaction',
-        'sqlite2' => '支持用文件保存数据的sqlite2。<br />安装时DB文件需要在web不能接近的地方生成。<br />(还没有通过安全的测试)',
-        'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件需要在web不能接近的地方生成。',
-        'cubrid' => '利用CUBRID DB。<br />(还没有通过安全的测试)',
+        'mysql' => '利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。',
+        'mysql_innodb' => '利用innodb使用mysql DB。<br />innodb可以使用transaction。',
+        'sqlite2' => '支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)',
+        'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。',
+        'cubrid' => '使用CUBRID DB。<br />(还没有通过安全的测试)',
     );
 
-    $lang->form_title = '输入DB &amp; 管理员信息';
+    $lang->form_title = '输入数据库及管理员信息';
     $lang->db_title = '输入数据库信息';
     $lang->db_type = '数据库类型';
     $lang->select_db_type = '请选择要使用的数据库。';
-    $lang->db_hostname = '服务器';
+    $lang->db_hostname = '服务器名';
     $lang->db_port = '数据库端口';
     $lang->db_userid = '用户名';
     $lang->db_password = '密码';
@@ -252,7 +252,7 @@ EndOfLicense;
     $lang->time_zone = '时区';
     $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';
 
-    $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能接近的地方<br/><span style="color:red">数据文件需要指定在707属性的位置。</span>';
+    $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>';
 
     $lang->success_installed = '已完成安装。';
     $lang->success_updated = '已完成更新。';
@@ -260,7 +260,7 @@ EndOfLicense;
     $lang->msg_cannot_proc = '不具备安装所需环境，不能继续进行。';
     $lang->msg_already_installed = '已安装';
     $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
-    $lang->msg_table_is_exists = "已生成数据表。\n重新生成了config文件";
-    $lang->msg_install_completed = "安装完成。\n非常感谢";
+    $lang->msg_table_is_exists = "已生成数据表。\n重新生成了config文件。";
+    $lang->msg_install_completed = "安装完成。\n非常感谢。";
     $lang->msg_install_failed = "生成安装文件时发生错误。";
 ?>
