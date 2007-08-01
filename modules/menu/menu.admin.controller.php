@@ -132,7 +132,11 @@
 
                 // menu_srl에 해당하는 레이아웃 값을 구함
                 $output = executeQuery('menu.getMenuLayout', $args); 
-                if($output->data->layout_srl) $mid_args->layout_srl = $output->data->layout_srl;
+
+                // 해당 모듈에 레이아웃 값이 정해져 있지 않으면 지정
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByMid($mid);
+                if(!$module_info->layout_srl&&$output->data->layout_srl) $mid_args->layout_srl = $output->data->layout_srl;
 
                 // 해당 mid의 메뉴값을 선택된 메뉴로 변경
                 $oModuleController = &getController('module');
