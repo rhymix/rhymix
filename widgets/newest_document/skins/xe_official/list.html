@@ -12,7 +12,14 @@
     <!--@end-->
     <ul>
         <!--@foreach($widget_info->document_list as $oDocument)-->
-        <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a><span>{$oDocument->getRegdate("Y-m-d")}</span></li>
+        <li>
+          <span class="date">[{$oDocument->getRegdate("Y-m-d")}]</span>
+          <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
+          <!--@if($oDocument->getCommentCount())-->
+          <span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment">*{$oDocument->getCommentCount()}</a></span>
+          <!--@end-->
+          <span class="writer">- {$oDocument->getNickName()}</span>
+        </li>
         <!--@end-->
     </ul>
     <!--@if($widget_info->module_name)-->
