@@ -33,8 +33,8 @@
 
     $lang->generated_code = 'Generated Code';
 
-    $lang->msg_widget_is_not_exists = '%s widget is not exist.';
-    $lang->msg_widget_object_is_null = 'The object of %s widget cannot be created.';
+    $lang->msg_widget_is_not_exists = '%s widget does not exist.';
+    $lang->msg_widget_object_is_null = 'Object of %s widget cannot be created.';
     $lang->msg_widget_proc_is_null = 'proc() of %s widget cannot be run.';
 
     $lang->about_widget_code = 'After entering the required item value of selected widget, click the [Generate Code] button to get the code so that you can apply to your template file.';

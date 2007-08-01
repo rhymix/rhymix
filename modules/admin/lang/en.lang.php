@@ -11,26 +11,26 @@
     $lang->item_layout = "Layout List";
 
     $lang->module_name = "Module Name";
-    $lang->addon_name = "Addon name";
+    $lang->addon_name = "Addon Name";
     $lang->version = "Version";
-    $lang->author = "Author";
+    $lang->author = "Maker";
     $lang->table_count = "The number of Table";
     $lang->installed_path = "Installing Path";
 
     $lang->cmd_shortcut_management = "Edit Menues";
 
     $lang->msg_is_not_administrator = 'Administrator only';
-    $lang->msg_manage_module_cannot_delete = 'Cannot remove shortcuts for module, addon, layout, and widget module';
-    $lang->msg_default_act_is_null = 'Cannot register the shortcut, since administrator\'s default action is not specified';
+    $lang->msg_manage_module_cannot_delete = 'Shortcuts of module, addon, layout, widget cannot be removed';
+    $lang->msg_default_act_is_null = 'Shortcut could not be registered because default admin Action is not set';
 
     $lang->welcome_to_zeroboard_xe = 'Welcome to the admin page of Zeroboard XE';
-    $lang->about_admin_page = "Admin page is still incomplete,\nbut it\'ll be filled with required contents by accepting any good suggestion during Close Beta.";
+    $lang->about_admin_page = "Admin page is still being developing,\nWe will add essential contents by accepting many good suggestions during Closebeta.";
 
-    $lang->zeroboard_xe_user_links = 'Link for users';
-    $lang->zeroboard_xe_developer_links = 'Link for Developers';
+    $lang->zeroboard_xe_user_links = 'Links for Users';
+    $lang->zeroboard_xe_developer_links = 'Links for Developers';
 
     $lang->xe_user_links = array(
-        'Official website' => 'http://www.zeroboard.com',
+        'Official Website' => 'http://www.zeroboard.com',
         //'Close Beta website' => 'http://spring.zeroboard.com',
         //'Module morgue' => 'http://www.zeroboard.com',
         //'Addon morgue' => 'http://www.zeroboard.com',
@@ -42,7 +42,7 @@
 
     $lang->xe_developer_links = array(
         //'Manual' => 'http://www.zeroboard.com/wiki/manual',
-        'Developer\'s forum' => 'http://spring.zeroboard.com',
+        "Developer's forum" => 'http://spring.zeroboard.com',
         'Issue Tracking' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
@@ -52,7 +52,7 @@
     $lang->zeroboard_xe_usefulness_module = 'Useful Modules';
     $lang->xe_usefulness_modules = array(
         'dispEditorAdminIndex' => 'Editor Manager',
-        'dispDocumentAdminList' => 'Entry Manager',
+        'dispDocumentAdminList' => 'Article Manager',
         'dispCommentAdminList' => 'Comment Manager',
         'dispFileAdminList' => 'Attachment Manager',
         'dispPollAdminList' => 'Poll Manager',
@@ -62,5 +62,5 @@
     );
 
     $lang->xe_license = 'Zeroboard XE complies with the GPL';
-    $lang->about_shortcut = 'You could remove module shortcut that is registered on the module frequently used';
+    $lang->about_shortcut = 'You may remove shortcuts of modules which are registered on frequently using module list';
 ?>

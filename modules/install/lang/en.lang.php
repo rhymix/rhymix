@@ -201,6 +201,7 @@ EndOfLicense;
     $lang->install_condition_title = "Please check the installation requirement.";
 
     $lang->install_checklist_title = array(
+			'php_version' => 'PHP Version',
             'permission' => 'Permission',
             'xml' => 'XML Library',
             'iconv' => 'ICONV Library',
@@ -209,8 +210,9 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
+			'php_version' => '[Required] If PHP version is 5.2.2, zeroboard will not be installed because of bug',
             'permission' => '[Required] Zeroboard installation path or ./files directory\'s permission must be 707',
-            'xml' => '[Required] You need XML Library for XML communication',
+            'xml' => '[Required] XML Library is needed for XML communication',
             'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for zeroboard to use the session',
             'iconv' => 'Iconv should be installed in order to convert UTF-8 and other language set',
             'gd' => 'GD Library should be installed in order to use image convert function',
@@ -237,10 +239,10 @@ EndOfLicense;
         'cubrid' => 'Use CUBRID DB.<br />(Never got tested on stabilization and didn\'t get tuned.)',
     );
 
-    $lang->form_title = 'Input DB &amp; Admin information';
-    $lang->db_title = 'Input DB information';
+    $lang->form_title = 'Please input DB &amp; Admin information';
+    $lang->db_title = 'Please input DB information';
     $lang->db_type = 'DB Type';
-    $lang->select_db_type = 'Select the DB you want to use.';
+    $lang->select_db_type = 'Please select the DB you want to use.';
     $lang->db_hostname = 'DB Hostname';
     $lang->db_port = 'DB Port';
     $lang->db_userid = 'DB ID';
@@ -263,9 +265,9 @@ EndOfLicense;
     $lang->success_updated = 'Update Complete';
 
     $lang->msg_cannot_proc = 'Unabled to execute the request because installation environment is not provided';
-    $lang->msg_already_installed = 'Already installed';
+    $lang->msg_already_installed = 'Zeroboard is already installed';
     $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
-    $lang->msg_table_is_exists = "Table is already created in the DB.\nRecreated the config file";
+    $lang->msg_table_is_exists = "Table is already created in the DB.\nConfig file is recreated";
     $lang->msg_install_completed = "Installation complete.\nThank you for choosing ZeroboardXE";
     $lang->msg_install_failed = "Error has occurred while creating installation file.";
 ?>

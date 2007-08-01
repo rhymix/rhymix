@@ -63,5 +63,5 @@
     $lang->about_open_rss = 'You can select RSS on the current module to be open to the public.\nNo matter the view permission of article , RSS will be open to the public by its option.';
     $lang->about_module = "All of Zeroboard XE except the basic library consist of module.\n [Manage module] module will show all installed modules and help you to manage them.\nThrough [Add shortcut] feature, you can manage frequently used modules easily.";
 
-    $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
+	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';
 ?>

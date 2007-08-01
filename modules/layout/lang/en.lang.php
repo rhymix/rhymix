@@ -21,7 +21,7 @@
     $lang->cmd_move_to_installed_list = "View created list";
 
     $lang->about_downloaded_layouts = "List of downloaded layouts";
-    $lang->about_title = 'Input the title that is easy to verify when connecting to module';
+    $lang->about_title = 'Please input the title that is easy to verify when connecting to module';
     $lang->about_not_apply_menu = 'All connected module\'s layout will be changed by checking this option.';
 
     $lang->about_layout = "Layout module helps you to create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will display with various modules.<br />* Those layouts which are unabled to delete or modify are the blog or other module's layout. ";
