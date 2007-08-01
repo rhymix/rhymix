@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">그룹회원 출력 위젯 기본 스킨</title>
+  <title xml:lang="en">Basic Skin of Group Member Display Widget</title>
   <title xml:lang="zh-CN">会员列表默认皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 30">
     <name xml:lang="ko">제로</name>
+	<name xml:lang="en">zero</name>
     <name xml:lang="zh-CN">Zero</name>
     <description xml:lang="ko">그룹회원 출력 위젯의 기본 스킨</description>
+	<description xml:lang="en">Basic skin of group member display widget</description>
     <description xml:lang="zh-CN">显示特定用户组会员列表的默认皮肤。</description>
   </maker>
   <colorset>
     <color name="normal">
       <title xml:lang="ko">기본 컬러</title>
+	  <title xml:lang="en">Default Color</title>
       <title xml:lang="zh-CN">默认颜色</title>
     </color>
   </colorset>

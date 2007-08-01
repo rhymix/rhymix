@@ -25,25 +25,25 @@
       <title xml:lang="ko">청록색</title>
       <title xml:lang="jp">cyan</title>
       <title xml:lang="zh-CN">青绿色</title>
-      <title xml:lang="en">cyan</title>
+      <title xml:lang="en">Cyan</title>
     </color>
     <color name="green">
       <title xml:lang="ko">초록색</title>
       <title xml:lang="jp">green</title>
       <title xml:lang="zh-CN">绿色</title>
-      <title xml:lang="en">green</title>
+      <title xml:lang="en">Green</title>
     </color>
     <color name="red">
       <title xml:lang="ko">빨간색</title>
       <title xml:lang="jp">red</title>
       <title xml:lang="zh-CN">红色</title>
-      <title xml:lang="en">red</title>
+      <title xml:lang="en">Red</title>
     </color>
     <color name="purple">
       <title xml:lang="ko">보라색</title>
       <title xml:lang="jp">purple</title>
       <title xml:lang="zh-CN">紫色</title>
-      <title xml:lang="en">purple</title>
+      <title xml:lang="en">Purple</title>
     </color>
   </colorset>
 </skin>

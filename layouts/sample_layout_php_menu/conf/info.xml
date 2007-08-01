@@ -70,19 +70,19 @@
             <title xml:lang="es">Título</title>
             <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
             <description xml:lang="zh-CN">请输入布局顶部显示的标题。（网站名称）</description>
-            <description xml:lang="en">Please input a title to be displayed on the top of the layout.</description>
+            <description xml:lang="en">Please input a title which will be displayed on top of the layout.</description>
             <description xml:lang="jp">レイアウトの上端に表示するタイトルを入力してください。</description>
             <description xml:lang="es">Escribe el título para la pagína de web.</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
             <title xml:lang="zh-CN">网站 URL</title>
-            <title xml:lang="en">Home page URL</title>
+            <title xml:lang="en">Homepage URL</title>
             <title xml:lang="jp">ホームページ URL</title>
             <title xml:lang="es">URL de pagína de web</title>
             <description xml:lang="ko">로고나 제목을 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="zh-CN">点击网站LOGO或标题时要移动的页面URL。</description>
-            <description xml:lang="en">Please input URL to the page that you want to be loaded when a logo or title is clicked.</description>
+            <description xml:lang="en">Please input a homepage URL, which will be connected when you click.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="es">Escribe el URL para título.</description>
         </var>
@@ -99,7 +99,7 @@
         <menu name="bottom_menu">
             <title xml:lang="ko">하단 메뉴 </title>
             <title xml:lang="zh-CN">底部菜单 </title>
-            <title xml:lang="en">Menu on the bottom </title>
+            <title xml:lang="en">Bottom menu</title>
             <title xml:lang="jp">下端メニュー </title>
             <title xml:lang="es">sub menú </title>
             <maxdepth>1</maxdepth>

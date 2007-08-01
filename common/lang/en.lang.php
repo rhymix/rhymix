@@ -85,7 +85,7 @@
     $lang->lock_comment = 'Block Comment';
     $lang->allow_trackback = 'Allow Trackback';
     $lang->uploaded_file = 'Attachment';
-    $lang->grant = 'Authority';
+    $lang->grant = 'Permission';
     $lang->target = 'Target';
     $lang->total = 'Total';
     $lang->total_count = 'Count Total';
@@ -143,11 +143,11 @@
     $lang->unit_month = 'month';
     $lang->unit_year = 'year';
 
-    // Related to Description 
+    // Descriptions
     $lang->about_tag = 'You can submit multiple tags by inserting comma(,) between each tags';
     $lang->about_layout = 'Layouts decorate an appearance of your module. you could configure it from Layout menu on the top';
 
-    // Related to Message
+    // Messages
     $lang->msg_call_server = 'Requesting to the server, please wait';
     $lang->msg_db_not_setted = 'DB configuration has not been set';
     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
@@ -164,14 +164,14 @@
     $lang->msg_module_is_not_exists = 'Requested module could not be found';
     $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 
-    $lang->success_registed = 'Successfully Registered';
-    $lang->success_updated = 'Successfully Updated';
-    $lang->success_deleted = 'Successfully Deleted';
-    $lang->success_voted = 'Successfully Voted';
-    $lang->success_moved = 'Successfully Moved';
-    $lang->success_sended = 'Successfully Sent';
-    $lang->success_reset = 'Successfully Reset';
-    $lang->success_leaved = 'Successfully Seceded';
+    $lang->success_registed = 'Registered successfully';
+    $lang->success_updated = 'Updated successfully';
+    $lang->success_deleted = 'Deleted successfully';
+    $lang->success_voted = 'Voted successfully';
+    $lang->success_moved = 'Moved successfully';
+    $lang->success_sended = 'Sent successfully';
+    $lang->success_reset = 'Reset successfully';
+    $lang->success_leaved = 'Seceded successfully';
 
     $lang->fail_to_delete = 'Could not be deleted';
     $lang->fail_to_move = 'Could not be moved';
