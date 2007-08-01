@@ -5,7 +5,7 @@
      * @brief  中文语言包 （只收录了基本内容）
      **/
 
-    $lang->introduce_title = 'zeroboard XE 安装';
+    $lang->introduce_title = '安装 Zeroboard XE';
     $lang->license = <<<EndOfLicense
 - 程序名称 : zeroboard XE (zeroboardXE)
 - 版权信息   : GNU GENERAL PUBLIC LICENSE
