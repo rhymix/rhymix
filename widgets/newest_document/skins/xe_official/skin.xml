@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">XE 공식 레이아웃용 최신글 스킨</title>
-  <title xml:lang="zh-CN">XE 官方网站主体列表</title>
+  <title xml:lang="zh-CN">XE 官方网站主题列表</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 1">
     <name xml:lang="ko">제로</name>
     <name xml:lang="zh-CN">zero</name>
@@ -12,7 +12,7 @@
         레이아웃 제작 : zero (http://blog.nzeo.com)
     </description>
     <description xml:lang="zh-CN">
-        适合XE 官方网站的主体列表。
+        适合XE 官方网站的主题列表。
         设计 : So-Ra Lee(http://ra-ra.pe.kr)
         HTML/CSS : Chan-Myung Jeong(http://naradesign.net)
         布局: zero (http://blog.nzeo.com)
