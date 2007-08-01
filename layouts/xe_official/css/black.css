@@ -13,7 +13,7 @@ body { background:#3d3d3d url(../images/black/bgBody.gif) repeat-x;}
 /* Site Layout - Header */
 #header { position:relative; width:980px; height:120px; background:url(../images/black/bgHeader.jpg) no-repeat right top; margin-bottom:10px; z-index:99;}
 #header h1 { position:absolute; top:32px; left:25px;}
-#language { position:absolute; top:18px; right:19px;}
+#language { position:absolute; top:18px; right:19px; z-index:100;}
 #language strong { color:#ffffff; font:.75em Tahoma; margin-right:3px;}
 #language a img { vertical-align:-5px;}
 #language ul { position:absolute; top:15px; right:0px; display:none; border:1px solid #282827; background:#3d3d3d;}
@@ -55,7 +55,7 @@ body { background:#3d3d3d url(../images/black/bgBody.gif) repeat-x;}
 #lnb li.on ul li.on a { color:#ff1a00 !important; font-weight:bold !important; background:url(../images/black/bulletLnb.gif) no-repeat 175px center  !important;}
 
 /* Site Layout - Column Right */
-#columnRight { position:relative; width:755px; float:right;}
+#columnRight { width:770px; float:right; overflow:hidden;}
 #visualArea { width:770px; height:200px; background:#151514; margin-bottom:2.5em; position:relative; left:-15px; margin-right:-15px; color:#999999;}
 #content { width:100%; overflow:hidden;}
 
