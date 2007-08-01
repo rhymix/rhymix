@@ -165,7 +165,7 @@
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 
 
-    $lang->about_member_default = '设置为注册会员时的默认用户组。';
+    $lang->about_member_default = '将成为注册会员时的默认用户组。';
 
     $lang->about_openid = '用OpenID注册时该网站只保存用户名和 邮件等基本信息，密码和认证处理是在提供OpenID服务的站点中得到解决。';
 
