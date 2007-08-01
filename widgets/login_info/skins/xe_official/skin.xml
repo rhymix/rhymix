@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">XE 공식 로그인 정보 출력</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">
+        XE 공식 레이아웃에 적합한 로그인 정보 출력 위젯입니다.
+        디자인 : 이소라 
+        퍼블리싱 : 정찬명
+    </description>
+  </maker>
+  <colorset>
+    <color name="default">
+      <title xml:lang="ko">기본</title>
+      <title xml:lang="jp">デフォルト</title>
+      <title xml:lang="zh-CN">默认</title>
+      <title xml:lang="en">default</title>
+    </color>
+  </colorset>
+</skin>

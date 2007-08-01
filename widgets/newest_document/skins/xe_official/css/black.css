@@ -1,0 +1,10 @@
+.latest { padding-bottom:15px; }
+.latest h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#ffffff; background:url(../images/black/lineNotice.gif) no-repeat left bottom;}
+.latest ul {}
+.latest ul li { position:relative; height:21px; background:url(../images/black/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden;}
+.latest ul li a { color:#818181; text-decoration:none; }
+.latest ul li a:hover { text-decoration:underline; }
+.latest ul li span { position:absolute; top:1px; right:9px; color:#999999; font:.8em Tahoma;}
+.latest .more { position:absolute; top:12px; right:11px; color:#818181; font:.8em Tahoma;}
+.latest a.more { text-decoration:none;} 
+.latest a.more:hover { text-decoration:underline;} 

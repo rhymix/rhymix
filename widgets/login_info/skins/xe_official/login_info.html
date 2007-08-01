@@ -1,0 +1,35 @@
+<!-- colorset의 값에 따라 css 파일을 import 한다 -->
+<!--@if($colorset=="black")-->
+    <!--%import("css/black.css")-->
+<!--@elseif($colorset=="white")-->
+    <!--%import("css/white.css")-->
+<!--@else-->
+    <!--%import("css/default.css")-->
+<!--@end-->
+
+<!--%import("./filter/logout.xml")-->
+
+<fieldset id="login">
+<legend>{$lang->cmd_login}</legend>
+<form action="" method="post">
+
+    <div class="userName">
+        <div class="fl member_{$logged_info->member_srl}"><strong>{$logged_info->nick_name}</strong></div>
+        <a href="{getUrl('act','dispMemberLogout')}"><img src="./images/{$colorset}/buttonLogout.gif" alt="{$lang->cmd_logout}" width="47" height="18" /></a>
+    </div>
+    <ul class="userMenu">
+        <li><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></li>
+        <li><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></li>
+        <li><a href="{getUrl('act','dispMemberMessages','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></li>
+
+        <!--@if($logged_info->is_admin=="Y")-->
+        <li><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></li>
+        <!--@if($layout_info->layout_srl)-->
+        <li><a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_layout_management}</a> / <a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_edit}</a></li>
+        <!--@end-->
+        <!--@end-->
+    </ul>
+    <p class="latestLogin">{$lang->last_login} : <span>{zDate($logged_info->last_login, "Y-m-d H:i")}</span></p>
+</form>
+</fieldset>
+

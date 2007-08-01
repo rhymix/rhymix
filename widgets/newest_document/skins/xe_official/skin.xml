@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">XE 공식 레이아웃용 최신글 스킨</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 1">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">XE 공식 레이아웃에 적합한 최신글 스킨입니다.</description>
+  </maker>
+  <colorset>
+    <color name="white">
+      <title xml:lang="ko">흰색 바탕용</title>
+    </color>
+    <color name="black">
+      <title xml:lang="ko">어두운 바탕용</title>
+    </color>
+  </colorset>
+</skin>

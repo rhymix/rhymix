@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout version="0.1">
+    <title xml:lang="ko">ZBXE 공식 사이트 레이아웃</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 1">
+        <name xml:lang="ko">zero</name>
+        <description xml:lang="ko">
+            제로보드XE 공식 사이트 레이아웃입니다.
+            디자인 : 이소라 
+            퍼블리싱 : 정찬명
+            레이아웃 제작 : zero
+        </description>
+    </author>
+    <extra_vars>
+        <var name="colorset" type="select">
+            <title xml:lang="ko">컬러셋</title>
+            <title xml:lang="zh-CN">颜色</title>
+            <title xml:lang="en">Colorset</title>
+            <title xml:lang="jp">カラーセット</title>
+            <title xml:lang="es">colecciónes de colores</title>
+            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+            <description xml:lang="zh-CN">请选择颜色。</description>
+            <description xml:lang="en">Select colorset.</description>
+            <description xml:lang="jp">希望する色を選択してください。</description>
+            <description xml:lang="es">Seleccióne la colección de colores.</description>
+            <options name="default">
+                <title xml:lang="ko">기본</title>
+                <value>default</value>
+            </options>
+            <options name="black">
+                <title xml:lang="ko">검은색</title>
+                <value>black</value>
+            </options>
+            <options name="white">
+                <title xml:lang="ko">하얀색</title>
+                <value>white</value>
+            </options>
+        </var>
+        <var name="logo_image" type="image">
+            <title xml:lang="ko">로고이미지</title>
+            <title xml:lang="zh-CN">LOGO图片</title>
+            <title xml:lang="en">Logo image</title>
+            <title xml:lang="jp">ロゴのイメージ</title>
+            <title xml:lang="es">Imagén de logotipo</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 100px인 투명이미지가 가장 어울립니다)</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。 （高度为100px的透明图片为释。）</description>
+            <description xml:lang="en">Please put a logo image in the the top of layout. (Transparency image's height 100px is best becoming.)</description>
+            <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が100pxである透明イメージが最も合います。)</description>
+            <description xml:lang="es">Cargar archivo para logotipo. (Mejor imagen transparente con altura de 100px)</description>
+        </var>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <title xml:lang="zh-CN">网站 URL</title>
+            <title xml:lang="en">Hompage URL</title>
+            <title xml:lang="jp">ホームページ URL</title>
+            <title xml:lang="es">URL de logotipo</title>
+            <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+            <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
+            <description xml:lang="en">Please put a homepage URL, when you click the logo.</description>
+            <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
+            <description xml:lang="ko">Escribe URL para mover cuando los usuarios haga clic en logotipo.</description>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="main_menu" default="true">
+            <title xml:lang="ko">상단 메뉴</title>
+            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="en">Top menu</title>
+            <title xml:lang="jp">上端メニュー</title>
+            <title xml:lang="es">Menu Principal</title>
+            <maxdepth>3</maxdepth>
+        </menu>
+        <menu name="bottom_menu">
+            <title xml:lang="ko">하단 메뉴 </title>
+            <title xml:lang="zh-CN">底部菜单</title>
+            <title xml:lang="en">Menu on the bottom </title>
+            <title xml:lang="es">sub menú </title>
+            <title xml:lang="jp">下段メニュー</title>
+            <maxdepth>1</maxdepth>
+        </menu>
+    </menus>
+</layout>

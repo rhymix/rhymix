@@ -1,0 +1,56 @@
+<!-- colorset의 값에 따라 css 파일을 import 한다 -->
+<!--@if($colorset=="black")-->
+    <!--%import("css/black.css")-->
+<!--@elseif($colorset=="white")-->
+    <!--%import("css/white.css")-->
+<!--@else-->
+    <!--%import("css/default.css")-->
+<!--@end-->
+
+<!--%import("./filter/login.xml")-->
+<!--%import("./filter/openid_login.xml")-->
+<!--%import("./js/login.js")-->
+
+<fieldset id="login">
+<legend>{$lang->cmd_login}</legend>
+<form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
+
+    <div class="idpwWrap">
+        <div class="idpw">
+            <input name="user_id" type="text" title="user id" />
+            <input name="password" type="password" title="password" />
+        </div>
+        <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
+    </div>
+    <p class="save">
+        <input name="remember_user_id" id="chk_remember_user_id" type="checkbox" value="Y" />
+
+        <label for="chk_remember_user_id">{$lang->remember_user_id}</label>
+    </p>
+    <ul class="help">
+        <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+        <!--<li><a href="#">아이디/비밀번호 찾기</a></li>-->
+    </ul>
+</form> 
+</fieldset>
+
+<!-- OpenID -->
+<!--@if($member_config->enable_openid=='N')-->
+<img src="./images/blank.gif" alt="" class="login_mask" />
+<fieldset id="openid_login">
+<legend>{$lang->cmd_login}</legend>
+  <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" >
+      <div class="idpwWrap">
+        <div class="idpw">
+          <p>{$lang->openid}</p>
+          <input type="text" name="user_id" class="openid_user_id" />
+        </div>
+        <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
+      </div>
+  </form>
+</fieldset>
+<!--@end-->
+
+<script type="text/javascript">
+  xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
+</script>
