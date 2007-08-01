@@ -20,7 +20,7 @@
         <!--@foreach($widget_info->document_list as $oDocument)-->
         <div class="document_box">
             <div class="document">
-                <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText(20)}</a>
+                <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
                 <!--@if($oDocument->getCommentCount())-->
                 &nbsp;<span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment">*{$oDocument->getCommentCount()}</a></span>
                 <!--@end-->

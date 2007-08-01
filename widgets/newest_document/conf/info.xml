@@ -98,5 +98,16 @@
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
         </var>
+        <var id="subject_cut_size" type="text">
+          <name xml:lang="ko">제목 글자수</name>
+          <name xml:lang="jp">タイトルの文字数</name>
+          <name xml:lang="zh-CN">标题字数</name>
+          <name xml:lang="en">Length of Subject</name>
+          <type>text</type>
+          <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+          <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+          <description lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
+          <description lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
+        </var>
     </extra_vars>
 </widget>

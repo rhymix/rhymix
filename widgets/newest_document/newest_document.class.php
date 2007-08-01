@@ -22,6 +22,8 @@
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
             $mid_list = explode(",",$args->mid_list);
+            $subject_cut_size = $args->subject_cut_size;
+            if(!$subject_cut_size) $subject_cut_size = 0;
 
             // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;
@@ -37,6 +39,7 @@
             
             $widget_info->title = $title;
             $widget_info->document_list = $output->data;
+            $widget_info->subject_cut_size = $subject_cut_size;
 
             Context::set('widget_info', $widget_info);
 
