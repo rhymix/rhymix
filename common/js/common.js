@@ -556,8 +556,12 @@ function open_calendar(fo_id, day_str, callback_func) {
 
 // 언어코드 (lang_type) 쿠키값 변경
 function doChangeLangType(obj) {
-    var val = obj.options[obj.selectedIndex].value;
-    setLangType(val);
+    if(typeof(obj)=="string") {
+        setLangType(obj);
+    } else {
+        var val = obj.options[obj.selectedIndex].value;
+        setLangType(val);
+    }
     location.reload();
 }
 function setLangType(lang_type) {
