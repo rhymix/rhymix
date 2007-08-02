@@ -38,7 +38,7 @@
             <td class="tahoma">{$val->checkcount}</td>
             <td class="tahoma">{$val->poll_count}</td>
             <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
-            <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
+            <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
         </tr>
         <!--@end-->
     </tbody>
