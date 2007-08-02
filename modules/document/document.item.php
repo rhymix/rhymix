@@ -237,58 +237,59 @@
         }
 
         function getThumbnail($width = 80) {
+            // 문서의 이미지 첨부파일 위치를 구함
             $document_path = sprintf('./files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
 
+            // 썸네일 임시 파일명을 구함
             $thumbnail_file = sprintf('%sthumbnail_%d.gif', $document_path, $width);
-            $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
 
+            // 썸네일이 있더라도 글의 수정시간과 비교해서 다르면 다시 생성함
             if(file_exists($thumbnail_file)) {
+                $file_created_time = date("YmdHis",filectime($thumbnail_file));
                 $modified_time = $this->get('last_update');
-                $hour = (int)substr($modified_time,8,2);
-                $min = (int)substr($modified_time,10,2);
-                $sec = (int)substr($modified_time,12,2);
-                $year = (int)substr($modified_time,0,4);
-                $month = (int)substr($modified_time,4,2);
-                $day = (int)substr($modified_time,6,2);
-                $modified_time =  mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year);
-
-                if($modified_time > filectime($thumbnail_file)) unlink($thumbnail_file);
+                if($modified_time > $file_created_time) unlink($thumbnail_file);
             }
 
-            if(!file_exists($thumbnail_file)) {
-                FileHandler::writeFile($thumbnail_file, '', 'w');
+            // 썸네일 파일이 있으면 url return
+            if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
+            
+            // 생성 시작
+            FileHandler::writeFile($thumbnail_file, '', 'w');
 
-                $content = $this->get('content');
+            // 첨부파일이 있는지 확인하고 있으면 썸네일 만듬
+            $file_list = FileHandler::readDir($document_path);
+            if(count($file_list)) {
+                foreach($file_list as $key => $val) {
+                    if(eregi("^thumbnail_([0-9]+)\.gif$",$val)) continue;
 
-                // 첨부된 파일부터 찾아봄 (DB말고 내용에서 추출)
-                preg_match_all("!(\"|')files\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches);
-                $attached_file_list = $matches[0];
-
-                if(count($attached_file_list)) {
-                    $src = preg_replace("!^(\"|')!is","",$attached_file_list[0]);
-                    @copy("./".$src, $tmp_file);
-
-                // 첨부된 파일이 없으면 http로 시작하는 경로를 찾음
-                } else {
-                    preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
-                    for($i=0;$i<count($matches);$i++) {
-                        $src = $matches[$i][0];
-                        if(strpos($src,"/common/tpl")!==false || strpos($src,"/modules")!==false) continue;
-                        break;
+                    $filename = sprintf("%s%s",$document_path,$val);
+                    if(file_exists($filename)) {
+                        FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'gif');
+                        if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                     }
-                    if($src) FileHandler::getRemoteFile($src, $tmp_file);
-                    else return;
                 }
-                FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
+            }
 
-                @unlink($tmp_file);
-            } 
+            // 첨부파일이 없으면 내용에서 추출
+            $content = $this->get('content');
 
-            if(filesize($thumbnail_file)<1) return;
+            preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
+            for($i=0;$i<count($matches);$i++) {
+                $src = $matches[$i][0];
+                if(strpos($src,"/common/tpl")!==false || strpos($src,"/modules")!==false) continue;
+                break;
+            }
 
-            $thumbnail_url = Context::getRequestUri().$thumbnail_file;
-            return $thumbnail_url;
+            $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
+
+            if($src) FileHandler::getRemoteFile($src, $tmp_file);
+            else return;
+
+            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
+            unlink($tmp_file);
+
+            return Context::getRequestUri().$thumbnail_file;
         }
 
         function hasUploadedFiles() {

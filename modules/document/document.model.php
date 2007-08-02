@@ -44,16 +44,14 @@
             if(!is_array($document_list)) $document_list = array($document_list);
 
             $document_count = count($document_list);
-            for($i=0;$i<$document_count;$i++) {
-                $document_srl = $attribute->document_srl;
-                $attribute = $document_list[$i];
-
+            foreach($document_list as $key => $attribute) {
+                if(!$attribute->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
                 $oDocument->setAttribute($attribute);
                 if($is_admin) $oDocument->setGrant();
 
-                $result[$document_srl] = $oDocument;
+                $result[$attribute->document_srl] = $oDocument;
             }
             return $result;
         }
