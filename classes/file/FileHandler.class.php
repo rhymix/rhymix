@@ -176,6 +176,8 @@
 
             // 이미지 정보를 구함
             list($width, $height, $type, $attrs) = @getimagesize($source_file);
+            if($width<1 || $height<1) return;
+
             switch($type) {
                 case '1' :
                         $type = 'gif';
@@ -194,19 +196,29 @@
                     break;
             }
 
+            // 타겟 파일의 type을 구함
             if(!$target_type) $target_type = $type;
             $target_type = strtolower($target_type);
 
-            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈
-            $new_width = $width;
-            if($resize_width>0 && $new_width > $resize_width) $new_width = $resize_width;
-            $new_height = $height;
-            if($resize_height>0 && $new_height > $resize_height) $new_height = $resize_height;
+            // 리사이즈를 원하는 크기의 임시 이미지를 만듬
+            if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($resize_width, $resize_height);
+            else $thumb = @imagecreate($resize_width, $resize_height);
 
-            // 업로드한 파일을 옮기지 않고 gd를 이용해서 gif 이미지를 만듬 (gif, jpg, png, bmp가 아니면 역시 무시) 
-            if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($new_width, $new_height);
-            else $thumb = @imagecreate($new_width, $new_height);
+            if(!function_exists('imagecolortransparent')) {
+                $white = @imagecolorallocate($thumb, 255,255,255);
+                @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
+            } else {
+                $trans = @imagecolorat($thumb, 1,1);
+                @imagecolortransparent($thumb, $trans);
+            }
 
+            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
+            if($resize_width>0 && $width > $resize_width) $width_per = $resize_width / $width;
+            if($resize_height>0 && $height > $resize_height) $height_per = $resize_height / $height;
+            if($width_per > $height_per) $per = $height_per;
+            else $per = $width_per;
+
+            // 원본 이미지의 타입으로 임시 이미지 생성
             switch($type) {
                 case 'gif' : 
                         $source = @imagecreatefromgif($source_file);
@@ -229,35 +241,44 @@
                     return;
             }
 
-            if(!$source) return;
-
             // 디렉토리 생성
             $path = preg_replace('/\/([^\.^\/]*)\.(gif|png|jpeg|bmp|wbmp)$/i','',$target_file);
             FileHandler::makeDir($path);
 
-            if($new_width != $width || $new_height != $height) {
-                if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-                else imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-            } else $thumb = $source;
+            // 원본 이미지의 크기를 조절해서 임시 이미지에 넣음
+            $new_width = (int)($width * $per);
+            $new_height = (int)($height * $per);
+
+            $x = $y = 0;
+            if($new_width > $resize_width) $new_width = $resize_width;
+            else $x = (int)($resize_width/2 - $new_width/2);
+            if($new_height > $resize_height) $new_height = $resize_height;
+            else $y = (int)($resize_height/2 - $new_height/2);
+
+            if($source) {
+                if($new_width != $width || $new_height != $height) {
+                    if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                    else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                } else $thumb = $source;
+            }
 
             // 파일을 쓰고 끝냄
             switch($target_type) {
                 case 'gif' :
-                        imagegif($thumb, $target_file, 100);
+                        @imagegif($thumb, $target_file, 100);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
-                        imagejpeg($thumb, $target_file, 100);
+                        @imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
-                        imagepng($thumb, $target_file, 100);
+                        @imagepng($thumb, $target_file, 100);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
-                        imagewbmp($thumb, $target_file, 100);
+                        @imagewbmp($thumb, $target_file, 100);
                     break;
             }
-            @unlink($source_file);
         }
     }
 ?>
