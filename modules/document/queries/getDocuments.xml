@@ -8,4 +8,7 @@
     <conditions>
         <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
     </conditions>
+    <navigation>
+        <index var="list_order" default="list_order" order="asc" />
+    </navigation>
 </query>

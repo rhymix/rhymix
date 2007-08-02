@@ -14,6 +14,7 @@
         <group column="upload_target_srl" />
     </groups>
     <navigation>
+        <index var="file_srl" default="file_srl" order="desc" />
         <list_count var="list_count" default="20" />
     </navigation>
 </query>
