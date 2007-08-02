@@ -87,7 +87,7 @@
 		</li>
 
         <!--@foreach($bottom_menu->list as $key => $val)-->
-		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['href']}</a></li>
+		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
         <!--@end-->
 	</ul>
 </div>
