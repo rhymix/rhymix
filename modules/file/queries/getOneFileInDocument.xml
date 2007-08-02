@@ -3,18 +3,17 @@
         <table name="files" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="upload_target_srl" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" filter="number" />
+        <condition operation="equal" column="direct_download" var="direct_download" pipe="and" />
+        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
     </conditions>
     <groups>
         <group column="upload_target_srl" />
     </groups>
     <navigation>
-        <index var="sort_index" default="file_srl" order="desc" />
         <list_count var="list_count" default="20" />
-        <page_count var="page_count" default="10" />
-        <page var="page" default="1" />
     </navigation>
 </query>
