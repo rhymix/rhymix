@@ -139,7 +139,7 @@
 
                 if(__DEBUG_DB_OUTPUT__==1)  {
                     $debug_file = "./files/_debug_db_query.php";
-                    $buff = sprintf("%s\n",print_r($buff,true));
+                    $buff = sprintf("%s\n",print_r($str,true));
 
                     if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
