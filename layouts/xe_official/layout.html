@@ -53,18 +53,20 @@
 
             <!--@if($menu_1st)-->
 			<ol id="lnb">
+                {@ $idx = 1 }
                 <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['text'])-->
-				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end--> onfocus="lnbToggle('D3MG1')">{$val['text']}</a>
+				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a>
 
                     <!-- main_menu 3차 시작 -->
                     <!--@if($val['list'])-->
-					<ul id="D3MG1">
+					<ul>
                     <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
 						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['text']}</a></li>
                     <!--@end--><!--@end-->
 					</ul>
                     <!--@end-->
 				</li>
+                {@$idx++}
                 <!--@end--><!--@end-->
 			</ol>
             <!--@end-->
