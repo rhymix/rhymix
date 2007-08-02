@@ -229,7 +229,7 @@ EndOfLicense;
 
     $lang->cmd_agree_license = 'I agree with the license';
     $lang->cmd_install_fix_checklist = 'I have fixed the required conditions.';
-    $lang->cmd_install_next = 'Start Installation';
+    $lang->cmd_install_next = 'Continue installation';
 
     $lang->db_desc = array(
         'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',
@@ -251,12 +251,12 @@ EndOfLicense;
     $lang->db_database_file = 'DB Database file';
     $lang->db_table_prefix = 'Table header';
 
-    $lang->admin_title = 'Administration Info';
+    $lang->admin_title = 'Administrator Info';
 
     $lang->env_title = 'Configuration';
     $lang->use_rewrite = 'Use rewrite mod';
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
-    $lang->time_zone = 'time zone';
+    $lang->time_zone = 'Time zone';
     $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
 
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
