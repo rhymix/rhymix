@@ -10,6 +10,7 @@
 var alertMsg = new Array();
 var target_type_list = new Array();
 var notnull_list = new Array();
+var extra_vars = new Array();
 
 /**
  * @function filterAlertMessage
@@ -216,6 +217,11 @@ function XmlJsFilterAlertMsg(target, msg_code, minlength, maxlength) {
 }
 
 function XmlJsFilterCheckFieldItem() {
+    for(var i=0; i<extra_vars.length;i++) {
+        var name = extra_vars[i];
+        this.addFieldItem(name, false, 0, 0, "", "");
+    }
+
     for(var i=0; i<this.field.length;i++) {
         var item = this.field[i];
         var target = item[0];
