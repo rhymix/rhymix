@@ -251,6 +251,8 @@
                 if($modified_time > $file_created_time) unlink($thumbnail_file);
             }
 
+            if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return;
+
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
             
@@ -284,7 +286,10 @@
             $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
 
             if($src) FileHandler::getRemoteFile($src, $tmp_file);
-            else return;
+            else {
+                FileHandler::writeFile($thumbnail_file,'');
+                return;
+            }
 
             FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
             unlink($tmp_file);
