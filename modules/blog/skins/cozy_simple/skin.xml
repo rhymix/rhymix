@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
     <title xml:lang="ko">cozy simple style</title>
+    <title xml:lang="zh-CN">Cozy样式皮肤</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">(주)NHN</name>
         <name xml:lang="jp">（株）NHN</name>
@@ -11,22 +12,32 @@
             디자인 : 서기정 (http://blog.naver.com/addcozy)
             HTML/CSS : 소지훈
         </description>
+        <description xml:lang="zh-CN">
+            Cozy样式目录型皮肤。
+            设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
+            HTML/CSS : Ji-Hun So
+        </description>
     </maker>
     <colorset>
         <color name="red" src="screenshot/red.gif">
             <title xml:lang="ko">빨간색(기본)</title>
+            <title xml:lang="zh-CN">红色(默认)</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">녹색</title>
+            <title xml:lang="zh-CN">绿色</title>
         </color>
         <color name="blue" src="screenshot/blue.gif">
             <title xml:lang="ko">파란색</title>
+            <title xml:lang="zh-CN">蓝色</title>
         </color>
         <color name="pink" src="screenshot/pink.gif">
             <title xml:lang="ko">분홍색</title>
+            <title xml:lang="zh-CN">粉红色</title>
         </color>
         <color name="bluish_green" src="screenshot/bluish_green.gif">
             <title xml:lang="ko">청록색</title>
+            <title xml:lang="zh-CN">青绿色</title>
         </color>
     </colorset>
     <extra_vars>
@@ -47,7 +58,7 @@
             <title xml:lang="en">Subtitle</title>
             <description xml:lang="ko">레이아웃의 상단에 큰 제목 아래 부제목을 입력하세요.</description>
             <description xml:lang="jp">レイアウトの上段にメインタイトルの下のサブタイトルを入力してください。</description>
-            <description xml:lang="zh-CN">部分顶部主标题下面显示的副标题。</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部主标题下面的副标题。</description>
             <description xml:lang="en">Input subtitle which will be displayed under the top title.</description>
         </var>
         <var name="logo_image" type="image">
@@ -67,7 +78,7 @@
             <title xml:lang="en">Profile Image</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
-            <description xml:lang="zh-CN">请输入博客个性图片。 （宽度160px图片为适）</description>
+            <description xml:lang="zh-CN">请输入博客个性图片。(宽度160px图片为适)</description>
             <description xml:lang="en">Input profile image (It is recommended to set width as 160px)</description>
         </var>
         <var name="background_image" type="image">
@@ -77,7 +88,7 @@
             <title xml:lang="en">Background Image</title>
             <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
-            <description xml:lang="zh-CN">使用背景图片请登录。</description>
+            <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="en">Input if you want to use background image.</description>
         </var>
         <var name="profile" type="textarea">
@@ -107,7 +118,7 @@
             <title xml:lang="en">Show Writer</title>
             <description lang="ko">다수가 블로그를 함께 운영시에 글쓴이의 이름을 표시할 수 있습니다.</description>
             <description lang="jp">多数の人が一緒に運営している場合、投稿者の名前を表示させることができます。</description>
-            <description lang="zh-CN">多数人一起管理博客时可以显示发表文章的作者。</description>
+            <description lang="zh-CN">多数人一起管理并使用同一个博客时，可以显示发表文章的作者。</description>
             <description lang="en">It can show writers' name when the blog is administrated by many administrators.</description>
             <default>off</default>
             <default>on</default>

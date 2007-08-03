@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">제로보드XE 게시판 기본 스킨 (갤러리형)</title>
   <title xml:lang="jp">ゼロボードXE掲示板の基本スキン（ギャラリースタイル）</title>
-  <title xml:lang="zh-CN">Zeroboard XE board 基本皮肤（图片型）</title>
+  <title xml:lang="zh-CN">Zeroboard XE board 基本皮肤（相册型）</title>
   <title xml:lang="en">ZeroboardXE Basic Board Skin (Gallery Style)</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">(주)NHN</name>
@@ -20,7 +20,7 @@
         HTML/CSS：ジョンチャンミョン (http://naradesign.net)
     </description>
    <description xml:lang="zh-CN">
-        zeroboard XE Board的图片型基本皮肤。
+        zeroboard XE Board的相册型基本皮肤。
         设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
         HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
@@ -34,7 +34,7 @@
     <color name="white" src="screenshot/white.gif">
       <title xml:lang="ko">하얀색(기본)</title>
       <title xml:lang="jp">白（デフォルト）</title>
-      <title xml:lang="zh-CN">白色（基本）</title>
+      <title xml:lang="zh-CN">白色(基本)</title>
       <title xml:lang="en">White(default)</title>
     </color>
     <color name="cyan" src="screenshot/cyan.gif">
