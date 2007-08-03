@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">XE 공식 레이아웃용 최신글 스킨</title>
+  <title xml:lang="jp">XEデフォルトレイアウト用の最新コンテンツ表示スキン</title>
   <title xml:lang="zh-CN">XE 官方网站主题列表</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 1">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         XE 공식 레이아웃에 적합한 최신글 스킨입니다.
         디자인 : 이소라 (http://ra-ra.pe.kr)
         퍼블리싱 : 정찬명 (http://naradesign.net)
         레이아웃 제작 : zero (http://blog.nzeo.com)
+    </description>
+    <description xml:lang="jp">
+        XEデフォルトレイアウトに最も適した最新コンテンツ表示用のスキンです。
+        デザイン：イソラ（http://ra-ra.pe.kr）
+        パブリシング：ジョンチャンミョン（http://naradesign.net）
+        レイアウト作成：Zero (http://blog.nzeo.com)
     </description>
     <description xml:lang="zh-CN">
         适合XE 官方网站的主题列表。
@@ -21,10 +29,12 @@
   <colorset>
     <color name="white">
       <title xml:lang="ko">흰색 바탕용</title>
+      <title xml:lang="jp">白い背景</title>
       <title xml:lang="zh-CN">白色背景</title>
     </color>
     <color name="black">
       <title xml:lang="ko">어두운 바탕용</title>
+      <title xml:lang="jp">暗い背景</title>
       <title xml:lang="zh-CN">暗色背景</title>
     </color>
   </colorset>
