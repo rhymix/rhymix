@@ -1,0 +1,17 @@
+div.calendarBox {}
+div.calendarBox table { width:100%; background:url(../images/bg_line_dot_x.gif) repeat-x left top;}
+div.calendarBox table caption .mm { font:bold 1em 돋움; color:#555650;}
+div.calendarBox table caption a { padding:.2em;}
+div.calendarBox table caption a img { vertical-align:middle;}
+div.calendarBox table th { padding:.6em 0;}
+div.calendarBox table td { padding:.25em 0;}
+div.calendarBox table th { font:bold .7em tahoma; color:#717171;}
+div.calendarBox table th.sun { color:#000000;}
+div.calendarBox table td { text-align:center; font:.8em Tahoma; color:#9a9a9a;}
+div.calendarBox table td a { font:.7em Tahoma; color:#9a9a9a;}
+div.calendarBox table td.sun { color:#000000;}
+div.calendarBox table td.sun a { color:#000000;}
+div.calendarBox table td.today a { font-weight:bold; color:#54564b;}
+div.calendarBox table td.posted a { text-decoration:underline;}
+
+

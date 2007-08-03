@@ -1,0 +1,67 @@
+<!--#include("header.html")-->
+
+<!-- 검색된 글 목록이 있고 권한이 있을 경우 출력 -->
+<!--@if($document_list && $grant->list)-->
+
+    <!-- 검색어가 사용되었을 경우 목록형태로 출력 -->
+    <!--@if($search_keyword)-->
+        <div class="blogHeader2">
+            <h3>{$lang->search_result}</h3>
+            <span class="info">
+                <q>&quot;{$search_keyword}&quot;</q> {$lang->search_result} : <strong>{$total_count}</strong>
+            </span>
+        </div>
+
+        <table cellspacing="0" summary="blog list" class="blogList">
+        <thead>
+            <tr>
+                <th scope="col" colspan="2" class="title"><img src="./images/common/txt_title.gif" alt="{$lang->title}" /></th>
+                <th scope="col" class="reading"><img src="./images/common/txt_hit.gif" alt="{$lang->readed_count}" /></th>
+                <th scope="col" class="date"><img src="./images/common/txt_date.gif" alt="{$lang->regdate}" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--@foreach($document_list as $no => $document)-->
+                <tr>
+                    <td class="num">{$no}</td>
+                    <td class="title">
+                        <a href="{$document->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a>
+                        <!--@if($document->getCommentCount())-->
+                            <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[R<strong>{$document->getCommentCount()}</strong>]</span>
+                        <!--@end-->
+                        <!--@if($document->getTrackbackCount())-->
+                            <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[T<strong>{$document->getTrackbackCount()}</strong>]</span>
+                        <!--@end-->
+                        </div>
+                    </td>
+                    <td class="reading">{$document->get('readed_count')}</td>
+                    <td class="date">{$document->getRegdate('Y-m-d')}</td>
+                </tr>
+            <!--@end-->
+        </tbody>
+        </table>
+
+    <!-- 검색어가 없다면 내용을 바로 출력 -->
+    <!--@else-->
+        <!--@foreach($document_list as $no => $oDocument)-->
+            <!--#include("./view_document.html")-->
+        <!--@end-->
+    <!--@end-->
+<!--@end-->
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+
+    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/icon_gofirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/icon_golast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+
+<!--#include("footer.html")-->

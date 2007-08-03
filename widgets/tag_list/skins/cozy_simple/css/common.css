@@ -1,0 +1,11 @@
+div.tagBox { padding-bottom:1em;}
+div.tagBox .header { padding:7px 0 0 12px; height:21px; _height:20px; background:#f5f5f5; }
+*:first-child+html div.tagBox .header { height:20px; color:#ef2121;}
+
+div.tagBox ul { padding:.5em; overflow:hidden;}
+div.tagBox ul li { display:inline; color:#a4a4a4; margin-right:.1em; line-height:1.5em;}
+div.tagBox ul li a { color:#a4a4a4;}
+div.tagBox ul li.typeA a { color:#717171; font-weight:bold;}
+div.tagBox ul li.typeB a { color:#3d3d3d;}
+div.tagBox ul li.typeC a { font-weight:bold;}
+div.tagBox .tag_sort { width:100%; border-top:1px dashed #ababab; border-bottom:1px dashed #ababab; text-align:center; overflow:hidden;}
