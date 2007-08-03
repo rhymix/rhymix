@@ -46,7 +46,7 @@
     $lang->cmd_open_calendar = 'カレンダを開く';
     $lang->cmd_send = '送信';
     $lang->cmd_print = '印刷';
-    $lang->cmd_scrap = 'Scrapt';
+    $lang->cmd_scrap = 'スクラップ';
     $lang->cmd_preview = 'プレビュー';
     $lang->cmd_reset = '初期化';
 
@@ -93,7 +93,7 @@
     $lang->path = 'パス';
     $lang->cart = '選択項目';
     $lang->friend = '友達';
-    $lang->notify = 'Notify';
+    $lang->notify = 'お知らせ';
 
     $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';
