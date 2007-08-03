@@ -424,6 +424,7 @@
 
             foreach($extra_vars as $key => $val) {
                 $js_code .= sprintf('alertMsg["extra_vars%d"] = "%s";', $key, $val->name);
+                $js_code .= sprintf('extra_vars[extra_vars.length] = "extra_vars%d";', $key);
                 $js_code .= sprintf('target_type_list["extra_vars%d"] = "%s";', $key, $val->type);
                 if($val->is_required == 'Y') $js_code .= sprintf('notnull_list[notnull_list.length] = "extra_vars%s";',$key);
             }
