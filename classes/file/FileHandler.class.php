@@ -215,7 +215,7 @@
             // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
             if($resize_width>0 && $width > $resize_width) $width_per = $resize_width / $width;
             if($resize_height>0 && $height > $resize_height) $height_per = $resize_height / $height;
-            if($width_per > $height_per) $per = $height_per;
+            if($width_per < $height_per) $per = $height_per;
             else $per = $width_per;
 
             // 원본 이미지의 타입으로 임시 이미지 생성
@@ -249,11 +249,8 @@
             $new_width = (int)($width * $per);
             $new_height = (int)($height * $per);
 
-            $x = $y = 0;
-            if($new_width > $resize_width) $new_width = $resize_width;
-            else $x = (int)($resize_width/2 - $new_width/2);
-            if($new_height > $resize_height) $new_height = $resize_height;
-            else $y = (int)($resize_height/2 - $new_height/2);
+            $x = ($resize_width/2 - $new_width/2);
+            $y = ($resize_height/2 - $new_height/2);
 
             if($source) {
                 if($new_width != $width || $new_height != $height) {
