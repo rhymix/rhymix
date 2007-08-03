@@ -13,28 +13,28 @@ Jeong, Chan Myeong 070601~070630
 
 .articleNum { float:left; background:url(../images/red/iconArticle.gif) no-repeat left top; padding:0 0 0 1.5em; margin:.5em 0 0 0;}
 #reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/red/iconFile.gif) no-repeat left;}
-.boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; color:#444444; background:url(../images/red/iconFile.gif) no-repeat left top;}
+.blogRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; color:#444444; background:url(../images/red/iconFile.gif) no-repeat left top;}
 .accountNavigation li.join a { display:block; background:url(../images/red/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 .accountNavigation li.myInfo a { display:block; background:url(../images/red/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 
-.boardList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.5em .5em .3em .5em; background:#ffffff url(../images/red/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
+.blogList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.5em .5em .3em .5em; background:#ffffff url(../images/red/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
 
-.boardList td.recommend { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
+.blogList td.recommend { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
 
 .pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
-.boardList td .replyAndTrackback { font:.8em Tahoma; color:#ff6600; cursor:default; position:relative; top:-.2em;}
-.boardList td.title.bold .replyAndTrackback { font:.6em Tahoma; color:#ff6600; cursor:default; position:relative; top:.3em;}
-.boardList td.reply { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
+.blogList td .replyAndTrackback { font:.8em Tahoma; color:#ff6600; cursor:default; position:relative; top:-.2em;}
+.blogList td.title.bold .replyAndTrackback { font:.6em Tahoma; color:#ff6600; cursor:default; position:relative; top:.3em;}
+.blogList td.reply { font:bold .8em Tahoma; color:#ff6600; text-align:center;}
 
-/* boardHeader */
-.boardHeader { position:relative; _width:100%; border-top:1px solid #d1d9db; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
-.boardHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #d1d9db; border-bottom:3px solid #ed135a; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
+/* blogHeader */
+.blogHeader { position:relative; _width:100%; border-top:1px solid #d1d9db; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
+.blogHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #d1d9db; border-bottom:3px solid #ed135a; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 .articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
-.boardHeader2 .info strong { font:bold .9em Tahoma; color:#ff6600;}
+.blogHeader2 .info strong { font:bold .9em Tahoma; color:#ff6600;}
 
-.boardRead .replyAndTrackback { overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/red/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #ed135a;}
-.boardRead .replyAndTrackback a strong { color:#ff6600;}
+.blogRead .replyAndTrackback { overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/red/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #e0e1db; border-bottom:2px solid #ed135a;}
+.blogRead .replyAndTrackback a strong { color:#ff6600;}
 
 .buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/red/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}

@@ -25,9 +25,9 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<div class="boardWrite">
+<div class="blogWrite">
 
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" >
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="blogEditor" >
         <fieldset>
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />

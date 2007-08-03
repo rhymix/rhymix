@@ -1,8 +1,8 @@
 <!--%import("filter/insert.xml")-->
 <!--#include("header.html")-->
 
-<div class="boardWrite">
-    <form action="./" method="post" onsubmit="return procFilter(this, insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" id="fo_write">
+<div class="blogWrite">
+    <form action="./" method="post" onsubmit="return procFilter(this, insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="blogEditor" id="fo_write">
         <fieldset>
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="content" value="{$oDocument->getContentText()}" />

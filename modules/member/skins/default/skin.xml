@@ -5,14 +5,30 @@
     <title xml:lang="jp">会員デフォルトスキン</title>
     <title xml:lang="en">Default Member Skin</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-        <name xml:lang="ko">제로</name>
-        <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">Zero</name>
-        <name xml:lang="en">zero</name>
-        <description xml:lang="ko">회원모듈의 default스킨</description>
-        <description xml:lang="zh-CN">会员模块的默认皮肤。</description>
-        <description xml:lang="jp">会員モジュールのデフォルトスキン</description>
-        <description xml:lang="en">default skin of member module</description>
+        <name xml:lang="ko">(주)NHN</name>
+        <name xml:lang="jp">（株）NHN</name>
+        <name xml:lang="zh-CN">(株)NHN</name>
+        <name xml:lang="en">NHN Corp</name>
+        <description xml:lang="ko">
+            회원모듈의 default스킨
+            디자인 : 서기정 (http://blog.naver.com/addcozy)
+            HTML/CSS : 정찬명 (http://naradesign.net)
+        </description>
+        <description xml:lang="zh-CN">
+            会员模块的默认皮肤。
+            设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+            HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+        </description>
+        <description xml:lang="jp">
+            会員モジュールのデフォルトスキン
+            デザイン：ソギジョン (http://blog.naver.com/addcozy)
+            HTML/CSS：ジョンチャンミョン (http://naradesign.net)
+        </description>
+        <description xml:lang="en">
+            default skin of member module
+            Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+            HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+        </description>
     </maker>
     <colorset>
         <color name="white" src="screenshot/white.gif">

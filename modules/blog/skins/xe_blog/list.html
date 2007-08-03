@@ -4,15 +4,15 @@
 <!--@if($document_list && $grant->list)-->
 
     <!-- 검색어가 사용되었을 경우 목록형태로 출력 -->
-    <!--@if($search_target && $search_keyword)-->
-        <div class="boardHeader2">
+    <!--@if($search_keyword)-->
+        <div class="blogHeader2">
             <h3>{$lang->search_result}</h3>
             <span class="info">
                 <q>&quot;{$search_keyword}&quot;</q> {$lang->search_result} : <strong>{$total_count}</strong>
             </span>
         </div>
 
-        <table cellspacing="0" class="boardList">
+        <table cellspacing="0" class="blogList">
         <thead>
             <tr>
                 <th colspan="2" class="title first-child" scope="col">{$lang->title}</th>
@@ -21,8 +21,8 @@
                 <th scope="col" class="date">{$lang->regdate}</th>
             </tr>
         </thead>
-        <!--@foreach($document_list as $no => $oDocument)-->
         <tbody>
+            <!--@foreach($document_list as $no => $oDocument)-->
             <tr class="bg{($no+1)%2+1}">
                 <td class="num">{$no}</td>
                 <td class="title"><a href="{$oDocument->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a></td>
@@ -30,8 +30,8 @@
                 <td class="reply"><!--@if($oDocument->getTrackbackCount())-->{number_format($oDocument->getTrackbackCount())}<!--@else-->&nbsp;<!--@end--></td>
                 <td class="date">{$oDocument->getRegdate("Y. m. d")}</td>
             </tr>
+            <!--@end-->
         </tbody>
-        <!--@end-->
         </table>
 
     <!-- 검색어가 없다면 내용을 바로 출력 -->

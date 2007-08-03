@@ -11,23 +11,23 @@
     <name xml:lang="en">NHN Corp</name>
     <description xml:lang="ko">
         제로보드XE 게시판의 목록형 기본 스킨입니다.
-        디자인 : 서기정 
-        HTML/CSS : 정찬명
+        디자인 : 서기정 (http://blog.naver.com/addcozy)
+        HTML/CSS : 정찬명 (http://naradesign.net)
     </description>
     <description xml:lang="jp">
         ゼロボードXE掲示板のリストスタイルのデフォルトスキンです。
-        デザイン：ソギジョン 
-        HTML/CSS：ジョンチャンミョン
+        デザイン：ソギジョン (http://blog.naver.com/addcozy)
+        HTML/CSS：ジョンチャンミョン (http://naradesign.net)
     </description>
     <description xml:lang="zh-CN">
         zeroboard XE Board 目录型基本皮肤。
-        设计 : Ki-Jeong Seo
-        HTML/CSS : Chan-Myung Jeong
+        设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
     <description xml:lang="en">
         This is the basic list style board skin of ZeroboardXE.
-        Design : Ki-Jeong Seo
-        HTML/CSS : Chan-Myung Jeong
+        Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
   </maker>
   <colorset>

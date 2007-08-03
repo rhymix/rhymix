@@ -166,14 +166,14 @@ function blogDrawNode(parent_node, depth) {
             if(expand!="Y") {
                 var line_class = "line_close";
                 if(hasNextSibling) line_class = "item_close";
-                if(depth==0) line_class = "line_null";
+                //if(depth==0) line_class = "line_null";
                 child_html += '<div id="'+child_zone_id+'" class="'+line_class+'">'+chtml+'</div>';
 
             // 무조건 펼침일 경우
             } else {
                 var line_class = "line_open";
                 if(hasNextSibling) line_class = "item_open";
-                if(depth==0) line_class = "line_null";
+                //if(depth==0) line_class = "line_null";
                 child_html += '<div id="'+child_zone_id+'" class="'+line_class+'">'+chtml+'</div>';
             }
         }
