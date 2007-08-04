@@ -85,6 +85,7 @@
     $lang->cmd_manage_id = 'Manage Prohibited ID';
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'View Written Articles';
+    $lang->cmd_view_scrapped_document = 'View Scraps';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
@@ -93,6 +94,9 @@
     $lang->cmd_view_message_box = 'View Message Box';
     $lang->cmd_store = "Save";
     $lang->cmd_add_friend_group = 'Add Friend Group';
+    $lang->cmd_rename_friend_group = 'Change Name of Friend Group';
+
+    $lang->msg_alreay_scrapped = 'This article is already scrapped';
 
     $lang->msg_cart_is_null = 'Please select the target';
     $lang->msg_checked_file_is_deleted = '%d attached files are deleted';
