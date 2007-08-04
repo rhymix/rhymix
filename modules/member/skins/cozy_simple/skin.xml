@@ -1,6 +1,8 @@
+kin2xe
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
     <title xml:lang="ko">cozy_simple 회원 스킨</title>
+    <title xml:lang="en">cozy_simple member skin</title>
     <title xml:lang="zh-CN">Cozy样式会员皮肤</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 4">
         <name xml:lang="ko">(주)NHN</name>
@@ -12,6 +14,11 @@
             디자인 : 서기정 (http://blog.naver.com/addcozy)
             HTML/CSS : 소지훈
         </description>
+		<description xml:lang="en">
+            This is gallery style of cozy simple skin.
+            Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+            HTML/CSS : Ji-Hun So
+        </description>
         <description xml:lang="zh-CN">
             Cozy样式会员皮肤。
             设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
@@ -21,22 +28,27 @@
     <colorset>
         <color name="red" src="screenshot/red.gif">
             <title xml:lang="ko">빨간색(기본)</title>
+            <title xml:lang="en">Red (default)</title>
             <title xml:lang="zh-CN">红色(默认)</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">녹색</title>
+            <title xml:lang="en">Green</title>
             <title xml:lang="zh-CN">绿色</title>
         </color>
         <color name="blue" src="screenshot/blue.gif">
             <title xml:lang="ko">파란색</title>
+            <title xml:lang="en">Blue</title>
             <title xml:lang="zh-CN">蓝色</title>
         </color>
         <color name="pink" src="screenshot/pink.gif">
             <title xml:lang="ko">분홍색</title>
+            <title xml:lang="en">Pink</title>
             <title xml:lang="zh-CN">粉红色</title>
         </color>
         <color name="bluish_green" src="screenshot/bluish_green.gif">
             <title xml:lang="ko">청록색</title>
+            <title xml:lang="en">Cyan</title>
             <title xml:lang="zh-CN">青绿色</title>
         </color>
     </colorset>
