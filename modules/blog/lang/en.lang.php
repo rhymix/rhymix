@@ -24,7 +24,7 @@
     $lang->search_result = 'Search result';
     
     // blah blah..
-    $lang->about_category_name = 'Input category name';
+    $lang->about_category_name = 'Please input category name';
     $lang->about_expand = 'By selecting this option, it will be always expanded';
     $lang->about_category_group_srls = 'Only the selected group will be able to see current categories. (Manually open xml file to expose)';
     $lang->about_layout_setup = 'You can manually modify blog layout code. Insert or manage the widget code anywhere you want';
