@@ -3,7 +3,7 @@
     <title xml:lang="ko">네이버맵 연동</title>
     <title xml:lang="jp">ネイバーマップ</title>
     <title xml:lang="zh-CN">NAVER 地图</title>
-    <title xml:lang="en">Link Naver Map</title>
+    <title xml:lang="en">Naver Map Open Api</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
@@ -12,7 +12,7 @@
         <description xml:lang="ko">네이버에서 제공하는 네이버 지도 open api를 이용하여 에디터에 원하는 곳의 지도를 추가하거나 수정할 수 있습니다.\n네이버 지도 open api키를 발급 받아서 등록을 해주셔야 정상적인 사용이 가능합니다.</description>
         <description xml:lang="jp">ネバーから提供されるネイバーマップのOpenAPIを利用してエディターに表示したい地図を追加したり修正したりすることができます。ネイバーマップは、OpenAPIキーを取得してから登録すれば使用することができます。</description>
         <description xml:lang="zh-CN">naver提供的naver地图，利用open api在编辑器里添加或修改您所需要的地图。\n为了使用naver地图首先要取得open api key,然后登录此key才可正常使用。</description>
-        <description xml:lang="en">You can add a map to editor or modify it by using Naver Map open api provided by Naver.\nYou need to get Naver Map open api key and register it to use normally.</description>
+        <description xml:lang="en">You can add a map to the editor or modify it by using Naver Map open api provided by Naver.\nYou would be able to use it when you register Naver Map api key after you get it from http://www.naver.com.</description>
     </author>
     <extra_vars>
         <var name="api_key">
@@ -23,7 +23,7 @@
             <description xml:lang="ko">http://www.naver.com/ 에서 네이버 지도 API key를 발급 받으신 후 입력해주세요.</description>
             <description xml:lang="jp">http://www.naver.com/ からネイバーマップのＡＰＩキーを取得してから入力してください。</description>
             <description xml:lang="zh-CN">在http://www.naver.com/ 取得naver地图 API key后输入。</description>
-            <description xml:lang="en">First get Naver Map API key from http://www.naver.com and then input the key.</description>
+            <description xml:lang="en">Please get Naver Map API key from http://www.naver.com first and then input the key.</description>
         </var>
     </extra_vars>
 </component>

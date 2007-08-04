@@ -25,7 +25,7 @@
         HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
     <description xml:lang="en">
-        This is the basic list style board skin of ZeroboardXE.
+        This is the basic list style board skin of Zeroboard XE.
         Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
         HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
@@ -35,31 +35,31 @@
       <title xml:lang="ko">하얀색(기본)</title>
       <title xml:lang="jp">白（デフォルト）</title>
       <title xml:lang="zh-CN">白色（基本）</title>
-      <title xml:lang="en">White(default)</title>
+      <title xml:lang="en">White (default)</title>
     </color>
     <color name="cyan" src="screenshot/cyan.gif">
       <title xml:lang="ko">청록색</title>
       <title xml:lang="jp">cyan</title>
       <title xml:lang="zh-CN">青绿色</title>
-      <title xml:lang="en">cyan</title>
+      <title xml:lang="en">Cyan</title>
     </color>
     <color name="green" src="screenshot/green.gif">
       <title xml:lang="ko">초록색</title>
       <title xml:lang="jp">green</title>
       <title xml:lang="zh-CN">绿色</title>
-      <title xml:lang="en">green</title>
+      <title xml:lang="en">Green</title>
     </color>
     <color name="red" src="screenshot/red.gif">
       <title xml:lang="ko">빨간색</title>
       <title xml:lang="jp">red</title>
       <title xml:lang="zh-CN">红色</title>
-      <title xml:lang="en">red</title>
+      <title xml:lang="en">Red</title>
     </color>
     <color name="purple" src="screenshot/purple.gif">
       <title xml:lang="ko">보라색</title>
       <title xml:lang="jp">purple</title>
       <title xml:lang="zh-CN">紫色</title>
-      <title xml:lang="en">purple</title>
+      <title xml:lang="en">Purple</title>
     </color>
   </colorset>
   <extra_vars>
@@ -67,7 +67,7 @@
         <title xml:lang="ko">정렬 대상</title>
         <title xml:lang="jp">ソート対象</title>
         <title xml:lang="zh-CN">排序对象</title>
-        <title xml:lang="en">Align</title>
+        <title xml:lang="en">Align Target</title>
         <type>select</type>
         <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
         <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
@@ -84,7 +84,7 @@
         <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
         <description xml:lang="jp">掲示板タイトルを入力してください。</description>
         <description xml:lang="zh-CN">请输入版面标题。(留空为不显示)</description>
-        <description xml:lang="en">Input the title of board.</description>
+        <description xml:lang="en">Plase input the title of board.</description>
     </var>
     <var name="sub_title" type="text">
         <title xml:lang="ko">게시판 부제목</title>
@@ -94,7 +94,7 @@
         <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
         <description lang="jp">掲示板タイトルの横表示されるサブタイトルを入力してください。</description>
         <description lang="zh-CN">请输入显示在版面标题旁的副标题。(留空为不显示)</description>
-        <description lang="en">Input the subtitle of board which will be displayed beside of board title.</description>
+        <description lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
     </var>
     <var name="comment" type="textarea">
         <title xml:lang="ko">게시판 상세 설명</title>
@@ -104,7 +104,7 @@
         <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
         <description lang="jp">掲示板タイトルの下に表示される説明文入力してください。</description>
         <description lang="zh-CN">请输入显示在版面标题下的说明。(留空为不显示)</description>
-        <description lang="en">Description of board can be input which will be displayed under the board title.</description>
+        <description lang="en">You may input description which will be displayed under the board title.</description>
     </var>
     <var name="subject_cut_size" type="text">
       <title xml:lang="ko">제목 글자수</title>
@@ -114,7 +114,7 @@
       <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
       <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
       <description lang="zh-CN">可以指定标题字数。(0或留空为不限)</description>
-      <description lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
+      <description lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
     </var>
     <var name="display_thumnail" type="select">
       <title xml:lang="ko">썸네일 표시</title>
@@ -124,7 +124,7 @@
       <description lang="ko">게시물에 이미지가 포함되어 있으면 목록에서 썸네일을 표시합니다.</description>
       <description lang="jp">書き込みにイメージが添付されている場合、リストでサムネールを表示します。</description>
       <description lang="zh-CN">文章包含图片时在目录列表显示缩略图。</description>
-      <description lang="en">If article has images, show thumbnail on the list.</description>
+      <description lang="en">If article has images, it will show thumbnail on the list.</description>
       <default>N</default>
       <default>Y</default>
     </var>
@@ -132,7 +132,7 @@
       <title xml:lang="ko">번호 표시</title>
       <title xml:lang="jp">番号表示</title>
       <title xml:lang="zh-CN">显示编号</title>
-      <title xml:lang="en">Show number</title>
+      <title xml:lang="en">Dispay Number</title>
       <default>Y</default>
       <default>N</default>
       <description />
@@ -141,7 +141,7 @@
       <title xml:lang="ko">글쓴이 표시</title>
       <title xml:lang="jp">投稿者表示</title>
       <title xml:lang="zh-CN">显示昵称</title>
-      <title xml:lang="en">Show author</title>
+      <title xml:lang="en">Display Author</title>
       <default>Y</default>
       <default>N</default>
       <description />
@@ -150,7 +150,7 @@
       <title xml:lang="ko">작성일 표시</title>
       <title xml:lang="jp">作成日表示</title>
       <title xml:lang="zh-CN">显示发表日期</title>
-      <title xml:lang="en">Show date published</title>
+      <title xml:lang="en">Display Registered Date</title>
       <default>Y</default>
       <default>N</default>
       <description />
@@ -159,7 +159,7 @@
       <title xml:lang="ko">조회수 표시</title>
       <title xml:lang="jp">照合数表示</title>
       <title xml:lang="zh-CN">显示查看数</title>
-      <title xml:lang="en">Show views</title>
+      <title xml:lang="en">Display Hit</title>
       <default>Y</default>
       <default>N</default>
       <description />
@@ -168,7 +168,7 @@
       <title xml:lang="ko">추천수 표시</title>
       <title xml:lang="jp">推薦数表示</title>
       <title xml:lang="zh-CN">显示推荐数</title>
-      <title xml:lang="en">Show votes</title>
+      <title xml:lang="en">Display Votes</title>
       <default>Y</default>
       <default>N</default>
       <description />
@@ -177,7 +177,7 @@
       <title xml:lang="ko">최근 변경시간 표시</title>
       <title xml:lang="jp">最近の変更時間表示</title>
       <title xml:lang="zh-CN">显示最后更新时间</title>
-      <title xml:lang="en">Show last update</title>
+      <title xml:lang="en">Display Latest Update</title>
       <default>N</default>
       <default>Y</default>
       <description />

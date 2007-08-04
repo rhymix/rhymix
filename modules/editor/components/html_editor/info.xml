@@ -12,6 +12,6 @@
         <description xml:lang="ko">에디터에서 HTML 코드를 직접 수정하거나 추가할 수 있습니다.\n보안 문제로 인하여 가능한 끄는 것이 좋습니다.</description>
         <description xml:lang="jp">エディターにHTMLコードを直接修正したり、追加したりすることができます。セキュリティのため、使用しないことをお勧めします。</description>
         <description xml:lang="zh-CN">直接修改或插入html代码。\n因安全问题不推荐使用此项功能。</description>
-        <description xml:lang="en">You can modify/add HTML code from editor.\nIt is recommended not to use this function because of security problems.</description>
+        <description xml:lang="en">You can add/modify HTML code from editor by yourself.\nIt is recommended not to use this function for the security.</description>
     </author>
 </component>

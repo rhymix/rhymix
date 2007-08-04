@@ -11,7 +11,7 @@
     <description xml:lang="ko">플래시로 오늘,어제,전체 카운터 현황을 출력해주시는 위젯입니다.</description>
     <description xml:lang="jp">フラッシュで、今日、昨日、トータルの接続数を表示させるウィジェットです。</description>
     <description xml:lang="zh-CN">用flash显示今天，昨天，全部访问统计的控件。</description>
-    <description xml:lang="en">This is a widget that displays today,yesterday,all counter status with flash.</description>
+    <description xml:lang="en">This is a widget that displays today, yesterday, all counter status with flash.</description>
   </maker>
   <colorset>
     <color name="normal">

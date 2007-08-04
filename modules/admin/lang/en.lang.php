@@ -18,8 +18,8 @@
     $lang->addon_name = "Addon Name";
     $lang->version = "Version";
     $lang->author = "Maker";
-    $lang->table_count = "The number of Table";
-    $lang->installed_path = "Installing Path";
+    $lang->table_count = "Number of Table";
+    $lang->installed_path = "Installed Path";
 
     $lang->cmd_shortcut_management = "Edit Menues";
 

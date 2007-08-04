@@ -8,9 +8,9 @@
     $lang->module_list = "Module list";
     $lang->module_index = "Module list";
     $lang->module_category = "Module category";
-    $lang->module_info = "Module info";
-    $lang->add_shortcut = "Add to admin menu";
-    $lang->module_action = "Action";
+    $lang->module_info = "Info";
+    $lang->add_shortcut = "Add Shortcuts";
+    $lang->module_action = "Actions";
     $lang->module_maker = "Module maker";
     $lang->module_history = "Update history";
     $lang->category_title = "Category title";
@@ -29,7 +29,7 @@
         'N' => 'Not open',
     );
 
-    $lang->cmd_add_shortcut = "Add shortcut";
+    $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";
     $lang->cmd_update = "Update";
     $lang->cmd_manage_category = 'Manage categories';

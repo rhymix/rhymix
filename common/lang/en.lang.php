@@ -60,7 +60,7 @@
     $lang->category = 'Category';
     $lang->document_srl = 'Doc. No.';
     $lang->user_id = 'User ID';
-    $lang->author = 'Author';
+    $lang->author = 'Maker';
     $lang->password = 'Password';
     $lang->password1 = 'Password';
     $lang->password2 = 'Confirm Password';
@@ -133,7 +133,7 @@
 
     $lang->use = 'Use';
     $lang->notuse = 'Disuse';
-    $lang->not_exists = 'Doesn\'t exist';
+    $lang->not_exists = "Does not exist";
 
     $lang->unit_sec = 'sec';
     $lang->unit_min = 'min';
