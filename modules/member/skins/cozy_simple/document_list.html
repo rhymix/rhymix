@@ -1,0 +1,78 @@
+{@ $member_title = $lang->cmd_view_own_document }
+<!--#include("./common_header.html")-->
+
+<!-- 정보 -->
+<div class="memberInformation">
+    <span class="friendNum">Total : <strong>{number_format($total_count)}</strong>, </span>
+    <span class="friendNum">Page <strong>{number_format($page)}</strong>/{number_format($total_page)}</span>
+</div>
+
+<!-- 목록 -->
+<table cellspacing="0" class="messageList">
+<col width="50" />
+<col />
+<col width="80" />
+<col width="80" />
+<col width="80" />
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">
+            <div class="nowrap tLeft">
+                <select name="module_srl" class="mid_list" id="selected_module_srl">
+                    <option value="">{$lang->total}</option>
+                    <!--@foreach($mid_list as $key => $val)-->
+                    <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
+                    <!--@end-->
+                </select>
+                <a href="#" onclick="location.href=current_url.setQuery('selected_module_srl',xGetElementById('selected_module_srl').options[xGetElementById('selected_module_srl').selectedIndex].value);return false;"><img src="./images/button_go.gif" border="0" alt="" class="go_button" /></a>
+            </div>
+        </th>
+        <th scope="col">{$lang->readed_count}</th>
+        <th scope="col">{$lang->voted_count}</th>
+        <th scope="col">{$lang->date}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($document_list as $no => $oDocument)-->
+    <tr class="bg{($no+1)%2+1}">
+        <td class="checkDate">{$no}</td>
+        <td class="title">
+            <a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a> - 
+            <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
+
+            <!--@if($oDocument->getCommentCount())-->
+                [{$oDocument->getCommentCount()}]
+            <!--@end-->
+
+            <!--@if($oDocument->getTrackbackCount())-->
+                [{$oDocument->getTrackbackCount()}]
+            <!--@end-->
+        </td>
+        <td class="reading">{$oDocument->get('readed_count')}</td>
+        <td class="recommend">{$oDocument->get('voted_count')}</td>
+        <td class="registDate">{$oDocument->getRegdate("Y-m-d")}</td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 버튼 -->
+<div class="fr">
+    <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="./images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="./images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+<!--#include("./common_footer.html")-->

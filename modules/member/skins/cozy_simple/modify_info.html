@@ -1,0 +1,218 @@
+{@ $member_title = $lang->msg_update_member}
+<!--#include("./common_header.html")-->
+
+<!--%import("filter/modify_info.xml")-->
+<!--@if($member_config->image_name == 'Y')-->
+    <!--%import("filter/delete_image_name.xml")-->
+<!--@end-->
+<!--@if($member_config->image_mark == 'Y')-->
+    <!--%import("filter/delete_image_mark.xml")-->
+<!--@end-->
+
+<!--%import("../../tpl/js/krzip_search.js")-->
+
+    <form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="act" value="" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+    <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
+    <input type="hidden" name="page" value="{$page}" />
+
+    <table cellspacing="0" class="joinTable <!--@if($extend_form_list)-->typeA<!--@else-->typeB<!--@end-->" >
+    <col width="20%" />
+    <col width="80%" />
+    <caption>{$lang->member_default_info}</caption>
+    <tr class="first-child">
+        <th scope="row">{$lang->user_id}</th>
+        <td>{htmlspecialchars($member_info->user_id)}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->user_name}</th>
+        <td>{htmlspecialchars($member_info->user_name)}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->nick_name} *</th>
+        <td><input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" /> <p>{$lang->about_nick_name}</p></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->email_address}</th>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" /><p>{$lang->about_email_address}</p></td>
+    </tr>
+
+    <!--@if($member_config->image_name == 'Y')-->
+    <tr>    
+        <th scope="row">{$lang->image_name}</th>
+        <td>
+            <!--@if($member_info->image_name->src)-->
+            <div class="memberImage">
+                <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+                <a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="image_name" value="" /></div>
+                <a href="#" onclick="doUploadImageName();return false;"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_registration}" /></a>
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@if($member_config->image_mark == 'Y')-->
+    <tr>    
+        <th scope="row">{$lang->image_mark}</th>
+        <td>
+            <!--@if($member_info->image_mark->src)-->
+            <div class="memberImage">
+                <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+                <a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="image_mark" value="" /></div>
+                <a href="#" onclick="doUploadImageMark();return false;"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_registration}" /></a>
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th scope="row">{$lang->homepage}</th>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" /> <p>{$lang->about_homepage}</p></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->blog}</th>
+        <td><input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" /> <p>{$lang->about_blog_url}</p></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->birthday} *</th>
+        <td>
+            <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
+            <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">{zdate($member_info->birthday,"Y-m-d")}</div>
+            <a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+            <p>{$lang->about_birthday}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->allow_mailing}</th>
+        <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->allow_message}</th>
+        <td>
+            <select name="allow_message">
+                <!--@foreach($lang->allow_message_type as $key => $val)-->
+                <option value="{$key}" <!--@if($member_info->allow_message == $key)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_allow_message}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->signature}</th>
+        <td>{$editor}</td>
+    </tr>
+    </table>
+
+    <!--@if($extend_form_list)-->
+    <table cellspacing="0" class="joinTable typeB">
+    <col width="20%" />
+    <col width="80%" />
+    <caption>{$lang->member_extend_info}</caption>
+    {@ $dummy_chk = 0 }
+    <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
+    <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
+        <th scope="row">
+            {htmlspecialchars($val->column_title)}
+            <!--@if($val->required=='Y')-->*<!--@end-->
+        </th>
+        <td>
+            <!-- 일반 text -->
+            <!--@if($val->column_type == 'text')--> 
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+
+            <!-- 홈페이지 주소 -->
+            <!--@elseif($val->column_type == 'homepage')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+
+            <!-- Email 주소 -->
+            <!--@elseif($val->column_type == 'email_address')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+
+            <!-- 전화번호 -->
+            <!--@elseif($val->column_type == 'tel')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="inputTypeText" />
+
+            <!-- textarea -->
+            <!--@elseif($val->column_type == 'textarea')-->
+                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
+
+            <!-- 다중 선택 -->
+            <!--@elseif($val->column_type == 'checkbox')-->
+                <!--@if($val->default_value)-->
+                    <ul class="checkbox">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
+            <!-- 단일 선택 -->
+            <!--@elseif($val->column_type == 'select')-->
+                <select name="{$val->column_name}">
+                <!--@if($val->default_value)-->
+                    <!--@foreach($val->default_value as $v)-->
+                        <option value="{$v}" <!--@if($v == $val->value)-->selected="selected"<!--@end-->>{$v}</option>
+                    <!--@end-->
+                <!--@end-->
+                </select>
+
+            <!-- 한국 주소 검색 -->
+            <!--@elseif($val->column_type == 'kr_zip')-->
+                <div class="krZip">
+                    <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
+                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="inputTypeText w300"/>
+                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+                    </div>
+                    <div id="zone_address_list_{$val->column_name}" style="display:none">
+                        <select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
+                        <a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_select}</span></a>
+                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+                    </div>
+                    <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
+                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="inputTypeText w300" value="" />
+                        <a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_search}</span></a>
+                    </div>
+
+                    <div class="address2">
+                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText w300"/>
+                    </div>
+                </div>
+
+            <!-- 일본 주소 검색 -->
+            <!--@elseif($val->column_type == 'jp_zip')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w300" />
+
+            <!-- 날짜 입력 -->
+            <!--@elseif($val->column_type == 'date')-->
+                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+                <div class="str_birthday" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+
+            <!--@end-->
+
+            <div class="extendDesc">{$val->description}</div>
+        </td>
+    </tr>
+    <!--@end--><!--@end-->
+    </table>
+    <!--@end-->
+
+    <div class="tRight">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+    </div>
+</form>
+<!--#include("./common_footer.html")-->
