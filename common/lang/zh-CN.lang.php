@@ -42,10 +42,11 @@
     $lang->cmd_close = '关闭';
     $lang->cmd_open = '打开';
     $lang->cmd_setup = '设置';
+    $lang->cmd_option = '选项';
     $lang->cmd_apply = '应用';
     $lang->cmd_open_calendar = '选择日期';
     $lang->cmd_send = '发送';
-	$lang->cmd_print = '打印';
+    $lang->cmd_print = '打印';
     $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '预览';
     $lang->cmd_reset = '初始化';

@@ -62,23 +62,23 @@
         <var id="cols_list_count">
             <name xml:lang="ko">가로 이미지 수</name>
             <name xml:lang="jp">イメージ数</name>
-            <name xml:lang="zh-CN">图片数</name>
+            <name xml:lang="zh-CN">横向图片数</name>
             <name xml:lang="en">Number of Images</name>
             <type>text</type>
             <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
-            <description xml:lang="zh-CN">可以指定要显示的图片个数。(默认为5个)</description>
+            <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
         </var>
         <var id="rows_list_count">
             <name xml:lang="ko">세로 이미지 수</name>
             <name xml:lang="jp">イメージ数</name>
-            <name xml:lang="zh-CN">图片数</name>
+            <name xml:lang="zh-CN">纵向图片数</name>
             <name xml:lang="en">Number of Images</name>
             <type>text</type>
             <description xml:lang="ko">출력될 세로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
             <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
-            <description xml:lang="zh-CN">可以指定要显示的图片个数。(默认为5个)</description>
+            <description xml:lang="zh-CN">可以指定要显示的纵向图片个数。(默认为1个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
         </var>
         <var id="display_author">
@@ -90,10 +90,12 @@
             <description />
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="zh-CN">显示</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
                 <value>N</value>
             </options>
         </var>
@@ -106,10 +108,12 @@
             <description />
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="zh-CN">显示</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
                 <value>N</value>
             </options>
         </var>
@@ -122,10 +126,12 @@
             <type>select</type>
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="zh-CN">不显示</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
                 <value>N</value>
             </options>
         </var>
@@ -138,10 +144,12 @@
             <type>select</type>
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="zh-CN">显示</name>
                 <value>Y</value>
             </options>
             <options>
             <name xml:lang="ko">표시하지 않음</name>
+            <name xml:lang="zh-CN">不显示</name>
                 <value>N</value>
                 </options>
             </var>
