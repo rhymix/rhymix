@@ -22,6 +22,7 @@
             <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
                 {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
             <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->>
+                <!--@if($oDocument->document_srl)-->
                 <div class="thumbnail"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_width}" border="0" alt="" class="thumbnail" /></a></div>
 
                 <div>
@@ -52,6 +53,7 @@
 
                     <!--@end-->
                 </div>
+                <!--@end-->
                 <!--@end-->
 
             </td>

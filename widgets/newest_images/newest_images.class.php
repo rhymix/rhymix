@@ -71,15 +71,21 @@
                 }
             }
 
-            if(!count($document_srl_list)) return;
-
             $oDocumentModel = &getModel('document');
-            $documents_output = $oDocumentModel->getDocuments($document_srl_list);
-            if(!count($documents_output)) return;
+            if(count($document_srl_list)) {
 
-            foreach($documents_output as $key => $val) {
-                $document_list[] = $val;
+                $documents_output = $oDocumentModel->getDocuments($document_srl_list);
+                if(!count($documents_output)) return;
+
+                foreach($documents_output as $key => $val) {
+                    $document_list[] = $val;
+                }
+
             }
+
+            $document_count = count($document_list);
+            $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
+            for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
             
             $widget_info->document_list = $document_list;
 
