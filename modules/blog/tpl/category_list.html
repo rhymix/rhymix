@@ -1,45 +1,56 @@
 <!--%import("filter/insert_category.xml")-->
 <!--%import("filter/delete_category.xml")-->
 <!--%import("filter/move_category.xml")-->
-<!--#include("./header.html")-->
+<!--%import("css/blog.css")-->
+<!--%import("js/blog_admin.js")-->
 
-<script type="text/javascript">
-    var category_title = "{$lang->category}";
-</script>
+<h3>{$lang->blog} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<div class="infoText">{nl2br($lang->about_blog_category)}</div>
-
-<!-- 카테고리의 위/아래, 삭제와 관련된 form -->
-<form id="fo_move_category" action="./" method="get">
-    <input type="hidden" name="source_category_srl" />
-    <input type="hidden" name="target_category_srl" />
-</form>
-
-<div class="gap1">
-    <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
-    <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-    <input type="hidden" name="xml_file" value="{$category_info->xml_file}" />
-
-        <div id="category_list">
-            <div id="zone_category"></div>
-            <p><input type="checkbox" class="checkbox" id="category_enable_move" onclick="hideCategoryInfo()" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label></p>
-
-            <div class="fl gap1">
-                <a href="#" onclick="doInsertCategory(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
-            </div>
-
-            <div class="fr gap1">
-                <a href="#" onclick="openAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
-                <a href="#" onclick="closeAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
-                <a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
-            </div>
-        </div>
-
-        <div id="category_info"></div>
-
-    </form>
+<div class="menuManagement">
 
     <script type="text/javascript">
-        loadTreeMenu("{$category_info->xml_file}", "category", "zone_category", category_title, '', doGetCategoryInfo, 0, doMoveTree); 
+        var category_title = "{$lang->category}";
     </script>
+
+    <div class="infoText">{nl2br($lang->about_blog_category)}</div>
+
+    <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
+    <form id="fo_move_category" action="./" method="get">
+        <input type="hidden" name="source_category_srl" />
+        <input type="hidden" name="target_category_srl" />
+    </form>
+
+    <div class="gap1">
+        <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
+        <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+        <input type="hidden" name="xml_file" value="{$category_info->xml_file}" />
+
+                <table class="menuListZone">
+                <tr>
+                    <td class="category_zone">
+                        <div id="category_list">
+                            <div id="zone_category"></div>
+                            <p><input type="checkbox" class="checkbox" id="category_enable_move" onclick="hideCategoryInfo()" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="category_info"></div>
+                    </td>
+                </tr>
+                </table>
+
+                <div class="fl gap1">
+                    <a href="#" onclick="doInsertCategory(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
+                    <a href="#" onclick="openAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
+                    <a href="#" onclick="closeAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
+                    <a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+                    <a href="#"  onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
+                </div>
+        </form>
+
+        <script type="text/javascript">
+            loadTreeMenu("{$category_info->xml_file}", "category", "zone_category", category_title, '', doGetCategoryInfo, 0, doMoveTree); 
+        </script>
+    </div>
+
 </div>

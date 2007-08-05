@@ -185,13 +185,6 @@ select.time_zone { width:70%; position:relative; top:4px; }
 
 /* ----- Popup | End ----- */
 
-/* ----- Category Manager | Start ----- */
-#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; }
-#category_list .checkbox { margin-top:1em; border:0px; }
-#menu_zone_info { position:absolute; top:0px; left:0px; width:700px; background-color:#FFFFFF; z-index:999; border:3px solid #888888; padding:10px; display:none;}
-#category_info { position:absolute; top:0px; left:0px; width:500px; background-color:#FFFFFF; z-index:999; border:3px solid #888888; padding:10px; display:none;}
-/* ----- Category Manager | End ----- */
-
 .widget_item { margin-bottom:.5em; }
 .layout_editor { width:100%; height:500px; border:0px; font-size:1em; }
 .layout_editor_box { padding:10px; border:1px solid #DDDDDD; }

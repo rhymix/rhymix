@@ -40,5 +40,5 @@ function doMenuManagement(menu_id) {
     var menu_srl = sel_obj.options[sel_obj.selectedIndex].value;
 
     var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
-    location.href = url;
+    winopen(url,'MenuManage','width=850,height=800,resizable=yes,scrollbars=yes,toolbars=no');
 }

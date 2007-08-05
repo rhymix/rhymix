@@ -28,9 +28,9 @@
     <!--@foreach($menu_list as $no => $val)-->
     <tr>
         <td class="tahoma">{$no}</td>
-        <td class="blue"><a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}">{htmlspecialchars($val->title)}</a></td>
+        <td class="blue"><a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}" onclick="winopen(this.href,'MenuManage','width=850,height=800,resizable=yes,scrollbars=yes,toolbars=no');return false;">{htmlspecialchars($val->title)}</a></td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma red"><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="red"><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>

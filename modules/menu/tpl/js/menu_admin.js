@@ -2,7 +2,10 @@
 function completeInsertMenu(ret_obj) {
     var menu_srl = ret_obj['menu_srl'];
     alert(ret_obj['message']);
-    location.href = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
+    location.href = current_url.setQuery('act','dispMenuAdminContent');
+
+    //var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
+    //window.open(url);
 } 
 
 /* 메뉴 삭제 */
@@ -54,6 +57,7 @@ function doGetMenuItemInfo(menu_id, obj) {
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */
+/*
 xAddEventListener(document,'mousedown',checkMousePosition);
 var _xPos = 0;
 var _yPos = 0;
@@ -62,9 +66,11 @@ function checkMousePosition(e) {
     _xPos = evt.pageX;
     _yPos = evt.pageY;
 }   
+*/
 
 function hideCategoryInfo() {
     var obj = xGetElementById('menu_zone_info');
+    xInnerHtml(obj,'');
     obj.style.display = "none";
 }
 
@@ -77,6 +83,7 @@ function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     var fo_obj = xGetElementById("fo_menu");
     fo_obj.menu_name.focus();
 
+    /*
     var x = _xPos + 50;
     var y = _yPos - xHeight(obj)/2 + 80 + xScrollTop();
     xLeft(obj, x);
@@ -88,6 +95,7 @@ function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     }
 
     if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
+    */
 }
 
 /* 메뉴 아이템 입력후 */ 
