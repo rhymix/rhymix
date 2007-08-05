@@ -5,23 +5,23 @@
      * @brief  English language pack 
      **/
 
-    $lang->module_list = "Module list";
-    $lang->module_index = "Module list";
-    $lang->module_category = "Module category";
+    $lang->module_list = "Module List";
+    $lang->module_index = "Module List";
+    $lang->module_category = "Module Category";
     $lang->module_info = "Info";
     $lang->add_shortcut = "Add Shortcuts";
     $lang->module_action = "Actions";
-    $lang->module_maker = "Module maker";
+    $lang->module_maker = "Module Developer";
     $lang->module_history = "Update history";
-    $lang->category_title = "Category title";
-    $lang->header_text = 'Header text';
-    $lang->footer_text = 'Footer text';
-    $lang->use_category = 'Enable category';
-    $lang->category_title = 'Category title';
-    $lang->checked_count = 'No. of checked article';
-    $lang->skin_default_info = 'Default skin info';
-    $lang->skin_maker = 'Skin maker';
-    $lang->skin_maker_homepage = 'Skin maker homepage';
+    $lang->category_title = "Category Title";
+    $lang->header_text = 'Header Text';
+    $lang->footer_text = 'Footer Text';
+    $lang->use_category = 'Enable Category';
+    $lang->category_title = 'Category Title';
+    $lang->checked_count = 'Number of checked article';
+    $lang->skin_default_info = 'Default Skin Info';
+    $lang->skin_maker = 'Skin Developer';
+    $lang->skin_maker_homepage = "Skin Developer's Homepage";
     $lang->open_rss = 'Open RSS';
     $lang->open_rss_types = array(
         'Y' => 'Open all',
@@ -32,10 +32,10 @@
     $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";
     $lang->cmd_update = "Update";
-    $lang->cmd_manage_category = 'Manage categories';
-    $lang->cmd_manage_grant = 'Manage grant';
-    $lang->cmd_manage_skin = 'Manage skins';
-    $lang->cmd_manage_document = 'Manage articles';
+    $lang->cmd_manage_category = 'Manage Categories';
+    $lang->cmd_manage_grant = 'Manage Permission';
+    $lang->cmd_manage_skin = 'Manage Skins';
+    $lang->cmd_manage_document = 'Manage Articles';
 
     $lang->msg_new_module = "Create new module";
     $lang->msg_update_module = "Modify module";
@@ -54,7 +54,7 @@
     $lang->about_default = 'If cheched, the default will be shown when access to the site without no mid value(mid=NoValue).';
     $lang->about_header_text = 'The contents will be shown on the top of the module.(html tags available)';
     $lang->about_footer_text = 'The contents will be shown on the bottom of the module.(html tags available)';
-    $lang->about_skin = 'You can choose a module skin.';
+    $lang->about_skin = 'You may choose a module skin.';
     $lang->about_use_category = 'If checked, category function will be enabled.';
     $lang->about_list_count = 'You can set the number of limit to show article in a page.(default is 1)';
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';

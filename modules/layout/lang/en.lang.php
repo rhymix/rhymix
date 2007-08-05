@@ -5,18 +5,18 @@
      * @brief  Layout module's basic language pack
      **/
 
-    $lang->cmd_layout_management = 'Layout setting';
-    $lang->cmd_layout_edit = 'Edit layout';
+    $lang->cmd_layout_management = 'Layout Setting';
+    $lang->cmd_layout_edit = 'Edit Layout';
 
-    $lang->layout_name = 'Layout name';
-    $lang->layout_maker = "Layout maker";
+    $lang->layout_name = 'Layout Name';
+    $lang->layout_maker = "Layout Developer";
     $lang->layout_history = "Updates";
-    $lang->layout_info = "Layout information";
-    $lang->layout_list = 'Layout list';
+    $lang->layout_info = "Layout Info";
+    $lang->layout_list = 'Layout List';
     $lang->menu_count = 'Menus';
-    $lang->downloaded_list = 'Download list';
+    $lang->downloaded_list = 'Download List';
     $lang->layout_preview_content = 'The content gets displayed here';
-    $lang->not_apply_menu = 'Apply layouts';
+    $lang->not_apply_menu = 'Apply Layouts';
 
     $lang->cmd_move_to_installed_list = "View created list";
 

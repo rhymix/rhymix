@@ -17,7 +17,7 @@
     $lang->module_name = "Module Name";
     $lang->addon_name = "Addon Name";
     $lang->version = "Version";
-    $lang->author = "Maker";
+    $lang->author = "Developer";
     $lang->table_count = "Number of Table";
     $lang->installed_path = "Installed Path";
 

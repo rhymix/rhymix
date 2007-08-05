@@ -61,7 +61,7 @@
     $lang->category = 'Category';
     $lang->document_srl = 'Doc. No.';
     $lang->user_id = 'User ID';
-    $lang->author = 'Maker';
+    $lang->author = 'Developer';
     $lang->password = 'Password';
     $lang->password1 = 'Password';
     $lang->password2 = 'Confirm Password';

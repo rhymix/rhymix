@@ -7,10 +7,10 @@
 
     $lang->cmd_generate_code = 'Generate Code';
 
-    $lang->widget_name = 'Widget name';
-    $lang->widget_maker = 'Widget maker';
-    $lang->widget_history = 'Update history';
-    $lang->widget_info = 'Widget info';
+    $lang->widget_name = 'Widget Name';
+    $lang->widget_maker = 'Widget Developer';
+    $lang->widget_history = 'Update History';
+    $lang->widget_info = 'Widget Info';
     $lang->widget_code = 'Code';
     $lang->widget_cache = 'Cache';
 
