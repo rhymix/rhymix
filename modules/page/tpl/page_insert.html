@@ -1,12 +1,9 @@
 <!--%import("filter/insert_page.xml")-->
-<!--%import("js/page_admin.js")-->
-
 <!--#include("header.html")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
-<input type="hidden" name="content" value="{htmlspecialchars($module_info->content)}" />
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
@@ -61,20 +58,9 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->widget}</th>
-        <td>
-            <!--@foreach($widget_list as $widget)-->
-            <div class="fl gap1"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a></div>
-            <!--@end-->
-        </td>
-    </tr>
     </table>
 
-    <div class="gap1">{$editor}</div>
-
     <div class="tRight gap1">
-        <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
         <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
     </div>
 

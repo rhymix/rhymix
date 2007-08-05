@@ -93,6 +93,12 @@
                 $module_info->layout_title = $layout_info->layout_title;
             }
 
+            // 레이아웃 목록을 구해옴
+            $oLayoutMode = &getModel('layout');
+            $layout_list = $oLayoutMode->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_info');
         }
@@ -101,6 +107,39 @@
          * @brief 페이지 추가 폼 출력
          **/
         function dispPageAdminInsert() {
+
+            // GET parameter에서 module_srl을 가져옴
+            $module_srl = Context::get('module_srl');
+
+            // module_srl이 있으면 해당 모듈의 정보를 구해서 세팅
+            if($module_srl) {
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
+                else {
+                    unset($module_info);
+                    unset($module_srl);
+                }
+            }
+
+            // module_srl이 없으면 sequence값으로 미리 구해 놓음
+            if(!$module_srl) $module_srl = getNextSequence();
+            Context::set('module_srl',$module_srl);
+
+            // 레이아웃 목록을 구해옴
+            $oLayoutMode = &getModel('layout');
+            $layout_list = $oLayoutMode->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_insert');
+        }
+
+        /**
+         * @brief 페이지 내용 수정
+         **/
+        function dispPageAdminContentModify() {
 
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');
@@ -141,10 +180,10 @@
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
 
-
             // 템플릿 파일 지정
-            $this->setTemplateFile('page_insert');
+            $this->setTemplateFile('page_content_modify');
         }
+
 
         /**
          * @brief 페이지 삭제 화면 출력

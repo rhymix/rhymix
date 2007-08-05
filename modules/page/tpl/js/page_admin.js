@@ -25,6 +25,28 @@ function completeInsertPage(ret_obj) {
     location.href = url;
 }
 
+/* 내용 저장 후 */
+function completeInsertPageContent(ret_obj) {
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
+
+    alert(message);
+
+    var url = '';
+    if(location.href.getQuery('module')=='admin') {
+        url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
+        if(page) url = url.setQuery('page',page);
+    } else {
+        url = current_url.setQuery('act','').setQuery('module_srl','');
+    }
+
+    if(opener) opener.location.reload();
+
+    window.close();
+}
 
 /* 모듈 삭제 후 */
 function completeDeletePage(ret_obj) {

@@ -18,9 +18,11 @@
          **/
         function procPageAdminInsert() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','module_category_srl','page_name','browser_title','content','is_default','layout_srl');
+            $args = Context::gets('module_srl','module_category_srl','page_name','browser_title','is_default','layout_srl','content');
             $args->module = 'page';
             $args->mid = $args->page_name;
+            if(!$args->content) $args->content = $content;
+            else unset($args->conetnt);
             unset($args->page_name);
             if($args->is_default!='Y') $args->is_default = 'N';
 

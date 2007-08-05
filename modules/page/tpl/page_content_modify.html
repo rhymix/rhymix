@@ -1,0 +1,39 @@
+<!--%import("filter/insert_page_content.xml")-->
+<!--%import("js/page_admin.js")-->
+<!--%import("css/page.css")-->
+
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_page_content)" enctype="multipart/form-data">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="content" value="{htmlspecialchars($module_info->content)}" />
+<!--@if($module_info->is_default=='Y')-->
+<input type="hidden" name="is_default" value="Y" />
+<!--@end-->
+<input type="hidden" name="mid" value="{$module_info->mid}" />
+<input type="hidden" name="module_category_srl" value="{$module_info->module_category_srl}" />
+<input type="hidden" name="browser_title" value="{$module_info->browser_title}" />
+<input type="hidden" name="layout_srl" value="{$module_info->layout_srl}" />
+
+    <div class="widget_list">
+        <!--@foreach($widget_list as $widget)-->
+        <a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
+        <!--@end-->
+    </div>
+
+    <div class="button_box">
+        <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
+    </div>
+
+    <div class="editor_box">{$editor}</div>
+
+    <div class="button_box">
+        <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
+    </div>
+
+</form>
