@@ -126,7 +126,7 @@
             <type>select</type>
             <options>
                 <name xml:lang="ko">표시</name>
-                <name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="zh-CN">显示</name>
                 <value>Y</value>
             </options>
             <options>
