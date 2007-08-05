@@ -93,15 +93,17 @@
         </div>
     </div>
 
-    <ul class="replyAndTrackback">
-        <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-            <li class="selected"><a href="#comment" id="toggleReply" onclick="toggleReply(); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
-        <!--@end-->
+    <div class="clear">
+      <ul class="replyAndTrackback">
+          <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+              <li class="selected"><a href="#comment" id="toggleReply" onclick="toggleReply(); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
+          <!--@end-->
 
-        <!--@if($oDocument->allowTrackback())-->
-            <li><a href="#trackback" id="toggleTrackback" onclick="toggleTrackback(); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
-        <!--@end-->
-    </ul>
+          <!--@if($oDocument->allowTrackback())-->
+              <li><a href="#trackback" id="toggleTrackback" onclick="toggleTrackback(); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
+          <!--@end-->
+      </ul>
+    </div>
 
     <div class="clear"></div>
 
