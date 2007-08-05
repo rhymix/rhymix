@@ -42,6 +42,7 @@
     $lang->cmd_close = 'Fermer';
     $lang->cmd_open = 'Cloturer';
     $lang->cmd_setup = 'Configurer';
+	$lang->cmd_option = 'Option';
     $lang->cmd_apply = 'Appliquer';
     $lang->cmd_open_calendar = 'Choisir la Date';
     $lang->cmd_send = 'Envoyer';

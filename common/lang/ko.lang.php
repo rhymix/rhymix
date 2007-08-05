@@ -42,6 +42,7 @@
     $lang->cmd_close = '닫기';
     $lang->cmd_open = '열기';
     $lang->cmd_setup = '설정';
+	$lang->cmd_option = '옵션';
     $lang->cmd_apply = '적용';
     $lang->cmd_open_calendar = '날짜 선택';
     $lang->cmd_send = '발송';
