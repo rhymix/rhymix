@@ -251,7 +251,7 @@
                 if($modified_time > $file_created_time) unlink($thumbnail_file);
             }
 
-            if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return;
+            if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return Context::getRequestUri()."common/tpl/images/blank.gif";
 
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;

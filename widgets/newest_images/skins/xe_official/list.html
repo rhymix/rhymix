@@ -6,15 +6,11 @@
 
 <div class="ni_box">
     <!--@if($widget_info->title)-->
-    <div class="title_box">
-        <div class="title">{$widget_info->title}</div>
-        <!--@if($widget_info->module_name)-->
-        <div class="more"><a href="{getUrl('','mid',$widget_info->module_name)}">more</a></div>
-        <!--@end-->
-    </div>
+        <h2>{$widget_info->title}</h2>
     <!--@end-->
 
     <!--@if(count($widget_info->document_list))-->
+    <div>
         <table class="thumbnail_box">
         {@ $count = 0; }
         <!--@for($i=0;$i<$widget_info->rows_list_count;$i++)-->
@@ -44,7 +40,7 @@
 
                     <!--@end-->
 
-                    <!--@if($widget_info->display_voted_count == 'Y' )-->
+                    <!--@if($widget_info->display_voted_count == 'Y' && $oDocument->get('voted_count')>0 )-->
 
                         <!--@if($widget_info->display_readed_count == 'Y')--><span class="div_block">|</span><!--@end-->
 
@@ -61,5 +57,9 @@
         <!--@end-->
         </table>
     <!--@end-->
-    <div class="clear"></div>
+    </div>
+
+    <!--@if($widget_info->module_name)-->
+        <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
+    <!--@end-->
 </div>

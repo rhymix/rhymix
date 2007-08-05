@@ -15,16 +15,36 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 위젯 자체적으로 설정한 변수들을 체크
-            $title_length = (int)$args->title_length;
-            if(!$title_length) $title_length = 10;
+            // 글자 제목 길이
+            $widget_info->title_length = (int)$args->title_length;
+            if(!$widget_info->title_length) $widget_info->title_length = 10;
 
-            $thumbnail_width = (int)$args->thumbnail_width;
-            if(!$thumbnail_width) $thumbnail_width = 100;
+            // 썸네일 가로 크기
+            $widget_info->thumbnail_width = (int)$args->thumbnail_width;
+            if(!$widget_info->thumbnail_width) $widget_info->thumbnail_width = 100;
 
-            $list_count = (int)$args->list_count;
-            if(!$list_count) $list_count = 5;
+            // 가로 이미지 수
+            $widget_info->rows_list_count = (int)$args->rows_list_count;
+            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 5;
 
+            // 세로 이미지 수
+            $widget_info->cols_list_count = (int)$args->cols_list_count;
+            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 1;
+
+            // 노출 여부 체크
+            if($args->display_author!='Y') $widget_info->display_author = 'N';
+            else $widget_info->display_author = 'Y';
+            if($args->display_regdate!='Y') $widget_info->display_regdate = 'N';
+            else $widget_info->display_regdate = 'Y';
+            if($args->display_readed_count!='Y') $widget_info->display_readed_count = 'N';
+            else $widget_info->display_readed_count = 'Y';
+            if($args->display_voted_count!='Y') $widget_info->display_voted_count = 'N';
+            else $widget_info->display_voted_count = 'Y';
+
+            // 제목
+            $widget_info->title = $args->title;
+
+            // 대상 모듈 정리
             $mid_list = explode(",",$args->mid_list);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
@@ -32,12 +52,11 @@
 
             // 변수 정리
             $obj->sort_index = $order_target;
-            $obj->list_count = $list_count;
+            $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
 
             // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
             $module_srl_list = $oModuleModel->getModuleSrlByMid($mid_list);
-
             $obj->module_srls = implode(",",$module_srl_list);
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
@@ -57,11 +76,12 @@
             $oDocumentModel = &getModel('document');
             $documents_output = $oDocumentModel->getDocuments($document_srl_list);
             if(!count($documents_output)) return;
+
+            foreach($documents_output as $key => $val) {
+                $document_list[] = $val;
+            }
             
-            $widget_info->document_list = $documents_output;
-            $widget_info->title_length = $title_length;
-            $widget_info->thumbnail_width = $thumbnail_width;
-            $widget_info->list_count = $list_count;
+            $widget_info->document_list = $document_list;
 
             Context::set('widget_info', $widget_info);
 
