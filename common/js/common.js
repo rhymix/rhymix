@@ -179,6 +179,9 @@ function resizeImageContents() {
         if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
 
         if(/\/modules\//i.test(obj.src)) continue;
+        if(/\/layouts\//i.test(obj.src)) continue;
+        if(/\/widgets\//i.test(obj.src)) continue;
+        if(/\/classes\//i.test(obj.src)) continue;
         if(/\/common\/tpl\//i.test(obj.src)) continue;
         if(/\/member_extra_info\//i.test(obj.src)) continue;
 
@@ -187,8 +190,8 @@ function resizeImageContents() {
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width<0 || obj_width < 0) continue;
-        if(parent_width > obj_width && orig_img.width <= obj_width) continue;
+        if(parent_width<1 || obj_width <1) continue;
+        if(parent_width>=obj_width && orig_img.width <= obj_width) continue;
 
         obj.style.cursor = "pointer";
 
