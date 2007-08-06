@@ -25,7 +25,7 @@
     $lang->widget_margin_right = 'Right Margin';
     $lang->widget_margin_bottom = 'Bottom Margin';
     $lang->widget_margin_left= 'Left Margin';
-    $lang->about_widget_fix_width = 'If you select it, the width will be fixed.';
+    $lang->about_widget_fix_width = 'By selecting this option, the width will be fixed.';
     $lang->about_widget_width = 'Select the width.';
     $lang->about_widget_position = 'You may select the position to layout multiple widgets in a line.';
     $lang->about_widget_margin = 'You may select the position to layout multiple widgets in a line.';
@@ -35,7 +35,7 @@
 
     $lang->msg_widget_is_not_exists = '%s widget does not exist.';
     $lang->msg_widget_object_is_null = 'Object of %s widget cannot be created.';
-    $lang->msg_widget_proc_is_null = 'proc() of %s widget cannot be run.';
+    $lang->msg_widget_proc_is_null = 'proc() of %s widget cannot be executed.';
 
     $lang->about_widget_code = 'After entering the required item value of selected widget, click the [Generate Code] button to get the code so that you can apply to your template file.';
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';
