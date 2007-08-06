@@ -32,7 +32,6 @@
     $lang->limit_menu_depth = '可显示';
 
     $lang->cmd_make_child = '添加下级菜单';
-    $lang->cmd_remake_cache = "缓冲文件再生成";
     $lang->cmd_move_to_installed_list = "查看生成目录";
     $lang->cmd_enable_move_menu = "移动菜单 （选择后用鼠标拖动）";
     $lang->cmd_search_mid = "查找 mid";

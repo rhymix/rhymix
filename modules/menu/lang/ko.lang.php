@@ -32,7 +32,6 @@
     $lang->limit_menu_depth = '표시 가능';
 
     $lang->cmd_make_child = '하부 메뉴 추가';
-    $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_move_to_installed_list = "생성된 목록 보기";
     $lang->cmd_enable_move_menu = "메뉴 옮기기 (선택후 위 메뉴를 드래그하세요)";
     $lang->cmd_search_mid = "mid 찾기";

@@ -117,6 +117,37 @@
             $oFileController->printUploadedFileList($upload_target_srl);
         }
 
+        /**
+         * @brief 지정된 페이지의 위젯 캐시 파일 지우기
+         **/
+        function procPageAdminRemoveWidgetCache() {
+            $module_srl = Context::get('module_srl');
+
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
+            $content = $module_info->content;
+
+            // 언어 종류 가져옴
+            $lang_list = Context::get('lang_supported');
+
+            // 위젯 캐시 sequence 를 가져옴
+            preg_match_all('/widget_sequence="([0-9]+)"/i',$content, $matches);
+
+            $cache_path = './files/cache/widget_cache/';
+
+            for($i=0;$i<count($matches[1]);$i++) {
+                $sequence = $matches[1][$i];
+
+                for($j=0;$j<count($lang_list);$j++) {
+                    $lang_type = $lang_list[$j];
+                    $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, $lang_type);
+                    @unlink($cache_file);
+                }
+            }
+
+            $this->setMessage('success_updated');
+        }
 
     }
 ?>

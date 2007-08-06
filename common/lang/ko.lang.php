@@ -50,6 +50,7 @@
     $lang->cmd_scrap = '스크랩';
     $lang->cmd_preview = '미리 보기';
     $lang->cmd_reset = '초기화';
+    $lang->cmd_remake_cache = "캐시파일 재생성";
 
     $lang->enable = '가능';
     $lang->disable = '불가능';

@@ -50,6 +50,7 @@
     $lang->cmd_scrap = 'スクラップ';
     $lang->cmd_preview = 'プレビュー';
     $lang->cmd_reset = '初期化';
+    $lang->cmd_remake_cache = "キャッシュファイル再生成";
 
     $lang->enable = '可能';
     $lang->disable = '不可';

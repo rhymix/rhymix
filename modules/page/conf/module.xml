@@ -10,6 +10,7 @@
         <action name="dispPageAdminDelete" type="view" standalone="true" />
         <action name="dispPageAdminContentModify" type="view" standalone="true" />
 
+        <action name="procPageAdminRemoveWidgetCache" type="controller" standalone="true" />
         <action name="procPageAdminInsert" type="controller" standalone="true" />
         <action name="procPageAdminDelete" type="controller" standalone="true" />
         <action name="procPageAdminInsertConfig" type="controller" standalone="true" />

@@ -50,6 +50,7 @@
     $lang->cmd_scrap = 'Scrap';
     $lang->cmd_preview = 'Preview';
     $lang->cmd_reset = 'Reset';
+    $lang->cmd_remake_cache = "Re-create cache file";
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';

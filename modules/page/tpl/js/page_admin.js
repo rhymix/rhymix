@@ -70,3 +70,16 @@ function doChangeCategory(fo_obj) {
     }
     return true;
 }
+
+/* 위젯 재컴파일 */
+function doRemoveWidgetCache(module_srl) {
+    var params = new Array();
+    params["module_srl"] = module_srl;
+    exec_xml('page', 'procPageAdminRemoveWidgetCache', params, completeRemoveWidgetCache);
+}
+
+function completeRemoveWidgetCache(ret_obj) {
+    var message = ret_obj['message'];
+    alert(message);
+    location.reload(); 
+}

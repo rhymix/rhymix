@@ -32,7 +32,6 @@
     $lang->limit_menu_depth = '表示スレッド';
 
     $lang->cmd_make_child = '下位メニュー追加';
-    $lang->cmd_remake_cache = "キャッシュファイル再生成";
     $lang->cmd_move_to_installed_list = "生成されたリスト表示";
     $lang->cmd_enable_move_menu = "メニュー移動（選択後メニューをドラッグしてください）";
     $lang->cmd_search_mid = "mid 検索";

@@ -32,7 +32,6 @@
     $lang->limit_menu_depth = 'Display enabled';
 
     $lang->cmd_make_child = 'Add a child menu';
-    $lang->cmd_remake_cache = "Re-create cache file";
     $lang->cmd_move_to_installed_list = "View created lists";
     $lang->cmd_enable_move_menu = "Move menu (Drag the top menu after selecting)";
     $lang->cmd_search_mid = "Search mid";
