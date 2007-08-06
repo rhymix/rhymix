@@ -1,5 +1,4 @@
-.member_group .title_box { background-color:#AAAAAA; padding:5px; height:14px; overflow:hidden; margin-bottom:.3em; font-weight:bold; color:#FFFFFF; border:1px solid #888888; }
-
-.member_group .member_box { padding:3px 3px 3px 10px; clear:both; border-bottom:1px solid #EEEEEE; height:16px; overflow:hidden; margin:0px 0px 2px 0px; }
-
-.member_group .nick_name { float:left; }
+.mg { padding-bottom:15px; overflow:hidden; position:relative;}
+.mg h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:4px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+.mg ul { overflow:hidden; width:100%;}
+.mg ul li { white-space:nowrap; padding:3px 0 3px 10px; overflow:hidden; border-bottom:1px dashed #EEEEEE; color:#54564b;}
