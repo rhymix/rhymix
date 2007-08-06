@@ -6,19 +6,20 @@
     <!--%import("css/white.css")-->
 <!--@end-->
 
-<div class="latest">
+<div class="latest_{$colorset}">
     <!--@if($widget_info->title)-->
     <h2>{$widget_info->title}</h2>
     <!--@end-->
     <ul>
         <!--@foreach($widget_info->document_list as $oDocument)-->
         <li>
-          <span class="date">[{$oDocument->getRegdate("Y-m-d")}]</span>
-          <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
-          <!--@if($oDocument->getCommentCount())-->
-          <span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment">*{$oDocument->getCommentCount()}</a></span>
-          <!--@end-->
-          <span class="writer">- {$oDocument->getNickName()}</span>
+          <span class="title">
+            <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
+            <!--@if($oDocument->getCommentCount())-->
+              <span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment">*{$oDocument->getCommentCount()}</a></span>
+            <!--@end-->
+          </span>
+          <span class="date"><span>{$oDocument->getRegdate("Y-m-d")}</span></span>
         </li>
         <!--@end-->
     </ul>

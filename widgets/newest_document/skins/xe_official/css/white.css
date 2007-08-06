@@ -1,12 +1,17 @@
-.latest { padding-bottom:15px; overflow:hidden; position:relative;}
-.latest h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; background:url(../images/white/lineNotice.gif) no-repeat left bottom;}
-.latest ul { overflow:hidden; width:100%;}
-.latest ul li { white-space:nowrap; height:21px; background:url(../images/white/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden;}
-.latest ul li a { color:#555555; text-decoration:none; }
-.latest ul li a:hover { text-decoration:underline; }
-.latest ul li span.comment { color:#999999; font:.8em Tahoma; margin-left:.3em;}
-.latest ul li span.date { color:#999999; font:.8em Tahoma; margin-right:5px;}
-.latest ul li span.writer { color:#999999; font-size:.9em; margin-left:.3em;}
-.latest .more { position:absolute; top:12px; right:11px; color:#54564b; font:.8em Tahoma;}
-.latest a.more { text-decoration:none;} 
-.latest a.more:hover { text-decoration:underline;} 
+.latest_white { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
+.latest_white h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; background:url(../images/white/lineNotice.gif) no-repeat left bottom; font-size:1em;}
+
+.latest_white ul { }
+.latest_white ul li { position:relative; height:21px; background:url(../images/white/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; }
+
+.latest_white ul li .title { position:relative; z-index:0; overflow:hidden; width:100%; white-space:nowrap;}
+.latest_white ul li .title a { color:#555555; text-decoration:none; }
+.latest_white ul li .title a:hover { text-decoration:underline; }
+.latest_white ul li .title span.comment { color:#999999; font:.8em Tahoma; margin-left:.3em;}
+
+.latest_white ul li .date { position:relative; z-index:1; }
+.latest_white ul li .date span { background:#FFFFFF; position:relative; z-index:1; padding:3px 5px 3px 3px; text-align:right; float:right; top:-16px; _top:-18px; color:#999999; font:.8em Tahoma; }
+
+.latest_white .more { position:absolute; top:12px; right:11px; color:#54564b; font:.8em Tahoma;}
+.latest_white a.more { text-decoration:none;} 
+.latest_white a.more:hover { text-decoration:underline;} 
