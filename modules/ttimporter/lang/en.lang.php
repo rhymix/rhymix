@@ -6,7 +6,7 @@
      **/
 
     $lang->ttimporter = "Import Tetter Tools data";
-    $lang->about_tt_importer = "You can enter this into a module which you want Tetter Tools data.\n The attached file will be directly downloaded via web, so please be sure to enable the original Tetter Tools blog.";
+    $lang->about_tt_importer = "You can input the Tetter Tools data into the module you want.\n The attached file will be directly downloaded via web, so please be sure to enable the original Tetter Tools blog.";
 
     $lang->target_module = "Target module";
     $lang->target_file = "Target xml file";
