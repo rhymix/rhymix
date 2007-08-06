@@ -35,7 +35,7 @@ function doFix()
   {
    if (currentStyle.width == 'auto' && currentStyle.height == 'auto')
     style.width = offsetWidth + 'px';
-   filt(src, 'scale'); 
+   filt(src, 'image'); 
 // 'scale' 을 'image' 으로 변경하면 padding 적용시 나타나는 이미지 크기의 변화(잘못된 렌더링)를 방지할 수 있다. 하지만 border 표현에 문제가 생긴다.
    src = blankImg;
   }
