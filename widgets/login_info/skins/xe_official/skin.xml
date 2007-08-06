@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">XE 공식 로그인 정보 출력</title>
+  <title xml:lang="jp">XEログイン情報表示</title>
   <title xml:lang="en">Display XE Official Login Info</title>
   <title xml:lang="zh-CN">XE 官方网站登陆表单皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
 	<name xml:lang="en">zero</name>
     <name xml:lang="zh-CN">Zero</name>
     <description xml:lang="ko">
@@ -12,6 +14,12 @@
         디자인 : 이소라 (http://ra-ra.pe.kr)
         퍼블리싱 : 정찬명 (http://naradesign.net)
         레이아웃 제작 : zero (http://blog.nzeo.com)
+    </description>
+    <description xml:lang="jp">
+        XEレイアウトに適したログイン情報表示用のウィジェットです。
+        デザイン：イソラ（http://ra-ra.pe.kr）
+        パブリシング：ジョンチャンミョン（http://naradesign.net）
+        レイアウト：Zero (http://blog.nzeo.com)
     </description>
 	<description xml:lang="en">
         This is a suitable login info display widget for XE Official layout.
