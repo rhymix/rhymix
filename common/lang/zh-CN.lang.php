@@ -50,7 +50,7 @@
     $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '预览';
     $lang->cmd_reset = '初始化';
-    $lang->cmd_remake_cache = "缓冲文件再生成";
+    $lang->cmd_remake_cache = "重新生成缓冲文件";
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
