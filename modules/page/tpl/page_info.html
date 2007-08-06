@@ -65,6 +65,8 @@
             <a href="{getUrl('module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button"><span>{$lang->cmd_page_modify}</span></a>
             <!--@if($module=="admin")-->
             <a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+            <!--@else-->
+            <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
             <!--@end-->
         </td>
     <tr>

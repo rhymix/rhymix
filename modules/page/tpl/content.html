@@ -2,6 +2,7 @@
 
 <!--@if($grant->is_admin)-->
 <div class="tRight gap1 clear">
+    <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button"><span>{$lang->cmd_setup}</span></a>
     <a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button"><span>{$lang->cmd_page_modify}</span></a>
 </div>
 <!--@end-->
