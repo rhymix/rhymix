@@ -16,7 +16,7 @@
           <span class="title">
             <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
             <!--@if($oDocument->getCommentCount())-->
-              <span class="comment"><a href="{$oDocument->getPermanentUrl()}#comment">*{$oDocument->getCommentCount()}</a></span>
+              <span class="comment">[<a href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getCommentCount()}</a>]</span>
             <!--@end-->
           </span>
           <span class="date"><span>{$oDocument->getRegdate("Y-m-d")}</span></span>

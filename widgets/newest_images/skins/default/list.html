@@ -18,7 +18,7 @@
         <table class="thumbnail_box">
         {@ $count = 0; }
         <!--@for($i=0;$i<$widget_info->rows_list_count;$i++)-->
-        <tr>
+        <tr valign="top">
             <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
                 {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
             <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->>
