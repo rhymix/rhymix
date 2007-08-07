@@ -178,6 +178,7 @@ function resizeImageContents() {
         }
         if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
 
+        if(obj.parentNode.nodeName =='A') continue;
         if(/\/modules\//i.test(obj.src)) continue;
         if(/\/layouts\//i.test(obj.src)) continue;
         if(/\/widgets\//i.test(obj.src)) continue;
