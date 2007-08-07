@@ -21,11 +21,19 @@
             <th scope="row">{$lang->image_scale}</th>
             <td>
                 <ul>
-                    <li><input type="text" id="width" value="0" size="4" class="inputTypeText" />px </li>
-                    <li><input type="text" id="height" value="0" size="4" class="inputTypeText" />px </li>
+                    <li><input type="text" id="width" value="0" size="4" class="inputTypeText" onblur="setScale('width');return false;" />px </li>
+                    <li><input type="text" id="height" value="0" size="4" class="inputTypeText" onblur="setScale('height');return false;" />px </li>
                     <li><a href="#" onclick="getImageScale(); return false;" class="button"><span>{$lang->cmd_get_scale}</span></a></li>
                 </ul>
             </td>
+        </tr>
+        <tr>
+            <th scope="row">URL</th>
+            <td><input type="text" id="link_url" value="" class="inputTypeText w100"/></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_open_window}</th>
+            <td><input type="checkbox" id="open_window" value="Y" /> {$lang->about_url_link_open_window}</td>
         </tr>
         <tr>
             <th scope="row">{$lang->image_alt}</th>

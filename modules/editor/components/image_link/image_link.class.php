@@ -41,28 +41,42 @@
          **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->src;
-            $style = $xml_obj->attrs->style;
             $width = $xml_obj->attrs->width;
             $height = $xml_obj->attrs->height;
             $align = $xml_obj->attrs->align;
+            $alt = $xml_obj->attrs->alt;
             $border = $xml_obj->attrs->border;
+            $link_url = $xml_obj->attrs->link_url;
+            $open_window = $xml_obj->attrs->open_window;
 
-            $tmp_arr = explode('/',$src);
-            $alt = array_pop($tmp_arr);
+            if(!$alt) {
+                $tmp_arr = explode('/',$src);
+                $alt = array_pop($tmp_arr);
+            }
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             if(!$alt) $alt = $src;
 
-            $output = array();
-            $output = array("src=\"".$src."\"");
-            if($alt) $output[] = "alt=\"".$alt."\"";
-            if($alt) $output[] = "title=\"".$alt."\"";
-            if($width) $output[] = "width=\"".$width."\"";
-            if($height) $output[] = "height=\"".$height."\"";
-            if($align) $output[] = "align=\"".$align."\"";
-            if($border) $output[] = "border=\"".$border."\"";
-            if($style) $output[] = "style=\"".$style."\"";
-            return "<img ".implode(" ", $output)." />";
+            $attr_output = array();
+            $style_output = array();
+            $attr_output = array("src=\"".$src."\"");
+            if($alt) {
+                $attr_output[] = "alt=\"".$alt."\"";
+                $attr_output[] = "title=\"".$alt."\"";
+            }
+            if($align) $attr_output[] = "align=\"".$align."\"";
+
+            if($width) $style_output[] = "width:".$width."px";
+            if($height) $style_output[] = "height:".$height."px";
+            if(!$align) $style_output[] = "display:block";
+            if($border) $style_output[] = "border:".$border."px";
+            $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), implode(";",$style_output));
+
+            if($link_url) {
+                if($open_window =='Y') $code = sprintf('<a href="%s" onclick="window.open(this.href);return false;">%s</a>', $link_url, $code);
+                else $code = sprintf('<a href="%s" >%s</a>', $link_url, $code);
+            }
+            return $code;
         }
 
     }

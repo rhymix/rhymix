@@ -2,6 +2,9 @@
  * popup으로 열렸을 경우 부모창의 위지윅에디터에 select된 이미지가 있는지 체크하여
  * 있으면 가져와서 원하는 곳에 삽입
  **/
+
+var orig_width = 0;
+var orig_height = 0;
 function getImage() {
     // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
     if(typeof(opener)=="undefined") return;
@@ -23,9 +26,19 @@ function getImage() {
     var alt = node.getAttribute("alt");
     var width = node.getAttribute("width");
     var height = node.getAttribute("height");
+    orig_width = width;
+    orig_height = height;
+    var link_url = node.getAttribute("link_url");
+    var open_window = node.getAttribute("open_window");
 
     xGetElementById("image_url").value = src;
     xGetElementById("image_alt").value = alt;
+
+    if(link_url) {
+        link_url = link_url.replace(/<([^>]*)>/ig,'').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
+        xGetElementById('link_url').value = link_url;
+    }
+    if(open_window == 'Y') xGetElementById('open_window').checked = "true";
 
     switch(align) {
         case 'left' : xGetElementById("align_left").checked = true; break;
@@ -50,10 +63,17 @@ function getImageScale() {
 
     xGetElementById("width").value = img.width;
     xGetElementById("height").value = img.height;
-    
+
+    orig_width = img.width;
+    orig_height = img.height;
 }
 function insertImage(obj) {
     if(typeof(opener)=="undefined") return;
+
+    var link_url = xGetElementById('link_url').value;
+    if(link_url) link_url = link_url.replace(/&/ig,'&amp;').replace(/</ig,'&lt;').replace(/>/ig,'&gt;');
+    var open_window = 'N';
+    if(xGetElementById('open_window').checked) open_window = 'Y';
 
     var url = xGetElementById("image_url").value;
     var alt = xGetElementById("image_alt").value;
@@ -75,9 +95,10 @@ function insertImage(obj) {
     url = url.replace(request_uri,'');
     var text = "<img editor_component=\"image_link\" src=\""+url+"\" border=\""+border+"\" ";
     if(alt) text+= " alt=\""+alt+"\"";
-    if(align) text+= " align=\""+align+"\" ";
     if(width) text+= " width=\""+width+"\" ";
     if(height) text+= " height=\""+height+"\" ";
+    if(link_url) text+= " link_url=\""+link_url+"\" ";
+    if(open_window=='Y') text+= " open_window=\"Y\" ";
     text+= " />";
 
     opener.editorFocus(opener.editorPrevSrl);
@@ -91,3 +112,23 @@ function insertImage(obj) {
 }
 
 xAddEventListener(window, "load", getImage);
+
+function setScale(type) {
+    switch(type) {
+        case 'width' :
+                if(!orig_height) return;
+                var n_width = xGetElementById('width').value;
+                var p = n_width/orig_width;
+                var n_height = parseInt(orig_height * p,10);
+                xGetElementById('height').value = n_height;
+            break;
+        case 'height' :
+                if(!orig_width) return;
+                var n_height = xGetElementById('height').value;
+                var p = n_height/orig_height;
+                var n_width = parseInt(orig_width * p,10);
+                xGetElementById('width').value = n_width;
+            break;
+    }
+
+}

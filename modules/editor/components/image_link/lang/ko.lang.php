@@ -15,5 +15,8 @@
     $lang->image_align_right = "글의 우측으로";
     $lang->image_border = "경계선 두께";
 
+    $lang->urllink_open_window = "새창열기";
+    $lang->about_url_link_open_window = "선택하시면 링크 선택시 새창으로 열립니다";
+
     $lang->cmd_get_scale = "크기 구하기";
 ?>
