@@ -152,9 +152,7 @@
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
-
             $content = $this->get('content');
-            $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
             return htmlspecialchars($content);
         }
 
@@ -164,7 +162,6 @@
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
-            $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
             return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
         }
 

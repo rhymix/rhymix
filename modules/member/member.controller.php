@@ -163,6 +163,8 @@
         }
 
         function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true) {
+            $content = removeHackTag($content);
+
             // 보내는 사용자의 쪽지함에 넣을 쪽지
             $sender_args->sender_srl = $sender_srl;
             $sender_args->receiver_srl = $receiver_srl;
@@ -812,6 +814,7 @@
          * @brief 서명을 파일로 저장
          **/
         function putSignature($member_srl, $signature) {
+            $signature = removeHackTag($signature);
             $path = sprintf('files/attach/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
             if(!trim($signature) || trim(strtolower($signature))=='<br>') return @unlink($filename);

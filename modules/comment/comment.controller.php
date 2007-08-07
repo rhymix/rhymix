@@ -25,6 +25,7 @@
          * @brief 댓글 입력
          **/
         function insertComment($obj, $manual_inserted = false) {
+            $obj->content = removeHackTag($obj->content);
 
             // document_srl에 해당하는 글이 있는지 확인
             $document_srl = $obj->document_srl;
@@ -32,6 +33,7 @@
 
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
+
 
             // 원본글을 가져옴
             if(!$manual_inserted) {
@@ -106,6 +108,8 @@
          * @brief 댓글 수정
          **/
         function updateComment($obj, $is_admin = false) {
+            $obj->content = removeHackTag($obj->content);
+
             // comment model 객체 생성
             $oCommentModel = &getModel('comment');
 

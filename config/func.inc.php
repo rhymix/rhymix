@@ -346,4 +346,16 @@
         return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;',$str);
     }
 
+    /**
+     * @brief iframe, script코드 제거
+     **/
+    function removeHackTag($content) {
+        // iframe 제거
+        $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
+
+        // script code 제거
+        $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
+        return $content;
+    }
+
 ?>

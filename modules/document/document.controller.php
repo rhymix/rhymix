@@ -38,6 +38,9 @@
             if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != "Y") $obj->notify_message = "N";
 
+            // 내용의 경우 javascript, iframe제거
+            $obj->content = removeHackTag($obj->content);
+
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);
             unset($obj->_saved_doc_title);
@@ -129,6 +132,7 @@
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
             if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != "Y") $obj->notify_message = "N";
+            $obj->content = removeHackTag($obj->content);
 
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);
