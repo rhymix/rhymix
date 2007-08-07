@@ -10,6 +10,9 @@ var iframe_id = 'editor_iframe_';
 // upload_target_srl에 대한 form문을 객체로 보관함 
 var editor_form_list = new Array();
 
+// 편집 상태에 대한 체크
+var editor_mode = new Array();
+
 // upload_target_srl값에 해당하는 iframe의 object를 return
 function editorGetIFrame(upload_target_srl) {
     var obj_id = iframe_id+upload_target_srl;
@@ -158,13 +161,7 @@ function _editorAutoSave() {
             _autoSaveObj.title = title;
             _autoSaveObj.content = content;
 
-            /*
-            xTop("editor_autosaved_message", xScrollTop()+10);
-            xGetElementById("editor_autosaved_message").style.display = "block";
-            setTimeout(function() {xGetElementById("editor_autosaved_message").style.display = "none";}, 1000);
-            */
-
-            var obj = xGetElementById("editor_autosaved_message");
+            var obj = xGetElementById("editor_autosaved_message_"+upload_target_srl);
             var oDate = new Date();
             html = oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg;
             xInnerHtml(obj, html);
@@ -193,8 +190,15 @@ function editorRemoveSavedDoc() {
 function editorGetContent(upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return null;
+
     var html = null;
-    html = xInnerHtml(iframe_obj.contentWindow.document.body);
+    if(editor_mode[upload_target_srl]=='html') {
+        var contentDocument = iframe_obj.contentWindow.document;
+        var html = contentDocument.body.innerHTML;
+        html = html.replace(/&amp;/ig, '&').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>');
+    } else {
+        html = xInnerHtml(iframe_obj.contentWindow.document.body);
+    }
     if(html) html = html.replace(/^<br>$/i,'');
     return html;
 }
@@ -267,10 +271,22 @@ function editorFocus(upload_target_srl) {
 function editorKeyPress(evt) {
     var e = new xEvent(evt);
 
+    var obj = e.target;
+    var body_obj = null;
+    if(obj.nodeName == "BODY") body_obj = obj;
+    else body_obj = obj.firstChild.nextSibling;
+    if(!body_obj) return;
+
+    var upload_target_srl = body_obj.getAttribute("upload_target_srl");
+    if(!upload_target_srl) return;
+
     // IE에서 enter키를 눌렀을때 P 태그 대신 BR 태그 입력
-    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13) {
-        if(e.target.parentElement.document.designMode!="On") return;
-        var obj = e.target.parentElement.document.selection.createRange();
+    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && editor_mode[upload_target_srl]!='html') {
+        var iframe_obj = editorGetIFrame(upload_target_srl);
+        if(!iframe_obj) return;
+        var contentDocument = iframe_obj.contentWindow.document;
+
+        var obj = contentDocument.selection.createRange();
         obj.pasteHTML('<br />');
         obj.select();
         evt.cancelBubble = true;
@@ -280,15 +296,9 @@ function editorKeyPress(evt) {
 
     // ctrl-S, alt-S 클릭시 submit하기
     if( e.keyCode == 115 && (e.altKey || e.ctrlKey) ) {
-        var obj = e.target;
-        var body_obj = obj.firstChild.nextSibling;
-        if(!body_obj) return;
-
-        var upload_target_srl = body_obj.getAttribute("upload_target_srl");
-        if(!upload_target_srl) return;
-
         var iframe_obj = editorGetIFrame(upload_target_srl);
         if(!iframe_obj) return;
+        var contentDocument = iframe_obj.contentWindow.document;
 
         var fo_obj = iframe_obj.parentNode;
         while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
@@ -303,6 +313,19 @@ function editorKeyPress(evt) {
 
     // ctrl-b, i, u, s 키에 대한 처리 (파이어폭스에서도 에디터 상태에서 단축키 쓰도록)
     if (e.ctrlKey) {
+        var iframe_obj = editorGetIFrame(upload_target_srl);
+        if(!iframe_obj) return;
+        var contentDocument = iframe_obj.contentWindow.document;
+
+        // html 에디터 모드일 경우 이벤트 취소 시킴
+        if(editor_mode[upload_target_srl]=='html') {
+            evt.cancelBubble = true;
+            evt.returnValue = false;
+            xPreventDefault(evt);
+            xStopPropagation(evt);
+            return;
+        }
+
         switch(e.keyCode) {
             // ctrl+1~6
             case 49 :
@@ -381,6 +404,8 @@ function editorEventCheck(evt) {
     var component_name = target_id.replace(/^component_([0-9]+)_/,'');
     if(!upload_target_srl || !component_name) return;
 
+    if(editor_mode[upload_target_srl]=='html') return;
+
     switch(component_name) {
 
         // 기본 기능에 대한 동작 (바로 실행) 
@@ -412,6 +437,8 @@ function editorEventCheck(evt) {
 // 컴포넌트 팝업 열기
 function openComponent(component_name, upload_target_srl, manual_url) {
     editorPrevSrl = upload_target_srl;
+    if(editor_mode[upload_target_srl]=='html') return;
+
     var popup_url = request_uri+"?module=editor&act=dispEditorPopup&upload_target_srl="+upload_target_srl+"&component="+component_name;
     if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
 
@@ -440,10 +467,11 @@ function editorSearchComponent(evt) {
         var upload_target_srl = tobj.getAttribute("upload_target_srl");
         var widget = obj.getAttribute("widget");
         editorPrevNode = obj;
+
+        if(editor_mode[upload_target_srl]=='html') return;
         popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+upload_target_srl,'GenerateCodeInPage');
         return;
     }
-
 
     // 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
     if(!obj.getAttribute("editor_component")) {
@@ -516,12 +544,45 @@ function editorHideObject(evt) {
 }
 
 /**
+ * HTML 편집 기능
+ **/
+function editorChangeMode(obj, upload_target_srl) {
+    var iframe_obj = editorGetIFrame(upload_target_srl);
+    if(!iframe_obj) return;
+
+    var contentDocument = iframe_obj.contentWindow.document;
+
+    // html 편집 사용시
+    if(obj.checked) {
+        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "none";
+        
+        var html = contentDocument.body.innerHTML;
+        html = html.replace(/&/ig, '&amp;').replace(/</ig,'&lt;').replace(/>/ig,'&gt;');
+        contentDocument.body.innerHTML = html;
+
+        editor_mode[upload_target_srl] = 'html';
+
+    // 위지윅 모드 사용시
+    } else {
+        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "block";
+
+        var html = contentDocument.body.innerHTML;
+        html = html.replace(/&amp;/ig, '&').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>');
+        contentDocument.body.innerHTML = html;
+
+        editor_mode[upload_target_srl] = null;
+    }
+}
+
+/**
  * 편집기능 실행
  */
 
 // 편집 기능 실행
 function editorDo(command, value, target) {
+
     var doc = null;
+
     // target이 object인지 upload_target_srl인지에 따라 document를 구함
     if(typeof(target)=="object") {
         if(xIE4Up) doc = target.parentElement.document;
@@ -530,6 +591,9 @@ function editorDo(command, value, target) {
         var iframe_obj = editorGetIFrame(target);
         doc = iframe_obj.contentWindow.document;
     }
+
+    var upload_target_srl = doc.body.getAttribute('upload_target_srl');
+    if(editor_mode[upload_target_srl]=='html') return;
 
     // 포커스
     if(typeof(target)=="object") target.focus();

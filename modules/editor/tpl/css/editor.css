@@ -25,7 +25,9 @@
 .xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em; margin:.5em; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;cursor:move;height:14px;}
 
-div.editor_autosaved_message { color:#888888; display:none; margin:.5em; text-align:right;}
+.xeEditor .editor_info { clear:both; padding:.5em; overflow:hidden;}
+.xeEditor .editor_info .editor_option { float:left; color:#888888; }
+.xeEditor .editor_info .editor_autosaved_message { color:#888888; float:right; }
 
 .xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
 .xeEditor #textAreaDrag {}

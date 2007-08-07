@@ -19,93 +19,95 @@
 <!-- 에디터 -->
 <div class="xeEditor">
 
-    <!--@if($enable_default_component)-->
-    <div class="optionABC">
-        <div class="optionA">
-            <div class="selectGroup">
-                <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
-                    <option value="">{$lang->edit->fontname}</option>
-                    <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                    <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
-                    <!--@end-->
-                </select>
+    <div id="xeEditorOption_{$upload_target_srl}">
+        <!--@if($enable_default_component)-->
+        <div class="optionABC">
+            <div class="optionA">
+                <div class="selectGroup">
+                    <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
+                        <option value="">{$lang->edit->fontname}</option>
+                        <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+                        <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+                        <!--@end-->
+                    </select>
 
-                <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
-                    <option value="" selected="selected">{$lang->edit->fontsize}</option>
-                    <option value="1">8pt</option>
-                    <option value="2">10pt</option>
-                    <option value="3">12pt</option>
-                    <option value="4">14pt</option>
-                    <option value="5">18pt</option>
-                    <option value="6">24pt</option>
-                    <option value="7">36pt</option>
-                </select>
+                    <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
+                        <option value="" selected="selected">{$lang->edit->fontsize}</option>
+                        <option value="1">8pt</option>
+                        <option value="2">10pt</option>
+                        <option value="3">12pt</option>
+                        <option value="4">14pt</option>
+                        <option value="5">18pt</option>
+                        <option value="6">24pt</option>
+                        <option value="7">36pt</option>
+                    </select>
 
-                <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
-                    <option value="">{$lang->edit->header}</option>
-                    <!--@foreach($lang->edit->header_list as $key=>$obj)-->
-                    <option value="{$key}">{$obj}</option>
-                    <!--@end-->
-                </select>
+                    <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
+                        <option value="">{$lang->edit->header}</option>
+                        <!--@foreach($lang->edit->header_list as $key=>$obj)-->
+                        <option value="{$key}">{$obj}</option>
+                        <!--@end-->
+                    </select>
+                </div>
+
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_b.gif" width="23" height="63" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" id="component_{$upload_target_srl}_Bold" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_i.gif" width="23" height="63" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" id="component_{$upload_target_srl}_Italic" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_u.gif" width="23" height="63" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" id="component_{$upload_target_srl}_Underline" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_c.gif" width="23" height="63" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" id="component_{$upload_target_srl}_colorpicker_text" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_bg.gif" width="23" height="63" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" id="component_{$upload_target_srl}_colorpicker_bg" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                </div>
             </div>
 
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_b.gif" width="23" height="63" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" id="component_{$upload_target_srl}_Bold" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_i.gif" width="23" height="63" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" id="component_{$upload_target_srl}_Italic" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_u.gif" width="23" height="63" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" id="component_{$upload_target_srl}_Underline" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_c.gif" width="23" height="63" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" id="component_{$upload_target_srl}_colorpicker_text" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_bg.gif" width="23" height="63" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" id="component_{$upload_target_srl}_colorpicker_bg" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-            </div>
-        </div>
+            <div class="optionB">
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_al.gif" width="23" height="63" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ac.gif" width="23" height="63"  title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ar.gif" width="23" height="63" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}"  id="component_{$upload_target_srl}_justifyright"  onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <!--<img src="./images/editor_btn_aj.gif" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />-->
+                </div>
 
-        <div class="optionB">
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_al.gif" width="23" height="63" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_ac.gif" width="23" height="63"  title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_ar.gif" width="23" height="63" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}"  id="component_{$upload_target_srl}_justifyright"  onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <!--<img src="./images/editor_btn_aj.gif" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />-->
-            </div>
+                <!--
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_od.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}"  id="component_{$upload_target_srl}_outdent" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_id.gif" width="23" height="63" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                </div>
 
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_ol.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" id="component_{$upload_target_srl}_insertorderedlist" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ul.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" id="component_{$upload_target_srl}_insertunorderedlist"  width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                </div>
+
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_lh.gif" alt="Line hight" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                </div>
+                -->
+            </div>
+            
             <!--
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_od.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}"  id="component_{$upload_target_srl}_outdent" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_id.gif" width="23" height="63" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-            </div>
-
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_ol.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" id="component_{$upload_target_srl}_insertorderedlist" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                <img src="./images/editor_btn_ul.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" id="component_{$upload_target_srl}_insertunorderedlist"  width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-            </div>
-
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_lh.gif" alt="Line hight" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+            <div class="optionC">
+                <div class="buttonGroup">
+                    <img src="./images/editor_btn_tag.gif" alt="Tag" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                </div>
             </div>
             -->
         </div>
-        
-        <!--
-        <div class="optionC">
-            <div class="buttonGroup">
-                <img src="./images/editor_btn_tag.gif" alt="Tag" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-            </div>
-        </div>
-        -->
-    </div>
-    <!--@end-->
+        <!--@end-->
 
-    <!--@if($enable_component)-->
-    <div class="optionDE">
-        <div class="optionE">
-            <div class="buttonGroup" id="editor_component_{$upload_target_srl}">
-            <!--@foreach($component_list as $component_name => $component)-->
-                <!--@if(substr($component_name,0,11)!="colorpicker")-->
-                    <img src="../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" id="component_{$upload_target_srl}_{$component_name}" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+        <!--@if($enable_component)-->
+        <div class="optionDE">
+            <div class="optionE">
+                <div class="buttonGroup" id="editor_component_{$upload_target_srl}">
+                <!--@foreach($component_list as $component_name => $component)-->
+                    <!--@if(substr($component_name,0,11)!="colorpicker")-->
+                        <img src="../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" id="component_{$upload_target_srl}_{$component_name}" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <!--@end-->
                 <!--@end-->
-            <!--@end-->
+                </div>
             </div>
         </div>
+        <!--@end-->
     </div>
-    <!--@end-->
 
     <!--@if(!$_COOKIE['EditorInfo'])-->
     <div id="editorInfo" class="editorInfo" >
@@ -115,7 +117,12 @@
     </div>
     <!--@end-->
 
-    <div class="editor_autosaved_message" id="editor_autosaved_message"></div>
+    <div class="editor_info">
+        <div class="editor_option">
+            <input type="checkbox" id="use_html_{$upload_target_srl}" value="Y" onclick="editorChangeMode(this, '{$upload_target_srl}');" /> <label for="use_html_{$upload_target_srl}">HTML</label>
+        </div>
+        <div class="editor_autosaved_message" id="editor_autosaved_message_{$upload_target_srl}">&nbsp;</div>
+    </div>
 
     <div class="editor_iframe_box" id="editor_iframe_area_{$upload_target_srl}"></div>
 
