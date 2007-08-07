@@ -99,6 +99,7 @@ function insertImage(obj) {
     if(height) text+= " height=\""+height+"\" ";
     if(link_url) text+= " link_url=\""+link_url+"\" ";
     if(open_window=='Y') text+= " open_window=\"Y\" ";
+    if(align) text+= " align=\""+align+"\" ";
     text+= " />";
 
     opener.editorFocus(opener.editorPrevSrl);
