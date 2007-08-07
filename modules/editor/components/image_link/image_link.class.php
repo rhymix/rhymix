@@ -66,6 +66,8 @@
             }
             if($align) $attr_output[] = "align=\"".$align."\"";
 
+            if(eregi("\.png$",$src)) $attr_output[] = "class=\"iePngFix\"";
+
             if($width) $style_output[] = "width:".$width."px";
             if($height) $style_output[] = "height:".$height."px";
             if(!$align) $style_output[] = "display:block";
