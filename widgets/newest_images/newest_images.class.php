@@ -57,7 +57,8 @@
             // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
             $module_srl_list = $oModuleModel->getModuleSrlByMid($mid_list);
-            $obj->module_srls = implode(",",$module_srl_list);
+            if(is_array($module_srl_list)) $obj->module_srls = implode(",",$module_srl_list);
+            else $obj->module_srls = $module_srl_list;
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
 
