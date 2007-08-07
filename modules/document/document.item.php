@@ -239,7 +239,7 @@
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
 
             // 썸네일 임시 파일명을 구함
-            $thumbnail_file = sprintf('%sthumbnail_%d.gif', $document_path, $width);
+            $thumbnail_file = sprintf('%sthumbnail_%d.jpg', $document_path, $width);
 
             // 썸네일이 있더라도 글의 수정시간과 비교해서 다르면 다시 생성함
             if(file_exists($thumbnail_file)) {
@@ -260,11 +260,11 @@
             $file_list = FileHandler::readDir($document_path);
             if(count($file_list)) {
                 foreach($file_list as $key => $val) {
-                    if(eregi("^thumbnail_([0-9]+)\.gif$",$val)) continue;
+                    if(eregi("^thumbnail_([0-9]+)\.(jpg|gif)$",$val)) continue;
 
                     $filename = sprintf("%s%s",$document_path,$val);
                     if(file_exists($filename)) {
-                        FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'gif');
+                        FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'jpg');
                         if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                     }
                 }
@@ -280,7 +280,7 @@
                 break;
             }
 
-            $tmp_file = sprintf('%sthumbnail_%d.tmp.gif', $document_path, $width);
+            $tmp_file = sprintf('%sthumbnail_%d.tmp.jpg', $document_path, $width);
 
             if($src) FileHandler::getRemoteFile($src, $tmp_file);
             else {
@@ -288,7 +288,7 @@
                 return;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'gif');
+            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'jpg');
             unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
