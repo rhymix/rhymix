@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.xeEditor { border-top:1px solid #eaeae7; } 
+.xeEditor { }
 .xeEditor .optionABC { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat -3px bottom;}
 .xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
 .xeEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}
@@ -18,14 +18,14 @@
 .xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
 .xeEditor .optionE { padding:.5em; overflow:hidden; border-left:1px solid #ffffff; float:left;}
 
-.xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:.5em 0 .5em 0;}
+.xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:.5em ;}
 .xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:15px;}
-.xeEditor .editor_iframe_box { clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin-top:.5em; }
+.xeEditor .editor_iframe_box { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin:.5em; }
 
-.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em; margin-top:5px; }
+.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em; margin:.5em; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;cursor:move;height:14px;}
 
-div.editor_autosaved_message { color:#888888; display:none; padding:3px;}
+div.editor_autosaved_message { color:#888888; display:none; margin:.5em; text-align:right;}
 
 .xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
 .xeEditor #textAreaDrag {}
