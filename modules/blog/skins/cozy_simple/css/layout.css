@@ -17,7 +17,7 @@ a { text-decoration:none; }
 #contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
 
 /* Blog Layout - ColumnLeft */
-#columnLeft { float:left; width:182px; margin:0px 8px 0px 0px; margin-left:10px; }
+#columnLeft { float:left; width:182px; margin:0px 8px 0px 10px; _margin-left:5px;padding:0px;}
 
 /* Blog Layout - ColumnRight */
 #columnRight {}
@@ -79,7 +79,7 @@ div#category #categoryList li li li { background:url(../images/common/iconList.g
 div#category #categoryList a { display:block; _display:inline-block; color:#6b6b6b; margin:0 0 6px 5px;}
 
 /* Search Box */
-div#searchBox { margin-bottom:.7em; padding:.6em; background:#f5f5f5; overflow:hidden;}
+div#searchBox { margin-bottom:.7em; padding:.6em; background:#f5f5f5; overflow:hidden; _height:25px;}
 div#searchBox fieldset { border:none;}
 div#searchBox fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
 

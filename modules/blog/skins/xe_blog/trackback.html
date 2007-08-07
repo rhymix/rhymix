@@ -15,7 +15,7 @@
             </span>
         </address>
         <div>
-            <a href="{$val->url}" onclick="winopen(this.href);return false;">{$val->excerpt}</a> 
+            <a href="{$val->url}" onclick="winopen(this.href);return false;">{cut_str($val->excerpt,100,'...')}</a> 
         </div>
     </li>
     <!--@end-->
