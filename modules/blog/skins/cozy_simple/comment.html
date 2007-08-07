@@ -17,10 +17,10 @@
                 <td>{$val->content}</td>
                 <td class="tRight" valign="top">
                     <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
-                        <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_delete.gif" alt="{$lang->cmd_delete}" /></a>
-                        <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_edit.gif" alt="{$lang->cmd_modify}" /></a>
+                        <a href="{getUrl('act','dispBlogDeleteComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_delete.gif" alt="{$lang->cmd_delete}" /></a>
+                        <a href="{getUrl('act','dispBlogModifyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_edit.gif" alt="{$lang->cmd_modify}" /></a>
                     <!--@end-->
-                    <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_reply.gif" alt="{$lang->cmd_reply}" /></a>
+                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_reply.gif" alt="{$lang->cmd_reply}" /></a>
                 </td>
             </tr>
             <!--@if($val->uploaded_count && $val->uploaded_list)-->
