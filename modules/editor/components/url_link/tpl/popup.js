@@ -8,40 +8,22 @@ function getText() {
         var fo_obj = xGetElementById("fo_component");
         var text = opener.editorGetSelectedHtml(opener.editorPrevSrl);
         if(text==undefined) text = "";
+        text = text.replace(/<([^>]*)>/ig,'').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
         fo_obj.text.value = text;
         return;
     }
 
     if(node.nodeName == "A") {
         var url = node.getAttribute("HREF");
+        var text = node.text.replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
 
-        var onclick_str = "";
-        if(xIE4Up) {
-            onclick_str = node.outerHTML;
-        } else {
-            if(node.getAttribute("onclick")) onclick_str = node.getAttribute("onclick");
-        }
-
-        var className = "";
-        if(typeof(node.className)) className = node.className;
-        else className = node.getAttribute("class");
         var open_window = false;
-
-        if(url.indexOf("#")>-1 && onclick_str.indexOf("window.open")>-1) {
-          open_window = true;
-
-          var s_s = "window.open('";
-          var p_s = onclick_str.indexOf(s_s);
-          url = onclick_str.substr(p_s+s_s.length);
-
-          var e_s = "')";
-          var p_e = url.indexOf(e_s);
-          url = url.substr(0, p_e);
-
-        }
-
         var bold = false;
         var color = "";
+        var className = node.className;
+
+        var selectedHtml = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+        if(selectedHtml.indexOf("window.open")>0) open_window = true;
 
         if(className) {
           if(className.indexOf("bold")>-1) bold = true;
@@ -54,16 +36,18 @@ function getText() {
 
         var fo_obj = xGetElementById("fo_component");
 
-        fo_obj.text.value = xInnerHtml(node);
-        fo_obj.url.value = url;
+        fo_obj.text.value = text;
+        fo_obj.url.value = url.replace('&amp;','&');
         if(open_window) fo_obj.open_window.checked = true;
         if(bold) fo_obj.bold.checked = true;
         if(color) xGetElementById(color).checked = true;
 
         return;
+    } else if(node.nodeName == "IMG") {
+        alert(1);
     } else {
         var fo_obj = xGetElementById("fo_component");
-        fo_obj.text.value = opener.editorGetSelectedHtml(opener.editorPrevSrl);
+        fo_obj.text.value = text.replace(/<([^>]*)>/ig,'').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
     }
 }
 
@@ -76,40 +60,43 @@ function setText() {
     var fo_obj = xGetElementById("fo_component");
 
     var text = fo_obj.text.value;
+    text.replace(/&/ig,'&amp;').replace(/</ig,'&lt;').replace(/>/ig,'&gt;');
     var url = fo_obj.url.value;
+    url = url.replace(/&/ig,'&amp;');
     var open_window = false;
     var bold = false;
     var link_class = "";
+    var link = "";
 
     if(!text) {
         window.close();
         return;
     }
 
-    if(!url) url = "#";
+    if(url) {
 
-    if(fo_obj.open_window.checked) open_window = true;
-    if(fo_obj.bold.checked) bold= true;
-    if(xGetElementById("color_blue").checked) link_class = "editor_blue_text";
-    else if(xGetElementById("color_red").checked) link_class = "editor_red_text";
-    else if(xGetElementById("color_yellow").checked) link_class = "editor_yellow_text";
-    else if(xGetElementById("color_green").checked) link_class = "editor_green_text";
+        if(fo_obj.open_window.checked) open_window = true;
+        if(fo_obj.bold.checked) bold= true;
+        if(xGetElementById("color_blue").checked) link_class = "editor_blue_text";
+        else if(xGetElementById("color_red").checked) link_class = "editor_red_text";
+        else if(xGetElementById("color_yellow").checked) link_class = "editor_yellow_text";
+        else if(xGetElementById("color_green").checked) link_class = "editor_green_text";
+        else link_class = "";
 
-    var link = "";
-    if(open_window) {
-        link = "<a href=\"#\" onclick=\"window.open('"+url+"');return false;\" ";
-    } else {
         link = "<a href=\""+url+"\" ";
-    }
-    
-    if(bold || link_class) {
-        var class_name = "";
-        if(bold) class_name = "bold";
-        if(link_class) class_name += " "+link_class;
-        link += " class=\""+class_name+"\" ";
-    }
+        if(open_window) link += "onclick=\"window.open(this.href);return false;\" ";
+        
+        if(bold || link_class) {
+            var class_name = "";
+            if(bold) class_name = "bold";
+            if(link_class) class_name += " "+link_class;
+            link += " class=\""+class_name+"\" ";
+        }
 
-    link += ">"+text+"</a>";
+        link += ">"+text+"</a>";
+    } else {
+        link = text;
+    }
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
     opener.editorReplaceHTML(iframe_obj, link);

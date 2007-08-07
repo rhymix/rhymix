@@ -15,7 +15,7 @@
 
         <tr>
             <th scope="row">{$lang->urllink_title}</th>
-            <td><textarea name="text" class="inputTypeTextArea w100"></textarea></td>
+            <td><input type="text" name="text" class="inputTypeText w100" /></td>
         </tr>
         <tr>
             <th scope="row">{$lang->urllink_url}</th>
@@ -32,6 +32,10 @@
         <tr>
             <th scope="row">{$lang->urllink_color}</th>
             <td>
+                <div class="link_color">
+                    <input type="radio" name="color" value="none" id="color_none" />
+                    <label for="color_none">{$lang->not_exists}</label>
+                </div>
                 <div class="link_color">
                     <input type="radio" name="color" value="blue" id="color_blue" />
                     <label for="color_blue" class="editor_blue_text">{$lang->urllink_color_blue}</label>
