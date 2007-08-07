@@ -57,6 +57,8 @@
             if(!$this->oPointModel) $this->oPointModel = &getModel('point');
 
             $member_srl = $matches[3];
+            if($member_srl<1) return $matches[0];
+
             if($this->member_code[$member_srl]) return $this->member_code[$member_srl];
 
             $point = $this->oPointModel->getPoint($member_srl);
