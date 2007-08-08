@@ -44,7 +44,7 @@
     $lang->cmd_setup = '設定';
     $lang->cmd_apply = '適用';
 	$lang->cmd_option = 'オプション';
-    $lang->cmd_open_calendar = 'カレンダを開く';
+    $lang->cmd_open_calendar = 'カレンダーを開く';
     $lang->cmd_send = '送信';
     $lang->cmd_print = '印刷';
     $lang->cmd_scrap = 'スクラップ';
