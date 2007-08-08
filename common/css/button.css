@@ -100,8 +100,7 @@ a.button span {
 *:first-child+html a.button span { padding-top:7px; }
 
 span.button button, span.button input {
-    padding-top:0px;
-    padding-bottom:0px;
+    padding:0 6px 0 0;
     line-height:2.5;/*Opera need this*/
 }
 
