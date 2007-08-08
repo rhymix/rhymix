@@ -23,6 +23,7 @@ Jeong, Chan Myeong 070601~070630
 .accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left .4em; list-style:none;}
 .accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666; text-decoration:none;}
 .accountNavigation li.rss { background:none; padding-top:.4em;}
+.accountNavigation li.skin_info { padding-top:3px;}
 .accountNavigation li.join { background:none; padding-top:.4em;}
 .accountNavigation li.myInfo { padding-top:.4em; background:none;}
 .accountNavigation li.admin { padding-top:.4em;}

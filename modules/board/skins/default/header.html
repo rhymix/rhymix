@@ -41,5 +41,6 @@
     <!--@if($grant->is_admin)-->
         <a href="{getUrl('act','dispBoardAdminBoardInfo')}">[{$lang->cmd_management}]</a>
     <!--@end-->
+        <a href="#" onclick="viewSkinInfo('{$module_info->module}','{$module_info->skin}');return false;"><img src="{getUrl()}common/tpl/images/info.png" class="zbxe_info" alt="" /></a>
 </div>
 

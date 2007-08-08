@@ -30,6 +30,7 @@ label { cursor:pointer; }
 form { margin:0; padding:0; }
 
 .iePngFix { behavior:url(./common/js/iePngFix.htc); } 
+.zbxe_info { vertical-align:middle; behavior:url(./common/js/iePngFix.htc); }
 
 /* Input Style Definition */
 .inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; }

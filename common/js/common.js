@@ -605,3 +605,8 @@ function doDocumentPreview(obj) {
         dummy_obj.submit();
     }
 }
+
+/* 스킨 정보 */
+function viewSkinInfo(module, skin) {
+    popopen("./?module=module&act=dispModuleSkinInfo&selected_module="+module+"&skin="+skin, 'SkinInfo');
+}
