@@ -36,3 +36,7 @@ img.login_mask { width:201px; height:5px; background:#ffffff; display:block;}
 #openid_login form .idpw p { margin-bottom:5px; background: url(../images/openid_login_bg.gif) left no-repeat; padding-left:18px; font-size:.9em Tahoma;color:#999999}
 #openid_login form .idpw input { border:1px solid #c9c9c9; color:#282828; width:105px; background:#fbfbfb; padding:1px 5px; margin-bottom:2px; font:.9em Tahoma; }
 #openid_login form .login { float:right;}
+#openid_login form p.save { clear:both; padding:.3em 0;}
+#openid_login form p.save input { vertical-align:middle; _margin:-3px;}
+*:first-child+html body #openid_login form p input { margin:-3px; }
+#openid_login form p.save label { font:.9em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif; color:#999999;}
