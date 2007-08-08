@@ -12,20 +12,21 @@
 .xeEditor .optionB *,
 .xeEditor .optionC * { vertical-align:middle;}
 .xeEditor .optionA { background-position:-3px bottom; padding-left:0;}
-.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1;}
+.xeEditor .optionA select option { font-size:.9em; }
+.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1; height:29px;}
 .xeEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
 .xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
 .xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
-.xeEditor .optionE { padding:.5em; overflow:hidden; border-left:1px solid #ffffff; float:left;}
+.xeEditor .optionE { padding:4px 0 0 8px; overflow:hidden; border-left:1px solid #ffffff; float:left;}
 
-.xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:.5em ;}
-.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:15px;}
-.xeEditor .editor_iframe_box { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin:.5em; }
+.xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:5px 20px 0 20px;}
+.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:25px;}
+.xeEditor .editor_iframe_box { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin:0 20px 0 20px; }
 
-.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; margin-bottom:1em; margin:.5em; }
-.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; margin-bottom:1em;cursor:move;height:14px;}
+.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
+.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
 
-.xeEditor .editor_info { clear:both; padding:.5em; overflow:hidden;}
+.xeEditor .editor_info { clear:both; padding:5px 20px 5px 20px; overflow:hidden;}
 .xeEditor .editor_info .editor_option { float:left; color:#888888; }
 .xeEditor .editor_info .editor_autosaved_message { color:#888888; float:right; }
 

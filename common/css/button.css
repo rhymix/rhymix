@@ -50,17 +50,14 @@ a.button span, span.button button, span.button input, del.button span {
     background-position:100% -3px;
     background-repeat:no-repeat;
     height:24px;
-    padding:4px 10px 0 4px;
-    margin:0 -16px 0 7px;
+    padding:4px 11px 0 7px;
+    margin:0 -18px 0 6px;
     border:none;
     vertical-align:text-top;
     zoom:1;
     _position:relative;
-    _padding-left:0px;
-    _padding-right:10px;
-    _padding-top:6px;
-    _margin-right:-10px;	
-    _margin-left:6px;
+    _padding:3px 13px 0 4px;
+    _margin:0 -10px 0 4px;
     _display:block;
     _top:0;
     _right:-5px;
@@ -104,7 +101,7 @@ a.button span {
 
 span.button button, span.button input {
     padding-top:0px;
-    padding-bottom:3px;
+    padding-bottom:0px;
     line-height:2.5;/*Opera need this*/
 }
 

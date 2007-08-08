@@ -11,6 +11,13 @@
 
 <!-- 목록 출력 -->
 <table cellspacing="0" summary="" class="boardList">
+  <!--@if($module_info->display_number!='N')--><col width="80" /><!--@end-->
+  <col />
+  <!--@if($module_info->display_author!='N')--><col width="120" /><!--@end-->
+  <!--@if($module_info->display_readed_count!='N')--><col width="70" /><!--@end-->
+  <!--@if($module_info->display_voted_count!='N')--><col width="70" /><!--@end-->
+  <!--@if($module_info->display_regdate != 'N')--><col width="90" /><!--@end-->
+  <!--@if($module_info->display_last_update != 'N')--><col width="90" /><!--@end-->
     <thead>
         <tr>
             <!--@if($module_info->display_number!='N')--><th scope="col" class="num">{$lang->no}</th><!--@end-->
@@ -24,7 +31,7 @@
                             <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                             <!--@end-->
                         </select>
-                        <input type="button" name="go_button" id= "go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
+                        <input type="button" name="go_button" id="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
                     </form>
                 <!--@else-->
                 {$lang->title}
@@ -106,8 +113,8 @@
                 <!--@end-->
             </td>
             <!--@if($module_info->display_author!='N')--><td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td><!--@end-->
-            <!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')}</td><!--@end-->
-            <!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')}</td><!--@end-->
+            <!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')>0?$document->get('readed_count'):'&nbsp;'}</td><!--@end-->
+            <!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')>0?$document->get('voted_count'):'&nbsp;'}</td><!--@end-->
             <!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
             <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
         </tr>
@@ -162,9 +169,7 @@
                 <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
-            <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a>
-            <a href="{getUrl('','mid',$mid)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/><a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a><a href="{getUrl('','mid',$mid)}" class="button"><span>{$lang->cmd_cancel}</span></a>
         </fieldset>
     </form>
     </div>
