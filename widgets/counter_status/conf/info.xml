@@ -17,7 +17,7 @@
             デフォルトの接続カウンターモジュールを利用して、トータル、昨日、今日の接続状況を表示します。カウンター（counter）モジュールがインストールされていて、接続カウンター（counter）アドオンが「使用」に設定されていなければなりません。
         </description>
         <description xml:lang="en">
-            By using the basic counter module, you can display the number of people who have visited yesterday and today.
+            This widget displays the number of people who have visited yesterday and today by using the basic counter module.
             It will also display the total count.
             To get this, the counter module should be installed and the counter add-on should be turned on.
         </description>

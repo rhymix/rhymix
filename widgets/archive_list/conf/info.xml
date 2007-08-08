@@ -21,7 +21,7 @@
             選択されたモジュールの月別コンテンツのバクアップリストを表示します。書き込みが多いと負荷がかかる場合があります。
         </description>
         <description xml:lang="en">
-            It will show the present status of stored-articles selected module by month.
+            This widget displays the present status of stored-articles selected module by month.
             If there are lots of articles stored, the server may get a serious load.
         </description>
     </author>

@@ -12,7 +12,7 @@
         <description xml:lang="ko">작성된 글의 내용에 포함된 이미지를 출력하는 위젯입니다.</description>
         <description xml:lang="jp">作成されたコンテンツの内容に含まれているイメージを表示するウィジェットです。</description>
         <description xml:lang="zh-CN">显示主题当中包含图片的控件。</description>
-        <description xml:lang="en">This widget will show images in articles.</description>
+        <description xml:lang="en">This widget displays images on articles.</description>
     </author>
     <extra_vars>
         <var id="title">

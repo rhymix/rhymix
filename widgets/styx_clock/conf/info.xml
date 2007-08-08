@@ -12,7 +12,7 @@
         <description xml:lang="ko">플래쉬로 된 시계를 출력합니다.</description>
         <description xml:lang="zh-CN">显示Flash时钟的控件。</description>
         <description xml:lang="jp">フラッシュ時計を出力します。</description>
-        <description xml:lang="en">It will display the clock created with flash.</description>
+        <description xml:lang="en">This widget displays a digital clock made of flash.</description>
     </author>
     <extra_vars>
         <var id="clock_width">

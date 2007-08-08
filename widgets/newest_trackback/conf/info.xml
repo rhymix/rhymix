@@ -12,7 +12,7 @@
         <description xml:lang="ko">최근 엮인글 (trackback)을 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">显示最新引用 (trackback)列表的控件。</description>
         <description xml:lang="jp">最近のトラックバック（trackback）を表示させるウィジェットです。</description>
-        <description xml:lang="en">This is the widget to display Newest Trackbacks</description>
+        <description xml:lang="en">This widget displays newest trackbacks</description>
     </author>
     <extra_vars>
         <var id="title">

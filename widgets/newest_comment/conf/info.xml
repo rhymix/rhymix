@@ -12,7 +12,7 @@
         <description xml:lang="ko">최근 댓글 (comment)를 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">显示最新评论列表的控件。</description>
         <description xml:lang="jp">最近のコメント（comment）を表示させるウィジェットです。</description>
-        <description xml:lang="en">This widget will display newest comments.</description>
+        <description xml:lang="en">This widget displays newest comments.</description>
     </author>
     <extra_vars>
         <var id="title">

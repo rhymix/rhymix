@@ -18,7 +18,7 @@
             特定グループに所属している会員のリストを表示するウィジェットです。まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
         </description>
 		<description xml:lang="en">
-            This is a widget which displays members in specific group.
+            This widget displays members in specific group.
             It is a test widget, and if there are more members than assigned number in the group, they will be ordered as latest join date.
             You may input groups for displaying in below space. You can use comma(,) for multiple input.
         </description>

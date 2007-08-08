@@ -12,7 +12,7 @@
         <description xml:lang="ko">선택된 모듈의 꼬리표 목록을 정해진 순위만큼 노출하여 줍니다</description>
         <description xml:lang="zh-CN">显示被选模块指定个数的标签目录。</description>
         <description xml:lang="jp">選択されたモジュールのタグリストを指定された順位まで表示します。</description>
-        <description xml:lang="en">This widget shows configured number of tags from target module</description>
+        <description xml:lang="en">This widget displays configured number of tags from target module</description>
     </author>
     <extra_vars>
         <var id="title">
