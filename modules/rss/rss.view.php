@@ -20,9 +20,26 @@
          * @brief RSS 출력
          **/
         function rss() {
-            // RSS를 출력하고자 하는 mid를 구함 (없으면 오류)
-            $mid = Context::get('mid');
+            /**
+             * RSS 출력을 위한 변수 설정
+             **/
+            $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
 
+            $page = (int)Context::get('page'); ///< 페이지, 없으면 1
+            if(!$page) $page = 1;
+
+            $list_count = (int)Context::get('list_count'); ///< 목록 갯수, 기본 20, 최고 100개
+            if(!$list_count|| $list_count>100) $list_count = 20;
+
+            $start_date = Context::get('start_date'); ///< 시작 일자, 없으면 무시
+            if(strlen($start_date)!=14 || !ereg("^([0-9]){14}$", $start_date) ) unset($start_date);
+
+            $end_date = Context::get('end_date'); ///< 종료 일자, 없으면 무시
+            if(strlen($end_date)!=14 || !ereg("^([0-9]){14}$", $end_date) ) unset($end_date);
+
+            /**
+             * 요청된 모듈 혹은 전체 모듈의 정보를 구하고 open_rss의 값을 체크
+             **/
             $oModuleModel = &getModel('module');
             $mid_list = array();
 
@@ -59,22 +76,18 @@
                 unset($args);
             }
 
-            // 변수 설정
-            $page = (int)Context::get('page');
-            if(!$page) $page = 1;
-            $list_count = (int)Context::get('list_count');
-            if(!$list_count|| $list_count>100) $list_count = 100;
-
-            // 출력할 컨텐츠 추출을 위한 인자 정리
+            /**
+             * 출력할 컨텐츠 추출을 위한 인자 정리
+             **/
             $args->module_srl = $module_srl; 
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
-            $args->search_target = Context::get('search_target'); 
-            $args->search_keyword = Context::get('search_keyword'); 
-            if($module_info->use_category=='Y') $args->category_srl = Context::get('category'); 
-            $args->sort_index = 'list_order'; 
-            $args->order_type = 'asc';
+            if($start_date) $args->start_date = $start_date;
+            if($end_date) $args->end_date = $end_date;
+
+            $args->sort_index = 'last_update'; 
+            $args->order_type = 'desc';
 
             // 대상 문서들을 가져옴
             $oDocumentModel = &getModel('document');
@@ -90,49 +103,23 @@
                 $info->title = $info->link = Context::getRequestUri();
             }
             $info->total_count = $output->total_count;
+            $info->total_page = $output->total_page;
             $info->date = gmdate("D, d M Y H:i:s");
             $info->language = Context::getLangType();
 
-            // rss2.0으로 출력
-            if(count($document_list)) {
-                $idx = 0;
-                foreach($document_list as $key => $item) {
-                    $year = substr($item->get('regdate'),0,4);
-                    $month = substr($item->get('regdate'),4,2);
-                    $day = substr($item->get('regdate'),6,2);
-                    $hour = substr($item->get('regdate'),8,2);
-                    $min = substr($item->get('regdate'),10,2);
-                    $sec = substr($item->get('regdate'),12,2);
-                    $time = mktime($hour,$min,$sec,$month,$day,$year);
-
-                    $item->author = $item->getNickName();
-                    $item->link = $item->getPermanentUrl();
-                    $item->title = $item->getTitleText();
-
-                    $module_srl = $item->get('module_srl');
-
-                    // 전문 공개일 경우 
-                    if($mid_list[$module_srl]->open_rss=='Y') {
-                        $item->description = $item->getContent();
-                    // 요약 공개일 경우
-                    } else {
-                        $item->description = cut_str(strip_tags($item->getContent()),100,'...');
-                    }
-                    $item->date = gmdate("D, d M Y H:i:s", $time);
-                    $content[$idx++] = $item;
-                }
-            } else return $this->dispError();
-
             // RSS 출력물에서 사용될 변수 세팅
             Context::set('info', $info);
-            Context::set('content', $content);
+            Context::set('mid_list', $mid_list);
+            Context::set('document_list', $document_list);
 
             // 결과 출력을 XMLRPC로 강제 지정
             Context::setResponseMethod("XMLRPC");
 
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl/');
-            $this->setTemplateFile('rss20');
+
+            if($args->start_date || $args->end_date) $this->setTemplateFile('xe_rss');
+            else $this->setTemplateFile('rss20');
         }
 
         /**

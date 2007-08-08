@@ -1,6 +1,6 @@
 {'<?xml version="1.0" encoding="utf-8" ?>'}
 
-<rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
+<rss version="1.0">
     <channel>
         <title><![CDATA[{$info->title}]]></title>
         <link><![CDATA[{$info->link}]]></link>
@@ -8,6 +8,7 @@
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
         <totalCount>{$info->total_count}</totalCount>
+        <totalPage>{$info->total_page}</totalPage>
         <!--@foreach($document_list as $oDocument)-->
         <item>
             <title><![CDATA[{$oDocument->getTitleText()}]]></title>
@@ -18,7 +19,11 @@
             <!--@else-->
             <description><![CDATA[{$oDocument->getContentText(100)}]]></description>
             <!--@end-->
+            <tags><![CDATA[{$oDocument->get('tags')}]]></tags>
+            <comment_count>{$oDocument->getCommentCount()}</comment_count>
+            <trackback_count>{$oDocument->getTrackbackCount()}</trackback_count>
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
+            <upDate>{$oDocument->getUpdateGM()}</upDate>
         </item>
         <!--@end-->
     </channel>

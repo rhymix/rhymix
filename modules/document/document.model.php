@@ -61,7 +61,7 @@
          **/
         function getDocumentList($obj) {
             // 정렬 대상과 순서 체크 
-            if(!in_array($obj->sort_index, array('list_order','regdate','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; 
+            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; 
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
@@ -76,12 +76,15 @@
             else $args->module_srl = $obj->module_srl;
 
             // 변수 체크
-            $args->category_srl = $obj->category_srl?$obj->category_srl:'';
+            $args->category_srl = $obj->category_srl?$obj->category_srl:null;
             $args->sort_index = $obj->sort_index;
             $args->order_type = $obj->order_type;
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
+            $args->start_date = $obj->start_date?$obj->start_date:null;
+            $args->end_date = $obj->end_date?$obj->end_date:null;
+
             $query_id = 'document.getDocumentList';
 
             // 검색 옵션 정리

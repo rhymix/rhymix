@@ -49,6 +49,10 @@
             <condition operation="like" column="extra_vars19" var="s_extra_vars19" pipe="or" />
             <condition operation="like" column="extra_vars20" var="s_extra_vars20" pipe="or" />
         </group>
+        <group pipe="and">
+            <condition operation="more" column="last_update" var="start_date" pipe="and" />
+            <condition operation="less" column="last_update" var="end_date" pipe="and" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="order_type" />

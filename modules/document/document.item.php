@@ -147,22 +147,27 @@
             return $this->get('title');
         }
 
-        function getContentText() {
+        function getContentText($strlen = 0) {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
+            if($strlen) return cut_str(strip_tags($content),$strlen,'...');
+
             return htmlspecialchars($content);
         }
 
-        function getContent() {
+        function getContent($add_document_info = true) {
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
-            return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
+            
+            if($add_document_info) return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
+
+            return $content;
         }
 
         function getSummary($str_size = 50) {
@@ -172,6 +177,38 @@
 
         function getRegdate($format = 'Y.m.d H:i:s') {
             return zdate($this->get('regdate'), $format);
+        }
+
+        function getRegdateTime() {
+            $year = substr($this->get('regdate'),0,4);
+            $month = substr($this->get('regdate'),4,2);
+            $day = substr($this->get('regdate'),6,2);
+            $hour = substr($this->get('regdate'),8,2);
+            $min = substr($this->get('regdate'),10,2);
+            $sec = substr($this->get('regdate'),12,2);
+            return mktime($hour,$min,$sec,$month,$day,$year);
+        }
+
+        function getRegdateGM() {
+            return gmdate("D, d M Y H:i:s", $this->getRegdateTime());
+        }
+
+        function getUpdate($format = 'Y.m.d H:i:s') {
+            return zdate($this->get('last_update'), $format);
+        }
+
+        function getUpdateTime() {
+            $year = substr($this->get('last_update'),0,4);
+            $month = substr($this->get('last_update'),4,2);
+            $day = substr($this->get('last_update'),6,2);
+            $hour = substr($this->get('last_update'),8,2);
+            $min = substr($this->get('last_update'),10,2);
+            $sec = substr($this->get('last_update'),12,2);
+            return mktime($hour,$min,$sec,$month,$day,$year);
+        }
+
+        function getUpdateGM() {
+            return gmdate("D, d M Y H:i:s", $this->getUpdateTime());
         }
 
         function getPermanentUrl() {

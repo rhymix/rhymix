@@ -4,6 +4,8 @@ RewriteEngine On
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 
 # total rss
+RewriteRule ^rss/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=rss&start_date=$1&end_date=$2&page=$3 [L]
+RewriteRule ^rss/([[:digit:]]+)$ ./index.php?module=rss&act=rss&page=$1 [L]
 RewriteRule ^rss$ ./index.php?module=rss&act=rss [L]
 
 # administrator page
