@@ -285,7 +285,7 @@
                 if($modified_time > $file_created_time) unlink($thumbnail_file);
             }
 
-            if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return Context::getRequestUri()."common/tpl/images/blank.gif";
+            if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return;
 
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
@@ -298,6 +298,7 @@
             if(count($file_list)) {
                 foreach($file_list as $key => $val) {
                     if(eregi("^thumbnail_([0-9]+)\.(jpg|gif)$",$val)) continue;
+                    if(!eregi("\.(jpg|gif|png|jpeg)$", $val)) continue;
 
                     $filename = sprintf("%s%s",$document_path,$val);
                     if(file_exists($filename)) {
