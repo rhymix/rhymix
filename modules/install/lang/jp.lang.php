@@ -257,7 +257,7 @@ EndOfLicense;
     $lang->env_title = '環境設定';
     $lang->use_rewrite = 'リライトモジュール使用';
     $lang->about_rewrite = 'Webサーバで「リライトモジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように簡単にすることができます。';
-    $lang->time_zone = 'time zone';
+    $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間をＷｅｂサービスをしているローカル時間に設定できます。';
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>';
