@@ -48,7 +48,8 @@
             $obj->excerpt = strip_tags($obj->excerpt);
 
             // 엮인글를 입력
-            $obj->list_order = $obj->trackback_srl = getNextSequence();
+            $obj->trackback_srl = getNextSequence();
+            $obj->list_order = $obj->trackback_srl*-1;
             $output = executeQuery('trackback.insertTrackback', $obj);
             if(!$output->toBool()) return $output;
 
