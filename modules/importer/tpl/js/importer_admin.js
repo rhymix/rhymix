@@ -103,7 +103,7 @@ function completeImport(ret_obj) {
 
     if(is_finished=='Y') {
         alert(ret_obj["message"]);
-        //location.href = location.href;
+        location.href = location.href;
     } else {
         var fo_obj = xGetElementById('fo_step2');
         fo_obj.position.value = position;

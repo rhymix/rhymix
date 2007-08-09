@@ -300,6 +300,7 @@
 
         function _importDocument($matches) {
             $sequence = $matches[1];
+            $matches[0] = str_replace(array('',''),'',$matches[0]);
             $xml_doc = $this->oXml->parse($matches[0]);
 
             // 문서 번호와 내용 미리 구해 놓기
@@ -317,20 +318,24 @@
 
                     $tmp_filename = './files/cache/tmp_uploaded_file';
 
-                    if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
-                        $tmp_path = iconv("UTF-8","EUC-KR",$path);
-                        if(file_exists($tmp_path)) $path = $tmp_path;
-                    }
+                    $path = $this->target_path.$path;
 
-                    if(file_exists($path)) {
-                        if(!eregi("^http",$this->target_path)) @copy($this->target_path.$path, $tmp_filename);
-                        else FileHandler::getRemoteFile($this->target_path.$path, $tmp_filename);
-                        $file_info['tmp_name'] = $tmp_filename;
-                        $file_info['name'] = $filename;
-                        $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count, true);
+                    if(!eregi("^http",$path)) {
+                        if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
+                            $tmp_path = iconv("UTF-8","EUC-KR",$path);
+                            if(file_exists($tmp_path)) $path = $tmp_path;
+                        }
+                        if(file_exists($path)) @copy($path, $tmp_filename);
 
-                        // 컨텐츠의 내용 수정 (이미지 첨부파일 관련)
-                        $args->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $args->document_srl, $filename), $args->content);
+                    } else FileHandler::getRemoteFile($path, $tmp_filename);
+
+                    if(file_exists($tmp_filename)) {
+                      $file_info['tmp_name'] = $tmp_filename;
+                      $file_info['name'] = $filename;
+                      $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count, true);
+
+                      // 컨텐츠의 내용 수정 (이미지 첨부파일 관련)
+                      if(eregi("\.(jpg|gif|jpeg|png)$", $filename)) $args->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $args->document_srl, $filename), $args->content);
                     }
                     @unlink($tmp_filename);
                 }
