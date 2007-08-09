@@ -85,6 +85,9 @@
                 }
             }
 
+            if(!in_array($this->lang_type, $lang_supported)) $this->lang_type = $this->db_info->lang_type;
+            if(!$this->lang_type) $this->lang_type = "en";
+
             Context::set('lang_supported', $lang_supported);
 
             $this->setLangType($this->lang_type);
@@ -402,6 +405,7 @@
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
+                if($key == "page" || substr($key,-3)=="srl") $val = (int)$val;
                 if(is_array($val)) {
                     for($i=0;$i<count($val);$i++) {
                         if(get_magic_quotes_gpc()) $val[$i] = stripslashes($val[$i]);

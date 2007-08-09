@@ -49,8 +49,13 @@
             if(!$mid) $this->mid = Context::get('mid');
             else $this->mid = $mid;
 
-            if(!$document_srl) $this->document_srl = Context::get('document_srl');
-            else $this->document_srl = $document_srl;
+            if(!$document_srl) $this->document_srl = (int)Context::get('document_srl');
+            else $this->document_srl = (int)$document_srl;
+
+            // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
+            if($this->module && !eregi("^([a-z0-9\_\-]+)$",$this->module)) die(Context::getLang("msg_invalid_request"));
+            if($this->mid && !eregi("^([a-z0-9\_\-]+)$",$this->mid)) die(Context::getLang("msg_invalid_request"));
+            if($this->act && !eregi("^([a-z0-9\_\-]+)$",$this->act)) die(Context::getLang("msg_invalid_request"));
 
             // 애드온 실행 (모듈 실행 전)
             $called_position = 'before_module_init';
