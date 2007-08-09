@@ -48,6 +48,13 @@
             </select>
         </div>
 
+        <br />
+        <div class="desc">{nl2br($lang->about_target_path)}</div>
+        <div>
+            Path/URL : <input type="text" name="target_path" id="target_path" class="inputTypeText w400" />
+        </div>
+
+
         <div class="tRight gap1">
             <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
         </div>
@@ -76,6 +83,7 @@
 <div id="step2" style="display:none">
     <form action="./" method="get" onsubmit="return doStep2(this)" id="fo_step2">
     <input type="hidden" name="module_srl" value="" />
+    <input type="hidden" name="target_path" value="" />
     <input type="hidden" name="category_srl" value="" />
     <input type="hidden" name="position" value="0" />
     <input type="hidden" name="file_point" value="0" />

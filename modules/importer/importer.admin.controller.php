@@ -23,6 +23,7 @@
         var $default_group_srl = 0;
 
         var $module_srl = 0;
+        var $target_path = 0;
         var $category_srl = 0;
         var $category_list = array();
         var $msg = null;
@@ -103,6 +104,8 @@
 
             // 변수 체크
             $this->module_srl = Context::get('module_srl');
+            $this->target_path = Context::get('target_path');
+            if(substr($this->target_path,-1)!="/") $this->target_path .= "/";
             $this->category_srl = Context::get('category_srl');
             $xml_file = Context::get('xml_file');
             $this->start_position = $this->position = (int)Context::get('position');
@@ -166,12 +169,12 @@
                     $str = fgets($fp,1024);
                     $buff .= $str;
 
-                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
-                    $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), trim($buff));
+                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), $buff);
+                    $buff = preg_replace_callback("!<member user_id=\"([^\"]*)\">(.*?)<\/member>!is", array($this, '_importMember'), $buff);
 
                     if($this->start_position+$this->limit_count <= $this->position) {
                         $is_finished = false;
-                        $this->file_point = ftell($fp);
+                        $this->file_point = ftell($fp) - strlen($buff);;
                         break;
                     }
                 }
@@ -262,6 +265,14 @@
             $this->oCommentController = &getController('comment');
             $this->oTrackbackController = &getController('trackback');
 
+            $oDocumentModel = &getModel('document');
+            $tmp_category_list = $oDocumentModel->getCategoryList($this->module_srl);
+            if(count($tmp_category_list)) {
+                foreach($tmp_category_list as $key => $val) $this->category_list[$val->title] = $key;
+            } else {
+                $this->category_list = array();
+            }
+
             $is_finished = true;
 
             $fp = @fopen($xml_file, "r");
@@ -271,13 +282,13 @@
                 while(!feof($fp)) {
                     $str = fread($fp,1024);
                     $buff .= $str;
-                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), trim($buff));
-                    if(!$this->category_srl) $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), trim($buff));
-                    $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), trim($buff));
+                    $buff = preg_replace_callback("!<root([^>]*)>!is", array($this, '_parseRootInfo'), $buff);
+                    if(!$this->category_srl) $buff = preg_replace_callback("!<categories>(.*?)</categories>!is", array($this, '_parseCategoryInfo'), $buff);
+                    $buff = preg_replace_callback("!<document sequence=\"([^\"]*)\">(.*?)<\/document>!is", array($this, '_importDocument'), $buff);
 
                     if($this->start_position+$this->limit_count <= $this->position) {
                         $is_finished = false;
-                        $this->file_point = ftell($fp);
+                        $this->file_point = ftell($fp) - strlen($buff);;
                         break;
                     }
                 }
@@ -312,7 +323,8 @@
                     }
 
                     if(file_exists($path)) {
-                        @copy($path, $tmp_filename);
+                        if(!eregi("^http",$this->target_path)) @copy($this->target_path.$path, $tmp_filename);
+                        else FileHandler::getRemoteFile($this->target_path.$path, $tmp_filename);
                         $file_info['tmp_name'] = $tmp_filename;
                         $file_info['name'] = $filename;
                         $this->oFileController->insertFile($file_info, $this->module_srl, $args->document_srl, $download_count, true);
@@ -451,14 +463,6 @@
             if(!$category_list) return;
 
             if(!is_array($category_list)) $category_list = array($category_list);
-
-            $oDocumentModel = &getModel('document');
-            $tmp_category_list = $oDocumentModel->getCategoryList($this->module_srl);
-            if(count($tmp_category_list)) {
-                foreach($tmp_category_list as $key => $val) $this->category_list[$val->title] = $key;
-            } else {
-                $this->category_list = array();
-            }
 
             $oDocumentController = &getAdminController('document');
 

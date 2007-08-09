@@ -48,8 +48,8 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></td>
-        <td>{htmlspecialchars($val->browser_title)}</td>
+        <td><div class="tLeft"><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></div></td>
+        <td><div class="tLeft">{htmlspecialchars($val->browser_title)}</div></td>
         <td class="tahoma">{$val->is_default}</td>
         <td class="tahoma">{$val->skin}</td>
         <td class="tahoma">{$val->admin_id}</td>

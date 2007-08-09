@@ -1,6 +1,7 @@
 <filter name="step12" module="importer" act="procImporterAdminStep12">
     <form>
         <node target="target_module" required="true" />
+        <node target="target_path" required="true" />
     </form>
     <parameter />
     <response callback_func="completeStep12">

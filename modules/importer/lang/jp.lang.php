@@ -47,4 +47,6 @@
     $lang->about_type_module = 'データ変換の対象が書き込みデータである場合は選択してください。';
     $lang->about_type_syncmember = '会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択してください。';
     $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをゼロボードXEのデータに変換することができます。\n変換するためには、<a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。";
+
+    $lang->about_target_path = "첨부파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http://도메인/bbs 처럼 제로보드가 설치된 곳의 url을 입력해주세요";
 ?>

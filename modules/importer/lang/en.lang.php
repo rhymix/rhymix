@@ -47,4 +47,6 @@
     $lang->about_type_module = 'If you are transfering the board or articles information, select this option';
     $lang->about_type_syncmember = 'If you are trying to synchronize the member information after transfering member and article information, select this option';
     $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";
+
+    $lang->about_target_path = "첨부파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http://도메인/bbs 처럼 제로보드가 설치된 곳의 url을 입력해주세요";
 ?>

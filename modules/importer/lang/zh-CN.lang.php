@@ -47,4 +47,6 @@
     $lang->about_type_module = '数据导入对象是版面主题时请选择';
     $lang->about_type_syncmember = '会员信息和文章信息导入后需要同步会员信息时请选择。';
     $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>生成XML文件后再上传。";
+
+    $lang->about_target_path = "첨부파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http://도메인/bbs 처럼 제로보드가 설치된 곳의 url을 입력해주세요";
 ?>
