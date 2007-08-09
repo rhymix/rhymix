@@ -57,8 +57,6 @@
                     $style = "overflow:hidden;";
                     $style .= sprintf("%s:%s%s;", "width", $args->widget_width - $args->widget_margin_right - $args->widget_margin_left, $widget_width_type);
                     $style .= sprintf("margin-top:%dpx;margin-bottom:%dpx;", $args->widget_margin_top, $args->widget_margin_bottom);
-
-
                     $inner_style = sprintf("margin-left:%dpx;margin-right:%dpx;", $args->widget_margin_left, $args->widget_margin_right);
 
                     if($args->widget_position) {
@@ -71,7 +69,7 @@
 
                 } else {
 
-                    $style = sprintf("overflow:hidden;%s:%s%s;", "width", $args->widget_width, $widget_width_type);
+                    $style = sprintf("padding:0;overflow:hidden;%s:%s%s;", "width", $args->widget_width, $widget_width_type);
 
                     $output = sprintf('<div style="margin:%dpx %dpx %dpx %dpx;">%s</div>', $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left, $output);
 
@@ -85,7 +83,7 @@
                 }
 
             } else {
-                $output = sprintf('<div style="margin:%dpx %dpx %dpx %dpx;">%s</div>', $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left, $output);
+                $output = sprintf('<div style="margin:%dpx %dpx %dpx %dpx;padding:0;clear:both;">%s</div>', $args->widget_margin_top, $args->widget_margin_right,$args->widget_margin_bottom,$args->widget_margin_left, $output);
             }
 
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;

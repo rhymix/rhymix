@@ -54,6 +54,7 @@
                 else $style .= "float:left;";
                 $widget_code = sprintf('<img src="%s" height="100" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
             } else {
+                $style = "clear:both;";
                 $widget_code = sprintf('<img width="%s" height="100" src="%s" class="zbxe_widget_output" style="%s" widget="%s" %s />', "100%", $blank_img_path, $style, $widget, implode(' ',$attribute));
             }
 
