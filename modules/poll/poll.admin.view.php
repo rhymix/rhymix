@@ -73,6 +73,8 @@
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
+            if(!$skin_list[$config->skin]) $config->skin = "default";
+
             // 설정된 스킨의 컬러셋 설정
             Context::set('colorset_list', $skin_list[$config->skin]->colorset);
         
