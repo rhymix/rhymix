@@ -1,0 +1,60 @@
+<!--%import("css/poll.css")-->
+
+<div class="poll_box" style="{$poll->style}">
+
+    <table cellspacing="0" class="poll_table">
+    <col width="7" />
+    <col />
+    <col width="7" />
+    <tr>
+        <td><img src="./images/lh.png" alt="lh" class="iePngFix" width="7" height="7" /></td>
+        <td class="h"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+        <td><img src="./images/rh.png" alt="rh" class="iePngFix" width="7" height="7" /></td>
+    </tr>
+    <tr>
+        <td class="title" colspan="3">
+            <div class="fl">
+                {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong> {zdate($poll->stop_date, "H:i")}
+            </div>
+            <div class="fr">
+                {$lang->poll_join_count} : <strong>{number_format($poll->poll_count)}</strong>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="l"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+        <td class="content">
+
+            <!--@foreach($poll->poll as $poll_srl_index => $val)-->
+                <div class="title">{$val->title} ({$val->poll_count})</div>
+                <!--@foreach($val->item as $item_srl => $item)-->
+                    {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
+
+                    <div class="item_text">
+                        <strong>{$item_srl+1}</strong> <img src="./images/pipe.png" alt="" /> {$item->title}
+                    </div>
+
+                    <table cellspacing="0" class="item_bar_table <!--@if($item_srl == count($val->item)-1)-->noborder<!--@end-->">
+                    <col width="30" />
+                    <col/>
+                    <col width="75" />
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="bar"><!--@if($per)--><img src="./images/color_bar.png" style="width:{$per}%;height:6px;" alt="bar" /></div><!--@else--><img src="./images/blank.gif" width="1" height="1" alt="" /><!--@end--></td>
+                        <td class="status"><strong>{$item->poll_count}</strong> ({$per}%)</td>
+                    </tr>
+                    </table>
+                <!--@end-->
+
+            <!--@end-->
+        </td>
+        <td class="r"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+    </tr>
+    <tr>
+        <td class="rlb" ><img src="./images/rlb.png" alt="lb" class="iePngFix" width="7" height="7" /></td>
+        <td class="bb"><img src="./images/blank.gif" alt="blank" /></td>
+        <td class="rrb" ><img src="./images/rrb.png" alt="rb" class="iePngFix" width="7" height="7" /></td>
+    </tr>
+    </table>
+
+</div>
