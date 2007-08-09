@@ -149,7 +149,7 @@
                 $url_info['path'] = $path;
             }
 
-            $header = sprintf("GET %s HTTP/2.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            $header = sprintf("GET %s HTTP/2.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
 
             @fwrite($fp, $header);
 
