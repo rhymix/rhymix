@@ -48,5 +48,18 @@
             return $output;
         }
 
+        /**
+         * @brief 설정 저장
+         **/
+        function procTrackbackAdminInsertConfig() {
+            $config->enable_trackback = Context::get('enable_trackback');
+            if($config->enable_trackback != 'Y') $config->enable_trackback = 'N';
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('trackback',$config);
+            return $output;
+        }
+
     }
 ?>

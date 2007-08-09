@@ -17,12 +17,14 @@
          * @brief 엮인글 입력
          **/
         function trackback() {
+            // 설정 구함
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('trackback');
+            if($config->enable_trackback == 'N') return $this->stop('fail');
+
             Context::setRequestMethod("XMLRPC");
-
             $obj = Context::gets('document_srl','blog_name','url','title','excerpt');
-
             if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
-
             return $this->insertTrackback($obj);
         }
 

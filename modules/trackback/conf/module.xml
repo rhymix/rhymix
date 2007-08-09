@@ -4,6 +4,7 @@
     <actions>
         <action name="dispTrackbackAdminList" type="view" admin_index="true" standalone="true" />
         <action name="procTrackbackAdminDeleteChecked" type="controller" standalone="true" />
+        <action name="procTrackbackAdminInsertConfig" type="controller" standalone="true" />
         <action name="trackback" type="controller" standalone="true" />
     </actions>
 </module>

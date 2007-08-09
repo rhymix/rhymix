@@ -18,4 +18,7 @@
         'regdate' => 'Posting Date',
         'ipaddress' => 'IP Address',
     );
+
+    $lang->enable_trackback = "엮인글 사용";
+    $lang->about_enable_trackback = "체크를 해제하시면 사이트내에 모든 글의 엮인글 접수를 중지합니다";
 ?>

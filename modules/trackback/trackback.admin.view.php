@@ -17,6 +17,11 @@
          * @brief 목록 출력 (관리자용)
          **/
         function dispTrackbackAdminList() {
+            // 설정 구함
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('trackback');
+            Context::set('config',$config);
+
             // 목록을 구하기 위한 옵션
             $args->page = Context::get('page'); ///< 페이지
             $args->list_count = 50; ///< 한페이지에 보여줄 글 수
