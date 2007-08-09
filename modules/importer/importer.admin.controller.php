@@ -398,7 +398,8 @@
                         $comment_args->document_srl = $args->document_srl;
                         $comment_args->comment_srl = getNextSequence();
                         $comment_args->module_srl = $this->module_srl;
-                        $comment_args->parent_srl = $val->parent_srl->body;
+                        //$comment_args->parent_srl = $val->parent_srl->body;
+                        $comment_args->parent_srl = 0;
                         $comment_args->content = $val->content->body;
                         $comment_args->password = $val->password->body;
                         $comment_args->nick_name = $val->nick_name->body;
