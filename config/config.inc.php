@@ -22,7 +22,7 @@
      * 0 : 출력하지 않음
      * 1 : files/_debug_db_query.php 에 연결하여 출력
      **/
-    define('__DEBUG_DB_OUTPUT__', 1);
+    define('__DEBUG_DB_OUTPUT__', 0);
 
     /**
      * @brief 디버깅 메세지 출력
