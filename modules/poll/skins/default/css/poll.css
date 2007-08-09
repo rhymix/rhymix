@@ -8,8 +8,8 @@
 .poll_table td.r { border-right:1px solid #E5E5E5; }
 .poll_table td.content { padding:18px 13px 18px 13px; }
 
-.poll_table td.buttonBox { border:1px solid #E5E5E5; border-bottom:none; background-color:#F6F6F5; }
-.poll_table td.buttonBox div { padding:5px 0 2px 0; position:relative; text-align:center;}
+.poll_table td.poll_button { border:1px solid #E5E5E5; border-bottom:none; background-color:#F6F6F5; }
+.poll_table td.poll_button div { padding:5px 0 2px 0; text-align:center;}
 .poll_table td.b { background-color:#F6F6F5; height:7px; }
 .poll_table td.b img { width:100%; height:6px; border-bottom:1px solid #E5E5E5; }
 .poll_table td.bb { height:7px; }
