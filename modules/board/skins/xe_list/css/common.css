@@ -155,13 +155,14 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .tag li { display:inline;}
 .boardRead .readFooter .tag a { color:#444444;}
 .boardRead .readFooter .tag .tagIcon { vertical-align:middle;}
-.boardRead .readFooter .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
+.boardRead .readFooter .fileAttached { _width:99%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
 .boardRead .readFooter .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; margin:.5em .5em 0 .5em; line-height:1.5em;}
 .boardRead .readFooter .fileAttached ul { float:left; margin-top:.5em; padding-bottom:1em; }
 .boardRead .readFooter .fileAttached li { display:inline; margin-right:.75em; line-height:1.5em;}
+.boardRead .readFooter .fileAttached li a { text-decoration:none; color:#777777;}
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
 
-.boardRead .replyAndTrackbackBox { position:relative; }
+.boardRead .replyAndTrackbackBox { position:relative; _width:100%;}
 .boardRead .replyAndTrackback li { margin-top:10px; _margin-top:8px; margin-left:1em; padding-left:1.4em; float:left; list-style:none;}
 
 .boardRead .replyAndTrackback li.reply { background:url(../images/common/iconReply.gif) no-repeat left top;}
@@ -199,7 +200,7 @@ Jeong, Chan Myeong 070601~070630
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
-#reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em; list-style:none;}
+#reply li .fileAttached { _width:99%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em; list-style:none;}
 #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
 #reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
 #reply li .fileAttached li a:visited { color:#777777;}
