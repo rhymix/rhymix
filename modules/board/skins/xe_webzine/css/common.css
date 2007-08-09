@@ -126,7 +126,7 @@ Jeong, Chan Myeong 070601~070630
 .searchButton li { float:left; margin-right:.3em; list-style:none;}
 
 /* boardRead */
-.boardRead { position:relative; _width:100%; margin:1em 0 0 0; border:1px solid #e0e1db;}
+.boardRead { margin:1em 0 0 0; border:1px solid #e0e1db;}
 .boardRead .originalContent { padding:2em 1.2em 2em 1.2em;}
 .boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
 
