@@ -50,6 +50,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td { border-top:1px solid #eff0ed; padding:.5em;}
 .boardList td.num { font:.8em tahoma; color:#999999; padding:.5em 1em; text-align:center;}
 .boardList tr.notice td.num { padding:.5em; white-space:nowrap;}
+.boardList tr.notice td.notice { font-size:.9em; color:#999999; font-weight:bold; text-align:center;}
 .boardList td.thumb { padding:.5em 0 .5em .5em; width:145px; table-layout:fixed; white-space:nowrap;}
 .boardList td.thumb * { vertical-align:middle;}
 .boardList td.title {padding-left:1em; }
