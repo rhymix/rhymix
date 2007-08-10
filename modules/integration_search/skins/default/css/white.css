@@ -25,6 +25,7 @@
 .searchResult li dl dt .reply { color:#fe6700; font:.9em Tahoma;}
 .searchResult li dl dt .reply em { color:#fe6700; font:bold 1em Tahoma;}
 .searchResult li dl dt .category { color:#818181;}
+.searchResult li dl dt .category a { color:#818181; border:none; text-decoration:none;}
 .searchResult li dl dd { line-height:18px; color:#555555; margin-bottom:4px;}
 .searchResult li address { color:#d8d8d8; font-size:11px;}
 .searchResult li address strong { color:#3e3e3e; font-size:1em; font-weight:normal;}

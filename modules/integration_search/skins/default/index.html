@@ -48,7 +48,7 @@
                 <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" alt="" width="100" height="100" class="thumb" /></a>
                 <!--@end-->
                 <dl>
-                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> |<!--@end--> <span class="category">자유게시판</span></dt>
+                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--> | <span class="category"><a href="{getUrl('','mid',$mid_list[$document->get('module_srl')]->mid)}" onclick="window.open(this.href);return false;">{$mid_list[$document->get('module_srl')]->browser_title}</a></span></dt>
 
                     <dd>{$document->getSummary(140)}</dd>
                 </dl>

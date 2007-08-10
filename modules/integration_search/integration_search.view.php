@@ -42,9 +42,9 @@
             // 대상 모듈을 정리함
             $module_srl_list = array();
             foreach($module_list as $mid => $val) {
+                $mid_list[$val->module_srl] = $val;
                 if(in_array($mid, $this->target_mid)) {
                     $module_srl_list[] = $val->module_srl;
-                    $mid_list[$val->module_srl] = $val;
                 }
             }
 
@@ -95,6 +95,7 @@
             // 텍스트 생성
             $result_text = sprintf(Context::getLang("is_result_text"), $is_keyword, $output->total_count);
             Context::set('result_text', $result_text);
+            Context::set('mid_list', $mid_list);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
