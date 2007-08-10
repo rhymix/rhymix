@@ -33,7 +33,7 @@ Jeong, Chan Myeong 070601~070630
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
 
 /* boardList */
-.boardList { width:100%; position:relative; border:1px solid #e0e1db;}
+.boardList { width:100%; position:relative; border:1px solid #e0e1db; table-layout:fixed;}
 .boardList tr.notice { background:#f8f8f8;}
 .boardList tr.notice .num { font-size:.9em; font-weight:bold;}
 .boardList tr.bg1 { background:#ffffff}
@@ -65,7 +65,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.date { font:.8em Tahoma; color:#999999; text-align:center; white-space:nowrap;}
-.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em;}
+.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:20px;}
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}
 .boardList td input { _margin:-3px;}

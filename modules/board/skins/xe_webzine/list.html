@@ -11,6 +11,13 @@
 
 <!-- 목록 출력 -->
 <table cellspacing="0" summary="" class="boardList">
+  <col width="50" />
+  <col width="120" />
+  <col />
+  <col width="120" />
+  <col width="60" />
+  <col width="60" />
+  <col width="80" />
     <thead>
         <tr>
             <th scope="col" class="num">{$lang->no}</th>
@@ -137,8 +144,13 @@
             <td class="recommend">{$document->get('voted_count')}</td>
             <td class="date">{$document->getRegdate('Y-m-d')}</td>
         </tr>
+        <!--@if($document->thumbnailExists(100))-->
+          {@ $_col_count = 5}
+        <!--@else-->
+          {@ $_col_count = 6}
+        <!--@end-->
         <tr class="bg{($no+1)%2+1}">
-            <td colspan="6" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(140)}</a></td>
+            <td colspan="{$_col_count}" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(120)}</a></td>
         </tr>
         <!--@end-->
     <!--@end-->
