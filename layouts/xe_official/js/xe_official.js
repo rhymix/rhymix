@@ -31,6 +31,6 @@ function lnbToggle(id) {
 // IS
 function chkIsKind(key, value) {
     showHide('selectOrder');
-    xGetElementById('search_kind'+key).checked = true;
-    xInnerHtml('search_kind_label', value);
+    xGetElementById('search_target'+key).checked = true;
+    xInnerHtml('search_target_label', value);
 }

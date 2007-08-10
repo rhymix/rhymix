@@ -204,13 +204,8 @@
             if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($resize_width, $resize_height);
             else $thumb = @imagecreate($resize_width, $resize_height);
 
-            if(!function_exists('imagecolortransparent')) {
-                $white = @imagecolorallocate($thumb, 255,255,255);
-                @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
-            } else {
-                $trans = @imagecolorat($thumb, 1,1);
-                @imagecolortransparent($thumb, $trans);
-            }
+            $white = @imagecolorallocate($thumb, 255,255,255);
+            @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
             // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
             if($resize_width>0 && $width > $resize_width) $width_per = $resize_width / $width;

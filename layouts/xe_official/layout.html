@@ -44,7 +44,7 @@
 		</ul>
 		<!--//GNB-->
 
-		<form action="{getUrl()}" method="get" id="isSearch">
+		<form action="{getUrl()}" method="post" id="isSearch">
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="act" value="IS" />
 
@@ -63,10 +63,12 @@
 					<input type="radio" name="search_target" value="title_content" id="search_target3" />
 					<label for="search_target3" onclick="chkIsKind(3, '{$lang->title}+{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}+{$lang->content}</label>
 				</li>
+                <!--
 				<li>
 					<input type="radio" name="search_target" value="comment" id="search_target4" />
 					<label for="search_target4" onclick="chkIsKind(4, '{$lang->comment}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->comment}</label>
 				</li>
+                -->
 			</ul>
 			<input name="is_keyword" type="text" class="inputText" title="keyword" />
 

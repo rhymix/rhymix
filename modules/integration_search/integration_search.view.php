@@ -92,6 +92,10 @@
                 } 
             }
 
+            // 텍스트 생성
+            $result_text = sprintf(Context::getLang("is_result_text"), $is_keyword, $output->total_count);
+            Context::set('result_text', $result_text);
+
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
         }

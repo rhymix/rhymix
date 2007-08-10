@@ -8,60 +8,67 @@
     <!--%import("css/white.css")-->
 <!--@end-->
 
-<div class="boardInformation">
-    <div class="fl">
-        <span class="search">{$lang->search_keyword} : <strong>{$is_keyword}</strong></span>
-    </div>
-    <div class="fr">
-        <span class="articleNum">{$lang->document_count} : <strong>{number_format($total_count)}</strong></span>
-    </div>
+<div id="spot">
+    <h2><img src="./images/white/h2Search.gif" alt="검색하기" width="82" height="17" /></h2>
+    <form action="{getUrl()}" method="post" class="search">
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="act" value="IS" />
+        <select name="search_target">
+            <!--@foreach($lang->is_search_option as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target == $key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input name="is_keyword" type="text" class="inputText" value="{htmlspecialchars($is_keyword)}"/>
+        <input type="image" src="./images/white/buttonSearch2.gif" alt="검색" class="submit" />
+    </form>
 </div>
 
 <!--@if(!$document_list)-->
-<!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
-<div class="no_result">
-    <!--@if(!$is_keyword)-->
-        {$lang->msg_no_keyword}
-    <!--@else-->
-        {$lang->no_search_result}
-    <!--@end-->
-</div>
-<!--@else-->
-    <!--@foreach($document_list as $no => $document)-->
-    <ul class="search_result">
-        <li class="title">
-                <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a>
-                <!--@if($document->getCommentCount())-->
-                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
-                <!--@end-->
-                <!--@if($document->getTrackbackCount())-->
-                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
-                <!--@end-->
-        </li>
-
-        <!--@if($document->thumbnailExists(100))-->
-        <li class="thumbnail"><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a></li>
+    <div id="content">
+        <!--@if(!$is_keyword)-->
+            <h3 class="result">{$lang->msg_no_keyword}</h3>
+        <!--@else-->
+            <h3 class="result">{$lang->no_search_result}</h3>
         <!--@end-->
-
-        <li class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getSummary(140)}</a></li>
-        <li class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></li>
-        <li class="date">{$document->getRegdate('Y-m-d H:i')}</li>
-    </ul>
-    <div class="clear"></div>
-    <!--@end-->
-
-
-    <!-- 페이지 네비게이션 -->
-    <div class="pageNavigation">
-
-        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
-        <!--@while($page_no = $page_navigation->getNextPage())-->
-            <!--@if($page == $page_no)-->
-                <span class="current">{$page_no}</span> 
-            <!--@else-->
-                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
-            <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
     </div>
+<!--@else-->
+    <div id="content">
+        <h3 class="result">{$result_text}</h3>
+        <!--
+        <ul class="sortBy">
+            <!--@foreach($lang->is_sort_option as $key => $val)-->
+            <li class="on"><a href="#">{$val}</a></li>
+            <!--@end-->
+        </ul>
+        -->
+        <ul class="searchResult">
+        <!--@foreach($document_list as $no => $document)-->
+            <li>
+                <!--@if($document->thumbnailExists(100))-->
+                <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" alt="" width="100" height="100" class="thumb" /></a>
+                <!--@end-->
+                <dl>
+                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> |<!--@end--> <span class="category">자유게시판</span></dt>
+
+                    <dd>{$document->getSummary(140)}</dd>
+                </dl>
+                <address><strong>{$document->getNickName()}</strong> | <span class="time">{$document->getRegdate("Y-m-d H:i")}</span> | <span class="read">{$lang->readed_count}</span> <span class="readNum">{$document->get('readed_count')}</span><!--@if($document->get('voted_count'))--> | <span class="recom">{$lang->voted_count}</span> <span class="recomNum">{$document->get('voted_count')}</span><!--@end--></address>
+
+            </li>
+        <!--@end-->
+        </ul>
+        <div class="pageNavigation">
+            <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <span class="current">{$page_no}</span> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+        </div>
+    </div>
+
+
 <!--@end-->
