@@ -19,6 +19,6 @@
         'ipaddress' => 'IP地址',
     );
 
-    $lang->enable_trackback = "엮인글 사용";
-    $lang->about_enable_trackback = "체크를 해제하시면 사이트내에 모든 글의 엮인글 접수를 중지합니다";
+    $lang->enable_trackback = "使用引用";
+    $lang->about_enable_trackback = "取消此项勾选将对网站内的所有主题中止接收引用。";
 ?>

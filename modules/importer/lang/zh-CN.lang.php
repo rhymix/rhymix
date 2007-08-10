@@ -30,7 +30,7 @@
         1 => '请选择要导入的XML文件种类。',
         12 => '请选择要导入的对象模块。',
         13 => '请选择要导入的对象分类。',
-        2 => "请输入要导入的XML文件的位置。\n位于同一个主机时，可输入相对或绝对路径，位于另一个服务器是，可输入http://地址。",
+        2 => "请输入要导入的XML文件的位置。\n位于同一个服务器时，可输入相对或绝对路径，位于不同服务器时，可输入http://地址。",
         3 => '数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。',
     );
 
@@ -42,11 +42,11 @@
     $lang->msg_import_finished = '已完成输入%d个数据。根据情况的不同可能有没有被导入的数据。';
     $lang->msg_sync_completed = '已完成会员和文章，评论的同步。';
 
-    // 주절 주절..
+    // 说明
     $lang->about_type_member = '数据导入对象为会员信息时请选择';
     $lang->about_type_module = '数据导入对象是版面主题时请选择';
     $lang->about_type_syncmember = '会员信息和文章信息导入后需要同步会员信息时请选择。';
     $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>生成XML文件后再上传。";
 
-    $lang->about_target_path = "첨부파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http://도메인/bbs 처럼 제로보드가 설치된 곳의 url을 입력해주세요";
+    $lang->about_target_path = "为了下载附件请输入Zeroboard 4的安装位置。\n位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。";
 ?>

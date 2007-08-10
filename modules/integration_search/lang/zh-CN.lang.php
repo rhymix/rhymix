@@ -11,19 +11,19 @@
     $lang->about_target_module = "只把被选模块作为搜索对象。请注意权限设置。";
     $lang->about_sample_code = "可把上述代码插入到相应布局当中即可实现搜索功能。";
 
-    $lang->is_result_text = "<strong>'%s'</strong> 에 대한 검색결과 <strong>%d</strong>건";
+    $lang->is_result_text = "符合<strong>'%s'</strong>的搜索结果约有<strong>%d</strong>项";
 
     $lang->is_search_option = array(
-        'title' => '제목',
-        'content' => '내용',
-        'title_content' => '제목+내용',
-        //'comment' => '댓글',
+        'title' => '标题',
+        'content' => '内容',
+        'title_content' => '标题+内容',
+        //'comment' => '评论',
     );
 
     $lang->is_sort_option = array(
-        'regdate' => '등록일',
-        'comment_count' => '댓글수',
-        'readed_count' => '조회수',
-        'voted_count' => '추천수',
+        'regdate' => '日期',
+        'comment_count' => '评论',
+        'readed_count' => '查看',
+        'voted_count' => '推荐',
     );
 ?>
