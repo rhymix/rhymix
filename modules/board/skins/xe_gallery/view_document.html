@@ -33,6 +33,7 @@
                 <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
                 <!--@end-->
             </div>
+            <div class="clear"></div>
         </div>
         
         <ul class="uri">
@@ -94,27 +95,30 @@
                     <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
                     <!--@end-->
                 </ul>
+                <div class="clear"></div>
             </div>
             <!--@end-->
         </div>
     </div>
 
-    <ul class="replyAndTrackback">
-        <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-            <li class="reply"><a href="#comment">{$lang->comment} : <strong>{$oDocument->getCommentcount()}</strong></a></li>
-        <!--@end-->
+    <div class="replyAndTrackbackBox">
+      <ul class="replyAndTrackback">
+          <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+              <li class="reply"><a href="#comment">{$lang->comment} : <strong>{$oDocument->getCommentcount()}</strong></a></li>
+          <!--@end-->
 
-        <!--@if($oDocument->allowTrackback())-->
-            <li class="trackback"><a href="#trackback">{$lang->trackback} : <strong>{$oDocument->getTrackbackCount()}</strong></a></li>
-        <!--@end-->
+          <!--@if($oDocument->allowTrackback())-->
+              <li class="trackback"><a href="#trackback">{$lang->trackback} : <strong>{$oDocument->getTrackbackCount()}</strong></a></li>
+          <!--@end-->
 
-            <li class="listButton">
-                <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a>
-                <!--@if($is_logged)--><a href="#" onclick="doScrap({$oDocument->document_srl}); return false;" class="button"><span>{$lang->cmd_scrap}</span></a><!--@end-->
-                <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
-                <a href="#" onclick="doVote();return false;" class="button"><span>{$lang->cmd_vote}</span></a>
-            </li>
-    </ul>
+              <li class="listButton">
+                  <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a>
+                  <!--@if($is_logged)--><a href="#" onclick="doScrap({$oDocument->document_srl}); return false;" class="button"><span>{$lang->cmd_scrap}</span></a><!--@end-->
+                  <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+                  <a href="#" onclick="doVote();return false;" class="button"><span>{$lang->cmd_vote}</span></a>
+              </li>
+      </ul>
+    </div>
 </div>
 
 <!-- 엮인글 파일 include -->

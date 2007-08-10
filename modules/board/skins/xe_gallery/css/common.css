@@ -33,7 +33,7 @@ Jeong, Chan Myeong 070601~070630
 .accountNavigation li.loginAndLogout { background:none; padding-left:0;}
 
 /* boardList */
-.boardList { width:100%; position:relative; border:1px solid #e0e1db;}
+.boardList { width:100%; position:relative; border:1px solid #e0e1db; table-layout:fixed;}
 .boardList tr.notice { background:#f8f8f8;}
 .boardList tr.notice .num { font-size:.9em; font-weight:bold;}
 .boardList tr.bg1 { background:#ffffff}
@@ -41,7 +41,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList th a { color:#3e3f3e; text-decoration:none; }
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; }
 .boardList th.title { text-align:center; }
-.boardList th.category { text-align:left; }
+.boardList th.category { text-align:center; }
 .boardList th.title select { vertical-align:middle; margin-left:.5em; }
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
@@ -50,6 +50,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td { border-top:1px solid #eff0ed; padding:.5em;}
 .boardList td.num { font:.8em tahoma; color:#999999; padding:.5em 1em; text-align:center;}
 .boardList tr.notice td.num { padding:.5em; white-space:nowrap;}
+.boardList tr.notice td.notice { font-size:.9em; color:#999999; font-weight:bold; text-align:center;}
 .boardList td.thumb { padding:.5em 0 .5em .5em; width:145px; table-layout:fixed; white-space:nowrap;}
 .boardList td.thumb * { vertical-align:middle;}
 .boardList td.title {padding-left:1em; }
@@ -60,9 +61,6 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title,
 .boardList td.title a { color:#444444; text-decoration:none;}
 .boardList td.title a:visited { color:#777777;}
-.boardList div.title,
-.boardList div.title a { color:#444444; text-decoration:none;}
-.boardList div.title a:visited { color:#777777;}
 .boardList td.author { color:#333333; font-size:.95em; padding-left:1em;}
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
@@ -81,10 +79,10 @@ Jeong, Chan Myeong 070601~070630
 
 .boardList.thumbnail { margin-top:-1px; border-bottom:none;}
 .boardList.thumbnail td { border-top:none; border-bottom:1px solid #eff0ed; padding:1.5em 0 0 1.5em; overflow:hidden;}
-.boardList.thumbnail div.cell { float:left; width:131px; height:200px; margin:0 .6em 0 0; padding-bottom:1.5em;overflow:hidden;}
+.boardList.thumbnail div.cell { float:left; width:167px; overflow:hidden; margin:0 1.5em 0 0; padding-bottom:1.5em;}
 .boardList.thumbnail div.cell img.thumb { padding:2px; border:1px solid #e0e1db; display:block; margin-bottom:1em;}
 .boardList.thumbnail div.title { color:#444444; margin-bottom:.2em; padding-left:3px;}
-.boardList.thumbnail div.title a { color:#444444;}
+.boardList.thumbnail div.title a { color:#444444; text-decoration:none;}
 .boardList.thumbnail div.nameAndDate { font-size:.9em; color:#999999; margin-bottom:.2em; padding-left:3px;}
 .boardList.thumbnail div.nameAndDate a { color:#999999;}
 .boardList.thumbnail div.nameAndDate .date { font:.8em Tahoma; color:#999999;}
@@ -94,7 +92,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList.thumbnail div.readAndRecommend strong.num { font:bold .8em Tahoma; color:#ff6600;}
 
 /* pageNavigation */
-.pageNavigation { display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .8em Tahoma; }
+.pageNavigation { display:block; padding:1.5em 0 2em 0; text-align:center; font:bold 11px Tahoma; }
 .pageNavigation a { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 .pageNavigation a:hover { background:#F7F7F7; text-decoration:none; }
 .pageNavigation a:visited { color:#999999;}
@@ -102,12 +100,6 @@ Jeong, Chan Myeong 070601~070630
 .pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
 .pageNavigation a.goToFirst img,
 .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
-
-.boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify { font-size:.8em; color:#999999; float:left; position:relative; top:.3em;}
-.boardRead .dateAndModify strong { font-size:1em; font-family:Tahoma;}
-.boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em; list-style:none;}
 
 /* extraVars list */
 .extraVarsList { width:100%; border:1px solid #e0e1db; clear:both; margin-bottom:1em;}
@@ -120,29 +112,28 @@ Jeong, Chan Myeong 070601~070630
 
 /* boardSearch */
 .boardSearch { text-align:center; clear:both; width:100%;}
-.boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative;}
+.boardSearch fieldset { border:none; display:inline; overflow:visible; position:relative; white-space:nowrap;}
 .boardSearch fieldset legend { overflow:hidden; width:1px; height:1px; font-size:.001em;}
 .boardSearch * { vertical-align:middle;} 
-.boardSearch select { float:left;}
-.boardSearch input { float:left; margin:0 .3em; background:#fbfbfb;}
+.boardSearch select { float:left;_margin-top:3px; height:20px;}
+.boardSearch input { float:left; margin:0 .3em; _margin-top:3px;background:#fbfbfb;}
+*:first-child+html .boardSearch select { margin-top:3px; height:21px;}
+*:first-child+html .boardSearch input { margin-top:3px; }
 .searchButton ul { overflow:hidden;}
 .searchButton li { float:left; margin-right:.3em; list-style:none;}
 
 /* boardRead */
-.boardRead { margin:1em 0 0 0; border:1px solid #e0e1db;}
+.boardRead { padding:0; margin:0; border:1px solid #e0e1db;}
 .boardRead .originalContent { padding:2em 1.2em 2em 1.2em;}
-.boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
+.boardRead .readHeader { padding:0 0 .5em 0; margin-bottom:1em; border-bottom:1px solid #eff0ed; overflow:hidden;}
 
 .boardRead .titleAndCategory { float:left;}
 .boardRead .titleAndCategory h4 { font-size:1.4em; display:inline; padding-left:.2em;}
 .boardRead .titleAndCategory .vr { font-size:.9em; margin:0 .3em; color:#c5c7c0;}
 .boardRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
 
-.boardRead .dateAndModify { float:right; white-space:nowrap;}
-.boardRead .dateAndModify .num { font-size:.9em; font-family:Tahoma; color:#999999; margin-right:.5em; float:left; position:relative; top:.3em;}
-.boardRead .dateAndModify .num strong { font-size:1em; font-family:Tahoma;}
-.boardRead .dateAndModify ul { display:inline;}
-.boardRead .dateAndModify ul li { float:left; margin-left:.3em;}
+.boardRead .dateAndModify { float:right; white-space:nowrap; font-size:.8em; color:#999999;  position:relative;}
+.boardRead .dateAndModify strong { font-size:1em; font-family:Tahoma;}
 
 .boardRead ul.uri { overflow:hidden; margin:0 0 2em .3em; float:right; clear:left;}
 .boardRead ul.uri li { font-size:8pt; color:#c5c7c0; }
@@ -165,13 +156,15 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .tag li { display:inline;}
 .boardRead .readFooter .tag a { color:#444444;}
 .boardRead .readFooter .tag .tagIcon { vertical-align:middle;}
-.boardRead .readFooter .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
+.boardRead .readFooter .fileAttached { _width:99%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb;}
 .boardRead .readFooter .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; margin:.5em .5em 0 .5em; line-height:1.5em;}
 .boardRead .readFooter .fileAttached ul { float:left; margin-top:.5em; padding-bottom:1em; }
 .boardRead .readFooter .fileAttached li { display:inline; margin-right:.75em; line-height:1.5em;}
+.boardRead .readFooter .fileAttached li a { text-decoration:none; color:#777777;}
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
 
-.boardRead .replyAndTrackback li { margin-left:1em; padding-left:1.4em; float:left; list-style:none;}
+.boardRead .replyAndTrackbackBox { position:relative; _width:100%;}
+.boardRead .replyAndTrackback li { margin-top:10px; _margin-top:8px; margin-left:1em; padding-left:1.4em; float:left; list-style:none;}
 
 .boardRead .replyAndTrackback li.reply { background:url(../images/common/iconReply.gif) no-repeat left top;}
 .boardRead .replyAndTrackback li.reply a { position:relative; top:-.3em; _top:-.6em;}
@@ -183,7 +176,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .replyAndTrackback a#toggleReply { background:url(../images/common/buttonToggleReply.gif) no-repeat right top;}
 .boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/common/buttonToggleReply.gif) no-repeat right -13px;}
 
-.boardRead .replyAndTrackback .listButton { float:right; margin:0 1em 0 0; position:relative; top:-5px; _top:-7px;}
+.boardRead .replyAndTrackback .listButton { position:relative; right: 10px; top:-7px; _top:-6px; float:right;}
 
 #trackbacks { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em;}
 #trackbacks li { padding:.6em .8em .6em .6em; line-height:1.25em; border-bottom:1px dotted #EEEEEE; list-style:none;}
@@ -208,7 +201,7 @@ Jeong, Chan Myeong 070601~070630
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
-#reply li .fileAttached { _width:100%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em; list-style:none;}
+#reply li .fileAttached { _width:99%; border:1px solid #eaeae7; overflow:hidden; background:#fbfbfb; margin-top:.3em; list-style:none;}
 #reply li .fileAttached ul { float:left; padding:.3em 1em .2em 0; margin-left:.5em; _margin-left:.25em;}
 #reply li .fileAttached li a { font-size:.9em; white-space:nowrap; position:relative; color:#444444; }
 #reply li .fileAttached li a:visited { color:#777777;}
@@ -227,6 +220,7 @@ Jeong, Chan Myeong 070601~070630
 .boardEditor .userNameAndPw .emailAddress { width:6em;}
 .boardEditor .userNameAndPw .homePage { width:6em;}
 .boardEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
+.boardEditor .borderTop { border-top:1px solid #eaeae7; }
 
 /* boardWrite */
 .boardWrite { width:100%; position:relative;}
@@ -261,3 +255,5 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+
+*:first-child+html .buttonTypeGo { position:relative; top:3px; }
