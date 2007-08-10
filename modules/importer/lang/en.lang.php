@@ -10,7 +10,7 @@
     $lang->cmd_continue = 'Continue';
 
     // items
-    $lang->importer = 'Transfer zeroboarad datas';
+    $lang->importer = 'Transfer zeroboard datas';
     $lang->source_type = 'Previous target';
     $lang->type_member = 'Member data';
     $lang->type_module = 'Articles data';
