@@ -35,6 +35,7 @@
          * @brief 통합 검색 출력
          **/
         function IS() {
+            // 검색이 가능한 목록을 구하기 위해 전체 목록을 구해옴
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getMidList($args);
 
@@ -47,9 +48,17 @@
                 }
             }
 
-            // 변수 설정
+            // 검색대상 변수 설정
+            $search_target = Context::get('search_target');
+            if(!in_array($search_target, array('title','content','title_content','comment'))) $search_target = 'title';
+
+            // 검색어 변수 설정
+            $is_keyword = Context::get('is_keyword');
+
+            // 페이지 변수 설정
             $page = (int)Context::get('page');
             if(!$page) $page = 1;
+
 
             $list_count = (int)Context::get('list_count');
             if(!$list_count|| $list_count>20) $list_count = 20;
@@ -59,22 +68,29 @@
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
-            $args->search_target = 'title_content'; 
+            $args->search_target = $search_target;
             $args->search_keyword = Context::get('is_keyword'); 
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
 
-            // 검색어가 없으면 오류 표시
+            // 검색글이 있을 경우 검색 시도
             if($args->search_keyword) {
-                // 대상 문서들을 가져옴
-                $oDocumentModel = &getModel('document');
-                $output = $oDocumentModel->getDocumentList($args);
-                Context::set('total_count', $output->total_count);
-                Context::set('total_page', $output->total_page);
-                Context::set('page', $output->page);
-                Context::set('document_list', $output->data);
-                Context::set('page_navigation', $output->page_navigation);
-            } 
+
+                // 대상이 comment이면 댓글 검색 시도
+                if($search_target == 'comment') {
+
+                // 그외는 문서 검색 시도
+                } else {
+                    // 대상 문서들을 가져옴
+                    $oDocumentModel = &getModel('document');
+                    $output = $oDocumentModel->getDocumentList($args);
+                    Context::set('total_count', $output->total_count);
+                    Context::set('total_page', $output->total_page);
+                    Context::set('page', $output->page);
+                    Context::set('document_list', $output->data);
+                    Context::set('page_navigation', $output->page_navigation);
+                } 
+            }
 
             // 템플릿 파일 지정
             $this->setTemplateFile('index');

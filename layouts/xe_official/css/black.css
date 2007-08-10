@@ -32,6 +32,23 @@ body { background:#3d3d3d url(../images/black/bgBody.gif) repeat-x;}
 #gnb li a:focus { color:#ffffff;}
 #gnb li.on a { font-weight:bold; color:#ffffff; background:url(../images/black/bgGnbOn.gif) no-repeat center top;}
 
+#isSearch { position:absolute; top:48px; right:15px; width:214px; text-align:right;}
+#isSearch .searchOrder { display:none;}
+#isSearch .checked { position:absolute; left:0; top:0; text-align:left; display:block; padding:5px 0 0 5px; width:64px; height:14px; background:url(../images/black/bgSearchTerm.gif) no-repeat; font:11px "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif; color:#ffffff; line-height:normal;}
+#isSearch ul { display:none; position:absolute; left:0; top:18px; padding:2px 0 3px 0; text-align:left; border:1px solid #6e8081; background:#385153;}
+#isSearch ul li { width:67px; height:18px; list-style:none;}
+#isSearch ul li input { display:none;}
+#isSearch ul li label { display:block; padding:4px 0 0 4px; width:63px; height:15px; font:11px "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif; color:#ffffff;}
+#isSearch ul li label.on { background:#2f4345; }
+#isSearch ul li label:hover,
+#isSearch ul li label:focus { background:#2f4345;}
+#isSearch .inputText { vertical-align:middle; _position:relative; _top:-1px; padding:3px 3px 1px 3px; width:94px; height:15px; color:#ffffff; border:none; background:url(../images/black/bgSearch.gif) no-repeat;}
+#isSearch .inputText:hover,
+#isSearch .inputText:focus { background:url(../images/black/bgSearchOn.gif) no-repeat;}
+*:first-child+html #isSearch .inputText { position:relative; top:-1px;}
+#isSearch .submit { vertical-align:middle; _position:relative; _top:-1px;}
+*:first-child+html #isSearch .submit { position:relative; top:-1px;}
+
 /* Site Layout - Content Body */
 #contentBody { position:relative; width:980px; padding-bottom:30px; overflow:hidden; background:url(../images/black/bgContentBody.gif) repeat-y left top; border-bottom:1px solid #515151;}
 

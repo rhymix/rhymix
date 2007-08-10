@@ -21,17 +21,13 @@
 		<h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
 
 		<div id="language">
-			<strong title="Korean">{$lang_type}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
+			<strong title="{$lang_type}">{$lang_type}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
 			<ul id="selectLang">
                 <!--@foreach($lang_supported as $val)--><!--@if($val != $lang_type)-->
 				<li><a href="#" onclick="doChangeLangType('{$val}');return false;">{$val}</a></li>
                 <!--@end--><!--@end-->
 			</ul>
 		</div>
-
-        <div id="it_search_form">
-            <form action="{getUrl()}" method="get"><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" class="input" name="is_keyword" value="{$is_keyword}"/><input type="submit" class="submit_button" value="{$lang->cmd_search}" /></form>
-        </div>
 
 		<!--GNB-->
 		<ul id="gnb">
@@ -47,6 +43,36 @@
             <!-- main_menu 1차 끝 -->
 		</ul>
 		<!--//GNB-->
+
+		<form action="{getUrl()}" method="get" id="isSearch">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="act" value="IS" />
+
+			<input name="search_target" type="radio" value="title" id="search_target" class="searchOrder" checked="checked" title="search option" />
+			<label for="search_target" class="checked" id="search_target_label" onclick="showHide('selectOrder'); return false">{$lang->title}</label>
+			<ul id="selectOrder">
+				<li>
+					<input type="radio" name="search_target" value="title" id="search_target1" />
+					<label for="search_target1" onclick="chkIsKind(1, '{$lang->title}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}</label>
+				</li>
+				<li>
+					<input type="radio" name="search_target" value="content" id="search_target2" />
+					<label for="search_target2" onclick="chkIsKind(2, '{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->content}</label>
+				</li>
+				<li>
+					<input type="radio" name="search_target" value="title_content" id="search_target3" />
+					<label for="search_target3" onclick="chkIsKind(3, '{$lang->title}+{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}+{$lang->content}</label>
+				</li>
+				<li>
+					<input type="radio" name="search_target" value="comment" id="search_target4" />
+					<label for="search_target4" onclick="chkIsKind(4, '{$lang->comment}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->comment}</label>
+				</li>
+			</ul>
+			<input name="is_keyword" type="text" class="inputText" title="keyword" />
+
+			<input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
+		</form>
+
 	</div>
 	<div id="contentBody">
 		<div id="columnLeft">
