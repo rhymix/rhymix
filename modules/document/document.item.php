@@ -282,7 +282,7 @@
             if(file_exists($thumbnail_file)) {
                 $file_created_time = date("YmdHis",filectime($thumbnail_file));
                 $modified_time = $this->get('last_update');
-                if($modified_time > $file_created_time) unlink($thumbnail_file);
+                if($modified_time > $file_created_time) @unlink($thumbnail_file);
             }
 
             if(file_exists($thumbnail_file)&&filesize($thumbnail_file)<1) return;
@@ -327,7 +327,7 @@
             }
 
             FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'jpg');
-            unlink($tmp_file);
+            @unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
         }
