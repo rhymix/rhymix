@@ -564,7 +564,7 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri() {
-            $hostname = $_SERVER['SERVER_NAME'];
+            $hostname = $_SERVER['HTTP_HOST'];
             $port = $_SERVER['SERVER_PORT'];
             if($port!=80) $hostname .= ":{$port}";
             $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
