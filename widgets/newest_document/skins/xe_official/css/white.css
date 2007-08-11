@@ -11,7 +11,7 @@
 .latest_white ul li .title span.comment a { color:#FE6700; font:.8em Tahoma; }
 
 .latest_white ul li .date { position:relative; z-index:1; }
-.latest_white ul li .date span { background:#FFFFFF; position:relative; z-index:1; padding:3px 5px 3px 3px; text-align:right; float:right; top:-16px; _top:-18px; color:#999999; font:.8em Tahoma; }
+.latest_white ul li .date span { background:#FFFFFF; position:relative; z-index:1; padding:3px 5px 3px 12px; text-align:right; float:right; top:-16px; _top:-18px; color:#999999; font:.8em Tahoma; }
 
 .latest_white .more { position:absolute; top:12px; right:11px; color:#54564b; font:.8em Tahoma;}
 .latest_white a.more { text-decoration:none;} 
