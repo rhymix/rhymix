@@ -50,7 +50,7 @@
             $openid->SetIdentity($user_id);
             $openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
 
-            $openid->SetRequiredFields(array('email','fullname'));
+            $openid->SetRequiredFields(array('email'));
             $openid->SetOptionalFields(array('dob'));
 
             if (!$openid->GetOpenIDServer()) {
@@ -98,7 +98,9 @@
                 if(!$output->toBool()) {
                     $args->password = md5(getmicrotime());
                     $output = $this->insertMember($args);
+                    if(!$output->toBool()) return $this->stop($output->getMessage());
                     $output = $this->doLogin($args->user_id);
+                    if(!$output->toBool()) return $this->stop($output->getMessage());
                 }
 
                 // 페이지 이동
