@@ -369,7 +369,7 @@
             $args->uploaded_count = $xml_doc->document->uploaded_count->body;
             $args->password = $xml_doc->document->password->body;
             $args->nick_name = $xml_doc->document->nick_name->body;
-            $args->member_srl = -1;
+            $args->member_srl = 0;
             $args->user_id = $xml_doc->document->user_id->body;
             $args->user_name = $xml_doc->document->user_name->body;
             $args->email_address = $xml_doc->document->email_address->body;
@@ -419,7 +419,7 @@
                         $comment_args->nick_name = $val->nick_name->body;
                         $comment_args->user_id = $val->user_id->body;
                         $comment_args->user_name = $val->user_name->body;
-                        $comment_args->member_srl = -1;
+                        $comment_args->member_srl = 0;
                         $comment_args->email_address = $val->email_address->body;
                         $comment_args->regdate = $val->regdate->body;
                         $comment_args->ipaddress = $val->ipaddress->body;
