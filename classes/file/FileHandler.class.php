@@ -208,8 +208,8 @@
             @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
             // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
-            if($resize_width>0 && $width > $resize_width) $width_per = $resize_width / $width;
-            if($resize_height>0 && $height > $resize_height) $height_per = $resize_height / $height;
+            if($resize_width>0 && $width >= $resize_width) $width_per = $resize_width / $width;
+            if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
             if($width_per < $height_per) $per = $height_per;
             else $per = $width_per;
 
