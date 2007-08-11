@@ -93,7 +93,10 @@
             }
 
             // 텍스트 생성
-            $result_text = sprintf(Context::getLang("is_result_text"), $is_keyword, $output->total_count);
+			if(Context::getLangType()=='en')
+				$result_text = sprintf(Context::getLang("is_result_text"), $output->total_count, $is_keyword);
+			else
+				$result_text = sprintf(Context::getLang("is_result_text"), $is_keyword, $output->total_count);
             Context::set('result_text', $result_text);
             Context::set('mid_list', $mid_list);
 
