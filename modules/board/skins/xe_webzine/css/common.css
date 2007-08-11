@@ -39,19 +39,27 @@ Jeong, Chan Myeong 070601~070630
 .boardList tr.bg1 { background:#ffffff}
 .boardList tr.bg2 { background:#fbfbfb;}
 .boardList th a { color:#3e3f3e; text-decoration:none; }
+.boardList th.num,
+.boardList th.title,
+.boardList th.category_title,
+.boardList th.reading,
+.boardList th.recommend,
+.boardList th.author,
+.boardList th.date { border-bottom:1px solid #e0e1db; padding:.5em;}
+
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; }
 .boardList th.title { text-align:center; }
-.boardList th.category { text-align:center; }
-.boardList th.title select { vertical-align:middle; margin-left:.5em; }
+.boardList th.category_title { text-align:left; padding-left:10px;}
+.boardList th.category_title select { vertical-align:middle; width:200px; }
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
 .boardList th.date { border-right:1px solid #ffffff;}
 .boardList th .sort { padding:0 .2em; vertical-align:middle;}
-.boardList td { border-top:1px solid #eff0ed; padding:.5em;}
+.boardList td { border-bottom:1px solid #eff0ed; padding:.5em;}
 .boardList td.num { font:.8em tahoma; color:#999999; padding:.5em 1em; text-align:center;}
 .boardList tr.notice td.num { padding:.5em; white-space:nowrap;}
 .boardList tr.notice td.notice { font-size:.9em; color:#999999; font-weight:bold; text-align:center;}
-.boardList td.thumb { padding:.5em 0 .5em .5em; width:145px; table-layout:fixed; white-space:nowrap;}
+.boardList td.thumb { padding:8px; width:145px; table-layout:fixed; white-space:nowrap;}
 .boardList td.thumb * { vertical-align:middle;}
 .boardList td.title {padding-left:1em; }
 .boardList td.title strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
@@ -74,8 +82,7 @@ Jeong, Chan Myeong 070601~070630
 
 .boardList td .thumbnailSmall { margin:0 .3em 0 .3em;}
 .boardList td .thumbnailSmall img { border:1px solid #bcbdb6;}
-.boardList td .thumbnailMedium { margin:0 .3em 0 .3em;}
-.boardList td .thumbnailMedium img { border:1px solid #e0e1db; padding:3px;}
+.boardList td .thumbnailMedium img { border:1px solid #e0e1db; }
 
 .boardList.thumbnail { margin-top:-1px; border-bottom:none;}
 .boardList.thumbnail td { border-top:none; border-bottom:1px solid #eff0ed; padding:1.5em 0 0 1.5em; overflow:hidden;}

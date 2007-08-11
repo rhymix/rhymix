@@ -21,7 +21,7 @@
     <thead>
         <tr>
             <th scope="col" class="num">{$lang->no}</th>
-            <th scope="col" colspan="2" class="title <!--@if($module_info->use_category=='Y')-->tLeft<!--@end-->">
+            <th scope="col" colspan="2" class="<!--@if($module_info->use_category=='Y')-->category_title<!--@else-->title<!--@end-->">
                 <!--@if($module_info->use_category == "Y")-->
                 <form action="./" method="get">
                     <select name="category" id="board_category">
@@ -107,9 +107,7 @@
 
             <td rowspan="2" class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/common/iconArrowD8.gif" alt="" border="0" /><!--@else-->{$no}<!--@end--></td>
             <!--@if($document->thumbnailExists(100))-->
-            <td rowspan="2" class="thumb">
-                    <a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a>
-            </td>
+            <td rowspan="2" class="thumb"><a href="{getUrl('','document_srl',$document->document_srl)}" class="thumbnailMedium"><img src="{$document->getThumbnail(100)}" border="0" alt="" /></a></td>
             <td class="title">
             <!--@else-->
             <td class="title" colspan="2">
