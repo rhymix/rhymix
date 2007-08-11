@@ -228,23 +228,33 @@
                 // 이미지네임
                 if($xml_doc->member->image_nickname->body) {
                     $image_nickname = base64_decode($xml_doc->member->image_nickname->body);
-                    $target_filename = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($args->member_srl), $args->member_srl);
+
+                    $target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($args->member_extra_info));
+                    $target_filename = sprintf('%s%d.gif', $target_path, $args->member_srl);
+
+                    FileHandler::makeDir($target_path);
                     FileHandler::writeFile($target_filename, $image_nickname);
                 }
 
                 // 이미지 마크
                 if($xml_doc->member->image_mark->body) {
                     $image_mark = base64_decode($xml_doc->member->image_mark->body);
-                    $target_filename = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($args->member_srl), $args->member_srl);
+
+                    $target_path = sprintf('files/member_extra_info/image_mark/%s/', getNumberingPath($args->member_srl));
+                    $target_filename = sprintf('%s%d.gif', $target_path, $args->member_srl);
+
+                    FileHandler::makeDir($target_path);
                     FileHandler::writeFile($target_filename, $image_mark);
                 }
 
                 // 서명
                 if(trim($xml_doc->member->signature->body)) {
                     $signature = removeHackTag(base64_decode($xml_doc->member->signature->body));
+                    $signature_buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
+
                     $target_path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($args->member_srl));
                     $target_filename = sprintf('%s%d.signature.php', $target_path, $args->member_srl);
-                    $signature_buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
+
                     FileHandler::makeDir($target_path);
                     FileHandler::writeFile($target_filename, $signature_buff);
                 }

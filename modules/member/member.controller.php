@@ -730,7 +730,10 @@
             if(!$max_height) $max_height = "20";
 
             // 저장할 위치 구함
-            $target_filename = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($member_srl));
+            FileHandler::makeDir($target_path);
+
+            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
 
             // 파일 정보 구함
             list($width, $height, $type, $attrs) = @getimagesize($source_file);
@@ -796,7 +799,10 @@
             $max_height = $config->image_mark_max_height;
             if(!$max_height) $max_height = "20";
             
-            $target_filename = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $target_path = sprintf('files/member_extra_info/image_mark/%s/', getNumberingPath($member_srl));
+            FileHandler::makeDir($target_path);
+
+            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
             FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
 
         }
