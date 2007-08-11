@@ -29,7 +29,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->user_name}</th>
-        <td>{htmlspecialchars($member_info->user_name)}</td>
+        <td><input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" /> <p>{$lang->about_user_name}</p></td>
     </tr>
     <tr>
         <th scope="row">{$lang->nick_name} *</th>

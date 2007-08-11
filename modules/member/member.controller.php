@@ -591,7 +591,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('nick_name','homepage','blog','birthday','email_address','allow_mailing','allow_message');
+            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing','allow_message');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');

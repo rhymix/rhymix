@@ -1,10 +1,12 @@
 <filter name="modify_info" module="member" act="procMemberModifyInfo" extend_filter="member.getJoinFormList" confirm_msg_code="confirm_submit">
     <form>
+        <node target="user_name" required="true" minlength="2" maxlength="20"/>
         <node target="nick_name" required="true" minlength="2" maxlength="20"/>
         <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
     </form>
     <parameter>
         <param name="accept_agreement" target="accept_agreement" />
+        <param name="user_name" target="user_name" />
         <param name="nick_name" target="nick_name" />
         <param name="homepage" target="homepage" />
         <param name="blog" target="blog" />
