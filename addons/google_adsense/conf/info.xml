@@ -3,7 +3,7 @@
     <title xml:lang="ko">게시글 구글 애드센스 연동</title>
     <title xml:lang="jp">グーグル・アドセンス</title>
     <title xml:lang="zh-CN">Google AdSense</title>
-    <title xml:lang="en">Article Google Adsense Linkage</title>
+    <title xml:lang="en">Linkage of Articles and Google Adsense</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
@@ -47,7 +47,7 @@
             <description xml:lang="ko">top : 게시글 상단, bottom : 게시글 하단 을 지정하실 수 있습니다.</description>
             <description xml:lang="jp">top : 本文の上段, bottom : 本文の下段</description>
             <description xml:lang="zh-CN">可以指定显示位置。(top : 内容上端, bottom : 内容下端)</description>
-            <description xml:lang="en">You can select top : top of article, bottom : bottom of article.</description>
+            <description xml:lang="en">You can set top : top of article, bottom : bottom of article.</description>
         </var>
         <var name="ad_client">
             <title xml:lang="ko">구글 애드센스 키</title>
@@ -57,7 +57,7 @@
             <description xml:lang="ko">기본으로 사용될 구글 애드센스 키를 입력해주세요.</description>
             <description xml:lang="ko">デフォルトで使用するグーグルアドセンスキーを入力してください。</description>
             <description xml:lang="zh-CN">请输入要使用的默认Google Adsense Key。</description>
-            <description xml:lang="en">Input Google Adsense key to use as default.</description>
+            <description xml:lang="en">Please input Google Adsense key to use as default.</description>
         </var>
         <var name="user_ad_client">
             <title xml:lang="ko">회원 키 항목 이름</title>
@@ -68,7 +68,7 @@
             <description xml:lang="jp">グーグル・アドセンスが使用できるようするにためには、加入項目でグーグルキー入力項目名を入力してください。
             </description>
             <description xml:lang="zh-CN">允许会员使用个人Google AdSense时，请输入要在会员注册项目中显示的Google Key项目名。</description>
-            <description xml:lang="en">To permit member's Google Adsense, input name of Google key item in join items.</description>
+            <description xml:lang="en">To permit members' Google Adsense, please input name of Google key item in join items.</description>
         </var>
         <var name="ad_width">
             <title xml:lang="ko">가로 길이</title>
@@ -78,7 +78,7 @@
             <description xml:lang="ko">애드센스의 가로길이를 입력해주세요.</description>
             <description xml:lang="jp">アドセンスの横幅のサイズを入力してください</description>
             <description xml:lang="zh-CN">请输入AdSense的宽度大小。</description>
-            <description xml:lang="en">Input width of adsense.</description>
+            <description xml:lang="en">Please input width of Adsense.</description>
         </var>
         <var name="ad_height">
             <title xml:lang="ko">세로 길이</title>
@@ -88,7 +88,7 @@
             <description xml:lang="ko">애드센스의 세로길이를 입력해주세요.</description>
              <description xml:lang="jp">アドセンスの立幅のサイズを入力してください。</description>
             <description xml:lang="zh-CN">请输入高度大小。</description>
-            <description xml:lang="en">Input height of adsense.</description>
+            <description xml:lang="en">Please input height of Adsense.</description>
         </var>
         <var name="ad_format">
             <title xml:lang="ko">포맷</title>
@@ -98,7 +98,7 @@
             <description xml:lang="ko">애드센스 포맷을 입력해주세요.</description>
              <description xml:lang="jp">アドセンスのフォーマットを入力してください。</description>
             <description xml:lang="zh-CN">请输入广告格式</description>
-            <description xml:lang="en">Input format of adsense.</description>
+            <description xml:lang="en">Please input format of Adsense.</description>
         </var>
         <var name="ad_type">
             <title xml:lang="ko">타입</title>
@@ -108,7 +108,7 @@
             <description xml:lang="ko">애드센스의 타입을 입력해주세요.</description>
             <description xml:lang="jp">アドセンスのタイプを入力してください。</description>
             <description xml:lang="zh-CN">请输入AdSense样式。</description>
-            <description xml:lang="en">Input type of adsense.</description>
+            <description xml:lang="en">Please input type of Adsense.</description>
         </var>
         <var name="ad_channel">
             <title xml:lang="ko">채널</title>
@@ -118,7 +118,7 @@
             <description xml:lang="ko">채널을 입력해주세요. (사용자 정의 구글 애드센스일 경우 사용되지 않습니다)</description>
             <description xml:lang="jp">チャンネルを入力してください（カスタマイズ・グーグル・アドセンスには使用されません）。</description>
             <description xml:lang="zh-CN">请输入频道。 (用户自定义Google AdSense不使用频道)</description>
-            <description xml:lang="en">Input channel. (It is not used for custom Google Adsense)</description>
+            <description xml:lang="en">Please input channel. (It will not be used for custom Google Adsense)</description>
         </var>
         <var name="color_border">
             <title xml:lang="ko">외곽선 색상</title>
@@ -128,7 +128,7 @@
             <description xml:lang="ko">외곽선 색상을 입력해주세요.</description>
             <description xml:lang="jp">ボーダーカラーを入力してください。.</description>
             <description xml:lang="zh-CN">请输入边框颜色。</description>
-            <description xml:lang="en">Input border color.</description>
+            <description xml:lang="en">Please input color of border.</description>
         </var>
         <var name="color_bg">
             <title xml:lang="ko">배경색</title>
@@ -138,7 +138,7 @@
             <description xml:lang="ko">배경색상을 입력해주세요.</description>
             <description xml:lang="jp">背景色を入力してください</description>
             <description xml:lang="zh-CN">请输入背景颜色。</description>
-            <description xml:lang="en">Input background color.</description>
+            <description xml:lang="en">Please input color of background.</description>
         </var>
         <var name="link_color">
             <title xml:lang="ko">링크 글자색</title>
@@ -148,7 +148,7 @@
             <description xml:lang="ko">링크가 걸린 글자의 색상을 입력해주세요.</description>
             <description xml:lang="jp">リンクの文字列の色を入力してください。</description>
             <description xml:lang="zh-CN">请输入链接颜色。</description>
-            <description xml:lang="en">Input color of linked text.</description>
+            <description xml:lang="en">Please input color of linked text.</description>
         </var>
         <var name="text_color">
             <title xml:lang="ko">글자 색 </title>
@@ -158,7 +158,7 @@
             <description xml:lang="ko">링크가 걸리지 않은 글자의 색을 입력해주세요</description>
             <description xml:lang="jp">文字列の色を入力してください。</description>
             <description xml:lang="zh-CN">请输入没有链接字体颜色。</description>
-            <description xml:lang="en">Input color of not linked text.</description>
+            <description xml:lang="en">Please input color of text.</description>
         </var>
         <var name="url_color">
             <title xml:lang="ko">URL 색</title>
@@ -168,7 +168,7 @@
             <description xml:lang="ko">URL의 글자색을 입력해주세요.</description>
             <description xml:lang="ko">URLの色を入力してください。</description>
             <description xml:lang="zh-CN">请输入URL的颜色。</description>
-            <description xml:lang="en">Input color of URL.</description>
+            <description xml:lang="en">Please input color of URL.</description>
         </var>
         <var name="ui_features">
             <title xml:lang="ko">테두리 형태</title>
@@ -178,17 +178,17 @@
             <description xml:lang="ko">테두리 형태를 입력해주세요.</description>
             <description xml:lang="jp">ボーダースタイルを入力してください。</description>
             <description xml:lang="zh-CN">请输入边框样式。</description>
-            <description xml:lang="en">Input style of border.</description>
+            <description xml:lang="en">Please input style of border.</description>
         </var>
         <var name="background_image">
             <title xml:lang="ko">배경 이미지를 입력해주세요.</title>
             <title xml:lang="jp">背景イメージ</title>
             <title xml:lang="zh-CN">请输入背景图片。</title>
-            <title xml:lang="en">Input background image.</title>
+            <title xml:lang="en">Please input image of background.</title>
              <description xml:lang="ko">접근가능한 웹서버에 올린 배경 이미지의 URL을 입력해주세요.</description>
             <description xml:lang="jp">アクセス可能なＷｅｂサーバにアップロードされている背景イメージのURLを入力してください。</description>
             <description xml:lang="zh-CN">请输入有效的图片URL。</description>
-            <description xml:lang="en">Input URL of background image which is uploaded in accessible web server.</description>
+            <description xml:lang="en">Please input URL of background image which is uploaded on accessible web server.</description>
         </var>
     </extra_vars>
 </addon>

@@ -11,5 +11,5 @@
     $lang->addon_maker = 'Author of this Addon';
     $lang->addon_history = 'Addon History';
 
-    $lang->about_addon = 'Addon serves to control behaviors rather than to display the HTML results.<br />Simply toggling any addon you want on and off allows you to interoperate with features that are useful to maintain your site';
+    $lang->about_addon = 'Addon is for controling actions rather than displaying the HTML results.<br />Simply by toggling any addons you want on or off,  you can use very useful functions to administer your website';
 ?>
