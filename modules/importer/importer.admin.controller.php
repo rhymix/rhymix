@@ -198,6 +198,7 @@
             $args->birthday = $xml_doc->member->birthday->body;
             $args->email_address = $xml_doc->member->email_address->body;
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
+            if(!$args->email_host) $args->email_host = $args->email_id;
             $args->password = $xml_doc->member->password->body;
             $args->regdate = $xml_doc->member->regdate->body;
             $args->allow_mailing = $xml_doc->member->allow_mailing->body;
@@ -227,22 +228,25 @@
                 // 이미지네임
                 if($xml_doc->member->image_nickname->body) {
                     $image_nickname = base64_decode($xml_doc->member->image_nickname->body);
-                    FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_nickname);
-                    $this->oMemberController->insertImageName($member_srl, './files/cache/tmp_imagefile.gif');
-                    @unlink('./files/cache/tmp_imagefile.gif');
+                    $target_filename = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($args->member_srl), $args->member_srl);
+                    FileHandler::writeFile($target_filename, $image_nickname);
                 }
 
                 // 이미지 마크
                 if($xml_doc->member->image_mark->body) {
                     $image_mark = base64_decode($xml_doc->member->image_mark->body);
-                    FileHandler::writeFile('./files/cache/tmp_imagefile.gif', $image_mark);
-                    $this->oMemberController->insertImageMark($member_srl, './files/cache/tmp_imagefile.gif');
-                    @unlink('./files/cache/tmp_imagefile.gif');
+                    $target_filename = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($args->member_srl), $args->member_srl);
+                    FileHandler::writeFile($target_filename, $image_mark);
                 }
 
                 // 서명
-                if($xml_doc->member->signature->body) {
-                    $this->oMemberController->putSignature($member_srl, base64_decode($xml_doc->member->signature->body));
+                if(trim($xml_doc->member->signature->body)) {
+                    $signature = removeHackTag(base64_decode($xml_doc->member->signature->body));
+                    $target_path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($args->member_srl));
+                    $target_filename = sprintf('%s%d.signature.php', $target_path, $args->member_srl);
+                    $signature_buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
+                    FileHandler::makeDir($target_path);
+                    FileHandler::writeFile($target_filename, $signature_buff);
                 }
             } else {
                 $this->msg .= $args->user_id." : ".$output->getMessage()."<br />";
