@@ -103,13 +103,6 @@
                 $menu_link = sprintf('%s?module=member&amp;act=dispMemberAddFriend&amp;target_srl=%s',Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','addFriend')", Context::getRequestUri().'/modules/member/tpl/images/icon_add_friend.gif', $menu_str, $menu_link);
             }
-
-            // 6. 최고 관리자라면 회원정보 수정 메뉴 만듬
-            if($logged_info->is_admin == 'Y') {
-                $menu_str = Context::getLang('cmd_management');
-                $menu_link = sprintf("%s?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=%s",Context::getRequestUri(),$member_srl);
-                $menu_list .= sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_friend_box.gif',$menu_str, $menu_link);
-            }
         }
 
         // 템플릿에 적용되게 하기 위해 module의 variables에 재등록

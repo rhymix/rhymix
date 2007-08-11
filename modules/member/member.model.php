@@ -48,6 +48,13 @@
             // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
             $menu_list = array();
 
+            // 최고 관리자라면 회원정보 수정 메뉴 만듬
+            if($logged_info->is_admin == 'Y') {
+                $menu_str = Context::getLang('cmd_management');
+                $menu_link = sprintf("%s?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=%s",Context::getRequestUri(),$member_srl);
+                $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_management.gif',$menu_str, $menu_link);
+            }
+
             // 회원 정보 보기
             $menu_str = Context::getLang('cmd_view_member_info');
             $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);

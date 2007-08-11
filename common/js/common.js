@@ -464,6 +464,8 @@ function chkMemberMenu(evt) {
     }
     if(!obj || !obj.className || obj.className.search("member_")==-1) return;
 
+    if(obj.className.indexOf('member_-1')>=0) return;
+
     var member_srl = parseInt(obj.className.replace(/member_([0-9]+)/ig,'$1').replace(/([^0-9]*)/ig,''),10);
     if(!member_srl) return;
 
@@ -517,14 +519,14 @@ function displayMemberMenu(ret_obj, response_tags, params) {
 
                 if(!str || !func) continue;
 
-                html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left;\" onclick=\""+func+"\">"+str+"</div><br />";
+                html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center;\" onclick=\""+func+"\">"+str+"</span><br />";
             }
         } 
         loaded_member_menu_list[member_srl] = html;
     }
 
     if(html) {
-        xInnerHtml(area, html);
+        xInnerHtml('membermenuarea', "<div class=\"box\">"+html+"</div>");
         xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
