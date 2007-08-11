@@ -103,9 +103,9 @@
             $oMemberAdminController->insertDeniedID('http','');
 
             // member 에서 사용할 cache디렉토리 생성
-            FileHandler::makeDir('./files/member_extra_info/attach/image_name');
-            FileHandler::makeDir('./files/member_extra_info/attach/image_mark');
-            FileHandler::makeDir('./files/member_extra_info/attach/signature');
+            FileHandler::makeDir('./files/member_extra_info/image_name');
+            FileHandler::makeDir('./files/member_extra_info/image_mark');
+            FileHandler::makeDir('./files/member_extra_info/signature');
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 
             return new Object();
@@ -125,6 +125,9 @@
             $act = $oModuleModel->getActionForward('dispMemberScrappedDocument');
             if(!$act) return true;
 
+            // member 디렉토리 체크 (2007. 8. 11 추가)
+            if(!is_dir("./files/member_extra_info")) return true;
+
             return false;
         }
 
@@ -132,9 +135,16 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            // act 추가
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
+
+            // member 디렉토리 체크
+            FileHandler::makeDir('./files/member_extra_info/image_name');
+            FileHandler::makeDir('./files/member_extra_info/image_mark');
+            FileHandler::makeDir('./files/member_extra_info/signature');
+            FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 
             return new Object(0, 'success_updated');
         }

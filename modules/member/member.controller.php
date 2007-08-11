@@ -729,8 +729,15 @@
             $max_height = $config->image_name_max_height;
             if(!$max_height) $max_height = "20";
 
-            $target_filename = sprintf('files/attach/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            // 저장할 위치 구함
+            $target_filename = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+
+            // 파일 정보 구함
+            list($width, $height, $type, $attrs) = @getimagesize($source_file);
+
+            // 지정된 사이즈보다 크거나 gif가 아니면 변환
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            else @copy($target_file, $target_filename);
         }
 
         /**
@@ -789,7 +796,7 @@
             $max_height = $config->image_mark_max_height;
             if(!$max_height) $max_height = "20";
             
-            $target_filename = sprintf('files/attach/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $target_filename = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
 
         }
@@ -815,7 +822,7 @@
          **/
         function putSignature($member_srl, $signature) {
             $signature = removeHackTag($signature);
-            $path = sprintf('files/attach/member_extra_info/signature/%s/', getNumberingPath($member_srl));
+            $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
             if(!trim($signature) || trim(strtolower($signature))=='<br>') return @unlink($filename);
 
@@ -828,7 +835,7 @@
          * @brief 서명 파일 삭제
          **/
         function delSignature($member_srl) {
-            $filename = sprintf('files/attach/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             @unlink($filename);
         }
 

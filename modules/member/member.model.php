@@ -399,7 +399,7 @@
          * @brief 이미지이름의 정보를 구함
          **/
         function getImageName($member_srl) {
-            $image_name_file = sprintf('files/attach/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             if(!file_exists($image_name_file)) return;
             list($width, $height, $type, $attrs) = getimagesize($image_name_file);
             $info->width = $width;
@@ -413,7 +413,7 @@
          * @brief 이미지마크의 정보를 구함
          **/
         function getImageMark($member_srl) {
-            $image_mark_file = sprintf('files/attach/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             if(!file_exists($image_mark_file)) return;
             list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
             $info->width = $width;
@@ -427,7 +427,7 @@
          * @brief 사용자의 signature를 구함
          **/
         function getSignature($member_srl) {
-            $filename = sprintf('files/attach/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
+            $filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
             if(!file_exists($filename)) return '';
 
             $buff = FileHandler::readFile($filename);
