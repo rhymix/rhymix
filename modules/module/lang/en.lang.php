@@ -61,7 +61,7 @@
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.\n You can enter multiple IDs using <br />,(comma) \n(but the module manager cannot access the site admin page.)';
     $lang->about_grant = 'If you disable all objects having specific permissions, all members even not logined may have permission.';
     $lang->about_open_rss = 'You can select RSS on the current module to be open to the public.\nNo matter the view permission of article , RSS will be open to the public by its option.';
-    $lang->about_module = "All of Zeroboard XE except the basic library consist of module.\n [Manage module] module will show all installed modules and help you to manage them.\nThrough [Add shortcut] feature, you can manage frequently used modules easily.";
+    $lang->about_module = "Zeroboard XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.\nThrough [Add Shortcuts] feature, you can manage frequently used modules easily.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';
 ?>
