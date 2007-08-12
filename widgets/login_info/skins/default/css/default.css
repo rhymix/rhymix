@@ -37,5 +37,5 @@
 .openid_login .wButtonTypeA .rightCap { width:2px; height:24px; background:url(../images/default/buttonTypeARight.gif) no-repeat; margin:0 -1px 0 .4em;}
 .openid_login .wButtonTypeA .icon { margin:0 .2em;}
 .openid_login .wButtonWrite ul { text-align:center; clear:both; display:block;}
-.openid_login .wButtonWrite li { margin-top:.5em; float:left; margin-left:.3em;}
+.openid_login .wButtonWrite li { margin-top:.5em; float:left; margin-left:.3em; list-style:none;}
 
