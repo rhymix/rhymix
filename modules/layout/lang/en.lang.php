@@ -27,6 +27,6 @@
     $lang->about_layout = "Layout module helps you to create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will display with various modules.<br />* Those layouts which are unabled to delete or modify are the blog or other module's layout. ";
     $lang->about_layout_code = 
         "It will be applied to the service when you save the layout code after editing it.
-        You must previous the result before saving it.
-        Refer to <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Pamphlet</a> for ZeroboardXE's grammer of pamphlet.";
+        Please first preview your code and then save it.
+        You can refer grammar of Zeroboard XE's template from <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Template</a>.";
 ?>

@@ -22,7 +22,7 @@
             レイアウト作成：Zero
         </description>
         <description xml:lang="en">
-            This layout is the ZeroboardXE Official website layout.
+            This layout is the Zeroboard XE Official website layout.
             Designer : So-Ra Lee
             HTML/CSS : Chan-Myung Jeong
             Layout producer : zero
@@ -44,7 +44,7 @@
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望する色を選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
-            <description xml:lang="en">Select colorset the colorset you want.</description>
+            <description xml:lang="en">Please select a colorset you want.</description>
             <description xml:lang="es">Seleccióne la colección de colores.</description>
             <options name="default">
                 <title xml:lang="ko">기본</title>
