@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+
+.system_message {
+    color:#666666;
+    text-align:center;
+    padding:1em 0 1em 0;
+}
+
+.system_button {
+    margin-top:1em;
+}
+
+.system_message a {
+    margin-top:1em;
+}

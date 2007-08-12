@@ -1,0 +1,9 @@
+<query id="deleteSavedDoc" action="delete">
+    <tables>
+        <table name="editor_autosave" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" />
+        <condition operation="equal" column="ipaddress" var="ipaddress"  />
+    </conditions>
+</query>

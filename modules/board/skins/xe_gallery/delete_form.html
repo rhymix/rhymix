@@ -1,0 +1,23 @@
+<!--%import("filter/delete_document.xml")-->
+<!--#include("header.html")-->
+
+<div class="smallBox w268">
+
+    <div class="header">
+        <h3>{$lang->confirm_delete}</h3>
+    </div>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, delete_document)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+
+        <div class="inputPassword tCenter">
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span>
+            <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+        </div>
+
+    </form>
+</div>
+
+<!--#include("footer.html")-->

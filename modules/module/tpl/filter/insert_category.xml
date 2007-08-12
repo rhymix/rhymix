@@ -1,0 +1,10 @@
+<filter name="insert_category" module="module" act="procModuleAdminInsertCategory" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" />
+    </form>
+    <response callback_func="completeUpdateCategory">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

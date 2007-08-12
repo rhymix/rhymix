@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+/* Blog Layout - Header */
+#header { margin:0 9px .8em 9px; clear:both; margin-top:.6em; background:#1187d8 url(../images/blue/bg_header.gif) no-repeat 2.5em top; border:1px solid #FFFFFF; overflow:hidden;}
+#blog_category .selected { font-weight:bold; cursor:default; font-size:1em; color:#1187d8; }
+#header #globalNavigation li.on a { color:#1187d8;}
+#header #tagLine { padding:0 0 0 30px; color:#bfdff4;}
+
+/* blogHeader */
+.blogHeader { position:relative; _width:100%; background:#1187d8 url(../images/blue/bg_top_title.gif) no-repeat 23px top; overflow:hidden;}
+.blogList { width:100%; position:relative; border-bottom:2px solid #1187d8; border-collapse:collapse; }
+
+.blogList th {padding:1.2em .5em 1.1em .6em; background:#ffffff url(../images/blue/bg_title.gif) no-repeat left bottom; white-space:nowrap;}
+.blogList td .replyAndTrackback { font:.8em Tahoma; color:#007ed5; cursor:default; position:relative; top:-.2em;}
+.blogList td.recommend { font:bold .8em Tahoma; color:#007ed5; text-align:center;}
+
+.pageNavigation .current { margin-left:-4px; font:bold .8em Tahoma; color:#007ed5; display:inline-block; padding:1px 5px 2px 4px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+
+.blogRead { position:relative; _width:100%; margin:1em 0 0 0; padding: 0 0 .6em 0; border-bottom:3px solid #1187d8;}
+.blogRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:3px solid #1187d8; overflow:hidden;}
+.blogRead .replyAndTrackback li.selected { margin:0; padding:1em 1.1em .7em 1.4em; border:1px solid #EAEAEA; border-bottom:none; background:#FFFFFF; color:#007ed5;}
+
+.blogWrite fieldset.bottomBorder { border-bottom:2px solid #f9f9f9;}
+.blogWrite div.title { padding:.5em 0 .65em 0; white-space:nowrap; background:#FFFFFF url(../images/blue/bg_title_norepeat.gif) no-repeat left bottom;}
+.blogWrite .option { width:100%; padding:.5em 0 .65em 0; background:#FFFFFF url(../images/blue/bg_title_norepeat.gif) no-repeat left bottom; overflow:hidden;}

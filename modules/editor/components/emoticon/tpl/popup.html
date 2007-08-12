@@ -1,0 +1,18 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
+<div id="popBody">
+
+    <!--@foreach($emoticon_list as $emoticon)-->
+    <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" class="emoticon" />
+    <!--@end-->
+
+</div>
+
+<div id="popFooter" class="tCenter">
+    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+</div>

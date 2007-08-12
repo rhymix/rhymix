@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+.colorpicker {
+    width:275px; 
+    height:100px;
+    padding:5px;
+    clear:both;
+}
+
+li { list-style:none; float:left; margin-right:5px; }
+
+img.preview_color {
+    width:30px;
+    height:16px;
+    border:1px solid #000000;
+    background-color:#FFFFFF;
+}
+
+img.color_icon {
+    width:14px;
+    height:14px;
+    border:1px solid #FFFFFF;
+}
+
+img.color_icon_over {
+    width:14px;
+    height:14px;
+    border:1px solid #000000;
+    cursor:pointer;
+}
+
+.input_area {
+    text-align:center;
+    height:25px;
+    padding:5px;
+    font-family:tahoma;
+    font-size:8pt;
+    clear:both;
+    text-align:center;
+    background-color:#EEEEEE;
+}
+
+.popup_input {
+    border:1px solid #AAAAAA;
+    height:14px;
+}
+
+.popup_submit {
+    border:1px solid #AAAAAA;
+    height:18px;
+}

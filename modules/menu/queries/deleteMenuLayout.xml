@@ -1,0 +1,8 @@
+<query id="deleteMenuLayout" action="delete">
+    <tables>
+        <table name="menu_layout" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="menu_srl" var="menu_srls" filter="number" notnull="notnull" />
+    </conditions>
+</query>

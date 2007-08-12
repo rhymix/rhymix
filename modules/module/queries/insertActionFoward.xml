@@ -1,0 +1,10 @@
+<query id="insertActionFoward" action="insert">
+    <tables>
+        <table name="action_forward" />
+    </tables>
+    <columns>
+        <column name="act" var="act" notnull="notnull" />
+        <column name="module" var="module" notnull="notnull" />
+        <column name="type" var="type" notnull="notnull" />
+    </columns>
+</query>

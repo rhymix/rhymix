@@ -1,0 +1,10 @@
+.counter_widget {
+    border:3px solid #DDDDDD;
+    padding:6px;
+    margin-bottom:10px;
+    color:#999999;
+    font-family:tahoma;
+    font-size:8pt;
+}
+
+.counter_widget ul { list-style:none; }

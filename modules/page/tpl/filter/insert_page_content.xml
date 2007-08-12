@@ -1,0 +1,22 @@
+<filter name="insert_page_content" module="page" act="procPageAdminInsert" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="mid" required="true" filter="alpha_number" />
+        <node target="browser_title" required="true" maxlength="250" />
+        <node target="content" required="true" />
+    </form>
+    <parameter>
+        <param name="page_name" target="mid" />
+        <param name="module_srl" target="module_srl" />
+        <param name="module_category_srl" target="module_category_srl" />
+        <param name="layout_srl" target="layout_srl" />
+        <param name="content" target="content" />
+        <param name="browser_title" target="browser_title" />
+        <param name="is_default" target="is_default" />
+    </parameter>
+    <response callback_func="completeInsertPageContent">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+        <tag name="page" />
+    </response>
+</filter>

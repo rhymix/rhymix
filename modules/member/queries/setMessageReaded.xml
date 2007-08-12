@@ -1,0 +1,13 @@
+<query id="setMessageReaded" action="update">
+    <tables>
+        <table name="member_message" />
+    </tables>
+    <columns>
+        <column name="readed" default="Y" />
+        <column name="readed_date" default="curdate()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="message_srl" var="message_srl" notnull="notnull" filter="number"/>
+        <condition operation="equal" column="related_srl" var="related_srl" notnull="notnull" filter="number" pipe="or" />
+    </conditions>
+</query>

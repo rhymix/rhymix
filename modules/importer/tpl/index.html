@@ -1,0 +1,136 @@
+<!--%import("js/importer_admin.js")-->
+<!--%import("css/importer.js")-->
+<!--%import("filter/step1.xml")-->
+<!--%import("filter/step12.xml")-->
+<!--%import("filter/import_xml.xml")-->
+
+<h3>{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!-- 설명 -->
+<div class="infoText">{nl2br($lang->about_importer)}</div>
+
+<!-- step 1. import하려는 XML파일의 성격 및 대상 모듈을 지정 -->
+<div id="step1">
+    <form action="./" method="get" onsubmit="return procFilter(this, step1);">
+
+        <div class="title" >{$lang->import_step_title[1]}</div>
+        <div class="desc">{$lang->import_step_desc[1]}</div>
+
+        <table cellspacing="0" class="tableType3 gap1">
+        <tr>
+            <th scope="col"><label for="source_type_module">{$lang->type_module}</label></th>
+            <td class="left"><input type="radio" name="source_type" value="module" id="source_type_module" /> {$lang->about_type_module}</td>
+        </tr>
+        <tr>
+            <th scope="col"><label for="source_type_member">{$lang->type_member}</label></th>
+            <td class="left"><input type="radio" name="source_type" value="member" id="source_type_member" /> {$lang->about_type_member}</td>
+        </tr>
+        <tr>
+            <th scope="col"><label for="source_type_syncmember">{$lang->type_syncmember}</label></th>
+            <td class="left"><input type="radio" name="source_type" value="syncmember" id="source_type_syncmember" /> {$lang->about_type_syncmember}</td>
+        </tr>
+        </table>
+
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+        </div>
+    </form>
+</div>
+
+<!-- step 1-2. 대상이 게시물 정보일 경우 대상 모듈 목록을 선택하도록 함 -->
+<div id="step12" style="display:none">
+    <form action="./" method="get" onsubmit="return procFilter(this, step12);">
+        <div class="title">{$lang->import_step_title[12]}</div>
+        <div class="desc">{$lang->import_step_desc[12]}</div>
+
+        <div>
+            <select name="target_module" id="target_module">
+            </select>
+        </div>
+
+        <br />
+        <div class="desc">{nl2br($lang->about_target_path)}</div>
+        <div>
+            Path/URL : <input type="text" name="target_path" id="target_path" class="inputTypeText w400" />
+        </div>
+
+
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+        </div>
+    </form>
+</div>
+
+<!-- step 1-3. 대상이 게시물 정보일 경우 모듈 선택후 분류가 있으면 분류 선택을 하도록 함 -->
+<div id="step13" style="display:none">
+    <form action="./" method="get" onsubmit="return doStep13(this)">
+        <div class="title">{$lang->import_step_title[13]}</div>
+        <div class="desc">{$lang->import_step_desc[13]}</div>
+
+        <div>
+            <select name="target_category" id="target_category">
+                <option value=""></option>
+            </select>
+        </div>
+
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+        </div>
+    </form>
+</div>
+
+<!-- step 2. XML 파일 지정 -->
+<div id="step2" style="display:none">
+    <form action="./" method="get" onsubmit="return doStep2(this)" id="fo_step2">
+    <input type="hidden" name="module_srl" value="" />
+    <input type="hidden" name="target_path" value="" />
+    <input type="hidden" name="category_srl" value="" />
+    <input type="hidden" name="position" value="0" />
+    <input type="hidden" name="file_point" value="0" />
+    <input type="hidden" name="total_count" value="0" />
+
+        <div class="title">{$lang->import_step_title[2]}</div>
+        <div class="desc">{$lang->import_step_desc[2]}</div>
+
+        <table cellspacing="0" class="tableType4 gap1">
+        <tr>
+            <td class="left">
+                <input type="text" name="xml_file" value="./" class="inputTypeText w100" />
+            </td>
+        </tr>
+        </table>
+
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+        </div>
+
+        <div id="step2_status" style="display:none;" class="gap1">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom:10px;">
+            <col />
+            <col width="120" />
+            <tr>
+                <td><div id="bar" style="width:1px;height:10px;background-color:#EFEFEF;border:1px solid #888888"></div></td>
+                <td class="tRight"><span id="bar_status"></span>
+            </tr>
+            </table>
+            <div id="step2_position" style="height:100px;overflow-y:scroll;border:2px solid #DDDDDD;padding:10px;" class="desc"></div>
+            <div class="tRight gap1">
+               <span class="button"><input type="button" value="{$lang->cmd_continue}"  onclick="doManualProcess(); return false"  /></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- step 3. 회원 동기화 시작 버튼 -->
+<div id="step3" style="display:none">
+    <form action="./" method="get" onsubmit="return doStep3(this)">
+        <div class="title">{$lang->import_step_title[3]}</div>
+        <div class="desc">{$lang->import_step_desc[3]}<br />{$lang->msg_sync_member}</div>
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_sync_member}" /></span>
+        </div>
+    </form>
+</div>
+
+<!-- final step. 진행 완료 또는 실패 메세지 -->
+<div id="step_finish" style="display:none;"></div>

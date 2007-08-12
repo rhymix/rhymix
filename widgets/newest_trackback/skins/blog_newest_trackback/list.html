@@ -1,0 +1,30 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="cyan")-->
+    <!--%import("css/cyan.css")-->
+<!--@elseif($colorset=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($colorset=="red")-->
+    <!--%import("css/red.css")-->
+<!--@elseif($colorset=="purple")-->
+    <!--%import("css/purple.css")-->
+<!--@else-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div id="newestTrackback">
+    <div class="header">
+        <!--@if($widget_info->title)-->
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>newest trackbacks</h2>
+        <!--@end-->
+    </div>
+
+    <ul class="trackbackList">
+        <!--@foreach($widget_info->trackback_list as $val)-->
+        <li><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,20,'...')}</a></li>
+        <!--@end-->
+    </ul>
+
+</div>

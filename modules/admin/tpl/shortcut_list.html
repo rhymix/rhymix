@@ -1,0 +1,32 @@
+<!--%import("filter/delete_shortcut.xml")-->
+<!--%import("js/admin.js")-->
+
+<h3>{$lang->cmd_shortcut_management}</h3>
+
+<div class="infoText">{$lang->about_shortcut}</div>
+
+<!-- 숏컷의 위/아래, 삭제와 관련된 form -->
+<form id="fo_shortcut_info" action="./" method="get">
+    <input type="hidden" name="selected_module" value="" />
+</form>
+
+<table cellspacing="0" class="tableType3">
+<thead>
+    <tr>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->module}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($shortcut_list as $shortcut_info)-->
+    <tr>
+        <th scope="row">{$shortcut_info->title}</th>
+        <td class="tahoma">{$shortcut_info->module}</td>
+        <td class="tahoma">{zdate($shortcut_info->regdate,"Y-m-d H:i:s")}</td>
+        <td><a href="#" onclick="doDeleteShortCut('{$shortcut_info->module}');return false;" class="red">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>

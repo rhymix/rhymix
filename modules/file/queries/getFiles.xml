@@ -1,0 +1,11 @@
+<query id="getFiles" action="select">
+    <tables>
+        <table name="files" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" defualt="source_filename" order="asc" />
+    </navigation>
+</query>

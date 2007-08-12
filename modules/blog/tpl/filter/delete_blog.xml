@@ -1,0 +1,10 @@
+<filter name="delete_blog" module="blog" act="procBlogAdminDeleteBlog">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteBlog">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

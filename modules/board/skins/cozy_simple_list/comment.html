@@ -1,0 +1,62 @@
+<div id="reply" class="comment">
+    {@ $idx = 0 }
+<!--@if($oDocument->getCommentCount())-->
+    <!--@foreach($oDocument->getComments() as $key => $val)-->
+        <a name="comment_{$key}"></a>
+        <div class="contentBox <!--@if($val->depth>0)-->indent_box<!--@end--> <!--@if($idx>0)-->top_border<!--@end-->">
+
+            <!--@if($val->depth>0)-->
+            <div style="margin-left:{($val->depth*1.5)}em;">
+            <div class="indent">
+            <!--@end-->
+
+            <table cellspacing="0" width="100%">
+            <col />
+            <col width="120" />
+            <tr>
+                <td>{$val->content}</td>
+                <td class="tRight" valign="top">
+                    <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
+                        <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_delete.gif" alt="{$lang->cmd_delete}" /></a>
+                        <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_edit.gif" alt="{$lang->cmd_modify}" /></a>
+                    <!--@end-->
+                    <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$val->comment_srl)}"><img src="./images/common/btn_reply.gif" alt="{$lang->cmd_reply}" /></a>
+                </td>
+            </tr>
+            <!--@if($val->uploaded_count && $val->uploaded_list)-->
+            <tr>
+                <td colspan="2">
+                    <div class="fileAttached">
+                        <ul>
+                            <!--@foreach($val->uploaded_list as $key => $file)-->
+                            <li><img src="./images/common/iconFile.gif" alt="attached file" /><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                            <!--@end-->
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </td>
+            </tr>
+            <!--@end-->
+            <tr>
+                <td><div class="author member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
+                <td>
+                    <span class="date">
+                        {zdate($val->regdate, "Y.m.d H:i")}
+                        <!--@if($grant->is_admin)-->
+                            ({$val->ipaddress})
+                        <!--@end-->
+                    </span>
+                </td>
+            </tr>
+            </table>
+
+            <!--@if($val->depth>0)-->
+            </div>
+            </div>
+            <!--@end-->
+        </div>
+
+    {@ $idx++}
+    <!--@end-->
+<!--@end-->
+</div>

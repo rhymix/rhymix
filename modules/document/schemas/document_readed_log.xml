@@ -1,0 +1,6 @@
+<table name="document_readed_log">
+    <column name="document_srl" type="number" size="11" notnull="notnull" index="idx_document_srl" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

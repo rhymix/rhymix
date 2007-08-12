@@ -1,0 +1,34 @@
+<!--%import("filter/delete_board.xml")-->
+<!--%import("js/board_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, delete_board)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+
+    <table cellspacing="0" class="tableType4">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row" colspan="2">{$lang->confirm_delete}</th>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->module_name}</th>
+        <td>{$module_info->mid}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->module}</th>
+        <td>{$module_info->module}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->document_count}</th>
+        <td>{$module_info->document_count}</td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <a href="{getUrl('act','dispBoardAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
+        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+    </div>
+
+</form>

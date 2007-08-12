@@ -1,0 +1,17 @@
+<query id="insertTrackback" action="insert">
+    <tables>
+        <table name="trackbacks" />
+    </tables>
+    <columns>
+        <column name="trackback_srl" var="trackback_srl" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+        <column name="url" var="url" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="title" var="title" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="blog_name" var="blog_name" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="excerpt" var="excerpt" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="list_order" var="list_order" default="0" />
+    </columns>
+</query>

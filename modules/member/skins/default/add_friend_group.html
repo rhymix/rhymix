@@ -1,0 +1,34 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/add_friend_group.xml")-->
+
+<div class="memberSmallBox w500pop">
+    <form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
+    <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
+
+        <div class="header">
+            <h3>
+                <!--@if($friend_group->friend_group_srl)-->
+                    {$lang->cmd_rename_friend_group}
+                <!--@else-->
+                    {$lang->cmd_add_friend_group}
+                <!--@end-->
+            </h3>
+        </div>
+
+        <div class="text">
+            <p>{$lang->msg_insert_group_name}</p>
+            <input name="title" type="text" class="inputTypeText" value="{htmlspecialchars($friend_group->title)}"/>
+        </div>
+
+        <div class="help tCenter">
+            <!--@if($friend_group->friend_group_srl)-->
+            <span class="button"><input type="submit" value="{$lang->cmd_modify}" /></span>
+            <!--@else-->
+            <span class="button"><input type="submit" value="{$lang->cmd_insert}" /></span>
+            <!--@end-->
+            <a href="#" onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        </div>
+    </form>
+</div>
+
+<!--#include("./common_footer.html")-->

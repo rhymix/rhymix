@@ -1,0 +1,4 @@
+<table name="menu_layout">
+    <column name="menu_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
+    <column name="layout_srl" type="number" size="12" notnull="notnull" />
+</table>

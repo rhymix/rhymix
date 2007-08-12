@@ -1,0 +1,127 @@
+<!-- js 파일 import -->
+<!--%import("js/xe_official.js")-->
+
+<!-- 레이아웃과 연동될 css 파일 import -->
+<!--@if($layout_info->colorset == "white")-->
+    <!--%import("css/white.css")-->
+<!--@elseif($layout_info->colorset == "black")-->
+    <!--%import("css/black.css")-->
+<!--@else-->
+    <!--%import("css/default.css")-->
+<!--@end-->
+
+<!--@if($layout_info->background_image)-->
+<style type="text/css">
+    body {  background-repeat:repeat-x; background-image:url({getUrl()}{$layout_info->background_image}); }       
+</style>
+<!--@end-->
+
+<div id="bodyWrap">
+	<div id="header">
+		<h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
+
+		<div id="language">
+			<strong title="{$lang_type}">{$lang_type}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
+			<ul id="selectLang">
+                <!--@foreach($lang_supported as $val)--><!--@if($val != $lang_type)-->
+				<li><a href="#" onclick="doChangeLangType('{$val}');return false;">{$val}</a></li>
+                <!--@end--><!--@end-->
+			</ul>
+		</div>
+
+		<!--GNB-->
+		<ul id="gnb">
+            <!-- main_menu 1차 시작 -->
+            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+                <!--@if($val['selected'])-->
+                    {@ $menu_1st = $val }
+                <!--@end-->
+
+                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+
+            <!--@end--><!--@end-->
+            <!-- main_menu 1차 끝 -->
+		</ul>
+		<!--//GNB-->
+
+		<form action="{getUrl()}" method="post" id="isSearch">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="act" value="IS" />
+
+			<input name="search_target" type="radio" value="title" id="search_target" class="searchOrder" checked="checked" title="search option" />
+			<label for="search_target" class="checked" id="search_target_label" onclick="showHide('selectOrder'); return false">{$lang->title}</label>
+			<ul id="selectOrder">
+				<li>
+					<input type="radio" name="search_target" value="title" id="search_target1" />
+					<label for="search_target1" onclick="chkIsKind(1, '{$lang->title}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}</label>
+				</li>
+				<li>
+					<input type="radio" name="search_target" value="content" id="search_target2" />
+					<label for="search_target2" onclick="chkIsKind(2, '{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->content}</label>
+				</li>
+				<li>
+					<input type="radio" name="search_target" value="title_content" id="search_target3" />
+					<label for="search_target3" onclick="chkIsKind(3, '{$lang->title}+{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}+{$lang->content}</label>
+				</li>
+                <!--
+				<li>
+					<input type="radio" name="search_target" value="comment" id="search_target4" />
+					<label for="search_target4" onclick="chkIsKind(4, '{$lang->comment}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->comment}</label>
+				</li>
+                -->
+			</ul>
+			<input name="is_keyword" type="text" class="inputText" title="keyword" />
+
+			<input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
+		</form>
+
+	</div>
+	<div id="contentBody">
+		<div id="columnLeft">
+
+            <!-- 로그인 위젯 -->
+            <img src="./images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="xe_official" colorset="{$layout_info->colorset}" />
+
+            <!-- 왼쪽 2차 메뉴 -->
+			<img src="./images/blank.gif" alt="" class="mask" />
+
+            <!--@if($menu_1st)-->
+			<ol id="lnb">
+                {@ $idx = 1 }
+                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['text'])-->
+				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a>
+
+                    <!-- main_menu 3차 시작 -->
+                    <!--@if($val['list'])-->
+					<ul>
+                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
+						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['text']}</a></li>
+                    <!--@end--><!--@end-->
+					</ul>
+                    <!--@end-->
+				</li>
+                {@$idx++}
+                <!--@end--><!--@end-->
+			</ol>
+            <!--@end-->
+
+		</div>
+		<div id="columnRight">
+            <!-- 컨텐츠 시작 -->
+            {$content}
+
+		</div>
+	</div>
+	<ul id="footer">
+		<li class="first-child">
+			<address>
+			<a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/{$layout_info->colorset}/powerdByZeroboard.gif" alt="Powered By ZeroBoard" width="106" height="5" /></a>
+			</address>
+
+		</li>
+
+        <!--@foreach($bottom_menu->list as $key => $val)-->
+		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+        <!--@end-->
+	</ul>
+</div>

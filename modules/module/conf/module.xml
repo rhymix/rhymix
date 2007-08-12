@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispModuleAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispModuleAdminList" type="view" standalone="true" />
+        <action name="dispModuleAdminCategory" type="view" standalone="true" />
+        <action name="dispModuleAdminInfo" type="view" standalone="true" />
+
+        <action name="dispModuleSkinInfo" type="view" standalone="true" />
+
+        <action name="procModuleAdminInsertCategory" type="controller" standalone="true" />
+        <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" />
+    </actions>
+</module>

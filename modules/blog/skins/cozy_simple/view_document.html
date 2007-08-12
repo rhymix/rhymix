@@ -1,0 +1,126 @@
+<!--%import("filter/vote.xml")-->
+
+<!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
+<form id="fo_document_info" action="./" method="get">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+</form>
+
+<!-- 글 내용 보여주기 -->
+<div class="blogRead">
+    <div class="originalContent">
+        <div class="readHeader">
+            <div class="titleAndCategory">
+                <h4>{$oDocument->getTitleText()}</h4>
+                <span class="vr">|</span><span class="category">{$category_list[$oDocument->get('category_srl')]->title}</span>
+            </div>
+
+            <div class="dateAndModify">
+
+                <span class="date"><strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}</span>
+
+                <!--@if($oDocument->isEditable())-->
+                <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_modify}" /></a>
+                <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
+                <!--@end-->
+            </div>
+        </div>
+        
+        <dl class="uri">
+            <dd>{$lang->document_url} : <span>{$oDocument->getPermanentUrl()}</span></dd>
+            <!--@if($oDocument->allowTrackback())-->
+            <dd>{$lang->trackback_url} : <span>{$oDocument->getTrackbackUrl()}</span></dd>
+            <!--@end-->
+        </dl>
+
+        <!--@if($module_info->display_writer == "on")-->
+        <div class="userInfo">
+            <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+            <!--@if($grant->is_admin)-->
+            <div class="ipaddress">{$oDocument->get('ipaddress')}</div>
+            <!--@end-->
+        </div>
+        <!--@end-->
+        <div class="clear"></div>
+
+        <!--@if($oDocument->isExtraVarsExists())-->
+        <table cellspacing="0" summary="" class="extraVarsList">
+        <col width="150" />
+        <col />
+        <!--@foreach($module_info->extra_vars as $key => $val)-->
+            <!--@if($val->name)-->
+        <tr class="bg{($key+1)%2+1}">
+            <th scope="row">{$val->name}</th>
+            <td>
+                <!-- 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+                <!--#include("./extra_var_value.html")-->
+            </td>
+        </tr>
+            <!--@end-->
+        <!--@end-->
+        </table>
+        <!--@end-->
+
+        <div class="readBody"><div class="contentBody">{$oDocument->getContent()}</div></div>
+
+        <div class="readFooter">
+            {@ $tag_list = $oDocument->get('tag_list') }
+            <!--@if(count($tag_list))-->
+            <div class="tag">
+                <h5><img src="./images/common/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /></h5>
+                <ul>
+                    <!--@for($i=0;$i<count($tag_list);$i++)-->
+                        {@ $tag = $tag_list[$i]; }
+                        <li>
+                            <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
+                        </li>
+                    <!--@end-->
+                </ul>
+            </div>
+            <!--@end-->
+
+            <!--@if($oDocument->hasUploadedFiles())-->
+            <div class="fileAttached">
+                <ul>
+                    {@ $uploaded_list = $oDocument->getUploadedFiles() }
+                    <!--@foreach($uploaded_list as $key => $file)-->
+                    <li><img src="./images/common/iconFile.gif" alt="attached file" /><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                    <!--@end-->
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+
+    <div class="clear">
+      <ul class="replyAndTrackback">
+          <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+              <li class="selected"><a href="#comment" id="toggleReply" onclick="toggleReply(); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
+          <!--@end-->
+
+          <!--@if($oDocument->allowTrackback())-->
+              <li><a href="#trackback" id="toggleTrackback" onclick="toggleTrackback(); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
+          <!--@end-->
+      </ul>
+    </div>
+
+    <div class="clear"></div>
+
+    <!-- 댓글 파일 include -->
+    <!--@if($oDocument->allowComment())-->
+        <!--#include("./comment.html")-->
+    <!--@end-->
+
+    <!-- 엮인글 파일 include -->
+    <!--@if($oDocument->allowTrackback())-->
+        <!--#include("./trackback.html")-->
+    <!--@end-->
+
+    <!-- 댓글 입력 폼 -->
+    <!--@if($grant->write_comment && !$oDocument->isLocked())-->
+        {@ $document_srl = $oDocument->document_srl; }
+        <!--#include("./comment_form.html")-->
+    <!--@end-->
+
+</div>

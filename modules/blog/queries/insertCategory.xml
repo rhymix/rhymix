@@ -1,0 +1,15 @@
+<query id="insertCategory" action="insert">
+    <tables>
+        <table name="blog_category" />
+    </tables>
+    <columns>
+        <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />
+        <column name="parent_srl" var="parent_srl" filter="number" default="0" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="expand" var="expand" />
+        <column name="group_srls" var="group_srls" />
+        <column name="listorder" var="listorder" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

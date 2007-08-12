@@ -1,0 +1,13 @@
+<query id="getMemberSrl" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="user_id" var="user_id" pipe="and" />
+        <condition operation="equal" column="email_address" var="email_address" pipe="and" />
+        <condition operation="equal" column="nick_name" var="nick_name" pipe="and" />
+    </conditions>
+</query>

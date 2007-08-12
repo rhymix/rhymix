@@ -1,0 +1,10 @@
+<query id="insertCounterLog" action="insert">
+    <tables>
+        <table name="counter_log" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull"/>
+        <column name="ipaddress" var="ipaddress" notnull="notnull" default="ipaddress()" />
+        <column name="user_agent" var="user_agent" />
+    </columns>
+</query>

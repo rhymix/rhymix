@@ -1,0 +1,69 @@
+<!--%import("filter/insert.xml")-->
+
+<!--@if($act == 'dispGuestbookModify')-->
+    <!--#include("header.html")-->
+<!--@end-->
+
+<div class="write_form">
+    <form action="./" method="post" onsubmit="return procFilter(this, insert)">
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+        <input type="hidden" name="document_srl" value="{$oDocument->get('document_srl')}" />
+        <input type="hidden" name="allow_trackback" value="N" />
+
+        <table cellspacing="0" width="100%">
+        <col width="120" />
+        <col width="*" />
+
+        <!--@if(!$is_logged)-->
+        <tr>
+            <th>{$lang->writer}</th>
+            <td><input type="text" name="nick_name" value="{$oDocument->getNickName()}" /></td>
+        </tr>
+        <tr>
+            <th>{$lang->password}</th>
+            <td><input type="password" name="password" value="" /></td>
+        </tr>
+        <tr>
+            <th>{$lang->email_address}</th>
+            <td><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}"/></td>
+        </tr>
+        <tr>
+            <th>{$lang->homepage}</th>
+            <td><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" /></td>
+        </tr>
+        <!--@end-->
+        <tr>
+            <td colspan="2" class="option">
+                <!--@if($grant->manager)-->
+                <input type="checkbox" name="is_notice" value="Y" <!--@if($oDocument->isNotice())-->checked="checked"<!--@end--> id="is_notice" />
+                <label for="is_notice">{$lang->notice}</label>
+                <!--@end-->
+
+                <input type="checkbox" name="is_secret" value="Y" <!--@if($oDocument->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
+                <label for="is_secret">{$lang->secret}</label>
+
+                <input type="checkbox" name="allow_comment" value="Y" <!--@if($oDocument->allowComment())-->checked="checked"<!--@end--> id="allow_comment" />
+                <label for="allow_comment">{$lang->allow_comment}</label>
+
+                <input type="checkbox" name="lock_comment" value="Y" <!--@if($oDocument->isLocked())-->checked="checked"<!--@end--> id="lock_comment" />
+                <label for="lock_comment">{$lang->lock_comment}</label>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">{$editor}</td>
+        </tr>
+        </table>
+
+        <div class="tRight">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" /></span>
+        </div>
+
+    </form>
+</form>
+
+<!--@if($act == 'dispGuestbookModify')-->
+    <!--#include("footer.html")-->
+<!--@end-->

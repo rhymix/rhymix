@@ -1,0 +1,25 @@
+<query id="updateMember" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="email_address" var="email_address" filter="email" notnull="notnull" />
+        <column name="password" var="password" notnull="notnull" />
+        <column name="email_id" var="email_id" notnull="notnull" />
+        <column name="email_host" var="email_host" notnull="notnull" />
+        <column name="user_name" var="user_name" notnull="notnull" minlength="2" maxlength="40" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="2" maxlength="40" />
+        <column name="homepage" var="homepage" />
+        <column name="blog" var="blog" />
+        <column name="birthday" var="birthday" />
+        <column name="allow_mailing" var="allow_mailing" default="Y" />
+        <column name="allow_message" var="allow_message" default="Y" />
+        <column name="denied" var="denied" />
+        <column name="is_admin" var="is_admin" />
+        <column name="description" var="description" />
+        <column name="extra_vars" var="extra_vars" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number"/>
+    </conditions>
+</query>

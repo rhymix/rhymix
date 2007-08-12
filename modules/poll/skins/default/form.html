@@ -1,0 +1,78 @@
+<!--%import("filter/poll.xml")-->
+<!--%import("js/poll.js")-->
+<!--%import("css/poll.css")-->
+
+<script type="text/javascript">
+    var poll_alert_lang = "{$lang->msg_check_poll_item}";
+</script>
+
+<div id="poll_{$poll->poll_srl}" style="{$poll->style}">
+
+    <form action="./" method="get" onsubmit="return doPoll(this)">
+    <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
+    <input type="hidden" name="poll_srl_indexes" value="" />
+
+    <table cellspacing="0" class="poll_table">
+    <col width="7" />
+    <col />
+    <col width="7" />
+    <tr>
+        <td><img src="./images/lh.png" alt="lh" class="iePngFix" width="7" height="7" /></td>
+        <td class="h"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+        <td><img src="./images/rh.png" alt="rh" class="iePngFix" width="7" height="7" /></td>
+    </tr>
+    <tr>
+        <td class="title" colspan="3">
+            {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong> {zdate($poll->stop_date, "H:i")}
+        </td>
+    </tr>
+    <tr>
+        <td class="l"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+        <td class="content">
+
+            <!--@foreach($poll->poll as $poll_srl_index => $val)-->
+            <input type="hidden" name="checkcount_{$poll_srl_index}" value="{$val->checkcount}" />
+
+            <div class="title">A : {$val->title}</div>
+
+            <!--@if($val->checkcount>1)-->
+            <div class="checkcount">
+                {$lang->poll_checkcount} : {$val->checkcount}
+            </div>
+            <!--@end-->
+
+
+            {@ $_key = 0}
+            <!--@foreach($val->item as $item_srl => $item)-->
+            {@$_idx = $poll->poll_srl.'_'.$poll_srl_index.'_'.$item_srl}
+
+            <div class="item <!--@if($_key==count($val->item)-1)-->noborder<!--@end-->">
+                <!--@if($val->checkcount>1)-->
+                    <input type="checkbox" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item->poll_item_srl}" id="item_{$item->poll_item_srl}" /> 
+                <!--@else-->
+                    <input type="radio" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item->poll_item_srl}" id="item_{$item->poll_item_srl}" /> 
+                <!--@end-->
+                    <label for="item_{$item->poll_item_srl}">{$item->title}</label>
+            </div>
+            {@ $_key++}
+            <!--@end-->
+
+            <!--@end-->
+
+
+        </td>
+        <td class="r"><img src="./images/blank.gif" height="7" alt="blank" /></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="poll_button"><div><span class="button"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span></div></td>
+    </tr>
+    <tr>
+        <td class="lb" ><img src="./images/lb.png" alt="lb" class="iePngFix" width="7" height="7" /></td>
+        <td class="b"><img src="./images/blank.gif" alt="blank" /></td>
+        <td class="rb" ><img src="./images/rb.png" alt="rb" class="iePngFix" width="7" height="7" /></td>
+    </tr>
+    </table>
+
+    </form>
+
+</div>

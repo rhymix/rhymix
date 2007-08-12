@@ -1,0 +1,22 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/logout.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, logout)">
+<input type="hidden" name="mid" value="{$mid}" />
+
+<div class="memberSmallBox w400">
+    <div class="header">
+        <h3>{$lang->cmd_logout}</h3>
+    </div>
+    <div class="text">
+        <p class="fwB">{$lang->confirm_logout}</p>
+    </div>
+
+    <div class="help tCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_logout}" /></span>
+        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+    </div>
+</div>
+
+</form>
+<!--#include("./common_footer.html")-->

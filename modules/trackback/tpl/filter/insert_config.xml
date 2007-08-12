@@ -1,0 +1,5 @@
+<filter name="insert_config" module="trackback" act="procTrackbackAdminInsertConfig" confirm_msg_code="confirm_delete">
+    <form />
+    <parameter />
+    <response />
+</filter>

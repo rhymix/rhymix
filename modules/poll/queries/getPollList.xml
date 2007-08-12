@@ -1,0 +1,19 @@
+<query id="getPollList" action="select">
+    <tables>
+        <table name="poll_title" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like" column="title" var="s_title" />
+        <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+        <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

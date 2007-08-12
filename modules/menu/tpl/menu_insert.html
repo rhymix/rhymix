@@ -1,0 +1,26 @@
+<!--%import("filter/insert_menu.xml")-->
+<!--%import("js/menu_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
+
+    <table cellspacing="0" class="tableType2 gap1">
+    <tr>
+        <th scope="col">{$lang->cmd_menu_insert}</th>
+        <td>{nl2br($lang->about_menu_management)}</td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->title}</th>
+        <td>
+            <input type="text" name="title" value="{$menu_info->title}" class="inputTypeText" />
+            <p>{$lang->about_title}</p>
+        </td>
+    </tr>
+    </table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /></span>
+    </div>
+
+</form>

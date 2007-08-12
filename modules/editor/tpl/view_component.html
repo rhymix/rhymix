@@ -1,0 +1,29 @@
+<!--%import("css/editor.css")-->
+<!--%import("../../../modules/admin/tpl/css/admin.css")-->
+
+<div id="popHeadder">
+    <h1>{$component->title} ver. {$component->version}</h1>
+</div>
+
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->component_author}</th>
+        <td><a href="mailto:{$component->author->email_address}">{$component->author->name}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->component_link}</th>
+        <td><a href="{$component->author->link}" onclick="window.open(this.href);return false;">{$component->author->link}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->component_description}</th>
+        <td>{nl2br($component->description)}</td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter" class="tCenter gap1">
+    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+</div>

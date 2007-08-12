@@ -1,0 +1,28 @@
+<!--#include("header.html")-->
+
+<h2>{$lang->select_db_type}</h2>
+
+    <form method="post" action="./">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="dispInstallForm" />
+
+    <table cellspacing="0" class="tableType6">
+    <col width="180" /><col />
+    <!--@foreach(DB::getSupportedList() as $key => $val)-->
+    <tr>
+        <th scope="row">
+            <input type="radio" name="db_type" value="{$val}" id="db_type_{$val}" <!--@if($val=="mysql")-->checked="checked"<!--@end-->/>
+            <label for="db_type_{$val}">{$val}</label>
+        </th>
+        <td>{$lang->db_desc[$val]}</td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <div class="buttonCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_install_next}" /></span>
+    </div>
+
+    </form>
+
+<!--#include("footer.html")-->

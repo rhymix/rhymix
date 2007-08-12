@@ -1,0 +1,24 @@
+<query id="getReceivedMessages" action="select">
+    <tables>
+        <table name="member_message" alias="message"/>
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="message.*" />
+        <column name="member.user_id" />
+        <column name="member.member_srl" />
+        <column name="member.nick_name" />
+        <column name="member.user_name" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="message.receiver_srl" var="member_srl" notnull="notnull" />
+        <condition operation="equal" column="message.message_type" var="message_type" default="R" pipe="and" />
+        <condition operation="equal" column="message.sender_srl" var="member.member_srl" pipe="and"/>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="message.list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

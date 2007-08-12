@@ -1,0 +1,5 @@
+<table name="counter_log">
+    <column name="ipaddress" type="varchar" size="250" notnull="notnull" index="idx_counter_log" />
+    <column name="regdate" type="date" index="idx_counter_log" />
+    <column name="user_agent" type="varchar" size="250" />
+</table>

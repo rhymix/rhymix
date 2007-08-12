@@ -1,0 +1,36 @@
+<div id="popHeadder">
+    <h1>{$lang->layout_maker}</h1>
+</div>
+
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->title}</th>
+        <td>{$layout_info->title} ver {$layout_info->version}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->author}</th>
+        <td><a href="mailto:{$layout_info->author->email_address}">{$layout_info->author->name}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->homepage}</th>
+        <td><a href="{$layout_info->author->homepage}" onclick="window.open(this.href);return false;">{$layout_info->author->homepage}</a></td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->regdate}</th>
+        <td>{$layout_info->author->date}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->description}</th>
+        <td>{nl2br($layout_info->author->description)}</td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter">
+    <div class="tCenter gap1">
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    </div>
+</div>

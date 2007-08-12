@@ -1,0 +1,9 @@
+<filter name="insert_shortcut" module="admin" act="procAdminInsertShortCut" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="module" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

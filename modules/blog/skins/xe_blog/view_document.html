@@ -1,0 +1,95 @@
+<!-- 글 내용 보여주기 -->
+<div class="blogRead">
+    <div class="originalContent">
+        <div class="readHeader">
+            <div class="titleAndCategory">
+                <h4>{$oDocument->getTitleText()}</h4>
+                <!--@if($oDocument->get('category_srl'))-->
+                <span class="vr">|</span><span class="category">{$category_list[$oDocument->get('category_srl')]->title}</span>
+                <!--@end-->
+            </div>
+
+            <div class="dateAndModify">
+                <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
+
+                <!--@if($oDocument->isEditable())-->
+                <a href="{getUrl('act','dispBlogWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+                <a href="{getUrl('act','dispBlogDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+                <!--@end-->
+            </div>
+        </div>
+        
+        <ul class="uri">
+            <li>{$lang->document_url} : {$oDocument->getPermanentUrl()}</li>
+            <!--@if($oDocument->allowTrackback())-->
+            <li>{$lang->trackback_url} : {$oDocument->getTrackbackUrl()}</li>
+            <!--@end-->
+        </ul>
+
+        <!--@if($module_info->display_writer == "on")-->
+        <div class="userInfo">
+            <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+            <!--@if($grant->is_admin)-->
+            <div class="ipaddress">{$oDocument->get('ipaddress')}</div>
+                <!--@end-->
+        </div>
+        <!--@end-->
+
+        <div class="readBody"><div class="contentBody">{$oDocument->getContent()}</div></div>
+
+        <div class="readFooter">
+            {@ $tag_list = $oDocument->get('tag_list') }
+            <!--@if(count($tag_list))-->
+            <div class="tag">
+                <h5><img src="./images/common/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /></h5>
+                <ul>
+                    <!--@for($i=0;$i<count($tag_list);$i++)-->
+                        {@ $tag = $tag_list[$i]; }
+                        <li>
+                            <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
+                        </li>
+                    <!--@end-->
+                </ul>
+            </div>
+            <!--@end-->
+
+            <!--@if($oDocument->hasUploadedFiles())-->
+            <div class="fileAttached">
+                <h5>{$lang->uploaded_file} : </h5>
+                <ul>
+                    {@ $uploaded_list = $oDocument->getUploadedFiles() }
+                    <!--@foreach($uploaded_list as $key => $file)-->
+                    <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                    <!--@end-->
+                </ul>
+            </div>
+            <!--@end-->
+        </div>
+    </div>
+
+    <ul class="replyAndTrackback">
+
+        <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+            <li class="reply"><a href="#comment_top_{$oDocument->document_srl}">{$lang->comment} <strong>{$oDocument->getCommentCount()}</strong></a></li>
+        <!--@end-->
+
+        <!--@if($oDocument->allowTrackback())-->
+            <li class="trackback"><a href="#trackback_{$oDocument->document_srl}">{$lang->trackback} <strong>{$oDocument->getTrackbackCount()}</strong></a></li>
+        <!--@end-->
+          
+            <li class="listButton"><a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;" class="button"><span>{$lang->cmd_print}</span></a></li>
+    </ul>
+</div>
+
+<!-- 엮인글 파일 include -->
+<a name="trackback_{$oDocument->document_srl}"></a>
+<!--@if($oDocument->allowTrackback())-->
+    <!--#include("./trackback.html")-->
+<!--@end-->
+
+<!-- 댓글 파일 include -->
+<a name="comment_top_{$oDocument->document_srl}"></a>
+<!--@if($grant->write_comment && $oDocument->allowComment())-->
+    {@ $document_srl = $oDocument->document_srl; }
+    <!--#include("./comment.html")-->
+<!--@end-->

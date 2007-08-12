@@ -1,0 +1,9 @@
+<query id="selectModuleCategory" action="select">
+    <tables>
+        <table name="module_categories" />
+    </tables>
+    <columns />
+    <conditions>
+        <condition operation="equal" column="module_category_srl" var="module_category_srl" filter="number" notnull="notnull"/>
+    </conditions>
+</query>

@@ -1,0 +1,11 @@
+<query id="insertPollLog" action="insert">
+    <tables>
+        <table name="poll_log" />
+    </tables>
+    <columns>
+        <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

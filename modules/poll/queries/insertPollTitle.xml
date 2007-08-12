@@ -1,0 +1,17 @@
+<query id="insertPollTitle" action="insert">
+    <tables>
+        <table name="poll_title" />
+    </tables>
+    <columns>
+        <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
+        <column name="poll_index_srl" var="poll_index_srl" filter="number" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="poll_count" var="poll_count" default="0" />
+        <column name="checkcount" var="checkcount" notnull="notnull" default="1" />
+        <column name="member_srl" var="member_srl" />
+        <column name="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="list_order" var="list_order" default="0" />
+    </columns>
+</query>

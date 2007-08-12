@@ -1,0 +1,86 @@
+@et "utf-8";
+
+/*
+NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
+Jeong, Chan Myeong 070601~070630
+*/
+
+li { list-style:none; }
+a { text-decoration:none; }
+
+/* Blog Layout - Common */
+#bodyWrap { position:relative; width:860px; margin:0 auto; background-color:#FFFFFF; padding-top:1px; top:30px;}
+
+/* Blog Layout - Content Body */
+#contentBody { overflow:hidden; padding-bottom:2em; _width:100%;}
+
+/* Blog Layout - ColumnLeft */
+#columnLeft { float:left; width:182px; margin:0px 8px 0px 0px; padding-left:10px;}
+
+/* Blog Layout - ColumnRight */
+#columnRight {}
+
+/* Blog Layout - Content */
+#content { float:left; width:650px; overflow:hidden; padding-right:10px; _width:648px; }
+
+#bodyWrap #accountNavigation { float:right; margin:1em 1em 0 0; padding-bottom:.5em; overflow:hidden;}
+#bodyWrap #accountNavigation li a { display:block; float:left; padding:0 .75em; color:#888888; white-space:nowrap;}
+
+.accountNavigation { float:right; padding-bottom:.5em; overflow:hidden;}
+.accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left .4em;}
+.accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666;}
+.accountNavigation li.rss { background:none; padding-top:.4em;}
+.accountNavigation li.join { background:none; padding-top:.4em;}
+.accountNavigation li.join a { display:block; background:url(../images/common/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
+.accountNavigation li.myInfo { padding-top:.4em;}
+.accountNavigation li.myInfo a { display:block; background:url(../images/common/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
+.accountNavigation li.admin { background:none; padding-top:.4em;}
+.accountNavigation li.admin a { display:block; background:url(../images/common/iconAdmin.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
+.accountNavigation li.loginAndLogout { background:none; padding-left:0;}
+
+/* Blog header Child*/
+#bodyWrap #header h1 { font-size:2em; padding:.8em 0 .2em 30px; letter-spacing:-.05em;}
+#bodyWrap #header h1 a { font-family:Tahoma; color:#53554a;}
+#bodyWrap #header #tagLine { padding:0 0 0 30px; color:#7e7f77;} 
+
+#bodyWrap #header #globalNavigation { float:right; padding:1em 1em 1em 0; overflow:hidden;}
+#bodyWrap #header #globalNavigation li { float:left; margin-left:-1px; background:url(../images/common/blogHeaderVr.gif) no-repeat left center;}
+#bodyWrap #header #globalNavigation li a { display:block; float:left; padding:0 .75em; font-weight:bold; font-family:Tahoma; color:#54564b; white-space:nowrap;}
+
+/* Column Left & Right Common Child */
+.boxTypeA { position:relative; border:1px solid #e0e1db; margin-bottom:.7em;}
+.boxTypeB h2 { position:relative; border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; font-size:1em; color:#54564b; font-family:Tahoma;}
+*:first-child+html .boxTypeB h2 { height:20px;} 
+.boxTypeB .toggleMask {position:absolute; top:8px; right:5px; cursor:pointer; width:13px; height:13px; overflow:hidden;}
+.boxTypeB .showHide { position:relative;}
+.boxTypeB .optionList { position:absolute; top:8px; right:0; overflow:hidden;}
+.boxTypeB .optionList li { float:left; padding:0 .5em; margin-left:-1px; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left center;}
+.boxTypeB .optionList li a { color:#a4a4a4; font-size:.9em;}
+.boxTypeB .optionList li.on a { color:#000000;}
+.boxTypeB .showAll { color:#000000; font-size:.9em; white-space:nowrap; display:inline-block; position:relative; left:1.2em; padding-right:.6em; background:url(../images/common/iconArrow00.gif) no-repeat right center;}
+
+/* Profile */
+div#profile { padding:10px; overflow:hidden; background-color:#FFFFFF; }
+div#profile img.profile { width:160px; display:block; margin-bottom:1.2em;}
+div#profile dl#hello {}
+div#profile dl#hello dt { color:#333333; margin-bottom:.2em;}
+div#profile dl#hello dt a { color:#333333;}
+div#profile dl#hello dd { color:#777777; margin-bottom:1em;}
+div#profile ul#admin { overflow:hidden; height:1.2em;}
+div#profile ul#admin li { float:left; padding-right:.6em;}
+div#profile ul#admin li a { display:block; padding-left:1.2em;}
+div#profile ul#admin li.write a { background:url(../images/common/iconWrite.gif) no-repeat left center;}
+div#profile ul#admin li.setup { padding-left:.7em; background:url(../images/common/blogHeaderVr.gif) no-repeat left center;}
+div#profile ul#admin li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left center;}
+div#profile ul#admin li a { color:#666666;}
+
+div#blog_category { background-color:#FFFFFF; }
+
+/* Search Box */
+div#searchBox { margin-bottom:.7em; overflow:hidden; width:100%;}
+div#searchBox fieldset { border:none;}
+div#searchBox fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
+
+/* powered by zbxe */
+#poweredbyzbxe { text-align:center; margin-top:2em; }
+#poweredbyzbxe img { width:138px; height:35px; border:0;}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispMemberInfo" type="view" standalone="true" />
+        <action name="dispMemberSignUpForm" type="view" standalone="true" />
+        <action name="dispMemberModifyInfo" type="view" standalone="true" />
+        <action name="dispMemberModifyPassword" type="view" standalone="true" />
+        <action name="dispMemberLoginForm" type="view" standalone="true" />
+        <action name="dispMemberLogout" type="view" standalone="true" />
+        <action name="dispMemberOwnDocument" type="view" standalone="true" />
+        <action name="dispMemberScrappedDocument" type="view" standalone="true" />
+
+        <action name="dispMemberMessages" type="view" standalone="true" />
+        <action name="dispMemberSendMessage" type="view" standalone="true" />
+        <action name="dispMemberNewMessage" type="view" standalone="true" />
+
+        <action name="dispMemberFriend" type="view" standalone="true" />
+        <action name="dispMemberAddFriend" type="view" standalone="true" />
+        <action name="dispMemberAddFriendGroup" type="view" standalone="true" />
+
+        <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
+        <action name="dispMemberAdminConfig" type="view" standalone="true" />
+        <action name="dispMemberAdminInsert" type="view" standalone="true" />
+        <action name="dispMemberAdminDeleteForm" type="view" standalone="true" />
+        <action name="dispMemberAdminGroupList" type="view" standalone="true" />
+        <action name="dispMemberAdminJoinFormList" type="view" standalone="true" />
+        <action name="dispMemberAdminInfo" type="view" standalone="true" />
+        <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
+        <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
+
+        <action name="getMemberMenu" type="model" standalone="true" />
+        <action name="getMemberAdminColorset" type="model" standalone="true" />
+
+        <action name="procMemberLogin" type="controller" standalone="true" />
+        <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
+        <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
+        <action name="procMemberLogout" type="controller" standalone="true" />
+        <action name="procMemberInsert" type="controller" standalone="true" />
+        <action name="procMemberModifyInfo" type="controller" standalone="true" />
+        <action name="procMemberModifyPassword" type="controller" standalone="true" />
+        <action name="procMemberLeave" type="controller" standalone="true" />
+        <action name="procMemberInsertImageName" type="controller" standalone="true" />
+        <action name="procMemberInsertImageMark" type="controller" standalone="true" />
+        <action name="procMemberDeleteImageName" type="controller" standalone="true" />
+        <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
+
+        <action name="procMemberSendMessage" type="controller" standalone="true" />
+        <action name="procMemberStoreMessage" type="controller" standalone="true" />
+        <action name="procMemberDeleteMessage" type="controller" standalone="true" />
+        <action name="procMemberDeleteMessages" type="controller" standalone="true" />
+
+        <action name="procMemberScrapDocument" type="controller" standalone="true" />
+        <action name="procMemberDeleteScrap" type="controller" standalone="true" />
+
+        <action name="procMemberAddFriend" type="controller" standalone="true" />
+        <action name="procMemberMoveFriend" type="controller" standalone="true" />
+        <action name="procMemberDeleteFriend" type="controller" standalone="true" />
+
+        <action name="procMemberAddFriendGroup" type="controller" standalone="true" />
+        <action name="procMemberRenameFriendGroup" type="controller" standalone="true" />
+        <action name="procMemberDeleteFriendGroup" type="controller" standalone="true" />
+
+        <action name="procMemberAdminInsert" type="controller" standalone="true" />
+        <action name="procMemberAdminDelete" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
+    </actions>
+</module>

@@ -1,0 +1,20 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div class="mg">
+
+    <!--@if($widget_info->title)-->
+    <h2>{$widget_info->title}</h2>
+    <!--@end-->
+
+    <ul>
+    <!--@foreach($widget_info->member_list as $key => $val)-->
+        <li>
+            <div class="nick_name member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
+        </li>
+    <!--@end-->
+    </ul>
+</div>

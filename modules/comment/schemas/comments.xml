@@ -1,0 +1,20 @@
+<table name="comments">
+    <column name="comment_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
+    <column name="parent_srl" type="number" size="11" default="0" notnull="notnull" />
+    <column name="is_secret" type="char" size="1" default="N" notnull="notnull" />
+    <column name="content" type="bigtext" notnull="notnull" />
+    <column name="password" type="varchar" size="60" />
+    <column name="user_id" type="varchar" size="80" />
+    <column name="user_name" type="varchar" size="80" notnull="notnull" />
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="email_address" type="varchar" size="250" notnull="notnull" />
+    <column name="homepage" type="varchar" size="250" notnull="notnull" />
+    <column name="uploaded_count" type="number" size="11" default="0" notnull="notnull" index="idx_uploaded_count" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="last_update" type="date" index="idx_last_update" />
+    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+</table>

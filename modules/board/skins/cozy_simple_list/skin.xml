@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">cozy simple (목록형)</title>
+  <title xml:lang="jp">Cozyシンプル（リストスタイル）</title>
+  <title xml:lang="en">cozy simple skin (list style)</title>
+  <title xml:lang="zh-CN">Cozy样式皮肤(目录型)</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">(주)NHN</name>
+    <name xml:lang="jp">（株）NHN</name>
+    <name xml:lang="zh-CN">(株)NHN</name>
+    <name xml:lang="en">NHN Corp</name>
+    <description xml:lang="ko">
+        cozy simple 스킨의 목록형입니다.
+        디자인 : 서기정 (http://blog.naver.com/addcozy)
+        HTML/CSS : 소지훈
+    </description>
+    <description xml:lang="jp">
+        Cozyシンプルスキンのリストスタイルです。
+        디자인 : 서기정 (http://blog.naver.com/addcozy)
+        HTML/CSS : 소지훈
+    </description>
+	<description xml:lang="en">
+        This is list style board of cozy simple skin.
+        Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Ji-Hun So
+    </description>
+    <description xml:lang="zh-CN">
+        Cozy样式皮肤。(目录型)
+        设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Ji-Hun So
+    </description>
+  </maker>
+  <colorset>
+    <color name="red" src="screenshot/red.gif">
+      <title xml:lang="ko">빨간색(기본)</title>
+      <title xml:lang="jp">赤</title>
+      <title xml:lang="en">Red (default)</title>
+      <title xml:lang="zh-CN">红色(默认)</title>
+    </color>
+    <color name="green" src="screenshot/green.gif">
+      <title xml:lang="ko">녹색</title>
+       <title xml:lang="jp">緑</title>
+      <title xml:lang="en">Green</title>
+      <title xml:lang="zh-CN">绿色</title>
+    </color>
+    <color name="blue" src="screenshot/blue.gif">
+      <title xml:lang="ko">파란색</title>
+      <title xml:lang="jp">青</title>
+      <title xml:lang="en">Blue</title>
+      <title xml:lang="zh-CN">蓝色</title>
+    </color>
+    <color name="pink" src="screenshot/pink.gif">
+      <title xml:lang="ko">분홍색</title>
+      <title xml:lang="jp">ピンク</title>
+      <title xml:lang="en">Pink</title>
+      <title xml:lang="zh-CN">粉红色</title>
+    </color>
+    <color name="bluish_green" src="screenshot/bluish_green.gif">
+      <title xml:lang="ko">청록색</title>
+      <title xml:lang="jp">青緑</title>
+      <title xml:lang="en">Cyan</title>
+      <title xml:lang="zh-CN">青绿色</title>
+    </color>
+  </colorset>
+  <extra_vars>
+    <var name="order_target" type="select">
+        <title xml:lang="ko">정렬 대상</title>
+        <title xml:lang="jp">ソート対象</title>
+        <title xml:lang="zh-CN">排序对象</title>
+        <title xml:lang="en">Align Target</title>
+        <type>select</type>
+        <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
+        <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
+        <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
+        <description xml:lang="en">It can align articles as registered order or modified order.</description>
+        <default>newest</default>
+        <default>updated</default>
+    </var>
+    <var name="title" type="text">
+        <title xml:lang="ko">게시판 제목</title>
+        <title xml:lang="jp">掲示板タイトル</title>
+        <title xml:lang="zh-CN">版面标题</title>
+        <title xml:lang="en">Title of Board</title>
+        <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+        <description xml:lang="jp">掲示板タイトルを入力してください。</description>
+        <description xml:lang="zh-CN">请输入版面标题。(留空为不显示)</description>
+        <description xml:lang="en">Please input the title of board.</description>
+    </var>
+    <var name="subject_cut_size" type="text">
+      <title xml:lang="ko">제목 글자수</title>
+      <title xml:lang="jp">タイトルの文字数</title>
+      <title xml:lang="zh-CN">标题字数</title>
+      <title xml:lang="en">Length of Subject</title>
+      <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+      <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+      <description lang="zh-CN">可以指定标题字数。(0或留空为不限)</description>
+      <description lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
+    </var>
+    <var name="display_number" type="select">
+      <title xml:lang="ko">번호 표시</title>
+      <title xml:lang="jp">番号表示</title>
+      <title xml:lang="zh-CN">显示编号</title>
+      <title xml:lang="en">Display Number</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_author" type="select">
+      <title xml:lang="ko">글쓴이 표시</title>
+      <title xml:lang="jp">投稿者表示</title>
+      <title xml:lang="zh-CN">显示昵称</title>
+      <title xml:lang="en">Display Author</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_regdate" type="select">
+      <title xml:lang="ko">작성일 표시</title>
+      <title xml:lang="jp">作成日表示</title>
+      <title xml:lang="zh-CN">显示发表日期</title>
+      <title xml:lang="en">Display Registered Date</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_readed_count" type="select">
+      <title xml:lang="ko">조회수 표시</title>
+      <title xml:lang="jp">照合数表示</title>
+      <title xml:lang="zh-CN">显示查看数</title>
+      <title xml:lang="en">Display Hit</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_voted_count" type="select">
+      <title xml:lang="ko">추천수 표시</title>
+      <title xml:lang="jp">推薦数表示</title>
+      <title xml:lang="zh-CN">显示推荐数</title>
+      <title xml:lang="en">Display Votes</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+  </extra_vars>
+</skin>

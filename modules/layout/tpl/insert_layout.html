@@ -1,0 +1,33 @@
+<!--%import("filter/insert_layout.xml")-->
+
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_layout)">
+
+    <table cellspacing="0" class="tableType2 gap1">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->layout_name}</th>
+        <td>
+            <select name="layout">
+                <!--@foreach($layout_list as $key => $val)-->
+                <option value="{$val->layout}" <!--@if($layout == $val->layout)-->selected="selected"<!--@end-->> <!--@if($val->title)-->{$val->title} ({$val->layout})<!--@else-->{$val->layout}<!--@end--></option>
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>  
+        <th scope="row">{$lang->title}</th>
+        <td>
+            <input type="text" name="title" value="{$info->title}" class="inputTypeText w100" />
+            <p>{$lang->about_title}</p>
+        </td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_next}" accesskey="s" /></span>
+    </div>
+
+</form>

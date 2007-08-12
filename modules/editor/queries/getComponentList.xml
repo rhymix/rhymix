@@ -1,0 +1,14 @@
+<query id="getComponentList" action="select">
+    <tables>
+        <table name="editor_components" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="enabled" var="enabled" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+    </navigation>
+</query>

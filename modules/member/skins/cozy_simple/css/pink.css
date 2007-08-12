@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+/* boardHeader */
+.boardHeader { position:relative; _width:100%; background:#f70795 url(../images/pink/bg_top_title.gif) no-repeat 23px top; overflow:hidden;}
+.boardList { width:100%; position:relative; border-bottom:2px solid #f70795; border-collapse:collapse; }
+.memberList th.repeat_bg { background:#ffffff url(../images/pink/bg_title_repeat_x.gif) repeat-x left bottom;}
+.memberList th {padding:1.2em .5em 1.1em .6em; background:#ffffff url(../images/pink/bg_title.gif) no-repeat left bottom; white-space:nowrap;}
+.memberList { width:100%; position:relative; border-bottom:2px solid #f70795; border-collapse:collapse; margin-bottom:2.2em;}
+.messageList th {padding:1.2em .5em 1.1em .6em; background:#ffffff url(../images/pink/bg_title.gif) no-repeat left bottom; white-space:nowrap;}
+.messageList th.author { background:url(../images/pink/bg_title_repeat_x.gif) repeat-x left bottom; text-align:left;}
+.messageList { width:100%; position:relative; border-bottom:2px solid #f70795; border-collapse:collapse; margin-bottom:2.2em;}
+.joinTable.typeA { border-top:2px solid #f70795; border-collapse:collapse;}
+.joinTable.typeB { border-bottom:2px solid #f70795; background:#f9f9f9;}
+.messageList td.recommend { font:bold .8em Tahoma; color:#f70795; text-align:center;}
+.memberInformation .friendNum strong { font:bold 11px Tahoma; color:#f70795;}
+.memberInformation .instantMessage li a strong { font:bold 0.75em tahoma; color:#f70795;}
+.memberSmallBox .header { position:relative; _width:100%; background:#f70795; overflow:hidden;}
+.memberSmallBox .open_id_help { background:#F7F7F7; border-top:1px solid #f70795; border-bottom:2px solid #f70795; overflow:hidden; padding:1.1em; text-align:left; }
+.memberSmallBox .help { background:#F7F7F7; border-top:1px solid #f70795; border-bottom:2px solid #f70795; overflow:hidden; padding:1.1em; text-align:center; }
+
+.boardList th {padding:1.2em .5em 1.1em .6em; background:#ffffff url(../images/pink/bg_title.gif) no-repeat left bottom; white-space:nowrap;}
+.boardList td .replyAndTrackback { font:.8em Tahoma; color:#f70795; cursor:default; position:relative; top:-.2em;}
+.boardList td.recommend { font:bold .8em Tahoma; color:#f70795; text-align:center;}
+
+.pageNavigation .current { margin-left:-4px; font:bold .8em Tahoma; color:#f70795; display:inline-block; padding:1px 5px 2px 4px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+
+.boardRead { position:relative; _width:100%; margin:1em 0 0 0; padding: 0 0 .6em 0; border-bottom:3px solid #f70795;}
+.boardRead .readHeader { width:100%; padding-bottom:.5em; margin-bottom:1em; border-bottom:3px solid #f70795; overflow:hidden;}
+.boardRead .replyAndTrackback li.selected { margin:0; padding:1em 1.1em .7em 1.4em; border:1px solid #EAEAEA; border-bottom:none; background:#FFFFFF; color:#f70795;}
+
+.boardWrite fieldset.bottomBorder { border-bottom:2px solid #f9f9f9;}
+.boardWrite div.title { padding:.5em 0 .65em 0; white-space:nowrap; background:#FFFFFF url(../images/pink/bg_title_norepeat.gif) no-repeat left bottom;}
+.boardWrite .option { width:100%; padding:.5em 0 .65em 0; background:#FFFFFF url(../images/pink/bg_title_norepeat.gif) no-repeat left bottom; overflow:hidden;}

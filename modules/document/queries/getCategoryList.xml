@@ -1,0 +1,11 @@
+<query id="getCategoryList" action="select">
+    <tables>
+        <table name="document_categories" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+    </navigation>
+</query>

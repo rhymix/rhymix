@@ -1,0 +1,47 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/send_message.xml")-->
+<!--%import("js/member.js")-->
+
+<div class="memberSmallBox w600pop">
+
+    <div class="header">
+        <h3>{$lang->cmd_send_message}</h3>
+    </div>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, send_message)">
+    <input type="hidden" name="content" value="" />
+    <input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
+
+        <div class="complex">
+            <table cellspacing="0" class="leftHeaderType">
+            <col width="110" />
+            <col />
+            <tr>
+                <th scope="row"><label for="textfield1">{$lang->receiver}</label></th>
+                <td><div class="member_{$receiver_info->member_srl}">{$receiver_info->nick_name} ({$receiver_info->user_id})</div></td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang->title}</th>
+                <td><input type="text" name="title" id="message_title" class="inputTypeText w300" /></td>
+            </tr>
+            </table>
+
+            <div class="editor">
+                {$editor}
+            </div>
+
+        </div>
+
+        <div class="tCenter help">
+            <span class="button"><input type="submit" value="{$lang->cmd_send_message}" class="editor_button" accesskey="s" /></span>
+            <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+    xAddEventListener(window, 'load', function() { xGetElementById("message_title").focus(); });
+</script>
+
+<!--#include("./common_footer.html")-->

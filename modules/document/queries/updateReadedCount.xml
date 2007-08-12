@@ -1,0 +1,11 @@
+<query id="updateReadedCount" action="update">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="readed_count" var="readed_count" default="plus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,10 @@
+<query id="insertAddon" action="insert">
+    <tables>
+      <table name="addons" />
+    </tables>
+    <columns>
+      <column name="addon" var="addon" notnull="notnull" />
+      <column name="is_used" var="is_used" default="N" notnull="notnull" />
+      <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

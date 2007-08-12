@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispLayoutAdminInsert" type="view" standalone="true" />
+        <action name="dispLayoutAdminModify" type="view" standalone="true" />
+        <action name="dispLayoutAdminEdit" type="view" standalone="true" />
+        <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
+        <action name="dispLayoutAdminPreview" type="view" standalone="true" />
+        <action name="dispLayoutAdminInfo" type="view" standalone="true" />
+
+        <action name="procLayoutAdminInsert" type="controller" standalone="true" />
+        <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminDelete" type="controller" standalone="true" />
+        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
+    </actions>
+</module>

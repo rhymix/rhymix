@@ -1,0 +1,67 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div class="ni_box">
+    <!--@if($widget_info->title)-->
+    <div class="title_box">
+        <div class="title">{$widget_info->title}</div>
+        <!--@if($widget_info->module_name)-->
+        <div class="more"><a href="{getUrl('','mid',$widget_info->module_name)}">more</a></div>
+        <!--@end-->
+    </div>
+    <!--@end-->
+
+    <!--@if(count($widget_info->document_list))-->
+        <table class="thumbnail_box">
+        {@ $count = 0; }
+        <!--@for($i=0;$i<$widget_info->rows_list_count;$i++)-->
+        <tr valign="top">
+            <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
+                {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
+            <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->>
+                <!--@if($oDocument->document_srl)-->
+                <div class="thumbnail"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_width}" border="0" alt="" class="thumbnail" /></a></div>
+
+                <div>
+                    <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->title_length)}</a>
+                    <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
+                </div>
+                <!--@if($widget_info->display_author == 'Y')-->
+                <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+                <!--@end-->
+
+                <!--@if($widget_info->display_regdate == 'Y')-->
+                <div class="regdate">{$oDocument->getRegdate()}</div>
+                <!--@end-->
+
+                <!--@if($widget_info->display_readed_count == 'Y' || $widget_info->display_voted_count == 'Y' )-->
+                <div class="readAndVoted">
+                    <!--@if($widget_info->display_readed_count == 'Y')-->
+
+                        {$lang->readed_count} {$oDocument->get('readed_count')}
+
+                    <!--@end-->
+
+                    <!--@if($widget_info->display_voted_count == 'Y' )-->
+
+                        <!--@if($widget_info->display_readed_count == 'Y')--><span class="div_block">|</span><!--@end-->
+
+                        {$lang->voted_count} <strong>{$oDocument->get('voted_count')}</strong>
+
+                    <!--@end-->
+                </div>
+                <!--@end-->
+                <!--@end-->
+
+            </td>
+            <!--@end-->
+            <!--@for($k=$j;$k<$widget_info->cols_list_count;$k++)--><td>&nbsp;</td><!--@end-->
+        </tr>
+        <!--@end-->
+        </table>
+    <!--@end-->
+    <div class="clear"></div>
+</div>

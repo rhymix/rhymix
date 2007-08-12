@@ -1,0 +1,21 @@
+<table name="modules">
+    <column name="module_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="module" type="varchar" size="80" notnull="notnull" index="idx_module" />
+    <column name="module_category_srl" type="number" size="11" default="0" index="idx_module_category" />
+    <column name="layout_srl" type="number" size="11" default="0" />
+    <column name="menu_srl" type="number" size="11" default="0"/>
+    <column name="mid" type="varchar" size="40" notnull="notnull" unique="unique_mid"/>
+    <column name="skin" type="varchar" size="250" />
+    <column name="browser_title" type="varchar" size="250" notnull="notnull"/>
+    <column name="description" type="text" />
+    <column name="is_default" type="char" size="1" notnull="notnull" default="N" />
+    <column name="extra_vars" type="text" />
+    <column name="skin_vars" type="text" />
+    <column name="content" type="bigtext"/>
+    <column name="grants" type="text" />
+    <column name="admin_id" type="text" />
+    <column name="open_rss" type="char" size="1" notnull="notnull" default="Y" />
+    <column name="header_text" type="text" />
+    <column name="footer_text" type="text" />
+    <column name="regdate" type="date" />
+</table>

@@ -1,0 +1,12 @@
+<query id="updateLastLogin" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="last_login" var="last_login" notnull="notnul" default="curdate()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number"/>
+    </conditions>
+</query>

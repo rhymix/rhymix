@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+    <title xml:lang="ko">게시글 구글 애드센스 연동</title>
+    <title xml:lang="jp">グーグル・アドセンス</title>
+    <title xml:lang="zh-CN">Google AdSense</title>
+    <title xml:lang="en">Linkage of Articles and Google Adsense</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">Zero</name>
+        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="en">zero</name>
+        <description xml:lang="ko">
+            게시글의 상/하단에 구글 애드센스를 추가할 수 있습니다.
+            추가확장폼에서 사용자에게 구글애드센스 코드를 받게 하여 글쓴이와 연동되는 애드센스 출력이 가능합니다.
+            이 기능을 사용하지 않거나 사용자가 애드센스 코드를 입력하지 않았다면 기본으로 설정된 애드센스 코드가 사용됩니다.
+            색상을 입력할때는 # 을 제외한 나머지 6자리의 색상코드를 입력해주세요.
+            위치를 top 또는 bottom을 입력하시면 게시글 상단 또는 하단에 광고를 출력할 수 있습니다.
+        </description>
+         <description xml:lang="jp">
+            コンテンツ（書き込み）の上・下段にグーグル・アドセンス（Google AdSense）を追加することができます。追加拡張フォームに、グーグル・アドセンス（Google AdSense）コードを入力すると、書き込みにユーザ自身のグーグル・アドセンス（Google AdSense）が挿入できます。 
+            
+            この機能を使わない、またはユーザがグーグル・アドセンス（Google AdSense）コードを入力しない場合は、デフォルトで設定されたアドセンス適用されます。文字列などに色を使用する場合は、「 #」を除く6ケタのカラーコードを入力してください。
+           
+            「top」または「bottom」を入力すると書き込みの上段または下段に広告を出力することができます。
+        </description>
+        <description xml:lang="zh-CN">
+            可以把Google AdSense添加到文章的上/下端。
+            可以让用户在扩展表单里获得Google AdSense代码，从而也可以显示与作者相关联的AdSense。
+            不使用此功能或用户没有输入Google AdSense代码时，使用默认的AdSense代码。
+            输入颜色时，输入除#以外的 6位颜色代码。
+            指定显示位置时，输入top或bottom即可把AdSense显示在内容的上端或下端。
+        </description>
+        <description xml:lang="en">
+            Google Adsense can be added at top/bottom of article.
+            An adsense linked with writer can be displayed by Google adsense code input by user in additional form.
+            If this isn't used or user hasn't input the adsense code, the default adsense code will be used.
+            To use color, input 6 color code except '#'.
+            You can display the ad at the top or the bottom of article by input Position as top or bottom.
+        </description>
+    </author>
+    <extra_vars>
+        <var name="position">
+            <title xml:lang="ko">위치</title>
+            <title xml:lang="jp">位置</title>
+            <title xml:lang="zh-CN">位置</title>
+            <title xml:lang="en">Position</title>
+            <description xml:lang="ko">top : 게시글 상단, bottom : 게시글 하단 을 지정하실 수 있습니다.</description>
+            <description xml:lang="jp">top : 本文の上段, bottom : 本文の下段</description>
+            <description xml:lang="zh-CN">可以指定显示位置。(top : 内容上端, bottom : 内容下端)</description>
+            <description xml:lang="en">You can set top : top of article, bottom : bottom of article.</description>
+        </var>
+        <var name="ad_client">
+            <title xml:lang="ko">구글 애드센스 키</title>
+            <title xml:lang="jp">アドセンスキー</title>
+            <title xml:lang="zh-CN">Google Adsense Key</title>
+            <title xml:lang="en">Google Adsense Key</title>
+            <description xml:lang="ko">기본으로 사용될 구글 애드센스 키를 입력해주세요.</description>
+            <description xml:lang="ko">デフォルトで使用するグーグルアドセンスキーを入力してください。</description>
+            <description xml:lang="zh-CN">请输入要使用的默认Google Adsense Key。</description>
+            <description xml:lang="en">Please input Google Adsense key to use as default.</description>
+        </var>
+        <var name="user_ad_client">
+            <title xml:lang="ko">회원 키 항목 이름</title>
+            <title xml:lang="jp">キー項目名</title>
+            <title xml:lang="zh-CN">会员Key项目名</title>
+            <title xml:lang="en">Name of Member Key Item</title>
+            <description xml:lang="ko">회원의 구글 애드센스를 허락하시려면 가입항목중 구글 키 입력 항목 이름을 입력해주세요.</description>
+            <description xml:lang="jp">グーグル・アドセンスが使用できるようするにためには、加入項目でグーグルキー入力項目名を入力してください。
+            </description>
+            <description xml:lang="zh-CN">允许会员使用个人Google AdSense时，请输入要在会员注册项目中显示的Google Key项目名。</description>
+            <description xml:lang="en">To permit members' Google Adsense, please input name of Google key item in join items.</description>
+        </var>
+        <var name="ad_width">
+            <title xml:lang="ko">가로 길이</title>
+            <title xml:lang="jp">横幅</title>
+            <title xml:lang="zh-CN">宽度</title>
+            <title xml:lang="en">Width</title>
+            <description xml:lang="ko">애드센스의 가로길이를 입력해주세요.</description>
+            <description xml:lang="jp">アドセンスの横幅のサイズを入力してください</description>
+            <description xml:lang="zh-CN">请输入AdSense的宽度大小。</description>
+            <description xml:lang="en">Please input width of Adsense.</description>
+        </var>
+        <var name="ad_height">
+            <title xml:lang="ko">세로 길이</title>
+            <title xml:lang="jp">縦幅</title>
+            <title xml:lang="zh-CN">高度</title>
+            <title xml:lang="en">Height</title>
+            <description xml:lang="ko">애드센스의 세로길이를 입력해주세요.</description>
+             <description xml:lang="jp">アドセンスの立幅のサイズを入力してください。</description>
+            <description xml:lang="zh-CN">请输入高度大小。</description>
+            <description xml:lang="en">Please input height of Adsense.</description>
+        </var>
+        <var name="ad_format">
+            <title xml:lang="ko">포맷</title>
+            <title xml:lang="jp">フォーマット</title>
+            <title xml:lang="zh-CN">格式</title>
+            <title xml:lang="en">Format</title>
+            <description xml:lang="ko">애드센스 포맷을 입력해주세요.</description>
+             <description xml:lang="jp">アドセンスのフォーマットを入力してください。</description>
+            <description xml:lang="zh-CN">请输入广告格式</description>
+            <description xml:lang="en">Please input format of Adsense.</description>
+        </var>
+        <var name="ad_type">
+            <title xml:lang="ko">타입</title>
+            <title xml:lang="jp">タイプ</title>
+            <title xml:lang="zh-CN">样式</title>
+            <title xml:lang="en">Type</title>
+            <description xml:lang="ko">애드센스의 타입을 입력해주세요.</description>
+            <description xml:lang="jp">アドセンスのタイプを入力してください。</description>
+            <description xml:lang="zh-CN">请输入AdSense样式。</description>
+            <description xml:lang="en">Please input type of Adsense.</description>
+        </var>
+        <var name="ad_channel">
+            <title xml:lang="ko">채널</title>
+            <title xml:lang="jp">チャンネル</title>
+            <title xml:lang="zh-CN">频道</title>
+            <title xml:lang="en">Channel</title>
+            <description xml:lang="ko">채널을 입력해주세요. (사용자 정의 구글 애드센스일 경우 사용되지 않습니다)</description>
+            <description xml:lang="jp">チャンネルを入力してください（カスタマイズ・グーグル・アドセンスには使用されません）。</description>
+            <description xml:lang="zh-CN">请输入频道。 (用户自定义Google AdSense不使用频道)</description>
+            <description xml:lang="en">Please input channel. (It will not be used for custom Google Adsense)</description>
+        </var>
+        <var name="color_border">
+            <title xml:lang="ko">외곽선 색상</title>
+            <title xml:lang="jp">ボーダカラー</title>
+            <title xml:lang="zh-CN">边框颜色</title>
+            <title xml:lang="en">Border Color</title>
+            <description xml:lang="ko">외곽선 색상을 입력해주세요.</description>
+            <description xml:lang="jp">ボーダーカラーを入力してください。.</description>
+            <description xml:lang="zh-CN">请输入边框颜色。</description>
+            <description xml:lang="en">Please input color of border.</description>
+        </var>
+        <var name="color_bg">
+            <title xml:lang="ko">배경색</title>
+            <title xml:lang="jp">背景色</title>
+            <title xml:lang="zh-CN">背景色</title>
+            <title xml:lang="en">Background Color</title>
+            <description xml:lang="ko">배경색상을 입력해주세요.</description>
+            <description xml:lang="jp">背景色を入力してください</description>
+            <description xml:lang="zh-CN">请输入背景颜色。</description>
+            <description xml:lang="en">Please input color of background.</description>
+        </var>
+        <var name="link_color">
+            <title xml:lang="ko">링크 글자색</title>
+            <title xml:lang="jp">リンク色</title>
+            <title xml:lang="zh-CN">链接颜色</title>
+            <title xml:lang="en">Link Color</title>
+            <description xml:lang="ko">링크가 걸린 글자의 색상을 입력해주세요.</description>
+            <description xml:lang="jp">リンクの文字列の色を入力してください。</description>
+            <description xml:lang="zh-CN">请输入链接颜色。</description>
+            <description xml:lang="en">Please input color of linked text.</description>
+        </var>
+        <var name="text_color">
+            <title xml:lang="ko">글자 색 </title>
+            <title xml:lang="jp">文字列色</title>
+            <title xml:lang="zh-CN">字体颜色 </title>
+            <title xml:lang="en">Text Color </title>
+            <description xml:lang="ko">링크가 걸리지 않은 글자의 색을 입력해주세요</description>
+            <description xml:lang="jp">文字列の色を入力してください。</description>
+            <description xml:lang="zh-CN">请输入没有链接字体颜色。</description>
+            <description xml:lang="en">Please input color of text.</description>
+        </var>
+        <var name="url_color">
+            <title xml:lang="ko">URL 색</title>
+            <title xml:lang="jp">URL色</title>
+            <title xml:lang="zh-CN">URL 颜色</title>
+            <title xml:lang="en">URL Color</title>
+            <description xml:lang="ko">URL의 글자색을 입력해주세요.</description>
+            <description xml:lang="ko">URLの色を入力してください。</description>
+            <description xml:lang="zh-CN">请输入URL的颜色。</description>
+            <description xml:lang="en">Please input color of URL.</description>
+        </var>
+        <var name="ui_features">
+            <title xml:lang="ko">테두리 형태</title>
+            <title xml:lang="jp">ボーダスタイル</title>
+            <title xml:lang="zh-CN">边框样式</title>
+            <title xml:lang="en">Border Style</title>
+            <description xml:lang="ko">테두리 형태를 입력해주세요.</description>
+            <description xml:lang="jp">ボーダースタイルを入力してください。</description>
+            <description xml:lang="zh-CN">请输入边框样式。</description>
+            <description xml:lang="en">Please input style of border.</description>
+        </var>
+        <var name="background_image">
+            <title xml:lang="ko">배경 이미지를 입력해주세요.</title>
+            <title xml:lang="jp">背景イメージ</title>
+            <title xml:lang="zh-CN">请输入背景图片。</title>
+            <title xml:lang="en">Please input image of background.</title>
+             <description xml:lang="ko">접근가능한 웹서버에 올린 배경 이미지의 URL을 입력해주세요.</description>
+            <description xml:lang="jp">アクセス可能なＷｅｂサーバにアップロードされている背景イメージのURLを入力してください。</description>
+            <description xml:lang="zh-CN">请输入有效的图片URL。</description>
+            <description xml:lang="en">Please input URL of background image which is uploaded on accessible web server.</description>
+        </var>
+    </extra_vars>
+</addon>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="write_document" default="guest">
+            <title xml:lang="ko">글 작성</title>
+			<title xml:lang="zh-CN">发表新帖</title>
+            <title xml:lang="jp">書き込み作成</title>
+        </grant>
+        <grant name="write_comment" default="guest">
+            <title xml:lang="ko">댓글 작성</title>
+			<title xml:lang="zh-CN">发表评论</title>
+            <title xml:lang="jp">コメント作成</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">관리</title>
+			<title xml:lang="zh-CN">管理</title>
+            <title xml:lang="jp">管理</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispGuestbookContent" type="view" index="true" />
+        <action name="dispGuestbookModify" type="view" />
+        <action name="dispGuestbookDelete" type="view" />
+        <action name="dispGuestbookReplyComment" type="view" />
+        <action name="dispGuestbookModifyComment" type="view" />
+        <action name="dispGuestbookDeleteComment" type="view" />
+        <action name="dispGuestbookMessage" type="view" />
+
+        <action name="procGuestbookInsertDocument" type="controller" />
+        <action name="procGuestbookDeleteDocument" type="controller" />
+        <action name="procGuestbookInsertComment" type="controller" />
+        <action name="procGuestbookDeleteComment" type="controller" />
+        <action name="procGuestbookVerificationPassword" type="controller" />
+
+        <action name="dispGuestbookAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispGuestbookAdminGuestbookInfo" type="view" standalone="true" />
+        <action name="dispGuestbookAdminInsertGuestbook" type="view" standalone="true" />
+        <action name="dispGuestbookAdminDeleteGuestbook" type="view" standalone="true" />
+        <action name="dispGuestbookAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispGuestbookAdminGrantInfo" type="view" standalone="true" />
+
+        <action name="procGuestbookAdminInsertGuestbook" type="controller" standalone="true" />
+        <action name="procGuestbookAdminDeleteGuestbook" type="controller" standalone="true" />
+        <action name="procGuestbookAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procGuestbookAdminUpdateSkinInfo" type="controller" standalone="true" />
+    </actions>
+</module>

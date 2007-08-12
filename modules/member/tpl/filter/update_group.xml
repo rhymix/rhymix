@@ -1,0 +1,10 @@
+<filter name="update_group" module="member" act="procMemberAdminUpdateGroup">
+    <form>
+        <node target="group_srl" required="true" />
+    </form>
+    <response callback_func="completeUpdateGroup">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

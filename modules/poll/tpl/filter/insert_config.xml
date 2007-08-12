@@ -1,0 +1,11 @@
+<filter name="insert_config" module="poll" act="procPollAdminInsertConfig" confirm_msg_code="confirm_update">
+    <form>
+        <node target="skin" required="true" />
+        <node target="colorset" required="true" />
+    </form>
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

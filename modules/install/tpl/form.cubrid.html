@@ -1,0 +1,49 @@
+<!--%import("filter/cubrid.xml")-->
+<!--%import("js/install_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, install)">
+<input type="hidden" name="db_type" value="{$db_type}" />
+
+    <h2>{$lang->form_title}</h2>
+
+    <table cellspacing="0" class="tableType7">
+    <col width="100" />
+    <col width="160" />
+    <col />
+
+    <tr>
+        <th rowspan="6" class="hr" scope="row">{$db_type}</th>
+        <th class="second" scope="row"><label for="textfield11">{$lang->db_hostname}</label></th>
+        <td><input type="text" name="db_hostname" value="127.0.0.1" class="inputTypeText w100" id="textfield11" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield12">{$lang->db_port}</label></th>
+        <td><input type="text" name="db_port" value="33000" class="inputTypeText w100" id="textfield12" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield13">{$lang->db_userid}</label></th>
+        <td><input type="text" name="db_userid" value="" class="inputTypeText w100" id="textfield13" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield14">{$lang->db_password}</label></th>
+        <td><input type="password" name="db_password" value="" class="inputTypeText w100" id="textfield14" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield15">{$lang->db_database}</label></th>
+        <td><input type="text" name="db_database" value="" class="inputTypeText w100" id="textfield15" /></td>
+    </tr>
+    <tr>
+        <th class="second hr" scope="row"><label for="textfield16">{$lang->db_table_prefix}</label></th>
+        <td class="hr"><input type="text" name="db_table_prefix" value="xe" class="inputTypeText w100" id="textfield16" /></td>
+    </tr>
+
+    <!--#include("form.install.html")-->
+
+    </table>
+    <div class="buttonCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+    </div>
+
+</form>
+<!--#include("footer.html")-->

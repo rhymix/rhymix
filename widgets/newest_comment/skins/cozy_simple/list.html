@@ -1,0 +1,29 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+<!--%import("css/common.css")-->
+<!--@if($colorset=="bluish_green")-->
+    <!--%import("css/bluish_green.css")-->
+<!--@elseif($colorset=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($colorset=="pink")-->
+    <!--%import("css/pink.css")-->
+<!--@elseif($colorset=="blue")-->
+    <!--%import("css/blue.css")-->
+<!--@else-->
+    <!--%import("css/red.css")-->
+<!--@end-->
+
+<div class="commentBox">
+    <div class="header">
+        <!--@if($widget_info->title)-->
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>newest comments</h2>
+        <!--@end-->
+    </div>
+
+    <ul>
+        <!--@foreach($widget_info->comment_list as $val)-->
+            <li><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str(strip_tags($val->content),20,'...'))}</a></li>
+        <!--@end-->
+    </ul>
+</div>

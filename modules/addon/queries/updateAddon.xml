@@ -1,0 +1,12 @@
+<query id="updateAddon" action="update">
+    <tables>
+      <table name="addons" />
+    </tables>
+    <columns>
+      <column name="is_used" var="is_used" default="Y" />
+      <column name="extra_vars" var="extra_vars" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="addon" var="addon" notnull="notnull" />
+    </conditions>
+</query>

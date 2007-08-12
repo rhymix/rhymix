@@ -1,0 +1,25 @@
+<query id="getFileList" action="select">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="s_module_srl" />
+        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="source_filename" var="s_filename" pipe="or" />
+            <condition operation="more" column="file_size" var="s_filesize" pipe="or" />
+            <condition operation="more" column="download_count" var="s_download_count" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="file_srl" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

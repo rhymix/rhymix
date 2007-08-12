@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispSpamfilterAdminConfig" type="view" admin_index="true" standalone="true" />
+        <action name="dispSpamfilterAdminDeniedIPList" type="view" standalone="true" />
+        <action name="dispSpamfilterAdminDeniedWordList" type="view" standalone="true" />
+
+        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" />
+        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" />
+    </actions>
+</module>

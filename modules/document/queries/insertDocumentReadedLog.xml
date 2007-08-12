@@ -1,0 +1,11 @@
+<query id="insertDocumentReadedLog" action="insert">
+    <tables>
+        <table name="document_readed_log" />
+    </tables>
+    <columns>
+        <column name="document_srl" var="document_srl" filter="number" default="0" notnull="notnull" />
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

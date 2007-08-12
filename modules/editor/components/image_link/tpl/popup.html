@@ -1,0 +1,90 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
+<form action="./" method="get" onSubmit="return false" id="fo">
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+
+        <tr>
+            <th scope="row">{$lang->image_url}</th>
+            <td><input type="text" id="image_url" value="{url_decode($manual_url)}" onblur="getImageScale();" class="inputTypeText w100" /></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->image_scale}</th>
+            <td>
+                <ul>
+                    <li><input type="text" id="width" value="0" size="4" class="inputTypeText" onblur="setScale('width');return false;" />px </li>
+                    <li><input type="text" id="height" value="0" size="4" class="inputTypeText" onblur="setScale('height');return false;" />px </li>
+                    <li><a href="#" onclick="getImageScale(); return false;" class="button"><span>{$lang->cmd_get_scale}</span></a></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">URL</th>
+            <td><input type="text" id="link_url" value="" class="inputTypeText w100"/></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_open_window}</th>
+            <td><input type="checkbox" id="open_window" value="Y" /> {$lang->about_url_link_open_window}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->image_alt}</th>
+            <td><input type="text" id="image_alt" value="" class="inputTypeText w100"/></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->image_align}</th>
+            <td>
+                <div class="image_align">
+                    <input type="radio" name="align" value="" id="align_normal" checked="checked"/>
+                    <label for="align_normal">
+                        <img src="./images/align_normal.gif" alt="{$lang->image_align_normal}" />
+                        {$lang->image_align_normal}
+                    </label>
+                </div>
+
+                <div class="image_align">
+                    <input type="radio" name="align" value="left" id="align_left" />
+                    <label for="align_left">
+                        <img src="./images/align_left.gif" alt="{$lang->image_align_left}" />
+                        {$lang->image_align_left}
+                    </label>
+                </div>
+
+                <div class="image_align">
+                    <input type="radio" name="align" value="middle" id="align_middle" />
+                    <label for="align_middle">
+                        <img src="./images/align_middle.gif" alt="{$lang->image_align_middle}" />
+                        {$lang->image_align_middle}
+                    </label>
+                </div>
+
+                <div class="image_align">
+                    <input type="radio" name="align" value="right" id="align_right" />
+                    <label for="align_right">
+                        <img src="./images/align_right.gif" alt="{$lang->image_align_right}" />
+                        {$lang->image_align_right}
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->image_border}</th>
+            <td><input type="text" id="image_border" value="0" size="2" class="inputTypeText" />px</td>
+        </tr>
+        </table>
+    </div>
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="insertImage()" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    </div>
+
+</form>

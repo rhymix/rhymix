@@ -1,0 +1,11 @@
+<filter name="delete_member" module="member" act="procMemberAdminDelete" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="page" />
+    </form>
+    <response callback_func="completeDelete">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>
+

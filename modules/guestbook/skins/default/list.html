@@ -1,0 +1,65 @@
+<!--%import("filter/search.xml")-->
+<!--#include("header.html")-->
+
+<!-- 글쓰기 폼 -->
+<!--@if($grant->write_document && $editor)-->
+<div>
+    <!--#include("./write_form.html")-->
+</div>
+<!--@end-->
+
+<!-- 목록 -->
+<div>
+    <!--@foreach($document_list as $no => $document)-->
+        <!-- 글 내용 보여주기 -->
+        <div class="document">
+            <div class="info">
+                <div class="fl member_{$document->get('member_srl')}">{$document->getNickName()}</div>
+
+                <!--@if($document->isEditable())-->
+                <div class="fr">
+                    <a href="{getUrl('act','dispGuestbookModify')}" class="button"><span>{$lang->cmd_modify}</span></a> 
+                    <a href="{getUrl('act','dispGuestbookDelete')}" class="button"><span>{$lang->cmd_delete}</span></a> 
+                </div>
+                <!--@end-->
+
+                <div class="clear"></div>
+            </div>
+
+
+            <div class="clear content">
+                {$document->getContent()}
+            </div>
+
+            <div class="subinfo">
+                {$document->getRegdate('Y-m-d H:i:s')} |
+                {$document->get('ipaddress')}
+            </div>
+
+            <div class="comment">
+            <!-- 댓글 파일 include -->
+            <!--@if($grant->write_comment && $document->allowComment())-->
+                <!--#include("./comment.html")-->
+            <!--@end-->
+            </div>
+        </div>
+
+    <!--@end-->
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+    <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
+
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+    <!--@if($page == $page_no)-->
+    {$page_no}
+    <!--@else-->
+    <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+    <!--@end-->
+    <!--@end-->
+
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+</div>
+
+<!--#include("footer.html")-->

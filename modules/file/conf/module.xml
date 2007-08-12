@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispFileAdminConfig" type="view" standalone="true" />
+
+        <action name="procFileUpload" type="controller" standalone="true" />
+        <action name="procFileDelete" type="controller" standalone="true" />
+        <action name="procFileDownload" type="controller" standalone="true" />
+        <action name="procFileAdminDeleteChecked" type="controller" standalone="true" />
+        <action name="procFileAdminInsertConfig" type="controller" standalone="true" />
+    </actions>
+</module>

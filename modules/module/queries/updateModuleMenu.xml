@@ -1,0 +1,12 @@
+<query id="updateModuleMenu" action="update">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="menu_srl" var="menu_srl" />
+        <column name="layout_srl" var="layout_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="mid" var="mid" notnull="notnull"/>
+    </conditions>
+</query>

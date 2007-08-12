@@ -1,0 +1,13 @@
+<query id="getModuleInfoByDocument" action="select">
+    <tables>
+        <table name="modules" />
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="modules.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="documents.document_srl" var="document_srl" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" var="documents.module_srl" pipe="and" />
+    </conditions>
+</query>

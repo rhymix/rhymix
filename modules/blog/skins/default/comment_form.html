@@ -1,0 +1,77 @@
+<!--%import("filter/insert_comment.xml")-->
+<!--%import("js/blog.js")-->
+
+<!--@if($source_comment || $comment)-->
+    <!--#include("header.html")-->
+<!--@end-->
+
+<!-- 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
+<!--@if($source_comment)-->
+<div>
+    <table border="1" width="100%">
+    <col width="120" />
+    <col width="*" />
+    <tr>
+        <th>{$lang->date}</th>
+        <td>{$source_comment->regdate}</td>
+    </tr>
+    <tr>
+        <th>{$lang->writer}</th>
+        <td><div class="member_{$source_comment->member_srl}">{htmlspecialchars($source_comment->nick_name)}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->content}</th>
+        <td height="100" valign="top">{$source_comment->content}</td>
+    </tr>
+    </table>
+</div>
+<!--@end-->
+
+<!-- 글쓰기 폼 -->
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end-->>
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />
+    <input type="hidden" name="comment_srl" value="{$comment_srl}" />
+    <input type="hidden" name="parent_srl" value="{$parent_srl}" />
+
+    <table width="100%" border="1">
+    <col width="120" />
+    <col width="*" />
+
+    <!--@if(!$is_logged)-->
+    <tr>
+        <th>{$lang->writer}</th>
+        <td><input type="text" name="nick_name" value="{htmlspecialchars($comment->nick_name)}" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->password}</th>
+        <td><input type="password" name="password" value="" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->email_address}</th>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($comment->email_address)}"/></td>
+    </tr>
+    <tr>
+        <th>{$lang->homepage}</th>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($comment->homepage)}" /></td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <td colspan="2"><textarea class="inputTypeTextArea" name="content">{strip_tags($comment->content)}</textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <!--@if($act&&$act!='dispBlogContent')-->
+                <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <!--@end-->
+
+            <input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
+</form>
+
+<!--@if($source_comment)-->
+    <!--#include("footer.html")-->
+<!--@end-->

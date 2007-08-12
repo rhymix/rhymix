@@ -1,0 +1,10 @@
+<!--%import("js/file_admin.js")-->
+
+<h3>{$lang->file} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispFileAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminList')}">{$lang->file_list}</a></li>
+        <li <!--@if($act=='dispFileAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminConfig')}">{$lang->cmd_module_config}</a></li>
+    </ul>
+</div>

@@ -1,0 +1,104 @@
+<!--%import("filter/delete_checked.xml")-->
+<!--%import("js/file_admin.js")-->
+<!--#include("header.html")-->
+
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="page" value="{$page}" />
+
+<!-- 목록 -->
+<table cellspacing="0" class="tableType1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col"><input type="checkbox" onclick="doCheckAll(); return false;" /></th>
+        <th scope="col">
+            <div class="nowrap">
+                <select name="module_srl" class="mid_list" id="module_srl">
+                    <option value="">{$lang->module}</option>
+                    <!--@foreach($mid_list as $key => $val)-->
+                    <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
+                    <!--@end-->
+                </select><a href="#" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;" class="button"><span>GO</span></a>
+            </div>
+        </th>
+        <th scope="col">{$lang->file_name}</th>
+        <th scope="col">{$lang->file_size}</th>
+        <th scope="col">{$lang->is_valid}</th>
+        <th scope="col">{$lang->download_count}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->ipaddress}</th>
+        <th scope="col">{$lang->cmd_move_to_document}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($file_list as $no => $val)-->
+    <tr>
+        <td class="tahoma">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
+        <td class="blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a></td>
+        <td class="red"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
+        <td class="tahoma">{$val->file_size}</td>
+        <td>
+            <!--@if($val->isvalid=='Y')-->
+                <span class="blue">{$lang->is_valid}</span>
+            <!--@else-->
+                <span class="red">{$lang->is_stand_by}</span>
+            <!--@end-->
+        </td>
+        <td class="tahoma">{$val->download_count}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">{$val->ipaddress}</td>
+        <td class="blue"><a href="./?document_srl={$val->upload_target_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 버튼 -->
+<div class="fr gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_file}" /></span>
+</div>
+
+</form>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+<!-- 검색 -->
+<form action="./" method="get" class="adminSearch">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="{$act}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+
+    <fieldset>
+        <select name="isvalid">
+            <option value="">{$lang->status}</option>
+            <option value="Y" <!--@if($isvalid=="Y")-->selected="selected"<!--@end-->>{$lang->is_valid}</option>
+            <option value="N" <!--@if($isvalid=="N")-->selected="selected"<!--@end-->>{$lang->is_stand_by}</option>
+        </select>
+        <select name="search_target">
+            <option value="">{$lang->search_target}</option>
+            <!--@foreach($lang->search_target_list as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <a href="{getUrl('','module',$module,'act',$act)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+    </fieldset>
+</form>

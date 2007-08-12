@@ -1,0 +1,21 @@
+<query id="updateComment" action="update">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="parent_srl" var="parent_srl" filter="number" default="0" />
+        <column name="content" var="content" notnull="notnull" />
+        <column name="password" var="password" minlength="2" maxlength="60" />
+        <column name="user_name" var="user_name" default="" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
+        <column name="email_address" var="email_address" filter="email" maxlength="250" />
+        <column name="homepage" var="homepage" filter="homepage" maxlength="250" />
+        <column name="uploaded_count" var="uploaded_count" default="0" />
+        <column name="last_update" var="last_update" default="curdate()" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

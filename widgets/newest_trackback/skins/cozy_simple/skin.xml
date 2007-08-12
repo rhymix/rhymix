@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">cozy simple</title>
+  <title xml:lang="jp">Cozyシンプル</title>
+  <title xml:lang="en">cozy simple skin</title>
+  <title xml:lang="zh-CN">Cozy样式皮肤</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
+    <name xml:lang="en">zero</name>
+    <name xml:lang="zh-CN">Zero</name>
+    <description xml:lang="ko">
+        cozy simple 위젯입니다.
+        디자인 : 서기정 (http://blog.naver.com/addcozy)
+        HTML/CSS : 소지훈
+    </description>
+    <description xml:lang="jp">
+        Cozyシンプルウィジェットです。
+        デザイン：（http://blog.naver.com/addcozy）
+        HTML/CSS：ソジフン
+    </description>
+	<description xml:lang="en">
+        This is cozy simple widget.
+        Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Ji-Hun So
+    </description>
+    <description xml:lang="zh-CN">
+        Cozy样式皮肤。
+        设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Ji-Hun So
+    </description>
+  </maker>
+  <colorset>
+    <color name="red">
+      <title xml:lang="ko">빨간색</title>
+      <title xml:lang="jp">赤</title>
+      <title xml:lang="en">Red</title>
+      <title xml:lang="zh-CN">红色</title>
+    </color>
+    <color name="green">
+      <title xml:lang="ko">초록색</title>
+      <title xml:lang="jp">緑</title>
+      <title xml:lang="en">Green</title>
+      <title xml:lang="zh-CN">绿色</title>
+    </color>
+    <color name="blue">
+      <title xml:lang="ko">파란색</title>
+      <title xml:lang="jp">青</title>
+      <title xml:lang="en">Blue</title>
+      <title xml:lang="zh-CN">蓝色</title>
+    </color>
+    <color name="pink">
+      <title xml:lang="ko">분홍색</title>
+      <title xml:lang="jp">ピンク</title>
+      <title xml:lang="en">Pink</title>
+      <title xml:lang="zh-CN">粉红色</title>
+    </color>
+    <color name="bluish_green">
+      <title xml:lang="ko">청록색</title>
+      <title xml:lang="jp">青緑</title>
+      <title xml:lang="en">Cyan</title>
+      <title xml:lang="zh-CN">青绿色</title>
+    </color>
+  </colorset>
+</skin>

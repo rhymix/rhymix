@@ -1,0 +1,10 @@
+<filter name="insert_menu" module="menu" act="procMenuAdminInsert" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" />
+    </form>
+    <response callback_func="completeInsertMenu">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="menu_srl" />
+    </response>
+</filter>

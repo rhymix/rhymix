@@ -1,0 +1,19 @@
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <table border="1">
+    <tr>
+        <th rowspan="2">{$lang->test}</th>
+        <td><input type="text" name="test" value="{$config->test}" /></td>
+    </tr>
+    <tr>
+        <td>{$lang->about_test}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','')}'" />
+            <input type="submit" value="{$lang->cmd_registration}" accesskey="s" />
+        </td>
+    </tr>
+    </table>
+</form>

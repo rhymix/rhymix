@@ -1,0 +1,13 @@
+<query id="insertLayout" action="insert">
+    <tables>
+        <table name="layouts" />
+    </tables>
+    <columns>
+        <column name="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
+        <column name="layout" var="layout" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="module_srl" var="module_srl" />
+        <column name="layout_path" var="layout_path" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

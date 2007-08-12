@@ -1,0 +1,34 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_config.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <table cellspacing="0" class="tableType2 gap1">
+    <tr>
+        <th scope="col">{$lang->allowed_filesize}</th>
+        <td>
+            <input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" class="inputTypeText" size="3" />MB
+            <p>{$lang->about_allowed_filesize}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->allowed_attach_size}</th>
+        <td>
+            <input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" class="inputTypeText" size="3" />MB
+            / {ini_get('upload_max_filesize')}
+            <p>{$lang->about_allowed_attach_size}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->allowed_filetypes}</th>
+        <td>
+            <input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" class="inputTypeText w100" />
+            <p>{$lang->about_allowed_filetypes}</p>
+        </td>
+    </tr>
+    </table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+</form>

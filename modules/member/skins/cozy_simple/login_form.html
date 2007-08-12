@@ -1,0 +1,63 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/login.xml")-->
+<!--%import("filter/openid_login.xml")-->
+
+<!-- 제로보드XE 로그인 폼 -->
+<div class="memberSmallBox w400">
+
+    <div class="header">
+        <h3>{$lang->cmd_login}</h3>
+    </div>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
+        <fieldset class="login">
+            <dl>
+                <dt><label for="uid"><img src="./images/common/txt_id.gif" alt="{$lang->user_id}" /></label></dt>
+                <dd><input type="text" name="user_id" id="uid" value="" class="inputTypeText w140" /></dd>
+                <dt><label for="upw"><img src="./images/common/txt_pw.gif" alt="{$lang->password}" /></label></dt>
+                <dd><input type="password" name="password" id="upw" value="" class="inputTypeText w140" /></dd>
+            </dl>
+
+            <span class="loginButton"><input type="image" src="./images/common/btn_login.gif" title="{$lang->cmd_login}" /></span>
+
+            <p class="keep">
+                <input type="checkbox" name="remember_user_id" id="keepid" value="Y" />
+                <label for="keepid">{$lang->remember_user_id}</label>
+            </p>
+        </fieldset>
+    </form>
+
+    <ul class="help">
+        <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}"><img src="./images/common/btn_joinus.gif" alt="{$lang->cmd_signup}" /></a></li>
+    </ul>
+</div>
+
+<!--@if($member_config->enable_openid=='Y')-->
+<!-- OpenID 로그인 폼 -->
+<div class="memberSmallBox w400">
+
+    <div class="header">
+        <h3>{$lang->openid}</h3>
+    </div>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
+        <fieldset class="login">
+            <dl>
+                <dt><label for="open_uid"><img src="./images/common/txt_id.gif" alt="{$lang->user_id}" /></label></dt>
+                <dd><input type="text" name="user_id" id="open_uid" value="" class="openid_user_id inputTypeText" /></dd>
+            </dl>
+            <span class="loginOpenIDButton"><input type="image" src="./images/common/btn_login.gif" title="{$lang->cmd_login}" /></span>
+
+        </fieldset>
+    </form>
+
+    <div class="open_id_help">{$lang->about_openid}</div>
+
+</div>
+<!--@end-->
+
+<script type="text/javascript">
+        xAddEventListener(window, "load", function() { doFocusUserId('fo_member_login'); });
+</script>
+
+<!--#include("./common_footer.html")-->

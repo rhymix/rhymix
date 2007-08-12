@@ -1,0 +1,48 @@
+<!--#include("header.html")-->
+<!--%import("filter/update_join_form.xml")-->
+
+<!-- 가입폼의 위/아래, 삭제와 관련된 form -->
+<form id="fo_join_form_info" action="./" method="get">
+    <input type="hidden" name="member_join_form_srl" value="" />
+    <input type="hidden" name="mode" value="" />
+</form>
+
+<!-- 목록 -->
+<table cellspacing="0" class="tableType1 gap1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->column_title}</th>
+        <th scope="col">{$lang->column_name}</th>
+        <th scope="col">{$lang->column_type}</th>
+        <th scope="col">{$lang->is_active}</th>
+        <th scope="col">{$lang->is_required}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_move}</th>
+        <th scope="col">{$lang->cmd_modify}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($form_list as $no => $val)-->
+    <tr>
+        <td>{htmlspecialchars($val->column_title)}</td>
+        <td>{$val->column_name}</td>
+        <td>{$lang->column_type_list[$val->column_type]}</td>
+        <td class="tahoma">{$val->is_active}</td>
+        <td class="tahoma">{$val->required}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">
+            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
+            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
+        </td>
+        <td class="blue"><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
+        <td class="red"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 가입폼 추가 -->
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+</div>

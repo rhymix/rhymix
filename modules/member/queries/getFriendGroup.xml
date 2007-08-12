@@ -1,0 +1,12 @@
+<query id="getFriendGroup" action="select">
+    <tables>
+        <table name="member_friend_group" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" />
+        <condition operation="equal" column="friend_group_srl" var="friend_group_srl" pipe="and" />
+    </conditions>
+</query>

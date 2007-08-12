@@ -1,0 +1,12 @@
+<query id="updateMenuItemParent" action="update">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="parent_srl" var="parent_srl" default="0" />
+        <column name="listorder" var="listorder" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_item_srl" var="menu_item_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispCommentAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" />
+    </actions>
+</module>

@@ -1,0 +1,35 @@
+<!--%import("../../admin/tpl/css/admin.css")-->
+<div id="popHeadder">
+    <h1>{$skin_info->title}</h1>
+</div>
+
+<div id="popBody">
+    <table cellspacing="0" class="tableType5">
+    <col width="100" />
+    <col />
+    <tr>
+        <th scope="row"><label for="textfield1">{$lang->title}</label></th>
+        <td>{$skin_info->title}</td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->author}</label></th>
+        <td class="blue"><a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->name}</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
+        <td class="blue"><a href="{$skin_info->maker->homepage}" onclick="window.open(this.href);return false;">{$skin_info->maker->homepage}</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
+        <td>{$skin_info->maker->date}<td>
+    </tr>
+    <tr>
+        <th scope="row" class="borderBottomNone">{$lang->description}</th>
+        <td class="borderBottomNone">{nl2br($skin_info->maker->description)}</td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter" class="tCenter">
+    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+</div>

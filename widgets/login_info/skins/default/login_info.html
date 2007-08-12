@@ -1,0 +1,22 @@
+<!-- colorset의 값에 따라 css 파일을 import 한다 -->
+<!--@if($colorset=="default"||!$colorset)-->
+    <!--%import("css/default.css")-->
+<!--@end-->
+
+<!--%import("./filter/logout.xml")-->
+<div class="box_login">
+    <div class="user_info">
+        <div class="fl"><div class="member_{$logged_info->member_srl} fl fc_01">{$logged_info->nick_name}</div></div>
+        <div class="fr tRight"><a href="{getUrl('act','dispMemberLogout')}" class="button"><span>{$lang->cmd_logout}</span></a></div>
+    </div>
+
+    <div class="hr_dot_01"></div>
+
+    <div class="item profile"><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></div>
+    <div class="item friend"><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></div>
+    <div class="item message"><a href="{getUrl('act','dispMemberMessages','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></div>
+    <!--@if($logged_info->is_admin=="Y")-->
+    <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
+    <!--@end-->
+    <div class="item lastlogin fc_02">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
+</div>

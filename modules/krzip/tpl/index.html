@@ -1,0 +1,37 @@
+<!--%import("filter/insert_config.xml")-->
+
+<h3>{$lang->krzip} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<table cellspacing="0" class="tableType4">
+<col width="200" />
+<col />
+<thead>
+    <tr>
+        <th scope="col">{$lang->krzip_server_hostname}</th>
+        <td>
+            <input type="text" name="krzip_server_hostname" value="{htmlspecialchars($config->krzip_server_hostname?$config->krzip_server_hostname:'kr.zip.zeroboard.com')}" class="inputTypeText w100" /> 
+            <p>{$lang->about_krzip_server_hostname}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->krzip_server_port}</th>
+        <td>
+            <input type="text" name="krzip_server_port" value="{htmlspecialchars($config->krzip_server_port?$config->krzip_server_port:'80')}" class="inputTypeText w100"/> 
+            <p>{$lang->about_krzip_server_port}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->krzip_server_query}</th>
+        <td>
+            <input type="text" name="krzip_server_query" value="{htmlspecialchars($config->krzip_server_query?$config->krzip_server_query:'/server.php?addr3=')}" class="inputTypeText w100"/> 
+            <p>{$lang->about_krzip_server_query}</p>
+        </td>
+    </tr>
+</table>
+
+    <!-- 버튼 -->
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+</form>

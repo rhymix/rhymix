@@ -1,0 +1,65 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
+<form action="./" method="get" id="fo_component" onSubmit="return false">
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+
+        <tr>
+            <th scope="row">{$lang->urllink_title}</th>
+            <td><input type="text" name="text" class="inputTypeText w100" /></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_url}</th>
+            <td><input type="text" name="url" class="inputTypeText w100" value="{$manual_url}"/></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_open_window}</th>
+            <td><input type="checkbox" name="open_window" value="Y" id="editor_open_window" /> <label for="editor_open_window">{$lang->about_url_link_open_window}</label></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_bold}</th>
+            <td><input type="checkbox" name="bold" value="Y" id="editor_bold" /> <label for="editor_bold">{$lang->about_url_link_bold}</label></td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->urllink_color}</th>
+            <td>
+                <div class="link_color">
+                    <input type="radio" name="color" value="none" id="color_none" />
+                    <label for="color_none">{$lang->not_exists}</label>
+                </div>
+                <div class="link_color">
+                    <input type="radio" name="color" value="blue" id="color_blue" />
+                    <label for="color_blue" class="editor_blue_text">{$lang->urllink_color_blue}</label>
+                </div>
+                <div class="link_color">
+                    <input type="radio" name="color" value="red" id="color_red" />
+                    <label for="color_red" class="editor_red_text">{$lang->urllink_color_red}</label>
+                </div>
+                <div class="link_color">
+                    <input type="radio" name="color" value="yellow" id="color_yellow" />
+                    <label for="color_yellow" class="editor_yellow_text">{$lang->urllink_color_yellow}</label>
+                </div>
+                <div class="link_color">
+                    <input type="radio" name="color" value="green" id="color_green" />
+                    <label for="color_green" class="editor_green_text">{$lang->urllink_color_green}</label>
+                </div>
+            </td>
+        </tr>
+        </table>
+    </div>
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="setText()" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    </div>
+
+</form>

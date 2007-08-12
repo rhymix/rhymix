@@ -1,0 +1,15 @@
+<!--%import("js/module_admin.js")-->
+
+<h3>{$lang->module} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!--@if($act == 'dispModuleAdminContent')-->
+<div class="infoText">{nl2br($lang->about_module)}</div>
+<!--@end-->
+
+<div class="header4">
+    <div class="summary">&nbsp;</div>
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispModuleAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a></li>
+        <li <!--@if($act=='dispModuleAdminCategory')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a></li>
+    </ul>
+</div>

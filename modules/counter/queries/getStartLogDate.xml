@@ -1,0 +1,11 @@
+<query id="getStartLogDate" action="select">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="min(regdate)" alias="regdate" />
+    </columns>
+    <conditions>
+        <condition operation="excess" column="regdate" default="1" notnull="notnull" />
+    </conditions>
+</query>

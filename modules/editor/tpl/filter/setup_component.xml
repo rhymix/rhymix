@@ -1,0 +1,8 @@
+<filter name="setup_component" module="editor" act="procEditorAdminSetupComponent" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

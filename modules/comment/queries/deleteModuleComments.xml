@@ -1,0 +1,8 @@
+<query id="deleteComments" action="delete">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

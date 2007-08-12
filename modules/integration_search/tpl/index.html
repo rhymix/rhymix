@@ -1,0 +1,40 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_config.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <table cellspacing="0" class="tableType2">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->sample_code}</th>
+        <td>
+            <textarea class="inputTypeTextArea w400" readonly="readonly">{$sample_code}</textarea>
+            <p>{$lang->about_sample_code}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->skin}</th>
+        <td>
+            <select name="skin">
+                <!--@foreach($skin_list as $key=>$val)-->
+                <option value="{$key}" <!--@if($config->skin==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_skin}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->module}</th>
+        <td>
+            <p>{$lang->about_target_module}</p>
+            <!--@foreach($mid_list as $key => $val)-->
+                <p><input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> <label for="target_mid_{$key}">{$val->browser_title} ({$val->mid})</label></p>
+            <!--@end-->
+        </td>
+    </tr>
+    </table>    
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+</form>

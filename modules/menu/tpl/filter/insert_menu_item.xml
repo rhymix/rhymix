@@ -1,0 +1,14 @@
+<filter name="insert_menu_item" module="menu" act="procMenuAdminInsertItem" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="menu_srl" required="true" />
+    </form>
+    <response callback_func="completeInsertMenuItem">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="menu_srl" />
+        <tag name="xml_file" />
+        <tag name="menu_title" />
+        <tag name="menu_item_srl" />
+        <tag name="parent_srl" />
+    </response>
+</filter>

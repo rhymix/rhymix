@@ -1,0 +1,12 @@
+<query id="updateCommentSync" action="update">
+    <tables>
+        <table name="comments" alias="comments" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="comments.member_srl" default="member.member_srl" filter="number" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="comments.user_id" default="member.user_id" />
+    </conditions>
+</query>

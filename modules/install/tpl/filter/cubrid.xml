@@ -1,0 +1,38 @@
+<filter name="install" module="install" act="procInstall">
+    <form>
+        <node target="db_type" required="true" />
+        <node target="db_hostname" required="true" minlength="1" maxlength="250" />
+        <node target="db_port" required="true" minlength="1" maxlength="250" />
+        <node target="db_userid" required="true" minlength="1" maxlength="250"/>
+        <node target="db_password" required="true" minlength="1" maxlength="250" />
+        <node target="db_database" required="true" minlength="1" maxlength="250" />
+        <node target="db_table_prefix" required="true" minlength="2" maxlength="20" filter="alpha"/>
+        <node target="user_id" required="true" minlength="2" maxlength="20" filter="alpha,userid" />
+        <node target="password1" required="true" minlength="1" maxlength="20" />
+        <node target="password2" required="true" equalto="password1" minlength="1" maxlegnth="20" />
+        <node target="user_name" required="true" minlength="2" maxlength="20" />
+        <node target="nick_name" required="true" minlength="2" maxlength="20" />
+        <node target="email_address" required="true" minlength="1" maxlength="200" filter="email"/>
+    </form>
+    <parameter>
+        <param name="db_type" target="db_type" />
+        <param name="db_hostname" target="db_hostname" />
+        <param name="db_port" target="db_port" />
+        <param name="db_userid" target="db_userid" />
+        <param name="db_password" target="db_password" />
+        <param name="db_database" target="db_database" />
+        <param name="db_table_prefix" target="db_table_prefix" />
+        <param name="user_id" target="user_id" />
+        <param name="password" target="password1" />
+        <param name="user_name" target="user_name" />
+        <param name="nick_name" target="nick_name" />
+        <param name="email_address" target="email_address" />
+        <param name="use_rewrite" target="use_rewrite" />
+        <param name="time_zone" target="time_zone" />
+    </parameter>
+    <response callback_func="completeInstalled">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="redirect_url" />
+    </response>
+</filter>

@@ -1,0 +1,55 @@
+<!--%import("filter/insert_denied_ip.xml")-->
+<!--%import("filter/delete_denied_ip.xml")-->
+
+<!--#include("header.html")-->
+
+<!-- 스패머 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($ip_list)}</strong>
+</div>
+
+<!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
+<form id="fo_denied_ip" action="./" method="get">
+<input type="hidden" name="ipaddress" value="" />
+</form>
+
+<!-- 목록 -->
+<table cellspacing="0" class="tableType1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">{$lang->ipaddress}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($ip_list as $no => $val)-->
+    <tr>
+        <td class="tahoma">{count($ip_list)-$no}</td>
+        <td class="tahoma">{$val->ipaddress}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="red"><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 수동 추가 -->
+<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->denied_ip}</th>
+        <td class="left">
+            <input type="text" name="ipaddress" value="" class="inputTypeText" />
+            <p>{$lang->about_denied_ip}</p>
+        </td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+</form>

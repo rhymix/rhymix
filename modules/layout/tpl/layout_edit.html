@@ -1,0 +1,50 @@
+<!--%import("filter/update_layout_code.xml")-->
+<!--%import("filter/reset_layout_code.xml")-->
+
+<!--#include("header.html")-->
+
+<table cellspacing="0" class="tableType3 gap1">
+<thead>
+    <tr>
+        <th scope="col">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td class="left blue">{nl2br($lang->about_layout_code)}</td>
+    </tr>
+</tbody>
+</table>
+
+<table cellspacing="0" class="widgetBox gap1">
+<col width="80" />
+<col />
+<tr>
+    <th>{$lang->widget}</th>
+    <td>
+        <!--@foreach($widget_list as $widget)-->
+        <div class="fl gap1">
+            <a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
+        </div>
+        <!--@end-->
+    </td>
+</tr>
+</table>
+
+<div class="gap1">
+    <form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_code);">
+        <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+        <input type="hidden" name="module" value="layout" />
+        <input type="hidden" name="act" value="" />
+
+        <div class="layout_editor_box">
+            <textarea name="code" class="layout_editor">{htmlspecialchars($layout_code)}</textarea>
+        </div>
+
+        <div class="tRight gap1">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+            <a href="#" onclick="doPreviewLayoutCode();return false"  class="button"><span>{$lang->cmd_preview}</span></a>
+            <a href="#"  onclick="doResetLayoutCode('{$layout_srl}');return false"  class="button"><span>{$lang->cmd_reset}</span></a>
+        </div>
+    </form>
+</div>

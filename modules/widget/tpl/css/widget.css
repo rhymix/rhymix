@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+.widget_mid_list { margin-bottom:.3em; }
+
+#colorset_area { margin-top:.5em; }
+
+#colorset_area .header { float:left; margin-right:.5em; padding-top:.2em;}
+#colorset_area .footer { float:left; }

@@ -1,0 +1,11 @@
+<query id="getDeniedIPList" action="select">
+    <tables>
+        <table name="spamfilter_denied_ip" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <navigation>
+        <index var="sort_index" default="regdate" order="desc" />
+    </navigation>
+</query>

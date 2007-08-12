@@ -1,0 +1,11 @@
+<query id="getCategoryItem" action="select">
+    <tables>
+        <table name="blog_category" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="category_srl" var="category_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

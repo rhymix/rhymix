@@ -1,0 +1,8 @@
+<query id="deleteModuleTags" action="delete">
+    <tables>
+        <table name="tags" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,140 @@
+<!--%import("filter/vote.xml")-->
+
+<!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
+<form id="fo_document_info" action="./" method="get">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+</form>
+
+<!-- 글 내용 보여주기 -->
+<div>
+    <table border="1" width="100%" style="table-layout:fixed">
+    <col width="120" />
+    <col width="*" />
+
+    <!--@if($category_list && $oDocument->document->category_srl)-->
+    <tr>  
+        <th>{$lang->category}</th>
+        <td>{$category_list[$oDocument->get('category_srl')]->title}</td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <th>{$lang->title}</th>
+        <td>{$oDocument->getTitleText()}</td>
+    </tr>
+    <tr>
+        <th>{$lang->date}</th>
+        <td>{$oDocument->getRegdate('Y-m-d H:i:s')}</td>
+    </tr>
+    <tr>
+        <th>{$lang->writer}</th>
+        <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->readed_count}</th>
+        <td>{$oDocument->get('readed_count')}</td>
+    </tr>
+    <tr>
+        <th>{$lang->voted_count}</th>
+        <td>{$oDocument->get('voted_count')}</td>
+    </tr>
+    <!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th>{$val->name}</th>
+        <td>
+            <!-- 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+            <!--#include("./extra_var_value.html")-->
+        </th>
+    </tr>
+        <!--@end-->
+    <!--@end-->
+    <tr>
+        <th>{$lang->content}</th>
+        <td height="100" valign="top">{$oDocument->getContent()}</td>
+    </tr>
+    <tr>
+        <th>{$lang->document_url}</th>
+        <td>{$oDocument->getPermanentUrl()}</td>
+    </tr>
+
+    <!--@if($oDocument->allowTrackback())-->
+    <tr>
+        <th>{$lang->trackback_url}</th>
+        <td>{$oDocument->getTrackbackUrl()}</td>
+    </tr>
+    <!--@end-->
+
+    {@ $tag_list = $oDocument->get('tag_list') }
+    <!--@if(count($tag_list))-->
+    <tr>
+        <th>{$lang->tag}</th>
+        <td>
+            <!--@for($i=0;$i<count($tag_list);$i++)-->
+                {@ $tag = $tag_list[$i]; }
+                <a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,<!--@end-->
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+
+    <!--@if($oDocument->hasUploadedFiles())-->
+    <tr>
+        <th>{$lang->uploaded_file}</th>
+        <td>
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
+            <!--@foreach($uploaded_list as $key => $file)-->
+                <span><a href="{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})</a> ({number_format($file->download_count)})</span>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <th>ipaddress</th>
+        <td>{$oDocument->get('ipaddress')}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <!--@if($oDocument->allowComment())-->
+                {$lang->allow_comment}
+            <!--@end-->
+
+            <!--@if($oDocument->isLocked())-->
+                {$lang->lock_comment}
+            <!--@end-->
+
+            <!--@if($oDocument->allowTrackback())-->
+                {$lang->allow_trackback}
+            <!--@end-->
+        </td>
+    </tr>
+    </table>
+</div>
+
+<!-- 관련 링크 -->
+<div>
+    <a href="{getUrl('','act','dispDocumentPrint','document_srl',$oDocument->document_srl)}" onclick="winopen(this.href);return false;">{$lang->cmd_print}</a>
+    <!--@if($is_logged)--><a href="#" onclick="doScrap({$oDocument->document_srl}); return false;" >{$lang->cmd_scrap}</a><!--@end-->
+    <a href="{getUrl('document_srl','')}">[{$lang->cmd_list}]</a> 
+    <a href="#" onclick="doVote();return false;">[{$lang->cmd_vote}]</a> 
+
+    <!--@if($oDocument->isEditable())-->
+    <a href="{getUrl('act','dispBoardWrite')}">[{$lang->cmd_modify}]</a> 
+    <a href="{getUrl('act','dispBoardDelete')}">[{$lang->cmd_delete}]</a> 
+    <!--@end-->
+</div>
+
+
+<!-- 엮인글 파일 include -->
+<!--@if($oDocument->allowTrackback())-->
+    <a name="trackback"></a>
+    <!--#include("./trackback.html")-->
+<!--@end-->
+
+<!-- 댓글 파일 include -->
+<!--@if($grant->write_comment && $oDocument->allowComment())-->
+    <a name="comment"></a>
+    <!--#include("./comment.html")-->
+<!--@end-->

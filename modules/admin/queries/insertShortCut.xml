@@ -1,0 +1,13 @@
+<query id="insertShortCut" action="insert">
+    <tables>
+        <table name="admin_shortcut" />
+    </tables>
+    <columns>
+        <column name="shortcut_srl" var="shortcut_srl" default="sequence()" filter="number" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="module" var="module" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="default_act" var="default_act" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="list_order" var="list_order" default="sequence()" />
+    </columns>
+</query>

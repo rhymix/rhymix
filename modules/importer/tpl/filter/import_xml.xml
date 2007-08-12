@@ -1,0 +1,14 @@
+<filter name="import_xml" module="importer" act="procImporterAdminImport">
+    <form>
+        <node target="xml_file" required="true" />
+    </form>
+    <parameter />
+    <response callback_func="completeImport">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="is_finished" />
+        <tag name="position" />
+        <tag name="file_point" />
+        <tag name="total_count" />
+    </response>
+</filter>

@@ -1,0 +1,8 @@
+<query id="getModuleInfoByModuleSrl" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
+    </conditions>
+</query>

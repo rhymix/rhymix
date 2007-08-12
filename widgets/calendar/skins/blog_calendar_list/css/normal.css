@@ -1,0 +1,18 @@
+/* Calendar */
+div#calendar { padding:1.2em .8em; position:relative; border:1px solid #e0e1db; margin-bottom:.7em;}
+div#calendar table { width:100%;}
+div#calendar table caption { font:bold 1.5em Tahoma; color:#9a9a9a; padding-bottom:.6em;}
+div#calendar table caption .mm { font:bold 1em Tahoma; color:#54564b;}
+div#calendar table caption a { padding:.2em;}
+div#calendar table caption a img { vertical-align:middle;}
+div#calendar table th,
+div#calendar table td { padding:.25em 0;}
+div#calendar table th { font-weight:normal; font-size:.9em; color:#9a9a9a;}
+div#calendar table th.sun { color:#fe3614;}
+div#calendar table td { text-align:center;}
+div#calendar table td a { font:.9em Tahoma; color:#9a9a9a;}
+div#calendar table td.sun { color:#fe3614;}
+div#calendar table td.sun a { color:#fe3614;}
+div#calendar table td.today { font-weight:bold; color:#54564b;}
+div#calendar table td.today a { font-weight:bold; color:#54564b;}
+div#calendar table td.posted a { text-decoration:underline;}

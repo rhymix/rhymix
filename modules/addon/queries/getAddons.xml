@@ -1,0 +1,8 @@
+<query id="getAddons" action="select">
+    <tables>
+      <table name="addons" />
+    </tables>
+    <navigation>
+      <index var="list_order" default="addon" order="asc" />
+    </navigation>
+</query>

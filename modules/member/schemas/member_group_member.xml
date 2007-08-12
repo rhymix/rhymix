@@ -1,0 +1,5 @@
+<table name="member_group_member">
+    <column name="group_srl" type="number" size="11" notnull="notnull" index="idx_group_member" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_group_member" />
+    <column name="regdate" type="date" />
+</table>

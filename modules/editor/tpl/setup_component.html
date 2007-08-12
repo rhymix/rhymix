@@ -1,0 +1,45 @@
+<!--%import("css/editor.css")-->
+<!--%import("filter/setup_component.xml")-->
+
+<div id="popHeadder">
+    <h1>{$lang->cmd_setup}</h1>
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
+<input type="hidden" name="component_name" value="{$component_name}" />
+
+    <div id="popBody">
+        <table cellspacing="0" class="tableType5">
+        <col width="100" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->component_name}</th>
+            <td>{$component->component_name} ver. {$component->version}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->component_author}</th>
+            <td>{$component->author->name}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->component_link}</th>
+            <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
+        </tr>
+
+        <!--@foreach($component->extra_vars as $key => $val)-->
+        <tr>
+            <th scope="row">{$val->title}</th>
+            <td>
+                <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText" />
+                <p>{$val->description}</p>
+            </td>
+        </tr>
+        <!--@end-->
+        </table>
+    </div>
+
+    <div id="popFooter" class="tCenter gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_apply}" /></span>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    </div>
+
+</form>

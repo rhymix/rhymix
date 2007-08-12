@@ -1,0 +1,30 @@
+{'<?xml version="1.0" encoding="utf-8" ?>'}
+
+<rss version="1.0">
+    <channel>
+        <title><![CDATA[{$info->title}]]></title>
+        <link><![CDATA[{$info->link}]]></link>
+        <description><![CDATA[{$info->description}]]></description>
+        <language>{$info->language}</language>
+        <pubDate>{$info->date}</pubDate>
+        <totalCount>{$info->total_count}</totalCount>
+        <totalPage>{$info->total_page}</totalPage>
+        <!--@foreach($document_list as $oDocument)-->
+        <item>
+            <title><![CDATA[{$oDocument->getTitleText()}]]></title>
+            <author><![CDATA[{$oDocument->getNickName()}]]></author>
+            <link><![CDATA[{$oDocument->getPermanentUrl()}]]></link>
+            <!--@if($mid_list[$oDocument->get('module_srl')]->open_rss=='Y')-->
+            <description><![CDATA[{$oDocument->getContent(false)}]]></description>
+            <!--@else-->
+            <description><![CDATA[{$oDocument->getContentText(100)}]]></description>
+            <!--@end-->
+            <tags><![CDATA[{$oDocument->get('tags')}]]></tags>
+            <comment_count>{$oDocument->getCommentCount()}</comment_count>
+            <trackback_count>{$oDocument->getTrackbackCount()}</trackback_count>
+            <pubDate>{$oDocument->getRegdateGM()}</pubDate>
+            <upDate>{$oDocument->getUpdateGM()}</upDate>
+        </item>
+        <!--@end-->
+    </channel>
+</rss>

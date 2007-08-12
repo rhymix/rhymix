@@ -1,0 +1,17 @@
+<query id="updateJoinForm" action="update">
+    <tables>
+        <table name="member_join_form" />
+    </tables>
+    <columns>
+        <column name="column_type" var="column_type" />
+        <column name="column_name" var="column_name" />
+        <column name="column_title" var="column_title" />
+        <column name="required" var="required" default="N" />
+        <column name="default_value" var="default_value" />
+        <column name="is_active" var="is_active" default="N" />
+        <column name="description" var="description" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_join_form_srl" var="member_join_form_srl" notnull="notnull" filter="number"/>
+    </conditions>
+</query>

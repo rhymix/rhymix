@@ -1,0 +1,18 @@
+<query id="getTagList" action="select">
+    <tables>
+        <table name="tags" />
+    </tables>
+    <columns>
+        <column name="tag" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+    </conditions>
+    <navigation>
+        <list_count var="list_count" default="20" />
+    </navigation>
+    <groups>
+        <group column="tag" />
+    </groups>
+</query>

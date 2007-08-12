@@ -1,0 +1,16 @@
+<query id="getMonthlyArchivedList" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="substr(regdate,1,8)" alias="month"/>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="like_prefix" column="regdate" var="regdate" pipe="and" />
+    </conditions>
+    <groups>
+        <group column="substr(regdate,1,8)" />
+    </groups>
+</query>

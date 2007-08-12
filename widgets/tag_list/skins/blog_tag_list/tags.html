@@ -1,0 +1,44 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="cyan")-->
+    <!--%import("css/cyan.css")-->
+<!--@elseif($colorset=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($colorset=="red")-->
+    <!--%import("css/red.css")-->
+<!--@elseif($colorset=="purple")-->
+    <!--%import("css/purple.css")-->
+<!--@else-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div id="tag">
+    <div class="header">
+        <!--@if($widget_info->title)-->
+            <h2>{$widget_info->title}</h2>
+        <!--@else-->
+            <h2>tags</h2>
+        <!--@end-->
+    </div>
+
+    <ul class="tagList">
+        <!--@foreach($widget_info->tag_list as $val)-->
+            <!--@if($val->count>10)-->
+                {@ $tag_class = "typeA" }
+            <!--@elseif($val->count>5)-->
+                {@ $tag_class = "typeB" }
+            <!--@elseif($val->count>3)-->
+                {@ $tag_class = "typeC" }
+            <!--@else-->
+                {@ $tag_class = "" }
+            <!--@end-->
+            <li <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
+                <!--@if($layout_info->mid)-->
+                    <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                <!--@else-->
+                    <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                <!--@end-->
+            </li>
+        <!--@end-->
+    </ul>
+</div>

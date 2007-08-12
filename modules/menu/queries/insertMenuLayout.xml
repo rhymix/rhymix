@@ -1,0 +1,9 @@
+<query id="insertMenuLayout" action="insert">
+    <tables>
+        <table name="menu_layout" />
+    </tables>
+    <columns>
+        <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+        <column name="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
+    </columns>
+</query>

@@ -1,0 +1,11 @@
+<query id="getModuleConfig" action="select">
+    <tables>
+        <table name="module_config" />
+    </tables>
+    <columns>
+        <column name="config" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module" var="module" />
+    </conditions>
+</query>

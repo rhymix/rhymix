@@ -1,0 +1,82 @@
+<!--%import("filter/delete_checked.xml")-->
+
+<!--#include("./header.html")-->
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="page" value="{$page}" />
+
+    <!-- 목록 -->
+    <table cellspacing="0" class="tableType1">
+    <col width="80" />
+    <col width="40" />
+    <col />
+    <col width="140" />
+    <col width="60" />
+    <col width="120" />
+    <col width="80" />
+    <thead>
+        <tr>
+            <th scope="col" colspan="2">{$lang->no}</th>
+            <th scope="col" >{$lang->title}</th>
+            <th scope="col" >{$lang->poll_checkcount}</th>
+            <th scope="col" >{$lang->poll_join_count}</th>
+            <th scope="col" >{$lang->regdate}</th>
+            <th scope="col" >{$lang->cmd_view}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--@foreach($poll_list as $no => $val)-->
+        <tr>
+            <td class="tahoma">{$no}</td>
+            <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
+            <td class="left blue"><a href="{getUrl('','document_srl',$val->upload_target_srl)}" onclick="winopen(this.href); return false;">{htmlspecialchars($val->title)}</a></td>
+            <td class="tahoma">{$val->checkcount}</td>
+            <td class="tahoma">{$val->poll_count}</td>
+            <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
+            <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+
+</form>
+
+<!-- 버튼 -->
+<div class="fr gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_poll}" /></span>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+<!-- 검색 -->
+<form action="./" method="get" class="adminSearch">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="{$act}" />
+    <fieldset>
+        <select name="search_target">
+            <option value="">{$lang->search_target}</option>
+            <!--@foreach($lang->search_target_list as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <a href="{getUrl('','module',$module,'act',$act)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+    </fieldset>
+</form>

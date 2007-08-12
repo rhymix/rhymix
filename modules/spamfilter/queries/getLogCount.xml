@@ -1,0 +1,12 @@
+<query id="getLogCount" action="select">
+    <tables>
+        <table name="spamfilter_log" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="ipaddress" var="ipaddress" filter="number" notnull="notnull" />
+        <condition operation="more" column="regdate" var="regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

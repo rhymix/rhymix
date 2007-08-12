@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="list" default="guest">
+            <title xml:lang="ko">목록</title>
+            <title xml:lang="en">list</title>
+            <title xml:lang="jp">リスト</title>
+        </grant>
+        <grant name="write_document" default="guest">
+            <title xml:lang="ko">글 작성</title>
+            <title xml:lang="en">write document</title>
+            <title xml:lang="jp">書き込む</title>
+        </grant>
+        <grant name="write_comment" default="guest">
+            <title xml:lang="ko">댓글 작성</title>
+            <title xml:lang="en">write comment</title>
+            <title xml:lang="jp">コメント作成</title>
+        </grant>
+        <grant name="fileupload" default="guest">
+            <title xml:lang="ko">파일 첨부</title>
+            <title xml:lang="en">file upload</title>
+            <title xml:lang="jp">添付ファイル</title>
+        </grant>
+        <grant name="comment_fileupload" default="guest">
+            <title xml:lang="ko">댓글 파일 첨부</title>
+            <title xml:lang="en">comment file upload</title>
+            <title xml:lang="jp">コメントファイル添付</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">관리</title>
+            <title xml:lang="en">manager</title>
+            <title xml:lang="jp">管理</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispBlogContent" type="view" index="true" />
+        <action name="dispBlogWrite" type="view" />
+        <action name="dispBlogDelete" type="view" />
+        <action name="dispBlogReplyComment" type="view" />
+        <action name="dispBlogModifyComment" type="view" />
+        <action name="dispBlogDeleteComment" type="view" />
+        <action name="dispBlogDeleteTrackback" type="view" />
+        <action name="dispBlogMessage" type="view" />
+
+        <action name="procBlogInsertDocument" type="controller" />
+        <action name="procBlogDeleteDocument" type="controller" />
+        <action name="procBlogInsertComment" type="controller" />
+        <action name="procBlogDeleteComment" type="controller" />
+        <action name="procBlogDeleteTrackback" type="controller" />
+        <action name="procBlogVerificationPassword" type="controller" />
+        <action name="procBlogDeleteFile" type="controller" />
+        <action name="procBlogUploadFile" type="controller" />
+        <action name="procBlogDownloadFile" type="controller" />
+
+        <action name="getBlogAdminCategoryTplInfo" type="model" standalone="true" />
+
+        <action name="dispBlogAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispBlogAdminBlogInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />
+        <action name="dispBlogAdminDeleteBlog" type="view" standalone="true" />
+        <action name="dispBlogAdminCategoryInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispBlogAdminGrantInfo" type="view" standalone="true" />
+
+        <action name="procBlogAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procBlogAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertBlog" type="controller" standalone="true" />
+        <action name="procBlogAdminDeleteBlog" type="controller" standalone="true" />
+        <action name="procBlogAdminInsertCategory" type="controller" standalone="true" />
+        <action name="procBlogAdminDeleteCategory" type="controller" standalone="true" />
+        <action name="procBlogAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procBlogAdminMoveCategory" type="controller" standalone="true" />
+    </actions>
+</module>

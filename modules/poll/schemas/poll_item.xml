@@ -1,0 +1,8 @@
+<table name="poll_item">
+    <column name="poll_item_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="poll_srl" type="number" size="11" notnull="notnull" index="index_poll_srl" />
+    <column name="poll_index_srl" type="number" size="11" notnull="notnull" index="idx_poll_index_srl" />
+    <column name="upload_target_srl" type="number" size="11" notnull="notnull" index="idx_upload_target_srl" />
+    <column name="title" type="varchar" size="250" notnull="notnull" />
+    <column name="poll_count" type="number" size="11" notnull="notnull" />
+</table>

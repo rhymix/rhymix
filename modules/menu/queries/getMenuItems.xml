@@ -1,0 +1,14 @@
+<query id="getMenuItems" action="select">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="listorder" order="desc" />
+    </navigation>
+</query>

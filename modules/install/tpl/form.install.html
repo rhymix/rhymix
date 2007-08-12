@@ -1,0 +1,47 @@
+    <!-- 관리자 정보 -->
+    <tr>
+        <th rowspan="6" scope="row" class="hr"><label for="radio2">{$lang->admin_title}</label></th>
+        <th class="second" scope="row"><label for="textfield21">{$lang->user_id}</label></th>
+        <td><input type="text" id="textfield21" name="user_id" value="admin" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield22">{$lang->password1}</label></th>
+        <td><input id="textfield22" type="password" name="password1" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield23">{$lang->password2}</label></th>
+        <td><input id="textfield23" type="password" name="password2" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield24">{$lang->user_name}</label></th>
+        <td><input id="textfield24" type="text" name="user_name" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield25">{$lang->nick_name}</label></th>
+        <td><input id="textfield25" type="text" name="nick_name" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second hr" scope="row"><label for="textfield26">{$lang->email_address}</label></th>
+        <td class="hr"><input id="textfield26" type="text" name="email_address" class="inputTypeText" /></td>
+    </tr>
+
+    <!-- 기타 정보 -->
+    <tr>
+        <th rowspan="6" scope="row" class="borderBottomNone"><label for="radio2">{$lang->env_title}</label></th>
+        <th class="second" scope="row"><label for="textfield27">{$lang->use_rewrite}</label></th>
+        <td>
+            <input type="checkbox" id="textfield27" name="use_rewrite" value="Y"  <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))-->checked="checked"<!--@end--> />
+            <p>{$lang->about_rewrite}</p>
+        </td>
+    </tr>
+    <tr>
+        <th class="second" scope="row">{$lang->time_zone}</th>
+        <td>
+            <select name="time_zone">
+                <!--@foreach($time_zone as $key => $val)-->
+                    <option value="{$key}" <!--@if($key==date('O'))-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_time_zone}</p>
+        </td>
+    </tr>

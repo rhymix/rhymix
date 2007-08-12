@@ -1,0 +1,51 @@
+<!-- JS 파일 로드 -->
+<!--%import("js/board.js")-->
+
+<!-- 컬러셋 체크 -->
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "red"}
+<!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+<!--%import("css/common.css")-->
+<!--@if($module_info->colorset == "bluish_green")--> <!--%import("css/bluish_green.css")-->
+<!--@elseif($module_info->colorset == "pink")--> <!--%import("css/pink.css")-->
+<!--@elseif($module_info->colorset == "blue")--> <!--%import("css/blue.css")-->
+<!--@elseif($module_info->colorset == "green")--> <!--%import("css/green.css")-->
+<!--@else--> <!--%import("css/red.css")-->
+<!--@end-->
+
+<!-- 상단 텍스트 출력 -->
+{$module_info->header_text}
+
+<!-- 스킨의 제목/간단한 설명 출력 -->
+<div class="boardHeader">
+    <h3>{$module_info->title}</h3>
+</div>
+<div class="boardInformation">
+    <span class="articleNum"><!--@if($total_count)-->Total <strong>{number_format($total_count)}</strong><!--@else-->&nbsp;<!--@end--></span>
+    <ul class="accountNavigation">
+
+        <!--@if($is_logged)-->
+        <li><a href="{getUrl('act','dispMemberInfo')}"><img src="./images/common/btn_my.gif" alt="{$lang->member_info}" /></a></li>
+        <li><a href="{getUrl('act','dispMemberLogout')}"><img src="./images/common/btn_logout.gif" alt="{$lang->cmd_logout}" /></a></li>
+
+        <!-- 관리자이면 설정 버튼 출력 -->
+        <!--@if($grant->is_admin)-->
+        <li><a href="{getUrl('act','dispBoardAdminBoardInfo')}"><img src="./images/common/btn_admin.gif" alt="{$lang->cmd_setup}" /></a></li>
+        <!--@end-->
+
+        <!--@else-->
+        <li><a href="{getUrl('act','dispMemberSignUpForm')}"><img src="./images/common/btn_joinus.gif" alt="{$lang->cmd_signup}" /></a></li>
+        <li><a href="{getUrl('act','dispMemberLoginForm')}"><img src="./images/common/btn_login.gif" alt="{$lang->cmd_login}" /></a></li>
+        <!--@end-->
+
+        <!--@if($rss_url)-->
+        <li><a href="{$rss_url}"><img src="./images/common/btn_rss.gif" alt="RSS" /></a></li>
+        <!--@end-->
+
+        <li><a href="#" onclick="viewSkinInfo('{$module_info->module}','{$module_info->skin}');return false;"><img src="{getUrl()}common/tpl/images/info.png" class="zbxe_info" alt="" /></a></li>
+    </ul>
+</div>
+
+

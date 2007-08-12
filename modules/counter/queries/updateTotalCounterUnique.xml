@@ -1,0 +1,12 @@
+<query id="updateTotalCounterUnique" action="update">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="unique_visitor" default="plus(1)" />
+        <column name="pageview" default="plus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="regdate" default="00000000" notnull="notnull" />
+    </conditions>
+</query>

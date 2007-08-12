@@ -1,0 +1,9 @@
+<query id="deleteFriend" action="delete">
+    <tables>
+        <table name="member_friend" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+        <condition operation="in" column="friend_srl" var="friend_srls" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

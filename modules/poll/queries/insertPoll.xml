@@ -1,0 +1,15 @@
+<query id="insertPoll" action="insert">
+    <tables>
+        <table name="poll" />
+    </tables>
+    <columns>
+        <column name="poll_srl" var="poll_srl" filter="number" notnull="notnull" />
+        <column name="stop_date" var="stop_date" />
+        <column name="member_srl" var="member_srl" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="poll_count" var="poll_count" default="0" />
+        <column name="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="list_order" var="list_order" default="0" />
+    </columns>
+</query>

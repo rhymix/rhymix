@@ -1,0 +1,6 @@
+<table name="editor_components">
+    <column name="component_name" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+    <column name="enabled" type="char" size="1" default="N" notnull="notnull" />
+    <column name="extra_vars" type="text"/>
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+</table>

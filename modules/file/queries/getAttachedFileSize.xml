@@ -1,0 +1,11 @@
+<query id="getAttachedFileSize" action="select">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="sum(file_size)" alias="attached_size" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

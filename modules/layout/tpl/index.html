@@ -1,0 +1,60 @@
+<!--%import("filter/delete_layout.xml")-->
+
+<!--#include("header.html")-->
+
+<!-- 삭제를 위한 임시 form -->
+<form id="fo_layout" action="./" method="get" onsubmit="return procFilter(this, delete_layout)">
+    <input type="hidden" name="layout_srl" value="" />
+</form>
+
+<!-- 목록 -->
+<table cellspacing="0" class="tableType1">
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">{$lang->layout}</th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_layout_management}</th>
+        <th scope="col">{$lang->cmd_layout_edit}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($layout_list as $no => $val)-->
+    <tr>
+        <td class="tahoma">{$no+1}</td>
+        <td>
+            {$val->layout}
+            <!--@if($val->module_srl)-->
+            (module) 
+            <!--@end-->
+        </td>
+        <td>{htmlspecialchars($val->title)}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td>
+            <!--@if(!$val->module_srl)-->
+                <a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" class="blue">{$lang->cmd_layout_management}</a>
+            <!--@else-->
+                &nbsp;
+            <!--@end-->
+        </td>
+        <td>
+            <a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" class="blue">{$lang->cmd_layout_edit}</a>
+        </td>
+        <td>
+            <!--@if(!$val->module_srl)-->
+                <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" class="red">{$lang->cmd_delete}</a>
+            <!--@else-->
+                &nbsp;
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 버튼 -->
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+</div>

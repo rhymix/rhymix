@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">스틱스 플래시 카운터</title>
+  <title xml:lang="jp">スティクスフラッシュカウンター</title>
+  <title xml:lang="zh-CN">styx flash 计数器皮肤</title>
+  <title xml:lang="en">Styx Flash Counter</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">styx</name>
+    <name xml:lang="zh-CN">styx</name>
+    <name xml:lang="en">styx</name>
+    <description xml:lang="ko">플래시로 오늘,어제,전체 카운터 현황을 출력해주시는 위젯입니다.</description>
+    <description xml:lang="jp">フラッシュで、今日、昨日、トータルの接続数を表示させるウィジェットです。</description>
+    <description xml:lang="zh-CN">用flash显示今天，昨天，全部访问统计的控件。</description>
+    <description xml:lang="en">This is a widget that displays today, yesterday, all counter status with flash.</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">기본</title>
+      <title xml:lang="jp">デフォルト</title>
+      <title xml:lang="zh-CN">默认</title>
+      <title xml:lang="en">default</title>
+    </color>
+  </colorset>
+</skin>

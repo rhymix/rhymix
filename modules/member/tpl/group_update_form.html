@@ -1,0 +1,35 @@
+<!--#include("header.html")-->
+<!--%import("filter/update_group.xml")-->
+
+<!-- 그룹 수정 -->
+<!--@if($selected_group)-->
+<form action="./" method="get" onsubmit="return procFilter(this, update_group)">
+<input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
+<input type="hidden" name="mode" value="update" />
+<!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->group_title}</th>
+        <td class="left"><input type="text" name="title" class="inputTypeText w100" value="{$selected_group->title}"/></td>
+    </tr>
+    <!--@if($selected_group->is_default!='Y' && $selected_group->is_admin!='Y')-->
+    <tr>
+        <th scope="row">{$lang->is_default}</th>
+        <td class="left"><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th scope="row">{$lang->description}</th>
+        <td class="left"><textarea name="description" class="inputTypeTextArea w100">{$selected_group->description}</textarea></td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
+    </div>
+
+</form>
+<!--@end-->
+

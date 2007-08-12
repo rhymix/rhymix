@@ -1,0 +1,10 @@
+<query id="insertLog" action="insert">
+    <tables>
+        <table name="spamfilter_log" />
+    </tables>
+    <columns>
+        <column name="spamfilter_log_srl" default="sequence()"/>
+        <column name="ipaddress" default="ipaddress()" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

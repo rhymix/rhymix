@@ -1,0 +1,22 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/logout.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, logout)">
+<input type="hidden" name="mid" value="{$mid}" />
+
+<div class="memberSmallBox w400">
+    <div class="header">
+        <h3>{$lang->cmd_logout}</h3>
+    </div>
+    <div class="text">
+        <p class="fwB">{$lang->confirm_logout}</p>
+    </div>
+
+    <ul class="help">
+        <li class="first-child"><input type="image" src="./images/common/btn_ok.gif" title="{$lang->cmd_logout}" /></li>
+        <li><a href="{getUrl('act','','member_srl','')}"><img src="./images/common/btn_cancel2.gif" alt="{$lang->cmd_back}" /></a></li>
+    </ul>
+</div>
+
+</form>
+<!--#include("./common_footer.html")-->

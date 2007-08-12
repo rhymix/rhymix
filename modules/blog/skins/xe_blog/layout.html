@@ -1,0 +1,161 @@
+<!-- 레이아웃과 연동될 css 파일 import -->
+<!--%import("css/layout.css")-->
+<!--%import("css/blog_tree_menu.css")-->
+
+<!-- JS 파일 로드 -->
+<!--%import("js/blog_tree_menu.js")-->
+<!--%import("js/blog.js")-->
+
+<!-- 컬러셋 체크 -->
+<!--@if(!$layout_info->colorset)-->
+    {@$layout_info->colorset = "white"}
+<!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+<!--%import("css/common.css")-->
+<!--@if($layout_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+<!--@elseif($layout_info->colorset == "red")--> <!--%import("css/red.css")-->
+<!--@elseif($layout_info->colorset == "green")--> <!--%import("css/green.css")-->
+<!--@elseif($layout_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+<!--@else--> <!--%import("css/white.css")-->
+<!--@end-->
+
+<!--@if($layout_info->background_image)-->
+  <style type="text/css">
+    body {  background-repeat:repeat-x; background-image:url({getUrl()}{$layout_info->background_image}); }       
+  </style>
+<!--@end-->
+
+<script type="text/javascript">
+    // 블로그 카테고리의 글 갯수를 javascript변수로 설정 
+    <!--@foreach($category_list as $key => $val)-->setDocumentCount({$key}, {(int)$val->document_count});<!--@end-->
+
+    // 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 
+    blogLoadTreeMenu("{$layout_info->category_xml_file}", "{$layout_info->category_name?$layout_info->category_name:'categories'}", "{getUrl('','mid',$layout_info->mid)}");
+</script>
+
+
+<div id="bodyWrap">
+
+    <!-- 상단 타이틀 및 메뉴 -->
+    <div id="header">
+
+        <!-- 회원 관련 기능 -->
+        <ul id="accountNavigation">
+            <!-- 비로그인 상태 -->
+            <!--@if(!$is_logged)-->
+                <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a> </li>
+            <!-- 로그인 되었을 때 -->
+            <!--@else-->
+                <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+
+                <!--@if($logged_info->is_admin == 'Y')-->
+                <li class="loginAndLogout"><a href="{getUrl('','module','admin')}">{$lang->cmd_management}</a> </li>
+                <!--@end-->
+
+            <!--@end-->
+
+
+            <!-- RSS -->
+              <li class="rss"><a href="{getUrl('','mid',$layout_info->mid,'act','rss')}"><img src="./images/iconRss.gif" alt="RSS" width="12" height="12" /></a></li>
+        </ul>
+
+
+        <h1>
+            <!--@if($layout_info->logo_image)-->
+                <a href="{getUrl('','mid',$layout_info->mid)}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
+            <!--@end-->
+            <!--@if($layout_info->top_title)-->
+                <a href="{getUrl('','mid',$layout_info->mid)}">{$layout_info->top_title}</a>
+            <!--@end-->
+        </h1>
+
+        <!--@if($layout_info->sub_title)-->
+        <p id="tagLine">{$layout_info->sub_title}</p>
+        <!--@end-->
+
+        <!-- top_menu 시작 -->
+        <ul id="globalNavigation">
+            <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
+            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+            <!--@end--><!--@end-->
+        </ul>
+    </div>
+
+    <!-- 프로필 영역 및 카테고리등의 요소 -->
+	<div id="contentBody">
+		<div id="columnLeft">
+
+            <!-- 프로필 -->
+			<div id="profile" class="boxTypeA">
+                <!--@if($layout_info->profile_image)-->
+                <img src="{$layout_info->profile_image}" border="0" alt="my profile image" width="160" class="profile"/>
+                <!--@end-->
+
+                <!-- 프로필 글 -->
+                <!--@if($layout_info->profile)-->
+				<dl id="hello">
+					<dd>{$layout_info->profile}</dd>
+				</dl>
+                <!--@end-->
+                <!--@if($grant->is_admin)-->
+				<ul id="admin">
+					<li class="write"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a></li>
+					<li class="setup"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}">{$lang->cmd_setup}</a></li>
+				</ul>
+                <!--@end-->
+			</div>
+
+            <!-- 카테고리 출력 -->
+            <div id="blog_category"></div>
+
+            <!-- 검색폼 -->
+			<div id="searchBox">
+				<form action="{getUrl()}" method="post">
+                    <input type="hidden" name="mid" value="{$layout_info->mid}" />
+					<input name="search_keyword" type="text" class="inputTypeText w100" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+					<span class="button"><input type="submit" value="{$lang->cmd_search}"/></span>
+				</form>
+			</div>
+
+            <!-- 왼쪽 위젯 출력 위치 -->
+
+            <!-- 최근문서 출력 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="{$layout_info->colorset}" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
+
+            <!-- 최근댓글 출력 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="{$layout_info->colorset}" title="Recent Comments" list_count="10" mid_list="{$layout_info->mid}" />
+
+            <!-- 엮인글들 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="{$layout_info->colorset}" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
+
+            <!-- 꼬리표들 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="{$layout_info->colorset}" title="Site Tags" list_count="60" mid_list="{$layout_info->mid}" />
+
+            <!-- 월별 현황들 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="{$layout_info->colorset}" title="Archives" mid_list="{$layout_info->mid}" />
+
+            <!-- 달력 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="{$layout_info->colorset}" mid_list="{$layout_info->mid}" />
+
+            <!-- 카운터 -->
+            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="counter_status" skin="styx_flash" colorset="{$layout_info->colorset}" />
+
+            <!-- 언어선택 위젯 -->
+            <img src="/site/common/tpl/images/blank.gif" class="zbxe_widget_output" widget="language_select" skin="default" colorset="normal" widget_cache="0" />
+
+            <!-- powered by zbxe -->
+            <div id="poweredbyzbxe">
+              <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+            </div>
+
+        </div>
+
+        <!-- 컨텐츠 출력 부분 -->
+        <div id="content">{$content}</div>
+
+    </div>
+
+</div>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+  <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
+  <title xml:lang="jp">会員情報・コミュニティ</title>
+  <title xml:lang="zh-CN">用户扩展信息</title>
+  <title xml:lang="en">Addon for enabling facilities for providing additional information about users and communicating</title>
+  <title xml:lang="es">Informaciónes addciónales del usuario y actualzación del función communicación.</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
+    <name xml:lang="zh-CN">zero</name>
+    <name xml:lang="en">zero</name>
+    <name xml:lang="es">zero</name>
+    <description xml:lang="ko">
+        사용자의 정보중 이미지이름, 이미지마크, 서명등을 화면에 출력해주는 애드온입니다.
+        이런 정보들을 사용하지 않을 경우를 대비하여 별도의 애드온으로 빼어서 실행시간을 줄여줍니다.
+        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        1. 출력되기 직전 &amp;lt;div class="member_회원번호"&amp;gt;....&amp;lt;/div&amp;gt; 로 정의가 된 부분을 찾아 회원번호를 구해서 이미지이름, 이미지마크가 있는지를 확인하여 있으면 내용을 변경해버립니다.
+        2. 출력되기 직전 &amp;lt;div class="document_번호"&amp;gt;...&amp;lt;/div&amp;gt;로 정의된 곳을 찾아 글의 내용이라 판단, 하단에 서명을 추가합니다.
+        3. 새로운 쪽지가 왔을 경우 팝업으로 띄움 
+        4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기 기능 추가합니다.
+        5. MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
+    </description>
+    <description xml:lang="jp">
+        会員情報のイメージ名、イメージマーク、署名などを画面に表示するアドオンです。このような情報を使用しない場合、アドオンを「使用」に設定すれば、実行時間を少なくします。イメージ名、イメージマーク、署名などを表示させたい時は、このアドオンを「使用」に設定して下さい。
+        
+        1. 出力の直前 &lt;div class="member_会員番号"&gt;....&lt;/div&gt; に定義された部分を探し、会員番号をチェックしてイメージ名、イメージマークがあるかを確認します。あった場合は内容を変更します
+        2. 出力の直前 &lt;div class="document_番号"&gt;...&lt;/div&gt;に定義された部分を探し、書込みの内容だと判断して、下段に署名を追加します
+        3. 新しいメッセージが来た場合ポップアップで表示します
+        4. MemberModel::getMemberMenu を呼出す時、相手が会員の場合はメッセージ送信の機能を追加します
+        5. MemberModel::getMemberMenu を呼出す時、友達登録メニュを追加します
+    </description>
+    <description xml:lang="zh-CN">
+        此插件将把用户信息中的昵称图片，用户图标，签名等信息显示到页面当中。
+        因部分用户不使用此项功能或为了考虑页面载入速度，以插件形式提供此项功能。
+        要想使用会员扩展信息请激活此插件。
+        1. 显示之前先查找定义为 &amp;lt;div class="member_会员编号"&amp;gt;....&amp;lt;/div&amp;gt; 的部分获得会员编号后，再以会员编号确认有没有昵称图片/用户图标，有的话即可更新相关内容。
+        2. 显示之前先查找定义为 &amp;lt;div class="document_编号"&amp;gt;...&amp;lt;/div&amp;gt;的部分判断此处为主题内容后，在此处下方添加个人签名。
+        3. 收到新消息时，用弹出窗口显示。
+        4. 呼出MemberModel::getMemberMenu时，如对方是会员，就添加[发送短消息]功能。
+        5. 呼出MemberModel::getMemberMenu时，添加[加为好友]菜单。
+    </description>
+    <description xml:lang="en">
+        Among other information about users, this addon displays image name, image mark, and signature.
+        In case of you not use this information, this stands apart from basic information so runtime should be reduced.
+        To expose image name, image mark, and signature, please turn on this addon.
+        1. Just before displaying user information, this will figure out unique key of member from the definition of "&amp;lt;div class="member_{unique key of member}"&amp;gt;....&amp;lt;/div&amp;gt;" and replace image name and/or image mark if they exsist.
+        2. Just before displaying, this is gonna locate the definition of "&amp;lt;div class="document_{unique key of document}"&amp;gt;...&amp;lt;/div&amp;gt;" and insert the signature below it.
+        3. When arrived a new slip, this will popup it.
+        4. This makes available to send a slip if the target is a member when MemberModel::getMemberMenu is called.
+        5. This adds a menu for registering as a friend when MemberModel::getMemberMenu is called.
+    </description>
+    <description xml:lang="es">
+        Se muestra nombre de imagén, marcador de imagén, firma del usuario.
+        para cortar la ejecución de programa, si no es necessario, puede apagar la function adicionales.
+        Necesita actualizar este funcion, por favor haga clic en ´usar´.
+        1. Este adición busca &lt;div class="member_Num. usuario"&gt;....&lt;/div&gt; en los documentos, y calcula numero de usuario.  Y si hay nombre de imagen, marcador de imagen, se cambia el contenido.
+        2. Este adicion busca &lt;div class="document_Num. documentos"&gt;...&lt;/div&gt; en los documentos, coloca la firma donde interpreta el termino de contenido.
+        3. Si llega nota, se muestra en pop up.
+        4. Si llama MemberModel::getMemberMenu, si es miembro, funcion de "mandar nota" se actualiza.
+        5. Si llama MemberModel::getMemberMenu, el addiciona menú ¨agregar contacto¨.
+    </description>
+  </author>
+</addon>

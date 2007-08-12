@@ -1,0 +1,10 @@
+<query id="getSavedDocument" action="select">
+    <tables>
+        <table name="editor_autosave" />
+    </tables>
+    <columns />
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />
+    </conditions>
+</query>

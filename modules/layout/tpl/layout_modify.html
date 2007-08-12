@@ -1,0 +1,114 @@
+<!--%import("filter/update_layout_info.xml")-->
+
+<!--#include("header.html")-->
+
+<table cellspacing="0" class="tableType2 gap1">
+<col width="150" />
+<col />
+<tr>
+    <th scope="row">{$lang->layout}</th>
+    <td>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
+</tr>
+<tr>  
+    <th scope="row">{$lang->path}</th>
+    <td>{$selected_layout->path}</td>
+</tr>
+<!--@if($selected_layout->author->homepage)-->
+<tr>  
+    <th scope="row">{$lang->author}</th>
+    <td><a href="{$selected_layout->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$selected_layout->author->name}</a></td>
+</tr>
+<!--@end-->
+<!--@if($selected_layout->author->description)-->
+<tr>  
+    <th scope="row">{$lang->description}</th>
+    <td>{nl2br($selected_layout->author->description)}</td>
+</tr>
+<!--@end-->
+</table>
+
+<!--<form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_info)" enctype="multipart/form-data" target="hidden_iframe">-->
+<form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<input type="hidden" name="module" value="layout" />
+<input type="hidden" name="act" value="procLayoutAdminUpdate" />
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<input type="hidden" name="layout" value="{$selected_layout->layout}" />
+
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="150" />
+    <col width="*" />
+    <tr>
+        <th scope="row">{$lang->title}</th>
+        <td class="left">
+            <input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" class="inputTypeText w100" />
+            <p>{$lang->about_title}</p>
+        </td>
+    </tr>
+    <!--@foreach($selected_layout->extra_var as $name => $var)-->
+    <tr>
+        <th scope="row">{$var->title}</th>
+
+        <td class="left">
+        <!--@if($var->type == "text")-->
+            <input type="text" name="{$name}" value="{htmlspecialchars($var->value)}"  class="inputTypeText w100"/>
+
+        <!--@elseif($var->type == "textarea")-->
+            <textarea name="{$name}" class="inputTypeTextArea w100">{htmlspecialchars($var->value)}</textarea>
+
+        <!--@elseif($var->type=="image")-->
+
+          <!--@if($var->value)-->
+          <div>
+              <img src="{$var->value}" alt="image" /><br />
+              <input type="checkbox" name="del_{$name}" value="Y" id="del_{$name}" class="checkbox" />
+              <label for="del_{$name}">{$lang->cmd_delete}</label>
+          </div>
+          <!--@end-->
+
+          <input type="file" name="{$name}" value="" />
+
+        <!--@elseif($var->type == "select")-->
+            <select name="{$name}">
+                <!--@foreach($var->options as $key => $val)-->
+                <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+        <!--@end-->
+            <p>{$var->description}</p>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
+    <tr>
+        <th scope="row">{$menu_info->title}<br />({$menu_name})</th>
+        <td class="left tahoma">
+            <select name="{$menu_name}">
+                <option value="0">------------------------</option>
+                <!--@foreach($menu_list as $key => $val)-->
+                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <a href="#" onclick="doMenuManagement('{$menu_name}');return false;" class="button"><span>{$lang->cmd_management}</span></a>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th scope="row">{$lang->not_apply_menu}</th>
+        <td class="left">
+            <input type="checkbox" name="apply_layout" value="Y" />
+            {$lang->about_not_apply_menu}
+        </td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
+        <!--@else-->
+        <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        <!--@end-->
+    </div>
+</form>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

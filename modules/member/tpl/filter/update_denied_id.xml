@@ -1,0 +1,11 @@
+<filter name="update_denied_id" module="member" act="procMemberAdminUpdateDeniedID">
+    <form>
+        <node target="user_id" required="true" />
+        <node target="mode" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

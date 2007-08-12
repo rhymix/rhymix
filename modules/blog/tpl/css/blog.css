@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+h3 { margin:0 20px 0 20px; }
+.menuManagement { margin:20px; }
+.menuListZone td { vertical-align:top; }
+.menuListZone td.category_zone { padding-right:10px; }
+
+#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; }
+#category_list .checkbox { margin-top:1em; border:0px; }
+
+#menu_zone_info { background-color:#FFFFFF; z-index:999; display:none; overflow:hidden; padding-left:10px; border-left:1px dashed #CCCCCC; }
+#category_info { background-color:#FFFFFF; z-index:999; display:none; overflow:hidden; padding-left:10px; border-left:1px dashed #CCCCCC; }

@@ -1,0 +1,24 @@
+<!-- 엮인글 목록 -->
+
+<!--@if($oDocument->getTrackbackCount())-->
+<ul id="trackbacks">
+
+    <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
+    <li>
+        <a name="trackback_{$val->trackback_srl}"></a>
+        <address>
+            <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>
+            <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/common/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
+            <span class="date">
+                {zdate($val->regdate, "Y.m.d H:i")}
+                ({$val->ipaddress})
+            </span>
+        </address>
+        <div>
+            <a href="{$val->url}" onclick="winopen(this.href);return false;">{cut_str($val->excerpt,100,'...')}</a> 
+        </div>
+    </li>
+    <!--@end-->
+
+</ul>
+<!--@end-->

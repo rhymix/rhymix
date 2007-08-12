@@ -1,0 +1,11 @@
+<query id="updateTotalCounterPageview" action="update">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="pageview" default="plus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="regdate" default="00000000" notnull="notnull" />
+    </conditions>
+</query>

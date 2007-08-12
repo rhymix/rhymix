@@ -1,0 +1,89 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<div id="popHeadder">
+    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+</div>
+
+<form action="./" method="get" onSubmit="return false" id="fo">
+<input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
+
+    <div id="popBody">
+
+        <table cellspacing="0" class="tableType5">
+        <col width="120" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->width}</th>
+            <td><input type="text" class="inputTypeText" size="3" id="width" value="400" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->gallery_style}</th>
+            <td>
+                <select id="gallery_style">
+                    <option value="slide">{$lang->gallery_slide_style}</option>
+                    <option value="list">{$lang->gallery_list_style}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->gallery_slide_align}</th>
+            <td>
+                <select id="gallery_align">
+                    <option value="center">{$lang->gallery_slide_center}</option>
+                    <option value="left">{$lang->gallery_slide_left}</option>
+                    <option value="right">{$lang->gallery_slide_right}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->gallery_border_thickness}</th>
+            <td><input type="text" class="inputTypeText" size="1" id="border_thickness" value="0" />px</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->gallery_border_color}</th>
+            <td>
+                <div class="editor_color_box">
+                    <script type="text/javascript">
+                    printColor("border", "{$tpl_path}/images/blank.gif");
+                    </script>
+                </div>
+                <ul class="buttonLeft">
+                    <li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
+                    <li>#<input type="text" id="border_color_input" size="6" maxlength="6" class="inputTypeText" value="000000" onkeyup="manual_select_color('border',this)"/></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->gallery_bg_color}</th>
+            <td>
+                <div class="editor_color_box">
+                    <script type="text/javascript">
+                        printColor("bg", "{$tpl_path}/images/blank.gif");
+                    </script>
+                </div>
+                <ul class="buttonLeft">
+                    <li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
+                    <li>#<input type="text" id="bg_color_input" size="6" maxlength="6" class="inputTypeText" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->image_list}</th>
+            <td>
+                <select id="image_list" size="6" multiple="true" class="image_list">
+                </select>
+                <p>{$lang->about_image_list}</p>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="insertSlideShow()" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    </div>
+
+</form>

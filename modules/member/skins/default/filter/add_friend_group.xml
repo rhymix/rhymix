@@ -1,0 +1,10 @@
+<filter name="add_friend_group" module="member" act="procMemberAddFriendGroup" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" minlength="1" maxlength="240" />
+    </form>
+    <parameter />
+    <response callback_func="completeAddFriendGroup">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

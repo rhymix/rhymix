@@ -1,0 +1,20 @@
+<query id="insertMenuItem" action="insert">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="menu_item_srl" var="menu_item_srl" filter="number" notnull="notnull" />
+        <column name="parent_srl" var="parent_srl" filter="number" default="0" />
+        <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="url" var="url" />
+        <column name="open_window" var="open_window" />
+        <column name="expand" var="expand" />
+        <column name="normal_btn" var="normal_btn" />
+        <column name="hover_btn" var="hover_btn" />
+        <column name="active_btn" var="active_btn" />
+        <column name="group_srls" var="group_srls" />
+        <column name="listorder" var="listorder" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

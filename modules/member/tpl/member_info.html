@@ -1,0 +1,157 @@
+<!--%import("filter/delete_image_name.xml")-->
+<!--%import("filter/delete_image_mark.xml")-->
+<!--#include("header.html")-->
+
+<!-- 이미지 이름/마크를 삭제하기 위한 폼 -->
+<form action="./" method="get" id="fo_image">
+    <input type="hidden" name="member_srl" />
+</form>
+
+<table cellspacing="0" class="tableType4 gap1">
+<col width="150" />
+<col />
+<tr>
+    <th scope="row">{$lang->user_id}</th>
+    <td>{htmlspecialchars($member_info->user_id)}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->user_name}</th>
+    <td>{htmlspecialchars($member_info->user_name)}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->nick_name}</th>
+    <td>{htmlspecialchars($member_info->nick_name)}</td>
+</tr>
+<tr>
+    <th scope="row" rowspan="2">{$lang->image_name}</th>
+    <td>
+        <!--@if($member_info->image_name->src)-->
+        <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
+        <a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@else-->
+        &nbsp;
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <td>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+        <input type="hidden" name="module" value="member" />
+        <input type="hidden" name="act" value="procMemberInsertImageName" />
+            <input type="file" name="image_name" value="" />
+            <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
+        </form>
+    </td>
+</tr>
+<tr>
+    <th scope="row" rowspan="2">{$lang->image_mark}</th>
+    <td>
+        <!--@if($member_info->image_mark->src)-->
+        <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
+        <a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@else-->
+        &nbsp;
+        <!--@end-->
+    </td>
+</tr>
+<tr>    
+    <td>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+        <input type="hidden" name="module" value="member" />
+        <input type="hidden" name="act" value="procMemberInsertImageMark" />
+        <input type="file" name="image_mark" value="" />
+        <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
+        </form>
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->email_address}</th>
+    <td>{htmlspecialchars($member_info->email_address)}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->homepage}</th>
+    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
+</tr>
+<tr>
+    <th scope="row">{$lang->blog}</th>
+    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
+</tr>
+<tr>
+    <th scope="row">{$lang->birthday}</th>
+    <td>{zdate($member_info->birthday,'Y-m-d')}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->allow_mailing}</th>
+    <td>{$member_info->allow_mailing}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->allow_message}</th>
+    <td>{$lang->allow_message_type[$member_info->allow_message]}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->signature}</th>
+    <td>{$member_info->signature}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->denied}</th>
+    <td>{$member_info->denied}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->limit_date}</th>
+    <td>
+        <!--@if($member_info->limit_date)-->
+            {zdate($member_info->limit_date,"Y-m-d H:i")}
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->is_admin}</th>
+    <td>{$member_info->is_admin}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->group}</th>
+    <td>
+        <!--@foreach($member_info->group_list as $key => $val)-->
+            {$val}
+        <!--@end-->
+    </td>
+</tr>
+<!--@if($extend_form_list)-->
+<!--@foreach($extend_form_list as $key => $val)-->
+<tr>
+    <th scope="row">{htmlspecialchars($val->column_title)}</th>
+    <td>
+        <!--@if($val->column_type=='tel')-->
+            {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
+        <!--@elseif($val->column_type=='kr_zip')-->
+            {htmlspecialchars($val->value[0])} {htmlspecialchars($val->value[1])}
+        <!--@elseif($val->column_type=='checkbox' && $val->value)-->
+            {htmlspecialchars(implode(",",$val->value))}
+        <!--@elseif($val->column_type=='date')-->
+            {zdate($val->value, "Y-m-d")}
+        <!--@else-->
+            {htmlspecialchars($val->value)}
+        <!--@end-->
+    </td>
+</tr>
+<!--@end-->
+<!--@end-->
+<tr>
+    <th scope="row">{$lang->description}</th>
+    <td>{htmlspecialchars($member_info->description)}</td>
+</tr>
+</table>
+
+<div class="tRight gap1">
+    <a href="{getUrl('act','dispMemberAdminInsert')}" class="button"><span>{$lang->cmd_modify}</span></a>
+    <!--@if($val->is_admin!='Y')-->
+    <a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+    <!--@end-->
+    <!--@if($module=="admin")-->
+    <a href="{getUrl('act','dispMemberAdminList','module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+    <!--@end-->
+</div>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

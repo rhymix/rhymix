@@ -1,0 +1,12 @@
+<query id="getMidInfo" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="mid" var="mid" />
+        <condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
+    </conditions>
+</query>
