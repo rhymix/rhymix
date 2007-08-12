@@ -19,7 +19,6 @@
      * - SVN Repository      : http://svn.zeroboard.com/zeroboard_xe/trunk
      * - document            : http://doc.zeroboard.com
      * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
-     *
      **/
 
     /**
