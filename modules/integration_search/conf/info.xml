@@ -24,5 +24,9 @@
             It supports integration search for chosen modules.
             All articles except secret articles will be searched, so you need to be careful not to include secret module to target  .
         </description>
+        <description xml:lang="es">
+            Soporte la busqueda integración de los módulos elegidos.
+            Todo los articulos excepto secretos van a buscado, y es necesario manejar con cuido a no incluir modulo secretos a objetivo.
+        </description>
     </author>
 </module>

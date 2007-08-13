@@ -4,14 +4,17 @@
     <title xml:lang="zh-CN">布局</title>
     <title xml:lang="jp">レイアウト</title>
     <title xml:lang="en">Layout</title>
+    <title xml:lang="es">Diseños</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
+	    <name xml:lang="es">zero</name>
         <description xml:lang="ko">레이아웃을 생성/관리하는 모듈입니다.</description>
         <description xml:lang="zh-CN">生成/管理布局的模块。</description>
         <description xml:lang="jp">レイアウトを生成・管理するモジュールです。</description>
         <description xml:lang="en">This module is for creating/managing.</description>
+        <description xml:lang="en">Este modulo es para crear y manejar los Diseños.</description>
     </author>
 </module>
