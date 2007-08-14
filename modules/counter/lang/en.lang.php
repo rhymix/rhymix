@@ -8,15 +8,15 @@
     $lang->counter = "Counter";
     $lang->cmd_select_date = 'Select date';
     $lang->cmd_select_counter_type = array(
-        'hour' => 'By hour',
-        'day' => 'By day',
-        'month' => 'By month',
-        'year' => 'By year',
+        'hour' => 'By Hour',
+        'day' => 'By Day',
+        'month' => 'By Month',
+        'year' => 'By Year',
     );
 
-    $lang->total_counter = 'Total status';
+    $lang->total_counter = 'Total Status';
     $lang->selected_day_counter = 'Selected day status';
 
-    $lang->unique_visitor = 'Visitor';
+    $lang->unique_visitor = 'Visitors';
     $lang->pageview = 'Pageview';
 ?>
