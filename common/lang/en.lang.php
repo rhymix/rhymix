@@ -76,7 +76,7 @@
     $lang->birthday = 'Birthdate';
     $lang->browser_title = 'Browser Title';
     $lang->title = 'Subject';
-    $lang->title_content = 'Title+Content';
+    $lang->title_content = 'Subject+Content';
     $lang->content = 'Content';
     $lang->document = 'Article';
     $lang->comment = 'Comment';
