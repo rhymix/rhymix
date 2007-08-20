@@ -267,7 +267,7 @@ EndOfLicense;
         'mysql_innodb' => 'Usar innodb para usar BD mysql.<br />Transacción es hablilitado para innodb',
         'sqlite2' => 'Soporte de sqlite2 cual guardas datos en los archivos.<br />En la instalación, es necesario crear archivo de BD en lugar inalcanzable de web.<br />(Nunca preubado para la establización)',
         'sqlite3_pdo' => 'Soporte sqlite3 por PDO de PHP.<br />En la instalación, es necesario crear archivo de BD en lugar inalcanzable de web.',
-        'cubrid' => 'Usar BD CUBRID.<br />(Nunca preubado para la establización y la optimización.)',
+        'cubrid' => 'Usar BD CUBRID.',
     );
 
     $lang->form_title = 'Por favor escribir BD &amp; información de Admin';
