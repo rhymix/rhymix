@@ -460,7 +460,9 @@
             else $member_info = $this->getMemberInfoByMemberSrl($message->sender_srl);
 
             if($member_info) {
-                foreach($member_info as $key => $val) $message->{$key} = $val;
+                foreach($member_info as $key => $val) {
+                  if($key != 'regdate') $message->{$key} = $val;
+                }
             }
 
             // 받은 쪽지이고 아직 읽지 않았을 경우 읽은 상태로 변경
