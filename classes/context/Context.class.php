@@ -515,8 +515,11 @@
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
-                if(!$val) unset($get_vars[$key]);
-                else $get_vars[$key] = $val;
+                if(!$val) {
+                  unset($get_vars[$key]);
+                  continue;
+                }
+                $get_vars[$key] = $val;
             }
 
             $var_count = count($get_vars);
@@ -554,6 +557,7 @@
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
                 if(!$val) continue;
+                if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $val)) $val = urlencode($val);
                 $url .= ($url?'&':'').$key.'='.$val;
             }
 
