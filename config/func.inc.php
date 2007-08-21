@@ -5,6 +5,8 @@
      * @brief  편의 목적으로 만든 함수라이브러리 파일
     **/
 
+    if(!defined('__ZBXE__')) exit();
+
     /**
      * @brief php5에 대비하여 clone 정의
      **/
