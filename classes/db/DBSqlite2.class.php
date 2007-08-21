@@ -175,8 +175,10 @@
             $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
             $this->_query($query);
             $sequence = sqlite_last_insert_rowid($this->fd);
-            $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
-            $this->_query($query);
+            if($seqnece % 10000 == 0) {
+              $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
+              $this->_query($query);
+            }
 
             return $sequence;
         }

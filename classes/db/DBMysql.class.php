@@ -177,11 +177,13 @@
          * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
          **/
         function getNextSequence() {
-            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
+            $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
             $this->_query($query);
             $sequence = mysql_insert_id();
-            $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
-            $this->_query($query);
+            if($seqnece % 10000 == 0) {
+              $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
+              $this->_query($query);
+            }
 
             return $sequence;
         }
