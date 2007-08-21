@@ -565,8 +565,8 @@
          **/
         function getRequestUri() {
             $hostname = $_SERVER['HTTP_HOST'];
-            $port = $_SERVER['SERVER_PORT'];
-            if($port!=80) $hostname .= ":{$port}";
+            //$port = $_SERVER['SERVER_PORT'];
+            //if($port!=80) $hostname .= ":{$port}";
             $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
             return sprintf("http://%s%s",$hostname,$path);
         }
