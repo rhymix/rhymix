@@ -20,7 +20,17 @@
             if(!$xml_obj) return;
             unset($buff);
 
-            list($module, $id) = explode('.',$query_id);
+            $id_args = explode('.', $query_id);
+            if(count($id_args)==2) {
+                $target = 'modules';
+                $module = $id_args[0];
+                $id = $id_args[1];
+            } elseif(count($id_args)==3) {
+                $target = $id_args[0];
+                if(!in_array($target, array('modules','addons','widgets'))) return;
+                $module = $id_args[1];
+                $id = $id_args[2];
+            }
 
             // insert, update, delete, select등의 action
             $action = strtolower($xml_obj->query->attrs->action);
@@ -39,12 +49,12 @@
                 $output->tables[$table_name] = $alias;
 
                 // 테이블을 찾아서 컬럼의 속성을 구함
-                $table_file = sprintf('./modules/%s/schemas/%s.xml', $module, $table_name);
+                $table_file = sprintf('./%s/%s/schemas/%s.xml', 'modules', $module, $table_name);
                 if(!file_exists($table_file)) {
                     $searched_list = FileHandler::readDir('./modules');
                     $searched_count = count($searched_list);
                     for($i=0;$i<$searched_count;$i++) {
-                        $table_file = sprintf('./modules/%s/schemas/%s.xml', $searched_list[$i], $table_name);
+                        $table_file = sprintf('./%s/%s/schemas/%s.xml', 'modules', $searched_list[$i], $table_name);
                         if(file_exists($table_file)) break;
                     }
                 }
