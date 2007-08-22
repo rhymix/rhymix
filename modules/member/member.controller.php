@@ -893,8 +893,7 @@
                             $password_args->password = md5($password);
                             $output = executeQuery('member.updateMemberPassword', $password_args);
                             if(!$output->toBool()) return $output;
-                        }
-
+                        } else return new Object(-1, 'invalid_password');
                     // md5(), mysql old_password와도 다르면 잘못된 비빌번호 오류 메세지 리턴
                     } else {
                         return new Object(-1, 'invalid_password');
