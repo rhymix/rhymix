@@ -21,7 +21,7 @@
     <tr>
         <th scope="row">{$lang->move_target_module}</th>
         <td>
-          <select name="target_board">
+          <select name="target_board" class="w100">
           <!--@foreach($board_list as $key => $val)-->
               <!--@if($module_srl != $val->module_srl)-->
               <option value="{$val->module_srl}">{$val->browser_title} ({$val->mid})</option>
