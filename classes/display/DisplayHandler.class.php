@@ -14,10 +14,15 @@
 
         var $content_size = 0; ///< 출력하는 컨텐츠의 사이즈
 
+        var $gz_enabled = false; ///< gzip 압축하여 컨텐츠 호출할 것인지에 대한 flag변수
+
         /**
          * @brief 모듈객체를 받아서 content 출력
          **/
         function printContent(&$oModule) {
+
+            // gzip encoding 지원 여부 체크
+            if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && function_exists('ob_gzhandler') ) $this->gz_enabled = true;
 
             // header 출력
             $this->_printHeader();
@@ -86,7 +91,10 @@
 
             // files로 시작되는 src나 href의 값을 절대경로로 변경
             $content = preg_replace('!(href|src)=("|\'){0,1}files!is', '\\1=\\2'.$path.'files', $content);
-            print preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $content);
+            $content = preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'$3/', $content);
+
+            if($this->gz_enabled) print ob_gzhandler($content, 5);
+            else print $content;
         }
 
         /**
@@ -208,6 +216,8 @@
         function _printHeader() {
             if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
             else return $this->_printHTMLHeader();
+
+            if($this->gz_enabled) header("Content-Encoding: gzip");
         }
 
         /**
