@@ -198,6 +198,16 @@
         }
 
         /**
+         * @brief mysql old password를 가져오는 함수 (mysql에서만 사용)
+         **/
+        function getOldPassword($password) {
+            $query = sprintf("select old_password('%s') as password", $password);
+            $result = $this->_query($query);
+            $tmp = $this->_fetch($result);
+            return $tmp->password;
+        }
+
+        /**
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
