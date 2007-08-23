@@ -39,8 +39,8 @@ function completeDeleteDocument(ret_obj) {
     var mid = ret_obj['mid'];
     var page = ret_obj['page'];
 
-    var url = "./?mid="+mid;
-    if(page) url += "&page="+page;
+    var url = current_url.setQuery('mid',mid);
+    if(page) url = url.setQuery('page',page);
 
     alert(message);
 
@@ -81,7 +81,7 @@ function completeInsertComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var comment_srl = ret_obj['comment_srl'];
 
-    var url = "./?mid="+mid+"&document_srl="+document_srl;
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl);
     if(comment_srl) url += "#comment_"+comment_srl;
 
     alert(message);
@@ -97,8 +97,8 @@ function completeDeleteComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-    var url = "./?mid="+mid+'&document_srl='+document_srl;
-    if(page) url += "&page="+page;
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl);
+    if(page) url = url.setQuery('page',page);
 
     alert(message);
 
@@ -113,8 +113,8 @@ function completeDeleteTrackback(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-    var url = "./?mid="+mid+'&document_srl='+document_srl;
-    if(page) url += "&page="+page;
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl);
+    if(page) url = url.setQuery('page',page);
 
     alert(message);
 
@@ -134,19 +134,4 @@ function doScrap(document_srl) {
     var params = new Array();
     params["document_srl"] = document_srl;
     exec_xml("member","procMemberScrapDocument", params, null);
-}
-
-// Editor Reply And Trackback Toggle
-function toggleReply() {
-    xGetElementById('reply').style.display = 'block';
-    xGetElementById('trackback').style.display = 'none';
-    xGetElementById('toggleReply').parentNode.className = 'selected';
-    xGetElementById('toggleTrackback').parentNode.className = '';
-}
-
-function toggleTrackback() {
-    xGetElementById('reply').style.display = 'none';
-    xGetElementById('trackback').style.display = 'block';
-    xGetElementById('toggleReply').parentNode.className = '';
-    xGetElementById('toggleTrackback').parentNode.className = 'selected';
 }
