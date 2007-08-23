@@ -256,12 +256,28 @@
          * $is_unique? unique : none
          **/
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            if(!is_array($target_columns)) $target_columns = array($target_columns);
+
+            $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
+            $query = sprintf("pragma table_info(%s%s)", $this->prefix, $table_name);
+
+            $query = sprintf('CREATE %s INDEX %s ON %s%s (%s)', $is_unique?'UNIQUE':'', $key_name, $this->prefix, $table_name, implode(',',$target_columns));
+            $this->_prepare($query);
+            $this->_execute();
         }
 
         /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
+            $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
+
+            $query = sprintf("pragma index_info(%s)", $key_name);
+            $this->_prepare($query);
+            $output = $this->_execute();
+
+            if($output->name) return true;
+            return false;
         }
 
         /**

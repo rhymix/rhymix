@@ -242,12 +242,17 @@
          * $is_unique? unique : none
          **/
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            if(!is_array($target_columns)) $target_columns = array($target_columns);
+
+            $query = sprintf("create %s index %s%s_%s on %s%s (%s);", $is_unique?'unique':'', $this->prefix, $table_name, $index_name, $this->prefix, $table_name, "'".implode("','",$target_columns)."'");
+            $this->_query($query);
         }
 
         /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
+            return false;
         }
 
         /**
