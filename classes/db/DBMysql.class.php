@@ -245,6 +245,30 @@
         }
 
         /**
+         * @brief 특정 테이블에 특정 인덱스 추가
+         * $target_columns = array(col1, col2)
+         * $is_unique? unique : none
+         **/
+        function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            if(!is_array($target_columns)) $target_columns = array($target_columns);
+
+            $query = sprintf("alter table %s%s add %s index %s (%s);", $this->prefix, $table_name, $is_unique?'unique':'', $index_name, implode(',',$target_columns));
+            $this->_query($query);
+        }
+
+        /**
+         * @brief 특정 테이블의 index 정보를 return
+         **/
+        function isIndexExists($table_name, $index_name) {
+            $query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
+            $result = $this->_query($query);
+            if($this->isError()) return;
+            $output = $this->_fetch($result);
+            if($output->Key_name == $index_name) return true;
+            return false;
+        }
+
+        /**
          * @brief xml 을 받아서 테이블을 생성
          **/
         function createTableByXml($xml_doc) {

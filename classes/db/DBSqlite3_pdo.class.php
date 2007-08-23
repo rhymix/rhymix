@@ -251,6 +251,20 @@
         }
 
         /**
+         * @brief 특정 테이블에 특정 인덱스 추가
+         * $target_columns = array(col1, col2)
+         * $is_unique? unique : none
+         **/
+        function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+        }
+
+        /**
+         * @brief 특정 테이블의 index 정보를 return
+         **/
+        function isIndexExists($table_name, $index_name) {
+        }
+
+        /**
          * @brief xml 을 받아서 테이블을 생성
          **/
         function createTableByXml($xml_doc) {
