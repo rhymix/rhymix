@@ -264,8 +264,8 @@
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
-            if($output->Key_name == $index_name) return true;
-            return false;
+            if(!$output) return false;
+            return true;
         }
 
         /**
