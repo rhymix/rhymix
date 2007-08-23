@@ -29,7 +29,7 @@
         function getPoint($member_srl, $from_db = false) {
             $cache_filename = sprintf('./files/member_extra_info/point/%s%d.cache.txt', getNumberingPath($member_srl), $member_srl);
 
-            if(!$from_db && file_exists($target_filename)) return trim(FileHandler::readFile($cache_filename));
+            if(!$from_db && file_exists($cache_filename)) return trim(FileHandler::readFile($cache_filename));
 
             // DB에서 가져옴
             $args->member_srl = $member_srl;
