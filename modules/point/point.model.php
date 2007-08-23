@@ -27,7 +27,9 @@
          * @brief 포인트를 구해옴
          **/
         function getPoint($member_srl, $from_db = false) {
-            $cache_filename = sprintf('./files/member_extra_info/point/%s%d.cache.txt', getNumberingPath($member_srl), $member_srl);
+            $path = sprintf('./files/member_extra_info/point/%s',getNumberingPath($member_srl));
+            if(!is_dir($path)) FileHandler::makeDir($path);
+            $cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
 
             if(!$from_db && file_exists($cache_filename)) return trim(FileHandler::readFile($cache_filename));
 
