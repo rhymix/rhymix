@@ -501,8 +501,8 @@
                 foreach($output->order as $key => $val) {
                     $col = $val[0];
                     if(!in_array($col, array('list_order','update_order'))) continue;
-                    if($condition) $condition .= sprintf(' and %s < 0 ', $col);
-                    else $condition = sprintf(' where %s < 0 ', $col);
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
                 }
             }
 
@@ -560,8 +560,8 @@
                 foreach($output->order as $key => $val) {
                     $col = $val[0];
                     if(!in_array($col, array('list_order','update_order'))) continue;
-                    if($condition) $condition .= sprintf(' and %s < 0 ', $col);
-                    else $condition = sprintf(' where %s < 0 ', $col);
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
                 }
             }
 
