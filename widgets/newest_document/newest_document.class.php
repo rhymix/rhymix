@@ -27,17 +27,23 @@
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
 
+            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
+            if($mid_list) {
+                $oModuleModel = &getModel('module');
+                $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+            }
+
             /**
              * order_target=list_order일 경우 document 테이블의 list_order 컬럼말고 document_srl을 이용하게 하고 순서를 반대로 한다
              * 이유는 공지사항을 적용하지 않은 순수한 글 작성 순서로만 사용하기 위해성.ㅁ
              * 2007. 8. 22. zero
              **/
-            if($order_target == 'list_order') $order_target = 'document_srl';
-
-            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
-            if($mid_list) {
-                $oModuleModel = &getModel('module');
-                $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+            if($order_target == 'list_order') {
+                $order_target = 'document_srl';
+                $obj->sort_document_index = '1';
+            } else {
+                $order_target = 'update_order';
+                $obj->sort_update_index = '-1';
             }
 
             // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리

@@ -8,6 +8,8 @@
     <conditions>
         <condition operation="in" column="module_srl" var="module_srl" filter="number" />
         <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+        <condition operation="more" column="document_srl" var="sort_document_index" pipe="and" />
+        <condition operation="less" column="update_order" var="sort_update_index" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="document_srl" order="order_type" />
