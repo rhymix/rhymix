@@ -250,8 +250,8 @@
             $query = sprintf("pragma index_info(%s)", $key_name);
             $result = $this->_query($query);
             $output = $this->_fetch($result);
-            if($output->name) return true;
-            return false;
+            if(!$output) return false;
+            return true;
         }
 
         /**

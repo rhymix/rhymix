@@ -259,7 +259,6 @@
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
             $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
-            $query = sprintf("pragma table_info(%s%s)", $this->prefix, $table_name);
 
             $query = sprintf('CREATE %s INDEX %s ON %s%s (%s)', $is_unique?'UNIQUE':'', $key_name, $this->prefix, $table_name, implode(',',$target_columns));
             $this->_prepare($query);
@@ -275,9 +274,8 @@
             $query = sprintf("pragma index_info(%s)", $key_name);
             $this->_prepare($query);
             $output = $this->_execute();
-
-            if($output->name) return true;
-            return false;
+            if(!$output) return false;
+            return true;
         }
 
         /**
