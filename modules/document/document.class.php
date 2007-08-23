@@ -24,6 +24,12 @@
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminList');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentPrint');
 
+            $oDB = &DB::getInstance();
+            $oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
+            $oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
+            $oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
+            $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
+
             return new Object();
         }
 
@@ -42,6 +48,14 @@
              * 2007. 7. 25 : 알림 필드(notify_message) 추가
              **/
             if(!$oDB->isColumnExists("documents","notify_message")) return true;
+
+            /**
+             * 2007. 8. 23 : document테이블에 결합 인덱스 적용
+             **/
+            if(!$oDB->isIndexExists("documents","idx_module_list_order")) return true;
+            if(!$oDB->isIndexExists("documents","idx_module_update_order")) return true;
+            if(!$oDB->isIndexExists("documents","idx_module_readed_count")) return true;
+            if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
 
             return false;
         }
@@ -67,6 +81,25 @@
              **/
             if(!$oDB->isColumnExists("documents","notify_message")) {
                 $oDB->addColumn('documents',"notify_message","char",1);
+            }
+
+            /**
+             * 2007. 8. 23 : document테이블에 결합 인덱스 적용
+             **/
+            if(!$oDB->isIndexExists("documents","idx_module_list_order")) {
+                $oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
+            }
+
+            if(!$oDB->isIndexExists("documents","idx_module_update_order")) {
+                $oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
+            }
+
+            if(!$oDB->isIndexExists("documents","idx_module_readed_count")) {
+                $oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
+            }
+
+            if(!$oDB->isIndexExists("documents","idx_module_voted_count")) {
+                $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
             }
 
             return new Object(0,'success_updated');
