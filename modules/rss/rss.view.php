@@ -28,8 +28,8 @@
             $page = (int)Context::get('page'); ///< 페이지, 없으면 1
             if(!$page) $page = 1;
 
-            $list_count = (int)Context::get('list_count'); ///< 목록 갯수, 기본 20, 최고 100개
-            if(!$list_count|| $list_count>100) $list_count = 20;
+            $list_count = (int)Context::get('list_count'); ///< 목록 갯수, 기본 10, 최고 100개
+            if(!$list_count|| $list_count>100) $list_count = 10;
 
             $start_date = Context::get('start_date'); ///< 시작 일자, 없으면 무시
             if(strlen($start_date)!=14 || !ereg("^([0-9]){14}$", $start_date) ) unset($start_date);
@@ -86,8 +86,8 @@
             if($start_date) $args->start_date = $start_date;
             if($end_date) $args->end_date = $end_date;
 
-            $args->sort_index = 'last_update'; 
-            $args->order_type = 'desc';
+            $args->sort_index = 'update_order'; 
+            $args->order_type = 'asc';
 
             // 대상 문서들을 가져옴
             $oDocumentModel = &getModel('document');
@@ -104,7 +104,7 @@
             }
             $info->total_count = $output->total_count;
             $info->total_page = $output->total_page;
-            $info->date = gmdate("D, d M Y H:i:s");
+            $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
             $info->language = Context::getLangType();
 
             // RSS 출력물에서 사용될 변수 세팅
