@@ -495,6 +495,16 @@
 
             if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 0 ', $col);
+                    else $condition = sprintf(' where %s < 0 ', $col);
+                }
+            }
+
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
@@ -543,6 +553,16 @@
             // 페이지 변수를 체크
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
+
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 0 ', $col);
+                    else $condition = sprintf(' where %s < 0 ', $col);
+                }
+            }
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
