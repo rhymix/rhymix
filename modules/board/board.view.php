@@ -94,7 +94,7 @@
             $this->setCommentEditor(0, 100);
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && !$page && ($oDocument->isExists()&&!$oDocument->isNotice())) {
+            if($document_srl && !$page && ($oDocument->isExists()&&!$oDocument->isNotice()) && !Context::get('category') && !Context::get('search_keyword')) {
                 $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
                 Context::set('page', $page);
             }

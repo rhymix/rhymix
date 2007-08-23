@@ -75,7 +75,7 @@
     $lang->cmd_signup = 'Join';
     $lang->cmd_modify_member_info = 'Modify Member Info';
     $lang->cmd_modify_member_password = 'Change Password';
-    $lang->cmd_view_member_info = 'View Member Info';
+    $lang->cmd_view_member_info = 'My Info';
     $lang->cmd_leave = 'Leave';
 
     $lang->cmd_member_list = 'Member List';
@@ -85,13 +85,13 @@
     $lang->cmd_manage_id = 'Manage Prohibited ID';
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'View Written Articles';
-    $lang->cmd_view_scrapped_document = 'View Scraps';
+    $lang->cmd_view_scrapped_document = 'Scraps';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
-    $lang->cmd_view_friend = 'View Friends';
+    $lang->cmd_view_friend = 'Friends';
     $lang->cmd_add_friend = 'Register as Friend';
-    $lang->cmd_view_message_box = 'View Message Box';
+    $lang->cmd_view_message_box = 'Message Box';
     $lang->cmd_store = "Save";
     $lang->cmd_add_friend_group = 'Add Friend Group';
     $lang->cmd_rename_friend_group = 'Change Name of Friend Group';

@@ -186,13 +186,25 @@
          * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
          **/
         function getNextSequence() {
-            $query = sprintf("insert into `%ssequence` (seq) values ('')", $this->prefix);
+            $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
             $this->_query($query);
             $sequence = mysql_insert_id();
-            $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
-            $this->_query($query);
+            if($seqnece % 10000 == 0) {
+              $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
+              $this->_query($query);
+            }
 
             return $sequence;
+        }
+
+        /**
+         * @brief mysql old password를 가져오는 함수 (mysql에서만 사용)
+         **/
+        function getOldPassword($password) {
+            $query = sprintf("select old_password('%s') as password", $password);
+            $result = $this->_query($query);
+            $tmp = $this->_fetch($result);
+            return $tmp->password;
         }
 
         /**
@@ -241,7 +253,29 @@
             return false;
         }
 
+        /**
+         * @brief 특정 테이블에 특정 인덱스 추가
+         * $target_columns = array(col1, col2)
+         * $is_unique? unique : none
+         **/
+        function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            if(!is_array($target_columns)) $target_columns = array($target_columns);
 
+            $query = sprintf("alter table %s%s add %s index %s (%s);", $this->prefix, $table_name, $is_unique?'unique':'', $index_name, implode(',',$target_columns));
+            $this->_query($query);
+        }
+
+        /**
+         * @brief 특정 테이블의 index 정보를 return
+         **/
+        function isIndexExists($table_name, $index_name) {
+            $query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
+            $result = $this->_query($query);
+            if($this->isError()) return;
+            $output = $this->_fetch($result);
+            if(!$output) return false;
+            return true;
+        }
 
         /**
          * @brief xml 을 받아서 테이블을 생성
@@ -471,6 +505,16 @@
 
             if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                }
+            }
+
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
@@ -519,6 +563,16 @@
             // 페이지 변수를 체크
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
+
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                }
+            }
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));

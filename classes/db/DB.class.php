@@ -185,10 +185,20 @@
         function executeQuery($query_id, $args = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 
-            list($module, $id) = explode('.',$query_id);
-            if(!$module || !$id) return new Object(-1, 'msg_invalid_queryid');
+            $id_args = explode('.', $query_id);
+            if(count($id_args)==2) {
+                $target = 'modules';
+                $module = $id_args[0];
+                $id = $id_args[1];
+            } elseif(count($id_args)==3) {
+                $target = $id_args[0];
+                if(!in_array($target, array('addons','widgets'))) return;
+                $module = $id_args[1];
+                $id = $id_args[2];
+            }
+            if(!$target || !$module || !$id) return new Object(-1, 'msg_invalid_queryid');
 
-            $xml_file = sprintf('./modules/%s/queries/%s.xml', $module, $id);
+            $xml_file = sprintf('./%s/%s/queries/%s.xml', $target, $module, $id);
             if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
 
             // 일단 cache 파일을 찾아본다

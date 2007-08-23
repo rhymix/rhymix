@@ -23,7 +23,7 @@ IE7 & IE6 & Below
 
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; }
-html { width:100%; position:relative;}
+html { width:100%; }
 body { margin:0; font-size:.75em; font-family:sans-serif;}
 img { border:none; }
 label { cursor:pointer; }

@@ -61,11 +61,7 @@
                     <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="checked"<!--@end--> /> 
                 <!--@end-->
                 <!--@if($grant->view)-->
-                    <!--@if($search_target && $search_keyword)-->
-                        <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="winopen(this.href,'viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                    <!--@else-->
-                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                    <!--@end-->
+                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 <!--@else-->
                     {$document->getTitleText($module_info->subject_cut_size)}
                 <!--@end-->
@@ -108,11 +104,7 @@
                             <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="checked"<!--@end--> /> 
                         <!--@end-->
                         <!--@if($grant->view)-->
-                            <!--@if($search_target && $search_keyword)-->
-                                <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href,'viewDocument');return false;">{$document->getTitleText(8,'')}</a>
-                            <!--@else-->
-                            <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText(8,'')}</a>
-                            <!--@end-->
+                            <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                         <!--@else-->
                             {$document->getTitleText(8,'')}
                         <!--@end-->

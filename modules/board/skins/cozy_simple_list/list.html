@@ -80,11 +80,7 @@
                 <!--@end-->
 
                 <!--@if($grant->view)-->
-                    <!--@if($search_target && $search_keyword)-->
-                        <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="winopen(this.href,'viewDocument');return false;">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                    <!--@else-->
-                        <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                    <!--@end-->
+                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 <!--@else-->
                     {$document->getTitleText($module_info->subject_cut_size)}
                 <!--@end-->

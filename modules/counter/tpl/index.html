@@ -46,6 +46,20 @@
         {@$img_width = 1}
     <!--@end-->
 <tr>
+    <!--@if(Context::getLangType()=='en')-->
+	<th scope="row">
+        <!-- 시간대별 -->
+        <!--@if($type == 'year')-->
+            <em>{$key}</em>
+        <!--@elseif($type == 'month')-->
+            <em>{$key}</em>
+        <!--@elseif($type == 'day')-->
+            <em>{$key}</em> {$lang->unit_day}
+        <!--@else-->
+            <em>{$key}</em>
+        <!--@end-->
+    </th>
+    <!--@else-->
     <th scope="row">
         <!-- 시간대별 -->
         <!--@if($type == 'year')-->
@@ -58,6 +72,7 @@
             <em>{$key}</em> {$lang->unit_hour}
         <!--@end-->
     </th>
+	<!--@end-->
     <td>
         <div class="graph">
             <img src="./images/iconBar.gif" alt="" width="12" height="6" class="bar" />

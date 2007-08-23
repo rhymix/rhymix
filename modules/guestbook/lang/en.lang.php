@@ -5,10 +5,10 @@
      * @brief  Guestbook modules's basic language pack
      **/
 
-    $lang->board = "Guestbook"; 
+    $lang->guestbook = "Guestbook"; 
 
-    // Words used in button
-    $lang->cmd_board_list = 'Guestbook List';
+    // Words used in buttons
+    $lang->cmd_guestbook_list = 'Guestbook List';
     $lang->cmd_module_config = 'Common Guestbook Configuration';
     $lang->cmd_view_info = 'Guestbook Info';
 

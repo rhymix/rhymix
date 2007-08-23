@@ -19,7 +19,13 @@
      * - SVN Repository      : http://svn.zeroboard.com/zeroboard_xe/trunk
      * - document            : http://doc.zeroboard.com
      * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
+     *
      **/
+
+    /**
+     * @brief 기본적인 상수 선언,  웹에서 직접 호출되는 것을 막기 위해 체크하는 상수 선언
+     **/
+    define('__ZBXE__', true);
 
     /**
      * @brief 필요한 설정 파일들을 include

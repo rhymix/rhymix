@@ -91,11 +91,13 @@
             <options>
                 <name xml:lang="ko">표시</name>
                 <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
                 <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
                 <value>N</value>
             </options>
         </var>
@@ -109,11 +111,13 @@
             <options>
                 <name xml:lang="ko">표시</name>
                 <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
                 <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
                 <value>N</value>
             </options>
         </var>
@@ -127,11 +131,13 @@
             <options>
                 <name xml:lang="ko">표시</name>
                 <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
                 <value>Y</value>
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
                 <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
                 <value>N</value>
             </options>
         </var>
@@ -145,11 +151,13 @@
             <options>
                 <name xml:lang="ko">표시</name>
                 <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
                 <value>Y</value>
             </options>
             <options>
             <name xml:lang="ko">표시하지 않음</name>
             <name xml:lang="zh-CN">不显示</name>
+			<name xml:lang="en">Hide</name>
                 <value>N</value>
                 </options>
             </var>

@@ -18,27 +18,58 @@
             // 위젯 자체적으로 설정한 변수들을 체크
             $title = $args->title;
             $order_target = $args->order_target;
+            if(!in_array($order_target, array('list_order','update_order'))) $order_target = 'list_order';
             $order_type = $args->order_type;
+            if(!in_array($order_type, array('asc','desc'))) $order_type = 'asc';
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
             $mid_list = explode(",",$args->mid_list);
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
 
-            // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
-            $obj->mid = $mid_list;
-            $obj->sort_index = $order_target;
-            $obj->list_count = $list_count;
+            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
+            if($mid_list) {
+                $oModuleModel = &getModel('module');
+                $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+            }
 
-            // document 모듈의 model 객체를 받아서 getDocumentList() method를 실행
+            // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
+            $obj->module_srl = implode(',',$module_srl);
+            $obj->sort_index = $order_target;
+            $obj->order_type = $order_type=="desc"?"asc":"desc";
+            $obj->list_count = $list_count;
+            if($obj->sort_index == 'list_order') $obj->avoid_notice = -2100000000;
+
+            $output = executeQuery('widgets.newest_document.getNewestDocuments', $obj);
+
+            // document 모듈의 model 객체를 받아서 결과를 객체화 시킴
             $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($obj);
+
+            // 오류가 생기면 그냥 무시
+            if(!$output->toBool()) return;
+
+            // 결과가 있으면 각 문서 객체화를 시킴
+            if(count($output->data)) {
+                foreach($output->data as $key => $attribute) {
+                    $document_srl = $attribute->document_srl;
+
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute);
+
+                    $document_list[$key] = $oDocument;
+                }
+            } else {
+
+                $document_list = array();
+                
+            }
 
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
             
             $widget_info->title = $title;
-            $widget_info->document_list = $output->data;
+            $widget_info->document_list = $document_list;
             $widget_info->subject_cut_size = $subject_cut_size;
 
             Context::set('widget_info', $widget_info);

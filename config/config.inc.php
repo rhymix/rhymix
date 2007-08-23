@@ -4,11 +4,8 @@
      * @author zero (zero@nzeo.com)
      * @brief  기본적으로 사용하는 class파일의 include 및 환경 설정을 함
      **/
-
-    /**
-     * @brief 기본적인 상수 선언,  웹에서 직접 호출되는 것을 막기 위해 체크하는 상수 선언
-     **/
-    define('__ZBXE__', true);
+  
+    if(!defined('__ZBXE__')) exit();
 
     /**
      * @brief 디버그 메세지의 출력 장소 

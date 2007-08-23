@@ -175,8 +175,10 @@
             $query = sprintf("insert into %ssequence (seq) values ('')", $this->prefix);
             $this->_query($query);
             $sequence = sqlite_last_insert_rowid($this->fd);
-            $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
-            $this->_query($query);
+            if($seqnece % 10000 == 0) {
+              $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
+              $this->_query($query);
+            }
 
             return $sequence;
         }
@@ -223,6 +225,33 @@
                 }
             }
             return false;
+        }
+
+        /**
+         * @brief 특정 테이블에 특정 인덱스 추가
+         * $target_columns = array(col1, col2)
+         * $is_unique? unique : none
+         **/
+        function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            if(!is_array($target_columns)) $target_columns = array($target_columns);
+
+            $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
+            $query = sprintf("pragma table_info(%s%s)", $this->prefix, $table_name);
+
+            $query = sprintf('CREATE %s INDEX %s ON %s%s (%s)', $is_unique?'UNIQUE':'', $key_name, $this->prefix, $table_name, implode(',',$target_columns));
+            return $this->_query($query);
+        }
+
+        /**
+         * @brief 특정 테이블의 index 정보를 return
+         **/
+        function isIndexExists($table_name, $index_name) {
+            $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
+            $query = sprintf("pragma index_info(%s)", $key_name);
+            $result = $this->_query($query);
+            $output = $this->_fetch($result);
+            if(!$output) return false;
+            return true;
         }
 
         /**
@@ -493,6 +522,16 @@
 
             if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                }
+            }
+
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
@@ -541,6 +580,16 @@
             // 페이지 변수를 체크
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
+
+            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            if($output->order) {
+                foreach($output->order as $key => $val) {
+                    $col = $val[0];
+                    if(!in_array($col, array('list_order','update_order'))) continue;
+                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                }
+            }
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 

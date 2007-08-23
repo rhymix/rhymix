@@ -23,7 +23,7 @@
 
     <ul class="commentList">
         <!--@foreach($widget_info->comment_list as $val)-->
-            <li><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str($val->content,20,'...'))}</a></li>
+            <li><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}">{htmlspecialchars(cut_str(strip_tags($val->content),20,'...'))}</a></li>
         <!--@end-->
     </ul>
 </div>

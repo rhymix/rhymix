@@ -515,8 +515,11 @@
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
-                if(!$val) unset($get_vars[$key]);
-                else $get_vars[$key] = $val;
+                if(!$val) {
+                  unset($get_vars[$key]);
+                  continue;
+                }
+                $get_vars[$key] = $val;
             }
 
             $var_count = count($get_vars);
@@ -554,7 +557,7 @@
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
                 if(!$val) continue;
-                $url .= ($url?'&':'').$key.'='.$val;
+                $url .= ($url?'&':'').$key.'='.urlencode($val);
             }
 
             return $this->path.'?'.htmlspecialchars($url);
@@ -565,8 +568,8 @@
          **/
         function getRequestUri() {
             $hostname = $_SERVER['HTTP_HOST'];
-            $port = $_SERVER['SERVER_PORT'];
-            if($port!=80) $hostname .= ":{$port}";
+            //$port = $_SERVER['SERVER_PORT'];
+            //if($port!=80) $hostname .= ":{$port}";
             $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
             return sprintf("http://%s%s",$hostname,$path);
         }

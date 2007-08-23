@@ -76,7 +76,7 @@
     $lang->birthday = 'Birthdate';
     $lang->browser_title = 'Browser Title';
     $lang->title = 'Subject';
-    $lang->title_content = 'Title+Content';
+    $lang->title_content = 'Subject+Content';
     $lang->content = 'Content';
     $lang->document = 'Article';
     $lang->comment = 'Comment';
@@ -87,7 +87,7 @@
     $lang->lock_comment = 'Block Comment';
     $lang->allow_trackback = 'Allow Trackback';
     $lang->uploaded_file = 'Attachment';
-    $lang->grant = 'Permission';
+    $lang->grant = 'Authority';
     $lang->target = 'Target';
     $lang->total = 'Total';
     $lang->total_count = 'Count Total';
@@ -140,7 +140,7 @@
     $lang->unit_sec = 'sec';
     $lang->unit_min = 'min';
     $lang->unit_hour = 'hr';
-    $lang->unit_day = 'day';
+    $lang->unit_day = 'th';
     $lang->unit_week = 'week';
     $lang->unit_month = 'month';
     $lang->unit_year = 'year';
