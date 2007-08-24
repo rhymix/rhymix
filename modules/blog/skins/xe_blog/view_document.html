@@ -3,7 +3,7 @@
     <div class="originalContent">
         <div class="readHeader">
             <div class="titleAndCategory">
-                <h4>{$oDocument->getTitleText()}</h4>
+                <h4><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitleText()}</a></h4>
                 <!--@if($oDocument->get('category_srl'))-->
                 <span class="vr">|</span><span class="category">{$category_list[$oDocument->get('category_srl')]->title}</span>
                 <!--@end-->

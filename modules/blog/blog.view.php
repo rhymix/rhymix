@@ -92,6 +92,7 @@
                     unset($document_srl);
                     Context::set('document_srl','',true);
                 } else {
+
                     // 브라우저 타이틀 설정
                     Context::setBrowserTitle($oDocument->getTitleText());
 
@@ -100,6 +101,12 @@
 
                     // 조회수 증가
                     $oDocument->updateReadedCount();
+
+                    // 목록수를 1개로 수정 (글이 선택되었을 때만)
+                    $this->list_count = 1;
+
+                    // 페이지 변수를 제거하여 직접 구하도록 변경
+                    unset($page);
                 }
 
             }
