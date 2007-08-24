@@ -134,7 +134,7 @@
     $lang->layout_manager = 'Layout Settings';
 
     $lang->use = 'Use';
-    $lang->notuse = 'Disuse';
+    $lang->notuse = 'None';
     $lang->not_exists = "Does not exist";
 
     $lang->unit_sec = 'sec';
