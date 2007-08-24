@@ -44,9 +44,9 @@ function getText() {
 
         return;
     } else if(node.nodeName == "IMG") {
-        alert(1);
     } else {
         var fo_obj = xGetElementById("fo_component");
+        var text = opener.editorGetSelectedHtml(opener.editorPrevSrl);
         fo_obj.text.value = text.replace(/<([^>]*)>/ig,'').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
     }
 }
