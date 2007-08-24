@@ -93,7 +93,7 @@ function editor_display_uploaded_file(upload_target_srl) {
             _prev_upload_target_srl = 0;
         } else return;
     }
-    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&mid="+current_url.getQuery('mid');
+    var url = request_uri + "?act=procFileDelete&upload_target_srl="+upload_target_srl+"&mid="+current_url.getQuery('mid');
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -160,7 +160,7 @@ function editor_upload_clear_list(upload_target_srl) {
     while(obj.options.length) {
         obj.remove(0);
     }
-    var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
+    var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
     xInnerHtml(preview_obj,'')
 }
 
@@ -230,7 +230,7 @@ function editor_remove_file(upload_target_srl) {
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
-    var url = "./?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl+"&mid="+current_url.getQuery('mid');
+    var url = request_uri+"/?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl+"&mid="+current_url.getQuery('mid');
 
     // iframe에 url을 보내버림
     var iframe_obj = xGetElementById('tmp_upload_iframe');
@@ -238,7 +238,7 @@ function editor_remove_file(upload_target_srl) {
 
     iframe_obj.contentWindow.document.location.href=url;
 
-    var preview_obj = xGetElementById('uploaded_file_preview_box_'+upload_target_srl);
+    var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
     xInnerHtml(preview_obj, "");
 }
 
@@ -269,7 +269,7 @@ function editor_insert_file(upload_target_srl) {
         var fo_obj = obj;
         while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
         var mid = fo_obj.mid.value;
-        var url = "./?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
+        var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
         openComponent("url_link", upload_target_srl, url);
     } 
 }

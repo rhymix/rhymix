@@ -177,7 +177,7 @@
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = true;
-            $option->height = 600;
+            $option->height = 400;
             $editor = $oEditorModel->getEditor($document_srl, $option);
             Context::set('editor', $editor);
 
@@ -279,7 +279,7 @@
             Context::set('comment', $comment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl, 400);
+            $this->setCommentEditor($comment_srl, 300);
 
             $this->setTemplateFile('comment_form');
         }

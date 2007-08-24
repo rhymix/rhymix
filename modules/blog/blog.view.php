@@ -201,7 +201,7 @@
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = true;
-            $option->height = 600;
+            $option->height = 400;
             $editor = $oEditorModel->getEditor($document_srl, $option);
             Context::set('editor', $editor);
 

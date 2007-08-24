@@ -13,24 +13,33 @@
          * @brief 에디터를 return
          **/
         function getEditor($upload_target_srl, $option = null) {
-            // 옵션 설정
+            // 파일 업로드 유무 옵션 설정
             if(!$option->allow_fileupload) $allow_fileupload = false;
             else $allow_fileupload = true;
 
+            // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
             else $enable_autosave = true;
 
+            // 기본 에디터 컴포넌트 사용 설정
             if(!$option->enable_default_component) $enable_default_component = false;
             else $enable_default_component = true;
 
+            // 확장 컴포넌트 사용 설정
             if(!$option->enable_component) $enable_component = false;
             else $enable_component = true;
 
+            // 크기 조절 옵션 설정
             if(!$option->resizable) $resizable = 'false';
             else $resizable = 'true';
 
+            // 높이 설정
             if(!$option->height) $editor_height = 400;
             else $editor_height = $option->height;
+
+            // 스킨 설정
+            if(!$option->skin) $skin = 'default';
+            else $skin = $option->skin;
 
             // 대상 문서 번호 설정
             Context::set('upload_target_srl', $upload_target_srl);
@@ -77,7 +86,7 @@
             Context::set('editor_height', $editor_height);
 
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
-            $tpl_path = $this->module_path.'tpl';
+            $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
 
             // editor_path를 지정
