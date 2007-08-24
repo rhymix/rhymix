@@ -96,11 +96,11 @@
     <div class="clear">
       <ul class="replyAndTrackback">
           <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-              <li class="selected"><a href="#comment" id="toggleReply" onclick="toggleReply(); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
+              <li class="selected"><a href="#comment" id="toggleReply_{$oDocument->document_srl}" onclick="toggleReply('{$oDocument->document_srl}'); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
           <!--@end-->
 
           <!--@if($oDocument->allowTrackback())-->
-              <li><a href="#trackback" id="toggleTrackback" onclick="toggleTrackback(); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
+              <li><a href="#trackback" id="toggleTrackback_{$oDocument->document_srl}" onclick="toggleTrackback('{$oDocument->document_srl}'); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
           <!--@end-->
       </ul>
     </div>

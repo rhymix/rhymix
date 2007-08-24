@@ -189,17 +189,17 @@ Jeong, Chan Myeong 070601~070630
 .blogRead .replyAndTrackback a#toggleReply { background:url(../images/common/buttonToggleReply.gif) no-repeat right top;}
 .blogRead .replyAndTrackback a#toggleTrackback { background:url(../images/common/buttonToggleReply.gif) no-repeat right -13px;}
 
-.blogRead #reply,
-.blogRead #trackback { color:#666666; border-left:1px solid #EAEAEA; border-right:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; padding-top:1em;}
-.blogRead #reply { }
-.blogRead #trackback { display:none;}
+.blogRead .reply,
+.blogRead .trackback { color:#666666; border-left:1px solid #EAEAEA; border-right:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; padding-top:1em;}
+.blogRead .reply { }
+.blogRead .trackback { display:none;}
 
 .blogRead .topBorder { border-top:1px solid #EAEAEA; }
 
-.blogRead #reply .contentBox,
-.blogRead #trackback .contentBox { line-height:1.25em; color:#676767; clear:both; padding:1em; overflow:hidden;}
-.blogRead #reply .top_border, 
-.blogRead #trackback .top_border { border-top:1px dashed #d8d8d8;  }
+.blogRead .reply .contentBox,
+.blogRead .trackback .contentBox { line-height:1.25em; color:#676767; clear:both; padding:1em; overflow:hidden;}
+.blogRead .reply .top_border, 
+.blogRead .trackback .top_border { border-top:1px dashed #d8d8d8;  }
 
 .blogRead .contentBox .content { width:100%; overflow:hidden; clear:both; margin-bottom:1em; }
 .blogRead .contentBox .author { float:left; overflow:hidden; color:#3173a3;}

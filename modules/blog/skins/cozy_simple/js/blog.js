@@ -105,16 +105,16 @@ function doChangeCategory(sel_obj, url) {
 }
 
 // Editor Reply And Trackback Toggle
-function toggleReply() {
-    xGetElementById('reply').style.display = 'block';
-    xGetElementById('trackback').style.display = 'none';
-    xGetElementById('toggleReply').parentNode.className = 'selected';
-    xGetElementById('toggleTrackback').parentNode.className = '';
+function toggleReply(id) {
+    xGetElementById('reply_'+id).style.display = 'block';
+    xGetElementById('trackback_'+id).style.display = 'none';
+    xGetElementById('toggleReply_'+id).parentNode.className = 'selected';
+    xGetElementById('toggleTrackback_'+id).parentNode.className = '';
 }
 
-function toggleTrackback() {
-    xGetElementById('reply').style.display = 'none';
-    xGetElementById('trackback').style.display = 'block';
-    xGetElementById('toggleReply').parentNode.className = '';
-    xGetElementById('toggleTrackback').parentNode.className = 'selected';
+function toggleTrackback(id) {
+    xGetElementById('reply_'+id).style.display = 'none';
+    xGetElementById('trackback_'+id).style.display = 'block';
+    xGetElementById('toggleReply_'+id).parentNode.className = '';
+    xGetElementById('toggleTrackback_'+id).parentNode.className = 'selected';
 }
