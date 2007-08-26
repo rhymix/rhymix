@@ -153,7 +153,7 @@
     $lang->msg_call_server = 'Requesting to the server, please wait';
     $lang->msg_db_not_setted = 'DB configuration has not been set';
     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
-    $lang->msg_not_permitted = 'You are not permitted to continue';
+    $lang->msg_not_permitted = 'You do not have permission to access';
     $lang->msg_input_password = 'Please enter your password';
     $lang->msg_invalid_document = 'Invalid Article Number';
     $lang->msg_invalid_request = 'Invalid Request';
@@ -162,7 +162,7 @@
     $lang->msg_not_founded = 'Target could not be found';
     $lang->msg_no_result = 'Nothing found';
 
-    $lang->msg_not_permitted_act = 'You are not permitted to execute requested action';
+    $lang->msg_not_permitted_act = 'You do not have permission to execute requested action';
     $lang->msg_module_is_not_exists = 'Requested module could not be found';
     $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 
