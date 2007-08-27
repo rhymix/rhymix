@@ -21,6 +21,7 @@
             <th scope="row">{$lang->widget}</th>
             <td>{$widget_info->title} ver {$widget_info->version}</td>
         </tr>
+        <!--@if(count($skin_list))-->
         <tr>
             <th scope="row">{$lang->skin}</th>
             <td>
@@ -40,6 +41,7 @@
                 </div>
             </td>
         </tr>
+        <!--@end-->
         <tr>
             <th scope="row">{$lang->widget_cache}</th>
             <td>
@@ -72,7 +74,7 @@
                         </div>
                     <!--@end-->
                 <!--@end-->
-                <p class="clear">{$var->description}</p>
+                <p class="clear">{nl2br($var->description)}</p>
             </td>
         </tr>
         <!--@end-->
