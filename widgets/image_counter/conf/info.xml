@@ -38,11 +38,9 @@
         <var id="bg_color">
             <name xml:lang="ko">배경색</name>
             <type>text</type>
-            <description xml:lang="ko">
-                지정하신 색상 코드로 배경을 그립니다. 
+            <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 배경을 그립니다. 
                 기본 : #FFFFFF
-                #과 6자리의 색상코드 입력해주세요
-            </description>
+                #과 6자리의 색상코드 입력해주세요]]></description>
         </var>
         <var id="check_bg_color">
             <name xml:lang="ko">체크 무늬 배경색</name>
@@ -50,7 +48,6 @@
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 체크 무늬 배경을 그립니다.
                 기본 : <span style="color:#F9F9F9">#F9F9F9</span>
                 #과 6자리의 색상코드 입력해주세요]]></description>
-            </description>
         </var>
         <var id="grid_color">
             <name xml:lang="ko">격자 선 색</name>
