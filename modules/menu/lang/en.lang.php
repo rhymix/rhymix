@@ -38,7 +38,7 @@
 
     $lang->msg_cannot_delete_for_child = 'Cannot delete a menu having a child menu.';
 
-    $lang->about_title = 'Enter a title which can be easily recognized when linked to a module.';
+    $lang->about_title = 'Please input the title that is easy to verify when connecting to module.';
     $lang->about_menu_management = "Menu management enables you to consist menu in the selected layout.\nYou can create menu upto setted depth and can enter information in details by clicking the menu.\nMenu will be expanded by cliking the folder image.\nIf menu is not shown normally, refresh the information by clicking the button \"Re-create cache file\".\n* Menu created over the depth limit may not be shown properly.";
     $lang->about_menu_name = 'The name will be shown as a menu name if it is not an admin or image button.';
     $lang->about_menu_url = "It is the menu URL when select the menu.<br />You may enter only id value to link to other module.<br />If no contents exist, nothing will happen even though you click the menu.";

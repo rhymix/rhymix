@@ -83,11 +83,11 @@
     $lang->description = 'Description';
     $lang->trackback = 'Trackback';
     $lang->tag = 'Tag';
-    $lang->allow_comment = 'Allow Comment';
-    $lang->lock_comment = 'Block Comment';
-    $lang->allow_trackback = 'Allow Trackback';
+    $lang->allow_comment = 'Allow Comments';
+    $lang->lock_comment = 'Block Comments';
+    $lang->allow_trackback = 'Allow Trackbacks';
     $lang->uploaded_file = 'Attachment';
-    $lang->grant = 'Authority';
+    $lang->grant = 'Permission';
     $lang->target = 'Target';
     $lang->total = 'Total';
     $lang->total_count = 'Count Total';
@@ -105,7 +105,7 @@
     $lang->colorset = 'Colorset';
     $lang->extra_vars = 'Extra Vars';
 
-    $lang->document_url = 'Entry URL';
+    $lang->document_url = 'Article URL';
     $lang->trackback_url = 'Trackback URL';
     $lang->blog_name = 'Blog Title';
     $lang->excerpt = 'Quotation';
@@ -113,7 +113,7 @@
     $lang->document_count = 'Total Articles';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
-    $lang->readed_count = 'Hit';
+    $lang->readed_count = 'Hits';
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
@@ -134,7 +134,7 @@
     $lang->layout_manager = 'Layout Settings';
 
     $lang->use = 'Use';
-    $lang->notuse = 'None';
+    $lang->notuse = 'Not use';
     $lang->not_exists = "Does not exist";
 
     $lang->unit_sec = 'sec';
@@ -146,8 +146,8 @@
     $lang->unit_year = 'year';
 
     // Descriptions
-    $lang->about_tag = 'You can submit multiple tags by inserting comma(,) between each tags';
-    $lang->about_layout = 'Layouts decorate an appearance of your module. you could configure it from Layout menu on the top';
+    $lang->about_tag = 'You can submit multiple tags by inserting commas(,) between each tag';
+    $lang->about_layout = 'Layouts decorate the appearance of your modules. you can configure them from Layout menu on the top';
 
     // Messages
     $lang->msg_call_server = 'Requesting to the server, please wait';
@@ -173,12 +173,12 @@
     $lang->success_moved = 'Moved successfully';
     $lang->success_sended = 'Sent successfully';
     $lang->success_reset = 'Reset successfully';
-    $lang->success_leaved = 'Seceded successfully';
+    $lang->success_leaved = 'All member data have been deleted completely.';
 
     $lang->fail_to_delete = 'Could not be deleted';
     $lang->fail_to_move = 'Could not be moved';
 
-    $lang->failed_voted = 'Could not be voted';
+    $lang->failed_voted = 'Could not vote';
     $lang->fail_to_delete_have_children = 'Please try again after removing replies first';
 
     $lang->confirm_submit = 'Are you sure to submit?';
