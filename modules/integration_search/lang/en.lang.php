@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
      * @author zero <zero@nzeo.com>
@@ -18,7 +18,7 @@
         'title' => 'Subject',
         'content' => 'Content',
         'title_content' => 'Subject+Content',
-        //'comment' => '댓글',
+        //'comment' => 'Comment',
     );
 
     $lang->is_sort_option = array(
