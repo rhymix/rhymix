@@ -357,6 +357,10 @@
 
         // script code 제거
         $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
+
+        // 제로보드XE전용 주석 태그를 본문에서 제거
+        $content = preg_replace('!<\!--(Before|After)Document\(([0-9]+),([0-9]+)\)-->!is', '', $content);
+
         return $content;
     }
 
