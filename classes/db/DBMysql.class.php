@@ -260,12 +260,16 @@
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
-            $query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
+            //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
+            $query = sprintf("show indexes from %s%s", $this->prefix, $table_name);
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
-            if(!$output) return false;
-            return true;
+
+            for($i=0;$i<count($output);$i++) {
+                if($output[$i]->Key_name == $index_name) return true;
+            }
+            return false;
         }
 
         /**
