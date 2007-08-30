@@ -829,10 +829,11 @@
          * @brief 서명을 파일로 저장
          **/
         function putSignature($member_srl, $signature) {
-            $signature = removeHackTag($signature);
+            $signature = trim(removeHackTag($signature));
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
-            if(!trim($signature) || trim(strtolower($signature))=='<br>') return @unlink($filename);
+
+            if(!$signature || !strip_tags($signature)) return @unlink($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);

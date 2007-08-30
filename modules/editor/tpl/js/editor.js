@@ -117,7 +117,7 @@ function _editorSync() {
         var field = _editorSyncList[i].field;
         var upload_target_srl = _editorSyncList[i].upload_target_srl;
         var content = editorGetContent(upload_target_srl);
-        if(typeof(content)=='undefined'||!content) continue;
+        if(typeof(content)=='undefined') continue;
         field.value = content;
     }
     setTimeout(_editorSync, 1000);
