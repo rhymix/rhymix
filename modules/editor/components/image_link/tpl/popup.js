@@ -24,8 +24,8 @@ function getImage() {
     var border = node.getAttribute("border");
     var align = node.getAttribute("align");
     var alt = node.getAttribute("alt");
-    var width = node.getAttribute("width");
-    var height = node.getAttribute("height");
+    var width = xWidth(node);
+    var height = xHeight(node);
     orig_width = width;
     orig_height = height;
     var link_url = node.getAttribute("link_url");

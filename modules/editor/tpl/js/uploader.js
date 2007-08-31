@@ -223,20 +223,28 @@ function editor_preview(sel_obj, upload_target_srl) {
 function editor_remove_file(upload_target_srl) {
     var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
     if(obj.options.length<1) return;
-    var file_srl = obj.options[obj.selectedIndex].value;
-    if(!file_srl) return;
 
     // 삭제하려는 파일의 정보를 챙김;;
     var fo_obj = obj;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     var mid = fo_obj.mid.value;
-    var url = request_uri+"/?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl+"&mid="+current_url.getQuery('mid');
 
-    // iframe에 url을 보내버림
+    // 빈 iframe 구함
     var iframe_obj = xGetElementById('tmp_upload_iframe');
     if(!iframe_obj) return;
 
-    iframe_obj.contentWindow.document.location.href=url;
+    for(var i=0;i<obj.options.length;i++) {
+        var sel_obj = obj.options[i];
+        if(!sel_obj.selected) continue;
+
+        var file_srl = sel_obj.value;
+        if(!file_srl) continue;
+
+        var url = request_uri+"/?act=procFileDelete&upload_target_srl="+upload_target_srl+"&file_srl="+file_srl+"&mid="+current_url.getQuery('mid');
+
+        iframe_obj.contentWindow.document.location.href=url;
+
+    }
 
     var preview_obj = xGetElementById('preview_uploaded_'+upload_target_srl);
     xInnerHtml(preview_obj, "");
@@ -246,30 +254,44 @@ function editor_remove_file(upload_target_srl) {
 function editor_insert_file(upload_target_srl) {
     var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
     if(obj.options.length<1) return;
-    var file_srl = obj.options[obj.selectedIndex].value;
-    if(!file_srl) return;
-    var file_obj = uploaded_files[file_srl];
-    var filename = file_obj.filename;
-    var sid = file_obj.sid;
-    var uploaded_filename = file_obj.uploaded_filename;
 
-    // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
-    if(uploaded_filename.indexOf("binaries")==-1) {
-        // 이미지 파일의 경우 image_link 컴포넌트 열결
-        if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
-            openComponent("image_link", upload_target_srl, uploaded_filename);
+    var iframe_obj = editorGetIFrame(upload_target_srl);
+    editorFocus(upload_target_srl);
 
-        // 이미지외의 경우는 multimedia_link 컴포넌트 연결
+    var fo_obj = obj;
+    while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+
+    // 다중 선택된 경우를 위해 loop
+    for(var i=0;i<obj.options.length;i++) {
+        var sel_obj = obj.options[i];
+        if(!sel_obj.selected) continue;
+
+        var file_srl = sel_obj.value;
+        if(!file_srl) continue;
+
+        var file_obj = uploaded_files[file_srl];
+        var filename = file_obj.filename;
+        var sid = file_obj.sid;
+        var url = file_obj.uploaded_filename.replace(request_uri,'');
+
+        // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
+        if(url.indexOf("binaries")==-1) {
+            // 이미지 파일의 경우 image_link 컴포넌트 열결
+            if(/\.(jpg|jpeg|png|gif)$/i.test(url)) {
+                var text = "<img editor_component=\"image_link\" src=\""+url+"\" alt=\""+file_obj.filename+"\" />";
+                editorReplaceHTML(iframe_obj, text);
+            // 이미지외의 경우는 multimedia_link 컴포넌트 연결
+            } else {
+                var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />";
+                editorReplaceHTML(iframe_obj, text);
+            }
+
+            // binary파일의 경우 url_link 컴포넌트 연결 
         } else {
-            openComponent("multimedia_link", upload_target_srl, uploaded_filename);
-        }
-
-        // binary파일의 경우 url_link 컴포넌트 연결 
-    } else {
-        var fo_obj = obj;
-        while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-        var mid = fo_obj.mid.value;
-        var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
-        openComponent("url_link", upload_target_srl, url);
-    } 
+            var mid = fo_obj.mid.value;
+            var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
+            var text = "<a href=\""+url+"\">"+filename+"</a><br />\n";
+            editorReplaceHTML(iframe_obj, text);
+        } 
+    }
 }
