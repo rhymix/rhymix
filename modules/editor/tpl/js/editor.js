@@ -27,6 +27,7 @@ function editorStart(upload_target_srl, resizable, editor_height) {
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
+    iframe_obj.style.width = '100%';
 
     // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
     var fo_obj = iframe_obj.parentNode;
