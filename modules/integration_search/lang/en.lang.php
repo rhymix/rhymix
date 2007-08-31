@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
      * @author zero <zero@nzeo.com>
