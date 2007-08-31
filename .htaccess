@@ -36,10 +36,10 @@ RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&categor
 RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&category=$2&page=$3 [L]
 
 # mid + search target regdate (year+month)
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+){0,4}/([[:digit:]]+){0,2}$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/([[:digit:]]+)$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3 [L]
 
 # mid + search target regdate (year+month+day)
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+){0,4}/([[:digit:]]+){0,2}/([[:digit:]]+){0,2}$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3$4 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3$4 [L]
 
 # mid + search target tag
 RewriteRule ^([a-zA-Z0-9_]+)/tag/(.*)$ ./index.php?mid=$1&search_target=tag&search_keyword=$2 [L]
