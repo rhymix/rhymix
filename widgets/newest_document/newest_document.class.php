@@ -34,7 +34,8 @@
             }
 
             // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
-            $obj->module_srl = implode(',',$module_srl);
+            if(is_array($module_srl)) $obj->module_srl = implode(',',$module_srl);
+            else $obj->module_srl = $module_srl;
             $obj->sort_index = $order_target;
             $obj->order_type = $order_type=="desc"?"asc":"desc";
             $obj->list_count = $list_count;

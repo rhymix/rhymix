@@ -1,15 +1,17 @@
 <?php
     /**
-     * @file   es.lang.php
-     * @author zero (zero@nzeo.com)
-     * @brief  Paquete lenguage de Español 
+     * @archivo   es.lang.php
+     * @autor zero (zero@nzeo.com)
+     * @sumario paquete del idioma español 
      **/
 
-    $lang->addon = "Adiciónales";
+    $lang->addon = "Addon";
 
-    $lang->addon_info = 'Información de Adiciónales';
-    $lang->addon_maker = 'Autor';
-    $lang->addon_history = 'Historia de modificación ';
+    $lang->addon_info = 'Información de Adson';
+    $lang->addon_maker = 'Autor de Addon';
+    $lang->addon_history = 'Historia de Addon ';
 
-    $lang->about_addon = 'Adiciónales más coltrola acciónes que salida de HTML.<br />Solo encendir o apagar los adiciónales puede utilizar los funciónes útiles de manejar el sitio.';
+    $lang->about_addon = 'Addon is para controlar las acciones y no para mostrar el resultado HTML.<br /> Sólo con encender o apagar el addon que dese, podrá obtener funciones útiles para la administracion de tu sitio web.';
 ?>
+
+

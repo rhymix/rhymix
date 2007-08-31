@@ -45,7 +45,7 @@ function insertMultimedia(obj) {
       return;
     }
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"width:"+width+"px;height:"+height+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\""+auto_start+"\" alt=\""+caption+"\" />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"display:block;width:"+width+"px;height:"+height+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\""+auto_start+"\" alt=\""+caption+"\" />";
 
     opener.editorFocus(opener.editorPrevSrl);
 

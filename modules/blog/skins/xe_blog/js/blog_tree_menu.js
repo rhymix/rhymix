@@ -35,7 +35,7 @@ function blogLoadTreeMenu(xml_url, title, index_url) {
     if(typeof(zone)=="undefined") return;
 
     // 제목이 없으면 제목을 category로 지정
-    if(typeof(title)=="undefined" || !title) title = "category";
+    if(typeof(title)=="undefined" || !title) title = "Category";
 
     // index url이 없으면 현재 # 으로 대체
     if(!index_url) index_url= "#";

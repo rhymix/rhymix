@@ -1,17 +1,11 @@
 <!--%import("filter/vote.xml")-->
 
-<!-- 현 글의 기본 정보를 담고 있는 form. 필수 -->
-<form id="fo_document_info" action="./" method="get">
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
-</form>
-
 <!-- 글 내용 보여주기 -->
 <div class="blogRead">
     <div class="originalContent">
         <div class="readHeader">
             <div class="titleAndCategory">
-                <h4>{$oDocument->getTitleText()}</h4>
+                <h4><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitleText()}</a></h4>
                 <span class="vr">|</span><span class="category">{$category_list[$oDocument->get('category_srl')]->title}</span>
             </div>
 
@@ -96,11 +90,11 @@
     <div class="clear">
       <ul class="replyAndTrackback">
           <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-              <li class="selected"><a href="#comment" id="toggleReply" onclick="toggleReply(); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
+              <li class="selected"><a href="#comment" id="toggleReply_{$oDocument->document_srl}" onclick="toggleReply('{$oDocument->document_srl}'); return false;">{$lang->comment}</a> <strong>{$oDocument->getCommentcount()}</strong></li>
           <!--@end-->
 
           <!--@if($oDocument->allowTrackback())-->
-              <li><a href="#trackback" id="toggleTrackback" onclick="toggleTrackback(); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
+              <li><a href="#trackback" id="toggleTrackback_{$oDocument->document_srl}" onclick="toggleTrackback('{$oDocument->document_srl}'); return false;">{$lang->trackback}</a> <strong>{$oDocument->getTrackbackCount()}</strong></li>
           <!--@end-->
       </ul>
     </div>

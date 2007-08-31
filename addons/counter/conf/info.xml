@@ -4,7 +4,7 @@
   <title xml:lang="jp">接続カウンター</title>
   <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Addon for basic counter</title>
-  <title xml:lang="es">Adición Taquilla Predeterminado</title>
+  <title xml:lang="es">Addon contador básico</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">Zero</name>
@@ -27,7 +27,8 @@
         It is necessary for aggregation of access information to turn on this addon.
     </description>
     <description xml:lang="es">
-        Contar los visitantes con la taquilla predeterminado de ZeroBoardXE. Es necesario aprender esta adición para acumular las información de visitos.
+        Este addon contador básico de Zeroboard XE permite llevar la información de acceso a la página web de los visitantes.
+		Es necesario activar este addon para agregar la información de acceso.
     </description>
   </author>
 </addon>

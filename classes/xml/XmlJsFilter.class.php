@@ -57,7 +57,7 @@
         function compile() {
             if(!file_exists($this->xml_file)) return;
             if(!file_exists($this->js_file)) $this->_compile();
-            else if(filectime($this->xml_file)>filectime($this->js_file)) $this->_compile();
+            else if(filemtime($this->xml_file)>filemtime($this->js_file)) $this->_compile();
             Context::addJsFile($this->js_file);
         }
 

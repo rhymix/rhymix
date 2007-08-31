@@ -357,7 +357,23 @@
 
         // script code 제거
         $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
+
+        // 제로보드XE전용 주석 태그를 본문에서 제거
+        $content = preg_replace('!<\!--(Before|After)Document\(([0-9]+),([0-9]+)\)-->!is', '', $content);
+
         return $content;
+    }
+
+    // hexa값을 RGB로 변환
+    if(!function_exists('hexrgb')) {
+        function hexrgb($hexstr) {
+          $int = hexdec($hexstr);
+
+          return array("red" => 0xFF & ($int >> 0x10),
+                       "green" => 0xFF & ($int >> 0x8),
+                       "blue" => 0xFF & $int);
+        }
+            
     }
 
 ?>

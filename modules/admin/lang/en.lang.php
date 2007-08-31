@@ -21,7 +21,7 @@
     $lang->table_count = "Number of Table";
     $lang->installed_path = "Installed Path";
 
-    $lang->cmd_shortcut_management = "Edit Menues";
+    $lang->cmd_shortcut_management = "Edit Menu";
 
     $lang->msg_is_not_administrator = 'Administrator only';
     $lang->msg_manage_module_cannot_delete = 'Shortcuts of module, addon, layout, widget cannot be removed';

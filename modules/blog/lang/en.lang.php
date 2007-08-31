@@ -6,9 +6,9 @@
      **/
 
     // Words used in button
-    $lang->cmd_blog_list = 'Blog list';
+    $lang->cmd_blog_list = 'Blog List';
     $lang->cmd_module_config = 'Common blog setting';
-    $lang->cmd_view_info = 'Blog info';
+    $lang->cmd_view_info = 'Blog Info';
     $lang->cmd_manage_menu = 'Menu management';
     $lang->cmd_make_child = 'Add child category';
     $lang->cmd_enable_move_category = "Change category position (Drag the top menu after selection)";

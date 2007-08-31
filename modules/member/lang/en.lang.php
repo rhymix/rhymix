@@ -75,7 +75,7 @@
     $lang->cmd_signup = 'Join';
     $lang->cmd_modify_member_info = 'Modify Member Info';
     $lang->cmd_modify_member_password = 'Change Password';
-    $lang->cmd_view_member_info = 'My Info';
+    $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
 
     $lang->cmd_member_list = 'Member List';

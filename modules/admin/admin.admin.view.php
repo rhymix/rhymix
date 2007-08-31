@@ -51,7 +51,7 @@
             $cache_file = sprintf("./files/cache/newest_news.%s.cache.php", Context::getLangType());
 
             // 1시간 단위로 캐싱 체크
-            if(!file_exists($cache_file) || filectime($cache_file)+ 60*60 < time()) {
+            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
             }
             if(file_exists($cache_file)) {

@@ -22,7 +22,12 @@
         function printContent(&$oModule) {
 
             // gzip encoding 지원 여부 체크
-            if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && function_exists('ob_gzhandler') ) $this->gz_enabled = true;
+            if(
+                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
+                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && 
+                function_exists('ob_gzhandler') &&
+                extension_loaded('zlib')
+            ) $this->gz_enabled = true;
 
             // header 출력
             $this->_printHeader();
@@ -78,15 +83,14 @@
 
             // 컨텐츠 출력
             $this->display($output);
-
-            // 디버깅 데이터 출력
-            $this->_debugOutput();
         }
 
         /**
          * @brief 최종 결과물의 출력
          **/
         function display($content) {
+            $content .= $this->_debugOutput();
+
             $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
 
             // files로 시작되는 src나 href의 값을 절대경로로 변경
@@ -163,7 +167,8 @@
          * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함\n
          **/
         function _debugOutput() {
-            if(!__DEBUG__ || (__DEBUG_OUTPUT!=0 && Context::getResponseMethod()!='HTML') ) return;
+            if(!__DEBUG__ || Context::getResponseMethod()!='HTML' ) return;
+
             $end = getMicroTime();
 
             // debug string 작성 시작
@@ -207,6 +212,8 @@
             // 전체 실행 시간 작성
             $buff .= sprintf("\tTotal elapsed time \t\t: %0.5f sec", $end-__StartTime__);
 
+            if(__DEBUG_OUTPUT__==1) return $buff;
+            
             debugPrint($buff, false);
         }
 

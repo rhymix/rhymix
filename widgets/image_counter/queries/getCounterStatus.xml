@@ -1,0 +1,12 @@
+<query id="getCounterStatus" action="select">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="excess" column="regdate" var="s_regdate" notnull="notnull" />
+        <condition operation="less" column="regdate" var="e_regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

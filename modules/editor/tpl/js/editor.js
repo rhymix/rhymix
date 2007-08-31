@@ -19,29 +19,20 @@ function editorGetIFrame(upload_target_srl) {
     return xGetElementById(obj_id);
 }
 
-// editor 초기화를 onload이벤트 후에 시작시킴
-function editorInit(upload_target_srl, resizable, height) {
-    xAddEventListener(window, 'load', function() { editorStart(upload_target_srl, resizable, height); });
-}
-
 // editor 시작 (upload_target_srl로 iframe객체를 얻어서 쓰기 모드로 전환)
-function editorStart(upload_target_srl, resizable, height) {
-    if(typeof(height)=="undefined"||!height) height = 350;
+function editorStart(upload_target_srl, resizable, editor_height) {
     if(typeof(resizable)=="undefined"||!resizable) resizable = false;
     else resizable = true;
-
-    // iframe_area를 찾음
-    var iframe_area = xGetElementById("editor_iframe_area_"+upload_target_srl);
-    //xHeight(iframe_area, height+10);
-    xInnerHtml(iframe_area, '<iframe id="editor_iframe_'+upload_target_srl+'" frameBorder="0" style="background-color:transparent;width:100%;height:'+height+'px;"></iframe>');
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
+    iframe_obj.style.width = '100%';
 
     // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
     var fo_obj = iframe_obj.parentNode;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
+
     // saved document에 대한 체크
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) {
         var saved_title = fo_obj._saved_doc_title.value;
@@ -61,11 +52,10 @@ function editorStart(upload_target_srl, resizable, height) {
 
     // 대상 form의 content object에서 데이터를 구함
     var content = fo_obj.content.value;
+    if(!content && !xIE4Up) content = "<br />";
 
     // iframe내의 document object 
     var contentDocument = iframe_obj.contentWindow.document;
-
-    // editing가능하도록 설정 시작
 
     // 기본 내용 작성
     var contentHtml = ''+
@@ -73,9 +63,8 @@ function editorStart(upload_target_srl, resizable, height) {
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<link rel="stylesheet" href="'+request_uri+'/common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+request_uri+editor_path+'/css/editor.css" type="text/css" />'+
-        '<style>'+
-        'html {position:static}'+
-        'body {margin:0px}'+
+        '<style style="text/css">'+
+        'body {margin:0px; height:'+editor_height+'px;}'+
         '</style>'+
         '</head><body upload_target_srl="'+upload_target_srl+'">'+
         content+
@@ -84,6 +73,7 @@ function editorStart(upload_target_srl, resizable, height) {
     contentDocument.designMode = 'on';
     try {
         contentDocument.execCommand("undo", false, null);
+        contentDocument.execCommand("useCSS", false, true);
     }  catch (e) {
     }
     contentDocument.open("text/html","replace");
@@ -114,7 +104,6 @@ function editorStart(upload_target_srl, resizable, height) {
     // 크기 변경 불가일 경우 드래그바 숨김
     if(resizable == false) xGetElementById("editor_drag_bar_"+upload_target_srl).style.display = "none";
 
-    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(height);
 }
 
 // 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
@@ -129,7 +118,7 @@ function _editorSync() {
         var field = _editorSyncList[i].field;
         var upload_target_srl = _editorSyncList[i].upload_target_srl;
         var content = editorGetContent(upload_target_srl);
-        if(typeof(content)=='undefined'||!content) continue;
+        if(typeof(content)=='undefined') continue;
         field.value = content;
     }
     setTimeout(_editorSync, 1000);
@@ -702,8 +691,8 @@ function eOptionClick(obj) {
 }
 
 // Editor Info Close
-function closeEditorInfo() {
-    xGetElementById('editorInfo').style.display='none';	
+function closeEditorInfo(upload_target_srl) {
+    xGetElementById('editorInfo_'+upload_target_srl).style.display='none';	
     var expire = new Date();
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
     xSetCookie('EditorInfo', '1', expire);

@@ -24,8 +24,8 @@
             $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, Context::getLangType());
             if(!file_exists($cache_file)) return;
 
-            $filectime = filectime($cache_file);
-            if($filectime + $cache*60 < time()) return;
+            $filemtime= filemtime($cache_file);
+            if($filemtime + $cache*60 < time()) return;
 
             $output = FileHandler::readFile($cache_file);
             return $output;
@@ -38,6 +38,8 @@
         function execute($widget, $args) {
             // 디버그를 위한 위젯 실행 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
+
+            if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
             // $widget의 객체를 받음 
             $oWidget = WidgetHandler::getObject($widget);

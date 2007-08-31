@@ -9,7 +9,7 @@
     $lang->level = "Level"; 
 
     $lang->about_point_module = "You can grant points on writing/adding comments/uploading/downloading.<br />But point module only configure settings, and the point will be accumulated only when point addon is activated";
-    $lang->about_act_config = "Each module like board/blog has action such as writing/deleting/adding comments/deleting comments.<br />You can just add act value to link module except board/blog with point system.<br />Comma(,) will distinguish multiple values.";
+    $lang->about_act_config = "Each module like board/blog has actions such as writing/deleting/adding comments/deleting comments.<br />You can just add act value to link modules with point system except board/blog.<br />Comma(,) will distinguish multiple values.";
 
     $lang->max_level = 'Max Level';
     $lang->about_max_level = 'You can set the max level. Level icons should be considered and 1000 is the maximum value you can set';

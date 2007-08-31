@@ -140,6 +140,7 @@ Jeong, Chan Myeong 070601~070630
 
 .blogRead .titleAndCategory { float:left;}
 .blogRead .titleAndCategory h4 { font-size:1.4em; display:inline; padding-left:.2em;}
+.blogRead .titleAndCategory h4 a { color:#000000; }
 .blogRead .titleAndCategory .vr { font-size:.9em; margin:0 .3em; color:#c5c7c0;}
 .blogRead .titleAndCategory .cotegory { font-size:.9em; color:#999999; white-space:nowrap;}
 

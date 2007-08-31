@@ -1,17 +1,18 @@
 <?php
     /**
-     * @file   es.lang.php
-     * @author zero (zero@nzeo.com)
-     * @brief  Paquete lingual para Módulo de boletín
+     * @archivo   es.lang.php
+     * @autor zero (zero@nzeo.com)
+     * @sumario  Paquete del idioma español para el Módulo de Teblero
      **/
 
-    $lang->board = "Boletín"; 
+    $lang->board = "Tablero"; 
 
-    // Palabras utiliza en botónes
-    $lang->cmd_board_list = 'Lista de boletín';
-    $lang->cmd_module_config = 'configuración comun de boletínes';
-    $lang->cmd_view_info = 'ver información de boletín';
-    $lang->move_target_module = "Módulo para mover";
+    // Palabras utilizadas en los botones
+    $lang->cmd_board_list = 'Lista del Tablero';
+    $lang->cmd_module_config = 'Configuración común del Tablero';
+    $lang->cmd_view_info = 'Información del Tablero';
+    $lang->move_target_module = "Módulo para cambiar de posición";
 
-    $lang->about_board = "Es el módulo para crear y manejar boletínes.\nDespues de crear un boletín, haga clic en nombre de módulos para configuración mas detallado.\nEl nombre de módulo es nombre de URL, sea cuidoso deseando el nombre. (ej : http://dominio/zb/?mid=nombre de módulo)";
+    $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
 ?>
+
