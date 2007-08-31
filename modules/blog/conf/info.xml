@@ -27,8 +27,9 @@
             This module manages layout and basic menu itself.
         </description>
         <description xml:lang="es">
-            Es el módulo para funcióne a blog.
-            Casi mismo del boletín, pero la vista es diferente, y  incluye metodo para blog. Maneja directo al diseño y menú principal.
+            Este módulo contiene funciones de blog.
+            Esto es similar al módulo de tablero, sin embargo la vista que se muestra es diferente e incluye metodos apropiados para blog.
+			El diseño y el menú básico es manejado por si mismo.
         </description>
         <description xml:lang="zh-CN">
             是负责博客功能的模块。
