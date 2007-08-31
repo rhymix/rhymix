@@ -3,7 +3,7 @@
     <title xml:lang="ko">OpenID delegation ID</title>
     <title xml:lang="zh-CN">OpenID</title>
     <title xml:lang="en">Addon for delegating domain name to OpenID</title>
-    <title xml:lang="es">delegación ID para OpenID</title>
+    <title xml:lang="es">Delegación ID para OpenID</title>
     <title xml:lang="jp">OpenID</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
@@ -24,8 +24,8 @@
             Just be sure to set the values related with openid provider before using.
         </description>
         <description xml:lang="es">
-            Utliza su dominio para usar OpenID. 
-            La configuración es necesario.
+            Utliza su propio dominio para usar como OpenID. 
+            Debe utilizar luego de ingresar los valores relacionado con openid provider a través de la configuracion. 
         </description>
         <description xml:lang="jp">
             保有するドメインをオープンＩＤとして活用することができます。必ず設定で、OpenIDのプロバイダー関連の情報を入力してから使用してください。
@@ -41,19 +41,19 @@
             <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.server 值。</description>
             <description xml:lang="en">Please input your openid.server value.</description>
-            <description xml:lang="es">Servidor de OpenID.</description>
+            <description xml:lang="es">Ingrese el valor del Servidor de OpenID.</description>
             <description xml:lang="jp">openid.server の値を入力してください。</description>
         </var>
         <var name="delegate">
             <title xml:lang="ko">delegate</title>
             <title xml:lang="en">delegate</title>
             <title xml:lang="zh-CN">delegate</title>
-            <title xml:lang="es">Delegador</title>
+            <title xml:lang="es">delegado</title>
             <title xml:lang="jp">delegate</title>
             <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.delegate 值。</description>
             <description xml:lang="en">Please input your openid.delegate value.</description>
-            <description xml:lang="en">Delegador de OpenID</description>
+            <description xml:lang="en">Ingresar el valor del delegado de OpenID</description>
             <description xml:lang="jp">openid.delegate の値を入力してください。</description>
         </var>
         <var name="xrds">
@@ -65,7 +65,7 @@
             <description xml:lang="ko">X-XRDS-Location값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 X-XRDS-Location 值。</description>
             <description xml:lang="en">Please input your X-XRDS-Location value.</description>
-            <description xml:lang="es">ubicación de X-XRDS</description>
+            <description xml:lang="es">Ingresar el valor de X-XRDS-Location</description>
             <description xml:lang="jp">X-XRDS-Location の値を入力してください。</description>
         </var>
     </extra_vars>
