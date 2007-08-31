@@ -1,22 +1,22 @@
 <?php
     /**
-     * @file   modules/counter/lang/es.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  Paquete lingual de taquilla
+     * @archivo   modules/counter/lang/es.lang.php
+     * @autor zero <zero@nzeo.com>
+     * @sumario  Paquete del idioma español para el contador.
      **/
 
-    $lang->counter = "Taquilla";
-    $lang->cmd_select_date = 'Seleccióna Fecha';
+    $lang->counter = "Contador";
+    $lang->cmd_select_date = 'Selecciona la fecha';
     $lang->cmd_select_counter_type = array(
-        'hour' => 'horas',
-        'day' => 'dias',
-        'month' => 'mes',
-        'year' => 'año',
+        'hour' => 'por hora',
+        'day' => 'por día',
+        'month' => 'por mes',
+        'year' => 'por año',
     );
 
-    $lang->total_counter = 'Visitantes en total';
-    $lang->selected_day_counter = 'Visitantes en diario';
+    $lang->total_counter = 'Estado Total';
+    $lang->selected_day_counter = 'Total del día seleccionado';
 
-    $lang->unique_visitor = 'Visitas unicos';
-    $lang->pageview = 'Páginas/visita';
+    $lang->unique_visitor = 'visitante';
+    $lang->pageview = 'Ver página';
 ?>
