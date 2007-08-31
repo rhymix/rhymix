@@ -24,7 +24,7 @@
 <tr>
     <th scope="row">{$lang->use_rewrite}</th>
     <td>
-        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules())&&$use_rewrite=='Y')-->checked="checked"<!--@end--> />
+        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
         <p>{$lang->about_rewrite}</p>
     </td>
 </tr>
