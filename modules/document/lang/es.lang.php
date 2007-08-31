@@ -2,15 +2,15 @@
     /**
      * @archivo   modules/document/lang/es.lang.php
      * @autor zero <zero@nzeo.com>
-     * @sumario Paquete del idioma español para el módulo de mensajes.
+     * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
     $lang->cmd_delete_checked_document = 'Eliminar selección';
 
-    $lang->msg_cart_is_null = 'Selecciona el mensaje que desea eliminar';
+    $lang->msg_cart_is_null = 'Selecciona el documento que desea eliminar';
     $lang->msg_category_not_moved = 'No puede se movido';
-    $lang->msg_is_secret = 'Es un mensaje secreto';
-    $lang->msg_checked_document_is_deleted = 'Total de %d mensajes han sido eliminados';
+    $lang->msg_is_secret = 'Es un documento secreto';
+    $lang->msg_checked_document_is_deleted = 'Total de %d documentos han sido eliminados';
 
     // Objetivo de búsqueda en la página del administrador
     $lang->search_target_list = array(
