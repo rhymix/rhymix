@@ -63,7 +63,7 @@
             // cache 파일을 비교하여 문제 없으면 include하고 $widget_info 변수를 return
             $cache_file = sprintf('./files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
-            if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
+            if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
                 return $widget_info;
             }

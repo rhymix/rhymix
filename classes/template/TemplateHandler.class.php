@@ -70,8 +70,8 @@
         function _compile($tpl_file, $compiled_tpl_file) {
             if(!file_exists($compiled_tpl_file)) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
 
-            $source_ftime = filectime($tpl_file);
-            $target_ftime = filectime($compiled_tpl_file);
+            $source_ftime = filemtime($tpl_file);
+            $target_ftime = filemtime($compiled_tpl_file);
             if($source_ftime>$target_ftime) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
         }
 

@@ -205,7 +205,7 @@
             $cache_file = sprintf('%s%s.cache.php', $this->cache_file, $query_id);
 
             // 없으면 원본 쿼리 xml파일을 찾아서 파싱을 한다
-            if(!file_exists($cache_file)||filectime($cache_file)<filectime($xml_file)) {
+            if(!file_exists($cache_file)||filemtime($cache_file)<filemtime($xml_file)) {
                 require_once('./classes/xml/XmlQueryParser.class.php');   
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);

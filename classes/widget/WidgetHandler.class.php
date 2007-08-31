@@ -24,8 +24,8 @@
             $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, Context::getLangType());
             if(!file_exists($cache_file)) return;
 
-            $filectime = filectime($cache_file);
-            if($filectime + $cache*60 < time()) return;
+            $filemtime= filemtime($cache_file);
+            if($filemtime + $cache*60 < time()) return;
 
             $output = FileHandler::readFile($cache_file);
             return $output;

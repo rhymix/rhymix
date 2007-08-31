@@ -251,7 +251,7 @@
             $cache_file = sprintf('./files/cache/editor/%s.%s.php', $component, $lang_type);
 
             // 캐시된 xml파일이 있으면 include 후 정보 return
-            if(file_exists($cache_file) && file_exists($xml_file) && filectime($cache_file) > filectime($xml_file)) {
+            if(file_exists($cache_file) && file_exists($xml_file) && filemtime($cache_file) > filemtime($xml_file)) {
                 include($cache_file);
                 return $xml_info;
             }

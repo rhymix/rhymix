@@ -108,7 +108,7 @@
             if(!$layout_srl) $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
             else $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout_srl, Context::getLangType());
 
-            if(file_exists($cache_file)&&filectime($cache_file)>filectime($xml_file)) {
+            if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
 
                 if($layout_info->extra_var && $vars) {

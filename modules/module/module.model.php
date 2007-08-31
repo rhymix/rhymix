@@ -292,7 +292,7 @@
             $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
 
             // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
-            if(!file_exists($cache_file) || filectime($cache_file)<filectime($xml_file)) {
+            if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file)) {
 
                 $buff = ""; ///< 캐시 파일에 쓸 buff 변수 설정
 

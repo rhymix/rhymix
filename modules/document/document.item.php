@@ -281,7 +281,7 @@
 
             // 썸네일이 있더라도 글의 수정시간과 비교해서 다르면 다시 생성함
             if(file_exists($thumbnail_file)) {
-                $file_created_time = date("YmdHis",filectime($thumbnail_file));
+                $file_created_time = date("YmdHis",filemtime($thumbnail_file));
                 $modified_time = $this->get('last_update');
                 if($modified_time > $file_created_time) @unlink($thumbnail_file);
             }
