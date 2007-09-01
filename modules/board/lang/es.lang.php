@@ -15,4 +15,3 @@
 
     $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
 ?>
-
