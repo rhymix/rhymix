@@ -2,10 +2,10 @@
     /**
      * @archivo   modules/file/lang/es.lang.php
      * @autor zero <zero@nzeo.com>
-     * @sumario Paquete del idioma español para archivos adjuntos
+     * @sumario Paquete del idioma español para los archivos adjuntos
      **/
 
-    $lang->file = 'Archivo adjunto';
+    $lang->file = 'Adjuntar archivos';
     $lang->file_name = 'Nombre del archivo';
     $lang->file_size = 'Tamaño del archivo';
     $lang->download_count = 'Cantidad Bajado';
