@@ -1,32 +1,32 @@
 <?php
     /**
-     * @file   modules/layout/lang/es.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  Paquete Lingual para Diseño
+     * @archivo   modules/layout/lang/es.lang.php
+     * @autor zero <zero@nzeo.com>
+     * @sumario Paquete del idioma espanol para el Diseno.
      **/
 
-    $lang->cmd_layout_management = 'Configuración de Diseño';
-    $lang->cmd_layout_edit = 'Modificar Diseño';
+    $lang->cmd_layout_management = 'Configuracion del Diseno';
+    $lang->cmd_layout_edit = 'Editar el Diseno';
 
-    $lang->layout_name = 'Nombre de Diseño';
-    $lang->layout_maker = "Desarrollador de Diseño";
-    $lang->layout_history = "Actualización";
-    $lang->layout_info = "Información de Diseño";
-    $lang->layout_list = 'Lista de Diseño';
-    $lang->menu_count = 'Menú';
-    $lang->downloaded_list = 'Lista de descargados';
-    $lang->layout_preview_content = 'Los contenidos preliminado aquí.';
-    $lang->not_apply_menu = 'Aplicar Diseños';
+    $lang->layout_name = 'Nombre del Diseno';
+    $lang->layout_maker = "Desarrollador del Diseno";
+    $lang->layout_history = "Actualizacion";
+    $lang->layout_info = "Informacion del Diseno";
+    $lang->layout_list = 'Lista de los Disenos';
+    $lang->menu_count = 'Numero del Menu;
+    $lang->downloaded_list = 'Lista de descarga';
+    $lang->layout_preview_content = 'Los contenidos es mostrado aqui';
+    $lang->not_apply_menu = 'Aplicar Disenos';
 
-    $lang->cmd_move_to_installed_list = "Ver la lista creados";
+    $lang->cmd_move_to_installed_list = "Ver la lista creada";
 
-    $lang->about_downloaded_layouts = "Ver la lista de diseños descargado";
-    $lang->about_title = 'Por favor escribe el titulo para verficar con facilidad cuando connecta a módulo';
-    $lang->about_not_apply_menu = 'Para cambiar los diseños de todo los módulos connectado.';
+    $lang->about_downloaded_layouts = "Ver la lista de disenos descargados";
+    $lang->about_title = 'Ingresar un nombre facil de distinguir cuando conecta al modulo';
+    $lang->about_not_apply_menu = 'Al seleccionar esta opcion, cambia todos los disenos conectados.';
 
-    $lang->about_layout = "Modulos de diseño ayuda Ud. para crear Diseño del sitio de web<br />Por usar la configuración de diseño y conección de menú, completa forma del sitio de web van a mostrar con modulos varios<br />* Los diseños cual no pueden eliminar o modificar son de blog o otro modulos de diseño. ";
+    $lang->about_layout = "Modulo del diseno ayuda a usted para crear el diseno de la pagina web facilmente.<br />Por usar la configuracion del diseno y el menu de coneccion, completa con varios modulos la forma de la pagina web que a ser mostrados<br />* Esos disenos que no pueden ser modificados ni eliminados son propios de blog y de otros modulos, por lo cual para la configuracion de ellos debe hacerse en los modulos correspondientes.";
     $lang->about_layout_code = 
-        "El diseño van a aplicado a la servicio despues de modificado y guardado. 
-        Ud. tiene que ver resultos ante de guardarlos.
-        Referir a<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Pamphlet(Ingles)</a> para  gramación de de ZeroboardXE.";
+        "El diseno sera aplicado al servicio cuando usted guarda el codigo del diseno luego de haber editado.
+		Primero visualiza previamente tus codigos y luego guardalos
+        Referente al codigo de planillas de Zeroboard dirijirse a<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Pamphlet(Ingles)</a> ";
 ?>
