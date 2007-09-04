@@ -4,7 +4,7 @@
   <title xml:lang="zh-CN">积分级别图标</title>
   <title xml:lang="jp">ポイントレベルアイコン</title>
   <title xml:lang="en">Addon for displaying level icon</title>
-   <title xml:lang="es">Addon para mostar el nivel del icono</title>
+   <title xml:lang="es">Addon para mostar el nivel del ícono</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
     <name xml:lang="ko">제로</name>
     <name xml:lang="zh-CN">Zero</name>
@@ -27,8 +27,8 @@
         You can choose level icon on Module &gt; Point System.
     </description>
 	<description xml:lang="es">
-        Este addon muestra el nivel del icono delante del nombre del usuario cuando es usado el sistema de puntos.
-        Tu puedes elegir el icono del nivel en el módulo &gt; Sistema de Puntos.
+        Este addon muestra el nivel del ícono delante del nombre del usuario cuando es usado el sistema de puntos.
+        Tu puedes elegir los icono de cada nivel en el módulo &gt; Sistema de Puntos.
     </description>
   </author>
 </addon>
