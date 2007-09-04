@@ -4,11 +4,13 @@
     <title xml:lang="zh-CN">存档</title>
     <title xml:lang="jp">バックアップリスト</title>
     <title xml:lang="en">Report of Stored-Articles by Month</title>
+	<title xml:lang="es">Reporte del almacenamiento de documentos por mes</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
         <description xml:lang="ko">
             선택된 모듈의 월별 글 보관 현황을 보여줍니다.
             글의 수가 너무 많을 경우 부하가 심해질 수 있습니다.
@@ -24,6 +26,10 @@
             This widget displays the present status of stored-articles selected module by month.
             If there are lots of articles stored, the server may get a serious load.
         </description>
+		<description xml:lang="es">
+            Este widget muestra el actual estado del almacenamientos de los documentos del dódulo seleccionado por mes.
+            Si son muchos los documentos almacenados, puede tardar el tiempo de la carga.
+        </description>
     </author>
     <extra_vars>
         <var id="title">
@@ -31,22 +37,26 @@
             <name xml:lang="zh-CN">栏目名</name>
             <name xml:lang="jp">タイトル</name>
             <name xml:lang="en">Title</name>
+			<name xml:lang="es">Título</name>
             <type>text</type>
             <description xml:lang="ko">보관 현황 제목으로 출력됩니다.</description>
             <description xml:lang="zh-CN">将显示为存档标题。</description>
             <description xml:lang="jp">バックアップリストのタイトルとして出力されます。</description>
             <description xml:lang="en">It will be the title of the report.</description>
+			<description xml:lang="es">Este será el título del reporte.</description>
         </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">对象模块</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
+			<name xml:lang="es">Módulo objetivo</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="zh-CN">把被选模块作为统计对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
+			<description xml:lang="es">Los documentos ingresados en el módulo seleccionado serán el objetivo.</description>
         </var>
     </extra_vars>
 </widget>
