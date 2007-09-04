@@ -5,7 +5,7 @@
      * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
-    $lang->cmd_delete_checked_document = 'Eliminar selección';
+    $lang->cmd_delete_checked_document = 'Eliminar lo seleccionado';
 
     $lang->msg_cart_is_null = 'Selecciona el documento que desea eliminar';
     $lang->msg_category_not_moved = 'No puede se movido';
@@ -22,7 +22,7 @@
         'nick_name' => 'Apodo',
         'email_address' => 'Correo Electrónico',
         'homepage' => 'Página web',
-        'is_notice' => 'Noticia',
+        'is_notice' => 'Aviso',
         'is_secret' => 'Secreto',
         'tags' => 'Etiqueta',
         'readed_count' => 'Número de leídos (sobre)',

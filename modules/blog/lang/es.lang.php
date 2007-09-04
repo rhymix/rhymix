@@ -6,18 +6,18 @@
      **/
 
     // Palabras en los botónes
-    $lang->cmd_blog_list = 'Lista de blog';
+    $lang->cmd_blog_list = 'Lista de blogs';
     $lang->cmd_module_config = 'Configuración común de blog ';
     $lang->cmd_view_info = 'Información de blog';
-    $lang->cmd_manage_menu = 'manejo del menú';
+    $lang->cmd_manage_menu = 'Manejo del menú';
     $lang->cmd_make_child = 'Agregar sub categoría';
     $lang->cmd_enable_move_category = "Cambiar la posición de la categoría. (arrastrar y soltar luego de haber selecionado)";
     $lang->cmd_remake_cache = 'Rehacer archivo caché';
     $lang->cmd_layout_setup = 'Configuración del diseño';
     $lang->cmd_layout_edit = 'Editar el diseño';
 
-    // Items
-    $lang->parent_category_name = 'Categoría Parental';
+    // Artículos
+    $lang->parent_category_name = 'Categoría Superior';
     $lang->category_name = 'Nombre de la categoría';
     $lang->expand = 'Expandir';
     $lang->category_group_srls = 'Limitar el grupo';
@@ -29,5 +29,5 @@
     $lang->about_category_group_srls = 'Solo se verán los grupos seleccionados en la actual categoría. (Abrir manualmente en archivo xml para la exposición)';
     $lang->about_layout_setup = 'Puede modificar manualmente el código del diseño de blog. Insertar o modificar el código de widget.';
     $lang->about_blog_category = 'Puede crear las categorias de blog.<br />Cuando no funciona la categoría de blog, rehacer el archivo caché manualmente para solucionar.';
-    $lang->about_blog = "Este is el módulo de blog para crear y manejar.\nLuego de crear un blog, por favor decora tu blog por categoría y manejo de tema por que este módulo de blog usa el diseño que está incluido en el tema de blog.\nSi desea conectar otros tableros en su blog, usa el menú de módulo para crear un menú  y luego conecta con un manejo de tema.";
+    $lang->about_blog = "Este is el módulo para crear y manejar blog.\nLuego de crear un blog, por favor decora tu blog por categoría y manejo de tema por que este módulo de blog usa el diseño que está incluido en el tema de blog.\nSi desea conectar otros tableros en su blog, usa el menú de módulo para crear un menú y luego conecta con el manejo de temas.";
 ?>

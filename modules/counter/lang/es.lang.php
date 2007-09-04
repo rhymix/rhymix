@@ -14,8 +14,8 @@
         'year' => 'por año',
     );
 
-    $lang->total_counter = 'Estado Total';
-    $lang->selected_day_counter = 'Total del día seleccionado';
+    $lang->total_counter = 'Estado actual Total';
+    $lang->selected_day_counter = 'Estado actual del día seleccionado';
 
     $lang->unique_visitor = 'visitante';
     $lang->pageview = 'Ver página';
