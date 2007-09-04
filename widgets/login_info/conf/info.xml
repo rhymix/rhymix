@@ -4,15 +4,18 @@
     <title xml:lang="zh-CN">登陆表单</title>
     <title xml:lang="jp">ログイン情報表示</title>
     <title xml:lang="en">Display Login Info</title>
+	<title xml:lang="es">Muestra la información de la conección</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
         <description xml:lang="ko">로그인 폼이나 로그인 정보를 출력합니다</description>
         <description xml:lang="zh-CN">显示登陆表单或登陆信息。</description>
         <description xml:lang="jp">ログインフォームまたはログイン情報を表示します。</description>
         <description xml:lang="en">This widget displays login form or login info.</description>
+		<description xml:lang="es">Este widget muestra la forma de la conección y la información de la conección.</description>
     </author>
     <extra_vars />
 </widget>
