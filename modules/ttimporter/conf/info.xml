@@ -4,11 +4,13 @@
     <title xml:lang="zh-CN">TatterTools 数据导入</title>
     <title xml:lang="jp">TTデータ移転</title>
     <title xml:lang="en">Transfer data from TatterTools</title>
+	<title xml:lang="es">Transferir datos desde la Herramienta Tatter</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
+		<name xml:lang="es">Zero</name>
         <description xml:lang="ko">
             태터툴즈의 백업파일을 제로보드XE에 입력을 하는 모듈입니다.
             첨부파일 포함하지 않은 백업파일이 필요합니다.
@@ -26,6 +28,11 @@
             Module for inputting TattertTools' backup file to ZeroboardXE.
             Backup file without attachment is required.
             Attachments will be downloaded from the original address.
+        </description>
+		<description xml:lang="es">
+            Módulo para ingresar archivos de respaldo de la Herramienta Tatter de ZeroboardXE.
+            Se requiere archivo de respaldo sin archivos adjuntos.
+            Archivos adjuntos serán descargados directamente desde la dirección original.
         </description>
     </author>
 </module>
