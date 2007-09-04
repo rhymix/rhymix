@@ -26,8 +26,8 @@ function completeDeleteDocument(ret_obj) {
     var mid = ret_obj['mid'];
     var page = ret_obj['page'];
 
-    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('document_srl','');
-	if(page) url += url.setQuery('page',page);
+    var url = "./?mid="+mid;
+    if(page) url += "&page="+page;
 
     alert(message);
 
@@ -60,10 +60,8 @@ function completeInsertComment(ret_obj) {
     var comment_srl = ret_obj['comment_srl'];
 
     alert(message);
-
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-    if(comment_srl) url += "#comment_"+comment_srl;
-
+    var url = current_url.setQuery('comment_srl','').setQuery('act','').setQuery('rnd',comment_srl);
+    if(comment_srl) url += '#comment_'+comment_srl;
     location.href = url;
 }
 
@@ -75,8 +73,8 @@ function completeDeleteComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-    if(page) url += url.setQuery('page',page);
+    var url = "./?mid="+mid+'&document_srl='+document_srl;
+    if(page) url += "&page="+page;
 
     alert(message);
 
@@ -91,8 +89,8 @@ function completeDeleteTrackback(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-    if(page) url = url.setQuery('page',page);
+    var url = "./?mid="+mid+'&document_srl='+document_srl;
+    if(page) url += "&page="+page;
 
     alert(message);
 
