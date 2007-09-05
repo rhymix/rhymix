@@ -170,9 +170,10 @@
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
                 if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
-                if(!$component->component_name) continue;
-
                 $component_name = $component->component_name;
+                if(!$component_name) continue;
+
+                if(!in_array($component_name, $downloaded_list)) continue;
 
                 unset($xml_info);
                 $xml_info = $this->getComponentXmlInfo($component_name);
