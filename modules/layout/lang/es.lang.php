@@ -13,7 +13,7 @@
     $lang->layout_history = "Actualización";
     $lang->layout_info = "Información del Diseño";
     $lang->layout_list = 'Lista de los Diseños';
-    $lang->menu_count = 'Número del Menú;
+    $lang->menu_count = 'Número del Menú';
     $lang->downloaded_list = 'Lista de descarga';
     $lang->layout_preview_content = 'Los contenidos son mostrados aquí';
     $lang->not_apply_menu = 'Aplicar Diseños';
