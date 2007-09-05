@@ -7,7 +7,7 @@
 
     $lang->module_list = "Lista de Módulos";
     $lang->module_index = "Lista de Módulos";
-    $lang->module_category = "Categoría de Módulo";
+    $lang->module_category = "Categoría de Módulos ";
     $lang->module_info = "Información";
     $lang->add_shortcut = "Añadir en el menú del administrador";
     $lang->module_action = "Acción";

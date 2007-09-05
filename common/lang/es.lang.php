@@ -8,7 +8,7 @@
     // palabras para la acción, las cuales son basicamente usados
     $lang->cmd_write = 'Escribir';
     $lang->cmd_reply = 'Responder';
-    $lang->cmd_delete = 'Borrar';
+    $lang->cmd_delete = 'Eliminar';
     $lang->cmd_modify = 'Modificar';
     $lang->cmd_edit = 'editar';
     $lang->cmd_view = 'Ver';
@@ -104,7 +104,7 @@
     $lang->colorset = 'Set de colores';
     $lang->extra_vars = 'Variables Extra';
 
-    $lang->document_url = 'URL del Mensaje';
+    $lang->document_url = 'URL del Documento';
     $lang->trackback_url = 'URL del Trackback';
     $lang->blog_name = 'Titulo del Blog';
     $lang->excerpt = 'Extracto';

@@ -69,7 +69,7 @@
     $lang->edit->help_remove_indent = "Quitar tabulación";
     $lang->edit->help_list_number = "Aplicar la lista con números";
     $lang->edit->help_list_bullet = "Aplicar la lista con símbolos";
-    $lang->edit->help_use_paragrapth = "Presiona Ctrl+Enter para usar el pçarrafo (Presiona Alt+S para guardar)";
+    $lang->edit->help_use_paragrapth = "Presiona Ctrl+Enter para usar el párrafo (Presiona Alt+S para guardar)";
 
     $lang->edit->upload = 'Adjuntar';
     $lang->edit->upload_file = 'Archivo adjunto'; 
