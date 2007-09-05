@@ -4,7 +4,11 @@
      * @auhor zero <zero@nzeo.com>
      * @sumario  Paquete del idioma español para el módulo de comentarios.
      **/
+<<<<<<< .mine
+    $lang->cmd_delete_checked_comment = 'Eliminar lo seleccionado' ;
+=======
     $lang->cmd_delete_checked_comment = 'Eliminar lo seleccionado ';
+>>>>>>> .r2534
 
     $lang->msg_cart_is_null = 'Selecciona el commentario que desea eliminar';
     $lang->msg_checked_comment_is_deleted = '%d comentario eliminado correctamente.';
