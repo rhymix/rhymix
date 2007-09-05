@@ -85,11 +85,11 @@
             <title xml:lang="zh-CN">LOGO图片</title>
             <title xml:lang="en">Logo image</title>
             <title xml:lang="es">Imagen del logotipo</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 100px인 투명이미지가 가장 어울립니다)</description>
-            <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が100pxである透明イメージが最も合います。)</description>
-            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为100px的透明图片为适。)</description>
-            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 100px is recommended.)</description>
-            <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 100px.</description>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
+            <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が23pxである透明イメージが最も合います。)</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
+            <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
