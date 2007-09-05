@@ -189,7 +189,7 @@
             $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
             $this->_query($query);
             $sequence = mysql_insert_id();
-            if($seqnece % 10000 == 0) {
+            if($sequence % 10000 == 0) {
               $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
               $this->_query($query);
             }

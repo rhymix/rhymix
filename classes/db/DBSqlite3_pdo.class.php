@@ -196,7 +196,7 @@
             $this->_prepare($query);
             $result = $this->_execute();
             $sequence = $this->handler->lastInsertId();
-            if($seqnece % 10000 == 0) {
+            if($sequence % 10000 == 0) {
               $query = sprintf("delete from  %ssequence where seq < %d", $this->prefix, $sequence);
               $this->_prepare($query);
               $result = $this->_execute();
