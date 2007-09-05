@@ -71,22 +71,42 @@
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
 
             // document_srl이 있다면 해당 글을 구해와서 $oDocument로 세팅
-            if($this->grant->view && $document_srl) {
+            if($document_srl) {
 
                 // 글을 구함
                 $oDocument->setDocument($document_srl);
                 if($this->grant->manager) $oDocument->setGrant();
 
+                // 글이 존재하지 않으면 그냥 무시하고 글이 존재 하지 않는다는 오류 메세지 출력
                 if(!$oDocument->isExists()) {
+
+                    unset($document_srl);
+
                     Context::set('document_srl','',true);
+
+                    $this->alertMessage('msg_not_founded');
+
                 } else {
-                    // 브라우저 타이틀 설정
-                    Context::setBrowserTitle($oDocument->getTitleText());
 
-                    // 조회수 증가
-                    $oDocument->updateReadedCount();
+                    // 글 보기 권한을 체크해서 권한이 없으면 오류 메세지 출력하도록 처리
+                    if(!$this->grant->view) {
+
+                        $oDocument = null;
+                        $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+
+                        Context::set('document_srl','',true);
+
+                        $this->alertMessage('msg_not_permitted');
+
+
+                    } else {
+                        // 브라우저 타이틀 설정
+                        Context::setBrowserTitle($oDocument->getTitleText());
+
+                        // 조회수 증가
+                        $oDocument->updateReadedCount();
+                    }
                 }
-
             }
             Context::set('oDocument', $oDocument);
 
@@ -364,6 +384,16 @@
             $option->height = $height;
             $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
             Context::set('comment_editor', $comment_editor);
+        }
+
+        /**
+         * @brief 오류메세지를 system alert로 출력하는 method
+         * 특별한 오류를 알려주어야 하는데 별도의 디자인까지는 필요 없을 경우 페이지를 모두 그린후에
+         * 오류를 출력하도록 함
+         **/
+        function alertMessage($message) {
+            $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() { alert("%s"); } );</script>', Context::getLang($message));
+            Context::addHtmlHeader( $script );
         }
 
     }
