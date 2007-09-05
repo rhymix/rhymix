@@ -28,7 +28,7 @@
         </description>
         <description xml:lang="es">
             Soporta la búsqueda integrada de los módulos elegidos.
-            Todo los artículos excepto los secretos serán buscados, y es necesario tener cuidado de no incluir módulo secreto com objetivo.
+            Todo los documentos excepto los secretos serán buscados, y es necesario tener cuidado de no incluir módulo secreto como  objetivo.
         </description>
     </author>
 </module>

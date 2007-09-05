@@ -12,12 +12,12 @@
     $lang->about_sample_code = "Si usted añade el código del diseño es posible la búsqueda Integrada";
     $lang->msg_no_keyword = "Ingrese la palabra para la búsqueda";
 
-    $lang->is_result_text = "<strong>%d</strong> Resultados con la palagra <strong>'%s'</strong> ";
+    $lang->is_result_text = "<strong>%d</strong> Resultados con la palabra <strong>'%s'</strong> ";
 
     $lang->is_search_option = array(
-        'title' => 'Titulo',
+        'title' => 'Título',
         'content' => 'Contenido',
-        'title_content' => 'Titulo+Contenido',
+        'title_content' => 'Título+Contenido',
         //'comment' => 'Commentarios',
     );
 

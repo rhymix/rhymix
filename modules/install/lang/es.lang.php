@@ -2,103 +2,103 @@
     /**
      * @archivo  es.lang.php
      * @autor zero (zero@nzeo.com)
-     * @sumario Paquete del idioma espanol para la instalacion
+     * @sumario Paquete del idioma espanol para la instalación
      **/
 
-    $lang->introduce_title = 'Instalacion de Zeroboard XE ';
+    $lang->introduce_title = 'Instalación de Zeroboard XE ';
     $lang->license = <<<EndOfLicense
 - Nombre de programa : zeroboard XE (zeroboardXE)
 - Licencia : GNU GENERAL PUBLIC LICENSE
 - Official website : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Author : zero (zero@zeroboard.com, http://www.zeroboard.com)
+- Autor : zero (zero@zeroboard.com, http://www.zeroboard.com)
 
-Esta es la traduccion al espanol de la famosa licencia GPL "GNU Public License" (GPL), version 2 que cubre la mayor parte del software de la Free Software Foundation, y muchos mas programas.
+Esta es la traducción al español de la famosa licencia GPL "GNU Public License" (GPL), version 2 que cubre la mayor parte del software de la Free Software Foundation, y muchos más programas.
 
-IMPORTANTE: Esta traduccion tiene carater meramente informativo y carece de validez legal. Si distribuye software libre o ha recibido software libre con esta traduccion utilice para cuestiones legales siempre la GPL version 2 en Ingles de la Free Software Foundation. 
+IMPORTANTE: Esta traducción tiene caráter meramente informativo y carece de validez legal. Si distribuye software libre o ha recibido software libre con esta traducción utilice para cuestiones legales siempre la GPL versión 2 en Inglés de la Free Software Foundation. 
 
 GNU GENERAL PUBLIC LICENSE (GPL)
 Versi? 2, Junio 1991 
 
-Copyright (C) 1989, 1991 Free Software Foundation, Inc.51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. Esta permitido copiar y distribuir copias identicas de esta licencia, pero no esta permitida su modificacion. 
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. Está permitido copiar y distribuir copias idénticas de esta licencia, pero no esta permitida su modificación. 
 
-Preambulo
+Preámbulo
 
-Las licencias de la mayoria del software estan disenadas para eliminar su libertad de compartir y modificar dicho software. Por el contrario, la GNU General Public License (GPL) esta disenada para garantizar su libertad de compartir y modificar el software. Software libre para garantizar la libertad de sus usuarios. Esta licencia GNU General Public License (GPL) se aplica en la mayoria de los programas realizado por la Free Software Foundation (FSF, Fundacion del Software Libre) y en cualquier otro programa en los que los autores quieran aplicarla. Tambien, muchos otros programas de la Free Software Foundation estan cubiertos por la GNU Lesser General Public License (LGPL) e igualmente puede usarla para cubrir sus programas. 
+Las licencias de la mayoría del software estan diseñadas para eliminar su libertad de compartir y modificar dicho software. Por el contrario, la GNU General Public License (GPL) está diseñada para garantizar su libertad de compartir y modificar el software. Software libre para garantizar la libertad de sus usuarios. Esta licencia GNU General Public License (GPL) se aplica en la mayoría de los programas realizado por la Free Software Foundation (FSF, Fundacion del Software Libre) y en cualquier otro programa en los que los autores quieran aplicarla. También, muchos otros programas de la Free Software Foundation están cubiertos por la GNU Lesser General Public License (LGPL) e igualmente puede usarla para cubrir sus programas. 
 
-Cuando hablamos de Software Libre, hablamos de libertad, no de precio. Nuestra licencia General Public License (GPL) esta disenada para asegurarle las libertades de distribuir copias de Software Libre (y cobrar por ese servicio si quiere), asegurarle que recibira el codigo fuente del programa o bien podra conseguirlo si quiere, asegurarle que puede modificar el programa o modificar algunas de sus piezas para un nuevo programa y para garantizarle que puede hacer todas estas cosas. 
+Cuando hablamos de Software Libre, hablamos de libertad, no de precio. Nuestra licencia General Public License (GPL) esta diseñada para asegurarle las libertades de distribuir copias de Software Libre (y cobrar por ese servicio si quiere), asegurarle que recibira el código fuente del programa o bien podrá conseguirlo si quiere, asegurarle que puede modificar el programa o modificar algunas de sus piezas para un nuevo programa y para garantizarle que puede hacer todas estas cosas. 
 
-Para proteger sus derechos, necesitamos realizar restricciones que prohiben a cualquiera denegar estos derechos o pedirle que reniegue de sus derechos. Estas restricciones se traducen en ciertas obligaciones por su parte si usted piensa distribuir copias del programa o tiene intencion de modificarlo. 
+Para proteger sus derechos, necesitamos realizar restricciones que prohiben a cualquiera denegar estos derechos o pedirle que reniegue de sus derechos. Estas restricciones se traducen en ciertas obligaciones por su parte si usted piensa distribuir copias del programa o tiene intencióde modificarlo. 
 
-Por ejemplo, si usted distribuye copias de un programa, ya sea gratuitamente o no, usted tiene que otorgar a sus clientes todos los derechos que ha adquirido usted con el programa. Usted tiene que asegurarse de que sus clientes reciban o pueden recibir el codigo fuente si lo solicitan y usted tiene que mostrarles los terminos de la licencia para que conozcan sus derechos. 
+Por ejemplo, si usted distribuye copias de un programa, ya sea gratuitamente o no, usted tiene que otorgar a sus clientes todos los derechos que ha adquirido usted con el programa. Usted tiene que asegurarse de que sus clientes reciban o pueden recibir el código fuente si lo solicitan y usted tiene que mostrarles los términos de la licencia para que conozcan sus derechos. 
 
 Nosotros protegemos los derechos con dos pasos:
 (1) utilizando el copyright en nuestros programas, y
-(2) ofreciendole esta licencia que le garantiza legalmente el derecho a copia, redistribucion y/o modificacion de este programa. 
+(2) ofreciendole esta licencia que le garantiza legalmente el derecho a copia, redistribución y/o modificación de este programa. 
 
-Ademas, para nuestra proteccion y la de cada uno de los autores, queremos tener la certeza de que todo el mundo entienda que no hay ninguna garantia por este Software Libre. Si el programa es modificado por alguien mas y este falla, ese software no es el original y por tanto cualquier problema introducido por otras personas no afecta a la reputacion de los autores originales. 
+Además, para nuestra protección y la de cada uno de los autores, queremos tener la certeza de que todo el mundo entienda que no hay ninguna garantía por este Software Libre. Si el programa es modificado por alguien más y este falla, ese software no es el original y por tanto cualquier problema introducido por otras personas no afecta a la reputación de los autores originales. 
 
-Por ultimo, cualquier programa esta amenazado constantemente por las patentes de software. Deseamos evitar el riesgo que distribuidores de programas libres adquieran individualmente patentes, transformando de facto el software libre en privativo. Para evitar este problema, dejamos claro que cualquier patente debera ser licenciada para permitir el uso libre de cualquier persona o de no patentada. 
+Por último, cualquier programa esta amenazado constantemente por las patentes de software. Deseamos evitar el riesgo que distribuidores de programas libres adquieran individualmente patentes, transformando de facto el software libre en privativo. Para evitar este problema, dejamos claro que cualquier patente debera ser licenciada para permitir el uso libre de cualquier persona o de no patentada. 
 
-Los terminos y condiciones para la copia, distribucion y modificacion del software se especifican en el siguiente punto. 
+Los términos y condiciones para la copia, distribución y modificación del software se especifican en el siguiente punto. 
 
 TERMINOS Y CONDICIONES PARA LA COPIA, DISTRIBUCION Y MODIFICACION
 
-0.La licencia se aplica a cualquier programa u otro trabajo que contenga un aviso del dueno del copyright diciendo que el software debe ser distribuido bajo los terminos y condiciones de esta licencia General Public License (GPL). El "programa", desde ahora, se refiere tanto a el Programa como a cualquier trabajo derivado bajo la ley del copyrigth: es decir, un trabajo que contenga el programa o una porcion de ella, tanto copia como con modificaciones y/o traducido a otra lengua (mas abajo, la traduccion esta incluida sin limitaciones en el termino "Modificacion".) Cada licencia esta asignada a usted. 
+0.La licencia se aplica a cualquier programa u otro trabajo que contenga un aviso del dueno del copyright diciendo que el software debe ser distribuido bajo los términos y condiciones de esta licencia General Public License (GPL). El "programa", desde ahora, se refiere tanto a el Programa como a cualquier trabajo derivado bajo la ley del copyrigth: es decir, un trabajo que contenga el programa o una porción de ella, tanto copia como con modificaciones y/o traducido a otra lengua (más abajo, la traducción esta incluida sin limitaciones en el término "Modificación".) Cada licencia esta asignada a usted. 
 
-Otras actividades distintas de la copia, distribucion y modificacion no estan cubiertas por esta licencia y esta fuera de su objetivo. Ejecutar el programa no esta restringido, y el resultado del programa esta cubierto por la licencia solo si su contenido contribuye parte de un trabajo derivado del Programa (independiente de la ejecucion del programa). Incluso si esto es verdad, depende de lo que haga el programa. 
+Otras actividades distintas de la copia, distribución y modificación no estan cubiertas por esta licencia y esta fuera de su objetivo. Ejecutar el programa no esta restringido, y el resultado del programa esta cubierto por la licencia solo si su contenido contribuye parte de un trabajo derivado del Programa (independiente de la ejecución del programa). Incluso si esto es verdad, depende de lo que haga el programa. 
 
-1. Usted puede copiar y distribuir copias exactas del codigo fuente del Programa tal y como lo recibio usando cualquier medio, a condicion de, adecuadamente y de forma bien visible, publique en cada copia una nota de copyright y un repudio de garantia; mantenga intactas todas las notas que se refieran a esta licencia y a la exencion de garantia; y proporcione a los receptores del Programa una copia de esta Licencia junto al programa. 
-Usted puede cobrar unos honorarios por la transferencia fisica de la copia, y puede a su criterio ofrecer una garantia adicional por un precio. 
+1. Usted puede copiar y distribuir copias exactas del código fuente del Programa tal y como lo recibio usando cualquier medio, a condición de, adecuadamente y de forma bien visible, publique en cada copia una nota de copyright y un repudio de garantia; mantenga intactas todas las notas que se refieran a esta licencia y a la exención de garantía; y proporcione a los receptores del Programa una copia de esta Licencia junto al programa. 
+Usted puede cobrar unos honorarios por la transferencia física de la copia, y puede a su criterio ofrecer una garantia adicional por un precio. 
 
-2. Usted puede modificar su copia o copias del Programa o cualquier porcion de ella, obteniendo asi un trabajo derivado del Programa, y copiar y distribuir estas modificaciones o trabajo derivado bajo los mismos termino de la Seccion 1, antedicho, cumpliendo ademas las siguientes condiciones: 
-
-
-a) Debe hacer que los ficheros modificados contengan informacion visible de que ha modificado el fichero y la fecha de cualquier cambios.
-b) Debe hacer que cualquier trabajo que distribuya o publique y que en su totalidad o en parte contenga o sea derivado del Programa o de cualquier parte de el, sea licenciado como un todo, sin carga alguna a las terceras partes, bajo los terminos de esta licencia.
-c) Si la modificacion del programa normalmente interpreta comandos interactivos en su ejecucion, debe, cuando comience su ejecucion para ese uso interactivo de la forma mas habitual, imprimir o mostrar un aviso de exencion de garantia (o por el contrario que si ofrece garantia) y de como los usuarios pueden redistribuir el programa bajo estas condiciones, e informando a los usuarios de como pueden obtener una copia de esta Licencia. (Excepcion: Si el programa es interactivo pero normalmente no muestra este anuncio, no es necesario en un trabajo derivado mostrar este aviso).
+2. Usted puede modificar su copia o copias del Programa o cualquier porción de ella, obteniendo asi un trabajo derivado del Programa, y copiar y distribuir estas modificaciones o trabajo derivado bajo los mismos término de la Sección 1, antedicho, cumpliendo además las siguientes condiciones: 
 
 
-Estos requisitos se aplican a las modificaciones como un todo. Si secciones identificables del trabajo no estan derivadas del Programa, pueden ser razonablemente consideradas independientes y trabajos separados en si mismos, por tanto esta Licencia, y sus terminos, no se aplican a estas secciones cuando usted las distribuye como trabajos independientes. Pero cuando usted distribuye las mismas secciones como parte de un todo que es un trabajo derivado del Programa, la distribucion del todo debe respetar los terminos de esta licencia, cuyos permisos para otros licenciatarios se extienden al todo, y por lo tanto a todas y cada una de sus partes, con independencia de quien la escribio. 
-
-Por lo tanto, no es la intencion de esta seccion reclamar derechos o desafiar sus derechos sobre trabajos escritos totalmente por usted mismo. Por el contrario, la intencion es ejercer el derecho a controlar la distribucion de trabajos derivados o colectivos basados en el Programa. 
-
-Ademas, el mero acto de agregar otro trabajo no basado en el Programa con el Programa (o con otro trabajo derivado del Programa) en un volumen de almacenamiento o un medio de distribucion no consigue que el otro trabajo se encuentre bajo los terminos de esta licencia. 
-
-3. Usted puede modificar su copia y distribuir el Programa (o un trabajo derivado, cubierto bajo la Seccion 2) en formato objeto o ejecutable bajo los terminos de las Secciones 1 y 2 antedichas proporcionado con el al menos una de las siguientes: 
+a) Debe hacer que los ficheros modificados contengan información visible de que ha modificado el fichero y la fecha de cualquier cambios.
+b) Debe hacer que cualquier trabajo que distribuya o publique y que en su totalidad o en parte contenga o sea derivado del Programa o de cualquier parte de el, sea licenciado como un todo, sin carga alguna a las terceras partes, bajo los términos de esta licencia.
+c) Si la modificación del programa normalmente interpreta comandos interactivos en su ejecución, debe, cuando comience su ejecución para ese uso interactivo de la forma mas habitual, imprimir o mostrar un aviso de exención de garantía (o por el contrario que si ofrece garantía) y de como los usuarios pueden redistribuir el programa bajo estas condiciones, e informando a los usuarios de como pueden obtener una copia de esta Licencia. (Excepción: Si el programa es interactivo pero normalmente no muestra este anuncio, no es necesario en un trabajo derivado mostrar este aviso).
 
 
-a) Acompanando el Programa con el codigo fuente completo, legible por un ordenador, correspondiente a la arquitectura correspondiente, que debe ser distribuido bajo los terminos de las secciones 1 y 2 usando un medio fisico habitual en el intercambio de software; o, 
+Estos requisitos se aplican a las modificaciones como un todo. Si secciones identificables del trabajo no estan derivadas del Programa, pueden ser razonablemente consideradas independientes y trabajos separados en si mismos, por tanto esta Licencia, y sus términos, no se aplican a estas secciones cuando usted las distribuye como trabajos independientes. Pero cuando usted distribuye las mismas secciones como parte de un todo que es un trabajo derivado del Programa, la distribución del todo debe respetar los términos de esta licencia, cuyos permisos para otros licenciatarios se extienden al todo, y por lo tanto a todas y cada una de sus partes, con independencia de quien la escribio. 
+
+Por lo tanto, no es la intención de esta seccion reclamar derechos o desafiar sus derechos sobre trabajos escritos totalmente por usted mismo. Por el contrario, la intención es ejercer el derecho a controlar la distribución de trabajos derivados o colectivos basados en el Programa. 
+
+Además, el mero acto de agregar otro trabajo no basado en el Programa con el Programa (o con otro trabajo derivado del Programa) en un volumen de almacenamiento o un medio de distribución no consigue que el otro trabajo se encuentre bajo los términos de esta licencia. 
+
+3. Usted puede modificar su copia y distribuir el Programa (o un trabajo derivado, cubierto bajo la Sección 2) en formato objeto o ejecutable bajo los terminos de las Secciones 1 y 2 antedichas proporcionado con el al menos una de las siguientes: 
 
 
-b) Acompanando el Programa con una oferta por escrito, valida al menos por tres anos, de facilitar a cualquier tercera parte, sin un cargo mayor del costo del medio fisico, una copia completa legible por un ordenador del coigo fuente de la arquitectura elegida, que sera distribuido bajo los terminos de las Secciones 1 y 2 usando un mdeio fisico habitual en el intercambio de software; o, 
+a) Acompanando el Programa con el código fuente completo, legible por un ordenador, correspondiente a la arquitectura correspondiente, que debe ser distribuido bajo los términos de las secciones 1 y 2 usando un medio físico habitual en el intercambio de software; o, 
 
 
-c) Acompanando el Programa con la informacion que recibio ofreciendo distribuir el coigo fuente correspondiente. (Esta opcion se permite solo para distribuir software gratuito -no comercial- y solo si recibio el programa como coigo objeto o en formato ejecutable con esta misma oferta, de acuerdo con el apartado b anterior). 
-Por codigo fuente de un trabajo se entiende la forma intima para realizar modificaciones en el. Para un programa ejecutable, el codigo fuente completo se refiere a todo el codigo fuente para todos los modulos que contiene, mas cualquier fichero asociado de definicion de interfaces, mas el script utilizado para la compilacion y la instalacion del ejecutable. Sin embargo, como una excepcion especial, el codigo fuente distribuido no necesita incluir nada que no sea normalmente distribuido (ni en codigo fuente o en forma binaria) con los componentes mas importantes (compiladores, kernels y demas) del sistema operativo donde corre el ejecutable, salvo que el componente acompana al ejecutable. 
+b) Acompanando el Programa con una oferta por escrito, válida al menos por tres años, de facilitar a cualquier tercera parte, sin un cargo mayor del costo del medio físico, una copia completa legible por un ordenador del código fuente de la arquitectura elegida, que sera distribuido bajo los términos de las Secciones 1 y 2 usando un medio físico habitual en el intercambio de software; o, 
 
-Si la distribucion de ejecutables o compilado se realiza ofreciendo acceso a un sitio para la copia, entonces ofrecer un acceso equivalente de copia desde un sitio para el codigo fuente cuenta como una distribucion de codigo fuente, incluso aunque terceras partes no estan obligadas a copiar el codigo fuente con el codigo compilado. 
 
-4. Usted no debe copiar, modificar, sublicenciar o distribuir el Programa excepto como esta permitido expresamente en esta Licencia. Cualquier intento de copiar, modificar, sublicenciar o distribuir el Programa que no esta incluido en la Licencia esta prohibido, y anulara automaticamente los derechos otorgados por esta licencia. Sin embargo, las partes que hayan recibido copias, o derechos, por usted bajo esta Licencia no vera sus licencias terminadas mientras estas partes continuen cumpliendo los teminos de esta licencia. 
+c) Acompanando el Programa con la información que recibio ofreciendo distribuir el código fuente correspondiente. (Esta opción se permite sólo para distribuir software gratuito -no comercial- y sólo si recibio el programa como código objeto o en formato ejecutable con esta misma oferta, de acuerdo con el apartado b anterior). 
+Por código fuente de un trabajo se entiende la forma íntima para realizar modificaciones en el. Para un programa ejecutable, el código fuente completo se refiere a todo el código fuente para todos los módulos que contiene, mas cualquier fichero asociado de definición de interfaces, mas el script utilizado para la compilación y la instalación del ejecutable. Sin embargo, como una excepcion especial, el código fuente distribuido no necesita incluir nada que no sea normalmente distribuido (ni en código fuente o en forma binaria) con los componentes más importantes (compiladores, kernels y demás) del sistema operativo donde corre el ejecutable, salvo que el componente acompana al ejecutable. 
 
-5. Usted no esta obligado a aceptar esta licencia, ya que usted no la ha firmado. Sin embargo, nada mas le garantiza los derechos de modificacion o distribucion del programa o de sus trabajos derivados. Estas acciones estan prohibidas por la ley si usted no acepta esta Licencia. En cualquier caso, por modificar o distribuir el programa (o cualquier trabajo derivado del programa), usted indica su aceptacion implicita de esta Licencia, ya que la necesita para hacerlo, y todos sus terminos y condiciones de copia, distribucion o modificacion del Programa o trabajos derivados. 
+Si la distribución de ejecutables o compilado se realiza ofreciendo acceso a un sitio para la copia, entonces ofrecer un acceso equivalente de copia desde un sitio para el código fuente cuenta como una distribución de código fuente, incluso aunque terceras partes no estan obligadas a copiar el código fuente con el código compilado. 
 
-6. Cada vez que usted redistribuya el Programa (o cualquier trabajo derivado del Programa), el receptor automaticamente recibe la licencia por parte del licenciatario original para copiar, distribuir o modificar el Programa sujeto a estos terminos y condiciones. Usted no puede imponer ninguna otra restriccion a los receptores limitando los derechos garantizados en esta Licencia. Usted no es responsable de asegurar el cumplimiento de terceras partes sobre la Licencia. 
+4. Usted no debe copiar, modificar, sublicenciar o distribuir el Programa excepto como esta permitido expresamente en esta Licencia. Cualquier intento de copiar, modificar, sublicenciar o distribuir el Programa que no esta incluido en la Licencia esta prohibido, y anulara automáticamente los derechos otorgados por esta licencia. Sin embargo, las partes que hayan recibido copias, o derechos, por usted bajo esta Licencia no vera sus licencias terminadas mientras estas partes continuen cumpliendo los téminos de esta licencia. 
 
-7. Si, como consecuencia de una decision judicial o una acusacion de infraccion de patentes o por cualquier otra razon (no limitada a una causa de patentes), le son impuestas condiciones (ya sea por una orden judicial, por un acuerdo o cualquier otra forma) que contradiga los terminos y condiciones d esta Licencia, no le exime de cumplir los terminos y condiciones de dicha Licencia. Si usted no puede distribuir el Programa cumpliendo simultaneamente tanto los terminos y condiciones de la Licencia como cualquier otra obligacion que le haya sido impuesta, usted consecuentemente no puede distribuir el Programa bajo ninguna forma. Por ejemplo, si una patente no permite la redistribucion gratuita del Programa por parte de todos aquellos que reciben copias directa o indirectamente a traves de usted, entonces la unica forma de satisfacer tanto esa condicion como los terminos y condiciones de esta Licencia sera evitar completamente la distribucion del Programa. 
+5. Usted no esta obligado a aceptar esta licencia, ya que usted no la ha firmado. Sin embargo, nada más le garantiza los derechos de modificación o distribución del programa o de sus trabajos derivados. Estas acciones estan prohibidas por la ley si usted no acepta esta Licencia. En cualquier caso, por modificar o distribuir el programa (o cualquier trabajo derivado del programa), usted indica su aceptacion implícita de esta Licencia, ya que la necesita para hacerlo, y todos sus términos y condiciones de copia, distribución o modificación del Programa o trabajos derivados. 
 
-Si alguna porcion de esta seccion es invalida o imposible de cumplir bajo una circunstancia particular, el resto de la seccion tiene que intentar aplicarse y la seccion completa debe aplicarse en cualquier otra circunstancia. 
+6. Cada vez que usted redistribuya el Programa (o cualquier trabajo derivado del Programa), el receptor automáticamente recibe la licencia por parte del licenciatario original para copiar, distribuir o modificar el Programa sujeto a estos términos y condiciones. Usted no puede imponer ninguna otra restricción a los receptores limitando los derechos garantizados en esta Licencia. Usted no es responsable de asegurar el cumplimiento de terceras partes sobre la Licencia. 
 
-El proposito de esta seccion no es inducir a infringir ninguna patente o otros derechos de propiedad o impugnar la validez de estos derechos; esta seccion tiene el unico proposito de proteger la integridad del sistema de distribucion del Software Libre, que esta implementado bajo practicas de licencias publicas. Mucha gente ha realizado generosas contribuciones a la gran variedad de software distribuido bajo este sistema con confianza en una aplicacionconsistente del sistema; sera el autor/donante quien decida si quiere distribuir software mediante cualquier otro sistema y una licencia no puede imponer esa eleccion. 
+7. Si, como consecuencia de una decisión judicial o una acusación de infracción de patentes o por cualquier otra razón (no limitada a una causa de patentes), le son impuestas condiciones (ya sea por una orden judicial, por un acuerdo o cualquier otra forma) que contradiga los términos y condiciones d esta Licencia, no le exime de cumplir los términos y condiciones de dicha Licencia. Si usted no puede distribuir el Programa cumpliendo simultaneamente tanto los términos y condiciones de la Licencia como cualquier otra obligación que le haya sido impuesta, usted consecuentemente no puede distribuir el Programa bajo ninguna forma. Por ejemplo, si una patente no permite la redistribución gratuita del Programa por parte de todos aquellos que reciben copias directa o indirectamente a traves de usted, entonces la unica forma de satisfacer tanto esa condición como los términos y condiciones de esta Licencia sera evitar completamente la distribución del Programa. 
+
+Si alguna porción de esta sección es inválida o imposible de cumplir bajo una circunstancia particular, el resto de la sección tiene que intentar aplicarse y la seccion completa debe aplicarse en cualquier otra circunstancia. 
+
+El proposito de esta sección no es inducir a infringir ninguna patente o otros derechos de propiedad o impugnar la validez de estos derechos; esta sección tiene el único propósito de proteger la integridad del sistema de distribución del Software Libre, que esta implementado bajo practicas de licencias públicas. Mucha gente ha realizado generosas contribuciones a la gran variedad de software distribuido bajo este sistema con confianza en una aplicación consistente del sistema; sera el autor/donante quien decida si quiere distribuir software mediante cualquier otro sistema y una licencia no puede imponer esa elección. 
 
 Este apartado pretende dejar completamente claro lo que se cree que es una consecuencia del resto de esta Licencia. 
 
-8. Si la distribucion y/o el uso del Programa esta restringido en ciertos paises, ya sea por patentes o por interfaces bajo copyright, el propietario del Copyright original que pone el Programa bajo esta Licencia debe anadir unos limites geograficos expecificos excluyendo esos paises, por lo que la distribucion solo estara permitida en los paises no excluidos. En este caso, la Licencia incorpora la limitacion de escribir en el cuerpo de esta Licencia. 
+8. Si la distribución y/o el uso del Programa esta restringido en ciertos países, ya sea por patentes o por interfaces bajo copyright, el propietario del Copyright original que pone el Programa bajo esta Licencia debe añadir unos limites geograficos expecíficos excluyendo esos países, por lo que la distribución solo estara permitida en los países no excluidos. En este caso, la Licencia incorpora la limitación de escribir en el cuerpo de esta Licencia. 
 
-9. La Free Software Foundation puede publicar versiones revisadas y/o nuevas de la Licencia GPL de cuando en cuando. Dichas versiones seran similares en espiritu a la presente version, pero pueden ser diferentes en detalles para considerar nuevos problemas o situaciones. 
+9. La Free Software Foundation puede publicar versiones revisadas y/o nuevas de la Licencia GPL de vez en cuando. Dichas versiones seran similares en espíritu a la presente versión, pero pueden ser diferentes en detalles para considerar nuevos problemas o situaciones. 
 
-Cada version tiene un numero de version propio. Si el Programa especifica un numero de version de esta Licencia que hace referencia a esta o "cualquier versi? posterior", usted tiene la opcion de seguir los terminos y condiciones de o bien la version referenciada o bien cualquiera de las versiones posteriores publicadas por la Free Software Foundation. Si el Programa no especifica ningun numero de version, usted debe elegir cualquiera de las versiones publicadas por la Free Software Foundation. 
+Cada versión tiene un numero de version propio. Si el Programa especifica un numero de versión de esta Licencia que hace referencia a esta o "cualquier versión posterior", usted tiene la opción de seguir los términos y condiciones de o bien la versión referenciada o bien cualquiera de las versiones posteriores publicadas por la Free Software Foundation. Si el Programa no especifica ningún número de versión, usted debe elegir cualquiera de las versiones publicadas por la Free Software Foundation. 
 
-10. Si usted quiere incorporar parte del Programa en otros programas libres cuyas condiciones de distribucion son diferentes, escriba al autor para pedir permiso. Para el software con el copyrigth bajo la Free Software Foundation, escriba a la Free Software Foundation; algunas veces hacemos excepciones en esto. Nuestra decision estara guiada por los objetivos de preservar la libertad del software y de los trabajos derivados y el de promocionar el intercambio y reutilizacion del software en general. 
+10. Si usted quiere incorporar parte del Programa en otros programas libres cuyas condiciones de distribucion son diferentes, escriba al autor para pedir permiso. Para el software con el copyrigth bajo la Free Software Foundation, escriba a la Free Software Foundation; algunas veces hacemos excepciones en esto. Nuestra decisión estara guiada por los objetivos de preservar la libertad del software y de los trabajos derivados y el de promocionar el intercambio y reutilización del software en general. 
 
 SIN GARANTIA
 
@@ -202,76 +202,76 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "Por favor chequee los requerimientos de la instalacion.";
+    $lang->install_condition_title = "Por favor chequee los requerimientos de la instalación.";
 
     $lang->install_checklist_title = array(
-			'php_version' => 'Version PHP',
-            'permission' => 'Atribucion',
-            'xml' => 'Libreria XML',
-            'iconv' => 'Libreria ICONV',
-            'gd' => 'Libreria GD',
-            'session' => 'Configuracion Session.auto_start',
+			'php_version' => 'Versión PHP',
+            'permission' => 'Atribución',
+            'xml' => 'Librería XML',
+            'iconv' => 'Librería ICONV',
+            'gd' => 'Librería GD',
+            'session' => 'Configuración Session.auto_start',
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Requerido] Si la version de PHP es 5.2.2, zeroboard no sera instalado por errores',
-            'permission' => '[Requerido] La ruta de la instalacion de Zeroboard o el directorio de ./archivos deberia tener la atribucion 707',
-            'xml' => '[Requerido] Libreria XML es necesario para la comunicacion de XML',
+			'php_version' => '[Requerido] Si la versión de PHP es 5.2.2, zeroboard no sera instalado por errores',
+            'permission' => '[Requerido] La ruta de la instalación de Zeroboard o el directorio de ./archivos deberia tener la atribución 707',
+            'xml' => '[Requerido] Libreria XML es necesario para la comunicación de XML',
             'session' => '[Requerido] Para el uso de la sesion de Zeroboard, el archivo php.ini deberia estar configurada  session.auto_start=0',
-            'iconv' => 'Para transformar UTF-8 y otra paquete del lenguaje deberia estar instalado el Iconv.',
+            'iconv' => 'Para transformar UTF-8 y otra paquete del idioma deberia estar instalado el Iconv.',
             'gd' => 'Libreria GD deberia estar instalado para utilizar la funcion de convertir la imagen',
         );
 
-    $lang->install_checklist_xml = 'Instalar Libreria XML ';
-    $lang->install_without_xml = 'Libreria XML no esta instalado';
-    $lang->install_checklist_gd = 'Instalar Libreria GD';
-    $lang->install_without_gd  = 'Libreria GD no esta instalado para la conversion de la imagen';
-    $lang->install_checklist_gd = 'Intalar Libreria GD';
+    $lang->install_checklist_xml = 'Instalar Librería XML ';
+    $lang->install_without_xml = 'Librería XML no esta instalado';
+    $lang->install_checklist_gd = 'Instalar Librería GD';
+    $lang->install_without_gd  = 'Libreria GD no esta instalado para la conversión de la imagen';
+    $lang->install_checklist_gd = 'Intalar Librería GD';
     $lang->install_without_iconv = 'Libreria Iconv no esta instalado para procesar las fuentes';
-    $lang->install_session_auto_start = 'Puede provocar errores si en la configuracion de php esta configurada "session.auto_start=1"';
-    $lang->install_permission_denied = 'La atribucion de la ruta de instalacion no es igual a 707';
+    $lang->install_session_auto_start = 'Puede provocar errores si en la configuración de php esta configurada "session.auto_start=1"';
+    $lang->install_permission_denied = 'La atribución de la ruta de instalacion no es igual a 707';
 
     $lang->cmd_agree_license = 'Yo accepto la licencia';
-    $lang->cmd_install_fix_checklist = 'Yo he configurado las condiciones necesarias para la instalacion.';
-    $lang->cmd_install_next = 'Continuar la instalacion';
+    $lang->cmd_install_fix_checklist = 'Yo he configurado las condiciones necesarias para la instalación.';
+    $lang->cmd_install_next = 'Continuar la instalación';
 
     $lang->db_desc = array(
-        'mysql' => 'Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transaccion es desabilitado ya que DB(Bases de Datos) esta creado por myisam.',
-        'mysql_innodb' => 'Utilizando innodb usar BD mysql.<br />La transaccion es hablilitado para innodb',
-        'sqlite2' => 'Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilizacion no realizada)',
-        'sqlite3_pdo' => 'A traves de PDO de PHP soporta sqlite2 <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.',
+        'mysql' => 'Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.',
+        'mysql_innodb' => 'Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb',
+        'sqlite2' => 'Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)',
+        'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
         'cubrid' => 'Usar BD CUBRID.',
     );
 
-    $lang->form_title = 'Ingresar  BD &amp; Informacion del Administrador;';
-    $lang->db_title = 'Por favor escribir informacion de BD';
+    $lang->form_title = 'Ingresar  BD &amp; Información del Administrador;';
+    $lang->db_title = 'Por favor escribir información de BD';
     $lang->db_type = 'Tipo de BD';
     $lang->select_db_type = 'Seleccione el tipo de BD que desea usar.';
     $lang->db_hostname = 'Hostname de BD';
     $lang->db_port = 'Port de BD';
     $lang->db_userid = 'ID de BD';
-    $lang->db_password = 'Contrasena de BD';
-    $lang->db_database = 'Base de dato BD';
-    $lang->db_database_file = 'Archivo de base de dato BD';
+    $lang->db_password = 'Contraseña de BD';
+    $lang->db_database = 'Base de datos BD';
+    $lang->db_database_file = 'Archivo de base de datos BD';
     $lang->db_table_prefix = 'Encabezado de la tabla';
 
-    $lang->admin_title = 'Informacio del Administrator';
+    $lang->admin_title = 'Información del Administrator';
 
-    $lang->env_title = 'Configuracion';
+    $lang->env_title = 'Configuración';
     $lang->use_rewrite = 'Usar rewrite mod';
     $lang->about_rewrite = "Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123";
-    $lang->time_zone = 'La Hora de Zona';
-    $lang->about_time_zone = "Si la hora del servidor y la hora de su ubicacion, Usted puede elegir la hora de zona de su lugar para corregir";
+    $lang->time_zone = 'La Hora por Zona';
+    $lang->about_time_zone = "Si la hora del servidor y la hora de su ubicación es diferente, Usted puede elegir la hora por zona para corregir";
 
-    $lang->about_database_file = 'Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribucion 707.</span>';
+    $lang->about_database_file = 'Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>';
 
-    $lang->success_installed = 'Instalacion finalizada';
-    $lang->success_updated = 'Actualizacion finalizada';
+    $lang->success_installed = 'Instalación finalizada';
+    $lang->success_updated = 'Actualización finalizada';
 
-    $lang->msg_cannot_proc = 'No puede ser ejecutado lo requerido por no disponer del ambiente de instalacion.';
-    $lang->msg_already_installed = 'Instalacion de Zeroboard ya existe.';
-    $lang->msg_dbconnect_failed = "Ha ocurrido un error en la coneccion de BD.\n Por favor chequee la informacion de BD nuevamente";
-    $lang->msg_table_is_exists = "La tabla ya ha sido creado en BD.\n Creado nuevamente el archivo de configuracion.";
-    $lang->msg_install_completed = "Instalacion finalizada.\n Muchas gracias.";
-    $lang->msg_install_failed = "Ha ocurrido un error al crear el archivo de instalacion.";
+    $lang->msg_cannot_proc = 'No puede ser ejecutado lo requerido por no disponer del ambiente de instalación.';
+    $lang->msg_already_installed = 'Instalación de Zeroboard ya existe.';
+    $lang->msg_dbconnect_failed = "Ha ocurrido un error en la conección de BD.\n Por favor chequee la información de BD nuevamente";
+    $lang->msg_table_is_exists = "La tabla ya ha sido creado en BD.\n Creado nuevamente el archivo de configuración.";
+    $lang->msg_install_completed = "Instalación finalizada.\n Muchas gracias.";
+    $lang->msg_install_failed = "Ha ocurrido un error al crear el archivo de instalación.";
 ?>
