@@ -55,10 +55,12 @@
                 $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_management.gif',$menu_str, $menu_link);
             }
 
-            // 회원 정보 보기
-            $menu_str = Context::getLang('cmd_view_member_info');
-            $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
-            $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
+            // 회원 정보 보기 (비회원일 경우 볼 수 없도록 수정)
+            if($logged_info->member_srl) {
+                $menu_str = Context::getLang('cmd_view_member_info');
+                $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
+                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
+            }
 
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
             if($mid && !ereg('Member', $act)) {
