@@ -54,6 +54,7 @@
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
             }
+
             if(file_exists($cache_file)) {
                 $oXml = new XmlParser();
                 $buff = $oXml->parse(FileHandler::readFile($cache_file));
@@ -71,7 +72,14 @@
                     }
                     Context::set('news', $news);
                 }
+
+                Context::set('released_version', $buff->zbxe_news->attrs->released_version);
+                Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
+
+            Context::set('current_version', __ZBXE_VERSION__);
+            Context::set('installed_path', realpath('./'));
+
             $this->setTemplateFile('index');
         }
 

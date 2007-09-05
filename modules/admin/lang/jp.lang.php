@@ -9,6 +9,12 @@
 
     $lang->env_setup = "環境設定";
 
+    $lang->env_information = "환경 정보";
+    $lang->current_version = "설치된 버전";
+    $lang->current_path = "설치된 경로";
+    $lang->released_version = "최신 버전";
+    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
     $lang->item_widget = "ウィジェットリスト";
@@ -29,6 +35,7 @@
 
     $lang->welcome_to_zeroboard_xe = 'ゼロボードXEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。クローズベタバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
+    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
 
     $lang->zeroboard_xe_user_links = 'ユーザのためのリンク';
     $lang->zeroboard_xe_developer_links = 'デベロッパーのためのリンク';
