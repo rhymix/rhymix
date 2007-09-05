@@ -146,6 +146,19 @@
     }
 
     /**
+     * @brief DB::executeQuery() 의 결과값을 무조건 배열로 처리하도록 하는 함수
+     * @param query_id 쿼리 ID ( 모듈명.쿼리XML파일 )
+     * @param args object 변수로 선언된 인자값
+     * @return 처리결과
+     **/
+    function executeQueryArray($query_id, $args = null) {
+        $oDB = &DB::getInstance();
+        $output = $oDB->executeQuery($query_id, $args);
+        if(!is_array($output->data)) $output->data = array($output->data);
+        return $output;
+    }
+
+    /**
      * @brief DB::getNextSequence() 의 alias
      * @return big int
      **/
