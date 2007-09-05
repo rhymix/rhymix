@@ -134,6 +134,7 @@
 
             $str = sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
 
+            // 에러 발생시 에러 로그를 남김 (__DEBUG_DB_OUTPUT__이 지정되어 있을경우)
             if($this->isError()) {
                 $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
 
@@ -151,6 +152,22 @@
                 $str .= "\t    Query Success\n";
             }
             $GLOBALS['__db_queries__'] .= $str;
+
+            // __LOG_SLOW_QUERY__ 가 정해져 있다면 시간 체크후 쿼리 로그 남김
+            if(__LOG_SLOW_QUERY__>0 && $elapsed_time > __LOG_SLOW_QUERY__) {
+                $buff = '';
+                $log_file = './files/_db_slow_query.php';
+                if(!file_exists($log_file)) {
+                    $buff = '<?php exit();?>'."\n";
+                }
+                $buff .= sprintf("%s\t%s\n\t%0.6f sec\n\n", date("Y-m-h H:i"), $this->query, $elapsed_time);
+                if($fp = fopen($log_file,'a')) {
+                    fwrite($fp, $buff);
+                    fclose($fp);
+                }
+
+            }
+
             $this->query = null;
         }
 
