@@ -31,6 +31,14 @@
     define('__DEBUG_DB_OUTPUT__', 0);
 
     /**
+     * @brief DB 쿼리중 정해진 시간을 넘기는 쿼리의 로그 남김
+     * 0 : 로그를 남기지 않음
+     * 0 이상 : 단위를 초로 하여 지정된 초 이상의 실행시간이 걸린 쿼리를 로그로 남김
+     * 로그파일은 ./files/_db_slow_query.php 파일로 저장됨
+     **/
+    define('__LOG_SLOW_QUERY__', 6);
+
+    /**
      * @brief ob_gzhandler를 이용한 압축 기능을 강제로 사용하거나 끄는 옵션
      * 0 : 사용하지 않음
      * 1 : 사용함
