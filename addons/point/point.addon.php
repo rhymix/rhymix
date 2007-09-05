@@ -76,7 +76,7 @@
 
         // 댓글 작성
         } elseif(strpos($config->insert_comment_act,$this->act)!==false) {
-            $comment_srl = Context::get('comment_srl');
+            $comment_srl = $this->get('comment_srl');
             $oCommentModel = &getModel('comment');
             $comment = $oCommentModel->getComment($comment_srl);
 
