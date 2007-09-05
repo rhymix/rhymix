@@ -2,7 +2,7 @@
     /**
      * @archivo   modules/layout/lang/es.lang.php
      * @autor zero <zero@nzeo.com>
-     * @sumario Paquete del idioma espanol para el Diseno.
+     * @sumario Paquete del idioma español para el Diseño.
      **/
 
     $lang->cmd_layout_management = 'Configuración del Diseño';
@@ -13,8 +13,13 @@
     $lang->layout_history = "Actualización";
     $lang->layout_info = "Información del Diseño";
     $lang->layout_list = 'Lista de los Diseños';
+<<<<<<< .mine
+    $lang->menu_count = 'Número del Menú';
+	$lang->downloaded_list = 'Lista de la descarga';
+=======
     $lang->menu_count = 'Número del Menú';
     $lang->downloaded_list = 'Lista de descarga';
+>>>>>>> .r2534
     $lang->layout_preview_content = 'Los contenidos son mostrados aquí';
     $lang->not_apply_menu = 'Aplicar Diseños';
 
