@@ -18,7 +18,7 @@
     $lang->cmd_next = 'Siguiente';
     $lang->cmd_send_trackback = 'Enviar Trackback';
     $lang->cmd_registration = $lang->cmd_submit = 'Enviar';
-    $lang->cmd_comment_registration = 'Agregar el commentario';
+    $lang->cmd_comment_registration = 'Agregar commentarios';
     $lang->cmd_insert = 'Insertar';
     $lang->cmd_save = 'Guardar';
     $lang->cmd_input = 'Ingresar';
@@ -76,9 +76,9 @@
     $lang->browser_title = 'Título del navegador';
     $lang->title = 'Título';
     $lang->title_content = 'Título+Contenido';
-    $lang->content = 'Contenido';
-    $lang->document = 'Documento';
-    $lang->comment = 'Commentario';
+    $lang->content = 'Contenidos';
+    $lang->document = 'Documentos';
+    $lang->comment = 'Commentarios';
     $lang->description = 'Descripción';
     $lang->trackback = 'Trackback';
     $lang->tag = 'Etiqueta';
