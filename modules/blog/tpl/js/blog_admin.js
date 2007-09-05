@@ -170,6 +170,7 @@ function hideCategoryInfo() {
 
 function completeGetCategoryTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('category_info');
+    obj.style.marginTop = xScrollTop()+'px';
     var tpl = ret_obj['tpl'];
     xInnerHtml(obj, tpl);
     obj.style.display = 'block';
