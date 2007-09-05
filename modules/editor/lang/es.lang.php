@@ -28,9 +28,9 @@
     $lang->cmd_disable = "Desactivado";
     $lang->cmd_enable = "activado";
 
-    $lang->edit->fontname = 'Tipos de letras';
-    $lang->edit->fontsize = 'Tamaño de etras';
-    $lang->edit->use_paragraph = 'Funcion del párrafo';
+    $lang->edit->fontname = 'Fuente';
+    $lang->edit->fontsize = 'Tamaño';
+    $lang->edit->use_paragraph = 'Párrafo';
     $lang->edit->fontlist = array(
     "Gulim",
     "Dodum",
