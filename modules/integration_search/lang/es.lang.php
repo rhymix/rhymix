@@ -28,4 +28,3 @@
         'voted_count' => 'Número de recomendaciones',
     );
 ?>
-?>

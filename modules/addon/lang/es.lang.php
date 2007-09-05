@@ -13,5 +13,3 @@
 
     $lang->about_addon = 'Addon is para controlar las acciones y no para mostrar el resultado en HTML.<br /> Sólo con activar o desactivar el addon que desee, podrá obtener funciones útiles para la administración de tu sitio web.';
 ?>
-
-
