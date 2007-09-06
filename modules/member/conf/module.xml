@@ -35,6 +35,7 @@
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
         <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
+        <action name="procMemberCheckValue" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" />

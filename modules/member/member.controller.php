@@ -544,6 +544,43 @@
         }
 
         /**
+         * @brief 회원 가입시 특정 항목들에 대한 값 체크
+         **/
+        function procMemberCheckValue() {
+            $name = Context::get('name');
+            $value = Context::get('value');
+            if(!$value) return;
+
+            $oMemberModel = &getModel('member');
+
+            // 로그인 여부 체크
+            $logged_info = Context::get('logged_info');
+
+
+            switch($name) {
+                case 'user_id' :
+                        // 금지 아이디 검사
+                        if($oMemberModel->isDeniedID($value)) return new Object(0,'denied_user_id');
+
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByUserID($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_user_id');
+                    break;
+                case 'nick_name' :
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByNickName($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
+                        
+                    break;
+                case 'email_address' :
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_email_address');
+                    break;
+            }
+        }
+
+        /**
          * @brief 회원 가입
          **/
         function procMemberInsert() {
