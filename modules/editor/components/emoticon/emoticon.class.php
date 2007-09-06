@@ -22,7 +22,7 @@
 		/**
 		* @brief 재귀적으로 이모티콘이 될 법한 파일들을 하위 디렉토리까지 전부 검색한다. 8,000개까지는 테스트 해봤는데 스택오버프로우를 일으킬지 어떨지는 잘 모르겠음.(2007.9.6, 베니)
 		**/
-		function getEmoticons($path) {
+		function getEmoticons($path, $source_path) {
             $path = ereg_replace('\/$','',$path);
             $output = array();
 
@@ -33,11 +33,11 @@
                 $new_path = $path.'/'.$file;
 
                 if(is_dir($new_path)) {
-                    $sub_output = $this->getEmoticons($new_path);
+                    $sub_output = $this->getEmoticons($new_path, $source_path);
                     if(is_array($sub_output) && count($sub_output)) $output = array_merge($output, $sub_output);
                 }
 
-                if(eregi('(jpg|jpeg|gif|png)$',$new_path)) $output[] = $new_path;
+                if(eregi('(jpg|jpeg|gif|png)$',$new_path)) $output[] = str_replace($source_path.'/', '', $new_path);
             }
 
             $oDir->close();
@@ -58,7 +58,7 @@
             // 이모티콘을 모두 가져옴
 
             $emoticon_path = sprintf('%s%s/images',eregi_replace('^\.\/','',$this->component_path),'tpl','images');
-			$emoticon_list = $this->getEmoticons($emoticon_path);
+			$emoticon_list = $this->getEmoticons($emoticon_path, $emoticon_path);
             Context::set('emoticon_list', $emoticon_list);
 
             $oTemplate = &TemplateHandler::getInstance();
