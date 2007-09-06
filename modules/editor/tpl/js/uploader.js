@@ -252,6 +252,7 @@ function editor_remove_file(upload_target_srl) {
 
 // 업로드 목록의 선택된 파일을 내용에 추가
 function editor_insert_file(upload_target_srl) {
+    if(editor_mode[upload_target_srl]=='html') return;
     var obj = xGetElementById('uploaded_file_list_'+upload_target_srl);
     if(obj.options.length<1) return;
 
