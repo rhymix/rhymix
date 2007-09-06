@@ -8,7 +8,7 @@
 <div id="popBody">
 
     <!--@foreach($emoticon_list as $emoticon)-->
-    <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" class="emoticon" />
+    <img src="{getUrl()}/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" class="emoticon" />
     <!--@end-->
 
 </div>

@@ -22,31 +22,27 @@
 		/**
 		* @brief 재귀적으로 이모티콘이 될 법한 파일들을 하위 디렉토리까지 전부 검색한다. 8,000개까지는 테스트 해봤는데 스택오버프로우를 일으킬지 어떨지는 잘 모르겠음.(2007.9.6, 베니)
 		**/
-		function getEmoticons($search_path, $remove_str = '') {
-			if(substr($search_path,-1)!='/') $search_path .= '/';
-			
-			if($handle = opendir($search_path)) {
-				if($remove_str == '') $remove_str = $search_path;
-				$path = $search_path;
-				while(false !== ($file = readdir($handle))){
-					if($file == "." || $file == "..") continue;
-					if(is_dir($path.$file)){
-						$dirs[] = $path.$file."/";
-					} else if(is_file($path.$file) && preg_match("/.(jpg|jpeg|gif|png|bmp)\b/i", $file)) {
-						// 심볼릭 링크가 무한루프에 빠지게 만들지 않을까해서 file인지 체크
-						// 이미지 파일이 아닌 파일이 포함되어 문제를 일으킬 것을 대비하여 regex로 파일 확장자 체크
-						$files[] = substr($path.$file, strlen($remove_str));
-					}
-				}
-				closedir($handle);
+		function getEmoticons($path) {
+            $path = ereg_replace('\/$','',$path);
+            $output = array();
 
-				foreach($dirs as $dir){
-					$files_from_sub = $this->getEmoticons($dir, $remove_str);
-					$files = array_merge($files, $files_from_sub);
-				}
-				return $files;
-			}
-			return array();
+            $oDir = dir($path);
+            while($file = $oDir->read()) {
+                if(in_array($file, array('.','..'))) continue;
+
+                $new_path = $path.'/'.$file;
+
+                if(is_dir($new_path)) {
+                    $sub_output = $this->getEmoticons($new_path);
+                    if(is_array($sub_output) && count($sub_output)) $output = array_merge($output, $sub_output);
+                }
+
+                if(eregi('(jpg|jpeg|gif|png)$',$new_path)) $output[] = $new_path;
+            }
+
+            $oDir->close();
+
+            return $output;
 		}
 		
         /**
@@ -61,7 +57,8 @@
 
             // 이모티콘을 모두 가져옴
 
-			$emoticon_list = $this->getEmoticons($tpl_path.'/images');
+            $emoticon_path = sprintf('%s%s/images',eregi_replace('^\.\/','',$this->component_path),'tpl','images');
+			$emoticon_list = $this->getEmoticons($emoticon_path);
             Context::set('emoticon_list', $emoticon_list);
 
             $oTemplate = &TemplateHandler::getInstance();
