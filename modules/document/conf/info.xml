@@ -13,7 +13,7 @@
         <name xml:lang="jp">Zero</name>
         <description xml:lang="ko">게시판, 블로그등의 모듈에서 사용되는 문서를 관리하는 모듈입니다. </description>
         <description xml:lang="en">Module for managing documents used in board, blog, etc.</description>
-        <description xml:lang="es">Es el módulo para manejar documentos en blog y boletínes.</description>
+        <description xml:lang="es">Módulo para manejar los documentos en blog y en los tableros.</description>
         <description xml:lang="zh-CN">管理版面，博客等处主题的模块。 </description>
         <description xml:lang="jp">掲示板、ブログなどのモジュルで使用されるドキュメント（書き込み）を管理するモジュルです。</description>
     </author>

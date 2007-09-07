@@ -35,6 +35,7 @@
          * @brief 댓글 가져오기
          **/
         function getComment($comment_srl, $is_admin = false) {
+            if(!$comment_srl) return;
             $args->comment_srl = $comment_srl;
             $output = executeQuery('comment.getComment', $args);
             $comment = $output->data;

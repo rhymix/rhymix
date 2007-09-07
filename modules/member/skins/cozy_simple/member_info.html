@@ -88,7 +88,7 @@
             <!--@elseif($val->column_type=='date' && $val->value)-->
                 {zdate($val->value, "Y-m-d")}&nbsp;
             <!--@else-->
-                {htmlspecialchars($val->value)}&nbsp;
+                {nl2br(htmlspecialchars($val->value))}&nbsp;
             <!--@end-->
         </td>
     </tr>

@@ -3,9 +3,35 @@
 
 <h3>{$lang->welcome_to_zeroboard_xe}</h3>
 
+<table cellspacing="0" class="tableType4">
+<col width="200" />
+<col />
+<caption>{$lang->env_information}</caption>
+<!--@if($current_version < $released_version)-->
+<tr>
+    <th scope="row">{$lang->released_version}</th>
+    <td>
+        {$released_version}
+        (<a href="{$download_link}" onclick="window.open(this.href);return false;">download</a>)
+        <p>{$lang->about_download_link}</p>
+    </td>
+</tr>
+<!--@end-->
+<tr>
+    <th scope="row">{$lang->current_version}</th>
+    <td>
+        {$current_version}
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->current_path}</th>
+    <td>{$installed_path}/</td>
+</tr>
+</table>
+
 <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
 <table cellspacing="0" class="tableType4">
-<col width="250" />
+<col width="200" />
 <col />
 <caption>{$lang->env_setup}</caption>
 <tr>
@@ -19,12 +45,13 @@
                 <!--@end-->
             <!--@end-->
         </select>
+        <p>{$lang->about_lang_env}</p>
     </td>
 </tr>
 <tr>
     <th scope="row">{$lang->use_rewrite}</th>
     <td>
-        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules())&&$use_rewrite=='Y')-->checked="checked"<!--@end--> />
+        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
         <p>{$lang->about_rewrite}</p>
     </td>
 </tr>

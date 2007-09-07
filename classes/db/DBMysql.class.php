@@ -80,7 +80,7 @@
 
             // 버전 확인후 4.1 이하면 오류 표시
             if(mysql_get_server_info($this->fd)<"4.1") {
-                $this->setError(-1, "zeroboard xe can not install under mysql 4.1. Current mysql version is ".mysql_get_server_info());
+                $this->setError(-1, "Zeroboard XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
 
@@ -180,7 +180,7 @@
             $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
             $this->_query($query);
             $sequence = mysql_insert_id();
-            if($seqnece % 10000 == 0) {
+            if($sequence % 10000 == 0) {
               $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
               $this->_query($query);
             }

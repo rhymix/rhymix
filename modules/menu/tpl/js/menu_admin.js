@@ -76,6 +76,9 @@ function hideCategoryInfo() {
 
 function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('menu_zone_info');
+
+    obj.style.marginTop = xScrollTop()+'px';
+
     var tpl = ret_obj['tpl'];
     xInnerHtml(obj, tpl);
     obj.style.display = 'block';

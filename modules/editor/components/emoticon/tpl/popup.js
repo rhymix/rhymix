@@ -1,9 +1,9 @@
 function insertEmoticon(obj) {
     if(typeof(opener)=='undefined') return;
 
-    var url = obj.src.replace(request_uri,'/');
-    var text = "<img src=\""+url+"\" border=\"0\" alt=\"emoticon\" />";
-
+    var url = obj.src.replace(request_uri,'');
+	var text = "<img editor_component=\"emoticon\" src=\""+url+"\" alt=\"emoticon\">";
+	
     opener.editorFocus(opener.editorPrevSrl);
 
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)

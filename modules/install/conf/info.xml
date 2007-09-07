@@ -4,7 +4,7 @@
     <title xml:lang="en">Manage installation</title>
     <title xml:lang="zh-CN">安装管理</title>
     <title xml:lang="jp">インストール管理</title>
-    <title xml:lang="es">Manajar Instalación</title>
+    <title xml:lang="es">Manajo de la Instalación</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
@@ -15,6 +15,6 @@
         <description xml:lang="en">Module for managing installation</description>
         <description xml:lang="zh-CN">安装管理模块。</description>
         <description xml:lang="jp">インストール管理モジュール</description>
-        <description xml:lang="es">Modulo para manejar la instalación</description>
+        <description xml:lang="es">Módulo para el manejo de la instalación</description>
     </author>
 </module>

@@ -544,6 +544,43 @@
         }
 
         /**
+         * @brief 회원 가입시 특정 항목들에 대한 값 체크
+         **/
+        function procMemberCheckValue() {
+            $name = Context::get('name');
+            $value = Context::get('value');
+            if(!$value) return;
+
+            $oMemberModel = &getModel('member');
+
+            // 로그인 여부 체크
+            $logged_info = Context::get('logged_info');
+
+
+            switch($name) {
+                case 'user_id' :
+                        // 금지 아이디 검사
+                        if($oMemberModel->isDeniedID($value)) return new Object(0,'denied_user_id');
+
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByUserID($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_user_id');
+                    break;
+                case 'nick_name' :
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByNickName($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
+                        
+                    break;
+                case 'email_address' :
+                        // 중복 검사
+                        $member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
+                        if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_email_address');
+                    break;
+            }
+        }
+
+        /**
          * @brief 회원 가입
          **/
         function procMemberInsert() {
@@ -1226,9 +1263,20 @@
                 // 서명이 없으면 빈 내용을 등록
                 if(!$signature) {
                     $GLOBALS['_transSignatureList'][$member_srl] = null;
-
+					
                 // 서명이 있으면 글의 내용 다음에 추가
                 } else {
+					$oContext = &Context::getInstance();
+					
+					$signature = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($oContext, '_transEditorComponent'), $signature);
+					$signature = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($oContext, '_transEditorComponent'), $signature);
+
+					// <br> 코드 변환
+					$signature = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $signature);
+		
+					// <img ...> 코드를 <img ... /> 코드로 변환
+					$signature = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $signature);
+				
                     $document = $matches[0].'<div class="member_signature">'.$signature.'</div>';
                     $GLOBALS['_transSignatureList'][$member_srl] = $document;
                 }

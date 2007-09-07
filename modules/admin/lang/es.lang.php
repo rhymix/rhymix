@@ -5,30 +5,37 @@
      * @sumario  Paquete del idioma español (sólo los básicos)
      **/
 
-    $lang->newest_news = "Nuevas Noticias";
+    $lang->newest_news = "Noticias recientes";
     
     $lang->env_setup = "Configuración";
-	
-    $lang->item_module = "Lista de Módulo";
-    $lang->item_addon  = "Lista de Addon";
-    $lang->item_widget = "Lista de Widget";
-    $lang->item_layout = "Liasta de Diseño";
 
-    $lang->module_name = "Nombre de Módulo";
+    $lang->env_information = "환경 정보";
+    $lang->current_version = "설치된 버전";
+    $lang->current_path = "설치된 경로";
+    $lang->released_version = "최신 버전";
+    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+	
+    $lang->item_module = "Lista de Módulos";
+    $lang->item_addon  = "Lista de Addons";
+    $lang->item_widget = "Lista de Widgets";
+    $lang->item_layout = "Liasta de Diseños";
+
+    $lang->module_name = "Nombre del Módulo";
     $lang->addon_name = "Nombre de Addon";
     $lang->version = "Versión";
     $lang->author = "Autor";
-    $lang->table_count = "Número de Tabla";
+    $lang->table_count = "Número de los tableros";
     $lang->installed_path = "Ruta de instalación";
 
     $lang->cmd_shortcut_management = "Editar el Menú";
 
-    $lang->msg_is_not_administrator = 'Sólo administrador puede entrar.';
-    $lang->msg_manage_module_cannot_delete = 'No se puede eliminar acceso directo de Módulo, Addon, Diseño y Widget.';
-    $lang->msg_default_act_is_null = 'No se puede registrar acceso directo por no estar determinado la acción del administrador por defecto.';
+    $lang->msg_is_not_administrator = 'Sólo se permite el ingreso del administrador.';
+    $lang->msg_manage_module_cannot_delete = 'No se puede eliminar acceso directo del Módulo, Addon, Diseño y Widget.';
+    $lang->msg_default_act_is_null = 'No se puede registrar acceso directo por no estar determinada la acción del administrador predefinido.';
 	
     $lang->welcome_to_zeroboard_xe = 'Esta es la página del Administrador de Zeroboard XE';
     $lang->about_admin_page = "La página del Administrador aún está en desarrollo.";
+    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
 
     $lang->zeroboard_xe_user_links = 'Enlaces para los usuarios ';
     $lang->zeroboard_xe_developer_links = 'Enlace para los desarrolladores';
@@ -61,7 +68,7 @@
         'dispFileAdminList' => 'Manejo de archivos',
         'dispPollAdminList' => 'Manejo de recomendaciones',
         'dispSpamfilterAdminConfig' => 'Manejo Filtro de Spam',
-        'dispCounterAdminIndex' => 'Manejo de contador',
+        'dispCounterAdminIndex' => 'Manejo del contador',
 
     );
 

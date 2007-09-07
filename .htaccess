@@ -49,3 +49,6 @@ RewriteRule ^([a-zA-Z0-9_]+)/writer/(.*)$ ./index.php?mid=$1&search_target=nick_
 
 # module link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
+
+# css/img/js/htc등의 경로 처리
+RewriteRule ^(.+)/common/js/iePngFix.htc ./common/js/iePngFix.htc [L]

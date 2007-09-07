@@ -135,7 +135,7 @@
         function getComponentObject($component, $upload_target_srl = 0) {
             if(!$this->loaded_component_list[$component][$upload_target_srl]) {
                 // 해당 컴포넌트의 객체를 생성해서 실행
-                $class_path = sprintf('%s/components/%s/', $this->module_path, $component);
+                $class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
                 $class_file = sprintf('%s%s.class.php', $class_path, $component);
                 if(!file_exists($class_file)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
@@ -170,9 +170,10 @@
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
                 if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
-                if(!$component->component_name) continue;
-
                 $component_name = $component->component_name;
+                if(!$component_name) continue;
+
+                if(!in_array($component_name, $downloaded_list)) continue;
 
                 unset($xml_info);
                 $xml_info = $this->getComponentXmlInfo($component_name);

@@ -264,7 +264,7 @@
                         @imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
-                        @imagepng($thumb, $target_file, 100);
+                        @imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :

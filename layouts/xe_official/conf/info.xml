@@ -53,7 +53,7 @@
             <description xml:lang="jp">希望する色を選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
-            <description xml:lang="es">Seleccione set de colores que tu deseas.</description>
+            <description xml:lang="es">Seleccione set de colores que desea.</description>
             <options name="default">
                 <title xml:lang="ko">기본</title>
                 <title xml:lang="jp">デフォルト</title>
@@ -85,11 +85,11 @@
             <title xml:lang="zh-CN">LOGO图片</title>
             <title xml:lang="en">Logo image</title>
             <title xml:lang="es">Imagen del logotipo</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 100px인 투명이미지가 가장 어울립니다)</description>
-            <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が100pxである透明イメージが最も合います。)</description>
-            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为100px的透明图片为适。)</description>
-            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 100px is recommended.)</description>
-            <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 100px.</description>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
+            <description xml:lang="jp">レイアウトの上端に表示されるロゴイメージを入力してください。 (縦幅が23pxである透明イメージが最も合います。)</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
+            <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
@@ -101,19 +101,19 @@
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
             <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
-			<description xml:lang="es">Ingresar el URL de la página web al pulsar el logotipo</description>
+			<description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
              </var>
         <var name="background_image" type="image">
             <title xml:lang="ko">배경 이미지</title>
             <title xml:lang="jp">背景イメージ</title>
             <title xml:lang="zh-CN">背景图片</title>
             <title xml:lang="en">Background Image</title>
-			<title xml:lang="es">Imagen de Fondo</title>
+			<title xml:lang="es">Imagen de fondo</title>
             <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="en">Please input if you want to use background image.</description>
-			<description xml:lang="es">Ingresar imagen de fondo si deseas usar.</description>
+			<description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
         </var>
     </extra_vars>
     <menus>

@@ -6,6 +6,7 @@
 
 // iframe의 id prefix
 var iframe_id = 'editor_iframe_';
+var textarea_id = 'editor_textarea_';
 
 // upload_target_srl에 대한 form문을 객체로 보관함 
 var editor_form_list = new Array();
@@ -16,6 +17,12 @@ var editor_mode = new Array();
 // upload_target_srl값에 해당하는 iframe의 object를 return
 function editorGetIFrame(upload_target_srl) {
     var obj_id = iframe_id+upload_target_srl;
+    return xGetElementById(obj_id);
+}
+
+// upload_target_srl값에 해당하는 textarea object를 return
+function editorGetTextArea(upload_target_srl) {
+    var obj_id = textarea_id+upload_target_srl;
     return xGetElementById(obj_id);
 }
 
@@ -61,6 +68,7 @@ function editorStart(upload_target_srl, resizable, editor_height) {
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
+		'<base href="'+request_uri+'" />'+
         '<link rel="stylesheet" href="'+request_uri+'/common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+request_uri+editor_path+'/css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
@@ -182,13 +190,14 @@ function editorGetContent(upload_target_srl) {
 
     var html = null;
     if(editor_mode[upload_target_srl]=='html') {
+        var textarea_obj = editorGetTextArea(upload_target_srl);
+        var html = textarea_obj.value;
         var contentDocument = iframe_obj.contentWindow.document;
-        var html = contentDocument.body.innerHTML;
-        html = html.replace(/&amp;/ig, '&').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>');
-    } else {
-        html = xInnerHtml(iframe_obj.contentWindow.document.body);
+        contentDocument.body.innerHTML = html;
     }
-    if(html) html = html.replace(/^<br>$/i,'');
+
+    html = xInnerHtml(iframe_obj.contentWindow.document.body);
+    if(html) html = html.replace(/^<br([^>]*)>$/i,'');
     return html;
 }
 
@@ -539,28 +548,36 @@ function editorChangeMode(obj, upload_target_srl) {
     var iframe_obj = editorGetIFrame(upload_target_srl);
     if(!iframe_obj) return;
 
+    var textarea_obj = editorGetTextArea(upload_target_srl);
+    xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
+    xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
+
     var contentDocument = iframe_obj.contentWindow.document;
 
     // html 편집 사용시
     if(obj.checked) {
-        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "none";
-        
         var html = contentDocument.body.innerHTML;
-        html = html.replace(/&/ig, '&amp;').replace(/</ig,'&lt;').replace(/>/ig,'&gt;');
-        contentDocument.body.innerHTML = html;
+        html = html.replace(/<br>/ig,"<br />\n");
+        html = html.replace(/<br \/>\n\n/ig,"<br />\n");
+
+        textarea_obj.value = html;
+
+        iframe_obj.parentNode.style.display = "none";
+        textarea_obj.style.display = "block";
+        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "none";
 
         editor_mode[upload_target_srl] = 'html';
 
     // 위지윅 모드 사용시
     } else {
-        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "block";
-
-        var html = contentDocument.body.innerHTML;
-        html = html.replace(/&amp;/ig, '&').replace(/&lt;/ig,'<').replace(/&gt;/ig,'>');
+        var html = textarea_obj.value;
         contentDocument.body.innerHTML = html;
-
+        iframe_obj.parentNode.style.display = "block";
+        textarea_obj.style.display = "none";
+        xGetElementById('xeEditorOption_'+upload_target_srl).style.display = "block";
         editor_mode[upload_target_srl] = null;
     }
+
 }
 
 /**

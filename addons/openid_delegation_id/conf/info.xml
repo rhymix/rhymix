@@ -24,7 +24,7 @@
             Just be sure to set the values related with openid provider before using.
         </description>
         <description xml:lang="es">
-            Utliza su propio dominio para usar como OpenID. 
+            Utlizando su propio dominio puede usar como OpenID. 
             Debe utilizar luego de ingresar los valores relacionado con openid provider a través de la configuracion. 
         </description>
         <description xml:lang="jp">
@@ -41,7 +41,7 @@
             <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.server 值。</description>
             <description xml:lang="en">Please input your openid.server value.</description>
-            <description xml:lang="es">Ingrese el valor del Servidor de OpenID.</description>
+            <description xml:lang="es">Ingrese el valor del openid.server.</description>
             <description xml:lang="jp">openid.server の値を入力してください。</description>
         </var>
         <var name="delegate">
@@ -53,7 +53,7 @@
             <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.delegate 值。</description>
             <description xml:lang="en">Please input your openid.delegate value.</description>
-            <description xml:lang="en">Ingresar el valor del delegado de OpenID</description>
+            <description xml:lang="en">Ingresar el valor del openid.delegate</description>
             <description xml:lang="jp">openid.delegate の値を入力してください。</description>
         </var>
         <var name="xrds">

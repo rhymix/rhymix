@@ -1,37 +1,37 @@
 <?php
     /**
-     * @file   modules/document/lang/es.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  Paquete lingual de módulo documento
+     * @archivo   modules/document/lang/es.lang.php
+     * @autor zero <zero@nzeo.com>
+     * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
-    $lang->cmd_delete_checked_document = 'Eliminar selección';
+    $lang->cmd_delete_checked_document = 'Eliminar lo seleccionado';
 
-    $lang->msg_cart_is_null = 'Por favor selecciona documento para eliminar';
-    $lang->msg_category_not_moved = 'No puede mover';
-    $lang->msg_is_secret = 'es secreto';
-    $lang->msg_checked_document_is_deleted = 'Eliminado %d documentos';
+    $lang->msg_cart_is_null = 'Selecciona el documento que desea eliminar';
+    $lang->msg_category_not_moved = 'No puede se movido';
+    $lang->msg_is_secret = 'Es un documento secreto';
+    $lang->msg_checked_document_is_deleted = 'Total de %d documentos han sido eliminados';
 
-    // Artículo de busqueda en la pantalla de administración
+    // Objetivo de búsqueda en la página del administrador
     $lang->search_target_list = array(
         'title' => 'Título',
         'content' => 'Contenido',
         'user_id' => 'ID',
-        'member_srl' => 'Numero de miembro',
-        'user_name' => 'Nombre de usuario',
+        'member_srl' => 'Número del usuario',
+        'user_name' => 'Nombre del usuario',
         'nick_name' => 'Apodo',
         'email_address' => 'Correo Electrónico',
-        'homepage' => 'Pagina de web',
-        'is_notice' => 'Noticia',
+        'homepage' => 'Página web',
+        'is_notice' => 'Aviso',
         'is_secret' => 'Secreto',
         'tags' => 'Etiqueta',
-        'readed_count' => 'Leido',
-        'voted_count' => 'Votado',
-        'comment_count ' => 'Commentarios',
-        'trackback_count ' => 'Trackback',
-        'uploaded_count ' => 'Subido',
-        'regdate' => 'Registrado',
-        'last_update' => 'Ultimo actualizado',
+        'readed_count' => 'Número de leídos (sobre)',
+        'voted_count' => 'Número de recomnedados (sobre)',
+        'comment_count ' => 'Número de comentarios (sobre)',
+        'trackback_count ' => 'Número de Trackback (sobre)',
+        'uploaded_count ' => 'Número de archivos adjuntos (sobre)',
+        'regdate' => 'Día del registro',
+        'last_update' => 'Día de la última actualización',
         'ipaddress' => 'Dirección IP',
     );
 ?>

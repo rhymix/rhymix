@@ -9,6 +9,12 @@
 
     $lang->env_setup = "환경 설정";
 
+    $lang->env_information = "환경 정보";
+    $lang->current_version = "설치된 버전";
+    $lang->current_path = "설치된 경로";
+    $lang->released_version = "최신 버전";
+    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+
     $lang->item_module = "모듈 목록";
     $lang->item_addon  = "애드온 목록";
     $lang->item_widget = "위젯 목록";
@@ -29,6 +35,7 @@
 
     $lang->welcome_to_zeroboard_xe = '제로보드XE 관리자 페이지입니다';
     $lang->about_admin_page = "관리자 페이지는 아직 미완성입니다.\n클로즈 베타동안 좋은 의견 받아서 꼭 필요한 컨텐츠를 채우도록 하겠습니다.";
+    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
 
     $lang->zeroboard_xe_user_links = '사용자를 위한 링크';
     $lang->zeroboard_xe_developer_links = '개발자를 위한 링크';

@@ -15,7 +15,7 @@
 	<name xml:lang="fr">Zero</name>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
-    <description xml:lang="es">Módulo para agrear Addon, como también el manejo de ellas.</description>
+    <description xml:lang="es">Este Módulo es para agregar Addons, como también el manejo de ellos.</description>
     <description xml:lang="zh-CN">登录插件或设置启用/禁用插件的管理模块。</description>
     <description xml:lang="jp">アドオンの「登録、使用、未使用」などを設定するための管理モジュールです。</description>
 	<description xml:lang="fr">Ce module est pour les Additions de maintien qui peuvent basculer des états d'utilisation et de désuétude. </description>

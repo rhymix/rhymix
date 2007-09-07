@@ -4,7 +4,7 @@
   <title xml:lang="zh-CN">积分插件</title>
   <title xml:lang="jp">ポイントシステム</title>
   <title xml:lang="en">Addon for activating point</title>
-  <title xml:lang="es">Addon para la activación de los puntos</title>
+  <title xml:lang="es">Addon para activar los puntos</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
     <name xml:lang="ko">제로</name>
     <name xml:lang="zh-CN">Zero</name>
@@ -24,7 +24,7 @@
         This addon records point on writing/deleting/adding comments/deleting comments/uploading/downloading following to point system module.
     </description>
 	 <description xml:lang="es">
-        Este addon registra los puntos de acuerdo a la acción de escribir/borrar/agregar comentarios/borrar comentarios/subir_archivo/bajar_archivo, siguiendo el sistema de módulo de puntos.
+        Este addon registra los puntos de acuerdo a la acción de escribir/borrar/agregar comentarios/borrar comentarios/subir_archivo/bajar_archivo,etc., siguiendo el módulo de sistema de puntos.
     </description>
   </author>
 </addon>

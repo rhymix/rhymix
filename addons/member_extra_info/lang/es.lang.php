@@ -1,3 +1,3 @@
 <?php
-    $lang->alert_new_message_arrived = 'Te ha llegado un nuevo mensaje. Deseas leer ahora?';
+    $lang->alert_new_message_arrived = 'Ha llegado un nuevo mensaje. ¢¯Desea leer ahora?';
 ?>

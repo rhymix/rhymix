@@ -91,7 +91,7 @@
          * @brief body 내용
          **/
         function _tagBody($parser, $body) {
-            if(!trim($body)) return;
+            //if(!trim($body)) return;
             $this->output[count($this->output)-1]->body .= $body;
         }
 

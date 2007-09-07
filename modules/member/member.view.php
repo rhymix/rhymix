@@ -46,6 +46,9 @@
             $oMemberModel = &getModel('member');
             $logged_info = Context::get('logged_info');
 
+            // 비회원일 경우 정보 열람 중지
+            if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
+
             $member_srl = Context::get('member_srl');
             if(!$member_srl && Context::get('is_logged')) {
                 $member_srl = $logged_info->member_srl;

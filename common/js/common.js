@@ -200,9 +200,11 @@ function resizeImageContents() {
         obj.source_height = orig_img.height;
 
         if(obj_width >= parent_width) {
-            var per = parent_width/obj_width;
-            xWidth(obj, xWidth(parent)-1);
-            xHeight(obj, xHeight(obj)*per);
+			var new_w = xWidth(parent)-1;
+			var new_h = Math.round(xHeight(obj)*new_w/obj_width);
+			
+            xWidth(obj, new_w);
+            xHeight(obj, new_h);
         }
 
         xAddEventListener(obj,"click", showOriginalImage);
