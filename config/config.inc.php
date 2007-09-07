@@ -43,7 +43,7 @@
      * 0 이상 : 단위를 초로 하여 지정된 초 이상의 실행시간이 걸린 쿼리를 로그로 남김
      * 로그파일은 ./files/_db_slow_query.php 파일로 저장됨
      **/
-    define('__LOG_SLOW_QUERY__', 6);
+    define('__LOG_SLOW_QUERY__', 0);
 
     /**
      * @brief ob_gzhandler를 이용한 압축 기능을 강제로 사용하거나 끄는 옵션
