@@ -13,7 +13,7 @@
     $lang->current_version = "安装版本";
     $lang->current_path = "安装路径";
     $lang->released_version = "最新版本";
-    $lang->about_download_link = "官方网站已发布新版本。请点击download链接下在最新版本。";
+    $lang->about_download_link = "官方网站已发布新版本。请点击download链接下载最新版本。";
 
     $lang->item_module = "模块目录";
     $lang->item_addon  = "插件目录";
