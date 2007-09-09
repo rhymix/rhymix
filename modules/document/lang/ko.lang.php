@@ -5,6 +5,7 @@
      * @brief  문서(document) 모듈의 기본 언어팩
      **/
 
+	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = '선택항목 삭제';
 
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요';

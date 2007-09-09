@@ -58,7 +58,9 @@
 
 <!-- 버튼 -->
 <div class="fr gap1">
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+	<a href="javascript:doCheckAll()" class="button"><span>{$lang->cmd_select_all}</span></a>
+	<a href="javascript:doCheckAll(true)" class="button"><span>{$lang->cmd_toggle_checked_comment}</span></a>
+	<span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
 </div>
 
 </form>
