@@ -5,6 +5,7 @@
      * @brief  Document module's basic language pack
      **/
 
+	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = 'Delete selected';
 
     $lang->msg_cart_is_null = 'Select the articles you wish to delete';
