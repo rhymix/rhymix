@@ -47,7 +47,10 @@ function completeMemberCheckValue(ret_obj, response_tags, e) {
     if(ret_obj['message']=='success') {
         var dummy_id = 'dummy_check_'+name;
         var dummy = xGetElementById(dummy_id);
-        if(dummy) xInnerHtml(dummy,'');
+        if(dummy) {
+            xInnerHtml(dummy,'');
+            dummy.style.display = 'none';
+        }
         return;
     }
 
@@ -59,17 +62,17 @@ function completeMemberCheckValue(ret_obj, response_tags, e) {
         dummy.style.display = "none";
         dummy.style.clear = 'both';
         dummy.style.marginTop = '10px';
-        obj.parentNode.insertBefore(dummy, obj.nextChild);
+        obj.parentNode.insertBefore(dummy, obj.lastChild);
     }
 
     xInnerHtml(dummy, ret_obj['message']);
 
     dummy.style.display = "block";
 
-    obj.focus();
+    //obj.focus();
 
     // 3초 정도 후에 정리
-    setTimeout(function() { removeMemberCheckValueOutput(dummy, obj); }, 3000);
+    //setTimeout(function() { removeMemberCheckValueOutput(dummy, obj); }, 3000);
 }
 
 // 결과 메세지를 정리하는 함수
