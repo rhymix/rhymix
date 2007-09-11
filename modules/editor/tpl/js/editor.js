@@ -357,9 +357,21 @@ function editorKeyPress(evt) {
     if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && editor_mode[editor_sequence]!='html') {
         var iframe_obj = editorGetIFrame(editor_sequence);
         if(!iframe_obj) return;
+
         var contentDocument = iframe_obj.contentWindow.document;
+
         var obj = contentDocument.selection.createRange();
-        obj.pasteHTML("<br />\n");
+
+        var pTag = obj.parentElement().tagName.toLowerCase();
+
+        switch(pTag) {
+            case 'li' :
+                    return;
+                break; 
+            default :
+                    obj.pasteHTML("<br />\n");
+                break;
+        }
         obj.select();
         evt.cancelBubble = true;
         evt.returnValue = false;
