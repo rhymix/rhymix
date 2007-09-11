@@ -90,6 +90,8 @@
 
                 // SWFUploader에 세팅할 업로드 설정 구함
                 $file_config = $oFileModel->getUploadConfig();
+                $file_config->attached_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
+                $file_config->allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
                 Context::set('file_config',$file_config);
 
                 // 업로드 가능 용량등에 대한 정보를 세팅
