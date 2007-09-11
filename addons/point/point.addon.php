@@ -38,7 +38,9 @@
 
         // 게시글 작성
         if(strpos($config->insert_document_act,$this->act)!==false) {
-            $document_srl = Context::get('document_srl');
+            if(!$this->toBool()) return;
+            $document_srl = $this->get('document_srl');
+
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
 
