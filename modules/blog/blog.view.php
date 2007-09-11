@@ -190,7 +190,7 @@
 
             // 지정된 글이 없다면 (신규) 새로운 번호를 만든다
             if(!$oDocument->isExists()) {
-                unset($document_srl);
+                $document_srl = getNextSequence();
                 Context::set('document_srl','');
             }
 

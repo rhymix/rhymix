@@ -181,8 +181,8 @@
             $oDocument->setDocument($document_srl);
 
             if(!$oDocument->isExists()) {
-                Context::set('document_srl','');
-                $document_srl = null;
+                $document_srl = getNextSequence();
+                Context::set('document_srl',$document_srl);
             }
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
