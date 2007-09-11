@@ -563,13 +563,19 @@ function editorEventCheck(evt) {
         case 'StrikeThrough' :
         case 'undo' :
         case 'redo' :
-        case 'justifyleft' :
-        case 'justifycenter' :
-        case 'justifyright' :
-        case 'indent' :
-        case 'outdent' :
-        case 'insertorderedlist' :
-        case 'insertunorderedlist' :
+        case 'JustifyLeft' :
+        case 'JustifyCenter' :
+        case 'JustifyRight' :
+        case 'JustifyFull' :
+        case 'Indent' :
+        case 'Outdent' :
+        case 'InsertOrderedList' :
+        case 'InsertUnorderedList' :
+		case 'SaveAs' :
+		case 'Copy' :
+		case 'Cut' :
+		case 'Paste' :
+        case 'RemoveFormat' :
                 editorDo(component_name, '', editor_sequence);
             break;
 
