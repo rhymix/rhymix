@@ -93,6 +93,8 @@
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $file_config = $this->getFileConfig();
+                $file_config->allowed_filesize .= 'M';
+                $file_config->allowed_attach_size.= 'M';
             }
             return $file_config;
         }
