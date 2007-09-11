@@ -3,7 +3,7 @@
 #login legend { display:block; width:0; height:0; overflow:hidden; font-size:0;}
 #login form { position:relative; border:1px solid #cacaca; padding:11px 11px 7px 11px; width:172px;}
 #login form .idpwWrap { overflow:hidden; clear:both; width:172px;}
-#login form .idpw { float:left;}
+#login form .idpw { float:left; width:110px; }
 #login form .idpw input { border:1px solid #c9c9c9; color:#282828; width:105px; background:#fbfbfb; padding:1px 5px; margin-bottom:2px; font:.9em Tahoma;}
 #login form .login { float:right;}
 #login form p.save { clear:both; padding:.3em 0;}
