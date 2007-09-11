@@ -80,6 +80,8 @@
                  * 이 때 여러가지 옵션을 지정하여 다른 에디터 코드를 받을 수 있다.
                  **/
                 $oEditorModel = &getModel('editor');  
+                $option->primary_key_name = 'document_srl';
+                $option->content_key_name = 'content';
                 $option->allow_fileupload = false; ///< 파일 업로드 기능을 제한
                 $option->enable_autosave = true; ///< 자동 저장 기능을 활성화
                 $option->enable_default_component = true; ///< 기본 에디터 컴포넌트의 활성화
@@ -157,6 +159,8 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'document_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = $this->grant->fileupload;
             $option->enable_autosave = true;
             $option->enable_default_component = true;
