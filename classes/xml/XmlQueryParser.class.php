@@ -214,6 +214,7 @@
                             if(strpos($v->var,".")===false) {
                                 if($v->default) $default_list[$v->var] = $v->default;
                                 if($v->filter) $filter_list[] = $v;
+                                if($v->notnull) $notnull_list[] = $v->var;
                                 if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
                                 else $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                             } else {

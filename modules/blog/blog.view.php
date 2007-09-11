@@ -97,7 +97,7 @@
                     Context::setBrowserTitle($oDocument->getTitleText());
 
                     // 댓글에디터 설정
-                    //if($this->grant->write_comment && $oDocument->allowComment() && !$oDocument->isLocked()) $this->setCommentEditor(0, 100);
+                    if($this->grant->write_comment && $oDocument->allowComment() && !$oDocument->isLocked()) $comment_editor[$oDocument->document_srl] = $this->getCommentEditor($oDocument->document_srl, 0, 100);
 
                     // 조회수 증가
                     $oDocument->updateReadedCount();
@@ -110,10 +110,8 @@
                 }
 
             }
-            Context::set('oDocument', $oDocument);
 
-            // 댓글
-            //$this->setCommentEditor(0, 100);
+            Context::set('oDocument', $oDocument);
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
             if($document_srl && !$page) {
@@ -152,6 +150,16 @@
             Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
+            // 문서 갯수만큼 comment editor 생성
+            if(count($output->data)) {
+                foreach($output->data as $obj) {
+                    $comment_editor[$obj->document_srl] = $this->getCommentEditor($obj->document_srl, 0, 100);
+                }
+            }
+
+            // 에디터 세팅
+            Context::set('comment_editor', $comment_editor);
+
             // 템플릿에서 사용할 검색옵션 세팅
             $count_search_option = count($this->search_option);
             for($i=0;$i<$count_search_option;$i++) {
@@ -186,8 +194,6 @@
                 Context::set('document_srl','');
             }
 
-            if(!$document_srl) $document_srl = getNextSequence();
-
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
 
@@ -196,6 +202,8 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'document_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = $this->grant->fileupload;
             $option->enable_autosave = true;
             $option->enable_default_component = true;
@@ -263,7 +271,7 @@
             Context::set('source_comment',$source_comment);
 
             // 댓글 에디터 세팅 
-            //$this->setCommentEditor(0,400);
+            Context::set('editor', $this->getCommentEditor($document_srl, 0, 400));
 
             $this->setTemplateFile('comment_form');
         }
@@ -299,7 +307,7 @@
             Context::set('comment', $comment);
 
             // 댓글 에디터 세팅 
-            //$this->setCommentEditor($comment_srl,400);
+            Context::set('editor', $this->getCommentEditor($document_srl, $comment_srl, 400));
 
             $this->setTemplateFile('comment_form');
         }
@@ -368,13 +376,11 @@
          * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
          * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
          **/
-        function setCommentEditor($comment_srl=0, $height = 100) {
-            return;
-            if(!$comment_srl) {
-                $comment_srl = getNextSequence();
-                Context::set('comment_srl', $comment_srl);
-            }
+        function getCommentEditor($editor_sequence, $comment_srl=0, $height = 100) {
             $oEditorModel = &getModel('editor');
+            $option->editor_sequence = $editor_sequence;
+            $option->primary_key_name = 'comment_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = $this->grant->comment_fileupload;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
@@ -382,7 +388,7 @@
             $option->resizable = true;
             $option->height = $height;
             $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
-            Context::set('comment_editor', $comment_editor);
+            return $comment_editor;
         }
 
     }

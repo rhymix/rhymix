@@ -3,7 +3,8 @@
 <!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-<input type="hidden" name="content" value="{htmlspecialchars($config->agreement)}" />
+<input type="hidden" name="temp_srl" value="" />
+<input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
 
 <table cellspacing="0" class="tableType2 gap1">
 <col width="150" />

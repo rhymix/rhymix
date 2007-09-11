@@ -40,7 +40,7 @@ function completeDeleteDocument(ret_obj) {
     var page = ret_obj['page'];
 
     var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('document_srl','');
-    if(page) url += url.setQuery('page',page);
+    if(page) url = url.setQuery('page',page);
 
     alert(message);
 
@@ -98,7 +98,7 @@ function completeDeleteComment(ret_obj) {
     var page = ret_obj['page'];
 
     var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-    if(page) url += url.setQuery('page',page);
+    if(page) url = url.setQuery('page',page);
 
     alert(message);
 

@@ -50,6 +50,19 @@ String.prototype.setQuery = function(key, val) {
 }
 
 /**
+ * @brief xSleep(micro time) 
+ **/
+function xSleep(sec) {
+    sec = sec / 1000;
+    var now = new Date();
+    var sleep = new Date();
+    while( sleep.getTime() - now.getTime() < sec) {
+        sleep = new Date();
+    }      
+}
+
+
+/**
  * @brief string prototype으로 trim 함수 추가
  **/
 String.prototype.trim = function() {

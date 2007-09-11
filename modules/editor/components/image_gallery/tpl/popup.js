@@ -39,9 +39,9 @@ function getSlideShow() {
 
     // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅 
     var fo = xGetElementById("fo");
-    var upload_target_srl = fo.upload_target_srl.value;
+    var editor_sequence = fo.editor_sequence.value;
 
-    var parent_list_obj = opener.xGetElementById("uploaded_file_list_"+upload_target_srl);
+    var parent_list_obj = opener.xGetElementById("uploaded_file_list_"+editor_sequence);
     if(parent_list_obj) {
 
         var list_obj = xGetElementById("image_list");

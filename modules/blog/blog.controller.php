@@ -105,9 +105,6 @@
             // comment 모듈의 controller 객체 생성
             $oCommentController = &getController('comment');
 
-            // 줄바꾸임나 태그제거등의 작업
-            $obj->content = nl2br(strip_tags($obj->content));
-
             /**
              * 존재하는 댓글인지를 확인하여 존재 하지 않는 댓글이라면 신규로 등록하기 위해서 comment_srl의 sequence값을 받는다
              **/

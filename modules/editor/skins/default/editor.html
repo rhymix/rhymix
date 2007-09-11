@@ -8,7 +8,7 @@
 <script type="text/javascript">//<![CDATA[
     var editor_path = "{$editor_path}";
     var auto_saved_msg = "{$lang->msg_auto_saved}";
-    xAddEventListener(window, 'load', function() { editorStart("{$upload_target_srl}", {$enable_resizable}, '{$editor_height}' ) } );
+    xAddEventListener(window, 'load', function() { editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", {$enable_resizable}, '{$editor_height}' ) } );
 //]]></script>
 
 <!-- 자동저장용 폼 -->
@@ -21,21 +21,21 @@
 <!-- 에디터 -->
 <div class="xeEditor">
 
-    <div id="xeEditorOption_{$upload_target_srl}">
+    <div id="xeEditorOption_{$editor_sequence}">
 
         <!--@if($enable_default_component)-->
         <!-- 기본 컴포넌트 출력 -->
         <div class="optionABC">
             <div class="optionA">
                 <div class="selectGroup">
-                    <select onchange="editorChangeFontName(this,'{$upload_target_srl}')" id="editor_font_{$upload_target_srl}">
+                    <select onchange="editorChangeFontName(this,'{$editor_sequence}')" id="editor_font_{$editor_sequence}">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
                         <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
                         <!--@end-->
                     </select>
 
-                    <select onchange="editorChangeFontSize(this,'{$upload_target_srl}')" id="editor_fontsize_{$upload_target_srl}">
+                    <select onchange="editorChangeFontSize(this,'{$editor_sequence}')" id="editor_fontsize_{$editor_sequence}">
                         <option value="" selected="selected">{$lang->edit->fontsize}</option>
                         <option value="1">8pt</option>
                         <option value="2">10pt</option>
@@ -46,7 +46,7 @@
                         <option value="7">36pt</option>
                     </select>
 
-                    <select onchange="editorChangeHeader(this,'{$upload_target_srl}')" id="editor_header_{$upload_target_srl}">
+                    <select onchange="editorChangeHeader(this,'{$editor_sequence}')" id="editor_header_{$editor_sequence}">
                         <option value="">{$lang->edit->header}</option>
                         <!--@foreach($lang->edit->header_list as $key=>$obj)-->
                         <option value="{$key}">{$obj}</option>
@@ -55,31 +55,31 @@
                 </div>
 
                 <div class="buttonGroup">
-                    <img src="./images/editor_btn_b.gif" width="23" height="63" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" id="component_{$upload_target_srl}_Bold" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_i.gif" width="23" height="63" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" id="component_{$upload_target_srl}_Italic" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_u.gif" width="23" height="63" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" id="component_{$upload_target_srl}_Underline" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_c.gif" width="23" height="63" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" id="component_{$upload_target_srl}_colorpicker_text" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_bg.gif" width="23" height="63" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" id="component_{$upload_target_srl}_colorpicker_bg" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_b.gif" width="23" height="63" title="{$lang->edit->help_bold}" alt="{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_i.gif" width="23" height="63" title="{$lang->edit->help_italic}" alt="{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_u.gif" width="23" height="63" title="{$lang->edit->help_underline}" alt="{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_c.gif" width="23" height="63" title="{$lang->edit->help_fontcolor}" alt="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_bg.gif" width="23" height="63" title="{$lang->edit->help_fontbgcolor}" alt="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
                 </div>
             </div>
 
             <div class="optionB">
                 <div class="buttonGroup">
-                    <img src="./images/editor_btn_al.gif" width="23" height="63" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" id="component_{$upload_target_srl}_justifyleft" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_ac.gif" width="23" height="63"  title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" id="component_{$upload_target_srl}_justifycenter" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_ar.gif" width="23" height="63" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}"  id="component_{$upload_target_srl}_justifyright"  onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_al.gif" width="23" height="63" title="{$lang->edit->help_align_left}" alt="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_justifyleft" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ac.gif" width="23" height="63"  title="{$lang->edit->help_align_center}" alt="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_justifycenter" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ar.gif" width="23" height="63" title="{$lang->edit->help_align_right}" alt="{$lang->edit->help_align_right}"  id="component_{$editor_sequence}_justifyright"  onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
                     <!--<img src="./images/editor_btn_aj.gif" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />-->
                 </div>
 
                 <!--
                 <div class="buttonGroup">
-                    <img src="./images/editor_btn_od.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}"  id="component_{$upload_target_srl}_outdent" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_id.gif" width="23" height="63" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" id="component_{$upload_target_srl}_indent" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_od.gif" title="{$lang->edit->help_remove_indent}" alt="{$lang->edit->help_remove_indent}"  id="component_{$editor_sequence}_outdent" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_id.gif" width="23" height="63" title="{$lang->edit->help_add_indent}" alt="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_indent" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
                 </div>
 
                 <div class="buttonGroup">
-                    <img src="./images/editor_btn_ol.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" id="component_{$upload_target_srl}_insertorderedlist" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
-                    <img src="./images/editor_btn_ul.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" id="component_{$upload_target_srl}_insertunorderedlist"  width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ol.gif" title="{$lang->edit->help_list_number}" alt="{$lang->edit->help_list_number}" id="component_{$editor_sequence}_insertorderedlist" width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <img src="./images/editor_btn_ul.gif" title="{$lang->edit->help_list_bullet}" alt="{$lang->edit->help_list_bullet}" id="component_{$editor_sequence}_insertunorderedlist"  width="23" height="63" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
                 </div>
 
                 <div class="buttonGroup">
@@ -102,10 +102,10 @@
         <!-- 확장 컴포넌트 출력 -->
         <div class="optionDE">
             <div class="optionE">
-                <div class="buttonGroup" id="editor_component_{$upload_target_srl}">
+                <div class="buttonGroup" id="editor_component_{$editor_sequence}">
                 <!--@foreach($component_list as $component_name => $component)-->
                     <!--@if(substr($component_name,0,11)!="colorpicker")-->
-                        <img src="../../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" id="component_{$upload_target_srl}_{$component_name}" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                        <img src="../../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" id="component_{$editor_sequence}_{$component_name}" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
                     <!--@end-->
                 <!--@end-->
                 </div>
@@ -115,50 +115,52 @@
     </div>
 
     <!--@if(!$_COOKIE['EditorInfo'])-->
-    <div id="editorInfo_{$upload_target_srl}" class="editorInfo" >
+    <!-- 에디터 안내 출력 -->
+    <div id="editorInfo_{$editor_sequence}" class="editorInfo" >
         {$lang->about_dblclick_in_editor}
-        <span id="for_ie_help_{$upload_target_srl}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
-        <img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo('{$upload_target_srl}'); return false;" />
+        <span id="for_ie_help_{$editor_sequence}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
+        <img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo('{$editor_sequence}'); return false;" />
     </div>
     <!--@end-->
 
+    <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
     <div class="editor_info">
         <div class="editor_option">
-            <input type="checkbox" id="use_html_{$upload_target_srl}" value="Y" onclick="editorChangeMode(this, '{$upload_target_srl}');" /> <label for="use_html_{$upload_target_srl}">HTML</label>
+            <input type="checkbox" id="use_html_{$editor_sequence}" value="Y" onclick="editorChangeMode(this, '{$editor_sequence}');" /> <label for="use_html_{$editor_sequence}">HTML</label>
         </div>
-        <div class="editor_autosaved_message" id="editor_autosaved_message_{$upload_target_srl}">&nbsp;</div>
+        <div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</div>
     </div>
 
-    <div class="editor_iframe_box"><iframe id="editor_iframe_{$upload_target_srl}" frameborder="0" width="100%" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
-    <textarea id="editor_textarea_{$upload_target_srl}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"></textarea>
+    <!-- 에디터 출력 -->
+    <div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" width="100%" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
+    <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"></textarea>
 
-    <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$upload_target_srl}"></div></div>
+    <!-- 에디터 크기 조절 bar -->
+    <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->
     <!--%import("../../tpl/js/uploader.js")-->
     <script type="text/javascript">//<![CDATA[
         var zbxe_session_name = "{session_name()}";
-        var uploader_setting = { "allowed_filesize" : {$file_config->allowed_filesize}, "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
-        editor_upload_init("{$upload_target_srl}");
+        var uploader_setting = { "allowed_filesize" : "{$file_config->allowed_filesize}", "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
+        editor_upload_init("{$editor_sequence}");
     //]]></script>
 
     <div class="fileAttach">
-        <input type="hidden" name="upload_target_srl" value="{$upload_target_srl}" />
-
-        <div class="preview" id="preview_uploaded_{$upload_target_srl}">
+        <div class="preview" id="preview_uploaded_{$editor_sequence}">
             <img src="./images/blank.gif" alt="preview" width="100" height="100" />
         </div>
 
         <!-- 파일 업로드 영역 -->
         <div class="fileListArea">
-            <select id="uploaded_file_list_{$upload_target_srl}" multiple="multiple" size="7" class="fileList" onclick="editor_preview(this, '{$upload_target_srl}');"></select>
-            <span class="file_attach_info" id="uploader_status_{$upload_target_srl}"></span>
+            <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="7" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
+            <span class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</span>
         </div>
 
-        <div class="fileUploadControl"><a href="#" onclick="editor_upload_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_remove_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_insert_file('{$upload_target_srl}');return false;" class="button"><span>{$lang->edit->link_file}</span></a></div>
+        <div class="fileUploadControl"><a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a></div>
+        <div class="fileUploadControl"><a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a></div>
+        <div class="fileUploadControl"><a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a></div>
 
         <div class="clear"></div>
     </div>

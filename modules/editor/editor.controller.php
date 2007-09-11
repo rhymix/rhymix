@@ -31,12 +31,8 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
 
-            // 필요한 데이터가 없으면 pass
-            if(!$args->document_srl || (!$args->title && !$args->content)) return new Object(0,'');
-
             // 저장
             $output = executeQuery('editor.insertSavedDoc', $args);
-
             $this->setMessage('msg_auto_saved');
         }
 

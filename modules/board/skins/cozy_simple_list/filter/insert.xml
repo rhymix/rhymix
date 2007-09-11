@@ -1,6 +1,5 @@
 <filter name="insert" module="board" act="procBoardInsertDocument" confirm_msg_code="confirm_submit">
   <form>
-    <node target="document_srl" required="true" />
     <node target="nick_name" required="true" />
     <node target="password" required="true" />
     <node target="email_address" maxlength="250" />

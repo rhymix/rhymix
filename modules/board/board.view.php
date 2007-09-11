@@ -180,9 +180,10 @@
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
             $oDocument->setDocument($document_srl);
 
-            if(!$oDocument->isExists()) Context::set('document_srl','');
-
-            if(!$document_srl) $document_srl = getNextSequence();
+            if(!$oDocument->isExists()) {
+                Context::set('document_srl','');
+                $document_srl = null;
+            }
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
@@ -192,6 +193,8 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'document_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = $this->grant->fileupload;
             $option->enable_autosave = true;
             $option->enable_default_component = true;
@@ -368,14 +371,13 @@
          * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
          * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
          **/
-        function setCommentEditor($comment_srl=0, $height = 100) {
-            if(!$comment_srl) {
-                $comment_srl = getNextSequence();
-                Context::set('comment_srl', $comment_srl);
-            }
+        function setCommentEditor($comment_srl = 0, $height = 100) {
+            Context::set('comment_srl', $comment_srl);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'comment_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = $this->grant->comment_fileupload;
             $option->enable_autosave = false;
             $option->enable_default_component = true;

@@ -21,12 +21,12 @@
             Context::addCssFile($this->module_path."tpl/css/editor.css");
 
             // 변수 정리
-            $upload_target_srl = Context::get('upload_target_srl');
+            $editor_sequence = Context::get('editor_sequence ');
             $component = Context::get('component');
 
             // component 객체를 받음
             $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($component, $upload_target_srl);
+            $oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence);
             if(!$oComponent->toBool()) {
                 Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
                 $this->setTemplatePath($this->module_path.'tpl');

@@ -22,7 +22,7 @@
         <param name="is_admin" target="is_admin" />
         <param name="description" target="description" />
         <param name="group_srl_list" target="group_srl_list" />
-        <param name="signature" target="content" />
+        <param name="signature" target="signature" />
     </parameter>
     <response callback_func="completeInsert">
         <tag name="error" />
