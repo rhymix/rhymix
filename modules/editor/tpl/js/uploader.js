@@ -23,7 +23,7 @@ function editor_upload_init(editor_sequence) {
 }
 
 function editor_upload_get_target_srl(editor_sequence) {
-    return editor_rel_keys[editor_sequence]['primary'].value;
+    return editor_rel_keys[editor_sequence]["primary"].value;
 }
 
 function editor_upload_get_uploader_name(editor_sequence) {
@@ -172,9 +172,6 @@ function editor_display_uploaded_file(editor_sequence) {
     if(typeof(editor_sequence)=='undefined'||!editor_sequence) editor_sequence = _prev_editor_sequence;
     if(!editor_sequence) return;
 
-    // upload_target_srl이 없으면 무시
-    var upload_target_srl = editor_rel_keys[editor_sequence]['primary'].value;
-
     // 이미 등록된 전체 파일 목록을 구해옴
     var url = request_uri + "?act=procFileDelete&editor_sequence="+editor_sequence+"&mid="+current_url.getQuery('mid');
 
@@ -188,7 +185,7 @@ function editor_display_uploaded_file(editor_sequence) {
 // 업로드된 파일 목록 비움 (단순히 select 객체의 내용을 지우고 미리보기를 제거함)
 function editor_upload_clear_list(editor_sequence, upload_target_srl) {
     if(!upload_target_srl || upload_target_srl<1) return;
-    editor_rel_keys[editor_sequence]['primary'].value = upload_target_srl;
+    editor_rel_keys[editor_sequence]["primary"].value = upload_target_srl;
     
     var obj = xGetElementById('uploaded_file_list_'+editor_sequence);
     while(obj.options.length) {
@@ -267,7 +264,7 @@ function editor_remove_file(editor_sequence) {
     if(!iframe_obj) return;
 
     // upload_target_srl이 가상 번호일 경우 아무 동작 하지 않음
-    var upload_target_srl = editor_rel_keys[editor_sequence]['primary'].value;
+    var upload_target_srl = editor_rel_keys[editor_sequence]["primary"].value;
     if(upload_target_srl<1) return;
 
     for(var i=0;i<obj.options.length;i++) {
