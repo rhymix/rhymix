@@ -159,6 +159,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
         '<link rel="stylesheet" href="'+request_uri+editor_path+'/css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
         'body {font-size:9pt;margin:0px; height:'+editor_height+'px;}'+
+        'ol, ul { margin-left:40px; }'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
