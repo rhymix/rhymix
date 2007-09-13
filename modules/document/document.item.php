@@ -167,7 +167,7 @@
             $content = $this->get('content');
 
             // OL/LI 태그를 위한 치환 처리
-            $content = preg_replace('!<(ol|ul)>!is','<\\1 style="margin-left:40px;">',$content);
+            $content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$content);
             
             if($add_document_info) return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
 
