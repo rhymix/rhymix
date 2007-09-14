@@ -120,7 +120,7 @@
     $lang->regdate = '登录日期';
     $lang->last_update = '最后更新';
     $lang->signup_date = '注册日期';
-    $lang->last_login = '最近登陆';
+    $lang->last_login = '最近登录';
     $lang->first_page = '第一页';
     $lang->last_page = '最后一页';
     $lang->search_target = '搜索目标';
