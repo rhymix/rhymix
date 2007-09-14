@@ -17,7 +17,15 @@
          * @brief 팝업창에서 설문 작성 완료후 저장을 누를때 설문 등록
          **/
         function procInsert() {
-            $upload_target_srl = Context::get('upload_target_srl');
+            // 기본적으로 필요한 변수 설정
+            $editor_sequence = Context::get('editor_sequence');
+
+            // upload_target_srl 구함
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) {
+                $upload_target_srl = getNextSequence();
+                $this->setUploadInfo($editor_sequence, $upload_target_srl);
+            }
 
             $stop_year = Context::get('stop_year');
             $stop_month = Context::get('stop_month');
