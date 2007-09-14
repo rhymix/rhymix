@@ -12,7 +12,7 @@
      * 이 내용은 제로보드XE의 버전을 관리자 페이지에 표시하기 위한 용도이며
      * config.inc.php의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '0.1.3');
+    define('__ZBXE_VERSION__', '0.1.4');
 
     /**
      * @brief 디버깅 메세지 출력
@@ -43,7 +43,7 @@
      * 0 이상 : 단위를 초로 하여 지정된 초 이상의 실행시간이 걸린 쿼리를 로그로 남김
      * 로그파일은 ./files/_db_slow_query.php 파일로 저장됨
      **/
-    define('__LOG_SLOW_QUERY__', 1);
+    define('__LOG_SLOW_QUERY__', 0);
 
     /**
      * @brief ob_gzhandler를 이용한 압축 기능을 강제로 사용하거나 끄는 옵션
