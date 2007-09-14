@@ -79,5 +79,42 @@
 
             return $file_list;
         }
+
+        /**
+         * @brief 첨부파일에 대한 설정을 return (관리자/비관리자 자동 구분)
+         **/
+        function getUploadConfig() {
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') {
+                //$file_config->allowed_filesize = 1024;
+                //$file_config->allowed_attach_size = 1024;
+                $file_config->allowed_filesize = ini_get('upload_max_filesize');
+                $file_config->allowed_attach_size = ini_get('upload_max_filesize');
+                $file_config->allowed_filetypes = '*.*';
+            } else {
+                $file_config = $this->getFileConfig();
+            }
+            return $file_config;
+        }
+
+        /**
+         * @brief 파일 업로드를 위한 관리자/비관리자에 따른 안내문구 return
+         **/
+        function getUploadStatus($attached_size = 0) {
+            $file_config = $this->getUploadConfig();
+
+            // 업로드 상태 표시 작성
+            $upload_status = sprintf(
+                    '%s : %s/ %s<br /> %s : %s (%s : %s)',
+                    Context::getLang('allowed_attach_size'),
+                    FileHandler::filesize($attached_size),
+                    FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
+                    Context::getLang('allowed_filesize'),
+                    FileHandler::filesize($file_config->allowed_filesize*1024*1024),
+                    Context::getLang('allowed_filetypes'),
+                    $file_config->allowed_filetypes
+                );
+            return $upload_status;
+        }
     }
 ?>

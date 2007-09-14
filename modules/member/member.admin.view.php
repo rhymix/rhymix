@@ -73,6 +73,8 @@
 
             // 에디터를 받음
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'temp_srl';
+            $option->content_key_name = 'agreement';
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
@@ -112,6 +114,8 @@
             // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
             if($this->member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
+                $option->primary_key_name = 'member_srl';
+                $option->content_key_name = 'signature';
                 $option->allow_fileupload = false;
                 $option->enable_autosave = false;
                 $option->enable_default_component = true;

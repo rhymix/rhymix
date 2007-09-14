@@ -26,6 +26,10 @@
             // module info를 구하기 위해 module model 객체 생성 
             $oModuleModel = &getModel('module');
 
+            // 모듈 카테고리 목록을 구함
+            $module_category = $oModuleModel->getModuleCategories();
+            Context::set('module_category', $module_category); 
+
             // module_srl이 있다면 요청된 모듈의 정보를 미리 구해 놓음
             if($module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);

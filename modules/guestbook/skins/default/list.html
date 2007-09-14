@@ -18,8 +18,8 @@
 
                 <!--@if($document->isEditable())-->
                 <div class="fr">
-                    <a href="{getUrl('act','dispGuestbookModify')}" class="button"><span>{$lang->cmd_modify}</span></a> 
-                    <a href="{getUrl('act','dispGuestbookDelete')}" class="button"><span>{$lang->cmd_delete}</span></a> 
+                    <a href="{getUrl('act','dispGuestbookModify','document_srl',$document->document_srl,'page',$page)}" class="button"><span>{$lang->cmd_modify}</span></a> 
+                    <a href="{getUrl('act','dispGuestbookDelete','document_srl',$document->document_srl,'page',$page)}" class="button"><span>{$lang->cmd_delete}</span></a> 
                 </div>
                 <!--@end-->
 

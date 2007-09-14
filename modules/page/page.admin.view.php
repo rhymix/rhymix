@@ -166,6 +166,8 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'module_srl';
+            $option->content_key_name = 'content';
             $option->allow_fileupload = true;
             $option->enable_autosave = false;
             $option->enable_default_component = true;

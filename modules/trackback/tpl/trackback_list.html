@@ -1,5 +1,6 @@
 <!--%import("filter/delete_checked.xml")-->
 <!--%import("filter/insert_config.xml")-->
+<!--%import("js/trackback_admin.js")-->
 
 <h3>{$lang->trackback} <span class="gray">{$lang->cmd_management}</span></h3>
 
@@ -27,7 +28,7 @@
     Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
     <!-- 목록 -->
@@ -37,6 +38,7 @@
             <th scope="col">{$lang->no}</th>
             <th scope="col">
                 <div class="nowrap">
+				       <input type="checkbox" onclick="doCheckAll(); return false;" />
                     <select name="module_srl" class="mid_list" id="module_srl">
                         <option value="">{$lang->module}</option>
                         <!--@foreach($mid_list as $key => $val)-->
@@ -77,7 +79,9 @@
 
 <!-- 버튼 -->
 <div class="fr gap1">
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_trackback}" /></span>
+	<a href="javascript:doCheckAll()" class="button"><span>{$lang->cmd_select_all}</span></a>
+	<a href="javascript:doCheckAll(true)" class="button"><span>{$lang->cmd_toggle_checked_trackback}</span></a>
+	<span class="button"><input type="submit" value="{$lang->cmd_delete_checked_trackback}" /></span>
 </div>
 
 </form>

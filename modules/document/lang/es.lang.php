@@ -5,6 +5,7 @@
      * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
+	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = 'Eliminar lo seleccionado';
 
     $lang->msg_cart_is_null = 'Selecciona el documento que desea eliminar';

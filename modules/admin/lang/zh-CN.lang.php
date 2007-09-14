@@ -9,11 +9,11 @@
 
     $lang->env_setup = "环境设置";
 
-    $lang->env_information = "환경 정보";
-    $lang->current_version = "설치된 버전";
-    $lang->current_path = "설치된 경로";
-    $lang->released_version = "최신 버전";
-    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+    $lang->env_information = "环境信息";
+    $lang->current_version = "安装版本";
+    $lang->current_path = "安装路径";
+    $lang->released_version = "最新版本";
+    $lang->about_download_link = "官方网站已发布新版本。请点击download链接下载最新版本。";
 
     $lang->item_module = "模块目录";
     $lang->item_addon  = "插件目录";
@@ -35,7 +35,7 @@
 
     $lang->welcome_to_zeroboard_xe = 'zeroboard XE 管理页面';
     $lang->about_admin_page = "后台管理页面未完成";
-    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
+    $lang->about_lang_env = "可以设置显示给首次访问者的同一语言环境。修改语言环境后请点击 [保存] 按钮进行保存。";
 
     $lang->zeroboard_xe_user_links = '为用户提供的链接';
     $lang->zeroboard_xe_developer_links = '为开发人员提供的链接';

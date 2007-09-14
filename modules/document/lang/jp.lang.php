@@ -5,6 +5,7 @@
      * @brief  ドキュメント（document）モジュルの基本言語パッケージ
      **/
 
+	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = '選択項目削除';
 
     $lang->msg_cart_is_null = '削除する書き込みを選択してください。';

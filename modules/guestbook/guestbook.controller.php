@@ -114,7 +114,7 @@
 
             // 성공 메세지 등록
             $this->add('mid', Context::get('mid'));
-            $this->add('page', $output->get('page'));
+            $this->add('page', Context::get('page'));
             $this->setMessage('success_deleted');
         }
 

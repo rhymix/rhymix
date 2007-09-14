@@ -5,6 +5,7 @@
      * @brief  文章(document)模块语言包
      **/
 
+	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = '删除所选项目';
 
     $lang->msg_cart_is_null = '请选择要删除的文章。';

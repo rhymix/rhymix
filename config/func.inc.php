@@ -154,7 +154,9 @@
     function executeQueryArray($query_id, $args = null) {
         $oDB = &DB::getInstance();
         $output = $oDB->executeQuery($query_id, $args);
-        if(!is_array($output->data)) $output->data = array($output->data);
+        if(!is_array($output->data) && count($output->data) > 0){
+			$output->data = array($output->data);
+		}
         return $output;
     }
 

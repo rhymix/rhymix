@@ -47,11 +47,17 @@
             unset($obj->_saved_doc_content);
             unset($obj->_saved_doc_message);
 
-            // file의 Model객체 생성
-            $oFileModel = &getModel('file');
+            // 문서 번호가 이미 있다면 첨부파일을 확인
+            if($obj->document_srl) {
+                // file의 Model객체 생성
+                $oFileModel = &getModel('file');
 
-            // 첨부 파일의 갯수를 구함
-            $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
+                // 첨부 파일의 갯수를 구함
+                $obj->uploaded_count = $oFileModel->getFilesCount($obj->document_srl);
+            // 문서 번호가 없다면 문서 번호 할당
+            } else {
+                $obj->document_srl = getNextSequence();
+            }
 
             // 카테고리가 있나 검사하여 없는 카테고리면 0으로 세팅
             if($obj->category_srl) {

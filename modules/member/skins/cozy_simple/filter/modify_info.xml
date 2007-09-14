@@ -14,7 +14,7 @@
         <param name="allow_mailing" target="allow_mailing" />
         <param name="allow_message" target="allow_message" />
         <param name="email_address" target="email_address" />
-        <param name="signature" target="content" />
+        <param name="signature" target="signature" />
     </parameter>
     <response callback_func="completeModify">
         <tag name="error" />

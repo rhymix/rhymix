@@ -83,16 +83,15 @@
          **/
         function procMemberAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('skin','colorset','enable_openid','enable_join','limit_day','redirect_url','content','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
+            $args = Context::gets('skin','colorset','enable_openid','enable_join','limit_day','redirect_url','agreement','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
             if($args->enable_openid!='Y') $args->enable_openid= 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
+            if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
-            $args->agreement = $args->content;
-            unset($args->content);
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');

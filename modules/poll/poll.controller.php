@@ -164,6 +164,10 @@
 
             // 응답자 정보를 로그로 남김
             $log_args->poll_srl = $poll_srl;
+
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
+
             $log_args->member_srl = $member_srl;
             $log_args->ipaddress = $_SERVER['REMOTE_ADDR'];
             $output = executeQuery('poll.insertPollLog', $log_args);

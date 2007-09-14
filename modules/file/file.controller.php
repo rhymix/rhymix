@@ -13,16 +13,24 @@
         function init() {
         }
 
+
         /**
          * @brief 에디터에서 첨부파일 업로드 
          **/
         function procFileUpload() {
             // 기본적으로 필요한 변수 설정
-            $upload_target_srl = Context::get('upload_target_srl');
+            $editor_sequence = Context::get('editor_sequence');
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
-            if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
+            if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+
+            // upload_target_srl 구함
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) {
+                $upload_target_srl = getNextSequence();
+                $this->setUploadInfo($editor_sequence, $upload_target_srl);
+            }
 
             $file_info = Context::get('Filedata');
 
@@ -38,23 +46,27 @@
          **/
         function procFileDelete() {
             // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
-            $upload_target_srl = Context::get('upload_target_srl');
+            $editor_sequence = Context::get('editor_sequence');
             $file_srl = Context::get('file_srl');
 
             // 업로드 권한이 없거나 정보가 없을시 종료
-            if(!$_SESSION['upload_enable'][$upload_target_srl]) exit();
+            if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) return;
 
             if($file_srl) $output = $this->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
-            $this->printUploadedFileList($upload_target_srl);
+            $this->printUploadedFileList($editor_sequence, $upload_target_srl);
         }
 
         /**
          * @brief 업로드 가능하다고 세팅
          **/
-        function setUploadEnable($upload_target_srl) {
-            $_SESSION['upload_enable'][$upload_target_srl] = true;
+        function setUploadInfo($editor_sequence, $upload_target_srl=0) {
+            $_SESSION['upload_info'][$editor_sequence]->enabled = true;
+            $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
         }
 
         /**
@@ -118,6 +130,7 @@
             $output->add('file_srl', $args->file_srl);
             $output->add('file_size', $args->file_size);
             $output->add('source_filename', $args->source_filename);
+            $output->add('upload_target_srl', $upload_target_srl);
             return $output;
         }
 
@@ -134,6 +147,8 @@
          * @brief 첨부파일 삭제
          **/
         function deleteFile($file_srl) {
+            if(!$file_srl) return;
+
             // 파일 정보를 가져옴
             $args->file_srl = $file_srl;
             $output = executeQuery('file.getFile', $args);
@@ -149,7 +164,7 @@
             if(!$output->toBool()) return $output;
 
             // 삭제 성공하면 파일 삭제
-            unlink($uploaded_filename);
+            @unlink($uploaded_filename);
 
             return $output;
         }
@@ -211,6 +226,9 @@
                     $new_file = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
                 }
 
+                // 이전 대상이 동일하면 그냥 패스
+                if($old_file == $new_file) continue;
+
                 // 디렉토리 생성
                 FileHandler::makeDir($path);
 
@@ -230,24 +248,13 @@
         /**
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
-        function printUploadedFileList($upload_target_srl) {
+        function printUploadedFileList($editor_sequence, $upload_target_srl) {
             // file의 Model객체 생성
             $oFileModel = &getModel('file');
 
             // 첨부파일 목록을 구함
             $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
             $file_count = count($tmp_file_list);
-
-            $logged_info = Context::get('logged_info');
-            if($logged_info->is_admin == 'Y') {
-                //$file_config->allowed_filesize = 1024;
-                //$file_config->allowed_attach_size = 1024;
-                $file_config->allowed_filesize = ini_get('upload_max_filesize');
-                $file_config->allowed_attach_size = ini_get('upload_max_filesize');
-                $file_config->allowed_filetypes = '*.*';
-            } else {
-                $file_config = $oFileModel->getFileConfig();
-            }
 
             // 루프를 돌면서 $buff 변수에 java script 코드를 생성
             $buff = "";
@@ -260,21 +267,14 @@
             }
 
             // 업로드 상태 표시 작성
-            $upload_status = sprintf(
-                    '%s : %s/ %s<br /> %s : %s (%s : %s)',
-                    Context::getLang('allowed_attach_size'),
-                    FileHandler::filesize($attached_size),
-                    FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
-                    Context::getLang('allowed_filesize'),
-                    FileHandler::filesize($file_config->allowed_filesize*1024*1024),
-                    Context::getLang('allowed_filetypes'),
-                    $file_config->allowed_filetypes
-                );
+            $upload_status = $oFileModel->getUploadStatus($attached_size);
 
+            // 필요한 정보들 세팅
             Context::set('upload_target_srl', $upload_target_srl); 
             Context::set('file_list', $file_list);
             Context::set('upload_status', $upload_status);
 
+            // 업로드 현황을 브라우저로 알리기 위한 javascript 코드 출력하는 템플릿 호출
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_uploaded_file_list');
         }

@@ -56,17 +56,25 @@
                     $obj->homepage = $logged_info->homepage;
                 }
             }
+
+            // 댓글 번호가 있으면 첨부파일 조사
+            if($obj->comment_srl) {
+                // file의 Model객체 생성
+                $oFileModel = &getModel('file');
+
+                // 첨부 파일의 갯수를 구함
+                $obj->uploaded_count = $oFileModel->getFilesCount($obj->comment_srl);
+            // 댓글 번호가 없다면 신규 번호 할당
+            } else {
+                $obj->comment_srl = getNextSequence();
+            }
+
+            // 순서를 정함
             $obj->list_order = $obj->comment_srl * -1;
 
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // file의 Model객체 생성
-            $oFileModel = &getModel('file');
-
-            // 첨부 파일의 갯수를 구함
-            $obj->uploaded_count = $oFileModel->getFilesCount($obj->comment_srl);
 
             // 댓글을 입력
             $output = executeQuery('comment.insertComment', $obj);

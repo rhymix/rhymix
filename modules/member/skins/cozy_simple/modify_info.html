@@ -15,9 +15,8 @@
     <form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="act" value="" />
-    <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <input type="hidden" name="content" value="{htmlspecialchars($member_info->signature)}" />
+    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
 
     <table cellspacing="0" class="joinTable <!--@if($extend_form_list)-->typeA<!--@else-->typeB<!--@end-->" >

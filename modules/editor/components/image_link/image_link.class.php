@@ -7,15 +7,15 @@
 
     class image_link extends EditorHandler { 
 
-        // upload_target_srl 는 에디터에서 필수로 달고 다녀야 함....
-        var $upload_target_srl = 0;
+        // editor_sequence 는 에디터에서 필수로 달고 다녀야 함....
+        var $editor_sequence = 0;
         var $component_path = '';
 
         /**
-         * @brief upload_target_srl과 컴포넌트의 경로를 받음
+         * @brief editor_sequence과 컴포넌트의 경로를 받음
          **/
-        function image_link($upload_target_srl, $component_path) {
-            $this->upload_target_srl = $upload_target_srl;
+        function image_link($editor_sequence, $component_path) {
+            $this->editor_sequence = $editor_sequence;
             $this->component_path = $component_path;
         }
 

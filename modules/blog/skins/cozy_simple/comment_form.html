@@ -35,6 +35,7 @@
             <input type="hidden" name="document_srl" value="{$document_srl?$document_srl:$comment->document_srl}" />
             <input type="hidden" name="comment_srl" value="{$comment_srl}" />
             <input type="hidden" name="parent_srl" value="{$parent_srl}" />
+            <input type="hidden" name="content" value="{htmlspecialchars($comment->content)}" />
 
             <!--@if(!$is_logged)-->
             <div class="userNameAndPw">
@@ -53,7 +54,7 @@
             <!--@end-->
 
             <div class="commentForm">
-              <textarea class="inputTypeTextArea" name="content">{strip_tags($comment->content)}</textarea>
+              <div>{$editor?$editor:$comment_editor[$document_srl]}</div>
               <div class="tCenter"><input type="image" src="./images/common/btn_reply2.gif" accesskey="s" /></div>
             </div>
 

@@ -1,9 +1,9 @@
 <script type="text/javascript">
-    parent.editor_upload_clear_list("{$upload_target_srl}");
+    parent.editor_upload_clear_list("{$editor_sequence}","{$upload_target_srl}");
 
     <!--@foreach($file_list as $key => $file_info)-->
-    parent.editor_insert_uploaded_file({$upload_target_srl}, {$file_info->file_srl}, "{$file_info->source_filename}", "{$file_info->file_size}", "{FileHandler::filesize($file_info->file_size)}", "{$file_info->uploaded_filename}", "{$file_info->sid}");
+    parent.editor_insert_uploaded_file({$editor_sequence}, {$file_info->file_srl}, "{$file_info->source_filename}", "{$file_info->file_size}", "{FileHandler::filesize($file_info->file_size)}", "{$file_info->uploaded_filename}", "{$file_info->sid}");
     <!--@end-->
 
-    parent.xInnerHtml("uploader_status_{$upload_target_srl}", '{$upload_status}');
+    parent.xInnerHtml("uploader_status_{$editor_sequence}", '{$upload_status}');
 </script>

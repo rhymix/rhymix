@@ -23,11 +23,11 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
 
     // 부모창에 에디터가 있으면 에디터에 추가
     if(opener.editorGetIFrame) {
-        var iframe_obj = opener.editorGetIFrame(module_srl);
+        var iframe_obj = opener.editorGetIFrame(1);
         if(iframe_obj) {
-            opener.editorFocus(module_srl);
+            opener.editorFocus(1);
             opener.editorReplaceHTML(iframe_obj, widget_code);
-            opener.editorFocus(module_srl);
+            opener.editorFocus(1);
         }
     }
     window.close();
