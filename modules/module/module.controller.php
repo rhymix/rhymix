@@ -37,6 +37,8 @@
          * @brief 모듈 입력
          **/
         function insertModule($args) {
+            if(!$args->module_srl) $args->module_srl = 0;
+
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();
