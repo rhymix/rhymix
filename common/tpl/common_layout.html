@@ -9,16 +9,16 @@
     <!--@end--><!--@if($layout->author)--><meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
     <!--@end--><meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
-    <script type="text/javascript" src="./common/js/x.js"></script>
-    <script type="text/javascript" src="./common/js/common.js"></script>
-    <script type="text/javascript" src="./common/js/xml_handler.js"></script>
-    <script type="text/javascript" src="./common/js/xml_js_filter.js"></script>
-    <!--@foreach(Context::getJsFile() as $key => $js_file)--><script type="text/javascript" src="{$js_file}"></script>
+    <script type="text/javascript" src="./common/js/x.js?rnd={time()}"></script>
+    <script type="text/javascript" src="./common/js/common.js?rnd={time()}"></script>
+    <script type="text/javascript" src="./common/js/xml_handler.js?rnd={time()}"></script>
+    <script type="text/javascript" src="./common/js/xml_js_filter.js?rnd={time()}"></script>
+    <!--@foreach(Context::getJsFile() as $key => $js_file)--><script type="text/javascript" src="{$js_file}?rnd={time()}"></script>
     <!--@end--><!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
-    <!--@end--><link rel="stylesheet" href="./common/css/default.css" type="text/css" />
-    <link rel="stylesheet" href="./common/css/button.css" type="text/css" />
-    <!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}" type="text/css" />
-    <!--@end--><!--@if($module=='admin' || strpos($act,'Admin')>0)--><link rel="stylesheet" href="./modules/admin/tpl/css/admin.css" type="text/css" />
+    <!--@end--><link rel="stylesheet" href="./common/css/default.css?rnd={time()}" type="text/css" />
+    <link rel="stylesheet" href="./common/css/button.css?rnd={time()}" type="text/css" />
+    <!--@foreach(Context::getCssFile() as $key => $css_file)--><link rel="stylesheet" href="{$css_file}?rnd={time()}" type="text/css" />
+    <!--@end--><!--@if($module=='admin' || strpos($act,'Admin')>0)--><link rel="stylesheet" href="./modules/admin/tpl/css/admin.css?rnd={time()}" type="text/css" />
     <!--@end--><script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
