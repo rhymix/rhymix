@@ -152,24 +152,19 @@
                 }
             }
 
+            // 현재 action값에 따른 최고 관리 권한 부여
+            if($this->act && $xml_info->permission) {
+                $permission_target = $xml_info->permission->{$this->act};
+                if($permission_target && $grant->{$permission_target}) {
+                    foreach($grant as $key => $val) $grant->{$key} = true;
+                }
+            }
+
             // act값에 admin이 들어 있는데 관리자가 아닌 경우 오류 표시
             if(substr_count($this->act, 'Admin')) {
                 // 로그인 되어 있지 않다면 무조건 금지
                 if(!$is_logged) $this->setAct("dispMemberLoginForm");
-                else {
-
-                    $permitted = false;
-
-                    // 최고관리자이면 무조건 패스~
-                    if($grant->is_admin) $permitted = true;
-
-                    // 최고관리자가 아니더라도 module.xml에서 permission에 등록된 권한이 있으면 허용
-                    $permission_target = $xml_info->permission->{$this->act};
-                    if($permission_target && $grant->{$permission_target}) $permitted = true;
-                    
-                    if(!$permitted) return $this->stop('msg_not_permitted_act');
-
-                }
+                elseif(!$grant->is_admin) $this->stop('msg_not_permitted_act');
             }
 
             // 권한변수 설정
@@ -310,6 +305,7 @@
                         $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
                         $oModule = &getModule($forward->module, $forward->type, $kind);
                         $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+                        debugPrint($forward->act);
                         $oModule->setAct($forward->act);
                         $oModule->init();
                         $oModule->setModuleInfo($this->module_info, $xml_info);

@@ -32,6 +32,41 @@
             <title xml:lang="jp">管理</title>
         </grant>
     </grants>
+    <permissions>
+        <permission action="dispBlogContent" target="manager" />
+        <permission action="dispBlogWrite" target="manager" />
+        <permission action="dispBlogDelete" target="manager" />
+        <permission action="dispBlogReplyComment" target="manager" />
+        <permission action="dispBlogModifyComment" target="manager" />
+        <permission action="dispBlogDeleteComment" target="manager" />
+        <permission action="dispBlogDeleteTrackback" target="manager" />
+        <permission action="dispBlogMessage" target="manager" />
+
+        <permission action="procBlogInsertDocument" target="manager" />
+        <permission action="procBlogDeleteDocument" target="manager" />
+        <permission action="procBlogInsertComment" target="manager" />
+        <permission action="procBlogDeleteComment" target="manager" />
+        <permission action="procBlogDeleteTrackback" target="manager" />
+        <permission action="procBlogVerificationPassword" target="manager" />
+        <permission action="procBlogDeleteFile" target="manager" />
+        <permission action="procBlogUploadFile" target="manager" />
+        <permission action="procBlogDownloadFile" target="manager" />
+
+        <permission action="getBlogAdminCategoryTplInfo" target="manager" />
+
+        <permission action="dispBlogAdminContent" target="manager" />
+        <permission action="dispBlogAdminBlogInfo" target="manager" />
+        <permission action="dispBlogAdminInsertBlog" target="manager" />
+        <permission action="dispBlogAdminCategoryInfo" target="manager" />
+        <permission action="dispBlogAdminSkinInfo" target="manager" />
+
+        <permission action="procBlogAdminUpdateSkinInfo" target="manager" />
+        <permission action="procBlogAdminInsertBlog" target="manager" />
+        <permission action="procBlogAdminInsertCategory" target="manager" />
+        <permission action="procBlogAdminDeleteCategory" target="manager" />
+        <permission action="procBlogAdminMakeXmlFile" target="manager" />
+        <permission action="procBlogAdminMoveCategory" target="manager" />
+    </permissions>
     <actions>
         <action name="dispBlogContent" type="view" index="true" />
         <action name="dispBlogWrite" type="view" />
