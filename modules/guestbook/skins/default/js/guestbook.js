@@ -9,11 +9,10 @@ function completeDocumentInserted(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
     var mid = ret_obj['mid'];
-    var document_srl = ret_obj['document_srl'];
 
     alert(message);
 
-    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('page','').setQuery('comment_srl','');
     location.href = url;
 }
 
@@ -24,9 +23,7 @@ function completeDeleteDocument(ret_obj) {
     var mid = ret_obj['mid'];
     var page = ret_obj['page'];
 
-    var url = "./?mid="+mid;
-    if(page) url += "&page="+page;
-
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('comment_srl','');
     alert(message);
 
     location.href = url;
@@ -48,9 +45,7 @@ function completeInsertComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var comment_srl = ret_obj['comment_srl'];
 
-    var url = "./?mid="+mid+"&document_srl="+document_srl;
-    //if(comment_srl) url += "#comment_"+comment_srl;
-
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('comment_srl','');
     alert(message);
 
     location.href = url;
@@ -64,9 +59,7 @@ function completeDeleteComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-    var url = "./?mid="+mid+'&document_srl='+document_srl;
-    if(page) url += "&page="+page;
-
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('comment_srl','');
     alert(message);
 
     location.href = url;
