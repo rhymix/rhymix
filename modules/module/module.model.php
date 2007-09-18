@@ -301,6 +301,7 @@
                 if(!count($xml_obj->module)) return; ///< xml 내용중에 module 태그가 없다면 오류;;
 
                 $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
+                $permissions = $xml_obj->module->permissions->permission; ///< 권한 대행 (없는 경우도 있음)
                 $actions = $xml_obj->module->actions->action; ///< action list (필수)
 
                 $default_index = $admin_index = '';
@@ -320,6 +321,21 @@
 
                         $buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
                         $buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
+                    }
+                }
+
+                // 권한 허용 정리
+                if($permissions) {
+                    if(is_array($permissions)) $permission_list = $permissions;
+                    else $permission_list[] = $permissions;
+
+                    foreach($permission_list as $permission) {
+                        $action = $permission->attrs->action;
+                        $target = $permission->attrs->target;
+
+                        $info->permission->{$action} = $target;
+
+                        $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
                     }
                 }
 

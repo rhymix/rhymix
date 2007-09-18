@@ -59,17 +59,46 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
-        <td colspan="2" class="tRight">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-            <a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button"><span>{$lang->cmd_page_modify}</span></a>
-            <!--@if($module=="admin")-->
-            <a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
-            <!--@else-->
-            <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
-            <!--@end-->
-        </td>
-      </tr>
     </table>
+
+    <!-- 권한 출력 -->
+    <table cellspacing="0" class="tableType3 gap1">
+    <col width="130" />
+    <col width="*" />
+    <col width="80" />
+    <col width="80" />
+    <thead>
+    <tr>
+        <th scope="col">{$lang->grant}</th>
+        <th scope="col" colspan="3">{$lang->target}</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        <!--@foreach($grant_list as $key => $val)-->
+        <tr>
+            <th scope="row">{$val->title}</th>
+            <td class="left">
+                <!--@foreach($group_list as $k => $v)-->
+                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+                <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+                <!--@end-->
+            </td>
+            <td><a href="#" onclick="doSelectAll(this, '{$key}')" class="blue">{$lang->cmd_select_all}</a></td>
+            <td><a href="#" onclick="doUnSelectAll(this, '{$key}')" class="red">{$lang->cmd_unselect_all}</a></td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+
+    <div class="tRight gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        <a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button"><span>{$lang->cmd_page_modify}</span></a>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+        <!--@else-->
+        <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        <!--@end-->
+    </div>
 
 </form>

@@ -27,6 +27,15 @@
 
             // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
+
+            // 권한 그룹의 목록을 가져온다
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
+            Context::set('group_list', $group_list);
+
+            // module.xml에서 권한 관련 목록을 구해옴
+            $grant_list = $this->xml_info->grant;
+            Context::set('grant_list', $grant_list);
         }
 
         /**

@@ -92,15 +92,7 @@
                 $grant->is_admin = false;
             }
 
-            // act값에 admin이 들어 있는데 관리자가 아닌 경우 오류 표시
-            if(substr_count($this->act, 'Admin')) {
-                if(!$is_logged) {
-                    $this->setAct("dispMemberLoginForm");
-                } elseif(!$grant->is_admin) {
-                    return $this->stop('msg_not_permitted_act');
-                }
-            }
-
+            // module.xml 에 있는 권한 정보를 정리
             if($module_info->grants) {
                 foreach($module_info->grants as $key => $val) {
                     if(!$xml_info->grant->{$key}) {
@@ -157,6 +149,26 @@
                         }
 
                     }
+                }
+            }
+
+            // act값에 admin이 들어 있는데 관리자가 아닌 경우 오류 표시
+            if(substr_count($this->act, 'Admin')) {
+                // 로그인 되어 있지 않다면 무조건 금지
+                if(!$is_logged) $this->setAct("dispMemberLoginForm");
+                else {
+
+                    $permitted = false;
+
+                    // 최고관리자이면 무조건 패스~
+                    if($grant->is_admin) $permitted = true;
+
+                    // 최고관리자가 아니더라도 module.xml에서 permission에 등록된 권한이 있으면 허용
+                    $permission_target = $xml_info->permission->{$this->act};
+                    if($permission_target && $grant->{$permission_target}) $permitted = true;
+                    
+                    if(!$permitted) return $this->stop('msg_not_permitted_act');
+
                 }
             }
 

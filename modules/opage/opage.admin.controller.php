@@ -43,6 +43,7 @@
             if($module_info->module_srl != $module_args->module_srl) {
                 $output = $oModuleController->insertModule($module_args);
                 $msg_code = 'success_registed';
+                $module_info->module_srl = $output->get('module_srl');
             } else {
                 $output = $oModuleController->updateModule($module_args);
                 $msg_code = 'success_updated';
