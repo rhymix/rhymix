@@ -1,4 +1,6 @@
 <?php
+    @error_reporting(E_ALL ^ E_NOTICE);
+
     /**
      * @file   config/config.inc.php
      * @author zero (zero@nzeo.com)
@@ -83,8 +85,16 @@
 
     /**
      * @brief 세션 설정
+     * 세션의 파기 시간을 5시간으로 하고 세션 저장 경로를 files/session 으로 변경
      **/
-    @session_cache_limiter('no-cache, must-revalidate');
-    @ini_set("session.gc_maxlifetime", "18000"); 
-    @session_start();
+    if(!ini_get('session.auto_start')) {
+        session_cache_limiter('no-cache, must-revalidate');
+        ini_set("session.gc_maxlifetime", "18000"); 
+        if(!is_dir("./files/sessions")) {
+            FileHandler::makeDir("./files/sessions");
+            chmod("./files/sessions",  0777);
+        }
+        session_save_path(realpath('.')."/files/sessions/");
+        session_start();
+    }
 ?>
