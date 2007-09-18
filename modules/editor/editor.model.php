@@ -61,7 +61,7 @@
             /**
              * 자동백업 기능 체크 (글 수정일 경우는 사용하지 않음)
              **/
-            if(!$upload_target_srl && $enable_autosave) {
+            if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
                 $saved_doc = $this->getSavedDoc();
 
