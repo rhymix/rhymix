@@ -305,7 +305,6 @@
                         $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
                         $oModule = &getModule($forward->module, $forward->type, $kind);
                         $xml_info = $oModuleModel->getModuleActionXml($forward->module);
-                        debugPrint($forward->act);
                         $oModule->setAct($forward->act);
                         $oModule->init();
                         $oModule->setModuleInfo($this->module_info, $xml_info);
