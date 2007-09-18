@@ -1,0 +1,10 @@
+<filter name="delete_opage" module="opage" act="procOpageAdminDelete">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteOpage">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="opage" />
+    </response>
+</filter>

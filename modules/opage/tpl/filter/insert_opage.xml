@@ -1,0 +1,24 @@
+<filter name="insert_opage" module="opage" act="procOpageAdminInsert" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="mid" required="true" filter="alpha_number" />
+        <node target="browser_title" required="true" maxlength="250" />
+        <node target="opage_path" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="opage_name" target="mid" />
+        <param name="module_srl" target="module_srl" />
+        <param name="module_category_srl" target="module_category_srl" />
+        <param name="layout_srl" target="layout_srl" />
+        <param name="browser_title" target="browser_title" />
+        <param name="is_default" target="is_default" />
+        <param name="caching_interval" target="opage_caching_interval" />
+        <param name="path" target="opage_path" />
+        <param name="view" target="view" />
+    </parameter>
+    <response callback_func="completeInsertOpage">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+        <tag name="opage" />
+    </response>
+</filter>
