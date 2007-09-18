@@ -17,6 +17,7 @@
             $oAdminController->insertShortCut('blog');
             $oAdminController->insertShortCut('board');
             $oAdminController->insertShortCut('page');
+            $oAdminController->insertShortCut('opage');
             $oAdminController->insertShortCut('menu');
             $oAdminController->insertShortCut('layout');
             $oAdminController->insertShortCut('addon');
