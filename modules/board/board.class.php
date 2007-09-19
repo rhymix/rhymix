@@ -49,6 +49,7 @@
                 // board 라는 이름의 모듈이 있는지 확인
                 $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
                 if($module_info->module_srl) $args->module_srl = $module_info->module_srl;
+                else $args->module_srl = 0;
 
                 // 게시판 controller 생성
                 $oBoardController = &getAdminController('board');
