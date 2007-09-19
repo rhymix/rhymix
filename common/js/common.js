@@ -477,7 +477,16 @@ function chkMemberMenu(evt) {
         if(obj && obj.className && obj.className.search("member_")!=-1) break;
         obj = obj.parentNode;
     }
-    if(!obj || !obj.className || obj.className.search("member_")==-1) return;
+    if(!obj || !obj.className || obj.className.search("member_")==-1) {
+        // IE6의 경우 닫았던 select박스를 모두 표시
+        if(xIE6) {
+            var list = xGetElementsByTagName("SELECT");
+            for (var i=0; i<list.length; i++) {
+                list[i].style.visibility = list[i].getAttribute("old_visibility");
+            }
+        }
+        return;
+    }
 
     if(obj.className.indexOf('member_-1')>=0) return;
 
@@ -541,6 +550,16 @@ function displayMemberMenu(ret_obj, response_tags, params) {
     }
 
     if(html) {
+        // IE6의 경우 select박스를 모두 숨겨버림
+        if(xIE6) {
+            var list = xGetElementsByTagName("SELECT");
+            for (var i=0; i<list.length; i++) {
+                list[i].setAttribute("old_visibility", list[i].style.visibility);
+                list[i].style.visibility = 'hidden';
+            }
+        }
+
+        // 레이어 출력
         xInnerHtml('membermenuarea', "<div class=\"box\">"+html+"</div>");
         xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
