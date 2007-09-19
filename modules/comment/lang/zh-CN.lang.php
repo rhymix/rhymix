@@ -4,7 +4,8 @@
      * @author zero <zero@nzeo.com>
      * @brief  评论(comment)模块语言包
      **/
-    $lang->cmd_delete_checked_comment = '删除所选项目';
+    $lang->cmd_toggle_checked_comment = '反选';
+    $lang->cmd_delete_checked_comment = '删除所选';
 
     $lang->msg_cart_is_null = '请选择要删除的评论。';
     $lang->msg_checked_comment_is_deleted = '已删除%d个评论。';

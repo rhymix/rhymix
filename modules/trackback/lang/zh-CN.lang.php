@@ -4,8 +4,8 @@
      * @author zero <zero@nzeo.com>
      * @brief  引用(trackback) 模块的基本语言包
      **/
-
-    $lang->cmd_delete_checked_trackback = '删除所选项目';
+    $lang->cmd_toggle_checked_trackback = '反选';
+    $lang->cmd_delete_checked_trackback = '删除所选';
 
     $lang->msg_cart_is_null = '请选择要删除的文章';
     $lang->msg_checked_trackback_is_deleted = '已删除%d个引用';

@@ -9,7 +9,7 @@
         </grant>
         <grant name="view" default="guest">
             <title xml:lang="ko">열람</title>
-			<title xml:lang="zh-CN">浏览</title>
+			<title xml:lang="zh-CN">查看</title>
             <title xml:lang="jp">閲覧</title>
             <title xml:lang="en">view</title>
         </grant>
@@ -27,13 +27,13 @@
         </grant>
         <grant name="fileupload" default="guest">
             <title xml:lang="ko">파일 첨부</title>
-			<title xml:lang="zh-CN">上传文件</title>
+			<title xml:lang="zh-CN">附件</title>
             <title xml:lang="jp">ファイル添付</title>
             <title xml:lang="en">file upload</title>
         </grant>
         <grant name="comment_fileupload" default="guest">
             <title xml:lang="ko">댓글 파일 첨부</title>
-			<title xml:lang="zh-CN">上传文件</title>
+			<title xml:lang="zh-CN">评论附件</title>
             <title xml:lang="jp">コメントファイル添付</title>
             <title xml:lang="en">comment file upload</title>
         </grant>
