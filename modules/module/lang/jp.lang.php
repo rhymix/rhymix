@@ -28,6 +28,7 @@
         'H' => '要約配信',
         'N' => '配信しない',
     );
+    $lang->module_copy = "Copy module";
 
     $lang->cmd_add_shortcut = "ショットカット追加";
     $lang->cmd_install = "インストール";

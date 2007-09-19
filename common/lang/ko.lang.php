@@ -26,6 +26,7 @@
     $lang->cmd_cancel = '취소';
     $lang->cmd_back = '돌아가기';
     $lang->cmd_vote = '추천';
+    $lang->cmd_copy = '복사';
     $lang->cmd_move = '이동';
     $lang->cmd_move_up = '위로';
     $lang->cmd_move_down = '아래로';

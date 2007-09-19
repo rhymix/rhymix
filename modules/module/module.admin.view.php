@@ -78,5 +78,24 @@
             }
         }
 
+        /**
+         * @brief 모듈 복사 기능
+         **/
+        function dispModuleAdminCopyModule() {
+            // 복사하려는 대상 모듈을 구함
+            $module_srl = Context::get('module_srl');
+
+            // 해당 모듈의 정보를 구함
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            Context::set('module_info', $module_info);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('copy_module');
+        }
+
     }
 ?>

@@ -26,6 +26,7 @@
     $lang->cmd_cancel = 'キャンセル';
     $lang->cmd_back = '戻る';
     $lang->cmd_vote = '推薦';
+    $lang->cmd_copy = 'コピー';
     $lang->cmd_move = '移動';
     $lang->cmd_move_up = '上へ';
     $lang->cmd_move_down = '下へ';

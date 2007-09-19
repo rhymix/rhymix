@@ -28,6 +28,7 @@
         'H' => '公开摘要',
         'N' => '不公开',
     );
+    $lang->module_copy = "Copy Module";
 
     $lang->cmd_add_shortcut = "添加到快捷菜单";
     $lang->cmd_install = "安装";

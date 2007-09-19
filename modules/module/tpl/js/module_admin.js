@@ -50,3 +50,9 @@ function doUpdateModule(module) {
     params['module_name'] = module;
     exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
 }
+
+/* 모듈 복사후 */
+function completeCopyModule() {
+    if(typeof(opener)!='undefined') opener.location.href = opener.location.href;
+    window.close();
+}

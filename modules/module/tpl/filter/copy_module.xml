@@ -1,0 +1,9 @@
+<filter name="copy_module" module="module" act="procModuleAdminCopyModule">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeCopyModule">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
