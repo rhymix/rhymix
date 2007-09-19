@@ -191,6 +191,9 @@
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
 
+            // 내용 수정시에는 레이아웃을 보이지 않도록 세팅
+            Context::set('layout','none');
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_content_modify');
         }
