@@ -336,13 +336,14 @@
                 $flag = true;
                 foreach($obj as $key=>$val) {
                     if(!$val) continue;
-                    if($val && !iconv($charset,'UTF-8',$val)) $flag = false;
+                    if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
                 }
                 if($flag == true) {
                     foreach($obj as $key => $val) $obj->{$key} = iconv($charset,'UTF-8',$val);
                     return $obj;
                 }
             }
+            return $obj;
         }
 
         /**
@@ -868,7 +869,7 @@
         function _transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ]*)/i', array($this, _fixQuotation), $buff);
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
             $buff = str_replace("&","&amp;",$buff);
 
             // 위젯에서 생성된 코드 (img, div태그내에 editor_widget코드 존재)의 parameter를 추출

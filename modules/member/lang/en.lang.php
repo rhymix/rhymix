@@ -168,6 +168,7 @@
     $lang->about_member_default = 'It will be set as default group on join';
 
     $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, but password and certification management will be done on current OpenID offering service';
+    $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
 
     $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
 ?>

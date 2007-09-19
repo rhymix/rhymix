@@ -8,7 +8,9 @@
 
         <action name="dispModuleSkinInfo" type="view" standalone="true" />
 
+        <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procModuleAdminCopyModule" type="controller" standalone="true" />
     </actions>
 </module>

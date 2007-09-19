@@ -1,0 +1,87 @@
+<!--%import("js/module_admin.js")-->
+<!--%import("filter/copy_module.xml")-->
+
+<div id="popHeadder">
+    <h1>{$lang->module_copy}</h1>
+</div>
+
+<form action="./" method="post" onsubmit="return procFilter(this, copy_module)" >
+<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+
+<div id="popBody">
+
+    <table cellspacing="0" class="tableType5">
+    <col width="140" />
+    <col />
+    <tr>
+        <th scope="row">{$lang->module}</th>
+        <td>{$module_info->module}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->mid}</th>
+        <td>{$module_info->mid}</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->browser_title}</th>
+        <td>{$module_info->browser_title}</td>
+    </tr>
+    </table>
+
+
+        <table cellspacing="0" class="tableType3 gap1">
+        <col width="50%" />
+        <col width="50%" />
+        <tr>
+            <th scope="col">{$lang->mid}</th>
+            <th scope="col">{$lang->browser_title}</th>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_1" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_1" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_2" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_2" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_3" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_3" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_4" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_4" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_5" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_5" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_6" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_6" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_7" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_7" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_8" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_8" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_9" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_9" class="inputTypeText w200" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="mid_10" class="inputTypeText w200" /></td>
+            <td><input type="text" name="browser_title_10" class="inputTypeText w200" /></td>
+        </tr>
+        </table>
+
+</div>
+
+<div id="popFooter" class="tCenter gap1">
+    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+    <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;"/></span>
+</div>
+
+</form>

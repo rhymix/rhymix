@@ -28,6 +28,7 @@
         'H' => 'Abrir el sumario',
         'N' => 'No abrir',
     );
+    $lang->module_copy = "Copy Module";
 
     $lang->cmd_add_shortcut = "añadir acceso directo";
     $lang->cmd_install = "Instalar";

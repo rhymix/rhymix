@@ -26,6 +26,7 @@
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
+    $lang->cmd_copy = '副本';
     $lang->cmd_move = '查看';
     $lang->cmd_move_up = '向上';
     $lang->cmd_move_down = '向下';
@@ -120,7 +121,7 @@
     $lang->regdate = '登录日期';
     $lang->last_update = '最后更新';
     $lang->signup_date = '注册日期';
-    $lang->last_login = '最近登陆';
+    $lang->last_login = '最近登录';
     $lang->first_page = '第一页';
     $lang->last_page = '最后一页';
     $lang->search_target = '搜索目标';

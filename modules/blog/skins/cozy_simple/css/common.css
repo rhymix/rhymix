@@ -236,7 +236,6 @@ Jeong, Chan Myeong 070601~070630
 .blogEditor .userNameAndPw .homePage { width:6em;}
 .blogEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
 .blogEditor .commentForm { width:100%; padding-bottom:.5em;}
-.blogEditor .commentForm textarea { width:632px; margin:.3em; height:100px;}
 
 /* blogWrite */
 .blogWrite { width:100%; position:relative;}

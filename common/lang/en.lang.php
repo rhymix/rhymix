@@ -26,6 +26,7 @@
     $lang->cmd_cancel = 'Cancel';
     $lang->cmd_back = 'Go Back';
     $lang->cmd_vote = 'Vote';
+    $lang->cmd_copy = 'Copy';
     $lang->cmd_move = 'Move';
     $lang->cmd_move_up = 'Up';
     $lang->cmd_move_down = 'Down';

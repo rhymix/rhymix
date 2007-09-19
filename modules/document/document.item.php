@@ -299,17 +299,18 @@
             FileHandler::writeFile($thumbnail_file, '', 'w');
 
             // 첨부파일이 있는지 확인하고 있으면 썸네일 만듬
-            $file_list = FileHandler::readDir($document_path);
+            $oFile = &getModel('file');
+            $file_list = $oFile->getFiles($this->document_srl);
             if(count($file_list)) {
-                foreach($file_list as $key => $val) {
-                    if(eregi("^thumbnail_([0-9]+)\.(jpg|gif)$",$val)) continue;
-                    if(!eregi("\.(jpg|gif|png|jpeg)$", $val)) continue;
+                foreach($file_list as $file) {
+                    if($file->direct_download!='Y') continue;
+                    if(!eregi("(jpg|png|jpeg|gif)$",$file->source_filename)) continue;
 
-                    $filename = sprintf("%s%s",$document_path,$val);
-                    if(file_exists($filename)) {
-                        FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'jpg');
-                        if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
-                    }
+                    $filename = $file->uploaded_filename;
+                    if(!file_exists($filename)) continue;
+
+                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'jpg');
+                    if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                 }
             }
 

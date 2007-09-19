@@ -28,6 +28,7 @@
         'H' => 'Open summary',
         'N' => 'Not open',
     );
+    $lang->module_copy = "Copy module";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";

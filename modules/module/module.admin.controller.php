@@ -62,5 +62,50 @@
             return executeQuery('module.deleteModuleCategory', $args);
         }
 
+        /**
+         * @brief 모듈 복사
+         **/
+        function procModuleAdminCopyModule() {
+            // 복사하려는 대상 모듈의 정보를 구함
+            $module_srl = Context::get('module_srl');
+            if(!$module_srl) return;
+
+            // 새로 생성하려는 모듈들의 이름/브라우저 제목을 구함
+            $clones = array();
+            $args = Context::getAll();
+            for($i=1;$i<=10;$i++) {
+                $mid = $args->{"mid_".$i};
+                $browser_title = $args->{"browser_title_".$i};
+                if(!$mid) continue;
+                if($mid && !$browser_title) $browser_title = $mid;
+                $clones[$mid] = $browser_title;
+            }
+            if(!count($clones)) return;
+
+            // 원 모듈의 정보를 직접 구해옴
+            $obj->module_srl = $module_srl;
+            $output = executeQuery("module.getMidInfo", $obj);
+            $module_info = $output->data;
+            unset($module_info->module_srl);
+            unset($module_info->regdate);
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 모듈 복사
+            foreach($clones as $mid => $browser_title) {
+                $clone_args = null;
+                $clone_args = clone($module_info);
+                $clone_args->module_srl = getNextSequence();
+                $clone_args->mid = $mid;
+                $clone_args->browser_title = $browser_title;
+                $clone_args->is_default = 'N';
+                $output = executeQuery('module.insertModule', $clone_args);
+            }
+
+            $oDB->commit();
+            $this->setMessage('success_registed');
+        }
+
     }
 ?>

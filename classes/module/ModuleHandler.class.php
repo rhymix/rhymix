@@ -19,6 +19,7 @@
         var $act = NULL; ///< action
         var $mid = NULL; ///< 모듈의 객체명
         var $document_srl = NULL; ///< 문서 번호
+        var $module_srl = NULL; ///< 모듈의 번호
 
         var $module_info = NULL; ///< 모듈의 정보
 
@@ -31,7 +32,7 @@
          * 인자를 넘겨주지 않으면 현 페이지 요청받은 Request Arguments를 이용하여
          * 변수를 세팅한다.
          **/
-        function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '') {
+        function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '') {
             // 설치가 안되어 있다면 install module을 지정
             if(!Context::isInstalled()) {
                 $this->module = 'install';
@@ -52,6 +53,9 @@
             if(!$document_srl) $this->document_srl = (int)Context::get('document_srl');
             else $this->document_srl = (int)$document_srl;
 
+            if(!$module_srl) $this->module_srl = (int)Context::get('module_srl');
+            else $this->module_srl = (int)$module_srl;
+
             // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
             if($this->module && !eregi("^([a-z0-9\_\-]+)$",$this->module)) die(Context::getLang("msg_invalid_request"));
             if($this->mid && !eregi("^([a-z0-9\_\-]+)$",$this->mid)) die(Context::getLang("msg_invalid_request"));
@@ -70,12 +74,22 @@
             $oModuleModel = &getModel('module');
 
             // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
-            if($this->document_srl && !$this->mid) $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
-            if($this->module && $module_info->module != $this->module) unset($module_info);
+            if($this->document_srl && !$this->mid && !$this->module_srl) {
+                $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+                if($this->module && $module_info->module != $this->module) unset($module_info);
+            }
 
             // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
-            if(!$module_info && $this->mid) $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
-            if($this->module && $module_info->module != $this->module) unset($module_info);
+            if(!$module_info && $this->mid) {
+                $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
+                if($this->module && $module_info->module != $this->module) unset($module_info);
+            }
+
+            // 모듈을 여전히(;;) 못 찾고 $module_srl이 있으면 해당 모듈을 구함
+            if(!$module_info && $this->module_srl) {
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl);
+                if($this->module && $module_info->module != $this->module) unset($module_info);
+            }
 
             // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
             if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();

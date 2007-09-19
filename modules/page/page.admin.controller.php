@@ -42,12 +42,31 @@
             if($module_info->module_srl != $args->module_srl) {
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
+                $module_info->module_srl = $output->get('module_srl');
             } else {
                 $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
             }
 
             if(!$output->toBool()) return $output;
+
+            /**
+             * 권한 저장
+             **/
+            // 현 모듈의 권한 목록을 저장
+            $grant_list = $this->xml_info->grant;
+
+            if(count($grant_list)) {
+                foreach($grant_list as $key => $val) {
+                    $group_srls = Context::get($key);
+                    if($group_srls) $arr_grant[$key] = explode('|@|',$group_srls);
+                }
+                $grants = serialize($arr_grant);
+            }
+
+            $oModuleController = &getController('module');
+            $oModuleController->updateModuleGrant($module_info->module_srl, $grants);
+
 
             $this->add("module_srl", $args->module_srl);
             $this->add("page", Context::get('page'));

@@ -61,12 +61,9 @@
             /**
              * 자동백업 기능 체크 (글 수정일 경우는 사용하지 않음)
              **/
-            if(!$upload_target_srl && $enable_autosave) {
+            if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
                 $saved_doc = $this->getSavedDoc();
-
-                // 자동저장된 데이터에 실제하는 문서 번호가 있다면 해당 문서 번호를 세팅
-                if($saved_doc->document_srl) $upload_target_srl = $saved_doc->upload_target_srl;
 
                 // 자동 저장 데이터를 context setting
                 Context::set('saved_doc', $saved_doc);

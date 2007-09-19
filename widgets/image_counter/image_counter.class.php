@@ -145,6 +145,7 @@
 
             // 이미지 저장
             @imagegif($image, $image_src, 100);
+            @chmod($image_src, 0644);
 
             // graph의 img 태그 값을 return
             return sprintf('<img src="%s%s" border="0" alt="counter" />',  Context::getRequestUri(), $image_src);

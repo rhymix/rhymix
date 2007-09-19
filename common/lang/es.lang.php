@@ -26,6 +26,7 @@
     $lang->cmd_cancel = 'Cancelar';
     $lang->cmd_back = 'Atrás';
     $lang->cmd_vote = 'Recomendar';
+    $lang->cmd_copy = 'Copia';
     $lang->cmd_move = 'Mover';
     $lang->cmd_move_up = 'Arriba';
     $lang->cmd_move_down = 'Abajo';

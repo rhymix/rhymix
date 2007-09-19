@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+    <title xml:lang="ko">Google Analytics</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 9. 19">
+        <name xml:lang="ko">제로</name>
+        <description xml:lang="ko">
+            Google Analytics 코드를 사이트에 추가할 수 있습니다.
+        </description>
+    </author>
+    <extra_vars>
+        <var name="uacct">
+            <title xml:lang="ko">uacct</title>
+            <description xml:lang="ko">Google Analytics 코드의 _uacct 값을 입력해주세요.</description>
+        </var>
+    </extra_vars>
+</addon>

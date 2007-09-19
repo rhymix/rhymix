@@ -12,6 +12,8 @@
         <param name="content" target="content" />
         <param name="browser_title" target="browser_title" />
         <param name="is_default" target="is_default" />
+        <param name="view" target="view" />
+        <param name="manager" target="manager" />
     </parameter>
     <response callback_func="completeInsertPageContent">
         <tag name="error" />

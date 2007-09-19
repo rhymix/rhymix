@@ -27,6 +27,15 @@
 
             // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
+
+            // 권한 그룹의 목록을 가져온다
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
+            Context::set('group_list', $group_list);
+
+            // module.xml에서 권한 관련 목록을 구해옴
+            $grant_list = $this->xml_info->grant;
+            Context::set('grant_list', $grant_list);
         }
 
         /**
@@ -181,6 +190,9 @@
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
+
+            // 내용 수정시에는 레이아웃을 보이지 않도록 세팅
+            Context::set('layout','none');
 
             // 템플릿 파일 지정
             $this->setTemplateFile('page_content_modify');

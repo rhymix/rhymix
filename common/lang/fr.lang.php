@@ -26,6 +26,7 @@
     $lang->cmd_cancel = 'Decommander';
     $lang->cmd_back = 'Retour';
     $lang->cmd_vote = 'Voter';
+    $lang->cmd_copy = 'Copie';
     $lang->cmd_move = 'Deplacer';
     $lang->cmd_move_up = 'Relever';
     $lang->cmd_move_down = 'Abaisser';

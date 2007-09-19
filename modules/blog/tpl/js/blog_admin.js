@@ -132,6 +132,7 @@ function doInsertCategory(parent_srl) {
 function doGetCategoryInfo(category_id, obj) {
     // category, category_id, node_srl을 추출
     var fo_obj = xGetElementById("fo_category");
+    var module_srl = fo_obj.module_srl.value;
     var node_srl = 0;
     var parent_srl = 0;
 
@@ -147,6 +148,7 @@ function doGetCategoryInfo(category_id, obj) {
     var params = new Array();
     params["category_srl"] = node_srl;
     params["parent_srl"] = parent_srl;
+    params["module_srl"] = module_srl;
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message','tpl');
@@ -217,9 +219,12 @@ function completeInsertCategory(ret_obj) {
 function doMoveTree(category_id, source_category_srl, target_category_srl) {
     source_category_srl = source_category_srl.replace(/menu_category_/,'');
     target_category_srl = target_category_srl.replace(/menu_category_/,'');
+    var p_fo_obj = xGetElementById("fo_category");
+
     var fo_obj = xGetElementById("fo_move_category");
     fo_obj.source_category_srl.value = source_category_srl;
     fo_obj.target_category_srl.value = target_category_srl;
+    fo_obj.module_srl.value = p_fo_obj.module_srl.value;
 
     // 이동 취소를 선택하였을 경우 다시 그림;;
     if(!procFilter(fo_obj, move_category)) {

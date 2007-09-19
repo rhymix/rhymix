@@ -40,6 +40,8 @@
          * @brief 특정 게시물들의 소속 모듈 변경 (게시글 이동시에 사용)
          **/
         function moveDocumentModule($document_srl_list, $module_srl, $source_module_srl) {
+            if(!count($document_srl_list)) return;
+
             $args->document_srls = implode(',',$document_srl_list);
             $args->module_srl = $module_srl;
 

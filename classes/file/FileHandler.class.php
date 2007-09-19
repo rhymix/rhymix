@@ -133,6 +133,7 @@
             $url_info = parse_url($url);
 
             if(!$url_info['port']) $url_info['port'] = 80;
+            if(!$url_info['path']) $url_info['path'] = '/';
 
             $fp = @fsockopen($url_info['host'], $url_info['port']);
             if(!$fp) return;
@@ -149,7 +150,7 @@
                 $url_info['path'] = $path;
             }
 
-            $header = sprintf("GET %s HTTP/2.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            $header = sprintf("GET %s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
 
             @fwrite($fp, $header);
 
@@ -164,6 +165,7 @@
             }
             @fclose($ft);
             @fclose($fp);
+            @chmod($target_filename, 0644);
 
             return true;
         }
@@ -271,6 +273,7 @@
                         @imagewbmp($thumb, $target_file, 100);
                     break;
             }
+            @chmod($target_file, 0644);
         }
     }
 ?>

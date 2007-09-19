@@ -44,6 +44,37 @@
             <title xml:lang="en">manager</title>
         </grant>
     </grants>
+    <permissions>
+        <permission action="dispBoardContent" target="manager" />
+        <permission action="dispBoardWrite" target="manager" />
+        <permission action="dispBoardDelete" target="manager" />
+        <permission action="dispBoardReplyComment" target="manager" />
+        <permission action="dispBoardModifyComment" target="manager" />
+        <permission action="dispBoardDeleteComment" target="manager" />
+        <permission action="dispBoardDeleteTrackback" target="manager" />
+        <permission action="dispBoardMessage" target="manager" />
+
+        <permission action="procBoardInsertDocument" target="manager" />
+        <permission action="procBoardDeleteDocument" target="manager" />
+        <permission action="procBoardInsertComment" target="manager" />
+        <permission action="procBoardDeleteComment" target="manager" />
+        <permission action="procBoardDeleteTrackback" target="manager" />
+        <permission action="procBoardDeleteFile" target="manager" />
+        <permission action="procBoardUploadFile" target="manager" />
+        <permission action="procBoardDownloadFile" target="manager" />
+
+        <permission action="dispBoardAdminInsertBoard" target="manager" />
+        <permission action="dispBoardAdminBoardInfo" target="manager" />
+        <permission action="dispBoardAdminSkinInfo" target="manager" />
+        <permission action="dispBoardAdminCategoryInfo" target="manager" />
+        <permission action="dispBoardAdminManageDocument" target="manager" />
+
+        <permission action="procBoardAdminInsertBoard" target="manager" />
+        <permission action="procBoardAdminUpdateSkinInfo" target="manager" />
+        <permission action="procBoardAdminInsertCategory" target="manager" />
+        <permission action="procBoardAdminUpdateCategory" target="manager" />
+        <permission action="procBoardAdminManageCheckedDocument" target="manager" />
+    </permissions>
     <actions>
         <action name="dispBoardContent" type="view" index="true" />
         <action name="dispBoardWrite" type="view" />

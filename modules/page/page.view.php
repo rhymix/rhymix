@@ -23,6 +23,9 @@
          * @brief 일반 요청시 출력
          **/
         function dispPageIndex() {
+            // 권한 체크
+            if(!$this->grant->view) return $this->stop('msg_not_permitted'); 
+
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 

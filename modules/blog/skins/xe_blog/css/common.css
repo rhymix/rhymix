@@ -250,8 +250,6 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 .blogEditor .userNameAndPw .checkSecret { position:absolute; right:2em; top:.7em;}
 .blogEditor .buttonReply { position:relative; float:left; left:50%; margin:.5em 0 0 -2em; _padding-bottom:1em;}
 .blogEditor .commentForm { width:100%; padding-bottom:.5em;}
-.blogEditor .commentForm textarea { width:632px; margin:.3em; height:100px;}
-
 
 /* blogWrite */
 .blogWrite { width:100%; position:relative;}

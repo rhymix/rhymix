@@ -28,6 +28,7 @@
         'H' => '요약 공개',
         'N' => '공개하지 않음',
     );
+    $lang->module_copy = "모듈 복사";
 
     $lang->cmd_add_shortcut = "바로가기 추가";
     $lang->cmd_install = "설치";

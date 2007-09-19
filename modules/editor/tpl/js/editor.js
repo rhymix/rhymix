@@ -572,11 +572,14 @@ function editorEventCheck(evt) {
         case 'Outdent' :
         case 'InsertOrderedList' :
         case 'InsertUnorderedList' :
-		case 'SaveAs' :
-		case 'Copy' :
-		case 'Cut' :
-		case 'Paste' :
+        case 'SaveAs' :
+        case 'Print' :
+        case 'Copy' :
+        case 'Cut' :
+        case 'Paste' :
         case 'RemoveFormat' :
+        case 'Subscript' :
+        case 'Superscript' :
                 editorDo(component_name, '', editor_sequence);
             break;
 
