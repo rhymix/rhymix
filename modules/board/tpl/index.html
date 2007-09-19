@@ -9,6 +9,16 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="tableType1">
+<col width="40" />
+<col width="130" />
+<col />
+<col />
+<col width="40" />
+<col width="80" />
+<col width="100" />
+<col width="80" />
+<col width="40" />
+<col width="40" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -16,7 +26,7 @@
             <form action="./" method="get" onsubmit="return doChangeCategory(this);">
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
-                <select name="module_category_srl">
+                <select name="module_category_srl" class="w80">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -48,11 +58,11 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><div class="tLeft"><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></div></td>
+        <td><div class="tLeft nowrap">&nbsp; <a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></div></td>
         <td><div class="tLeft">{htmlspecialchars($val->browser_title)}</div></td>
         <td class="tahoma">{$val->is_default}</td>
         <td class="tahoma">{$val->skin}</td>
-        <td class="tahoma">{$val->admin_id}</td>
+        <td class="tahoma">{$val->admin_id}&nbsp;</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
         <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
