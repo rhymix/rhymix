@@ -165,6 +165,7 @@
             }
             @fclose($ft);
             @fclose($fp);
+            @chmod($target_filename, 0644);
 
             return true;
         }
@@ -272,6 +273,7 @@
                         @imagewbmp($thumb, $target_file, 100);
                     break;
             }
+            @chmod($target_file, 0644);
         }
     }
 ?>
