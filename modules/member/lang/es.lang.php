@@ -168,6 +168,7 @@
     $lang->about_member_default = 'Al registrar se configura como grupo predefinido';
 
     $lang->about_openid = 'Cuando tu registra como OpenID, la información básica como ID o la dirección del email sera guardado en este sitio, pero la contraseña y la resolución de la certificación se hará en el servicio ofrecido por openID';
+    $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
 
     $lang->about_member = "Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.\n Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro";
 ?>

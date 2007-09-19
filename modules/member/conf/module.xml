@@ -7,6 +7,8 @@
         <action name="dispMemberModifyPassword" type="view" standalone="true" />
         <action name="dispMemberLoginForm" type="view" standalone="true" />
         <action name="dispMemberLogout" type="view" standalone="true" />
+        <action name="dispMemberLeave" type="view" standalone="true" />
+        <action name="dispMemberOpenIDLeave" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
 
@@ -40,6 +42,7 @@
         <action name="procMemberModifyInfo" type="controller" standalone="true" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" />
         <action name="procMemberLeave" type="controller" standalone="true" />
+        <action name="procMemberOpenIDLeave" type="controller" standalone="true" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" />
         <action name="procMemberInsertImageMark" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />

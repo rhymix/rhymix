@@ -121,12 +121,7 @@
          * @brief 로그아웃
          **/
         function procMemberLogout() {
-            $_SESSION['is_logged'] = false;
-            $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-            $_SESSION['logged_info'] = NULL;
-            $_SESSION['member_srl'] = NULL;
-            $_SESSION['group_srls'] = array();
-            $_SESSION['is_admin'] = NULL;
+            $this->destroySessionInfo();
             return new Object();
         }
 
@@ -726,11 +721,37 @@
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
 
-            $_SESSION['is_logged'] = false;
-            $_SESSION['logged_info'] = null;
+            // 모든 세션 정보 파기
+            $this->destroySessionInfo();
 
+            // 성공 메세지 리턴
             $this->setMessage('success_leaved');
         }
+
+        /**
+         * @brief 오픈아이디 탈퇴
+         **/
+        function procMemberOpenIDLeave() {
+            // 비로그인 상태이면 에러
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+            // 현재 ip와 세션 아이피 비교
+            if($_SESSION['ipaddress']!=$_SERVER['REMOTE_ADDR']) return $this->stop('msg_not_permitted');
+
+            // 로그인한 유저의 정보를 가져옴
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            $output = $this->deleteMember($member_srl);
+            if(!$output->toBool()) return $output;
+
+            // 모든 세션 정보 파기
+            $this->destroySessionInfo();
+
+            // 성공 메세지 리턴
+            $this->setMessage('success_leaved');
+        }
+
 
         /**
          * @brief 이미지 이름을 추가 
@@ -959,6 +980,10 @@
          **/
         function setSessionInfo($member_info) {
             if(!$member_info->member_srl) return;
+
+            // 오픈아이디인지 체크
+            if(eregi("^([0-9a-z]+)$", $member_info->user_id)) $member_info->is_openid = false;
+            else $member_info->is_openid = true;
 
             // 로그인 처리
             $_SESSION['is_logged'] = true;
@@ -1311,6 +1336,16 @@
             if($result2 == '80000000') $nr2 += 0x80000000;
 
             return sprintf("%08lx%08lx", $nr, $nr2);
+        }
+
+        /**
+         * @brief 모든 세션 정보 파기
+         **/
+        function destroySessionInfo() {
+            if(!$_SESSION || !is_array($_SESSION)) return;
+            foreach($_SESSION as $key => $val) {
+                $_SESSION[$key] = '';
+            }
         }
     }
 ?>

@@ -99,8 +99,12 @@
     <div class="tCenter">
         <!--@if($member_info->member_srl == $logged_info->member_srl)-->
         <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_info}</span></a>
-        <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_password}</span></a>
-        <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
+            <!--@if($logged_info->is_openid)-->
+                <a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
+            <!--@else-->
+                <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_password}</span></a>
+                <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
+            <!--@end-->
         <!--@end-->
         <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
     </div>
