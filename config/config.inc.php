@@ -92,9 +92,9 @@
         ini_set("session.gc_maxlifetime", "18000"); 
         if(!is_dir("./files/sessions")) {
             FileHandler::makeDir("./files/sessions");
-            chmod("./files/sessions",  0777);
+            @chmod("./files/sessions",  0777);
         }
-        session_save_path(realpath('.')."/files/sessions/");
+        if(is_dir("./files/sessions")) session_save_path(realpath('.')."/files/sessions/");
         session_start();
     }
 ?>
