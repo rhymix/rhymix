@@ -270,12 +270,14 @@
             return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
         }
 
-        function thumbnailExists($width) {
-            if(!$this->getThumbnail($width)) return false;
+        function thumbnailExists($width, $height) {
+            if(!$this->getThumbnail($width, $height)) return false;
             return true;
         }
 
-        function getThumbnail($width = 80) {
+        function getThumbnail($width = 80, $height = 80) {
+            if(!$height) $height = $width;
+
             // 문서의 이미지 첨부파일 위치를 구함
             $document_path = sprintf('./files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
@@ -309,7 +311,7 @@
                     $filename = $file->uploaded_filename;
                     if(!file_exists($filename)) continue;
 
-                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $width, 'jpg');
+                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg');
                     if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                 }
             }
@@ -332,7 +334,7 @@
                 return;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $width, 'jpg');
+            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg');
             @unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
