@@ -275,7 +275,7 @@
             return true;
         }
 
-        function getThumbnail($width = 80, $height = 80) {
+        function getThumbnail($width = 80, $height = 0) {
             if(!$height) $height = $width;
 
             // 문서의 이미지 첨부파일 위치를 구함
@@ -283,7 +283,8 @@
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
 
             // 썸네일 임시 파일명을 구함
-            $thumbnail_file = sprintf('%sthumbnail_%d.jpg', $document_path, $width);
+            if($width != $height) $thumbnail_file = sprintf('%sthumbnail_%dx%d.jpg', $document_path, $width, $height);
+            else $thumbnail_file = sprintf('%sthumbnail_%d.jpg', $document_path, $width);
 
             // 썸네일이 있더라도 글의 수정시간과 비교해서 다르면 다시 생성함
             if(file_exists($thumbnail_file)) {
