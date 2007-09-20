@@ -26,7 +26,7 @@
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
-    $lang->cmd_copy = '副本';
+    $lang->cmd_copy = '复制';
     $lang->cmd_move = '查看';
     $lang->cmd_move_up = '向上';
     $lang->cmd_move_down = '向下';
@@ -37,8 +37,8 @@
     $lang->cmd_select = '选择';
     $lang->cmd_select_all = '全部选择';
     $lang->cmd_unselect_all = '全部解除';
-    $lang->cmd_close_all = '全部关闭';
-    $lang->cmd_open_all = '全部打开';
+    $lang->cmd_close_all = '全部折叠';
+    $lang->cmd_open_all = '全部展开';
     $lang->cmd_reload = '从新载入';
     $lang->cmd_close = '关闭';
     $lang->cmd_open = '打开';
