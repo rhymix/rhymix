@@ -21,9 +21,6 @@
         function dispOpageIndex() {
             // 권한 체크
             if(!$this->grant->view) return $this->stop('msg_not_permitted'); 
-            
-            // opage controller 생성
-            $oOpageController = &getController('opage');
 
             // 외부 페이지 모듈의 정보를 구함
             $oOpageModel = &getModel('opage');
@@ -35,7 +32,22 @@
             $caching_interval = $module_info->caching_interval;
 
             // 캐시 파일 지정
-            $cache_file = sprintf("./files/cache/opage/%d.cache", $module_info->module_srl);
+            $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
+
+            // http 인지 내부 파일인지 점검
+            if(eregi("^http:\/\/",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
+            else $content = $this->executeFile($path, $caching_interval, $cache_file);
+
+            Context::set('opage_content', $content);
+
+            // 결과 출력 템플릿 지정
+            $this->setTemplateFile('content');
+        }
+        
+        /**
+         * @brief 외부 http로 요청되는 파일일 경우 파일을 받아와서 저장 후 return
+         **/
+        function getHtmlPage($path, $caching_interval, $cache_file) {
 
             // 캐시 검사
             if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > time()) {
@@ -44,26 +56,16 @@
 
             } else {
 
-                // 경로에 http://가 있는 경우와 없는 경우를 비교
-                if(eregi("^http:\/\/",$path)) {
-                    FileHandler::getRemoteFile($path, $cache_file);
-                    $content = FileHandler::readFile($cache_file);
-
-                // 서버 내부에 있는 경우
-                } elseif(file_exists($path)) {
-                    ob_start();
-                    @include($path);
-                    $content = ob_get_contents();
-                    ob_end_clean();
-                    FileHandler::writeFile($cache_file, $content);
-                }
+                FileHandler::getRemoteFile($path, $cache_file);
+                $content = FileHandler::readFile($cache_file);
 
             }
+            
+            // opage controller 생성
+            $oOpageController = &getController('opage');
 
             // 외부 서버의 페이지 일 경우 이미지, css, javascript등의 url을 변경
-            if(eregi("^http:\/\/",$path)) {
-                $content = $oOpageController->replaceSrc($content, $path);
-            }
+            $content = $oOpageController->replaceSrc($content, $path);
 
             // 해당 문서를 utf-8로 변경
             $buff->content = $content;
@@ -82,10 +84,39 @@
             $body_script = $oOpageController->getBodyScript($content);
             if(!$body_script) $body_script = $content;
 
-            Context::set('opage_content', $body_script);
+            return $content;
+        }
 
-            // 결과 출력 템플릿 지정
-            $this->setTemplateFile('content');
+        /**
+         * @brief 내부 파일일 경우 include하도록 캐시파일을 만들고 처리
+         **/
+        function executeFile($path, $caching_interval, $cache_file) {
+
+            // 캐시 검사
+            if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time()) {
+                if(file_exists($cache_file)) @unlink($cache_file);
+
+                // 경로와 파일이름을 구함
+                $tmp_path = explode('/',$path);
+                $filename = $tmp_path[count($tmp_path)-1];
+                $filepath = ereg_replace($filename."$","",$path);
+
+                // 컴파일 시도
+                $oTemplate = &TemplateHandler::getInstance();
+                $script = $oTemplate->compileDirect($filepath, $filename);
+
+                FileHandler::writeFile($cache_file, $script);
+            }
+
+            // include후 결과를 return
+            if(file_exists($cache_file)) {
+                ob_start();
+                @include($cache_file);
+                $content = ob_get_contents();
+                ob_end_clean();
+            }
+
+            return $content;
         }
 
     }

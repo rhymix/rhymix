@@ -65,6 +65,19 @@
         }
 
         /**
+         * @brief 주어진 파일을 컴파일 후 바로 return
+         **/
+        function compileDirect($tpl_path, $tpl_filename) {
+            $this->tpl_path = $tpl_path;
+            $this->tpl_file = $tpl_file;
+
+            $tpl_file = $tpl_path.$tpl_filename;
+            if(!file_exists($tpl_file)) return;
+
+            return $this->_compileTplFile($tpl_file);
+        }
+
+        /**
          * @brief tpl_file이 컴파일이 되어 있는 것이 있는지 체크
          **/
         function _compile($tpl_file, $compiled_tpl_file) {
@@ -78,7 +91,7 @@
         /**
          * @brief tpl_file을 compile
          **/
-        function _compileTplFile($tpl_file, $compiled_tpl_file) {
+        function _compileTplFile($tpl_file, $compiled_tpl_file = '') {
 
             // tpl 파일을 읽음
             $buff = FileHandler::readFile($tpl_file);
@@ -112,7 +125,7 @@
             // $buff = preg_replace('/ +/', ' ', $buff);
 
             // 컴파일된 코드를 파일에 저장
-            FileHandler::writeFile($compiled_tpl_file, $buff);
+            if($compiled_tpl_file) FileHandler::writeFile($compiled_tpl_file, $buff);
 
             return $buff;
         }
