@@ -245,7 +245,8 @@
 
             $args->layout_srl = $layout_srl;
             $args->menu_srls = implode(',',$menu_srl_list);
-            return executeQuery('module.updateModuleLayout', $args);
+            $output = executeQuery('module.updateModuleLayout', $args);
+            return $output;
         }
     }
 ?>

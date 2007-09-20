@@ -3,6 +3,6 @@
         <table name="menu_layout" />
     </tables>
     <conditions>
-        <condition operation="in" column="menu_srl" var="menu_srls" filter="number" notnull="notnull" />
+        <condition operation="in" column="menu_srl" var="menu_srls" notnull="notnull" />
     </conditions>
 </query>
