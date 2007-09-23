@@ -6,7 +6,7 @@
         <column name="upload_target_srl" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" filter="number" />
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" filter="numbers" />
         <condition operation="equal" column="direct_download" var="direct_download" pipe="and" />
         <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
     </conditions>
