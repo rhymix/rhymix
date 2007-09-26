@@ -50,7 +50,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['insert_document'];
-            if(!$point) $point = $config->insert_document;
+            if($point == null) $point = $config->insert_document;
 
             // 포인트 증감
             $cur_point += $point;
@@ -67,7 +67,7 @@
             
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['insert_document'];
-            if(!$point) $point = $config->insert_document;
+            if($point == null) $point = $config->insert_document;
 
             // 포인트 차감
             $cur_point = $oPointModel->getPoint($target_member_srl, true);
@@ -90,7 +90,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['insert_comment'];
-            if(!$point) $point = $config->insert_comment;
+            if($point == null) $point = $config->insert_comment;
 
             // 포인트 증감
             $cur_point += $point;
@@ -109,7 +109,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['insert_comment'];
-            if(!$point) $point = $config->insert_comment;
+            if($point == null) $point = $config->insert_comment;
 
             // 포인트 증감
             $cur_point = $oPointModel->getPoint($target_member_srl, true);
@@ -130,7 +130,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['upload_file'];
-            if(!$point) $point = $config->upload_file;
+            if($point == null) $point = $config->upload_file;
 
             // 포인트 증감
             $cur_point += $point;
@@ -152,7 +152,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['upload_file'];
-            if(!$point) $point = $config->upload_file;
+            if($point == null) $point = $config->upload_file;
 
             // 포인트 차감
             $cur_point = $oPointModel->getPoint($target_member_srl, true);
@@ -178,7 +178,7 @@
 
             // 포인트를 구해옴
             $point = $config->module_point[$module_srl]['download_file'];
-            if(!$point) $point = $config->download_file;
+            if($point == null) $point = $config->download_file;
 
             // 포인트가 0보다 작고 포인트가 없으면 파일 다운로드가 안되도록 했다면 오류
             if($cur_point + $point < 0 && $config->disable_download == 'Y') {

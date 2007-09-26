@@ -61,10 +61,10 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
-            $config->insert_document = $args->insert_document;
-            $config->insert_comment = $args->insert_comment;
-            $config->upload_file = $args->upload_file;
-            $config->download_file = $args->download_file;
+            $config->insert_document = (int)$args->insert_document;
+            $config->insert_comment = (int)$args->insert_comment;
+            $config->upload_file = (int)$args->upload_file;
+            $config->download_file = (int)$args->download_file;
 
             foreach($args as $key => $val) {
                 preg_match("/^(insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
@@ -72,7 +72,7 @@
                 $name = $matches[1];
                 $module_srl = $matches[2];
                 if(strlen($val)==0) unset($config->module_point[$module_srl][$name]);
-                else $config->module_point[$module_srl][$name] = $val;
+                else $config->module_point[$module_srl][$name] = (int)$val;
             }
 
             // 저장
@@ -120,7 +120,7 @@
             $point = Context::get('point');
 
             $oPointController = &getController('point');
-            return $oPointController->setPoint($member_srl, $point);
+            return $oPointController->setPoint($member_srl, (int)$point);
         }
 
         /**
