@@ -214,6 +214,7 @@
             if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
             if($width_per < $height_per) $per = $height_per;
             else $per = $width_per;
+            if(!$per) $per = 1;
 
             // 원본 이미지의 타입으로 임시 이미지 생성
             switch($type) {
@@ -246,14 +247,12 @@
             $new_width = (int)($width * $per);
             $new_height = (int)($height * $per);
 
-            $x = ($resize_width/2 - $new_width/2);
-            $y = ($resize_height/2 - $new_height/2);
+            $x = (int)($resize_width/2 - $new_width/2);
+            $y = (int)($resize_height/2 - $new_height/2);
 
             if($source) {
-                if($new_width != $width || $new_height != $height) {
-                    if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-                    else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-                } else $thumb = $source;
+                if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
             }
 
             // 파일을 쓰고 끝냄
