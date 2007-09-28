@@ -23,13 +23,13 @@
             $widget_info->thumbnail_width = (int)$args->thumbnail_width;
             if(!$widget_info->thumbnail_width) $widget_info->thumbnail_width = 100;
 
-            // 가로 이미지 수
-            $widget_info->rows_list_count = (int)$args->rows_list_count;
-            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 5;
-
             // 세로 이미지 수
+            $widget_info->rows_list_count = (int)$args->rows_list_count;
+            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 1;
+
+            // 가로 이미지 수
             $widget_info->cols_list_count = (int)$args->cols_list_count;
-            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 1;
+            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 5;
 
             // 노출 여부 체크
             if($args->display_author!='Y') $widget_info->display_author = 'N';
