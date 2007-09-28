@@ -91,15 +91,28 @@
          * @brief 내부 파일일 경우 include하도록 캐시파일을 만들고 처리
          **/
         function executeFile($path, $caching_interval, $cache_file) {
+            // 파일이 없으면 취소
+            if(!file_exists($path)) return;            
+
+            // 경로와 파일이름을 구함
+            $tmp_path = explode('/',$cache_file);
+            $filename = $tmp_path[count($tmp_path)-1];
+            $filepath = ereg_replace($filename."$","",$cache_file);
 
             // 캐시 검사
-            if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time()) {
+            if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path) ) {
                 if(file_exists($cache_file)) @unlink($cache_file);
 
-                // 경로와 파일이름을 구함
-                $tmp_path = explode('/',$path);
-                $filename = $tmp_path[count($tmp_path)-1];
-                $filepath = ereg_replace($filename."$","",$path);
+                // 일단 대상 파일을 읽어서 내용을 구함
+                ob_start();
+                @include($path);
+                $content = ob_get_contents();
+                ob_end_clean();
+
+                FileHandler::writeFile($cache_file, $content);
+
+                // include후 결과를 return
+                if(!file_exists($cache_file)) return;
 
                 // 컴파일 시도
                 $oTemplate = &TemplateHandler::getInstance();
@@ -108,13 +121,14 @@
                 FileHandler::writeFile($cache_file, $script);
             }
 
-            // include후 결과를 return
-            if(file_exists($cache_file)) {
-                ob_start();
-                @include($cache_file);
-                $content = ob_get_contents();
-                ob_end_clean();
-            }
+            $__Context = &$GLOBALS['__Context__'];
+            $__Context->tpl_path = $filepath;
+            if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
+
+            ob_start();
+            @include($cache_file);
+            $content = ob_get_contents();
+            ob_end_clean();
 
             return $content;
         }
