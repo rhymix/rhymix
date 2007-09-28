@@ -73,6 +73,8 @@
                 <!--@if($document->getTrackbackCount())-->
                     <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
                 <!--@end-->
+
+                {$document->printExtraImages(60*60*2)}
             </td>
             <td class="reading">{$document->get('readed_count')}</td>
             <td class="recommend">{$document->get('voted_count')}</td>

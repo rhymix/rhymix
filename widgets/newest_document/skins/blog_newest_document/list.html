@@ -22,7 +22,7 @@
     </div>
     <ul class="documentList">
         <!--@foreach($widget_info->document_list as $oDocument)-->
-            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a></li>
+            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a> {$oDocument->printExtraImages()}</li>
         <!--@end-->
     </ul>
 </div>

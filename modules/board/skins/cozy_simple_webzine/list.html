@@ -74,6 +74,8 @@
                 <!--@if($document->getTrackbackCount())-->
                     <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[T<strong>{$document->getTrackbackCount()}</strong>]</span>
                 <!--@end-->
+
+                    {$document->printExtraImages(60*60*2)}
                 </div>
             </td>
             <td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>
@@ -115,6 +117,8 @@
                 <!--@if($document->getTrackbackCount())-->
                     <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[T<strong>{$document->getTrackbackCount()}</strong>]</span>
                 <!--@end-->
+
+                    {$document->printExtraImages(60*60*2)}
                 </div>
             </td>
             <td class="author noline"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td>

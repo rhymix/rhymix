@@ -18,6 +18,8 @@
             <!--@if($oDocument->getCommentCount())-->
               <span class="comment">[<a href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getCommentCount()}</a>]</span>
             <!--@end-->
+
+            {$oDocument->printExtraImages()}
           </span>
           <span class="date"><span>{$oDocument->getRegdate("Y-m-d")}</span></span>
         </li>
