@@ -3,6 +3,6 @@
         <table name="spamfilter_denied_ip" />
     </tables>
     <conditions>
-        <condition operation="equal" column="ipaddress" var="ipaddress" filter="number" notnull="notnull" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" />
     </conditions>
 </query>

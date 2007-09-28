@@ -6,6 +6,6 @@
         <column name="count(*)" alias="count" />
     </columns>
     <conditions>
-        <condition operation="equal" column="ipaddress" var="ipaddress" filter="number" notnull="notnull" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" />
     </conditions>
 </query>

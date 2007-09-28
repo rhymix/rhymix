@@ -3,6 +3,6 @@
         <table name="spamfilter_denied_word" />
     </tables>
     <conditions>
-        <condition operation="equal" column="word" var="word" filter="number" notnull="notnull" />
+        <condition operation="equal" column="word" var="word" notnull="notnull" />
     </conditions>
 </query>
