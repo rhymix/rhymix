@@ -360,14 +360,22 @@
             // 비밀글 체크
             if($this->isSecret()) $buffs[] = "secret";
 
+            $check_files = false;
+
             // 사진 이미지 체크
-            if(preg_match('!<img([^>]*?)>!is', $this->get('content'))) $buffs[] = "image";
+            if(preg_match('!<img([^>]*?)>!is', $this->get('content'))) {
+                $buffs[] = "image";
+                $check_files = true;
+            }
 
             // 동영상 체크
-            if(preg_match('!<embed([^>]*?)>!is', $this->get('content'))) $buffs[] = "movie";
+            if(preg_match('!<embed([^>]*?)>!is', $this->get('content'))) {
+                $buffs[] = "movie";
+                $check_files = true;
+            }
 
             // 첨부파일 체크
-            if($this->hasUploadedFiles()) $buffs[] = "file";
+            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
 
             return $buffs;
         }
