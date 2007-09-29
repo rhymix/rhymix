@@ -183,12 +183,12 @@
             // 포인트가 0보다 작고 포인트가 없으면 파일 다운로드가 안되도록 했다면 오류
             if($cur_point + $point < 0 && $config->disable_download == 'Y') {
                 $this->stop('msg_cannot_download');
+            } else {
+                // 포인트 차감
+                $cur_point += $point;
+                $oPointController = &getController('point');
+                $oPointController->setPoint($member_srl,$cur_point);
             }
-
-            // 포인트 차감
-            $cur_point += $point;
-            $oPointController = &getController('point');
-            $oPointController->setPoint($member_srl,$cur_point);
 
         // 글 삭제일 경우 대상 글의 사용자 번호 저장
         } elseif(strpos($config->delete_document_act,$this->act)!==false) {
