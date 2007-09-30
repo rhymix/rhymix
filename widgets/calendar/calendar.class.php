@@ -26,7 +26,7 @@
                 $regdate = Context::get('search_keyword');
                 if($regdate) $obj->regdate = zdate($regdate, 'Ym');
             }
-            if(!$obj->regdate) $obj->regdate = date('Ym');
+            if(!$obj->regdate) $obj->regdate = date('YmdHis');
 
             // document 모듈의 model 객체를 받아서 getDailyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');

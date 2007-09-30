@@ -221,20 +221,27 @@
         $month = (int)substr($str,4,2);
         $day = (int)substr($str,6,2);
 
-        $time_zone = $GLOBALS['_time_zone'];
-        if($time_zone<0) $to = -1; else $to = 1;
-        $t_hour = substr($time_zone,1,2)*$to;
-        $t_min = substr($time_zone,3,2)*$to;
+		if(strlen($str) < 8)
+		{
+			$gap = 0;
+		}
+		else
+		{
+			$time_zone = $GLOBALS['_time_zone'];
+			if($time_zone<0) $to = -1; else $to = 1;
+			$t_hour = substr($time_zone,1,2)*$to;
+			$t_min = substr($time_zone,3,2)*$to;
 
-        $server_time_zone = date("O");
-        if($server_time_zone<0) $so = -1; else $so = 1;
-        $c_hour = substr($server_time_zone,1,2)*$so;
-        $c_min = substr($server_time_zone,3,2)*$so;
+			$server_time_zone = date("O");
+			if($server_time_zone<0) $so = -1; else $so = 1;
+			$c_hour = substr($server_time_zone,1,2)*$so;
+			$c_min = substr($server_time_zone,3,2)*$so;
 
-        $g_min = $t_min - $c_min;
-        $g_hour = $t_hour - $c_hour;
-        
-        $gap = $g_min*60 + $g_hour*60*60;
+			$g_min = $t_min - $c_min;
+			$g_hour = $t_hour - $c_hour;
+
+			$gap = $g_min*60 + $g_hour*60*60;
+		}
 
         return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year)+$gap;
     }
