@@ -220,8 +220,8 @@
         $year = (int)substr($str,0,4);
         $month = (int)substr($str,4,2);
         $day = (int)substr($str,6,2);
-
-		if(strlen($str) < 8)
+		echo strlen($str);
+		if(strlen($str) <= 8)
 		{
 			$gap = 0;
 		}
