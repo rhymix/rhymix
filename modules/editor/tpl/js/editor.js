@@ -7,8 +7,6 @@
 /**
  * 에디터에서 사용하는 iframe, textarea의 prefix
  **/
-var iframe_id = 'editor_iframe_'; ///< 에디터로 사용하는 iframe의 prefix
-var textarea_id = 'editor_textarea_'; ///< 에디터의 html편집 모드에서 사용하는 textarea의 prefix
 var editor_mode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수
 var _editorSyncList = new Array(); ///< 에디터와 form 동기화를 위한 동기화 대상 목록
 var _autoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
@@ -26,13 +24,13 @@ xAddEventListener(window, 'load', _editorSync); ///< 에디터의 동기화를 �
 
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
-    var obj_id = iframe_id + editor_sequence;
+    var obj_id = 'editor_iframe_'+ editor_sequence;
     return xGetElementById(obj_id);
 }
 
 // editor_sequence값에 해당하는 textarea object를 return
 function editorGetTextArea(editor_sequence) {
-    var obj_id = textarea_id + editor_sequence;
+    var obj_id = 'editor_textarea_' + editor_sequence;
     return xGetElementById(obj_id);
 }
 
@@ -830,4 +828,3 @@ function closeEditorInfo(editor_sequence) {
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
     xSetCookie('EditorInfo', '1', expire);
 }
-
