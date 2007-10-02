@@ -16,13 +16,16 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function procMemberLogin() {
+        function procMemberLogin($user_id = null, $password = null, $remember_user_id = null) {
             // 변수 정리
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
 
             if(!$password) $password = Context::get('password');
             $password = trim($password);
+
+            if($remember_user_id) $remember_user_id = Context::get('remember_user_id');
+            if($remember_user_id != 'Y') setcookie('user_id','');
 
             // 아이디나 비밀번호가 없을때 오류 return
             if(!$user_id) return new Object(-1,'null_user_id');
