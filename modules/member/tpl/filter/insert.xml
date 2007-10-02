@@ -23,6 +23,7 @@
         <param name="description" target="description" />
         <param name="group_srl_list" target="group_srl_list" />
         <param name="signature" target="signature" />
+        <param name="limit_date" target="limit_date" />
     </parameter>
     <response callback_func="completeInsert">
         <tag name="error" />

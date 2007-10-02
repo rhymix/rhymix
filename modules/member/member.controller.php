@@ -964,7 +964,7 @@
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
 
             // denied_date가 현 시간보다 적으면 알림
-            if($member_info->limit_date && $member_info->limit_date >= date("YmdHis")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d H:i")));
+            if($member_info->limit_date && $member_info->limit_date >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
 
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;

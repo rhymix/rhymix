@@ -15,6 +15,7 @@
         <column name="allow_mailing" var="allow_mailing" default="Y" />
         <column name="allow_message" var="allow_message" default="Y" />
         <column name="denied" var="denied" />
+        <column name="limit_date" var="limit_date" />
         <column name="is_admin" var="is_admin" />
         <column name="description" var="description" />
         <column name="extra_vars" var="extra_vars" />
