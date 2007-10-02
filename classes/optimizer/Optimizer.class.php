@@ -30,6 +30,7 @@
             for($i=0;$i<$file_count;$i++) {
                 $file = trim($source_files[$i]);
                 if(!$file) continue;
+                $file = str_replace("\\","/",$file);
                 if(eregi("^http:\/\/",$file) || $file == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
