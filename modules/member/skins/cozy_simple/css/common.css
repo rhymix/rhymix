@@ -535,3 +535,6 @@ Jeong, Chan Myeong 070601~070630
 .memberInfoTable td p { float:left; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
 .memberInfoTable td label { float:left; color:#3f4040; padding-top:.3em; margin-right:.5em;}
 .memberInfoTable td .checkbox { border:none; }
+
+.agreementBox { border:1px solid #AAAAAA; margin:.5em 0 0 0; padding:1em; border-bottom:none; height:200px; overflow-y:scroll;}
+.agreementButton { background-color:#EEEEEE; padding:1em; border:1px solid #AAAAAA; border-top:none; margin-bottom:1em; }

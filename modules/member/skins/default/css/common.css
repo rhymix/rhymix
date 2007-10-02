@@ -116,7 +116,7 @@
 .krZip .address2 { clear:both; margin-top:10px;}
 .extendDesc { clear:both; margin-top:0; font-size:.9em; color:#999999; }
 
-.agreementBox { border:1px solid #AAAAAA; margin:.5em 0 0 0; padding:1em; border-bottom:none;}
+.agreementBox { border:1px solid #AAAAAA; margin:.5em 0 0 0; padding:1em; border-bottom:none; height:200px; overflow-y:scroll;}
 .agreementButton { background-color:#EEEEEE; padding:1em; border:1px solid #AAAAAA; border-top:none;}
 
 /* popup common */
