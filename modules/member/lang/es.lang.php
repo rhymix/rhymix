@@ -60,6 +60,7 @@
         'email_address' => 'Dirección de Email',
         'regdate' => 'Fecha del registro',
         'last_login' => 'Fecha de su última conección',
+        'extra_vars' => 'Variables Extra',
     );
 
     $lang->message_box = array(

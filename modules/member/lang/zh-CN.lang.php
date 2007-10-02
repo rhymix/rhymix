@@ -60,6 +60,7 @@
         'email_address' => '邮箱地址',
         'regdate' => '注册日期',
         'last_login' => '最近登录',
+        'extra_vars' => '扩展变数',
     );
 
     $lang->message_box = array(

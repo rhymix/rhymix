@@ -602,6 +602,9 @@
             unset($all_args->is_admin);
             unset($all_args->description);
             unset($all_args->group_srl_list);
+            unset($all_args->body);
+            unset($all_args->accept_agreement);
+            unset($all_args->signature);
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
@@ -639,6 +642,9 @@
             unset($all_args->is_admin);
             unset($all_args->description);
             unset($all_args->group_srl_list);
+            unset($all_args->body);
+            unset($all_args->accept_agreement);
+            unset($all_args->signature);
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
