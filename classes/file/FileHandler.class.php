@@ -40,6 +40,7 @@
             if(@!$fp = fopen($file_name,$mode)) return false;
             fwrite($fp, $buff);
             fclose($fp);
+            @chmod($file_name, 0644);
         }
 
         /**

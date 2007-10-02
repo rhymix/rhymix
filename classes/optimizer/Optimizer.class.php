@@ -30,7 +30,7 @@
             for($i=0;$i<$file_count;$i++) {
                 $file = trim($source_files[$i]);
                 if(!$file) continue;
-                if(eregi("^http:\/\/",$file)) $files[] = $file;
+                if(eregi("^http:\/\/",$file) || $file == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
 
@@ -86,9 +86,10 @@
                 // css 일경우 background:url() 변경
                 if($type == "css") $str = $this->replaceCssPath($file, $str);
 
-                $content_buff .= $str."\n";
+                $content_buff .= $str."\r\n";
             }
             if(Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
+
             $content_file = eregi_replace("\.php$","",$filename);
             $content_filename = str_replace($this->cache_path, '', $content_file);
 
@@ -110,11 +111,7 @@
             $header_buff = <<<EndOfBuff
 <?php
 header("Content-Type: {$content_type}; charset=UTF-8");
-//header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: {$modified_time} GMT");
-//header("Cache-Control: no-store, no-cache, must-revalidate");
-//header("Cache-Control: post-check=0, pre-check=0", false);
-//header("Pragma: no-cache");
 {$gzip_header}
 if(@file_exists("{$content_filename}")) {
     @fpassthru(fopen("{$content_filename}", "rb"));
@@ -132,11 +129,15 @@ EndOfBuff;
         function replaceCssPath($file, $str) {
             $this->tmp_css_path = Context::getRequestUri().ereg_replace("^\.\/","",dirname($file))."/";
             $str = preg_replace_callback('!url\(("|\'){0,1}([^\)]+)("|\'){0,1}\)!is', array($this, '_replaceCssPath'), $str);
+
+            $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
+
             return $str;
         }
 
         function _replaceCssPath($matches) {
             if(eregi("^http",$matches[2])) return $matches[0];
+            if(eregi("^\.\/common\/",$matches[2])) return $matches[0];
             return sprintf('url(%s)', $this->tmp_css_path.$matches[2]);
         }
 
