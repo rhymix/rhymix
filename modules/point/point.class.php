@@ -89,5 +89,14 @@
             return new Object(0, 'success_updated');
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // point action 파일 재정의
+            $oPointAdminController = &getAdminController('point');
+            $oPointAdminController->cacheActList();
+
+        }
     }
 ?>

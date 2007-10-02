@@ -36,5 +36,26 @@
         function moduleUpdate() {
             return new Object();
         }
+
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 메뉴 모듈의 캐시 파일 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/menu");
+
+            $oMenuAdminController = &getAdminController('menu');
+
+            // 블로그 모듈 목록을 모두 구함
+            $output = executeQueryArray("menu.getMenus");
+            $list = $output->data;
+            if(!count($list)) return;
+
+            // 메뉴 모듈에서 사용되는 모든 메뉴 목록을 재 생성
+            foreach($list as $menu_item) {
+                $menu_srl = $menu_item->menu_srl;
+                $oMenuAdminController->makeXmlFile($menu_srl);
+            }
+        }
     }
 ?>

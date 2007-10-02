@@ -118,6 +118,14 @@
         }
 
         /**
+         * @biref 지정된 디렉토리를 제외한 모든 파일을 삭제
+         **/
+        function removeFilesInDir($path) {
+            FileHandler::removedir($path);
+            FileHandler::makeDir($path);
+        }
+
+        /**
          * @brief byte단위의 파일크기를 적절하게 변환해서 return
          **/
         function filesize($size) {

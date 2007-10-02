@@ -36,5 +36,10 @@
             return new Object();
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+        }
     }
 ?>
