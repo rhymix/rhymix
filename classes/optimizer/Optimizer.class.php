@@ -26,6 +26,8 @@
          * @brief optimize 대상 파일을 받아서 처리 후 optimize 된 파일이름을 return
          **/
         function getOptimizedFiles($source_files, $type = "js") {
+            if(!is_dir($this->cache_path)) return $source_files;
+
             $file_count = count($source_files);
             for($i=0;$i<$file_count;$i++) {
                 $file = trim($source_files[$i]);
