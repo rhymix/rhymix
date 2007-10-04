@@ -82,7 +82,7 @@
     }
 
     // act==procReceiveTrackback (트랙백)일때 check_trackback==true이면 검사
-    if($this->act=='procReceiveTrackback' && $check_trackback){
+    if($this->act=='trackback' && $check_trackback){
         $oTrackbackModel = &getModel('trackback');
         $document_srl = Context::get('document_srl');
         $count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $ipaddress);
