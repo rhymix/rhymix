@@ -66,5 +66,12 @@
             return new Object(0, 'success_updated');
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 외부 페이지 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/opage");
+        }
     }
 ?>

@@ -56,6 +56,9 @@
                     case 'last_login' :
                             $args->s_last_login = $search_keyword;
                         break;
+                    case 'extra_vars' :
+                            $args->s_extra_vars = $search_keyword;
+                        break;
                 }
             }
 

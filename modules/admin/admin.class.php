@@ -42,5 +42,29 @@
             return new Object();
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+
+            // 템플릿 컴파일 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/template_compiled");
+
+            // optimized 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/optimized");
+
+            // js_filter_compiled 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/js_filter_compiled");
+
+            // queries 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/queries");
+
+            // ./files/cache/news* 파일 삭제
+            $directory = dir("./files/cache/");
+            while($entry = $directory->read()) {
+                if(substr($entry,0,11)=='newest_news') @unlink("./files/cache/".$entry);
+            }
+            $directory->close();
+        }
     }
 ?>

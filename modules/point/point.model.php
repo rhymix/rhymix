@@ -57,21 +57,21 @@
          * @brief 포인트 순 회원목록 가져오기
          **/
         function getMemberList($args = null) {
-            if(!$args) {
-                $args->list_count = 20;
-                $args->page = 1;
-            }
-            $output = executeQuery("point.getMemberList", $args);
+            // member model 객체 생성후 목록을 구해옴
+            $oMemberModel = &getAdminModel('member');
+            $output = $oMemberModel->getMemberList();
+
             if($output->total_count) {
                 $oModuleModel = &getModel('module');
                 $config = $oModuleModel->getModuleConfig('point');
 
                 foreach($output->data as $key => $val) {
-                    $point = $val->point;
-                    $level = $this->getLevel($val->point, $config->level_step);
-                    $output->data[$key]->level = $level;
+                    $point = $this->getPoint($val->member_srl);
+                    $output->data[$key]->point = $point;
+                    $output->data[$key]->level = $this->getLevel($point, $config->level_step);
                 }
             }
+
             return $output;
         }
     }

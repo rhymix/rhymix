@@ -6,5 +6,6 @@
 
         <action name="procAdminInsertShortCut" type="controller" standalone="true" />
         <action name="procAdminDeleteShortCut" type="controller" standalone="true" />
+        <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
     </actions>
 </module>

@@ -22,12 +22,7 @@
         function printContent(&$oModule) {
 
             // gzip encoding 지원 여부 체크
-            if(
-                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
-                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && 
-                function_exists('ob_gzhandler') &&
-                extension_loaded('zlib')
-            ) $this->gz_enabled = true;
+            $this->gz_enabled = Context::isGzEnabled();
 
             // header 출력
             $this->_printHeader();

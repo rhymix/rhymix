@@ -49,5 +49,28 @@
             return new Object();
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 블로그 모듈의 캐시 파일 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/blog_category");
+
+            $oModuleModel = &getModel('module');
+            $oBlogAdminController = &getAdminController('blog');
+
+            // 블로그 모듈 목록을 모두 구함
+            $args->module = 'blog';
+            $output = executeQueryArray("module.getMidList", $args);
+            $list = $output->data;
+            if(!count($list)) return;
+
+            // 블로그 모듈에서 사용되는 모든 메뉴 목록을 재 생성
+            foreach($list as $blog_item) {
+                $module_srl = $blog_item->module_srl;
+                $oBlogAdminController->makeXmlFile($module_srl);
+            }
+
+        }
     }
 ?>

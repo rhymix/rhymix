@@ -5,7 +5,7 @@
 <!--#include("header.html")-->
 
 <!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
-<!--@if($oDocument->isExists() && $grant->view)-->
+<!--@if($oDocument->isExists())-->
     <!--#include("./view_document.html")-->
 <!--@end-->
 
@@ -18,6 +18,13 @@
 <!--@end-->
 
 <table cellspacing="0" summary="board list" class="boardList">
+  <!--@if($module_info->display_number!='N')--><col width="80" /><!--@end-->
+  <col />
+  <!--@if($module_info->display_author!='N')--><col width="120" /><!--@end-->
+  <!--@if($module_info->display_readed_count!='N')--><col width="70" /><!--@end-->
+  <!--@if($module_info->display_voted_count!='N')--><col width="70" /><!--@end-->
+  <!--@if($module_info->display_regdate != 'N')--><col width="90" /><!--@end-->
+  <!--@if($module_info->display_last_update == 'Y')--><col width="90" /><!--@end-->
 <thead>
     <tr>
     <!--@if($module_info->display_number!='N')-->
@@ -79,11 +86,7 @@
                     <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="checked"<!--@end--> /> 
                 <!--@end-->
 
-                <!--@if($grant->view)-->
-                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                <!--@else-->
-                    {$document->getTitleText($module_info->subject_cut_size)}
-                <!--@end-->
+                <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
                 
                 <!--@if($document->getCommentCount())-->
                     <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[R<strong>{$document->getCommentCount()}</strong>]</span>
@@ -92,6 +95,8 @@
                 <!--@if($document->getTrackbackCount())-->
                     <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[T<strong>{$document->getTrackbackCount()}</strong>]</span>
                 <!--@end-->
+
+                    {$document->printExtraImages(60*60*2)}
                 </div>
             </td>
             <!--@if($module_info->display_author!='N')--><td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td><!--@end-->
@@ -103,52 +108,52 @@
     </tbody>
 </table>
 
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+
+    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/icon_gofirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/icon_golast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+
+<!-- 글쓰기, 목록 버튼 -->
+<div class="buttonBox">
+    <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}"><img src="./images/common/btn_list.gif" alt="{$lang->cmd_list}" /></a>
+    <!--@if($grant->write_document)-->
+    <a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="./images/common/btn_write.gif" alt="{$lang->cmd_write}" /></a>
+    <!--@end-->
+    <!--@if($grant->is_admin)-->
+        <a href="{getUrl('act','dispBoardAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="./images/common/btn_manage.gif" alt="{$lang->cmd_manage_document}" /></a>
+    <!--@end-->
+</div>
+<div class="clear"></div>
+
+<!-- 검색 -->
 <!--@if($grant->view)-->
-    <!-- 페이지 네비게이션 -->
-    <div class="pageNavigation">
+<form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search" class="boardSearch">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="category" value="{$category}" />
 
-        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/icon_gofirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
-        <!--@while($page_no = $page_navigation->getNextPage())-->
-            <!--@if($page == $page_no)-->
-                <span class="current">{$page_no}</span> 
-            <!--@else-->
-                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+    <fieldset>
+        <select name="search_target">
+            <!--@foreach($search_option as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
             <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/icon_golast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
-    </div>
-
-
-    <!-- 글쓰기, 목록 버튼 -->
-    <div class="buttonBox">
-        <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}"><img src="./images/common/btn_list.gif" alt="{$lang->cmd_list}" /></a>
-        <!--@if($grant->write_document)-->
-        <a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="./images/common/btn_write.gif" alt="{$lang->cmd_write}" /></a>
-        <!--@end-->
-        <!--@if($grant->is_admin)-->
-            <a href="{getUrl('act','dispBoardAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="./images/common/btn_manage.gif" alt="{$lang->cmd_manage_document}" /></a>
-        <!--@end-->
-    </div>
-    <div class="clear"></div>
-
-    <!-- 검색 -->
-    <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search" class="boardSearch">
-        <input type="hidden" name="mid" value="{$mid}" />
-        <input type="hidden" name="category" value="{$category}" />
-
-        <fieldset>
-            <select name="search_target">
-                <!--@foreach($search_option as $key => $val)-->
-                <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
-            <ul class="searchButton">
-                <li><input type="image" src="./images/common/btn_search.gif" alt="{$lang->cmd_search}" /></li>
-                <li><a href="{getUrl('','mid',$mid)}"><img src="./images/common/btn_cancel.gif" alt="{$lang->cmd_cancel}" /></a></li>
-            </ul>
-        </fieldset>
-    </form>
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
+        <ul class="searchButton">
+            <li><input type="image" src="./images/common/btn_search.gif" alt="{$lang->cmd_search}" /></li>
+            <li><a href="{getUrl('','mid',$mid)}"><img src="./images/common/btn_cancel.gif" alt="{$lang->cmd_cancel}" /></a></li>
+        </ul>
+    </fieldset>
+</form>
 <!--@end-->
 
 <!--#include("footer.html")-->

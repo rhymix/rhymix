@@ -16,6 +16,7 @@
             <condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
             <condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
             <condition operation="like" column="member.email_address" var="s_email_address" pipe="or" />
+            <condition operation="like" column="extra_vars" var="s_extra_vars" pipe="or" />
             <condition operation="like_prefix" column="member.regdate" var="s_regdate" pipe="or" />
             <condition operation="like_prefix" column="member.last_login" var="s_last_login" pipe="or" />
         </group>

@@ -89,7 +89,7 @@
                 } else {
 
                     // 글 보기 권한을 체크해서 권한이 없으면 오류 메세지 출력하도록 처리
-                    if(!$this->grant->view) {
+                    if(!$this->grant->view && !$oDocument->isGranted()) {
 
                         $oDocument = null;
                         $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);

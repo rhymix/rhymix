@@ -37,5 +37,16 @@
         function moduleUpdate() {
             return new Object();
         }
+
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // widget 정보를 담은 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/widget");
+
+            // widget 생성 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/widget_cache");
+        }
     }
 ?>

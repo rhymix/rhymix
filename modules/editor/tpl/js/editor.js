@@ -7,8 +7,6 @@
 /**
  * 에디터에서 사용하는 iframe, textarea의 prefix
  **/
-var iframe_id = 'editor_iframe_'; ///< 에디터로 사용하는 iframe의 prefix
-var textarea_id = 'editor_textarea_'; ///< 에디터의 html편집 모드에서 사용하는 textarea의 prefix
 var editor_mode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수
 var _editorSyncList = new Array(); ///< 에디터와 form 동기화를 위한 동기화 대상 목록
 var _autoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
@@ -20,20 +18,19 @@ var editor_rel_keys = new Array(); ///< 에디터와 각 모듈과의 연동을 
 xAddEventListener(window, 'load', _editorSync); ///< 에디터의 동기화를 하는 함수를 window.load시 실행
 
 
-
 /**
  * 에디터의 상태나 객체를 구하기 위한 함수
  **/
 
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
-    var obj_id = iframe_id + editor_sequence;
+    var obj_id = 'editor_iframe_'+ editor_sequence;
     return xGetElementById(obj_id);
 }
 
 // editor_sequence값에 해당하는 textarea object를 return
 function editorGetTextArea(editor_sequence) {
-    var obj_id = textarea_id + editor_sequence;
+    var obj_id = 'editor_textarea_' + editor_sequence;
     return xGetElementById(obj_id);
 }
 
@@ -148,9 +145,15 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // iframe내의 document element를 구함
     var contentDocument = iframe_obj.contentWindow.document;
 
-    /**
-     * 에디터를 위지윅 모드로 만들기 위해 내용 작성 후 designMode 활성화
-     **/
+    // 크기 변경 불가일 경우 드래그바 숨김
+    if(resizable == false) xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "none";
+    else xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "block";
+
+    // IE일 경우 ctrl-Enter 안내 문구를 노출
+    if(xIE4Up && xGetElementById('for_ie_help_'+editor_sequence)) {
+        xGetElementById('for_ie_help_'+editor_sequence).style.display = "block";
+    }
+
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
@@ -165,15 +168,31 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
         content+
         '</body></html>'+
         '';
+    contentDocument.open("text/html","replace");
+    contentDocument.write(contentHtml);
+    contentDocument.close();
+
+    // editor_mode를 기본으로 설정
+    editor_mode[editor_sequence] = null;
+
+    // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
+    if(xIE4Up) xAddEventListener(iframe_obj, "focus", function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height); } );
+    else xAddEventListener(iframe_obj.contentWindow, "focus", function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height); } );
+}
+
+/**
+ * 에디터를 위지윅 모드로 만들기 위해 내용 작성 후 designMode 활성화
+ **/
+var editor_is_started = new Array();
+function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height) {
+    if(editor_is_started[editor_sequence]) return;
+
     contentDocument.designMode = 'on';
     try {
         contentDocument.execCommand("undo", false, null);
         contentDocument.execCommand("useCSS", false, true);
     }  catch (e) {
     }
-    contentDocument.open("text/html","replace");
-    contentDocument.write(contentHtml);
-    contentDocument.close();
 
     /**
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
@@ -189,11 +208,6 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
 
-    // IE일 경우 ctrl-Enter 안내 문구를 노출
-    if(xIE4Up && xGetElementById('for_ie_help_'+editor_sequence)) {
-        xGetElementById('for_ie_help_'+editor_sequence).style.display = "block";
-    }
-
     /**
      * 에디터의 내용을 지속적으로 fo_obj.content의 값과 동기화를 시킴.
      * 차후 다른 에디터를 사용하더라도 fo_obj.content와 동기화만 된다면 어떤 에디터라도 사용 가능하도록 하기 위해
@@ -204,12 +218,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // 자동저장 필드가 있다면 자동 저장 기능 활성화
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
 
-    // 크기 변경 불가일 경우 드래그바 숨김
-    if(resizable == false) xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "none";
-    else xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "block";
-
-    // editor_mode를 기본으로 설정
-    editor_mode[editor_sequence] = null;
+    editor_is_started[editor_sequence] = true;
 }
 
 
@@ -819,4 +828,3 @@ function closeEditorInfo(editor_sequence) {
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
     xSetCookie('EditorInfo', '1', expire);
 }
-

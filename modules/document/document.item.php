@@ -270,7 +270,7 @@
             return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
         }
 
-        function thumbnailExists($width, $height) {
+        function thumbnailExists($width = 80, $height = 0) {
             if(!$this->getThumbnail($width, $height)) return false;
             return true;
         }
@@ -339,6 +339,62 @@
             @unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
+        }
+
+        /**
+         * @brief 새글, 최신 업데이트글, 비밀글, 이미지/동영상/첨부파일등의 아이콘 출력용 함수
+         * $time_interval 에 지정된 시간(초)로 새글/최신 업데이트글의 판별
+         **/
+        function getExtraImages($time_interval = 7200) {
+
+            // 아이콘 목록을 담을 변수 미리 설정
+            $buffs = array();
+
+            // 최신 시간 설정
+            $time_check = date("YmdHis", time()-$time_interval);
+
+            // 새글 체크
+            if($this->get('regdate')>$time_check) $buffs[] = "new";
+            else if($this->get('last_update')>$time_check) $buffs[] = "update";
+
+            // 비밀글 체크
+            if($this->isSecret()) $buffs[] = "secret";
+
+            $check_files = false;
+
+            // 사진 이미지 체크
+            if(preg_match('!<img([^>]*?)>!is', $this->get('content'))) {
+                $buffs[] = "image";
+                $check_files = true;
+            }
+
+            // 동영상 체크
+            if(preg_match('!<embed([^>]*?)>!is', $this->get('content'))) {
+                $buffs[] = "movie";
+                $check_files = true;
+            }
+
+            // 첨부파일 체크
+            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
+
+            return $buffs;
+        }
+        
+        /**
+         * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
+         **/
+        function printExtraImages($time_check = 7200) {
+            // 아이콘 디렉토리 구함
+            $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
+
+            $buffs = $this->getExtraImages($time_check);
+            if(!count($buffs)) return;
+
+            $buff = null;
+            foreach($buffs as $key => $val) {
+                $buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" width="13" height="13" align="absmiddle"/>', $path, $val, $val, $val);
+            }
+            return $buff;
         }
 
         function hasUploadedFiles() {

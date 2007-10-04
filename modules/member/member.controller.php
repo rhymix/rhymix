@@ -16,13 +16,16 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function procMemberLogin() {
+        function procMemberLogin($user_id = null, $password = null, $remember_user_id = null) {
             // 변수 정리
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
 
             if(!$password) $password = Context::get('password');
             $password = trim($password);
+
+            if($remember_user_id) $remember_user_id = Context::get('remember_user_id');
+            if($remember_user_id != 'Y') setcookie('user_id','');
 
             // 아이디나 비밀번호가 없을때 오류 return
             if(!$user_id) return new Object(-1,'null_user_id');
@@ -599,6 +602,9 @@
             unset($all_args->is_admin);
             unset($all_args->description);
             unset($all_args->group_srl_list);
+            unset($all_args->body);
+            unset($all_args->accept_agreement);
+            unset($all_args->signature);
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
@@ -636,6 +642,9 @@
             unset($all_args->is_admin);
             unset($all_args->description);
             unset($all_args->group_srl_list);
+            unset($all_args->body);
+            unset($all_args->accept_agreement);
+            unset($all_args->signature);
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
@@ -964,7 +973,7 @@
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
 
             // denied_date가 현 시간보다 적으면 알림
-            if($member_info->limit_date && $member_info->limit_date >= date("YmdHis")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d H:i")));
+            if($member_info->limit_date && $member_info->limit_date >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
 
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;

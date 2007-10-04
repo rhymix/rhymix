@@ -67,12 +67,15 @@
     </td>
 </tr>
 </table>
-<div class="tRight gap1">
+<div class="fl tLeft gap1">
+    <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
+</div>
+<div class="fr tRight gap1">
     <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
 </div>
 </form>
 
-<div class="admin_news">
+<div class="admin_news clear">
     <!--@if($news)-->
     <table cellspacing="0" class="tableType1">
     <caption>{$lang->newest_news}</caption>

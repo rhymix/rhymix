@@ -121,6 +121,15 @@
             // 상대 경로 설정
             $this->path = $this->getRequestUri();
 
+            // 기본 JS/CSS 등록
+            $this->addJsFile("./common/js/x.js");
+            $this->addJsFile("./common/js/common.js");
+            $this->addJsFile("./common/js/xml_handler.js");
+            $this->addJsFile("./common/js/xml_js_filter.js");
+            $this->addCSSFile("./common/css/default.css");
+            $this->addCSSFile("./common/css/button.css");
+            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css");
+
             // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if($this->get_vars) {
@@ -676,6 +685,8 @@
          **/
         function _addJsFile($file) {
             if(in_array($file, $this->js_files)) return;
+
+            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = $file;
         }
 
@@ -691,7 +702,9 @@
          * @brief js file 목록을 return
          **/
         function _getJsFile() {
-            return $this->js_files;
+            require_once("./classes/optimizer/Optimizer.class.php");
+            $oOptimizer = new Optimizer();
+            return $oOptimizer->getOptimizedFiles($this->js_files, "js");
         }
 
         /**
@@ -707,6 +720,8 @@
          **/
         function _addCSSFile($file) {
             if(in_array($file, $this->css_files)) return;
+
+            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = $file;
         }
 
@@ -722,7 +737,9 @@
          * @brief CSS file 목록 return
          **/
         function _getCSSFile() {
-            return $this->css_files;
+            require_once("./classes/optimizer/Optimizer.class.php");
+            $oOptimizer = new Optimizer();
+            return $oOptimizer->getOptimizedFiles($this->css_files, "css");
         }
 
         /**
@@ -921,6 +938,19 @@
             unset($vars->widget);
             
             return WidgetHandler::execute($widget, $vars);
+        }
+
+        /**
+         * @brief gzip encoding 여부 체크
+         **/
+        function isGzEnabled() {
+            if(
+                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
+                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && 
+                function_exists('ob_gzhandler') &&
+                extension_loaded('zlib')
+            ) return true;
+            return false;
         }
 
     }

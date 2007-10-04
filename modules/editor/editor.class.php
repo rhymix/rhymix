@@ -48,5 +48,13 @@
         function moduleUpdate() {
             return new Object();
         }
+
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 에디터 컴포넌트 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/editor");
+        }
     }
 ?>

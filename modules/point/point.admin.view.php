@@ -71,6 +71,13 @@
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
+            // 멤버모델 객체 생성
+            $oMemberModel = &getModel('member');
+
+            // group 목록 가져오기
+            $this->group_list = $oMemberModel->getGroups();
+            Context::set('group_list', $this->group_list);
+
             // 템플릿 지정
             $this->setTemplateFile('member_list');
         }

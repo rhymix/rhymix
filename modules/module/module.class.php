@@ -38,5 +38,12 @@
             return new Object();
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 모듈 정보 캐시 파일 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/module_info");
+        }
     }
 ?>

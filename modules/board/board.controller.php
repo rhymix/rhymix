@@ -117,7 +117,12 @@
             $oCommentController = &getController('comment');
 
             // comment_srl이 존재하는지 체크
-            $comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+			// 만일 comment_srl이 n/a라면 getNextSequence()로 값을 얻어온다.
+			if(!$obj->comment_srl) {
+                $obj->comment_srl = getNextSequence();
+            } else {
+                $comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+            }
 
             // comment_srl이 없을 경우 신규 입력
             if($comment->comment_srl != $obj->comment_srl) {
@@ -146,7 +151,7 @@
             $this->setMessage('success_registed');
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $obj->document_srl);
-            $this->add('comment_srl', $comment_srl);
+            $this->add('comment_srl', $obj->comment_srl);
         }
 
         /**

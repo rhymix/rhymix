@@ -60,6 +60,7 @@
         'email_address' => 'Email Address',
         'regdate' => 'Join Date',
         'last_login' => 'Latest Login Date',
+        'extra_vars' => 'Extra Vars',
     );
 
     $lang->message_box = array(

@@ -29,3 +29,8 @@ function fixAdminNaviHeight() {
     else xHeight('content',naviHeight);
     setTimeout(fixAdminNaviHeight, 500);
 }
+
+// 캐시파일 모두 재 생성
+function doRecompileCacheFile() {
+    exec_xml("admin","procAdminRecompileCacheFile");
+}

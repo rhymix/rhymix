@@ -40,5 +40,12 @@
             return new Object();
         }
 
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+            // 페이지 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/page");
+        }
     }
 ?>
