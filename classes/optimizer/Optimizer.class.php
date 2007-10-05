@@ -139,8 +139,7 @@ EndOfBuff;
         }
 
         function _replaceCssPath($matches) {
-            if(eregi("^http",$matches[2])) return $matches[0];
-            if(eregi("^\.\/common\/",$matches[2])) return $matches[0];
+            if(eregi("^(http|\/|\.\/common\/)",$matches[2])) return $matches[0];
             return sprintf('url(%s%s)', $matches[1], $this->tmp_css_path.$matches[2]);
         }
 
