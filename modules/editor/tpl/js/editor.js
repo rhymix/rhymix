@@ -198,12 +198,18 @@ function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, edito
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
      **/
     // 작성시 필요한 이벤트 체크
-    if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
-    else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
-    xAddEventListener(contentDocument,'mousedown',editorHideObject);
+    // 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 contentDocument에 대한 권한이 없기에 try 문으로 감싸서 
+    // 에러를 무시하도록 해야 함.
+    try {
+        if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
+        else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
+        xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
-    // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
-    xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+        // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
+        xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+    } catch(e) {
+    }
+
     xAddEventListener(document,'dblclick',editorSearchComponent);
     xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
