@@ -175,7 +175,7 @@
         }
 
         function getSummary($str_size = 50) {
-            $content = htmlspecialchars(strip_tags($this->get('content')));
+            $content = htmlspecialchars(strip_tags($this->getContent()));
             return cut_str($content, $str_size, '...');
         }
 

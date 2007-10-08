@@ -100,6 +100,8 @@ function editorGetSelectedNode(editor_sequence) {
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
+var editor_is_started = new Array();
+var editor_start_func = new Array();
 function editorStart(editor_sequence, primary_key, content_key, resizable, editor_height) {
     // resize 가/불가에 대한 체크
     if(typeof(resizable)=="undefined"||!resizable) resizable = false;
@@ -174,17 +176,20 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
 
     // editor_mode를 기본으로 설정
     editor_mode[editor_sequence] = null;
+    editor_is_started[editor_sequence] = false;
+
+    xAddEventListener(document,'mouseup',editorEventCheck);
 
     // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
-    if(xIE4Up) xAddEventListener(iframe_obj, "focus", function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height); } );
-    else xAddEventListener(iframe_obj.contentWindow, "focus", function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height); } );
+    editor_start_func[editor_sequence] =  function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence); }
+    if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
+    else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
 }
 
 /**
  * 에디터를 위지윅 모드로 만들기 위해 내용 작성 후 designMode 활성화
  **/
-var editor_is_started = new Array();
-function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence, editor_height) {
+function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence ) {
     if(editor_is_started[editor_sequence]) return;
 
     contentDocument.designMode = 'on';
@@ -198,14 +203,19 @@ function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, edito
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
      **/
     // 작성시 필요한 이벤트 체크
-    if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
-    else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
-    xAddEventListener(contentDocument,'mousedown',editorHideObject);
+    // 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 contentDocument에 대한 권한이 없기에 try 문으로 감싸서 
+    // 에러를 무시하도록 해야 함.
+    try {
+        if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
+        else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
+        xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
-    // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
-    xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+        // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
+        xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+    } catch(e) {
+    }
+
     xAddEventListener(document,'dblclick',editorSearchComponent);
-    xAddEventListener(document,'mouseup',editorEventCheck);
     xAddEventListener(document,'mousedown',editorHideObject);
 
     /**
@@ -322,7 +332,19 @@ function editorFocus(editor_sequence) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
+    // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
+    var editor_sequence = iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
+    if(!editor_is_started[editor_sequence]) {
+        try {
+            editor_start_func[editor_sequence];
+        } catch(e) {
+            return;
+        }
+    }
+
+    // iframe 에디터에 포커스를 둠
     iframe_obj.contentWindow.focus();
+
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         if(range.pasteHTML) {
@@ -330,7 +352,9 @@ function editorReplaceHTML(iframe_obj, html) {
         } else if(editorPrevNode) {
             editorPrevNode.outerHTML = html;
         }
+
     } else {
+
         if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
             var range = iframe_obj.contentDocument.createRange();
             range.setStart(iframe_obj.contentDocument.body,0);
@@ -341,6 +365,7 @@ function editorReplaceHTML(iframe_obj, html) {
             range.deleteContents();
             range.insertNode(range.createContextualFragment(html));
         }
+
     }
 }
 
@@ -715,6 +740,15 @@ function editorHideObject(evt) {
  * HTML 편집 기능 활성/비활성
  **/
 function editorChangeMode(obj, editor_sequence) {
+    // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
+    if(!editor_is_started[editor_sequence]) {
+        try {
+            editor_start_func[editor_sequence];
+        } catch(e) {
+            return;
+        }
+    }
+
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
 

@@ -15,6 +15,11 @@
 <!--@else--> <!--%import("css/white.css")-->
 <!--@end-->
 
+<!-- 스킨 설정중 새글의 시간 설정 값이 없으면 임의로 지정 -->
+<!--@if(!$module_info->duration_new || !is_int($module_info->duration_new))-->
+    {@ $module_info->duration_new = 12 }
+<!--@end-->
+
 <!-- 상단 텍스트 출력 -->
 {$module_info->header_text}
 

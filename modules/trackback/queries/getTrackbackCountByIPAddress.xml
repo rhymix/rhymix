@@ -7,6 +7,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" pipe="and" />
     </conditions>
 </query>

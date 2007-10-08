@@ -102,6 +102,13 @@
             <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
 			<description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
         </var>
+        <var id="duration_new">
+            <name xml:lang="ko">new 표시 시간 (hours)</name>
+            <name xml:lang="en">Duration of indication for new item</name>
+            <type>text</type>
+            <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
+            <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+        </var>
         <var id="mid_list">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>

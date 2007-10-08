@@ -100,6 +100,7 @@
                 // 그래프를 그리기 위한 좌표 구함
                 $unique_visitor = $val->unique_visitor;
                 if($max_unique_visitor == 0) $per = 0;
+                elseif($max_unique_visitor == $min_unique_visitor) $per = 0;
                 else $per = ($val->unique_visitor-$min_unique_visitor) / ($max_unique_visitor-$min_unique_visitor);
 
                 // x,y 좌표 구함

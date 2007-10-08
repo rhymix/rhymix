@@ -184,6 +184,8 @@
          **/
         function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '') {
             if(!file_exists($source_file)) return;
+            if(!$resize_width) $resize_width = 100;
+            if(!$resize_height) $resize_height = $resize_width;
 
             // 이미지 정보를 구함
             list($width, $height, $type, $attrs) = @getimagesize($source_file);
@@ -219,10 +221,15 @@
             @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
             // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
-            if($resize_width>0 && $width >= $resize_width) $width_per = $resize_width / $width;
+            if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
+            else $width_per = $width / $resize_width;
+
             if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
-            if($width_per < $height_per) $per = $height_per;
+            else $height_per = $height / $resize_height;
+
+            if($width_per > $height_per) $per = $height_per;
             else $per = $width_per;
+
             if(!$per) $per = 1;
 
             // 원본 이미지의 타입으로 임시 이미지 생성

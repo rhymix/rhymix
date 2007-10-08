@@ -26,6 +26,8 @@
             $mid_list = explode(",",$args->mid_list);
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
+            $duration_new = $args->duration_new;
+            if(!$duration_new) $duration_new = 12;
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
             if($mid_list) {
@@ -72,6 +74,7 @@
             $widget_info->title = $title;
             $widget_info->document_list = $document_list;
             $widget_info->subject_cut_size = $subject_cut_size;
+            $widget_info->duration_new = $duration_new * 60*60;
 
             Context::set('widget_info', $widget_info);
 

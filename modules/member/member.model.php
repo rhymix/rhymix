@@ -29,6 +29,10 @@
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
 
+            // 호출된 모듈의 정보 구함
+            $oModuleModel = &getModel('module');
+            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
+
             // 자신의 아이디를 클릭한 경우 
             if($member_srl == $logged_info->member_srl) {
                 $member_info = $logged_info;
@@ -63,7 +67,7 @@
             }
 
             // 게시판이나 블로그등일 경우는 특별 옵션 지정
-            if($mid && !ereg('Member', $act)) {
+            if($mid && !ereg('Member', $act) && !in_array($cur_module_info->module, array('page', 'opage'))) {
                 // 아이디로 검색
                 $menu_str = Context::getLang('cmd_view_own_document');
                 $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);

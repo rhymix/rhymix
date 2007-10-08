@@ -131,7 +131,7 @@ EndOfBuff;
          **/
         function replaceCssPath($file, $str) {
             $this->tmp_css_path = Context::getRequestUri().ereg_replace("^\.\/","",dirname($file))."/";
-            $str = preg_replace_callback('!url\(("|\'){0,1}([^\)]+)("|\'){0,1}\)!is', array($this, '_replaceCssPath'), $str);
+            $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
 
             $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
 
@@ -139,9 +139,8 @@ EndOfBuff;
         }
 
         function _replaceCssPath($matches) {
-            if(eregi("^http",$matches[2])) return $matches[0];
-            if(eregi("^\.\/common\/",$matches[2])) return $matches[0];
-            return sprintf('url(%s)', $this->tmp_css_path.$matches[2]);
+            if(eregi("^(http|\/|\.\/common\/)",$matches[2])) return $matches[0];
+            return sprintf('url(%s%s)', $matches[1], $this->tmp_css_path.$matches[2]);
         }
 
     }
