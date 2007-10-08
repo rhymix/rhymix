@@ -33,7 +33,7 @@
                 $file = trim($source_files[$i]);
                 if(!$file) continue;
                 $file = str_replace("\\","/",$file);
-                if(eregi("^http:\/\/",$file) || $file == './common/css/button.css' || $file == './common/css/default.css' ) $files[] = $file;
+                if(eregi("^http:\/\/",$file) || $file == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
 
