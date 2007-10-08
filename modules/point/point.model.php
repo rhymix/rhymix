@@ -57,9 +57,53 @@
          * @brief 포인트 순 회원목록 가져오기
          **/
         function getMemberList($args = null) {
-            // member model 객체 생성후 목록을 구해옴
-            $oMemberModel = &getAdminModel('member');
-            $output = $oMemberModel->getMemberList();
+
+            // 검색 옵션 정리
+            $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
+            $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
+            $args->selected_group_srl = Context::get('selected_group_srl');
+
+            $search_target = trim(Context::get('search_target'));
+            $search_keyword = trim(Context::get('search_keyword'));
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                        break;
+                    case 'user_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_nick_name = $search_keyword;
+                        break;
+                    case 'email_address' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_email_address = $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'last_login' :
+                            $args->s_last_login = $search_keyword;
+                        break;
+                    case 'extra_vars' :
+                            $args->s_extra_vars = $search_keyword;
+                        break;
+                }
+            }
+
+            // selected_group_srl이 있으면 query id를 변경 (table join때문에)
+            if($args->selected_group_srl) {
+                $query_id = 'point.getMemberListWithinGroup';
+            } else {
+                $query_id = 'point.getMemberList';
+            }
+
+            $output = executeQuery($query_id, $args);
 
             if($output->total_count) {
                 $oModuleModel = &getModel('module');
@@ -67,7 +111,6 @@
 
                 foreach($output->data as $key => $val) {
                     $point = $this->getPoint($val->member_srl);
-                    $output->data[$key]->point = $point;
                     $output->data[$key]->level = $this->getLevel($point, $config->level_step);
                 }
             }
