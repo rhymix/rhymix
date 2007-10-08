@@ -109,8 +109,8 @@
     <var name="duration_new" type="text">
 	<title xml:lang="ko">new표시 시간 (hours)</title>
 	<title xml:lang="en">Duration of indication for new item</title>
-	<description lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
-	<description lang="en">You may set the duration of indication for fresh item. </description>
+	<description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
+	<description xml:lang="en">You may set the duration of indication for fresh item. </description>
 	<default>24</default>
     </var>
   </extra_vars>

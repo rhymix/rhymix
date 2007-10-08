@@ -19,7 +19,7 @@
               <span class="comment">[<a href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getCommentCount()}</a>]</span>
             <!--@end-->
 
-            {$oDocument->printExtraImages()}
+            {$oDocument->printExtraImages($widget_info->duration_new)}
           </span>
           <span class="date"><span>{$oDocument->getRegdate("Y-m-d")}</span></span>
         </li>
