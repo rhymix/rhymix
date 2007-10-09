@@ -939,7 +939,7 @@
             // return 값이 없으면 존재하지 않는 사용자로 지정
             if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
 
-            // 비밀번호 검사 : 우선 md5() hash값으로 비굥
+            // 비밀번호 검사하여 md5 hash값과 다르면 비밀번호의 재확인 작업 시행
             if($password && $member_info->password != md5($password)) {
                 
                 // 혹시나 하여.. -_-;; mysql old_password로 검사하여 맞으면 db의 비밀번호 교체
@@ -951,17 +951,19 @@
                     $output = executeQuery('member.updateMemberPassword', $password_args);
                     if(!$output->toBool()) return $output;
 
+                // mysql_pre4_hash_password() 함수의 값과도 다를 경우 
                 } else {
 
                     // mysql_pre4_hash_password()함수의 결과와도 다를 경우 현재 mysql DB이용시 직접 쿼리 날림
                     if(substr(Context::getDBType(),0,5)=='mysql') {
                         $oDB = &DB::getInstance();
-                        if($oDB->getOldPassword($password) == $member_info->password) {
+                        if($oDB->isValidOldPassword($password, $member_info->password)) {
                             $password_args->member_srl = $member_info->member_srl;
                             $password_args->password = md5($password);
                             $output = executeQuery('member.updateMemberPassword', $password_args);
                             if(!$output->toBool()) return $output;
                         } else return new Object(-1, 'invalid_password');
+
                     // md5(), mysql old_password와도 다르면 잘못된 비빌번호 오류 메세지 리턴
                     } else {
                         return new Object(-1, 'invalid_password');

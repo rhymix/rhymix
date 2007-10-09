@@ -200,11 +200,12 @@
         /**
          * @brief mysql old password를 가져오는 함수 (mysql에서만 사용)
          **/
-        function getOldPassword($password) {
-            $query = sprintf("select old_password('%s') as password", $password);
+        function isValidOldPassword($password, $saved_password) {
+            $query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
             $result = $this->_query($query);
             $tmp = $this->_fetch($result);
-            return $tmp->password;
+            if($tmp->password == $saved_password || $tmp->old_password == $saved_password) return true;
+            return false;
         }
 
         /**
