@@ -35,6 +35,20 @@
 <col />
 <caption>{$lang->env_setup}</caption>
 <tr>
+    <th scope="row">{$lang->use_rewrite}</th>
+    <td>
+        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
+        <p>{$lang->about_rewrite}</p>
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->use_optimizer}</th>
+    <td>
+        <input type="checkbox" name="use_optimizer" value="Y"  <!--@if($use_optimizer!='N')-->checked="checked"<!--@end--> />
+        <p>{$lang->about_optimizer}</p>
+    </td>
+</tr>
+<tr>
     <th scope="row">Lang</th>
     <td>
         <select name="lang_type" onchange="doChangeLangType(this)">
@@ -46,13 +60,6 @@
             <!--@end-->
         </select>
         <p>{$lang->about_lang_env}</p>
-    </td>
-</tr>
-<tr>
-    <th scope="row">{$lang->use_rewrite}</th>
-    <td>
-        <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
-        <p>{$lang->about_rewrite}</p>
     </td>
 </tr>
 <tr>

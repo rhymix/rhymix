@@ -15,7 +15,7 @@
     <table cellspacing="0" class="tableType4">
     <thead>
         <tr>
-            <th scope="col"><input type="checkbox" onclick="doCheckAll(); return false;" /></th>
+            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
             <th scope="col">
                 <div class="nowrap">
                     <select name="module_srl" class="mid_list" id="module_srl">
@@ -58,9 +58,9 @@
 
 <!-- 버튼 -->
 <div class="fr gap1">
-	<a href="javascript:doCheckAll()" class="button"><span>{$lang->cmd_select_all}</span></a>
-	<a href="javascript:doCheckAll(true)" class="button"><span>{$lang->cmd_toggle_checked_comment}</span></a>
-	<span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+    <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
+    <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
 </div>
 
 </form>

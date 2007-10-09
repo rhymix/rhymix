@@ -22,6 +22,7 @@
     <thead>
         <tr>
             <th scope="col" colspan="2">{$lang->no}</th>
+            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
             <th scope="col" >{$lang->title}</th>
             <th scope="col" >{$lang->poll_checkcount}</th>
             <th scope="col" >{$lang->poll_join_count}</th>
@@ -46,9 +47,10 @@
 
 <!-- 버튼 -->
 <div class="fr gap1">
+    <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
+    <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
     <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_poll}" /></span>
 </div>
-
 
 </form>
 

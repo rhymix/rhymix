@@ -176,14 +176,23 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
 
     // editor_mode를 기본으로 설정
     editor_mode[editor_sequence] = null;
-    editor_is_started[editor_sequence] = false;
+
+    // 에디터를 시작 시킴 (오류 발생시 에디터에 focus에 올때 에디터 시작하도록 변경)
+
+    try {
+        editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence);
+        editor_is_started[editor_sequence] = true;
+    } catch(e) {
+        editor_start_func[editor_sequence] =  function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence); }
+        editor_is_started[editor_sequence] = false;
+
+        // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
+        if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
+        else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
+        alert('실패');
+    }
 
     xAddEventListener(document,'mouseup',editorEventCheck);
-
-    // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
-    editor_start_func[editor_sequence] =  function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence); }
-    if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
-    else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
 }
 
 /**

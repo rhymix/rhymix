@@ -1,124 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
-    <title xml:lang="ko">이미지 카운터 위젯</title>
-	<title xml:lang="es">Widget Contador de imagen</title>
+    <title xml:lang="ko">이미지 카운터 위젯</title> 
+    <title xml:lang="es">Widget Contador de imagen</title>
+    <title xml:lang="en">Image Counter Widget</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 27">
         <name xml:lang="ko">제로</name>
+	<name xml:lang="en">zero</name>
         <description xml:lang="ko">
             제로보드XE의 기본 카운터를 블로그나 사이트에 달 수 있는 작은 그래프로 표시를 합니다.
             크기, 배경색등의 조건을 설정하지 않으시면 기본 설정으로 사용됩니다.
             그래프를 그리기 위해서 GD 라이브러리가 설치되어 있어야 합니다.
-        </description>
-		<description xml:lang="es">
+        </description> 
+	<description xml:lang="es">
             Este widget contador de image muestra un pequeño gráfico para ser añadidos en el blog o sitios.
             Si no configura el tamaño, color de fondo, etc., se utiliza la configuración predefinida.
             Para dibujar el gráfico debe estar instalada la librería GD.
         </description>
+	<description xml:lang="en">
+	    Image counter widget presents a small graph showing the number of visitors, which you can attach to your blogs or sites.
+	    Unless you configure settings, such as size, and background color, it uses predefined configuration.
+	    To show the graph, GD library should be installed.
+	</description>
     </author>
     <extra_vars>
         <var id="graph_width">
-            <name xml:lang="ko">가로 크기</name>
-			<name xml:lang="es">Tamaño del ancho</name>
+            <name xml:lang="ko">가로 크기</name> 
+	    <name xml:lang="es">Tamaño del ancho</name>
+	    <name xml:lang="en">Width</name>
             <type>text</type>
             <description xml:lang="ko">
                 그래프 이미지의 가로크기를 지정하실 수 있습니다.
                 지정하지 않으시면 150px로 지정되며 숫자로 입력을 해주세요.
                 코드 생성 페이지의 하단에 있는 가로크기와 다르게 적용됩니다.
-            </description>
-			 <description xml:lang="es">
+            </description> 
+	    <description xml:lang="es">
                 Uste puede asignar el tamaño del ancho para el imágen del gráfico.
                 Debe ingresar en números. Si no lo asigna, será de 150px.
                 Se aplica de manera diferente con el tamaño de la altura que se encuentra en la parte inferior de la página de generar códigos
             </description>
+	    <description xml:lang="en">
+		You can set the width of the graph image. 
+		If you don't input any value, it will be defined as 150px. 
+		This value is applied differently from widget's width you can find at the bottom of this page.
+	    </description>
         </var>
         <var id="graph_height">
-            <name xml:lang="ko">세로 크기</name>
-			<name xml:lang="es">Tamaño de la Altura</name>
+            <name xml:lang="ko">세로 크기</name> 
+	    <name xml:lang="es">Tamaño de la Altura</name>
+	    <name xml:lang="en">Height</name>
             <type>text</type>
             <description xml:lang="ko">
                 그래프 이미지의 세로 크기를 지정하실 수 있습니다.
                 지정하지 않으시면 100px로 지정되며 숫자로 입력을 해주세요.
-            </description>
-			<description xml:lang="es">
+            </description> 
+	    <description xml:lang="es">
                 Uste puede asignar el tamaño de la altura para el imágen del gráfico.
                 Debe ingresar en números. Si no lo asigna, será de 100px.
             </description>
+	    <description xml:lang="en">
+		You can set the height of the graph image. 
+		If you don't input any value, it will be defined as 100px. 
+	    </description>
         </var>
         <var id="day_range">
-            <name xml:lang="ko">출력 기간</name>
-			<name xml:lang="es">Tiempo a mostrar</name>
+            <name xml:lang="ko">출력 기간</name> 
+	    <name xml:lang="es">Tiempo a mostrar</name>
+	    <name xml:lang="en">Duration</name>
             <type>text</type>
             <description xml:lang="ko">
                 오늘부터 지정하신 출력기간 만큼의 데이터를 그래프로 출력합니다.
                 숫자를 입력해주세요. (기본 지난 7일)
-            </description>
-			<description xml:lang="es">
+            </description> 
+	    <description xml:lang="es">
                 Desde el día de hoy hasta el tiempo asignado, se mostrará el gráfico.
                 Ingrese números. (Predefinido: transcurridos los 7 días)
             </description>
+	    <description xml:lang="en">
+		The graph would contain the data of the assigned duration from today.
+		Input numerical value (unit:day, default: past 7 days).
+            </description>
         </var>
         <var id="bg_color">
-            <name xml:lang="ko">배경색</name>
-			<name xml:lang="es">Color de Fondo</name>
+            <name xml:lang="ko">배경색</name> 
+	    <name xml:lang="es">Color de Fondo</name>
+	    <name xml:lang="en">Background Color</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 배경을 그립니다. 
                 기본 : #FFFFFF
-                #과 6자리의 색상코드 입력해주세요]]></description>
-			<description xml:lang="es"><![CDATA[Con el código del color asignado dibujará el color de fondo. 
+                #과 6자리의 색상코드 입력해주세요]]></description> 
+	    <description xml:lang="es"><![CDATA[Con el código del color asignado dibujará el color de fondo. 
                 Predefinido : #FFFFFF
                 Ingrese # + 6 espacios del código del color]]></description>	
+	    <description xml:lang="en"><![CDATA[Set background color as the assigned color code. 
+		Default : #FFFFFF. 
+		Input as # + 6 digit color code.]]> </description>
         </var>
         <var id="check_bg_color">
-            <name xml:lang="ko">체크 무늬 배경색</name>
-			<name xml:lang="es">Textura escocés de fondo</name>
+            <name xml:lang="ko">체크 무늬 배경색</name> 
+	    <name xml:lang="es">Textura escocés de fondo</name>
+	    <name xml:lang="en">Background Color for the Darker part</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 체크 무늬 배경을 그립니다.
                 기본 : <span style="color:#F9F9F9">#F9F9F9</span>
-                #과 6자리의 색상코드 입력해주세요]]></description>
-			<description xml:lang="es"><![CDATA[Con el código del color asignado dibujará la textura escocés de fondo.
+                #과 6자리의 색상코드 입력해주세요]]></description> 
+	    <description xml:lang="es"><![CDATA[Con el código del color asignado dibujará la textura escocés de fondo.
                 Predefinido : <span style="color:#F9F9F9">#F9F9F9</span>
                 Ingrese # + 6 espacios del código del color]]></description>	
+	    <description xml:lang="en"><![CDATA[Set background color of the darker part as the assigned color code. 
+		Default : #F9F9F9 
+		Input as # + 6 digit color code.]]> </description>
+
         </var>
         <var id="grid_color">
-            <name xml:lang="ko">격자 선 색</name>
-			<name xml:lang="es">Color Línea de la grilla</name>
+            <name xml:lang="ko">격자 선 색</name> 
+	    <name xml:lang="es">Color Línea de la grilla</name>
+	    <name xml:lang="en">Color of Grid</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 xy 격자를 그립니다.
                 기본 : <span style="color:#9d9d9d">#9d9d9d</span>
-                #과 6자리의 색상코드 입력해주세요]]></description>
-			<description xml:lang="es"><![CDATA[Con el código del color asignado dibujará la grille xy.
+                #과 6자리의 색상코드 입력해주세요]]></description> 
+	    <description xml:lang="es"><![CDATA[Con el código del color asignado dibujará la grille xy.
                 Predefinido : <span style="color:#9d9d9d">#9d9d9d</span>
                 Ingrese # + 6 espacios del código del color]]></description>	
+	    <description xml:lang="en"><![CDATA[Set the color of grid as the assigned color code.
+		Default : <span style="color:#9d9d9d">#9d9d9d</span>
+		Input as # + 6 digit color code.]]> </description>
         </var>
         <var id="unique_line_color">
-            <name xml:lang="ko">그래프 선색</name>
-			<name xml:lang="es">Color Línea del Gráfico</name>
+            <name xml:lang="ko">그래프 선색</name> 
+	    <name xml:lang="es">Color Línea del Gráfico</name>
+	    <name xml:lang="en">Color of the Lines</name>
             <type>text</type>
-            <description xml:lang="ko"><![CDATA[Con el código del color asignado dibujará la línea del gráfico.
+            <description xml:lang="ko"> <![CDATA[지정하신 색상 코드로 그래프 선색을 그립니다.
+		기본 : <span style="color:#BBBBBB">#BBBBBB</span>
+		#과 6자리의 색상코드 입력해주세요]]></description>
+	    <description xml:lang="es"> <![CDATA[Con el código del color asignado dibujará la línea del gráfico.
                 Predefinido : <span style="color:#BBBBBB">#BBBBBB</span>
                 Ingrese # + 6 espacios del código del color]]></description>
+	    <description xml:lang="en"> <![CDATA[Set the color of the lines in the graph as the assigned color code. 
+		Default : <span style="color:#BBBBBB">#BBBBBB</span>
+		Input as # + 6 digit color code.]]> </description>
         </var>
         <var id="unique_text_color">
-            <name xml:lang="ko">방문자 수 글자색</name>
-			<name xml:lang="es">Color del número de los visitados</name>
+            <name xml:lang="ko">방문자 수 글자색</name> 
+	    <name xml:lang="es">Color del número de los visitados</name>
+	    <name xml:lang="en">Character Color of the number of visitors</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 방문자 수 글자를 표시합니다.
                 Predefinido : <span style="color:#666666">#666666</span>
-                Ingrese # + 6 espacios del código del color]]></description>
-			<description xml:lang="es"><![CDATA[Con el código del color asignado mostrará el número de los visitados.
+                Ingrese # + 6 espacios del código del color]]></description> 
+	    <description xml:lang="es"><![CDATA[Con el código del color asignado mostrará el número de los visitados.
                 Predefinido : <span style="color:#666666">#666666</span>
-                Ingrese # + 6 espacios del código del color]]></description>
-        </var>
+                Ingrese # + 6 espacios del código del color]]></description> 
+	    <description xml:lang="en"> <![CDATA[Set the color of the number of visitors as the assigned color code. 
+		Default : <span style="color:#666666">#666666</span>
+		Input as # + 6 digit color code.]]> </description>
+	</var>
         <var id="point_color">
-            <name xml:lang="ko">포인트 점 색</name>
-			<name xml:lang="es">Color del Punto</name>
+            <name xml:lang="ko">포인트 점 색</name> 
+	    <name xml:lang="es">Color del Punto</name>
+	    <name xml:lang="en">Color of Points</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[그래프의 꺽인 포인트 부분의 점 색을 지정할 수 있습니다.
                 기본 : <span style="color:#ed3027">#ed3027</span>
-                #과 6자리의 색상코드 입력해주세요]]></description>
-			<description xml:lang="es"><![CDATA[Con el código del color asignado mostrará el color del punto en donde la línea del gráfico esté doblado.
+                #과 6자리의 색상코드 입력해주세요]]></description> 
+	    <description xml:lang="es"><![CDATA[Con el código del color asignado mostrará el color del punto en donde la línea del gráfico esté doblado.
                 Predefinido : <span style="color:#ed3027">#ed3027</span>
                 Ingrese # + 6 espacios del código del color]]></description>	
+	    <description xml:lang="en"> <![CDATA[Set the color of the points as the assigned color code. 
+		Default : <span style="color:#ed3027">#ed3027</span>
+		Input as # + 6 digit color code.]]> </description>
         </var>
     </extra_vars>
 </widget>
