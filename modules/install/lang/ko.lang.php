@@ -254,6 +254,8 @@ EndOfLicense;
     $lang->admin_title = '관리자정보';
 
     $lang->env_title = '환경 설정';
+    $lang->use_optimizer = 'Optimizer 사용';
+    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/ JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다';
     $lang->use_rewrite = 'rewrite mod 사용';
     $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
     $lang->time_zone = 'time zone';

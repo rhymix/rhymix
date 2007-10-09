@@ -47,11 +47,16 @@
         function procInstallAdminSaveTimeZone() {
             $use_rewrite = Context::get('use_rewrite');
             if($use_rewrite!='Y') $use_rewrite = 'N';
+
+            $use_optimizer = Context::get('use_optimizer');
+            if($use_optimizer!='Y') $use_optimizer = 'N';
+
             $time_zone = Context::get('time_zone');
 
             $db_info = Context::getDBInfo();
             $db_info->time_zone = $time_zone;
             $db_info->use_rewrite = $use_rewrite;
+            $db_info->use_optimizer = $use_optimizer;
             $db_info->lang_type = Context::getLangType();
             Context::setDBInfo($db_info);
 
