@@ -27,9 +27,19 @@
         <th scope="row">{$lang->module}</th>
         <td>
             <p>{$lang->about_target_module}</p>
+            <div class="clear">
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', true);return false;" value="{$lang->cmd_select_all}"></span>
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', false);return false;" value="{$lang->cmd_unselect_all}"></span>
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid');return false;" value="{$lang->cmd_reverse_all}"></span>
+            </div>
             <!--@foreach($mid_list as $key => $val)-->
                 <p><input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> <label for="target_mid_{$key}">{$val->browser_title} ({$val->mid})</label></p>
             <!--@end-->
+            <div class="clear">
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', true);return false;" value="{$lang->cmd_select_all}"></span>
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', false);return false;" value="{$lang->cmd_unselect_all}"></span>
+                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid');return false;" value="{$lang->cmd_reverse_all}"></span>
+            </div>
         </td>
     </tr>
     </table>    

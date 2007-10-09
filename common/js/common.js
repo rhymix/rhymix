@@ -630,3 +630,25 @@ function doDocumentPreview(obj) {
 function viewSkinInfo(module, skin) {
     popopen("./?module=module&act=dispModuleSkinInfo&selected_module="+module+"&skin="+skin, 'SkinInfo');
 }
+
+/* 체크박스 선택 */
+function checkboxSelectAll(form, name, option){ 
+    var value;
+    var fo_obj = xGetElementById(form);
+    for ( var i = 0 ; i < fo_obj.length ; i++ ){
+        if(typeof(option) == "undefined") {
+            var select_mode = fo_obj[i].checked;
+            if ( select_mode == 0 ){
+                value = true;
+                select_mode = 1;
+            }else{
+                value = false;
+                select_mode = 0;
+            }
+        }
+        else if(option == true) value = true
+        else if(option == false) value = false
+
+        if(fo_obj[i].name == name) fo_obj[i].checked = value;
+    }
+}

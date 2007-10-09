@@ -69,12 +69,22 @@
                 </select>
 
                 <!--@elseif($var->type == "mid_list")-->
+                    <div class="clear">
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}', true);return false;" value="{$lang->cmd_select_all}"></span>
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}', false);return false;" value="{$lang->cmd_unselect_all}"></span>
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}');return false;" value="{$lang->cmd_reverse_all}"></span>
+                    </div>
                     <!--@foreach($mid_list as $key => $val)-->
                         <div class="widget_mid_list">
                             <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
                             <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
                         </div>
                     <!--@end-->
+                    <div class="clear">
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}', true);return false;" value="{$lang->cmd_select_all}"></span>
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}', false);return false;" value="{$lang->cmd_unselect_all}"></span>
+                        <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, '{$id}');return false;" value="{$lang->cmd_reverse_all}"></span>
+                    </div>
                 <!--@end-->
                 <p class="clear">{nl2br($var->description)}</p>
             </td>
