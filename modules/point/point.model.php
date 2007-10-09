@@ -54,6 +54,38 @@
         }
 
         /**
+         * @brief 회원 목록 갱신
+         **/
+        function updateMemberList() {
+            $output = executeQuery("point.getPointCount");
+            $point_count = $output->data->count;
+
+            $output = executeQuery("point.getMemberCount");
+            $member_count = count($output->data);
+
+            if($member_count > $point_count) {
+                foreach($output->data as $key => $val) {
+
+                    // 포인트가 있는지 체크
+                    if($this->isExistsPoint($val->member_srl)) continue;
+
+                    // 변수 설정
+                    $args->member_srl = $val->member_srl;
+                    $args->point = 0;
+
+                    $insert = executeQuery("point.insertPoint", $args);
+
+                    // 캐시 설정
+                    $cache_path = sprintf('./files/member_extra_info/point/%s/', getNumberingPath($val->member_srl));
+                    FileHandler::makedir($cache_path);
+
+                    $cache_filename = sprintf('%s%d.cache.txt', $cache_path, $val->member_srl);
+                    FileHandler::writeFile($cache_filename, 0);
+                }
+            }
+        }
+
+        /**
          * @brief 포인트 순 회원목록 가져오기
          **/
         function getMemberList($args = null) {
@@ -110,7 +142,7 @@
                 $config = $oModuleModel->getModuleConfig('point');
 
                 foreach($output->data as $key => $val) {
-                    $output->data[$key]->level = $this->getLevel($point, $config->level_step);
+                    $output->data[$key]->level = $this->getLevel($val->point, $config->level_step);
                 }
             }
 

@@ -60,8 +60,12 @@
          **/
         function dispPointAdminPointList() {
             $oPointModel = &getModel('point');
+
             $args->list_count = 20;
             $args->page = Context::get('page');
+
+            //회원 목록 갱신
+            if($args->page <= 1) $oPointModel->updateMemberList();
 
             $output = $oPointModel->getMemberList($args);
             // 템플릿에 쓰기 위해서 context::set
