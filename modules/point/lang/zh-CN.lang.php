@@ -28,6 +28,7 @@
 
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
+    $lang->point_signup = '注册';
     $lang->point_insert_document = '发表新帖';
     $lang->point_delete_document = '删除主题';
     $lang->point_insert_comment = '发表评论';

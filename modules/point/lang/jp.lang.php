@@ -28,6 +28,7 @@
 
     $lang->about_module_point = 'モジュール別にポイントを指定することができますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
 
+    $lang->point_signup = '加入';
     $lang->point_insert_document = '書き込み作成';
     $lang->point_delete_document = '書き込み削除';
     $lang->point_insert_comment = 'コメント作成';

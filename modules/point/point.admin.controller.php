@@ -61,13 +61,14 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
+            $config->signup = (int)$args->signup;
             $config->insert_document = (int)$args->insert_document;
             $config->insert_comment = (int)$args->insert_comment;
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
 
             foreach($args as $key => $val) {
-                preg_match("/^(insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
+                preg_match("/^(signup|insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
                 if(!$matches[1]) continue;
                 $name = $matches[1];
                 $module_srl = $matches[2];
@@ -95,6 +96,7 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
+            $config->signup_act = $args->signup_act;
             $config->insert_document_act = $args->insert_document_act;
             $config->delete_document_act = $args->delete_document_act;
             $config->insert_comment_act = $args->insert_comment_act;
@@ -132,7 +134,8 @@
             $config = $oModuleModel->getModuleConfig('point');
 
             // 각 act값을 정리
-            $act_list = sprintf("%s,%s,%s,%s,%s,%s,%s",
+            $act_list = sprintf("%s,%s,%s,%s,%s,%s,%s,%s",
+                    $config->signup_act,
                     $config->insert_document_act,
                     $config->delete_document_act,
                     $config->insert_comment_act,
