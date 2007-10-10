@@ -91,6 +91,8 @@
                 $file = $targets[$i];
                 $str = FileHandler::readFile($file);
 
+                $str = Context::convertEncodingStr($str);
+
                 // css 일경우 background:url() 변경
                 if($type == "css") $str = $this->replaceCssPath($file, $str);
 
