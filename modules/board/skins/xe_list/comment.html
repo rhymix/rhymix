@@ -25,7 +25,17 @@
                 <!--@end-->
             </div>
 
-            <div class="author"><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></div>
+            <div class="author">
+            <!--@if(!$val->member_srl)-->
+                <!--@if($val->homepage)-->
+                    <a href="{$val->homepage}" onclick="window.open(this.href);return false;">{htmlspecialchars($val->nick_name)}</a>
+                <!--@else-->
+                    {htmlspecialchars($val->nick_name)}
+                <!--@end-->
+            <!--@else-->
+                <div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
+            <!--@end-->
+            </div>
 
             <div class="replyContent">
             {$val->content}

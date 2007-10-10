@@ -102,7 +102,7 @@ Jeong, Chan Myeong 070601~070630
 .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; position:relative; top:2px; _top:1px;}
 
 /* extraVars list */
-.extraVarsList { width:100%; border:1px solid #e0e1db; clear:both; margin-bottom:1em;}
+.extraVarsList { width:100%; border:1px solid #e0e1db; clear:both; margin-bottom:1em; margin-top:1em;}
 .extraVarsList tr.notice { background:#f8f8f8;}
 .extraVarsList tr.notice .num { font-size:.9em; font-weight:bold;}
 .extraVarsList tr.bg1 { background:#ffffff}
@@ -138,12 +138,13 @@ Jeong, Chan Myeong 070601~070630
 .boardRead ul.uri { overflow:hidden; margin:0 0 2em .3em; float:right; clear:left;}
 .boardRead ul.uri li { font-size:8pt; color:#c5c7c0; }
 
-.boardRead .userInfo { float:left; white-space:nowrap;}
-.boardRead .userInfo .author { padding:0 .3em 0 0; color:#3074a5; margin-right:.3em;}
-.boardRead .userInfo .ipaddress { font-size:.9em; font-family:Tahoma; color:#888888; margin-right:.5em; }
+.boardRead .userInfo { float:left; white-space:nowrap; }
+.boardRead .userInfo .author { color:#3074a5; }
+.boardRead .userInfo .author a { font-size:.9em; color:#3074a5; text-decoration:none; }
+.boardRead .userInfo .ipaddress { font-size:.9em; color:#AAAAAA;  margin-top:.3em;}
 
 .boardRead .contentBody { width:100%; overflow:hidden; }
-.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both; }
+.boardRead .readBody { padding:0 .3em; color:#555555; overflow:hidden; margin-bottom:2em; clear:both; margin-top:2em;}
 .boardRead .readBody p { margin:1em 0; line-height:1.5em;}
 .boardRead .readBody .alignLeft { float:left; margin:0 1em 1em 0; }
 .boardRead .readBody .alignRight { float:right; margin:0 0 1em 1em; }
@@ -191,7 +192,7 @@ Jeong, Chan Myeong 070601~070630
 #reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
 #reply p { display:inline; margin-bottom:1em;}
 #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
-#reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+#reply .author a { color:#3074a5; margin-right:.3em; text-decoration:none; }
 #reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
 #reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}

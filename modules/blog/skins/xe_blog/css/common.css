@@ -219,7 +219,7 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 #reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
 #reply p { display:inline; margin-bottom:1em;}
 #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
-#reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+#reply .author a { color:#3074a5; margin-right:.3em; text-decoration:none;}
 #reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
 #reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}

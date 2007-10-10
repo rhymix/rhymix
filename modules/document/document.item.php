@@ -122,6 +122,24 @@
             $oMemberController = &getController('member');
             $oMemberController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
+
+        function isExistsHomepage() {
+            if(trim($this->get('homepage'))) return true;
+            return false;
+        }
+
+        function getHomepageUrl() {
+            $url = trim($this->get('homepage'));
+            if(!$url) return;
+
+            if(!eregi("^http:\/\/",$url)) $url = "http://".$url;
+
+            return $url;
+        }
+
+        function getMemberSrl() {
+            return $this->get('member_srl');
+        }
         
         function getUserID() {
             return htmlspecialchars($this->get('user_id'));
