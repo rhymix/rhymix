@@ -110,7 +110,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-    iframe_obj.style.width = '100%'; ///<< iframe_obj의 가로 크기를 100%로 고정
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
 
     // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
     var fo_obj = editorGetForm(editor_sequence);
