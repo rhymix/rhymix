@@ -5,7 +5,7 @@
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
-    <h4>{$module_info->mid} <!--@if($module_info->is_default=='N')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
     <!--@end-->
 
     <ul class="localNavigation">
