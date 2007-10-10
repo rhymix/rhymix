@@ -125,6 +125,7 @@
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
                 $member_srl = $source_list[$i]->member_srl;
+                $source_list[$i]->content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$source_list[$i]->content);
                 if(!$comment_srl) continue;
 
                 if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;

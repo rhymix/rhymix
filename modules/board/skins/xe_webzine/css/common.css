@@ -196,7 +196,7 @@ Jeong, Chan Myeong 070601~070630
 #trackbacks address .date { font:.8em Tahoma; color:#cccccc; float:right;}
 
 #reply { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
-#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
+#reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; }
 #reply p { display:inline; margin-bottom:1em;}
 #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
 #reply .author a { color:#3074a5; margin-right:.3em; text-decoration:none; }
@@ -206,6 +206,8 @@ Jeong, Chan Myeong 070601~070630
 #reply .replyOption img { vertical-align:middle;}
 
 #reply .replyContent { clear:left; }
+#reply .replyContent p { display:block; }
+#reply .replyContent li { padding:0; border:none; line-height:1.25em; }
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 

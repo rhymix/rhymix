@@ -211,6 +211,7 @@ ul.replyZone .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
 ul.replyZone .replyOption img { vertical-align:middle;}
 
 ul.replyZone .replyContent { clear:left; }
+ul.replyZone .replyContent p { display:block; }
 ul.replyZone .reply { background-color:#FAFAFA;}
 ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
@@ -226,6 +227,7 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 #reply .replyOption img { vertical-align:middle;}
 
 #reply .replyContent { clear:left; }
+#reply .replyContent p { display:block; }
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
