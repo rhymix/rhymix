@@ -79,7 +79,17 @@
         </table>
         <!--@end-->
 
-        <div class="readBody"><div class="contentBody">{$oDocument->getContent()}</div></div>
+        <div class="readBody">
+            <div class="contentBody">
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    {@ $form_include = true; }
+                    <!--#include("./input_password_form.html")-->
+
+                <!--@else-->
+                    {$oDocument->getContent()}
+                <!--@end-->
+            </div>
+        </div>
 
         <div class="readFooter">
             {@ $tag_list = $oDocument->get('tag_list') }

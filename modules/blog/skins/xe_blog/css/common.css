@@ -276,7 +276,7 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 .blogWrite .extra_vars .info { clear:both; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
 .blogWrite .extra_vars ul li { float:left; margin-right:1em; }
 
-.smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
+.smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
 .smallBox.w268 { width:268px;}
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 .smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
