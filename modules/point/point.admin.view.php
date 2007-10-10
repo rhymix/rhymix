@@ -64,10 +64,8 @@
             $args->list_count = 20;
             $args->page = Context::get('page');
 
-            //회원 목록 갱신
-            if($args->page <= 1) $oPointModel->updateMemberList();
-
             $output = $oPointModel->getMemberList($args);
+
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
