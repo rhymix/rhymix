@@ -39,8 +39,8 @@
     <tr>
         <td class="tahoma">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
-        <td class="blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a></td>
-        <td class="red"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
+        <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a></td>
+        <td class="left red"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
         <td class="tahoma">{$val->file_size}</td>
         <td>
             <!--@if($val->isvalid=='Y')-->

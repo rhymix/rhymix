@@ -39,8 +39,8 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
-            <td class="blue"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
-            <td>
+            <td class="left blue"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
+            <td class="left">
                 <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
 
                 <!--@if($oDocument->getCommentCount())-->
@@ -51,7 +51,7 @@
                     [{$oDocument->getTrackbackCount()}]
                 <!--@end-->
             </td>
-            <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+            <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
             <td class="tahoma">{$oDocument->get('readed_count')}</td>
             <td class="tahoma">{$oDocument->get('voted_count')}</td>
             <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>

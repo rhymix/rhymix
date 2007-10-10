@@ -26,7 +26,7 @@
             <form action="./" method="get" onsubmit="return doChangeCategory(this);">
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
-                <select name="module_category_srl" class="w100">
+                <select name="module_category_srl" class="w80">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
