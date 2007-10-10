@@ -189,7 +189,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
         // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
         if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
         else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
-        alert('실패');
+        //alert('실패');
     }
 
     xAddEventListener(document,'mouseup',editorEventCheck);
