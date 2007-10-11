@@ -247,8 +247,8 @@ EndOfLicense;
     $lang->admin_title = '管理员信息';
 
     $lang->env_title = '环境设置';
-    $lang->use_optimizer = 'Optimizer 사용';
-    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/ JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다';
+    $lang->use_optimizer = '使用Optimizer';
+    $lang->about_optimizer = '使用Optimizer可以对大部分的CSS/ JS文件进行整合/压缩传送使之加快网站访问速度。<br />只是有时会发生小小的问题。这时候请暂时不要使用Optimizer。';
     $lang->use_rewrite = '使用rewrite模块';
     $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
     $lang->time_zone = '时区';
