@@ -39,21 +39,19 @@ Jeong, Chan Myeong 070601~070630
 .boardList tr.bg1 { background:#ffffff}
 .boardList tr.bg2 { background:#fbfbfb;}
 .boardList th a { color:#3e3f3e; text-decoration:none; }
-.boardList th.num,
 .boardList th.title,
-.boardList th.category_title,
+.boardList th.category,
+.boardList th.num,
 .boardList th.reading,
 .boardList th.recommend,
 .boardList th.author,
 .boardList th.date { border-bottom:1px solid #e0e1db; padding:.5em;}
 
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; }
-.boardList th.title { text-align:center; }
-.boardList th.category_title { text-align:left; padding-left:10px;}
-.boardList th.category_title select { vertical-align:middle; width:200px; }
+.boardList th.title { text-align:center; padding-left:1em;}
+.boardList th.category { text-align:left; padding-left:1em;}
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
-.boardList th.date { border-right:1px solid #ffffff;}
 .boardList th .sort { padding:0 .2em; vertical-align:middle;}
 .boardList td { border-bottom:1px solid #eff0ed; padding:.5em;}
 .boardList td.num { font:.8em tahoma; color:#999999; padding:.5em 1em; text-align:center;}
@@ -61,7 +59,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList tr.notice td.notice { font-size:.9em; color:#999999; font-weight:bold; text-align:center;}
 .boardList td.thumb { padding:8px; width:145px; table-layout:fixed; white-space:nowrap;}
 .boardList td.thumb * { vertical-align:middle;}
-.boardList td.title {padding-left:1em; }
+.boardList td.title {padding-left:1em; height:1em; border-bottom:none;}
 .boardList td.title strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.title.bold { font-size:1.2em; font-weight:bold;}
 .boardList td.title.bold a { position:relative; top:.3em;}
@@ -73,7 +71,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.date { font:.8em Tahoma; color:#999999; text-align:center; white-space:nowrap;}
-.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:20px;}
+.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:1em;}
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}
 .boardList td input { _margin:-3px;}

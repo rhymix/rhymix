@@ -10,6 +10,7 @@
     $lang->thumbnail_crop = 'Crop';
     $lang->thumbnail_ratio = 'Ratio';
     $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+    $lang->move_target_module = "移动目标模块";
 
     $lang->cmd_toggle_checked_document = '反选';
     $lang->cmd_delete_checked_document = '删除所选';

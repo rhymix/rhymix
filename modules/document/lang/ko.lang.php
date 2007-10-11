@@ -19,6 +19,8 @@
     $lang->msg_is_secret = '비밀글입니다';
     $lang->msg_checked_document_is_deleted = '%d개의 글이 삭제되었습니다';
 
+    $lang->move_target_module = "이동 대상 모듈";
+
     // 관리자 페이지에서 검색할 대상
     $lang->search_target_list = array(
         'title' => '제목',

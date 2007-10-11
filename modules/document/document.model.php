@@ -314,6 +314,21 @@
         }
 
         /**
+         * @brief 특정 모듈의 분류를 구함
+         **/
+        function getDocumentCategories() {
+            $module_srl = Context::get('module_srl');
+            $categories= $this->getCategoryList($module_srl);
+            if(!$categories) return;
+
+            $output = '';
+            foreach($categories as $category_srl => $category) {
+                $output .= sprintf("%d,%s\n",$category_srl, $category->title);
+            }
+            $this->add('categories', $output);
+        }
+
+        /**
          * @brief 문서 설정 정보를 구함
          **/
         function getDocumentConfig() {

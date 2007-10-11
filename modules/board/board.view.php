@@ -156,11 +156,6 @@
             Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
-            // 관리자일 경우 체크한 문서들의 목록을 세팅
-            if($this->grant->is_admin) {
-                Context::set('check_list',$_SESSION['document_management'][$this->module_srl]);
-            }
-
             $this->setTemplateFile('list');
         }
         

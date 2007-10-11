@@ -100,6 +100,23 @@
             return $this->get('notify_message')=='Y' ? true : false;
         }
 
+        function doCart() {
+            if($this->isCarted()) $this->removeCart();
+            else $this->addCart();
+        }
+
+        function addCart() {
+            $_SESSION['document_management'][$this->document_srl] = true;
+        }
+
+        function removeCart() {
+            unset($_SESSION['document_management'][$this->document_srl]);
+        }
+
+        function isCarted() {
+            return $_SESSION['document_management'][$this->document_srl];
+        }
+
         function notify($type, $content) {
             // useNotify가 아니면 return
             if(!$this->useNotify()) return;

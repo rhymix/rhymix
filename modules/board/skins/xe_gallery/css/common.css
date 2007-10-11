@@ -40,12 +40,11 @@ Jeong, Chan Myeong 070601~070630
 .boardList tr.bg2 { background:#fbfbfb;}
 .boardList th a { color:#3e3f3e; text-decoration:none; }
 .boardList th.num { background-position:-3px bottom; border-left:1px solid #ffffff; }
-.boardList th.title { text-align:center; }
-.boardList th.category { text-align:center; }
+.boardList th.title { text-align:left; padding-left:2em;}
+.boardList th.category { text-align:left; padding-left:2em;}
 .boardList th.title select { vertical-align:middle; margin-left:.5em; }
 .boardList th.reading { white-space:nowrap;}
 .boardList th.recommend { white-space:nowrap;}
-.boardList th.date { border-right:1px solid #ffffff;}
 .boardList th .sort { padding:0 .2em; vertical-align:middle;}
 .boardList td { border-top:1px solid #eff0ed; padding:.5em;}
 .boardList td.num { font:.8em tahoma; color:#999999; padding:.5em 1em; text-align:center;}
@@ -77,19 +76,20 @@ Jeong, Chan Myeong 070601~070630
 .boardList td .thumbnailMedium { margin:0 .3em 0 .3em;}
 .boardList td .thumbnailMedium img { border:1px solid #e0e1db; padding:3px;}
 
-.boardList.thumbnail { margin-top:-1px; border-bottom:none;}
-.boardList.thumbnail td { border-top:none; border-bottom:1px solid #eff0ed; padding:1.5em 0 0 1.5em; overflow:hidden;}
-.boardList.thumbnail div.cell { float:left; width:167px; height:220px; overflow:hidden; margin:0 1.5em 0 0; padding-bottom:1.5em;}
-.boardList.thumbnail div.cell img.thumb { padding:2px; border:1px solid #e0e1db; display:block; margin-bottom:1em;}
-.boardList.thumbnail div.title { color:#444444; margin-bottom:.2em; padding-left:3px; overflow:hidden; white-space:nowrap;}
-.boardList.thumbnail div.title a { color:#444444; text-decoration:none;}
-.boardList.thumbnail div.nameAndDate { font-size:.9em; color:#999999; margin-bottom:.2em; padding-left:3px;}
-.boardList.thumbnail div.nameAndDate a { color:#999999;}
-.boardList.thumbnail div.nameAndDate .date { font:.8em Tahoma; color:#999999;}
-.boardList.thumbnail div.readAndRecommend { font-size:.9em; color:#666666; padding-left:3px;}
-.boardList.thumbnail div.readAndRecommend .num { font:.8em Tahoma;}
-.boardList.thumbnail div.readAndRecommend .vr { color:#dddddd;}
-.boardList.thumbnail div.readAndRecommend strong.num { font:bold .8em Tahoma; color:#ff6600;}
+.thumbnailBox { border-top:none; border-bottom:1px solid #eff0ed; padding:1.5em 0 0 1.5em; overflow:hidden; padding-bottom:1em;}
+.thumbnailBox div.cell { display:block; float:left; overflow:hidden; margin-bottom:1em;}
+.thumbnailBox div.cell img.thumb { padding:2px; border:1px solid #e0e1db; display:block; margin-bottom:1em; margin-left:auto;margin-right:auto;}
+.thumbnailBox div.title { color:#3B96C0; margin-bottom:.2em; overflow:hidden; white-space:nowrap; text-align:center;}
+.thumbnailBox div.title a { color:#3B96C0; text-decoration:none;}
+.thumbnailBox div.nameAndDate { font-size:.9em; color:#999999; margin-bottom:.2em; text-align:center;}
+.thumbnailBox div.nameAndDate a { color:#999999;}
+.thumbnailBox div.nameAndDate .author { margin-left:auto; margin-right:right; }
+.thumbnailBox div.nameAndDate .author div { display:inline; vertical-align:middle;}
+.thumbnailBox div.nameAndDate .date { font:.8em Tahoma; color:#999999;}
+.thumbnailBox div.readAndRecommend { font-size:.9em; color:#666666; text-align:center;}
+.thumbnailBox div.readAndRecommend .num { font:.8em Tahoma;}
+.thumbnailBox div.readAndRecommend .vr { color:#dddddd;}
+.thumbnailBox div.readAndRecommend strong.num { font:bold .8em Tahoma; color:#ff6600;}
 
 /* pageNavigation */
 .pageNavigation { display:block; padding:1.5em 0 2em 0; text-align:center; font:bold 11px Tahoma; }

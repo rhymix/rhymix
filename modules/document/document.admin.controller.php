@@ -36,24 +36,133 @@
             $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
         }
 
+        /**
+         * @brief 관리자가 글 선택시 세션에 담음
+         **/
+        function procDocumentAdminAddCart() {
+            $document_srl = Context::get('srl');
+
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists()) return;
+
+            $oDocument->doCart();
+        }
+
+        /**
+         * @brief 세션에 담긴 선택글의 이동/ 삭제
+         **/
+        function procDocumentAdminManageCheckedDocument() {
+            $type = Context::get('type');
+            $module_srl = Context::get('target_module');
+            $category_srl = Context::get('target_category');
+            $message_content = Context::get('message_content');
+            if($message_content) $message_content = nl2br($message_content);
+
+            $cart = Context::get('cart');
+            if($cart) $document_srl_list = explode('|@|', $cart);
+            else $document_srl_list = array();
+
+            $document_srl_count = count($document_srl_list);
+
+            // 쪽지 발송
+            if($message_content) {
+
+                $oMemberController = &getController('member');
+                $oDocumentModel = &getModel('document');
+
+                $logged_info = Context::get('logged_info');
+
+                $title = cut_str($message_content,10,'...');
+                $sender_member_srl = $logged_info->member_srl;
+
+                for($i=0;$i<$document_srl_count;$i++) {
+                    $document_srl = $document_srl_list[$i];
+                    $oDocument = $oDocumentModel->getDocument($document_srl);
+                    if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
+
+                    if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
+                    else $purl = "";
+                    $content .= sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent());
+
+                    $oMemberController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+                }
+            }
+
+            if($type == 'move') {
+                if(!$module_srl) return new Object(-1, 'fail_to_move');
+
+                $output = $this->moveDocumentModule($document_srl_list, $module_srl, $category_srl);
+                if(!$output->toBool()) return new Object(-1, 'fail_to_move');
+
+                $msg_code = 'success_moved';
+
+            } elseif($type == 'copy') {
+                if(!$module_srl) return new Object(-1, 'fail_to_move');
+
+                $output = $this->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
+                if(!$output->toBool()) return new Object(-1, 'fail_to_move');
+
+                $msg_code = 'success_registed';
+
+            } elseif($type =='delete') {
+                $oDB = &DB::getInstance();
+                $oDB->begin();
+                $oDocumentController = &getController('document');
+                for($i=0;$i<$document_srl_count;$i++) {
+                    $document_srl = $document_srl_list[$i];
+                    $output = $oDocumentController->deleteDocument($document_srl, true);
+                    if(!$output->toBool()) return new Object(-1, 'fail_to_delete');
+                }
+                $oDB->commit();
+                $msg_code = 'success_deleted';
+            }
+
+            $_SESSION['document_management'] = array();
+
+            $this->setMessage($msg_code);
+        }
+
         /** 
          * @brief 특정 게시물들의 소속 모듈 변경 (게시글 이동시에 사용)
          **/
-        function moveDocumentModule($document_srl_list, $module_srl, $source_module_srl) {
+        function moveDocumentModule($document_srl_list, $module_srl, $category_srl) {
             if(!count($document_srl_list)) return;
 
-            $args->document_srls = implode(',',$document_srl_list);
-            $args->module_srl = $module_srl;
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
 
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 게시물의 이동
-            $output = executeQuery('document.updateDocumentModule', $args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
+            for($i=0;$i<count($document_srl_list);$i++) {
+                $document_srl = $document_srl_list[$i];
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+                if(!$oDocument->isExists()) continue;
+
+                $source_category_srl = $oDocument->get('category_srl');
+
+                unset($document_args);
+                $document_args->module_srl = $module_srl;
+                $document_args->category_srl = $category_srl;
+                $document_args->document_srl = $document_srl;
+
+                // 게시물의 모듈 이동
+                $output = executeQuery('document.updateDocumentModule', $document_args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+                // 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
+                if($source_category_srl != $category_srl) {
+                    if($source_category_srl) $oDocumentController->updateCategoryCount($source_category_srl);
+                    if($category_srl) $oDocumentController->updateCategoryCount($category_srl);
+                }
             }
+
+            $args->document_srls = implode(',',$document_srl_list);
+            $args->module_srl = $module_srl;
 
             // 댓글의 이동
             $output = executeQuery('comment.updateCommentModule', $args);
@@ -75,31 +184,53 @@
                 $oDB->rollback();
                 return $output;
             }
+            
+            $oDB->commit();
+            return new Object();
+        }
 
-            // 첨부파일의 이동 (다운로드나 본문 첨부의 문제로 인하여 첨부파일은 이동하지 않기로 결정. 차후에 다시 고민)
-            /*
-            $image_dir = sprintf('./files/attach/images/%s/%s/', $source_module_srl, $document_srl);
-            $binary_dir = sprintf('./files/attach/binaries/%s/%s/', $source_module_srl, $document_srl);
+        /** 
+         * @brief 게시글의 복사
+         **/
+        function copyDocumentModule($document_srl_list, $module_srl, $category_srl) {
+            if(!count($document_srl_list)) return;
 
-            $target_image_dir = sprintf('./files/attach/images/%s/%s/', $module_srl, $document_srl);
-            $target_binary_dir = sprintf('./files/attach/binaries/%s/%s/', $module_srl, $document_srl);
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+            $oFileController = &getController('file');
 
-            if(is_dir($image_dir)) {
-                FileHandler::moveDir($image_dir, $target_image_dir);
-                if(!is_dir($target_image_dir)) {
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            for($i=0;$i<count($document_srl_list);$i++) {
+                $document_srl = $document_srl_list[$i];
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+                if(!$oDocument->isExists()) continue;
+
+                $obj = null;
+                $obj = $oDocument->getObjectVars();
+                $obj->document_srl = getNextSequence();
+                $obj->category_srl = $category_srl;
+                $obj->password_is_hashed = true;
+
+                // 첨부파일 미리 등록
+                if($oDocument->hasUploadedFiles()) {
+                    $files = $oDocument->getUploadedFiles();
+                    foreach($files as $key => $val) {
+                        $file_info = array();
+                        $file_info['tmp_name'] = $val->uploaded_filename;
+                        $file_info['name'] = $val->source_filename;
+                        $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
+                    }
+                }
+                
+                // 글의 등록
+                $output = $oDocumentController->insertDocument($obj, true);
+                if(!$output->toBool()) {
                     $oDB->rollback();
-                    return new Object(-1,'fail');
+                    return $output;
                 }
             }
-
-            if(is_dir($binary_dir)) {
-                FileHandler::moveDir($binary_dir, $target_binary_dir);
-                if(!is_dir($target_binary_dir)) {
-                    $oDB->rollback();
-                    return new Object(-1,'fail');
-                }
-            }
-            */
             
             $oDB->commit();
             return new Object();
@@ -292,5 +423,6 @@
             }
             $directory->close();
         }
+ 
     }
 ?>

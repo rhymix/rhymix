@@ -140,5 +140,59 @@
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <default>100</default>
         </var>
+    <var name="display_number" type="select">
+      <title xml:lang="ko">번호 표시</title>
+      <title xml:lang="jp">番号表示</title>
+      <title xml:lang="zh-CN">显示编号</title>
+      <title xml:lang="en">Dispay Number</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_author" type="select">
+      <title xml:lang="ko">글쓴이 표시</title>
+      <title xml:lang="jp">投稿者表示</title>
+      <title xml:lang="zh-CN">显示昵称</title>
+      <title xml:lang="en">Display Author</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_regdate" type="select">
+      <title xml:lang="ko">작성일 표시</title>
+      <title xml:lang="jp">作成日表示</title>
+      <title xml:lang="zh-CN">显示发表日期</title>
+      <title xml:lang="en">Display Registered Date</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_readed_count" type="select">
+      <title xml:lang="ko">조회수 표시</title>
+      <title xml:lang="jp">照合数表示</title>
+      <title xml:lang="zh-CN">显示查看数</title>
+      <title xml:lang="en">Display Hit</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_voted_count" type="select">
+      <title xml:lang="ko">추천수 표시</title>
+      <title xml:lang="jp">推薦数表示</title>
+      <title xml:lang="zh-CN">显示推荐数</title>
+      <title xml:lang="en">Display Votes</title>
+      <default>Y</default>
+      <default>N</default>
+      <description />
+    </var>
+    <var name="display_last_update" type="select">
+      <title xml:lang="ko">최근 변경시간 표시</title>
+      <title xml:lang="jp">最近の変更時間表示</title>
+      <title xml:lang="zh-CN">显示最后更新时间</title>
+      <title xml:lang="en">Display Latest Update</title>
+      <default>N</default>
+      <default>Y</default>
+      <description />
+    </var>
     </extra_vars>
 </skin>

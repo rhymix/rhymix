@@ -1,0 +1,14 @@
+<query id="getAllModules" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module" var="select_module" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="mid" order="asc" />
+    </navigation>
+</query>

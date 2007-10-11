@@ -60,9 +60,10 @@
             if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
 
             /**
-             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가
+             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가, 게시글 관리 action 추가
              **/
             if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) return true;
+            if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument')) return true;
 
             return false;
         }
@@ -112,10 +113,12 @@
             }
 
             /**
-             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가
+             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가, 게시글 관리 action 추가
              **/
             if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) 
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
+            if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument')) 
+                $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminManageDocument');
 
             return new Object(0,'success_updated');
         }
