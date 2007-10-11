@@ -13,6 +13,7 @@
     $lang->cmd_poll_list = 'アンケートのリスト表示';
     $lang->cmd_delete_checked_poll = '選択項目削除';
     $lang->cmd_apply_poll = 'アンケート調査へ参加する';
+    $lang->cmd_view_result = 'Preview result';
     $lang->cmd_delete_checked_poll = '選択アンケート削除';
 
     $lang->success_poll = 'アンケート調査へのご応募ありがとうございます。';

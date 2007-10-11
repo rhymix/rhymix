@@ -85,6 +85,51 @@
         }
 
         /**
+         * @brief 결과 html을 return
+         **/
+        function getPollResultHtml($poll_srl) {
+            $args->poll_srl = $poll_srl;
+
+            // 해당 설문조사에 대한 내용을 조사
+            $output = executeQuery('poll.getPoll', $args);
+            if(!$output->data) return '';
+
+            $poll->style = $style;
+            $poll->poll_count = (int)$output->data->poll_count;
+            $poll->stop_date = $output->data->stop_date;
+
+            $output = executeQuery('poll.getPollTitle', $args);
+            if(!$output->data) return;
+            if(!is_array($output->data)) $output->data = array($output->data);
+            foreach($output->data as $key => $val) {
+                $poll->poll[$val->poll_index_srl]->title = $val->title;
+                $poll->poll[$val->poll_index_srl]->checkcount = $val->checkcount;
+                $poll->poll[$val->poll_index_srl]->poll_count = $val->poll_count;
+            }
+
+            $output = executeQuery('poll.getPollItem', $args);
+            foreach($output->data as $key => $val) {
+                $poll->poll[$val->poll_index_srl]->item[] = $val;
+            }
+
+            $poll->poll_srl = $poll_srl;
+
+            $tpl_file = "result";
+
+            Context::set('poll',$poll);
+
+            // 기본 설정의 스킨, 컬러셋 설정 
+            $oModuleModel = &getModel('module');
+            $poll_config = $oModuleModel->getModuleConfig('poll');
+            if(!$poll_config->skin) $poll_config->skin = 'default';
+            Context::set('poll_config', $poll_config);
+            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $poll_config->skin);
+
+            $oTemplate = &TemplateHandler::getInstance();
+            return $oTemplate->compile($tpl_path, $tpl_file);
+        }
+
+        /**
          * @brief 선택된 설문조사 - 스킨의 컬러셋을 return
          **/
         function getPollGetColorsetList() {

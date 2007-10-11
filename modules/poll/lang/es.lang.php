@@ -13,6 +13,7 @@
     $lang->cmd_poll_list = 'Ver la lista de la encuesta';
     $lang->cmd_delete_checked_poll = 'Eliminar la encuesta seleccionada'; 
     $lang->cmd_apply_poll = 'Aplicar la encuesta';
+    $lang->cmd_view_result = 'Preview result';
     $lang->cmd_delete_checked_poll = 'Eliminar la encuesta seleccionada';  
 
     $lang->success_poll = 'Gracias por participar en la encuesta.';
