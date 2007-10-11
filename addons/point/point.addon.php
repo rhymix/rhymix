@@ -159,6 +159,21 @@
             $cur_point -= $point;
             $oPointController = &getController('point');
             $oPointController->setPoint($target_member_srl,$cur_point);
+
+        // 회원 가입일 경우
+        } elseif(strpos($config->signup_act,$this->act)!==false) {
+            // 가입이 제대로 되었는지 체크
+            if(!$this->toBool()||!$this->get('member_srl')) return;
+            $member_srl = $this->get('member_srl');
+
+            // 포인트를 구해옴
+            $point = $config->module_point[$module_srl]['signup'];
+            if($point == null) $point = $config->signup;
+
+            // 포인트 증감
+            $cur_point += $point;
+            $oPointController = &getController('point');
+            $oPointController->setPoint($member_srl,$cur_point);
         }
 
     // 파일다운로드는 before_module_proc 일때 체크

@@ -21,6 +21,9 @@
             <condition operation="like_prefix" column="last_login" var="s_last_login" pipe="or" />
         </group>
     </conditions>
+    <groups>
+        <group column="member.member_srl" />
+    </groups>
     <navigation>
         <index var="sort_index" default="point" order="desc" />
         <list_count var="list_count" default="20" />

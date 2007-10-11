@@ -125,6 +125,13 @@
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
                 $member_srl = $source_list[$i]->member_srl;
+
+                // OL/LI 태그를 위한 치환 처리
+                $source_list[$i]->content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$source_list[$i]->content);
+
+                // url에 대해서 정규표현식으로 치환
+                $source_list[$i]->content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$source_list[$i]->content);
+            
                 if(!$comment_srl) continue;
 
                 if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;

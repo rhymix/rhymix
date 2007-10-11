@@ -110,7 +110,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-    iframe_obj.style.width = '100%'; ///<< iframe_obj의 가로 크기를 100%로 고정
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
 
     // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
     var fo_obj = editorGetForm(editor_sequence);
@@ -189,7 +189,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
         // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
         if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
         else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
-        alert('실패');
+        //alert('실패');
     }
 
     xAddEventListener(document,'mouseup',editorEventCheck);

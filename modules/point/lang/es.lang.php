@@ -28,6 +28,7 @@
 
     $lang->about_module_point = "Usted puede definir los puntos para cada módulo y los módulos que no tengan ningun valor usarán punto predefinido.<br />Todos los puntos serán restituidos al actuar en forma contraria.";
 
+    $lang->point_signup = 'Fecha del';
     $lang->point_insert_document = 'Al escribir documento';
     $lang->point_delete_document = 'Al borrar documento';
     $lang->point_insert_comment = 'Al agregar comentarios';

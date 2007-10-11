@@ -44,7 +44,18 @@
         </ul>
 
         <div class="userInfo">
-            <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+            <!--@if(!$oDocument->getMemberSrl())-->
+                <div class="author">
+                <!--@if($oDocument->isExistsHomepage())-->
+                    <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
+                <!--@else-->
+                    {$oDocument->getNickName()}
+                <!--@end-->
+                </div>
+            <!--@else-->
+                <div class="author"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></div>
+            <!--@end-->
+
             <!--@if($grant->is_admin)-->
             <div class="ipaddress">{$oDocument->get('ipaddress')}</div>
             <!--@end-->
@@ -68,7 +79,17 @@
         </table>
         <!--@end-->
 
-        <div class="readBody"><div class="contentBody">{$oDocument->getContent()}</div></div>
+        <div class="readBody">
+            <div class="contentBody">
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    {@ $form_include = true; }
+                    <!--#include("./input_password_form.html")-->
+
+                <!--@else-->
+                    {$oDocument->getContent()}
+                <!--@end-->
+            </div>
+        </div>
 
         <div class="readFooter">
             {@ $tag_list = $oDocument->get('tag_list') }

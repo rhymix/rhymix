@@ -13,6 +13,7 @@
     $lang->cmd_poll_list = 'View poll list';
     $lang->cmd_delete_checked_poll = 'Delete selected poll'; 
     $lang->cmd_apply_poll = 'Apply poll';
+    $lang->cmd_view_result = 'Preview result';
     $lang->cmd_delete_checked_poll = 'Delete selected poll';  
 
     $lang->success_poll = 'Thank you for joining the poll.';

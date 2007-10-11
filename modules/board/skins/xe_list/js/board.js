@@ -4,19 +4,6 @@
  * @brief  board 모듈의 javascript
  **/
 
-/* 관리자가 카트 선택시 세션에 넣음 */
-function doAddCart(mid, obj) {
-    var srl = obj.value;
-    var check_flag = obj.checked?'add':'remove';
-
-    var params = new Array();
-    params["mid"] = mid;
-    params["srl"] = srl;
-    params["check_flag"] = check_flag;
-
-    exec_xml("board","procBoardAdminAddCart", params, null);
-}
-
 /* 글쓰기 작성후 */
 function completeDocumentInserted(ret_obj) {
     var error = ret_obj['error'];

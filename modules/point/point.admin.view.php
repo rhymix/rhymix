@@ -60,10 +60,12 @@
          **/
         function dispPointAdminPointList() {
             $oPointModel = &getModel('point');
+
             $args->list_count = 20;
             $args->page = Context::get('page');
 
             $output = $oPointModel->getMemberList($args);
+
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);

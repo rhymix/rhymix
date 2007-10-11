@@ -43,6 +43,7 @@
                 $member_info = $this->getMemberInfoByMemberSrl($member_srl);
             }
             $member_srl = $member_info->member_srl;
+            if(!$member_srl) return;
 
             // 변수 정리
             $user_id = $member_info->user_id;

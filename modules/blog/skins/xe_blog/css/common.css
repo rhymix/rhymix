@@ -211,6 +211,7 @@ ul.replyZone .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
 ul.replyZone .replyOption img { vertical-align:middle;}
 
 ul.replyZone .replyContent { clear:left; }
+ul.replyZone .replyContent p { display:block; }
 ul.replyZone .reply { background-color:#FAFAFA;}
 ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
@@ -219,13 +220,14 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 #reply li { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
 #reply p { display:inline; margin-bottom:1em;}
 #reply .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
-#reply .author a { font-size:.9em; color:#3074a5; margin-right:.3em;}
+#reply .author a { color:#3074a5; margin-right:.3em; text-decoration:none;}
 #reply .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
 #reply .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
 #reply .replyOption img { vertical-align:middle;}
 
 #reply .replyContent { clear:left; }
+#reply .replyContent p { display:block; }
 #reply .reply { background-color:#FAFAFA;}
 #reply .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
@@ -276,7 +278,7 @@ ul.replyZone .replyIndent { background:url(../images/common/iconReplyArrow.gif) 
 .blogWrite .extra_vars .info { clear:both; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
 .blogWrite .extra_vars ul li { float:left; margin-right:1em; }
 
-.smallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
+.smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
 .smallBox.w268 { width:268px;}
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 .smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }

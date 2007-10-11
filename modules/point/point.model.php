@@ -110,7 +110,7 @@
                 $config = $oModuleModel->getModuleConfig('point');
 
                 foreach($output->data as $key => $val) {
-                    $output->data[$key]->level = $this->getLevel($point, $config->level_step);
+                    $output->data[$key]->level = $this->getLevel($val->point, $config->level_step);
                 }
             }
 

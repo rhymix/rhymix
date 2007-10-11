@@ -43,6 +43,11 @@
             /**
              * 모듈별 기본 점수 및 각 action 정의 (게시판,블로그외에 어떤 모듈이 생길지 모르니 act값을 명시한다
              **/
+            // 회원가입
+            $config->signup = 10;
+
+            $config->signup_act = 'procMemberInsert';
+
             // 글작성
             $config->insert_document = 10;
 
@@ -79,6 +84,12 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            // point 모듈 정보 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            if(!$config->signup || !$config->signup_act) return true;
+
             return false;
         }
 
@@ -86,6 +97,21 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            // point 모듈 정보 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            if(!$config->signup || !$config->signup_act) {
+                $config->signup = 10;
+                $config->signup_act = 'procMemberInsert';
+
+                $oModuleController = &getController('module');
+                $oModuleController->insertModuleConfig('point', $config);
+
+                $oPointController = &getAdminController('point');
+                $oPointController->cacheActList();
+            }
+
             return new Object(0, 'success_updated');
         }
 

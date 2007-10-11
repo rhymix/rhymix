@@ -10,17 +10,21 @@
 <!--@end-->
 
 <!-- 목록 출력 -->
-<table cellspacing="0" summary="" class="boardList">
-    <col width="50" />
+<form action="./" method="get">
+    <table cellspacing="0" summary="" class="boardList">
+    <col width="80" />
     <col />
-    <col width="90" />
-    <col width="90" />
-    <col width="110" />
+    <!--@if($module_info->display_readed_count!='N')--><col width="70" /><!--@end-->
+    <!--@if($module_info->display_voted_count!='N')--><col width="70" /><!--@end-->
+    <!--@if($module_info->display_regdate != 'N')--><col width="90" /><!--@end-->
+    <!--@if($module_info->display_last_update == 'Y')--><col width="90" /><!--@end-->
     <thead>
         <tr>
-            <th scope="col" class="title thumbStyle" colspan="2">
+            <th scope="col" class="<!--@if($module_info->use_category=='Y')-->category<!--@else-->title<!--@end-->" colspan="2">
+                <!--@if($grant->is_admin)-->
+                <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" />
+                <!--@end-->
                 <!--@if($module_info->use_category == "Y")-->
-                <form action="./" method="get">
                     <select name="category" id="board_category">
                         <option value="">{$lang->category}</option>
                         <!--@foreach($category_list as $val)-->
@@ -28,7 +32,6 @@
                         <!--@end-->
                     </select>
                     <input type="button" name="go_button" id= "go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
-                </form>
                 <!--@else-->
                 {$lang->title}
                 <!--@end-->
@@ -42,11 +45,12 @@
                 {@ $order_type = "desc"; }
             <!--@end-->
 
-            <th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_readed_count!='N')--><th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 
-            <th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_voted_count!='N')--><th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 
-            <th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th>
+            <!--@if($module_info->display_regdate!='N')--><th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+            <!--@if($module_info->display_last_update=='Y')--><th scope="col" class="date"><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
         </tr>
     </thead>
 
@@ -58,7 +62,11 @@
             <td class="num">{$lang->notice}</td>
             <td class="title">
                 <!--@if($grant->is_admin)-->
-                    <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="checked"<!--@end--> /> 
+                    <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
+                <!--@end-->
+
+                <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+                <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
                 <!--@end-->
 
                 <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
@@ -73,9 +81,10 @@
 
                 {$document->printExtraImages(60*60*$module_info->duration_new)}
             </td>
-            <td class="reading">{$document->get('readed_count')}</td>
-            <td class="recommend">{$document->get('voted_count')}</td>
-            <td class="date">{$document->getRegdate('Y-m-d')}</td>
+            <!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')}</td><!--@end-->
+            <!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')}</td><!--@end-->
+            <!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
+            <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
         </tr>
 
         <!--@end-->
@@ -84,55 +93,59 @@
     </tbody>
 </table>
 
-<table cellspacing="0" class="boardList thumbnail">
-    <tbody>
-        <tr class="bg1">
-            <td>
-                <!--@foreach($document_list as $no => $document)-->
-                <!--@if(!$document->isNotice())-->
+{@ $height = $module_info->thumbnail_height + 40; }
+<!--@if($module_info->display_author!='N' || $module_info->display_regdate!='N')-->{@ $height += 25 }<!--@end-->
+<!--@if($module_info->display_readed_count !='N' || $module_info->display_voted_count!='N')-->{@ $height += 25 }<!--@end-->
 
-                <div class="cell">
-                    <!--@if($document->thumbnailExists(122))-->
-                        <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail(122)}" border="0" alt="" class="thumb"/></a>
-                    <!--@else-->
-                        <img src="./images/blank.gif" border="0" alt="" class="thumb" width="122" height="122" />
-                    <!--@end-->
 
-                    <div class="title">
-                        <!--@if($grant->is_admin)-->
-                            <input type="checkbox" value="{$document->document_srl}" onclick="doAddCart('{$mid}',this)" <!--@if($check_list[$document->document_srl])-->checked="checked"<!--@end--> /> 
-                        <!--@end-->
-                        <!--@if($grant->view)-->
-                            <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
-                        <!--@else-->
-                            {$document->getTitleText(8,'')}
-                        <!--@end-->
+<div class="thumbnailBox">
 
-                        <!--@if($document->getCommentCount())-->
-                            <span class="replyAndTrackback" title="Replies">(<strong>{$document->getCommentCount()}</strong>)</span>
-                        <!--@end-->
+    <!--@foreach($document_list as $no => $document)-->
+    <!--@if(!$document->isNotice())-->
 
-                        <!--@if($document->getTrackbackCount())-->
-                            <span class="replyAndTrackback" title="Trackbacks">[<strong>{$document->getTrackbackCount()}</strong>]</span>
-                        <!--@end-->
+    <div class="cell" style="width:{$module_info->thumbnail_width+30}px;height:{$height}px;">
+        <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+            <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
+        <!--@else-->
+            <img src="./images/blank.gif" border="0" alt="" class="thumb" width="{$module_info->thumbnail_width}" height="{$module_info->thumbnail_height}" />
+        <!--@end-->
 
-                        <div class="nameAndDate">
-                            <div class="author member_{$document->get('member_srl')}">{$document->getNickName()}</div>
-                            <div class="date">{$document->getRegdate('Y.m.d')}</div>
-                        </div>
-                    </div>
-                    <div class="readAndRecommend">
-                        {$lang->readed_count} <span class="num">{$document->get('readed_count')}</span>
-                        <!--@if($document->get('voted_count'))--><span class="vr">|</span> {$lang->voted_count} <strong class="num">{$document->get('voted_count')}</strong><!--@end-->
-                    </div>
-                </div>
-
+        <div class="title">
+            <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+            <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong><br />
             <!--@end-->
+
+            <!--@if($grant->is_admin)-->
+                <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
             <!--@end-->
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+            <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+
+            <!--@if($document->getCommentCount())-->
+                <span class="replyAndTrackback" title="Replies">(<strong>{$document->getCommentCount()}</strong>)</span>
+            <!--@end-->
+
+            <!--@if($document->getTrackbackCount())-->
+                <span class="replyAndTrackback" title="Trackbacks">[<strong>{$document->getTrackbackCount()}</strong>]</span>
+            <!--@end-->
+
+            <div class="nameAndDate">
+                <!--@if($module_info->display_author!='N')--><div class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></div><!--@end-->
+                <!--@if($module_info->display_regdate!='N')--><div class="date">{$document->getRegdate('Y.m.d')}</div><!--@end-->
+            </div>
+        </div>
+        <div class="readAndRecommend">
+            <!--@if($module_info->display_readed_count!='N')-->{$lang->readed_count} <span class="num">{$document->get('readed_count')}</span><!--@end-->
+            <!--@if($document->get('voted_count') && $module_info->display_voted_count!='N')-->
+                <!--@if($module_info->display_readed_count!='N')--><span class="vr">|</span> <!--@end-->
+                {$lang->voted_count} <strong class="num">{$document->get('voted_count')}</strong>
+            <!--@end-->
+        </div>
+    </div>
+    <!--@end-->
+    <!--@end-->
+</div>
+</form>
 
 
 <div class="clear">
@@ -148,7 +161,7 @@
     <!--@if($grant->is_admin)-->
     <!-- 문서 관리 버튼 -->
     <div class="gap1 fl">
-        <a href="{getUrl('act','dispBoardAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+        <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
     </div>
     <!--@end-->
 

@@ -1,7 +1,7 @@
 <!--%import("filter/delete_checked.xml")-->
-<!--%import("js/document_admin.js")-->
+<!--%import("filter/manage_checked_document.xml")-->
+<!--#include("header.html")-->
 
-<h3>{$lang->document} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <!-- 정보 -->
 <div class="tableSummaryType1">
@@ -13,6 +13,13 @@
 
     <!-- 목록 -->
     <table cellspacing="0" class="tableType1">
+    <col width="60" />
+    <col width="20" />
+    <col />
+    <col />
+    <col width="120" />
+    <col width="60" />
+    <col width="80" />
     <thead>
         <tr>
             <th scope="col">{$lang->no}</th>
@@ -38,9 +45,9 @@
         <!--@foreach($document_list as $no => $oDocument)-->
         <tr>
             <td class="tahoma">{$no}</td>
-            <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
-            <td class="blue"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
-            <td>
+            <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
+            <td class="left blue category"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
+            <td class="left">
                 <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
 
                 <!--@if($oDocument->getCommentCount())-->
@@ -51,7 +58,7 @@
                     [{$oDocument->getTrackbackCount()}]
                 <!--@end-->
             </td>
-            <td><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+            <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
             <td class="tahoma">{$oDocument->get('readed_count')}</td>
             <td class="tahoma">{$oDocument->get('voted_count')}</td>
             <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
@@ -62,9 +69,7 @@
 
 <!-- 버튼 -->
 <div class="fr gap1">
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_document}" /></span>
+    <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
 </div>
 
 </form>

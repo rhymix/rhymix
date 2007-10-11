@@ -209,33 +209,5 @@
 
             $this->setTemplateFile('grant_list');
         }
-
-        /**
-         * @brief 선택한 목록 출력
-         **/
-        function dispBoardAdminManageDocument() {
-            // 선택한 목록을 세션에서 가져옴
-            $flag_list = $_SESSION['document_management'][$this->module_srl];
-
-            // 목록이 있으면 게시글을 가져옴
-            if(count($flag_list)) $document_srl_list = array_keys($flag_list);
-            if(is_array($document_srl_list) && count($document_srl_list)) {
-                $oDocumentModel = &getModel('document');
-                $document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
-                Context::set('document_list', $document_list);
-            }
-
-            // 게시판의 목록을 가져옴
-            $output = executeQuery('board.getAllBoard', $args);
-            $board_list = $output->data;
-            if($board_list && !is_array($board_list)) $board_list = array($board_list);
-            Context::set('board_list', $board_list);
-
-            // 팝업 레이아웃 선택
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('popup_layout');
-
-            $this->setTemplateFile('checked_list');
-        }
     }
 ?>

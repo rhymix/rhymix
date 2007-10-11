@@ -57,6 +57,19 @@
             <description xml:lang="en">It cuts the length of subject and displays (10 letters as default).</description>
 			<description xml:lang="es">Muestra el título con el número de letras asignadas (predefinio: 10).</description>
         </var>
+        <var id="thumbnail_type">
+            <name xml:lang="ko">썸네일 생성 방법</name>
+            <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
+            <type>select</type>
+            <options>
+                <name xml:lang="ko">Crop (채우기)</name>
+                <value>crop</value>
+            </options>
+            <options>
+                <name xml:lang="ko">Ratio (비율 맞추기)</name>
+                <value>ratio</value>
+            </options>
+        </var>
         <var id="thumbnail_width">
             <name xml:lang="ko">이미지 가로크기</name>
             <name xml:lang="jp">イメージ横幅</name>
@@ -69,6 +82,11 @@
             <description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
             <description xml:lang="en">You can set the width of image. (100 as default)</description>
 			<description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:100)</description>
+        </var>
+        <var id="thumbnail_height">
+            <name xml:lang="ko">이미지 세로크기</name>
+            <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <type>text</type>
         </var>
         <var id="cols_list_count">
             <name xml:lang="ko">가로 이미지 수</name>
@@ -181,12 +199,12 @@
                 <value>Y</value>
             </options>
             <options>
-            <name xml:lang="ko">표시하지 않음</name>
-            <name xml:lang="zh-CN">不显示</name>
-			<name xml:lang="en">Hide</name>
-			<name xml:lang="es">Ocultar</name>
+                <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">Hide</name>
+                <name xml:lang="es">Ocultar</name>
                 <value>N</value>
-                </options>
-            </var>
+            </options>
+        </var>
     </extra_vars>
 </widget>

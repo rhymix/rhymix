@@ -28,6 +28,7 @@
 
     $lang->about_module_point = '모듈별로 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용하게 됩니다<br />모든 점수는 반대 행동을 하였을 경우 원상복귀 됩니다.';
 
+    $lang->point_signup = '가입';
     $lang->point_insert_document = '글 작성';
     $lang->point_delete_document = '글 삭제';
     $lang->point_insert_comment = '댓글 작성';

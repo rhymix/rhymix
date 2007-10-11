@@ -105,7 +105,7 @@
 
             // 파일 이동
             if(!$manual_insert&&!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
-            elseif($manual_insert) @rename($file_info['tmp_name'], $filename);
+            elseif($manual_insert) @copy($file_info['tmp_name'], $filename);
 
             // 사용자 정보를 구함
             $oMemberModel = &getModel('member');
@@ -119,7 +119,7 @@
             $args->source_filename = $file_info['name'];
             $args->uploaded_filename = $filename;
             $args->download_count = $download_count;
-            $args->file_size = filesize($filename);
+            $args->file_size = @filesize($filename);
             $args->comment = NULL;
             $args->member_srl = $member_srl;
             $args->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));

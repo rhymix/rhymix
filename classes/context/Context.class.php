@@ -356,6 +356,17 @@
         }
 
         /**
+         * @brief 특정 문자열만 utf-8로 변경
+         **/
+        function convertEncodingStr($str) {
+            $obj->str = $str;
+            $obj = Context::convertEncoding($obj);
+            return $obj->str;
+        }
+
+
+
+        /**
          * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
          *
          * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음

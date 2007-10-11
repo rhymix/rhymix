@@ -190,5 +190,18 @@
             $this->add('tpl',$tpl);
             $this->setMessage('success_poll');
         }
+
+        /**
+         * @brief 결과 미리 보기
+         **/
+        function procPollViewResult() {
+            $poll_srl = Context::get('poll_srl'); 
+
+            $oPollModel = &getModel('poll');
+            $tpl = $oPollModel->getPollResultHtml($poll_srl);
+
+            $this->add('poll_srl', $poll_srl);
+            $this->add('tpl',$tpl);
+        }
     }
 ?>

@@ -4,8 +4,9 @@
     </tables>
     <columns>
         <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="category_srl" var="category_srl" filter="number" default="0" />
     </columns>
     <conditions>
-        <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
+        <condition operation="equal" column="document_srl" var="document_srl" notnull="notnull" />
     </conditions>
 </query>

@@ -64,7 +64,12 @@
         <td class="r"><img src="./images/blank.gif" height="7" alt="blank" /></td>
     </tr>
     <tr>
-        <td colspan="3" class="poll_button"><div><span class="button"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span></div></td>
+        <td colspan="3" class="poll_button">
+            <div>
+                <span class="button"><input type="button" value="{$lang->cmd_view_result}" class="poll_button" onclick="doPollViewResult('{$poll->poll_srl}'); return false;"/></span>
+                <span class="button"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span>
+            </div>
+        </td>
     </tr>
     <tr>
         <td class="lb" ><img src="./images/lb.png" alt="lb" class="iePngFix" width="7" height="7" /></td>

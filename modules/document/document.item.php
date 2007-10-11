@@ -100,6 +100,23 @@
             return $this->get('notify_message')=='Y' ? true : false;
         }
 
+        function doCart() {
+            if($this->isCarted()) $this->removeCart();
+            else $this->addCart();
+        }
+
+        function addCart() {
+            $_SESSION['document_management'][$this->document_srl] = true;
+        }
+
+        function removeCart() {
+            unset($_SESSION['document_management'][$this->document_srl]);
+        }
+
+        function isCarted() {
+            return $_SESSION['document_management'][$this->document_srl];
+        }
+
         function notify($type, $content) {
             // useNotify가 아니면 return
             if(!$this->useNotify()) return;
@@ -121,6 +138,24 @@
             // 쪽지 발송
             $oMemberController = &getController('member');
             $oMemberController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+        }
+
+        function isExistsHomepage() {
+            if(trim($this->get('homepage'))) return true;
+            return false;
+        }
+
+        function getHomepageUrl() {
+            $url = trim($this->get('homepage'));
+            if(!$url) return;
+
+            if(!eregi("^http:\/\/",$url)) $url = "http://".$url;
+
+            return $url;
+        }
+
+        function getMemberSrl() {
+            return $this->get('member_srl');
         }
         
         function getUserID() {
@@ -168,6 +203,9 @@
 
             // OL/LI 태그를 위한 치환 처리
             $content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$content);
+
+            // url에 대해서 정규표현식으로 치환
+            $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
             
             if($add_document_info) return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
 
@@ -270,12 +308,12 @@
             return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
         }
 
-        function thumbnailExists($width = 80, $height = 0) {
-            if(!$this->getThumbnail($width, $height)) return false;
+        function thumbnailExists($width = 80, $height = 0, $type = '') {
+            if(!$this->getThumbnail($width, $height, $type)) return false;
             return true;
         }
 
-        function getThumbnail($width = 80, $height = 0) {
+        function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
             if(!$height) $height = $width;
 
             // 문서의 이미지 첨부파일 위치를 구함
@@ -297,6 +335,13 @@
 
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
+
+            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
+            if(!in_array($thumbnail_type, array('crop','ratio'))) {
+                $oDocumentModel = &getModel('document');
+                $config = $oDocumentModel->getDocumentConfig();
+                $thumbnail_type = $config->thumbnail_type;
+            }
             
             // 생성 시작
             FileHandler::writeFile($thumbnail_file, '', 'w');
@@ -312,7 +357,7 @@
                     $filename = $file->uploaded_filename;
                     if(!file_exists($filename)) continue;
 
-                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg');
+                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
                     if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                 }
             }
@@ -335,7 +380,7 @@
                 return;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg');
+            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
             @unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
@@ -345,20 +390,10 @@
          * @brief 새글, 최신 업데이트글, 비밀글, 이미지/동영상/첨부파일등의 아이콘 출력용 함수
          * $time_interval 에 지정된 시간(초)로 새글/최신 업데이트글의 판별
          **/
-        function getExtraImages($time_interval = 7200) {
+        function getExtraImages($time_interval = 43200) {
 
             // 아이콘 목록을 담을 변수 미리 설정
             $buffs = array();
-
-            // 최신 시간 설정
-            $time_check = date("YmdHis", time()-$time_interval);
-
-            // 새글 체크
-            if($this->get('regdate')>$time_check) $buffs[] = "new";
-            else if($this->get('last_update')>$time_check) $buffs[] = "update";
-
-            // 비밀글 체크
-            if($this->isSecret()) $buffs[] = "secret";
 
             $check_files = false;
 
@@ -377,13 +412,24 @@
             // 첨부파일 체크
             if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
 
+            // 비밀글 체크
+            if($this->isSecret()) $buffs[] = "secret";
+
+            // 최신 시간 설정
+            $time_check = date("YmdHis", time()-$time_interval);
+
+            // 새글 체크
+            if($this->get('regdate')>$time_check) $buffs[] = "new";
+            else if($this->get('last_update')>$time_check) $buffs[] = "update";
+
+
             return $buffs;
         }
         
         /**
          * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
          **/
-        function printExtraImages($time_check = 7200) {
+        function printExtraImages($time_check = 43200) {
             // 아이콘 디렉토리 구함
             $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
 
@@ -392,7 +438,7 @@
 
             $buff = null;
             foreach($buffs as $key => $val) {
-                $buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" width="13" height="13" align="absmiddle"/>', $path, $val, $val, $val);
+                $buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" align="absmiddle"/>', $path, $val, $val, $val);
             }
             return $buff;
         }

@@ -28,6 +28,7 @@
 
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
+    $lang->point_signup = 'Signup';
     $lang->point_insert_document = 'On Writing';
     $lang->point_delete_document = 'On Deleting';
     $lang->point_insert_comment = 'On Adding Comments';

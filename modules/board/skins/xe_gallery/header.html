@@ -20,6 +20,11 @@
     {@ $module_info->duration_new = 12 }
 <!--@end-->
 
+<!-- 스킨 설정중 썸네일 관련 항목을 지정 -->
+<!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
+<!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->
+<!--@if(!$module_info->thumbnail_height)-->{@ $module_info->thumbnail_height = 100; }<!--@end-->
+
 <!-- 상단 텍스트 출력 -->
 {$module_info->header_text}
 

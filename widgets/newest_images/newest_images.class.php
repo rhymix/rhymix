@@ -19,9 +19,17 @@
             $widget_info->title_length = (int)$args->title_length;
             if(!$widget_info->title_length) $widget_info->title_length = 10;
 
+            // 썸네일 생성 방법
+            $widget_info->thumbnail_type = $args->thumbnail_type;
+            if(!$widget_info->thumbnail_type) $widget_info->thumbnail_type = 'crop';
+
             // 썸네일 가로 크기
             $widget_info->thumbnail_width = (int)$args->thumbnail_width;
             if(!$widget_info->thumbnail_width) $widget_info->thumbnail_width = 100;
+
+            // 썸네일 세로 크기
+            $widget_info->thumbnail_height = (int)$args->thumbnail_height;
+            if(!$widget_info->thumbnail_height) $widget_info->thumbnail_height = 100;
 
             // 세로 이미지 수
             $widget_info->rows_list_count = (int)$args->rows_list_count;

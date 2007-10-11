@@ -77,5 +77,53 @@
             $this->setTemplateFile('document_list');
         }
 
+        /**
+         * @brief 문서 모듈 설정 
+         **/
+        function dispDocumentAdminConfig() {
+            $oDocumentModel = &getModel('document');
+            $config = $oDocumentModel->getDocumentConfig();
+            Context::set('config',$config);
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('document_config');
+        }
+
+        /**
+         * @brief 관리자가 선택한 문서에 대한 관리
+         **/
+        function dispDocumentAdminManageDocument() {
+            // 선택한 목록을 세션에서 가져옴
+            $flag_list = $_SESSION['document_management'];
+            if(count($flag_list)) {
+                foreach($flag_list as $key => $val) {
+                    if(!is_bool($val)) continue;
+                    $document_srl_list[] = $key;
+                }
+
+            }
+
+            if(count($document_srl_list)) {
+                $oDocumentModel = &getModel('document');
+                $document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
+                Context::set('document_list', $document_list);
+            }
+
+            // 모듈의 목록을 가져옴
+            $args->select_module = "'board','blog'";
+            $output = executeQuery('document.getAllModules', $args);
+            $module_list = $output->data;
+
+            if($module_list && !is_array($module_list)) $module_list = array($module_list);
+            Context::set('module_list', $module_list);
+
+            // 팝업 레이아웃 선택
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('popup_layout');
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('checked_list');
+        }
     }
 ?>

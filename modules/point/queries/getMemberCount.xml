@@ -1,0 +1,8 @@
+<query id="getMemberCount" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+    </columns>
+</query>

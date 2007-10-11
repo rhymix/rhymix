@@ -91,12 +91,14 @@
                 $file = $targets[$i];
                 $str = FileHandler::readFile($file);
 
+                $str = Context::convertEncodingStr($str);
+
                 // css 일경우 background:url() 변경
                 if($type == "css") $str = $this->replaceCssPath($file, $str);
 
                 $content_buff .= $str."\r\n";
             }
-            if(Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
+            if($type!="css" && Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
 
             $content_file = eregi_replace("\.php$","",$filename);
             $content_filename = str_replace($this->cache_path, '', $content_file);
@@ -110,7 +112,7 @@
             $modified_time = gmdate("D, d M Y H:i:s");
 
             // gzip 압축 체크
-            if(Context::isGzEnabled()) $gzip_header =  'header("Content-Encoding: gzip");';
+            if($type!="css" && Context::isGzEnabled()) $gzip_header =  'header("Content-Encoding: gzip");';
 
             // 확장자별 content-type 체크
             if($type == 'css') $content_type = 'text/css';

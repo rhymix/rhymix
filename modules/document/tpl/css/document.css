@@ -1,1 +1,5 @@
-body { margin:10px; font-size:.75em; font-family:sans-serif;}
+.document_list_box { height:300px; overflow-y:scroll; overflow-x:hidden;}
+.document_list { margin-top:.5em; overflow:hidden; white-space:nowrap; clear:both;}
+.document_list input { float:left; margin-right:10px; }
+.document_list address { float:left; width:100px; margin-right:10px; overflow:hidden; white-space:nowrap;}
+.document_list .document_title { }

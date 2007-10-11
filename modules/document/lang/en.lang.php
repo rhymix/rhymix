@@ -5,6 +5,13 @@
      * @brief  Document module's basic language pack
      **/
 
+    $lang->document_list = 'Document list';
+    $lang->thumbnail_type = 'Thumbnail Type';
+    $lang->thumbnail_crop = 'Crop';
+    $lang->thumbnail_ratio = 'Ratio';
+    $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+    $lang->move_target_module = "Target module for changing position";
+
 	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = 'Delete selected';
 

@@ -649,6 +649,16 @@ function checkboxSelectAll(form, name, option){
         else if(option == true) value = true
         else if(option == false) value = false
 
-        if(fo_obj[i].name == name) fo_obj[i].checked = value;
+        //if(fo_obj[i].name == name) fo_obj[i].checked = value;
+        if(fo_obj[i].name == name) fo_obj[i].click();
     }
 }
+
+/* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
+function doAddDocumentCart(obj) {
+    var srl = obj.value;
+    var params = new Array();
+    params["srl"] = srl;
+    exec_xml("document","procDocumentAdminAddCart", params, null);
+}
+

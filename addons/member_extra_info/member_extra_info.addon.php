@@ -89,6 +89,7 @@
 
             // 대상 회원의 정보를 가져옴
             $target_member_info = $this->getMemberInfoByMemberSrl($member_srl); 
+            if(!$target_member_info->member_srl) return;
             
             // 4. 쪽지 발송 메뉴를 만듬
             if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {

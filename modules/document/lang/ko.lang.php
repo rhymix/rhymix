@@ -5,6 +5,12 @@
      * @brief  문서(document) 모듈의 기본 언어팩
      **/
 
+    $lang->document_list = '문서 목록';
+    $lang->thumbnail_type = '썸네일 생성 방법';
+    $lang->thumbnail_crop = '잘라내기 (정해진 크기에 꽉 찬 모습의 썸네일을 만듭니다)';
+    $lang->thumbnail_ratio = '비율 맞추기 (원본 이미지의 비율에 맞춥니다. 다만 정해진 크기에 여백이 생깁니다)';
+    $lang->cmd_delete_all_thumbnail = '썸네일 모두 삭제';
+
 	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = '선택항목 삭제';
 
@@ -12,6 +18,8 @@
     $lang->msg_category_not_moved = '이동할 수가 없습니다';
     $lang->msg_is_secret = '비밀글입니다';
     $lang->msg_checked_document_is_deleted = '%d개의 글이 삭제되었습니다';
+
+    $lang->move_target_module = "이동 대상 모듈";
 
     // 관리자 페이지에서 검색할 대상
     $lang->search_target_list = array(
