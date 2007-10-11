@@ -5,6 +5,12 @@
      * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
+    $lang->document_list = 'Document list';
+    $lang->thumbnail_type = 'Thumbnail Type';
+    $lang->thumbnail_crop = 'Crop';
+    $lang->thumbnail_ratio = 'Ratio';
+    $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+
 	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = 'Eliminar lo seleccionado';
 

@@ -253,5 +253,44 @@
 
             return new Object();
         }
+
+        /**
+         * @brief 문서 모듈의 기본설정 저장
+         **/
+        function procDocumentAdminInsertConfig() {
+            // 기본 정보를 받음
+            $args = Context::gets('thumbnail_type');
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('document',$args);
+            return $output;
+        }
+
+        /**
+         * @brief 모든 생성된 썸네일 삭제
+         **/
+        function procDocumentAdminDeleteAllThumbnail() {
+
+            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제
+            $this->deleteThumbnailFile('./files/attach/images');
+
+            $this->setMessage('success_deleted');
+        }
+
+        function deleteThumbnailFile($path) {
+            $directory = dir($path);
+            while($entry = $directory->read()) {
+                if ($entry != "." && $entry != "..") {
+                    if (is_dir($path."/".$entry)) {
+                        $this->deleteThumbnailFile($path."/".$entry);
+                    } else {
+                        if(!eregi('^thumbnail_([^\.]*)\.jpg$',$entry)) continue;
+                        @unlink($path.'/'.$entry);
+                    }
+                }
+            }
+            $directory->close();
+        }
     }
 ?>

@@ -23,6 +23,7 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminList');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentPrint');
+            $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
 
             $oDB = &DB::getInstance();
             $oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
@@ -38,6 +39,7 @@
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
+            $oModuleModel = &getModel('module');
 
             /**
              * 2007. 7. 23 : 확장변수(extra_vars1~20까지 추가)
@@ -57,6 +59,11 @@
             if(!$oDB->isIndexExists("documents","idx_module_readed_count")) return true;
             if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
 
+            /**
+             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가
+             **/
+            if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) return true;
+
             return false;
         }
 
@@ -65,6 +72,8 @@
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
 
             /**
              * 2007. 7. 23 : 확장변수(extra_vars1~20까지 추가)
@@ -101,6 +110,12 @@
             if(!$oDB->isIndexExists("documents","idx_module_voted_count")) {
                 $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
             }
+
+            /**
+             * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가
+             **/
+            if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) 
+                $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
 
             return new Object(0,'success_updated');
         }

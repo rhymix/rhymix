@@ -77,5 +77,18 @@
             $this->setTemplateFile('document_list');
         }
 
+        /**
+         * @brief 문서 모듈 설정 
+         **/
+        function dispDocumentAdminConfig() {
+            $oDocumentModel = &getModel('document');
+            $config = $oDocumentModel->getDocumentConfig();
+            Context::set('config',$config);
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('document_config');
+        }
+
     }
 ?>

@@ -92,10 +92,10 @@
                 <!--@if(!$document->isNotice())-->
 
                 <div class="cell">
-                    <!--@if($document->thumbnailExists(122))-->
-                        <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail(122)}" border="0" alt="" class="thumb"/></a>
+                    <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+                        <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
                     <!--@else-->
-                        <img src="./images/blank.gif" border="0" alt="" class="thumb" width="122" height="122" />
+                        <img src="./images/blank.gif" border="0" alt="" class="thumb" width="{$module_info->thumbnail_width}" height="{$module_info->thumbnail_height}" />
                     <!--@end-->
 
                     <div class="title">

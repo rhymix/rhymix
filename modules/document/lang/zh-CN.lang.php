@@ -5,6 +5,12 @@
      * @brief  文章(document)模块语言包
      **/
 
+    $lang->document_list = 'Document list';
+    $lang->thumbnail_type = 'Thumbnail Type';
+    $lang->thumbnail_crop = 'Crop';
+    $lang->thumbnail_ratio = 'Ratio';
+    $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+
     $lang->cmd_toggle_checked_document = '反选';
     $lang->cmd_delete_checked_document = '删除所选';
 

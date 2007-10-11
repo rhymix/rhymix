@@ -1,129 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
-  <title xml:lang="ko">제로보드XE 게시판 기본 스킨(웹진형)</title>
-  <title xml:lang="jp">ゼロボードXE掲示板のデフォルトスキン（ウェブジンスタイル）</title>
-  <title xml:lang="zh-CN">Zeroboard XE Board 基本皮肤（网络杂志型）</title>
-  <title xml:lang="en">ZeroboardXE Basic Board Skin (Webzine Style)</title>
-  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">(주)NHN</name>
-    <name xml:lang="jp">（株）NHN</name>
-    <name xml:lang="zh-CN">(株)NHN</name>
-    <name xml:lang="en">NHN Corp</name>
-    <description xml:lang="ko">
-        제로보드XE 게시판의 웹진형태 기본 스킨입니다.
-        디자인 : 서기정 (http://blog.naver.com/addcozy)
-        HTML/CSS : 정찬명 (http://naradesign.net)
-    </description>
-    <description xml:lang="jp">
-        ゼロボードXE掲示板のウェブジンスタイルのデフォルトスキンです。
-        デザイン：ソギジョン (http://blog.naver.com/addcozy)
-        HTML/CSS：ジョンチャンミョン (http://naradesign.net)
-    </description>
-    <description xml:lang="zh-CN">
-        zeroboard XE Board 网络杂志型基本皮肤。
-        设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
-    </description>
-    <description xml:lang="en">
-        This is the basic webzine style board skin of Zeroboard XE.
-        Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
-    </description>
-  </maker>
-  <colorset>
-    <color name="white" src="screenshot/white.gif">
-      <title xml:lang="ko">하얀색(기본)</title>
-      <title xml:lang="jp">白（デフォルト）</title>
-      <title xml:lang="zh-CN">白色（基本）</title>
-      <title xml:lang="en">White (default)</title>
-    </color>
-    <color name="cyan" src="screenshot/cyan.gif">
-      <title xml:lang="ko">청록색</title>
-      <title xml:lang="jp">青緑</title>
-      <title xml:lang="zh-CN">青绿色</title>
-      <title xml:lang="en">Cyan</title>
-    </color>
-    <color name="green" src="screenshot/green.gif">
-      <title xml:lang="ko">초록색</title>
-      <title xml:lang="jp">緑</title>
-      <title xml:lang="zh-CN">绿色</title>
-      <title xml:lang="en">Green</title>
-    </color>
-    <color name="red" src="screenshot/red.gif">
-      <title xml:lang="ko">빨간색</title>
-      <title xml:lang="jp">赤</title>
-      <title xml:lang="zh-CN">红色</title>
-      <title xml:lang="en">Red</title>
-    </color>
-    <color name="purple" src="screenshot/purple.gif">
-      <title xml:lang="ko">보라색</title>
-      <title xml:lang="jp">紫</title>
-      <title xml:lang="zh-CN">紫色</title>
-      <title xml:lang="en">Purple</title>
-    </color>
-  </colorset>
-  <extra_vars>
-    <var name="order_target" type="select">
-        <title xml:lang="ko">정렬 대상</title>
-        <title xml:lang="jp">ソート対象</title>
-        <title xml:lang="zh-CN">排序对象</title>
-        <title xml:lang="en">Align Target</title>
-        <type>select</type>
-        <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-        <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
-        <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
-        <description xml:lang="en">It can align articles as registered order or modified order.</description>
-        <default>newest</default>
-        <default>updated</default>
-    </var>
-    <var name="title" type="text">
-        <title xml:lang="ko">게시판 제목</title>
-        <title xml:lang="jp">掲示板タイトル</title>
-        <title xml:lang="zh-CN">版面标题</title>
-        <title xml:lang="en">Title of Board</title>
-        <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
-        <description xml:lang="jp">掲示板タイトルを入力してください。</description>
-        <description xml:lang="zh-CN">请输入版面标题。(留空为不显示)</description>
-        <description xml:lang="en">Please input the title of board.</description>
-    </var>
-    <var name="sub_title" type="text">
-        <title xml:lang="ko">게시판 부제목</title>
-        <title xml:lang="jp">掲示板サブタイトル</title>
-        <title xml:lang="zh-CN">版面副标题</title>
-        <title xml:lang="en">Subtitle of Board</title>
-        <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
-        <description lang="jp">掲示板タイトルの横表示されるサブタイトルを入力してください。</description>
-        <description lang="zh-CN">请输入显示在版面标题旁的副标题。(留空为不显示)</description>
-        <description lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
-    </var>
-    <var name="comment" type="textarea">
-        <title xml:lang="ko">게시판 상세 설명</title>
-        <title xml:lang="jp">掲示板の説明</title>
-        <title xml:lang="zh-CN">版面详细说明</title>
-        <title xml:lang="en">Description of Board</title>
-        <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
-        <description lang="jp">掲示板タイトルの下に表示される説明文入力してください。</description>
-        <description lang="zh-CN">请输入显示在版面标题下的说明。(留空为不显示)</description>
-        <description lang="en">You may input description which will be displayed under the board title.</description>
-    </var>
-    <var name="subject_cut_size" type="text">
-      <title xml:lang="ko">제목 글자수</title>
-      <title xml:lang="jp">タイトルの文字数</title>
-      <title xml:lang="zh-CN">标题字数</title>
-      <title xml:lang="en">Length of Subject</title>
-      <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
-      <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
-      <description lang="zh-CN">可以指定标题字数。(0或留空为不限)</description>
-      <description lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
-    </var>
-    <var name="duration_new" type="text">
-	<title xml:lang="ko">new표시 시간 (hours)</title>
-	<title xml:lang="zh-CN">new图标显示时间(hours)</title>
-	<title xml:lang="en">Duration of indication for new item</title>
-	<description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
-	<description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
-	<description xml:lang="en">You may set the duration of indication for fresh item. </description>
-	<default>24</default>
-    </var>
-  </extra_vars>
+    <title xml:lang="ko">제로보드XE 게시판 기본 스킨(웹진형)</title>
+    <title xml:lang="jp">ゼロボードXE掲示板のデフォルトスキン（ウェブジンスタイル）</title>
+    <title xml:lang="zh-CN">Zeroboard XE Board 基本皮肤（网络杂志型）</title>
+    <title xml:lang="en">ZeroboardXE Basic Board Skin (Webzine Style)</title>
+    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">(주)NHN</name>
+        <name xml:lang="jp">（株）NHN</name>
+        <name xml:lang="zh-CN">(株)NHN</name>
+        <name xml:lang="en">NHN Corp</name>
+        <description xml:lang="ko">
+                제로보드XE 게시판의 웹진형태 기본 스킨입니다.
+                디자인 : 서기정 (http://blog.naver.com/addcozy)
+                HTML/CSS : 정찬명 (http://naradesign.net)
+        </description>
+        <description xml:lang="jp">
+                ゼロボードXE掲示板のウェブジンスタイルのデフォルトスキンです。
+                デザイン：ソギジョン (http://blog.naver.com/addcozy)
+                HTML/CSS：ジョンチャンミョン (http://naradesign.net)
+        </description>
+        <description xml:lang="zh-CN">
+                zeroboard XE Board 网络杂志型基本皮肤。
+                设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+                HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+        </description>
+        <description xml:lang="en">
+                This is the basic webzine style board skin of Zeroboard XE.
+                Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+                HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+        </description>
+    </maker>
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="en">White (default)</title>
+        </color>
+        <color name="cyan" src="screenshot/cyan.gif">
+            <title xml:lang="ko">청록색</title>
+            <title xml:lang="jp">青緑</title>
+            <title xml:lang="zh-CN">青绿色</title>
+            <title xml:lang="en">Cyan</title>
+        </color>
+        <color name="green" src="screenshot/green.gif">
+            <title xml:lang="ko">초록색</title>
+            <title xml:lang="jp">緑</title>
+            <title xml:lang="zh-CN">绿色</title>
+            <title xml:lang="en">Green</title>
+        </color>
+        <color name="red" src="screenshot/red.gif">
+            <title xml:lang="ko">빨간색</title>
+            <title xml:lang="jp">赤</title>
+            <title xml:lang="zh-CN">红色</title>
+            <title xml:lang="en">Red</title>
+        </color>
+        <color name="purple" src="screenshot/purple.gif">
+            <title xml:lang="ko">보라색</title>
+            <title xml:lang="jp">紫</title>
+            <title xml:lang="zh-CN">紫色</title>
+            <title xml:lang="en">Purple</title>
+        </color>
+    </colorset>
+    <extra_vars>
+        <var name="order_target" type="select">
+            <title xml:lang="ko">정렬 대상</title>
+            <title xml:lang="jp">ソート対象</title>
+            <title xml:lang="zh-CN">排序对象</title>
+            <title xml:lang="en">Align Target</title>
+            <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
+            <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
+            <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
+            <description xml:lang="en">It can align articles as registered order or modified order.</description>
+            <default>newest</default>
+            <default>updated</default>
+        </var>
+        <var name="title" type="text">
+            <title xml:lang="ko">게시판 제목</title>
+            <title xml:lang="jp">掲示板タイトル</title>
+            <title xml:lang="zh-CN">版面标题</title>
+            <title xml:lang="en">Title of Board</title>
+            <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+            <description xml:lang="jp">掲示板タイトルを入力してください。</description>
+            <description xml:lang="zh-CN">请输入版面标题。(留空为不显示)</description>
+            <description xml:lang="en">Please input the title of board.</description>
+        </var>
+        <var name="sub_title" type="text">
+            <title xml:lang="ko">게시판 부제목</title>
+            <title xml:lang="jp">掲示板サブタイトル</title>
+            <title xml:lang="zh-CN">版面副标题</title>
+            <title xml:lang="en">Subtitle of Board</title>
+            <description lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
+            <description lang="jp">掲示板タイトルの横表示されるサブタイトルを入力してください。</description>
+            <description lang="zh-CN">请输入显示在版面标题旁的副标题。(留空为不显示)</description>
+            <description lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
+        </var>
+        <var name="comment" type="textarea">
+            <title xml:lang="ko">게시판 상세 설명</title>
+            <title xml:lang="jp">掲示板の説明</title>
+            <title xml:lang="zh-CN">版面详细说明</title>
+            <title xml:lang="en">Description of Board</title>
+            <description lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+            <description lang="jp">掲示板タイトルの下に表示される説明文入力してください。</description>
+            <description lang="zh-CN">请输入显示在版面标题下的说明。(留空为不显示)</description>
+            <description lang="en">You may input description which will be displayed under the board title.</description>
+        </var>
+        <var name="subject_cut_size" type="text">
+            <title xml:lang="ko">제목 글자수</title>
+            <title xml:lang="jp">タイトルの文字数</title>
+            <title xml:lang="zh-CN">标题字数</title>
+            <title xml:lang="en">Length of Subject</title>
+            <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+            <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+            <description lang="zh-CN">可以指定标题字数。(0或留空为不限)</description>
+            <description lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
+        </var>
+        <var name="duration_new" type="text">
+            <title xml:lang="ko">new표시 시간 (hours)</title>
+            <title xml:lang="zh-CN">new图标显示时间(hours)</title>
+            <title xml:lang="en">Duration of indication for new item</title>
+            <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
+            <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
+            <description xml:lang="en">You may set the duration of indication for fresh item. </description>
+            <default>24</default>
+        </var>
+        <var name="thumbnail_type" type="select">
+            <title xml:lang="ko">썸네일 생성 방법</title>
+            <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
+            <default>crop</default>
+            <default>ratio</default>
+        </var>
+        <var name="thumbnail_width" type="text">
+            <title xml:lang="ko">썸네일 가로크기</title>
+            <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <default>100</default>
+        </var>
+        <var name="thumbnail_height" type="text">
+            <title xml:lang="ko">썸네일 세로크기</title>
+            <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <default>100</default>
+        </var>
+    </extra_vars>
 </skin>

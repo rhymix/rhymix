@@ -182,7 +182,7 @@
         /**
          * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
          **/
-        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '') {
+        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
             if(!file_exists($source_file)) return;
             if(!$resize_width) $resize_width = 100;
             if(!$resize_height) $resize_height = $resize_width;
@@ -227,8 +227,14 @@
             if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
             else $height_per = $height / $resize_height;
 
-            if($width_per > $height_per) $per = $height_per;
-            else $per = $width_per;
+            if($thumbnail_type == 'ratio') {
+                if($width_per > $height_per) $per = $height_per;
+                else $per = $width_per;
+            } else {
+                if($width_per < $height_per) $per = $height_per;
+                else $per = $width_per;
+
+            }
 
             if(!$per) $per = 1;
 

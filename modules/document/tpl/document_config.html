@@ -1,0 +1,24 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_config.xml")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+    <table cellspacing="0" class="tableType2 gap1">
+    <col width="200" />
+    <col />
+    <tr>
+        <th scope="col">{$lang->thumbnail_type}</th>
+        <td>
+            <input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
+            <input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
+        </td>
+    </tr>
+    </table>
+
+    <!-- 버튼 -->
+    <div class="fl gap1">
+        <span class="button"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span>
+    </div>
+    <div class="fr gap1">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </div>
+</form>

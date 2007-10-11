@@ -288,12 +288,12 @@
             return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
         }
 
-        function thumbnailExists($width = 80, $height = 0) {
-            if(!$this->getThumbnail($width, $height)) return false;
+        function thumbnailExists($width = 80, $height = 0, $type = '') {
+            if(!$this->getThumbnail($width, $height, $type)) return false;
             return true;
         }
 
-        function getThumbnail($width = 80, $height = 0) {
+        function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
             if(!$height) $height = $width;
 
             // 문서의 이미지 첨부파일 위치를 구함
@@ -315,6 +315,13 @@
 
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
+
+            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
+            if(!in_array($thumbnail_type, array('crop','ratio'))) {
+                $oDocumentModel = &getModel('document');
+                $config = $oDocumentModel->getDocumentConfig();
+                $thumbnail_type = $config->thumbnail_type;
+            }
             
             // 생성 시작
             FileHandler::writeFile($thumbnail_file, '', 'w');
@@ -330,7 +337,7 @@
                     $filename = $file->uploaded_filename;
                     if(!file_exists($filename)) continue;
 
-                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg');
+                    FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
                     if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
                 }
             }
@@ -353,7 +360,7 @@
                 return;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg');
+            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
             @unlink($tmp_file);
 
             return Context::getRequestUri().$thumbnail_file;
