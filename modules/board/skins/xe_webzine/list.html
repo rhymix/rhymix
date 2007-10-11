@@ -141,9 +141,9 @@
             <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
         </tr>
         <!--@if($document->thumbnailExists(100))-->
-          {@ $_col_count = 7}
+          {@ $_col_count = 6}
         <!--@else-->
-          {@ $_col_count = 8}
+          {@ $_col_count = 7}
         <!--@end-->
 
         <!--@if($module_info->display_number=='N')-->{@ $_col_count --; }<!--@end-->
