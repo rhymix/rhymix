@@ -21,7 +21,7 @@ function completeDeleteAllThumbnail(ret_obj) {
 }
 
 /* 선택된 글의 삭제 또는 이동 */
-function doManageDocument(type, mid) {
+function doManageDocument(type) {
     var fo_obj = xGetElementById("fo_management");
     fo_obj.type.value = type;
 
@@ -30,7 +30,7 @@ function doManageDocument(type, mid) {
 
 /* 선택된 글의 삭제 또는 이동 후 */
 function completeManageDocument(ret_obj) {
-    if(opener) opener.location.href = opener.location.href;
+    if(opener) opener.window.location.reload();
     alert(ret_obj['message']);
     window.close();
 }
