@@ -27,7 +27,7 @@ function doPoll(fo_obj) {
     for(var poll_srl_index in checkcount) {
         var count = checkcount[poll_srl_index];
         var items = item[poll_srl_index];
-        if(count > items.length) {
+        if(items.length < 1 || count < items.length) {
             alert(poll_alert_lang);
             return false;
         }
