@@ -15,6 +15,8 @@ function getQuotation() {
     var use_folder = node.getAttribute("use_folder");
     var folder_opener = node.getAttribute("folder_opener");
     var folder_closer = node.getAttribute("folder_closer");
+    if(folder_opener) folder_opener = folder_opener.replace(/&amp;/g,'&').replace(/&gt;/g,'>').replace(/&lt;/,'<').replace(/&quot;/,'"');
+    if(folder_closer) folder_closer = folder_closer.replace(/&amp;/g,'&').replace(/&gt;/g,'>').replace(/&lt;/,'<').replace(/&quot;/,'"');
     var bold = node.getAttribute("bold");
     var color = node.getAttribute("color");
     var margin = node.getAttribute("margin");
@@ -83,6 +85,9 @@ function insertQuotation() {
     var folder_opener = xGetElementById("quotation_opener").value;
     var folder_closer = xGetElementById("quotation_closer").value;
     if(!folder_opener||!folder_closer) use_folder = "N";
+
+    folder_opener = folder_opener.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    folder_closer = folder_closer.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 
     var bold = "N";
     if(xGetElementById("quotation_bold").checked) bold = "Y";
