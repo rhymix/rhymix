@@ -94,6 +94,7 @@
 </table>
 
 {@ $height = $module_info->thumbnail_height + 40; }
+<!--@if($module_info->use_category=='Y')-->{@ $height += 20 }<!--@end-->
 <!--@if($module_info->display_author!='N' || $module_info->display_regdate!='N')-->{@ $height += 25 }<!--@end-->
 <!--@if($module_info->display_readed_count !='N' || $module_info->display_voted_count!='N')-->{@ $height += 25 }<!--@end-->
 
