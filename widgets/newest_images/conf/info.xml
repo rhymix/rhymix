@@ -59,14 +59,18 @@
         </var>
         <var id="thumbnail_type">
             <name xml:lang="ko">썸네일 생성 방법</name>
+            <name xml:lang="zh-CN">缩略图生成方式</name>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
+            <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <type>select</type>
             <options>
                 <name xml:lang="ko">Crop (채우기)</name>
+                <name xml:lang="zh-CN">Crop (裁减)</name>
                 <value>crop</value>
             </options>
             <options>
                 <name xml:lang="ko">Ratio (비율 맞추기)</name>
+                <name xml:lang="zh-CN">Ratio (比例)</name>
                 <value>ratio</value>
             </options>
         </var>
@@ -85,7 +89,9 @@
         </var>
         <var id="thumbnail_height">
             <name xml:lang="ko">이미지 세로크기</name>
+            <name xml:lang="zh-CN">高度</name>
             <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
             <type>text</type>
         </var>
         <var id="cols_list_count">

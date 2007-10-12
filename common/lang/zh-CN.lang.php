@@ -37,6 +37,7 @@
     $lang->cmd_select = '选择';
     $lang->cmd_select_all = '全部选择';
     $lang->cmd_unselect_all = '全部解除';
+    $lang->cmd_reverse_all = "反选";
     $lang->cmd_close_all = '全部折叠';
     $lang->cmd_open_all = '全部展开';
     $lang->cmd_reload = '从新载入';

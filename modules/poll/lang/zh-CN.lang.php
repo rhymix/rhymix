@@ -13,7 +13,7 @@
     $lang->cmd_poll_list = '查看目录';
     $lang->cmd_delete_checked_poll = '删除所选项目';
     $lang->cmd_apply_poll = '参与投票';
-    $lang->cmd_view_result = 'Preview result';
+    $lang->cmd_view_result = '查看结果';
     $lang->cmd_delete_checked_poll = '删除所选';
 
     $lang->success_poll = '感谢您参与投票。';
