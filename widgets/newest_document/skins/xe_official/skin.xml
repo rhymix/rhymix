@@ -29,10 +29,11 @@
         布局: zero (http://blog.nzeo.com)
     </description>
     <description xml:lang="en">
-	It is a skin suitable for the XE official layout.
-	Design : So-Ra Lee (http://ra-ra-.pe.kr)
-	HTML/CSS : Chan-Myung Jeong(http://naradesign.net)
-	Layout : zero (http://blog.nzeo.com)
+        It is a skin suitable for the XE official layout.
+        Design : So-Ra Lee (http://ra-ra-.pe.kr)
+        HTML/CSS : Chan-Myung Jeong(http://naradesign.net)
+        Layout : zero (http://blog.nzeo.com)
+    </description>
   </maker>
   <colorset>
     <color name="white">
