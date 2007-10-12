@@ -209,6 +209,7 @@
 
                 $obj = null;
                 $obj = $oDocument->getObjectVars();
+                $obj->module_srl = $module_srl;
                 $obj->document_srl = getNextSequence();
                 $obj->category_srl = $category_srl;
                 $obj->password_is_hashed = true;
