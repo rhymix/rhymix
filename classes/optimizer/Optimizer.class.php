@@ -33,9 +33,8 @@
             // 캐시 디렉토리가 없으면 실행하지 않음
             if(!is_dir($this->cache_path)) return $source_files;
 
-            $file_count = count($source_files);
-            for($i=0;$i<$file_count;$i++) {
-                $file = trim($source_files[$i]);
+            if(!count($source_files)) return;
+            foreach($source_files as $file) {
                 if(!$file) continue;
                 $file = str_replace("\\","/",$file);
                 if(eregi("^http:\/\/",$file) || $file == './common/css/button.css') $files[] = $file;
