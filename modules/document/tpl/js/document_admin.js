@@ -37,6 +37,7 @@ function completeManageDocument(ret_obj) {
 
 /* 선택된 모듈의 카테고리 목록을 가져오는 함수 */
 function doGetCategoryFromModule(obj) {
+    if(!obj) return;
     var module_srl = obj.options[obj.selectedIndex].value;
 
     var params = new Array();
