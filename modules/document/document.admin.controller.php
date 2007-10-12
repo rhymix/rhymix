@@ -135,7 +135,7 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            for($i=0;$i<count($document_srl_list);$i++) {
+            for($i=count($document_srl_list)-1;$i>=0;$i--) {
                 $document_srl = $document_srl_list[$i];
                 $oDocument = $oDocumentModel->getDocument($document_srl);
                 if(!$oDocument->isExists()) continue;
@@ -202,13 +202,14 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            for($i=0;$i<count($document_srl_list);$i++) {
+            for($i=count($document_srl_list)-1;$i>=0;$i--) {
                 $document_srl = $document_srl_list[$i];
                 $oDocument = $oDocumentModel->getDocument($document_srl);
                 if(!$oDocument->isExists()) continue;
 
                 $obj = null;
                 $obj = $oDocument->getObjectVars();
+                $obj->module_srl = $module_srl;
                 $obj->document_srl = getNextSequence();
                 $obj->category_srl = $category_srl;
                 $obj->password_is_hashed = true;

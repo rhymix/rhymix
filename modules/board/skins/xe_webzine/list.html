@@ -16,9 +16,9 @@
     <col width="{$module_info->thumbnail_width+20}" />
     <col />
     <!--@if($module_info->display_author!='N')--><col width="120" /><!--@end-->
-    <!--@if($module_info->display_readed_count!='N')--><col width="70" /><!--@end-->
-    <!--@if($module_info->display_voted_count!='N')--><col width="70" /><!--@end-->
-    <!--@if($module_info->display_regdate != 'N')--><col width="90" /><!--@end-->
+    <!--@if($module_info->display_readed_count!='N')--><col width="60" /><!--@end-->
+    <!--@if($module_info->display_voted_count!='N')--><col width="60" /><!--@end-->
+    <!--@if($module_info->display_regdate != 'N')--><col width="80" /><!--@end-->
     <!--@if($module_info->display_last_update == 'Y')--><col width="90" /><!--@end-->
     <thead>
         <tr>
@@ -141,17 +141,16 @@
             <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
         </tr>
         <!--@if($document->thumbnailExists(100))-->
-          {@ $_col_count = 7}
+          {@ $_col_count = 1}
         <!--@else-->
-          {@ $_col_count = 8}
+          {@ $_col_count = 2}
         <!--@end-->
 
-        <!--@if($module_info->display_number=='N')-->{@ $_col_count --; }<!--@end-->
-        <!--@if($module_info->display_author=='N')-->{@ $_col_count --; }<!--@end-->
-        <!--@if($module_info->display_readed_count=='N')-->{@ $_col_count --; }<!--@end-->
-        <!--@if($module_info->display_voted_count=='N')-->{@ $_col_count --; }<!--@end-->
-        <!--@if($module_info->display_regdate=='N')-->{@ $_col_count --; }<!--@end-->
-        <!--@if($module_info->display_last_update=='N')-->{@ $_col_count --; }<!--@end-->
+        <!--@if($module_info->display_author!='N')-->{@ $_col_count ++; }<!--@end-->
+        <!--@if($module_info->display_readed_count!='N')-->{@ $_col_count ++; }<!--@end-->
+        <!--@if($module_info->display_voted_count!='N')-->{@ $_col_count ++; }<!--@end-->
+        <!--@if($module_info->display_regdate!='N')-->{@ $_col_count ++; }<!--@end-->
+        <!--@if($module_info->display_last_update=='Y')-->{@ $_col_count ++; }<!--@end-->
         <tr class="bg{($no+1)%2+1}">
             <td colspan="{$_col_count}" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(120)}</a>&nbsp;</td>
         </tr>

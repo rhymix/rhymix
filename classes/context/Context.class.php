@@ -715,7 +715,7 @@
         function _getJsFile() {
             require_once("./classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles($this->js_files, "js");
+            return $oOptimizer->getOptimizedFiles(array_unique($this->js_files), "js");
         }
 
         /**
@@ -750,7 +750,7 @@
         function _getCSSFile() {
             require_once("./classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles($this->css_files, "css");
+            return $oOptimizer->getOptimizedFiles(array_unique($this->css_files), "css");
         }
 
         /**
