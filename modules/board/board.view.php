@@ -113,12 +113,6 @@
             // 댓글에디터 설정
             $this->setCommentEditor(0, 100);
 
-            // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && !$page && ($oDocument->isExists()&&!$oDocument->isNotice()) && !Context::get('category') && !Context::get('search_keyword')) {
-                $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
-                Context::set('page', $page);
-            }
-
             // 목록을 구하기 위한 옵션
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
             $args->page = $page; ///< 페이지
@@ -145,6 +139,14 @@
                         break;
                 }
             }
+
+            // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
+            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'list_order' && $args->order_type == 'asc') {
+                $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
+                Context::set('page', $page);
+                $args->page = $page;
+            }
+
 
             // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
             $output = $oDocumentModel->getDocumentList($args);
