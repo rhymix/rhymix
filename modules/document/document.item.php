@@ -29,7 +29,7 @@
         }
 
         function setAttribute($attribute) {
-            if(!$attribute->document_srl || !$attribute->content) {
+            if(!$attribute->document_srl) {
                 $this->document_srl = null;
                 return;
             }
