@@ -34,7 +34,6 @@
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
 
-
             // 원본글을 가져옴
             if(!$manual_inserted) {
                 $oDocument = $oDocumentModel->getDocument($document_srl);
