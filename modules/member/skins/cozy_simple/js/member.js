@@ -224,3 +224,8 @@ function doDeleteScrap(document_srl) {
     params['document_srl'] = document_srl;
     exec_xml('member', 'procMemberDeleteScrap', params, function() { location.reload(); });
 }
+
+/* 비밀번호 찾기 후 */
+function completeFindMemberAccount(ret_obj, response_tags) {
+    alert(ret_obj['message']);
+}

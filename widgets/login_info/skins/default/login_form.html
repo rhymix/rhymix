@@ -19,11 +19,14 @@
       </div>
 
       <div><input type="submit" value=" " class="submit" /></div>
-  <ul class="option">
-    <li><input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" class="checkbox" /></li>
-    <li><label for="chk_remember_user_id">{$lang->remember_user_id}</label></li>
-    <li><a href="{getUrl('act','dispMemberSignUpForm')}" class="fc_02 btn">{$lang->cmd_signup}</a></li>
-  </ul>
+      <ul class="option">
+        <li><input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" class="checkbox" /></li>
+        <li><label for="chk_remember_user_id">{$lang->remember_user_id}</label></li>
+      </ul>
+      <ul class="extra_option">
+        <li><a href="{getUrl('act','dispMemberSignUpForm')}" class="fc_02 btn">{$lang->cmd_signup}</a></li>
+        <li><a href="{getUrl('act','dispMemberFindAccount')}" class="fc_02 btn">{$lang->cmd_find_member_account}</a></li>
+      </ul>
   </form>
   <div class="clear"></div>
 

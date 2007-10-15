@@ -10,6 +10,20 @@
 <col width="150" />
 <col />
     <tr>
+        <th scope="row">{$lang->webmaster_name}</th>
+        <td>
+            <input type="text" name="webmaster_name" value="{$config->webmaster_name}" size="20" class="inputTypeText" />
+            <p>{$lang->about_webmaster_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->webmaster_email}</th>
+        <td>
+            <input type="text" name="webmaster_email" value="{$config->webmaster_email}" size="40" class="inputTypeText" />
+            <p>{$lang->about_webmaster_email}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->enable_openid}</th>
         <td>
             <input type="checkbox" name="enable_openid" value="Y" <!--@if($config->enable_openid=='Y')-->checked="checked"<!--@end--> class="checkbox" />

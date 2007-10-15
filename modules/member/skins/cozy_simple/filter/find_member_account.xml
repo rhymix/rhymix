@@ -1,0 +1,10 @@
+<filter name="find_member_account" module="member" act="procMemberFindAccount">
+    <form>
+        <node target="email_address" required="true" minlength="2" maxlength="255" filter="email" />
+    </form>
+    <parameter />
+    <response callback_func="completeFindMemberAccount">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

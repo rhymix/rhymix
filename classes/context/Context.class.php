@@ -364,8 +364,6 @@
             return $obj->str;
         }
 
-
-
         /**
          * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
          *

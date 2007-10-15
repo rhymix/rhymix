@@ -53,6 +53,12 @@
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
 
+    $lang->webmaster_name = '웹마스터 이름';
+    $lang->webmaster_email = '웹마스터 메일주소';
+
+    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
+    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+
     $lang->search_target_list = array(
         'user_id' => '用户名',
         'user_name' => '姓名',
@@ -78,6 +84,7 @@
     $lang->cmd_modify_member_password = '修改密码';
     $lang->cmd_view_member_info = '查看会员信息';
     $lang->cmd_leave = '注销';
+    $lang->cmd_find_member_account = 'Find Account Info';
 
     $lang->cmd_member_list = '会员目录';
     $lang->cmd_module_config = '基本设置';
@@ -97,10 +104,18 @@
     $lang->cmd_add_friend_group = '添加好友组';
     $lang->cmd_rename_friend_group = '修改好友组名称';
 
+    $lang->msg_email_not_exists = "Email address doesn't exists";
+
     $lang->msg_alreay_scrapped = '已收藏的主题！';
 
     $lang->msg_cart_is_null = '请选择对象。';
     $lang->msg_checked_file_is_deleted = '已删除%d个附件。';
+
+    $lang->msg_find_account_title = 'Account Info';
+    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
+    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
+    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
 
     $lang->msg_no_message = '没有短消息。';
     $lang->message_received = '您有新消息。';
@@ -172,4 +187,5 @@
     $lang->about_openid_leave = '删除OpenID就等于永久删除站内用户的信息。<br />被删除后的重新登录就等于新会员注册，因此对以前自己写的主题将失去相应权限。';
 
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
+    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
 ?>

@@ -1,0 +1,12 @@
+<query id="insertAuthMail" action="insert">
+    <tables>
+        <table name="member_auth_mail" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="user_id" var="user_id" notnull="notnull" />
+        <column name="auth_key" var="auth_key" notnull="notnull" minlength="1" maxlength="60" />
+        <column name="new_password" var="new_password" notnull="notnull" minlength="1" maxlength="60" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

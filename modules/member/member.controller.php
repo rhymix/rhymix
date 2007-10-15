@@ -893,6 +893,93 @@
         }
 
         /**
+         * @brief 아이디/ 비밀번호 찾기
+         **/
+        function procMemberFindAccount() {
+            $email_address = Context::get('email_address');
+            if(!$email_address) return new Object(-1, 'msg_invalid_request');
+
+            $oMemberModel = &getModel('member');
+
+            // 메일 주소에 해당하는 회원이 있는지 검사
+            $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+            if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
+
+            // 회원의 정보를 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+            // 인증 DB에 데이터를 넣음
+            $args->user_id = $member_info->user_id;
+            $args->member_srl = $member_info->member_srl;
+            $args->new_password = rand(111111,999999);
+            $args->auth_key = md5( rand(0,999999 ) );
+
+            $output = executeQuery('member.insertAuthMail', $args);
+            if(!$output->toBool()) return $output;
+
+            // 메일 내용을 구함
+            Context::set('auth_args', $args);
+            Context::set('member_info', $member_info);
+            $oTemplate = &TemplateHandler::getInstance();
+            $content = $oTemplate->compile($this->module_path.'tpl', 'find_member_account_mail');
+
+            // 사이트 웹마스터 정보를 구함
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+
+            // 메일 발송
+            $oMail = new Mail();
+            $oMail->setTitle( Context::getLang('msg_find_account_title') );
+            $oMail->setContent($content);
+            $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
+            $oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+            $oMail->send();
+
+            // 메세지 return
+            $msg = sprintf(Context::getLang('msg_auth_mail_sended'), $member_info->email_address);
+            $this->setMessage($msg);
+        }
+
+        /**
+         * @brief 아이디/비밀번호 찾기 기능 실행
+         * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
+         **/
+        function procMemberAuthAccount() {
+            // user_id, authkey 검사
+            $member_srl = Context::get('member_srl');
+            $auth_key = Context::get('auth_key');
+            if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
+
+            // user_id, authkey로 비밀번호 찾기 로그 검사
+            $args->member_srl = $member_srl;
+            $args->auth_key = $auth_key;
+            $output = executeQuery('member.getAuthMail', $args);
+            if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_auth_key');
+
+            // 인증 정보가 맞다면 새비밀번호로 비밀번호를 바꾸고 인증 상태로 바꿈
+            $args->password = md5($output->data->new_password);
+            $output = executeQuery('member.updateMemberPassword', $args);
+            if(!$output->toBool()) return $this->stop($output->getMessage());
+
+            // 인증 시킴
+            $oMemberModel = &getModel('member');
+
+            // 회원의 정보를 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+            // 사용자 정보의 최근 로그인 시간을 기록
+            $output = executeQuery('member.updateLastLogin', $args);
+            $this->setSessionInfo($member_info);
+
+            // 인증 테이블에서 member_srl에 해당하는 모든 값을 지움
+            executeQuery('member.deleteAuthMail',$args);
+
+            // 결과를 통보
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('msg_success_authed');
+        }
+
+        /**
          * @brief 서명을 파일로 저장
          **/
         function putSignature($member_srl, $signature) {

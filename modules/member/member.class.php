@@ -23,6 +23,7 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberFindAccount');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSendMessage');
@@ -133,6 +134,10 @@
             // member 디렉토리 체크 (2007. 8. 11 추가)
             if(!is_dir("./files/member_extra_info")) return true;
 
+            // dispMemberFindAccount act의 여부 체크 (2007. 10. 15)
+            $act = $oModuleModel->getActionForward('dispMemberFindAccount');
+            if(!$act) return true;
+
             return false;
         }
 
@@ -145,12 +150,15 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOpenIDLeave');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberFindAccount');
 
             // member 디렉토리 체크
             FileHandler::makeDir('./files/member_extra_info/image_name');
             FileHandler::makeDir('./files/member_extra_info/image_mark');
             FileHandler::makeDir('./files/member_extra_info/signature');
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
+
+            // dispMemberFindAccount act의 여부 체크 (2007. 10. 15)
 
             return new Object(0, 'success_updated');
         }

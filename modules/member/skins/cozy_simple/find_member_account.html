@@ -1,0 +1,27 @@
+{@ $member_title = $lang->cmd_find_member_account}
+<!--#include("./common_header.html")-->
+
+<!--%import("filter/find_member_account.xml")-->
+
+    <form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="page" value="{$page}" />
+
+    <table cellspacing="0" class="memberInfoTable gap1" title="$lang->msg_leave_member}">
+    <col width="140" />
+    <col />
+    <tr class="first-child">
+        <th scope="row"><label for="cpw">{$lang->email_address}</label></th>
+        <td>
+            <input type="text" name="email_address" class="inputTypeText w400" />
+            <p>{$lang->about_find_member_account}</p>
+        </td>
+    </tr>
+    </table>
+
+    <div class="help tCenter">
+        <span class="button"><input type="submit" value="{$lang->cmd_find_member_account}" accesskey="s" /></span>
+    </div>
+</form>
+<!--#include("./common_footer.html")-->
