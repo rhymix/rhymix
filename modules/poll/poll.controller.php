@@ -112,6 +112,7 @@
             }
 
             // 작성자의 정보를 로그로 남김
+            /*
             $log_args->poll_srl = $poll_srl;
             $log_args->member_srl = $member_srl;
             $output = executeQuery('poll.insertPollLog', $log_args);
@@ -119,6 +120,7 @@
                 $oDB->rollback();
                 return $output;
             }
+            */
             
             $oDB->commit();
 
