@@ -213,6 +213,8 @@
                 $obj->document_srl = getNextSequence();
                 $obj->category_srl = $category_srl;
                 $obj->password_is_hashed = true;
+                $obj->comment_count = 0;
+                $obj->trackback_count = 0;
 
                 // 첨부파일 미리 등록
                 if($oDocument->hasUploadedFiles()) {
