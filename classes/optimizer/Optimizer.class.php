@@ -104,8 +104,6 @@
              * 압축을 지원하고 캐시 타임을 제대로 이용하기 위한 헤더 파일 구함
              **/
             // php의 헤더파일 생성
-            $modified_time = gmdate("D, d M Y H:i:s");
-
             // gzip 압축 체크
             if($type!="css" && Context::isGzEnabled()) $gzip_header =  'header("Content-Encoding: gzip");';
 
@@ -116,10 +114,15 @@
             $header_buff = <<<EndOfBuff
 <?php
 header("Content-Type: {$content_type}; charset=UTF-8");
-header("Last-Modified: {$modified_time} GMT");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Content-Length: ".filesize('{$content_filename}'));
 {$gzip_header}
 if(@file_exists("{$content_filename}")) {
-    @fpassthru(fopen("{$content_filename}", "rb"));
+    @fpassthru(fopen("{$content_filename}", "r"));
 }
 exit();
 ?>

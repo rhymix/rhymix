@@ -34,14 +34,14 @@ function completeOpenIDLogin(ret_obj, response_tags) {
 
 /* 오픈 아이디 폼 변환 */
 function toggleLoginForm(obj) {
-  if(xGetElementById('login').style.display != "none") {
-    xGetElementById('login').style.display = "none";
-    xGetElementById('openid_login').style.display = "block";
-    xGetElementById('use_open_id_2').checked = true;
-  } else {
-    xGetElementById('openid_login').style.display = "none";
-    xGetElementById('login').style.display = "block";
-    xGetElementById('use_open_id').checked = false;
-    xGetElementById('use_open_id_2').checked = false;
-  }
+    if(xGetElementById('login').style.display != "none") {
+        xGetElementById('login').style.display = "none";
+        xGetElementById('openid_login').style.display = "block";
+        xGetElementById('use_open_id_2').checked = true;
+    } else {
+        xGetElementById('openid_login').style.display = "none";
+        xGetElementById('login').style.display = "block";
+        xGetElementById('use_open_id').checked = false;
+        xGetElementById('use_open_id_2').checked = false;
+    }
 }

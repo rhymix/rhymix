@@ -11,7 +11,7 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<fieldset id="login_{$colorset}">
+<fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
 <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
 
@@ -40,7 +40,7 @@
 
 <!-- OpenID -->
 <!--@if($member_config->enable_openid=='Y')-->
-<fieldset id="openid_login" style="display:none;">
+<fieldset id="openid_login" class="openid_login_{$colorset}" style="display:none;">
 <legend>{$lang->cmd_login}</legend>
   <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" >
       <div class="idpwWrap">
