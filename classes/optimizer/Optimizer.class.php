@@ -26,6 +26,11 @@
          * @brief optimize 대상 파일을 받아서 처리 후 optimize 된 파일이름을 return
          **/
         function getOptimizedFiles($source_files, $type = "js") {
+			if(!is_array($source_files) || !count($source_files)) return;
+
+			// $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
+			foreach($source_files as $key => $file) $source_files[$key] = str_replace("\\","/",$file);
+
             // 관리자 설정시 설정이 되어 있지 않으면 패스
             $db_info = Context::getDBInfo();
             if($db_info->use_optimizer == 'N') return $source_files;
