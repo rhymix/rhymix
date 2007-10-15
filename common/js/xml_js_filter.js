@@ -23,7 +23,7 @@ function filterAlertMessage(ret_obj) {
     var redirect_url = ret_obj["redirect_url"];
     var url = location.href;
 
-    if(url.substr(-1)=="#") url = url.substr(0,url.length-1);
+    if(url.substr(url.length-1,1)=="#") url = url.substr(0,url.length-1);
 
     if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
 
