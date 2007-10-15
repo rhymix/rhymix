@@ -213,7 +213,7 @@
         }
 
         function getSummary($str_size = 50) {
-            $content = htmlspecialchars(strip_tags($this->getContent()));
+            $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent())));
             return cut_str($content, $str_size, '...');
         }
 
