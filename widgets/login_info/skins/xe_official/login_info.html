@@ -9,7 +9,7 @@
 
 <!--%import("./filter/logout.xml")-->
 
-<fieldset id="login">
+<fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
 <form action="" method="post">
 
@@ -20,7 +20,7 @@
     <ul class="userMenu">
         <li><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></li>
         <li><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></li>
-        <li><a href="{getUrl('act','dispMemberMessages','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></li>
+        <li><a href="{getUrl('act','dispMemberMessages','message_type','','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></li>
         <li><a href="{getUrl('act','dispMemberScrappedDocument','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_scrapped_document}</a></li>
 
         <!--@if($logged_info->is_admin=="Y")-->

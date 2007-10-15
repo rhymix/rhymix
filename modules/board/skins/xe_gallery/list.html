@@ -93,7 +93,7 @@
     </tbody>
 </table>
 
-{@ $height = $module_info->thumbnail_height + 40; }
+{@ $height = $module_info->thumbnail_height + 50; }
 <!--@if($module_info->use_category=='Y')-->{@ $height += 20 }<!--@end-->
 <!--@if($module_info->display_author!='N' || $module_info->display_regdate!='N')-->{@ $height += 25 }<!--@end-->
 <!--@if($module_info->display_readed_count !='N' || $module_info->display_voted_count!='N')-->{@ $height += 25 }<!--@end-->
@@ -101,50 +101,53 @@
 
 <div class="thumbnailBox">
 
-    <!--@foreach($document_list as $no => $document)-->
-    <!--@if(!$document->isNotice())-->
+    <div class="cellBox">
 
-    <div class="cell" style="width:{$module_info->thumbnail_width+30}px;height:{$height}px;">
-        <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
-            <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
-        <!--@else-->
-            <img src="./images/blank.gif" border="0" alt="" class="thumb" width="{$module_info->thumbnail_width}" height="{$module_info->thumbnail_height}" />
-        <!--@end-->
+        <!--@foreach($document_list as $no => $document)-->
+        <!--@if(!$document->isNotice())-->
 
-        <div class="title">
-            <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
-            <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong><br />
+        <div class="cell" style="width:{$module_info->thumbnail_width+30}px;height:{$height}px;">
+            <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+                <a href="{getUrl('','document_srl',$document->document_srl)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
+            <!--@else-->
+                <img src="./images/blank.gif" border="0" alt="" class="thumb" width="{$module_info->thumbnail_width}" height="{$module_info->thumbnail_height}" />
             <!--@end-->
 
-            <!--@if($grant->is_admin)-->
-                <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
-            <!--@end-->
+            <div class="title">
+                <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+                <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong><br />
+                <!--@end-->
 
-            <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                <!--@if($grant->is_admin)-->
+                    <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
+                <!--@end-->
 
-            <!--@if($document->getCommentCount())-->
-                <span class="replyAndTrackback" title="Replies">(<strong>{$document->getCommentCount()}</strong>)</span>
-            <!--@end-->
+                <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
 
-            <!--@if($document->getTrackbackCount())-->
-                <span class="replyAndTrackback" title="Trackbacks">[<strong>{$document->getTrackbackCount()}</strong>]</span>
-            <!--@end-->
+                <!--@if($document->getCommentCount())-->
+                    <span class="replyAndTrackback" title="Replies">(<strong>{$document->getCommentCount()}</strong>)</span>
+                <!--@end-->
 
-            <div class="nameAndDate">
-                <!--@if($module_info->display_author!='N')--><div class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></div><!--@end-->
-                <!--@if($module_info->display_regdate!='N')--><div class="date">{$document->getRegdate('Y.m.d')}</div><!--@end-->
+                <!--@if($document->getTrackbackCount())-->
+                    <span class="replyAndTrackback" title="Trackbacks">[<strong>{$document->getTrackbackCount()}</strong>]</span>
+                <!--@end-->
+
+                <div class="nameAndDate">
+                    <!--@if($module_info->display_author!='N')--><div class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></div><!--@end-->
+                    <!--@if($module_info->display_regdate!='N')--><div class="date">{$document->getRegdate('Y.m.d')}</div><!--@end-->
+                </div>
+            </div>
+            <div class="readAndRecommend">
+                <!--@if($module_info->display_readed_count!='N')-->{$lang->readed_count} <span class="num">{$document->get('readed_count')}</span><!--@end-->
+                <!--@if($document->get('voted_count') && $module_info->display_voted_count!='N')-->
+                    <!--@if($module_info->display_readed_count!='N')--><br /><!--@end-->
+                    {$lang->voted_count} <strong class="num">{$document->get('voted_count')}</strong>
+                <!--@end-->
             </div>
         </div>
-        <div class="readAndRecommend">
-            <!--@if($module_info->display_readed_count!='N')-->{$lang->readed_count} <span class="num">{$document->get('readed_count')}</span><!--@end-->
-            <!--@if($document->get('voted_count') && $module_info->display_voted_count!='N')-->
-                <!--@if($module_info->display_readed_count!='N')--><span class="vr">|</span> <!--@end-->
-                {$lang->voted_count} <strong class="num">{$document->get('voted_count')}</strong>
-            <!--@end-->
-        </div>
+        <!--@end-->
+        <!--@end-->
     </div>
-    <!--@end-->
-    <!--@end-->
 </div>
 </form>
 

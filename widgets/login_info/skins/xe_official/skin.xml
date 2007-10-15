@@ -41,5 +41,17 @@
       <title xml:lang="zh-CN">默认</title>
       <title xml:lang="en">default</title>
     </color>
+    <color name="white">
+        <title xml:lang="ko">하얀색</title>
+        <title xml:lang="jp">白</title>
+        <title xml:lang="en">white</title>
+        <title xml:lang="zh-CN">白色</title>
+    </color>
+    <color name="black">
+        <title xml:lang="ko">검은색</title>
+        <title xml:lang="jp">黒</title>
+        <title xml:lang="en">Black</title>
+        <title xml:lang="zh-CN">黑色</title>
+    </color>
   </colorset>
 </skin>

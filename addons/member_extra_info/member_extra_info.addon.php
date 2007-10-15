@@ -75,7 +75,7 @@
 
             // 4. 자신의 쪽지함 보기 기능 추가
             $menu_str = Context::getLang('cmd_view_message_box');
-            $menu_link = "current_url.setQuery('act','dispMemberMessages')";
+            $menu_link = "current_url.setQuery('act','dispMemberMessages').setQuery('message_type','')";
             $menu_list .= sprintf("\n%s,%s,move_url(%s,'Y')", Context::getRequestUri().'/modules/member/tpl/images/icon_message_box.gif', $menu_str, $menu_link);
 
             // 5. 친구 목록 보기

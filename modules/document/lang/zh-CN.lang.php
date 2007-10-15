@@ -5,11 +5,11 @@
      * @brief  文章(document)模块语言包
      **/
 
-    $lang->document_list = 'Document list';
-    $lang->thumbnail_type = 'Thumbnail Type';
-    $lang->thumbnail_crop = 'Crop';
-    $lang->thumbnail_ratio = 'Ratio';
-    $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+    $lang->document_list = '主题目录';
+    $lang->thumbnail_type = '缩略图生成方式';
+    $lang->thumbnail_crop = '裁减';
+    $lang->thumbnail_ratio = '比例';
+    $lang->cmd_delete_all_thumbnail = '删除全部缩略图';
     $lang->move_target_module = "移动目标模块";
 
     $lang->cmd_toggle_checked_document = '反选';

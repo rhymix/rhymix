@@ -11,6 +11,7 @@
         <action name="dispMemberOpenIDLeave" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
+        <action name="dispMemberFindAccount" type="view" standalone="true" />
 
         <action name="dispMemberMessages" type="view" standalone="true" />
         <action name="dispMemberSendMessage" type="view" standalone="true" />
@@ -55,6 +56,9 @@
 
         <action name="procMemberScrapDocument" type="controller" standalone="true" />
         <action name="procMemberDeleteScrap" type="controller" standalone="true" />
+
+        <action name="procMemberFindAccount" type="controller" standalone="true" />
+        <action name="procMemberAuthAccount" type="controller" standalone="true" />
 
         <action name="procMemberAddFriend" type="controller" standalone="true" />
         <action name="procMemberMoveFriend" type="controller" standalone="true" />

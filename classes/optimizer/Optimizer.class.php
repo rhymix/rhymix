@@ -26,6 +26,11 @@
          * @brief optimize 대상 파일을 받아서 처리 후 optimize 된 파일이름을 return
          **/
         function getOptimizedFiles($source_files, $type = "js") {
+			if(!is_array($source_files) || !count($source_files)) return;
+
+			// $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
+			foreach($source_files as $key => $file) $source_files[$key] = str_replace("\\","/",$file);
+
             // 관리자 설정시 설정이 되어 있지 않으면 패스
             $db_info = Context::getDBInfo();
             if($db_info->use_optimizer == 'N') return $source_files;
@@ -69,11 +74,9 @@
         function doOptimizedFile($filename, $targets, $type) {
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
 
-            $file_count = count($targets);
-
             $mtime = filemtime($filename);
-            for($i=0;$i<$file_count;$i++) {
-                if($mtime < filemtime($targets[$i])) return $this->makeOptimizedFile($filename, $targets, $type);
+            foreach($targets as $file) {
+                if($mtime < filemtime($file)) return $this->makeOptimizedFile($filename, $targets, $type);
             }
         }
 
@@ -85,9 +88,7 @@
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
-            $file_count = count($targets);
-            for($i=0;$i<$file_count;$i++) {
-                $file = $targets[$i];
+            foreach($targets as $file) {
                 $str = FileHandler::readFile($file);
 
                 $str = Context::convertEncodingStr($str);
@@ -108,8 +109,6 @@
              * 압축을 지원하고 캐시 타임을 제대로 이용하기 위한 헤더 파일 구함
              **/
             // php의 헤더파일 생성
-            $modified_time = gmdate("D, d M Y H:i:s");
-
             // gzip 압축 체크
             if($type!="css" && Context::isGzEnabled()) $gzip_header =  'header("Content-Encoding: gzip");';
 
@@ -120,10 +119,15 @@
             $header_buff = <<<EndOfBuff
 <?php
 header("Content-Type: {$content_type}; charset=UTF-8");
-header("Last-Modified: {$modified_time} GMT");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Content-Length: ".filesize('{$content_filename}'));
 {$gzip_header}
 if(@file_exists("{$content_filename}")) {
-    @fpassthru(fopen("{$content_filename}", "rb"));
+    @fpassthru(fopen("{$content_filename}", "r"));
 }
 exit();
 ?>

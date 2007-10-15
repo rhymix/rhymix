@@ -444,5 +444,14 @@
             $this->setTemplateFile('add_friend_group');
         }
 
+        /**
+         * @brief  아이디/ 비밀번호 찾기 기능
+         **/
+        function dispMemberFindAccount() {
+            if(Context::get('is_logged')) return $this->stop('already_logged');
+
+            $this->setTemplateFile('find_member_account');
+        }
+
     }
 ?>

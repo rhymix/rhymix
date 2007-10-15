@@ -11,7 +11,7 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<fieldset id="login">
+<fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
 <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
 
@@ -33,14 +33,14 @@
     </p>
     <ul class="help">
         <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-        <!--<li><a href="#">아이디/비밀번호 찾기</a></li>-->
+        <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
     </ul>
 </form> 
 </fieldset>
 
 <!-- OpenID -->
 <!--@if($member_config->enable_openid=='Y')-->
-<fieldset id="openid_login" style="display:none;">
+<fieldset id="openid_login" class="openid_login_{$colorset}" style="display:none;">
 <legend>{$lang->cmd_login}</legend>
   <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" >
       <div class="idpwWrap">

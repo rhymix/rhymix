@@ -20,6 +20,7 @@ IE7 & IE6 & Below
 .tRight { text-align:right; }
 .tLeft { text-align:left; }
 .gap1 { margin-top:.8em; }
+.nowrap { white-space:nowrap; }
 
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; }

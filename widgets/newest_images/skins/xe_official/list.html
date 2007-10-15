@@ -21,12 +21,12 @@
                 <!--@if($oDocument->document_srl)-->
                 <div class="thumbnail"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" border="0" alt="" class="thumbnail" /></a></div>
 
-                <div>
+                <div class="title">
                     <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->title_length)}</a>
                     <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
                 </div>
                 <!--@if($widget_info->display_author == 'Y')-->
-                <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+                <div class="author"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></div>
                 <!--@end-->
 
                 <!--@if($widget_info->display_regdate == 'Y')-->
@@ -43,7 +43,7 @@
 
                     <!--@if($widget_info->display_voted_count == 'Y' && $oDocument->get('voted_count')>0 )-->
 
-                        <!--@if($widget_info->display_readed_count == 'Y')--><span class="div_block">|</span><!--@end-->
+                        <!--@if($widget_info->display_readed_count == 'Y')--><br /><!--@end-->
 
                         {$lang->voted_count} <strong>{$oDocument->get('voted_count')}</strong>
 

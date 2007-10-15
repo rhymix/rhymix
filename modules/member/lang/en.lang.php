@@ -53,6 +53,12 @@
     $lang->current_password = 'Current Password';
     $lang->openid = 'OpenID';
 
+    $lang->webmaster_name = '웹마스터 이름';
+    $lang->webmaster_email = '웹마스터 메일주소';
+
+    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
+    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+
     $lang->search_target_list = array(
         'user_id' => 'ID',
         'user_name' => 'Name',
@@ -78,6 +84,7 @@
     $lang->cmd_modify_member_password = 'Change Password';
     $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
+    $lang->cmd_find_member_account = 'Find Account Info';
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
@@ -97,10 +104,18 @@
     $lang->cmd_add_friend_group = 'Add Friend Group';
     $lang->cmd_rename_friend_group = 'Change Name of Friend Group';
 
+    $lang->msg_email_not_exists = "Email address doesn't exists";
+
     $lang->msg_alreay_scrapped = 'This article is already scrapped';
 
     $lang->msg_cart_is_null = 'Please select the target';
     $lang->msg_checked_file_is_deleted = '%d attached files are deleted';
+
+    $lang->msg_find_account_title = 'Account Info';
+    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
+    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
+    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
 
     $lang->msg_no_message = 'There are no messages';
     $lang->message_received = 'You got a new message';
@@ -172,4 +187,5 @@
     $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
 
     $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
+    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
 ?>

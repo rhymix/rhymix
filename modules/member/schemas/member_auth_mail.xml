@@ -1,0 +1,7 @@
+<table name="member_auth_mail">
+    <column name="auth_key" type="varchar" size="60" notnull="notnull" unique="unique_key"/>
+    <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_key" />
+    <column name="user_id" type="varchar" size="80" notnull="notnull" />
+    <column name="new_password" type="varchar" size="80" notnull="notnull" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

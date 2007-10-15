@@ -25,6 +25,9 @@
 .box_login ul.option li a.btn { background:url(../images/default/bul_01.gif) no-repeat left; padding-left:10px; margin-left:14px; }
 .box_login .checkbox  { width:15px; height:15px; margin:-1px 0px 0px -1px; margin-right:2px; }
 .box_login .clear { clear:both; }
+.box_login ul.extra_option { clear:both; height:40px; }
+.box_login ul.extra_option li a {text-decoration:none;}
+.box_login ul.extra_option li a.btn { background:url(../images/default/bul_01.gif) no-repeat left; padding-left:10px; margin-left:20px; }
 
 .openid_login { clear:both; height:38px; border:3px solid #D5D8DB; background-color:#FFFFFF; margin:0 0 10px 0; }
 .openid_login .openid_user_id { width:110px; _width:100px; background: url(../images/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:16px; line-height:1em; vertical-align:middle; margin-bottom:.5em; color:#666666;}

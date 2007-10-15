@@ -53,6 +53,12 @@
     $lang->current_password = '현재 비밀번호';
     $lang->openid = 'OpenID';
 
+    $lang->webmaster_name = '웹마스터 이름';
+    $lang->webmaster_email = '웹마스터 메일주소';
+
+    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
+    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+
     $lang->search_target_list = array(
         'user_id' => '아이디',
         'user_name' => '이름',
@@ -79,6 +85,7 @@
     $lang->cmd_modify_member_password = '비밀번호 변경';
     $lang->cmd_view_member_info = '회원 정보 보기';
     $lang->cmd_leave = '탈퇴';
+    $lang->cmd_find_member_account = '아이디/비밀번호 찾기';
 
     $lang->cmd_member_list = '회원 목록';
     $lang->cmd_module_config = '기본 설정';
@@ -98,10 +105,19 @@
     $lang->cmd_add_friend_group = '친구 그룹 추가';
     $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 
+    $lang->msg_email_not_exists = '이메일 주소가 존재하지 않습니다';
+
     $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = '대상을  선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
+
+    $lang->msg_find_account_title = '아이디/ 비밀번호 정보입니다';
+    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
+    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
+    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_invalid_auth_key = '잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요';
+    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
 
     $lang->msg_no_message = '쪽지가 없습니다';
     $lang->message_received = '쪽지가 왔습니다';
@@ -171,6 +187,7 @@
 
     $lang->about_openid = '오픈아이디로 가입시 아이디와 메일등의 기본 정보는 이 사이트에 저장이 되지만 비밀번호와 인증을 위한 처리는 해당 오픈아이디 제공서비스에서 이루어집니다.';
     $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
+    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
 
     $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입폼 관리등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입폼관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
 ?>

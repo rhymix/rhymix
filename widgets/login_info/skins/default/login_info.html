@@ -14,7 +14,7 @@
 
     <div class="item profile"><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></div>
     <div class="item friend"><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></div>
-    <div class="item message"><a href="{getUrl('act','dispMemberMessages','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></div>
+    <div class="item message"><a href="{getUrl('act','dispMemberMessages','message_type','','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></div>
     <!--@if($logged_info->is_admin=="Y")-->
     <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
     <!--@end-->

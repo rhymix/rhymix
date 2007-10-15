@@ -75,6 +75,9 @@
             if($use_folder == "Y") {
                 $folder_id = rand(1000000,9999999);
 
+                $folder_opener = str_replace("&amp;","&",$folder_opener);
+                $folder_closer = str_replace("&amp;","&",$folder_closer);
+
                 if($bold == "Y") $class = "bold";
                 switch($color) {
                     case "red" :
