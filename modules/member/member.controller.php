@@ -1369,16 +1369,14 @@
             if(!$image_name && !$image_mark) return $matches[0];
 
             if($image_name->width) {
-                if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
-                else $top_margin = 0;
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="margin-top:%dpx;"/>', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height, $top_margin);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
             }
 
             if($image_mark->width) {
-                $matches[0] = str_replace('<'.$matches[6], sprintf('<%s style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx" ', $matches[1],Context::getRequestUri().$image_mark->file, $image_mark->width+2, $image_mark->height), $matches[0] );
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
             }
-            $output = str_replace('>'.$matches[5].'<', '>'.$text.'<', $matches[0]);
-            return $output;
+
+            return sprintf('<span class="nowrap member_%d">%s</span>',$member_srl, $text);
         }
 
         /**

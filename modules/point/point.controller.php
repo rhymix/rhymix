@@ -64,6 +64,8 @@
             $point = $this->oPointModel->getPoint($member_srl);
             $level = $this->oPointModel->getLevel($point, $this->config->level_step);
 
+            $text = $matches[5];
+
             $src = sprintf("modules/point/icons/%s/%d.gif", $this->config->level_icon, $level);
             if(!$this->icon_width) {
                 $info = getimagesize($src);
@@ -78,8 +80,11 @@
                 }
             }
 
-            $code = sprintf('<%s title="%s:%s%s %s, %s:%s/%s" style="cursor:pointer;background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx">%s</%s> ', $matches[6], Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height, $matches[0], $matches[6]);
-            $this->member_code[$member_srl] = $code;
+            $title = sprintf("%s:%s%s %s, %s:%s/%s", Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level);
+
+            $text = sprintf('<span class="nowrap member_%s"><img src="%s" width="%s" height="%s" alt="%s" title="%s" align="absmiddle"  style="margin-right:3px"/>%s</span>', $member_srl, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height, $title, $title, $text);
+
+            $this->member_code[$member_srl] = $text;
 
             return $this->member_code[$member_srl];
         }

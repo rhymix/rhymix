@@ -69,11 +69,9 @@
         function doOptimizedFile($filename, $targets, $type) {
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
 
-            $file_count = count($targets);
-
             $mtime = filemtime($filename);
-            for($i=0;$i<$file_count;$i++) {
-                if($mtime < filemtime($targets[$i])) return $this->makeOptimizedFile($filename, $targets, $type);
+            foreach($targets as $file) {
+                if($mtime < filemtime($file)) return $this->makeOptimizedFile($filename, $targets, $type);
             }
         }
 
@@ -85,9 +83,7 @@
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
-            $file_count = count($targets);
-            for($i=0;$i<$file_count;$i++) {
-                $file = $targets[$i];
+            foreach($targets as $file) {
                 $str = FileHandler::readFile($file);
 
                 $str = Context::convertEncodingStr($str);
