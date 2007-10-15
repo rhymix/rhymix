@@ -159,7 +159,19 @@
             }
 
             // 쪽지 발송
-            return $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
+            $output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
+
+            // 메일로도 발송
+            if($output->toBool()) {
+                $oMail = new Mail();
+                $oMail->setTitle($title);
+                $oMail->setContent($content);
+                $oMail->setSender($logged_info->user_name, $logged_info->email_address);
+                $oMail->setReceiptor($receiver_member_info->user_name, $receiver_member_info->email_address);
+                $oMail->send();
+            }
+
+            return $output;
         }
 
         function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true) {
