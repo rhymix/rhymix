@@ -167,6 +167,8 @@
             if(file_exists($db_config_file)) @include($db_config_file);
 
             if(!$db_info->time_zone) $db_info->time_zone = date("O");
+            if(!$db_info->use_optimizer || $db_info->use_optimizer != 'N') $db_info->use_optimizer = 'Y';
+            else $db_info->use_optimizer = 'N';
 
             $this->_setDBInfo($db_info);
             
