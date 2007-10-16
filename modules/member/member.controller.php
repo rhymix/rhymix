@@ -1376,7 +1376,7 @@
                 $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
             }
 
-            return sprintf('<span class="nowrap member_%d">%s</span>',$member_srl, $text);
+            return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);
         }
 
         /**
