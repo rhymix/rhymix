@@ -12,11 +12,13 @@
     <col width="140" />
     <col />
     <tr class="first-child">
-        <th scope="row"><label for="cpw">{$lang->email_address}</label></th>
+        <th rowspan="2" scope="row"><label for="cpw">{$lang->email_address}</label></th>
         <td>
             <input type="text" name="email_address" class="inputTypeText w400" />
-            <p>{$lang->about_find_member_account}</p>
         </td>
+    </tr>
+    <tr>
+        <td><p>{$lang->about_find_member_account}</p></td>
     </tr>
     </table>
 
