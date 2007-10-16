@@ -146,6 +146,9 @@
             $content = trim(Context::get('content'));
             if(!$content) return new Object(-1, 'msg_content_is_null');
 
+            $send_mail = Context::get('send_mail');
+            if($send_mail != 'Y') $send_mail = 'N';
+
             // 받을 회원이 있는지에 대한 검사
             $oMemberModel = &getModel('member');
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
@@ -162,7 +165,9 @@
             $output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
 
             // 메일로도 발송
-            if($output->toBool()) {
+            if($output->toBool() && $send_mail == 'Y') {
+                $view_url = Context::getRequestUri();
+                $content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>",$content, $view_url, $view_url);
                 $oMail = new Mail();
                 $oMail->setTitle($title);
                 $oMail->setContent($content);
