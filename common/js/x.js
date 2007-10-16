@@ -21,6 +21,7 @@ else if(navigator.vendor!='KDE' && document.all && xUA.indexOf('msie')!=-1){
 }
 else if(document.layers){xNN4=true;}
 var xMac=xUA.indexOf('mac')!=-1;
+var xFF=xUA.indexOf('firefox')!=-1;
 
 // (element, event(without 'on'), event listener(function name)[, caption])
 function xAddEventListener(e,eT,eL,cap)

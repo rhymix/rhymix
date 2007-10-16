@@ -9,9 +9,8 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="tableType1">
-<col width="40" />
-<col width="130" />
-<col />
+<col width="50" />
+<col width="150" />
 <col />
 <col width="40" />
 <col width="80" />
@@ -38,8 +37,7 @@
                 <span class="button"><input type="submit" name="go_button" id="go_button" value="GO" /></span>
             </form>
         </th>
-        <th scope="col">{$lang->mid}</th>
-        <th scope="col">{$lang->browser_title}</th>
+        <th scope="col">{$lang->browser_title} / {$lang->mid}</th>
         <th scope="col">{$lang->is_default}</th>
         <th scope="col">{$lang->skin}</th>
         <th scope="col">{$lang->admin_id}</th>
@@ -60,14 +58,16 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><div class="tLeft nowrap">&nbsp; <a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{$val->mid}</a></div></td>
-        <td><div class="tLeft">{htmlspecialchars($val->browser_title)}</div></td>
+        <td class="left subject">
+            <a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a><br />
+            {$val->mid}
+        </td>
         <td class="tahoma">{$val->is_default}</td>
         <td class="tahoma">{$val->skin}</td>
         <td class="tahoma">{$val->admin_id}&nbsp;</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="blue"><a href="./?module=module&act=dispModuleAdminCopyModule&module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
+        <td class="blue"><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
         <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->

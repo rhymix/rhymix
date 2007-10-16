@@ -15,7 +15,7 @@ function getText() {
 
     if(node.nodeName == "A") {
         var url = node.getAttribute("HREF");
-        var text = node.text.replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
+        var text = node.innerHTML.replace(/&lt;/ig,'<').replace(/&gt;/ig,'>').replace(/&amp;/ig,'&');
 
         var open_window = false;
         var bold = false;
