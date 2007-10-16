@@ -18,7 +18,7 @@
 .login_white form ul.help li.first-child a { color:#54564b;}
 .login_white form .userName { position:relative; width:172px; overflow:hidden; border-bottom:1px solid #e4e4e4; padding:0 0 6px 0; margin-top:-5px;}
 .login_white form .userName strong { color:#282828; padding:4px 0 0 2px; font:bold .9em Tahoma;}
-.login_white form .userName a { position:relative; top:5px; right:0px; }
+.login_white form .userName a { position:relative; right:0px; }
 .login_white form ul.userMenu { padding:0 0 6px 4px; overflow:hidden; margin-top:10px;}
 .login_white form ul.userMenu li { list-style:none; padding-left:10px; background:url(../images/white/bulletFF1A00.gif) no-repeat left 4px; height:18px; }
 .login_white form ul.userMenu li a { color:#54564b; text-decoration:none; }
