@@ -14,8 +14,8 @@
 <form action="" method="post">
 
     <div class="userName">
-        <div class="fl member_{$logged_info->member_srl}"><strong>{$logged_info->nick_name}</strong></div>
-        <a href="{getUrl('act','dispMemberLogout')}"><img src="./images/{$colorset}/buttonLogout.gif" alt="{$lang->cmd_logout}" width="47" height="18" /></a>
+        <div class="fl"><div class="member_{$logged_info->member_srl}"><strong>{$logged_info->nick_name}</strong></div></div>
+        <div class="fr"><a href="{getUrl('act','dispMemberLogout')}"><img src="./images/{$colorset}/buttonLogout.gif" alt="{$lang->cmd_logout}" width="47" height="18" /></a></div>
     </div>
     <ul class="userMenu">
         <li><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></li>

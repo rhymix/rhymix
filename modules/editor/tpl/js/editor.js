@@ -2,21 +2,22 @@
  * @author zero (zero@nzeo.com)
  * @version 0.1
  * @brief 에디터 관련 스크립트
- **/
+ */
 
 /**
- * 에디터에서 사용하는 iframe, textarea의 prefix
+ * 에디터에서 사용하기 위한 변수
  **/
-var editor_mode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수
-var _editorSyncList = new Array(); ///< 에디터와 form 동기화를 위한 동기화 대상 목록
-var _autoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
-var editor_rel_keys = new Array(); ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
+var editorMode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수 (html or null)
+var editorAutoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
+var editorRelKeys = new Array(); ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
+var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
 
 /**
  * 에디터 사용시 사용되는 이벤트 연결 함수 호출
  **/
-xAddEventListener(window, 'load', _editorSync); ///< 에디터의 동기화를 하는 함수를 window.load시 실행
-
+xAddEventListener(document, 'mousedown', editorDragStart);
+xAddEventListener(document, 'mouseup', editorDragStop);
+xAddEventListener(document, 'mouseup', editorEventCheck);
 
 /**
  * 에디터의 상태나 객체를 구하기 위한 함수
@@ -24,41 +25,37 @@ xAddEventListener(window, 'load', _editorSync); ///< 에디터의 동기화를 �
 
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
-    var obj_id = 'editor_iframe_'+ editor_sequence;
-    return xGetElementById(obj_id);
+    return xGetElementById( 'editor_iframe_'+ editor_sequence );
 }
 
 // editor_sequence값에 해당하는 textarea object를 return
 function editorGetTextArea(editor_sequence) {
-    var obj_id = 'editor_textarea_' + editor_sequence;
-    return xGetElementById(obj_id);
+    return xGetElementById( 'editor_textarea_' + editor_sequence );
 }
 
 // editor_sequence에 해당하는 form문 구함
 function editorGetForm(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
+
     var fo_obj = iframe_obj.parentNode;
     while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
     if(fo_obj.nodeName == 'FORM') return fo_obj;
     return;
 }
 
-// 에디터의 전체 내용 return, HTML 편집모드일 경우에 데이터를 이전후 값 return
+// 에디터의 전체 내용 return
 function editorGetContent(editor_sequence) {
-    var iframe_obj = editorGetIFrame(editor_sequence);
-    if(!iframe_obj) return null;
-
-    var html = null;
-    if(editor_mode[editor_sequence]=='html') {
+    var html = "";
+    if(editorMode[editor_sequence]=='html') {
         var textarea_obj = editorGetTextArea(editor_sequence);
-        var html = textarea_obj.value;
-        var contentDocument = iframe_obj.contentWindow.document;
-        contentDocument.body.innerHTML = html;
+        if(!textarea_obj) return "";
+        html = textarea_obj.value;
+    } else {
+        var iframe_obj = editorGetIFrame(editor_sequence);
+        if(!iframe_obj) return "";
+        html = xInnerHtml(iframe_obj.contentWindow.document.body).replace(/^<br([^>]*)>$/i,'');
     }
-
-    html = xInnerHtml(iframe_obj.contentWindow.document.body);
-    if(html) html = html.replace(/^<br([^>]*)>$/i,'');
     return html;
 }
 
@@ -68,7 +65,6 @@ function editorGetSelectedHtml(editor_sequence) {
     if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         var html = range.htmlText;
-        //range.select();
         return html;
     } else {
         var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
@@ -96,12 +92,9 @@ function editorGetSelectedNode(editor_sequence) {
     }
 }
 
-
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
-var editor_is_started = new Array();
-var editor_start_func = new Array();
 function editorStart(editor_sequence, primary_key, content_key, resizable, editor_height) {
     // resize 가/불가에 대한 체크
     if(typeof(resizable)=="undefined"||!resizable) resizable = false;
@@ -112,14 +105,17 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     if(!iframe_obj) return;
     xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
 
-    // 현 에디터를 감싸고 있는 form문을 찾아서 content object를 찾아서 내용 sync
+    // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
     if(!fo_obj) return;
 
+    // fo_obj에 editor_sequence 값 지정
+    fo_obj.setAttribute('editor_sequence', editor_sequence);
+
     // 모듈 연관 키 값을 세팅
-    editor_rel_keys[editor_sequence] = new Array();
-    editor_rel_keys[editor_sequence]["primary"] = fo_obj[primary_key];
-    editor_rel_keys[editor_sequence]["content"] = fo_obj[content_key];
+    editorRelKeys[editor_sequence] = new Array();
+    editorRelKeys[editor_sequence]["primary"] = fo_obj[primary_key];
+    editorRelKeys[editor_sequence]["content"] = fo_obj[content_key];
 
     // saved document(자동저장 문서)에 대한 확인
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
@@ -131,7 +127,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
             // 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
             if(confirm(fo_obj._saved_doc_message.value)) {
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
-                editor_rel_keys[editor_sequence]['content'].value = saved_content;
+                editorRelKeys[editor_sequence]['content'].value = saved_content;
             } else {
                 editorRemoveSavedDoc();
             }
@@ -139,7 +135,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     }
 
     // 대상 form의 content element에서 데이터를 구함
-    var content = editor_rel_keys[editor_sequence]['content'].value;
+    var content = editorRelKeys[editor_sequence]['content'].value;
 
     // IE가 아니고 내용이 없으면 <br /> 추가 (FF등에서 iframe 선택시 focus를 주기 위한 꽁수)
     if(!content && !xIE4Up) content = "<br />";
@@ -148,20 +144,26 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     var contentDocument = iframe_obj.contentWindow.document;
 
     // 크기 변경 불가일 경우 드래그바 숨김
-    if(resizable == false) xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "none";
-    else xGetElementById("editor_drag_bar_"+editor_sequence).style.display = "block";
-
-    // IE일 경우 ctrl-Enter 안내 문구를 노출
-    if(xIE4Up && xGetElementById('for_ie_help_'+editor_sequence)) {
-        xGetElementById('for_ie_help_'+editor_sequence).style.display = "block";
+    var dragObj = xGetElementById("editor_drag_bar_"+editor_sequence);
+    if(dragObj) {
+        if(resizable == false) dragObj.style.display = "none";
+        else dragObj.style.display = "block";
     }
 
+    // IE일 경우 ctrl-Enter 안내 문구를 노출
+    var ieHelpObj = xGetElementById("for_ie_help_"+editor_sequence);
+    if(xIE4Up && ieHelpObj) {
+        ieHelpObj.style.display = "block";
+    }
+
+    // content 생성
+    editor_path = editor_path.replace(/^\.\//ig, '');
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
 		'<base href="'+request_uri+'" />'+
-        '<link rel="stylesheet" href="'+request_uri+'/common/css/default.css" type="text/css" />'+
-        '<link rel="stylesheet" href="'+request_uri+editor_path+'/css/editor.css" type="text/css" />'+
+        '<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
+        '<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
         'body {font-size:9pt;margin:0px; height:'+editor_height+'px;}'+
         'blockquote, ol, ul { margin-left:40px; }'+
@@ -174,34 +176,15 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     contentDocument.write(contentHtml);
     contentDocument.close();
 
-    // editor_mode를 기본으로 설정
-    editor_mode[editor_sequence] = null;
+    // editorMode를 기본으로 설정
+    editorMode[editor_sequence] = null;
 
-    // 에디터를 시작 시킴 (오류 발생시 에디터에 focus에 올때 에디터 시작하도록 변경)
-
-    try {
-        editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence);
-        editor_is_started[editor_sequence] = true;
+    // 에디터를 시작 시킴 
+    try { 
+        contentDocument.designMode = 'On';
     } catch(e) {
-        editor_start_func[editor_sequence] =  function() { editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence); }
-        editor_is_started[editor_sequence] = false;
-
-        // iframe에 focus가 될때 에디터 모드로 전환하도록 이벤트 지정
-        if(xIE4Up) xAddEventListener(iframe_obj, "focus", editor_start_func[editor_sequence] );
-        else xAddEventListener(iframe_obj.contentWindow, "focus", editor_start_func[editor_sequence] );
-        //alert('실패');
     }
 
-    xAddEventListener(document,'mouseup',editorEventCheck);
-}
-
-/**
- * 에디터를 위지윅 모드로 만들기 위해 내용 작성 후 designMode 활성화
- **/
-function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, editor_sequence ) {
-    if(editor_is_started[editor_sequence]) return;
-
-    contentDocument.designMode = 'on';
     try {
         contentDocument.execCommand("undo", false, null);
         contentDocument.execCommand("useCSS", false, true);
@@ -210,81 +193,42 @@ function editorSetDesignMode(iframe_obj, contentDocument, content, fo_obj, edito
 
     /**
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
+     * 작성시 필요한 이벤트 체크
+     * 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 contentDocument에 대한 권한이 없기에 try 문으로 감싸서 
+     * 에러를 무시하도록 해야 함.
      **/
-    // 작성시 필요한 이벤트 체크
-    // 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 contentDocument에 대한 권한이 없기에 try 문으로 감싸서 
-    // 에러를 무시하도록 해야 함.
     try {
+        // 에디터에서 키가 눌러질때마다 이벤트를 체크함 (enter키의 처리나 FF에서 alt-s등을 처리)
         if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
         else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
-        xAddEventListener(contentDocument,'mousedown',editorHideObject);
 
-        // 위젯 감시를 위한 더블클릭 이벤트 걸기 (오페라에 대한 처리는 차후에.. 뭔가 이상함)
+        // 위젯 감시를 위한 더블클릭 이벤트 걸기 
         xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
     } catch(e) {
     }
 
-    xAddEventListener(document,'dblclick',editorSearchComponent);
-    xAddEventListener(document,'mousedown',editorHideObject);
-
-    /**
-     * 에디터의 내용을 지속적으로 fo_obj.content의 값과 동기화를 시킴.
-     * 차후 다른 에디터를 사용하더라도 fo_obj.content와 동기화만 된다면 어떤 에디터라도 사용 가능하도록 하기 위해
-     * 별도의 동기화 루틴을 이용함
-     **/
-    editorSyncContent(editor_rel_keys[editor_sequence]['content'], editor_sequence);
-
     // 자동저장 필드가 있다면 자동 저장 기능 활성화
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
-
-    editor_is_started[editor_sequence] = true;
 }
-
-
-
-/**
- * 에디터와 form문의 동기화를 위한 함수들
- **/
-// 여러개의 편집기를 예상하여 전역 배열 변수에 form, iframe의 정보를 넣음
-function editorSyncContent(obj, editor_sequence) {
-    _editorSyncList[_editorSyncList.length] = {field:obj, editor_sequence:editor_sequence}
-}
-
-// 편집기와 폼의 정보를 주기적으로 동기화 시킴
-function _editorSync() {
-    // 등록된 모든 에디터에 대해 동기화를 시킴
-    for(var i=0;i<_editorSyncList.length;i++) {
-        var field = _editorSyncList[i].field;
-        var editor_sequence = _editorSyncList[i].editor_sequence;
-        var content = editorGetContent(editor_sequence);
-        if(typeof(content)=='undefined') continue;
-        field.value = content;
-    }
-
-    // 1.5초마다 계속 동기화 시킴
-    setTimeout(_editorSync, 1500);
-}
-
-
 
 /**
  * 자동 저장 기능
  **/
-// 자동 저장 활성화 시키는 함수 (5초마다 자동저장)
+// 자동 저장 활성화 시키는 함수 (10초마다 자동저장)
 function editorEnableAutoSave(fo_obj, editor_sequence) {
     var title = fo_obj.title.value;
-    var content = editor_rel_keys[editor_sequence]['content'].value;
-    _autoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
-    setTimeout(_editorAutoSave, 5000);
+    var content = editorRelKeys[editor_sequence]['content'].value;
+    editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
+    setTimeout(_editorAutoSave, 10000);
 }
 
 // ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴
 function _editorAutoSave() {
-    var fo_obj = _autoSaveObj.fo_obj;
-    var editor_sequence = _autoSaveObj.editor_sequence;
+    var fo_obj = editorAutoSaveObj.fo_obj;
+    var editor_sequence = editorAutoSaveObj.editor_sequence;
 
     // 현재 자동저장중이면 중지
-    if(_autoSaveObj.locked == true) return;
+    if(editorAutoSaveObj.locked == true) return;
 
     // 대상이 없으면 자동저장 시키는 기능 자체를 중지
     if(!fo_obj || typeof(fo_obj.title)=='undefined' || !editor_sequence) return;
@@ -294,15 +238,15 @@ function _editorAutoSave() {
     var content = editorGetContent(editor_sequence);
 
     // 내용이 이전에 저장하였던 것과 다르면 자동 저장을 함
-    if(title != _autoSaveObj.title || content != _autoSaveObj.content ) {
+    if(title != editorAutoSaveObj.title || content != editorAutoSaveObj.content ) {
         var params = new Array();
 
         params["title"] = title;
         params["content"] = content;
-        params["document_srl"] = editor_rel_keys[editor_sequence]['primary'].value;
+        params["document_srl"] = editorRelKeys[editor_sequence]['primary'].value;
 
-        _autoSaveObj.title = title;
-        _autoSaveObj.content = content;
+        editorAutoSaveObj.title = title;
+        editorAutoSaveObj.content = content;
 
         var obj = xGetElementById("editor_autosaved_message_"+editor_sequence);
         var oDate = new Date();
@@ -311,11 +255,11 @@ function _editorAutoSave() {
         obj.style.display = "block";
 
         // 현재 자동저장중임을 설정
-        _autoSaveObj.locked = true;
+        editorAutoSaveObj.locked = true;
 
         // 서버 호출 (서버와 교신중이라는 메세지를 보이지 않도록 함)
         show_waiting_message = false;
-        exec_xml("editor","procEditorSaveDoc", params, function() { _autoSaveObj.locked = false; } );
+        exec_xml("editor","procEditorSaveDoc", params, function() { editorAutoSaveObj.locked = false; } );
         show_waiting_message = true;
     }
 
@@ -327,7 +271,6 @@ function _editorAutoSave() {
 function editorRemoveSavedDoc() {
     exec_xml("editor","procEditorRemoveSavedDoc");
 }
-
 
 /**
  * 에디터의 세부 설정과 데이터 핸들링을 정의한 함수들
@@ -343,13 +286,6 @@ function editorFocus(editor_sequence) {
 function editorReplaceHTML(iframe_obj, html) {
     // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
     var editor_sequence = iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
-    if(!editor_is_started[editor_sequence]) {
-        try {
-            editor_start_func[editor_sequence];
-        } catch(e) {
-            return;
-        }
-    }
 
     // iframe 에디터에 포커스를 둠
     iframe_obj.contentWindow.focus();
@@ -398,7 +334,7 @@ function editorKeyPress(evt) {
     if(!editor_sequence) return;
 
     // IE에서 enter키를 눌렀을때 P 태그 대신 BR 태그 입력
-    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && editor_mode[editor_sequence]!='html') {
+    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && editorMode[editor_sequence]!='html') {
         var iframe_obj = editorGetIFrame(editor_sequence);
         if(!iframe_obj) return;
 
@@ -433,7 +369,7 @@ function editorKeyPress(evt) {
         if(!fo_obj) return;
 
         // 데이터 동기화
-        editor_rel_keys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
+        editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
 
         // form문 전송
         if(fo_obj.onsubmit) fo_obj.onsubmit();
@@ -453,7 +389,7 @@ function editorKeyPress(evt) {
         if(!iframe_obj) return;
 
         // html 에디터 모드일 경우 이벤트 취소 시킴
-        if(editor_mode[editor_sequence]=='html') {
+        if(editorMode[editor_sequence]=='html') {
             evt.cancelBubble = true;
             evt.returnValue = false;
             xPreventDefault(evt);
@@ -536,7 +472,7 @@ function editorDo(command, value, target) {
     }
 
     var editor_sequence = doc.body.getAttribute('editor_sequence');
-    if(editor_mode[editor_sequence]=='html') return;
+    if(editorMode[editor_sequence]=='html') return;
 
     // 포커스
     if(typeof(target)=="object") target.focus();
@@ -579,7 +515,6 @@ function editorChangeHeader(obj,srl) {
  **/
 
 // 에디터 상단의 컴포넌트 버튼 클릭시 action 처리 (마우스다운 이벤트 발생시마다 요청이 됨)
-var editorPrevObj = null;
 var editorPrevSrl = null;
 function editorEventCheck(evt) {
     editorPrevNode = null;
@@ -596,7 +531,7 @@ function editorEventCheck(evt) {
     var component_name = target_id.replace(/^component_([0-9]+)_/,'');
     if(!editor_sequence || !component_name) return;
 
-    if(editor_mode[editor_sequence]=='html') return;
+    if(editorMode[editor_sequence]=='html') return;
 
     switch(component_name) {
 
@@ -638,7 +573,7 @@ function editorEventCheck(evt) {
 // 컴포넌트 팝업 열기
 function openComponent(component_name, editor_sequence, manual_url) {
     editorPrevSrl = editor_sequence;
-    if(editor_mode[editor_sequence]=='html') return;
+    if(editorMode[editor_sequence]=='html') return;
 
     var popup_url = request_uri+"?module=editor&act=dispEditorPopup&editor_sequence="+editor_sequence+"&component="+component_name;
     if(typeof(manual_url)!="undefined" && manual_url) popup_url += "&manual_url="+escape(manual_url);
@@ -669,7 +604,7 @@ function editorSearchComponent(evt) {
         var widget = obj.getAttribute("widget");
         editorPrevNode = obj;
 
-        if(editor_mode[editor_sequence]=='html') return;
+        if(editorMode[editor_sequence]=='html') return;
         popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+editor_sequence,'GenerateCodeInPage');
         return;
     }
@@ -728,36 +663,11 @@ function editorSearchComponent(evt) {
     openComponent(editor_component, editor_sequence);
 }
 
-// 마우스 클릭시 이전 object정보를 숨김
-function editorHideObject(evt) {
-    if(!editorPrevObj) return;
-    var e = new xEvent(evt);
-    var tobj = e.target;
-    while(tobj) {
-        if(tobj.id == editorPrevObj.id) { 
-            return;
-        }
-        tobj = xParent(tobj);
-    }
-    editorPrevObj.style.visibility = 'hidden';
-    editorPrevObj = null;
-    return;
-}
-
 
 /**
  * HTML 편집 기능 활성/비활성
  **/
 function editorChangeMode(obj, editor_sequence) {
-    // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
-    if(!editor_is_started[editor_sequence]) {
-        try {
-            editor_start_func[editor_sequence];
-        } catch(e) {
-            return;
-        }
-    }
-
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
 
@@ -779,7 +689,7 @@ function editorChangeMode(obj, editor_sequence) {
         textarea_obj.style.display = "block";
         xGetElementById('xeEditorOption_'+editor_sequence).style.display = "none";
 
-        editor_mode[editor_sequence] = 'html';
+        editorMode[editor_sequence] = 'html';
 
     // 위지윅 모드 사용시
     } else {
@@ -788,7 +698,7 @@ function editorChangeMode(obj, editor_sequence) {
         iframe_obj.parentNode.style.display = "block";
         textarea_obj.style.display = "none";
         xGetElementById('xeEditorOption_'+editor_sequence).style.display = "block";
-        editor_mode[editor_sequence] = null;
+        editorMode[editor_sequence] = null;
     }
 
 }
@@ -796,9 +706,6 @@ function editorChangeMode(obj, editor_sequence) {
 /**
  * iframe 세로 크기 조절 드래그 관련
  **/
-var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
-xAddEventListener(document, 'mousedown', editorDragStart);
-xAddEventListener(document, 'mouseup', editorDragStop);
 function editorDragStart(evt) {
     var e = new xEvent(evt);
     var obj = e.target;

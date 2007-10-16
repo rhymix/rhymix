@@ -88,7 +88,7 @@
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
 
-            if(!$config->signup || !$config->signup_act) return true;
+            if(!isset($config->signup) || !isset($config->signup_act)) return true;
 
             return false;
         }

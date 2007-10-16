@@ -87,6 +87,7 @@ select.time_zone { width:70%; position:relative; top:4px; }
 .tableType1 td a { color:#1d1d1d;}
 .tableType1 .tahoma { font-size:.9em; font-family:Tahoma;}
 .tableType1 .tahoma a { font-size:1em;}
+.tableType1 td.subject { padding:3px 0 3px 0; line-height:140%;}
 .tableType1 td.blue a { color:#158692;}
 .tableType1 td.red a { color:#c95b53;}
 .tableType1 td.red { color:#c95b53;}
