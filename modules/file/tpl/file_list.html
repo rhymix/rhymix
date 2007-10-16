@@ -11,6 +11,15 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="tableType1">
+<col width="60" />
+<col width="30" />
+<col />
+<col width="80" />
+<col width="60" />
+<col width="100" />
+<col width="80" />
+<col width="100" />
+<col width="70" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -25,7 +34,6 @@
                 </select><a href="#" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;" class="button"><span>GO</span></a>
             </div>
         </th>
-        <th scope="col">{$lang->file_name}</th>
         <th scope="col">{$lang->file_size}</th>
         <th scope="col">{$lang->is_valid}</th>
         <th scope="col">{$lang->download_count}</th>
@@ -39,8 +47,10 @@
     <tr>
         <td class="tahoma">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
-        <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a></td>
-        <td class="left red"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
+        <td class="left subject">
+            <a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;" class="blue">{$module_list[$val->module_srl]->browser_title}</a><br />
+            <a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a>
+        </td>
         <td class="tahoma">{$val->file_size}</td>
         <td>
             <!--@if($val->isvalid=='Y')-->

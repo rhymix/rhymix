@@ -16,7 +16,6 @@
     <col width="60" />
     <col width="20" />
     <col />
-    <col />
     <col width="120" />
     <col width="60" />
     <col width="80" />
@@ -34,7 +33,6 @@
                     </select><a href="#" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;" class="button"><span>GO</span></a>
                 </div>
             </th>
-            <th scope="col">{$lang->title}</th>
             <th scope="col">{$lang->user_name}</th>
             <th scope="col">{$lang->readed_count}</th>
             <th scope="col">{$lang->voted_count}</th>
@@ -46,8 +44,8 @@
         <tr>
             <td class="tahoma">{$no}</td>
             <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
-            <td class="left blue category"><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a></td>
-            <td class="left">
+            <td class="left subject">
+                <a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" class="blue" onclick="window.open(this.href);return false">[{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}]</a><br />
                 <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
 
                 <!--@if($oDocument->getCommentCount())-->
