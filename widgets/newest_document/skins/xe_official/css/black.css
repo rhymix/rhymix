@@ -2,16 +2,14 @@
 .latest_black h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#ffffff; background:url(../images/black/lineNotice.gif) no-repeat left bottom; font-size:1em;}
 
 .latest_black ul { }
-.latest_black ul li { position:relative; height:21px; background:url(../images/black/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; }
+.latest_black ul li { height:18px; background:url(../images/black/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; list-style:none; white-space:nowrap;}
 
-.latest_black ul li .title { position:relative; z-index:0; overflow:hidden; width:100%; white-space:nowrap;}
 .latest_black ul li .title a { color:#818181; text-decoration:none; }
 .latest_black ul li .title a:hover { text-decoration:underline; }
 .latest_black ul li .title span.comment { color:#FE6700; font:.8em Tahoma; }
 .latest_black ul li .title span.comment a { color:#FE6700; font:.8em Tahoma; }
 
-.latest_black ul li .date { position:relative; z-index:1; }
-.latest_black ul li .date span { background:#FFFFFF; position:relative; z-index:1; padding:3px 5px 3px 12px; text-align:right; float:right; top:-16px; _top:-18px; color:#999999; font:.8em Tahoma; }
+.latest_black ul li .date { color:#999999; font:.8em Tahoma; white-space:nowrap; margin-right:5px;}
 
 .latest_black .more { position:absolute; top:12px; right:11px; color:#54564b; font:.8em Tahoma;}
 .latest_black a.more { text-decoration:none;} 

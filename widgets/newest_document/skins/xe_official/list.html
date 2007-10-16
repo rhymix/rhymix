@@ -13,6 +13,7 @@
     <ul>
         <!--@foreach($widget_info->document_list as $oDocument)-->
         <li>
+          <span class="date">{$oDocument->getRegdate("Y-m-d")}</span>
           <span class="title">
             <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
             <!--@if($oDocument->getCommentCount())-->
@@ -21,7 +22,6 @@
 
             {$oDocument->printExtraImages($widget_info->duration_new)}
           </span>
-          <span class="date"><span>{$oDocument->getRegdate("Y-m-d")}</span></span>
         </li>
         <!--@end-->
     </ul>
