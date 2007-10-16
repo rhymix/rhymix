@@ -27,7 +27,7 @@ IE7 & IE6 & Below
 html { width:100%; }
 body { margin:0; font-size:.75em; font-family:sans-serif;}
 img { border:none; }
-label { cursor:pointer; }
+label { cursor:pointer; position:relative; left:5px; }
 form { margin:0; padding:0; }
 
 .iePngFix { behavior:url(./common/js/iePngFix.htc); } 

@@ -75,8 +75,8 @@
     <tr>
         <th scope="row">{$lang->use_category}</th>
         <td>
-            <input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="checked"<!--@end-->  class="checkbox" />
-            {$lang->about_use_category}
+            <input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="checked"<!--@end-->  class="checkbox" id="fld_for_category" />
+            <label for="fld_for_category">{$lang->about_use_category}</label>
         </td>
     </tr>
     <tr>
