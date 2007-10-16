@@ -4,14 +4,12 @@ function doFocusUserId(fo_id) {
     if(xGetCookie('user_id')) {
         fo_obj.user_id.value = xGetCookie('user_id');
         fo_obj.remember_user_id.checked = true;
-        try{
-            fo_obj.password.focus();
-        } catch(e) {};
-    } else {
-        try{
-            fo_obj.user_id.focus();
-        } catch(e) {};
     }
+
+    try {
+        if(xScrollTop()) return;
+        fo_obj.user_id.focus();
+    } catch(e) { }
 }
 
 /* 로그인 후 */
