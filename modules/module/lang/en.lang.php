@@ -52,7 +52,7 @@
     $lang->about_default = "If checked, the default will be shown when access to the site without no mid value(mid=NoValue).";
     $lang->about_module_category = "It enables you to manage it through module category.\n The URL for the module manager is <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manage module > Module category </a>.";
     $lang->about_description= 'It is the description only for a manager.';
-    $lang->about_default = 'If cheched, the default will be shown when access to the site without no mid value(mid=NoValue).';
+    $lang->about_default = 'If checked, this module will be shown when users access to the site without mid value (mid=NoValue).';
     $lang->about_header_text = 'The contents will be shown on the top of the module.(html tags available)';
     $lang->about_footer_text = 'The contents will be shown on the bottom of the module.(html tags available)';
     $lang->about_skin = 'You may choose a module skin.';
