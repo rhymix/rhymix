@@ -2,7 +2,7 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="tableType2">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -26,25 +26,16 @@
     <tr>
         <th scope="row">{$lang->module}</th>
         <td>
-            <p>{$lang->about_target_module}</p>
-            <div class="clear">
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', true);return false;" value="{$lang->cmd_select_all}"></span>
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', false);return false;" value="{$lang->cmd_unselect_all}"></span>
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid');return false;" value="{$lang->cmd_reverse_all}"></span>
-            </div>
+            <p><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</p>
             <!--@foreach($mid_list as $key => $val)-->
                 <p><input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> <label for="target_mid_{$key}">{$val->browser_title} ({$val->mid})</label></p>
             <!--@end-->
-            <div class="clear">
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', true);return false;" value="{$lang->cmd_select_all}"></span>
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid', false);return false;" value="{$lang->cmd_unselect_all}"></span>
-                <span class="button"><input type="button" onclick="checkboxSelectAll(this.form, 'target_mid');return false;" value="{$lang->cmd_reverse_all}"></span>
-            </div>
         </td>
     </tr>
+    <tr>
+        <th scope="row" class="button" colspan="2">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>    
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 </form>

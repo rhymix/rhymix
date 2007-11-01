@@ -2,9 +2,10 @@
 
 <h3>{$lang->document} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<div class="header4">
+<div class="header4 gap1">
     <ul class="localNavigation">
         <li <!--@if($act=='dispDocumentAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispDocumentAdminList')}">{$lang->document_list}</a></li>
         <li <!--@if($act=='dispDocumentAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispDocumentAdminConfig')}">{$lang->cmd_module_config}</a></li>
+        <li <!--@if($act=='dispDocumentAdminDeclared')-->class="on"<!--@end-->><a href="{getUrl('act','dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
     </ul>
 </div>

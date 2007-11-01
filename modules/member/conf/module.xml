@@ -11,7 +11,9 @@
         <action name="dispMemberOpenIDLeave" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
+        <action name="dispMemberSavedDocument" type="view" standalone="true" />
         <action name="dispMemberFindAccount" type="view" standalone="true" />
+        <action name="dispSavedDocumentList" type="view" standalone="true" />
 
         <action name="dispMemberMessages" type="view" standalone="true" />
         <action name="dispMemberSendMessage" type="view" standalone="true" />
@@ -44,8 +46,10 @@
         <action name="procMemberModifyPassword" type="controller" standalone="true" />
         <action name="procMemberLeave" type="controller" standalone="true" />
         <action name="procMemberOpenIDLeave" type="controller" standalone="true" />
+        <action name="procMemberInsertProfileImage" type="controller" standalone="true" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" />
         <action name="procMemberInsertImageMark" type="controller" standalone="true" />
+        <action name="procMemberDeleteProfileImage" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />
         <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
 
@@ -56,6 +60,8 @@
 
         <action name="procMemberScrapDocument" type="controller" standalone="true" />
         <action name="procMemberDeleteScrap" type="controller" standalone="true" />
+        <action name="procMemberSaveDocument" type="controller" standalone="true" />
+        <action name="procMemberDeleteSavedDocument" type="controller" standalone="true" />
 
         <action name="procMemberFindAccount" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />

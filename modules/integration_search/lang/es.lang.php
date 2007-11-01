@@ -18,7 +18,7 @@
         'title' => 'Título',
         'content' => 'Contenido',
         'title_content' => 'Título+Contenido',
-        //'comment' => 'Commentarios',
+        'comment' => 'Commentarios',
     );
 
     $lang->is_sort_option = array(

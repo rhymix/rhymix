@@ -1,0 +1,18 @@
+<!--%import("filter/insert_trackback_module_config.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_trackback_module_config)">
+<input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl}" />
+
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <col width="100" />
+    <caption>{$lang->trackback}</caption> 
+    <tr>
+        <th>{$lang->enable_trackback}</th>
+        <td><input type="checkbox" name="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
+        <th class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></th>
+    </tr>
+    </table>
+</form>
+    <div class="gap1"></div>

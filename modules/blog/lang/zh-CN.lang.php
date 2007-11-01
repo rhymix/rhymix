@@ -17,14 +17,14 @@
     $lang->cmd_layout_edit = '编辑布局';
 
     // 项目
-    $lang->parent_category_name = '上级分类名';
-    $lang->category_name = '分类名';
+    $lang->parent_category_title = '上级分类名';
+    $lang->category_title = '分类名';
     $lang->expand = '展开';
     $lang->category_group_srls = '用户组';
     $lang->search_result = '搜索结果';
 
     // 信息、提示..
-    $lang->about_category_name = '请输入分类名。';
+    $lang->about_category_title = '请输入分类名。';
     $lang->about_expand = '选择此项将维持展开状态。';
     $lang->about_category_group_srls = '被选的用户组才可以查看此分类。';
     $lang->about_layout_setup = '可直接编辑博客布局代码。可以把控件代码插入到您喜欢的位置。';

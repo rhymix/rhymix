@@ -12,9 +12,17 @@
      * 파일내에서 이루어집니다.
      **/
 
-    // called_position가 before_module_init 이고 module이 admin이 아닐 경우
-    if($called_position == 'before_module_init' && !$GLOBALS['__counter_addon_called__']) {
-        if($this->module != 'admin') Context::addJsFile('./modules/counter/tpl/js/counter.js');
-        $GLOBALS['__counter_addon_called__'] = true;
-    }
+    // module이 admin이면 패스~ called_position가 before_display_content 이고 module이 admin이 아닐 경우
+    if(
+        Context::get('act')=='procFileDelete' ||
+        Context::get('module')=='admin' ||
+        $called_position != 'before_display_content' ||
+        Context::getRequestMethod()=='XMLRPC' ||
+        $GLOBALS['__counter_addon_called__'] 
+    ) return;
+
+    $GLOBALS['__counter_addon_called__'] = true;
+
+    $oCounterController = &getController('counter');
+    $oCounterController->procCounterExecute();
 ?>

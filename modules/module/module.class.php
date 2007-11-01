@@ -20,6 +20,7 @@
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
+            FileHandler::makeDir('./files/cache/triggers');
 
             return new Object();
         }
@@ -44,6 +45,9 @@
         function recompileCache() {
             // 모듈 정보 캐시 파일 모두 삭제
             FileHandler::removeFilesInDir("./files/cache/module_info");
+
+            // 트리거 정보가 있는 파일 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/triggers");
         }
     }
 ?>

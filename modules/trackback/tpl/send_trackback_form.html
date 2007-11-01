@@ -1,0 +1,47 @@
+<!--%import("filter/send_trackback.xml")-->
+
+<div id="popHeadder">
+    <h1>{$lang->cmd_send_trackback}</h1>
+</div>
+
+<form action="./" method="get" onsubmit="return procFilter(this, send_trackback)">
+<input type="hidden" name="target_srl" value="{$oDocument->document_srl}" />
+
+<div id="popBody">
+    <table cellspacing="0" class="adminTable">
+    <col width="130" />
+    <col />
+    <tr>
+        <th scope="row"><label>{$lang->title}</label></th>
+        <td>{$oDocument->getTitleText()}</td>
+    </tr>
+    <tr>
+        <th scope="row"><label>{$lang->content}</label></th>
+        <td>{$oDocument->getSummary()}</td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="textfield1">{$lang->send_trackback_url}</label></th>
+        <td>
+            <input type="text" id="textfield1" name="trackback_url" value="" class="inputTypeText w300" />
+            <select name="charset">
+                <option value='UTF-8'>UTF-8</option>
+                <option value='EUC-KR'>EUC-KR</option>
+                <option value='EUC-JP'>EUC-JP</option>
+                <option value='SHIFT_JIS'>SHIFT_JIS</option>
+                <option value='EUC-CN'>EUC-CN</option>
+                <option value='HZ'>HZ</option>
+                <option value='BIG5'>BIG5</option>
+            </select>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter">
+    <div class="tCenter gap1">
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <span class="button"><input type="submit" value="{$lang->cmd_send_trackback}" /></span>
+    </div>
+</div>
+
+</form>

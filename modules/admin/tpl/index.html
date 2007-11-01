@@ -3,8 +3,10 @@
 
 <h3>{$lang->welcome_to_zeroboard_xe}</h3>
 
-<table cellspacing="0" class="tableType4">
-<col width="200" />
+<div class="gap1"></div>
+
+<table cellspacing="0" class="adminTable">
+<col width="150" />
 <col />
 <caption>{$lang->env_information}</caption>
 <!--@if($current_version < $released_version)-->
@@ -30,8 +32,8 @@
 </table>
 
 <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
-<table cellspacing="0" class="tableType4">
-<col width="200" />
+<table cellspacing="0" class="adminTable">
+<col width="150" />
 <col />
 <caption>{$lang->env_setup}</caption>
 <tr>
@@ -52,10 +54,10 @@
     <th scope="row">Lang</th>
     <td>
         <select name="lang_type" onchange="doChangeLangType(this)">
-            <option value="{$lang_type}">{$lang_type}</option>
-            <!--@foreach($lang_supported as $val)-->
-                <!--@if($val != $lang_type)-->
-                    <option value="{$val}">{$val}</option>
+            <option value="{$lang_type}">{$lang_supported[$lang_type]}</option>
+            <!--@foreach($lang_supported as $key => $val)-->
+                <!--@if($key != $lang_type)-->
+                    <option value="{$key}">{$val}</option>
                 <!--@end-->
             <!--@end-->
         </select>
@@ -73,30 +75,27 @@
         <p>{$lang->about_time_zone}</p>
     </td>
 </tr>
+<tr>
+    <th colspan="2" class="button">
+        <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+    </th>
+</tr>
 </table>
-<div class="fl tLeft gap1">
-    <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
-</div>
-<div class="fr tRight gap1">
-    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-</div>
 </form>
 
 <div class="admin_news clear">
+
     <!--@if($news)-->
-    <table cellspacing="0" class="tableType1">
+    <table cellspacing="0" class="adminTable">
+    <col width="120" />
+    <col />
     <caption>{$lang->newest_news}</caption>
-    <thead>
-    <tr>
-        <th scope="col">{$lang->title}</th>
-        <th scope="col">{$lang->regdate}</th>
-    </tr>
-    </thead>
     <tbody>
     <!--@foreach($news as $key => $val)-->
     <tr>
-        <td class="left">&nbsp;<a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
-        <td class="tahoma">{zdate($val->date,"Y-m-d H:i")}</td>
+        <th class="tahoma">{zdate($val->date,"Y-m-d H:i")}</th>
+        <td><a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
     </tr>
     <!--@end-->
     </tbody>
@@ -106,27 +105,16 @@
 
 <div class="admin_link">
     <!-- 사용자 링크 -->
-    <table cellspacing="0" class="tableType3">
-    <col width="250" />
-    <col />
+    <table cellspacing="0" class="adminTable">
     <caption>{$lang->zeroboard_xe_user_links}</caption>
     <!--@foreach($lang->xe_user_links as $key => $val)-->
     <tr>
-        <th scope="col">{$key}</th>
-        <td class="left blue"><a href="{$val}" onclick="winopen(this.href); return false;">{$val}</a></td>
+        <td><a href="{$val}" onclick="winopen(this.href); return false;">{$key}</a></td>
     </tr>
     <!--@end-->
-    </table>
-
-    <!-- 개발자 링크 -->
-    <table cellspacing="0" class="tableType3">
-    <col width="250" />
-    <col />
-    <caption>{$lang->zeroboard_xe_developer_links}</caption>
     <!--@foreach($lang->xe_developer_links as $key => $val)-->
     <tr>
-        <th scope="col">{$key}</th>
-        <td class="left blue"><a href="{$val}" onclick="winopen(this.href); return false;">{$val}</a></td>
+        <td><a href="{$val}" onclick="winopen(this.href); return false;">{$key}</a></td>
     </tr>
     <!--@end-->
     </table>

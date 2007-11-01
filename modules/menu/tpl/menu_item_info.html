@@ -1,24 +1,28 @@
 <input type="hidden" name="menu_item_srl" value="{$item_info->menu_item_srl}" />
 <input type="hidden" name="parent_srl" value="{$item_info->parent_srl}" />
 
-<table cellspacing="0" class="tableType2">
-<col width="140" />
+<table cellspacing="0" class="adminTable">
+<col width="80" />
+<col width="80" />
 <col width="*" />
 <!--@if($item_info->parent_menu_name)-->
 <tr>
-    <th scope="row">{$lang->parent_menu_name}</th>
-    <td>{$item_info->parent_menu_name}</td>
+    <th scope="row" colspan="2">{$lang->parent_menu_name}</th>
+    <td>{$item_info->parent_menu_name[$lang_type]}</td>
+</tr>
+<!--@end-->
+
+{@ $_row = 0;}
+<!--@foreach($lang_supported as $key => $val)-->
+<tr>
+    <!--@if($_row==0)--><th scope="row" scope="row" rowspan="{count($lang_supported)}">{$lang->menu_name}</th><!--@end-->
+    <th>{$val}</th>
+    <td><input type="text" name="menu_name_{$key}" value="{htmlspecialchars($item_info->name[$key])}" class="inputTypeText"/></td>
+    {@ $_row ++ }
 </tr>
 <!--@end-->
 <tr>
-    <th scope="row" scope="row">{$lang->menu_name}</th>
-    <td>
-        <input type="text" name="menu_name" value="{htmlspecialchars($item_info->name)}" class="inputTypeText"/>
-        <p>{$lang->about_menu_name}</p>
-    </td>
-</tr>
-<tr>
-    <th scope="row">{$lang->menu_url}</th>
+    <th scope="row" colspan="2">{$lang->menu_url}</th>
     <td>
         <input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" />
         <a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button"/><span>{$lang->cmd_search_mid}</span></a>
@@ -26,37 +30,37 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_open_window}</th>
+    <th scope="row" colspan="2">{$lang->menu_open_window}</th>
     <td>
         <input type="checkbox" name="menu_open_window" value="Y" <!--@if($item_info->open_window=="Y")-->checked="checked"<!--@end--> />
         <p>{$lang->about_menu_open_window}</p>
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_expand}</th>
+    <th scope="row" colspan="2">{$lang->menu_expand}</th>
     <td>
         <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="checked"<!--@end--> />
         <p>{$lang->about_menu_expand}</p>
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_img_btn}</th>
+    <th scope="row" colspan="2">{$lang->menu_img_btn}</th>
     <td>{$lang->about_menu_img_btn}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_normal_btn}</th>
+    <th scope="row" colspan="2">{$lang->menu_normal_btn}</th>
     <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($item_info->normal_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_hover_btn}</th>
+    <th scope="row" colspan="2">{$lang->menu_hover_btn}</th>
     <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($item_info->hover_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_active_btn}</th>
+    <th scope="row" colspan="2">{$lang->menu_active_btn}</th>
     <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($item_info->active_btn)}" class="inputTypeText" /></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->menu_group_srls}</th>
+    <th scope="row" colspan="2">{$lang->menu_group_srls}</th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
         <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
@@ -65,18 +69,17 @@
         <p>{$lang->about_menu_group_srls}</p>
     </td>
 </tr>
+<tr>
+    <th scope="row" colspan="3" class="button">
+        <!--@if($item_info->name)-->
+        <a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@end-->
+        <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
+        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <!--@if($item_info->name)-->
+        <a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
+        <!--@end-->
+    </th>
+</tr>
 </table>
 
-<div class="fl gap1">
-    <!--@if($item_info->name)-->
-    <a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
-    <!--@end-->
-    <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
-</div>
-
-<div class="fr gap1">
-    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-    <!--@if($item_info->name)-->
-    <a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
-    <!--@end-->
-</div>

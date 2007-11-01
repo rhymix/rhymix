@@ -9,9 +9,6 @@
 
     class document extends ModuleObject {
 
-        // 공지사항용 값
-        var $notice_list_order = -2100000000;
-
         // 관리자페이지에서 사용할 검색 옵션
         var $search_option = array('title','content','title_content','user_name',); ///< 검색 옵션
 
@@ -24,12 +21,18 @@
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminList');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentPrint');
             $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
+            $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminManageDocument');
+            $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminDeclared');
 
             $oDB = &DB::getInstance();
             $oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
             $oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
             $oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
             $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
+
+            // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
+            $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
+
 
             return new Object();
         }
@@ -64,6 +67,19 @@
              **/
             if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) return true;
             if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument')) return true;
+
+            // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
+            if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) return true;
+
+            /**
+             * 2007. 10. 18 : 관리자 페이지의 신고된 목록 보기 action 추가
+             **/
+            if(!$oModuleModel->getActionForward('dispDocumentAdminDeclared')) return true;
+
+            // 2007. 10. 25 문서 분류에 parent_srl, expand를 추가
+            if(!$oDB->isColumnExists("document_categories","parent_srl")) return true;
+            if(!$oDB->isColumnExists("document_categories","expand")) return true;
+            if(!$oDB->isColumnExists("document_categories","group_srls")) return true;
 
             return false;
         }
@@ -119,6 +135,21 @@
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
             if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument')) 
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminManageDocument');
+
+            // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
+            if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) 
+                $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
+
+            /**
+             * 2007. 10. 18 : 관리자 페이지의 신고된 목록 보기 action 추가
+             **/
+            if(!$oModuleModel->getActionForward('dispDocumentAdminDeclared')) 
+                $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminDeclared');
+
+            // 2007. 10. 25 문서 분류에 parent_srl, expand를 추가
+            if(!$oDB->isColumnExists("document_categories","parent_srl")) $oDB->addColumn('document_categories',"parent_srl","number",12,0);
+            if(!$oDB->isColumnExists("document_categories","expand")) $oDB->addColumn('document_categories',"expand","char",1,"N");
+            if(!$oDB->isColumnExists("document_categories","group_srls")) $oDB->addColumn('document_categories',"group_srls","text");
 
             return new Object(0,'success_updated');
         }

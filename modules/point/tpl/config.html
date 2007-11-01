@@ -3,11 +3,10 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config);">
 
-    <div class="infoText">{$lang->about_point_module}</div>
-    <table cellspacing="0" class="tableType2 gap1">
-    <col width="200" />
-    <col width="40" />
-    <col width="40" />
+    <table cellspacing="0" class="adminTable">
+    <col width="180" />
+    <col width="120" />
+    <col width="120" />
     <col />
     <tr>
         <th scope="col">{$lang->max_level}</th>
@@ -22,6 +21,34 @@
             <input type="text" class="inputTypeText w80" value="{$config->point_name}" name="point_name" />
             <p>{$lang->about_point_name}</p>
         </td>
+    </tr>
+    <tr>
+        <th scope="col" rowspan="6">{$lang->is_default}</th>
+        <td colspan="2">{$lang->point_signup}</th>
+        <td>
+            <input type="text" class="inputTypeText w80" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
+            <p>{$lang->about_point_signup}</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->cmd_login}</th>
+        <td><input type="text" class="inputTypeText w80" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->point_insert_document}</td>
+        <td><input type="text" name="insert_document" value="{$config->insert_document}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->point_insert_comment}</td>
+        <td><input type="text" name="insert_comment" value="{$config->insert_comment}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->point_upload_file}</td>
+        <td><input type="text" name="upload_file" value="{$config->upload_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->point_download_file}</td>
+        <td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
         <th scope="col">{$lang->level_icon}</th>

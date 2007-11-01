@@ -24,24 +24,17 @@
          **/
         function getMemberMenu() {
             // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
-            $member_srl = Context::get('member_srl');
+            $member_srl = Context::get('target_srl');
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
 
-            // 호출된 모듈의 정보 구함
-            $oModuleModel = &getModel('module');
-            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
-
             // 자신의 아이디를 클릭한 경우 
-            if($member_srl == $logged_info->member_srl) {
-                $member_info = $logged_info;
+            if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
 
             // 다른 사람의 아이디를 클릭한 경우
-            } else {
-                // 회원의 정보를 구함
-                $member_info = $this->getMemberInfoByMemberSrl($member_srl);
-            }
+            else $member_info = $this->getMemberInfoByMemberSrl($member_srl);
+
             $member_srl = $member_info->member_srl;
             if(!$member_srl) return;
 
@@ -52,6 +45,8 @@
 
             // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
             $menu_list = array();
+
+            ModuleHandler::triggerCall('member.getMemberMenu', 'before', $menu_list);
 
             // 최고 관리자라면 회원정보 수정 메뉴 만듬
             if($logged_info->is_admin == 'Y') {
@@ -65,14 +60,6 @@
                 $menu_str = Context::getLang('cmd_view_member_info');
                 $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
                 $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
-            }
-
-            // 게시판이나 블로그등일 경우는 특별 옵션 지정
-            if($mid && !ereg('Member', $act) && !in_array($cur_module_info->module, array('page', 'opage'))) {
-                // 아이디로 검색
-                $menu_str = Context::getLang('cmd_view_own_document');
-                $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $user_id);
-                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
             }
 
             // 다른 사람의 아이디를 클릭한 경우
@@ -90,6 +77,9 @@
 
             // 블로그 보기
             if($member_info->blog) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_blog.gif', Context::getLang('blog'), $member_info->blog);
+
+            // trigger 호출 (after)
+            ModuleHandler::triggerCall('member.getMemberMenu', 'after', $menu_list);
 
             // 정보를 저장
             $this->add("menu_list", implode("\n",$menu_list));
@@ -148,6 +138,7 @@
          * @brief 사용자 정보 중 extra_vars와 기타 정보를 알맞게 편집
          **/
         function arrangeMemberInfo($info) {
+            $info->profile_image = $this->getProfileImage($info->member_srl);
             $info->image_name = $this->getImageName($info->member_srl);
             $info->image_mark = $this->getImageMark($info->member_srl);
 
@@ -407,6 +398,20 @@
             $output = executeQuery('member.chkDeniedID', $args);
             if($output->data->count) return true;
             return false;
+        }
+
+        /**
+         * @brief 프로필 이미지의 정보를 구함 
+         **/
+        function getProfileImage($member_srl) {
+            $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            if(!file_exists($image_name_file)) return;
+            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+            $info->width = $width;
+            $info->height = $height;
+            $info->src = Context::getRequestUri().$image_name_file;
+            $info->file = './'.$image_name_file;
+            return $info;
         }
 
         /**

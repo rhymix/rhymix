@@ -1,0 +1,10 @@
+<!--%import("js/comment_admin.js")-->
+
+<h3>{$lang->comment} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4 gap1">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispCommentAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment_list}</a></li>
+        <li <!--@if($act=='dispCommentAdminDeclared')-->class="on"<!--@end-->><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a></li>
+    </ul>
+</div>

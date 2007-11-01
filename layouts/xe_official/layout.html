@@ -25,10 +25,10 @@
 		<h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
 
 		<div id="language">
-			<strong title="{$lang_type}">{$lang_type}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
+			<strong title="{$lang_type}">{$lang_supported[$lang_type]}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
 			<ul id="selectLang">
-                <!--@foreach($lang_supported as $val)--><!--@if($val != $lang_type)-->
-				<li><a href="#" onclick="doChangeLangType('{$val}');return false;">{$val}</a></li>
+                <!--@foreach($lang_supported as $key => $val)--><!--@if($key!= $lang_type)-->
+				<li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
                 <!--@end--><!--@end-->
 			</ul>
 		</div>
@@ -67,12 +67,10 @@
 					<input type="radio" name="search_target" value="title_content" id="search_target3" />
 					<label for="search_target3" onclick="chkIsKind(3, '{$lang->title}+{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}+{$lang->content}</label>
 				</li>
-                <!--
 				<li>
 					<input type="radio" name="search_target" value="comment" id="search_target4" />
 					<label for="search_target4" onclick="chkIsKind(4, '{$lang->comment}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->comment}</label>
 				</li>
-                -->
 			</ul>
 			<input name="is_keyword" type="text" class="inputText" title="keyword" />
 

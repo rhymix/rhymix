@@ -209,6 +209,23 @@
                     break;
             }
 
+            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
+            if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
+            else $width_per = $width / $resize_width;
+
+            if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
+            else $height_per = $height / $resize_height;
+
+            if($thumbnail_type == 'ratio') {
+                $per = $width_per;
+                $resize_height = $height * $per;
+            } else {
+                if($width_per < $height_per) $per = $height_per;
+                else $per = $width_per;
+            }
+
+            if(!$per) $per = 1;
+
             // 타겟 파일의 type을 구함
             if(!$target_type) $target_type = $type;
             $target_type = strtolower($target_type);
@@ -219,24 +236,6 @@
 
             $white = @imagecolorallocate($thumb, 255,255,255);
             @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
-
-            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
-            if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
-            else $width_per = $width / $resize_width;
-
-            if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
-            else $height_per = $height / $resize_height;
-
-            if($thumbnail_type == 'ratio') {
-                if($width_per > $height_per) $per = $height_per;
-                else $per = $width_per;
-            } else {
-                if($width_per < $height_per) $per = $height_per;
-                else $per = $width_per;
-
-            }
-
-            if(!$per) $per = 1;
 
             // 원본 이미지의 타입으로 임시 이미지 생성
             switch($type) {
@@ -269,8 +268,13 @@
             $new_width = (int)($width * $per);
             $new_height = (int)($height * $per);
 
-            $x = (int)($resize_width/2 - $new_width/2);
-            $y = (int)($resize_height/2 - $new_height/2);
+            if($thumbnail_type == 'crop') {
+                $x = (int)($resize_width/2 - $new_width/2);
+                $y = (int)($resize_height/2 - $new_height/2);
+            } else {
+                $x = 0;
+                $y = 0;
+            }
 
             if($source) {
                 if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);

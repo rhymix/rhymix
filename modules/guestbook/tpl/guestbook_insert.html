@@ -11,7 +11,7 @@
 <!--@end-->
 <input type="hidden" name="use_category" value="N" />
 
-    <table cellspacing="0" class="tableType2">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
 
@@ -128,10 +128,11 @@
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

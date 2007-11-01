@@ -65,6 +65,8 @@
             if(!$config->image_name_max_height) $config->image_name_max_height = 20;
             if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
             if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
+            if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
+            if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
             Context::set('config',$config);
 
@@ -79,7 +81,7 @@
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
-            $option->enable_component = true;
+            $option->enable_component = false;
             $option->resizable = true;
             $option->height = 300;
             $editor = $oEditorModel->getEditor(0, $option);
@@ -120,7 +122,7 @@
                 $option->allow_fileupload = false;
                 $option->enable_autosave = false;
                 $option->enable_default_component = true;
-                $option->enable_component = true;
+                $option->enable_component = false;
                 $option->resizable = false;
                 $option->height = 200;
                 $editor = $oEditorModel->getEditor($this->member_info->member_srl, $option);

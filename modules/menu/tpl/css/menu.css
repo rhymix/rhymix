@@ -1,12 +1,13 @@
 @charset "utf-8";
 
+body { margin:10px; }
+
 h3 { margin:0 20px 0 20px; }
-.menuManagement { margin:20px; }
+
+.menuListZone { table-layout:fixed; }
 .menuListZone td { vertical-align:top; }
 .menuListZone td.category_zone { padding-right:10px; }
 
-#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; }
-#category_list .checkbox { margin-top:1em; border:0px; }
-
-#menu_zone_info { background-color:#FFFFFF; z-index:999; display:none; overflow:hidden; padding-left:10px; border-left:1px dashed #CCCCCC; }
-#category_info { background-color:#FFFFFF; z-index:999; display:none; overflow:hidden; padding-left:10px; border-left:1px dashed #CCCCCC; }
+#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; width:250px; overflow:hidden; float:left; }
+#menu_zone_info { margin-left:10px; width:550px; _width:530px; float:left; }
+*:first-child+html #category_info { width:540px; }

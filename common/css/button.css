@@ -1,167 +1,211 @@
-/*
- http://www.hedgerwow.com/360/dhtml/css-round-button/demo.php
-*/
-
-a.button, span.button, del.button {
-    display:-moz-inline-box;
-    display:inline-block;
-    cursor:pointer;
-    border:none;
+a.button, span.button, del.button{
+	
+	display:-moz-inline-box;
+	display:inline-block;
+	cursor:pointer;
+	border:none;
     font-size:0;
     line-height:0;
-
-    /*
-    for Safari, read this first
-    http://creativebits.org/webdev/safari_background_repeat_bug_fix
-    */
-    background-position:0 -3px;
-    background-repeat:no-repeat;
-    height:24px;
-    text-decoration:none;
-    color:#2e523b;
-    font-style:normal;
-    margin:0 6px 0px 0;
-    padding:0 10px 0 0;	
-    vertical-align:middle;	
-
+    
+	/*
+	for Safari, read this first
+	http://creativebits.org/webdev/safari_background_repeat_bug_fix
+	*/
+	background-position:0 0;
+	background-repeat:no-repeat;
+	height:30px;
+	text-decoration:none;
+	color:#2e523b;
+	font-style:normal;
+	margin:0 6px 0px 0;
+	padding:0 10px 0 0;	
+    vertical-align:middle;
+	
     padding-top:-2px;
-    position:relative;
-    _width:10px;	
-    _overflow-y:hidden;
+	_position:relative;
+    _top:-4px;
+	_width:10px;	
+	_overflow-y:hidden;
+}
+*:first-child+html a.button, *:first-child+html span.button,*:first-child+html del.button {
+	position:relative;
+    top:-4px;
 }
 
-a.button, span.button, del.button, a.button span, span.button button, span.button input, del.button span {
+
+
+a.button, span.button, del.button,
+a.button span, span.button button, span.button input, del.button span{
     background-image:url(../tpl/images/form_buttons.png);
     _background-image:url(../tpl/images/form_buttons.gif);
 }
 
 
-a.button span, span.button button, span.button input, del.button span {
-    white-space:nowrap;
-    cursor:pointer;
+a.button span, span.button button, span.button input, del.button span{
+	
+	white-space:nowrap;
+	cursor:pointer;
     color:#222;
-    display:-moz-inline-box;
-    display:inline-block;
-    line-height:1;
+	display:-moz-inline-box;
+	display:inline-block;
+	line-height:1;
     letter-spacing:0 !important;
+    font-family:"Arial" !important;
     font-size:12px !important;
     font-style:normal;    
     background-color:transparent;
-    background-position:100% -3px;
-    background-repeat:no-repeat;
-    height:24px;
-    padding:4px 11px 0 7px;
-    margin:0 -18px 0 6px;
-    border:none;
-    vertical-align:text-top;
-    zoom:1;
-    _position:relative;
-    _padding:3px 13px 0 4px;
-    _margin:0 -10px 0 4px;
-    _display:block;
-    _top:0;
-    _right:-5px;
+	background-position:100% 0;
+	background-repeat:no-repeat;
+	height:30px;
+	padding:8px 20px 0 10px;
+	margin:0 -16px 0 10px;
+	border:none;
+	zoom:1;
+	_position:relative;
+    _padding-left:0px;
+	_padding-right:12px;
+	_margin-right:-10px;	
+	_display:block;
+	_right:-5px;
+	
 }
 
-*:first-child+html a.button span, span.button button, span.button input, del.button span { padding-top:6px; }
-
-
-span.button button {
-    line-height:2.5;/*Opera need this*/
+span.button button{
+   line-height:2.5;/*Opera need this*/
 }
 
-html.safari a.button span, html.safari del.button span {
-    line-height:1.3;
+html.safari a.button span, 
+html.safari del.button span{
+  line-height:1.3;
 }
 
-html.safari span.button button {
-    line-height:2.6;
+html.safari span.button button{
+  line-height:2.6;
 }
 
-html.safari a.button:focus, html.safari span.button button:focus {
+html.safari a.button:focus,
+html.safari span.button button:focus{
     outline:none;
 }
 
+
+
 del.button{
-    /* cursor:not-allowed;	*/
-    background-position:0 -123px;
-
+	/* cursor:not-allowed;	*/
+	background-position:0 -120px;
+	
 }
 
-del.button span {
-    cursor:default;
+del.button span{
+	cursor:default;
     color:#aaa !important;
-    background-position:100% -123px;
+	background-position:100% -120px;
 }
 
-a.button span {
-    _padding-top:7px;
-}
-*:first-child+html a.button span { padding-top:7px; }
 
-span.button button, span.button input {
-    padding:0 6px 0 0;
-    line-height:2.5;/*Opera need this*/
+span.button button, span.button input{
+	padding-top:0px;
+	line-height:2.5;/*Opera need this*/
 }
+
 
 /** optional **/
 /*
 a.button:visited{
-    color:#aaa;
+	color:#aaa;
 }
 */
 
+
 /*Hover Style*/
-a.button:hover, span.button:hover, a.button:focus, a.dom-button-focus, span.button-behavior-hover {
-    background-position:0 -63px;
-    color:#222;
-    text-decoration:none;
+
+a.button:hover, 
+span.button:hover,
+a.button:focus, 
+
+a.dom-button-focus, 
+span.button-behavior-hover{
+	background-position:0 -60px;
+	color:#222;
+	text-decoration:none;
 }
 
-a.button:hover span, span.button:hover input, span.button:hover button, a.button:focus span, span.button-behavior-hover button, span.button-behavior-hover input {
-    background-position:100% -63px;
+
+
+
+
+a.button:hover span, 
+span.button:hover button, 
+a.button:focus span, 
+
+span.button-behavior-hover button, 
+span.button-behavior-hover input{
+	background-position:100% -60px;
 }
 
 
-a.button:active, a.button:focus span {
-    color:#444;
+a.button:active, a.button:focus span{
+	color:#444;
 }
 
-del.button-behavior-hover, del.button:hover {
-    background-position:0 -183px;
-    /* cursor:not-allowed; */
+
+
+
+del.button-behavior-hover, del.button:hover{
+	background-position:0 -180px;
+	/* cursor:not-allowed; */
 }
 
-del.button-behavior-hover span, del.button:hover span {
-    background-position:100% -183px;
-    /* cursor:not-allowed; */
+
+del.button-behavior-hover span, del.button:hover span{
+	background-position:100% -180px;
+	/* cursor:not-allowed; */
+	
 }
+
+
+
 
 /*Optional hack for IE6 to simulate :hover selector*/
 
-span.button button, del.button span, span.button input {
-    _behavior:expression(
-        (function(el){
-            if( typeof( behavior_onMouseEnter) == 'undefined'){
-                behavior_onMouseEnter = function(el) {
-                    var dEl = this.parentNode;					
-                    var sClass = dEl.className ;
-                    dEl.__defaultClassName = sClass ;
-                    dEl.className = sClass + ' button-behavior-hover';	
-                    this.setCapture();
-                };
+span.button button, del.button span, span.button input{
 
-                behavior_onMouseLeave = function(el) {
-                    var dEl = this.parentNode;
-                    dEl.className = dEl.__defaultClassName ;
-                    dEl.__defaultClassName = undefined;
-                    this.releaseCapture();
-                };
-            };
 
-            el.runtimeStyle.behavior = 'none';
-            el.onmouseenter = behavior_onMouseEnter;
-            el.onmouseleave = behavior_onMouseLeave;
-        }
-    )(this));
+	
+	_behavior:expression(
+		(function(el){
+
+			if( typeof( behavior_onMouseEnter) == 'undefined'){
+
+				
+				behavior_onMouseEnter = function(el){
+					
+					var dEl = this.parentNode;					
+					var sClass = dEl.className ;
+					dEl.__defaultClassName = sClass ;
+					dEl.className = sClass + ' button-behavior-hover';	
+					this.setCapture();
+				};
+
+				behavior_onMouseLeave = function(el) {
+					var dEl = this.parentNode;
+					dEl.className = dEl.__defaultClassName ;
+					dEl.__defaultClassName = undefined;
+					this.releaseCapture();
+				};
+
+
+			};
+			
+			
+			el.runtimeStyle.behavior = 'none';
+			el.onmouseenter = behavior_onMouseEnter;
+			el.onmouseleave = behavior_onMouseLeave;
+			
+			
+		})(this));
+
+
+
+
 }

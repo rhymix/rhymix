@@ -158,8 +158,7 @@
             for($i=0;$i<count($matches[1]);$i++) {
                 $sequence = $matches[1][$i];
 
-                for($j=0;$j<count($lang_list);$j++) {
-                    $lang_type = $lang_list[$j];
+                foreach($lang_list as $lang_type => $val) {
                     $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, $lang_type);
                     @unlink($cache_file);
                 }

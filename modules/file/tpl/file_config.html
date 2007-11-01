@@ -2,7 +2,9 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="tableType2 gap1">
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
     <tr>
         <th scope="col">{$lang->allowed_filesize}</th>
         <td>
@@ -25,10 +27,10 @@
             <p>{$lang->about_allowed_filetypes}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 </form>

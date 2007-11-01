@@ -28,22 +28,22 @@
             $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
 
-            $oBlogModel = &getModel('blog');
+            $oDocumentModel = &getModel('document');
 
             // parent_srl이 있고 category_srl 이 없으면 하부 메뉴 추가임
             if(!$category_srl && $parent_srl) {
                 // 상위 메뉴의 정보를 가져옴
-                $parent_info = $oBlogModel->getCategoryInfo($parent_srl);
+                $parent_info = $oDocumentModel->getCategory($parent_srl);
 
                 // 추가하려는 메뉴의 기본 변수 설정 
                 $category_info->category_srl = getNextSequence();
                 $category_info->parent_srl = $parent_srl;
-                $category_info->parent_category_name = $parent_info->name;
+                $category_info->parent_category_title = $parent_info->title;
 
             // root에 메뉴 추가하거나 기존 메뉴의 수정일 경우
             } else {
                 // category_srl 이 있으면 해당 메뉴의 정보를 가져온다
-                if($category_srl) $category_info = $oBlogModel->getCategoryInfo($category_srl);
+                if($category_srl) $category_info = $oDocumentModel->getCategory($category_srl);
 
                 // 찾아진 값이 없다면 신규 메뉴 추가로 보고 category_srl값만 구해줌
                 if(!$category_info->category_srl) {

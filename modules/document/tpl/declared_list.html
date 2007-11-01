@@ -1,0 +1,80 @@
+<!--%import("filter/delete_checked.xml")-->
+<!--%import("filter/manage_checked_document.xml")-->
+<!--#include("header.html")-->
+
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="page" value="{$page}" />
+
+    <!-- 목록 -->
+    <table cellspacing="0" class="adminTable">
+    <col width="60" />
+    <col width="40" />
+    <col />
+    <col width="120" />
+    <col width="60" />
+    <col width="60" />
+    <col width="60" />
+    <col width="80" />
+    <thead>
+        <tr>
+            <th scope="col">{$lang->no}</th>
+            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
+            <th scope="col">{$lang->title}</th>
+            <th scope="col">{$lang->user_name}</th>
+            <th scope="col">{$lang->cmd_declare}</th>
+            <th scope="col">{$lang->readed_count}</th>
+            <th scope="col">{$lang->voted_count}</th>
+            <th scope="col">{$lang->date}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--@foreach($document_list as $no => $oDocument)-->
+        <tr>
+            <td class="tahoma">{$no}</td>
+            <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
+            <td class="left subject">
+                <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
+
+                <!--@if($oDocument->getCommentCount())-->
+                    [{$oDocument->getCommentCount()}]
+                <!--@end-->
+
+                <!--@if($oDocument->getTrackbackCount())-->
+                    [{$oDocument->getTrackbackCount()}]
+                <!--@end-->
+            </td>
+            <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+            <td class="tahoma red"><strong>{$oDocument->get('declared_count')}</strong></td>
+            <td class="tahoma">{$oDocument->get('readed_count')}</td>
+            <td class="tahoma">{$oDocument->get('voted_count')}</td>
+            <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+
+<!-- 버튼 -->
+<div class="fr gap1">
+    <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+</div>
+
+</form>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>

@@ -36,7 +36,7 @@
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
             
             $widget_info->title = $title;
-            $widget_info->comment_list = $output->data;
+            $widget_info->comment_list = $output;
 
             Context::set('widget_info', $widget_info);
 

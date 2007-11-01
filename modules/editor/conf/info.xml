@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="utility">
     <title xml:lang="ko">위지윅 에디터 </title>
     <title xml:lang="en">WYSIWYG Editor </title>
     <title xml:lang="es">Editor WYSIWYG </title>

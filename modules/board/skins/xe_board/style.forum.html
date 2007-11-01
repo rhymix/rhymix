@@ -1,0 +1,150 @@
+<!-- 목록 출력 -->
+    <form action="./" method="get">
+
+        <table cellspacing="0" summary="" class="boardList">
+        <!--@if($grant->is_admin)--><col width="30" /><!--@end-->
+        <col />
+        <col width="70" />
+        <col width="70" />
+        <col width="160" />
+
+        <thead>
+            {@ $no_line_class = " no_line" }
+            <tr>
+                <!--@if($grant->is_admin)--> 
+                <th scope="col" class="checkbox{$no_line_class}">
+                    <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" />
+                </th>
+                {@ $no_line_class=""}
+                <!--@end-->
+
+                <th scope="col" class="topic{$no_line_class}">
+                    
+                    <!--@if($module_info->use_category == "Y")-->
+                    <!-- 카테고리 사용시 카테고리 선택 표시 -->
+                        <select name="category" id="board_category">
+                            <option value="">{$lang->category}</option>
+                            <!--@foreach($category_list as $val)-->
+                            <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                            <!--@end-->
+                        </select>
+
+                        <input type="button" name="go_button" id="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />
+
+                    <!--@else-->
+
+                        {$lang->topic}
+
+                    <!--@end-->
+                </th>
+
+                <th class="reading" scope="col">
+                    <a href="{getUrl('sort_index','comment_count','order_type',$order_type)}">{$lang->replies}<!--@if($sort_index=='comment_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
+                </th>
+
+                <th class="reading" scope="col">
+                    <a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
+                </th>
+
+                <th scope="col" class="date">
+                    <a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_post}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        <!--@if(!$document_list && !$notice_list)-->
+            <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+            <tr class="bg0 tCenter">
+                <td colspan="<!--@if($grant->is_admin)-->5<!--@else-->4<!--@end-->" class="title">
+                    {$lang->no_documents}
+                </td>
+            </tr>
+        <!--@else-->
+
+            <!-- 공지사항 출력 -->
+            <!--@foreach($notice_list as $no => $document)-->
+                <tr class="notice">
+                    <!--@if($grant->is_admin)-->
+                    <td class="checkbox">
+                        <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
+                    </td>
+                    <!--@end-->
+
+                    <td class="topic">
+
+                        <strong>{$lang->notice} | <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
+                        {$document->printExtraImages(60*60*$module_info->duration_new)}
+
+                        <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+                        <span class="category">{$category_list[$document->get('category_srl')]->title}</span>
+                        <!--@end-->
+
+                        <div class="author">
+                            by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
+                        </div>
+
+                    </td>
+                    <td class="commentCount">{(int)($document->get('comment_count'))}</td>
+                    <td class="reading">{(int)($document->get('readed_count'))}</td>
+                    <td class="latestPost">
+                        <div class="author">
+                            <!--@if($document->get('last_updater'))-->
+                                by <strong>{htmlspecialchars($document->get('last_updater'))}</strong>
+                            <!--@else-->
+                                by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong>
+                            <!--@end-->
+                        </div>
+                        <div class="date">
+                            on <strong>{zdate($document->get('last_update'),'Y-m-d H:i')}</strong>
+                        </div>
+                    </td>
+                </tr>
+            <!--@end-->
+
+            <!-- 일반 글 출력 -->
+            <!--@foreach($document_list as $no => $document)-->
+                <tr class="bg{($no+1)%2+1}">
+                    <!--@if($grant->is_admin)-->
+                    <td class="checkbox">
+                        <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
+                    </td>
+                    <!--@end-->
+
+                    <td class="topic">
+
+                        <strong><a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
+
+                        {$document->printExtraImages(60*60*$module_info->duration_new)}
+
+                        <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
+                        <span class="category">{$category_list[$document->get('category_srl')]->title}</span>
+                        <!--@end-->
+
+                        <div class="author">
+                            by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
+                        </div>
+                    </td>
+                    <td class="commentCount">{(int)($document->get('comment_count'))}</td>
+                    <td class="reading">{(int)($document->get('readed_count'))}</td>
+                    <td class="latestPost">
+                        <div class="author">
+                            <!--@if($document->get('last_updater'))-->
+                                by <strong>{htmlspecialchars($document->get('last_updater'))}</strong>
+                            <!--@else-->
+                                by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong>
+                            <!--@end-->
+                        </div>
+                        <div class="date">
+                            on <strong>{zdate($document->get('last_update'),'Y-m-d H:i')}</strong>
+                        </div>
+                    </td>
+                </tr>
+            <!--@end-->
+        <!--@end-->
+
+        </tbody>
+        </table>
+    </form>
+

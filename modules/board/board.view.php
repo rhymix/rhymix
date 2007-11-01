@@ -32,9 +32,6 @@
             // 스킨 템플릿 경로 지정
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             $this->setTemplatePath($template_path);
-
-            // rss url
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','rss'));
         }
 
         /**
@@ -50,7 +47,7 @@
                 $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
             }
 
-            // 확장변수에서도 검색이 설정되어 있는지 확인
+            // 모듈정보를 확인하여 확장변수에서도 검색이 설정되어 있는지 확인
             for($i=1;$i<=20;$i++) {
                 $ex_name = $this->module_info->extra_vars[$i]->name;
                 $ex_search = $this->module_info->extra_vars[$i]->search;
@@ -127,18 +124,8 @@
             $args->order_type = Context::get('order_type');
 
             // 스킨에서 설정한 기본 정렬 대상을 구함
-            if(!$args->sort_index) {
-                switch($this->module_info->order_target) {
-                    case "updated" :
-                            $args->sort_index = "update_order";
-                            $args->order_type = "asc";
-                        break;
-                    default :
-                            $args->sort_index = "list_order";
-                            $args->order_type = "asc";
-                        break;
-                }
-            }
+            if(!$args->sort_index) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'newest';
+            if(!$args->order_type) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
             if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'list_order' && $args->order_type == 'asc') {
@@ -147,9 +134,12 @@
                 $args->page = $page;
             }
 
+            // 먼저 공지사항을 구해옴
+            $notice_output = $oDocumentModel->getNoticeList($args);
+            Context::set('notice_list', $notice_output->data);
 
-            // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
-            $output = $oDocumentModel->getDocumentList($args);
+            // 목록 구함
+            $output = $oDocumentModel->getDocumentList($args, true);
 
             // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
             Context::set('total_count', $output->total_count);
@@ -243,7 +233,6 @@
             if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
 
             // 목록 구현에 필요한 변수들을 가져온다
-            $document_srl = Context::get('document_srl');
             $parent_srl = Context::get('comment_srl');
 
             // 지정된 원 댓글이 없다면 오류
@@ -251,16 +240,19 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $source_comment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
+            $oSourceComment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$source_comment) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$oSourceComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+
+            // 대상 댓글을 생성
+            $oComment = $oCommentModel->getComment();
+            $oComment->add('parent_srl', $parent_srl);
+            $oComment->add('document_srl', $oSourceComment->get('document_srl'));
 
             // 필요한 정보들 세팅
-            Context::set('document_srl',$document_srl);
-            Context::set('parent_srl',$parent_srl);
-            Context::set('comment_srl',NULL);
-            Context::set('source_comment',$source_comment);
+            Context::set('oSourceComment',$oSourceComment);
+            Context::set('oComment',$oComment);
 
             // 댓글 에디터 세팅 
             $this->setCommentEditor(0, 400);
@@ -284,22 +276,20 @@
 
             // 해당 댓글를 찾아본다
             $oCommentModel = &getModel('comment');
-            $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+            $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$comment) return $this->dispBoardMessage('msg_invalid_request');
-
-            Context::set('document_srl',$comment->document_srl);
+            if(!$oComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
-            if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
+            if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');
 
             // 필요한 정보들 세팅
-            Context::set('comment_srl',$comment_srl);
-            Context::set('comment', $comment);
+            Context::set('oSourceComment', $oCommentModel->getComment());
+            Context::set('oComment', $oComment);
 
             // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl, 300);
+            $this->setCommentEditor($comment_srl, 301);
 
             $this->setTemplateFile('comment_form');
         }
@@ -314,21 +304,19 @@
             // 삭제할 댓글번호를 가져온다
             $comment_srl = Context::get('comment_srl');
 
-            // 삭제하려는 댓글가 있는지 확인
+            // 삭제하려는 댓글이 있는지 확인
             if($comment_srl) {
                 $oCommentModel = &getModel('comment');
-                $comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+                $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
             }
 
             // 삭제하려는 글이 없으면 에러
-            if(!$comment) return $this->dispBoardContent();
-
-            Context::set('document_srl',$comment->document_srl);
+            if(!$oComment->isExists() ) return $this->dispBoardContent();
 
             // 권한이 없는 경우 비밀번호 입력화면으로
-            if($comment_srl&&$comment&&!$comment->is_granted) return $this->setTemplateFile('input_password_form');
+            if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');
 
-            Context::set('comment',$comment);
+            Context::set('oComment',$oComment);
 
             $this->setTemplateFile('delete_comment_form');
         }

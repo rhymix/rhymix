@@ -178,7 +178,7 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     obj.style.display = 'block';
 
     var fo_obj = xGetElementById("fo_category");
-    fo_obj.category_name.focus();
+    fo_obj.category_title.focus();
 
     var x = _xPos + 50;
     var y = _yPos - xHeight(obj)/2+ xScrollTop();

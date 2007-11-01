@@ -1,0 +1,70 @@
+<!-- header.html include -->
+    <!--#include("header.html")-->
+
+<!-- 검색을 위한 xml filter import-->
+    <!--%import("filter/search.xml")-->
+
+<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+    <!--@if($oDocument->isExists())-->
+        <!--#include("./view_document.html")-->
+    <!--@end-->
+
+<!-- 목록 출력 -->
+    <!--@if($module_info->default_style == 'webzine')-->
+        <!--#include("./style.webzine.html")-->
+    <!--@elseif($module_info->default_style == 'gallery')-->
+        <!--#include("./style.gallery.html")-->
+    <!--@elseif($module_info->default_style == 'forum')-->
+        <!--#include("./style.forum.html")-->
+    <!--@else-->
+        <!--#include("./style.list.html")-->
+    <!--@end-->
+
+<!-- 글쓰기, 목록 버튼 -->
+    <div class="leftButtonBox">
+        <!--@if($grant->is_admin)-->
+            <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+        <!--@end-->
+        <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>
+    </div>
+
+    <div class="rightButtonBox">
+    <!--@if($grant->write_document)-->
+        <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button"><span>{$lang->cmd_write}</span></a>
+    <!--@end-->
+    </div>
+
+
+<!-- 페이지 네비게이션 -->
+    <div class="pageNavigation">
+        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <span class="current">{$page_no}</span> 
+            <!--@else-->
+                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    </div>
+
+
+<!-- 검색 -->
+    <!--@if($grant->view)-->
+    <div class="boardSearch">
+        <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="category" value="{$category}" />
+
+            <select name="search_target">
+                <!--@foreach($search_option as $key => $val)-->
+                <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/><a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+
+        </form>
+    </div>
+    <!--@end-->
+
+<!--#include("footer.html")-->

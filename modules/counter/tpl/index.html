@@ -2,7 +2,7 @@
 
 <h3>{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<div class="header4">
+<div class="header4 gap1">
 
     <table cellspacing="0" class="summary">
     <col width="124" />
@@ -34,7 +34,7 @@
 
 
 <!-- unique visitor 그래프 -->
-<table cellspacing="0" class="tableType4 counter">
+<table cellspacing="0" class="adminTable counter">
 <col width="124" />
 <col />
 <!--@foreach($detail_status->list as $key => $val)-->
@@ -76,7 +76,7 @@
     <td>
         <div class="graph">
             <img src="./images/iconBar.gif" alt="" width="12" height="6" class="bar" />
-            <div class="num" style="left:{$percent}%;">
+            <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
                 <strong>{number_format($val)}</strong> ({$percent}%)
             </div>
         </div>

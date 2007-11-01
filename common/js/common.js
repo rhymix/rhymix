@@ -456,68 +456,91 @@ function origImageDragMouseMove(evt) {
 }
 
 /**
- * @brief 이름을 클릭하였을 경우 메뉴를 보여주는 함수
- * 이름 클릭시 MemberModel::getMemberMenu 를 호출하여 그 결과를 보여줌 (사용자의 속성에 따라 메뉴가 달라지고 애드온의 연결을 하기 위해서임) 
+ * @brief 이름, 게시글등을 클릭하였을 경우 팝업 메뉴를 보여주는 함수
  **/
-xAddEventListener(document, 'click', chkMemberMenu);
-xAddEventListener(window, 'load', function() { setMemberMenuObjCursor(xGetElementsByTagName("div")); xGetElementsByTagName("span"); } );
-var loaded_member_menu_list = new Array();
+xAddEventListener(document, 'click', chkPopupMenu);
+var loaded_popup_menu_list = new Array();
 
-// className = "member_*" 일 경우의 object가 클릭되면 해당 회원의 메뉴를 출력함
-function chkMemberMenu(evt) {
-    var area = xGetElementById("membermenuarea");
+// 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리
+function chkPopupMenu(evt) {
+    // 이전에 호출되었을지 모르는 팝업메뉴 숨김
+    var area = xGetElementById("popup_menu_area");
     if(!area) return;
     if(area.style.visibility!="hidden") area.style.visibility="hidden";
 
+    // 이벤트 대상이 없으면 무시
     var e = new xEvent(evt);
     if(!e) return;
 
+    // 대상의 객체 구함
     var obj = e.target;
-    while(obj) {
-        if(obj && obj.className && obj.className.search("member_")!=-1) break;
+    if(!obj) return;
+
+    // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
+    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN') {
         obj = obj.parentNode;
     }
-    if(!obj || !obj.className || obj.className.search("member_")==-1) {
-        return;
+    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN')) return;
+
+    // 객체의 className값을 구함
+    var class_name = obj.className;
+    if(!class_name) return;
+
+    // className을 분리
+    var class_name_list = class_name.split(' ');
+    var menu_id = '';
+    var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/ig;
+    for(var i in class_name_list) {
+        if(menu_id_regx.test(class_name_list[i])) {
+            menu_id = class_name_list[i];
+            break;
+        }
     }
+    if(!menu_id) return;
 
-    if(obj.className.indexOf('member_-1')>=0) return;
+    // module명과 대상 번호가 없으면 return
+    var tmp_arr = menu_id.split('_');
+    var module_name = tmp_arr[0];
+    var target_srl = tmp_arr[1];
+    if(!module_name || !target_srl || target_srl < 1) return;
 
-    var member_srl = parseInt(obj.className.replace(/member_([0-9]+)/ig,'$1').replace(/([^0-9]*)/ig,''),10);
-    if(!member_srl) return;
-
-    // 현재 글의 mid, module를 구함
-    var mid = current_mid;
+    // action이름을 규칙에 맞게 작성
+    var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
 
     // 서버에 메뉴를 요청
     var params = new Array();
-    params["member_srl"] = member_srl;
-    params["cur_mid"] = mid;
+    params["target_srl"] = target_srl;
+    params["cur_mid"] = current_mid;
     params["cur_act"] = current_url.getQuery('act');
+    params["menu_id"] = menu_id;
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 
     var response_tags = new Array("error","message","menu_list");
 
-    if(loaded_member_menu_list[member_srl]) {
-        params["menu_list"] = loaded_member_menu_list[member_srl];
-        displayMemberMenu(params, response_tags, params);
+    if(loaded_popup_menu_list[menu_id]) {
+        params["menu_list"] = loaded_popup_menu_list[menu_id];
+        displayPopupMenu(params, response_tags, params);
         return;
     }
+
     show_waiting_message = false;
-    exec_xml("member", "getMemberMenu", params, displayMemberMenu, response_tags, params);
+    exec_xml(module_name, action_name, params, displayPopupMenu, response_tags, params);
     show_waiting_message = true;
 }
 
-function displayMemberMenu(ret_obj, response_tags, params) {
-    var area = xGetElementById("membermenuarea");
+function displayPopupMenu(ret_obj, response_tags, params) {
+    var area = xGetElementById("popup_menu_area");
+
     var menu_list = ret_obj['menu_list'];
-    var member_srl = params["member_srl"];
+
+    var target_srl = params["target_srl"];
+    var menu_id = params["menu_id"];
 
     var html = "";
 
-    if(loaded_member_menu_list[member_srl]) {
-        html = loaded_member_menu_list[member_srl];
+    if(loaded_popup_menu_list[menu_id]) {
+        html = loaded_popup_menu_list[menu_id];
     } else {
         var infos = menu_list.split("\n");
         if(infos.length) {
@@ -532,19 +555,19 @@ function displayMemberMenu(ret_obj, response_tags, params) {
                 var func = info_str.substr(pos+1, info_str.length).trim();
 
                 var className = "item";
-                //if(i==infos.length-1) className = "item";
 
                 if(!str || !func) continue;
 
-                html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center;\" onclick=\""+func+"\">"+str+"</span><br />";
+                if(icon) html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</span><br />";
+                else html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</span><br />";
             }
         } 
-        loaded_member_menu_list[member_srl] = html;
+        loaded_popup_menu_list[menu_id] =  html;
     }
 
     if(html) {
         // 레이어 출력
-        xInnerHtml('membermenuarea', "<div class=\"box\">"+html+"</div>");
+        xInnerHtml('popup_menu_area', "<div class=\"box\">"+html+"</div>");
         xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
@@ -554,19 +577,24 @@ function displayMemberMenu(ret_obj, response_tags, params) {
     }
 }
 
-// className = "member_*" 의 object의 cursor를 pointer로 본경
-function setMemberMenuObjCursor(obj) {
-    for (var i = 0; i < obj.length; ++i) {
-        var node = obj[i];
-        if(node.className && node.className.search(/member_([0-9]+)/ig)!=-1) {
-            var member_srl = parseInt(node.className.replace(/member_([0-9]+)/ig,'$1').replace(/([^0-9]*)/ig,''),10);
-            if(member_srl<1) continue;
-            node.style.cursor = "pointer";
-        }
-    }
+/**
+ * @brief 추천/비추천,스크랩,신고기능등 특정 srl에 대한 특정 module/action을 호출하는 함수
+ **/
+function doCallModuleAction(module, action, target_srl) {
+    var params = new Array();
+    params['target_srl'] = target_srl;
+    params['cur_mid'] = current_mid;
+    exec_xml(module, action, params, completeCallModuleAction);
 }
 
-// 날짜 선택 (달력 열기)
+function completeCallModuleAction(ret_obj, response_tags) {
+    if(ret_obj['message']!='success') alert(ret_obj['message']);
+    location.reload();
+}
+
+/**
+ * @brief 날짜 선택 (달력 열기)
+ **/
 function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
 
@@ -601,8 +629,9 @@ function doDocumentPreview(obj) {
         fo_obj = fo_obj.parentNode;
     }
     if(fo_obj.nodeName != "FORM") return;
+    var editor_sequence = fo_obj.getAttribute('editor_sequence');
 
-    var content = fo_obj.content.value;
+    var content = editorGetContent(editor_sequence);
 
     var win = window.open("","previewDocument","toolbars=no,width=700px;height=800px,scrollbars=yes,resizable=yes");
 
@@ -625,6 +654,49 @@ function doDocumentPreview(obj) {
         dummy_obj.submit();
     }
 }
+
+/* 게시글 저장 */
+function doDocumentSave(obj) {
+    var editor_sequence = obj.form.getAttribute('editor_sequence');
+    var prev_content = editorRelKeys[editor_sequence]['content'].value;
+    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined' && typeof(editorGetContent)=='function') {
+        var content = editorGetContent(editor_sequence);
+        editorRelKeys[editor_sequence]['content'].value = content;
+    }
+
+    var oFilter = new XmlJsFilter(obj.form, "member", "procMemberSaveDocument", completeDocumentSave);
+    oFilter.addResponseItem("error");
+    oFilter.addResponseItem("message");
+    oFilter.proc();
+
+    editorRelKeys[editor_sequence]['content'].value = prev_content;
+    return false;
+}
+
+function completeDocumentSave(ret_obj) {
+    alert(ret_obj['message']);
+}
+
+/* 저장된 게시글 불러오기 */
+var objForSavedDoc = null;
+function doDocumentLoad(obj) {
+    // 저장된 게시글 목록 불러오기
+    objForSavedDoc = obj.form;
+    popopen(request_uri.setQuery('module','member').setQuery('act','dispSavedDocumentList'));
+}
+
+/* 저장된 게시글의 선택 */
+function doDocumentSelect(document_srl) {
+    if(!opener || !opener.objForSavedDoc) {
+        window.close();
+        return;
+    }
+
+    // 게시글을 가져와서 등록하기
+    opener.location.href = opener.current_url.setQuery('document_srl', document_srl);
+    window.close();
+}
+
 
 /* 스킨 정보 */
 function viewSkinInfo(module, skin) {

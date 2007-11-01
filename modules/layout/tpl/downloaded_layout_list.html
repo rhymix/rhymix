@@ -1,7 +1,14 @@
 <!--#include("header.html")-->
 
 <!-- 레이아웃의 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col />
+<col width="50"/>
+<col width="120"/>
+<col width="60"/>
+<col width="70"/>
+<col width="140"/>
+<col width="80"/>
 <thead>
     <tr>
         <th scope="col">{$lang->layout_name}</th>
@@ -32,7 +39,7 @@
         </tr>
         <tr>
             <td colspan="6" class="left">
-                {nl2br($val->author->description)}
+                {nl2br(trim($val->author->description))}
             </td>
         </tr>
         <!-- 레이아웃 정보 파일(conf/info.xml)이 없는 경우 -->

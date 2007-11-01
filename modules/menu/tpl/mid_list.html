@@ -8,7 +8,11 @@
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
 
-    <table cellspacing="0" class="tableType5">
+    <table cellspacing="0" class="adminTable">
+    <col />
+    <col />
+    <col />
+    <col width="50" />
     <thead>
       <tr>
           <th scope="row" colspan="2" class="nowrap">
@@ -24,7 +28,7 @@
                     <option value="{$val->module}" <!--@if($target_module ==$val->module)-->selected="selected"<!--@end-->>{$val->module}</option>
                     <!--@end-->
                 </select>
-                <span class="button"><input type="submit" name="go_button" value="GO" /></span>
+                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
           </th>
           <th scope="row">{$lang->mid}</th>
           <th scope="row">{$lang->cmd_select}</th>
@@ -42,7 +46,7 @@
         </td>
         <td class="tahoma">{$val->module}</td>
         <td class="tahoma">{$val->browser_title} ({$key})</td>
-        <td class="blue tCenter"><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
+        <td class="blue"><a href="#" onclick="doInsertMid('{$key}','{$menu_id}'); return false;">{$lang->cmd_select}</a></td>
     </tr>
     <!--@end-->
     </tbody>

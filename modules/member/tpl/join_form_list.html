@@ -8,7 +8,16 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1 gap1">
+<table cellspacing="0" class="adminTable">
+<col />
+<col />
+<col />
+<col width="50" />
+<col width="70" />
+<col width="80" />
+<col width="50" />
+<col width="50" />
+<col width="50" />
 <thead>
     <tr>
         <th scope="col">{$lang->column_title}</th>
@@ -39,10 +48,10 @@
         <td class="red"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
+    <tr>
+        <th scope="row" colspan="9" class="button">
+            <a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+        </th>
+    </tr>
 </tbody>
 </table>
-
-<!-- 가입폼 추가 -->
-<div class="tRight gap1">
-    <a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-</div>

@@ -198,13 +198,17 @@
      * 손쉽고 확실한 변환을 위해 2byte unicode로 변형한후 처리를 한다
      **/
     function cut_str($string, $cut_size, $tail='...') {
-        if(!function_exists('iconv')) return $string;
         if(!$string || !$cut_size) return $string;
-        $unicode_str = iconv("UTF-8","UCS-2",$string);
-        if(strlen($unicode_str) < $cut_size*2) return $string;
 
-        $output_str = substr($unicode_str, 0, $cut_size*2);
-        return iconv("UCS-2","UTF-8",$output_str).$tail;
+        if(function_exists('iconv')) {
+            $unicode_str = iconv("UTF-8","UCS-2",$string);
+            if(strlen($unicode_str) < $cut_size*2) return $string;
+            $output_str = substr($unicode_str, 0, $cut_size*2);
+            return iconv("UCS-2","UTF-8",$output_str).$tail;
+        }
+
+        $arr = array();
+        return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0].$tail : $string; 
     }
 
     /**
@@ -220,27 +224,24 @@
         $year = (int)substr($str,0,4);
         $month = (int)substr($str,4,2);
         $day = (int)substr($str,6,2);
-	if(strlen($str) <= 8)
-	{
-	    $gap = 0;
-	}
-	else
-	{
-	    $time_zone = $GLOBALS['_time_zone'];
-	    if($time_zone<0) $to = -1; else $to = 1;
-	    $t_hour = substr($time_zone,1,2)*$to;
-	    $t_min = substr($time_zone,3,2)*$to;
+        if(strlen($str) <= 8) {
+            $gap = 0;
+        } else {
+            $time_zone = $GLOBALS['_time_zone'];
+            if($time_zone<0) $to = -1; else $to = 1;
+            $t_hour = substr($time_zone,1,2)*$to;
+            $t_min = substr($time_zone,3,2)*$to;
 
-	    $server_time_zone = date("O");
-	    if($server_time_zone<0) $so = -1; else $so = 1;
-	    $c_hour = substr($server_time_zone,1,2)*$so;
-	    $c_min = substr($server_time_zone,3,2)*$so;
+            $server_time_zone = date("O");
+            if($server_time_zone<0) $so = -1; else $so = 1;
+            $c_hour = substr($server_time_zone,1,2)*$so;
+            $c_min = substr($server_time_zone,3,2)*$so;
 
-	    $g_min = $t_min - $c_min;
-	    $g_hour = $t_hour - $c_hour;
+            $g_min = $t_min - $c_min;
+            $g_hour = $t_hour - $c_hour;
 
-	    $gap = $g_min*60 + $g_hour*60*60;
-	}
+            $gap = $g_min*60 + $g_hour*60*60;
+        }
 
         return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year)+$gap;
     }
@@ -378,9 +379,6 @@
 
         // script code 제거
         $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
-
-        // 제로보드XE전용 주석 태그를 본문에서 제거
-        $content = preg_replace('!<\!--(Before|After)Document\(([0-9]+),([0-9]+)\)-->!is', '', $content);
 
         return $content;
     }

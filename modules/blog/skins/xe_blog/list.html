@@ -1,60 +1,28 @@
-<!--#include("header.html")-->
-
 <!-- 검색된 글 목록이 있고 권한이 있을 경우 출력 -->
 <!--@if($document_list && $grant->list)-->
 
-    <!-- 검색어가 사용되었을 경우 목록형태로 출력 -->
     <!--@if($search_keyword)-->
-        <div class="blogHeader2">
-            <h3>{$lang->search_result}</h3>
-            <span class="info">
-                <q>&quot;{$search_keyword}&quot;</q> {$lang->search_result} : <strong>{$total_count}</strong>
-            </span>
-        </div>
+    <!-- 검색어가 사용되었을 경우 목록형태로 출력 -->
+        <!--#include("./style.list.html")-->
 
-        <table cellspacing="0" class="blogList">
-        <thead>
-            <tr>
-                <th colspan="2" class="title first-child" scope="col">{$lang->title}</th>
-                <th class="reply" scope="col">{$lang->comment}</th>
-                <th class="reply" scope="col">{$lang->trackback}</th>
-                <th scope="col" class="date">{$lang->regdate}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!--@foreach($document_list as $no => $oDocument)-->
-            <tr class="bg{($no+1)%2+1}">
-                <td class="num">{$no}</td>
-                <td class="title"><a href="{$oDocument->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a></td>
-                <td class="reply"><!--@if($oDocument->getCommentCount())-->{number_format($oDocument->getCommentCount())}<!--@else-->&nbsp;<!--@end--></td>
-                <td class="reply"><!--@if($oDocument->getTrackbackCount())-->{number_format($oDocument->getTrackbackCount())}<!--@else-->&nbsp;<!--@end--></td>
-                <td class="date">{$oDocument->getRegdate("Y. m. d")}</td>
-            </tr>
-            <!--@end-->
-        </tbody>
-        </table>
-
-    <!-- 검색어가 없다면 내용을 바로 출력 -->
     <!--@else-->
+    <!-- 검색어가 없다면 내용을 바로 출력 -->
         <!--@foreach($document_list as $no => $oDocument)-->
             <!--#include("./view_document.html")-->
         <!--@end-->
     <!--@end-->
-
 <!--@end-->
 
+
 <!-- 페이지 네비게이션 -->
-<div class="pageNavigation">
-
-    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+    <div class="pageNavigation">
+        <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <span class="current">{$page_no}</span> 
+            <!--@else-->
+                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+            <!--@end-->
         <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
-</div>
-
-<!--#include("footer.html")-->
+        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    </div>

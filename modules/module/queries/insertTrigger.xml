@@ -1,0 +1,12 @@
+<query id="insertTrigger" action="insert">
+    <tables>
+        <table name="module_trigger" />
+    </tables>
+    <columns>
+        <column name="trigger_name" var="trigger_name" notnull="notnull" />
+        <column name="module" var="module" notnull="notnull" />
+        <column name="type" var="type" notnull="notnull" />
+        <column name="called_method" var="called_method" notnull="notnull" />
+        <column name="called_position" var="called_position" notnull="notnull" />
+    </columns>
+</query>

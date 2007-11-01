@@ -1,0 +1,74 @@
+<!-- 게시판 정보 -->
+    <div class="blogInformation">
+        <!-- 게시물 수 -->
+        <!--@if($total_count)-->
+        <div class="articleNum">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
+        <!--@end-->
+    </div>
+
+<!-- 목록 출력 -->
+    <form action="./" method="get">
+        {@ $_col_count = 6 }
+        <table cellspacing="0" summary="" class="blogList">
+        <col width="80" />
+        <col />
+        <!--@if($module_info->display_writer == 'Y')--><col width="120" />{@ $_col_count++}<!--@end-->
+        <col width="60" />
+        <col width="60" />
+        <col width="90" />
+        <col width="90" />
+
+        <thead>
+            <tr>
+                <th scope="col" class="num no_line">{$lang->no}</th>
+                <th scope="col" class="title">{$lang->title}</th>
+                <!--@if($module_info->display_writer == 'Y')--><th class="author" scope="col">{$lang->writer}</th><!--@end-->
+                <th class="reading" scope="col">{$lang->readed_count}</th>
+                <th class="recommend" scope="col">{$lang->voted_count}</th>
+                <th scope="col" class="date">{$lang->date}</th>
+                <th scope="col" class="date">{$lang->last_update}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        <!--@if(!$document_list)-->
+            <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+            <tr class="bg0 tCenter">
+                <td colspan="{$_col_count}" class="title">
+                    {$lang->no_documents}
+                </td>
+            </tr>
+        <!--@else-->
+
+            <!-- 일반 글 출력 -->
+            <!--@foreach($document_list as $no => $document)-->
+                <tr class="bg{($no+1)%2+1}">
+                    <td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/common/iconArrowD8.gif" border="0" alt="" /><!--@else-->{$no}<!--@end--></td>
+                    <td class="title">
+                        <a href="{getUrl('','category',$document->get('category_srl'),'document_srl',$document->document_srl )}">{$document->getTitle($module_info->subject_cut_size)}</a>
+                        
+                        <!--@if($document->getCommentCount())-->
+                            <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                        <!--@end-->
+
+                        <!--@if($document->getTrackbackCount())-->
+                            <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                        <!--@end-->
+
+                        {$document->printExtraImages(60*60*$module_info->duration_new)}
+                    </td>
+                    <!--@if($module_info->display_writer=='Y')--><td class="author"><div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div></td><!--@end-->
+                    <td class="reading">{(int)$document->get('readed_count')}</td>
+                    <td class="recommend">{(int)$document->get('voted_count')}</td>
+                    <td class="date">{$document->getRegdate('Y-m-d')}</td>
+                    <td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td>
+                </tr>
+            <!--@end-->
+
+        <!--@end-->
+
+        </tbody>
+        </table>
+    </form>
+

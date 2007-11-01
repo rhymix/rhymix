@@ -41,6 +41,9 @@
 
             if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
+			$cache_path = './files/cache/widget_cache/';
+			if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+
             // $widget의 객체를 받음 
             $oWidget = WidgetHandler::getObject($widget);
 

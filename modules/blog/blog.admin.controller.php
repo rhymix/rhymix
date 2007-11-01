@@ -136,13 +136,15 @@
             }
 
             // serialize하여 저장
-            $obj->category_xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
+            $oDocumentModel = &getModel('document');
+            $obj->category_xml_file = $oDocumentModel->getCategoryXmlFile($module_srl);
             $obj->mid = $module_info->mid;
             $skin_vars = serialize($obj);
 
             $oModuleController->updateModuleSkinVars($module_srl, $skin_vars);
 
             // 레이아웃 확장변수 수정
+            $layout_args->mid = $obj->mid;
             $layout_args->extra_vars = $skin_vars;
             $layout_args->layout_srl = $module_srl;
             $oLayoutAdminController = &getAdminController('layout');
@@ -163,7 +165,7 @@
          **/
         function procBlogAdminInsertBlog() {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','module_category_srl','blog_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id','open_rss');
+            $args = Context::gets('module_srl','module_category_srl','blog_name','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
             $args->module = 'blog';
             $args->mid = $args->blog_name;
             unset($args->blog_name);
@@ -174,6 +176,19 @@
             unset($extra_var->act);
             unset($extra_var->page);
             unset($extra_var->blog_name);
+
+            // 확장변수(20개로 제한된 고정 변수) 체크
+            $user_defined_extra_vars = array();
+            foreach($extra_var as $key => $val) {
+                if(substr($key,0,11)!='extra_vars_') continue;
+                preg_match('/^extra_vars_([0-9]+)_(.*)$/i', $key, $matches);
+                if(!$matches[1] || !$matches[2]) continue;
+
+                $user_defined_extra_vars[$matches[1]]->{$matches[2]} = $val;
+                unset($extra_var->{$key});
+            }
+            for($i=1;$i<=20;$i++) if(!$user_defined_extra_vars[$i]->name) unset($user_defined_extra_vars[$i]);
+            $extra_var->extra_vars = $user_defined_extra_vars;
 
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -235,9 +250,9 @@
                 }
 
                 // 기본 카테고리 등록
-                $category_args->module_srl = $module_srl;
+                $category_args->module_srl = $args->module_srl;
                 $category_args->category_srl = getNextSequence();
-                $category_args->name = 'Story';
+                $category_args->title = 'Story';
                 $category_args->expand = 'N';
                 $this->procBlogAdminInsertCategory($category_args);
 
@@ -251,6 +266,7 @@
                 }
 
                 // 레이아웃 수정
+                $layout_args->mid = $args->mid;
                 $layout_args->layout_srl = $layout_args->module_srl = $module_srl = $output->get('module_srl');
                 $layout_args->title = $args->browser_title;
                 $layout_args->layout_path = sprintf('./modules/blog/skins/%s/layout.html', $args->skin);
@@ -273,6 +289,58 @@
         }
 
         /**
+         * @brief 카테고리 추가
+         **/
+        function procBlogAdminInsertCategory($args = null) {
+            // 입력할 변수 정리
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls');
+
+            if($args->expand !="Y") $args->expand = "N";
+            $args->group_srls = str_replace('|@|',',',$args->group_srls);
+            $args->parent_srl = (int)$args->parent_srl;
+
+            $oDocumentController = &getController('document');
+            $oDocumentModel = &getModel('document');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 이미 존재하는지를 확인
+            if($args->category_srl) {
+                $category_info = $oDocumentModel->getCategory($args->category_srl);
+                if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
+            }
+
+            // 존재하게 되면 update를 해준다
+            if($args->category_srl) {
+                $output = $oDocumentController->updateCategory($args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+
+            // 존재하지 않으면 insert를 해준다
+            } else {
+                $output = $oDocumentController->insertCategory($args);
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+            }
+
+            // XML 파일을 갱신하고 위치을 넘겨 받음
+            $xml_file = $oDocumentController->makeCategoryXmlFile($args->module_srl);
+
+            $oDB->commit();
+
+            $this->add('xml_file', $xml_file);
+            $this->add('module_srl', $args->module_srl);
+            $this->add('category_srl', $args->category_srl);
+            $this->add('parent_srl', $args->parent_srl);
+        }
+
+
+        /**
          * @brief 블로그 삭제
          **/
         function procBlogAdminDeleteBlog() {
@@ -291,7 +359,6 @@
 
             // 레이아웃 삭제
             $layout_args->layout_srl = $layout_args->module_srl = $module_srl;
-
             $oLayoutAdminController = &getAdminController('layout');
             $output = $oLayoutAdminController->deleteLayout($layout_args);
             if(!$output->toBool()) {
@@ -299,83 +366,11 @@
                 return $output;
             }
 
-            // 블로그 카테고리 삭제
-            $category_args->module_srl = $module_srl;
-            $output = executeQuery('blog.deleteCategories', $category_args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-            @unlink( sprintf('./files/cache/blog_category/%d.xml.php', $module_srl) );
-
             $oDB->commit();
 
             $this->add('module','blog');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
-        }
-
-        /**
-         * @brief 카테고리 추가
-         **/
-        function procBlogAdminInsertCategory($args = null) {
-            // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','name','expand','group_srls');
-
-            if($args->expand !="Y") $args->expand = "N";
-            $args->group_srls = str_replace('|@|',',',$args->group_srls);
-            $args->parent_srl = (int)$args->parent_srl;
-
-            $oDB = &DB::getInstance();
-            $oDB->begin();
-
-            // 이미 존재하는지를 확인
-            $oBlogModel = &getModel('blog');
-            $category_info = $oBlogModel->getCategoryInfo($args->category_srl);
-
-            // 존재하게 되면 update를 해준다
-            if($category_info->category_srl == $args->category_srl) {
-                $output = executeQuery('blog.updateCategory', $args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-
-                $oDocumentController = &getAdminController('document');
-                $document_args->category_srl = $args->category_srl;
-                $document_args->title = $args->name ;
-                $output = $oDocumentController->updateCategory($document_args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-
-            // 존재하지 않으면 insert를 해준다
-            } else {
-                $args->listorder = -1*$args->category_srl;
-                $output = executeQuery('blog.insertCategory', $args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-
-                $oDocumentController = &getAdminController('document');
-                $output = $oDocumentController->insertCategory($args->module_srl, $args->name, $args->category_srl);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-            }
-
-            // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->module_srl);
-
-            $oDB->commit();
-
-            $this->add('xml_file', $xml_file);
-            $this->add('module_srl', $args->module_srl);
-            $this->add('category_srl', $args->category_srl);
-            $this->add('parent_srl', $args->parent_srl);
         }
 
         /**
@@ -388,32 +383,17 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            $oBlogModel = &getModel('blog');
+            $oDocumentModel = &getModel('document');
 
             // 원정보를 가져옴 
-            $category_info = $oBlogModel->getCategoryInfo($args->category_srl);
+            $category_info = $oDocumentModel->getCategory($args->category_srl);
             if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
 
             // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
-            $output = executeQuery('blog.getChildCategoryCount', $args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            if($output->data->count>0) {
-                $oDB->rollback();
-                return new Object(-1, 'msg_cannot_delete_for_child');
-            }
+            if($oDocumentModel->getCategoryChlidCount($args->category_srl)) return new Object(-1, 'msg_cannot_delete_for_child');
 
             // DB에서 삭제
-            $output = executeQuery("blog.deleteCategory", $args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            $oDocumentController = &getAdminController('document');
+            $oDocumentController = &getController('document');
             $output = $oDocumentController->deleteCategory($args->category_srl);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -421,7 +401,7 @@
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $this->makeXmlFile($args->module_srl);
+            $xml_file = $oDocumentController->makeCategoryXmlFile($args->module_srl);
 
             $oDB->commit();
 
@@ -437,26 +417,28 @@
             $source_category_srl = Context::get('source_category_srl');
             $target_category_srl = Context::get('target_category_srl');
 
-            $oBlogModel = &getModel('blog');
-            $target_category = $oBlogModel->getCategoryInfo($target_category_srl);
-            $source_category = $oBlogModel->getCategoryInfo($source_category_srl);
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+
+            $target_category = $oDocumentModel->getCategory($target_category_srl);
+            $source_category = $oDocumentModel->getCategory($source_category_srl);
 
             // source_category에 target_category_srl의 parent_srl, listorder 값을 입력
             $source_args->category_srl = $source_category_srl;
             $source_args->parent_srl = $target_category->parent_srl;
             $source_args->listorder = $target_category->listorder;
-            $output = executeQuery('blog.updateCategoryParent', $source_args);
+            $output = $oDocumentController->updateCategory($source_args);
             if(!$output->toBool()) return $output;
 
             // target_category의 listorder값을 +1해 준다
             $target_args->category_srl = $target_category_srl;
             $target_args->parent_srl = $target_category->parent_srl;
             $target_args->listorder = $target_category->listorder -1;
-            $output = executeQuery('blog.updateCategoryParent', $target_args);
+            $output = $oDocumentController->updateCategory($target_args);
             if(!$output->toBool()) return $output;
 
             // xml파일 재생성 
-            $xml_file = $this->makeXmlFile($target_category->module_srl);
+            $xml_file = $oDocumentController->makeCategoryXmlFile($source_category->module_srl);
 
             // return 변수 설정
             $this->add('xml_file', $xml_file);
@@ -474,104 +456,11 @@
             $module_srl = Context::get('module_srl');
 
             // xml파일 재생성 
-            $xml_file = $this->makeXmlFile($module_srl);
+            $oDocumentController = &getController('document');
+            $xml_file = $oDocumentController->makeCategoryXmlFile($module_srl);
 
             // return 값 설정 
             $this->add('xml_file',$xml_file);
-        }
-
-        /**
-         * @brief 블로그 카테고리를 xml파일로 저장
-         **/
-        function makeXmlFile($module_srl) {
-            // xml파일 생성시 필요한 정보가 없으면 그냥 return
-            if(!$module_srl) return;
-
-            // 캐시 파일의 이름을 지정
-            $xml_file = sprintf("./files/cache/blog_category/%s.xml.php", $module_srl);
-
-            // 모듈정보를 구해옴
-            $oModuleModel = &getModel('module');
-            $this->module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-            // DB에서 module_srl 에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴 
-            $oBlogModel = &getModel('blog');
-            $list = $oBlogModel->getCategoryList($module_srl);
-
-            // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
-            if(!$list) {
-                $xml_buff = "<root />";
-                FileHandler::writeFile($xml_file, $xml_buff);
-                return $xml_file;
-            }
-
-            // 구해온 데이터가 하나라면 array로 바꾸어줌
-            if(!is_array($list)) $list = array($list);
-
-            // 루프를 돌면서 tree 구성
-            $list_count = count($list);
-            for($i=0;$i<$list_count;$i++) {
-                $node = $list[$i];
-                $category_srl = $node->category_srl;
-                $parent_srl = $node->parent_srl;
-
-                $tree[$parent_srl][$category_srl] = $node;
-            }
-
-            // 세션 디렉토리 변경 구문
-            $php_script = "";
-            if(!ini_get('session.auto_start')) {
-                if(!is_dir("./files/sessions")) {
-                    FileHandler::makeDir("./files/sessions");
-                    @chmod("./files/sessions",  0777);
-                }
-
-                $php_script = 'session_cache_limiter("no-cache, must-revalidate"); ini_set("session.gc_maxlifetime", "18000"); if(is_dir("../../sessions")) session_save_path("../../sessions/"); session_start();';
-            }
-
-            // xml 캐시 파일 생성
-            $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
-
-            // 파일 저장
-            FileHandler::writeFile($xml_file, $xml_buff);
-            return $xml_file;
-        }
-
-        /**
-         * @brief array로 정렬된 노드들을 parent_srl을 참조하면서 recursive하게 돌면서 xml 데이터 생성
-         * 메뉴 xml파일은 node라는 tag가 중첩으로 사용되며 이 xml doc으로 관리자 페이지에서 메뉴를 구성해줌\n
-         * (tree_menu.js 에서 xml파일을 바로 읽고 tree menu를 구현)
-         **/
-        function getXmlTree($source_node, $tree) {
-            if(!$source_node) return;
-            foreach($source_node as $category_srl => $node) {
-                $child_buff = "";
-
-                // 자식 노드의 데이터 가져옴
-                if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree);
-
-                // 변수 정리 
-                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
-                $expand = $node->expand;
-                $group_srls = $node->group_srls;
-
-                // node->group_srls값이 있으면 
-                if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
-                else $group_check_code = "true";
-
-                $attribute = sprintf(
-                        'node_srl="%s" text="<?=(%s?"%s":"")?>" url="%s" expand="%s" ',
-                        $category_srl,
-                        $group_check_code,
-                        $name,
-                        getUrl('','mid',$this->module_info->mid,'category',$category_srl),
-                        $expand
-                );
-                
-                if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
-                else $buff .=  sprintf('<node %s />', $attribute);
-            }
-            return $buff;
         }
     }
 ?>

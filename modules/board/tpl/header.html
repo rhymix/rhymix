@@ -2,6 +2,8 @@
 
 <h3>{$lang->board} <span class="gray">{$lang->cmd_management}</span></h3>
 
+<div class="infoText">{nl2br($lang->about_board)}</div>
+
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
@@ -15,6 +17,7 @@
         <li><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
         <!--@end-->
         <li <!--@if($act=='dispBoardAdminBoardInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_view_info}</a></li>
+        <li <!--@if($act=='dispBoardAdminBoardAdditionSetup')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminBoardAdditionSetup')}">{$lang->cmd_addition_setup}</a></li>
         <li <!--@if($act=='dispBoardAdminCategoryInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminCategoryInfo')}">{$lang->cmd_manage_category}</a></li>
         <li <!--@if($act=='dispBoardAdminGrantInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
         <li <!--@if($act=='dispBoardAdminSkinInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminSkinInfo')}">{$lang->cmd_manage_skin}</a></li>

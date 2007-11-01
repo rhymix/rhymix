@@ -22,12 +22,6 @@
     $lang->skin_default_info = '스킨 기본정보';
     $lang->skin_maker = '스킨제작자';
     $lang->skin_maker_homepage = '제작자 홈페이지';
-    $lang->open_rss = 'RSS 공개';
-    $lang->open_rss_types = array(
-        'Y' => '전문 공개 ',
-        'H' => '요약 공개',
-        'N' => '공개하지 않음',
-    );
     $lang->module_copy = "모듈 복사";
 
     $lang->cmd_add_shortcut = "바로가기 추가";
@@ -61,7 +55,6 @@
     $lang->about_page_count = '목록 하단 페이지 이동 하는 링크의 수를 지정하실 수 있습니다. (기본 10개)';
     $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.<br />,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)';
     $lang->about_grant = '특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다';
-    $lang->about_open_rss = '현재 모듈에 대한 RSS 공개를 선택하실 수 있습니다. 글 보는 권한과 상관없이 옵션에 따라 RSS가 공개됩니다';
     $lang->about_module = "제로보드XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.\n자주 쓰는 모듈은 [바로가기 추가]를 통해서 편하게 관리하실 수 있습니다.";
 
     $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';

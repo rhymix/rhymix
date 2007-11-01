@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader h3 { border-bottom:3px solid #ac19a9; }
+
+/* board Information */
+.articleNum { float:left; background:url(../images/purple/iconArticle.gif) no-repeat left top; }
+.articleNum strong { font:bold 11px Tahoma; color:#b1ae00;}
+
+/* account Navigation */
+.accountNavigation li.join a { background:url(../images/purple/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.myInfo a { background:url(../images/purple/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+
+/* style.list */
+.boardList th { background:#ffffff url(../images/purple/lineBoardListTh.gif) no-repeat left bottom; }
+.boardList td.recommend { color:#b1ae00; }
+.boardList td .replyAndTrackback { color:#b1ae00; }
+.buttonTypeGo { background:url(../images/purple/buttonTypeInput24.gif) no-repeat; }
+
+/* pageNavigation */
+.pageNavigation .current { color:#b1ae00; border-right:1px solid #CCCCCC; }
+
+/* boardRead */
+.boardRead .readFooter .fileAttached li a { background:url(../images/purple/iconFile.gif) no-repeat left top;}
+
+/* replyAndTrackback */
+.replyAndTrackback { background:url(../images/purple/bgBoardListTh.gif) repeat-x left 0px; }
+.replyAndTrackback a strong { color:#b1ae00;}
+.replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/purple/iconFile.gif) no-repeat left;}

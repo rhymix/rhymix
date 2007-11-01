@@ -32,6 +32,9 @@
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
     $lang->signature = '서명';
+    $lang->profile_image = '프로필 사진';
+    $lang->profile_image_max_width = '가로 제한 크기';
+    $lang->profile_image_max_height = '세로 제한 크기';
     $lang->image_name = '이미지 이름';
     $lang->image_name_max_width = '가로 제한 크기';
     $lang->image_name_max_height = '세로 제한 크기';
@@ -66,7 +69,6 @@
         'email_address' => '메일주소',
         'regdate' => '가입일시',
         'last_login' => '최근로그인일시',
-        'last_login' => '최근로그인일시',
         'extra_vars' => '확장변수',
     );
 
@@ -95,6 +97,7 @@
     $lang->cmd_manage_form = '가입폼관리';
     $lang->cmd_view_own_document = '작성글 보기';
     $lang->cmd_view_scrapped_document = '스크랩 보기';
+    $lang->cmd_view_saved_document = '저장함 보기';
     $lang->cmd_send_email = '메일 보내기';
     $lang->cmd_send_message = '쪽지 보내기';
     $lang->cmd_reply_message = '쪽지 답장';
@@ -141,6 +144,7 @@
     $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다';
     $lang->msg_insert_group_name = '그룹명을 입력해 주세요';
 
+    $lang->msg_not_uploaded_profile_image = '프로필 이미지를 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';
 
@@ -181,6 +185,7 @@
 
     $lang->about_image_name = '사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다';
     $lang->about_image_mark = '사용자의 이름앞에 마크를 달 수 있습니다';
+    $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
     $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다'; 
 
     $lang->about_member_default = '회원가입시 기본 그룹으로 설정됩니다';

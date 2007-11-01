@@ -21,11 +21,15 @@
     $lang->cmd_comment_registration = 'Agregar commentarios';
     $lang->cmd_insert = 'Insertar';
     $lang->cmd_save = 'Guardar';
+    $lang->cmd_load = '불러오기';
     $lang->cmd_input = 'Ingresar';
     $lang->cmd_search = 'Buscar';
     $lang->cmd_cancel = 'Cancelar';
     $lang->cmd_back = 'Atrás';
     $lang->cmd_vote = 'Recomendar';
+    $lang->cmd_vote_down = '비추천';
+    $lang->cmd_declare = '신고';
+    $lang->cmd_declared_list = '신고 목록';
     $lang->cmd_copy = 'Copia';
     $lang->cmd_move = 'Mover';
     $lang->cmd_move_up = 'Arriba';
@@ -43,6 +47,7 @@
     $lang->cmd_close = 'Cerrar';
     $lang->cmd_open = 'Abrir';
     $lang->cmd_setup = 'Configuración';
+    $lang->cmd_addition_setup = '추가 설정';
 	$lang->cmd_option = 'Opción';
     $lang->cmd_apply = 'Aplicar';
     $lang->cmd_open_calendar = 'Abrir el calendario';
@@ -51,6 +56,8 @@
     $lang->cmd_scrap = 'Scrap';
     $lang->cmd_preview = 'Previo';
     $lang->cmd_reset = 'Rehacer';
+    $lang->cmd_remake_cache = "캐시파일 재생성";
+    $lang->cmd_publish = "발행";
 
     $lang->enable = 'Activar';
     $lang->disable = 'Desactivar';
@@ -77,6 +84,8 @@
     $lang->browser_title = 'Título del navegador';
     $lang->title = 'Título';
     $lang->title_content = 'Título+Contenido';
+    $lang->topic = '주제';
+    $lang->replies = '응답';
     $lang->content = 'Contenidos';
     $lang->document = 'Documentos';
     $lang->comment = 'Commentarios';
@@ -119,6 +128,7 @@
     $lang->date = 'Fecha';
     $lang->regdate = 'Fecha publicada';
     $lang->last_update = 'Ultima actualización';
+    $lang->last_post = '최근 등록';
     $lang->signup_date = 'Fecha del registro';
     $lang->last_login = 'Ultima conección';
     $lang->first_page = 'Primera página';
@@ -167,6 +177,7 @@
     $lang->msg_module_is_not_standalone = 'Módulo solicitado no puede ser ejecutado independientemente';
 
     $lang->success_registed = 'Agregado con éxito';
+    $lang->success_declared = '신고되었습니다';
     $lang->success_updated = 'Actualizado con éxito';
     $lang->success_deleted = 'Boarrado con éxito';
     $lang->success_voted = 'Recomendado con éxito';
@@ -174,11 +185,13 @@
     $lang->success_sended = 'Enviado con éxito';
     $lang->success_reset = 'Reajustado con éxito';
     $lang->success_leaved = 'Abandonado con éxito';
+    $lang->success_saved = '저장되었습니다';
 
     $lang->fail_to_delete = 'No puede ser borrado';
     $lang->fail_to_move = 'No puede ser movido';
 
     $lang->failed_voted = 'No puede ser recomendado';
+    $lang->failed_declared = '신고를 하실 수 없습니다';
     $lang->fail_to_delete_have_children = 'No puede ser borrado, ya que el mensaje posee respuestas ';
 
     $lang->confirm_submit = '¿Está seguro que desea enviar?';

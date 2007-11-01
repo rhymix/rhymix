@@ -534,8 +534,8 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
                     $alias = $val['alias'];
-                    if($name == '*') {
-                        $column_list[] = '*';
+                    if(substr($name,-1) == '*') {
+                        $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
                         if($alias) $column_list[] = sprintf('"%s" as "%s"', $name, $alias);
                         else $column_list[] = sprintf('"%s"',$name);

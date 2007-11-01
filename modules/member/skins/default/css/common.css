@@ -12,7 +12,8 @@
 
 .memberSmallBox .header { position:relative; _width:100%; background:#ffffff url(../images/common/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 
-.boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666; height:25px;}
+.boardInformation { font:normal 11px Tahoma; width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666; height:28px;}
+.boardInformation strong { font:bold 11px Tahoma; color:#ff6600;}
 
 .boardHeader { position:relative; _width:100%; border-top:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
 .boardHeader .member_option { float:right; position:relative; top:1em; right:1em; }
@@ -49,7 +50,11 @@
 .list td.title, .list td.title a { color:#444444; text-decoration:none;}
 .list td.title a:visited { color:#777777; text-decoration:none;}
 .list td.checkDate { font:.8em Tahoma; color:#333333; text-align:center;}
+.list td.subject { font-size:1em; text-align:left; color:#555555; }
+.list td.subject a { text-decoration:none; color:#555555; }
 .memberSelect { margin-top:2px; }
+
+.saved_content { margin-top:1em; padding-top:1em; border-top:1px dotted #DDDDDD; }
 
 /* login */
 .memberSmallBox .login { border:none; padding:2em 0 1.5em 2em;}
@@ -148,4 +153,3 @@
 
 /* Own Document */
 img.button_go { position:relative; bottom:-4px; }
-.boardInformation strong { font:bold 11px Tahoma; color:#ff6600;}

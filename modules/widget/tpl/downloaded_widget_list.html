@@ -4,7 +4,13 @@
 <div class="infoText">{nl2br($lang->about_addon)}</div>
 
 <!-- 위젯의 목록 -->
-<table cellspacing="0" class="tableType3">
+<table cellspacing="0" class="adminTable">
+<col />
+<col width="80" />
+<col width="120" />
+<col width="80" />
+<col width="140" />
+<col width="80" />
 <thead>
     <tr>
         <th scope="col">{$lang->widget_name}</th>
@@ -30,7 +36,7 @@
     </tr>
     <tr>
         <td colspan="5" class="left">
-            {nl2br($val->author->description)}
+            {nl2br(trim($val->author->description))}
         </td>
     </tr>
     <!--@end-->

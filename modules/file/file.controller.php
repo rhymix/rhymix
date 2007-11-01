@@ -40,6 +40,77 @@
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
 
+        /**
+         * @brief 첨부파일 다운로드
+         * 직접 요청을 받음
+         * file_srl : 파일의 sequence
+         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
+         **/
+        function procFileDownload() {
+            $file_srl = Context::get('file_srl');
+            $sid = Context::get('sid');
+
+            // 파일의 정보를 DB에서 받아옴
+            $oFileModel = &getModel('file');
+            $file_obj = $oFileModel->getFile($file_srl);
+            if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid || $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
+
+            // 파일 다운로드 권한이 있는지 확인
+            $file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
+            if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
+                if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
+                $logged_info = Context::get('logged_info');
+                if($logged_info->is_admin != 'Y') {
+                    $is_permitted = false;
+                    for($i=0;$i<count($file_module_config->download_grant);$i++) {
+                        $group_srl = $file_module_config->download_grant[$i];
+                        if($logged_info->group_list[$group_srl]) {
+                            $is_permitted = true;
+                            break;
+                        }
+                    }
+                    if(!$is_permitted) return $this->stop('msg_not_permitted_download');
+                }
+            }
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
+            if(!$output->toBool()) return $this->stop('msg_not_permitted_download');
+
+            // 파일 출력
+            $filename = $file_obj->source_filename;
+
+            if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+                $filename = urlencode($filename);
+                $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+            }
+
+            $uploaded_filename = $file_obj->uploaded_filename;
+            if(!file_exists($uploaded_filename)) return $this->stop('msg_not_permitted_download');
+
+            $fp = fopen($uploaded_filename, 'rb');
+            if(!$fp) return $this->stop('msg_not_permitted_download');
+
+            header("Cache-Control: ");
+            header("Pragma: ");
+            header("Content-Type: application/octet-stream");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+
+            header("Content-Length: " .(string)($file_obj->file_size));
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header("Content-Transfer-Encoding: binary\n");
+
+            fpassthru($fp);
+
+            // 이상이 없으면 download_count 증가
+            $args->file_srl = $file_srl;
+            executeQuery('file.updateFileDownloadCount', $args);
+
+            // trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
+
+            exit();
+        }
 
         /**
          * @brief 에디터에서 첨부 파일 삭제
@@ -62,6 +133,95 @@
         }
 
         /**
+         * @brief 특정 upload_target_srl(document_srl)에 등록된 첨부파일의 갯수를 return하는 trigger
+         **/
+        function triggerCheckAttached(&$obj) {
+            $document_srl = $obj->document_srl;
+            if(!$document_srl) return new Object();
+
+            // 첨부 파일의 갯수를 구함
+            $oFileModel = &getModel('file');
+            $obj->uploaded_count = $oFileModel->getFilesCount($document_srl);
+
+            return new Object();
+        }
+
+        /**
+         * @brief 특정 upload_target_srl(document_srl)에 등록된 첨부파일을 연결하는 trigger
+         **/
+        function triggerAttachFiles(&$obj) {
+            $document_srl = $obj->document_srl;
+            $uploaded_count = $obj->uploaded_count;
+            if(!$document_srl || !$uploaded_count) return new Object();
+
+            $output = $this->setFilesValid($document_srl);
+            if(!$output->toBool()) return $output;
+
+            return new Object();
+        }
+
+        /**
+         * @brief 특정 upload_target_srl(document_srl)에 등록된 첨부파일을 삭제하는 trigger
+         **/
+        function triggerDeleteAttached(&$obj) {
+            $document_srl = $obj->document_srl;
+            if(!$document_srl) return new Object();
+
+            $output = $this->deleteFiles($document_srl);
+            return $output;
+        }
+
+        /**
+         * @brief 특정 upload_target_srl(comment_srl)에 등록된 첨부파일의 갯수를 return하는 trigger
+         **/
+        function triggerCommentCheckAttached(&$obj) {
+            $comment_srl = $obj->comment_srl;
+            if(!$comment_srl) return new Object();
+
+            // 첨부 파일의 갯수를 구함
+            $oFileModel = &getModel('file');
+            $obj->uploaded_count = $oFileModel->getFilesCount($comment_srl);
+
+            return new Object();
+        }
+
+        /**
+         * @brief 특정 upload_target_srl(comment_srl)에 등록된 첨부파일을 연결하는 trigger
+         **/
+        function triggerCommentAttachFiles(&$obj) {
+            $comment_srl = $obj->comment_srl;
+            $uploaded_count = $obj->uploaded_count;
+            if(!$comment_srl || !$uploaded_count) return new Object();
+
+            $output = $this->setFilesValid($comment_srl);
+            if(!$output->toBool()) return $output;
+
+            return new Object();
+        }
+
+        /**
+         * @brief 특정 upload_target_srl(comment_srl)에 등록된 첨부파일을 삭제하는 trigger
+         **/
+        function triggerCommentDeleteAttached(&$obj) {
+            $comment_srl = $obj->comment_srl;
+            if(!$comment_srl) return new Object();
+
+            $output = $this->deleteFiles($comment_srl);
+            return $output;
+        }
+
+        /**
+         * @brief module 삭제시 해당 첨부파일 모두 삭제하는 trigger
+         **/
+        function triggerDeleteModuleFiles(&$obj) {
+            $module_srl = $obj->module_srl;
+            if(!$module_srl) return new Object();
+
+            $oFileController = &getAdminController('file');
+            return $oFileController->deleteModuleFiles($module_srl);
+        }
+
+        /**
          * @brief 업로드 가능하다고 세팅
          **/
         function setUploadInfo($editor_sequence, $upload_target_srl=0) {
@@ -70,15 +230,30 @@
         }
 
         /**
+         * @brief 특정 upload_target_srl의 첨부파일들의 상태를 유효로 변경
+         * 글이 등록될때 글에 첨부된 파일들의 상태를 유효상태로 변경함으로서 관리시 불필요 파일로 인식되지 않도록 함
+         **/
+        function setFilesValid($upload_target_srl) {
+            $args->upload_target_srl = $upload_target_srl;
+            return executeQuery('file.updateFileValid', $args);
+        }
+
+        /**
          * @brief 첨부파일 추가
          **/
         function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false) {
+            // trigger 호출 (before)
+            $trigger_obj->module_srl = $module_srl;
+            $trigger_obj->upload_target_srl = $upload_target_srl;
+            $output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
+            if(!$output->toBool()) return $output;
+
             if(!$manual_insert) {
                 // 첨부파일 설정 가져옴
                 $logged_info = Context::get('logged_info');
                 if($logged_info->is_admin != 'Y') {
                     $oFileModel = &getModel('file');
-                    $config = $oFileModel->getFileConfig();
+                    $config = $oFileModel->getFileConfig($module_srl);
                     $allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 
                     // 해당 문서에 첨부된 모든 파일의 용량을 가져옴 (DB에서 가져옴)
@@ -127,20 +302,15 @@
             $output = executeQuery('file.insertFile', $args);
             if(!$output->toBool()) return $output;
 
+            // trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('file.insertFile', 'after', $args);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
             $output->add('file_srl', $args->file_srl);
             $output->add('file_size', $args->file_size);
             $output->add('source_filename', $args->source_filename);
             $output->add('upload_target_srl', $upload_target_srl);
             return $output;
-        }
-
-        /**
-         * @brief 특정 upload_target_srl의 첨부파일들의 상태를 유효로 변경
-         * 글이 등록될때 글에 첨부된 파일들의 상태를 유효상태로 변경함으로서 관리시 불필요 파일로 인식되지 않도록 함
-         **/
-        function setFilesValid($upload_target_srl) {
-            $args->upload_target_srl = $upload_target_srl;
-            return executeQuery('file.updateFileValid', $args);
         }
 
         /**
@@ -159,9 +329,18 @@
             $source_filename = $output->data->source_filename;
             $uploaded_filename = $output->data->uploaded_filename;
 
+            // trigger 호출 (before)
+            $trigger_obj = $output->data;
+            $output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
+            if(!$output->toBool()) return $output;
+
             // DB에서 삭제
             $output = executeQuery('file.deleteFile', $args);
             if(!$output->toBool()) return $output;
+
+            // trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
+            if(!$trigger_output->toBool()) return $trigger_output;
 
             // 삭제 성공하면 파일 삭제
             @unlink($uploaded_filename);
@@ -278,53 +457,5 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_uploaded_file_list');
         }
-
-        /**
-         * @brief 첨부파일 다운로드
-         * 직접 요청을 받음
-         * file_srl : 파일의 sequence
-         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
-         **/
-        function procFileDownload() {
-            $file_srl = Context::get('file_srl');
-            $sid = Context::get('sid');
-
-            // 파일의 정보를 DB에서 받아옴
-            $oFileModel = &getModel('file');
-            $file_obj = $oFileModel->getFile($file_srl);
-            if($file_obj->file_srl!=$file_srl||$file_obj->sid!=$sid) exit();
-
-            // 이상이 없으면 download_count 증가
-            $args->file_srl = $file_srl;
-            executeQuery('file.updateFileDownloadCount', $args);
-
-            // 파일 출력
-            $filename = $file_obj->source_filename;
-
-            if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
-                $filename = urlencode($filename);
-                $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
-            }
-
-            $uploaded_filename = $file_obj->uploaded_filename;
-            if(!file_exists($uploaded_filename)) exit();
-
-            $fp = fopen($uploaded_filename, 'rb');
-            if(!$fp) exit();
-
-            header("Cache-Control: ");
-            header("Pragma: ");
-            header("Content-Type: application/octet-stream");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-            header("Content-Length: " .(string)($file_obj->file_size));
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
-            header("Content-Transfer-Encoding: binary\n");
-
-            fpassthru($fp);
-
-            exit();
-        }
-
     }
 ?>

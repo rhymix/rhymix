@@ -5,7 +5,7 @@
 <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
 <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 
-    <table cellspacing="0" class="tableType2 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
 
@@ -32,14 +32,14 @@
                         <!--@end-->
                     </select>
                 </div>
-                <div>
+                <div class="gap1">
                     <a href="#" onclick="doEditDefaultValue(this,'up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
                     <a href="#" onclick="doEditDefaultValue(this,'down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
-                    <a href="#" onclick="doEditDefaultValue(this, 'delete');return false;">{$lang->cmd_delete}</a>
+                    <a href="#" onclick="doEditDefaultValue(this, 'delete');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
                 </div>
                 <div class="gap1">
                     <input type="text" name="default_value_item" id="default_value_item" class="inputTypeText w400" />
-                    <a href="#" onclick="doEditDefaultValue(this, 'insert');return false;">{$lang->cmd_insert}</a>
+                    <a href="#" onclick="doEditDefaultValue(this, 'insert');return false;" class="button"><span>{$lang->cmd_insert}</span></a>
                 </div>
             </div>
         </td>

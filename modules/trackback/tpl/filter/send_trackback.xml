@@ -1,0 +1,9 @@
+<filter name="send_trackback" module="trackback" act="procTrackbackSend">
+    <form>
+        <node target="target_srl" required="true" />
+        <node target="trackback_url" required="true" />
+        <node target="charset" required="true" />
+    </form>
+    <parameter />
+    <response />
+</filter>

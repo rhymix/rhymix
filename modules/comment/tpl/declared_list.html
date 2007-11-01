@@ -1,0 +1,66 @@
+<!--%import("filter/delete_checked.xml")-->
+<!--#include("header.html")-->
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="page" value="{$page}" />
+
+    <!-- 목록 -->
+    <table cellspacing="0" class="adminTable">
+    <col width="60" />
+    <col />
+    <col width="120" />
+    <col width="80" />
+    <col width="80" />
+    <col width="70" />
+    <col width="50" />
+    <thead>
+        <tr>
+            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
+            <th scope="col">{$lang->comment}</th>
+            <th scope="col">{$lang->user_name}</th>
+            <th scope="col">{$lang->date}</th>
+            <th scope="col">{$lang->cmd_declare}</th>
+            <th scope="col">{$lang->ipaddress}</th>
+            <th scope="col">{$lang->cmd_move}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--@foreach($comment_list as $no => $oComment)-->
+        <tr>
+            <td class="tahoma">{$no}</td>
+            <td class="left"><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
+            <td><div class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</div></td>
+            <td class="tahoma">{$oComment->getRegdate("Y-m-d")}</td>
+            <td class="tahoma red"><strong>{$oComment->get('declared_count')}</strong></td>
+            <td class="tahoma">{$oComment->get('ipaddress')}</td>
+            <td class="blue"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+
+<!-- 버튼 -->
+    <div class="fr gap1">
+        <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
+        <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+        <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+    </div>
+</form>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>

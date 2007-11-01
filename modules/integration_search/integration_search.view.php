@@ -76,20 +76,14 @@
             // 검색글이 있을 경우 검색 시도
             if($args->search_keyword) {
 
-                // 대상이 comment이면 댓글 검색 시도
-                if($search_target == 'comment') {
-
-                // 그외는 문서 검색 시도
-                } else {
-                    // 대상 문서들을 가져옴
-                    $oDocumentModel = &getModel('document');
-                    $output = $oDocumentModel->getDocumentList($args);
-                    Context::set('total_count', $output->total_count);
-                    Context::set('total_page', $output->total_page);
-                    Context::set('page', $output->page);
-                    Context::set('document_list', $output->data);
-                    Context::set('page_navigation', $output->page_navigation);
-                } 
+                // 대상 문서들을 가져옴
+                $oDocumentModel = &getModel('document');
+                $output = $oDocumentModel->getDocumentList($args);
+                Context::set('total_count', $output->total_count);
+                Context::set('total_page', $output->total_page);
+                Context::set('page', $output->page);
+                Context::set('document_list', $output->data);
+                Context::set('page_navigation', $output->page_navigation);
             }
 
             // 텍스트 생성

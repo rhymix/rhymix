@@ -70,7 +70,7 @@
 
             if($width) $style_output[] = "width:".$width."px";
             if($height) $style_output[] = "height:".$height."px";
-            if(!$align) $style_output[] = "display:block";
+            //if(!$align) $style_output[] = "display:block";
             if($border) $style_output[] = "border:".$border."px";
             $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), implode(";",$style_output));
 

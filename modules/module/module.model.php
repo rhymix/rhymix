@@ -111,6 +111,29 @@
         }
 
         /**
+         * @brief trigger_name에 등록된 모든 목록을 추출
+         **/
+        function getTriggers($trigger_name, $called_position) {
+            $args->trigger_name = $trigger_name;
+            $args->called_position = $called_position;
+            $output = executeQueryArray('module.getTriggers',$args);
+            return $output->data;
+        }
+
+        /**
+         * @brief 특정 trigger_name의 특정 대상을 추출
+         **/
+        function getTrigger($trigger_name, $module, $type, $called_method, $called_position) {
+            $args->trigger_name = $trigger_name;
+            $args->module = $module;
+            $args->type = $type;
+            $args->called_method = $called_method;
+            $args->called_position = $called_position;
+            $output = executeQuery('module.getTrigger',$args);
+            return $output->data;
+        }
+
+        /**
          * @brief DB에 생성된 mid목록을 구해옴
          **/
         function getMidList($args = null) {
@@ -221,10 +244,13 @@
                 if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
                 foreach($extra_vars as $var) {
+                    unset($obj);
+
                     $name = $var->attrs->name;
                     $type = $var->attrs->type;
                     $title = $var->title->body;
                     $description = $var->description->body;
+
                     if($var->default) {
                         unset($default);
                         if(is_array($var->default)) {
@@ -438,6 +464,8 @@
             // 작성자 정보
             $module_info->title = $xml_obj->title->body;
             $module_info->version = $xml_obj->attrs->version;
+            $module_info->category = $xml_obj->attrs->category;
+            if(!$module_info->category) $module_info->category = 'service';
             $module_info->author->name = $xml_obj->author->name->body;
             $module_info->author->email_address = $xml_obj->author->attrs->email_address;
             $module_info->author->homepage = $xml_obj->author->attrs->link;
@@ -556,6 +584,7 @@
                 unset($obj);
 
                 $info->module = $module_name;
+                $info->category = $info->category;
                 $info->created_table_count = $created_table_count;
                 $info->table_count = $table_count;
                 $info->path = $path;

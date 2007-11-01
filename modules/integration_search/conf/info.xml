@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="service">
     <title xml:lang="ko">통합검색</title>
 	<title xml:lang="zh-CN">搜索</title>
     <title xml:lang="jp">統合検索</title>

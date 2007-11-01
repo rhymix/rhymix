@@ -17,14 +17,14 @@
     $lang->cmd_layout_edit = 'Editar el diseño';
 
     // Artículos
-    $lang->parent_category_name = 'Categoría Superior';
-    $lang->category_name = 'Nombre de la categoría';
+    $lang->parent_category_title = 'Categoría Superior';
+    $lang->category_title = 'Nombre de la categoría';
     $lang->expand = 'Expandir';
     $lang->category_group_srls = 'Limitar el grupo';
     $lang->search_result = 'Resultado de la búsqueda';
 
     // bla bla...
-    $lang->about_category_name = 'Ingresar el nombre de la categoría.';
+    $lang->about_category_title = 'Ingresar el nombre de la categoría.';
     $lang->about_expand = 'Si seleccionas esta opción, siempre estará expandido.';
     $lang->about_category_group_srls = 'Solo se verán los grupos seleccionados en la actual categoría. (Abrir manualmente en archivo xml para la exposición)';
     $lang->about_layout_setup = 'Puede modificar manualmente el código del diseño de blog. Insertar o modificar el código de widget.';

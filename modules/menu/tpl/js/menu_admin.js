@@ -77,14 +77,17 @@ function hideCategoryInfo() {
 function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('menu_zone_info');
 
-    obj.style.marginTop = xScrollTop()+'px';
+    if(xScrollTop()>200) {
+        obj.style.marginTop = xScrollTop()+'px';
+    } else {
+        obj.style.marginTop = '0px';
+    }
 
     var tpl = ret_obj['tpl'];
     xInnerHtml(obj, tpl);
     obj.style.display = 'block';
 
     var fo_obj = xGetElementById("fo_menu");
-    fo_obj.menu_name.focus();
 
     /*
     var x = _xPos + 50;

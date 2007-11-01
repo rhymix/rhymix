@@ -2,8 +2,6 @@
 <!--%import("js/menu_admin.js")-->
 <!--#include("header.html")-->
 
-<div class="infoText">{nl2br($lang->about_menu)}</div>
-
 <!-- 정보 -->
 <div class="tableSummaryType1">
     Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
@@ -15,7 +13,11 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col width="50" />
+<col />
+<col width="100" />
+<col width="100" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>

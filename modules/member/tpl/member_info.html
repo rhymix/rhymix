@@ -1,3 +1,4 @@
+<!--%import("filter/delete_profile_image.xml")-->
 <!--%import("filter/delete_image_name.xml")-->
 <!--%import("filter/delete_image_mark.xml")-->
 <!--#include("header.html")-->
@@ -7,7 +8,7 @@
     <input type="hidden" name="member_srl" />
 </form>
 
-<table cellspacing="0" class="tableType4 gap1">
+<table cellspacing="0" class="adminTable">
 <col width="150" />
 <col />
 <tr>
@@ -21,6 +22,28 @@
 <tr>
     <th scope="row">{$lang->nick_name}</th>
     <td>{htmlspecialchars($member_info->nick_name)}</td>
+</tr>
+<tr>
+    <th scope="row" rowspan="2">{$lang->profile_image}</th>
+    <td>
+        <!--@if($member_info->profile_image->src)-->
+        <img src="{$member_info->profile_image->src}" border="0" alt="profile_image" />
+        <a href="#" onclick="doDeleteProfileImage({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@else-->
+        &nbsp;
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <td>
+        <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+        <input type="hidden" name="module" value="member" />
+        <input type="hidden" name="act" value="procMemberInsertProfileImage" />
+            <input type="file" name="profile_image" value="" />
+            <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
+        </form>
+    </td>
 </tr>
 <tr>
     <th scope="row" rowspan="2">{$lang->image_name}</th>

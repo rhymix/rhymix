@@ -127,7 +127,7 @@
         function procBoardAdminInsertBoard($args = null) {
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             if(!$args) {
-                $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id','open_rss');
+                $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
             }
 
             $args->module = 'board';
@@ -227,8 +227,10 @@
             $category_title = Context::get('category_title');
 
             // module_srl이 있으면 원본을 구해온다
-            $oDocumentController = &getAdminController('document');
-            $output = $oDocumentController->insertCategory($module_srl, $category_title);
+            $oDocumentController = &getController('document');
+            $args->module_srl = $module_srl;
+            $args->title = $category_title;
+            $output = $oDocumentController->insertCategory($args);
             if(!$output->toBool()) return $output;
 
             $this->add('page',Context::get('page'));
@@ -243,9 +245,10 @@
             $module_srl = Context::get('module_srl');
             $category_srl = Context::get('category_srl');
             $mode = Context::get('mode');
+            $title = Context::get('category_title');
 
             $oDocumentModel = &getModel('document');
-            $oDocumentController = &getAdminController('document');
+            $oDocumentController = &getController('document');
 
             switch($mode) {
                 case 'up' :
@@ -262,10 +265,8 @@
                     break;
                 case 'update' :
                         $selected_category = $oDocumentModel->getCategory($category_srl);
-                        $args->category_srl = $selected_category->category_srl;
-                        $args->title = Context::get('category_title');
-                        $args->list_order = $selected_category->list_order;
-                        $output = $oDocumentController->updateCategory($args);
+                        $selected_category->title = $title;
+                        $output = $oDocumentController->updateCategory($selected_category);
                         $msg_code = 'success_updated';
                     break;
             }

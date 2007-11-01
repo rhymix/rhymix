@@ -10,5 +10,6 @@
         <action name="procFileDownload" type="controller" standalone="true" />
         <action name="procFileAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procFileAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procFileAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
 </module>

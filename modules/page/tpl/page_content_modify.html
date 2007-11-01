@@ -2,7 +2,7 @@
 <!--%import("js/page_admin.js")-->
 <!--%import("css/page.css")-->
 
-<!--#include("header.html")-->
+<div class="clear"></div>
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page_content)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
@@ -19,26 +19,36 @@
 <input type="hidden" name="{$key}" value="<!--@if(is_array($module_info->grants[$key]))-->{implode('|@|',$module_info->grants[$key])}<!--@end-->" />
 <!--@end-->
 
-    <div class="widget_list">
-        <!--@foreach($widget_list as $widget)-->
-        <a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
-        <!--@end-->
-    </div>
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->page} {$lang->cmd_management}</caption>
+    <tr>
+        <td>
+            <!--@foreach($widget_list as $widget)-->
+            <a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
+            <!--@end-->
+        </td>
+    </tr>
+    <tr>    
+        <th scope="row" class="button">
+            <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
+        </th>
+    </tr>
+    </table>
 
-    <div class="button_box">
-        <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
-    </div>
-    <div class="clear"></div>
+    {$editor}
 
-    <div class="editor_box">{$editor}</div>
-
-    <div class="button_box">
-        <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
-    </div>
-    <div class="clear"></div>
+    <table cellspacing="0" class="adminTable">
+    <tr>    
+        <th scope="row" class="button">
+            <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
+        </th>
+    </tr>
+    </table>
 
 </form>
+
+<div class="clear"></div>

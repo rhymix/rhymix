@@ -6,12 +6,10 @@
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
-    <table cellspacing="0" class="tableType4">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
-    <tr>
-        <th scope="row" colspan="2">{$lang->confirm_delete}</th>
-    </tr>
+    <caption>{$lang->confirm_delete}</caption>
     <tr>
         <th scope="row">{$lang->module_name}</th>
         <td>{$module_info->mid}</td>

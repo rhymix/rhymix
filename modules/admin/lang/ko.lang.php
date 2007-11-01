@@ -5,6 +5,17 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
+    $lang->admin_info = '관리자 정보';
+    $lang->admin_index = '관리자 초기 페이지';
+
+    $lang->module_category_title = array(
+        'service' => '서비스형 모듈',
+        'manager' => '관리형 모듈',
+        'utility' => '기능성 모듈',
+        'accessory' => '부가 모듈',
+        'base' => '기본 모듈',
+    );
+
     $lang->newest_news = "최신 소식";
 
     $lang->env_setup = "환경 설정";

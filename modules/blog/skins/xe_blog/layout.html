@@ -1,24 +1,25 @@
 <!-- 레이아웃과 연동될 css 파일 import -->
-<!--%import("css/layout.css")-->
-<!--%import("css/blog_tree_menu.css")-->
+    <!--%import("css/layout.css")-->
+    <!--%import("css/blog_tree_menu.css")-->
 
 <!-- JS 파일 로드 -->
-<!--%import("js/blog_tree_menu.js")-->
-<!--%import("js/blog.js")-->
+    <!--%import("js/blog.js")-->
+    <!--%import("js/blog_tree_menu.js")-->
 
 <!-- 컬러셋 체크 -->
-<!--@if(!$layout_info->colorset)-->
-    {@$layout_info->colorset = "white"}
-<!--@end-->
+    <!--@if(!$layout_info->colorset)-->
+        {@$layout_info->colorset = "white"}
+    <!--@end-->
 
 <!-- CSS 파일 로드 (컬러셋에 따라서) -->
-<!--%import("css/common.css")-->
-<!--@if($layout_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
-<!--@elseif($layout_info->colorset == "red")--> <!--%import("css/red.css")-->
-<!--@elseif($layout_info->colorset == "green")--> <!--%import("css/green.css")-->
-<!--@elseif($layout_info->colorset == "purple")--> <!--%import("css/purple.css")-->
-<!--@else--> <!--%import("css/white.css")-->
-<!--@end-->
+    <!--%import("css/common.css")-->
+
+    <!--@if($layout_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+    <!--@elseif($layout_info->colorset == "red")--> <!--%import("css/red.css")-->
+    <!--@elseif($layout_info->colorset == "green")--> <!--%import("css/green.css")-->
+    <!--@elseif($layout_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+    <!--@else--> <!--%import("css/white.css")-->
+    <!--@end-->
 
 <!--@if($layout_info->background_image)-->
   <style type="text/css">
@@ -27,13 +28,12 @@
 <!--@end-->
 
 <script type="text/javascript">
-    // 블로그 카테고리의 글 갯수를 javascript변수로 설정 
-    <!--@foreach($category_list as $key => $val)-->setDocumentCount({$key}, {(int)$val->document_count});<!--@end-->
-
     // 블로그 카테고리를 js/blog_tree_menu.js를 이용해서 표시 
     blogLoadTreeMenu("{$layout_info->category_xml_file}", "{$layout_info->category_name?$layout_info->category_name:'categories'}", "{getUrl('','mid',$layout_info->mid)}");
 </script>
 
+<!-- 상단 텍스트 출력 -->
+    {$layout_info->header_text}
 
 <div id="bodyWrap">
 
@@ -41,25 +41,36 @@
     <div id="header">
 
         <!-- 회원 관련 기능 -->
-        <ul id="accountNavigation">
-            <!-- 비로그인 상태 -->
+        <ul id="blogAccountNavigation">
             <!--@if(!$is_logged)-->
-                <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a> </li>
-            <!-- 로그인 되었을 때 -->
-            <!--@else-->
-                <li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
-                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+                <!-- 비로그인 상태 -->
+                <li class="join"><a href="{getUrl('mid',$layout_info->mid,'act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
 
-                <!--@if($logged_info->is_admin == 'Y')-->
-                <li class="loginAndLogout"><a href="{getUrl('','module','admin')}">{$lang->cmd_management}</a> </li>
+            <!--@else-->
+                <!-- 로그인 되었을 때 -->
+
+                <!-- 관리자이면 설정 버튼 출력 -->
+                <!--@if($grant->is_admin)-->
+                <li class="write"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a></li>
+                <li class="setup"><a href="{getUrl('mid',$layout_info->mid,'act','dispBlogAdminBlogInfo')}">{$lang->cmd_setup}</a></li>
                 <!--@end-->
+
+                <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+                <!--@if($logged_info->is_admin == 'Y')-->
+                <li class="admin"><a href="{getUrl('','module','admin','act','dispBlogAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
+                <!--@end-->
+
+                <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 
             <!--@end-->
 
+            <!--@if($rss_url)-->
+                <li class="rss"><a href="{$rss_url}"><img src="./images/common/iconRss.gif" alt="RSS" width="13" height="13" /></a></li>
+            <!--@end-->
 
-            <!-- RSS -->
-              <li class="rss"><a href="{getUrl('','mid',$layout_info->mid,'act','rss')}"><img src="./images/iconRss.gif" alt="RSS" width="12" height="12" /></a></li>
+                <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
         </ul>
 
 
@@ -89,6 +100,7 @@
 		<div id="columnLeft">
 
             <!-- 프로필 -->
+            <!--@if($layout_info->profile_image || $layout_info->profile)-->
 			<div id="profile" class="boxTypeA">
                 <!--@if($layout_info->profile_image)-->
                 <img src="{$layout_info->profile_image}" border="0" alt="my profile image" width="160" class="profile"/>
@@ -100,55 +112,50 @@
 					<dd>{$layout_info->profile}</dd>
 				</dl>
                 <!--@end-->
-                <!--@if($grant->is_admin)-->
-				<ul id="admin">
-					<li class="write"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a></li>
-					<li class="setup"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogAdminBlogInfo')}">{$lang->cmd_setup}</a></li>
-				</ul>
-                <!--@end-->
 			</div>
-
-            <!-- 카테고리 출력 -->
-            <div id="blog_category"></div>
+            <!--@end-->
 
             <!-- 검색폼 -->
 			<div id="searchBox">
 				<form action="{getUrl()}" method="post">
                     <input type="hidden" name="mid" value="{$layout_info->mid}" />
-					<input name="search_keyword" type="text" class="inputTypeText w100" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
-					<span class="button"><input type="submit" value="{$lang->cmd_search}"/></span>
+					<input name="search_keyword" type="text" class="inputTypeText w140" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+					<input type="image" alt="search" src="./images/common/find_button.gif" width="21" height="21" align="absmiddle" />
 				</form>
 			</div>
+
+            <!-- 카테고리 출력 -->
+            <div id="blog_category"></div>
 
             <!-- 왼쪽 위젯 출력 위치 -->
 
             <!-- 최근문서 출력 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="{$layout_info->colorset}" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="{$layout_info->colorset}" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 최근댓글 출력 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="{$layout_info->colorset}" title="Recent Comments" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="{$layout_info->colorset}" title="Recent Comments" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 엮인글들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="{$layout_info->colorset}" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="{$layout_info->colorset}" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
 
             <!-- 꼬리표들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="{$layout_info->colorset}" title="Site Tags" list_count="60" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="{$layout_info->colorset}" title="Site Tags" list_count="60" mid_list="{$layout_info->mid}" />
 
             <!-- 월별 현황들 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="{$layout_info->colorset}" title="Archives" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="{$layout_info->colorset}" title="Archives" mid_list="{$layout_info->mid}" />
 
             <!-- 달력 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="{$layout_info->colorset}" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="{$layout_info->colorset}" mid_list="{$layout_info->mid}" />
 
             <!-- 카운터 -->
-            <img src="./common/tpl/images/blank.gif" class="zbxe_widget_output" widget="counter_status" skin="styx_flash" colorset="{$layout_info->colorset}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="image_counter" widget_margin_left="5px" widget_margin_bottom="10px" graph_width="170" graph_height="100" day_range="5" />
 
             <!-- 언어선택 위젯 -->
-            <img src="/site/common/tpl/images/blank.gif" class="zbxe_widget_output" widget="language_select" skin="default" colorset="normal" widget_cache="0" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="language_select" skin="default" colorset="normal" widget_cache="0" />
 
             <!-- powered by zbxe -->
             <div id="poweredbyzbxe">
-              <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+              <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/common/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
             </div>
 
         </div>
@@ -159,3 +166,6 @@
     </div>
 
 </div>
+
+<!-- 하단 텍스트 출력 -->
+{$layout_info->footer_text}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="accessory">
     <title xml:lang="ko">포인트 시스템</title>
     <title xml:lang="zh-CN">积分系统</title>
     <title xml:lang="jp">ポイントシステム</title>

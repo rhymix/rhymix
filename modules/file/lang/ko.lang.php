@@ -16,6 +16,7 @@
     $lang->allowed_filesize = '파일 제한 크기';
     $lang->allowed_attach_size = '문서 첨부 제한';
     $lang->allowed_filetypes = '허용 확장자';
+    $lang->enable_download_group = '다운로드 가능 그룹';
 
     $lang->about_allowed_filesize = '하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
     $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
@@ -25,6 +26,7 @@
     $lang->cmd_move_to_document = '문서로 이동';
     $lang->cmd_download = '다운로드';
 
+    $lang->msg_not_permitted_download = '다운로드 할 수 있는 권한이 없습니다';
     $lang->msg_cart_is_null = '삭제할 파일을 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
     $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다';

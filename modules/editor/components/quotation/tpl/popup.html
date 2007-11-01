@@ -8,7 +8,7 @@
 
 <form action="./" method="get" onSubmit="return false" id="fo">
     <div id="popBody">
-        <table cellspacing="0" class="tableType5">
+        <table cellspacing="0" class="adminTable">
         <col width="120" />
         <col />
         <col />
@@ -21,7 +21,9 @@
                 <input type="checkbox" id="quotation_use" value="Y" onclick="toggle_folder(this)" />
 
                 <div id="folder_area" style="display:none">
-                    <table>
+                    <table cellspacing="0" class="adminTable gap1">
+                    <col width="150" />
+                    <col />
                     <tr>
                         <th scope="row">{$lang->quotation_opener}</th>
                         <td><input type="text" class="inputTypeText" id="quotation_opener" value="{$lang->quotation_cmd_opener}" /></td>

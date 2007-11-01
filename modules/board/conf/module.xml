@@ -65,6 +65,7 @@
 
         <permission action="dispBoardAdminInsertBoard" target="manager" />
         <permission action="dispBoardAdminBoardInfo" target="manager" />
+        <permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
         <permission action="dispBoardAdminSkinInfo" target="manager" />
         <permission action="dispBoardAdminCategoryInfo" target="manager" />
 
@@ -96,6 +97,7 @@
 
         <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminBoardAdditionSetup" type="view" standalone="true" />
         <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
         <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
         <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />

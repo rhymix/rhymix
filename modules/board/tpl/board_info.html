@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="tableType4">
+<table cellspacing="0" class="adminTable">
 <col width="150" />
 <col />
 <tr>
@@ -36,10 +36,6 @@
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->open_rss}</th>
-    <td>{$lang->open_rss_types[$module_info->open_rss]}</td>
-</tr>
-<tr>
     <th scope="row">{$lang->list_count}</th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
@@ -63,56 +59,54 @@
     <th scope="row">{$lang->admin_id}</th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
-</table>
-
-<div class="tRight gap1">
-    <a href="{getUrl('act','dispBoardAdminInsertBoard')}" class="button"><span>{$lang->cmd_modify}</span></a>
-    <!--@if($module=="admin")-->
-    <a href="{getUrl('act','dispBoardAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_board_list}</span></a>
-    <!--@end-->
-</div>
-
-<table cellspacing="0" class="tableType4">
-<col width="150" />
-<col />
-<caption>{$lang->extra_vars}</caption>
-<!--@for($i=1;$i<=20;$i++)-->
 <tr>
-    <th scope="row">{$lang->extra_vars} {$i}</th>
-    <td>
-        <!--@if($module_info->extra_vars[$i])-->
-            {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
-            {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
-            {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required=='Y'?'Y':'N'}
-            {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default?$module_info->extra_vars[$i]->default:'&nbsp;'}
-            {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc?$module_info->extra_vars[$i]->desc:'&nbsp;'}
-            {@ $extra_vars_search = $module_info->extra_vars[$i]->search=='Y'?'Y':'N'}
-
-            <ul class="extra_vars">
-                <li class="type_key">{$lang->column_name}</li>
-                <li class="type_value">{$extra_vars_name}</li>
-                <li class="type_key">{$lang->column_type}</li>
-                <li class="type_value">{$extra_vars_type}</li>
-                <li class="type_key">{$lang->is_required}</li>
-                <li class="type_value">{$extra_vars_is_required}</li>
-                <li class="type_key">{$lang->default_value}</li>
-                <li class="type_value">{$extra_vars_default_value}</li>
-                <li class="type_key">{$lang->description}</li>
-                <li class="type_value">{$extra_vars_desc}</li>
-                <li class="type_key">{$lang->cmd_search}</li>
-                <li class="type_value">{$extra_vars_search}</li>
-            </ul>
-        <!--@else-->
-            {$lang->not_exists}
+    <th scope="row" colspan="2" class="button">
+        <a href="{getUrl('act','dispBoardAdminInsertBoard')}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispBoardAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_board_list}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
-<!--@end-->
 </table>
 
-<div class="tRight gap1">
-    <a href="{getUrl('act','dispBoardAdminInsertBoard')}" class="button"><span>{$lang->cmd_modify}</span></a>
-    <!--@if($module=="admin")-->
-    <a href="{getUrl('act','dispBoardAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_board_list}</span></a>
+<!--@for($i=1;$i<=20;$i++)-->
+    <!--@if($module_info->extra_vars[$i])-->
+    {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+    {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+    {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required=='Y'?'Y':'N'}
+    {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default?$module_info->extra_vars[$i]->default:'&nbsp;'}
+    {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc?$module_info->extra_vars[$i]->desc:'&nbsp;'}
+    {@ $extra_vars_search = $module_info->extra_vars[$i]->search=='Y'?'Y':'N'}
+
+    <div class="gap1"></div>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$lang->extra_vars} {$i}</caption>
+    <tr>
+        <th>{$lang->column_name}</th>
+        <td>{$extra_vars_name}</td>
+    </tr>
+    <tr>
+        <th>{$lang->column_type}</th>
+        <td>{$extra_vars_type}</td>
+    </tr>
+    <tr>
+        <th>{$lang->is_required}</th>
+        <td>{$extra_vars_is_required}</td>
+    </tr>
+    <tr>
+        <th>{$lang->default_value}</th>
+        <td>{$extra_vars_default_value}</td>
+    </tr>
+    <tr>
+        <th>{$lang->description}</th>
+        <td>{$extra_vars_desc}</td>
+    </tr>
+    <tr>
+        <th>{$lang->cmd_search}</th>
+        <td>{$extra_vars_search}</td>
+    </tr>
+    </table>
     <!--@end-->
-</div>
+<!--@end-->

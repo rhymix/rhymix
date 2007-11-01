@@ -85,13 +85,19 @@
             $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
 
+            // 메뉴 이름 체크
+            $lang_supported = Context::get('lang_supported');
+            foreach($lang_supported as $key => $val) {
+                $menu_name[$key] = $source_args->{"menu_name_".strtolower($key )};
+            }
+
             // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_item_srl = $source_args->menu_item_srl;
             $args->parent_srl = $source_args->parent_srl;
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_id = $source_args->menu_id;
-            $args->name = $source_args->menu_name;
+            $args->name = serialize($menu_name);
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
@@ -298,7 +304,7 @@
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
-            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $menu->list = array(%s); ?>', $php_output['buff']);
+            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $lang_type = Context::getLangType(); %s; $menu->list = array(%s); ?>', $php_output['name'], $php_output['buff']);
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
@@ -313,6 +319,9 @@
          **/
         function getXmlTree($source_node, $tree) {
             if(!$source_node) return;
+
+            $oMenuAdminModel = &getAdminModel('menu');
+
             foreach($source_node as $menu_item_srl => $node) {
                 $child_buff = "";
 
@@ -320,7 +329,12 @@
                 if($menu_item_srl&&$tree[$menu_item_srl]) $child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree);
 
                 // 변수 정리 
-                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
+                $names = $oMenuAdminModel->getMenuItemNames($node->name);
+                foreach($names as $key => $val) {
+                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, htmlspecialchars($val));
+                }
+                $name_str = sprintf('$_names = array(%s); print $_names[$_SESSION["lang_type"]];', $name_arr_str);
+
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
                 if(eregi('^([0-9a-zA-Z\_\-]+)$', $node->url)) $href = getUrl('','mid',$node->url);
                 else $href = $url;
@@ -335,10 +349,10 @@
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
-                        'node_srl="%s" text="<?=(%s?"%s":"")?>" url="<?=(%s?"%s":"")?>" href="<?=(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
+                        'node_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
                         $menu_item_srl,
                         $group_check_code,
-                        $name,
+                        $name_str,
                         $group_check_code,
                         $url,
                         $group_check_code,
@@ -366,10 +380,19 @@
             $output = array("buff"=>"", "url_list"=>array());
             if(!$source_node) return $output;
 
+            $oMenuAdminModel = &getAdminModel('menu');
+
             foreach($source_node as $menu_item_srl => $node) {
                 // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
                 if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree);
                 else $child_output = array("buff"=>"", "url_list"=>array());
+
+                // 변수 정리 
+                $names = $oMenuAdminModel->getMenuItemNames($node->name);
+                foreach($names as $key => $val) {
+                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, htmlspecialchars($val));
+                }
+                $name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);
 
                 // 현재 노드의 url값이 공란이 아니라면 url_list 배열값에 입력
                 if($node->url) $child_output['url_list'][] = $node->url;
@@ -380,7 +403,6 @@
                 else $group_check_code = "true";
 
                 // 변수 정리
-                $name = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->name);
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
                 if(eregi('^([0-9a-zA-Z\_\-]+)$', $node->url)) $href = getUrl('','mid',$node->url);
@@ -395,10 +417,10 @@
 
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>(%s?"%s":""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
+                        '"node_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
                         $node->menu_item_srl, 
                         $group_check_code,
-                        $name,
+                        $node->menu_item_srl,
                         $group_check_code,
                         $href,
                         $group_check_code,
@@ -415,6 +437,7 @@
                 
                 // buff 데이터를 생성한다
                 $output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_item_srl, $attribute);
+                $output['name'] .= $name_str;
             }
             return $output;
         }

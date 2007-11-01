@@ -1,65 +1,40 @@
 @charset "utf-8";
-/*
-NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
-Jeong, Chan Myeong 070601~070630
-*/
 
-/* 
-Used Hack 
+body { background:url("../images/admin_background.gif") repeat-x left top; background-color:#DBD8D3; }
 
-IE6 & Below 
-{ property:value; _property:value;}
+#adminLayout { background:url("../images/admin_logo.gif") no-repeat left top; background-color:#F8F6F2; overflow:hidden; width:1000px; border-right:1px solid #B2B2B2; margin:5px 0 0 5px; }
 
-IE7 Only
-*:first-child+html #selector
+#adminContentBody { width:800px; float:left; background-color:#FFFFFF; padding:25px 10px 20px 10px; vertical-align:top; background:url(../images/admin_top_bg.gif) repeat-x left top; background-color:#FFFFFF; }
 
-*/
+#adminLayoutBottom { background:url("../images/admin_bottom_bg.gif") repeat-x left top; height:3px; clear:both; overflow:hidden; width:1001px; margin:0 0 0 5px; }
 
-/* default.css - Type Selector Definition */
-li { list-style:none;}
-a { text-decoration:none;}
-a:hover { text-decoration:underline;}
-address { font-style:normal;}
+#adminMenuContent { width:179px; float:left; margin-top:70px; padding-bottom:20px; vertical-align:top; background:none; overflow:hidden; border-right:1px solid #B2B2B2; }
 
-/* Special Class Selector */
-.fr { float:right;}
-.fl { float:left;}
-.fwB { font-weight:bold;}
+#adminMenuContent .adminInfoBox { border:1px solid #E3E3E2; padding:3px; margin:0 0 0 8px; width:130px; background-color:#FFFFFF; overflow:hidden; width:154px; margin-bottom:10px;}
+#adminMenuContent .adminInfoBox .adminInfo { border:1px solid #E3E3E2; padding:5px 3px 3px 23px; background:url("../images/icon_key.gif") no-repeat 3px 3px; color:#555555; font-weight:bold; overflow:hidden; background-color:#F8F6F2; }
+#adminMenuContent .adminInfoBox .adminInfo div.expandButton { float:right; height:16px; overflow:hidden; }
+#adminMenuContent .adminInfoBox div.logoutButton { margin-top:5px; text-align:center; clear:both; }
+#adminMemberInfo { padding:10px 5px 10px 24px; background:url("../images/icon_user.gif") no-repeat 5px 8px; color:#336699; font-weight:bold; letter-spacing:-1px;}
 
-/* ----- Header | Start ----- */
+#adminMenuContent h3 { border:1px solid #E3E3E2; border-top:none; color:#555555; font-size:1em; text-indent:none; padding:6px 5px 3px 25px; white-space:nowrap; margin:0 0 0 8px; width:130px; overflow:hidden;}
+#adminMenuContent h3 a { color:#555555; text-decoration:none; }
+#adminMenuContent h3 span.expandButton { float:right; height:16px; overflow:hidden; }
+#adminMenuContent h3.summary { background:url("../images/icon_summary.gif") no-repeat 3px 3px; background-color:#FFFFFF; margin-top:0px; border-top:1px solid #E3E3E2; }
+#adminMenuContent h3.service { background:url("../images/icon_service_module.gif") no-repeat 3px 5px; background-color:#FFFFFF; }
+#adminMenuContent h3.manager { background:url("../images/icon_manager_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
+#adminMenuContent h3.utility { background:url("../images/icon_utility_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
+#adminMenuContent h3.accessory { background:url("../images/icon_accessory_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
+#adminMenuContent h3.base { background:url("../images/icon_base_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 
-#header { position:relative; height:71px; background:url(../images/headerBg.gif) repeat-x; overflow:hidden; clear:both; z-index:99;}
-#header h1 { float:left; width:180px; height:71px; position:relative; background:url(../images/h1_bg.gif) no-repeat;}
-#header h1 img { position:absolute; top:29px; left:29px;}
-#header #logout { width:470px; height:71px; float:right; background:url(../images/headerBgEnd.png) no-repeat right top;}
-#header #logout a { float:right; position:relative; top:29px; right:24px;}
+#adminMenuContent ul { width:170px; overflow:hidden; }
+#adminMenuContent ul li { background-color:#F8F6F3; list-style:none; padding:5px 10px 3px 10px; margin-left:8px; white-space:nowrap; overflow:hidden; color:#888785; border-bottom:1px solid #E3E3E2; cursor:pointer; }
+#adminMenuContent ul li:hover { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
+#adminMenuContent li.on { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
+#adminMenuContent ul li a { text-decoration:none; color:#888785; }
+#adminMenuContent ul li:hover a { color:#000000; }
+#adminMenuContent li.on a { color:#000000; }
 
-/* ----- Header | End ----- */
 
-#cBody { clear:both; padding:0px 18px 0px 198px; margin:-71px 0 -38px 0; overflow:hidden; background:#ffffff url(../images/menuBg.gif) repeat-y;}
-
-#gNavigation { float:left; width:180px; padding:71px 0 200px 0; margin-right:18px; margin-left:-198px; _margin-left:-99px;  background:#ffffff url(../images/menuBg.gif) repeat-y;}
-#gNavigation h2 { }
-#gNavigation ul { width:180px;}
-#gNavigation ul li { width:180px; height:30px; background:url(../images/menuBg.png) no-repeat left top; } /* behavior:url(./common/js/iePngFix.htc);}*/
-#gNavigation ul li.on { background-position:left -30px; margin-top:-2px; _background:url(../images/menuBgIeFix.png) no-repeat left top;}
-#gNavigation ul li.on a { color:#ffffff; font-weight:bold;}
-#gNavigation ul li a { display:block; padding:9px 0 0 28px; height:21px; color:#606060;}
-#gNavigation ul li a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:-2px; font-weight:bold; color:#ffffff; text-decoration:none;}
-#gNavigation ul li.on a:hover { background:url(../images/menuBgIeFix.png) no-repeat; margin-top:0; font-weight:bold; color:#ffffff; text-decoration:none;}
-#gNavigation .menuEdit { width:180px; height:30px; text-align:center; margin-top:1em;}
-
-#content { float:left; width:100%; padding:71px 0 100px 0;}
-
-/* ----- Footer | Start ----- */
-
-#footer { width:100%; clear:both; height:38px; margin-bottom:-38px; overflow:hidden; background:url(../images/footerBg.gif) repeat-x left 3px;}
-#footer .footerLine { height:3px; width:100%; float:left; clear:both;}
-#footer .footerLeft { float:left;}
-#footer address { float:right; width:350px; height:35px; background:url(../images/addressBg.gif) no-repeat right top;}
-#footer address img { margin:15px 10px 0 0}
-#footer address .version { font:.8em Tahoma; color:#ffffff;}
-#footer address .version strong { font:bold 1em Tahoma; color:#ff0000; }
-
-/* ----- Footer | End ----- */
-
+#adminLayoutCopyright { width:1000px; text-align:right; margin-top:10px; font-size:.8em; font-family:tahoma; color:#888888; padding-bottom:50px; }
+#adminLayoutCopyright a { color:#666666; text-decoration:none; }
+#adminLayoutCopyright a span.red { color:#9A1827; }

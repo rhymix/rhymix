@@ -7,12 +7,10 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="page" value="{$page}" />
 
-    <table cellspacing="0" class="tableType3">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
-    <tr>
-        <th scope="row" colspan="2">{$lang->skin_default_info}</th>
-    </tr>
+    <caption>{$lang->skin_default_info}</caption>
     <tr>
         <th scope="row">{$lang->skin}</th>
         <td class="left" >{$skin_info->title}</td>
@@ -35,12 +33,10 @@
     </tr>
     </table>
 
-    <table cellspacing="0" class="tableType3">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
-    <tr>
-        <th scope="row" colspan="2">{$lang->extra_vars}</th>
-    </tr>
+    <caption>{$lang->extra_vars}</caption>
     <tr valign="top">
         <th scope="row">{$lang->colorset}</th>
         <td class="left">
@@ -58,7 +54,6 @@
                 <img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
                 <!--@end-->
             </div>
-            <!--@if($key%2==1)--><div class="clear"></div><!--@end-->
             <!--@end-->
         </td>
     </tr>
@@ -110,16 +105,18 @@
             <!--@end-->
 
             <!--@if($val->description)-->
-            <p>{nl2br($val->description)}</p>
+            <p>{nl2br(trim($val->description))}</p>
             <!--@end-->
         </td>
     </tr>
     <!--@end-->
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
 
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 </form>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

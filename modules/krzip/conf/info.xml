@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="accessory">
     <title xml:lang="ko">한국 우편번호</title>
     <title xml:lang="en">Korean Zip Code</title>
 	<title xml:lang="es">Código postal de Corea</title>

@@ -9,7 +9,7 @@
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
 
-    <table cellspacing="0" class="tableType2">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
 
@@ -80,17 +80,6 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->open_rss}</th>
-        <td>
-            <select name="open_rss">
-                <!--@foreach($lang->open_rss_types as $key=>$val)-->
-                <option value="{$key}" <!--@if($module_info->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_open_rss}</p>
-        </td>
-    </tr>
-    <tr>
         <th scope="row">{$lang->list_count}</th>
         <td>
             <input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}"  class="inputTypeText" />
@@ -133,70 +122,69 @@
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </table>
 
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
-
-    <table cellspacing="0" class="tableType4">
+    <!--@for($i=1;$i<=20;$i++)-->
+        <div class="gap1"></div>
+        {@ $extra_vars_name = ''}
+        {@ $extra_vars_type = ''}
+        {@ $extra_vars_is_required = ''}
+        {@ $extra_vars_default_value = ''}
+        {@ $extra_vars_desc = ''}
+        {@ $extra_vars_search = ''}
+        <!--@if($module_info->extra_vars[$i])-->
+            {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+            {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+            {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
+            {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
+            {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
+            {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
+        <!--@end-->
+    <table cellspacing="0" class="adminTable ">
     <col width="150" />
     <col />
-    <caption>{$lang->extra_vars}</caption>
-    <!--@for($i=1;$i<=20;$i++)-->
+    <caption>{$lang->extra_vars} {$i}</caption>
     <tr>
-        <th scope="row">{$lang->extra_vars} {$i}</th>
+        <th>{$lang->column_name}</th>
+        <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
+    </tr>
+    <tr>
+        <th>{$lang->column_type}</th>
         <td>
-                {@ $extra_vars_name = ''}
-                {@ $extra_vars_type = ''}
-                {@ $extra_vars_is_required = ''}
-                {@ $extra_vars_default_value = ''}
-                {@ $extra_vars_desc = ''}
-                {@ $extra_vars_search = ''}
-            <!--@if($module_info->extra_vars[$i])-->
-                {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
-                {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
-                {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
-                {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
-                {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
-                {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
-            <!--@end-->
-
-            <ul class="extra_vars">
-                <li class="type_key">{$lang->column_name}</li>
-                <li class="type_value"><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> 
-                <li class="type_key">{$lang->column_type}</li>
-                <li class="type_value">
-                    <select name="extra_vars_{$i}_type">
-                        <!--@foreach($lang->column_type_list as $key => $val)-->
-                            <!--@if($key != 'kr_zip')-->
-                            <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
-                            <!--@end-->
-                        <!--@end-->
-                    </select>
-                </li>
-                <li class="type_key">{$lang->is_required}</li>
-                <li class="type_value"><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> />
-                <li class="type_key">{$lang->default_value}</li>
-                <li class="type_value">
-                    <input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /> 
-                    <p>{$lang->about_extra_vars_default_value}</p>
-                </li>
-
-                <li class="type_key">{$lang->description}</li>
-                <li class="type_value">
-                    <input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /> 
-                </li>
-                <li class="type_key">{$lang->cmd_search}</li>
-                <li class="type_value"><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> />
-            </ul>
+            <select name="extra_vars_{$i}_type">
+                <!--@foreach($lang->column_type_list as $key => $val)-->
+                    <!--@if($key != 'kr_zip')-->
+                    <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
+                    <!--@end-->
+                <!--@end-->
+            </select>
         </td>
     </tr>
-    <!--@end-->
+    <tr>
+        <th>{$lang->is_required}</th>
+        <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
+    </tr>
+    <tr>
+        <th>{$lang->default_value}</th>
+        <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
+    </tr>
+    <tr>
+        <th>{$lang->description}</th>
+        <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
+    </tr>
+    <tr>
+        <th>{$lang->cmd_search}</th>
+        <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
+    </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+    </tr>
     </table>
+    <!--@end-->
 
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

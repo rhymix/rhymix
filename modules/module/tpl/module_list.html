@@ -6,7 +6,15 @@
     <input type="hidden" name="selected_module" value="" />
 </form>
 
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col width="" />
+<col width="40" />
+<col width="80" />
+<col width="70" />
+<col width="70" />
+<col width="120" />
+<col width="70" />
+<col width="110" />
 <thead>
     <tr>
         <th scope="col">{$lang->module_name}</th>
@@ -17,7 +25,6 @@
         <th scope="col">{$lang->installed_path}</th>
         <th scope="col">{$lang->module_info}</th>
         <th scope="col">{$lang->module_action}</th>
-        <th scope="col">{$lang->add_shortcut}</th>
     </tr>
 </thead>
 <tbody>
@@ -46,13 +53,6 @@
                 <a href="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->cmd_update}</a>
             <!--@else-->
                 &nbsp;
-            <!--@end-->
-        </td>
-        <td>
-            <!--@if(!$shortcut_list[$val->module] && $val->admin_index_act )-->
-            <a href="#" onclick="doAddShortCut('{$val->module}');return false;" class="button"><span>{$lang->cmd_add_shortcut}</span></a>
-            <!--@else-->
-            &nbsp;
             <!--@end-->
         </td>
     </tr>

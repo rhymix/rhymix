@@ -10,7 +10,12 @@
     <input type="hidden" name="mode" value="" />
 </form>
 
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col />
+<col width="100" />
+<col width="50" />
+<col width="50" />
+<col width="50" />
 <thead>
 <tr>
     <th scope="col">{$lang->category_title}</th>
@@ -49,19 +54,17 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="category_srl" value="" />
 
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
+    <col width="100" />
     <tr>
         <th scope="row">{$lang->category_title}</th>
         <td>
-            <input type="text" name="category_title" class="inputTypeText w100" />
+            <input type="text" name="category_title" class="inputTypeText w300" />
         </td>
+        <th scope="row" class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
     </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

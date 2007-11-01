@@ -1,1 +1,0 @@
-<filter name="move_friend" module="member" act="procMemberMoveFriend" confirm_msg_code="confirm_move" />

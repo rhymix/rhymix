@@ -8,7 +8,9 @@ function doFocusUserId(fo_id) {
 
     try {
         if(xScrollTop()) return;
-        fo_obj.user_id.focus();
+
+        if(fo_obj.user_id.value) fo_obj.password.focus();
+        else fo_obj.user_id.focus();
     } catch(e) { }
 }
 

@@ -19,12 +19,12 @@
 	<div class="boardHeader">
 		<h3>{$member_title}</h3>
 
-        <!--@if($is_logged && $my_menu)-->
+        <!--@if($is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl) )-->
         <form action="./" method="get" class="member_option">
             <input type="hidden" name="mid" value="{$mid}" />
             <select name="act">
-                <!--@foreach($my_menu as $key => $val)-->
-                <option value="{$key}" <!--@if($key == $act)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@foreach($logged_info->menu_list as $key => $val)-->
+                <option value="{$key}" <!--@if($key == $act)-->selected="selected"<!--@end-->>{Context::getLang($val)}</option>
                 <!--@end-->
             </select>
             <input type="image" src="./images/button_go.gif" />

@@ -107,6 +107,13 @@
 
             // mid값이 있을 경우 mid값을 세팅
             if($this->mid) Context::set('mid', $this->mid, true);
+
+            // 현재 모듈의 정보를 세팅
+            Context::set('current_module_info', $module_info);
+                
+            // 실제 동작을 하기 전에 trigger 호출
+            $output = ModuleHandler::triggerCall('display', 'before', $content);
+            if(!$output->toBool()) die($output->getMessage());
         }
 
         /**
@@ -335,6 +342,46 @@
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type][$kind];
+        }
+
+        /**
+         * @brief trigger_name, called_position을 주고 trigger 호출
+         **/
+        function triggerCall($trigger_name, $called_position, &$obj) {
+            // 설치가 안되어 있다면 trigger call을 하지 않고 바로 return
+            if(!Context::isInstalled()) return new Object();
+
+            $oModuleModel = &getModel('module');
+
+            $cache_dir = sprintf("./files/cache/triggers/");
+            if(!is_dir($cache_dir)) FileHandler::makeDir($cache_dir);
+
+            $cache_file = sprintf("%s%s.%s", $cache_dir, $trigger_name, $called_position);
+
+            if(!@file_exists($cache_file)) {
+                $triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
+                FileHandler::writeFile($cache_file, serialize($triggers));
+            } else {
+                $buff = FileHandler::readFile($cache_file);
+                $triggers = unserialize($buff);
+            }
+
+            if(!$triggers || !count($triggers)) return new Object();
+
+            foreach($triggers as $item) {
+                $module = $item->module;
+                $type = $item->type;
+                $called_method = $item->called_method;
+
+                $oModule = null;
+                $oModule = &getModule($module, $type);
+                if(!$oModule || !method_exists($oModule, $called_method)) continue;
+
+                $output = $oModule->{$called_method}($obj);
+                if(!$output->toBool()) return $output;
+            }
+
+            return new Object();
         }
     }
 ?>

@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="tableType4">
+<table cellspacing="0" class="adminTable">
 <col width="150" />
 <col />
 <tr>
@@ -20,10 +20,6 @@
 <tr>
     <th scope="row">{$lang->browser_title}</th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
-</tr>
-<tr>
-    <th scope="row">{$lang->open_rss}</th>
-    <td>{$lang->open_rss_types[$module_info->open_rss]}</td>
 </tr>
 <tr>
     <th scope="row">{$lang->list_count}</th>
@@ -49,11 +45,54 @@
     <th scope="row">{$lang->admin_id}</th>
     <td><!--@if(is_array($module_info->admin_id))-->{implode(",",$module_info->admin_id)}<!--@end-->&nbsp;</td>
 </tr>
+<tr>
+    <th scope="row" colspan="2" class="button">
+        <a href="{getUrl('act','dispBlogAdminInsertBlog')}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispBlogAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_blog_list}</span></a>
+        <!--@end-->
+    </th>
+</tr>
 </table>
 
-<div class="gap1 tRight">
-    <a href="{getUrl('act','dispBlogAdminInsertBlog')}" class="button"><span>{$lang->cmd_modify}</span></a>
-    <!--@if($module=="admin")-->
-    <a href="{getUrl('act','dispBlogAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_blog_list}</span></a>
+<!--@for($i=1;$i<=20;$i++)-->
+    <!--@if($module_info->extra_vars[$i])-->
+    {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+    {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+    {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required=='Y'?'Y':'N'}
+    {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default?$module_info->extra_vars[$i]->default:'&nbsp;'}
+    {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc?$module_info->extra_vars[$i]->desc:'&nbsp;'}
+    {@ $extra_vars_search = $module_info->extra_vars[$i]->search=='Y'?'Y':'N'}
+
+    <div class="gap1"></div>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$lang->extra_vars} {$i}</caption>
+    <tr>
+        <th>{$lang->column_name}</th>
+        <td>{$extra_vars_name}</td>
+    </tr>
+    <tr>
+        <th>{$lang->column_type}</th>
+        <td>{$extra_vars_type}</td>
+    </tr>
+    <tr>
+        <th>{$lang->is_required}</th>
+        <td>{$extra_vars_is_required}</td>
+    </tr>
+    <tr>
+        <th>{$lang->default_value}</th>
+        <td>{$extra_vars_default_value}</td>
+    </tr>
+    <tr>
+        <th>{$lang->description}</th>
+        <td>{$extra_vars_desc}</td>
+    </tr>
+    <tr>
+        <th>{$lang->cmd_search}</th>
+        <td>{$extra_vars_search}</td>
+    </tr>
+    </table>
     <!--@end-->
-</div>
+<!--@end-->

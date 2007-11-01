@@ -3,29 +3,21 @@
 
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="tableType3 gap1">
-<thead>
-    <tr>
-        <th scope="col">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</th>
-    </tr>
-</thead>
+<table cellspacing="0" class="adminTable">
+<caption>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</caption>
 <tbody>
     <tr>
-        <td class="left blue">{nl2br($lang->about_layout_code)}</td>
+        <td>{nl2br($lang->about_layout_code)}</td>
     </tr>
 </tbody>
 </table>
 
-<table cellspacing="0" class="widgetBox gap1">
-<col width="80" />
-<col />
+<table cellspacing="0" class="adminTable">
+<caption>{$lang->widget}</caption>
 <tr>
-    <th>{$lang->widget}</th>
     <td>
         <!--@foreach($widget_list as $widget)-->
-        <div class="fl gap1">
-            <a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
-        </div>
+        <a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
         <!--@end-->
     </td>
 </tr>

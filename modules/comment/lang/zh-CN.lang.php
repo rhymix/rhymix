@@ -4,6 +4,10 @@
      * @author zero <zero@nzeo.com>
      * @brief  评论(comment)模块语言包
      **/
+	
+    $lang->cmd_comment_do = '이 댓글을..';
+    
+    $lang->comment_list = '댓글 목록';
     $lang->cmd_toggle_checked_comment = '反选';
     $lang->cmd_delete_checked_comment = '删除所选';
 

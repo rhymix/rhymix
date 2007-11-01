@@ -1,8 +1,8 @@
 @charset "utf-8";
-/*
-NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
-Jeong, Chan Myeong 070601~070630
-*/
+
+/* blog Title */
+.blogHeader { position:relative; _width:100%; border-top:1px solid #d1d9db; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
+.blogHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #d0dbd1; border-bottom:3px solid #38b549; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 #blog_category { position:relative; border:1px solid #e0e1db; background:url(../images/green/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
 .boxTypeB { position:relative; border:1px solid #e0e1db; background:url(../images/green/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em;}
@@ -11,30 +11,28 @@ Jeong, Chan Myeong 070601~070630
 #bodyWrap #accountNavigation li { float:left; margin-right:-1px; background:url(../images/green/blogHeaderVr.gif) no-repeat right center;}
 #bodyWrap #header { clear:both; height:9.5em; margin:10px 10px .5em 10px; border:1px solid #e0e1dc; border-bottom:none; background:#fbfbfb url(../images/green/blogHeaderLine.gif) no-repeat left bottom; overflow:hidden;}
 
-.articleNum { float:left; background:url(../images/green/iconArticle.gif) no-repeat left top; padding:0 0 0 1.5em; margin:.5em 0 0 0;}
-#reply li .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/green/iconFile.gif) no-repeat left;}
-.blogRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em 1.5em; white-space:nowrap; color:#444444; background:url(../images/green/iconFile.gif) no-repeat left top;}
-.accountNavigation li.join a { display:block; background:url(../images/green/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.myInfo a { display:block; background:url(../images/green/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
 
-.blogList th { color:#3e3f3e; font-weight:normal; border-bottom:1px solid #ffffff;  padding:.5em .5em .3em .5em; background:#ffffff url(../images/green/lineBoardListTh.gif) no-repeat left bottom;white-space:nowrap;}
+/* account Navigation */
+#blogAccountNavigation li.join a { background:url(../images/green/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+#blogAccountNavigation li.myInfo a { background:url(../images/green/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
 
-.blogList td.recommend { font:bold .8em Tahoma; color:#38b549; text-align:center;}
+/* blog Information */
+.articleNum { float:left; background:url(../images/green/iconArticle.gif) no-repeat left top; }
+.articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
 
-.pageNavigation .current { position:relative; margin-left:-4px; font:bold 1em Tahoma; color:#38b549; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+/* style.list */
+.blogList th { background:#ffffff url(../images/green/lineBlogListTh.gif) no-repeat left bottom; }
+.blogList td.recommend { color:#38b549; }
+.blogList td .replyAndTrackback { color:#38b549; }
+.buttonTypeGo { background:url(../images/green/buttonTypeInput24.gif) no-repeat; }
 
-.blogList td .replyAndTrackback { font:.8em Tahoma; color:#38b549; cursor:default; position:relative; top:-.2em;}
-.blogList td.title.bold .replyAndTrackback { font:.6em Tahoma; color:#ff6600; cursor:default; position:relative; top:.3em;}
-.blogList td.reply { font:bold .8em Tahoma; color:#38b549; text-align:center;}
+/* pageNavigation */
+.pageNavigation .current { color:#38b549; border-right:1px solid #CCCCCC; }
 
-/* blogHeader */
-.blogHeader { position:relative; _width:100%; border-top:1px solid #d1d9db; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
-.blogHeader h3 { float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border-left:1px solid #d0dbd1; border-bottom:3px solid #38b549; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
+/* blogRead */
+.blogRead .readFooter .fileAttached li a { background:url(../images/green/iconFile.gif) no-repeat left top;}
 
-.articleNum strong { font:bold 11px Tahoma; color:#d0dbd1;}
-.blogHeader2 .info strong { font:bold .9em Tahoma; color:#d0dbd1;}
-
-.blogRead .replyAndTrackback { overflow:hidden; _width:100%; padding:.8em 0em; height:1.2em; background:url(../images/green/bgBoardListTh.gif) repeat-x left bottom; border-top:1px solid #bdd4b8; border-bottom:2px solid #38b549;}
-.blogRead .replyAndTrackback a strong { color:#38b549;}
-
-.buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; background:url(../images/green/buttonTypeInput24.gif) no-repeat; font:.75em Tahoma; text-align:center;}
+/* replyAndTrackback */
+.replyAndTrackback { background:url(../images/green/bgBlogListTh.gif) repeat-x left 0px; }
+.replyAndTrackback a strong { color:#38b549;}
+.replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/green/iconFile.gif) no-repeat left;}

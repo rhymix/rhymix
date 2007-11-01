@@ -2,13 +2,19 @@
 
 <h3>{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<table cellspacing="0" class="tableType3">
+<table cellspacing="0" class="adminTable gap1">
+<col />
+<col width="40"/>
+<col width="120"/>
+<col width="70"/>
+<col width="50"/>
+<col width="50"/>
+<col width="50"/>
 <thead>
     <tr>
         <th scope="col">{$lang->component_name}</th>
         <th scope="col">{$lang->component_version}</th>
         <th scope="col">{$lang->component_author}</th>
-        <th scope="col">{$lang->component_link}</th>
         <th scope="col">{$lang->component_date}</th>
         <th scope="col">{$lang->cmd_setup}</th>
         <th scope="col">{$lang->use}</th>
@@ -20,8 +26,7 @@
     <tr>
         <th scope="row" rowspan="2"><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
         <td class="tahoam">{$xml_info->version}</td>
-        <td><a href="mailto:{$xml_info->author->email_address}">{$xml_info->author->name}</a></td>
-        <td class="blue"><a href="{$xml_info->author->link}" onclick="window.open(this.href);return false;">{$xml_info->author->link}</a></td>
+        <td class="blue"><a href="{$xml_info->author->link}" onclick="window.open(this.href);return false;">{$xml_info->author->name}</a></td>
         <td class="tahoma">{$xml_info->author->date}</td>
         <td class="tahoma">
             <!--@if($xml_info->extra_vars)-->
@@ -43,7 +48,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="7" class="left">
+        <td colspan="6" class="left">
             {nl2br($xml_info->description)}
         </td>
     </tr>

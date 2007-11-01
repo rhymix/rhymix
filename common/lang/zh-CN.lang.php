@@ -21,11 +21,15 @@
     $lang->cmd_comment_registration = '提交评论';
     $lang->cmd_insert = '添加';
     $lang->cmd_save = '保存';
+    $lang->cmd_load = '불러오기';
     $lang->cmd_input = '输入';
     $lang->cmd_search = '搜索';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
+    $lang->cmd_vote_down = '비추천';
+    $lang->cmd_declare = '신고';
+    $lang->cmd_declared_list = '신고 목록';
     $lang->cmd_copy = '复制';
     $lang->cmd_move = '查看';
     $lang->cmd_move_up = '向上';
@@ -44,6 +48,7 @@
     $lang->cmd_close = '关闭';
     $lang->cmd_open = '打开';
     $lang->cmd_setup = '设置';
+    $lang->cmd_addition_setup = '추가 설정';
     $lang->cmd_option = '选项';
     $lang->cmd_apply = '应用';
     $lang->cmd_open_calendar = '选择日期';
@@ -53,6 +58,7 @@
     $lang->cmd_preview = '预览';
     $lang->cmd_reset = '初始化';
     $lang->cmd_remake_cache = "重新生成缓冲文件";
+    $lang->cmd_publish = "발행";
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -79,6 +85,8 @@
     $lang->browser_title = '浏览器标题';
     $lang->title = '标题';
     $lang->title_content = '标题+内容';
+    $lang->topic = '주제';
+    $lang->replies = '응답';
     $lang->content = '内容';
     $lang->document = '文章';
     $lang->comment = '评论';
@@ -121,6 +129,7 @@
     $lang->date = '日期';
     $lang->regdate = '登录日期';
     $lang->last_update = '最后更新';
+    $lang->last_post = '최근 등록';
     $lang->signup_date = '注册日期';
     $lang->last_login = '最近登录';
     $lang->first_page = '第一页';
@@ -169,6 +178,7 @@
     $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
 
     $lang->success_registed = '提交成功！';
+    $lang->success_declared = '신고되었습니다';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '删除成功！';
     $lang->success_voted = '推荐成功！';
@@ -176,11 +186,13 @@
     $lang->success_sended = '发送成功！';
     $lang->success_reset = '初始化成功';
     $lang->success_leaved = '注销成功！';
+    $lang->success_saved = '저장되었습니다';
 	
     $lang->fail_to_delete = '删除成功！';
     $lang->fail_to_move = '移动成功！';
 	
     $lang->failed_voted = '您不能推荐！';
+    $lang->failed_declared = '신고를 하실 수 없습니다';
     $lang->fail_to_delete_have_children = '不能删除有回复的评论！';
 
     $lang->confirm_submit = '确定要提交吗?';

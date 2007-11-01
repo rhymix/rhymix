@@ -6,8 +6,8 @@
 <input type="hidden" name="temp_srl" value="" />
 <input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
 
-<table cellspacing="0" class="tableType2 gap1">
-<col width="150" />
+<table cellspacing="0" class="adminTable">
+<col width="180" />
 <col />
     <tr>
         <th scope="row">{$lang->webmaster_name}</th>
@@ -45,6 +45,17 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->profile_image}</th>
+        <td>
+            <p>
+                <input type="checkbox" name="profile_image" value="Y" <!--@if($config->profile_image=='Y')-->checked="checked"<!--@end--> class="checkbox" />
+                {$lang->about_profile_image}
+            </p>
+            {$lang->profile_image_max_width} : <input type="text" name="profile_image_max_width" size="3" value="{$config->profile_image_max_width}" class="inputTypeText" />px<br />
+            {$lang->profile_image_max_height} : <input type="text" name="profile_image_max_height" size="3" value="{$config->profile_image_max_height}" class="inputTypeText" />px<br />
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->image_name}</th>
         <td>
             <p>
@@ -52,7 +63,7 @@
                 {$lang->about_image_name}
             </p>
             {$lang->image_name_max_width} : <input type="text" name="image_name_max_width" size="3" value="{$config->image_name_max_width}" class="inputTypeText" />px<br />
-            {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" size="2" value="{$config->image_name_max_height}" class="inputTypeText" />px<br />
+            {$lang->image_name_max_height} : <input type="text" name="image_name_max_height" size="3" value="{$config->image_name_max_height}" class="inputTypeText" />px<br />
         </td>
     </tr>
     <tr>
@@ -63,7 +74,7 @@
                 {$lang->about_image_mark}
             </p>
             {$lang->image_mark_max_width} : <input type="text" name="image_mark_max_width" size="3" value="{$config->image_mark_max_width}" class="inputTypeText"/>px<br />
-            {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" size="2" value="{$config->image_mark_max_height}" class="inputTypeText"/>px<br />
+            {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" size="3" value="{$config->image_mark_max_height}" class="inputTypeText"/>px<br />
         </td>
     </tr>
     <tr>
@@ -94,14 +105,15 @@
         <th scope="row">{$lang->colorset}</th>
         <td><div id="member_colorset"></div></td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+            <!--@if($module=="admin")-->
+            <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
+            <!--@end-->
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        <!--@if($module=="admin")-->
-        <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
-        <!--@end-->
-    </div>
 
 </form>
 

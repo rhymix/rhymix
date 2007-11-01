@@ -32,6 +32,9 @@
     $lang->group_title = 'グループタイトル';
     $lang->group_srl = 'グループ番号';
     $lang->signature = '著名';
+    $lang->profile_image = '프로필 사진';
+    $lang->profile_image_max_width = '가로 제한 크기';
+    $lang->profile_image_max_height = '세로 제한 크기';
     $lang->image_name = 'イメージ名';
     $lang->image_name_max_width = '横幅制限サイズ';
     $lang->image_name_max_height = '立幅制限サイズ';
@@ -94,6 +97,7 @@
     $lang->cmd_manage_form = '加入フォーム管理';
     $lang->cmd_view_own_document = 'プレビュー';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
+    $lang->cmd_view_saved_document = '저장함 보기';
     $lang->cmd_send_email = 'メール送信';
     $lang->cmd_send_message = 'メッセージ送信';
     $lang->cmd_reply_message = 'メッセージへの返信';
@@ -179,6 +183,7 @@
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
+    $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
     $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。'; 
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';

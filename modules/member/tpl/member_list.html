@@ -2,7 +2,7 @@
 <!--#include("header.html")-->
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -27,7 +27,7 @@
         <td class="tahoma">{$val->denied}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>
