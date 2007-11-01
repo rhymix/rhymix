@@ -41,6 +41,8 @@
         {@ $module_info->default_style = 'gallery'}
     <!--@elseif($listStyle=='webzine')-->
         {@ $module_info->default_style = 'webzine'}
+    <!--@elseif($listStyle=='list')-->
+        {@ $module_info->default_style = 'list'}
     <!--@end-->
 <!--@end-->
 
@@ -103,7 +105,7 @@
 
         <!-- 목록형태 (포럼형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
             <!--@if($module_info->default_style != 'forum')-->
-            <li class="listType"><a href="{getUrl('listStyle','')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','list')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
             <li class="listType"><a href="{getUrl('listStyle','webzine')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
             <li class="listType"><a href="{getUrl('listStyle','gallery')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
             <!--@end-->
