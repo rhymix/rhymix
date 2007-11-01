@@ -5,7 +5,7 @@
      * @brief  board modules's basic language pack
      **/
 
-    $lang->board = "board"; 
+    $lang->board = "Board"; 
 
     // words used in button
     $lang->cmd_board_list = 'Board list';

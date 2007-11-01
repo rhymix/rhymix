@@ -32,9 +32,9 @@
     $lang->group_title = 'Group Name';
     $lang->group_srl = 'Group Number';
     $lang->signature = 'Signature';
-    $lang->profile_image = '프로필 사진';
-    $lang->profile_image_max_width = '가로 제한 크기';
-    $lang->profile_image_max_height = '세로 제한 크기';
+    $lang->profile_image = 'Profile Image';
+    $lang->profile_image_max_width = 'Max Width';
+    $lang->profile_image_max_height = 'Max Height';
     $lang->image_name = 'Image Name';
     $lang->image_name_max_width = 'Max Width';
     $lang->image_name_max_height = 'Max Height';
@@ -97,7 +97,7 @@
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'View Written Articles';
     $lang->cmd_view_scrapped_document = 'Scraps';
-    $lang->cmd_view_saved_document = '저장함 보기';
+    $lang->cmd_view_saved_document = 'View Saved Articles';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
@@ -184,7 +184,7 @@
 
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
-    $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
+    $lang->about_profile_image = 'Allow users to use profile images';
     $lang->about_accept_agreement = "I've read the agreement all and agree"; 
 
     $lang->about_member_default = 'It will be set as default group on join';

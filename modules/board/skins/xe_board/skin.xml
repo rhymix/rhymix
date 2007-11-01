@@ -65,9 +65,14 @@
     <extra_vars>
         <var name="default_style" type="select">
             <title xml:lang="ko">기본 형태</title>
+            <title xml:lang="en">Default Form</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형, 포럼형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
+            </description>
+			<description xml:lang="en">
+                You may select default styles such as list style, webzine style, gallery stylz or forum style.
+                Align Target for forum style is required to be selected as 'updated'.
             </description>
             <default>list</default>
             <default>webzine</default>

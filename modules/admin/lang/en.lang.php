@@ -5,15 +5,15 @@
      * @brief  English Language Pack (Only basic words are included here)
      **/
 
-    $lang->admin_info = '관리자 정보';
-    $lang->admin_index = '관리자 초기 페이지';
+    $lang->admin_info = 'Administrator Info';
+    $lang->admin_index = 'Index Admin Page';
 
     $lang->module_category_title = array(
-        'service' => '서비스형 모듈',
-        'manager' => '관리형 모듈',
-        'utility' => '기능성 모듈',
-        'accessory' => '부가 모듈',
-        'base' => '기본 모듈',
+        'service' => 'Service Modules',
+        'manager' => 'Managing Modules',
+        'utility' => 'Utility Modules',
+        'accessory' => 'Additional Modules',
+        'base' => 'Default Modules',
     );
 
     $lang->newest_news = "Latest News";
