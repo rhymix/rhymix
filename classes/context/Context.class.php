@@ -78,6 +78,7 @@
             $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
             foreach($langs as $val) {
                 list($lang_prefix, $lang_text) = explode(',',$val);
+                $lang_text = trim($lang_text);
                 $lang_supported[$lang_prefix] = $lang_text;
                 if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
                     $this->lang_type = $lang_prefix;
