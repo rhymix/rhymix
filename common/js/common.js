@@ -181,17 +181,22 @@ function displayMultimedia(src, width, height, auto_start) {
  * @brief 화면내에서 상위 영역보다 이미지가 크면 리사이즈를 하고 클릭시 원본을 보여줄수 있도록 변경
  **/
 function resizeImageContents() {
+    // 일단 모든 이미지에 대한 체크를 시작
     var objs = xGetElementsByTagName("IMG");
     for(var i in objs) {
         var obj = objs[i];
+        if(!obj.parentNode) continue;
+
+        // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
-        if(!obj||!parent) continue;
-        while(parent.parentNode && parent.nodeName != "TD" && parent.nodeName != "DIV") {
+        while(parent) {
+            if(/(document_|comment_)/ig.test(parent.className)) break;
             parent = parent.parentNode;
         }
-        if(parent.nodeName != "TD" && parent.nodeName != "DIV") continue;
+        if(!parent || !/(document_|comment_)/ig.test(parent.className)) continue;
 
-        if(obj.parentNode.nodeName =='A') continue;
+        if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
+
         if(/\/modules\//i.test(obj.src)) continue;
         if(/\/layouts\//i.test(obj.src)) continue;
         if(/\/widgets\//i.test(obj.src)) continue;
@@ -200,12 +205,13 @@ function resizeImageContents() {
         if(/\/member_extra_info\//i.test(obj.src)) continue;
 
         var parent_width = xWidth(parent);
+        if(parent.parentNode && xWidth(parent.parentNode)<parent_width) parent_width = xWidth(parent.parentNode);
         var obj_width = xWidth(obj);
+
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width<1 || obj_width <1) continue;
-        if(parent_width>=obj_width && orig_img.width <= obj_width) continue;
+        if(parent_width<1 || obj_width <1 || parent_width >= obj_width) continue;
 
         obj.style.cursor = "pointer";
 
@@ -213,7 +219,7 @@ function resizeImageContents() {
         obj.source_height = orig_img.height;
 
         if(obj_width >= parent_width) {
-			var new_w = xWidth(parent)-1;
+			var new_w = parent_width-10;
 			var new_h = Math.round(xHeight(obj)*new_w/obj_width);
 			
             xWidth(obj, new_w);
