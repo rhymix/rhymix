@@ -5,7 +5,6 @@
 
     <table cellspacing="0" class="adminTable">
     <tr>
-        <th>&nbsp;</th>
         <th>{$lang->point_insert_document}</th>
         <th>{$lang->point_insert_comment}</th>
         <th>{$lang->point_upload_file}</th>
@@ -13,7 +12,9 @@
     </tr>
     <!--@foreach($mid_list as $key => $val)-->
     <tr>
-        <th scope="col">{$val->browser_title} ({$val->mid})</th>
+        <th colspan="4" scope="col">{$val->browser_title} ({$val->mid})</th>
+    </tr>
+    <tr>
         <td><input type="text" name="insert_document_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_document']}" class="inputTypeText w80" /> {$config->point_name}</td>
         <td><input type="text" name="insert_comment_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_comment']}" class="inputTypeText w80" /> {$config->point_name}</td>
         <td><input type="text" name="upload_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['upload_file']}" class="inputTypeText w80" /> {$config->point_name}</td>
