@@ -382,25 +382,27 @@
             // 첨부파일이 없으면 내용에서 추출
             $content = $this->get('content');
 
+            $target_src = null;
             preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
                 $src = $matches[$i][0];
-                if(strpos($src,"/common/tpl")!==false || strpos($src,"/modules")!==false) continue;
-                break;
+                if(ereg('\/(common|modules|widgets|addons|layouts)\/', $src)) continue;
+                else {
+                    $target_src = $src; 
+                    break;
+                }
             }
 
-            $tmp_file = sprintf('%sthumbnail_%d.tmp.jpg', $document_path, $width);
-
-            if($src) FileHandler::getRemoteFile($src, $tmp_file);
-            else {
-                FileHandler::writeFile($thumbnail_file,'');
-                return;
+            if($target_src) {
+                $tmp_file = sprintf('%sthumbnail_%d.tmp.jpg', $document_path, $width);
+                FileHandler::getRemoteFile($target_src, $tmp_file);
+                FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
+                @unlink($tmp_file);
+                return Context::getRequestUri().$thumbnail_file;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
-            @unlink($tmp_file);
-
-            return Context::getRequestUri().$thumbnail_file;
+            FileHandler::writeFile($thumbnail_file,'');
+            return;
         }
 
         /**
