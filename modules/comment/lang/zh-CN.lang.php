@@ -5,9 +5,9 @@
      * @brief  评论(comment)模块语言包
      **/
 	
-    $lang->cmd_comment_do = '이 댓글을..';
+    $lang->cmd_comment_do = '把评论..';
     
-    $lang->comment_list = '댓글 목록';
+    $lang->comment_list = '评论目录';
     $lang->cmd_toggle_checked_comment = '反选';
     $lang->cmd_delete_checked_comment = '删除所选';
 
