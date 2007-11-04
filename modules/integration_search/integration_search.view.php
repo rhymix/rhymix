@@ -50,7 +50,7 @@
 
             // 검색대상 변수 설정
             $search_target = Context::get('search_target');
-            if(!in_array($search_target, array('title','content','title_content','comment'))) $search_target = 'title';
+            if(!in_array($search_target, array('title','content','title_content','comment','tag'))) $search_target = 'title';
 
             // 검색어 변수 설정
             $is_keyword = Context::get('is_keyword');

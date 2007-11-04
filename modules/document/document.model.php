@@ -194,8 +194,17 @@
                             else $args->s_is_secret = '';
                         break;
                     case 'tag' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_tags = $search_keyword;
+                            $oDB = &DB::getInstance();
+                            $tmp_str_arr = explode(' ',$search_keyword);
+                            $tmp_count = count($tmp_str_arr);
+                            $tag_arr = array();
+                            for($i=0;$i<$tmp_count;$i++) {
+                                $tmp_str = trim($tmp_str_arr[$i]);
+                                if(!$tmp_str) continue;
+                                $tag_arr[] = $oDB->addQuotes($tmp_str);
+                            }
+                            $args->s_tags = "'".implode("','",$tag_arr);
+                            $query_id = 'document.getDocumentListWithinTag';
                         break;
                     case 'readed_count' :
                             $args->s_readed_count = (int)$search_keyword;

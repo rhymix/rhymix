@@ -12,6 +12,9 @@
          **/
         function moduleInstall() {
             $oModuleController = &getController('module');
+            $oDB = &DB::getInstance();
+
+            $oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
 
             // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument에 대한 trigger 등록
             $oModuleController->insertTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before');
@@ -31,6 +34,7 @@
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
+            $oDB = &DB::getInstance();
 
             // 2007. 10. 17 trigger 등록이 안되어 있으면 등록
             if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) return true;
@@ -42,6 +46,9 @@
             // 2007. 10. 17 모듈이 삭제될때 등록된 태그도 모두 삭제하는 트리거 추가
             if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after')) return true;
 
+            // tag 테이블의 tag 컬럼에 index
+            if(!$oDB->isIndexExists("tags","idx_tag")) return true;
+
             return false;
         }
 
@@ -51,6 +58,7 @@
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
+            $oDB = &DB::getInstance();
 
             // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument에 대한 trigger 등록
             if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) 
@@ -71,6 +79,10 @@
             // 2007. 10. 17 모듈이 삭제될때 등록된 태그도 모두 삭제하는 트리거 추가
             if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after'))
                 $oModuleController->insertTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after');
+
+            // tag 테이블의 tag 컬럼에 index
+            if(!$oDB->isIndexExists("tags","idx_tag")) 
+                $oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
 
             return new Object(0, 'success_updated');
         }

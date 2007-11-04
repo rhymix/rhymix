@@ -1,0 +1,23 @@
+<query id="getDocumentListWithinComment" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="tags" alias="tags"/>
+    </tables>
+    <columns>
+        <column name="documents.*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="documents.document_srl" default="tags.document_srl" notnull="notnull" pipe="and" />
+        <condition operation="in" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+    <groups>
+        <group column="documents.document_srl" />
+    </groups>
+</query>
