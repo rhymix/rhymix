@@ -376,10 +376,10 @@
             $option->content_key_name = 'content';
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
+            $option->enable_default_component = false;
+            $option->enable_component = false;
             $option->resizable = false;
-            $option->height = 250;
+            $option->height = 300;
             $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);
 
