@@ -19,6 +19,7 @@
         'content' => 'Content',
         'title_content' => 'Subject+Content',
         'comment' => 'Comment',
+        'tag' => 'Tags',
     );
 
     $lang->is_sort_option = array(

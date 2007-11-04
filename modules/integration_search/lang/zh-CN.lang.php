@@ -18,6 +18,7 @@
         'content' => '内容',
         'title_content' => '标题+内容',
         'comment' => '评论',
+        'tag' => '标签',
     );
 
     $lang->is_sort_option = array(
