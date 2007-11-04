@@ -19,7 +19,7 @@
         'content' => '내용',
         'title_content' => '제목+내용',
         'comment' => '댓글',
-        'tag' => '꼬리표',
+        'tag' => '태그',
     );
 
     $lang->is_sort_option = array(
