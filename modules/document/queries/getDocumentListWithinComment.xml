@@ -1,4 +1,4 @@
-<query id="getDocumentListWithinMember" action="select">
+<query id="getDocumentListWithinComment" action="select">
     <tables>
         <table name="documents" alias="documents" />
         <table name="comments" alias="comments"/>
@@ -7,7 +7,8 @@
         <column name="documents.*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="documents.document_srl" default="comments.document_srl" notnull="notnull" />
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="documents.document_srl" default="comments.document_srl" notnull="notnull" pipe="and" />
         <condition operation="like" column="comments.content" var="s_comment" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
