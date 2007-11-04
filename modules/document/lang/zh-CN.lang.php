@@ -11,12 +11,12 @@
     $lang->thumbnail_ratio = '比例';
     $lang->cmd_delete_all_thumbnail = '删除全部缩略图';
     $lang->move_target_module = "移动目标模块";
-    $lang->title_bold = '제목 굵게';
-    $lang->title_color = '제목 색깔';
+    $lang->title_bold = '标题粗体';
+    $lang->title_color = '标题颜色';
 
     $lang->cmd_toggle_checked_document = '反选';
     $lang->cmd_delete_checked_document = '删除所选';
-    $lang->cmd_document_do = '이 게시물을..';
+    $lang->cmd_document_do = '把文章..';
 
     $lang->msg_cart_is_null = '请选择要删除的文章。';
     $lang->msg_category_not_moved = '不能移动！';
