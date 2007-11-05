@@ -63,8 +63,8 @@
     );
 
     $lang->xe_developer_links = array(
-        //'매뉴얼' => 'http://www.zeroboard.com/wiki/manual',
-        '개발자 포럼' => 'http://spring.zeroboard.com',
+        '매뉴얼' => 'http://zbxe.springnote.com',
+        //'개발자 포럼' => 'http://spring.zeroboard.com',
         '이슈트래킹' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
