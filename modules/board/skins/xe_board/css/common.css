@@ -205,7 +205,7 @@ Jeong, Chan Myeong 070601~070630
 .extraVarsList tr.bg1 { background:#ffffff}
 .extraVarsList tr.bg2 { background:#fbfbfb;}
 .extraVarsList th { color:#3e3f3e; font-weight:bold; padding:.8em .5em .5em .5em; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
-.extraVarsList td { border-bottom:1px solid #e0e1db; padding:.5em .5em .5em 1em; white-space:nowrap; overflow:hidden;}
+.extraVarsList td { border-bottom:1px solid #e0e1db; padding:.5em .5em .5em 1em; overflow:hidden;}
 
 .trackbackBox { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em;}
 .trackbackBox .trackbackItem { padding:.6em .8em .6em .6em; line-height:1.25em; border-bottom:1px dotted #EEEEEE; list-style:none;}
