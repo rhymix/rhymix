@@ -11,7 +11,7 @@
 <input type="hidden" name="page" value="{$page}" />
 
     <!-- 목록 -->
-    <table cellspacing="0" class="tableType1">
+    <table cellspacing="0" class="adminTable">
     <col width="80" />
     <col width="40" />
     <col />
@@ -21,13 +21,13 @@
     <col width="80" />
     <thead>
         <tr>
-            <th scope="col" colspan="2">{$lang->no}</th>
+            <th scope="col">{$lang->no}</th>
             <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-            <th scope="col" >{$lang->title}</th>
-            <th scope="col" >{$lang->poll_checkcount}</th>
-            <th scope="col" >{$lang->poll_join_count}</th>
-            <th scope="col" >{$lang->regdate}</th>
-            <th scope="col" >{$lang->cmd_view}</th>
+            <th scope="col">{$lang->title}</th>
+            <th scope="col">{$lang->poll_checkcount}</th>
+            <th scope="col">{$lang->poll_join_count}</th>
+            <th scope="col">{$lang->regdate}</th>
+            <th scope="col">{$lang->cmd_view}</th>
         </tr>
     </thead>
     <tbody>

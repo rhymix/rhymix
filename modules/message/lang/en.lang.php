@@ -5,6 +5,6 @@
      * @brief  English language pack (basic)
      **/
 
-    $lang->message = 'Show error';
-    $lang->about_skin = "You can select skins of error messages";
+    $lang->message = 'Display Errors';
+    $lang->about_skin = "You may select skins of error messages";
 ?>

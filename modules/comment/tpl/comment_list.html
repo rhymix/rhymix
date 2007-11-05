@@ -1,7 +1,5 @@
 <!--%import("filter/delete_checked.xml")-->
-<!--%import("js/comment_admin.js")-->
-
-<h3>{$lang->comment} <span class="gray">{$lang->cmd_management}</span></h3>
+<!--#include("./header.html")-->
 
 <!-- 정보 -->
 <div class="tableSummaryType1">
@@ -12,18 +10,26 @@
 <input type="hidden" name="page" value="{$page}" />
 
     <!-- 목록 -->
-    <table cellspacing="0" class="tableType4">
+    <table cellspacing="0" class="adminTable">
+    <col width="50" />
+    <col />
+    <col width="120" />
+    <col width="80" />
+    <col width="100" />
+    <col width="70" />
+    <col width="50" />
     <thead>
         <tr>
             <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
             <th scope="col">
                 <div class="nowrap">
-                    <select name="module_srl" class="mid_list" id="module_srl">
+                    <select name="module_srl" id="module_srl" class="w200">
                         <option value="">{$lang->module}</option>
                         <!--@foreach($mid_list as $key => $val)-->
                         <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
                         <!--@end-->
-                    </select><a href="#" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;" class="button"><span>GO</span></a>
+                </select>
+                <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
                 </div>
             </th>
             <th scope="col">{$lang->user_name}</th>
@@ -36,9 +42,7 @@
     <tbody>
         <!--@foreach($comment_list as $no => $val)-->
         <tr>
-            <td rowspan="2" class="tahoma">
-                {$no}
-            </td>
+            <td rowspan="2" class="tahoma">{$no}</td>
             <td class="blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a></td>
             <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
             <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
@@ -47,7 +51,7 @@
             <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
         </tr>
         <tr>
-            <td colspan="7" class="left">
+            <td colspan="6" class="left">
                 <input type="checkbox" name="cart" value="{$val->comment_srl}" />
                 {cut_str(htmlspecialchars(strip_tags($val->content)),100,'...')}
             </td>

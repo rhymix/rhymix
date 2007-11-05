@@ -11,9 +11,12 @@
     $lang->thumbnail_ratio = 'Ratio';
     $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
     $lang->move_target_module = "Módulo para cambiar de posición";
+    $lang->title_bold = '제목 굵게';
+    $lang->title_color = '제목 색깔';
 
 	$lang->cmd_toggle_checked_document = '선택항목 반전';
     $lang->cmd_delete_checked_document = 'Eliminar lo seleccionado';
+    $lang->cmd_document_do = '이 게시물을..';
 
     $lang->msg_cart_is_null = 'Selecciona el documento que desea eliminar';
     $lang->msg_category_not_moved = 'No puede se movido';

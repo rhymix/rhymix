@@ -17,7 +17,6 @@
          * @brief 카운터 기록
          **/
         function procCounterExecute() {
-
             $oDB = &DB::getInstance();
             $oDB->begin();
 

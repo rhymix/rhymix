@@ -6,7 +6,7 @@
 </div>
 
 <div id="popBody">
-    <table cellspacing="0" class="tableType5">
+    <table cellspacing="0" class="adminTable">
     <col width="100" />
     <col />
     <tr>
@@ -19,7 +19,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->component_description}</th>
-        <td>{nl2br($component->description)}</td>
+        <td>{nl2br(trim($component->description))}</td>
     </tr>
     </table>
 </div>

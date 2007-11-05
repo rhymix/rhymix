@@ -9,13 +9,11 @@
     <input type="hidden" name="user_id" value="{htmlspecialchars($member_info->user_id)}" />
     <!--@end-->
 
-    <div class="title">
-        {$lang->member_default_info}
-    </div>
 
-    <table cellspacing="0" class="tableType2">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
+    <caption>{$lang->member_default_info}</caption>
     <tr>
         <th scope="row">{$lang->user_id}</th>
         <td>
@@ -143,13 +141,11 @@
     </table>
 
     <!--@if($extend_form_list)-->
-    <div class="title">
-        {$lang->member_extend_info}
-    </div>
 
-    <table cellspacing="0" class="tableType2">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
+    <caption>{$lang->member_extend_info}</caption>
     <!--@foreach($extend_form_list as $key => $val)-->
         <!--@if($val->is_active=='Y')-->
     <tr>

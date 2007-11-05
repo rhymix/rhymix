@@ -60,5 +60,36 @@
             $this->setTemplateFile('view_component');
             $this->setLayoutFile("popup_layout");
         }
+
+        /**
+         * @brief 모듈의 추가 설정에서 에디터 설정을 하는 form 추가
+         **/
+        function triggerDispEditorAdditionSetup(&$obj) {
+            $current_module_srl = Context::get('module_srl');
+
+            if(!$current_module_srl) {
+                // 선택된 모듈의 정보를 가져옴
+                $current_module_info = Context::get('current_module_info');
+                $current_module_srl = $current_module_info->module_srl;
+            }
+
+            if(!$current_module_srl) return new Object();
+
+            // 에디터 설정을 구함
+            $oEditorModel = &getModel('editor');
+            $editor_skin = $oEditorModel->getEditorConfig($current_module_srl);
+            Context::set('editor_skin', $editor_skin);
+
+            // 에디터 스킨 목록을 구함
+            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
+            Context::set('editor_skin_list', $editor_skin_list);
+
+            // 템플릿 파일 지정
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'editor_module_config');
+            $obj .= $tpl;
+
+            return new Object();
+        }
     }
 ?>

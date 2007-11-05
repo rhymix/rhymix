@@ -14,7 +14,11 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col width="50" />
+<col />
+<col width="100" />
+<col width="60" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -37,7 +41,7 @@
 
 <!-- 수동 추가 -->
 <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>

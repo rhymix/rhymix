@@ -5,6 +5,17 @@
      * @sumario  Paquete del idioma español (sólo los básicos)
      **/
 
+    $lang->admin_info = '관리자 정보';
+    $lang->admin_index = '관리자 초기 페이지';
+
+    $lang->module_category_title = array(
+        'service' => '서비스형 모듈',
+        'manager' => '관리형 모듈',
+        'utility' => '기능성 모듈',
+        'accessory' => '부가 모듈',
+        'base' => '기본 모듈',
+    );
+
     $lang->newest_news = "Noticias recientes";
     
     $lang->env_setup = "Configuración";

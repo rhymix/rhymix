@@ -32,6 +32,13 @@
             // 에디터 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/editor');
 
+            // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
+            $oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
+            $oModuleController->insertTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
+
+            // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
+            $oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
+
             return new Object();
         }
 
@@ -39,6 +46,15 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+
+            // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
+            if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
+            if(!$oModuleModel->getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
+
+            // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
+            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) return true;
+
             return false;
         }
 
@@ -46,7 +62,20 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            return new Object();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
+            if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
+                $oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
+            if(!$oModuleModel->getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
+                $oModuleController->insertTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
+
+            // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
+            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) 
+                $oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
+
+            return new Object(0, 'success_updated');
         }
 
         /**

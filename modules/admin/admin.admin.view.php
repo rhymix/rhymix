@@ -24,10 +24,11 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-            // shortcut 가져오기
-            $oAdminModel = &getAdminModel('admin');
-            $shortcut_list = $oAdminModel->getShortCuts();
-            Context::set('shortcut_list', $shortcut_list);
+            // 설치된 모듈 목록 가져오기
+            $oModuleModel = &getModel('module');
+            $installed_module_list = $oModuleModel->getModulesXmlInfo();
+            Context::set('installed_module_list', $installed_module_list);
+             
 
             // 현재 실행중인 모듈을 구해 놓음
             $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z]+)(.*)/', '\\2\\3', $this->act));

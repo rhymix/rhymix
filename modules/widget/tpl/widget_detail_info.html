@@ -1,14 +1,11 @@
 <!--%import("css/widget.css")-->
 <!--%import("../../admin/tpl/css/admin.css")-->
 
-<div id="popHeadder">
-    <h1>{$lang->widget_maker}</h1>
-</div>
-
 <div id="popBody">
-    <table cellspacing="0" class="tableType5">
+    <table cellspacing="0" class="adminTable">
     <col width="100" />
     <col />
+    <caption>{$lang->widget_maker}</caption>
     <tr>
         <th scope="row">{$lang->title}</th>
         <td>{$widget_info->title} ver {$widget_info->version}</td>
@@ -27,7 +24,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->description}</th>
-        <td>{nl2br($widget_info->author->description)}</td>
+        <td>{nl2br(trim($widget_info->author->description))}</td>
     </tr>
     </table>
 </div>

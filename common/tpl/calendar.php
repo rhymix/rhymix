@@ -7,14 +7,14 @@
     $min_year = 1900;//년 (0년 부터)
     ####################
 
-    $year = $_REQUEST['year'];
-    $month = $_REQUEST['month'];
+    $year = htmlspecialchars($_REQUEST['year']);
+    $month = htmlspecialchars($_REQUEST['month']);
 
-    $method = $_REQUEST['method'];
-    $fo_id = $_REQUEST['fo_id'];
-    $callback_func = $_REQUEST['callback_func'];
+    $method = htmlspecialchars($_REQUEST['method']);
+    $fo_id = htmlspecialchars($_REQUEST['fo_id']);
+    $callback_func = htmlspecialchars($_REQUEST['callback_func']);
 
-    $day_str = $_REQUEST['day_str']; // 날짜 (ex. 20080101)
+    $day_str = htmlspecialchars($_REQUEST['day_str']); // 날짜 (ex. 20080101)
     if($day_str && strlen($day_str)) {
         $year = substr($day_str, 0, 4);
         $month = substr($day_str, 4, 2);
@@ -151,7 +151,7 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
 <body>
 <div id="popup_content" >
     <div id="popHeadder">
-        <h1>Calendar</h1>
+        <h3>Calendar</h3>
     </div>
 
     <form action="./calendar.php" method="get">
@@ -163,12 +163,11 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
             <div class="calendar">
                 <div class="yymm">
                     <div class="yy">
-                        <a href="./calendar.php?fo_id=<?php echo $fo_id?>&amp;year=<?php echo $year?>&amp;month=<?php echo $month?>&amp;method=prev_year&amp;callback_func=<?php echo $callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="<?php echo $year - 1?>" width="11" height="11" /></a><?php echo $year?><a href="./calendar.php?fo_id=<?php echo $fo_id?>&amp;year=<?php echo $year?>&amp;month=<?php echo $month?>&amp;method=next_year&amp;callback_func=<?php echo $callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="<?php echo $year + 1?>" width="11" height="11" /></a>
+                        <a href="./calendar.php?fo_id=<?php echo $fo_id?>&year=<?php echo $year?>&month=<?php echo $month?>&method=prev_year&callback_func=<?php echo $callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="<?php echo $year - 1?>" width="11" height="11" /></a><?php echo $year?><a href="./calendar.php?fo_id=<?php echo $fo_id?>&year=<?php echo $year?>&month=<?php echo $month?>&method=next_year&callback_func=<?php echo $callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="<?php echo $year + 1?>" width="11" height="11" /></a> 
                     </div>
                     <div class="mm">
                         <p><?php echo $monthLongName[$month]?></p>
-                            <a href="./calendar.php?fo_id=<?php echo $fo_id?>&amp;year=<?php echo $year?>&amp;month=<?php echo $month?>&amp;method=prev_month&amp;callback_func=<?php echo $callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><span><?php echo $month?></span><a href="./calendar.php?fo_id=<?php echo $fo_id?>&amp;year=<?php echo $year?>&amp;month=<?php echo $month?>&amp;method=next_month&amp;callback_func=<?php echo $callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="next" width="11" height="11" /></a>
-
+                            <a href="./calendar.php?fo_id=<?php echo $fo_id?>&year=<?php echo $year?>&month=<?php echo $month?>&method=prev_month&callback_func=<?php echo $callback_func?>" class="left"><img src="./images/buttonLeft2.gif" alt="prev" width="11" height="11" /></a><span><?php echo $month?></span><a href="./calendar.php?fo_id=<?php echo $fo_id?>&year=<?php echo $year?>&month=<?php echo $month?>&method=next_month&callback_func=<?php echo $callback_func?>" class="right"><img src="./images/buttonRight2.gif" alt="next" width="11" height="11" /></a> 
                     </div>
 
                     <div class="go">
@@ -184,7 +183,7 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
                         </select>
                     </div>
                     <br /><br />
-                    <center><a href="./calendar.php" class="button"><span>Go Today</span></a></center>
+                    <center><a href="./calendar.php?fo_id=<?php echo $fo_id?>&callback_func=<?php echo $callback_func?>" class="button"><span>Go Today</span></a></center> 
                 </div>
 
                 <table cellspacing="0" class="dd">

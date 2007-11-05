@@ -3,16 +3,22 @@
 <!--%import("../../tpl/js/signup_check.js")-->
 
 <!--%import("filter/modify_info.xml")-->
+
+<!--@if($member_config->profile_image == 'Y')-->
+    <!--%import("filter/delete_profile_image.xml")-->
+<!--@end-->
+
 <!--@if($member_config->image_name == 'Y')-->
     <!--%import("filter/delete_image_name.xml")-->
 <!--@end-->
+
 <!--@if($member_config->image_mark == 'Y')-->
     <!--%import("filter/delete_image_mark.xml")-->
 <!--@end-->
 
 <!--%import("../../tpl/js/krzip_search.js")-->
 
-    <form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
+    <form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="act" value="" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
@@ -40,6 +46,24 @@
         <td><input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" /><p>{$lang->about_email_address}</p></td>
     </tr>
 
+    <!--@if($member_config->profile_image == 'Y')-->
+    <tr>    
+        <th scope="row">{$lang->profile_image}</th>
+        <td>
+            <!--@if($member_info->profile_image->src)-->
+            <div class="memberImage">
+                <div class="info"><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></div>
+                <a href="#" onclick="doDeleteProfileImage({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="profile_image" value="" /></div>
+                <a href="#" onclick="doUploadProfileImage();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
     <!--@if($member_config->image_name == 'Y')-->
     <tr>    
         <th scope="row">{$lang->image_name}</th>

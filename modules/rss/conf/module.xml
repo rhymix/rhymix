@@ -3,5 +3,6 @@
     <grants />
     <actions>
         <action name="rss" type="view" standalone="true" />
+        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
 </module>

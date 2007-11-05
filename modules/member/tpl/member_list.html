@@ -2,14 +2,21 @@
 <!--#include("header.html")-->
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="50" />
+<col width="50" />
+<col width="70" />
+<col width="40" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
         <th scope="col">{$lang->user_id}</th>
         <th scope="col">{$lang->user_name}</th>
         <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->allow_mailing}</th>
         <th scope="col">{$lang->denied}</th>
         <th scope="col">{$lang->signup_date}</th>
         <th scope="col">{$lang->last_login}</th>
@@ -23,11 +30,10 @@
         <td class="blue"><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
         <td>{htmlspecialchars($val->user_name)}</td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">{$val->allow_mailing}</td>
         <td class="tahoma">{$val->denied}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>

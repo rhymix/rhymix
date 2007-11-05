@@ -26,17 +26,16 @@ a { text-decoration:none; }
 #bodyWrap #accountNavigation { float:right; margin:1em 1em 0 0; padding-bottom:.5em; overflow:hidden;}
 #bodyWrap #accountNavigation li a { display:block; float:left; padding:0 .75em; color:#888888; white-space:nowrap;}
 
-.accountNavigation { float:right; padding-bottom:.5em; overflow:hidden;}
-.accountNavigation li { float:left; padding:0 .5em 0 .6em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left .4em;}
-.accountNavigation li a { font-size:11px; white-space:nowrap; color:#666666;}
-.accountNavigation li.rss { background:none; padding-top:.4em;}
-.accountNavigation li.join { background:none; padding-top:.4em;}
-.accountNavigation li.join a { display:block; background:url(../images/common/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.myInfo { padding-top:.4em;}
-.accountNavigation li.myInfo a { display:block; background:url(../images/common/iconMyInfo.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.admin { background:none; padding-top:.4em;}
-.accountNavigation li.admin a { display:block; background:url(../images/common/iconAdmin.gif) no-repeat left .1em; padding:0 0 0 1.2em;}
-.accountNavigation li.loginAndLogout { background:none; padding-left:0;}
+/* account Navigation */
+#blogAccountNavigation { float:right; margin:1em; }
+#blogAccountNavigation li { float:left; margin-left:7px; list-style:none; padding-top:3px;}
+#blogAccountNavigation li a { font-size:12px; white-space:nowrap; color:#666666; text-decoration:none;}
+#blogAccountNavigation li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
+#blogAccountNavigation li.admin a { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
+#blogAccountNavigation li.listType { margin-left:5px; }
+#blogAccountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 5px; padding-left:8px; _padding-top:5px;}
+#blogAccountNavigation li.write a { background:url(../images/common/iconWrite.gif) no-repeat left center; padding-left:14px;}
+*:first-child+html #blogAccountNavigation li.loginAndLogout { padding-top:5px; }
 
 /* Blog header Child*/
 #bodyWrap #header h1 { font-size:2em; padding:.8em 0 .2em 30px; letter-spacing:-.05em;}
@@ -67,12 +66,6 @@ div#profile dl#hello dt { color:#333333; margin-bottom:.2em;}
 div#profile dl#hello dt a { color:#333333;}
 div#profile dl#hello dd { color:#777777; margin-bottom:1em;}
 div#profile ul#admin { overflow:hidden; height:1.2em;}
-div#profile ul#admin li { float:left; padding-right:.6em;}
-div#profile ul#admin li a { display:block; padding-left:1.2em;}
-div#profile ul#admin li.write a { background:url(../images/common/iconWrite.gif) no-repeat left center;}
-div#profile ul#admin li.setup { padding-left:.7em; background:url(../images/common/blogHeaderVr.gif) no-repeat left center;}
-div#profile ul#admin li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left center;}
-div#profile ul#admin li a { color:#666666;}
 
 div#blog_category { background-color:#FFFFFF; }
 

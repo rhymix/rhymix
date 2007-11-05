@@ -2,7 +2,7 @@
 
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="tableType2 gap1">
+<table cellspacing="0" class="adminTable">
 <col width="150" />
 <col />
 <tr>
@@ -22,7 +22,7 @@
 <!--@if($selected_layout->author->description)-->
 <tr>  
     <th scope="row">{$lang->description}</th>
-    <td>{nl2br($selected_layout->author->description)}</td>
+    <td>{nl2br(trim($selected_layout->author->description))}</td>
 </tr>
 <!--@end-->
 </table>
@@ -34,13 +34,13 @@
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="layout" value="{$selected_layout->layout}" />
 
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col width="*" />
     <tr>
         <th scope="row">{$lang->title}</th>
         <td class="left">
-            <input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" class="inputTypeText w100" />
+            <input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" class="inputTypeText w400" />
             <p>{$lang->about_title}</p>
         </td>
     </tr>
@@ -50,10 +50,10 @@
 
         <td class="left">
         <!--@if($var->type == "text")-->
-            <input type="text" name="{$name}" value="{htmlspecialchars($var->value)}"  class="inputTypeText w100"/>
+            <input type="text" name="{$name}" value="{htmlspecialchars($var->value)}"  class="inputTypeText w400"/>
 
         <!--@elseif($var->type == "textarea")-->
-            <textarea name="{$name}" class="inputTypeTextArea w100">{htmlspecialchars($var->value)}</textarea>
+            <textarea name="{$name}" class="inputTypeTextArea w400">{htmlspecialchars($var->value)}</textarea>
 
         <!--@elseif($var->type=="image")-->
 

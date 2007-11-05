@@ -74,18 +74,19 @@
             else $this->lang_type = $this->db_info->lang_type;
 
             // 등록된 기본 언어파일 찾기
-            $lang_files = FileHandler::readDir('./common/lang');
+            $langs = file('./common/lang/lang.info');
             $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            foreach($lang_files as $key => $val) {
-                list($lang_prefix) = explode('.',$val);
-                $lang_supported[] = $lang_prefix;
+            foreach($langs as $val) {
+                list($lang_prefix, $lang_text) = explode(',',$val);
+                $lang_text = trim($lang_text);
+                $lang_supported[$lang_prefix] = $lang_text;
                 if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
                     $this->lang_type = $lang_prefix;
                     setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
                 }
             }
 
-            if(!in_array($this->lang_type, $lang_supported)) $this->lang_type = $this->db_info->lang_type;
+            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
             if(!$this->lang_type) $this->lang_type = "en";
 
             Context::set('lang_supported', $lang_supported);
@@ -282,6 +283,7 @@
         function setLangType($lang_type = 'ko') {
             $oContext = &Context::getInstance();
             $oContext->_setLangType($lang_type);
+            $_SESSION['lang_type'] = $lang_type;
         }
 
         /**
@@ -925,7 +927,7 @@
         function _transWidget($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
-            $buff = preg_replace('/([^=^"^ ]*)=([^"])([^=^ ]*)/i', '$1="$2$3"', $buff);
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
             $buff = str_replace("&","&amp;",$buff);
 
             $oXmlParser = new XmlParser();

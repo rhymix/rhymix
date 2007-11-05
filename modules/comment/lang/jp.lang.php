@@ -4,6 +4,10 @@
      * @author zero <zero@nzeo.com>　翻訳：RisaPapa
      * @brief  コメント(comment) モジュールの基本言語パッケージ
      **/
+	
+    $lang->cmd_comment_do = '이 댓글을..';
+    
+    $lang->comment_list = '댓글 목록';
     $lang->cmd_delete_checked_comment = '選択項目削除';
 
     $lang->msg_cart_is_null = '削除するコメントを選択してください';

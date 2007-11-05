@@ -5,6 +5,9 @@
      * @brief  댓글(comment) 모듈의 기본 언어팩
      **/
 	
+    $lang->cmd_comment_do = '이 댓글을..';
+
+    $lang->comment_list = '댓글 목록';
 	$lang->cmd_toggle_checked_comment = '선택항목 반전';
     $lang->cmd_delete_checked_comment = '선택항목 삭제';
 

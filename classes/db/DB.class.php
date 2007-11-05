@@ -287,8 +287,6 @@
                         if(!eregi('^[a-zA-Z]+([_0-9a-zA-Z]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'number' :
-                        if(!eregi('^[0-9]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
-                    break;
                 case 'numbers' :
                         if(!eregi('^[0-9,]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
                     break;

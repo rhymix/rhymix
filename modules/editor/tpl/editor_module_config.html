@@ -1,0 +1,28 @@
+<!--%import("filter/insert_editor_module_config.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor_module_config)">
+<input type="hidden" name="target_module_srl" value="{$module_info->module_srl}" />
+
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <col width="100" />
+    <caption>{$lang->editor}</caption>
+    <tr>
+        <th scope="row">{$lang->editor}</th>
+        <td>
+            <select name="editor_skin">
+            <!--@foreach($editor_skin_list as $editor)-->
+            <option value="{$editor}" <!--@if($editor==$editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
+            <!--@end-->
+            </select>
+        </td>
+        <th class="centerButton">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
+        </th>
+    </tr>
+    </table>
+
+</form>
+
+<div class="gap1"></div>

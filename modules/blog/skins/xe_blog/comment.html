@@ -1,68 +1,88 @@
-<!--%import("filter/insert_comment.xml")-->
-
 <!--@if($oDocument->getCommentCount())-->
-<ul class="replyZone">
+<div class="replyBox">
 
-    <!--@foreach($oDocument->getComments() as $key => $val)-->
+    {@ $_comment_list = $oDocument->getComments() }
+    <!--@foreach($_comment_list as $key => $comment)-->
 
-        <li <!--@if($val->depth)-->class="reply"<!--@end-->>
-            <!--@if($val->depth)-->
-            <div style="margin-left:{($val->depth-1)*1.3}em" class="replyIndent">
+        <div class="replyItem <!--@if($comment->get('depth'))-->reply<!--@end-->">
+            <!--@if($comment->get('depth'))-->
+            <div style="margin-left:{($comment->get('depth')-1)*20}px" class="replyIndent">
             <!--@end-->
 
-            <a name="comment_{$key}"></a>
+            <a name="comment_{$comment->comment_srl}"></a>
 
             <div class="replyOption">
-                <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
-                    <a href="{getUrl('act','dispBlogDeleteComment','comment_srl',$val->comment_srl)}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
-                    <a href="{getUrl('act','dispBlogModifyComment','comment_srl',$val->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
+                <!--@if($comment->isGranted())-->
+                    <a href="{getUrl('act','dispBlogDeleteComment','comment_srl',$comment->comment_srl)}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
+                    <a href="{getUrl('act','dispBlogModifyComment','comment_srl',$comment->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
                 <!--@end-->
-                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$val->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="17" /></a> 
+                    <a href="{getUrl('act','dispBlogReplyComment','comment_srl',$comment->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="17" /></a> 
             </div>
 
             <div class="date">
-                {zdate($val->regdate, "Y.m.d H:i")}
+
+                <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
+
                 <!--@if($grant->is_admin)-->
-                    ({$val->ipaddress})
+                    ({$comment->get('ipaddress')})
                 <!--@end-->
             </div>
 
             <div class="author">
-            <!--@if(!$val->member_srl)-->
-                <!--@if($val->homepage)-->
-                    <a href="{$val->homepage}" onclick="window.open(this.href);return false;">{htmlspecialchars($val->nick_name)}</a>
+            <!--@if(!$comment->member_srl)-->
+                <!--@if($comment->homepage)-->
+                    <a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
                 <!--@else-->
-                    {htmlspecialchars($val->nick_name)}
+                    {$comment->getNickName()}
                 <!--@end-->
             <!--@else-->
-                <div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
+                <div class="member_{$comment->member_srl}">{$comment->getNickName()}</div>
             <!--@end-->
             </div>
 
+            <!--@if($comment->get('voted_count')!=0)-->
+            <div class="voted">
+                ({$lang->voted_count}:
+                <strong>{$comment->get('voted_count')}</strong>)
+            </div>
+            <!--@end-->
+
+            <div class="clear"></div>
+
             <div class="replyContent">
-            {$val->content}
+                <!--@if(!$comment->isAccessible())-->
+                    <!--%import("filter/input_password.xml")-->
+                    <strong>{$lang->msg_is_secret}</strong>
+                    <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                    <input type="hidden" name="mid" value="{$mid}" />
+                    <input type="hidden" name="page" value="{$page}" />
+                    <input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+                    <input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+                    <div class="inputPassword">
+                        <input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span>
+                    </div>
+                    </form>
+                <!--@else-->
+                    {$comment->getContent(true)}
+                <!--@end-->
             </div>
 
-            <!--@if($val->uploaded_count && $val->uploaded_list)-->
+            <!--@if($comment->hasUploadedFIles())-->
                 <div class="fileAttached">
                     <ul>
-                        <!--@foreach($val->uploaded_list as $key => $file)-->
+                        {@ $_uploaded_files = $comment->getUploadedFiles() }
+                        <!--@foreach($_uploaded_files as $key => $file)-->
                         <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
                         <!--@end-->
                     </ul>
                 </div>
             <!--@end-->
 
-            <!--@if($val->depth)-->
+            <!--@if($comment->get('depth'))-->
             </div>
             <!--@end-->
-        </li>
+        </div>
     <!--@end-->
 
-</ul>
-<!--@end-->
-
-<!-- 댓글 입력 폼 -->
-<!--@if($grant->write_comment && !$oDocument->isLocked())-->
-    <!--#include("./comment_form.html")-->
+</div>
 <!--@end-->

@@ -2,13 +2,13 @@
     <form>
         <node target="module_srl" required="true" />
         <node target="category_srl" required="true" />
-        <node target="category_name" required="true" />
+        <node target="category_title" required="true" />
     </form>
     <parameter>
         <param name="module_srl" target="module_srl" />
         <param name="category_srl" target="category_srl" />
         <param name="parent_srl" target="parent_srl" />
-        <param name="name" target="category_name" />
+        <param name="title" target="category_title" />
         <param name="expand" target="expand" />
         <param name="group_srls" target="group_srls" />
     </parameter>

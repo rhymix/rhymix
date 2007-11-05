@@ -1,0 +1,18 @@
+<query id="getDeclaredList" action="select">
+    <tables>
+        <table name="comments" alias="comments"/>
+        <table name="comment_declared" alias="comment_declared"/>
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="comments.comment_srl" default="comment_declared.comment_srl" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="comment_declared.declared_count" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

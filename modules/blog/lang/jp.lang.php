@@ -17,14 +17,14 @@
     $lang->cmd_layout_edit = 'レイアウト編集';
 
     // 項目
-    $lang->parent_category_name = '上位カテゴリ名';
-    $lang->category_name = 'カテゴリ名';
+    $lang->parent_category_title = '上位カテゴリ名';
+    $lang->category_title = 'カテゴリ名';
     $lang->expand = '拡張表示';
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';
 
     // その他
-    $lang->about_category_name = 'カテゴリ名を入力して下さい';
+    $lang->about_category_title = 'カテゴリ名を入力して下さい';
     $lang->about_expand = 'チェックすると常に開いた状態にします';
     $lang->about_category_group_srls = '選択したグループのみ現在のカテゴリが見えるようになります（XMLファイルを直接閲覧すると表示されます）';
     $lang->about_layout_setup = 'ブログのレイアウトのコードを直接修正できます。ウィジェットコードを入力、又は管理して下さい';

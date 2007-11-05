@@ -1,0 +1,113 @@
+<!-- JS 파일 로드 -->
+    <!--%import("js/board.js")-->
+
+<!-- 컬러셋 체크 -->
+    <!--@if(!$module_info->colorset)-->
+        {@$module_info->colorset = "white"}
+    <!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+    <!--%import("css/common.css")-->
+
+    <!--@if($module_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+    <!--@elseif($module_info->colorset == "red")--> <!--%import("css/red.css")-->
+    <!--@elseif($module_info->colorset == "green")--> <!--%import("css/green.css")-->
+    <!--@elseif($module_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+    <!--@else--> <!--%import("css/white.css")-->
+    <!--@end-->
+
+<!-- 스킨 설정중 새글의 시간 설정 값이 없으면 임의로 지정 -->
+    <!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
+        {@ $module_info->duration_new = 12 }
+    <!--@end-->
+
+<!-- 스킨 설정중 썸네일 관련 항목을 지정 -->
+    <!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
+    <!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->
+    <!--@if(!$module_info->thumbnail_height)-->{@ $module_info->thumbnail_height = 100; }<!--@end-->
+
+<!-- 정렬에 따른 아이콘 미리 지정 -->
+    <!--@if($order_type == "desc")-->
+        {@ $order_icon = "buttonDescending.gif" }
+        {@ $order_type = "asc"; }
+    <!--@else-->
+        {@ $order_icon = "buttonAscending.gif" }
+        {@ $order_type = "desc"; }
+    <!--@end-->
+
+<!-- 사용자가 선택한 게시판 형태에 따른 설정(포럼형은 적용 안됨) -->
+<!--@if($module_info->default_style != 'forum')-->
+    <!--@if($listStyle=='gallery')-->
+        {@ $module_info->default_style = 'gallery'}
+    <!--@elseif($listStyle=='webzine')-->
+        {@ $module_info->default_style = 'webzine'}
+    <!--@elseif($listStyle=='list')-->
+        {@ $module_info->default_style = 'list'}
+    <!--@end-->
+<!--@end-->
+
+<!-- 상단 텍스트 출력 -->
+    {$module_info->header_text}
+
+<!-- 스킨의 제목/간단한 설명 출력 -->
+    <!--@if($module_info->title)-->
+    <div class="boardHeader">
+        <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+    </div>
+    <!--@end-->
+
+<!-- 스킨의 상세 설명 -->
+    <!--@if($module_info->comment)-->
+    <div class="boardDescription">{$module_info->comment}</div>
+    <!--@end-->
+
+<!-- 게시판 정보 -->
+    <div class="boardInformation">
+
+        <!-- 게시물 수 -->
+        <!--@if($total_count)-->
+        <div class="articleNum">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
+        <!--@end-->
+
+        <!-- 로그인 정보 -->
+        <ul class="accountNavigation">
+
+        <!-- 로그인 되어 있을 경우 -->
+        <!--@if($is_logged)-->
+
+            <!-- 관리자이면 설정 버튼 출력 -->
+            <!--@if($grant->is_admin)-->
+            <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
+            <!--@end-->
+
+            <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+            <!--@if($logged_info->is_admin == 'Y')-->
+            <li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
+            <!--@end-->
+
+            <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
+            <!--@if(!$module_info->layout_srl)-->
+            <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+            <!--@end-->
+
+        <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
+        <!--@elseif(!$is_logged && !$module_info->layout_srl)-->
+            <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+        <!--@end-->
+
+        <!--@if($rss_url)-->
+            <li class="rss"><a href="{$rss_url}"><img src="./images/common/iconRss.gif" alt="RSS" width="13" height="13" /></a></li>
+        <!--@end-->
+
+            <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+
+        <!-- 목록형태 (포럼형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
+            <!--@if($module_info->default_style != 'forum')-->
+            <li class="listType"><a href="{getUrl('listStyle','list')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','webzine')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','gallery')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
+            <!--@end-->
+        </ul>
+    </div>

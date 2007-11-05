@@ -3,30 +3,32 @@
 </div>
 
 <div id="popBody">
-    <table cellspacing="0" class="tableType5">
+
+    <table cellspacing="0" class="adminTable">
     <col width="100" />
     <col />
     <tr>
-        <th scope="row"><label for="textfield1">{$lang->title}</label></th>
+        <th scope="row">{$lang->title}</th>
         <td>{$addon_info->title} ver. {$addon_info->version}</td>
     </tr>
     <tr>
-        <th scope="row"><label for="textfield2">{$lang->author}</label></th>
+        <th scope="row">{$lang->author}</th>
         <td class="blue"><a href="mailto:{$addon_info->author->email_address}">{$addon_info->author->name}</a></td>
     </tr>
     <tr>
-        <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
+        <th scope="row">{$lang->homepage}</th>
         <td class="blue"><a href="{$addon_info->author->homepage}" onclick="window.open(this.href);return false;">{$addon_info->author->homepage}</a></td>
     </tr>
     <tr>
-        <th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
-        <td>{$addon_info->author->date}<td>
+        <th scope="row">{$lang->regdate}</th>
+        <td>{$addon_info->author->date}</td>
     </tr>
     <tr>
-        <th scope="row" class="borderBottomNone">{$lang->description}</th>
-        <td class="borderBottomNone">{nl2br($addon_info->author->description)}</td>
+        <th scope="row">{$lang->description}</th>
+        <td>{nl2br(trim($addon_info->author->description))}</td>
     </tr>
     </table>
+
 </div>
 
 <div id="popFooter" class="tCenter">

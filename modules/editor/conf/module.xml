@@ -12,6 +12,7 @@
         <action name="procEditorRemoveSavedDoc" type="controller" standalone="true" />
         <action name="procEditorCall" type="controller" standalone="true" />
 
+        <action name="procEditorAdminInsertModuleConfig" type="controller" standalone="true" />
         <action name="procEditorAdminEnableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminDisableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminMoveListOrder" type="controller" standalone="true" />

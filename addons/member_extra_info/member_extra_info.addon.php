@@ -65,7 +65,7 @@
 
         // 로그인된 사용자 정보를 구함
         $logged_info = Context::get('logged_info');
-        $member_srl = Context::get('member_srl');
+        $member_srl = Context::get('target_srl');
 
         // 템플릿에서 사용되기 전의 menu_list를 가져옴
         $menu_list = $this->get('menu_list');

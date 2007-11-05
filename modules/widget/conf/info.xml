@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="manager">
     <title xml:lang="ko">위젯</title>
     <title xml:lang="zh-CN">控件</title>
     <title xml:lang="jp">ウィジェット</title>

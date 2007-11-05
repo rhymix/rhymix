@@ -1,5 +1,10 @@
 <!--%import("js/point_admin.js")-->
 <h3>{$lang->point} <span class="gray">{$lang->cmd_management}</span></h3>
+<!--@if($act=="dispPointAdminModuleConfig")-->
+<div class="infoText">{$lang->about_module_point}</div>
+<!--@else-->
+<div class="infoText">{$lang->about_point_module}</div>
+<!--@end-->
 
 <!--@if($module=='admin')-->
 <div class="header4">
@@ -13,7 +18,6 @@
     <ul class="localNavigation">
         <li <!--@if($act=='dispPointAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminConfig')}">{$lang->cmd_point_config}</a></li>
         <li <!--@if($act=='dispPointAdminModuleConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminModuleConfig')}">{$lang->cmd_point_module_config}</a></li>
-        <li <!--@if($act=='dispPointAdminActConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminActConfig')}">{$lang->cmd_point_act_config}</a></li>
         <li <!--@if($act=='dispPointAdminPointList')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminPointList')}">{$lang->cmd_point_member_list}</a></li>
     </ul>
 </div>

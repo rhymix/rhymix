@@ -20,7 +20,6 @@
         <param name="header_text" target="header_text" />
         <param name="footer_text" target="footer_text" />
         <param name="admin_id" target="admin_id" />
-        <param name="open_rss" target="open_rss" />
         <param name="extra_vars_1_name" target="extra_vars_1_name" />
         <param name="extra_vars_1_type" target="extra_vars_1_type" />
         <param name="extra_vars_1_is_required" target="extra_vars_1_is_required" />

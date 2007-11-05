@@ -96,6 +96,26 @@
         }
 
         /**
+         * @brief 에디터의 모듈별 추가 확장 폼을 저장
+         **/
+        function procEditorAdminInsertModuleConfig() {
+            // 필요한 변수를 받아옴
+            $module_srl = Context::get('target_module_srl');
+            $editor_skin = Context::get('editor_skin');
+
+            // 기존 설정을 가져옴 
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('editor');
+
+            $config->module_config[$module_srl] = $editor_skin;
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('editor',$config);
+            return $output;
+        }
+
+        /**
          * @brief 컴포넌트를 DB에 추가
          **/
         function insertComponent($component_name, $enabled = false) {

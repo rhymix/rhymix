@@ -21,11 +21,15 @@
     $lang->cmd_comment_registration = 'Add Comment';
     $lang->cmd_insert = 'Insert';
     $lang->cmd_save = 'Save';
+    $lang->cmd_load = 'Load';
     $lang->cmd_input = 'Input';
     $lang->cmd_search = 'Search';
     $lang->cmd_cancel = 'Cancel';
     $lang->cmd_back = 'Go Back';
-    $lang->cmd_vote = 'Vote';
+    $lang->cmd_vote = 'Recommend';
+    $lang->cmd_vote_down = 'Criticize';
+    $lang->cmd_declare = 'Accuse';
+    $lang->cmd_declared_list = 'Accusations List';
     $lang->cmd_copy = 'Copy';
     $lang->cmd_move = 'Move';
     $lang->cmd_move_up = 'Up';
@@ -37,12 +41,14 @@
     $lang->cmd_select = 'Select';
     $lang->cmd_select_all = 'Select All';
     $lang->cmd_unselect_all = 'Deselect All';
+    $lang->cmd_reverse_all = 'Reverse';
     $lang->cmd_close_all = 'Close All';
     $lang->cmd_open_all = 'Open All';
     $lang->cmd_reload = 'Reload';
     $lang->cmd_close = 'Close';
     $lang->cmd_open = 'Open';
     $lang->cmd_setup = 'Configure';
+    $lang->cmd_addition_setup = 'Additional Setup';
 	$lang->cmd_option = 'Option';
     $lang->cmd_apply = 'Apply';
     $lang->cmd_open_calendar = 'Select a Date';
@@ -52,6 +58,7 @@
     $lang->cmd_preview = 'Preview';
     $lang->cmd_reset = 'Reset';
     $lang->cmd_remake_cache = "Re-create cache file";
+    $lang->cmd_publish = "Publish";
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
@@ -78,6 +85,8 @@
     $lang->browser_title = 'Browser Title';
     $lang->title = 'Subject';
     $lang->title_content = 'Subject+Content';
+    $lang->topic = 'Topic';
+    $lang->replies = 'Reply';
     $lang->content = 'Content';
     $lang->document = 'Article';
     $lang->comment = 'Comment';
@@ -119,9 +128,10 @@
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Registered Date';
-    $lang->last_update = 'Latest Update';
-    $lang->signup_date = 'Join Date';
-    $lang->last_login = 'Latest Login';
+    $lang->last_update = 'Late Update';
+    $lang->last_post = 'Late Post';
+    $lang->signup_date = 'Registered Date';
+    $lang->last_login = 'Late Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Searching Target';
@@ -168,23 +178,26 @@
     $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 
     $lang->success_registed = 'Registered successfully';
+    $lang->success_declared = 'Accused successfully';
     $lang->success_updated = 'Updated successfully';
     $lang->success_deleted = 'Deleted successfully';
-    $lang->success_voted = 'Voted successfully';
+    $lang->success_voted = 'Recommended successfully';
     $lang->success_moved = 'Moved successfully';
     $lang->success_sended = 'Sent successfully';
     $lang->success_reset = 'Reset successfully';
     $lang->success_leaved = 'All member data have been deleted completely.';
+    $lang->success_saved = 'Saved successfully';
 
     $lang->fail_to_delete = 'Could not be deleted';
     $lang->fail_to_move = 'Could not be moved';
 
-    $lang->failed_voted = 'Could not vote';
+    $lang->failed_voted = 'Could not recommend';
+    $lang->failed_declared = 'Could not accuse';
     $lang->fail_to_delete_have_children = 'Please try again after removing replies first';
 
     $lang->confirm_submit = 'Are you sure to submit?';
     $lang->confirm_logout = 'Are you sure to logout?';
-    $lang->confirm_vote = 'Are you sure to vote?';
+    $lang->confirm_vote = 'Are you sure to recommend?';
     $lang->confirm_delete = 'Are you sure to delete?';
     $lang->confirm_move = 'Are you sure to move?';
     $lang->confirm_reset = 'Are you sure to reset?';

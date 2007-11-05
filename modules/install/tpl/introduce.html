@@ -7,9 +7,9 @@
 <div class="tCenter">
     Select language : <select name="lang_type" onchange="doChangeLangType(this)">
         <option value="{$lang_type}">{$lang_type}</option>
-        <!--@foreach($lang_supported as $val)-->
+        <!--@foreach($lang_supported as $key => $val)-->
         <!--@if($val != $lang_type)-->
-        <option value="{$val}">{$val}</option>
+        <option value="{$key}">{$val}</option>
         <!--@end-->
         <!--@end-->
     </select>

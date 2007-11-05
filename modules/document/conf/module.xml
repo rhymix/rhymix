@@ -13,10 +13,16 @@
 
         <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
         <action name="dispDocumentAdminConfig" type="view" standalone="true" />
+        <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
 
         <action name="dispDocumentAdminManageDocument" type="view" standalone="true"/>
 
+        <action name="procDocumentVoteUp" type="controller" standalone="true" />
+        <action name="procDocumentVoteDown" type="controller" standalone="true" />
+        <action name="procDocumentDeclare" type="controller" standalone="true" />
+
         <action name="getDocumentCategories" type="model" standalone="true"/>
+        <action name="getDocumentMenu" type="model" standalone="true"/>
 
         <action name="procDocumentAdminAddCart" type="controller" standalone="true" />
         <action name="procDocumentAdminManageCheckedDocument" type="controller" standalone="true" />

@@ -8,7 +8,7 @@
 <input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
 
     <div id="popBody">
-        <table cellspacing="0" class="tableType5">
+        <table cellspacing="0" class="adminTable">
         <col width="100" />
         <col />
         <tr>
@@ -29,7 +29,7 @@
             <th scope="row">{$val->title}</th>
             <td>
                 <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w100" />
-                <p>{$val->description}</p>
+                <!--@if($val->description)--><p>{$val->description}</p><!--@end-->
             </td>
         </tr>
         <!--@end-->

@@ -32,6 +32,9 @@
     $lang->group_title = 'Group Name';
     $lang->group_srl = 'Group Number';
     $lang->signature = 'Signature';
+    $lang->profile_image = 'Profile Image';
+    $lang->profile_image_max_width = 'Max Width';
+    $lang->profile_image_max_height = 'Max Height';
     $lang->image_name = 'Image Name';
     $lang->image_name_max_width = 'Max Width';
     $lang->image_name_max_height = 'Max Height';
@@ -53,11 +56,11 @@
     $lang->current_password = 'Current Password';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '웹마스터 이름';
-    $lang->webmaster_email = '웹마스터 메일주소';
+    $lang->webmaster_name = "Webmaster's Name";
+    $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
-    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+    $lang->about_webmaster_name = "Please input webmaster's name which will be used for authentication mails or other site administration. (default : webmaster)";
+    $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
         'user_id' => 'ID',
@@ -94,6 +97,7 @@
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'View Written Articles';
     $lang->cmd_view_scrapped_document = 'Scraps';
+    $lang->cmd_view_saved_document = 'View Saved Articles';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
@@ -112,10 +116,11 @@
     $lang->msg_checked_file_is_deleted = '%d attached files are deleted';
 
     $lang->msg_find_account_title = 'Account Info';
-    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
-    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
-    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
-    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
+    $lang->msg_find_account_info = 'This is requested account info.';
+    $lang->msg_find_account_comment = 'The password will be modified to above one when you click below link.<br />Please modify the password after login.';
+    $lang->msg_auth_mail_sended = 'The authentication mail has been sent to %s. Please check your mail.';
+	$lang->msg_invalid_auth_key = 'This is an invalid request of authentication.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_success_authed = 'Your account has been successfully authenticated and logged on. Please modify the password to your own one using the password in the authentication mail.';
 
     $lang->msg_no_message = 'There are no messages';
     $lang->message_received = 'You got a new message';
@@ -179,13 +184,14 @@
 
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
+    $lang->about_profile_image = 'Allow users to use profile images';
     $lang->about_accept_agreement = "I've read the agreement all and agree"; 
 
     $lang->about_member_default = 'It will be set as default group on join';
 
     $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, but password and certification management will be done on current OpenID offering service';
-    $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
+    $lang->about_openid_leave = 'The secession of OpenID means deleting your member info in this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
     $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
-    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
+    $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
 ?>

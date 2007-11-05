@@ -1,0 +1,9 @@
+<query id="insertDeclaredComment" action="insert">
+    <tables>
+        <table name="comment_declared" />
+    </tables>
+    <columns>
+        <column name="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+        <column name="declared_count" default="1" />
+    </columns>
+</query>

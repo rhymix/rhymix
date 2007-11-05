@@ -41,7 +41,6 @@
             $obj->sort_index = $order_target;
             $obj->order_type = $order_type=="desc"?"asc":"desc";
             $obj->list_count = $list_count;
-            if($obj->sort_index == 'list_order') $obj->avoid_notice = -2100000000;
 
             $output = executeQuery('widgets.newest_document.getNewestDocuments', $obj);
 

@@ -1,0 +1,4 @@
+<table name="document_declared">
+    <column name="document_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="declared_count" type="number" size="11" default="0" notnull="notnull" index="idx_declared_count" />
+</table>

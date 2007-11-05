@@ -114,6 +114,24 @@
         }
 
         /**
+         * @brief 게시판 추가 설정 보여줌
+         * 추가설정은 서비스형 모듈들에서 다른 모듈과의 연계를 위해서 설정하는 페이지임
+         **/
+        function dispBoardAdminBoardAdditionSetup() {
+            // content는 다른 모듈에서 call by reference로 받아오기에 미리 변수 선언만 해 놓음
+            $content = '';
+
+            // 추가 설정을 위한 트리거 호출 
+            // 게시판 모듈이지만 차후 다른 모듈에서의 사용도 고려하여 trigger 이름을 공용으로 사용할 수 있도록 하였음
+            $output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
+            $output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+            Context::set('setup_content', $content);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('addition_setup');
+        }
+
+        /**
          * @brief 게시판 삭제 화면 출력
          **/
         function dispBoardAdminDeleteBoard() {

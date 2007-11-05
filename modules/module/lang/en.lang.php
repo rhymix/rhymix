@@ -22,12 +22,6 @@
     $lang->skin_default_info = 'Default Skin Info';
     $lang->skin_maker = 'Skin Developer';
     $lang->skin_maker_homepage = "Skin Developer's Homepage";
-    $lang->open_rss = 'Open RSS';
-    $lang->open_rss_types = array(
-        'Y' => 'Open all',
-        'H' => 'Open summary',
-        'N' => 'Not open',
-    );
     $lang->module_copy = "Copy module";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
@@ -60,8 +54,7 @@
     $lang->about_list_count = 'You can set the number of limit to show article in a page.(default is 1)';
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.\n You can enter multiple IDs using <br />,(comma) \n(but the module manager cannot access the site admin page.)';
-    $lang->about_grant = 'If you disable all objects having specific permissions, all members even not logined may have permission.';
-    $lang->about_open_rss = 'You can select RSS on the current module to be open to the public.\nNo matter the view permission of article , RSS will be open to the public by its option.';
+    $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.'; 
     $lang->about_module = "Zeroboard XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.\nThrough [Add Shortcuts] feature, you can manage frequently used modules easily.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';

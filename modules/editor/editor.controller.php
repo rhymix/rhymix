@@ -72,6 +72,14 @@
         }
 
         /**
+         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
+         **/
+        function triggerDeleteSavedDoc(&$obj) {
+            $this->deleteSavedDoc();
+            return new Object();
+        }
+
+        /**
          * @brief 자동 저장된 글을 삭제
          * 현재 접속한 사용자를 기준
          **/
@@ -84,7 +92,7 @@
             }
 
             // 일단 이전 저장본 삭제
-            executeQuery('editor.deleteSavedDoc', $args);
+            return executeQuery('editor.deleteSavedDoc', $args);
         }
     }
 ?>

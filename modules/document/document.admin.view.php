@@ -111,7 +111,7 @@
             }
 
             // 모듈의 목록을 가져옴
-            $args->select_module = "'board','blog'";
+            //$args->select_module = "'board','blog'";
             $output = executeQuery('document.getAllModules', $args);
             $module_list = $output->data;
 
@@ -124,6 +124,44 @@
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('checked_list');
+        }
+
+        /**
+         * @brief 관리자 페이지의 신고 목록 보기
+         **/
+        function dispDocumentAdminDeclared() {
+            // 목록을 구하기 위한 옵션
+            $args->page = Context::get('page'); ///< 페이지
+            $args->list_count = 50; ///< 한페이지에 보여줄 글 수
+            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+
+            $args->sort_index = 'document_declared.declared_count'; ///< 소팅 값
+            $args->order_type = 'desc'; ///< 소팅 정렬 값
+
+            // 목록을 구함
+            $declared_output = executeQuery('document.getDeclaredList', $args);
+
+            if($declared_output->data && count($declared_output->data)) {
+                $document_list = array();
+
+                $oDocumentModel = &getModel('document');
+                foreach($declared_output->data as $key => $document) {
+                    $document_list[$key] = new documentItem();
+                    $document_list[$key]->setAttribute($document);
+                }
+                $declared_output->data = $document_list;
+            }
+        
+            // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
+            Context::set('total_count', $declared_output->total_count);
+            Context::set('total_page', $declared_output->total_page);
+            Context::set('page', $declared_output->page);
+            Context::set('document_list', $declared_output->data);
+            Context::set('page_navigation', $declared_output->page_navigation);
+
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('declared_list');
         }
     }
 ?>

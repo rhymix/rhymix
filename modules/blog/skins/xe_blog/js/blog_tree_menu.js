@@ -13,16 +13,6 @@ var blog_tree_menu_folder_list = new Array();
 // 노드의 정보를 가지고 있을 변수
 var blog_node_info_list = new Array();
 
-// 카테고리별 문서 수를 가지고 있는 전역 변수
-var category_document_count = new Array();
-var total_document_count = 0;
-
-// 카테고리의 문서 갯수를 세팅하는 함수
-function setDocumentCount(node_srl, document_count) {
-    category_document_count[node_srl] = document_count;
-    total_document_count += document_count;
-}
-
 // 카테고리의 node_srl로 문서 갯수를 리턴하는 함수
 function getDocumentCount(node_srl) {
     return parseInt(category_document_count[node_srl],10);
@@ -60,6 +50,7 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
 
     var zone = xGetElementById("blog_category");
     var html = "";
+    var document_count = 0;
 
     // 받아온 xml내용을 이용하여 트리 메뉴 그림
     var xmlDoc = oXml.getResponseXml();
@@ -74,13 +65,14 @@ function blogDrawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) 
         var root = xmlDoc.getElementsByTagName("root")[0];
         var output = blogDrawNode(root,0);
         html += output.html;
+        document_count += parseInt(output.document_count,10);
     }
 
     // 제목 지정 
     var title_class = "selected";
     if(blog_menu_selected) title_class = "unselected";
     var title_html = '<div class="title_box"><span class="'+title_class+'" id="blog_title" onclick="location.href=\''+index_url+'\';return false;" >'+title+'</span> <span class="document_count">';
-    if(total_document_count) title_html += '('+total_document_count+')';
+    if(document_count) title_html += '('+document_count+')';
     html = title_html+'</span></div><div class="category_list">'+html+'</div>';
 
     // 출력하려는 zone이 없다면 load후에 출력하도록 함
@@ -102,7 +94,7 @@ function blogDrawTeeMenu(html) {
 
 // root부터 시작해서 recursive하게 노드를 표혐
 function blogDrawNode(parent_node, depth) {
-    var output = {html:"", expand:"N"}
+    var output = {html:"", expand:"N", document_count:0}
 
     for (var i=0; i< parent_node.childNodes.length; i++) {
         var html = "";
@@ -117,6 +109,7 @@ function blogDrawNode(parent_node, depth) {
         var text = node.getAttribute("text");
         var url = node.getAttribute("url");
         var expand = node.getAttribute("expand");
+        var document_count = parseInt(node.getAttribute("document_count"),10);
         if(!text) continue;
 
         // 자식 노드가 있는지 확인
@@ -161,6 +154,7 @@ function blogDrawNode(parent_node, depth) {
             var chtml = child_output.html;
             var cexpand = child_output.expand;
             if(cexpand == "Y") expand = "Y";
+            document_count += parseInt(child_output.document_count,10);
 
             // 무조건 펼침이 아닐 경우
             if(expand!="Y") {
@@ -223,11 +217,10 @@ function blogDrawNode(parent_node, depth) {
         if(selected) text_class = "selected";
 
         var document_count_text = "";
-        var document_count = getDocumentCount(node_srl);
-        if(document_count>0) document_count_text = '<span class="document_count">('+document_count+')</span>';
+        if(document_count) document_count_text = '<span class="document_count">('+document_count+')</span>';
 
         // 왼쪽 폴더/페이지와 텍스트 위치를 맞추기 위해;;; table태그 일단 사용. 차후 바꾸자..
-        html += '<div id="'+zone_id+'" class="node_item">'+
+        html += '<div id="'+zone_id+'" class="node_item" style="overflow:hidden;white-space:nowrap;">'+
                     '<div id="'+zone_id+'_line" class="'+line_class+'">'+
                         '<table border="0" cellspacing="0" cellpadding="0"><tr><td height="19"><img src="'+request_uri+'/common/tpl/images/blank.gif" width="18" height="18" alt="" id="'+zone_id+'_folder" '+click_str+' /></td>'+
                         '<td><a href="#" id="'+zone_id+'_node" class="'+text_class+'" onclick="blogSelectNode(\''+url+'\');return false;">'+text+'</a>'+document_count_text+'</td></tr></table>'+
@@ -240,6 +233,8 @@ function blogDrawNode(parent_node, depth) {
         output.html += html;
 
         if(expand=="Y") output.expand = "Y";
+
+        output.document_count += parseInt(document_count,10);
     }
     return output;
 }

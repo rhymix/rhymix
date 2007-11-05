@@ -124,7 +124,18 @@
          * @brief 로그아웃
          **/
         function procMemberLogout() {
+            // 로그아웃 이전에 trigger 호출 (before)
+            $logged_info = Context::get('logged_info');
+            $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'before', $logged_info);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
+            // 세션 정보 파기
             $this->destroySessionInfo();
+
+            // 로그아웃 이후 trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
+            if(!$trigger_output->toBool()) return $trigger_output;
+            
             return new Object();
         }
 
@@ -345,6 +356,7 @@
             $logged_info = Context::get('logged_info');
 
             $document_srl = (int)Context::get('document_srl');
+            if(!$document_srl) $document_srl = (int)Context::get('target_srl');
             if(!$document_srl) return new Object(-1,'msg_invalid_request');
 
             // 문서 가져오기
@@ -387,6 +399,65 @@
             $args->member_srl = $logged_info->member_srl;
             $args->document_srl = $document_srl;
             return executeQuery('member.deleteScrapDocument', $args);
+        }
+
+        /**
+         * @brief 게시글 저장
+         **/
+        function procMemberSaveDocument() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+
+            $logged_info = Context::get('logged_info');
+
+            // form 정보를 모두 받으a
+            $obj = Context::getRequestVars();
+
+            // 글의 대상 모듈을 회원 정보로 변경
+            $obj->module_srl = $logged_info->member_srl;
+
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+
+            // 이미 존재하는 글인지 체크
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+
+            // 이미 존재하는 경우 수정
+            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+                $output = $oDocumentController->updateDocument($oDocument, $obj);
+                $msg_code = 'success_updated';
+
+            // 그렇지 않으면 신규 등록
+            } else {
+                $output = $oDocumentController->insertDocument($obj);
+                $msg_code = 'success_registed';
+                $obj->document_srl = $output->get('document_srl');
+            }
+
+            // 등록된 첨부파일의 상태를 무효로 지정
+            if($oDocument->hasUploadedFiles()) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'N';
+                executeQuery('file.updateFileValid', $args);
+            }
+
+            $this->setMessage('success_saved');
+        }
+
+        /**
+         * @brief 저장된 글 삭제
+         **/
+        function procMemberDeleteSavedDocument() {
+            // 로그인 정보 체크
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+            $logged_info = Context::get('logged_info');
+
+            $document_srl = (int)Context::get('document_srl');
+            if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+            // 변수 정리
+            $oDocumentController = &getController('document');
+            $oDocumentController->deleteDocument($document_srl, true);
         }
 
         /**
@@ -778,6 +849,55 @@
             $this->setMessage('success_leaved');
         }
 
+        /**
+         * @brief 프로필 이미지 추가 
+         **/
+        function procMemberInsertProfileImage() {
+            // 정상적으로 업로드 된 파일인지 검사
+            $file = $_FILES['profile_image'];
+            if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_profile_image');
+
+            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return $this->stop('msg_not_uploaded_profile_image');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_profile_image');
+
+            // 회원 모듈 설정에서 이미지 이름 사용 금지를 하였을 경우 관리자가 아니면 return;
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') return $this->stop('msg_not_uploaded_profile_image');
+
+            $this->insertProfileImage($member_srl, $file['tmp_name']);
+
+            // 페이지 리프레쉬
+            $this->setRefreshPage();
+        }
+
+        function insertProfileImage($member_srl, $target_file) {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+
+            // 정해진 사이즈를 구함
+            $max_width = $config->profile_image_max_width;
+            if(!$max_width) $max_width = "90";
+            $max_height = $config->profile_image_max_height;
+            if(!$max_height) $max_height = "20";
+
+            // 저장할 위치 구함
+            $target_path = sprintf('files/member_extra_info/profile_image/%s/', getNumberingPath($member_srl));
+            FileHandler::makeDir($target_path);
+
+            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
+
+            // 파일 정보 구함
+            list($width, $height, $type, $attrs) = @getimagesize($target_file);
+
+            // 지정된 사이즈보다 크거나 gif가 아니면 변환
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            else @copy($target_file, $target_filename);
+        }
 
         /**
          * @brief 이미지 이름을 추가 
@@ -827,6 +947,26 @@
             // 지정된 사이즈보다 크거나 gif가 아니면 변환
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
             else @copy($target_file, $target_filename);
+        }
+        
+        /**
+         * @brief 프로필 이미지를 삭제
+         **/
+        function procMemberDeleteProfileImage() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(0,'success');
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->profile_image == 'N') return new Object(0,'success');
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
+                $oMemberModel = &getModel('member');
+                $profile_image = $oMemberModel->getProfileImage($member_srl);
+                @unlink($profile_image->file);
+            } 
+            return new Object(0,'success');
         }
 
         /**
@@ -1034,6 +1174,12 @@
          * @brief 로그인 시킴
          **/
         function doLogin($user_id, $password = '') {
+            // 로그인 이전에 trigger 호출 (before)
+            $trigger_obj->user_id = $user_id;
+            $trigger_obj->password = $password;
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
+            if(!$trigger_output->toBool()) return $trigger_output;
+            
             // member model 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -1085,9 +1231,29 @@
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
 
+            // 사용자의 전용 메뉴 구성
+            $member_info->menu_list = $this->getMemberMenuList();
+
+            // 로그인 성공후 trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
             $this->setSessionInfo($member_info);
 
             return $output;
+        }
+
+        /**
+         * @brief 로그인 사용자의 전용 메뉴를 구성
+         **/
+        function getMemberMenuList() {
+            $menu_list['dispMemberInfo'] = 'cmd_view_member_info';
+            $menu_list['dispMemberFriend'] = 'cmd_view_friend';
+            $menu_list['dispMemberMessages'] = 'cmd_view_message_box';
+            $menu_list['dispMemberScrappedDocument'] = 'cmd_view_scrapped_document';
+            $menu_list['dispMemberSavedDocument'] = 'cmd_view_saved_document';
+            $menu_list['dispMemberOwnDocument'] = 'cmd_view_own_document';
+            return $menu_list;
         }
 
         /**
@@ -1096,16 +1262,17 @@
         function setSessionInfo($member_info) {
             if(!$member_info->member_srl) return;
 
-            // 오픈아이디인지 체크
+            // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
             if(eregi("^([0-9a-z]+)$", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
 
-            // 로그인 처리
+            // 로그인 처리를 위한 세션 설정
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['member_srl'] = $member_info->member_srl;
             $_SESSION['is_admin'] = false;
 
+            // 비밀번호는 세션에 저장되지 않도록 지워줌;;
             unset($member_info->password);
 
             // 사용자 그룹 설정
@@ -1120,9 +1287,7 @@
             }
             
             // 세션에 로그인 사용자 정보 저장
-            foreach($member_info as $key => $val) {
-                $_SESSION['logged_info']->{$key} = $val;
-            }
+            $_SESSION['logged_info'] = $member_info;
 
             Context::set('is_logged', true);
             Context::set('logged_info', $member_info);
@@ -1133,6 +1298,10 @@
          * @brief member 테이블에 사용자 추가
          **/
         function insertMember($args, $password_is_hashed = false) {
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
+            if(!$output->toBool()) return $output;
+
             // 멤버 설정 정보에서 가입약관 부분을 재확인
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
@@ -1217,6 +1386,15 @@
                 }
             }
 
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('member.insertMember', 'after', $args);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
             $oDB->commit(true);
 
             $output->add('member_srl', $args->member_srl);
@@ -1227,6 +1405,10 @@
          * @brief member 정보 수정
          **/
         function updateMember($args) {
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
+            if(!$output->toBool()) return $output;
+
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -1298,6 +1480,15 @@
                 }
             }
 
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('member.updateMember', 'after', $args);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
             $oDB->commit();
 
             // 세션에 저장
@@ -1324,6 +1515,10 @@
          * @brief 사용자 삭제
          **/
         function deleteMember($member_srl) {
+            // trigger 호출 (before)
+            $trigger_obj->member_srl = $member_srl;
+            $output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
+            if(!$output->toBool()) return $output;
 
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
@@ -1335,18 +1530,41 @@
             // 관리자의 경우 삭제 불가능
             if($member_info->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
 
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
             // member_group_member에서 해당 항목들 삭제
             $args->member_srl = $member_srl;
             $output = executeQuery('member.deleteMemberGroupMember', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // member 테이블에서 삭제
+            $output = executeQuery('member.deleteMember', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+            $oDB->commit();
 
             // 이름이미지, 이미지마크, 서명 삭제
             $this->procMemberDeleteImageName();
             $this->procMemberDeleteImageMark();
             $this->delSignature($member_srl);
 
-            // member 테이블에서 삭제
-            return executeQuery('member.deleteMember', $args);
+            return $output;
         }
 
         /**
@@ -1385,7 +1603,7 @@
         }
 
         /**
-         * @brief 최종 출력물에서 서명을 변경
+         * @brief 최종 출력물에서 서명을 변경, 프로필 이미지도 같이 적용함
          * member_extra_info 애드온에서 요청이 됨
          **/
         function transSignature($matches) {
@@ -1396,28 +1614,15 @@
             if(!isset($GLOBALS['_transSignatureList'][$member_srl])) {
                 $oMemberModel = &getModel('member');
 
+                // 서명을 구해옴
                 $signature = $oMemberModel->getSignature($member_srl);
 
-                // 서명이 없으면 빈 내용을 등록
-                if(!$signature) {
-                    $GLOBALS['_transSignatureList'][$member_srl] = null;
-					
-                // 서명이 있으면 글의 내용 다음에 추가
-                } else {
-					$oContext = &Context::getInstance();
-					
-					$signature = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($oContext, '_transEditorComponent'), $signature);
-					$signature = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($oContext, '_transEditorComponent'), $signature);
+                // 프로필 이미지를 구해옴
+                $profile_image = $oMemberModel->getProfileImage($member_srl);
+                if($profile_image->src) $signature = sprintf('<img src="%s" width="%d" height="%d" alt="" class="member_profile_image" />%s', $profile_image->src, $profile_image->width, $profile_image->height, $signature);
 
-					// <br> 코드 변환
-					$signature = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $signature);
-		
-					// <img ...> 코드를 <img ... /> 코드로 변환
-					$signature = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $signature);
-				
-                    $document = $matches[0].'<div class="member_signature">'.$signature.'</div>';
-                    $GLOBALS['_transSignatureList'][$member_srl] = $document;
-                }
+                if($signature) $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
+                else $GLOBALS['_transSignatureList'][$member_srl] = null;
             }
 
             return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];

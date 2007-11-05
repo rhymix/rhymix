@@ -58,14 +58,43 @@
          * @brief 파일 기본 정보의 추가
          **/
         function procFileAdminInsertConfig() {
-            // 기본 정보를 받음
-            $args = Context::gets('allowed_filesize','allowed_attach_size','allowed_filetypes');
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('file');
+            $config->allowed_filesize = Context::get('allowed_filesize');
+            $config->allowed_attach_size = Context::get('allowed_attach_size');
+            $config->allowed_filetypes = Context::get('allowed_filetypes');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('file',$args);
+            $output = $oModuleController->insertModuleConfig('file',$config);
             return $output;
         }
 
+        /**
+         * @brief 모듈별 파일 기본 정보의 추가
+         **/
+        function procFileAdminInsertModuleConfig() {
+            // 필요한 변수를 받아옴
+            $module_srl = Context::get('target_module_srl');
+            $download_grant = trim(Context::get('download_grant'));
+
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('file');
+
+            $module_file_config->module_srl = $module_srl;
+            $module_file_config->allowed_filesize = Context::get('allowed_filesize');
+            $module_file_config->allowed_attach_size = Context::get('allowed_attach_size');
+            $module_file_config->allowed_filetypes = Context::get('allowed_filetypes');
+            if($download_grant) $module_file_config->download_grant = explode('|@|',$download_grant);
+            else $module_file_config->download_grant = array();
+            $config->module_config[$module_srl] = $module_file_config;
+
+            // module Controller 객체 생성하여 입력
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('file',$config);
+            return $output;
+        }
     }
 ?>

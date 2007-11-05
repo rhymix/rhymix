@@ -7,7 +7,7 @@
 <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
 <input type="hidden" name="mode" value="update" />
 <!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -24,11 +24,12 @@
         <th scope="row">{$lang->description}</th>
         <td class="left"><textarea name="description" class="inputTypeTextArea w100">{$selected_group->description}</textarea></td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
-    </div>
 
 </form>
 <!--@end-->

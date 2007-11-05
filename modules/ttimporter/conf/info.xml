@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="accessory">
     <title xml:lang="ko">TatterTools 데이터 이전</title>
     <title xml:lang="zh-CN">TatterTools 数据导入</title>
     <title xml:lang="jp">TTデータ移転</title>

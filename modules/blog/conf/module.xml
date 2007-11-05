@@ -63,6 +63,7 @@
         <permission action="dispBlogAdminContent" target="manager" />
         <permission action="dispBlogAdminBlogInfo" target="manager" />
         <permission action="dispBlogAdminInsertBlog" target="manager" />
+        <permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
         <permission action="dispBlogAdminCategoryInfo" target="manager" />
         <permission action="dispBlogAdminSkinInfo" target="manager" />
 
@@ -97,6 +98,7 @@
 
         <action name="dispBlogAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispBlogAdminBlogInfo" type="view" standalone="true" />
+        <action name="dispBoardAdminBoardAdditionSetup" type="view" standalone="true" />
         <action name="dispBlogAdminInsertBlog" type="view" standalone="true" />
         <action name="dispBlogAdminDeleteBlog" type="view" standalone="true" />
         <action name="dispBlogAdminCategoryInfo" type="view" standalone="true" />

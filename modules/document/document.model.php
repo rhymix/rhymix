@@ -23,12 +23,67 @@
         /**
          * @brief 문서 가져오기
          **/
-        function getDocument($document_srl, $is_admin = false) {
+        function getDocument($document_srl=0, $is_admin = false) {
             $oDocument = new documentItem($document_srl);
             if($is_admin) $oDocument->setGrant();
 
             return $oDocument;
        }
+
+        /**
+         * @brief 선택된 게시물의 팝업메뉴 표시
+         *
+         * 인쇄, 스크랩, 추천, 비추천, 신고 기능 추가
+         **/
+        function getDocumentMenu() {
+
+            // 요청된 게시물 번호와 현재 로그인 정보 구함
+            $document_srl = Context::get('target_srl');
+            $mid = Context::get('cur_mid');
+            $logged_info = Context::get('logged_info');
+            $act = Context::get('cur_act');
+            
+            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
+            $menu_list = array();
+
+            // trigger 호출
+            ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
+
+            // 인쇄 버튼 추가
+            $menu_str = Context::getLang('cmd_print');
+            $menu_link = sprintf("%s?document_srl=%s&act=dispDocumentPrint",Context::getRequestUri(),$document_srl);
+            $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", '' ,$menu_str, $menu_link);
+
+            // 추천 버튼 추가
+            $menu_str = Context::getLang('cmd_vote');
+            $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+            // 비추천 버튼 추가
+            $menu_str = Context::getLang('cmd_vote_down');
+            $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+            // 신고 기능 추가
+            $menu_str = Context::getLang('cmd_declare');
+            $menu_link = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
+            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+            // 회원이어야만 가능한 기능
+            if($logged_info->member_srl) {
+
+                // 스크랩 버튼 추가
+                $menu_str = Context::getLang('cmd_scrap');
+                $menu_link = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+            }
+
+            // trigger 호출 (after)
+            ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
+
+            // 정보를 저장
+            $this->add("menu_list", implode("\n",$menu_list));
+        }
 
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
@@ -59,7 +114,7 @@
         /**
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
-        function getDocumentList($obj) {
+        function getDocumentList($obj, $except_notice = false) {
             // 정렬 대상과 순서 체크 
             if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; 
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
@@ -84,6 +139,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
+            if($except_notice) $args->s_is_notice = 'N';
 
             $query_id = 'document.getDocumentList';
 
@@ -138,8 +194,17 @@
                             else $args->s_is_secret = '';
                         break;
                     case 'tag' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_tags = $search_keyword;
+                            $oDB = &DB::getInstance();
+                            $tmp_str_arr = explode(' ',$search_keyword);
+                            $tmp_count = count($tmp_str_arr);
+                            $tag_arr = array();
+                            for($i=0;$i<$tmp_count;$i++) {
+                                $tmp_str = trim($tmp_str_arr[$i]);
+                                if(!$tmp_str) continue;
+                                $tag_arr[] = $oDB->addQuotes($tmp_str);
+                            }
+                            $args->s_tags = "'".implode("','",$tag_arr);
+                            $query_id = 'document.getDocumentListWithinTag';
                         break;
                     case 'readed_count' :
                             $args->s_readed_count = (int)$search_keyword;
@@ -165,6 +230,11 @@
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
                         break;
+                    case 'comment' :
+                            $args->s_comment = $search_keyword;
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                            $query_id = 'document.getDocumentListWithinComment';
+                        break;
                     default :
                             preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
                             if($matches[1]) {
@@ -175,7 +245,7 @@
             }
 
             // document.getDocumentList 쿼리 실행
-            $output = executeQuery($query_id, $args);
+            $output = executeQueryArray($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
@@ -187,6 +257,33 @@
                 $oDocument = new documentItem();
                 $oDocument->setAttribute($attribute);
                 if($is_admin) $oDocument->setGrant();
+
+                $output->data[$key] = $oDocument;
+            
+            }
+            return $output;
+        }
+
+        /**
+         * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
+         **/
+        function getNoticeList($obj) {
+            $args->module_srl = $obj->module_srl;
+            $args->category_srl = $obj->category_srl;
+            $args->sort_index = 'list_order';
+            $args->order_type = 'asc';
+
+            $output = executeQueryArray('document.getNoticeList', $args);
+
+            // 결과가 없거나 오류 발생시 그냥 return
+            if(!$output->toBool()||!count($output->data)) return $output;
+
+            foreach($output->data as $key => $attribute) {
+                $document_srl = $attribute->document_srl;
+
+                $oDocument = null;
+                $oDocument = new documentItem();
+                $oDocument->setAttribute($attribute);
 
                 $output->data[$key] = $oDocument;
             
@@ -235,7 +332,20 @@
         function getCategory($category_srl) {
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getCategory', $args);
-            return $output->data;
+
+            $node = $output->data;
+            if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
+            else $node->group_srls = array();
+            return $node;
+        }
+
+        /**
+         * @brief 특정 카테고리에 child가 있는지 체크
+         **/
+        function getCategoryChlidCount($category_srl) {
+            $output = executeQuery('document.getChildCategoryCount');
+            if($output->data->count > 0) return true;
+            return false;
         }
 
         /**
@@ -267,6 +377,18 @@
             $output = executeQuery('document.getCategoryDocumentCount', $args);
             return (int)$output->data->count;
         }
+
+        /**
+         * @brief 문서 category정보의 xml 캐시 파일을 return
+         **/
+        function getCategoryXmlFile($module_srl) {
+            $xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
+            if(!file_exists($xml_file)) {
+                $oDocumentController = &getController('document');
+                $oDocumentController->makeCategoryXmlFile($module_srl);
+            }
+            return $xml_file;
+        } 
 
         /**
          * @brief 월별 글 보관현황을 가져옴

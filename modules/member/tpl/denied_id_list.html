@@ -9,13 +9,18 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1 gap1">
+<table cellspacing="0" class="adminTable">
+<col width="50" />
+<col width="180" />
+<col />
+<col width="80" />
+<col width="50" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
         <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->regdate}</th>
         <th scope="col">{$lang->description}</th>
+        <th scope="col">{$lang->regdate}</th>
         <th scope="col">{$lang->cmd_delete}</th>
     </tr>
 </thead>
@@ -24,8 +29,8 @@
     <tr>
         <td class="tahoma">{$no}</td>
         <td class="tahoma">{$val->user_id}</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td>{$val->description}&nbsp;</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="red"><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
@@ -50,7 +55,7 @@
 <input type="hidden" name="page" value="{$page}" />
 
 <div>
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -61,11 +66,12 @@
         <th scope="row">{$lang->description}</th>
         <td class="left"><textarea name="description" class="inputTypeTextArea w100"></textarea></td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 </div>
 
 </form>

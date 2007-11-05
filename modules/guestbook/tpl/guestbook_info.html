@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="tableType4">
+<table cellspacing="0" class="adminTable">
 <col width="150" />
 <col />
 <tr>
@@ -49,25 +49,26 @@
 </tr>
 <tr>
     <th scope="row">{$lang->description}</th>
-    <td>{nl2br(htmlspecialchars($module_info->description))}</td>
+    <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->header_text}</th>
-    <td>{htmlspecialchars($module_info->header_text)}</td>
+    <td>{htmlspecialchars($module_info->header_text)}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->footer_text}</th>
-    <td>{htmlspecialchars($module_info->footer_text)}</td>
+    <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->admin_id}</th>
-    <td>{implode(",",$module_info->admin_id)}</td>
+    <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row" colspan="2" class="button">
+        <a href="{getUrl('act','dispGuestbookAdminInsertGuestbook')}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispGuestbookAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_guestbook_list}</span></a>
+        <!--@end-->
+    </th>
 </tr>
 </table>
-
-<div class="tRight gap1">
-    <a href="{getUrl('act','dispGuestbookAdminInsertGuestbook')}" class="button"><span>{$lang->cmd_modify}</span></a>
-    <!--@if($module=="admin")-->
-    <a href="{getUrl('act','dispGuestbookAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_guestbook_list}</span></a>
-    <!--@end-->
-</div>

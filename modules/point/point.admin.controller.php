@@ -27,6 +27,13 @@
             $config->point_name = $args->point_name;
             if(!$config->point_name) $config->point_name = 'point';
 
+            $config->signup_point = (int)$args->signup_point;
+            $config->login_point = (int)$args->login_point;
+            $config->insert_document = (int)$args->insert_document;
+            $config->insert_comment = (int)$args->insert_comment;
+            $config->upload_file = (int)$args->upload_file;
+            $config->download_file = (int)$args->download_file;
+
             $config->max_level = $args->max_level;
             if($config->max_level>1000) $config->max_level = 1000;
             if($config->max_level<1) $config->max_level = 1;
@@ -61,14 +68,8 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
-            $config->signup = (int)$args->signup;
-            $config->insert_document = (int)$args->insert_document;
-            $config->insert_comment = (int)$args->insert_comment;
-            $config->upload_file = (int)$args->upload_file;
-            $config->download_file = (int)$args->download_file;
-
             foreach($args as $key => $val) {
-                preg_match("/^(signup|insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
+                preg_match("/^(insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
                 if(!$matches[1]) continue;
                 $name = $matches[1];
                 $module_srl = $matches[2];
@@ -86,6 +87,28 @@
         }
 
         /**
+         * @brief 모듈별 개별 포인트 저장
+         **/
+        function procPointAdminInsertPointModuleConfig() {
+            $module_srl = Context::get('target_module_srl');
+            if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 설정 정보 가져오기
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            $config->module_point[$module_srl]['insert_document'] = (int)Context::get('insert_document');
+            $config->module_point[$module_srl]['insert_comment'] = (int)Context::get('insert_comment');
+            $config->module_point[$module_srl]['upload_file'] = (int)Context::get('upload_file');
+            $config->module_point[$module_srl]['download_file'] = (int)Context::get('download_file');
+
+            $oModuleController = &getController('module');
+            $oModuleController->insertModuleConfig('point', $config);
+
+            return new Object(0, 'success_registed');
+        }
+
+        /**
          * @brief 기능별 act 저장
          **/
         function procPointAdminInsertActConfig() {
@@ -96,7 +119,6 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
-            $config->signup_act = $args->signup_act;
             $config->insert_document_act = $args->insert_document_act;
             $config->delete_document_act = $args->delete_document_act;
             $config->insert_comment_act = $args->insert_comment_act;
@@ -134,8 +156,7 @@
             $config = $oModuleModel->getModuleConfig('point');
 
             // 각 act값을 정리
-            $act_list = sprintf("%s,%s,%s,%s,%s,%s,%s,%s",
-                    $config->signup_act,
+            $act_list = sprintf("%s,%s,%s,%s,%s,%s,%s",
                     $config->insert_document_act,
                     $config->delete_document_act,
                     $config->insert_comment_act,

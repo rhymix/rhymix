@@ -16,6 +16,7 @@
     $lang->allowed_filesize = '文件大小限制';
     $lang->allowed_attach_size = '上传限制';
     $lang->allowed_filetypes = '可用扩展名';
+    $lang->enable_download_group = '다운로드 가능 그룹';
 
     $lang->about_allowed_filesize = '最大单个上传文件大小(管理员不受此限制)。';
     $lang->about_allowed_attach_size = '每个主题最大上传文件大小(管理员不受此限制)。';
@@ -25,6 +26,7 @@
     $lang->cmd_move_to_document = '查看源主题';
     $lang->cmd_download = '下载';
 
+    $lang->msg_not_permitted_download = '다운로드 할 수 있는 권한이 없습니다';
     $lang->msg_cart_is_null = ' 请选择要删除的文件。';
     $lang->msg_checked_file_is_deleted = '已删除%d个文件！';
     $lang->msg_exceeds_limit_size = '已超过系统指定的上传文件大小！';

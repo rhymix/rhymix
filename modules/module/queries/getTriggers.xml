@@ -1,0 +1,12 @@
+<query id="getTriggers" action="select">
+    <tables>
+        <table name="module_trigger" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="trigger_name" var="trigger_name" />
+        <condition operation="equal" column="called_position" var="called_position" pipe="and" />
+    </conditions>
+</query>

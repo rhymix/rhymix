@@ -169,17 +169,25 @@
         function getNickName() {
             return htmlspecialchars($this->get('nick_name'));
         }
-        
+
         function getTitleText($cut_size = 0, $tail='...') {
-            return htmlspecialchars($this->getTitle($cut_size, $tail));
+            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+
+            if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
+            else $title = $this->get('title');
+
+            return $title;
         }
 
         function getTitle($cut_size = 0, $tail='...') {
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            $title = $this->getTitleText($cut_size, $tail);
 
-            if($cut_size) return cut_str($this->get('title'), $cut_size, $tail);
+            $attrs = array();
+            if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
+            if($this->get('title_color')) $attrs[] = "color:#".$this->get('title_color');
 
-            return $this->get('title');
+            if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
+            else return htmlspecialchars($title);
         }
 
         function getContentText($strlen = 0) {
@@ -206,14 +214,22 @@
 
             // url에 대해서 정규표현식으로 치환
             $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
-            
-            if($add_document_info) return sprintf('<!--BeforeDocument(%d,%d)-->%s<!--AfterDocument(%d,%d)-->', $this->document_srl, $this->get('member_srl'), $content, $this->document_srl, $this->get('member_srl'));
+            if(!$add_document_info) return $content;
 
+            $content = sprintf(
+                    '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><div class="document_popup_menu"><span class="document_popup_menu document_%d">%s</span></div><!--AfterDocument(%d,%d)-->', 
+                    $this->document_srl, $this->get('member_srl'), 
+                    $this->document_srl, $this->get('member_srl'), 
+                    $content, 
+                    $this->document_srl, Context::getLang('cmd_document_do'),
+                    $this->document_srl, $this->get('member_srl'), 
+                    $this->document_srl, $this->get('member_srl')
+            );
             return $content;
         }
 
         function getSummary($str_size = 50) {
-            $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent())));
+            $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent(false))));
             return cut_str($content, $str_size, '...');
         }
 
@@ -294,7 +310,8 @@
             if(!$this->isGranted() && $this->isSecret()) return;
 
             $oCommentModel = &getModel('comment');
-            return $oCommentModel->getCommentList($this->document_srl, $is_admin);
+            $output = $oCommentModel->getCommentList($this->document_srl, $is_admin);
+            return $output;
         }
 
         function getTrackbackCount() {
@@ -315,14 +332,21 @@
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
             if(!$height) $height = $width;
+            
+            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
+            if(!in_array($thumbnail_type, array('crop','ratio'))) {
+                $oDocumentModel = &getModel('document');
+                $config = $oDocumentModel->getDocumentConfig();
+                $thumbnail_type = $config->thumbnail_type;
+            }
 
             // 문서의 이미지 첨부파일 위치를 구함
             $document_path = sprintf('./files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
             if(!is_dir($document_path)) FileHandler::makeDir($document_path);
 
             // 썸네일 임시 파일명을 구함
-            if($width != $height) $thumbnail_file = sprintf('%sthumbnail_%dx%d.jpg', $document_path, $width, $height);
-            else $thumbnail_file = sprintf('%sthumbnail_%d.jpg', $document_path, $width);
+            if($width != $height) $thumbnail_file = sprintf('%sthumbnail_%dx%d_%s.jpg', $document_path, $width, $height, $thumbnail_type);
+            else $thumbnail_file = sprintf('%sthumbnail_%d_%s.jpg', $document_path, $width, $thumbnail_type);
 
             // 썸네일이 있더라도 글의 수정시간과 비교해서 다르면 다시 생성함
             if(file_exists($thumbnail_file)) {
@@ -336,13 +360,6 @@
             // 썸네일 파일이 있으면 url return
             if(file_exists($thumbnail_file)) return Context::getRequestUri().$thumbnail_file;
 
-            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
-            if(!in_array($thumbnail_type, array('crop','ratio'))) {
-                $oDocumentModel = &getModel('document');
-                $config = $oDocumentModel->getDocumentConfig();
-                $thumbnail_type = $config->thumbnail_type;
-            }
-            
             // 생성 시작
             FileHandler::writeFile($thumbnail_file, '', 'w');
 
@@ -365,25 +382,27 @@
             // 첨부파일이 없으면 내용에서 추출
             $content = $this->get('content');
 
+            $target_src = null;
             preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
                 $src = $matches[$i][0];
-                if(strpos($src,"/common/tpl")!==false || strpos($src,"/modules")!==false) continue;
-                break;
+                if(ereg('\/(common|modules|widgets|addons|layouts)\/', $src)) continue;
+                else {
+                    $target_src = $src; 
+                    break;
+                }
             }
 
-            $tmp_file = sprintf('%sthumbnail_%d.tmp.jpg', $document_path, $width);
-
-            if($src) FileHandler::getRemoteFile($src, $tmp_file);
-            else {
-                FileHandler::writeFile($thumbnail_file,'');
-                return;
+            if($target_src) {
+                $tmp_file = sprintf('%sthumbnail_%d.tmp.jpg', $document_path, $width);
+                FileHandler::getRemoteFile($target_src, $tmp_file);
+                FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
+                @unlink($tmp_file);
+                return Context::getRequestUri().$thumbnail_file;
             }
 
-            FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $config->thumbnail_type);
-            @unlink($tmp_file);
-
-            return Context::getRequestUri().$thumbnail_file;
+            FileHandler::writeFile($thumbnail_file,'');
+            return;
         }
 
         /**

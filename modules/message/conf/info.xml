@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="base">
     <title xml:lang="ko">오류 표시</title>
     <title xml:lang="jp">エラー表示</title>
     <title xml:lang="zh-CN">错误信息</title>

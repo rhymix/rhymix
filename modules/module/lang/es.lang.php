@@ -22,12 +22,6 @@
     $lang->skin_default_info = 'información del tema predefinido';
     $lang->skin_maker = 'Desarrollador de temas';
     $lang->skin_maker_homepage = "Página Web del desarrollador de temas";
-    $lang->open_rss = 'Abrir RSS';
-    $lang->open_rss_types = array(
-        'Y' => 'Abrir todo',
-        'H' => 'Abrir el sumario',
-        'N' => 'No abrir',
-    );
     $lang->module_copy = "Copy Module";
 
     $lang->cmd_add_shortcut = "añadir acceso directo";
@@ -61,7 +55,6 @@
     $lang->about_page_count = 'Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 10)';
     $lang->about_admin_id = 'Usted puede definir el administrador de atribuciones superiores al módulo.\n Usted puede asignar múltiples IDs,<br />utilizando una ","(coma) \n(pero el administrador del módulo no puede acceder al sitio de la pógina del administrador.)';
     $lang->about_grant = 'Si usted desea desactivar a todos los objetos teniendo atribuciones especificas, incluso el usuario no conectado pueden tener atribuciones.';
-    $lang->about_open_rss = 'Usted puede seleccionar RSS abierto al público en el módulo actual.\nIndependiente de la atribución de ver, dependiendo de la opción de RSS puede ser abierto al público.';
     $lang->about_module = "Zeroboard XE consiste de módulos excepto la librería básica.\n Módulo del Manejo del Módulo muestra todos los módulos instalados y ayuda el manejo de ellos.\nLos módulos usados frecuentemente puede manejar fácilmente a través de función de [Añadir acceso directo].";
 
 	$lang->about_extra_vars_default_value = 'Si múltiples valores predefinidos son requeridos, usted puede enlazar con la coma(,).';

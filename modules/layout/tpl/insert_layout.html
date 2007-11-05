@@ -4,7 +4,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_layout)">
 
-    <table cellspacing="0" class="tableType2 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -20,14 +20,15 @@
     <tr>  
         <th scope="row">{$lang->title}</th>
         <td>
-            <input type="text" name="title" value="{$info->title}" class="inputTypeText w100" />
+            <input type="text" name="title" value="{$info->title}" class="inputTypeText w400" />
             <p>{$lang->about_title}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_next}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_next}" accesskey="s" /></span>
-    </div>
 
 </form>

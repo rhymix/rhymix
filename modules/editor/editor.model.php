@@ -22,7 +22,21 @@
          **/
 
         /**
-         * 에디터 template을 return
+         * @brief 모듈별 에디터 설정을 return
+         **/
+        function getEditorConfig($module_srl) {
+            // 선택된 모듈의 trackback설정을 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('editor');
+
+            $editor_skin = $config->module_config[$module_srl];
+            if(!$editor_skin) $editor_skin = "default";
+
+            return $editor_skin;
+        }
+
+        /**
+         * @brief 에디터 template을 return
          * upload_target_srl은 글의 수정시 호출하면 됨.
          * 이 upload_target_srl은 첨부파일의 유무를 체크하기 위한 루틴을 구현하는데 사용됨.
          **/
@@ -55,8 +69,11 @@
             else $editor_height = $option->height;
 
             // 스킨 설정
-            if(!$option->skin) $skin = 'default';
-            else $skin = $option->skin;
+            if(!$option->skin) {
+                $module_srl = Context::get('module_srl');
+                $skin = $this->getEditorConfig($module_srl);
+                
+            } else $skin = $option->skin;
 
             /**
              * 자동백업 기능 체크 (글 수정일 경우는 사용하지 않음)
@@ -87,8 +104,9 @@
 
                 // SWFUploader에 세팅할 업로드 설정 구함
                 $file_config = $oFileModel->getUploadConfig();
-                $file_config->attached_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
-                $file_config->allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
+                $file_config->attached_size = $file_config->allowed_attach_size*1024;
+                $file_config->allowed_filesize = $file_config->allowed_filesize*1024;
+
                 Context::set('file_config',$file_config);
 
                 // 업로드 가능 용량등에 대한 정보를 세팅

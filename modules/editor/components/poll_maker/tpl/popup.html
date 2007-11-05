@@ -19,7 +19,7 @@
 
     <div id="popBody">
 
-        <table cellspacing="0" class="tableType5">
+        <table cellspacing="0" class="adminTable">
         <col width="100" />
         <col />
         <tr>
@@ -47,46 +47,46 @@
                             <!--@end-->
                         </select>
                     </li>
-                    <li><a href="#" onclick="doPollAdd(); return false;"><span>{$lang->cmd_add_poll}</span></a></li>
+                    <li><a href="#" onclick="doPollAdd(); return false;">{$lang->cmd_add_poll}</a></li>
                 </ul>
             </td>
         </tr>
         </table>
 
         <div id="poll_source" class="clear" style="display:none">
+            <div class="clear"></div>
 
-            <table cellspacing="0" class="tableType5 gap1 clear">
+            <table cellspacing="0" class="adminTable gap1">
             <col width="100" />
             <col />
             <tr>
                 <th scope="row">{$lang->poll_title}</th>
-                <td><input type="text" name="title_tidx" class="inputTypeText w100" /></td>
+                <td><input type="text" name="title_tidx" class="inputTypeText w400" /></td>
             </tr>
 
             <tr>
                 <th scope="row">{$lang->poll_item} 1</th>
-                <td><input type="text" name="item_tidx_1" class="inputTypeText w100" /></td>
+                <td><input type="text" name="item_tidx_1" class="inputTypeText w400" /></td>
             </tr>
 
             <tr>
                 <th scope="row">{$lang->poll_item} 2</th>
-                <td><input type="text" name="item_tidx_2" class="inputTypeText w100" /></td>
+                <td><input type="text" name="item_tidx_2" class="inputTypeText w400" /></td>
             </tr>
             </table>
 
             <div class="pollButton clear">
                 <ul class="fl">
-                    <li><a href="#" onclick="doPollAddItem(this); return false;" >{$lang->cmd_add_item}</a></li>
+                    <li><a href="#" onclick="doPollAddItem(this); return false;">{$lang->cmd_add_item}</a></li>
                 </ul>
                 <ul class="fr">
-                    <li><a href="#" onclick="doPollDelete(this); return false;" >{$lang->cmd_del_poll}</a></li>
+                    <li><a href="#" onclick="doPollDelete(this); return false;">{$lang->cmd_del_poll}</a></li>
                 </ul>
                 <ul class="fr">
                     <li><label>{$lang->poll_chk_count}</label></li>
                     <li><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></li>
                 </ul>
             </div>
-
         </div>
 
     </div>

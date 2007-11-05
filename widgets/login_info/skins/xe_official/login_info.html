@@ -18,10 +18,9 @@
         <div class="fr"><a href="{getUrl('act','dispMemberLogout')}"><img src="./images/{$colorset}/buttonLogout.gif" alt="{$lang->cmd_logout}" width="47" height="18" /></a></div>
     </div>
     <ul class="userMenu">
-        <li><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></li>
-        <li><a href="{getUrl('act','dispMemberFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></li>
-        <li><a href="{getUrl('act','dispMemberMessages','message_type','','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></li>
-        <li><a href="{getUrl('act','dispMemberScrappedDocument','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_scrapped_document}</a></li>
+        <!--@foreach($logged_info->menu_list as $key => $val)-->
+        <li><a href="{getUrl('act',$key)}">{Context::getLang($val)}</a></li>
+        <!--@end-->
 
         <!--@if($logged_info->is_admin=="Y")-->
         <li><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></li>
@@ -33,4 +32,3 @@
     <p class="latestLogin">{$lang->last_login} : <span>{zDate($logged_info->last_login, "Y-m-d H:i")}</span></p>
 </form>
 </fieldset>
-

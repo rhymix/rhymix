@@ -17,14 +17,14 @@
     $lang->cmd_layout_edit = '레이아웃 편집';
 
     // 항목
-    $lang->parent_category_name = '상위 카테고리명';
-    $lang->category_name = '분류명';
+    $lang->parent_category_title = '상위 카테고리명';
+    $lang->category_title = '분류명';
     $lang->expand = '펼침';
     $lang->category_group_srls = '그룹제한';
     $lang->search_result = '검색결과';
 
     // 주절 주절..
-    $lang->about_category_name = '카테고리 이름을 입력해주세요';
+    $lang->about_category_title = '카테고리 이름을 입력해주세요';
     $lang->about_expand = '선택하시면 늘 펼쳐진 상태로 있게 합니다';
     $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
     $lang->about_layout_setup = '블로그의 레이아웃 코드를 직접 수정할 수 있습니다. 위젯 코드를 원하는 곳에 삽입하시거나 관리하세요';

@@ -7,18 +7,12 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-    <table cellspacing="0" class="tableType3">
+    <table cellspacing="0" class="adminTable">
     <col width="130" />
     <col width="*" />
     <col width="80" />
     <col width="80" />
-    <thead>
-    <tr>
-        <th scope="col">{$lang->grant}</th>
-        <th scope="col" colspan="3">{$lang->target}</th>
-    </tr>
-    </thead>
-
+    <caption>{$lang->target}</caption>
     <tbody>
         <!--@foreach($grant_list as $key => $val)-->
         <tr>
@@ -33,10 +27,12 @@
             <td><a href="#" onclick="doUnSelectAll(this, '{$key}')" class="red">{$lang->cmd_unselect_all}</a></td>
         </tr>
         <!--@end-->
+        <tr>
+            <th scope="row" colspan="4" class="button">
+                <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            </th>
+        </tr>
     </tbody>
     </table>
 
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-    </div>
 </form>

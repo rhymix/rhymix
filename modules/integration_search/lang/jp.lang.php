@@ -18,7 +18,8 @@
         'title' => 'タイトル',
         'content' => '内容',
         'title_content' => 'タイトル+内容',
-        //'comment' => 'コメント',
+        'comment' => 'コメント',
+        'tag' => 'タグ',
     );
 
     $lang->is_sort_option = array(

@@ -6,7 +6,7 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
-    <table cellspacing="0" class="tableType4">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -24,11 +24,12 @@
         <th scope="row">{$lang->document_count}</th>
         <td>{$module_info->document_count}</td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <a href="{getUrl('act','dispGuestbookAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        </th>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <a href="{getUrl('act','dispGuestbookAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-    </div>
 
 </form>

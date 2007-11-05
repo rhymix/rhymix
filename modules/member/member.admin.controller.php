@@ -83,11 +83,12 @@
          **/
         function procMemberAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('webmaster_name','webmaster_email','skin','colorset','enable_openid','enable_join','limit_day','redirect_url','agreement','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
+            $args = Context::gets('webmaster_name','webmaster_email','skin','colorset','enable_openid','enable_join','limit_day','redirect_url','agreement','profile_image','profile_image_max_width','profile_image_max_height','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height');
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
             if($args->enable_openid!='Y') $args->enable_openid= 'N';
+            if($args->profile_image !='Y') $args->profile_image = 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;

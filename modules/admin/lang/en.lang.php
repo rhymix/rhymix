@@ -5,6 +5,17 @@
      * @brief  English Language Pack (Only basic words are included here)
      **/
 
+    $lang->admin_info = 'Administrator Info';
+    $lang->admin_index = 'Index Admin Page';
+
+    $lang->module_category_title = array(
+        'service' => 'Service Modules',
+        'manager' => 'Managing Modules',
+        'utility' => 'Utility Modules',
+        'accessory' => 'Additional Modules',
+        'base' => 'Default Modules',
+    );
+
     $lang->newest_news = "Latest News";
     
     $lang->env_setup = "Setting";

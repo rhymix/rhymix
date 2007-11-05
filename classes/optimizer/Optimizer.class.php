@@ -96,9 +96,12 @@
                 // css 일경우 background:url() 변경
                 if($type == "css") $str = $this->replaceCssPath($file, $str);
 
-                $content_buff .= $str."\r\n";
+                $content_buff .= $str."\n";
             }
+            if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
+
             if($type!="css" && Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
+
 
             $content_file = eregi_replace("\.php$","",$filename);
             $content_filename = str_replace($this->cache_path, '', $content_file);
@@ -141,6 +144,8 @@ EndOfBuff;
             $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
 
             $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
+
+            $str = preg_replace('!@charset([^;]*?);!is','',$str);
 
             return $str;
         }

@@ -23,6 +23,7 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberLogout');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberSavedDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFindAccount');
 
             $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
@@ -43,8 +44,10 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInsertJoinForm');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminDeniedIDList');
 
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertProfileImage');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageName');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertImageMark');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteProfileImage');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
 
@@ -53,10 +56,13 @@
             $args->enable_openid = 'N';
             $args->image_name = 'Y';
             $args->image_mark = 'Y';
+            $args->profile_image = 'Y';
             $args->image_name_max_width = '90';
             $args->image_name_max_height = '20';
             $args->image_mark_max_width = '20';
-            $args->image_mark_max_width = '20';
+            $args->image_mark_max_height = '20';
+            $args->profile_image_max_width = '80';
+            $args->profile_image_max_height = '80';
             $oModuleController->insertModuleConfig('member',$args);
 
             // 멤버 컨트롤러 객체 생성
@@ -107,6 +113,7 @@
             // member 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/member_extra_info/image_name');
             FileHandler::makeDir('./files/member_extra_info/image_mark');
+            FileHandler::makeDir('./files/member_extra_info/profile_image');
             FileHandler::makeDir('./files/member_extra_info/signature');
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 
@@ -138,6 +145,19 @@
             $act = $oModuleModel->getActionForward('dispMemberFindAccount');
             if(!$act) return true;
 
+            // member 디렉토리 체크 (2007. 10. 22 추가)
+            if(!is_dir("./files/member_extra_info/profile_image")) return true;
+
+            // procMemberInsertProfileImage, procMemberDeleteProfileImage act의 여부 체크 (2007. 10. 22)
+            $act = $oModuleModel->getActionForward('procMemberInsertProfileImage');
+            if(!$act) return true;
+            $act = $oModuleModel->getActionForward('procMemberDeleteProfileImage');
+            if(!$act) return true;
+
+            // dispMemberSavedDocument act의 여부 체크 (2007. 10. 29)
+            $act = $oModuleModel->getActionForward('dispMemberSavedDocument');
+            if(!$act) return true;
+
             return false;
         }
 
@@ -149,16 +169,18 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
+            $oModuleController->insertActionForward('member', 'view', 'dispMemberSavedDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOpenIDLeave');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFindAccount');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberInsertProfileImage');
+            $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteProfileImage');
 
             // member 디렉토리 체크
             FileHandler::makeDir('./files/member_extra_info/image_name');
             FileHandler::makeDir('./files/member_extra_info/image_mark');
             FileHandler::makeDir('./files/member_extra_info/signature');
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
-
-            // dispMemberFindAccount act의 여부 체크 (2007. 10. 15)
+            FileHandler::makeDir('./files/member_extra_info/profile_image');
 
             return new Object(0, 'success_updated');
         }

@@ -32,6 +32,9 @@
     $lang->group_title = '用户组标题';
     $lang->group_srl = '用户组编号';
     $lang->signature = '签名';
+    $lang->profile_image = '用户图片';
+    $lang->profile_image_max_width = '宽度限制';
+    $lang->profile_image_max_height = '高度限制';
     $lang->image_name = '昵称图片';
     $lang->image_name_max_width = '宽度限制';
     $lang->image_name_max_height = '高度限制';
@@ -53,11 +56,11 @@
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '웹마스터 이름';
-    $lang->webmaster_email = '웹마스터 메일주소';
+    $lang->webmaster_name = '网站管理员姓名';
+    $lang->webmaster_email = '网站管理员邮件地址';
 
-    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
-    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+    $lang->about_webmaster_name = '请输入管理员姓名，管理网站及发送认证邮件时使用。 (例如 : webmaster)';
+    $lang->about_webmaster_email = '请输入网站管理员邮件。';
 
     $lang->search_target_list = array(
         'user_id' => '用户名',
@@ -84,7 +87,7 @@
     $lang->cmd_modify_member_password = '修改密码';
     $lang->cmd_view_member_info = '查看会员信息';
     $lang->cmd_leave = '注销';
-    $lang->cmd_find_member_account = 'Find Account Info';
+    $lang->cmd_find_member_account = '查找密码';
 
     $lang->cmd_member_list = '会员目录';
     $lang->cmd_module_config = '基本设置';
@@ -94,6 +97,7 @@
     $lang->cmd_manage_form = '注册表单管理';
     $lang->cmd_view_own_document = '查看我的帖子';
     $lang->cmd_view_scrapped_document = '查看收藏';
+    $lang->cmd_view_saved_document = '查看保管箱';
     $lang->cmd_send_email = '发送邮件';
     $lang->cmd_send_message = '发送短消息';
     $lang->cmd_reply_message = '回复短消息';
@@ -104,18 +108,18 @@
     $lang->cmd_add_friend_group = '添加好友组';
     $lang->cmd_rename_friend_group = '修改好友组名称';
 
-    $lang->msg_email_not_exists = "Email address doesn't exists";
+    $lang->msg_email_not_exists = "邮件地址出错";
 
     $lang->msg_alreay_scrapped = '已收藏的主题！';
 
     $lang->msg_cart_is_null = '请选择对象。';
     $lang->msg_checked_file_is_deleted = '已删除%d个附件。';
 
-    $lang->msg_find_account_title = 'Account Info';
-    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
-    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
-    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
-    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
+    $lang->msg_find_account_title = '帐户信息';
+    $lang->msg_find_account_info = '帐户信息如下，请您参照。';
+    $lang->msg_find_account_comment = '点击下面连接修改成上面显示的临时密码。<br />登陆后请修改您的密码。';
+    $lang->msg_auth_mail_sended = '往 %s 邮件地址发送认证信息请确认邮件。';
+    $lang->msg_success_authed = '成功认证，修改密码时请输入临时密码后修改。';
 
     $lang->msg_no_message = '没有短消息。';
     $lang->message_received = '您有新消息。';
@@ -179,6 +183,7 @@
 
     $lang->about_image_name = '用户昵称可以用小图片来替代显示。';
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
+    $lang->about_profile_image = '用户信息可使用图片代替显示。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 
 
     $lang->about_member_default = '将成为注册会员时的默认用户组。';
@@ -187,5 +192,5 @@
     $lang->about_openid_leave = '删除OpenID就等于永久删除站内用户的信息。<br />被删除后的重新登录就等于新会员注册，因此对以前自己写的主题将失去相应权限。';
 
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
-    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
+    $lang->about_find_member_account = '用户名及密码发送到您注册时输入的邮件地址。<br />请输入您注册时输入的邮件地址，然后请按"查找密码按钮"。<br />';
 ?>

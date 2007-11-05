@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1">
+<module version="0.1" category="utility">
     <title xml:lang="ko">첨부파일</title>
     <title xml:lang="zh-CN">上传附件</title>
     <title xml:lang="en">Attachment</title>

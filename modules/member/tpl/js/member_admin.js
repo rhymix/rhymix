@@ -246,7 +246,13 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
 }
 
 
-/* 이미지 이름, 마크 삭제 */
+/* 프로필 이미지, 이미지 이름, 마크 삭제 */
+function doDeleteProfileImage(member_srl) {
+    var fo_obj = xGetElementById("fo_image");
+    fo_obj.member_srl.value = member_srl;
+    procFilter(fo_obj, delete_profile_image);
+}
+
 function doDeleteImageName(member_srl) {
     var fo_obj = xGetElementById("fo_image");
     fo_obj.member_srl.value = member_srl;

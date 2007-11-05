@@ -10,12 +10,18 @@
 <input type="hidden" name="mode" value="" />
 </form>
 
-<table cellspacing="0" class="tableType1 gap1">
+<table cellspacing="0" class="adminTable">
+<col />
+<col />
+<col width="120" />
+<col width="50" />
+<col width="50" />
+<col width="50" />
 <thead>
     <tr>
         <th scope="col">{$lang->group_title}</th>
-        <th scope="col">{$lang->regdate}</th>
         <th scope="col">{$lang->description}</th>
+        <th scope="col">{$lang->regdate}</th>
         <th scope="col">{$lang->is_default}</th>
         <th scope="col">{$lang->cmd_modify}</th>
         <th scope="col">{$lang->cmd_delete}</th>
@@ -30,8 +36,8 @@
     <!--@foreach($group_list as $group_srl => $group_info)-->
     <tr>
         <td>{$group_info->title}</td>
-        <td class="tahoma">{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
         <td>{nl2br($group_info->description)}&nbsp;</td>
+        <td class="tahoma">{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
         <td class="tahoma">{$group_info->is_default}</td>
         <td class="blue"><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
         <td class="red">
@@ -52,7 +58,7 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="group_srl" value="" />
 
-    <table cellspacing="0" class="tableType3 gap1">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -67,10 +73,12 @@
         <th scope="row">{$lang->description}</th>
         <td class="left"><textarea name="description" class="inputTypeTextArea w100"></textarea></td>
     </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
 
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

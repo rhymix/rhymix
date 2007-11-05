@@ -14,6 +14,41 @@
         }
 
         /**
+         * @brief action forward 추가
+         * action foward는 등록된 action이 요청된 모듈에 없을 경우 찾아서 포워딩을 하는 구조이다
+         * 모듈의 설치시에 사용된다.
+         **/
+        function insertActionForward($module, $type, $act) {
+            $args->module = $module;
+            $args->type = $type;
+            $args->act = $act;
+
+            $output = executeQuery('module.insertActionFoward', $args);
+            return $output;
+        }
+
+        /**
+         * @brief module trigger 추가
+         * module trigger는 trigger 대상이 등록된 대상을 호출하는 방법이다.
+         *
+         **/
+        function insertTrigger($trigger_name, $module, $type, $called_method, $called_position) {
+            $args->trigger_name = $trigger_name;
+            $args->module = $module;
+            $args->type = $type;
+            $args->called_method = $called_method;
+            $args->called_position = $called_position;
+
+            $output = executeQuery('module.insertTrigger', $args);
+
+            // 트리거 정보가 있는 파일 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/triggers");
+
+            return $output;
+        }
+
+
+        /**
          * @brief 모듈의 기본 정보 입력
          * 모듈의 정보를 입력받은 데이터를 serialize하여 등록한다.
          **/
@@ -105,16 +140,42 @@
         }
 
         /**
-         * @brief action forward 추가
-         * action foward는 등록된 action이 요청된 모듈에 없을 경우 찾아서 포워딩을 하는 구조이다
-         * 모듈의 설치시에 사용된다.
+         * @brief 모듈을 삭제
+         *
+         * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
          **/
-        function insertActionForward($module, $type, $act) {
-            $args->module = $module;
-            $args->type = $type;
-            $args->act = $act;
+        function deleteModule($module_srl) {
 
-            $output = executeQuery('module.insertActionFoward', $args);
+            // trigger 호출 (before)
+            $trigger_obj->module_srl = $module_srl;
+            $output = ModuleHandler::triggerCall('module.deleteModule', 'before', $trigger_obj);
+            if(!$output->toBool()) return $output;
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            $args->module_srl = $module_srl;
+
+            // module 정보를 DB에서 삭제
+            $output = executeQuery('module.deleteModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('module.deleteModule', 'after', $trigger_obj);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+            // commit
+            $oDB->commit();
+
             return $output;
         }
 
@@ -139,83 +200,6 @@
             $args->grants = $grants;
             $output = executeQuery('module.updateModuleGrant', $args);
             if(!$output->toBool()) return $output;
-
-            return $output;
-        }
-
-        /**
-         * @brief 모듈을 삭제
-         *
-         * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
-         **/
-        function deleteModule($module_srl) {
-
-            // begin transaction
-            $oDB = &DB::getInstance();
-            $oDB->begin();
-
-            $args->module_srl = $module_srl;
-
-            // addon 삭제
-
-            // widget 삭제
-
-            // document 삭제
-            $oDocumentController = &getAdminController('document');
-            $output = $oDocumentController->deleteModuleDocument($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // category 삭제
-            $output = $oDocumentController->deleteModuleCategory($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // trackbacks 삭제
-            $oTrackbackController = &getAdminController('trackback');
-            $output = $oTrackbackController->deleteModuleTrackbacks($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // comments 삭제
-            $oCommentController = &getAdminController('comment');
-            $output = $oCommentController->deleteModuleComments($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // tags 삭제
-            $oTagController = &getAdminController('tag');
-            $output = $oTagController->deleteModuleTags($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // 첨부 파일 삭제
-            $oFileController = &getAdminController('file');
-            $output = $oFileController->deleteModuleFiles($module_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // module 정보를 DB에서 삭제
-            $output = executeQuery('module.deleteModule', $args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // commit
-            $oDB->commit();
 
             return $output;
         }

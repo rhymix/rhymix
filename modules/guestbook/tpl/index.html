@@ -1,24 +1,19 @@
 <!--#include("header.html")-->
 
-<div class="infoText">{nl2br($lang->about_guestbook)}</div>
-
 <!-- 정보 -->
 <div class="tableSummaryType1">
     Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <!-- 목록 -->
-<table cellspacing="0" class="tableType1">
+<table cellspacing="0" class="adminTable">
 <col width="50" />
-<col width="150" />
+<col width="120" />
 <col />
-<col width="40" />
 <col width="80" />
-<col width="100" />
-<col width="80" />
-<col width="40" />
-<col width="40" />
-<col width="40" />
+<col width="50" />
+<col width="50" />
+<col width="50" />
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -34,15 +29,13 @@
                     <option value="">---------</option>
                     <option value="-1">{$lang->cmd_management}</option>
                 </select>
-                <span class="button"><input type="submit" name="go_button" id="go_button" value="GO" /></span>
+                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
             </form>
         </th>
-        <th scope="col">{$lang->browser_title} / {$lang->mid}</th>
-        <th scope="col">{$lang->is_default}</th>
-        <th scope="col">{$lang->skin}</th>
-        <th scope="col">{$lang->admin_id}</th>
+        <th scope="col">{$lang->mid} / {$lang->browser_title}</th>
         <th scope="col">{$lang->regdate}</th>
         <th scope="col">{$lang->cmd_view}</th>
+        <th scope="col">{$lang->cmd_copy}</th>
         <th scope="col">{$lang->cmd_delete}</th>
     </tr>
 </thead>
@@ -58,14 +51,12 @@
             <!--@end-->
         </td>
         <td class="left subject">
-            <a href="{getUrl('act','dispGuestbookAdminGuestbookInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a><br />
-            {$val->mid}
+            {$val->mid} -
+            <a href="{getUrl('act','dispGuestbookAdminGuestbookInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a>
         </td>
-        <td class="tahoma">{$val->is_default}</td>
-        <td class="tahoma">{$val->skin}</td>
-        <td class="tahoma">{$val->admin_id}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="blue"><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
         <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispGuestbookAdminDeleteGuestbook','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->

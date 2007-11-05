@@ -239,7 +239,7 @@ function drawNode(parent_node, menu_id) {
 
 
         // html 작성
-        html += '<div id="'+zone_id+'" style="margin:0px;font-size:9pt;">';
+        html += '<div id="'+zone_id+'" style="margin:0px;font-size:9pt;white-space:nowrap;overflow:hidden;">';
 
         if(hasChild) html+= '<span style="cursor:pointer;" onclick="toggleFolder(\''+zone_id+'\');return false;">';
         else html+= '<span>';

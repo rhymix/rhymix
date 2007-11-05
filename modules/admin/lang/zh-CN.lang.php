@@ -5,6 +5,17 @@
      * @brief  简体中文语言包 (只收录基本内容)
      **/
 
+    $lang->admin_info = '管理员信息';
+    $lang->admin_index = '管理员页面';
+
+    $lang->module_category_title = array(
+        'service' => '服务类型',
+        'manager' => '管理类型',
+        'utility' => '功能模块',
+        'accessory' => '附加模块',
+        'base' => '基本模块',
+    );
+
     $lang->newest_news = "最新消息";
 
     $lang->env_setup = "环境设置";

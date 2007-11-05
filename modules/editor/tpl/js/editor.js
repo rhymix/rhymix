@@ -103,7 +103,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-30);
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
@@ -140,9 +140,6 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // IE가 아니고 내용이 없으면 <br /> 추가 (FF등에서 iframe 선택시 focus를 주기 위한 꽁수)
     if(!content && !xIE4Up) content = "<br />";
 
-    // iframe내의 document element를 구함
-    var contentDocument = iframe_obj.contentWindow.document;
-
     // 크기 변경 불가일 경우 드래그바 숨김
     var dragObj = xGetElementById("editor_drag_bar_"+editor_sequence);
     if(dragObj) {
@@ -172,38 +169,42 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
         content+
         '</body></html>'+
         '';
-    contentDocument.open("text/html","replace");
-    contentDocument.write(contentHtml);
-    contentDocument.close();
+    iframe_obj.contentWindow.document.open("text/html","replace");
+    iframe_obj.contentWindow.document.write(contentHtml);
+    iframe_obj.contentWindow.document.close();
 
     // editorMode를 기본으로 설정
     editorMode[editor_sequence] = null;
 
     // 에디터를 시작 시킴 
     try { 
-        contentDocument.designMode = 'On';
+        iframe_obj.contentWindow.document.designMode = 'On';
     } catch(e) {
     }
 
     try {
-        contentDocument.execCommand("undo", false, null);
-        contentDocument.execCommand("useCSS", false, true);
+        iframe_obj.contentWindow.document.execCommand("undo", false, null);
+        iframe_obj.contentWindow.document.execCommand("useCSS", false, true);
     }  catch (e) {
     }
 
     /**
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
      * 작성시 필요한 이벤트 체크
-     * 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 contentDocument에 대한 권한이 없기에 try 문으로 감싸서 
+     * 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 iframe_obj.contentWindow.document에 대한 권한이 없기에 try 문으로 감싸서 
      * 에러를 무시하도록 해야 함.
      **/
-    try {
-        // 에디터에서 키가 눌러질때마다 이벤트를 체크함 (enter키의 처리나 FF에서 alt-s등을 처리)
-        if(xIE4Up) xAddEventListener(contentDocument, 'keydown',editorKeyPress);
-        else xAddEventListener(contentDocument, 'keypress',editorKeyPress);
 
-        // 위젯 감시를 위한 더블클릭 이벤트 걸기 
-        xAddEventListener(contentDocument,'dblclick',editorSearchComponent);
+    // 위젯 감시를 위한 더블클릭 이벤트 걸기 
+    try {
+        xAddEventListener(iframe_obj.contentWindow.document,'dblclick',editorSearchComponent);
+    } catch(e) {
+    }
+
+    // 에디터에서 키가 눌러질때마다 이벤트를 체크함 (enter키의 처리나 FF에서 alt-s등을 처리)
+    try {
+        if(xIE4Up) xAddEventListener(iframe_obj.contentWindow.document, 'keydown',editorKeyPress);
+        else xAddEventListener(iframe_obj.contentWindow.document, 'keypress',editorKeyPress);
     } catch(e) {
     }
 
@@ -300,15 +301,19 @@ function editorReplaceHTML(iframe_obj, html) {
 
     } else {
 
-        if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
-            var range = iframe_obj.contentDocument.createRange();
-            range.setStart(iframe_obj.contentDocument.body,0);
-            range.setEnd(iframe_obj.contentDocument.body,0);
-            range.insertNode(range.createContextualFragment(html));
-        } else {
-            var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(range.createContextualFragment(html));
+        try {
+            if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
+                var range = iframe_obj.contentDocument.createRange();
+                range.setStart(iframe_obj.contentDocument.body,0);
+                range.setEnd(iframe_obj.contentDocument.body,0);
+                range.insertNode(range.createContextualFragment(html));
+            } else {
+                var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(range.createContextualFragment(html));
+            }
+        } catch(e) {
+            xInnerHtml(iframe_obj.contentWindow.document.body, html+xInnerHtml(iframe_obj.contentWindow.document.body));
         }
 
     }

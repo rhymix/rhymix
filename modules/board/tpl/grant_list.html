@@ -1,17 +1,16 @@
 <!--#include("./header.html")-->
 <!--%import("filter/insert_grant.xml")-->
 
-<div class="infoText">{nl2br($lang->about_grant)}</div>
-
 <form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-    <table cellspacing="0" class="tableType3">
+    <table cellspacing="0" class="adminTable">
     <col width="130" />
     <col width="*" />
     <col width="80" />
     <col width="80" />
+    <caption>{$lang->about_grant}</caption>
     <thead>
     <tr>
         <th scope="col">{$lang->grant}</th>
@@ -25,18 +24,21 @@
             <th scope="row">{$val->title}</th>
             <td class="left">
                 <!--@foreach($group_list as $k => $v)-->
-                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
-                <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+                <div>
+                    <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+                    <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+                </div>
                 <!--@end-->
             </td>
             <td><a href="#" onclick="doSelectAll(this, '{$key}')" class="blue">{$lang->cmd_select_all}</a></td>
             <td><a href="#" onclick="doUnSelectAll(this, '{$key}')" class="red">{$lang->cmd_unselect_all}</a></td>
         </tr>
         <!--@end-->
+        <tr>
+            <th scope="row" colspan="4" class="button">
+                <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            </th>
+        </tr>
     </tbody>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-    </div>
 </form>

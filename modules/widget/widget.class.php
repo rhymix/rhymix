@@ -20,6 +20,7 @@
 
             // widget 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/cache/widget');
+			FileHandler::makeDir('./files/cache/widget_cache');
 
             return new Object();
         }

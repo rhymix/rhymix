@@ -1,0 +1,7 @@
+<table name="module_trigger">
+    <column name="trigger_name" type="varchar" size="80" notnull="notnull" unique="idx_trigger" />
+    <column name="called_position" type="varchar" size="15" notnull="notnull" unique="idx_trigger" />
+    <column name="module" type="varchar" size="80" notnull="notnull" unique="idx_trigger" />
+    <column name="type" type="varchar" size="15" notnull="notnull" unique="idx_trigger" />
+    <column name="called_method" type="varchar" size="80" notnull="notnull" unique="idx_trigger" />
+</table>

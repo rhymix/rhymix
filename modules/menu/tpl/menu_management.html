@@ -4,7 +4,6 @@
 <!--%import("filter/move_menu_item.xml")-->
 <!--%import("css/menu.css")-->
 <!--%import("js/menu_admin.js")-->
-<!--#include("header.html")-->
 
 <div class="menuManagement">
 
@@ -18,7 +17,10 @@
     <!--@if($module == 'admin')-->
         <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
-            <table cellspacing="0" class="tableType3">
+            <table cellspacing="0" class="adminTable">
+            <col width="150" />
+            <col />
+            <caption>{$lang->menu} {$lang->cmd_management}</caption>
             <tr>
                 <th scope="col">{$lang->title}</th>
                 <td>
@@ -39,7 +41,7 @@
         </form>
 
     <!--@else-->
-        <table cellspacing="0" class="tableType3">
+        <table cellspacing="0" class="adminTable">
         <tr>
             <th scope="col">{$lang->title}</th>
             <td class="left">
@@ -54,32 +56,27 @@
     <!--@end-->
 
     <div class="gap1">
+        <a href="#" onclick="doInsertMenuItem(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+        <a href="#" onclick="openAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
+        <a href="#" onclick="closeAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
+    </div>
+
+    <p class="gap1"><input type="checkbox" id="menu_enable_move" class="checkbox" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label></p>
+
+    <div class="gap1">
         <form id="fo_menu" action="./" method="get" onsubmit="return procFilter(this, insert_menu_item)" class="clear">
         <input type="hidden" name="title" value="{$menu_info->title}" />
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
         <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
         <input type="hidden" name="php_file" value="{$menu_info->php_file}" />
 
-            <table class="menuListZone">
-            <tr>
-                <td class="category_zone">
-                    <div id="category_list">
-                    <div id="menu_zone_menu"></div>
-                    <p><input type="checkbox" id="menu_enable_move" class="checkbox" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label></p>
-                    </div>
-                </td>
-                <td class="menu_zone">
-                    <div id="menu_zone_info"></div>
-                </td>
-            </tr>
-            </table>
 
-            <div class="fl gap1">
-                <a href="#" onclick="doInsertMenuItem(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
-                <a href="#" onclick="openAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
-                <a href="#" onclick="closeAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
-                <a href="#"  onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+            <div id="category_list">
+                <div id="menu_zone_menu"></div>
             </div>
+            <div id="menu_zone_info"></div>
+
 
         </form>
 

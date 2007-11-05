@@ -10,7 +10,7 @@
 <input type="hidden" name="type" value="" />
 
 <div id="popBody">
-    <table cellspacing="0" class="tableType5">
+    <table cellspacing="0" class="adminTable">
     <col width="150" />
     <col />
     <tr>
@@ -20,7 +20,7 @@
             <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /> {$lang->cmd_select}
             <ul class="document_list_box">
                 <!--@foreach($document_list as $key => $document)-->
-                <li class="document_list"><input type="checkbox" checked="checked" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this);"/> <address>{$document->getNickName()}</address> <span class="document_title">{$document->getTitle()}</li>
+                <li class="document_list"><input type="checkbox" checked="checked" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this);"/> <address>{$document->getNickName()}</address> <span class="document_title">{$document->getTitle()}</span></li>
                 <!--@end-->
             </ul>
             <!--@else-->
@@ -32,7 +32,7 @@
     <tr>
         <th scope="row">{$lang->move_target_module}</th>
         <td>
-          <select id="target_module" name="target_module" class="w100" onchange="doGetCategoryFromModule(this); return false;">
+          <select id="target_module" name="target_module" class="w300" onchange="doGetCategoryFromModule(this); return false;">
           <!--@foreach($module_list as $key => $val)-->
               <option value="{$val->module_srl}">{$val->browser_title} ({$val->mid})</option>
           <!--@end-->
@@ -42,7 +42,7 @@
     <tr>
         <th scope="row">{$lang->category}</th>
         <td>
-          <select id="target_category" name="target_category" class="w100">
+          <select id="target_category" name="target_category" class="w300">
           </select>
         </td>
     </tr>

@@ -17,7 +17,6 @@
             <condition operation="like" column="email_address" var="s_email_addres" pipe="or" />
             <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
             <condition operation="like" column="tags" var="s_tags" pipe="or" />
-            <condition operation="equal" column="is_notice" var="s_is_notice" pipe="or" />
             <condition operation="equal" column="is_secret" var="s_is_secret" pipe="or" />
             <condition operation="equal" column="member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="readed_count" var="s_readed_count" pipe="or" />
@@ -49,6 +48,7 @@
             <condition operation="like" column="extra_vars19" var="s_extra_vars19" pipe="or" />
             <condition operation="like" column="extra_vars20" var="s_extra_vars20" pipe="or" />
         </group>
+        <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="last_update" var="start_date" pipe="and" />
             <condition operation="less" column="last_update" var="end_date" pipe="and" />

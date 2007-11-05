@@ -11,5 +11,6 @@
         <action name="procPointAdminInsertModuleConfig" type="controller" standalone="true" />
         <action name="procPointAdminInsertActConfig" type="controller" standalone="true" />
         <action name="procPointAdminUpdatePoint" type="controller" standalone="true" />
+        <action name="procPointAdminInsertPointModuleConfig" type="controller" standalone="true" />
     </actions>
 </module>

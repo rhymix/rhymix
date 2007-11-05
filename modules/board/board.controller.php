@@ -25,6 +25,12 @@
             $obj->module_srl = $this->module_srl;
             if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 
+            // 관리자가 아니라면 게시글 색상/굵기 제거
+            if(!$this->grant->manager) {
+                unset($obj->title_color);
+                unset($obj->title_bold);
+            }
+
             // document module의 model 객체 생성
             $oDocumentModel = &getModel('document');
 
@@ -48,14 +54,6 @@
 
             // 오류 발생시 멈춤
             if(!$output->toBool()) return $output;
-
-            // 트랙백이 있으면 트랙백 발송
-            $trackback_url = Context::get('trackback_url');
-            $trackback_charset = Context::get('trackback_charset');
-            if($trackback_url) {
-                $oTrackbackController = &getController('trackback');
-                $oTrackbackController->sendTrackback($obj, $trackback_url, $trackback_charset);
-            }
 
             // 결과를 리턴
             $this->add('mid', Context::get('mid'));
@@ -107,7 +105,7 @@
             if(!$this->grant->write_comment) return new Object(-1, 'msg_not_permitted');
 
             // 댓글 입력에 필요한 데이터 추출
-            $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage');
+            $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage','is_secret','notify_message');
             $obj->module_srl = $this->module_srl;
 
             // comment 모듈의 model 객체 생성
@@ -205,14 +203,13 @@
             if($comment_srl) {
                 // 문서번호에 해당하는 글이 있는지 확인
                 $oCommentModel = &getModel('comment');
-                $data = $oCommentModel->getComment($comment_srl);
-                if(!$data) return new Object(-1, 'msg_invalid_request');
+                $oComment = $oCommentModel->getComment($comment_srl);
+                if(!$oComment->isExists()) return new Object(-1, 'msg_invalid_request');
 
                 // 문서의 비밀번호와 입력한 비밀번호의 비교
-                if($data->password != $password) return new Object(-1, 'msg_invalid_password');
+                if($oComment->get('password') != $password) return new Object(-1, 'msg_invalid_password');
 
-                $oCommentController = &getController('comment');
-                $oCommentController->addGrant($comment_srl);
+                $oComment->setGrant();
             } else {
                 // 문서번호에 해당하는 글이 있는지 확인
                 $oDocumentModel = &getModel('document');
@@ -224,6 +221,40 @@
 
                 $oDocument->setGrant();
             }
+        }
+
+        /**
+         * @brief 아이디 클릭시 나타나는 팝업메뉴에 "작성글 보기" 메뉴를 추가하는 trigger
+         **/
+        function triggerMemberMenu(&$obj) {
+            $member_srl = Context::get('target_srl');
+            $mid = Context::get('cur_mid');
+
+            if(!$member_srl || !$mid) return new Object();
+
+            $logged_info = Context::get('logged_info');
+
+            // 호출된 모듈의 정보 구함
+            $oModuleModel = &getModel('module');
+            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
+
+            if($cur_module_info->module != 'board') return new Object();
+
+            // 자신의 아이디를 클릭한 경우
+            if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
+            else {
+                $oMemberModel = &getModel('member');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            }
+
+            if(!$member_info->user_id) return new Object();
+
+            // 아이디로 검색
+            $menu_str = Context::getLang('cmd_view_own_document');
+            $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $member_info->user_id);
+            $obj[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
+
+            return new Object();
         }
 
     }

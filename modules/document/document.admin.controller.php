@@ -156,8 +156,8 @@
 
                 // 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
                 if($source_category_srl != $category_srl) {
-                    if($source_category_srl) $oDocumentController->updateCategoryCount($source_category_srl);
-                    if($category_srl) $oDocumentController->updateCategoryCount($category_srl);
+                    if($source_category_srl) $oDocumentController->updateCategoryCount($oDocument->get('module_srl'), $source_category_srl);
+                    if($category_srl) $oDocumentController->updateCategoryCount($module_srl, $category_srl);
                 }
             }
 
@@ -197,7 +197,6 @@
 
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
-            $oFileController = &getController('file');
 
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -223,6 +222,7 @@
                         $file_info = array();
                         $file_info['tmp_name'] = $val->uploaded_filename;
                         $file_info['name'] = $val->source_filename;
+                        $oFileController = &getController('file');
                         $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
                     }
                 }
@@ -246,146 +246,6 @@
             $args->module_srl = $module_srl;
             $output = executeQuery('document.deleteModuleDocument', $args);
             return $output;
-        }
-
-        /**
-         * @brief 카테고리 추가
-         **/
-        function insertCategory($module_srl, $title, $category_srl = 0) {
-            if(!$category_srl) $args->list_order = $args->category_srl = getNextSequence();
-            else $args->list_order = $args->category_srl = $category_srl;
-
-            $args->module_srl = $module_srl;
-            $args->title = $title;
-            $args->document_count = 0;
-
-            $output = executeQuery('document.insertCategory', $args);
-            if($output->toBool()) $output->add('category_srl', $args->category_srl);
-
-            return $output;
-        }
-
-        /**
-         * @brief 카테고리 정보 수정
-         **/
-        function updateCategory($args) {
-            return executeQuery('document.updateCategory', $args);
-        }
-
-        /**
-         * @brief 카테고리 삭제
-         **/
-        function deleteCategory($category_srl) {
-            $args->category_srl = $category_srl;
-
-            // 카테고리 정보를 삭제
-            $output = executeQuery('document.deleteCategory', $args);
-            if(!$output->toBool()) return $output;
-
-            // 현 카테고리 값을 가지는 문서들의 category_srl을 0 으로 세팅
-            unset($args);
-
-            $args->target_category_srl = 0;
-            $args->source_category_srl = $category_srl;
-            $output = executeQuery('document.updateDocumentCategory', $args);
-            return $output;
-        }
-
-        /**
-         * @brief 특정 모듈의 카테고리를 모두 삭제
-         **/
-        function deleteModuleCategory($module_srl) {
-            $args->module_srl = $module_srl;
-            $output = executeQuery('document.deleteModuleCategory', $args);
-            return $output;
-        }
-
-        /**
-         * @brief 카테고리를 상단으로 이동
-         **/
-        function moveCategoryUp($category_srl) {
-            $oDocumentModel = &getModel('document');
-
-            // 선택된 카테고리의 정보를 구한다
-            $args->category_srl = $category_srl;
-            $output = executeQuery('document.getCategory', $args);
-
-            $category = $output->data;
-            $list_order = $category->list_order;
-            $module_srl = $category->module_srl;
-
-            // 전체 카테고리 목록을 구한다
-            $category_list = $oDocumentModel->getCategoryList($module_srl);
-            $category_srl_list = array_keys($category_list);
-            if(count($category_srl_list)<2) return new Object();
-
-            $prev_category = NULL;
-            foreach($category_list as $key => $val) {
-                if($key==$category_srl) break;
-                $prev_category = $val;
-            }
-
-            // 이전 카테고리가 없으면 그냥 return
-            if(!$prev_category) return new Object(-1,Context::getLang('msg_category_not_moved'));
-
-            // 선택한 카테고리가 가장 위의 카테고리이면 그냥 return
-            if($category_srl_list[0]==$category_srl) return new Object(-1,Context::getLang('msg_category_not_moved'));
-
-            // 선택한 카테고리의 정보
-            $cur_args->category_srl = $category_srl;
-            $cur_args->list_order = $prev_category->list_order;
-            $cur_args->title = $category->title;
-            $this->updateCategory($cur_args);
-
-            // 대상 카테고리의 정보
-            $prev_args->category_srl = $prev_category->category_srl;
-            $prev_args->list_order = $list_order;
-            $prev_args->title = $prev_category->title;
-            $this->updateCategory($prev_args);
-
-            return new Object();
-        }
-
-        /** 
-         * @brief 카테고리를 아래로 이동
-         **/
-        function moveCategoryDown($category_srl) {
-            $oDocumentModel = &getModel('document');
-
-            // 선택된 카테고리의 정보를 구한다
-            $args->category_srl = $category_srl;
-            $output = executeQuery('document.getCategory', $args);
-
-            $category = $output->data;
-            $list_order = $category->list_order;
-            $module_srl = $category->module_srl;
-
-            // 전체 카테고리 목록을 구한다
-            $category_list = $oDocumentModel->getCategoryList($module_srl);
-            $category_srl_list = array_keys($category_list);
-            if(count($category_srl_list)<2) return new Object();
-
-            for($i=0;$i<count($category_srl_list);$i++) {
-                if($category_srl_list[$i]==$category_srl) break;
-            }
-
-            $next_category_srl = $category_srl_list[$i+1];
-            if(!$category_list[$next_category_srl]) return new Object(-1,Context::getLang('msg_category_not_moved'));
-            $next_category = $category_list[$next_category_srl];
-
-            // 선택한 카테고리의 정보
-            $cur_args->category_srl = $category_srl;
-            $cur_args->list_order = $next_category->list_order;
-            $cur_args->title = $category->title;
-            $this->updateCategory($cur_args);
-
-            // 대상 카테고리의 정보
-            $next_args->category_srl = $next_category->category_srl;
-            $next_args->list_order = $list_order;
-            $next_args->title = $next_category->title;
-            $this->updateCategory($next_args);
-
-            return new Object();
         }
 
         /**

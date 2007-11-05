@@ -92,7 +92,8 @@
             }
 
             // 그래프 그리기
-            $prev_x = $prev_y = 0;
+            $prev_x = 0;
+            $prev_y = $graph_height-45;
             $step = 0;
 
             // 선 그림
@@ -100,12 +101,11 @@
                 // 그래프를 그리기 위한 좌표 구함
                 $unique_visitor = $val->unique_visitor;
                 if($max_unique_visitor == 0) $per = 0;
-                elseif($max_unique_visitor == $min_unique_visitor) $per = 0;
-                else $per = ($val->unique_visitor-$min_unique_visitor) / ($max_unique_visitor-$min_unique_visitor);
+                else $per = $val->unique_visitor / $max_unique_visitor;
 
                 // x,y 좌표 구함
                 $cur_x = (int)($step * $x_gap);
-                $cur_y = (int)( ($graph_height-55) - ($graph_height-55)*$per);
+                $cur_y = (int)( ($graph_height-45) - ($graph_height-45)*$per);
 
                 imageline($image, $prev_x+15, $prev_y+15, $cur_x+15, $cur_y+15, $visitorLine);
 
@@ -116,17 +116,18 @@
             }
 
             // 포인트 + 숫자 표시
-            $prev_x = $prev_y = 0;
+            $prev_x = 0;
+            $prev_y = $graph_height-45;
             $step = 0;
             foreach($data as $date => $val) {
                 // 그래프를 그리기 위한 좌표 구함
                 $unique_visitor = $val->unique_visitor;
                 if($max_unique_visitor == 0) $per = 0;
-                else $per = ($val->unique_visitor-$min_unique_visitor) / ($max_unique_visitor-$min_unique_visitor);
+                else $per = $val->unique_visitor / $max_unique_visitor;
 
                 // x,y 좌표 구함
                 $cur_x = (int)($step * $x_gap);
-                $cur_y = (int)( ($graph_height-55) - ($graph_height-55)*$per);
+                $cur_y = (int)( ($graph_height-45) - ($graph_height-45)*$per);
 
                 imagefilledrectangle($image, $cur_x+15-1, $cur_y+15-1, $cur_x+15+1, $cur_y+15+1, $pointColor);
 

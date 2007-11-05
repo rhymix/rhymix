@@ -21,11 +21,15 @@
     $lang->cmd_comment_registration = '댓글 등록';
     $lang->cmd_insert = '추가';
     $lang->cmd_save = '저장';
+    $lang->cmd_load = '불러오기';
     $lang->cmd_input = '입력';
     $lang->cmd_search = '검색';
     $lang->cmd_cancel = '취소';
     $lang->cmd_back = '돌아가기';
     $lang->cmd_vote = '추천';
+    $lang->cmd_vote_down = '비추천';
+    $lang->cmd_declare = '신고';
+    $lang->cmd_declared_list = '신고 목록';
     $lang->cmd_copy = '복사';
     $lang->cmd_move = '이동';
     $lang->cmd_move_up = '위로';
@@ -44,6 +48,7 @@
     $lang->cmd_close = '닫기';
     $lang->cmd_open = '열기';
     $lang->cmd_setup = '설정';
+    $lang->cmd_addition_setup = '추가 설정';
 	$lang->cmd_option = '옵션';
     $lang->cmd_apply = '적용';
     $lang->cmd_open_calendar = '날짜 선택';
@@ -53,6 +58,7 @@
     $lang->cmd_preview = '미리 보기';
     $lang->cmd_reset = '초기화';
     $lang->cmd_remake_cache = "캐시파일 재생성";
+    $lang->cmd_publish = "발행";
 
     $lang->enable = '가능';
     $lang->disable = '불가능';
@@ -79,6 +85,8 @@
     $lang->browser_title = '브라우저 제목';
     $lang->title = '제목';
     $lang->title_content = '제목+내용';
+    $lang->topic = '주제';
+    $lang->replies = '응답';
     $lang->content = '내용';
     $lang->document = '게시물';
     $lang->comment = '댓글';
@@ -120,7 +128,8 @@
     $lang->member_count = '회원수';
     $lang->date = '날짜';
     $lang->regdate = '등록일';
-    $lang->last_update = '최근수정일';
+    $lang->last_update = '최근 수정일';
+    $lang->last_post = '최근 등록';
     $lang->signup_date = '가입일';
     $lang->last_login = '최근로그인';
     $lang->first_page = '첫페이지';
@@ -169,6 +178,7 @@
     $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수가 없습니다';
 
     $lang->success_registed = '등록되었습니다';
+    $lang->success_declared = '신고되었습니다';
     $lang->success_updated = '수정되었습니다';
     $lang->success_deleted = '삭제되었습니다';
     $lang->success_voted = '추천되었습니다';
@@ -176,11 +186,13 @@
     $lang->success_sended = '발송되었습니다';
     $lang->success_reset = '초기화되었습니다';
     $lang->success_leaved = '탈퇴되었습니다';
+    $lang->success_saved = '저장되었습니다';
 
     $lang->fail_to_delete = '삭제 실패하였습니다';
     $lang->fail_to_move = '이동 실패하였습니다';
 
     $lang->failed_voted = '추천하실 수 없습니다';
+    $lang->failed_declared = '신고를 하실 수 없습니다';
     $lang->fail_to_delete_have_children = '답글이 있어서 삭제할 수 없습니다';
 
     $lang->confirm_submit = '등록하시겠습니까?';

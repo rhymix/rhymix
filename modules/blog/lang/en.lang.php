@@ -17,14 +17,14 @@
     $lang->cmd_layout_edit = 'Edit layout';
 
     // Item
-    $lang->parent_category_name = 'Parent category';
-    $lang->category_name = 'Category';
+    $lang->parent_category_title = 'Parent category';
+    $lang->category_title = 'Category';
     $lang->expand = 'Expand';
     $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search result';
     
     // blah blah..
-    $lang->about_category_name = 'Please input category name';
+    $lang->about_category_title = 'Please input category name';
     $lang->about_expand = 'By selecting this option, it will be always expanded';
     $lang->about_category_group_srls = 'Only the selected group will be able to see current categories. (Manually open xml file to expose)';
     $lang->about_layout_setup = 'You can manually modify blog layout code. Insert or manage the widget code anywhere you want';
