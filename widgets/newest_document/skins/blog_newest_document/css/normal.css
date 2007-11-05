@@ -3,4 +3,4 @@
 /*:first-child+html .boxTypeB h2 { height:20px;} */
 .newestDocument .documentList { padding:1.2em; overflow:hidden;}
 .newestDocument .documentList li { display:block; color:#a4a4a4; margin-right:.1em; overflow:hidden; }
-.newestDocument .documentList li a { color:#a4a4a4; line-height:1.5em; }
+.newestDocument .documentList li a { color:#a4a4a4; line-height:1.5em; text-decoration:none; }
