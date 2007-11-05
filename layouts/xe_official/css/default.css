@@ -7,8 +7,8 @@ Jeong, Chan Myeong 070601~070630
 /* Default Skin - Start */
 
 /* Site Layout - Body Wrap */
-body { _position:relative; _background-color:#FFFFFF; background:url(../images/default/bgBody.gif) repeat-x left top; }
-#bodyWrap { _background-color:#FFFFFF; width:980px; margin:1.5em auto 0 auto; }
+body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
+#bodyWrap { width:980px; margin:1.5em auto 0 auto; }
 
 /* Site Layout - Header */
 #header { position:relative; width:980px; height:120px; background:url(../images/default/bgHeader.jpg) no-repeat right top; margin-bottom:10px; z-index:99;}
