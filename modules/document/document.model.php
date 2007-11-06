@@ -334,8 +334,16 @@
             $output = executeQuery('document.getCategory', $args);
 
             $node = $output->data;
-            if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
-            else $node->group_srls = array();
+            if(!$node) return;
+
+            if($node->group_srls) {
+                $group_srls = explode(',',$node->group_srls);
+                unset($node->group_srls);
+                $node->group_srls = explode(',',$node->group_srls);
+            } else {
+                unset($node->group_srls);
+                $node->group_srls = array();
+            }
             return $node;
         }
 
