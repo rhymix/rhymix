@@ -15,6 +15,6 @@
         <description xml:lang="zh-CN">管理引用模块。</description>
         <description xml:lang="jp">トラックバック管理モジュール</description>
         <description xnl:lang="en">Module for managing trackbacks</description> 
-	<description xnl:lang="es">Módulo para el manejo de trackbacks</description>
+	    <description xnl:lang="es">Módulo para el manejo de trackbacks</description>
     </author>
 </module>

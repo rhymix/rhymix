@@ -6,11 +6,11 @@
      **/
 
     $lang->admin_info = '管理员信息';
-    $lang->admin_index = '管理员页面';
+    $lang->admin_index = '管理首页';
 
     $lang->module_category_title = array(
-        'service' => '服务类型',
-        'manager' => '管理类型',
+        'service' => '服务类模块',
+        'manager' => '管理类模块',
         'utility' => '功能模块',
         'accessory' => '附加模块',
         'base' => '基本模块',

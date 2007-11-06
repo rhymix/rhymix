@@ -20,5 +20,5 @@
     );
 
     $lang->enable_trackback = "使用引用";
-    $lang->about_enable_trackback = "取消此项勾选将对网站内的所有主题中止接收引用。";
+    $lang->about_enable_trackback = "取消此项勾选将对网站内的所有主题禁止接收引用。";
 ?>

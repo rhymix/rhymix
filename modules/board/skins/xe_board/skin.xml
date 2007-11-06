@@ -2,12 +2,12 @@
 <skin>
     <title xml:lang="ko">제로보드XE 게시판 기본 스킨</title>
     <title xml:lang="jp">ゼロボードXE掲示板のデフォルトスキン</title>
-    <title xml:lang="zh-CN">Zeroboard XE Board 基本皮肤</title>
+    <title xml:lang="zh-CN">Zeroboard XE版面默认皮肤</title>
     <title xml:lang="en">ZeroboardXE Basic Board Skin</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 10. 22">
         <name xml:lang="ko">zero</name>
         <name xml:lang="jp">zero</name>
-        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">
             제로보드XE 게시판의 기본 스킨입니다.
@@ -65,10 +65,15 @@
     <extra_vars>
         <var name="default_style" type="select">
             <title xml:lang="ko">기본 형태</title>
+            <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형, 포럼형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
+            </description>
+            <description xml:lang="zh-CN">
+                可以把版面指定为默认的目录型，网络杂志型，相册型及论坛型。
+                当使用论坛型的时候请把排列对象设置为updated。
             </description>
 			<description xml:lang="en">
                 You may select default styles such as list style, webzine style, gallery stylz or forum style.
