@@ -749,7 +749,17 @@
             $signature = Context::get('signature');
             $this->putSignature($args->member_srl, $signature);
 
-            $this->setSessionInfo($args);
+            // user_id 에 따른 정보 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+
+            // 사용자의 전용 메뉴 구성
+            $member_info->menu_list = $this->getMemberMenuList();
+
+            // 로그인 성공후 trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
+            $this->setSessionInfo($member_info);
 
             // 결과 리턴
             $this->add('member_srl', $args->member_srl);
@@ -1123,6 +1133,13 @@
 
             // 회원의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+            // 사용자의 전용 메뉴 구성
+            $member_info->menu_list = $this->getMemberMenuList();
+
+            // 로그인 성공후 trigger 호출 (after)
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
+            if(!$trigger_output->toBool()) return $trigger_output;
 
             // 사용자 정보의 최근 로그인 시간을 기록
             $output = executeQuery('member.updateLastLogin', $args);

@@ -194,16 +194,7 @@
                             else $args->s_is_secret = '';
                         break;
                     case 'tag' :
-                            $oDB = &DB::getInstance();
-                            $tmp_str_arr = explode(' ',$search_keyword);
-                            $tmp_count = count($tmp_str_arr);
-                            $tag_arr = array();
-                            for($i=0;$i<$tmp_count;$i++) {
-                                $tmp_str = trim($tmp_str_arr[$i]);
-                                if(!$tmp_str) continue;
-                                $tag_arr[] = $oDB->addQuotes($tmp_str);
-                            }
-                            $args->s_tags = "'".implode("','",$tag_arr);
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
                             $query_id = 'document.getDocumentListWithinTag';
                         break;
                     case 'readed_count' :
@@ -334,8 +325,16 @@
             $output = executeQuery('document.getCategory', $args);
 
             $node = $output->data;
-            if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
-            else $node->group_srls = array();
+            if(!$node) return;
+
+            if($node->group_srls) {
+                $group_srls = explode(',',$node->group_srls);
+                unset($node->group_srls);
+                $node->group_srls = explode(',',$node->group_srls);
+            } else {
+                unset($node->group_srls);
+                $node->group_srls = array();
+            }
             return $node;
         }
 

@@ -14,6 +14,8 @@
     $lang->title_bold = '标题粗体';
     $lang->title_color = '标题颜色';
 
+    $lang->cmd_temp_save = '임시 저장';
+
     $lang->cmd_toggle_checked_document = '反选';
     $lang->cmd_delete_checked_document = '删除所选';
     $lang->cmd_document_do = '把文章..';
