@@ -14,6 +14,8 @@
     $lang->title_bold = '제목 굵게';
     $lang->title_color = '제목 색깔';
 
+    $lang->cmd_temp_save = '임시 저장';
+
 	$lang->cmd_toggle_checked_document = 'Reverse selected items';
     $lang->cmd_delete_checked_document = 'Delete selected';
     $lang->cmd_document_do = '이 게시물을..';
