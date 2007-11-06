@@ -68,7 +68,7 @@
         'nick_name' => 'Nickname',
         'email_address' => 'Email Address',
         'regdate' => 'Join Date',
-        'last_login' => 'Latest Login Date',
+        'last_login' => 'Last Login Date',
         'extra_vars' => 'Extra Vars',
     );
 

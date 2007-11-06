@@ -128,10 +128,10 @@
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Registered Date';
-    $lang->last_update = 'Late Update';
-    $lang->last_post = 'Late Post';
+    $lang->last_update = 'Last Update';
+    $lang->last_post = 'Last Post';
     $lang->signup_date = 'Registered Date';
-    $lang->last_login = 'Late Login';
+    $lang->last_login = 'Last Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Searching Target';
@@ -157,7 +157,7 @@
     $lang->unit_year = 'year';
 
     // Descriptions
-    $lang->about_tag = 'You can submit multiple tags by inserting commas(,) between each tag';
+    $lang->about_tag = 'You may submit multiple tags by inserting commas(,) between each tag';
     $lang->about_layout = 'Layouts decorate the appearance of your modules. you can configure them from Layout menu on the top';
 
     // Messages
