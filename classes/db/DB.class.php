@@ -322,7 +322,7 @@
                 return $value;
             }
 
-            if(strpos($value,'.')!==false) {
+            if(strpos($name,'.')!==false&&strpos($value,'.')!==false) {
                 list($column_name) = explode('.',$value);
                 if($column_type[$column_name]) return $value;
             }
