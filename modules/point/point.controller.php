@@ -359,7 +359,7 @@
 
             $title = sprintf("%s:%s%s %s, %s:%s/%s", Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level);
 
-            $text = sprintf('<span class="nowrap member_%s" style="cursor:pointer"><img src="%s" width="%s" height="%s" alt="%s" title="%s" align="absmiddle"  style="margin-right:3px"/>%s</span>', $member_srl, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height, $title, $title, $text);
+            $text = sprintf('<span class="nowrap member_%s" style="cursor:pointer"><img src="%s" width="%s" height="%s" alt="%s" title="%s" align="absmiddle"  style="margin-right:3px"/>%s</span>', $member_srl, Context::getRequestUri().$src, $this->icon_width, $this->icon_height, $title, $title, $text);
 
             $this->member_code[$member_srl] = $text;
 
