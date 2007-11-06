@@ -389,7 +389,7 @@
                     $type = $this->getColumnType($output->column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type, $output->column_type);
                     if(!$value) $value = $v['value'];
 
                     $str = $this->getConditionPart($name, $value, $operation);

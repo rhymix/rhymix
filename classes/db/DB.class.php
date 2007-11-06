@@ -316,10 +316,15 @@
          * like, like_prefix의 경우 value자체가 변경됨
          * type == number가 아니면 addQuotes()를 하고 ' ' 로 묶음
          **/
-        function getConditionValue($name, $value, $operation, $type) {
+        function getConditionValue($name, $value, $operation, $type, $column_type) {
             if($type == 'number') {
                 if(strpos($value,',')===false && strpos($value,'(')===false) return (int)$value;
                 return $value;
+            }
+
+            if(strpos($value,'.')!==false) {
+                list($column_name) = explode('.',$value);
+                if($column_type[$column_name]) return $value;
             }
 
             $value = preg_replace('/(^\'|\'$){1}/','',$value);
@@ -338,9 +343,6 @@
                         return "'".$value."'";
                     break;
             }
-
-
-            if(strpos($name,'.')!==false && strpos($value,'.')!==false) return $value;
 
             return "'".$this->addQuotes($value)."'";
         }
