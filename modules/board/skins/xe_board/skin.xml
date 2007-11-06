@@ -100,7 +100,7 @@
             <title xml:lang="ko">정렬 방법</title>
             <title xml:lang="zh-CN">排序方式</title>
             <title xml:lang="jp">ソートタイプ</title>
-            <title xml:lang="en">Sorting Type</title>
+            <title xml:lang="en">Align Type</title>
 			<title xml:lang="es">Tipo de ordenamiento</title>
             <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
             <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
@@ -181,7 +181,7 @@
             <title xml:lang="ko">조회수 표시</title>
             <title xml:lang="jp">照合数表示</title>
             <title xml:lang="zh-CN">显示查看数</title>
-            <title xml:lang="en">Display Hit</title>
+            <title xml:lang="en">Display Hits</title>
             <default>Y</default>
             <default>N</default>
             <description />
@@ -215,23 +215,29 @@
         </var>
         <var name="thumbnail_type" type="select">
             <title xml:lang="ko">썸네일 생성 방법</title>
+            <title xml:lang="en">Thumbnail Type</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
+            <description xml:lang="en">You may select thumbnail type. (crop : fit full, ratio : fit on ratio)</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <default>crop</default>
             <default>ratio</default>
         </var>
         <var name="thumbnail_width" type="text">
             <title xml:lang="ko">썸네일 가로크기</title>
+            <title xml:lang="en">Thumbnail Width</title>
             <title xml:lang="zh-CN">缩略图宽度</title>
             <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
+			<description xml:lang="en">You may set the width of thumbnail. (100px as default)</description>
             <description xml:lang="zh-CN">可以指定缩略图宽度。 (默认为 100px)</description>
             <default>100</default>
         </var>
         <var name="thumbnail_height" type="text">
             <title xml:lang="ko">썸네일 세로크기</title>
+			<title xml:lang="en">Thumbnail Height</title>
             <title xml:lang="zh-CN">缩略图高度</title>
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+			<description xml:lang="en">You may set the height of thumbnail. (100px as default)</description>
             <description xml:lang="zh-CN">可以指定缩略图高度。 (默认为 100px)</description>
             <default>100</default>
         </var>
