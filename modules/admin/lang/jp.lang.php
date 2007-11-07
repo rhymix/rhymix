@@ -5,26 +5,26 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
-    $lang->admin_info = '관리자 정보';
-    $lang->admin_index = '관리자 초기 페이지';
+    $lang->admin_info = '管理者情報';
+    $lang->admin_index = '管理者トップページ';
 
     $lang->module_category_title = array(
-        'service' => '서비스형 모듈',
-        'manager' => '관리형 모듈',
-        'utility' => '기능성 모듈',
-        'accessory' => '부가 모듈',
-        'base' => '기본 모듈',
+        'service' => 'サービス型モジュール',
+        'manager' => '管理型モジュール',
+        'utility' => '機能性モジュール',
+        'accessory' => '付加モジュール',
+        'base' => '基本モジュール',
     );
 
     $lang->newest_news = "最新ニュース";
 
     $lang->env_setup = "環境設定";
 
-    $lang->env_information = "환경 정보";
-    $lang->current_version = "설치된 버전";
-    $lang->current_path = "설치된 경로";
-    $lang->released_version = "최신 버전";
-    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+    $lang->env_information = "環境情報";
+    $lang->current_version = "インストールバージョン";
+    $lang->current_path = "インストールパス";
+    $lang->released_version = "最新バージョン";
+    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されました。ダウンロードリンクをクリックするとダウンロードできます。";
 
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
@@ -46,7 +46,7 @@
 
     $lang->welcome_to_zeroboard_xe = 'ゼロボードXEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。クローズベタバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
-    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
+    $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックしてください。";
 
     $lang->zeroboard_xe_user_links = 'ユーザのためのリンク';
     $lang->zeroboard_xe_developer_links = 'デベロッパーのためのリンク';

@@ -22,7 +22,7 @@
     $lang->skin_default_info = 'スキン基本情報';
     $lang->skin_maker = 'スキン作者';
     $lang->skin_maker_homepage = '作者ホームページ';
-    $lang->module_copy = "Copy module";
+    $lang->module_copy = "モジュールコピー";
 
     $lang->cmd_add_shortcut = "ショットカット追加";
     $lang->cmd_install = "インストール";
@@ -57,5 +57,5 @@
     $lang->about_grant = '特定権限の対象をすべて解除するとログインしていない会員ユーザまで権限が与えられます。';
     $lang->about_module = "ゼロボードXEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。頻繁に使うモジュールは、【ショットカット追加】で行うと管理しやすなります。";
 
-    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」でリンクを張ることができます。';
+    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。';
 ?>

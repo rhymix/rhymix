@@ -16,7 +16,7 @@
     $lang->allowed_filesize = 'ファイルサイズ制限';
     $lang->allowed_attach_size = '書き込みへの添付制限';
     $lang->allowed_filetypes = '添付可能な拡張子';
-    $lang->enable_download_group = '다운로드 가능 그룹';
+    $lang->enable_download_group = 'ダウンロード可能グループ';
 
     $lang->about_allowed_filesize = '一つのファイルに対して、アップロードできるファイルの最大サイズを指定します（管理者除外）。';
     $lang->about_allowed_attach_size = '一つの書き込みに対して、添付できる最大サイズを指定します（管理者除外）。';
@@ -26,7 +26,7 @@
     $lang->cmd_move_to_document = '書き込みに移動する';
     $lang->cmd_download = 'ダウンロード';
 
-    $lang->msg_not_permitted_download = '다운로드 할 수 있는 권한이 없습니다';
+    $lang->msg_not_permitted_download = 'ダウンロード権限がありません。';
     $lang->msg_cart_is_null = '削除するファイルを選択してください';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルを削除しました';
     $lang->msg_exceeds_limit_size = 'ファイルサイズの制限を超えたため、添付できません。';

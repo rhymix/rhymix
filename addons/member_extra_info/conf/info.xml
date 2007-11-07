@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
-  <title xml:lang="jp">会員情報・コミュニティ</title>
+  <title xml:lang="jp">会員情報・コミュニティ活性化機能</title>
   <title xml:lang="zh-CN">用户扩展信息</title>
   <title xml:lang="en">Addon for enabling facilities for providing additional information about users and communicating</title>
   <title xml:lang="es">Addon para activar la función de la Información addcional del usuario y  de la comunicación.</title>
@@ -22,11 +22,11 @@
         5. MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
     </description>
     <description xml:lang="jp">
-        会員情報のイメージ名、イメージマーク、署名などを画面に表示するアドオンです。このような情報を使用しない場合、アドオンを「使用」に設定すれば、実行時間を少なくします。イメージ名、イメージマーク、署名などを表示させたい時は、このアドオンを「使用」に設定して下さい。
+        会員情報のイメージ名、イメージマーク、署名などを画面に表示するアドオンです。このような情報を使用しない場合、アドオンを「未使用」に設定すれば、実行時間を少なくします。イメージ名、イメージマーク、署名などを表示させたい時は、このアドオンを「使用」に設定して下さい。
         
         1. 出力の直前 &lt;div class="member_会員番号"&gt;....&lt;/div&gt; に定義された部分を探し、会員番号をチェックしてイメージ名、イメージマークがあるかを確認します。あった場合は内容を変更します
         2. 出力の直前 &lt;div class="document_番号"&gt;...&lt;/div&gt;に定義された部分を探し、書込みの内容だと判断して、下段に署名を追加します
-        3. 新しいメッセージが来た場合ポップアップで表示します
+        3. 新しいメッセージが届いた時、ポップアップで表示します
         4. MemberModel::getMemberMenu を呼出す時、相手が会員の場合はメッセージ送信の機能を追加します
         5. MemberModel::getMemberMenu を呼出す時、友達登録メニュを追加します
     </description>

@@ -255,8 +255,8 @@ EndOfLicense;
     $lang->admin_title = '管理者情報';
 
     $lang->env_title = '環境設定';
-    $lang->use_optimizer = 'Optimizer 사용';
-    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/ JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다';
+    $lang->use_optimizer = 'オプトマイザー使用';
+    $lang->about_optimizer = 'オプトマイザーを使用すると多数の「CSS/ JS」ファイルを、統合圧縮してから転送するため、レスポンスが早くなります。但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
     $lang->use_rewrite = 'リライトモジュール使用';
     $lang->about_rewrite = 'Webサーバで「リライトモジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように簡単にすることができます。';
     $lang->time_zone = 'タイムゾーン';

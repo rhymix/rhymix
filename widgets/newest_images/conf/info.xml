@@ -59,17 +59,20 @@
         </var>
         <var id="thumbnail_type">
             <name xml:lang="ko">썸네일 생성 방법</name>
+            <name xml:lang="jp">サムネール生成方法</name>
             <name xml:lang="zh-CN">缩略图生成方式</name>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <type>select</type>
             <options>
                 <name xml:lang="ko">Crop (채우기)</name>
+                <name xml:lang="jp">Crop (切り取り)</name>
                 <name xml:lang="zh-CN">Crop (裁减)</name>
                 <value>crop</value>
             </options>
             <options>
                 <name xml:lang="ko">Ratio (비율 맞추기)</name>
+                <name xml:lang="jp">Ratio (比率)</name>
                 <name xml:lang="zh-CN">Ratio (比例)</name>
                 <value>ratio</value>
             </options>
@@ -89,8 +92,10 @@
         </var>
         <var id="thumbnail_height">
             <name xml:lang="ko">이미지 세로크기</name>
+            <name xml:lang="jp">イメージ縦幅</name>
             <name xml:lang="zh-CN">高度</name>
             <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <description xml:lang="jp">イメージの立幅サイズを指定します（デフォルト 100px）</description>
             <description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
             <type>text</type>
         </var>
@@ -102,7 +107,7 @@
 			<name xml:lang="es">Número de imágenes</name>
             <type>text</type>
             <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
+            <description xml:lang="jp">表示されるイメージの数を指定します（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 5)</description>
@@ -130,6 +135,7 @@
             <description />
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
                 <name xml:lang="zh-CN">显示</name>
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
@@ -137,6 +143,7 @@
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
                 <name xml:lang="zh-CN">不显示</name>
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
@@ -153,6 +160,7 @@
             <description />
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
                 <name xml:lang="zh-CN">显示</name>
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
@@ -160,6 +168,7 @@
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
                 <name xml:lang="zh-CN">不显示</name>
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
@@ -176,6 +185,7 @@
             <type>select</type>
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
                 <name xml:lang="zh-CN">显示</name>
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
@@ -183,6 +193,7 @@
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
                 <name xml:lang="zh-CN">不显示</name>
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
@@ -199,6 +210,7 @@
             <type>select</type>
             <options>
                 <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
                 <name xml:lang="zh-CN">显示</name>
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
@@ -206,6 +218,7 @@
             </options>
             <options>
                 <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="en">Hide</name>
                 <name xml:lang="es">Ocultar</name>
