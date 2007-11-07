@@ -1,20 +1,22 @@
 <query id="getOneFileInDocument" action="select">
     <tables>
-        <table name="files" />
+        <table name="files" alias="files"/>
+        <table name="documents" alias="documents"/>
     </tables>
     <columns>
-        <column name="upload_target_srl" />
+        <column name="documents.*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" filter="numbers" />
-        <condition operation="equal" column="direct_download" var="direct_download" pipe="and" />
-        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
+        <condition operation="in" column="files.module_srl" var="module_srls" notnull="notnull" filter="numbers" />
+        <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
+        <condition operation="equal" column="files.isvalid" var="isvalid" pipe="and" />
+        <condition operation="equal" column="files.upload_target_srl" var="documents.document_srl" pipe="and" />
     </conditions>
     <groups>
-        <group column="upload_target_srl" />
+        <group column="files.upload_target_srl" />
     </groups>
     <navigation>
-        <index var="file_srl" default="file_srl" order="desc" />
+        <index var="list_order" default="documents.list_order" order="asc" />
         <list_count var="list_count" default="20" />
     </navigation>
 </query>
