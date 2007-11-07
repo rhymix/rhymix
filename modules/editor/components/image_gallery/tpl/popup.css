@@ -32,4 +32,4 @@ img.color_icon_over {
 
 .editor_color_box { clear:both; height:65px; width:400px; border:1px solid #DDDDDD; padding:2px; }
 
-.image_list { width:100%; border:1px solid #EEEEEE; }
+.image_list { width:100%; border:1px solid #EEEEEE; height:200px !important; }
