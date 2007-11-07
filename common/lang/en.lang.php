@@ -123,14 +123,14 @@
     $lang->document_count = 'Total Articles';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
-    $lang->readed_count = 'Hits';
+    $lang->readed_count = 'Views';
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Registered Date';
     $lang->last_update = 'Last Update';
     $lang->last_post = 'Last Post';
-    $lang->signup_date = 'Registered Date';
+    $lang->signup_date = 'Join Date';
     $lang->last_login = 'Last Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
@@ -165,7 +165,7 @@
     $lang->msg_db_not_setted = 'DB configuration has not been set';
     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
     $lang->msg_not_permitted = 'You do not have permission to access';
-    $lang->msg_input_password = 'Please enter your password';
+    $lang->msg_input_password = 'Please input the password';
     $lang->msg_invalid_document = 'Invalid Article Number';
     $lang->msg_invalid_request = 'Invalid Request';
     $lang->msg_invalid_password = 'Invalid Password';

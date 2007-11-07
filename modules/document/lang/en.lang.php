@@ -5,7 +5,7 @@
      * @brief  Document module's basic language pack
      **/
 
-    $lang->document_list = 'Document list';
+    $lang->document_list = 'Documents List';
     $lang->thumbnail_type = 'Thumbnail Type';
     $lang->thumbnail_crop = 'Crop';
     $lang->thumbnail_ratio = 'Ratio';
@@ -20,10 +20,10 @@
     $lang->cmd_delete_checked_document = 'Delete selected';
     $lang->cmd_document_do = 'You would..';
 
-    $lang->msg_cart_is_null = 'Select the articles you wish to delete';
-    $lang->msg_category_not_moved = 'Unabled to move';
+    $lang->msg_cart_is_null = 'Please select the articles to delete';
+    $lang->msg_category_not_moved = 'Cannot move';
     $lang->msg_is_secret = 'This article is secret';
-    $lang->msg_checked_document_is_deleted = 'Total of %d articles has been deleted';
+    $lang->msg_checked_document_is_deleted = 'Total of %d article(s) was(were) deleted';
 
     // Search targets in admin page
         $lang->search_target_list = array(
@@ -38,11 +38,11 @@
         'is_notice' => 'Notice',
         'is_secret' => 'Secret',
         'tags' => 'Tag',
-        'readed_count' => 'Number of Views (Above)',
-        'voted_count' => 'Number of Votes (Above)',
-        'comment_count ' => 'Number of Comments (Above)',
-        'trackback_count ' => 'Number of trackbacks (Above)',
-        'uploaded_count ' => 'Number of Attachments (Above)',
+        'readed_count' => 'Number of Views (Over)',
+        'voted_count' => 'Number of Votes (Over)',
+        'comment_count ' => 'Number of Comments (Over)',
+        'trackback_count ' => 'Number of trackbacks (Over)',
+        'uploaded_count ' => 'Number of Attachments (Over)',
         'regdate' => 'Date',
         'last_update' => 'Last Revised',
         'ipaddress' => 'IP Address',
