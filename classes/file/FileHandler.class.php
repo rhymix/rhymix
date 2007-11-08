@@ -217,7 +217,9 @@
             else $height_per = $height / $resize_height;
 
             if($thumbnail_type == 'ratio') {
-                $per = $width_per;
+                if($width_per>$height_per) $per = $height_per;
+                else $per = $width_per;
+                $resize_width = $width * $per;
                 $resize_height = $height * $per;
             } else {
                 if($width_per < $height_per) $per = $height_per;
