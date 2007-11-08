@@ -211,7 +211,7 @@
     $lang->column_type_list['textarea'] = '多行文本框 (textarea)';
     $lang->column_type_list['checkbox'] = '复选框 (checkbox)';
     $lang->column_type_list['select'] = '下拉列表框 (select)';
-    $lang->column_type_list['kr_zip'] = '韩国地址 (zip)';
+    $lang->column_type_list['kr_zip'] = '韩国邮编(zip)';
     $lang->column_type_list['date'] = '日期 (年月日)';
     //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';
     $lang->column_name = '项目名';

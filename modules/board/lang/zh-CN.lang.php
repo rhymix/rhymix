@@ -7,7 +7,7 @@
 
     $lang->board = "版面"; 
 
-    // 在按钮使用的语言
+    // 按钮语言
     $lang->cmd_board_list = '版面目录';
     $lang->cmd_module_config = '版面共同设置';
     $lang->cmd_view_info = '版面信息';

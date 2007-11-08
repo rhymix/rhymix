@@ -8,7 +8,7 @@
 	<name xml:lang="zh-CN">Zero</name>
     <name xml:lang="jp">Zero</name>
     <description xml:lang="ko">board모듈의 default스킨</description>
-	<description xml:lang="zh-CN">版面模块的默认皮肤。</description>
+	<description xml:lang="zh-CN">留言本模块的默认皮肤。</description>
     <description xml:lang="jp">ボード（board）モジュールのデフォルトスキンです。</description>
   </maker>
   <colorset>

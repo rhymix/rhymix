@@ -26,7 +26,7 @@
     $lang->cmd_move_to_document = '查看源主题';
     $lang->cmd_download = '下载';
 
-    $lang->msg_not_permitted_download = '您具备下载的权限。';
+    $lang->msg_not_permitted_download = '您不具备下载的权限。';
     $lang->msg_cart_is_null = ' 请选择要删除的文件。';
     $lang->msg_checked_file_is_deleted = '已删除%d个文件！';
     $lang->msg_exceeds_limit_size = '已超过系统指定的上传文件大小！';

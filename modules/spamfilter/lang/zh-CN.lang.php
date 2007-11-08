@@ -15,7 +15,7 @@
     $lang->interval = "处理垃圾间隔";
     $lang->limit_count = "限制数";
     $lang->check_trackback = "引用检查";
-    $lang->word = "词语";
+    $lang->word = "单词";
 
     // 说明文
     $lang->about_interval = "指定的时间内禁止发表新主题。";

@@ -7,7 +7,7 @@
 
     $lang->guestbook = "留言本"; 
 
-    // 버튼에 사용되는 언어
+    // 按钮语言
     $lang->cmd_guestbook_list = '留言本目录';
     $lang->cmd_module_config = '留言本共同设置';
     $lang->cmd_view_info = '留言本信息';

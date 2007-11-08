@@ -40,7 +40,7 @@
 
     $lang->cmd_shortcut_management = "编辑菜单";
 
-    $lang->msg_is_not_administrator = '只有管理员可以查看';
+    $lang->msg_is_not_administrator = '只有管理员才可以查看';
     $lang->msg_manage_module_cannot_delete = '模块，插件，布局，控件模块的快捷菜单是不能删除的。';
     $lang->msg_default_act_is_null = '没有指定默认管理员的动作，是不能添加到快捷菜单的。';
 

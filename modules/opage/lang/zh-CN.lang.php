@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   zh_CN.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  外部页面(opage)模块语言包
      **/
