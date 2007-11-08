@@ -123,6 +123,7 @@
                     <!--@if($module_info->display_last_update=='Y')--><td class="date">{zdate($document->get('last_update'),'Y-m-d H:i')}</td><!--@end-->
                 </tr>
                 {@ $_col_count = 1; }
+                <!--@if(!$document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->{@ $_col_count++}<!--@end-->
                 <!--@if($module_info->display_author!='N')-->{@ $_col_count++ }<!--@end-->
                 <!--@if($module_info->display_readed_count!='N')-->{@ $_col_count++ }<!--@end-->
                 <!--@if($module_info->display_voted_count!='N')-->{@ $_col_count++ }<!--@end-->
