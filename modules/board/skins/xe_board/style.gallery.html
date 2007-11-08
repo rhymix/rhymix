@@ -61,7 +61,7 @@
                             <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
                             <!--@end-->
 
-                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a>
                             
                             <!--@if($document->getCommentCount())-->
                                 <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
