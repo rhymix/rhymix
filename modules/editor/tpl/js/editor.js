@@ -158,7 +158,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
-		'<base href="'+request_uri+'" />'+
+		//'<base href="'+request_uri+'" />'+
         '<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
