@@ -33,15 +33,7 @@ function completeInsertPageContent(ret_obj) {
     var page = ret_obj['page'];
     var module_srl = ret_obj['module_srl'];
 
-    var url = '';
-    if(location.href.getQuery('module')=='admin') {
-        url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
-        if(page) url = url.setQuery('page',page);
-    } else {
-        url = current_url.setQuery('act','').setQuery('module_srl','');
-    }
-
-    location.href = url;
+    location.href = current_url.setQuery('act','');
 }
 
 /* 페이지 컨텐츠 저장 */
