@@ -4,3 +4,15 @@ h3 { margin:0 10px 0 10px; }
 .widget_list a { margin-bottom:10px; }
 .editor_box { margin:0 10px 10px 10px; }
 .button_box { float:right; overflow:hidden; }
+
+.adminLayer { margin-top:30px; border:1px solid #CCCCCC; padding:10px; overflow:hidden;}
+
+#zonePageContent { overflow:hidden; }
+
+.pageAddContent { width:700px; }
+
+.widgetOutput { float:left; cursor:move; z-index:998; overflow:hidden; position:relative;}
+.widgetOutput .widgetBorder { border:1px dotted #17DA29; z-index:999; }
+.widgetOutput .widgetSetup { background:#FFFFFF url("../images/widget_setup.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:24px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetRemove { background:#FFFFFF url("../images/widget_remove.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:1px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left top; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}

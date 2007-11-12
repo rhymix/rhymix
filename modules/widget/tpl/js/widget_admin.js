@@ -15,20 +15,15 @@ function completeGenerateCode(ret_obj) {
 /* 생성된 코드를 에디터에 출력 */
 function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     var widget_code = ret_obj["widget_code"];
-    var module_srl = fo_obj.module_srl.value;
-    if(!opener || !widget_code || !module_srl) {
+    if(!opener || !widget_code) {
         window.close(); 
         return;
     }
-
-    // 부모창에 에디터가 있으면 에디터에 추가
-    if(opener.editorGetIFrame) {
-        var iframe_obj = opener.editorGetIFrame(1);
-        if(iframe_obj) {
-            opener.editorFocus(1);
-            opener.editorReplaceHTML(iframe_obj, widget_code);
-            opener.editorFocus(1);
-        }
+    if(selected_node  && selected_node.getAttribute("widget")) {
+        selected_node = replaceOuterHTML(selected_node, widget_code);
+    } else {
+        var obj = opener.xGetElementById('zonePageContent');
+        xInnerHtml(obj, xInnerHtml(obj)+widget_code);
     }
     window.close();
 } 
@@ -77,9 +72,9 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
 /* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
 var selected_node = null;
 function doFillWidgetVars() {
-    if(!opener || !opener.editorPrevNode || !opener.editorPrevNode.getAttribute("widget")) return;
+    if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
 
-    selected_node = opener.editorPrevNode;
+    selected_node = opener.selectedWidget;
 
     // 스킨과 컬러셋은 기본
     var skin = selected_node.getAttribute("skin");
@@ -101,7 +96,7 @@ function doFillWidgetVars() {
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
-                    node.value = val;
+                    if(val) node.value = val;
                 break;
             case "checkbox" :
                     if(selected_node.getAttribute(name)) {
@@ -144,9 +139,21 @@ function doFillWidgetVars() {
     if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
 */
     
-    var width_type = "px";
-    if(selected_node.getAttribute("widget_width_type")=="%") width_type = "%";
-    else fo_obj.widget_width.value = xWidth(selected_node);
+    var width = selected_node.style.width;
+    if(width) {
+        var width_type = width.replace(/^([0-9]+)/, '');
+        if(!width_type) width_type = 'px';
+
+        var width_value = width.replace(/([%|px]+)/,'');
+
+        fo_obj.widget_width.value = width_value;
+        if(width_type == '%') fo_obj.widget_width_type.selectedIndex = 0;
+        else fo_obj.widget_width_type.selectedIndex = 1;
+    } else {
+        var width_type = "px";
+        if(selected_node.getAttribute("widget_width_type")=="%") width_type = "%";
+        else fo_obj.widget_width.value = xWidth(selected_node);
+    }
 
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {

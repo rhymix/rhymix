@@ -67,6 +67,45 @@
         }
 
         /**
+         * @brief 페이지 수정시 위젯 코드의 생성 요청
+         **/
+        function procWidgetGenerateCodeInPage() {
+            // 먼저 정상적인 widget 코드를 구함
+            $this->procWidgetGenerateCode();
+            $widget_code = $this->get('widget_code');
+
+            // 변수 정리
+            $vars = Context::getRequestVars();
+            $widget = $vars->selected_widget;
+            unset($vars->module);
+            unset($vars->body);
+            unset($vars->act);
+            unset($vars->selected_widget);
+            if(!$vars->widget_sequence) $vars->widget_sequence = getNextSequence();
+
+            // args 정리
+            $attribute = array();
+            if($vars) {
+                $vars->widget_position = "left";
+                $vars->widget_fix_width = "Y";
+                foreach($vars as $key => $val) {
+                    if($key == 'widget_position') continue;
+                    if(strpos($val,'|@|')>0) {
+                        $val = str_replace('|@|',',',$val);
+                        $vars->{$key} = $val;
+                    }
+                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                }
+            }
+
+            // 결과물을 구함
+            $oWidgetHandler = new WidgetHandler();
+            $widget_code = $oWidgetHandler->execute($widget, $vars, true);
+
+            $this->add('widget_code', $widget_code);
+        }
+
+        /**
          * @brief 선택된 위젯 - 스킨의 컬러셋을 return
          **/
         function procWidgetGetColorsetList() {

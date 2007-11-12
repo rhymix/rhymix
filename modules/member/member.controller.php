@@ -1609,11 +1609,11 @@
             if(!$image_name && !$image_mark) return $matches[0];
 
             if($image_name->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
             }
 
             if($image_mark->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
             }
 
             return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);

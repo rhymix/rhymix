@@ -1,0 +1,24 @@
+<!--%import("filter/add_content.xml")-->
+<!--%import("js/page_admin.js")-->
+<!--%import("css/page.css")-->
+
+<div class="pageAddContent"></div>
+    <form action="./" method="get" onsubmit="return procFilter(this, add_content);" id="content_fo">
+    <input type="hidden" name="content" value="" />
+    <input type="hidden" name="mid" value="{$module_info->mid}" />
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+
+        <div class="editor">
+            {$editor}
+        </div>
+
+        <div class="tCenter help">
+            <span class="button"><input type="submit" value="{$lang->cmd_insert}" class="editor_button" accesskey="s" /></span>
+            <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        </div>
+
+    </form>
+
+<script type="text/javascript">
+    xAddEventListener(window, 'load', doSyncPageContent);
+</script>

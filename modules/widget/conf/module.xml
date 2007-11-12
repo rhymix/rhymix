@@ -8,6 +8,7 @@
         <action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" />
 
         <action name="procWidgetGenerateCode" type="controller" standalone="true" />
+        <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" />
         <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
     </actions>
 </module>

@@ -131,6 +131,7 @@
 
             // 내용을 sync 맞추기 위한 content column name을 세팅한다
             Context::set('editor_content_key_name', $option->content_key_name);
+           
 
             /**
              * 에디터 컴포넌트 체크
@@ -153,6 +154,9 @@
              * 에디터 세로 크기 설정
              **/
             Context::set('editor_height', $editor_height);
+
+            // 에디터의 초기화를 수동으로하는 것에 대한 값 체크
+            Context::set('editor_manual_start', $option->manual_start);
 
             /**
              * 템플릿을 미리 컴파일해서 컴파일된 소스를 하기 위해 스킨의 경로를 설정

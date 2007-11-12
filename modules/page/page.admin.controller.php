@@ -74,6 +74,31 @@
         }
 
         /**
+         * @brief 페이지 수정 내용 저장
+         **/
+        function procPageAdminInsertContent() {
+            $module_srl = Context::get('module_srl');
+            $content = Context::get('content');
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+            // 페이지의 원 정보를 구해옴
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            $module_info->content = $content;
+
+            // module 모듈의 controller 객체 생성
+            $oModuleController = &getController('module');
+
+            // 저장
+            $output = $oModuleController->updateModule($module_info);
+            if(!$output->toBool()) return $output;
+
+            $this->add("module_srl", $module_info->module_srl);
+            $this->add("page", Context::get('page'));
+            $this->setMessage($msg_code);
+        }
+
+        /**
          * @brief 페이지 삭제
          **/
         function procPageAdminDelete() {
@@ -165,6 +190,61 @@
             }
 
             $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 페이지에 에디터 컨테츠 추가하기 위한 tpl return
+         **/
+        function procPageAdminAddContent() {
+            $content = Context::get('content');
+
+            $tpl = $this->transEditorContent($content);
+
+            $this->add('tpl', $tpl);
+        }
+
+        /**
+         * @brief 에디터에서 생성한 컨텐츠를 페이지 수정시 사용할 수 있도록 코드 생성
+         **/
+        function transEditorContent($content, $style = "width:100%;float:left;") {
+            // 에디터의 내용을 변환하여 visual한 영역과 원본 소스를 가지고 있는 code로 분리
+            $code = $content;
+
+            $oContext = &Context::getInstance();
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($oContext,'transEditorComponent'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($oContext,'transEditorComponent'), $content);
+
+            // 결과물에 있는 css Meta 목록을 구해와서 해당 css를 아예 읽어버림
+            require_once("./classes/optimizer/Optimizer.class.php");
+            $oOptimizer = new Optimizer();
+            preg_match_all('!<\!\-\-Meta:([^\-]*?)\-\->!is', $content, $matches);
+            $css_header = null;
+            for($i=0;$i<count($matches[1]);$i++) {
+                $css_file = $matches[1][$i];
+                $buff = FileHandler::readFile($css_file);
+                $css_header .= $oOptimizer->replaceCssPath($css_file, $buff)."\n";
+            }
+
+            $tpl = sprintf(
+                    '<div class="widgetOutput" style="%s" widget="widgetContent" />'.
+                        '<style type="text/css">%s</style>'.
+                        '<div class="widgetSetup"></div>'.
+                        '<div class="widgetRemove"></div>'.
+                        '<div class="widgetResize"></div>'.
+                        '<div class="widgetBorder">'.
+                            '<div>'.
+                                '%s'.
+                            '</div><div class="clear"></div>'.
+                        '</div>'.
+                        '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
+                    '</div>',
+                    $style,
+                    $css_header,
+                    $content,
+                    $code
+            );
+
+            return $tpl;
         }
 
     }

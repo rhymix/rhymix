@@ -836,23 +836,23 @@
          **/
         function transContent($content) {
             // 위젯 코드 변경 
-            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'_transWidget'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             // 메타 파일 변경
-            $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'_transMeta'), $content);
+            $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'transMeta'), $content);
             
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'_transEditorComponent'), $content);
-            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'_transEditorComponent'), $content);
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
 
             // body 내의 <style ..></style>를 header로 이동
-            $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $content);
+            $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
             // <br> 코드 변환
             $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
 
             // 몇가지 대문자 태그를 소문자로 변경
-            //$content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'_transTagToLowerCase'), $content);
+            //$content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'transTagToLowerCase'), $content);
 
             // <img ...> 코드를 <img ... /> 코드로 변환
             $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
@@ -866,14 +866,14 @@
         /**
          * @brief IE위지윅에디터에서 태그가 대문자로 사용되기에 이를 소문자로 치환
          **/
-        function _transTagToLowerCase($matches) {
+        function transTagToLowerCase($matches) {
             return sprintf('<%s%s%s>', $matches[1], strtolower($matches[2]), $matches[3]);
         }
 
         /**
          * @brief <!--Meta:파일이름.(css|js)-->를 변경
          **/
-        function _transMeta($matches) {
+        function transMeta($matches) {
             if(eregi('\.css$', $matches[1])) $this->addCSSFile($matches[1]);
             elseif(eregi('\.js$', $matches[1])) $this->addJSFile($matches[1]);
         }
@@ -881,7 +881,7 @@
         /**
          * @brief <body>내의 <style태그를 header로 이동
          **/
-        function _moveStyleToHeader($matches) {
+        function moveStyleToHeader($matches) {
             $this->addHtmlHeader($matches[0]);
             return '';
         }
@@ -896,7 +896,7 @@
             return sprintf('%s=%s', $key, $val);
         }
 
-        function _transEditorComponent($matches) {
+        function transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
             $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
@@ -924,7 +924,7 @@
         /**
          * @brief 위젯 코드를 실제 php코드로 변경
          **/
-        function _transWidget($matches) {
+        function transWidget($matches, $include_info = false) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
             $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
@@ -941,7 +941,7 @@
             // 캐시 체크
             $widget_sequence = $vars->widget_sequence;
             $widget_cache = $vars->widget_cache;
-            if($widget_cache && $widget_sequence)  {
+            if($widget_cache && $widget_sequence && !$include_info)  {
                 $output = WidgetHandler::getCache($widget_sequence, $widget_cache);
                 if($output) return $output;
             }
@@ -950,7 +950,7 @@
             $widget = $vars->widget;
             unset($vars->widget);
             
-            return WidgetHandler::execute($widget, $vars);
+            return WidgetHandler::execute($widget, $vars, $include_info);
         }
 
         /**

@@ -149,29 +149,46 @@
          * @brief 페이지 내용 수정
          **/
         function dispPageAdminContentModify() {
+            // 모듈 정보를 세팅
+            Context::set('module_info', $this->module_info);
 
-            // GET parameter에서 module_srl을 가져옴
-            $module_srl = Context::get('module_srl');
+            // 내용을 세팅
+            $content = $this->module_info->content;
 
-            // module_srl이 있으면 해당 모듈의 정보를 구해서 세팅
-            if($module_srl) {
-                $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
-                else {
-                    unset($module_info);
-                    unset($module_srl);
-                }
-            }
+            // 내용중 widget이 아닌 것들을 일단 분리
+            $none_widget_code = preg_replace('!<img([^\>]*)widget=([^\>]*?)\>!is', '', $content);
+            $oPageAdminController = &getAdminController('page');
+            if(trim($none_widget_code)) $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code);
 
-            // module_srl이 없으면 sequence값으로 미리 구해 놓음
-            if(!$module_srl) $module_srl = getNextSequence();
-            Context::set('module_srl',$module_srl);
+            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
+            preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
+            $content = '';
+            for($i=0;$i<count($matches[0]);$i++) $content .= $matches[0][$i];
+            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
+
+            Context::set('page_content', $none_widget_content.$content);
 
             // 위젯 목록을 세팅
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_content_modify');
+        }
+        
+        /**
+         * @brief 페이지에 에디터 위젯 추가
+         **/
+        function dispPageAdminAddContent() {
+            $this->setLayoutFile("popup_layout");
+
+            $module_srl = Context::get('module_srl');
+            if(!$module_srl) return $this->stop("msg_invalid_request");
+
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            Context::set('module_info', $module_info);
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
@@ -181,23 +198,28 @@
             $option->enable_autosave = false;
             $option->enable_default_component = true;
             $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = 600;
+            $option->resizable = false;
+            $option->height = 400;
+            $option->manual_start = true;
             $editor = $oEditorModel->getEditor($module_srl, $option);
             Context::set('editor', $editor);
 
-            // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
-            Context::set('layout_list', $layout_list);
-
-            // 내용 수정시에는 레이아웃을 보이지 않도록 세팅
-            Context::set('layout','none');
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('page_content_modify');
+            $this->setTemplateFile('page_add_content');
         }
 
+        function transWidget($matches) {
+            $oContext = &Context::getInstance();
+            $tpl = $oContext->transWidget($matches, true);
+            return $tpl;
+        }
+
+        function transWidgetContent($matches) {
+            preg_match_all('/style="([^"]*)"/is', $matches[2].' ', $mat);
+            $style = $mat[1][0];
+            $oPageAdminController = &getAdminController('page');
+            return $oPageAdminController->transEditorContent($matches[3], $style);
+
+        }
 
         /**
          * @brief 페이지 삭제 화면 출력
