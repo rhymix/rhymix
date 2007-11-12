@@ -754,8 +754,7 @@ function checkboxSelectAll(form, name, option){
         else if(option == true) value = true
         else if(option == false) value = false
 
-        //if(fo_obj[i].name == name) fo_obj[i].checked = value;
-        if(fo_obj[i].name == name) fo_obj[i].click();
+        if(fo_obj[i].name == name) fo_obj[i].checked = value;
     }
 }
 
