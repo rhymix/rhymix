@@ -3,9 +3,7 @@
 <!--%import("css/page.css")-->
 
 <div class="clear"></div>
-<div id="zonePageContent">
-    {$page_content}
-</div>
+<div id="zonePageContent">{$page_content}</div>
 <div class="clear"></div>
 <div class="adminLayer">
     <form action="./" id="pageFo" onsubmit="return doSubmitPageContent(this);">
@@ -30,5 +28,37 @@
 <div class="clear"></div>
 
 <script type="text/javascript">
+    var confirm_delete_msg = "{$lang->confirm_delete}";
     xAddEventListener(window,"load",doStartPageModify);
 </script>
+
+<div id="tmpPageSizeLayer" style="visibility:hidden;">
+    <form action="./" onsubmit="doApplyWidgetSize(this); return false;">
+        <table cellspacing="0">
+        <col width="80" />
+        <col />
+        <col />
+        <tr>
+            <th>{$lang->cmd_widget_size}</th>
+            <td colspan="2"><input type="text" name="width" class="input" value="" /> - <input type="text" class="input" name="height" value="" /></td>
+        </tr>
+        <tr>
+            <th rowspan="3">{$lang->cmd_widget_margin}</th>
+            <td colspan="2" class="tCenter"><input type="text" name="margin_top" class="input" value="" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="margin_left" class="input" value="" /></td>
+            <td class="tRight"><input type="text" name="margin_right" class="input" value="" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="tCenter"><input type="text" name="margin_bottom" class="input" value="" /></td>
+        </tr>
+        <tr>
+            <td colspan="3" class="buttonBox">
+                <input type="submit" value="{$lang->cmd_save}" class="submit"/>
+            </td>
+        </tr>
+        </table>
+    </form>
+</div>
+

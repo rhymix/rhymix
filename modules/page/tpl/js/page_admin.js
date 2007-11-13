@@ -54,8 +54,8 @@ function doSubmitPageContent(fo_obj) {
                 var code = "";
                 while(cobj && cobj.className != "widgetContent") { cobj = cobj.nextSibling; }
                 if(cobj && cobj.className == "widgetContent") {
-                    var body = Base64.encode(xInnerHtml(cobj));
-                    code = '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+style+'" body="'+body+'" />';
+                    var body = xInnerHtml(cobj);
+                    code = '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+style+'" body="'+body+'" widget_margin_left="'+childObj.getAttribute("widget_margin_left")+'" widget_margin_right="'+childObj.getAttribute("widget_margin_right")+'" widget_margin_top="'+childObj.getAttribute("widget_margin_top")+'" widget_margin_bottom="'+childObj.getAttribute("widget_margin_bottom")+'" />';
                 }
                 html += code;
 
@@ -178,17 +178,23 @@ function doSyncPageContent() {
         var style = opener.selectedWidget.getAttribute("style");
         if(typeof(style)=="object") style = style["cssText"];
         xGetElementById("content_fo").style.value = style;
+        xGetElementById("content_fo").widget_margin_left.value = opener.selectedWidget.getAttribute("widget_margin_left");
+        xGetElementById("content_fo").widget_margin_right.value = opener.selectedWidget.getAttribute("widget_margin_right");
+        xGetElementById("content_fo").widget_margin_bottom.value = opener.selectedWidget.getAttribute("widget_margin_bottom");
+        xGetElementById("content_fo").widget_margin_top.value = opener.selectedWidget.getAttribute("widget_margin_top");
 
         var obj = opener.selectedWidget.firstChild;
         while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
         if(obj && obj.className == "widgetContent") {
-            var content = xInnerHtml(obj);
+            var content = Base64.decode(xInnerHtml(obj));
             xGetElementById("content_fo").content.value = content;
         }
     }
 
     editorStart(1, "module_srl", "content", false, 400 );
     editor_upload_start(1);
+
+    setFixedPopupSize();
 }
 
 function completeAddContent(ret_obj) {
@@ -224,6 +230,20 @@ function doAddWidget(fo) {
 /* 페이지 수정 시작 */
 function doStartPageModify() {
 
+    // 위젯 크기/여백 조절 레이어를 가장 밖으로 뺌
+    var obj = xGetElementById("tmpPageSizeLayer");
+    var dummy = xCreateElement("div");
+    xInnerHtml(dummy, xInnerHtml(obj));
+    dummy.id="pageSizeLayer";
+    dummy.style.visibility = "hidden";
+    dummy.style.position = "absolute";
+    dummy.style.left = 0;
+    dummy.style.top = 0;
+
+    var oObj = xGetElementById("waitingforserverresponse");
+    oObj.parentNode.insertBefore(dummy, oObj);
+
+    // 모든 위젯들의 크기를 정해진 크기로 맞춤
     doFitBorderSize();
 
     // 드래그와 리사이즈와 관련된 이벤트 리스너 생성
@@ -249,24 +269,36 @@ function doCheckWidget(e) {
 
     selectedWidget = null;
 
+    var pObj = obj.parentNode;
+    while(pObj) {
+        if(pObj.id == "pageSizeLayer") return;
+        pObj = pObj.parentNode;
+    }
+
+    doHideWidgetSizeSetup();
+
     // 위젯 설정
     if(obj.className == 'widgetSetup') {
         var p_obj = obj.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') {
-            popopen("./?module=page&act=dispPageAdminAddContent&module_srl="+xGetElementById("pageFo").module_srl.value, "addContent");
-        } else {
-            popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget,'GenerateCodeInPage');
-        }
+        if(widget == 'widgetContent') popopen("./?module=page&act=dispPageAdminAddContent&module_srl="+xGetElementById("pageFo").module_srl.value, "addContent");
+        else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget,'GenerateCodeInPage');
         return;
-
+    // 위젯 사이트/ 여백 조절
+    } else if(obj.className == 'widgetSize') {
+        var p_obj = obj.parentNode;
+        var widget = p_obj.getAttribute("widget");
+        if(!widget) return;
+        selectedWidget = p_obj;
+        doShowWidgetSizeSetup(evt.pageX, evt.pageY, selectedWidget);
+        return;
     // 위젯 제거
     } else if(obj.className == 'widgetRemove') {
         var p_obj = obj.parentNode;
         var widget = p_obj.getAttribute("widget");
-        p_obj.parentNode.removeChild(p_obj);
+        if(confirm(confirm_delete_msg)) p_obj.parentNode.removeChild(p_obj);
         return;
     }
 
@@ -290,7 +322,15 @@ function doCheckWidgetDrag(e) {
     var evt = new xEvent(e); if(!evt.target) return;
     var obj = evt.target; 
 
-    if(obj.className == 'widgetSetup' || obj.className == 'widgetRemove') return;
+    var pObj = obj.parentNode;
+    while(pObj) {
+        if(pObj.id == "pageSizeLayer") return;
+        pObj = pObj.parentNode;
+    }
+
+    doHideWidgetSizeSetup();
+
+    if(obj.className == 'widgetSetup' || obj.className == 'widgetSize' || obj.className == 'widgetRemove') return;
 
     p_obj = obj;
     while(p_obj) {
@@ -301,6 +341,122 @@ function doCheckWidgetDrag(e) {
         }
         p_obj = p_obj.parentNode;
     }
+}
+
+// 위젯 크기 조절 레이어를 보여줌
+var selectedSizeWidget = null;
+function doShowWidgetSizeSetup(px, py, obj) {
+    var layer = xGetElementById("pageSizeLayer");
+    var formObj = layer.firstChild;
+    while(formObj && formObj.nodeName != "FORM") formObj = formObj.nextSibling;
+    if(!formObj || formObj.nodeName != "FORM") return;
+
+    selectedSizeWidget = obj;
+
+    layer.style.display = "block";
+
+    formObj.width.value = obj.style.width;
+    formObj.height.value = obj.style.height;
+    formObj.margin_left.value = selectedSizeWidget.getAttribute('widget_margin_left');
+    formObj.margin_right.value = selectedSizeWidget.getAttribute('widget_margin_right');
+    formObj.margin_top.value = selectedSizeWidget.getAttribute('widget_margin_top');
+    formObj.margin_bottom.value = selectedSizeWidget.getAttribute('widget_margin_bottom');
+
+    if(px+xWidth(layer)>xPageX('zonePageContent')+xWidth('zonePageContent')) px = xPageX('zonePageContent')+xWidth('zonePageContent')-xWidth(layer)-5;
+    xLeft(layer, px);
+    xTop(layer, py);
+    layer.style.visibility = "visible";
+
+    try {
+        formObj.width.focus();
+    } catch(e) {
+    }
+
+}
+
+function doHideWidgetSizeSetup() {
+    var layer = xGetElementById("pageSizeLayer");
+    layer.style.visibility = "hidden";
+    layer.style.display = "none";
+}
+
+function _getSize(value) {
+    if(!value) return;
+    var type = "px";
+    if(value.lastIndexOf("%")>=0)  type = "%";
+    var num = parseInt(value,10);
+    if(num<1) return;
+    if(type == "%" && num > 100) num = 100;
+    return ""+num+type;
+}
+
+function doApplyWidgetSize(fo_obj) {
+    if(selectedSizeWidget) {
+        var width = _getSize(fo_obj.width.value);
+        if(width) selectedSizeWidget.style.width = width;
+
+        var height = _getSize(fo_obj.height.value);
+        if(height) selectedSizeWidget.style.height = height;
+
+        var borderObj = selectedSizeWidget.firstChild;
+        while(borderObj) {
+            if(borderObj.nodeName == "DIV" && borderObj.className == "widgetBorder") {
+                var contentObj = borderObj.firstChild;
+                while(contentObj) {
+                    if(contentObj.nodeName == "DIV") {
+                        contentObj.style.margin = "";
+                        var marginLeft = _getSize(fo_obj.margin_left.value);
+                        if(marginLeft) {
+                            contentObj.style.marginLeft = marginLeft;
+                            selectedSizeWidget.setAttribute('widget_margin_left', marginLeft);
+                        } else {
+                            contentObj.style.marginLeft = '';
+                            selectedSizeWidget.setAttribute('widget_margin_left', '');
+                        }
+
+                        var marginRight = _getSize(fo_obj.margin_right.value);
+                        if(marginRight) {
+                            contentObj.style.marginRight = marginRight;
+                            selectedSizeWidget.setAttribute('widget_margin_right', marginRight);
+                        } else {
+                            contentObj.style.marginRight = '';
+                            selectedSizeWidget.setAttribute('widget_margin_right', '');
+                        }
+
+                        var marginTop = _getSize(fo_obj.margin_top.value);
+                        if(marginTop) {
+                            contentObj.style.marginTop = marginTop;
+                            selectedSizeWidget.setAttribute('widget_margin_top', marginTop);
+                        } else {
+                            contentObj.style.marginTop = '';
+                            selectedSizeWidget.setAttribute('widget_margin_top', '');
+                        }
+
+                        var marginBottom = _getSize(fo_obj.margin_bottom.value);
+                        if(marginBottom) {
+                            contentObj.style.marginBottom = marginBottom;
+                            selectedSizeWidget.setAttribute('widget_margin_bottom', marginBottom);
+                        } else {
+                            contentObj.style.marginBottom = '';
+                            selectedSizeWidget.setAttribute('widget_margin_bottom', '');
+                        }
+
+                        break;
+                    }
+                    contentObj = contentObj.nextSibling;
+                }
+
+                break;
+            }
+
+            borderObj = borderObj.nextSibling;
+        }
+
+        selectedSizeWidget = null;
+        doFitBorderSize();
+    }
+        
+    doHideWidgetSizeSetup();
 }
 
 /* 위젯 드래그 */

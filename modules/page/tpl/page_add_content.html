@@ -3,22 +3,26 @@
 <!--%import("css/page.css")-->
 
 <div class="pageAddContent"></div>
-    <form action="./" method="get" onsubmit="return procFilter(this, add_content);" id="content_fo">
-    <input type="hidden" name="content" value="" />
-    <input type="hidden" name="mid" value="{$module_info->mid}" />
-    <input type="hidden" name="module_srl" value="{$module_srl}" />
-    <input type="hidden" name="style" value="float:left;padding:none;margin:none;width:100%;" />
+<form action="./" method="get" onsubmit="return procFilter(this, add_content);" id="content_fo">
+<input type="hidden" name="content" value="" />
+<input type="hidden" name="mid" value="{$module_info->mid}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="style" value="float:left;padding:none;margin:none;width:100%;" />
+<input type="hidden" name="widget_margin_left" value="" />
+<input type="hidden" name="widget_margin_right" value="" />
+<input type="hidden" name="widget_margin_top" value="" />
+<input type="hidden" name="widget_margin_bottom" value="" />
 
-        <div class="editor">
-            {$editor}
-        </div>
+    <div class="editor">
+        {$editor}
+    </div>
 
-        <div class="tCenter help">
-            <span class="button"><input type="submit" value="{$lang->cmd_insert}" class="editor_button" accesskey="s" /></span>
-            <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-        </div>
+    <div class="tCenter help">
+        <span class="button"><input type="submit" value="{$lang->cmd_insert}" class="editor_button" accesskey="s" /></span>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    </div>
 
-    </form>
+</form>
 
 <script type="text/javascript">
     xAddEventListener(window, 'load', doSyncPageContent);

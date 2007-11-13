@@ -197,9 +197,9 @@
          **/
         function procPageAdminAddContent() {
             $content = Context::get('content');
-            $style = Context::get('style');
+            $args = Context::getRequestVars('style','widget_margin_left','widget_margin_right','widget_margin_bottom','widget_margin_top');
 
-            $tpl = $this->transEditorContent($content, $style);
+            $tpl = $this->transEditorContent($content, $args);
 
             $this->add('tpl', $tpl);
         }
@@ -207,7 +207,7 @@
         /**
          * @brief 에디터에서 생성한 컨텐츠를 페이지 수정시 사용할 수 있도록 코드 생성
          **/
-        function transEditorContent($content, $style = "width:100%;float:left;") {
+        function transEditorContent($content, $args) {
             // 에디터의 내용을 변환하여 visual한 영역과 원본 소스를 가지고 있는 code로 분리
             $code = $content;
 
@@ -227,22 +227,25 @@
             }
 
             $tpl = sprintf(
-                    '<div class="widgetOutput" style="%s" widget="widgetContent" />'.
-                        '<style type="text/css">%s</style>'.
+                    '<style type="text/css">%s</style>'.
+                    '<div class="widgetOutput" style="%s" widget_margin_left="%s" widget_margin_right="%s" widget_margin_top="%s" widget_margin_bottom="%s" widget="widgetContent">'.
                         '<div class="widgetSetup"></div>'.
+                        '<div class="widgetSize"></div>'.
                         '<div class="widgetRemove"></div>'.
                         '<div class="widgetResize"></div>'.
                         '<div class="widgetBorder">'.
-                            '<div>'.
+                            '<div style="margin:%s %s %s %s;">'.
                                 '%s'.
                             '</div><div class="clear"></div>'.
                         '</div>'.
                         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
                     '</div>',
-                    $style,
                     $css_header,
+                    $args->style,
+                    $args->widget_margin_left, $args->widget_margin_right, $args->widget_margin_top, $args->widget_margin_bottom,
+                    $args->widget_margin_top, $args->widget_margin_right, $args->widget_margin_bottom, $args->widget_margin_left,
                     $content,
-                    $code
+                    base64_encode($code)
             );
 
             return $tpl;

@@ -88,6 +88,13 @@ function doFillWidgetVars() {
     if(typeof(style)=="object") style = style["cssText"];
     fo_obj.style.value = style;
 
+    fo_obj.widget_margin_left.value = selected_node.getAttribute("widget_margin_left");
+    fo_obj.widget_margin_right.value = selected_node.getAttribute("widget_margin_right");
+    fo_obj.widget_margin_bottom.value = selected_node.getAttribute("widget_margin_bottom");
+    fo_obj.widget_margin_top.value = selected_node.getAttribute("widget_margin_top");
+
+
+
     for(var name in fo_obj) {
         var node = fo_obj[name];
         if(!node || typeof(node)=="undefined") continue;

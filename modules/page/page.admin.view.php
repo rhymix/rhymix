@@ -213,14 +213,6 @@
             return $tpl;
         }
 
-        function transWidgetContent($matches) {
-            preg_match_all('/style="([^"]*)"/is', $matches[2].' ', $mat);
-            $style = $mat[1][0];
-            $oPageAdminController = &getAdminController('page');
-            return $oPageAdminController->transEditorContent($matches[3], $style);
-
-        }
-
         /**
          * @brief 페이지 삭제 화면 출력
          **/

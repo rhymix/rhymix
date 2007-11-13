@@ -10,4 +10,7 @@
     $lang->cmd_page_modify = "페이지 수정";
 
     $lang->cmd_content_insert = "컨텐츠 추가";
+
+    $lang->cmd_widget_size = "위젯 크기";
+    $lang->cmd_widget_margin = "여백";
 ?>

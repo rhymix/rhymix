@@ -54,11 +54,15 @@
             if($widget == 'widgetContent') {
                 $style = $args->style;
                 $body = base64_decode($args->body);
+                $widget_margin_left = $args->widget_margin_left;
+                $widget_margin_right = $args->widget_margin_right;
+                $widget_margin_top = $args->widget_margin_top;
+                $widget_margin_bottom = $args->widget_margin_bottom;
                 if($include_info) {
                     $oPageAdminController = &getAdminController('page');
-                    $tpl = $oPageAdminController->transEditorContent($body, $style);
+                    $tpl = $oPageAdminController->transEditorContent($body, $args);
                 } else {
-                    $tpl = sprintf('<div style="overflow:hidden;%s">%s</div>', $style, $body);
+                    $tpl = sprintf('<div style="overflow:hidden;%s"><div style="margin:%s %s %s %s;">%s</div></div>', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $body);
                 }
                 return $tpl;
             }
@@ -77,10 +81,10 @@
             $html = $oWidget->proc($args);
 
             // 위젯 output을 생성하기 위한 변수 설정
-            $margin_top = (int)$args->widget_margin_top;
-            $margin_bottom = (int)$args->widget_margin_bottom;
-            $margin_left = (int)$args->widget_margin_left;
-            $margin_right = (int)$args->widget_margin_right;
+            $margin_top = $args->widget_margin_top;
+            $margin_bottom = $args->widget_margin_bottom;
+            $margin_left = $args->widget_margin_left;
+            $margin_right = $args->widget_margin_right;
 
             $args->style .= ';';
 
@@ -132,8 +136,9 @@
                 if(!$html) $html = '&nbsp;';
                 $output = sprintf(
                         '<style type="text/css">%s</style>'.
-                        '<div class="widgetOutput" style="%s" widget="%s" %s />'.
+                        '<div class="widgetOutput" style="%s" widget="%s" %s >'.
                             '<div class="widgetSetup"></div>'.
+                            '<div class="widgetSize"></div>'.
                             '<div class="widgetRemove"></div>'.
                             '<div class="widgetResize"></div>'.
                             '<div class="widgetBorder">'.
