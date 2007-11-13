@@ -86,10 +86,7 @@
             // args 정리
             $attribute = array();
             if($vars) {
-                $vars->widget_position = "left";
-                $vars->widget_fix_width = "Y";
                 foreach($vars as $key => $val) {
-                    if($key == 'widget_position') continue;
                     if(strpos($val,'|@|')>0) {
                         $val = str_replace('|@|',',',$val);
                         $vars->{$key} = $val;

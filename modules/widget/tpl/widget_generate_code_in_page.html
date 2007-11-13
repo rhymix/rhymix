@@ -7,6 +7,7 @@
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="widget_sequence" value="" />
+<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
 
     <div id="popHeadder">
         <h3>{$lang->cmd_generate_code}</h3>
@@ -21,35 +22,6 @@
         <tr>
             <th scope="row">{$lang->widget}</th>
             <td>{$widget_info->title} ver {$widget_info->version}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->widget_width}</th>
-            <td>
-                <input type="text" value="50" name="widget_width" size="3" class="inputTypeText" />
-                <select name="widget_width_type" onchange="checkFixType(this)">
-                    <option value="%">%</option>
-                    <option value="px">px</option>
-                </select>
-                <p>{$lang->about_widget_width}</p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->widget_margin}</th>
-            <td>
-                <table cellspacing="1" class="adminTable">
-                <tr>
-                    <td colspan="2" class="tCenter">{$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                <tr>
-                    <td class="tCenter">{$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" class="inputTypeText"/>px</td>
-                    <td class="tCenter">{$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="tCenter">{$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                </table>
-                <p>{$lang->about_widget_margin}</p>
-            </td>
         </tr>
         <!--@if(count($skin_list))-->
         <tr>

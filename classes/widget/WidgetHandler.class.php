@@ -56,12 +56,14 @@
                 $body = base64_decode($args->body);
                 if($include_info) {
                     $oPageAdminController = &getAdminController('page');
-                    return $oPageAdminController->transEditorContent($body, $style);
+                    $tpl = $oPageAdminController->transEditorContent($body, $style);
                 } else {
-                    return sprintf('<div style="%s">%s</div>', $style, $body);
+                    $tpl = sprintf('<div style="overflow:hidden;%s">%s</div>', $style, $body);
                 }
+                return $tpl;
             }
 
+            // 설치된 위젯들에 대한 처리
             if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
             $cache_path = './files/cache/widget_cache/';
@@ -75,33 +77,29 @@
             $html = $oWidget->proc($args);
 
             // 위젯 output을 생성하기 위한 변수 설정
-            $fix_width = $args->widget_fix_width=='Y'?'Y':'N';
-            $width_type = strtolower($args->widget_width_type)=='%'?'%':'px';
-            $widget_width = (int)$args->widget_width;
             $margin_top = (int)$args->widget_margin_top;
             $margin_bottom = (int)$args->widget_margin_bottom;
             $margin_left = (int)$args->widget_margin_left;
             $margin_right = (int)$args->widget_margin_right;
-            $widget_position = $args->widget_position;
+
+            $args->style .= ';';
 
             preg_match("/height:([^;]*);/i",$args->style, $height_match);
             if($height_match[0]) $height = $height_match[0];
 
-            $style  = "overflow:hidden;padding:none !important; margin:none !important;float:left;".$height;
+            preg_match("/width:([^;]*);/i",$args->style, $width_match);
+            if($width_match[0]) $width = $width_match[0];
+            else $width = "";
+
+            $style  = "overflow:hidden;padding:none !important; margin:none !important;float:left;".$height.$width;
             $inner_style = sprintf("margin:%dpx %dpx %dpx %dpx !important; padding:none !important;", $margin_top, $margin_right, $margin_bottom, $margin_left);
 
             /**
              * 출력을 위해 위젯 내용을 div로 꾸밈
              **/
-            // 위젯의 크기가 고정일 경우 
-            if($widget_width) {
-                $style .= sprintf('%s:%s%s;', 'width', $widget_width, $width_type);
-            }
-
             // 서비스에 사용하기 위해 위젯 정보를 포함하지 않을 경우
             if(!$include_info) {
-                if(!$widget_position) $output = sprintf('<div class="clear"></div><div style="%s;float:left;"><div style="%s">%s</div></div>', $style, $inner_style, $html);
-                else $output = sprintf('<div style="%s;"><div style="%s">%s</div></div>', $style, $inner_style, $html);
+                $output = sprintf('<div style="%s;"><div style="%s">%s</div></div>', $style, $inner_style, $html);
 
                 // 위젯 sequence가 있고 위젯의 캐싱을 지정하였고 위젯정보를 담지 않도록 하였을 경우 캐시 파일을 저장
                 if($args->widget_sequence && $args->widget_cache) WidgetHandler::writeCache($args->widget_sequence, $output);
@@ -133,8 +131,8 @@
 
                 if(!$html) $html = '&nbsp;';
                 $output = sprintf(
+                        '<style type="text/css">%s</style>'.
                         '<div class="widgetOutput" style="%s" widget="%s" %s />'.
-                            '<style type="text/css">%s</style>'.
                             '<div class="widgetSetup"></div>'.
                             '<div class="widgetRemove"></div>'.
                             '<div class="widgetResize"></div>'.
@@ -144,8 +142,8 @@
                                 '</div><div class="clear"></div>'.
                             '</div>'.
                         '</div>', 
-                        $style, $widget, implode(' ',$attribute), 
                         $css_header, 
+                        $style, $widget, implode(' ',$attribute), 
                         $inner_style, 
                         $html
                 );
@@ -153,7 +151,6 @@
 
             // 위젯 결과물 생성 시간을 debug 정보에 추가
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
-
 
             // 결과 return
             return $output;

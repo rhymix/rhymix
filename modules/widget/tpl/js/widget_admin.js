@@ -12,7 +12,7 @@ function completeGenerateCode(ret_obj) {
     zone.value = widget_code;
 } 
 
-/* 생성된 코드를 에디터에 출력 */
+/* 생성된 코드를 페이지 zone에 출력 */
 function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     var widget_code = ret_obj["widget_code"];
     if(!opener || !widget_code) {
@@ -21,6 +21,7 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     }
     if(selected_node  && selected_node.getAttribute("widget")) {
         selected_node = replaceOuterHTML(selected_node, widget_code);
+        if(opener.doFitBorderSize) opener.doFitBorderSize();
     } else {
         var obj = opener.xGetElementById('zonePageContent');
         xInnerHtml(obj, xInnerHtml(obj)+widget_code);
@@ -83,6 +84,10 @@ function doFillWidgetVars() {
 
     var fo_obj = xGetElementById("fo_widget");
 
+    var style = selected_node.getAttribute("style");
+    if(typeof(style)=="object") style = style["cssText"];
+    fo_obj.style.value = style;
+
     for(var name in fo_obj) {
         var node = fo_obj[name];
         if(!node || typeof(node)=="undefined") continue;
@@ -139,22 +144,6 @@ function doFillWidgetVars() {
     if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
 */
     
-    var width = selected_node.style.width;
-    if(width) {
-        var width_type = width.replace(/^([0-9]+)/, '');
-        if(!width_type) width_type = 'px';
-
-        var width_value = width.replace(/([%|px]+)/,'');
-
-        fo_obj.widget_width.value = width_value;
-        if(width_type == '%') fo_obj.widget_width_type.selectedIndex = 0;
-        else fo_obj.widget_width_type.selectedIndex = 1;
-    } else {
-        var width_type = "px";
-        if(selected_node.getAttribute("widget_width_type")=="%") width_type = "%";
-        else fo_obj.widget_width.value = xWidth(selected_node);
-    }
-
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
         doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);

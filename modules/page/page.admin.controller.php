@@ -197,8 +197,9 @@
          **/
         function procPageAdminAddContent() {
             $content = Context::get('content');
+            $style = Context::get('style');
 
-            $tpl = $this->transEditorContent($content);
+            $tpl = $this->transEditorContent($content, $style);
 
             $this->add('tpl', $tpl);
         }

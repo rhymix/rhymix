@@ -44,6 +44,9 @@ function doSubmitPageContent(fo_obj) {
     while(childObj) {
         if(childObj.nodeName == "DIV" && childObj.getAttribute("widget"))  {
             var widget = childObj.getAttribute("widget");
+            if(!widget) continue; 
+
+            // 내장 위젯인 에디터 컨텐츠인 경우
             if(widget == "widgetContent") {
                 var style = childObj.getAttribute("style");
                 if(typeof(style)=="object") style = style["cssText"];
@@ -51,23 +54,29 @@ function doSubmitPageContent(fo_obj) {
                 var code = "";
                 while(cobj && cobj.className != "widgetContent") { cobj = cobj.nextSibling; }
                 if(cobj && cobj.className == "widgetContent") {
-                    var body = encode64(xInnerHtml(cobj));
+                    var body = Base64.encode(xInnerHtml(cobj));
                     code = '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+style+'" body="'+body+'" />';
                 }
                 html += code;
+
+            // 위젯의 경우
             } else {
                 var attrs = "";
                 var code = "";
                 for(var i=0;i<childObj.attributes.length;i++) {
                     if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
                     var name = childObj.attributes[i].nodeName.toLowerCase();
-                    var value = childObj.attributes[i].nodeValue.replace(/\"/ig,'&quot;');
+                    if(name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
+
+                    var value = childObj.attributes[i].nodeValue;
                     if(!value) continue;
-                    if(name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "height") continue;
+
+                    if(value && typeof(value)=="string") value = value.replace(/\"/ig,'&quot;');
+
                     attrs += name+'="'+value+'" ';
                 }
                 var style = childObj.getAttribute("style");
-                if(typeof(style)=="object") style = style["cssText"];
+                if(typeof(style)=="object" && style["cssText"]) style = style["cssText"];
 
                 code = '<img class="zbxe_widget_output" style="'+style+'" widget="'+widget+'" '+attrs+' />';
                 html += code;
@@ -166,6 +175,10 @@ function doAddContent(module_srl) {
 
 function doSyncPageContent() {
     if(opener && opener.selectedWidget) {
+        var style = opener.selectedWidget.getAttribute("style");
+        if(typeof(style)=="object") style = style["cssText"];
+        xGetElementById("content_fo").style.value = style;
+
         var obj = opener.selectedWidget.firstChild;
         while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
         if(obj && obj.className == "widgetContent") {
@@ -189,6 +202,8 @@ function completeAddContent(ret_obj) {
         var obj = opener.xGetElementById('zonePageContent');
         xInnerHtml(obj, xInnerHtml(obj)+tpl);
     }
+
+    if(opener.doFitBorderSize) opener.doFitBorderSize();
     window.close();
 
     return false;
@@ -209,16 +224,20 @@ function doAddWidget(fo) {
 /* 페이지 수정 시작 */
 function doStartPageModify() {
 
-    // widgetBorder에 height를 widgetOutput와 맞춰줌
+    doFitBorderSize();
+
+    // 드래그와 리사이즈와 관련된 이벤트 리스너 생성
+    xAddEventListener(document,"click",doCheckWidget);
+    xAddEventListener(document,"mousedown",doCheckWidgetDrag);
+}
+
+// widgetBorder에 height를 widgetOutput와 맞춰줌
+function doFitBorderSize() {
     var obj_list = xGetElementsByClassName('widgetBorder', xGetElementById('zonePageContent'));
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         xHeight(obj, xHeight(obj.parentNode));
     }
-
-    // 드래그와 리사이즈와 관련된 이벤트 리스너 생성
-    xAddEventListener(document,"click",doCheckWidget);
-    xAddEventListener(document,"mousedown",doCheckWidgetDrag);
 }
 
 var selectedWidget = null;
@@ -375,12 +394,13 @@ function widgetDrag(tobj, dx, dy) {
         var sy = xPageY(tobj.parentNode);
 
         var new_width = tobj.xDPX  - sx;
-        if(new_width < 20) new_width = 20;
+        if(new_width < 25) new_width = 25;
 
         var new_height = tobj.xDPY - sy;
-        if(new_height < 20) new_height = 20;
+        if(new_height < 25) new_height = 25;
 
-        if(new_width > xWidth('zonePageContent')-2) new_width = xWidth('zonePageContent')-2;
+        if( xPageX('zonePageContent') + xWidth('zonePageContent') < xPageX(tobj.parentNode) + new_width) new_width = xPageX('zonePageContent') + xWidth('zonePageContent') - xPageX(tobj.parentNode);
+        //if(new_width > xWidth('zonePageContent')-2) new_width = xWidth('zonePageContent')-2;
 
         // 위젯의 크기 조절
         xWidth(tobj.nextSibling, new_width);
