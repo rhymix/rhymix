@@ -175,15 +175,17 @@ function doAddContent(module_srl) {
 
 function doSyncPageContent() {
     if(opener && opener.selectedWidget) {
+        var fo_obj = xGetElementById("content_fo");
         var style = opener.selectedWidget.getAttribute("style");
+        var sel_obj = opener.selectedWidget;
         if(typeof(style)=="object") style = style["cssText"];
-        xGetElementById("content_fo").style.value = style;
-        xGetElementById("content_fo").widget_margin_left.value = opener.selectedWidget.getAttribute("widget_margin_left");
-        xGetElementById("content_fo").widget_margin_right.value = opener.selectedWidget.getAttribute("widget_margin_right");
-        xGetElementById("content_fo").widget_margin_bottom.value = opener.selectedWidget.getAttribute("widget_margin_bottom");
-        xGetElementById("content_fo").widget_margin_top.value = opener.selectedWidget.getAttribute("widget_margin_top");
+        fo_obj.style.value = style;
+        fo_obj.widget_margin_left.value = sel_obj.getAttribute("widget_margin_left");
+        fo_obj.widget_margin_right.value = sel_obj.getAttribute("widget_margin_right");
+        fo_obj.widget_margin_bottom.value = sel_obj.getAttribute("widget_margin_bottom");
+        fo_obj.widget_margin_top.value = sel_obj.getAttribute("widget_margin_top");
 
-        var obj = opener.selectedWidget.firstChild;
+        var obj = sel_obj.firstChild;
         while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
         if(obj && obj.className == "widgetContent") {
             var content = Base64.decode(xInnerHtml(obj));
@@ -362,6 +364,28 @@ function doShowWidgetSizeSetup(px, py, obj) {
     formObj.margin_top.value = selectedSizeWidget.getAttribute('widget_margin_top');
     formObj.margin_bottom.value = selectedSizeWidget.getAttribute('widget_margin_bottom');
 
+    var widget_align = '';
+    if(xIE4Up) widget_align = selectedSizeWidget.style.styleFloat;
+    else widget_align = selectedSizeWidget.style.cssFloat;
+    if(widget_align == "left") formObj.widget_align.selectedIndex = 0;
+    else formObj.widget_align.selectedIndex = 1;
+
+    formObj.border_top_color.value = transRGB2Hex(selectedSizeWidget.style.borderTopColor);
+    formObj.border_top_thick.value = selectedSizeWidget.style.borderTopWidth.replace(/px$/i,'');
+    formObj.border_top_type.selectedIndex = selectedSizeWidget.style.borderTopStyle=='dotted'?1:0;
+
+    formObj.border_bottom_color.value = transRGB2Hex(selectedSizeWidget.style.borderBottomColor);
+    formObj.border_bottom_thick.value = selectedSizeWidget.style.borderBottomWidth.replace(/px$/i,'');
+    formObj.border_bottom_type.selectedIndex = selectedSizeWidget.style.borderBottomStyle=='dotted'?1:0;
+
+    formObj.border_right_color.value = transRGB2Hex(selectedSizeWidget.style.borderRightColor);
+    formObj.border_right_thick.value = selectedSizeWidget.style.borderRightWidth.replace(/px$/i,'');
+    formObj.border_right_type.selectedIndex = selectedSizeWidget.style.borderRightStyle=='dotted'?1:0;
+
+    formObj.border_left_color.value = transRGB2Hex(selectedSizeWidget.style.borderLeftColor);
+    formObj.border_left_thick.value = selectedSizeWidget.style.borderLeftWidth.replace(/px$/i,'');
+    formObj.border_left_type.selectedIndex = selectedSizeWidget.style.borderLeftStyle=='dotted'?1:0;
+
     if(px+xWidth(layer)>xPageX('zonePageContent')+xWidth('zonePageContent')) px = xPageX('zonePageContent')+xWidth('zonePageContent')-xWidth(layer)-5;
     xLeft(layer, px);
     xTop(layer, py);
@@ -390,13 +414,41 @@ function _getSize(value) {
     return ""+num+type;
 }
 
+function _getBorderStyle(fld_color, fld_thick, fld_type) {
+    var color = fld_color.value;
+    if(!color) color = '#FFFFFF';
+    else color = '#'+color;
+    var width = fld_thick.value;
+    if(!width) width = '0px';
+    else width = parseInt(width,10)+'px'; 
+    var style = fld_type.value;
+    if(!style) style = 'solid';
+
+    var str = color+' '+width+' '+style;
+    return str;
+}
+
 function doApplyWidgetSize(fo_obj) {
     if(selectedSizeWidget) {
+        if(fo_obj.widget_align.selectedIndex== 1) {
+            if(xIE4Up) selectedSizeWidget.style.styleFloat = 'right';
+            else selectedSizeWidget.style.cssFloat = 'right';
+        } else {
+            if(xIE4Up) selectedSizeWidget.style.styleFloat = 'left';
+            else selectedSizeWidget.style.cssFloat = 'left';
+        }
+
         var width = _getSize(fo_obj.width.value);
         if(width) selectedSizeWidget.style.width = width;
 
         var height = _getSize(fo_obj.height.value);
         if(height) selectedSizeWidget.style.height = height;
+
+        selectedSizeWidget.style.borderTop = _getBorderStyle(fo_obj.border_top_color, fo_obj.border_top_thick, fo_obj.border_top_type);
+        selectedSizeWidget.style.borderBottom = _getBorderStyle(fo_obj.border_bottom_color, fo_obj.border_bottom_thick, fo_obj.border_bottom_type);
+        selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
+        selectedSizeWidget.style.borderRight = _getBorderStyle(fo_obj.border_right_color, fo_obj.border_right_thick, fo_obj.border_right_type);
+
 
         var borderObj = selectedSizeWidget.firstChild;
         while(borderObj) {

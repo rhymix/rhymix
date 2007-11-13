@@ -158,7 +158,11 @@
             // 내용중 widget이 아닌 것들을 일단 분리
             $none_widget_code = preg_replace('!<img([^\>]*)widget=([^\>]*?)\>!is', '', $content);
             $oPageAdminController = &getAdminController('page');
-            if(trim($none_widget_code)) $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code);
+            if(trim($none_widget_code)) {
+                $args->style = "float:left;overflow:hidden;padding:none;margin:none";
+                $args->widget_margin_left = $args->widget_margin_top = $args->widget_margin_right = $args->widget_margin_bottom = 0;
+                $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code, $args);
+            }
 
             // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
             preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);

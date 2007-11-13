@@ -93,8 +93,6 @@ function doFillWidgetVars() {
     fo_obj.widget_margin_bottom.value = selected_node.getAttribute("widget_margin_bottom");
     fo_obj.widget_margin_top.value = selected_node.getAttribute("widget_margin_top");
 
-
-
     for(var name in fo_obj) {
         var node = fo_obj[name];
         if(!node || typeof(node)=="undefined") continue;

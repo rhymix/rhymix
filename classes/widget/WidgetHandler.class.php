@@ -86,16 +86,6 @@
             $margin_left = $args->widget_margin_left;
             $margin_right = $args->widget_margin_right;
 
-            $args->style .= ';';
-
-            preg_match("/height:([^;]*);/i",$args->style, $height_match);
-            if($height_match[0]) $height = $height_match[0];
-
-            preg_match("/width:([^;]*);/i",$args->style, $width_match);
-            if($width_match[0]) $width = $width_match[0];
-            else $width = "";
-
-            $style  = "overflow:hidden;padding:none !important; margin:none !important;float:left;".$height.$width;
             $inner_style = sprintf("margin:%dpx %dpx %dpx %dpx !important; padding:none !important;", $margin_top, $margin_right, $margin_bottom, $margin_left);
 
             /**
@@ -103,7 +93,7 @@
              **/
             // 서비스에 사용하기 위해 위젯 정보를 포함하지 않을 경우
             if(!$include_info) {
-                $output = sprintf('<div style="%s;"><div style="%s">%s</div></div>', $style, $inner_style, $html);
+                $output = sprintf('<div style="%s;"><div style="%s">%s</div></div>', $args->style, $inner_style, $html);
 
                 // 위젯 sequence가 있고 위젯의 캐싱을 지정하였고 위젯정보를 담지 않도록 하였을 경우 캐시 파일을 저장
                 if($args->widget_sequence && $args->widget_cache) WidgetHandler::writeCache($args->widget_sequence, $output);
@@ -148,7 +138,7 @@
                             '</div>'.
                         '</div>', 
                         $css_header, 
-                        $style, $widget, implode(' ',$attribute), 
+                        $args->style, $widget, implode(' ',$attribute), 
                         $inner_style, 
                         $html
                 );

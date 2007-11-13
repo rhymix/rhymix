@@ -1,7 +1,6 @@
 <!--%import("filter/insert_page_content.xml")-->
 <!--%import("js/page_admin.js")-->
 <!--%import("css/page.css")-->
-
 <div class="clear"></div>
 <div id="zonePageContent">{$page_content}</div>
 <div class="clear"></div>
@@ -35,16 +34,25 @@
 <div id="tmpPageSizeLayer" style="visibility:hidden;">
     <form action="./" onsubmit="doApplyWidgetSize(this); return false;">
         <table cellspacing="0">
-        <col width="80" />
+        <col width="120" />
         <col />
         <col />
         <tr>
-            <th>{$lang->cmd_widget_size}</th>
-            <td colspan="2"><input type="text" name="width" class="input" value="" /> - <input type="text" class="input" name="height" value="" /></td>
+            <th>{$lang->cmd_widget_align}</th>
+            <td colspan="2">
+                <select name="widget_align">
+                    <option value="left">{$lang->cmd_widget_align_left}</option>
+                    <option value="right">{$lang->cmd_widget_align_right}</option>
+                </select>
+            </td>
         </tr>
         <tr>
-            <th rowspan="3">{$lang->cmd_widget_margin}</th>
-            <td colspan="2" class="tCenter"><input type="text" name="margin_top" class="input" value="" /></td>
+            <th class="line">{$lang->cmd_widget_size}</th>
+            <td colspan="2" class="line"><input type="text" name="width" class="input" value="" /> - <input type="text" class="input" name="height" value="" /></td>
+        </tr>
+        <tr>
+            <th rowspan="3" class="line">{$lang->cmd_widget_margin}</th>
+            <td colspan="2" class="line tCenter"><input type="text" name="margin_top" class="input" value="" /></td>
         </tr>
         <tr>
             <td><input type="text" name="margin_left" class="input" value="" /></td>
@@ -52,6 +60,45 @@
         </tr>
         <tr>
             <td colspan="2" class="tCenter"><input type="text" name="margin_bottom" class="input" value="" /></td>
+        </tr>
+        <tr>
+            <th rowspan="3" class="line">{$lang->cmd_widget_border}</th>
+            <td colspan="2" class="tCenter line">
+                <input type="text" name="border_top_thick" value="" class="small_input" />px
+                <select name="border_top_type">
+                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
+                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
+                </select>
+                #<input type="text" name="border_top_color" value="" class="color_input" maxlength="6"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="border_left_thick" value="" class="small_input" />px
+                <select name="border_left_type">
+                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
+                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
+                </select>
+                #<input type="text" name="border_left_color" value="" class="color_input" maxlength="6"/>
+            </td>
+            <td class="tRight">
+                <input type="text" name="border_right_thick" value="" class="small_input" />px
+                <select name="border_right_type">
+                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
+                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
+                </select>
+                #<input type="text" name="border_right_color" value="" class="color_input" maxlength="6"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="tCenter">
+                <input type="text" name="border_bottom_thick" value="" class="small_input" />px
+                <select name="border_bottom_type">
+                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
+                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
+                </select>
+                #<input type="text" name="border_bottom_color" value="" class="color_input" maxlength="6"/>
+            </td>
         </tr>
         <tr>
             <td colspan="3" class="buttonBox">

@@ -93,6 +93,9 @@
             $output = $oModuleController->updateModule($module_info);
             if(!$output->toBool()) return $output;
 
+            // 캐시파일 재생성
+            $this->procPageAdminRemoveWidgetCache();
+
             $this->add("module_srl", $module_info->module_srl);
             $this->add("page", Context::get('page'));
             $this->setMessage($msg_code);
@@ -207,7 +210,7 @@
         /**
          * @brief 에디터에서 생성한 컨텐츠를 페이지 수정시 사용할 수 있도록 코드 생성
          **/
-        function transEditorContent($content, $args) {
+        function transEditorContent($content, $args = null) {
             // 에디터의 내용을 변환하여 visual한 영역과 원본 소스를 가지고 있는 code로 분리
             $code = $content;
 
