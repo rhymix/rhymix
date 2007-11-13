@@ -110,7 +110,7 @@
                             <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
                         <!--@end-->
 
-                        <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitleText($module_info->subject_cut_size)}</a>
+                        <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a>
 
                         <!--@if($document->getCommentCount())-->
                             <span class="replyAndTrackback" title="Replies">(<strong>{$document->getCommentCount()}</strong>)</span>
