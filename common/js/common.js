@@ -200,7 +200,6 @@ function displayMultimedia(src, width, height, auto_start) {
     } else {
         html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
     }
-
     document.writeln(html);
 }
 

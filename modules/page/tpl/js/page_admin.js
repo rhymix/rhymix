@@ -241,6 +241,8 @@ function doFitBorderSize() {
     var obj_list = xGetElementsByClassName('widgetBorder', xGetElementById('zonePageContent'));
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
+        if(xWidth(obj)<74) xWidth(obj,74);
+        if(xHeight(obj)<40) xHeight(obj,40);
         xHeight(obj, xHeight(obj.parentNode));
     }
 }
