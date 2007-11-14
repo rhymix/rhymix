@@ -329,6 +329,12 @@ function doCheckWidgetDrag(e) {
     }
 }
 
+function _getInt(val) {
+    if(!val || val == "null") return 0;
+    if(parseInt(val,10)==NaN) return 0;
+    return parseInt(val,10);
+}
+
 // 위젯 크기 조절 레이어를 보여줌
 var selectedSizeWidget = null;
 function doShowWidgetSizeSetup(px, py, obj) {
@@ -343,10 +349,10 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
     formObj.width.value = obj.style.width;
     formObj.height.value = obj.style.height;
-    formObj.margin_left.value = selectedSizeWidget.getAttribute('widget_margin_left');
-    formObj.margin_right.value = selectedSizeWidget.getAttribute('widget_margin_right');
-    formObj.margin_top.value = selectedSizeWidget.getAttribute('widget_margin_top');
-    formObj.margin_bottom.value = selectedSizeWidget.getAttribute('widget_margin_bottom');
+    formObj.margin_left.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_left'));
+    formObj.margin_right.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_right'));
+    formObj.margin_top.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_top'));
+    formObj.margin_bottom.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_bottom'));
 
     var widget_align = '';
     if(xIE4Up) widget_align = selectedSizeWidget.style.styleFloat;
