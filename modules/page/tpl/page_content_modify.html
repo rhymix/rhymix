@@ -8,23 +8,30 @@
     <form action="./" id="pageFo" onsubmit="return doSubmitPageContent(this);">
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
         <input type="hidden" name="content" value="" />
-        <div class="fl">
-            <select name="widget_list">
-                <!--@foreach($widget_list as $widget)-->
-                <option value="{$widget->widget}">{$widget->title}</option>
-                <!--@end-->
-            </select>
-            <span class="button"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>
-            <span class="button"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->module_srl}'); return false;" /></span>
-        </div>
-        <div class="fr">
-            <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="location.href=current_url.setQuery('act','');return false;"/></span>
-            <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </div>
-        <div class="clear"></div>
+
+        <table cellspacing="0" class="adminTable">
+        <tr>
+            <td class="nowrap tCenter">
+                <select name="widget_list">
+                    <!--@foreach($widget_list as $widget)-->
+                    <option value="{$widget->widget}">{$widget->title}</option>
+                    <!--@end-->
+                </select>
+                <span class="button"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>
+            </td>
+            <td class="tCenter">
+                <span class="button"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->module_srl}'); return false;" /></span>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2" class="centerButton">
+                <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('act','');return false;"/></span>
+                <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
+            </th>
+        </tr>
+        </table>
     </form>
 </div>
-<div class="clear"></div>
 
 <script type="text/javascript">
     var confirm_delete_msg = "{$lang->confirm_delete}";

@@ -5,7 +5,7 @@ h3 { margin:0 10px 0 10px; }
 .editor_box { margin:0 10px 10px 10px; }
 .button_box { float:right; overflow:hidden; }
 
-.adminLayer { margin-top:30px; border:1px solid #CCCCCC; padding:10px; overflow:hidden;}
+.adminLayer { margin-top:30px; }
 
 #zonePageContent { overflow:hidden; width:100%; padding:none !important; margin:none !important;}
 
@@ -16,7 +16,8 @@ h3 { margin:0 10px 0 10px; }
 .widgetOutput .widgetSetup { background:#FFFFFF url("../images/widget_setup.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:48px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetSize { background:#FFFFFF url("../images/widget_size.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:24px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetRemove { background:#FFFFFF url("../images/widget_remove.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:1px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left top; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
 
 #pageSizeLayer { width:500px; overflow:hidden; border:1px solid #888888; background:#FFFFFF; z-index:2000; position:absolute; }
 #pageSizeLayer table { border:0; width:100%; table-layout:fixed; }

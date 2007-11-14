@@ -151,23 +151,6 @@ function doUnSelectAll(obj, key) {
     }
 }
 
-/* 빈 공간 추가 */
-function doAddEmptyBox() {
-    var zoneObj = xGetElementById("zonePageContent");
-
-    var dummy = '<div class="widgetOutput" style="width:100%;height:50px;" widget="_empty" />'+
-        '<div class="widgetRemove"></div>'+
-        '<div class="widgetResize"></div>'+
-        '<div class="widgetBorder">'+
-        '<div style="%s">'+
-        ''+
-        '</div>'+
-        '</div>'+
-        '</div>';
-
-    xInnerHtml(zoneObj, xInnerHtml(zoneObj)+dummy);
-}
-
 /* 컨텐츠 추가 */
 function doAddContent(module_srl) {
     popopen("./?module=page&act=dispPageAdminAddContent&module_srl="+module_srl, "addContent");
@@ -336,7 +319,7 @@ function doCheckWidgetDrag(e) {
 
     p_obj = obj;
     while(p_obj) {
-        if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize') {
+        if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize' || p_obj.className == 'widgetResizeLeft') {
             widgetDragEnable(p_obj, widgetDragStart, widgetDrag, widgetDragEnd);
             widgetMouseDown(e);
             return;
@@ -576,7 +559,7 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 
 // 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
 function widgetDragStart(tobj, px, py) { 
-    if(tobj.className == 'widgetResize') return;
+    if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' ) return;
     var obj = widgetGetTmpObject(tobj);
 
     xInnerHtml(obj, xInnerHtml(tobj));
@@ -594,21 +577,58 @@ function widgetDragStart(tobj, px, py) {
 
 // 드래그 시작후 마우스를 이동할때 발생되는 이벤트에 의해 실행되는 함수
 function widgetDrag(tobj, dx, dy) {
+    var minWidth = 74;
+    var minHeight = 40;
 
-    // 위젯 리사이즈
+    var sx = xPageX(tobj.parentNode);
+    var sy = xPageY(tobj.parentNode);
+
+    var nx = tobj.xDPX;
+    var ny = tobj.xDPY;
+
+    var zoneWidth = xWidth('zonePageContent');
+    var zoneLeft = xPageX('zonePageContent');
+    var zoneRight = zoneLeft + zoneWidth;
+
+    var pWidth = xWidth(tobj.parentNode);
+
+    var float = xIE4Up?tobj.parentNode.style.styleFloat:tobj.parentNode.style.cssFloat;
+    if(!float) float = 'left';
+
+    // 위젯 리사이즈 (우측)
     if(tobj.className == 'widgetResize') {
+        if(nx < sx+minWidth) nx = sx+minWidth;
+        if(nx > zoneRight) nx = zoneRight;
 
-        var sx = xPageX(tobj.parentNode);
-        var sy = xPageY(tobj.parentNode);
+        if(float == 'right') nx = sx + pWidth;
 
-        var new_width = tobj.xDPX  - sx;
-        if(new_width < 25) new_width = 25;
+        var new_width = nx  - sx;
+        if(new_width < minWidth) new_width = minWidth;
 
-        var new_height = tobj.xDPY - sy;
-        if(new_height < 25) new_height = 25;
+        var new_height = ny - sy;
+        if(new_height < minHeight) new_height = minHeight;
 
-        if( xPageX('zonePageContent') + xWidth('zonePageContent') < xPageX(tobj.parentNode) + new_width) new_width = xPageX('zonePageContent') + xWidth('zonePageContent') - xPageX(tobj.parentNode);
-        //if(new_width > xWidth('zonePageContent')-2) new_width = xWidth('zonePageContent')-2;
+        if( zoneRight < sx+new_width) new_width = zoneRight - sx;
+
+        // 위젯의 크기 조절
+        xWidth(tobj.nextSibling.nextSibling, new_width);
+        xHeight(tobj.nextSibling.nextSibling, new_height);
+
+        xWidth(tobj.parentNode, new_width);
+        xHeight(tobj.parentNode, new_height);
+
+    // 위젯 리사이즈 (좌측)
+    } else if(tobj.className == 'widgetResizeLeft') {
+
+        if(nx < zoneLeft) nx = zoneLeft;
+
+        if(float == 'left') nx = sx;
+
+        var new_width = pWidth + (sx - nx);
+        if(new_width < minWidth) new_width = minWidth;
+
+        var new_height = ny - sy;
+        if(new_height < minHeight) new_height = minHeight;
 
         // 위젯의 크기 조절
         xWidth(tobj.nextSibling, new_width);
@@ -616,7 +636,6 @@ function widgetDrag(tobj, dx, dy) {
 
         xWidth(tobj.parentNode, new_width);
         xHeight(tobj.parentNode, new_height);
-
 
     // 위젯 드래그
     } else {

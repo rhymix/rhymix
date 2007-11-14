@@ -131,6 +131,7 @@
                             '<div class="widgetSize"></div>'.
                             '<div class="widgetRemove"></div>'.
                             '<div class="widgetResize"></div>'.
+                            '<div class="widgetResizeLeft"></div>'.
                             '<div class="widgetBorder">'.
                                 '<div style="%s">'.
                                     '%s'.
