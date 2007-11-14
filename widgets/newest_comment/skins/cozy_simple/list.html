@@ -23,7 +23,7 @@
 
     <ul>
         <!--@foreach($widget_info->comment_list as $val)-->
-            <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary(20)}</a></li>
+            <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary(60)}</a></li>
         <!--@end-->
     </ul>
 </div>
