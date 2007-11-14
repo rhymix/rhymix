@@ -899,13 +899,13 @@
             $target_path = sprintf('files/member_extra_info/profile_image/%s/', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
 
-            $target_filename = sprintf('%s%d.jpg', $target_path, $member_srl);
+            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
 
             // 파일 정보 구함
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
 
-            // 지정된 사이즈보다 크거나 jpg가 아니면 변환
-            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'jpg');
+            // 지정된 사이즈보다 크거나 gif가 아니면 변환
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
             else @copy($target_file, $target_filename);
         }
 

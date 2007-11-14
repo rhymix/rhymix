@@ -404,7 +404,7 @@
          * @brief 프로필 이미지의 정보를 구함 
          **/
         function getProfileImage($member_srl) {
-            $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.jpg', getNumberingPath($member_srl), $member_srl);
+            $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.gif', getNumberingPath($member_srl), $member_srl);
             if(!file_exists($image_name_file)) return;
             list($width, $height, $type, $attrs) = getimagesize($image_name_file);
             $info->width = $width;
