@@ -10,9 +10,10 @@
     <!--%import("css/purple.css")-->
 <!--@else-->
     <!--%import("css/normal.css")-->
+    {@ $colorset = "normal"; }
 <!--@end-->
 
-<div class="newestDocument">
+<div class="newestDocument_{$colorset}">
     <div class="header">
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
