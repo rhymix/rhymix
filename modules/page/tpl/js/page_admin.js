@@ -242,6 +242,7 @@ function doFitBorderSize() {
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         xHeight(obj, xHeight(obj.parentNode));
+        obj.parentNode.style.clear = '';
     }
 }
 
