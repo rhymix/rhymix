@@ -293,13 +293,13 @@
 
             // 발송인+type=S or 수신인+type=R 검사
             if($message->sender_srl == $member_srl && $message->message_type == 'S') {
-                $args->message_srl = $message_srl;
+                if(!$args->message_srl) return new Object(-1, 'msg_invalid_request');
             } elseif($message->receiver_srl == $member_srl && $message->message_type == 'R') {
-                $args->message_srl = $message_srl;
+                if(!$args->message_srl) return new Object(-1, 'msg_invalid_request');
             }
-            if(!$args->message_srl) return new Object(-1, 'msg_invalid_request');
 
             // 삭제
+            $args->message_srl = $message_srl;
             $output = executeQuery('member.deleteMessage', $args);
             if(!$output->toBool()) return $output;
 
