@@ -39,5 +39,26 @@
 
     $lang->about_widget_code = 'Ingrese primero los valores requeridos, luego presiona el botón "Generar códigos" para mostrar el código en el espacio inferior para ser añadido en el archivo de los temas.';
     $lang->about_widget_code_in_page = 'Luego de ingresar los valores requeridos, presiona el botón "Añadir" para insertar el código de widget dentro de la página.';
-    $lang->about_addon = "Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.\n Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.\nSin la necesidad de utilizar los módulos de página o del diseño de Zeroboard XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].";
+    $lang->about_widget = "Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.\n Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.\nSin la necesidad de utilizar los módulos de página o del diseño de Zeroboard XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].";
+
+    $lang->cmd_content_insert = "내용 직접 추가";
+    $lang->cmd_box_widget_insert = "상자 위젯 추가";
+    $lang->cmd_remove_all_widgets  = "내용 모두 지우기";
+
+    $lang->cmd_widget_size = "위젯 크기";
+    $lang->cmd_widget_align = "위젯 정렬";
+    $lang->cmd_widget_align_left = "왼쪽";
+    $lang->cmd_widget_align_right = "오른쪽";
+    $lang->cmd_widget_margin = "위젯 여백";
+    $lang->cmd_widget_border = "위젯 테두리";
+    $lang->cmd_widget_border_solid = "실선";
+    $lang->cmd_widget_border_dotted = "점선";
+    $lang->cmd_widget_background_color = "배경색";
+    $lang->cmd_widget_background_image_url = "배경 이미지";
+    $lang->cmd_widget_background_image_repeat = "반복";
+    $lang->cmd_widget_background_image_no_repeat = "고정";
+    $lang->cmd_widget_background_image_x_repeat = "가로 반복";
+    $lang->cmd_widget_background_image_y_repeat = "세로 반복";
+    $lang->cmd_widget_background_image_x = "가로 위치";
+    $lang->cmd_widget_background_image_y = "세로 위치";
 ?>

@@ -22,9 +22,13 @@
             <td class="tCenter">
                 <span class="button"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->module_srl}'); return false;" /></span>
             </td>
+            <td class="tCenter">
+                <span class="button"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
+            </td>
         </tr>
         <tr>
-            <th colspan="2" class="centerButton">
+            <th colspan="3" class="centerButton">
+                <span class="button"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
                 <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('act','');return false;"/></span>
                 <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
             </th>
@@ -35,84 +39,6 @@
 
 <script type="text/javascript">
     var confirm_delete_msg = "{$lang->confirm_delete}";
-    xAddEventListener(window,"load",doStartPageModify);
+    xAddEventListener(window,"load",function() { doStartPageModify('zonePageContent', '{$module_info->module_srl}'); });
 </script>
-
-<div id="tmpPageSizeLayer" style="visibility:hidden;">
-    <form action="./" onsubmit="doApplyWidgetSize(this); return false;">
-        <table cellspacing="0">
-        <col width="120" />
-        <col />
-        <col />
-        <tr>
-            <th>{$lang->cmd_widget_align}</th>
-            <td colspan="2">
-                <select name="widget_align">
-                    <option value="left">{$lang->cmd_widget_align_left}</option>
-                    <option value="right">{$lang->cmd_widget_align_right}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="line">{$lang->cmd_widget_size}</th>
-            <td colspan="2" class="line"><input type="text" name="width" class="input" value="" /> - <input type="text" class="input" name="height" value="" /></td>
-        </tr>
-        <tr>
-            <th rowspan="3" class="line">{$lang->cmd_widget_margin}</th>
-            <td colspan="2" class="line tCenter"><input type="text" name="margin_top" class="input" value="" /></td>
-        </tr>
-        <tr>
-            <td><input type="text" name="margin_left" class="input" value="" /></td>
-            <td class="tRight"><input type="text" name="margin_right" class="input" value="" /></td>
-        </tr>
-        <tr>
-            <td colspan="2" class="tCenter"><input type="text" name="margin_bottom" class="input" value="" /></td>
-        </tr>
-        <tr>
-            <th rowspan="3" class="line">{$lang->cmd_widget_border}</th>
-            <td colspan="2" class="tCenter line">
-                <input type="text" name="border_top_thick" value="" class="small_input" />px
-                <select name="border_top_type">
-                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
-                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
-                </select>
-                #<input type="text" name="border_top_color" value="" class="color_input" maxlength="6"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="text" name="border_left_thick" value="" class="small_input" />px
-                <select name="border_left_type">
-                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
-                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
-                </select>
-                #<input type="text" name="border_left_color" value="" class="color_input" maxlength="6"/>
-            </td>
-            <td class="tRight">
-                <input type="text" name="border_right_thick" value="" class="small_input" />px
-                <select name="border_right_type">
-                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
-                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
-                </select>
-                #<input type="text" name="border_right_color" value="" class="color_input" maxlength="6"/>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" class="tCenter">
-                <input type="text" name="border_bottom_thick" value="" class="small_input" />px
-                <select name="border_bottom_type">
-                    <option value="solid">{$lang->cmd_widget_border_solid}</option>
-                    <option value="dotted">{$lang->cmd_widget_border_dotted}</option>
-                </select>
-                #<input type="text" name="border_bottom_color" value="" class="color_input" maxlength="6"/>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" class="buttonBox">
-                <input type="submit" value="{$lang->cmd_save}" class="submit"/>
-            </td>
-        </tr>
-        </table>
-    </form>
-</div>
 

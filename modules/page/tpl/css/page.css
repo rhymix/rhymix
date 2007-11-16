@@ -6,27 +6,3 @@ h3 { margin:0 10px 0 10px; }
 .button_box { float:right; overflow:hidden; }
 
 .adminLayer { margin-top:30px; }
-
-#zonePageContent { overflow:hidden; width:100%; padding:none !important; margin:none !important;}
-
-.pageAddContent { width:700px; }
-
-.widgetOutput { float:left; cursor:move; z-index:998; overflow:hidden; position:relative;}
-.widgetOutput .widgetBorder { border:1px dotted #17DA29; z-index:999; }
-.widgetOutput .widgetSetup { background:#FFFFFF url("../images/widget_setup.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:48px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetSize { background:#FFFFFF url("../images/widget_size.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:24px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetRemove { background:#FFFFFF url("../images/widget_remove.gif") no-repeat left top; width:22px; height:22px; position:absolute; top:1px; right:1px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
-
-#pageSizeLayer { width:500px; overflow:hidden; border:1px solid #888888; background:#FFFFFF; z-index:2000; position:absolute; }
-#pageSizeLayer table { border:0; width:100%; table-layout:fixed; }
-#pageSizeLayer table th { padding:4px 0 4px 0; background-color:#DEDEDE; text-align:center; color:#888888;}
-#pageSizeLayer table th.line  { border-top:1px dotted #EEEEEE; }
-#pageSizeLayer table td { padding:4px 10px 4px 10px; background-color:#EFEFEF;}
-#pageSizeLayer table td.line  { border-top:1px dotted #999999; }
-#pageSizeLayer table td.buttonBox { background-color:#FFFFFF; white-space:nowrap; overflow:hidden; vertical-align:top; text-align:center; border-top:1px solid #888888; color:#DDDDDD;}
-#pageSizeLayer .input { background:#FFFFFF; border:1px solid #AAAAAA; padding:1px; font:8pt verdana; width:60px; }
-#pageSizeLayer .small_input { background:#FFFFFF; border:1px solid #AAAAAA; padding:1px; font:8pt verdana; width:20px; }
-#pageSizeLayer .color_input { background:#FFFFFF; border:1px solid #AAAAAA; padding:1px; font:8pt verdana; width:50px; }
-#pageSizeLayer .submit { width:90%; border:1px solid #DEDEDE; background-color:#FFFFFF;}

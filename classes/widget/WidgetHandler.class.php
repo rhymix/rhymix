@@ -59,10 +59,23 @@
                 $widget_margin_top = $args->widget_margin_top;
                 $widget_margin_bottom = $args->widget_margin_bottom;
                 if($include_info) {
-                    $oPageAdminController = &getAdminController('page');
-                    $tpl = $oPageAdminController->transEditorContent($body, $args);
+                    $oWidgetController = &getController('widget');
+                    $tpl = $oWidgetController->transEditorContent($body, $args);
                 } else {
                     $tpl = sprintf('<div style="overflow:hidden;%s"><div style="margin:%s %s %s %s;">%s</div></div>', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $body);
+                }
+                return $tpl;
+            // widget Box일 경우 간단히 변경만 시도함
+            } else if($widget == 'widgetBox') {
+                $style = $args->style;
+                $widget_margin_left = $args->widget_margin_left;
+                $widget_margin_right = $args->widget_margin_right;
+                $widget_margin_top = $args->widget_margin_top;
+                $widget_margin_bottom = $args->widget_margin_bottom;
+                if($include_info) {
+                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_margin_top="%s" widget_margin_right="%s" widget_margin_bottom="%s" widget_margin_left="%s"><div class="widgetCopy"></div><div class="widgetSize"></div><div class="widgetRemove"></div><div class="widgetResize"></div><div class="widgetResizeLeft"></div><div class="widgetBorder"><div class="nullWidget" style="margin:%s %s %s %s;">', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left);
+                } else {
+                    $tpl = sprintf('<div style="overflow:hidden;%s;"><div style="margin:%s %s %s %s;"><div>%s', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $body);
                 }
                 return $tpl;
             }
@@ -77,9 +90,6 @@
             $oWidget = WidgetHandler::getObject($widget);
             if(!$oWidget) return;
 
-            // 위젯 실행
-            $html = $oWidget->proc($args);
-
             // 위젯 output을 생성하기 위한 변수 설정
             $margin_top = $args->widget_margin_top;
             $margin_bottom = $args->widget_margin_bottom;
@@ -93,6 +103,9 @@
              **/
             // 서비스에 사용하기 위해 위젯 정보를 포함하지 않을 경우
             if(!$include_info) {
+
+                // 위젯 실행
+                $html = $oWidget->proc($args);
                 $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s">%s</div></div>', $args->style, $inner_style, $html);
 
                 // 위젯 sequence가 있고 위젯의 캐싱을 지정하였고 위젯정보를 담지 않도록 하였을 경우 캐시 파일을 저장
@@ -100,6 +113,11 @@
 
             // 에디팅등에 사용하기 위한 목적으로 위젯 정보를 포함할 경우
             } else {
+                // 위젯 실행
+                //if($args->widget_sequence && $args->widget_cache) $html = WidgetHandler::getCache($args->widget_sequence, $args->widget_cache);
+                //if(!$html) $html = $oWidget->proc($args);
+                $html = $oWidget->proc($args);
+
                 // args 정리
                 $attribute = array();
                 if($args) {
@@ -126,8 +144,9 @@
                 if(!$html) $html = '&nbsp;';
                 $output = sprintf(
                         '<style type="text/css">%s</style>'.
-                        '<div class="widgetOutput" style="%s" widget="%s" %s >'.
+                        '<div class="widgetOutput" style="%s" widget_margin_top="%s" widget_margin_right="%s" widget_margin_bottom="%s" widget_margin_left="%s" widget="%s" %s >'.
                             '<div class="widgetSetup"></div>'.
+                            '<div class="widgetCopy"></div>'.
                             '<div class="widgetSize"></div>'.
                             '<div class="widgetRemove"></div>'.
                             '<div class="widgetResize"></div>'.
@@ -139,7 +158,9 @@
                             '</div>'.
                         '</div>', 
                         $css_header, 
-                        $args->style, $widget, implode(' ',$attribute), 
+                        $args->style, 
+                        $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, 
+                        $widget, implode(' ',$attribute), 
                         $inner_style, 
                         $html
                 );

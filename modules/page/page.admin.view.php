@@ -155,22 +155,10 @@
             // 내용을 세팅
             $content = $this->module_info->content;
 
-            // 내용중 widget이 아닌 것들을 일단 분리
-            $none_widget_code = preg_replace('!<img([^\>]*)widget=([^\>]*?)\>!is', '', $content);
-            $oPageAdminController = &getAdminController('page');
-            if(trim($none_widget_code)) {
-                $args->style = "float:left;overflow:hidden;padding:none;margin:none";
-                $args->widget_margin_left = $args->widget_margin_top = $args->widget_margin_right = $args->widget_margin_bottom = 0;
-                $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code, $args);
-            }
-
-            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
-            preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
-            $content = '';
-            for($i=0;$i<count($matches[0]);$i++) $content .= $matches[0][$i];
-            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
-
-            Context::set('page_content', $none_widget_content.$content);
+            // 내용중 위젯들을 변환
+            $oWidgetController = &getController('widget');
+            $content = $oWidgetController->transWidgetCode($content, true);
+            Context::set('page_content', $content);
 
             // 위젯 목록을 세팅
             $oWidgetModel = &getModel('widget');
@@ -181,42 +169,6 @@
             $this->setTemplateFile('page_content_modify');
         }
         
-        /**
-         * @brief 페이지에 에디터 위젯 추가
-         **/
-        function dispPageAdminAddContent() {
-            $this->setLayoutFile("popup_layout");
-
-            $module_srl = Context::get('module_srl');
-            if(!$module_srl) return $this->stop("msg_invalid_request");
-
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-            Context::set('module_info', $module_info);
-
-            // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorModel = &getModel('editor');
-            $option->primary_key_name = 'module_srl';
-            $option->content_key_name = 'content';
-            $option->allow_fileupload = true;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = false;
-            $option->height = 400;
-            $option->manual_start = true;
-            $editor = $oEditorModel->getEditor($module_srl, $option);
-            Context::set('editor', $editor);
-
-            $this->setTemplateFile('page_add_content');
-        }
-
-        function transWidget($matches) {
-            $oContext = &Context::getInstance();
-            $tpl = $oContext->transWidget($matches, true);
-            return $tpl;
-        }
-
         /**
          * @brief 페이지 삭제 화면 출력
          **/

@@ -836,7 +836,8 @@
          **/
         function transContent($content) {
             // 위젯 코드 변경 
-            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
+            $oWidgetController = &getController('widget');
+            $content = $oWidgetController->transWidgetCode($content, false);
 
             // 메타 파일 변경
             $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'transMeta'), $content);
@@ -902,7 +903,7 @@
             $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
             $buff = str_replace("&","&amp;",$buff);
 
-            // 위젯에서 생성된 코드 (img, div태그내에 editor_widget코드 존재)의 parameter를 추출
+            // 에디터 컴포넌트에서 생성된 코드
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
             if($xml_doc->div) $xml_doc = $xml_doc->div;
@@ -919,38 +920,6 @@
             if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
 
             return $oComponent->transHTML($xml_doc);
-        }
-
-        /**
-         * @brief 위젯 코드를 실제 php코드로 변경
-         **/
-        function transWidget($matches, $include_info = false) {
-            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
-            $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
-            $buff = str_replace("&","&amp;",$buff);
-
-            $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse(trim($buff));
-
-            if($xml_doc->img) $vars = $xml_doc->img->attrs;
-            else $vars = $xml_doc->attrs;
-
-            if(!$vars->widget) return "";
-
-            // 캐시 체크
-            $widget_sequence = $vars->widget_sequence;
-            $widget_cache = $vars->widget_cache;
-            if($widget_cache && $widget_sequence && !$include_info)  {
-                $output = WidgetHandler::getCache($widget_sequence, $widget_cache);
-                if($output) return $output;
-            }
-
-            // 위젯의 이름을 구함
-            $widget = $vars->widget;
-            unset($vars->widget);
-            
-            return WidgetHandler::execute($widget, $vars, $include_info);
         }
 
         /**
