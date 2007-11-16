@@ -91,12 +91,12 @@
             if(!$oWidget) return;
 
             // 위젯 output을 생성하기 위한 변수 설정
-            $margin_top = $args->widget_margin_top;
-            $margin_bottom = $args->widget_margin_bottom;
-            $margin_left = $args->widget_margin_left;
-            $margin_right = $args->widget_margin_right;
+            $widget_margin_top = $args->widget_margin_top;
+            $widget_margin_bottom = $args->widget_margin_bottom;
+            $widget_margin_left = $args->widget_margin_left;
+            $widget_margin_right = $args->widget_margin_right;
 
-            $inner_style = sprintf("margin:%dpx %dpx %dpx %dpx !important; padding:none !important;", $margin_top, $margin_right, $margin_bottom, $margin_left);
+            $inner_style = sprintf("margin:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left);
 
             /**
              * 출력을 위해 위젯 내용을 div로 꾸밈
