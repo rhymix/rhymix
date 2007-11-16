@@ -730,8 +730,7 @@ function widgetDrag(tobj, dx, dy) {
             var ll =  parseInt(l,10) + parseInt(xWidth(tobj.parentNode),10);
             var tt =  parseInt(t,10) + parseInt(xHeight(tobj.parentNode),10);
             if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
-                var target_obj = tobj.parentNode;
-                tobj.parentNode.parentNode.insertBefore(tobj, tobj.parentNode);
+                zonePageObj.insertBefore(tobj, tobj.parentNode.parentNode.parentNode);
                 doFitBorderSize();
                 return;
             }
