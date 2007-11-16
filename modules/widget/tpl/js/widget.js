@@ -407,8 +407,8 @@ function doShowWidgetSizeSetup(px, py, obj) {
     if(pos) {
         pos = pos.split(' ');
         if(pos.length==2) {
-            formObj.background_x.value = _getInt(pos[0]);
-            formObj.background_y.value = _getInt(pos[1]);
+            formObj.background_x.value = pos[0];
+            formObj.background_y.value = pos[1];
         }
     }
 
@@ -477,7 +477,9 @@ function doApplyWidgetSize(fo_obj) {
         selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
         selectedSizeWidget.style.borderRight = _getBorderStyle(fo_obj.border_right_color, fo_obj.border_right_thick, fo_obj.border_right_type);
 
-        selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color);
+        if(!fo_obj.background_color.value || fo_obj.background_color.value == 'transparent') selectedSizeWidget.style.backgroundColor = 'transparent';
+        else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color);
+
         var image_url = fo_obj.background_image_url.value;
         if(image_url) selectedSizeWidget.style.backgroundImage = "url("+image_url+")";
         else selectedSizeWidget.style.backgroundImage = 'none';
@@ -490,7 +492,7 @@ function doApplyWidgetSize(fo_obj) {
         }
 
 
-        selectedSizeWidget.style.backgroundPosition = _getInt(fo_obj.background_x.value)+'px'+ ' '+_getInt(fo_obj.background_y.value)+'px';
+        selectedSizeWidget.style.backgroundPosition = fo_obj.background_x.value+' '+fo_obj.background_y.value;
 
         var borderObj = selectedSizeWidget.firstChild;
         while(borderObj) {
