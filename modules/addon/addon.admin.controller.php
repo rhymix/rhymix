@@ -66,7 +66,7 @@
                 $buff .= sprintf(' if(file_exists("./addons/%s/%s.addon.php")) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $addon, $addon, $extra_vars, $addon, $addon, $addon);
             }
 
-            $buff = sprintf('<?if(!defined("__ZBXE__"))exit(); %s ?>', $buff);
+            $buff = sprintf('<?php if(!defined("__ZBXE__"))exit(); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
         }
