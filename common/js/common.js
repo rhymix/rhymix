@@ -494,7 +494,7 @@ function origImageDragMouseMove(evt) {
 xAddEventListener(document, 'click', chkPopupMenu);
 var loaded_popup_menu_list = new Array();
 
-// 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리
+/* 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리 */
 function chkPopupMenu(evt) {
     // 이전에 호출되었을지 모르는 팝업메뉴 숨김
     var area = xGetElementById("popup_menu_area");
@@ -626,7 +626,7 @@ function completeCallModuleAction(ret_obj, response_tags) {
 }
 
 /**
- * @brief 날짜 선택 (달력 열기)
+ * @brief 날짜 선택 (달력 열기) 
  **/
 function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
@@ -639,7 +639,7 @@ function open_calendar(fo_id, day_str, callback_func) {
     popopen(url, 'Calendar');
 }
 
-// 언어코드 (lang_type) 쿠키값 변경
+/* 언어코드 (lang_type) 쿠키값 변경 */
 function doChangeLangType(obj) {
     if(typeof(obj)=="string") {
         setLangType(obj);
@@ -766,7 +766,7 @@ function doAddDocumentCart(obj) {
     exec_xml("document","procDocumentAdminAddCart", params, null);
 }
 
-// ff의 rgb(a,b,c)를 #... 로 변경
+/* ff의 rgb(a,b,c)를 #... 로 변경 */
 function transRGB2Hex(value) {
     if(!value) return value;
     if(value.indexOf('#')>-1) return value.replace(/^#/,'');
