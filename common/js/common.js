@@ -37,6 +37,7 @@ String.prototype.setQuery = function(key, val) {
 
         var q_list = new Array();
         for(var i in args) {
+	    if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
             if(!arg.toString().trim()) continue;
 
