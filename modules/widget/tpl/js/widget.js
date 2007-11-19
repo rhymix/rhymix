@@ -14,7 +14,7 @@ function getStyle(obj) {
 
 // float: 값을 구하는게 IE랑 그외가 다름
 function getFloat(obj) {
-    var float = xIE4Up?obj.parentNode.style.styleFloat:obj.parentNode.style.cssFloat;
+    var float = xIE4Up?obj.style.styleFloat:obj.style.cssFloat;
     if(!float) float = 'left';
     return float;
 }
