@@ -423,17 +423,17 @@
             $target_category = $oDocumentModel->getCategory($target_category_srl);
             $source_category = $oDocumentModel->getCategory($source_category_srl);
 
-            // source_category에 target_category_srl의 parent_srl, listorder 값을 입력
+            // source_category에 target_category_srl의 parent_srl, list_order 값을 입력
             $source_args->category_srl = $source_category_srl;
             $source_args->parent_srl = $target_category->parent_srl;
-            $source_args->listorder = $target_category->listorder;
+            $source_args->list_order = $target_category->list_order;
             $output = $oDocumentController->updateCategory($source_args);
             if(!$output->toBool()) return $output;
 
-            // target_category의 listorder값을 +1해 준다
+            // target_category의 list_order값을 +1해 준다
             $target_args->category_srl = $target_category_srl;
-            $target_args->parent_srl = $target_category->parent_srl;
-            $target_args->listorder = $target_category->listorder -1;
+            $target_args->parent_srl = $source_category->parent_srl;
+            $target_args->list_order = $source_category->list_order;
             $output = $oDocumentController->updateCategory($target_args);
             if(!$output->toBool()) return $output;
 
