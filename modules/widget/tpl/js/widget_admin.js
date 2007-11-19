@@ -20,20 +20,6 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         return;
     }
 
-    var dummy = xCreateElement("DIV");
-    xInnerHtml(dummy, widget_code);
-
-    var cobj = dummy.firstChild;
-    while(cobj) {
-        if(cobj.className == 'widgetClass') {
-            opener.document.body.insertBefore(cobj, opener.document.body.firstChild);
-            break;
-        }
-        cobj = cobj.nextSibling;
-    }
-
-    widget_code = xInnerHtml(dummy);
-
     if(selected_node  && selected_node.getAttribute("widget")) {
         selected_node = replaceOuterHTML(selected_node, widget_code);
         if(opener.doFitBorderSize) opener.doFitBorderSize();
