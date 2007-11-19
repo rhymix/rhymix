@@ -446,12 +446,13 @@ function _getSize(value) {
 
 function _getBorderStyle(fld_color, fld_thick, fld_type) {
     var color = fld_color.value;
+    color = color.replace(/^#/,'');
     if(!color) color = '#FFFFFF';
     else color = '#'+color;
     var width = fld_thick.value;
     if(!width) width = '0px';
     else width = parseInt(width,10)+'px'; 
-    var style = fld_type.value;
+    var style = fld_type.options[fld_type.selectedIndex].value;
     if(!style) style = 'solid';
 
     var str = color+' '+width+' '+style;
@@ -480,6 +481,7 @@ function doApplyWidgetSize(fo_obj) {
         selectedSizeWidget.style.borderBottom = _getBorderStyle(fo_obj.border_bottom_color, fo_obj.border_bottom_thick, fo_obj.border_bottom_type);
         selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
         selectedSizeWidget.style.borderRight = _getBorderStyle(fo_obj.border_right_color, fo_obj.border_right_thick, fo_obj.border_right_type);
+
         selectedSizeWidget.style.marginTop = _getSize(fo_obj.margin_top.value);
         selectedSizeWidget.style.marginRight = _getSize(fo_obj.margin_right.value);
         selectedSizeWidget.style.marginBottom = _getSize(fo_obj.margin_bottom.value);
