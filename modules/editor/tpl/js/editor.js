@@ -103,7 +103,7 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-    iframe_obj.style.width = "100%";
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-12);
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
