@@ -311,10 +311,10 @@ function svc_folder_close(id) {
 function setFixedPopupSize() {
 
     if(xGetElementById('popBody')) {
-        if(xHeight('popBody')>600) {
+        if(xHeight('popBody')>500) {
             xGetElementById('popBody').style.overflowY = 'scroll';
             xGetElementById('popBody').style.overflowX = 'hidden';
-            xHeight('popBody', 600);
+            xHeight('popBody', 500);
         }
     }
 
