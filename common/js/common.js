@@ -214,6 +214,13 @@ function resizeImageContents() {
         var obj = objs[i];
         if(!obj.parentNode) continue;
 
+        if(/\/modules\//i.test(obj.src)) continue;
+        if(/\/layouts\//i.test(obj.src)) continue;
+        if(/\/widgets\//i.test(obj.src)) continue;
+        if(/\/classes\//i.test(obj.src)) continue;
+        if(/\/common\/tpl\//i.test(obj.src)) continue;
+        if(/\/member_extra_info\//i.test(obj.src)) continue;
+
         // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
         while(parent) {
@@ -223,13 +230,8 @@ function resizeImageContents() {
         if(!parent || !/(document_|comment_)/ig.test(parent.className)) continue;
 
         if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
-
-        if(/\/modules\//i.test(obj.src)) continue;
-        if(/\/layouts\//i.test(obj.src)) continue;
-        if(/\/widgets\//i.test(obj.src)) continue;
-        if(/\/classes\//i.test(obj.src)) continue;
-        if(/\/common\/tpl\//i.test(obj.src)) continue;
-        if(/\/member_extra_info\//i.test(obj.src)) continue;
+        parent.style.width = '100%';
+        parent.style.overflow = 'hidden';
 
         var parent_width = xWidth(parent);
         if(parent.parentNode && xWidth(parent.parentNode)<parent_width) parent_width = xWidth(parent.parentNode);
@@ -386,6 +388,7 @@ function showOriginalImage(evt) {
     xAddEventListener(orig_image, "dblclick", closeOriginalImage);
     xAddEventListener(window, "scroll", closeOriginalImage);
     xAddEventListener(window, "resize", closeOriginalImage);
+    xAddEventListener(document, 'keydown',closeOriginalImage);
 
     areabg.style.visibility = 'visible';
 }
@@ -405,6 +408,7 @@ function closeOriginalImage(evt) {
     xRemoveEventListener(area, "mousedown", closeOriginalImage);
     xRemoveEventListener(window, "scroll", closeOriginalImage);
     xRemoveEventListener(window, "resize", closeOriginalImage);
+    xRemoveEventListener(document, 'keydown',closeOriginalImage);
 }
 
 /**
