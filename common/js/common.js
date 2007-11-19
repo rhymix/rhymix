@@ -240,7 +240,7 @@ function resizeImageContents() {
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width<1 || obj_width <1 || parent_width >= obj_width) continue;
+        if(parent_width<1 || obj_width <1 || parent_width >= orig_img.width) continue;
 
         obj.style.cursor = "pointer";
 
