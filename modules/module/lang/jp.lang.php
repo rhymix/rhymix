@@ -42,7 +42,7 @@
     $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することができません。';
 
     $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
-    $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋_のみ可）。";
+    $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋[英数,_のみ可]）。";
     $lang->about_default = "チェックすると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
     $lang->about_module_category = "カテゴリで管理できるようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことができます。";
     $lang->about_description= '管理用に用いられる説明です。';
