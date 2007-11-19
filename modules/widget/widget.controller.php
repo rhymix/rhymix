@@ -182,8 +182,13 @@
          * @brief 위젯 코드를 실제 php코드로 변경
          **/
         function transWidget($matches) {
+            $oContext = &Context::getInstance();
+            $buff = trim($matches[0]);
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($oContext, _fixQuotation), $buff);
+            $buff = str_replace("&","&amp;",$buff);
+
             $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse(trim($matches[0]));
+            $xml_doc = $oXmlParser->parse(trim($buff));
 
             if($xml_doc->img) $vars = $xml_doc->img->attrs;
             else $vars = $xml_doc->attrs;
