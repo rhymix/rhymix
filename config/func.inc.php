@@ -395,4 +395,32 @@
             
     }
 
+    /**
+     * @brief mysql old_password 의 php 구현 함수
+     * 제로보드4나 기타 mysql4.1 이전의 old_password()함수를 쓴 데이터의 사용을 위해서
+     * mysql의 password.c 소스 참조해서 구현함
+     **/
+    function mysql_pre4_hash_password($password) {
+        $nr = 1345345333;
+        $add = 7;
+        $nr2 = 0x12345671;
+
+        settype($password, "string");
+
+        for ($i=0; $i<strlen($password); $i++) {
+            if ($password[$i] == ' ' || $password[$i] == '\t') continue;
+            $tmp = ord($password[$i]);
+            $nr ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
+            $nr2 += ($nr2 << 8) ^ $nr;
+            $add += $tmp;
+        }
+        $result1 = sprintf("%08lx", $nr & ((1 << 31) -1));
+        $result2 = sprintf("%08lx", $nr2 & ((1 << 31) -1));
+
+        if($result1 == '80000000') $nr += 0x80000000;
+        if($result2 == '80000000') $nr2 += 0x80000000;
+
+        return sprintf("%08lx%08lx", $nr, $nr2);
+    }
+
 ?>
