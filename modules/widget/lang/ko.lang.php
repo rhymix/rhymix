@@ -20,7 +20,7 @@
     $lang->widget_position_none = '줄바꿈';
     $lang->widget_position_left = '왼쪽';
     $lang->widget_position_right = '오른쪽';
-    $lang->widget_margin = '여백';
+    $lang->widget_margin = '외부 여백';
     $lang->widget_margin_top = '위';
     $lang->widget_margin_right = '오른쪽';
     $lang->widget_margin_bottom = '아래 ';
@@ -49,7 +49,8 @@
     $lang->cmd_widget_align = "위젯 정렬";
     $lang->cmd_widget_align_left = "왼쪽";
     $lang->cmd_widget_align_right = "오른쪽";
-    $lang->cmd_widget_margin = "위젯 여백";
+    $lang->cmd_widget_margin = "외부 여백";
+    $lang->cmd_widget_padding = "내부 여백";
     $lang->cmd_widget_border = "위젯 테두리";
     $lang->cmd_widget_border_solid = "실선";
     $lang->cmd_widget_border_dotted = "점선";

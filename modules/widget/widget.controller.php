@@ -134,7 +134,7 @@
          **/
         function procWidgetAddContent() {
             $content = Context::get('content');
-            $args = Context::getRequestVars('style','widget_margin_left','widget_margin_right','widget_margin_bottom','widget_margin_top');
+            $args = Context::getRequestVars('style','widget_padding_left','widget_padding_right','widget_padding_bottom','widget_padding_top');
 
             $tpl = $this->transEditorContent($content, $args);
 
@@ -152,8 +152,8 @@
             $none_widget_code = preg_replace('!<img([^\>]*)widget=([^\>]*?)\>!is', '', $content);
             $oPageAdminController = &getAdminController('page');
             if(trim($none_widget_code)) {
-                $args->style = "float:left;overflow:hidden;padding:none;margin:none";
-                $args->widget_margin_left = $args->widget_margin_top = $args->widget_margin_right = $args->widget_margin_bottom = 0;
+                $args->style = "float:left;overflow:hidden;padding:none;padding:none";
+                $args->widget_padding_left = $args->widget_padding_top = $args->widget_padding_right = $args->widget_padding_bottom = 0;
                 $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code, $args);
             }
             */
@@ -247,7 +247,7 @@
 
             $tpl = sprintf(
                     '<style type="text/css">%s</style>'.
-                    '<div class="widgetOutput" style="%s" widget_margin_left="%s" widget_margin_right="%s" widget_margin_top="%s" widget_margin_bottom="%s" widget="widgetContent">'.
+                    '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent">'.
                         '<div class="widgetSetup"></div>'.
                         '<div class="widgetCopy"></div>'.
                         '<div class="widgetSize"></div>'.
@@ -255,7 +255,7 @@
                         '<div class="widgetResize"></div>'.
                         '<div class="widgetResizeLeft"></div>'.
                         '<div class="widgetBorder">'.
-                            '<div style="margin:%s %s %s %s;">'.
+                            '<div style="padding:%s %s %s %s;">'.
                                 '%s'.
                             '</div><div class="clear"></div>'.
                         '</div>'.
@@ -263,8 +263,8 @@
                     '</div>',
                     $css_header,
                     $args->style,
-                    $args->widget_margin_left, $args->widget_margin_right, $args->widget_margin_top, $args->widget_margin_bottom,
-                    $args->widget_margin_top, $args->widget_margin_right, $args->widget_margin_bottom, $args->widget_margin_left,
+                    $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
+                    $args->widget_padding_top, $args->widget_padding_right, $args->widget_padding_bottom, $args->widget_padding_left,
                     $content,
                     base64_encode($code)
             );

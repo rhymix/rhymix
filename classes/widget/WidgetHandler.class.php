@@ -54,28 +54,28 @@
             if($widget == 'widgetContent') {
                 $style = $args->style;
                 $body = base64_decode($args->body);
-                $widget_margin_left = $args->widget_margin_left;
-                $widget_margin_right = $args->widget_margin_right;
-                $widget_margin_top = $args->widget_margin_top;
-                $widget_margin_bottom = $args->widget_margin_bottom;
+                $widget_padding_left = $args->widget_padding_left;
+                $widget_padding_right = $args->widget_padding_right;
+                $widget_padding_top = $args->widget_padding_top;
+                $widget_padding_bottom = $args->widget_padding_bottom;
                 if($include_info) {
                     $oWidgetController = &getController('widget');
                     $tpl = $oWidgetController->transEditorContent($body, $args);
                 } else {
-                    $tpl = sprintf('<div style="overflow:hidden;%s"><div style="margin:%s %s %s %s;">%s</div></div>', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $body);
+                    $tpl = sprintf('<div style="overflow:hidden;%s"><div style="padding:%s %s %s %s;">%s</div></div>', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $body);
                 }
                 return $tpl;
             // widget Box일 경우 간단히 변경만 시도함
             } else if($widget == 'widgetBox') {
                 $style = $args->style;
-                $widget_margin_left = $args->widget_margin_left;
-                $widget_margin_right = $args->widget_margin_right;
-                $widget_margin_top = $args->widget_margin_top;
-                $widget_margin_bottom = $args->widget_margin_bottom;
+                $widget_padding_left = $args->widget_padding_left;
+                $widget_padding_right = $args->widget_padding_right;
+                $widget_padding_top = $args->widget_padding_top;
+                $widget_padding_bottom = $args->widget_padding_bottom;
                 if($include_info) {
-                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_margin_top="%s" widget_margin_right="%s" widget_margin_bottom="%s" widget_margin_left="%s"><div class="widgetCopy"></div><div class="widgetSize"></div><div class="widgetRemove"></div><div class="widgetResize"></div><div class="widgetResizeLeft"></div><div class="widgetBorder"><div class="nullWidget" style="margin:%s %s %s %s;">', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left);
+                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s"><div class="widgetCopy"></div><div class="widgetSize"></div><div class="widgetRemove"></div><div class="widgetResize"></div><div class="widgetResizeLeft"></div><div class="widgetBorder"><div class="nullWidget" style="padding:%s %s %s %s;">', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
                 } else {
-                    $tpl = sprintf('<div style="overflow:hidden;%s;"><div style="margin:%s %s %s %s;"><div>%s', $style, $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, $body);
+                    $tpl = sprintf('<div style="overflow:hidden;%s;"><div style="padding:%s %s %s %s;"><div>%s', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $body);
                 }
                 return $tpl;
             }
@@ -91,12 +91,12 @@
             if(!$oWidget) return;
 
             // 위젯 output을 생성하기 위한 변수 설정
-            $widget_margin_top = $args->widget_margin_top;
-            $widget_margin_bottom = $args->widget_margin_bottom;
-            $widget_margin_left = $args->widget_margin_left;
-            $widget_margin_right = $args->widget_margin_right;
+            $widget_padding_top = $args->widget_padding_top;
+            $widget_padding_bottom = $args->widget_padding_bottom;
+            $widget_padding_left = $args->widget_padding_left;
+            $widget_padding_right = $args->widget_padding_right;
 
-            $inner_style = sprintf("margin:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left);
+            $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             /**
              * 출력을 위해 위젯 내용을 div로 꾸밈
@@ -143,8 +143,8 @@
 
                 if(!$html) $html = '&nbsp;';
                 $output = sprintf(
-                        '<style type="text/css">%s</style>'.
-                        '<div class="widgetOutput" style="%s" widget_margin_top="%s" widget_margin_right="%s" widget_margin_bottom="%s" widget_margin_left="%s" widget="%s" %s >'.
+                        '<div class="widgetClass"><style type="text/css">%s</style></div>'.
+                        '<div class="widgetOutput" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
                             '<div class="widgetSetup"></div>'.
                             '<div class="widgetCopy"></div>'.
                             '<div class="widgetSize"></div>'.
@@ -159,7 +159,7 @@
                         '</div>', 
                         $css_header, 
                         $args->style, 
-                        $widget_margin_top, $widget_margin_right, $widget_margin_bottom, $widget_margin_left, 
+                        $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
                         $widget, implode(' ',$attribute), 
                         $inner_style, 
                         $html

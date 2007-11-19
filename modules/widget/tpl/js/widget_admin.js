@@ -19,6 +19,21 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         window.close(); 
         return;
     }
+
+    var dummy = xCreateElement("DIV");
+    xInnerHtml(dummy, widget_code);
+
+    var cobj = dummy.firstChild;
+    while(cobj) {
+        if(cobj.className == 'widgetClass') {
+            opener.document.body.insertBefore(cobj, opener.document.body.firstChild);
+            break;
+        }
+        cobj = cobj.nextSibling;
+    }
+
+    widget_code = xInnerHtml(dummy);
+
     if(selected_node  && selected_node.getAttribute("widget")) {
         selected_node = replaceOuterHTML(selected_node, widget_code);
         if(opener.doFitBorderSize) opener.doFitBorderSize();
@@ -88,10 +103,10 @@ function doFillWidgetVars() {
     if(typeof(style)=="object") style = style["cssText"];
     fo_obj.style.value = style;
 
-    fo_obj.widget_margin_left.value = selected_node.getAttribute("widget_margin_left");
-    fo_obj.widget_margin_right.value = selected_node.getAttribute("widget_margin_right");
-    fo_obj.widget_margin_bottom.value = selected_node.getAttribute("widget_margin_bottom");
-    fo_obj.widget_margin_top.value = selected_node.getAttribute("widget_margin_top");
+    fo_obj.widget_padding_left.value = selected_node.getAttribute("widget_padding_left");
+    fo_obj.widget_padding_right.value = selected_node.getAttribute("widget_padding_right");
+    fo_obj.widget_padding_bottom.value = selected_node.getAttribute("widget_padding_bottom");
+    fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
 
     for(var name in fo_obj) {
         var node = fo_obj[name];

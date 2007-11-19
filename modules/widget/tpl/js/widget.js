@@ -23,11 +23,11 @@ function setFloat(obj, fl) {
     else obj.style.cssFloat = fl;
 }
 
-// margin값을 구하는 함수 (없을 경우 0으로 세팅), zbxe의 위젯에서만 사용
-function getMargin(obj, direct) {
-    var margin = obj.getAttribute("widget_margin_"+direct);
-    if(!margin || margin == null) margin = 0;
-    return margin;
+// padding값을 구하는 함수 (없을 경우 0으로 세팅), zbxe의 위젯에서만 사용
+function getPadding(obj, direct) {
+    var padding = obj.getAttribute("widget_padding_"+direct);
+    if(!padding || padding == null) padding = 0;
+    return padding;
 }
 
 
@@ -102,7 +102,7 @@ function getContentWidgetCode(childObj, widget) {
     while(cobj) {
         if(cobj.nodeName == "DIV" && cobj.className == "widgetContent") {
             var body = xInnerHtml(cobj);
-            return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" widget_margin_left="'+getMargin(childObj,'left')+'" widget_margin_right="'+getMargin(childObj, 'right')+'" widget_margin_top="'+getMargin(childObj, 'top')+'" widget_margin_bottom="'+getMargin(childObj,'bottom')+'" />';
+            return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" />';
         }
         cobj = cobj.nextSibling;
     }
@@ -117,7 +117,7 @@ function getWidgetBoxCode(childObj, widget) {
             while(c2obj) {
                 if(c2obj.className == "nullWidget") {
                     var body = getWidgetContent(c2obj);
-                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_margin_left="'+getMargin(childObj,'left')+'" widget_margin_right="'+getMargin(childObj,'right')+'" widget_margin_top="'+getMargin(childObj, 'top')+'" widget_margin_bottom="'+getMargin(childObj, 'bottom')+'"><div><div>'+body+'<div class="clear"></div></div></div></div>';
+                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'"><div><div>'+body+'<div class="clear"></div></div></div></div>';
                 }
                 c2obj = c2obj.nextSibling;
             }
@@ -158,10 +158,10 @@ function doSyncPageContent() {
         var fo_obj = xGetElementById("content_fo");
         var sel_obj = opener.selectedWidget;
         fo_obj.style.value = getStyle(opener.selectedWidget);
-        fo_obj.widget_margin_left.value = getMargin(sel_obj, 'left');
-        fo_obj.widget_margin_right.value = getMargin(sel_obj,'right');
-        fo_obj.widget_margin_bottom.value = getMargin(sel_obj,'bottom');
-        fo_obj.widget_margin_top.value = getMargin(sel_obj,'top');
+        fo_obj.widget_padding_left.value = getPadding(sel_obj, 'left');
+        fo_obj.widget_padding_right.value = getPadding(sel_obj,'right');
+        fo_obj.widget_padding_bottom.value = getPadding(sel_obj,'bottom');
+        fo_obj.widget_padding_top.value = getPadding(sel_obj,'top');
 
         var obj = sel_obj.firstChild;
         while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
@@ -365,10 +365,14 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
     formObj.width.value = obj.style.width;
     formObj.height.value = obj.style.height;
-    formObj.margin_left.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_left'));
-    formObj.margin_right.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_right'));
-    formObj.margin_top.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_top'));
-    formObj.margin_bottom.value = _getInt(selectedSizeWidget.getAttribute('widget_margin_bottom'));
+    formObj.padding_left.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_left'));
+    formObj.padding_right.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_right'));
+    formObj.padding_top.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_top'));
+    formObj.padding_bottom.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_bottom'));
+    formObj.margin_left.value = _getInt(selectedSizeWidget.style.marginLeft);
+    formObj.margin_right.value = _getInt(selectedSizeWidget.style.marginRight);
+    formObj.margin_top.value = _getInt(selectedSizeWidget.style.marginTop);
+    formObj.margin_bottom.value = _getInt(selectedSizeWidget.style.marginBottom);
 
     var widget_align = getFloat(selectedSizeWidget);
     if(widget_align == "left") formObj.widget_align.selectedIndex = 0;
@@ -431,11 +435,11 @@ function doHideWidgetSizeSetup() {
 }
 
 function _getSize(value) {
-    if(!value) return;
+    if(!value) return 0;
     var type = "px";
     if(value.lastIndexOf("%")>=0)  type = "%";
     var num = parseInt(value,10);
-    if(num<1) return;
+    if(num<1) return 0;
     if(type == "%" && num > 100) num = 100;
     return ""+num+type;
 }
@@ -455,7 +459,7 @@ function _getBorderStyle(fld_color, fld_thick, fld_type) {
 }
 
 function _getBGColorStyle(fld_color) {
-    var color = fld_color.value;
+    var color = fld_color.replace(/^#/,'');
     if(!color) color = '#FFFFFF';
     else color = '#'+color;
     return color;
@@ -476,9 +480,13 @@ function doApplyWidgetSize(fo_obj) {
         selectedSizeWidget.style.borderBottom = _getBorderStyle(fo_obj.border_bottom_color, fo_obj.border_bottom_thick, fo_obj.border_bottom_type);
         selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
         selectedSizeWidget.style.borderRight = _getBorderStyle(fo_obj.border_right_color, fo_obj.border_right_thick, fo_obj.border_right_type);
+        selectedSizeWidget.style.marginTop = _getSize(fo_obj.margin_top.value);
+        selectedSizeWidget.style.marginRight = _getSize(fo_obj.margin_right.value);
+        selectedSizeWidget.style.marginBottom = _getSize(fo_obj.margin_bottom.value);
+        selectedSizeWidget.style.marginLeft = _getSize(fo_obj.margin_left.value);
 
         if(!fo_obj.background_color.value || fo_obj.background_color.value == 'transparent') selectedSizeWidget.style.backgroundColor = 'transparent';
-        else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color);
+        else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color.value);
 
         var image_url = fo_obj.background_image_url.value;
         if(image_url) selectedSizeWidget.style.backgroundImage = "url("+image_url+")";
@@ -500,41 +508,41 @@ function doApplyWidgetSize(fo_obj) {
                 var contentObj = borderObj.firstChild;
                 while(contentObj) {
                     if(contentObj.nodeName == "DIV") {
-                        contentObj.style.margin = "";
-                        var marginLeft = _getSize(fo_obj.margin_left.value);
-                        if(marginLeft) {
-                            contentObj.style.marginLeft = marginLeft;
-                            selectedSizeWidget.setAttribute('widget_margin_left', marginLeft);
+                        contentObj.style.padding = "";
+                        var paddingLeft = _getSize(fo_obj.padding_left.value);
+                        if(paddingLeft) {
+                            contentObj.style.paddingLeft = paddingLeft;
+                            selectedSizeWidget.setAttribute('widget_padding_left', paddingLeft);
                         } else {
-                            contentObj.style.marginLeft = '';
-                            selectedSizeWidget.setAttribute('widget_margin_left', '');
+                            contentObj.style.paddingLeft = '';
+                            selectedSizeWidget.setAttribute('widget_padding_left', '');
                         }
 
-                        var marginRight = _getSize(fo_obj.margin_right.value);
-                        if(marginRight) {
-                            contentObj.style.marginRight = marginRight;
-                            selectedSizeWidget.setAttribute('widget_margin_right', marginRight);
+                        var paddingRight = _getSize(fo_obj.padding_right.value);
+                        if(paddingRight) {
+                            contentObj.style.paddingRight = paddingRight;
+                            selectedSizeWidget.setAttribute('widget_padding_right', paddingRight);
                         } else {
-                            contentObj.style.marginRight = '';
-                            selectedSizeWidget.setAttribute('widget_margin_right', '');
+                            contentObj.style.paddingRight = '';
+                            selectedSizeWidget.setAttribute('widget_padding_right', '');
                         }
 
-                        var marginTop = _getSize(fo_obj.margin_top.value);
-                        if(marginTop) {
-                            contentObj.style.marginTop = marginTop;
-                            selectedSizeWidget.setAttribute('widget_margin_top', marginTop);
+                        var paddingTop = _getSize(fo_obj.padding_top.value);
+                        if(paddingTop) {
+                            contentObj.style.paddingTop = paddingTop;
+                            selectedSizeWidget.setAttribute('widget_padding_top', paddingTop);
                         } else {
-                            contentObj.style.marginTop = '';
-                            selectedSizeWidget.setAttribute('widget_margin_top', '');
+                            contentObj.style.paddingTop = '';
+                            selectedSizeWidget.setAttribute('widget_padding_top', '');
                         }
 
-                        var marginBottom = _getSize(fo_obj.margin_bottom.value);
-                        if(marginBottom) {
-                            contentObj.style.marginBottom = marginBottom;
-                            selectedSizeWidget.setAttribute('widget_margin_bottom', marginBottom);
+                        var paddingBottom = _getSize(fo_obj.padding_bottom.value);
+                        if(paddingBottom) {
+                            contentObj.style.paddingBottom = paddingBottom;
+                            selectedSizeWidget.setAttribute('widget_padding_bottom', paddingBottom);
                         } else {
-                            contentObj.style.marginBottom = '';
-                            selectedSizeWidget.setAttribute('widget_margin_bottom', '');
+                            contentObj.style.paddingBottom = '';
+                            selectedSizeWidget.setAttribute('widget_padding_bottom', '');
                         }
 
                         break;
@@ -567,8 +575,8 @@ function widgetCreateTmpObject(obj) {
     tmpObj.id = id + '_tmp';
     tmpObj.className = obj.className;
     tmpObj.style.overflow = 'hidden';
+    tmpObj.style.margin= '0px';
     tmpObj.style.padding = '0px';
-    tmpObj.style.margin = '0px';
     tmpObj.style.width = obj.style.width;
 
     tmpObj.style.display = 'none';

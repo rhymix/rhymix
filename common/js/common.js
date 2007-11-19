@@ -780,7 +780,7 @@ function transRGB2Hex(value) {
         var color = parseInt(value_list[i],10).toString(16);
         hex += color;
     }
-    return hex;
+    return '#'+hex;
 }
 
 /**
