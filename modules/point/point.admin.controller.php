@@ -48,6 +48,8 @@
                 $config->level_step[$i] = (int)$args->{$key};
             }
 
+            $config->expression = $args->expression;
+
             // 저장
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);

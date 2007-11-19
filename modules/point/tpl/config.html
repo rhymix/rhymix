@@ -69,6 +69,11 @@
         </td>
     </tr>
     <tr>
+        <th scope="col">{$lang->level_point_calc}</th>
+        <td colspan="3"><input name="expression" value="{$config->expression}" /> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> <input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" /><p>{$lang->expression}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="col" rowspan="{$config->max_level}">{$lang->level_point}</th>
         <td>1</td>
         <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
