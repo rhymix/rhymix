@@ -1,6 +1,11 @@
 <!-- 검색된 글 목록이 있고 권한이 있을 경우 출력 -->
-<!--@if($document_list && $grant->list)-->
+<!--@if($grant->list)-->
 
+  <!--@if($oDocument->isExists())-->
+      <!--#include("./view_document.html")-->
+  <!--@end-->
+
+  <!--@if($document_list)-->
     <!--@if($search_keyword)-->
     <!-- 검색어가 사용되었을 경우 목록형태로 출력 -->
         <!--#include("./style.list.html")-->
@@ -11,10 +16,8 @@
             <!--#include("./view_document.html")-->
         <!--@end-->
     <!--@end-->
-<!--@end-->
 
-
-<!-- 페이지 네비게이션 -->
+    <!-- 페이지 네비게이션 -->
     <div class="pageNavigation">
         <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
         <!--@while($page_no = $page_navigation->getNextPage())-->
@@ -26,3 +29,5 @@
         <!--@end-->
         <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
     </div>
+  <!--@end-->
+<!--@end-->
