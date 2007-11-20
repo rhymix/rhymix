@@ -1,54 +1,44 @@
 <!--%import("filter/insert_page_content.xml")-->
 <!--%import("js/page_admin.js")-->
 <!--%import("css/page.css")-->
-
 <div class="clear"></div>
-
-<form action="./" method="post" onsubmit="return procFilter(this, insert_page_content)" enctype="multipart/form-data">
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
-<input type="hidden" name="content" value="{htmlspecialchars($module_info->content)}" />
-<!--@if($module_info->is_default=='Y')-->
-<input type="hidden" name="is_default" value="Y" />
-<!--@end-->
-<input type="hidden" name="mid" value="{$module_info->mid}" />
-<input type="hidden" name="module_category_srl" value="{$module_info->module_category_srl}" />
-<input type="hidden" name="browser_title" value="{$module_info->browser_title}" />
-<input type="hidden" name="layout_srl" value="{$module_info->layout_srl}" />
-<!--@foreach($grant_list as $key => $val)-->
-<input type="hidden" name="{$key}" value="<!--@if(is_array($module_info->grants[$key]))-->{implode('|@|',$module_info->grants[$key])}<!--@end-->" />
-<!--@end-->
-
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->page} {$lang->cmd_management}</caption>
-    <tr>
-        <td>
-            <!--@foreach($widget_list as $widget)-->
-            <a href="{getUrl('','module','widget','act','dispWidgetGenerateCodeInPage','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
-            <!--@end-->
-        </td>
-    </tr>
-    <tr>    
-        <th scope="row" class="button">
-            <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-            <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
-        </th>
-    </tr>
-    </table>
-
-    {$editor}
-
-    <table cellspacing="0" class="adminTable">
-    <tr>    
-        <th scope="row" class="button">
-            <span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-            <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;" /></span>
-        </th>
-    </tr>
-    </table>
-
-</form>
-
+<div id="zonePageContent">{$page_content}</div>
 <div class="clear"></div>
+<div class="adminLayer">
+    <form action="./" id="pageFo" onsubmit="return doSubmitPageContent(this);">
+        <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+        <input type="hidden" name="content" value="" />
+
+        <table cellspacing="0" class="adminTable">
+        <tr>
+            <td class="nowrap tCenter">
+                <select name="widget_list">
+                    <!--@foreach($widget_list as $widget)-->
+                    <option value="{$widget->widget}">{$widget->title}</option>
+                    <!--@end-->
+                </select>
+                <span class="button"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>
+            </td>
+            <td class="tCenter">
+                <span class="button"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->module_srl}'); return false;" /></span>
+            </td>
+            <td class="tCenter">
+                <span class="button"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="3" class="centerButton">
+                <span class="button"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
+                <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('act','');return false;"/></span>
+                <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
+            </th>
+        </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var confirm_delete_msg = "{$lang->confirm_delete}";
+    xAddEventListener(window,"load",function() { doStartPageModify('zonePageContent', '{$module_info->module_srl}'); });
+</script>
+

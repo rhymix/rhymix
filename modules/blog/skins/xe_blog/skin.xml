@@ -20,7 +20,7 @@
             HTML/CSS：ジョンチャンミョン (http://naradesign.net)
         </description>
         <description xml:lang="zh-CN">
-            Zeroboard XE样式皮肤。
+            Zeroboard XE博客默认皮肤。
             设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
             HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
         </description>
@@ -66,11 +66,11 @@
         <var name="top_title" type="text">
             <title xml:lang="ko">상단 제목</title>
             <title xml:lang="jp">上段タイトル</title>
-            <title xml:lang="zh-CN">顶部标题</title>
+            <title xml:lang="zh-CN">博客标题</title>
             <title xml:lang="en">Top Title</title>
             <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
             <description xml:lang="jp">レイアウト上段に表示させるタイトルを入力してください。</description>
-            <description xml:lang="zh-CN">请输入布局顶部显示的标题。</description>
+            <description xml:lang="zh-CN">请输入博客主标题。</description>
             <description xml:lang="en">Please input title which will be displayed on top of layout.</description>
         </var>
         <var name="sub_title" type="text">
@@ -80,7 +80,7 @@
             <title xml:lang="en">Subtitle</title>
             <description xml:lang="ko">레이아웃의 상단에 큰 제목 아래 부제목을 입력하세요.</description>
             <description xml:lang="jp">レイアウトの上段にメインタイトルの下のサブタイトルを入力してください。</description>
-            <description xml:lang="zh-CN">部分顶部主标题下面显示的副标题。</description>
+            <description xml:lang="zh-CN">请输入副标题。</description>
             <description xml:lang="en">Please input subtitle which will be displayed under the top title.</description>
         </var>
         <var name="logo_image" type="image">
@@ -90,7 +90,7 @@
             <title xml:lang="en">Logo Image</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力してください。</description>
-            <description xml:lang="zh-CN">布局顶部显示的LOGO图片。</description>
+            <description xml:lang="zh-CN">上传博客LOGO图片。</description>
             <description xml:lang="en">Please input logo image which will be displayed on top of layout.</description>
         </var>
         <var name="profile_image" type="image">
@@ -100,7 +100,7 @@
             <title xml:lang="en">Profile Image</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
-            <description xml:lang="zh-CN">请输入博客个性图片。 （宽度160px图片为适）</description>
+            <description xml:lang="zh-CN">请输入博客个性图片(推荐宽度160px)。</description>
             <description xml:lang="en">Please input profile image (It is recommended to set width as 160px)</description>
         </var>
         <var name="background_image" type="image">
@@ -137,10 +137,10 @@
             <title xml:lang="ko">글쓴이 표시</title>
             <title xml:lang="jp">投稿者表示</title>
             <title xml:lang="zh-CN">显示作者</title>
-            <title xml:lang="en">Show Writer</title>
+            <title xml:lang="en">Display Author</title>
             <description lang="ko">다수가 블로그를 함께 운영시에 글쓴이의 이름을 표시할 수 있습니다.</description>
             <description lang="jp">多数の人が一緒に運営している場合、投稿者の名前を表示させることができます。</description>
-            <description lang="zh-CN">多数人一起管理博客时可以显示发表文章的作者。</description>
+            <description lang="zh-CN">多人共同管理博客时可以显示日志发布者。</description>
             <description lang="en">It can display authors' name when the blog is being administrated by many administrators.</description>
             <default>off</default>
             <default>on</default>
@@ -150,7 +150,7 @@
         <menu name="top_menu" default="true">
             <title xml:lang="ko">상단 메뉴</title>
             <title xml:lang="jp">上段メニュー</title>
-            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="zh-CN">菜单</title>
             <title xml:lang="en">Top Menu</title>
             <maxdepth>1</maxdepth>
         </menu>

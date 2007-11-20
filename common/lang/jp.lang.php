@@ -21,15 +21,15 @@
     $lang->cmd_comment_registration = 'コメント登録';
     $lang->cmd_insert = '挿入';
     $lang->cmd_save = '保存';
-    $lang->cmd_load = '불러오기';
+    $lang->cmd_load = '読み込む';
     $lang->cmd_input = '入力';
     $lang->cmd_search = '検索';
     $lang->cmd_cancel = 'キャンセル';
     $lang->cmd_back = '戻る';
     $lang->cmd_vote = '推薦';
-    $lang->cmd_vote_down = '비추천';
-    $lang->cmd_declare = '신고';
-    $lang->cmd_declared_list = '신고 목록';
+    $lang->cmd_vote_down = '非推薦';
+    $lang->cmd_declare = '通報';
+    $lang->cmd_declared_list = '通報リスト';
     $lang->cmd_copy = 'コピー';
     $lang->cmd_move = '移動';
     $lang->cmd_move_up = '上へ';
@@ -47,7 +47,7 @@
     $lang->cmd_close = '閉じる';
     $lang->cmd_open = '開く';
     $lang->cmd_setup = '設定';
-    $lang->cmd_addition_setup = '추가 설정';
+    $lang->cmd_addition_setup = '追加設定';
     $lang->cmd_apply = '適用';
 	$lang->cmd_option = 'オプション';
     $lang->cmd_open_calendar = 'カレンダーを開く';
@@ -57,7 +57,7 @@
     $lang->cmd_preview = 'プレビュー';
     $lang->cmd_reset = '初期化';
     $lang->cmd_remake_cache = "キャッシュファイル再生成";
-    $lang->cmd_publish = "발행";
+    $lang->cmd_publish = "発行";
 
     $lang->enable = '可能';
     $lang->disable = '不可';
@@ -84,8 +84,8 @@
     $lang->browser_title = 'ブラウザタイトル';
     $lang->title = 'タイトル';
     $lang->title_content = 'タイトル＋内容';
-    $lang->topic = '주제';
-    $lang->replies = '응답';
+    $lang->topic = 'トッピック';
+    $lang->replies = '返事';
     $lang->content = '内容';
     $lang->document = '書き込み';
     $lang->comment = 'コメント';
@@ -128,7 +128,7 @@
     $lang->date = '年月日';
     $lang->regdate = '登録日';
     $lang->last_update = '最近修正日';
-    $lang->last_post = '최근 등록';
+    $lang->last_post = '最近登録';
     $lang->signup_date = '加入日';
     $lang->last_login = '最近ログイン';
     $lang->first_page = '最初のページ';
@@ -177,7 +177,7 @@
     $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは作動しません。';
 
     $lang->success_registed = '登録しました。';
-    $lang->success_declared = '신고되었습니다';
+    $lang->success_declared = '通報しました。';
     $lang->success_updated = '修正しました。';
     $lang->success_deleted = '削除しました。';
     $lang->success_voted = '推薦しました。';
@@ -185,13 +185,13 @@
     $lang->success_sended = '送信しました。';
     $lang->success_reset = '初期化しました。';
     $lang->success_leaved = '脱会しました。';
-    $lang->success_saved = '저장되었습니다';
+    $lang->success_saved = '保存しました。';
 
     $lang->fail_to_delete = '削除に失敗しました。';
     $lang->fail_to_move = '移動に失敗しました。';
 
     $lang->failed_voted = '推薦できません。';
-    $lang->failed_declared = '신고를 하실 수 없습니다';
+    $lang->failed_declared = '通報できません。';
     $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
 
     $lang->confirm_submit = '登録しますか？';

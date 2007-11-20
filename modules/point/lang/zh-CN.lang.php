@@ -26,6 +26,11 @@
     $lang->disable_download = '禁止下载';
     $lang->about_disable_download = '没有积分时，将禁止下载。 (图片除外)';
 
+    $lang->level_point_calc = '레벨별 포인트 계산';
+    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
+    $lang->cmd_exp_calc = '계산';
+    $lang->cmd_exp_reset = '초기화';
+
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
     $lang->point_signup = '注册';

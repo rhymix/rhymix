@@ -1,43 +1,66 @@
-<!-- 댓글 정보 출력 -->
-<a name="comment_top_{$document->document_srl}"></a>
+<!--@if($document->getCommentCount())-->
+<div class="replyBox">
 
-<!-- 댓글 출력 -->
-<div class="clear">
-    <!-- 댓글 목록 -->
+    {@ $_comment_list = $document->getComments() }
+    <!--@foreach($_comment_list as $key => $comment)-->
 
-    <!--@if($document->getCommentCount())-->
+        <div class="replyItem reply">
+            <div style="margin-left:{($comment->get('depth'))*20}px" class="replyIndent">
 
-        <!--@foreach($document->getComments() as $key => $val)-->
-        <a name="comment_{$key}"></a>
-        <div class="comment_box" style="margin-left:{$val->depth*15}px" >
-            <div class="fl member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
-            <div class="fr">{zdate($val->regdate, "Y-m-d H:i:s")}</div>
-            <div class="comment_content">
-                <div class="content">{$val->content}</div>
+            <a name="comment_{$comment->comment_srl}"></a>
 
-                <div class="comment_sub_info">
-                    {$val->ipaddress}
-                </div>
-                <div class="button_area">
-                    <a href="{getUrl('act','dispGuestbookReplyComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_reply}</span></a>
-
-                    <!--@if($val->is_granted || !$val->member_srl || $grant->is_admin)-->
-                    <a href="{getUrl('act','dispGuestbookModifyComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
-                    <a href="{getUrl('act','dispGuestbookDeleteComment','comment_srl',$val->comment_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
-                    <!--@end-->
-                </div>
+            <div class="replyOption">
+                <!--@if($comment->isGranted())-->
+                    <a href="{getUrl('act','dispGuestbookDeleteComment','comment_srl',$comment->comment_srl)}"><img src="./images/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
+                    <a href="{getUrl('act','dispGuestbookModifyComment','comment_srl',$comment->comment_srl)}"><img src="./images/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
+                <!--@end-->
+                    <a href="{getUrl('act','dispGuestbookReplyComment','comment_srl',$comment->comment_srl)}"><img src="./images/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="17" /></a> 
             </div>
+
+            <div class="date">
+
+                <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
+
+                <!--@if($grant->is_admin)-->
+                    ({$comment->get('ipaddress')})
+                <!--@end-->
+            </div>
+
+            <div class="author">
+            <!--@if(!$comment->member_srl)-->
+                <!--@if($comment->homepage)-->
+                    <a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
+                <!--@else-->
+                    {$comment->getNickName()}
+                <!--@end-->
+            <!--@else-->
+                <div class="member_{$comment->member_srl}">{$comment->getNickName()}</div>
+            <!--@end-->
+            </div>
+
             <div class="clear"></div>
+
+            <div class="replyContent">
+                <!--@if(!$comment->isAccessible())-->
+                    <!--%import("filter/input_password.xml")-->
+                    <strong>{$lang->msg_is_secret}</strong>
+                    <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                    <input type="hidden" name="mid" value="{$mid}" />
+                    <input type="hidden" name="page" value="{$page}" />
+                    <input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+                    <input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+                    <div class="inputPassword">
+                        <input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span>
+                    </div>
+                    </form>
+                <!--@else-->
+                    {$comment->getContent(false)}
+                <!--@end-->
+            </div>
+
+            </div>
         </div>
-        <!--@end-->
-
-    <!--@end-->
-
-    <!-- 댓글 입력 폼 -->
-
-    <!--@if($grant->write_comment && !$document->isLocked())-->
-        {@ $document_srl = $document->document_srl }
-        <!--#include("./comment_form.html")-->
     <!--@end-->
 
 </div>
+<!--@end-->

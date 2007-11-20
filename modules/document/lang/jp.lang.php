@@ -5,20 +5,20 @@
      * @brief  ドキュメント（document）モジュルの基本言語パッケージ
      **/
 
-    $lang->document_list = 'Document list';
-    $lang->thumbnail_type = 'Thumbnail Type';
+    $lang->document_list = 'ドキュメントリスト';
+    $lang->thumbnail_type = 'サムネールタイプ';
     $lang->thumbnail_crop = 'Crop';
     $lang->thumbnail_ratio = 'Ratio';
-    $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
+    $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
     $lang->move_target_module = "移動対象モジュール";
-    $lang->title_bold = '제목 굵게';
-    $lang->title_color = '제목 색깔';
+    $lang->title_bold = 'タイトル太字';
+    $lang->title_color = 'タイトル文字色';
+    
+    $lang->cmd_temp_save = '臨時保存';
 
-    $lang->cmd_temp_save = '임시 저장';
-
-	$lang->cmd_toggle_checked_document = '선택항목 반전';
+	$lang->cmd_toggle_checked_document = '選択項目反転';
     $lang->cmd_delete_checked_document = '選択項目削除';
-    $lang->cmd_document_do = '이 게시물을..';
+    $lang->cmd_document_do = 'この書き込みを..';
 
     $lang->msg_cart_is_null = '削除する書き込みを選択してください。';
     $lang->msg_category_not_moved = '移動することができません。';

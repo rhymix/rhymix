@@ -293,13 +293,13 @@
 
             // 발송인+type=S or 수신인+type=R 검사
             if($message->sender_srl == $member_srl && $message->message_type == 'S') {
-                $args->message_srl = $message_srl;
+                if(!$message_srl) return new Object(-1, 'msg_invalid_request');
             } elseif($message->receiver_srl == $member_srl && $message->message_type == 'R') {
-                $args->message_srl = $message_srl;
+                if(!$message_srl) return new Object(-1, 'msg_invalid_request');
             }
-            if(!$args->message_srl) return new Object(-1, 'msg_invalid_request');
 
             // 삭제
+            $args->message_srl = $message_srl;
             $output = executeQuery('member.deleteMessage', $args);
             if(!$output->toBool()) return $output;
 
@@ -787,9 +787,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
             // 현재 비밀번호가 맞는지 확인
-            if(!$current_password || ($member_info->password != md5($current_password) && $this->mysql_pre4_hash_password($current_password) != $member_info->password)) {
-                return new Object(-1, 'invalid_password');
-            }
+            if(!$oMemberModel->isValidOldPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
             // member_srl의 값에 따라 insert/update
             $args->member_srl = $member_srl;
@@ -821,9 +819,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
             // 현재 비밀번호가 맞는지 확인
-            if(!$password || ($member_info->password != md5($password) && $this->mysql_pre4_hash_password($password) != $member_info->password)) {
-                return new Object(-1, 'invalid_password');
-            }
+            if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
@@ -1206,37 +1202,8 @@
             // return 값이 없으면 존재하지 않는 사용자로 지정
             if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
 
-            // 비밀번호 검사하여 md5 hash값과 다르면 비밀번호의 재확인 작업 시행
-            if($password && $member_info->password != md5($password)) {
-                
-                // 혹시나 하여.. -_-;; mysql old_password로 검사하여 맞으면 db의 비밀번호 교체
-                if($this->mysql_pre4_hash_password($password) == $member_info->password) {
-
-                    // 비밀번호 교체
-                    $password_args->member_srl = $member_info->member_srl;
-                    $password_args->password = md5($password);
-                    $output = executeQuery('member.updateMemberPassword', $password_args);
-                    if(!$output->toBool()) return $output;
-
-                // mysql_pre4_hash_password() 함수의 값과도 다를 경우 
-                } else {
-
-                    // mysql_pre4_hash_password()함수의 결과와도 다를 경우 현재 mysql DB이용시 직접 쿼리 날림
-                    if(substr(Context::getDBType(),0,5)=='mysql') {
-                        $oDB = &DB::getInstance();
-                        if($oDB->isValidOldPassword($password, $member_info->password)) {
-                            $password_args->member_srl = $member_info->member_srl;
-                            $password_args->password = md5($password);
-                            $output = executeQuery('member.updateMemberPassword', $password_args);
-                            if(!$output->toBool()) return $output;
-                        } else return new Object(-1, 'invalid_password');
-
-                    // md5(), mysql old_password와도 다르면 잘못된 비빌번호 오류 메세지 리턴
-                    } else {
-                        return new Object(-1, 'invalid_password');
-                    }
-                }
-            }
+            // 비밀번호 검사
+            if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
             // denied == 'Y' 이면 알림
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
@@ -1609,11 +1576,11 @@
             if(!$image_name && !$image_mark) return $matches[0];
 
             if($image_name->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
             }
 
             if($image_mark->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" align="absmiddle" style="margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
+                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
             }
 
             return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);
@@ -1643,34 +1610,6 @@
             }
 
             return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];
-        }
-
-        /**
-         * @brief mysql old_password 의 php 구현 함수
-         * 제로보드4나 기타 mysql4.1 이전의 old_password()함수를 쓴 데이터의 사용을 위해서
-         * mysql의 password.c 소스 참조해서 구현함
-         **/
-        function mysql_pre4_hash_password($password) {
-            $nr = 1345345333;
-            $add = 7;
-            $nr2 = 0x12345671;
-
-            settype($password, "string");
-
-            for ($i=0; $i<strlen($password); $i++) {
-                if ($password[$i] == ' ' || $password[$i] == '\t') continue;
-                $tmp = ord($password[$i]);
-                $nr ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
-                $nr2 += ($nr2 << 8) ^ $nr;
-                $add += $tmp;
-            }
-            $result1 = sprintf("%08lx", $nr & ((1 << 31) -1));
-            $result2 = sprintf("%08lx", $nr2 & ((1 << 31) -1));
-
-            if($result1 == '80000000') $nr += 0x80000000;
-            if($result2 == '80000000') $nr2 += 0x80000000;
-
-            return sprintf("%08lx%08lx", $nr, $nr2);
         }
 
         /**

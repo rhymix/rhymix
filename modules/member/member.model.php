@@ -610,5 +610,27 @@
             if($output->data->count) return true;
             return false;
         }
+
+        /**
+         * @brief 입력된 plain text 비밀번호와 DB에 저장된 비밀번호와의 비교
+         **/
+        function isValidPassword($hashed_password, $password_text) {
+            // 입력된 비밀번호가 없으면 무조건 falase
+            if(!$password_text) return false;
+
+            // md5 해쉬된값가 맞으면 return true
+            if($hashed_password == md5($password_text)) return true;
+
+            // mysql_pre4_hash_password함수의 값과 동일하면 return true
+            if(mysql_pre4_hash_password($password_text) == $hashed_password) return true;
+
+            // 현재 DB에서 mysql DB를 이용시 직접 old_password를 이용하여 검사하고 맞으면 비밀번호를 변경
+            if(substr(Context::getDBType(),0,5)=='mysql') {
+                $oDB = &DB::getInstance();
+                if($oDB->isValidOldPassword($password_text, $hashed_password)) return true;
+            }
+
+            return false;
+        }
     }
 ?>

@@ -32,7 +32,7 @@
     $lang->group_title = '用户组标题';
     $lang->group_srl = '用户组编号';
     $lang->signature = '签名';
-    $lang->profile_image = '用户图片';
+    $lang->profile_image = '签名图片';
     $lang->profile_image_max_width = '宽度限制';
     $lang->profile_image_max_height = '高度限制';
     $lang->image_name = '昵称图片';
@@ -56,11 +56,11 @@
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '网站管理员姓名';
-    $lang->webmaster_email = '网站管理员邮件地址';
+    $lang->webmaster_name = '管理员名';
+    $lang->webmaster_email = '管理员电子邮件';
 
-    $lang->about_webmaster_name = '请输入管理员姓名，管理网站及发送认证邮件时使用。 (例如 : webmaster)';
-    $lang->about_webmaster_email = '请输入网站管理员邮件。';
+    $lang->about_webmaster_name = '请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)';
+    $lang->about_webmaster_email = '请输入网站管理员的电子邮件地址。';
 
     $lang->search_target_list = array(
         'user_id' => '用户名',
@@ -87,7 +87,7 @@
     $lang->cmd_modify_member_password = '修改密码';
     $lang->cmd_view_member_info = '查看会员信息';
     $lang->cmd_leave = '注销';
-    $lang->cmd_find_member_account = '查找密码';
+    $lang->cmd_find_member_account = '查找用户名/密码';
 
     $lang->cmd_member_list = '会员目录';
     $lang->cmd_module_config = '基本设置';
@@ -97,7 +97,7 @@
     $lang->cmd_manage_form = '注册表单管理';
     $lang->cmd_view_own_document = '查看我的帖子';
     $lang->cmd_view_scrapped_document = '查看收藏';
-    $lang->cmd_view_saved_document = '查看保管箱';
+    $lang->cmd_view_saved_document = '查看临时保存箱';
     $lang->cmd_send_email = '发送邮件';
     $lang->cmd_send_message = '发送短消息';
     $lang->cmd_reply_message = '回复短消息';
@@ -108,23 +108,23 @@
     $lang->cmd_add_friend_group = '添加好友组';
     $lang->cmd_rename_friend_group = '修改好友组名称';
 
-    $lang->msg_email_not_exists = "邮件地址出错";
+    $lang->msg_email_not_exists = "没有找到您输入的Email地址。";
 
     $lang->msg_alreay_scrapped = '已收藏的主题！';
 
     $lang->msg_cart_is_null = '请选择对象。';
     $lang->msg_checked_file_is_deleted = '已删除%d个附件。';
 
-    $lang->msg_find_account_title = '帐户信息';
-    $lang->msg_find_account_info = '帐户信息如下，请您参照。';
-    $lang->msg_find_account_comment = '点击下面连接修改成上面显示的临时密码。<br />登陆后请修改您的密码。';
-    $lang->msg_auth_mail_sended = '往 %s 邮件地址发送认证信息请确认邮件。';
-    $lang->msg_success_authed = '成功认证，修改密码时请输入临时密码后修改。';
+    $lang->msg_find_account_title = '注册信息。';
+    $lang->msg_find_account_info = '您要查找的注册信息如下。';
+    $lang->msg_find_account_comment = '点击下面的链接您的注册密码将更新为上述的系统自动生成密码。<br />请重新登录后把密码改为您所熟悉的密码。';
+    $lang->msg_auth_mail_sended = '已向%s发送了认证邮件。请确认！！';
+    $lang->msg_success_authed = '新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。';
 
     $lang->msg_no_message = '没有短消息。';
     $lang->message_received = '您有新消息。';
 
-    $lang->msg_new_member = '添加会员';
+    $lang->msg_new_member = '会员注册';
     $lang->msg_update_member = '修改会员信息';
     $lang->msg_leave_member = '注销会员';
     $lang->msg_group_is_null = '没有用户组。';
@@ -174,7 +174,7 @@
     $lang->about_form_description = '说明栏里输入的内容，注册时将会显示。';
     $lang->about_required = '注册时成为必填项目。';
 
-    $lang->about_enable_openid = '支持 OpenID 时请选择此项。';
+    $lang->about_enable_openid = '要想网站支持OpenID时请勾选此项。';
     $lang->about_enable_join = '选择此项后用户才可以注册。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
@@ -183,14 +183,14 @@
 
     $lang->about_image_name = '用户昵称可以用小图片来替代显示。';
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
-    $lang->about_profile_image = '用户信息可使用图片代替显示。';
+    $lang->about_profile_image = '可以使用签名图片。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 
 
     $lang->about_member_default = '将成为注册会员时的默认用户组。';
 
     $lang->about_openid = '用OpenID注册时该网站只保存用户名和 邮件等基本信息，密码和认证处理是在提供OpenID服务的站点中得到解决。';
     $lang->about_openid_leave = '删除OpenID就等于永久删除站内用户的信息。<br />被删除后的重新登录就等于新会员注册，因此对以前自己写的主题将失去相应权限。';
+    $lang->about_find_member_account = '用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />';
 
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
-    $lang->about_find_member_account = '用户名及密码发送到您注册时输入的邮件地址。<br />请输入您注册时输入的邮件地址，然后请按"查找密码按钮"。<br />';
 ?>

@@ -1,7 +1,9 @@
-<filter name="generate_code_in_page" module="widget" act="procWidgetGenerateCode">
+<filter name="generate_code_in_page" module="widget" act="procWidgetGenerateCodeInPage">
     <response callback_func="completeGenerateCodeInPage">
         <tag name="error" />
         <tag name="message" />
         <tag name="widget_code" />
+        <tag name="tpl" />
+        <tag name="css_header" />
     </response>
 </filter>

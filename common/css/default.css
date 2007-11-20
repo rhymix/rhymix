@@ -53,14 +53,14 @@ form { margin:0; padding:0; }
 /* editor style */
 a.bold { font-weight:bold; }
 
-.editor_blue_text { color: #145ff9; text-decoration:underline; }
-.editor_blue_text a { color: #145ff9; text-decoration:underline; }
-.editor_red_text { color: #f42126; text-decoration:underline; }
-.editor_red_text a { color: #f42126; text-decoration:underline; }
-.editor_yellow_text { color: #c9bd00; text-decoration:underline; }
-.editor_yellow_text a { color: #c9bd00; text-decoration:underline; }
-.editor_green_text { color: #08830B; text-decoration:underline; }
-.editor_green_text a { color: #08830B; text-decoration:underline; }
+.editor_blue_text { color: #145ff9 !important; text-decoration:underline !important; }
+.editor_blue_text a { color: #145ff9 !important; text-decoration:underline !important; }
+.editor_red_text { color: #f42126 !important; text-decoration:underline !important; }
+.editor_red_text a { color: #f42126 !important; text-decoration:underline !important; }
+.editor_yellow_text { color: #c9bd00 !important; text-decoration:underline !important; }
+.editor_yellow_text a { color: #c9bd00 !important; text-decoration:underline !important; }
+.editor_green_text { color: #08830B !important; text-decoration:underline !important; }
+.editor_green_text a { color: #08830B !important; text-decoration:underline !important; }
 
 .folder_opener { display: block; }
 .folder_closer { display: none; }

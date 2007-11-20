@@ -17,9 +17,7 @@
             레이아웃과 기본 메뉴를 직접 담당
         </description>
         <description xml:lang="jp">
-            ブログの機能を担当するモジュール 
-            掲示板と似ているが、内容の表示が異なり、ブログに適切なメソッドが追加されている。
-            レイアウトと基本メニューを直接担当します。
+            ブログの機能を担当するモジュールです。掲示板と似ているが、内容の表示が異なり、ブログに適切なメソッドが追加されています。 レイアウトと基本メニューを直接担当します。
         </description>
         <description xml:lang="en">
             This module contains the blog functions.

@@ -7,9 +7,14 @@
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="widget_sequence" value="" />
+<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
+<input type="hidden" name="widget_padding_left" value="" />
+<input type="hidden" name="widget_padding_right" value="" />
+<input type="hidden" name="widget_padding_top" value="" />
+<input type="hidden" name="widget_padding_bottom" value="" />
 
     <div id="popHeadder">
-        <h1>{$lang->cmd_generate_code}</h1>
+        <h3>{$lang->cmd_generate_code}</h3>
     </div>
 
     <div id="popBody">
@@ -84,58 +89,8 @@
             </td>
         </tr>
         <!--@end-->
-        <tr>
-            <th scope="row">{$lang->widget_margin}</th>
-            <td>
-                <table cellspacing="1" class="adminTable">
-                <tr>
-                    <td colspan="2" class="tCenter">{$lang->widget_margin_top} <input type="text" name="widget_margin_top" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                <tr>
-                    <td class="tCenter">{$lang->widget_margin_left} <input type="text" name="widget_margin_left" value="0" size="2" class="inputTypeText"/>px</td>
-                    <td class="tCenter">{$lang->widget_margin_right} <input type="text" name="widget_margin_right" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="tCenter">{$lang->widget_margin_bottom} <input type="text" name="widget_margin_bottom" value="0" size="2" class="inputTypeText" />px</td>
-                </tr>
-                </table>
-                <p>{$lang->about_widget_margin}</p>
-            </td>
-        </tr>
         </table>
 
-        <table cellspacing="0" class="adminTable">
-        <col width="100" />
-        <col />
-        <tr>
-            <th scope="row">{$lang->widget_fix_width}</th>
-            <td>
-                <input type="checkbox" value="Y" name="widget_fix_width" /> {$lang->about_widget_fix_width}
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->widget_width}</th>
-            <td>
-                <input type="text" value="50" name="widget_width" size="3" class="inputTypeText" />
-                <select name="widget_width_type" onchange="checkFixType(this)">
-                    <option value="%">%</option>
-                    <option value="px">px</option>
-                </select>
-                <p>{$lang->about_widget_width}</p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->widget_position}</th>
-            <td>
-                <select name="widget_position">
-                    <option value="">{$lang->widget_position_none}</option>
-                    <option value="left">{$lang->widget_position_left}</option>
-                    <option value="right">{$lang->widget_position_right}</option>
-                </select>
-                <p>{$lang->about_widget_position}</p>
-            </td>
-        </tr>
-        </table>
     </div>
     <div id="popFooter" class="tCenter gap1">
         <span class="button"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>

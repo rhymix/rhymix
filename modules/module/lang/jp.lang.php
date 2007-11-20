@@ -22,7 +22,7 @@
     $lang->skin_default_info = 'スキン基本情報';
     $lang->skin_maker = 'スキン作者';
     $lang->skin_maker_homepage = '作者ホームページ';
-    $lang->module_copy = "Copy module";
+    $lang->module_copy = "モジュールコピー";
 
     $lang->cmd_add_shortcut = "ショットカット追加";
     $lang->cmd_install = "インストール";
@@ -42,7 +42,7 @@
     $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することができません。';
 
     $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
-    $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋_のみ可）。";
+    $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋[英数,_のみ可]）。";
     $lang->about_default = "チェックすると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
     $lang->about_module_category = "カテゴリで管理できるようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことができます。";
     $lang->about_description= '管理用に用いられる説明です。';
@@ -57,5 +57,5 @@
     $lang->about_grant = '特定権限の対象をすべて解除するとログインしていない会員ユーザまで権限が与えられます。';
     $lang->about_module = "ゼロボードXEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。頻繁に使うモジュールは、【ショットカット追加】で行うと管理しやすなります。";
 
-    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」でリンクを張ることができます。';
+    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。';
 ?>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
-  <title xml:lang="jp">接続カウンター</title>
+  <title xml:lang="jp">接続カウンターアドオン</title>
   <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Addon for basic counter</title>
   <title xml:lang="es">Addon contador básico</title>

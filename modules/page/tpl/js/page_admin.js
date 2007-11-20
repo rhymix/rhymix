@@ -33,19 +33,14 @@ function completeInsertPageContent(ret_obj) {
     var page = ret_obj['page'];
     var module_srl = ret_obj['module_srl'];
 
-    alert(message);
+    location.href = current_url.setQuery('act','');
+}
 
-    var url = '';
-    if(location.href.getQuery('module')=='admin') {
-        url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
-        if(page) url = url.setQuery('page',page);
-    } else {
-        url = current_url.setQuery('act','').setQuery('module_srl','');
-    }
-
-    if(opener) opener.location.reload();
-
-    window.close();
+/* 수정한 페이지 컨텐츠를 저장 */
+function doSubmitPageContent(fo_obj) {
+    var html = getWidgetContent();
+    fo_obj.content.value = html;
+    return procFilter(fo_obj, insert_page_content);
 }
 
 /* 모듈 삭제 후 */

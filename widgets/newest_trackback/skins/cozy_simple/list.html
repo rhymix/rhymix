@@ -23,7 +23,7 @@
 
     <ul>
         <!--@foreach($widget_info->trackback_list as $val)-->
-        <li><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,20,'...')}</a></li>
+        <li><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,60,'...')}</a></li>
         <!--@end-->
     </ul>
 

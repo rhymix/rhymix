@@ -26,6 +26,11 @@
     $lang->disable_download = '다운로드 금지';
     $lang->about_disable_download = '포인트가 없을 경우 다운로드를 금지하게 합니다. (이미지파일은 제외입니다)';
 
+    $lang->level_point_calc = '레벨별 포인트 계산';
+    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
+    $lang->cmd_exp_calc = '계산';
+    $lang->cmd_exp_reset = '초기화';
+
     $lang->about_module_point = '모듈별로 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용하게 됩니다<br />모든 점수는 반대 행동을 하였을 경우 원상복귀 됩니다.';
 
     $lang->point_signup = '가입';

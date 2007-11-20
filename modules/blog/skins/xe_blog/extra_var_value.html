@@ -28,30 +28,36 @@
 
 <!-- 전화번호 -->
 <!--@elseif($val->type == 'tel')-->
-    {htmlspecialchars($val->value[0])} 
+    {(int)htmlspecialchars($val->value[0])} 
     <!--@if($val->value[1])-->-<!--@end-->
-    {htmlspecialchars($val->value[1])} 
+    {(int)htmlspecialchars($val->value[1])} 
     <!--@if($val->value[2])-->-<!--@end-->
-    {htmlspecialchars($val->value[2])} 
+    {(int)htmlspecialchars($val->value[2])} 
+    &nbsp;
 
 <!-- textarea -->
 <!--@elseif($val->type == 'textarea')-->
     {nl2br(htmlspecialchars($val->value))}
+    &nbsp;
 
 <!-- 다중 선택 -->
 <!--@elseif($val->type == 'checkbox')-->
+    <!--@if(!is_array($val->value))-->{@ $val->value = array($val->value) }<!--@end-->
     <!--@foreach($val->value as $v)-->
         {@ $_tmp_value[] = htmlspecialchars($v)}
     <!--@end-->
     {implode(",",$_tmp_value)}
+    &nbsp;
 
 <!-- 단일 선택 -->
 <!--@elseif($val->type == 'select')-->
     {htmlspecialchars($val->value)}
+    &nbsp;
 
 <!-- 날짜 입력 -->
 <!--@elseif($val->type == 'date')-->
     {zdate($val->value,"Y-m-d")}
+    &nbsp;
 <!--@end-->
 
 <!--@if(!$val->value)-->&nbsp;<!--@end-->

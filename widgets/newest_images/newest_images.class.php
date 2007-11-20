@@ -59,7 +59,6 @@
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
 
             // 변수 정리
-            $obj->sort_index = $order_target;
             $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
 
             // mid에 해당하는 module_srl을 구함
@@ -73,29 +72,19 @@
             // 정해진 모듈에서 문서별 파일 목록을 구함
             $files_output = executeQuery("file.getOneFileInDocument", $obj);
 
-            // 결과에서 문서 번호만을 따로 추출
-            if($files_output->data) {
-                foreach($files_output->data as $key => $val) {
-                    $document_srl_list[] = $val->upload_target_srl;
-                }
-            }
 
             $oDocumentModel = &getModel('document');
-            if(count($document_srl_list)) {
-
-                $documents_output = $oDocumentModel->getDocuments($document_srl_list);
-                if(!count($documents_output)) return;
-
-                foreach($documents_output as $key => $val) {
-                    $document_list[] = $val;
+            if(count($files_output->data)) {
+                foreach($files_output->data as $key => $val) {
+                    $oDocument = null;
+                    $oDocument = $oDocumentModel->getDocument();
+                    $oDocument->setAttribute($val);
+                    $document_list[] = $oDocument;
                 }
-
             }
-
             $document_count = count($document_list);
             $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
             for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
-            
             $widget_info->document_list = $document_list;
 
             Context::set('widget_info', $widget_info);

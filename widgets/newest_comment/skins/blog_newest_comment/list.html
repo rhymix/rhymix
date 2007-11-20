@@ -1,5 +1,4 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
-
 <!--@if($colorset=="cyan")-->
     <!--%import("css/cyan.css")-->
 <!--@elseif($colorset=="green")-->
@@ -10,9 +9,10 @@
     <!--%import("css/purple.css")-->
 <!--@else-->
     <!--%import("css/normal.css")-->
+    {@ $colorset = "normal" }
 <!--@end-->
 
-<div class="newestComment">
+<div class="newestComment_{$colorset}">
     <div class="header">
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
@@ -22,7 +22,7 @@
     </div>
     <ul class="commentList">
         <!--@foreach($widget_info->comment_list as $val)-->
-            <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary(20)}</a></li>
+            <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary(60)}</a></li>
         <!--@end-->
     </ul>
 </div>

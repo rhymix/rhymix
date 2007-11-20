@@ -5,7 +5,7 @@
      * @brief  评论(comment)模块语言包
      **/
 	
-    $lang->cmd_comment_do = '把评论..';
+    $lang->cmd_comment_do = '将把此评论..';
     
     $lang->comment_list = '评论目录';
     $lang->cmd_toggle_checked_comment = '反选';

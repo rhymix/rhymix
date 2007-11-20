@@ -6,11 +6,11 @@
      **/
 
     $lang->admin_info = '管理员信息';
-    $lang->admin_index = '管理员页面';
+    $lang->admin_index = '管理首页';
 
     $lang->module_category_title = array(
-        'service' => '服务类型',
-        'manager' => '管理类型',
+        'service' => '服务类模块',
+        'manager' => '管理类模块',
         'utility' => '功能模块',
         'accessory' => '附加模块',
         'base' => '基本模块',
@@ -40,7 +40,7 @@
 
     $lang->cmd_shortcut_management = "编辑菜单";
 
-    $lang->msg_is_not_administrator = '只有管理员可以查看';
+    $lang->msg_is_not_administrator = '只有管理员才可以查看';
     $lang->msg_manage_module_cannot_delete = '模块，插件，布局，控件模块的快捷菜单是不能删除的。';
     $lang->msg_default_act_is_null = '没有指定默认管理员的动作，是不能添加到快捷菜单的。';
 

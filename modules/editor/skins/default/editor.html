@@ -8,7 +8,10 @@
 <script type="text/javascript">//<![CDATA[
     var editor_path = "{$editor_path}";
     var auto_saved_msg = "{$lang->msg_auto_saved}";
-    xAddEventListener(window, 'load', function() { editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", {$enable_resizable}, '{$editor_height}' ) } );
+
+    <!--@if(!$editor_manual_start)-->
+    xAddEventListener(window, 'load', function() { editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' ) } );
+    <!--@end-->
 //]]></script>
 
 <!-- 자동저장용 폼 -->
@@ -126,19 +129,27 @@
     <!--@end-->
 
     <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
+    <!--@if($html_mode || $enable_autosave)-->
     <div class="editor_info">
+        <!--@if($html_mode)-->
         <div class="editor_option">
             <input type="checkbox" id="use_html_{$editor_sequence}" value="Y" onclick="editorChangeMode(this, '{$editor_sequence}');" /> <label for="use_html_{$editor_sequence}">HTML</label>
         </div>
+        <!--@end-->
+        <!--@if($enable_autosave)-->
         <div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</div>
+        <!--@end-->
     </div>
+    <!--@end-->
 
     <!-- 에디터 출력 -->
-    <div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" width="100%" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
+    <div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->
+    <!--@if($enable_resizable)-->
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
+    <!--@end-->
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->
@@ -146,17 +157,17 @@
     <script type="text/javascript">//<![CDATA[
         var zbxe_session_name = "{session_name()}";
         var uploader_setting = { "allowed_filesize" : "{$file_config->allowed_filesize}", "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
+        <!--@if(!$editor_manual_start)-->
         editor_upload_init("{$editor_sequence}");
+        <!--@end-->
     //]]></script>
 
     <div class="fileAttach">
-        <div class="preview" id="preview_uploaded_{$editor_sequence}">
-            <img src="./images/blank.gif" alt="preview" width="100" height="100" />
-        </div>
+        <div class="preview" id="preview_uploaded_{$editor_sequence}"><img src="./images/blank.gif" alt="preview" width="100" height="100" /></div>
 
         <!-- 파일 업로드 영역 -->
         <div class="fileListArea">
-            <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="8" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
+            <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
             <span class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</span>
         </div>
 

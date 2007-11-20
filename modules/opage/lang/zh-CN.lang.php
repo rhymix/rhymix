@@ -2,14 +2,14 @@
     /**
      * @file   zh_CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  外部页面基本语言包
+     * @brief  外部页面(opage)模块语言包
      **/
 
     $lang->opage = "外部页面";
-    $lang->opage_path = "外部文章位置";
-    $lang->opage_caching_interval = "更新时间设定";
+    $lang->opage_path = "外部页面路径";
+    $lang->opage_caching_interval = "缓冲时间设置";
 
-    $lang->about_opage = "ZBXE以外的html或者php文件引入到ZBXE当中。可以使用绝对路径，相对路径。并且如果使用http://可以引入服务器以外的网页。";
-    $lang->about_opage_path= "请输入外部页面位置.<br />可以使用/path1/path2/sample.php 绝对路径或者 ../path2/sample.php等相对路径。<br />如果引入服务器以外的页面可直接输入网址 例如：http://url/sample.php 。<br />ZBXE的绝对路径如下<br />";
-    $lang->about_opage_caching_interval = "单位为分钟，下一次更新之前输出临时保存的页面。<br />引入服务器以外的信息或者数据大容量数据时推荐更新时间为以分钟为单位。<br />设定0 为表示不更新。";
+    $lang->about_opage = "此模块是一种可以把外部html或php文件插入到Zeroboard XE内部的模块。<br />可以使用绝对路径及相对路径。而且使用以http:// 开头的地址时，可以把外部服务器中的页面插入到Zeroboard XE当中。";
+    $lang->about_opage_path= "请输入外部文件路径。<br />可以使用如同 /path1/path2/sample.php的绝对路径或如 ../path2/sample.php的相对路径。<br />如使用http://url/sample.php之类的地址，可以把此页面的输出结果显示到Zeroboard XE内部的指定位置。<br />现安装的Zeroboard XE绝对路径如下:<br />";
+    $lang->about_opage_caching_interval = "单位为分。缓冲时间内页面将输出临时储存的数据。<br />输出外部服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。";
 ?>

@@ -1,6 +1,5 @@
-.newestDocument { position:relative; border:1px solid #e0e1db; background:url(../images/red/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
-.newestDocument h2 { position:relative; border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; font-size:1em; color:#54564b; font-family:Tahoma;}
-/*:first-child+html .boxTypeB h2 { height:20px;} */
-.newestDocument .documentList { padding:1.2em; overflow:hidden;}
-.newestDocument .documentList li { display:block; color:#a4a4a4; margin-right:.1em; overflow:hidden; }
-.newestDocument .documentList li a { color:#a4a4a4; line-height:1.5em; }
+.newestDocument_red { border:1px solid #e0e1db; background:url(../images/red/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
+.newestDocument_red h2 { border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; font-size:1em; color:#54564b; font-family:Tahoma;}
+.newestDocument_red .documentList { padding:1.2em; overflow:hidden;}
+.newestDocument_red .documentList li { display:block; color:#a4a4a4; margin-right:.1em; overflow:hidden; white-space:nowrap; list-style:none; width:100%;}
+.newestDocument_red .documentList li a { color:#a4a4a4; line-height:1.5em; text-decoration:none; }

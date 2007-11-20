@@ -317,7 +317,7 @@
         /**
          * @brief 금지아이디 등록
          **/
-        function insertDeniedID($user_id, $desription = '') {
+        function insertDeniedID($user_id, $description = '') {
             $args->user_id = $user_id;
             $args->description = $description;
             $args->list_order = -1*getNextSequence();

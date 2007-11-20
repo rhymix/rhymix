@@ -32,16 +32,16 @@
     $lang->group_title = 'グループタイトル';
     $lang->group_srl = 'グループ番号';
     $lang->signature = '著名';
-    $lang->profile_image = '프로필 사진';
-    $lang->profile_image_max_width = '가로 제한 크기';
-    $lang->profile_image_max_height = '세로 제한 크기';
+    $lang->profile_image = 'プロフィール写真';
+    $lang->profile_image_max_width = '横幅サイズ制限';
+    $lang->profile_image_max_height = '縦幅製図制限';
     $lang->image_name = 'イメージ名';
     $lang->image_name_max_width = '横幅制限サイズ';
-    $lang->image_name_max_height = '立幅制限サイズ';
+    $lang->image_name_max_height = '縦幅制限サイズ';
     $lang->image_mark = 'イメージマーク';
     $lang->image_mark_max_width = '横幅制限サイズ';
-    $lang->image_mark_max_height = '立幅制限サイズ';
-    $lang->enable_openid = 'OpenIDを使用する';
+    $lang->image_mark_max_height = '縦幅制限サイズ';
+    $lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
@@ -56,11 +56,11 @@
     $lang->current_password = '現在のパスワード';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '웹마스터 이름';
-    $lang->webmaster_email = '웹마스터 메일주소';
+    $lang->webmaster_name = 'ウェブマスターの名前';
+    $lang->webmaster_email = 'ウェブマスターのメール';
 
-    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
-    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+    $lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
+    $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
     $lang->search_target_list = array(
         'user_id' => 'ユーザＩＤ',
@@ -87,7 +87,7 @@
     $lang->cmd_modify_member_password = 'パスワード変更';
     $lang->cmd_view_member_info = '会員情報表示';
     $lang->cmd_leave = '脱会';
-    $lang->cmd_find_member_account = 'Find Account Info';
+    $lang->cmd_find_member_account = 'IDとパスワードの検索';
 
     $lang->cmd_member_list = '会員リスト';
     $lang->cmd_module_config = '基本設定';
@@ -95,12 +95,12 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '加入フォーム管理';
-    $lang->cmd_view_own_document = 'プレビュー';
+    $lang->cmd_view_own_document = '書き込み表示';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
-    $lang->cmd_view_saved_document = '저장함 보기';
+    $lang->cmd_view_saved_document = '保存ドキュメント表示';
     $lang->cmd_send_email = 'メール送信';
     $lang->cmd_send_message = 'メッセージ送信';
-    $lang->cmd_reply_message = 'メッセージへの返信';
+    $lang->cmd_reply_message = 'メッセージ返信';
     $lang->cmd_view_friend = '友達表示';
     $lang->cmd_add_friend = '友達登録';
     $lang->cmd_view_message_box = 'メッセージ表示';
@@ -108,18 +108,19 @@
     $lang->cmd_add_friend_group = '友達グループ追加';
     $lang->cmd_rename_friend_group = '友達グループ名変更';
 
-    $lang->msg_email_not_exists = "Email address doesn't exists";
+    $lang->msg_email_not_exists = "メールアドレスがありません。";
 
     $lang->msg_alreay_scrapped = '既にスクラップされたコンテンツです。';
 
     $lang->msg_cart_is_null = '対象を選択してください。';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
 
-    $lang->msg_find_account_title = 'Account Info';
-    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
-    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
-    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
-    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
+    $lang->msg_find_account_title = 'IDどパスワードの情報';
+    $lang->msg_find_account_info = '要求されたアカウント情報は下記の通りです。';
+    $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。';
+    $lang->msg_auth_mail_sended = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
+    $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
+    $lang->msg_success_authed = '認証が正常に行われ、ログインできました。必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
 
     $lang->msg_no_message = 'メッセージがありません。';
     $lang->message_received = 'メッセージが届きました。';
@@ -143,6 +144,7 @@
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
 
+    $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することができません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
     $lang->msg_not_uploaded_image_mark = 'イメージマークを登録することができません。';
 
@@ -183,14 +185,14 @@
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
-    $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
+    $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
     $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。'; 
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
 
     $lang->about_openid = 'OpenIDで加入する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
-    $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
+    $lang->about_openid_leave = 'OpenIDの脱会は現在のサイトから会員情報を削除することを意味します。<br />脱会後ログインすると新しく加入することになり、書き込んだコンテンツに対する権限を維持することができません。';
+    $lang->about_find_member_account = 'ID/パスワードは加入時に登録されたメールにてお知らせします。<br />加入時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックしてください。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、加入フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、加入フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
-    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
 ?>

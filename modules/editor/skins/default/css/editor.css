@@ -21,13 +21,13 @@
 
 .xeEditor .editorInfo { background:#fbfbfb; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:5px 20px 0 20px;}
 .xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:25px;}
-.xeEditor .editor_iframe_box { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:10px; margin:0 20px 0 20px; }
+.xeEditor .editor_iframe_box { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:5px; margin:10px 20px 10px 20px; }
 .xeEditor .editor_iframe_textarea { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin:0 20px 0 20px; width:100%; font-size:1em; display:none;}
 
 .xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
 
-.xeEditor .editor_info { clear:both; padding:5px 20px 5px 20px; overflow:hidden;}
+.xeEditor .editor_info { clear:both; padding:10px 20px 5px 20px; overflow:hidden;}
 .xeEditor .editor_info .editor_option { float:left; color:#888888; }
 .xeEditor .editor_info .editor_autosaved_message { color:#888888; float:right; }
 

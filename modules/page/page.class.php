@@ -19,6 +19,7 @@
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');
 
             // page 에서 사용할 cache디렉토리 생성
             FileHandler::makeDir('./files/cache/page');
@@ -30,6 +31,8 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+            if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) return true;
             return false;
         }
 
@@ -37,7 +40,13 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            return new Object();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) 
+                $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');
+
+            return new Object(0,'success_updated');
         }
 
         /**

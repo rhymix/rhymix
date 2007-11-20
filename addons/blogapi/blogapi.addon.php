@@ -143,6 +143,42 @@
                     printContent($content);
                 break;
 
+            // 글 가져오기
+            case 'metaWeblog.getPost' :
+                    $document_srl = $params[0]->value->string->body;
+                    if(!$document_srl) {
+                        printContent( getXmlRpcFailure(1, 'no permission') );
+                    } else {
+
+                        $oDocumentModel = &getModel('document');
+                        $oDocument = $oDocumentModel->getDocument($document_srl);
+                        if(!$oDocument->isExists() || !$oDocument->isGranted()) {
+                            printContent( getXmlRpcFailure(1, 'no permission') );
+                        } else {
+                            $content = sprintf(
+                                    '<methodResponse>'.
+                                    '<params><param><value><struct>'.
+                                    '<member><name>categories</name><value><array><data><value>%s</value></data></array></value></member>'.
+                                    '<member><name>dateCreated</name><value><dateTime.iso8601>%s</dateTime.iso8601></value></member>'.
+                                    '<member><name>description</name><value>%s</value></value></member>'.
+                                    '<member><name>link</name><value>%s</value></member>'.
+                                    '<member><name>postid</name><value><string>%s</string></value></member>'.
+                                    '<member><name>title</name><value>%s</value></member>'.
+                                    '<member><name>publish</name><value><boolean>1</boolean></value></member>'.
+                                    '</struct></value></param></params></methodResponse>',
+                                    $oDocument->get('category_srl'),
+                                    date("Ymd", $oDocument->getRegdateTime()).'T'.date("H:i:s", $oDocument->getRegdateTime()),
+                                    'sadfsadf',//$oDocument->getContent(false),
+                                    $oDocument->getPermanentUrl(),
+                                    $oDocument->document_srl,
+                                    'asfasdfs'//$oDocument->getTitleText()
+                                );
+                            debugPrint($content);
+                            printContent($content);
+                        }
+                    }
+                break;
+
             // 글작성
             case 'metaWeblog.newPost' :
                     unset($obj);
@@ -335,6 +371,9 @@
                     $args->page = 1;
                     $args->list_count = 20;
                     $args->sort_index = 'list_order'; ///< 소팅 값
+                    $logged_info = Context::get('logged_info');
+                    $args->search_target = 'member_srl';
+                    $args->search_keyword = $logged_info->member_srl;
                     $output = $oDocumentModel->getDocumentList($args);
                     if(!$output->toBool() || !$output->data) {
                         $content = getXmlRpcFailure(1, 'post not founded');

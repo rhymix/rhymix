@@ -38,11 +38,6 @@
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             $this->setTemplatePath($template_path);
 
-            /**
-             * 방명록 모듈 생성 또는 정보 수정시 open_rss값의 세팅에 따라서 rss_url을 선언해 놓는다.
-             * 이 rss_url은 ./common/tpl/common_layout.html에서 application/rss+xml의 href로 지정된다
-             **/ 
-            if($this->module_info->open_rss != 'N') Context::set('rss_url', getUrl('','mid',$this->mid,'act','rss'));
         }
 
         /**
@@ -83,10 +78,11 @@
                 $option->primary_key_name = 'document_srl';
                 $option->content_key_name = 'content';
                 $option->allow_fileupload = false; ///< 파일 업로드 기능을 제한
-                $option->enable_autosave = true; ///< 자동 저장 기능을 활성화
-                $option->enable_default_component = true; ///< 기본 에디터 컴포넌트의 활성화
-                $option->enable_component = true; ///< 추가 에디터 컴포넌트의 활성화
+                $option->enable_autosave = false; ///< 자동 저장 기능을 활성화
+                $option->enable_default_component = false; ///< 기본 에디터 컴포넌트의 활성화
+                $option->enable_component = false; ///< 추가 에디터 컴포넌트의 활성화
                 $option->resizable = false; ///< 글쓰기 폼의 상하 조절 가능하도록 설정
+                $option->disable_html = true; ///< html_mode
                 $option->height = 200; ///< 에디터의 높이 지정
                 $editor = $oEditorModel->getEditor($document_srl, $option); ///< 에디터코드를 받음
                 Context::set('editor', $editor); ///< 에디터코드를 editor라는 이름으로 세팅.

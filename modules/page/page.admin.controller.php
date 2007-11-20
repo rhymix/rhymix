@@ -74,6 +74,34 @@
         }
 
         /**
+         * @brief 페이지 수정 내용 저장
+         **/
+        function procPageAdminInsertContent() {
+            $module_srl = Context::get('module_srl');
+            $content = Context::get('content');
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+            // 페이지의 원 정보를 구해옴
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            $module_info->content = $content;
+
+            // module 모듈의 controller 객체 생성
+            $oModuleController = &getController('module');
+
+            // 저장
+            $output = $oModuleController->updateModule($module_info);
+            if(!$output->toBool()) return $output;
+
+            // 캐시파일 재생성
+            $this->procPageAdminRemoveWidgetCache();
+
+            $this->add("module_srl", $module_info->module_srl);
+            $this->add("page", Context::get('page'));
+            $this->setMessage($msg_code);
+        }
+
+        /**
          * @brief 페이지 삭제
          **/
         function procPageAdminDelete() {

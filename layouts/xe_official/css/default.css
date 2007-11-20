@@ -54,10 +54,10 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 
 /* Site Layout - Column Left */
 #columnLeft { position:relative; width:201px; float:left;}
-#columnLeft .mask { width:201px; height:5px; background:#ffffff; display:block;}
+#columnLeft .mask { width:201px; height:5px; background:#ffffff; display:block; clear:both;}
 
 #lnb { border-top:1px solid #dddddd; padding:4px 5px; width:190px;}
-#lnb li { padding-bottom:4px;}
+#lnb li { padding-bottom:4px; list-style:none; }
 #lnb li a { padding:6px 5px 6px 13px; width:170px; display:block; border:1px solid #e8e8e8; background:url(../images/default/bgLnbOff.gif) repeat-x; color:#3e3e3e; position:relative; z-index:99; text-decoration:none;}
 #lnb li a:hover,
 #lnb li a:focus { color:#ffffff; background:#de4332; border:1px solid #de4332;}

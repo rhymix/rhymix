@@ -116,7 +116,6 @@
             // 수동입력을 대비해서 비밀번호의 hash상태를 점검, 수동입력이 아니면 무조건 md5 hash
             if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 
-
             // 수동 등록이 아니고 로그인 된 회원일 경우 회원의 정보를 입력
             if(Context::get('is_logged')&&!$manual_inserted) {
                 $logged_info = Context::get('logged_info');

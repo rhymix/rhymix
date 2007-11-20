@@ -1,0 +1,8 @@
+<filter name="add_content" module="widget" act="procWidgetAddContent" confirm_msg_code="confirm_submit">
+    <form />
+    <response callback_func="completeAddContent">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="tpl" />
+    </response>
+</filter>

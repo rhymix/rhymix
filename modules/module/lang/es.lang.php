@@ -42,7 +42,7 @@
     $lang->msg_cannot_delete_for_child = 'No puede eliminar la categoría si posee subcategoría.';
 
     $lang->about_browser_title = "Esto es el valor que se mostrará en el título del navegador. También es usado en RSS/Trackback.";
-    $lang->about_mid = "El nombre del módulo será usado como http://direccion/?mid=NombreMódulo.\n(sólo alfabeto español, números y el gión abajo(_) son permitidos)";
+    $lang->about_mid = "El nombre del módulo será usado como http://direccion/?mid=NombreMódulo.\n(sólo alfabeto español+[alfabeto español, números y el gión abajo(_)] son permitidos)";
     $lang->about_default = "Si selecciona esta opción, se mostrara de manera predefinida sin el valor de mid.";
     $lang->about_module_category = "Es posible manejar a traves de categoría.\n EL URL para en manejo del módulo de categoría es <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manejo de módulo > Módulo de categoría </a>.";
     $lang->about_description= 'Descripción usada para la administración.';

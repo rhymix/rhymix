@@ -128,7 +128,7 @@
             if(!$args->order_type) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'list_order' && $args->order_type == 'asc') {
+            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'newest' && $args->order_type == 'asc') {
                 $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
                 Context::set('page', $page);
                 $args->page = $page;

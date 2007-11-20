@@ -20,21 +20,21 @@
 
     $lang->about_allowed_filesize = 'You can assign file size limit for each file. (Excluding administrators)';
     $lang->about_allowed_attach_size = 'You can assign file size limit for each document. (Excluding administrators)';
-    $lang->about_allowed_filetypes = 'Only allowed extentsions can be attached. To allow an extention, use "*.extention". To allow multiple extentions, use ";" between each extentions.<br />ex) *.* or *.jpg;*.gif;<br />(Excludes Administrators)';
+    $lang->about_allowed_filetypes = 'Only allowed extentsions can be attached. To allow an extension, use "*.extention". To allow multiple extensions, use ";" between each extension.<br />ex) *.* or *.jpg;*.gif;<br />(Exclude Administrators)';
 
     $lang->cmd_delete_checked_file = 'Delete Selected';
     $lang->cmd_move_to_document = 'Move to document';
     $lang->cmd_download = 'Download';
 
     $lang->msg_not_permitted_download = 'You do not have any permission to download';
-    $lang->msg_cart_is_null = 'Select the file you wish to delete';
-    $lang->msg_checked_file_is_deleted = 'Total of %d attachments has been deleted';
-    $lang->msg_exceeds_limit_size = 'Attachment faild; exceeded the file size limit';
+    $lang->msg_cart_is_null = 'Please select file(s) to delete';
+    $lang->msg_checked_file_is_deleted = 'Total of %d attachment(s) was(were) deleted';
+    $lang->msg_exceeds_limit_size = 'Attachedment failed due to the excess of file size';
 
     $lang->search_target_list = array(
         'filename' => 'File name',
-        'filesize' => 'File size (byte, Above)',
-        'download_count' => 'Downloads (Above)',
+        'filesize' => 'File size (byte, Over)',
+        'download_count' => 'Downloads (Over)',
         'regdate' => 'Date',
         'ipaddress' => 'IP Address',
     );

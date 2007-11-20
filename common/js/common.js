@@ -37,6 +37,7 @@ String.prototype.setQuery = function(key, val) {
 
         var q_list = new Array();
         for(var i in args) {
+	    if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
             if(!arg.toString().trim()) continue;
 
@@ -47,6 +48,33 @@ String.prototype.setQuery = function(key, val) {
         if(val.toString().trim()) return uri+"?"+key+"="+val;
         else return uri;
     }
+}
+
+/**
+ * @breif replace outerHTML
+ **/
+function replaceOuterHTML(obj, html) {
+    if(obj.outerHTML) {
+        obj.outerHTML = html;
+    } else {
+        var dummy = xCreateElement("div"); 
+        xInnerHtml(dummy, html);
+        var parent = obj.parentNode;
+        while(dummy.firstChild) {
+            parent.insertBefore(dummy.firstChild, obj);
+        }
+        parent.removeChild(obj);
+    }
+}
+
+/**
+ * @breif get outerHTML
+ **/
+function getOuterHTML(obj) {
+    if(obj.outerHTML) return obj.outerHTML;
+    var dummy = xCreateElement("div");
+    dummy.insertBefore(obj, dummy.lastChild);
+    return xInnerHtml(dummy);
 }
 
 /**
@@ -106,7 +134,7 @@ function winopen(url, target, attribute) {
  **/
 function popopen(url, target) {
     if(typeof(target)=="undefined") target = "_blank";
-    winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=no,toolbars=no");
+    winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=yes,toolbars=no");
 }
 
 /**
@@ -173,7 +201,6 @@ function displayMultimedia(src, width, height, auto_start) {
     } else {
         html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
     }
-
     document.writeln(html);
 }
 
@@ -187,6 +214,13 @@ function resizeImageContents() {
         var obj = objs[i];
         if(!obj.parentNode) continue;
 
+        if(/\/modules\//i.test(obj.src)) continue;
+        if(/\/layouts\//i.test(obj.src)) continue;
+        if(/\/widgets\//i.test(obj.src)) continue;
+        if(/\/classes\//i.test(obj.src)) continue;
+        if(/\/common\/tpl\//i.test(obj.src)) continue;
+        if(/\/member_extra_info\//i.test(obj.src)) continue;
+
         // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
         while(parent) {
@@ -196,13 +230,8 @@ function resizeImageContents() {
         if(!parent || !/(document_|comment_)/ig.test(parent.className)) continue;
 
         if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
-
-        if(/\/modules\//i.test(obj.src)) continue;
-        if(/\/layouts\//i.test(obj.src)) continue;
-        if(/\/widgets\//i.test(obj.src)) continue;
-        if(/\/classes\//i.test(obj.src)) continue;
-        if(/\/common\/tpl\//i.test(obj.src)) continue;
-        if(/\/member_extra_info\//i.test(obj.src)) continue;
+        parent.style.width = '100%';
+        parent.style.overflow = 'hidden';
 
         var parent_width = xWidth(parent);
         if(parent.parentNode && xWidth(parent.parentNode)<parent_width) parent_width = xWidth(parent.parentNode);
@@ -211,7 +240,7 @@ function resizeImageContents() {
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width<1 || obj_width <1 || parent_width >= obj_width) continue;
+        if(parent_width<1 || obj_width <1 || parent_width >= orig_img.width) continue;
 
         obj.style.cursor = "pointer";
 
@@ -282,10 +311,10 @@ function svc_folder_close(id) {
 function setFixedPopupSize() {
 
     if(xGetElementById('popBody')) {
-        if(xHeight('popBody')>600) {
+        if(xHeight('popBody')>500) {
             xGetElementById('popBody').style.overflowY = 'scroll';
             xGetElementById('popBody').style.overflowX = 'hidden';
-            xHeight('popBody', 600);
+            xHeight('popBody', 500);
         }
     }
 
@@ -359,6 +388,7 @@ function showOriginalImage(evt) {
     xAddEventListener(orig_image, "dblclick", closeOriginalImage);
     xAddEventListener(window, "scroll", closeOriginalImage);
     xAddEventListener(window, "resize", closeOriginalImage);
+    xAddEventListener(document, 'keydown',closeOriginalImage);
 
     areabg.style.visibility = 'visible';
 }
@@ -378,6 +408,7 @@ function closeOriginalImage(evt) {
     xRemoveEventListener(area, "mousedown", closeOriginalImage);
     xRemoveEventListener(window, "scroll", closeOriginalImage);
     xRemoveEventListener(window, "resize", closeOriginalImage);
+    xRemoveEventListener(document, 'keydown',closeOriginalImage);
 }
 
 /**
@@ -467,7 +498,7 @@ function origImageDragMouseMove(evt) {
 xAddEventListener(document, 'click', chkPopupMenu);
 var loaded_popup_menu_list = new Array();
 
-// 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리
+/* 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리 */
 function chkPopupMenu(evt) {
     // 이전에 호출되었을지 모르는 팝업메뉴 숨김
     var area = xGetElementById("popup_menu_area");
@@ -599,7 +630,7 @@ function completeCallModuleAction(ret_obj, response_tags) {
 }
 
 /**
- * @brief 날짜 선택 (달력 열기)
+ * @brief 날짜 선택 (달력 열기) 
  **/
 function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
@@ -612,7 +643,7 @@ function open_calendar(fo_id, day_str, callback_func) {
     popopen(url, 'Calendar');
 }
 
-// 언어코드 (lang_type) 쿠키값 변경
+/* 언어코드 (lang_type) 쿠키값 변경 */
 function doChangeLangType(obj) {
     if(typeof(obj)=="string") {
         setLangType(obj);
@@ -727,7 +758,14 @@ function checkboxSelectAll(form, name, option){
         else if(option == true) value = true
         else if(option == false) value = false
 
-        //if(fo_obj[i].name == name) fo_obj[i].checked = value;
+        if(fo_obj[i].name == name) fo_obj[i].checked = value;
+    }
+}
+
+/* 체크박스를 실행 */
+function clickCheckBoxAll(form, name) {
+    var fo_obj = xGetElementById(form);
+    for ( var i = 0 ; i < fo_obj.length ; i++ ){
         if(fo_obj[i].name == name) fo_obj[i].click();
     }
 }
@@ -740,3 +778,162 @@ function doAddDocumentCart(obj) {
     exec_xml("document","procDocumentAdminAddCart", params, null);
 }
 
+/* ff의 rgb(a,b,c)를 #... 로 변경 */
+function transRGB2Hex(value) {
+    if(!value) return value;
+    if(value.indexOf('#')>-1) return value.replace(/^#/,'');
+
+    if(value.toLowerCase().indexOf('rgb')<0) return value;
+    value = value.replace(/^rgb\(/i,'').replace(/\)$/,'');
+    value_list = value.split(',');
+
+    var hex = '';
+    for(var i=0;i<value_list.length;i++) {
+        var color = parseInt(value_list[i],10).toString(16);
+        hex += color;
+    }
+    return '#'+hex;
+}
+
+/**
+*
+* Base64 encode / decode
+* http://www.webtoolkit.info/
+*
+**/
+
+var Base64 = {
+
+    // private property
+    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+    // public method for encoding
+    encode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        input = Base64._utf8_encode(input);
+
+        while (i < input.length) {
+
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+
+            output = output +
+            this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+            this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+        }
+
+        return output;
+    },
+
+    // public method for decoding
+    decode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+        while (i < input.length) {
+
+            enc1 = this._keyStr.indexOf(input.charAt(i++));
+            enc2 = this._keyStr.indexOf(input.charAt(i++));
+            enc3 = this._keyStr.indexOf(input.charAt(i++));
+            enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+
+            output = output + String.fromCharCode(chr1);
+
+            if (enc3 != 64) {
+                output = output + String.fromCharCode(chr2);
+            }
+            if (enc4 != 64) {
+                output = output + String.fromCharCode(chr3);
+            }
+
+        }
+
+        output = Base64._utf8_decode(output);
+
+        return output;
+
+    },
+
+    // private method for UTF-8 encoding
+    _utf8_encode : function (string) {
+        string = string.replace(/\r\n/g,"\n");
+        var utftext = "";
+
+        for (var n = 0; n < string.length; n++) {
+
+            var c = string.charCodeAt(n);
+
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+
+        }
+
+        return utftext;
+    },
+
+    // private method for UTF-8 decoding
+    _utf8_decode : function (utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+
+        while ( i < utftext.length ) {
+
+            c = utftext.charCodeAt(i);
+
+            if (c < 128) {
+                string += String.fromCharCode(c);
+                i++;
+            }
+            else if((c > 191) && (c < 224)) {
+                c2 = utftext.charCodeAt(i+1);
+                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                i += 2;
+            }
+            else {
+                c2 = utftext.charCodeAt(i+1);
+                c3 = utftext.charCodeAt(i+2);
+                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                i += 3;
+            }
+
+        }
+
+        return string;
+    }
+
+}

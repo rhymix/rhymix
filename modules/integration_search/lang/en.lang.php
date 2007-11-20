@@ -5,12 +5,12 @@
      * @brief  English Language Pack (For only basic things)
      **/
 
-    $lang->integration_search = "Integration Search";
+    $lang->integration_search = "Integrated Search";
 
     $lang->sample_code = "Sample Code";
-    $lang->about_target_module = "Only chosen modules are the target. Please be careful on setting authority";
-    $lang->about_sample_code = "You can add integration search on layout by adding code above";
-    $lang->msg_no_keyword = "Input keyword to search";
+    $lang->about_target_module = "Only chosen modules are the target. Please be careful on setting permissions.";
+    $lang->about_sample_code = "You can use integrated search by adding above code on layout or other things.";
+    $lang->msg_no_keyword = "Please input keyword to search";
 
     $lang->is_result_text = "There are <strong>%d</strong> result(s) for <strong>'%s'</strong>";
 

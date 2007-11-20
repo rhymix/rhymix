@@ -78,7 +78,7 @@ function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('menu_zone_info');
 
     if(xScrollTop()>200) {
-        obj.style.marginTop = xScrollTop()+'px';
+        obj.style.marginTop = ( xScrollTop() - 210 )+'px';
     } else {
         obj.style.marginTop = '0px';
     }

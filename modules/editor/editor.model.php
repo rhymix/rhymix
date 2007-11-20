@@ -60,9 +60,13 @@
             if(!$option->enable_component) $enable_component = false;
             else $enable_component = true;
 
+            // html 모드 조절
+            if($option->disable_html) $html_mode = false;
+            else $html_mode = true;
+
             // 크기 조절 옵션 설정
-            if(!$option->resizable) $resizable = 'false';
-            else $resizable = 'true';
+            if(!$option->resizable) $resizable = false;
+            else $resizable = true;
 
             // 높이 설정
             if(!$option->height) $editor_height = 400;
@@ -131,6 +135,7 @@
 
             // 내용을 sync 맞추기 위한 content column name을 세팅한다
             Context::set('editor_content_key_name', $option->content_key_name);
+           
 
             /**
              * 에디터 컴포넌트 체크
@@ -145,6 +150,11 @@
             Context::set('enable_default_component', $enable_default_component);
 
             /**
+             * html_mode 가능한지 변수 설정
+             **/
+            Context::set('html_mode', $html_mode);
+
+            /**
              * resizable 가능한지 변수 설정
              **/
             Context::set('enable_resizable', $resizable);
@@ -153,6 +163,9 @@
              * 에디터 세로 크기 설정
              **/
             Context::set('editor_height', $editor_height);
+
+            // 에디터의 초기화를 수동으로하는 것에 대한 값 체크
+            Context::set('editor_manual_start', $option->manual_start);
 
             /**
              * 템플릿을 미리 컴파일해서 컴파일된 소스를 하기 위해 스킨의 경로를 설정

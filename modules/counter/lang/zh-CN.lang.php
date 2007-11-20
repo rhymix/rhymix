@@ -11,7 +11,7 @@
         'hour' => '按时',
         'day' => '按天',
         'month' => '按月',
-        'year' => '按年度',
+        'year' => '按年',
     );
 
     $lang->total_counter = '总揽';

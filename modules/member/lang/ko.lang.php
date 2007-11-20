@@ -162,7 +162,7 @@
     $lang->about_blog_url = '운영하는 블로그가 있을 경우 입력해주세요';
     $lang->about_birthday = '생년월일을 입력해주세요';
     $lang->about_allow_mailing = '메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다';
-    $lang->about_allow_message = '쪽시 수신 여부를 결정할 수 있습니다';
+    $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다';
     $lang->about_denied = '체크시 아이디를 사용할 수 없도록 합니다';
     $lang->about_is_admin = '체크시 최고 관리자 권한을 가지게 됩니다';
     $lang->about_description = '회원에 대한 관리자 메모입니다';
