@@ -95,11 +95,7 @@ function editorGetSelectedNode(editor_sequence) {
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
-function editorStart(editor_sequence, primary_key, content_key, resizable, editor_height) {
-    // resize 가/불가에 대한 체크
-    if(typeof(resizable)=="undefined"||!resizable) resizable = false;
-    else resizable = true;
-
+function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
@@ -139,13 +135,6 @@ function editorStart(editor_sequence, primary_key, content_key, resizable, edito
 
     // IE가 아니고 내용이 없으면 <br /> 추가 (FF등에서 iframe 선택시 focus를 주기 위한 꽁수)
     if(!content && !xIE4Up) content = "<br />";
-
-    // 크기 변경 불가일 경우 드래그바 숨김
-    var dragObj = xGetElementById("editor_drag_bar_"+editor_sequence);
-    if(dragObj) {
-        if(resizable == false) dragObj.style.display = "none";
-        else dragObj.style.display = "block";
-    }
 
     // IE일 경우 ctrl-Enter 안내 문구를 노출
     var ieHelpObj = xGetElementById("for_ie_help_"+editor_sequence);

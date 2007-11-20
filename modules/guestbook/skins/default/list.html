@@ -9,57 +9,122 @@
 <!--@end-->
 
 <!-- 목록 -->
-<div>
     <!--@foreach($document_list as $no => $document)-->
-        <!-- 글 내용 보여주기 -->
-        <div class="document">
-            <div class="info">
-                <div class="fl member_{$document->get('member_srl')}">{$document->getNickName()}</div>
-
-                <!--@if($document->isEditable())-->
-                <div class="fr">
-                    <a href="{getUrl('act','dispGuestbookModify','document_srl',$document->document_srl,'page',$page)}" class="button"><span>{$lang->cmd_modify}</span></a> 
-                    <a href="{getUrl('act','dispGuestbookDelete','document_srl',$document->document_srl,'page',$page)}" class="button"><span>{$lang->cmd_delete}</span></a> 
-                </div>
+    <div class="documentBox">
+        <div class="documentItem">
+            <div class="documentOption">
+                <!--@if($document->isGranted())-->
+                    <a href="{getUrl('act','dispGuestbookDelete','document_srl',$document->document_srl)}"><img src="./images/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
+                    <a href="{getUrl('act','dispGuestbookModify','document_srl',$document->document_srl)}"><img src="./images/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
                 <!--@end-->
-
-                <div class="clear"></div>
             </div>
 
+            <div class="date">
 
-            <div class="clear content">
-                {$document->getContent()}
+                <strong>{$document->getRegdate('Y.m.d')}</strong> {$document->getRegdate('H:i:s')}
+
+                <!--@if($grant->is_admin)-->
+                    ({$document->get('ipaddress')})
+                <!--@end-->
             </div>
 
-            <div class="subinfo">
-                {$document->getRegdate('Y-m-d H:i:s')} |
-                {$document->get('ipaddress')}
-            </div>
-
-            <div class="comment">
-            <!-- 댓글 파일 include -->
-            <!--@if($grant->write_comment && $document->allowComment())-->
-                <!--#include("./comment.html")-->
+            <div class="author">
+            <!--@if(!$document->member_srl)-->
+                <!--@if($document->homepage)-->
+                    <a href="{$document->homepage}" onclick="window.open(this.href);return false;">{$document->getNickName()}</a>
+                <!--@else-->
+                    {$document->getNickName()}
+                <!--@end-->
+            <!--@else-->
+                <div class="member_{$document->member_srl}">{$document->getNickName()}</div>
             <!--@end-->
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="documentContent">
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    <!--%import("filter/input_password.xml")-->
+                    <strong>{$lang->msg_is_secret}</strong>
+                    <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                    <input type="hidden" name="mid" value="{$mid}" />
+                    <input type="hidden" name="page" value="{$page}" />
+                    <input type="hidden" name="document_srl" value="{$document->get('document_srl')}" />
+                    <input type="hidden" name="document_srl" value="{$document->get('document_srl')}" />
+                    <div class="inputPassword">
+                        <input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span>
+                    </div>
+                    </form>
+                <!--@else-->
+                    {$document->getContent(false)}
+                <!--@end-->
             </div>
         </div>
 
+        <!-- 댓글 입력 폼 -->
+        <!--#include("./comment.html")-->
+        <!--@if($grant->write_comment && !$oDocument->isLocked() && $oDocument->allowComment() )-->
+            <!--%import("filter/insert_comment.xml")-->
+            <div class="commentWrite">
+
+                <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="commentEditor" >
+                    <fieldset>
+                        <input type="hidden" name="mid" value="{$mid}" />
+                        <input type="hidden" name="document_srl" value="{$document->document_srl}" />
+                        <input type="hidden" name="comment_srl" value="" />
+
+                        <!--@if(!$is_logged)-->
+                        <div class="userNameAndPw">
+                            <label>{$lang->writer}</label>
+                            <input type="text" name="nick_name" value="" class="userName inputTypeText" />
+
+                            <label>{$lang->password}</label>
+                            <input type="password" name="password" value="" class="userPw inputTypeText" />
+
+                            <label>{$lang->email_address}</label>
+                            <input type="text" name="email_address" value="" class="emailAddress inputTypeText"/>
+
+                            <label>{$lang->homepage}</label>
+                            <input type="text" name="homepage" value="" class="homePage inputTypeText"/>
+                        </div>
+                        <!--@end-->
+                        <dl class="option">
+                            <dd>
+                                <input type="checkbox" name="is_secret" value="Y" />
+                                <label>{$lang->secret}</label>
+                            </dd>
+                            <!--@if($is_logged)-->
+                            <dd>
+                                <input type="checkbox" name="notify_message" value="Y"  id="notify_message" />
+                                <label for="notify_message">{$lang->notify}</label>
+                            </dd>
+                            <!--@end-->
+                        </dl>
+
+                        <div class="editorBox"><textarea name="content" rows="8" cols="20" class="textarea"></textarea></div>
+
+                    </fieldset>
+
+                    <div class="tCenter">
+                        <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+                    </div>
+                </form>
+            </div>
+        <!--@end-->
+    </div>
     <!--@end-->
-</div>
 
 <!-- 페이지 네비게이션 -->
-<div>
-    <a href="{getUrl('page','','document_srl','')}">[{$lang->first_page}]</a>
-
+<div class="pageNavigation">
+    <a href="{getUrl('page','','document_srl','')}" class="goToFirst"><img src="./images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
-    <!--@if($page == $page_no)-->
-    {$page_no}
-    <!--@else-->
-    <a href="{getUrl('page',$page_no,'document_srl','')}">[{$page_no}]</a>
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+        <!--@end-->
     <!--@end-->
-    <!--@end-->
-
-    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}">[{$lang->last_page}]</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="goToLast"><img src="./images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
 </div>
 
 <!--#include("footer.html")-->

@@ -60,9 +60,13 @@
             if(!$option->enable_component) $enable_component = false;
             else $enable_component = true;
 
+            // html 모드 조절
+            if($option->disable_html) $html_mode = false;
+            else $html_mode = true;
+
             // 크기 조절 옵션 설정
-            if(!$option->resizable) $resizable = 'false';
-            else $resizable = 'true';
+            if(!$option->resizable) $resizable = false;
+            else $resizable = true;
 
             // 높이 설정
             if(!$option->height) $editor_height = 400;
@@ -144,6 +148,11 @@
             }
             Context::set('enable_component', $enable_component);
             Context::set('enable_default_component', $enable_default_component);
+
+            /**
+             * html_mode 가능한지 변수 설정
+             **/
+            Context::set('html_mode', $html_mode);
 
             /**
              * resizable 가능한지 변수 설정

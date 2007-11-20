@@ -75,17 +75,6 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->open_rss}</th>
-        <td>
-            <select name="open_rss">
-                <!--@foreach($lang->open_rss_types as $key=>$val)-->
-                <option value="{$key}" <!--@if($module_info->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_open_rss}</p>
-        </td>
-    </tr>
-    <tr>
         <th scope="row">{$lang->list_count}</th>
         <td>
             <input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}"  class="inputTypeText" />
