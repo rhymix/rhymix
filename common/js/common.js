@@ -762,6 +762,14 @@ function checkboxSelectAll(form, name, option){
     }
 }
 
+/* 체크박스를 실행 */
+function clickCheckBoxAll(form, name) {
+    var fo_obj = xGetElementById(form);
+    for ( var i = 0 ; i < fo_obj.length ; i++ ){
+        if(fo_obj[i].name == name) fo_obj[i].click();
+    }
+}
+
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
 function doAddDocumentCart(obj) {
     var srl = obj.value;

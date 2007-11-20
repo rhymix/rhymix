@@ -6,7 +6,7 @@
     <div class="boardSubMenu">
         <!--@if($module_info->use_category == "Y")-->
         <div class="fl">
-            <!--@if($grant->is_admin)--><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /><!--@end-->
+            <!--@if($grant->is_admin)--><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /><!--@end-->
         <!-- 카테고리 사용시 카테고리 선택 표시 -->
                 <select name="category" id="board_category">
                     <option value="">{$lang->category}</option>
