@@ -10,7 +10,7 @@
     $lang->thumbnail_crop = 'Crop';
     $lang->thumbnail_ratio = 'Ratio';
     $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
-    $lang->move_target_module = "Target module for changing position";
+    $lang->move_target_module = "Target module ";
     $lang->title_bold = 'Bold';
     $lang->title_color = 'Color';
 
