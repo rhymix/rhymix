@@ -29,10 +29,10 @@
             $oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
             $oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
             $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
+            $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
-
 
             return new Object();
         }
@@ -80,6 +80,9 @@
             if(!$oDB->isColumnExists("document_categories","parent_srl")) return true;
             if(!$oDB->isColumnExists("document_categories","expand")) return true;
             if(!$oDB->isColumnExists("document_categories","group_srls")) return true;
+
+            // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
+            if(!$oDB->isIndexExists("documents","idx_module_notice")) return true;
 
             return false;
         }
@@ -150,6 +153,9 @@
             if(!$oDB->isColumnExists("document_categories","parent_srl")) $oDB->addColumn('document_categories',"parent_srl","number",12,0);
             if(!$oDB->isColumnExists("document_categories","expand")) $oDB->addColumn('document_categories',"expand","char",1,"N");
             if(!$oDB->isColumnExists("document_categories","group_srls")) $oDB->addColumn('document_categories',"group_srls","text");
+
+            // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
+            if(!$oDB->isIndexExists("documents","idx_module_notice")) $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
 
             return new Object(0,'success_updated');
         }
