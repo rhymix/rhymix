@@ -26,6 +26,11 @@
     $lang->disable_download = 'ダウンロード禁止';
     $lang->about_disable_download = 'チェックするとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。';
 
+    $lang->level_point_calc = '레벨별 포인트 계산';
+    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
+    $lang->cmd_exp_calc = '계산';
+    $lang->cmd_exp_reset = '초기화';
+
     $lang->about_module_point = 'モジュール別にポイントを指定することができますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
 
     $lang->point_signup = '加入';

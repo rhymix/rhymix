@@ -26,6 +26,11 @@
     $lang->disable_download = 'Prohibit Downloads';
     $lang->about_disable_download = "This will prohibit downloads when there are not enough points. (Exclude image files)"; 
 
+    $lang->level_point_calc = '레벨별 포인트 계산';
+    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
+    $lang->cmd_exp_calc = '계산';
+    $lang->cmd_exp_reset = '초기화';
+
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
     $lang->point_signup = 'Signup';
