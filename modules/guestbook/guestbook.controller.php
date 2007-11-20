@@ -212,23 +212,23 @@
          **/
         function procGuestbookVerificationPassword() {
             // 비밀번호와 문서 번호를 받음
-            $password = md5(Context::get('password'));
-
+            $password = Context::get('password');
             $document_srl = Context::get('document_srl');
             $comment_srl = Context::get('comment_srl');
+
+            $oMemberModel = &getModel('member');
 
             // comment_srl이 있을 경우 댓글이 대상
             if($comment_srl) {
                 // 문서번호에 해당하는 글이 있는지 확인
                 $oCommentModel = &getModel('comment');
-                $data = $oCommentModel->getComment($comment_srl);
-                if(!$data) return new Object(-1, 'msg_invalid_request');
+                $oComment = $oCommentModel->getComment($comment_srl);
+                if(!$oComment->isExists()) return new Object(-1, 'msg_invalid_request');
 
                 // 문서의 비밀번호와 입력한 비밀번호의 비교
-                if($data->password != $password) return new Object(-1, 'msg_invalid_password');
+                if(!$oMemberModel->isValidPassword($oComment->get('password'),$password)) return new Object(-1, 'msg_invalid_password');
 
-                $oCommentController = &getController('comment');
-                $oCommentController->addGrant($comment_srl);
+                $oComment->setGrant();
             } else {
                 // 문서번호에 해당하는 글이 있는지 확인
                 $oDocumentModel = &getModel('document');
@@ -236,7 +236,7 @@
                 if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
 
                 // 문서의 비밀번호와 입력한 비밀번호의 비교
-                if($oDocument->get('password') != $password) return new Object(-1, 'msg_invalid_password');
+                if(!$oMemberModel->isValidPassword($oDocument->get('password'),$password)) return new Object(-1, 'msg_invalid_password');
 
                 $oDocument->setGrant();
             }

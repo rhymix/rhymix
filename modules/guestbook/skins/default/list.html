@@ -43,13 +43,12 @@
             <div class="clear"></div>
 
             <div class="documentContent">
-                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                <!--@if($document->isSecret() && !$document->isGranted())-->
                     <!--%import("filter/input_password.xml")-->
                     <strong>{$lang->msg_is_secret}</strong>
                     <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
                     <input type="hidden" name="mid" value="{$mid}" />
                     <input type="hidden" name="page" value="{$page}" />
-                    <input type="hidden" name="document_srl" value="{$document->get('document_srl')}" />
                     <input type="hidden" name="document_srl" value="{$document->get('document_srl')}" />
                     <div class="inputPassword">
                         <input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span>
