@@ -147,7 +147,6 @@
                     $oComment = null;
                     $oComment = new commentItem();
                     $oComment->setAttribute($attribute);
-                    $oComment->setGrant();
 
                     $result[$key] = $oComment;
                 }
@@ -191,7 +190,7 @@
             
                 if(!$comment_srl) continue;
 
-                if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;
+                //if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;
 
                 // 목록을 만듬
                 $list[$comment_srl] = $source_list[$i];
