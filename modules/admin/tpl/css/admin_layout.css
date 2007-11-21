@@ -2,31 +2,31 @@
 
 body { background:url("../images/admin_background.gif") repeat-x left top; background-color:#DBD8D3; }
 
-#adminLayout { background:url("../images/admin_logo.gif") no-repeat left top; background-color:#F8F6F2; overflow:hidden; width:1000px; border-right:1px solid #B2B2B2; margin:5px 0 0 5px; }
+#adminLayout { background:url("../images/admin_logo.gif") no-repeat left top; background-color:#F8F6F2; overflow:hidden; width:1050px; border-right:1px solid #B2B2B2; margin:5px 0 0 5px; }
 
-#adminContentBody { width:800px; float:left; background-color:#FFFFFF; padding:25px 10px 20px 10px; vertical-align:top; background:url(../images/admin_top_bg.gif) repeat-x left top; background-color:#FFFFFF; }
+#adminContentBody { width:850px; float:left; background-color:#FFFFFF; padding:25px 10px 20px 10px; vertical-align:top; background:url(../images/admin_top_bg.gif) repeat-x left top; background-color:#FFFFFF; }
 
-#adminLayoutBottom { background:url("../images/admin_bottom_bg.gif") repeat-x left top; height:3px; clear:both; overflow:hidden; width:1001px; margin:0 0 0 5px; }
+#adminLayoutBottom { background:url("../images/admin_bottom_bg.gif") repeat-x left top; height:3px; clear:both; overflow:hidden; width:1051px; margin:0 0 0 5px; }
 
 #adminMenuContent { width:179px; float:left; margin-top:70px; padding-bottom:20px; vertical-align:top; background:none; overflow:hidden; border-right:1px solid #B2B2B2; }
 
-#adminMenuContent .adminInfoBox { border:1px solid #E3E3E2; padding:3px; margin:0 0 0 8px; width:130px; background-color:#FFFFFF; overflow:hidden; width:154px; margin-bottom:10px;}
-#adminMenuContent .adminInfoBox .adminInfo { border:1px solid #E3E3E2; padding:5px 3px 3px 23px; background:url("../images/icon_key.gif") no-repeat 3px 3px; color:#555555; font-weight:bold; overflow:hidden; background-color:#F8F6F2; }
-#adminMenuContent .adminInfoBox .adminInfo div.expandButton { float:right; height:16px; overflow:hidden; }
+#adminMenuContent .adminInfoBox { border:1px solid #E3E3E2; padding:3px; margin:0 0 0 8px; width:130px; background-color:#FFFFFF; width:154px; margin-bottom:10px;}
+#adminMenuContent .adminInfoBox .adminInfo { border:1px solid #E3E3E2; padding:5px 3px 3px 23px; background:url("../images/icon_key.gif") no-repeat 3px 5px; color:#555555; font-weight:bold; background-color:#F8F6F2; }
+#adminMenuContent .adminInfoBox .adminInfo div.expandButton { float:right; height:16px; }
 #adminMenuContent .adminInfoBox div.logoutButton { margin-top:5px; text-align:center; clear:both; }
 #adminMemberInfo { padding:10px 5px 10px 24px; background:url("../images/icon_user.gif") no-repeat 5px 8px; color:#336699; font-weight:bold; letter-spacing:-1px;}
 
-#adminMenuContent h3 { border:1px solid #E3E3E2; border-top:none; color:#555555; font-size:1em; text-indent:none; padding:6px 5px 3px 25px; white-space:nowrap; margin:0 0 0 8px; width:130px; overflow:hidden;}
+#adminMenuContent h3 { border:1px solid #E3E3E2; border-top:none; color:#555555; font-size:1em; text-indent:none; padding:6px 0 3px 25px; margin:0 0 0 8px; width:135px;}
 #adminMenuContent h3 a { color:#555555; text-decoration:none; }
-#adminMenuContent h3 span.expandButton { float:right; height:16px; overflow:hidden; }
-#adminMenuContent h3.summary { background:url("../images/icon_summary.gif") no-repeat 3px 3px; background-color:#FFFFFF; margin-top:0px; border-top:1px solid #E3E3E2; }
+#adminMenuContent h3 span.expandButton { float:right; padding:none; margin:none; height:16px; white-space:nowrap; overflow:hidden;}
+#adminMenuContent h3.summary { background:url("../images/icon_summary.gif") no-repeat 3px 5px; background-color:#FFFFFF; margin-top:0px; border-top:1px solid #E3E3E2; }
 #adminMenuContent h3.service { background:url("../images/icon_service_module.gif") no-repeat 3px 5px; background-color:#FFFFFF; }
 #adminMenuContent h3.manager { background:url("../images/icon_manager_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 #adminMenuContent h3.utility { background:url("../images/icon_utility_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 #adminMenuContent h3.accessory { background:url("../images/icon_accessory_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 #adminMenuContent h3.base { background:url("../images/icon_base_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 
-#adminMenuContent ul { width:170px; overflow:hidden; }
+#adminMenuContent ul { width:170px; }
 #adminMenuContent ul li { background-color:#F8F6F3; list-style:none; padding:5px 10px 3px 10px; margin-left:8px; white-space:nowrap; overflow:hidden; color:#888785; border-bottom:1px solid #E3E3E2; cursor:pointer; }
 #adminMenuContent ul li:hover { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
 #adminMenuContent li.on { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
