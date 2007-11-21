@@ -1,0 +1,122 @@
+/* Basic */
+.xed {
+	color: #494949;
+	padding: 0.3em;
+	font-size: 0.833em;
+	font-family: Arial, dotum, sans-serif;
+}
+.xed * {
+	margin: 0;
+	padding: 0;
+}
+
+
+
+/* Headings and paragraph */
+.xed h1,
+.xed h2,
+.xed h3,
+.xed h4,
+.xed h5,
+.xed h6 {
+	border-bottom: 2px solid #425e89;
+	line-height: 1em;
+	padding-bottom: 0.2em;
+	margin: 0.2em 0;
+}
+
+.xed h1 {font-size: 2.845em;}
+.xed h2 {font-size: 2.460em;}
+.xed h3 {font-size: 2.153em;}
+.xed h4 {font-size: 1.922em;}
+.xed h5 {font-size: 1.461em;}
+.xed h6 {font-size: 1.230em;}
+
+.xed p {
+	margin: 0.614em 0;
+	line-height: 1.230em;
+}
+
+.xed hr {
+}
+
+
+
+/* List */
+.xed ul,
+.xed ol {
+	padding-left: 2em;
+	margin: 0.614em 0;
+}
+.xed li {
+	line-height: 1.306em;
+}
+
+
+
+/* Other block containers */
+.xed ol.code,
+.xed div,
+.xed blockquote {
+	margin: 1em 0;
+	padding-left: 2.460em;
+	padding-right: 1em;
+	border-width: 0 3px;
+	border-style: solid;
+	line-height: 1.306em;
+}
+.xed ol.code {
+	font-family: monospace;
+	list-style-type: none;
+	border-color: #ffb781;
+	background: url(../img/content/code.gif) no-repeat 0 0;
+}
+.xed div {
+	border-color: #8ccfff;
+	background: url(../img/content/div.gif) no-repeat 0 0;
+}
+.xed blockquote {
+	border-color: #c9c9c9;
+	background: url(../img/content/blockquote.gif) no-repeat 0 0;
+}
+
+
+
+/* Inline elements */
+.xed em.underline {
+	font-style: normal;
+	text-decoration: underline;
+}
+.xed span.strike {
+	text-decoration: line-through;
+}
+
+
+
+/* table */
+.xed table.datatable {
+	width: 100%;
+	/width: auto;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+.xed table.datatable th {
+	font-weight: normal;
+	padding: 0.25em 0.307em;
+}
+.xed table.datatable td {
+	padding: 0.25em 0.307em;
+}
+.xed table.datatable {
+	border-left: 1px solid #000;
+	border-top: 1px solid #000;	
+}
+.xed table.datatable th {
+	background-color: #e7e7e7;
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;	
+}
+.xed table.datatable td {
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;	
+}

@@ -1,0 +1,54 @@
+<html><head><style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * RichDom for Gecko
+<span class='linenumber'>  3</span>  */</span><span class="WHIT">
+<span class='linenumber'>  4</span> </span><span class="NAME">xq.RichDomGecko</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Class.create</span><span class="PUNC">(</span><span class="NAME">xq.RichDomW3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>  5</span> 	</span><span class="NAME">makePlaceHolder</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>  6</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">holder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.createElement</span><span class="PUNC">(</span><span class="STRN">"BR"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>  7</span> 		</span><span class="NAME">holder.setAttribute</span><span class="PUNC">(</span><span class="STRN">"type"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"_moz"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>  8</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">holder</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>  9</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 10</span> 	
+<span class='linenumber'> 11</span> 	</span><span class="NAME">makePlaceHolderString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 12</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'&lt;br type="_moz" />'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 13</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 14</span> 	
+<span class='linenumber'> 15</span> 	</span><span class="NAME">makeEmptyParagraph</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 16</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.createElementFromHtml</span><span class="PUNC">(</span><span class="STRN">'&lt;p>&lt;br type="_moz" />&lt;/p>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 18</span> 
+<span class='linenumber'> 19</span> 	</span><span class="NAME">isPlaceHolder</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 20</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">node.nodeType</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 21</span> 		
+<span class='linenumber'> 22</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">typeMatches</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.nodeName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"BR"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"type"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"_moz"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 23</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">typeMatches</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 24</span> 		
+<span class='linenumber'> 25</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">positionMatches</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.nodeName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"BR"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.getNextSibling</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 26</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">positionMatches</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 27</span> 		
+<span class='linenumber'> 28</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 29</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 30</span> 
+<span class='linenumber'> 31</span> 	</span><span class="NAME">selectElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">entireElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 32</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"[element] is null"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">element.nodeType</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"[element] is not an element"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 34</span> 
+<span class='linenumber'> 35</span> 		</span><span class="COMM">// required to avoid Windows FF selection bug.</span><span class="WHIT">
+<span class='linenumber'> 36</span> 		</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 37</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">xq.Browser.isMac</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.doc.execCommand</span><span class="PUNC">(</span><span class="STRN">"SelectAll"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 38</span> 		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="PUNC">(</span><span class="NAME">ignored</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 39</span> 		
+<span class='linenumber'> 40</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">entireElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 41</span> 			</span><span class="NAME">this.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">selectNode</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 42</span> 		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 43</span> 			</span><span class="NAME">this.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">selectNodeContents</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 44</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 45</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 46</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 47</span> </span></pre></body></html>

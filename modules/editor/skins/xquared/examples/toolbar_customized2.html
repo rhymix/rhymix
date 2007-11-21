@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>Xquared example - Custom toolbar 2</title>
+	<link rel="stylesheet" type="text/css" href="css/xq_ui.css" />
+	<style type="text/css">
+		.toolbar .buttons .selected {
+			font-weight: bold;
+		}
+	</style>
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/xquared.js"></script>
+	<script type="text/javascript">//<![CDATA[
+	var xed;
+	
+	window.onload = function() {
+		xed = new xq.Editor($("xqEditor"), $("xqToolbarContainer"));
+		xed.setEditMode('wysiwyg');
+		xed.loadStylesheet("css/xq_contents.css");
+		xed.focus();
+	}
+	//]]></script>
+</head>
+
+<body>
+	<div class="toolbar">
+		<ul id="xqToolbarContainer" class="buttons">
+			<li class="foregroundColor"><a href="#" title="Foreground color" onclick="xed.handleForegroundColor('red');return false;" onmousedown="return false;">Foreground color</a></li>
+			<li class="strongEmphasis"><a href="#" title="Strong emphasis" onclick="xed.handleStrongEmphasis();return false;" onmousedown="return false;">Strong emphasis</a></li>
+			<li class="undo"><a href="#" title="Undo" onclick="xed.handleUndo();return false;" onmousedown="return false;">Undo</a></li>
+			<li class="redo"><a href="#" title="Redo" onclick="xed.handleRedo();return false;" onmousedown="return false;">Redo</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="xqEditor" class="editor">
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<p>This holds true both for individuals as well as whole tagging communities.</p>
+			<ul>
+				<li>Item 1</li>
+				<li>Item 2</li>
+			</ul>
+			<p>This holds true both for individuals as well as whole tagging communities.</p>
+			<ul>
+				<li>
+					<p>Item 1</p>
+					<ol>
+						<li>Item 1</li>
+						<li>Item 2</li>
+					</ol>
+				</li>
+				<li>Item 2</li>
+				<li>Item 3</li>
+			</ul>
+			<p>This holds true both for individuals as well as whole tagging communities.</p>
+			<div>
+				<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+				<blockquote>
+					<p>This holds true both for individuals as well as whole tagging communities.</p>
+				</blockquote>
+			</div>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<blockquote>
+				<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+				<blockquote>
+					<p>This holds true both for individuals as well as whole tagging communities.</p>
+				</blockquote>
+			</blockquote>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<h1>Heading 1</h1>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<h1>Heading 1</h1>
+			<h2>Heading 2</h2>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<h1>Heading 1</h1>
+			<h2>Heading 2</h2>
+			<h3>Heading 3</h3>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<h4>Heading 4</h4>
+			<h5>Heading 5</h5>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<h6>Heading 6</h6>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+			<ol class="code">
+				<li>print "Hello World"</li>
+				<li>print "Hello World"</li>
+			</ol>
+			<p>Most notably, it has been confirmed in many empirical studies on tagging(see e.g. [Golder:2005, Hotho:2006, Cattuto:2006]), that tag distributions tend follow a power law—a small number of tags is used very often, while a very large number of tags occurs very rarely.</p>
+		</div>
+	</div>
+</body>
+</html>
