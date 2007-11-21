@@ -10,6 +10,7 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     var oXml = new xml_handler();
     oXml.reset();
     for(var key in params) {
+	if(!params.hasOwnProperty(key)) continue;
         var val = params[key];
         oXml.addParam(key, val);
     }
@@ -88,6 +89,7 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
     +  "<params>\n"
 
     for (var key in this.params) {
+	if(!this.params.hasOwnProperty(key)) continue;
         var val = this.params[key];
         rd += "<"+key+"><![CDATA["+val+"]]></"+key+">\n";
     }

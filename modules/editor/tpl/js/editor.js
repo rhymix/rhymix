@@ -5,14 +5,6 @@
  */
 
 /**
- * 에디터에서 사용하기 위한 변수
- **/
-var editorMode = new Array(); ///<< 에디터의 html편집 모드 flag 세팅 변수 (html or null)
-var editorAutoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', locked:false} ///< 자동저장을 위한 정보를 가진 object
-var editorRelKeys = new Array(); ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
-var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
-
-/**
  * 에디터 사용시 사용되는 이벤트 연결 함수 호출
  **/
 xAddEventListener(document, 'mousedown', editorDragStart);
@@ -32,6 +24,11 @@ function editorGetIFrame(editor_sequence) {
 function editorGetTextArea(editor_sequence) {
     return xGetElementById( 'editor_textarea_' + editor_sequence );
 }
+
+function editorSync(editor_sequence) {
+    editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
+}
+
 
 // editor_sequence에 해당하는 form문 구함
 function editorGetForm(editor_sequence) {
@@ -112,6 +109,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]["primary"] = fo_obj[primary_key];
     editorRelKeys[editor_sequence]["content"] = fo_obj[content_key];
+    editorRelKeys[editor_sequence]["func"] = editorSync;
 
     // saved document(자동저장 문서)에 대한 확인
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음

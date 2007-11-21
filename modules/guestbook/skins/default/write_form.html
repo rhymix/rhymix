@@ -5,7 +5,7 @@
 <!--@end-->
 
 <div class="boardWrite">
-    <form action="./" method="post" onsubmit="return procFilter(this, insert)" class="boardEditor">
+    <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" class="boardEditor">
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
         <input type="hidden" name="document_srl" value="{$oDocument->get('document_srl')}" />

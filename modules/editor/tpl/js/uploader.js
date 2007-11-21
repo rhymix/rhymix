@@ -18,8 +18,8 @@ var uploaded_files = new Array();
  * 이 함수는 editor.html 에서 파일 업로드 가능할 경우 호출됨
  **/
 // window.load 이벤트일 경우 && 문서 번호가 가상의 번호가 아니면 기존에 저장되어 있을지도 모르는 파일 목록을 가져옴
-function editor_upload_init(editor_sequence) {
-    xAddEventListener(window,'load',function() { editor_upload_start(editor_sequence);} );
+function editor_upload_init(editor_sequence, el) {
+    xAddEventListener(window,'load',function() { editor_upload_start(editor_sequence, el);} );
 }
 
 function editor_upload_get_target_srl(editor_sequence) {
@@ -32,7 +32,7 @@ function editor_upload_get_uploader_name(editor_sequence) {
 }
 
 // 파일 업로드를 위한 기본 준비를 함 
-function editor_upload_start(editor_sequence) {
+function editor_upload_start(editor_sequence, fo_obj) {
     // 캐시 삭제
     try { document.execCommand('BackgroundImageCache',false,true); } catch(e) { }
 
@@ -58,7 +58,8 @@ function editor_upload_start(editor_sequence) {
     if(!field_obj) return;
 
     // 에디터를 감싸는 form을 구해 submit target을 임시 iframe으로 변경
-    var fo_obj = editorGetForm(editor_sequence);
+    if(!fo_obj)
+	fo_obj = editorGetForm(editor_sequence);
     fo_obj.target = 'tmp_upload_iframe';
 
     // SWF uploader 생성
