@@ -27,7 +27,7 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 
 #gnb { position:absolute; top:82px; left:0; height:38px; overflow:hidden; white-space:nowrap; margin-bottom:10px;}
 #gnb li { float:left; list-style:none; background:url(../images/default/bgGnbVr.gif) no-repeat left center; padding-left:2px; position:relative; left:-2px; white-space:nowrap;}
-#gnb li a { display:block; float:left; padding:13px 15px 0 15px; height:25px; color:#e8e8e8; white-space:nowrap; text-decoration:none; font-family:"돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
+#gnb li a { display:block; float:left; padding:13px 15px 0 15px; height:25px; color:#e8e8e8; white-space:nowrap; text-decoration:none; }
 #gnb li a:hover,
 #gnb li a:focus { color:#ffffff;}
 #gnb li.on a { font-weight:bold; color:#ffffff; background:url(../images/default/bgGnbOn.gif) no-repeat center top;}
