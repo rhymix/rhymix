@@ -28,11 +28,11 @@
 
 <!-- 전화번호 -->
 <!--@elseif($val->type == 'tel')-->
-    {(int)htmlspecialchars($val->value[0])} 
+    {htmlspecialchars($val->value[0])} 
     <!--@if($val->value[1])-->-<!--@end-->
-    {(int)htmlspecialchars($val->value[1])} 
+    {htmlspecialchars($val->value[1])} 
     <!--@if($val->value[2])-->-<!--@end-->
-    {(int)htmlspecialchars($val->value[2])} 
+    {htmlspecialchars($val->value[2])} 
     &nbsp;
 
 <!-- textarea -->
