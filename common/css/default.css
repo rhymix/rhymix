@@ -25,7 +25,7 @@ IE7 & IE6 & Below
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; }
 html { width:100%; }
-body { margin:0; font-size:.75em; font-family:sans-serif;}
+body { margin:0; font-size:.75em; _font-size:9pt; font-family:sans-serif;}
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
@@ -34,10 +34,10 @@ form { margin:0; padding:0; }
 .zbxe_info { vertical-align:middle; behavior:url(./common/js/iePngFix.htc); }
 
 /* Input Style Definition */
-.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; }
+.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; _font-size:9pt; }
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4; }
-.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff; font-size:1em;}
+.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff; font-size:1em; _font-size:9pt;}
 
 .w40 { width:40px; }
 .w60 { width:60px; }
