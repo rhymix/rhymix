@@ -26,6 +26,7 @@ IE7 & IE6 & Below
 * { margin:0; padding:0; }
 html { width:100%; }
 body { margin:0; font-size:.75em; _font-size:9pt; font-family:sans-serif;}
+*:first-child+html body { font-size:9pt; }
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
@@ -35,9 +36,11 @@ form { margin:0; padding:0; }
 
 /* Input Style Definition */
 .inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; _font-size:9pt; }
+*:first-child+html .inputTypeText { font-size:9pt; }
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4; }
 .inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff; font-size:1em; _font-size:9pt;}
+*:first-child+html .inputTypeTextArea { font-size:9pt; }
 
 .w40 { width:40px; }
 .w60 { width:60px; }
