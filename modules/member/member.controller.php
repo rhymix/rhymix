@@ -1203,7 +1203,7 @@
             if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
 
             // 비밀번호 검사
-            if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
+            if($password && !$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
             // denied == 'Y' 이면 알림
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
