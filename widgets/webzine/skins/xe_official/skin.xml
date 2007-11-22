@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">웹진형 최근글 출력 기본 스킨</title>
+  <title xml:lang="jp">웹진형 최근글 출력 기본 스킨</title>
+  <title xml:lang="zh-CN">웹진형 최근글 출력 기본 스킨</title>
+  <title xml:lang="en">Display newest documents like webzine style</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 11. 22">
+    <name xml:lang="ko">제로</name>
+    <name xml:lang="jp">Zero</name>
+    <name xml:lang="zh-CN">Zero</name>
+    <name xml:lang="en">Zero</name>
+    <description xml:lang="ko">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
+    <description xml:lang="jp">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
+    <description xml:lang="zh-CN">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
+    <description xml:lang="en">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">기본 컬러</title>
+      <title xml:lang="jp">デフォルトカラー</title>
+      <title xml:lang="zh-CN">默认颜色</title>
+      <title xml:lang="en">Default Color</title>
+    </color>
+  </colorset>
+</skin>

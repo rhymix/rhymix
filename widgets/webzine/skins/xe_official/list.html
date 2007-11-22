@@ -1,0 +1,91 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div class="nw_box">
+    <!--@if($widget_info->title)-->
+        <h2>{$widget_info->title}</h2>
+    <!--@end-->
+
+    <!--@if(count($widget_info->document_list))-->
+    <div>
+        <table cellspacing="0" class="listTable">
+        {@ $count = 0; }
+        <!--@for($i=0;$i<$widget_info->rows_list_count;$i++)-->
+        <tr valign="top">
+            <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
+                {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
+            <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->><!--@if($oDocument->document_srl)-->
+
+                <table cellspacing="0" class="thumbnailBox">
+                <col width="{$widget_info->thumbnail_width+30}" />
+                <col />
+                <tr>
+                    <td class="thumbnail" height="100">
+                        <a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a>
+                    </td>
+                    <td class="desc">
+
+                        <div class="titleBox">
+
+                            <span class="title">
+                                <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->subject_cut_size)}</a>
+                                <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
+                            </span>
+
+                            <!--@if($widget_info->display_regdate == 'Y')-->
+                            <span class="regdate">[{$oDocument->getRegdate("m-d")}]</span>
+                            <!--@end-->
+
+                        </div>
+
+                        <div class="contentbox">
+                            {$oDocument->getSummary($widget_info->content_cut_size)}
+                        </div>
+
+                        <!--@if($widget_info->display_author == 'Y' || $widget_info->display_readed_count == 'Y' || $widget_info->display_voted_count == 'Y' )-->
+                        <div class="authorBox">
+                            <!--@if($widget_info->display_author == 'Y')-->
+                            <span class="author"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></span>
+                            <!--@end-->
+
+                            <!--@if($widget_info->display_readed_count == 'Y' || $widget_info->display_voted_count == 'Y' )-->
+                            <span class="readAndVoted">
+                                <!--@if($widget_info->display_readed_count == 'Y')-->
+
+                                    {$lang->readed_count} {$oDocument->get('readed_count')}
+
+                                <!--@end-->
+
+                                <!--@if($widget_info->display_voted_count == 'Y' && $oDocument->get('voted_count')>0 )-->
+
+                                    <!--@if($widget_info->display_readed_count == 'Y')-->, <!--@end-->
+
+                                    {$lang->voted_count} <strong>{$oDocument->get('voted_count')}</strong>
+
+                                <!--@end-->
+                            </span>
+                            <!--@end-->
+                        </div>
+                        <!--@end-->
+
+                    <!--@end-->
+                    </td>
+                </tr>
+                </table>
+
+            </td>
+            <!--@end-->
+            <!--@for($k=$j;$k<$widget_info->cols_list_count;$k++)--><td>&nbsp;</td><!--@end-->
+        </tr>
+        <!--@end-->
+        </table>
+    <!--@end-->
+    </div>
+
+    <!--@if($widget_info->module_name)-->
+        <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
+    <!--@end-->
+</div>

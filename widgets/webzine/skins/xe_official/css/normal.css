@@ -1,0 +1,44 @@
+.nw_box { padding-bottom:5px; overflow:hidden; position:relative;}
+.nw_box h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+
+.nw_box .more { position:absolute; top:12px; right:11px; color:#000000; font:.8em Tahoma;}
+.nw_box a.more { text-decoration:none;} 
+.nw_box a.more:hover { text-decoration:underline;} 
+
+.nw_box .listTable { width:100%; table-layout:fixed; border:none;}
+
+.nw_box .listTable tr td { border-bottom:1px dotted #DEDEDE; padding-bottom:3px; margin-bottom:3px; vertical-align:top; overflow:hidden; }
+
+.nw_box .thumbnailBox { width:100%; border:none; }
+.nw_box .thumbnailBox tr td { border-bottom:none; padding:none; margin:none; }
+
+.nw_box .thumbnailBox .thumbnail { text-align:center; padding:6px; }
+.nw_box .thumbnailBox .thumbnail img { padding:4px; border:1px solid #DEDEDE; }
+.nw_box .thumbnailBox .thumbnail img:hover { border:1px solid #54564b; }
+
+.nw_box .thumbnailBox .desc { padding-left:5px; }
+
+.nw_box .thumbnailBox .titleBox { margin-top:8px; margin-bottom:5px;}
+
+.nw_box .thumbnailBox .titleBox .title { }
+.nw_box .thumbnailBox .titleBox .title strong { font-weight:bold; font-size:0.9em; color:#ed2a32; }
+.nw_box .thumbnailBox .titleBox .title a { color:#000000; text-decoration:none; }
+.nw_box .thumbnailBox .titleBox .title a:hover { text-decoration:underline; }
+
+
+.nw_box .thumbnailBox .titleBox .regdate { font-size:0.9em; color:#AAAAAA; }
+
+.nw_box .thumbnailBox .contentBox { overflow:hidden; margin-bottom:5px;}
+
+.nw_box .thumbnailBox .authorBox { margin-top:5px; }
+
+.nw_box .thumbnailBox .author { color:#54564b; margin-right:10px;}
+.nw_box .thumbnailBox .author span,div { color:#54564b; }
+
+.nw_box .thumbnailBox .readAndVoted { color:#999999; font-size:0.9em; }
+.nw_box .thumbnailBox .readAndVoted span.div_block { color:#333333; font-size:0.9em; }
+.nw_box .thumbnailBox .readAndVoted strong { color:#FE6700; }
+
+.nw_box .thumbnailBox td.bottomBorder { border-bottom:1px dashed #EEEEEE; padding-bottom:5px; }
+
+
