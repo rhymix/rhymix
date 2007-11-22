@@ -37,11 +37,11 @@
 
             // 세로 이미지 수
             $widget_info->rows_list_count = (int)$args->rows_list_count;
-            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 1;
+            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 3;
 
             // 가로 이미지 수
             $widget_info->cols_list_count = (int)$args->cols_list_count;
-            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 5;
+            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 2;
 
             // 노출 여부 체크
             if($args->display_author!='Y') $widget_info->display_author = 'N';
