@@ -100,7 +100,7 @@
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
         </var>
-        <var id="subject_cut_size" type="text">
+        <var id="subject_cut_size">
           <name xml:lang="ko">제목 글자수</name>
           <name xml:lang="jp">タイトルの文字数</name>
           <name xml:lang="zh-CN">标题字数</name>
@@ -113,7 +113,7 @@
           <description lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
 		  <description lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
         </var>
-        <var id="content_cut_size" type="text">
+        <var id="content_cut_size">
           <name xml:lang="ko">내용 글자수</name>
           <name xml:lang="jo">내용 글자수</name>
           <name xml:lang="zh-CN">내용 글자수</name>
