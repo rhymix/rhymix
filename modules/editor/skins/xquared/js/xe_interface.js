@@ -23,10 +23,9 @@ function getAdditionalAutocompletions() {
     ];
 }
 
-function editorSync_xq(editor_sequence) {
+function editorGetContent_xq(editor_sequence) {
     var editor = editorRelKeys[editor_sequence]['editor'];
-    editorRelKeys[editor_sequence]['content'].value = editor.getCurrentContent(true);
-    return;
+    return editor.getCurrentContent(true);
 }
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
@@ -34,7 +33,7 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
 
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]['editor'] = editor; 
-    editorRelKeys[editor_sequence]['func'] = editorSync_xq;
+    editorRelKeys[editor_sequence]['func'] = editorGetContent_xq;
     editorMode[editor_sequence] = null;
     var fo_obj = editorGetForm_xq(element);
     fo_obj.setAttribute('editor_sequence', editor_sequence);

@@ -302,10 +302,8 @@ function XmlJsFilterProc(confirm_msg) {
 function procFilter(fo_obj, filter_func) {
     // form문 안에 위지윅 에디터가 세팅되어 있을 경우 에디터의 값과 지정된 content field를 sync
     var editor_sequence = fo_obj.getAttribute('editor_sequence');
-    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') {
-	if(typeof(editorRelKeys[editor_sequence]['func']) =='function') {
-	   editorRelKeys[editor_sequence]['func'](editor_sequence);
-	}
+    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') { 
+	editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
     }
 
     filter_func(fo_obj);

@@ -25,11 +25,6 @@ function editorGetTextArea(editor_sequence) {
     return xGetElementById( 'editor_textarea_' + editor_sequence );
 }
 
-function editorSync(editor_sequence) {
-    editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
-}
-
-
 // editor_sequence에 해당하는 form문 구함
 function editorGetForm(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -42,7 +37,7 @@ function editorGetForm(editor_sequence) {
 }
 
 // 에디터의 전체 내용 return
-function editorGetContent(editor_sequence) {
+function editorGetContent_xe(editor_sequence) {
     var html = "";
     if(editorMode[editor_sequence]=='html') {
         var textarea_obj = editorGetTextArea(editor_sequence);
@@ -110,7 +105,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]["primary"] = fo_obj[primary_key];
     editorRelKeys[editor_sequence]["content"] = fo_obj[content_key];
-    editorRelKeys[editor_sequence]["func"] = editorSync;
+    editorRelKeys[editor_sequence]["func"] = editorGetContent_xe;
 
     // saved document(자동저장 문서)에 대한 확인
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
