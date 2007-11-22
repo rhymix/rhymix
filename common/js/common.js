@@ -240,20 +240,18 @@ function resizeImageContents() {
         var orig_img = new Image();
         orig_img.src = obj.src;
 
-        if(parent_width<1 || obj_width <1 || parent_width >= orig_img.width) continue;
+        if(parent_width<1 || obj_width <1 || parent_width-20 >= orig_img.width) continue;
 
         obj.style.cursor = "pointer";
 
         obj.source_width = orig_img.width;
         obj.source_height = orig_img.height;
 
-        if(obj_width >= parent_width) {
-			var new_w = parent_width-10;
-			var new_h = Math.round(xHeight(obj)*new_w/obj_width);
-			
-            xWidth(obj, new_w);
-            xHeight(obj, new_h);
-        }
+        var new_w = parent_width-20;
+        var new_h = Math.round(orig_img.height * new_w/orig_img.width);
+        
+        xWidth(obj, new_w);
+        xHeight(obj, new_h);
 
         xAddEventListener(obj,"click", showOriginalImage);
     }
