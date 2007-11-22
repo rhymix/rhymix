@@ -28,7 +28,7 @@
         <td class="tahoam">{$xml_info->version}</td>
         <td class="blue"><a href="{$xml_info->author->link}" onclick="window.open(this.href);return false;">{$xml_info->author->name}</a></td>
         <td class="tahoma">{$xml_info->author->date}</td>
-        <td class="tahoma">
+        <td class="red">
             <!--@if($xml_info->extra_vars)-->
                 <a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a>
             <!--@else-->
