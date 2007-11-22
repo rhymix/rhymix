@@ -19,8 +19,8 @@
 .login_black form .userName { position:relative; width:172px; overflow:hidden; border-bottom:1px solid #515151; padding:0 0 6px 0; margin-top:-5px;}
 .login_black form .userName strong { color:#cbcbcb; padding:4px 0 0 2px; font:bold .9em Tahoma;}
 .login_black form .userName a { position:relative; right:0px; }
-.login_black form ul.userMenu { padding:0 0 6px 4px; overflow:hidden; margin-top:10px;}
-.login_black form ul.userMenu li { list-style:none; color:#cbcbcb; list-style:none;padding-left:10px; background:url(../images/black/bulletFF1A00.gif) no-repeat left 4px; }
+.login_black form ul.userMenu { position:relative; padding:0 0 6px 4px; overflow:hidden; margin-top:10px;}
+.login_black form ul.userMenu li { list-style:none; color:#cbcbcb; list-style:none;padding-left:10px; background:url(../images/black/bulletFF1A00.gif) no-repeat left 4px; margin-bottom:5px;}
 .login_black form ul.userMenu li a { color:#cbcbcb;text-decoration:none;}
 .login_black form ul.userMenu li a:hover {text-decoration:underline;}
 .login_black form p.latestLogin { color:#818181; font:.9em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}

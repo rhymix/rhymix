@@ -19,8 +19,8 @@
 .login_default form .userName { position:relative; width:172px; overflow:hidden; border-bottom:1px solid #e4e4e4; padding:0 0 6px 0; margin-top:-5px;}
 .login_default form .userName strong { color:#282828; padding:4px 0 0 2px; font:bold .9em Tahoma;}
 .login_default form .userName a { position:relative; right:0px; }
-.login_default form ul.userMenu { padding:0 0 6px 4px; margin-top:10px;}
-.login_default form ul.userMenu li { list-style:none; padding-left:10px; background:url(../images/default/bulletFF1A00.gif) no-repeat left 4px;  }
+.login_default form ul.userMenu { position:relative; padding:0 0 6px 4px; margin-top:10px;}
+.login_default form ul.userMenu li { list-style:none; padding-left:10px; background:url(../images/default/bulletFF1A00.gif) no-repeat left 4px;  margin-bottom:5px;}
 .login_default form ul.userMenu li a { color:#54564b; text-decoration:none;}
 .login_default form ul.userMenu li a:hover { text-decoration:underline;}
 .login_default form p.latestLogin { color:#999999; font:.9em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
