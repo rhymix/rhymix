@@ -83,7 +83,7 @@ function editorRemoveSavedDoc() {
 
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
-    if(editorRelKeys[editor_sequence]['editor'] != undefined)
+    if(editorRelKeys != undefined && editorRelKeys[editor_sequence] != undefined && editorRelKeys[editor_sequence]['editor'] != undefined)
 	return editorRelKeys[editor_sequence]['editor'].getFrame();
     return xGetElementById( 'editor_iframe_'+ editor_sequence );
 }
