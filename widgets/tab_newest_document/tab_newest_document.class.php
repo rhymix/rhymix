@@ -95,10 +95,10 @@
                         $oDocument->setAttribute($v);
                         $data[$k] = $oDocument;
                     }
+                    $tab_list[$key]->document_list = $data;
                 } else {
-                    $data = array();
+                    unset($tab_list[$key]);
                 }
-                $tab_list[$key]->document_list = $data;
             }
 
             Context::set('widget_info', $widget_info);
