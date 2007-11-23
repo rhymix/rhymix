@@ -37,14 +37,34 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
     editorMode[editor_sequence] = null;
     var fo_obj = editorGetForm_xq(element);
     fo_obj.setAttribute('editor_sequence', editor_sequence);
-    editor.setStaticContent(fo_obj[content_key].value);
     editorRelKeys[editor_sequence]['content'] = fo_obj[content_key];
     editorRelKeys[editor_sequence]['primary'] = fo_obj[primary_key];
+
+    // saved document(자동저장 문서)에 대한 확인
+    if(typeof(fo_obj._saved_doc_title)!="undefined" ) { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
+
+        var saved_title = fo_obj._saved_doc_title.value;
+        var saved_content = fo_obj._saved_doc_content.value;
+
+        if(saved_title || saved_content) {
+            // 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
+            if(confirm(fo_obj._saved_doc_message.value)) {
+                if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
+                editorRelKeys[editor_sequence]['content'].value = saved_content;
+            } else {
+                editorRemoveSavedDoc();
+            }
+        }
+    }
+
+    editor.setStaticContent(fo_obj[content_key].value);
     editor.setEditMode('wysiwyg');
     editor.loadStylesheet(request_uri+editor_path+"/examples/css/xq_contents.css");
     editor.getFrame().style.width = "100%";
     editor.getFrame().parentNode.style.height = editor_height;
     editor.addAutocompletions(getAdditionalAutocompletions());
+
+    if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
 }
 
 xq.Editor.prototype.insertHTML = function (html) {
