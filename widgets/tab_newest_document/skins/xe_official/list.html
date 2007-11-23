@@ -11,7 +11,7 @@
 <div class="tabWdiget">
     <div class="tabBox">
     <!--@foreach($tab_list as $key => $val)-->
-        <div class="tab <!--@if(!$_checked)-->on{@ $_checked = true;}<!--@end-->" id="tab_{$_id_prefix}_{$key}" onmouseover="overTab(this);"><div><a href="{getUrl('','mid',$val->mid)}">{$val->browser_title}</a></div></div>
+        <div class="tab <!--@if(!$_checked)-->on{@ $_checked = true;}<!--@end-->" id="tab_{$_id_prefix}_{$key}" onmouseover="overTab(this);"><div><a href="{getUrl('','mid',$val->mid)}">{htmlspecialchars($val->browser_title)}</a></div></div>
     <!--@end-->
         <div class="clear"></div>
     </div>
