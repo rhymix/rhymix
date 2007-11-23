@@ -33,4 +33,5 @@ function completeGetEmoticons(ret_obj) {
     }
     xInnerHtml(zone, html);
     setFixedPopupSize();
+    setTimeout(setFixedPopupSize,1000);
 }
