@@ -30,6 +30,11 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
+    var additionalAttributes = ['editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence'];
+    var additionalTags = ['embed', 'param', 'object'];
+    additionalAttributes.each( function (item, index) {
+	editor.config.allowedAttributes.push(item); } );
+    additionalTags.each( function (item, index) { editor.config.allowedTags.push(item); } );
 
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]['editor'] = editor; 
@@ -62,7 +67,14 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
     editor.loadStylesheet(request_uri+editor_path+"/examples/css/xq_contents.css");
     editor.getFrame().style.width = "100%";
     editor.getFrame().parentNode.style.height = editor_height;
+    editor.getBody().setAttribute('editor_sequence', editor_sequence);
     editor.addAutocompletions(getAdditionalAutocompletions());
+
+    // 위젯 감시를 위한 더블클릭 이벤트 걸기 
+    try {
+        xAddEventListener(editor.getFrame().contentWindow.document,'dblclick',editorSearchComponent);
+    } catch(e) {
+    }
 
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
 }

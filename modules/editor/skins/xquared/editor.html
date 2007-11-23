@@ -30,6 +30,21 @@
 
 <!-- 에디터 -->
 <div class="xeEditor" style="margin-top:5px; margin-bottom:5px;">
+        <!--@if($enable_component)-->
+        <!-- 확장 컴포넌트 출력 -->
+        <div class="optionDE">
+            <div class="optionE">
+                <div class="buttonGroup" id="editor_component_{$editor_sequence}">
+                <!--@foreach($component_list as $component_name => $component)-->
+                    <!--@if(substr($component_name,0,11)!="colorpicker")-->
+                        <img src="../../components/{$component_name}/icon.gif" alt="{$component->title}" title="{$component->title}" id="component_{$editor_sequence}_{$component_name}" onmouseover="eOptionOver(this)" onmouseout="eOptionOut(this)" />
+                    <!--@end-->
+                <!--@end-->
+                </div>
+            </div>
+        </div>
+        <!--@end-->
+
 
     <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
     <div class="editor_info">

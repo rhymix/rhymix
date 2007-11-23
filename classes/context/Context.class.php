@@ -907,6 +907,7 @@
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
             if($xml_doc->div) $xml_doc = $xml_doc->div;
+            else if($xml_doc->img) $xml_doc = $xml_doc->img;
 
             $xml_doc->body = $matches[3];
 

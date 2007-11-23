@@ -1,5 +1,10 @@
 @charset "utf-8";
 .xeEditor .editor_info .editor_autosaved_message { color:#888888; text-align:right; }
+.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1; height:29px;}
+.xeEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
+.xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
+.xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
+.xeEditor .optionE { padding:4px 0 0 8px; overflow:hidden; border-left:1px solid #ffffff; float:left;}
 .xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
 
