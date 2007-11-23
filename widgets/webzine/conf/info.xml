@@ -107,11 +107,11 @@
           <name xml:lang="en">Length of Subject</name>
 		  <name xml:lang="es">Número de letras del título</name>
           <type>text</type>
-          <description lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
-          <description lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
-          <description lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
-          <description lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
-		  <description lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
+          <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+          <description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+          <description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
+          <description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
+		  <description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
         </var>
         <var id="content_cut_size">
           <name xml:lang="ko">내용 글자수</name>
@@ -120,11 +120,11 @@
           <name xml:lang="en">Length of Content</name>
 		  <name xml:lang="es">Número de letras del Contenidos</name>
           <type>text</type>
-          <description lang="ko">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
-          <description lang="jp">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
-          <description lang="zh-CN">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
-          <description lang="en">Length of Content can be assigned. (default 50)</description>
-		  <description lang="es">El largo del Contenidos puede ser asignado. (Predefinido 50)</description>
+          <description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
+          <description xml:lang="jp">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
+          <description xml:lang="zh-CN">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
+          <description xml:lang="en">Length of Content can be assigned. (default 50)</description>
+		  <description xml:lang="es">El largo del Contenidos puede ser asignado. (Predefinido 50)</description>
         </var>
         <var id="thumbnail_type">
             <name xml:lang="ko">썸네일 생성 방법</name>
