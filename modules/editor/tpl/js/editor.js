@@ -7,18 +7,11 @@
 /**
  * 에디터 사용시 사용되는 이벤트 연결 함수 호출
  **/
-xAddEventListener(document, 'mousedown', editorDragStart);
-xAddEventListener(document, 'mouseup', editorDragStop);
 xAddEventListener(document, 'mouseup', editorEventCheck);
 
 /**
  * 에디터의 상태나 객체를 구하기 위한 함수
  **/
-
-// editor_sequence값에 해당하는 iframe의 object를 return
-function editorGetIFrame(editor_sequence) {
-    return xGetElementById( 'editor_iframe_'+ editor_sequence );
-}
 
 // editor_sequence값에 해당하는 textarea object를 return
 function editorGetTextArea(editor_sequence) {
@@ -631,59 +624,6 @@ function editorChangeMode(obj, editor_sequence) {
 
 }
 
-/**
- * iframe 세로 크기 조절 드래그 관련
- **/
-function editorDragStart(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    if(typeof(obj.id)=='undefined'||!obj.id) return;
-
-    var id = obj.id;
-    if(id.indexOf('editor_drag_bar_')!=0) return;
-
-    editorDragObj.isDrag = true;
-    editorDragObj.y = e.pageY;
-    editorDragObj.obj = e.target;
-    editorDragObj.id = id.substr('editor_drag_bar_'.length);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-
-    editorDragObj.source_height = xHeight(iframe_obj);
-
-    xAddEventListener(document, 'mousemove', editorDragMove, false);
-    xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
-}
-
-function editorDragMove(evt) {
-    if(!editorDragObj.isDrag) return;
-
-    var e = new xEvent(evt);
-    var h = e.pageY - editorDragObj.y;
-
-    editorDragObj.isDrag = true;
-    editorDragObj.y = e.pageY;
-    editorDragObj.obj = e.target;
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    xHeight(iframe_obj, xHeight(iframe_obj)+h);
-    xHeight(iframe_obj.parentNode, xHeight(iframe_obj)+10);
-}
-
-function editorDragStop(evt) {
-    if(!editorDragObj.isDrag) return;
-
-    xRemoveEventListener(document, 'mousemove', editorDragMove, false);
-    xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(xHeight(iframe_obj)-editorDragObj.source_height);
-
-    editorDragObj.isDrag = false;
-    editorDragObj.y = 0;
-    editorDragObj.obj = null;
-    editorDragObj.id = '';
-}
 
 // Editor Option Button 
 function eOptionOver(obj) {

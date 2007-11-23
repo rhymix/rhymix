@@ -1,5 +1,7 @@
 @charset "utf-8";
 .xeEditor .editor_info .editor_autosaved_message { color:#888888; text-align:right; }
+.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
+.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
 
 .xeEditor .fileAttach { position:relative; top:20px; padding:0 1em .5em 1em;}
 .xeEditor .fileAttach .preview { padding:5px; width:110px; height:110px; border:1px solid #e1e1dd; background:#fbfbfb; float:left; margin-right:.5em;}
