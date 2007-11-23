@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">웹진형 최근글 출력 기본 스킨</title>
   <title xml:lang="jp">웹진형 최근글 출력 기본 스킨</title>
-  <title xml:lang="zh-CN">웹진형 최근글 출력 기본 스킨</title>
+  <title xml:lang="zh-CN">输出新闻类型主题列表默认皮肤</title>
   <title xml:lang="en">Display newest documents like webzine style</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 11. 22">
     <name xml:lang="ko">제로</name>
@@ -11,7 +11,7 @@
     <name xml:lang="en">Zero</name>
     <description xml:lang="ko">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
     <description xml:lang="jp">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
-    <description xml:lang="zh-CN">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
+    <description xml:lang="zh-CN">同时输出主题目录和图片的新闻类型皮肤.只显示有图片的主题.</description>
     <description xml:lang="en">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
   </maker>
   <colorset>
