@@ -224,10 +224,10 @@ function resizeImageContents() {
         // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
         while(parent) {
-            if(/(document_|comment_)/ig.test(parent.className)) break;
+            if(parent.className && parent.className.search(/document_|comment_/i) != -1) break;
             parent = parent.parentNode;
         }
-        if(!parent || !/(document_|comment_)/ig.test(parent.className)) continue;
+        if (!parent || parent.className.search(/document_|comment_/i) < 0) continue;
 
         if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
         parent.style.width = '100%';
