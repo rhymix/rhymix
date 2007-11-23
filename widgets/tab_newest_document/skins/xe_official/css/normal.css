@@ -1,0 +1,33 @@
+.tabWdiget { overflow:hidden; }
+
+.tabWdiget .tabBox { border-bottom:1px solid #DEDEDE; height:27px; z-index:1; }
+.tabWdiget .tabBox a { text-decoration:none; color:#666666; }
+.tabWdiget .tab { position:relative; top:1px; border:1px solid #DEDEDE; margin-right:4px; float:left; cursor:pointer;  background-color:#FFFFFF; z-index:2; height:25px; }
+.tabWdiget .on { position:relative; top:1px; border:1px solid #DEDEDE; border-bottom:1px solid #FFFFFF; margin-right:4px; float:left; cursor:pointer;  background-color:#FFFFFF; z-index:2; height:25px; }
+
+.tabWdiget .tab div { float:left; height:15px; border-bottom:5px solid #EEEEEE; font-size:9pt; padding:5px 8px 0 8px; color:#666666; }
+.tabWdiget .tab div a { color:#666666; }
+.tabWdiget .on div { float:left; height:15px; border-bottom:5px solid #FFFFFF; font-size:9pt; padding:5px 8px 0 8px; color:#000000; }
+.tabWdiget .on div a { color:#000000; }
+
+.tabWdiget .tabContent { border:1px solid #DEDEDE; padding:10px;  border-top:none; background-color:#FFFFFF; z-index:1;}
+.tabWdiget .show { display:block; }
+.tabWdiget .hide { display:none; }
+
+.tabWdiget .tabContent table { border:0; width:100%; table-layout:fixed; }
+
+.tabWdiget .tabContent .thumbnail { text-align:center; }
+.tabWdiget .tabContent .thumbnail img { border:1px solid #EEEEEE; padding:5px; float:left; }
+
+.tabWdiget .tabContent .titleBox { padding-top:3px; padding-left:10px; color:#888888; }
+.tabWdiget .tabContent .titleBox .regdate { font-family:tahoma; font-size:.85em; color:#AAAAAA;}
+.tabWdiget .tabContent .titleBox .title { background:url(../images/normal/bullet.gif) no-repeat 3px 6px; padding-left:10px; margin-top:3px; height:20px; white-space:nowrap; overflow:hidden; }
+.tabWdiget .tabContent .titleBox .title .comment_cnt { font-weight:normal; font-size:0.8em; color:#F48A23; }
+.tabWdiget .tabContent .titleBox .title a { color:#666666; text-decoration:none; }
+.tabWdiget .tabContent .titleBox .title a:hover { text-decoration:underline; }
+
+.tabWdiget .tabContent .titleBox .title .author { color:#AAAAAA; }
+.tabWdiget .tabContent .titleBox .title .readAndVoted { font-family:tahoma; font-size:.8em; color:#AAAAAA;}
+.tabWdiget .tabContent .titleBox .title .readAndVoted .readed { color:#4BC4C8;}
+.tabWdiget .tabContent .titleBox .title .readAndVoted .voted { color:#C8A64B;}
+

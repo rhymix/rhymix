@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">탭 형태 최근 문서 출력</title>
+    <title xml:lang="zh-CN">탭 형태 최근 문서 출력</title>
+    <title xml:lang="jp">탭 형태 최근 문서 출력</title>
+    <title xml:lang="en">Display tab style newest documents</title>
+    <title xml:lang="es">탭 형태 최근 문서 출력</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="jp">Zero</name>
+        <name xml:lang="en">zero</name>
+		<name xml:lang="en">zero</name>
+        <description xml:lang="ko">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
+        <description xml:lang="zh-CN">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
+        <description xml:lang="jp">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
+        <description xml:lang="en">This widget displays newest articles like tab style.</description>
+        <description xml:lang="es">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
+    </author>
+    <extra_vars>
+        <var id="order_target">
+            <name xml:lang="ko">정렬 대상</name>
+            <name xml:lang="zh-CN">排序对象</name>
+            <name xml:lang="jp">ソート対象</name>
+            <name xml:lang="en">Target to be sorted</name>
+			<name xml:lang="en">Objetivo para ser ordenados</name>
+            <type>select</type>
+            <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
+            <description xml:lang="zh-CN">可以按照指定的顺序进行排序。</description>
+            <description xml:lang="jp">登録された順番または変更された順番にソートできます。</description>
+            <description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
+			<description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
+            <options>
+                <name xml:lang="ko">최신 등록순</name>
+                <name xml:lang="zh-CN">最新发表顺</name>
+                <name xml:lang="jp">最新登録順</name>
+                <name xml:lang="en">Newest Submitted Order</name>
+				<name xml:lang="es">Orden de agregados recientemente</name>
+                <value>list_order</value>
+            </options>
+            <options>
+                <name xml:lang="ko">최근 변경순</name>
+                <name xml:lang="zh-CN">最新修改顺</name>
+                <name xml:lang="jp">最近変更順</name>
+                <name xml:lang="en">Newest Modified Order</name>
+				<name xml:lang="es">Orden de modificados recientemente</name>
+                <value>update_order</value>
+            </options>
+        </var>
+        <var id="order_type">
+            <name xml:lang="ko">정렬 방법</name>
+            <name xml:lang="zh-CN">排序方式</name>
+            <name xml:lang="jp">ソートタイプ</name>
+            <name xml:lang="en">Sorting Type</name>
+			<name xml:lang="es">Tipo de ordenamiento</name>
+            <type>select</type>
+            <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
+            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
+            <description xml:lang="jp">ソートタイプを、降順、昇順にソートできます。</description>
+            <description xml:lang="en">You can sort target articles by asending or desending order.</description>
+			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
+            <options>
+                <name xml:lang="ko">내림차순</name>
+                <name xml:lang="zh-CN">降序</name>
+                <name xml:lang="jp">降順</name>
+                <name xml:lang="en">Desending order</name>
+				<name xml:lang="es">Orden Descendente</name>
+                <value>desc</value>
+            </options>
+            <options>
+                <name xml:lang="ko">올림차순</name>
+                <name xml:lang="zh-CN">升序</name>
+                <name xml:lang="jp">昇順</name>
+                <name xml:lang="en">Asending order</name>
+				<name xml:lang="en">Orden Acendente</name>
+                <value>asc</value>
+            </options>
+        </var>
+        <var id="duration_new">
+            <name xml:lang="ko">new 표시 시간 (hours)</name>
+            <name xml:lang="zh-CN">new图标显示时间(hours)</name>
+            <name xml:lang="jp">Newの表示時間 (Hours)</name>
+            <name xml:lang="en">Duration of indication for new item</name>
+            <type>text</type>
+            <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
+	        <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
+            <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
+            <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+        </var>
+        <var id="subject_cut_size">
+          <name xml:lang="ko">제목 글자수</name>
+          <name xml:lang="jp">タイトルの文字数</name>
+          <name xml:lang="zh-CN">标题字数</name>
+          <name xml:lang="en">Length of Subject</name>
+		  <name xml:lang="es">Número de letras del título</name>
+          <type>text</type>
+          <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+          <description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+          <description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
+          <description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
+		  <description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
+        </var>
+        <var id="thumbnail_type">
+            <name xml:lang="ko">썸네일 생성 방법</name>
+            <name xml:lang="jp">サムネール生成方法</name>
+            <name xml:lang="zh-CN">缩略图生成方式</name>
+            <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
+            <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
+            <type>select</type>
+            <options>
+                <name xml:lang="ko">Crop (채우기)</name>
+                <name xml:lang="jp">Crop (切り取り)</name>
+                <name xml:lang="zh-CN">Crop (裁减)</name>
+                <value>crop</value>
+            </options>
+            <options>
+                <name xml:lang="ko">Ratio (비율 맞추기)</name>
+                <name xml:lang="jp">Ratio (比率)</name>
+                <name xml:lang="zh-CN">Ratio (比例)</name>
+                <value>ratio</value>
+            </options>
+        </var>
+        <var id="thumbnail_width">
+            <name xml:lang="ko">이미지 가로크기</name>
+            <name xml:lang="jp">イメージ横幅</name>
+            <name xml:lang="zh-CN">宽度</name>
+            <name xml:lang="en">Width of Image</name>
+			<name xml:lang="es">Ancho de la imagen</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
+            <description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト100）。</description>
+            <description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
+            <description xml:lang="en">You can set the width of image. (100 as default)</description>
+			<description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:100)</description>
+        </var>
+        <var id="thumbnail_height">
+            <name xml:lang="ko">이미지 세로크기</name>
+            <name xml:lang="jp">イメージ縦幅</name>
+            <name xml:lang="zh-CN">高度</name>
+            <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
+            <description xml:lang="jp">イメージの立幅サイズを指定します（デフォルト 100px）</description>
+            <description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
+            <type>text</type>
+        </var>
+        <var id="display_author">
+            <name xml:lang="ko">글쓴이 표시</name>
+            <name xml:lang="jp">投稿者表示</name>
+            <name xml:lang="zh-CN">显示昵称</name>
+            <name xml:lang="en">Display Author</name>
+			<name xml:lang="es">Mostrar el Autor</name>
+            <type>select</type>
+            <description />
+            <options>
+                <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
+                <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
+				<name xml:lang="es">Mostrar</name>
+                <value>Y</value>
+            </options>
+            <options>
+                <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
+                <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
+				<name xml:lang="es">Ocultar</name>
+                <value>N</value>
+            </options>
+        </var>
+        <var id="display_regdate">
+            <name xml:lang="ko">작성일 표시</name>
+            <name xml:lang="jp">作成日表示</name>
+            <name xml:lang="zh-CN">显示发表日期</name>
+            <name xml:lang="en">Display Registered Date</name>
+			<name xml:lang="es">Mostrar el día agregado</name>
+            <type>select</type>
+            <description />
+            <options>
+                <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
+                <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
+				<name xml:lang="es">Mostrar</name>
+                <value>Y</value>
+            </options>
+            <options>
+                <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
+                <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
+				<name xml:lang="es">Ocultar</name>
+                <value>N</value>
+            </options>
+        </var>
+        <var id="display_readed_count">
+            <name xml:lang="ko">조회수 표시</name>
+            <name xml:lang="jp">照合数表示</name>
+            <name xml:lang="zh-CN">显示查看数</name>
+            <name xml:lang="en">Display Hit</name>
+			<name xml:lang="es">Mostrar Ayuda</name>
+            <description />
+            <type>select</type>
+            <options>
+                <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
+                <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
+				<name xml:lang="es">Mostrar</name>
+                <value>Y</value>
+            </options>
+            <options>
+                <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
+                <name xml:lang="zh-CN">不显示</name>
+				<name xml:lang="en">Hide</name>
+				<name xml:lang="es">Ocultar</name>
+                <value>N</value>
+            </options>
+        </var>
+        <var id="display_voted_count">
+            <name xml:lang="ko">추천수 표시</name>
+            <name xml:lang="jp">推薦数表示</name>
+            <name xml:lang="zh-CN">显示推荐数</name>
+            <name xml:lang="en">Display Votes</name>
+			<name xml:lang="es">Mostrar Recomendados</name>
+            <description />
+            <type>select</type>
+            <options>
+                <name xml:lang="ko">표시</name>
+                <name xml:lang="jp">表示</name>
+                <name xml:lang="zh-CN">显示</name>
+				<name xml:lang="en">Show</name>
+				<name xml:lang="es">Mostrar</name>
+                <value>Y</value>
+            </options>
+            <options>
+                <name xml:lang="ko">표시하지 않음</name>
+                <name xml:lang="jp">非表示</name>
+                <name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">Hide</name>
+                <name xml:lang="es">Ocultar</name>
+                <value>N</value>
+            </options>
+        </var>
+        <var id="mid_list">
+            <name xml:lang="ko">대상 모듈</name>
+            <name xml:lang="zh-CN">模块对象</name>
+            <name xml:lang="jp">モジュール</name>
+            <name xml:lang="en">Target Module</name>
+			<name xml:lang="es">Módulo Objetivo</name>
+            <type>mid_list</type>
+            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+            <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。</description>
+            <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
+            <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
+			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
+        </var>
+    </extra_vars>
+</widget>
