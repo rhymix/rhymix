@@ -15,17 +15,29 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 위젯 자체적으로 설정한 변수들을 체크
+            // 제목
             $title = $args->title;
+
+            // 정렬 대상
             $order_target = $args->order_target;
             if(!in_array($order_target, array('list_order','update_order'))) $order_target = 'list_order';
+
+            // 정렬 순서
             $order_type = $args->order_type;
             if(!in_array($order_type, array('asc','desc'))) $order_type = 'asc';
+
+            // 출력된 목록 수
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
+
+            // 대상 모듈
             $mid_list = explode(",",$args->mid_list);
+
+            // 제목 길이 자르기
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
+
+            // 최근 글 표시 시간
             $duration_new = $args->duration_new;
             if(!$duration_new) $duration_new = 12;
 
