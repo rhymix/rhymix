@@ -30,7 +30,7 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
-    var additionalAttributes = ['editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence'];
+    var additionalAttributes = ['editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold'];
     var additionalTags = ['embed', 'param', 'object'];
     additionalAttributes.each( function (item, index) {
 	editor.config.allowedAttributes.push(item); } );
