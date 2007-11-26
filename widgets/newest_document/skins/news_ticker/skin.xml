@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">전광판(뉴스티커) 출력</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 11. 26">
+    <name xml:lang="ko">제로</name>
+    <description xml:lang="ko">
+        최근 게시글을 전광판(뉴스티커) 형식으로 한개씩 scroll 되는 방식의 위젯입니다.
+    </description>
+  </maker>
+  <colorset>
+    <color name="none">
+      <title xml:lang="ko">내용만 출력</title>
+    </color>
+    <color name="gray">
+      <title xml:lang="ko">회색 배경</title>
+    </color>
+    <color name="red">
+      <title xml:lang="ko">붉은 배경</title>
+    </color>
+    <color name="blue">
+      <title xml:lang="ko">파란 배경</title>
+    </color>
+    <color name="green">
+      <title xml:lang="ko">녹색 배경</title>
+    </color>
+    <color name="yellow">
+      <title xml:lang="ko">노란 배경</title>
+    </color>
+    <color name="black">
+      <title xml:lang="ko">검은 배경</title>
+    </color>
+  </colorset>
+</skin>
