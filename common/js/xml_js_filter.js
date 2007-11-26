@@ -23,12 +23,12 @@ function filterAlertMessage(ret_obj) {
     var redirect_url = ret_obj["redirect_url"];
     var url = location.href;
 
-    if(url.substr(url.length-1,1)=="#") url = url.substr(0,url.length-1);
-
     if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
 
     if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
     else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
+
+    if(url == location.href) url = url.replace(/#(.+)$/,'');
 
     location.href = url;
 }
