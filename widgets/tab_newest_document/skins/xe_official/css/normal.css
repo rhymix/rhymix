@@ -19,7 +19,7 @@
 .tabWdiget .tabContent .thumbnail { text-align:center; }
 .tabWdiget .tabContent .thumbnail img { border:1px solid #EEEEEE; padding:5px; float:left; }
 
-.tabWdiget .tabContent .titleBox { padding-top:3px; padding-left:10px; color:#888888; }
+.tabWdiget .tabContent .titleBox { padding-top:3px; padding-left:10px; color:#888888; vertical-align:top;}
 .tabWdiget .tabContent .titleBox .regdate { font-family:tahoma; font-size:.85em; color:#AAAAAA;}
 .tabWdiget .tabContent .titleBox .title { background:url(../images/normal/bullet.gif) no-repeat 3px 6px; padding-left:10px; margin-top:3px; height:20px; white-space:nowrap; overflow:hidden; }
 .tabWdiget .tabContent .titleBox .title .comment_cnt { font-weight:normal; font-size:0.8em; color:#F48A23; }
