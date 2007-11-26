@@ -74,6 +74,9 @@
             $tab_list = $oModuleModel->getMidList($obj);
             if(!$tab_list || !count($tab_list)) return;
 
+            // 최근글이 등록된 탭의 순서를 정하기 위한 변수
+            $newest_tab = array();
+
             // 각 모듈에 해당하는 문서들을 구함
             $obj = null;
             $obj->list_count = $widget_info->list_count;
@@ -94,15 +97,23 @@
                         $oDocument = $oDocumentModel->getDocument();
                         $oDocument->setAttribute($v);
                         $data[$k] = $oDocument;
+                        if(!$newest_tab[$key]) $newest_tab[$key] = $oDocument->get('last_update');
                     }
                     $tab_list[$key]->document_list = $data;
                 } else {
                     unset($tab_list[$key]);
                 }
             }
+            
+            if(count($newest_tab)) {
+                arsort($newest_tab);
+                foreach($newest_tab as $key => $val) {
+                    $sorted_tab_list[$key] = $tab_list[$key];
+                }
+            } else $sorted_tab_list = $tab_list;
 
             Context::set('widget_info', $widget_info);
-            Context::set('tab_list', $tab_list);
+            Context::set('tab_list', $sorted_tab_list);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
