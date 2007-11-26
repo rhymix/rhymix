@@ -38,7 +38,7 @@
                     <span class="regdate">[{$v->getRegdate("m-d")}]</span>
                     <!--@end-->
 
-                    <a href="{$v->getPermanentUrl()}#{$v->getCommentCount()}">{$v->getTitleText($widget_info->subject_cut_size)}</a> {$v->printExtraImages($widget_info->duration_new)}
+                    <a href="{$v->getPermanentUrl()}#{$v->getCommentCount()}">{$v->getTitle($widget_info->subject_cut_size)}</a> {$v->printExtraImages($widget_info->duration_new)}
                     <!--@if($v->getCommentCount())--><span class="comment_cnt">*{$v->getCommentCount()}</span><!--@end-->
 
                     <!--@if($widget_info->display_author == 'Y')-->

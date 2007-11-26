@@ -26,7 +26,7 @@
                 <div class="thumbnail"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" class="thumbnail" /></a></div>
 
                 <div>
-                    <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitleText($widget_info->title_length)}</a>
+                    <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->title_length)}</a>
                     <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
                 </div>
                 <!--@if($widget_info->display_author == 'Y')-->
