@@ -1,0 +1,24 @@
+<query id="getMemberListWithinGroup" action="select">
+    <tables>
+        <table name="member" alias="member"/>
+        <table name="point" alias="point"/>
+        <table name="member_group_member" alias="member_group"/>
+    </tables>
+    <columns>
+        <column name="member.*" />
+        <column name="point.point" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="member_group.group_srl" var="selected_group_srl" />
+        <condition operation="notequal" column="member_group.group_srl" var="selected_group_without_srl" pipe="and" />
+        <condition operation="equal" column="member.member_srl" var="member_group.member_srl" pipe="and" notnull="notnull" />
+        <condition operation="equal" column="member.member_srl" var="point.member_srl" pipe="and" />
+        <condition operation="equal" column="member.is_admin" var="is_admin" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="point" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.7">
+    <title xml:lang="ko">포인트 랭킹 출력</title>
+    <author email_address="k10206@naver.com" link="http://www.simulz.com" date="2007. 8. 29">
+        <name xml:lang="ko">Simulz</name>
+        <description xml:lang="ko">회원의 포인트 순위를 출력합니다.</description>
+    </author>
+    <extra_vars>
+        <var id="title">
+            <name xml:lang="ko">제목</name>
+            <type>text</type>
+            <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
+        </var>
+        <var id="list_count">
+            <name xml:lang="ko">목록수</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+        </var>
+        <var id="without_admin">
+            <name xml:lang="ko">관리자</name>
+            <type>select</type>
+            <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
+            <options>
+                <name xml:lang="ko">포함</name>
+                <value>false</value>
+            </options>
+            <options>
+                <name xml:lang="ko">미포함</name>
+                <value>true</value>
+            </options>
+        </var>
+        <var id="with_group">
+            <name xml:lang="ko">그룹 포함</name>
+            <type>text</type>
+            <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
+        </var>
+        <var id="without_group">
+            <name xml:lang="ko">그룹 제외</name>
+            <type>text</type>
+            <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹,정회원</description>
+        </var>
+    </extra_vars>
+</widget>

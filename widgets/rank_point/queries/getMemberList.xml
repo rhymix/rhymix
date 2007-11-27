@@ -1,0 +1,20 @@
+<query id="getMemberList" action="select">
+    <tables>
+        <table name="member" alias="member"/>
+        <table name="point" alias="point"/>
+    </tables>
+    <columns>
+        <column name="member.*" />
+        <column name="point.point" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member.member_srl" var="point.member_srl" />
+        <condition operation="equal" column="is_admin" var="is_admin" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="point" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>
