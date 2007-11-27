@@ -1,0 +1,25 @@
+.sz_download { margin-right:10px; width:100%; position:relative;}
+.sz_download h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; font-size:1em;}
+
+.sz_download ul li { position:relative; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
+
+.sz_download ul li .title { position:relative; z-index:0; overflow:hidden; width:100%; white-space:nowrap;}
+
+.sz_download .sz_Box_001 {border: #dacaae solid 1px; width:100%;background-color:#f5f1e8;}
+.sz_download .sz_Box_001 td { padding:7px;}
+.sz_download .sz_Box_001_2 {width:100%;}
+.sz_download .sz_Box_001_2 td {background-color:#fcfaf7;color:#977334;}
+
+.sz_download .sz_Box_002 {BORDER: #dce4fd solid 1px; width:100%;background-color:#eff2fe;}
+.sz_download .sz_Box_002 td { padding:7px;}
+.sz_download .sz_Box_002_2 {width:100%;}
+.sz_download .sz_Box_002_2 td {background-color:#f7f9fe;color:#7187CA;}
+
+.sz_download .sz_Box_003 {BORDER: #ffdceb solid 1px; width:100%;background-color:#ffeff6;}
+.sz_download .sz_Box_003 td { padding:7px;}
+.sz_download .sz_Box_003_2 {width:100%;}
+.sz_download .sz_Box_003_2 td {background-color:#fff9fd;color:#E8649D;}
+
+.sz_download a {color: #000000; text-decoration:none;}
+.sz_download a:hover {color: #000000;}
+.sz_download a:visit {color: #000000;}

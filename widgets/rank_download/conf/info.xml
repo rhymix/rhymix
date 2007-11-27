@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">다운로드 랭킹 출력</title>
+    <author email_address="k10206@naver.com" link="http://www.simulz.com" date="2007. 8. 29">
+        <name xml:lang="ko">Simulz</name>
+        <description xml:lang="ko">자료 내려받기 순위를 출력합니다.</description>
+    </author>
+    <extra_vars>
+        <var id="title">
+            <name xml:lang="ko">제목</name>
+            <type>text</type>
+            <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
+        </var>
+        <var id="list_count">
+            <name xml:lang="ko">목록수</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+        </var>
+        <var id="attach_type">
+            <name xml:lang="ko">파일 종류</name>
+            <type>select</type>
+            <description xml:lang="ko">순위에 포함할 파일 종류를 선택하세요.</description>
+            <options>
+                <name xml:lang="ko">모두</name>
+                <value>all</value>
+            </options>
+            <options>
+                <name xml:lang="ko">이미지 제외</name>
+                <value>noimage</value>
+            </options>
+            <options>
+                <name xml:lang="ko">이미지만</name>
+                <value>image</value>
+            </options>
+        </var>
+        <var id="download">
+            <name xml:lang="ko">내려 받기</name>
+            <type>select</type>
+            <description xml:lang="ko">바로 내려 받는 링크를 보여줍니다.</description>
+            <options>
+                <name xml:lang="ko">링크 보임</name>
+                <value>Y</value>
+            </options>
+            <options>
+                <name xml:lang="ko">링크 숨김</name>
+                <value>N</value>
+            </options>
+        </var>
+        <var id="mid_list">
+            <name xml:lang="ko">대상 모듈</name>
+            <type>mid_list</type>
+            <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
+        </var>
+    </extra_vars>
+</widget>

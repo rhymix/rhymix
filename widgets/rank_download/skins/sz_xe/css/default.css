@@ -1,0 +1,21 @@
+.sz_download { margin-right:10px; width:100%; position:relative;}
+.sz_download h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; font-size:1em;}
+
+.sz_download ul li { position:relative; height:21px; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
+
+.sz_download ul li .title { position:relative; z-index:0; overflow:hidden; width:100%; white-space:nowrap;}
+
+.sz_download .sz_Box_000{border:solid 0;padding:0;}
+.sz_download .sz_Box_001{width:100%;border:solid 1px;border-color:#E7E7E7;padding:5px 5px 2px 5px;background-color:#F4F4F4;color:#696969;}
+.sz_download .sz_Box_002{width:100%;border:solid 1px;border-color:#DDEAA8;padding:5px 5px 2px 5px;background-color:#FBFDF1;color:#99B81A;}
+.sz_download .sz_Box_003{width:100%;border:solid 1px;border-color:#F9D5D5;padding:5px 5px 2px 5px;background-color:#FEF6F6;color:#D98383;}
+.sz_download .sz_Box_004{width:100%;border:solid 1px;border-color:#EFDAF4;padding:5px 5px 2px 5px;background-color:#FCF7FD;color:#AF69C0;}
+.sz_download .sz_Box_005{width:100%;border:solid 1px;border-color:#DCDFF6;padding:5px 5px 2px 5px;background-color:#F6F7FE;color:#7381EA;}
+.sz_download .sz_Box_006{width:100%;border:solid 1px;border-color:#DAEAEE;padding:5px 5px 2px 5px;background-color:#F0F6F8;color:#619DAC;}
+.sz_download .sz_Box_007{width:100%;border:solid 1px;border-color:#D5EDDD;padding:5px 5px 2px 5px;background-color:#EFF9F2;color:#6FB587;}
+.sz_download .sz_Box_008{width:100%;border:solid 1px;border-color:#FFEC15;padding:5px 5px 2px 5px;background-color:#FFFCDF;color:#FF9900;}
+.sz_download .sz_Box_009{width:100%;border:solid 1px;border-color:#9DD7E8;padding:5px 5px 2px 5px;background-color:#F8FDFF;color:#0A8DBD;}
+
+.sz_download a {color: #000000; text-decoration:none;}
+.sz_download a:hover {color: #000000;}
+.sz_download a:visit {color: #000000;}

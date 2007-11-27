@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">Simulz 랭킹 스킨</title>
+  <maker email_address="k10206@naver.com" link="http://www.simulz.com" date="2007. 8. 29">
+    <name xml:lang="ko">Simulz</name>
+    <description xml:lang="ko">
+        Simulz 랭킹 스킨입니다.
+    </description>
+  </maker>
+  <colorset>
+    <color name="Box_001">
+      <title xml:lang="ko">갈색</title>
+    </color>
+    <color name="Box_002">
+      <title xml:lang="ko">파랑</title>
+    </color>
+    <color name="Box_003">
+      <title xml:lang="ko">빨강</title>
+    </color>
+  </colorset>
+</skin>
