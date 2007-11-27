@@ -7,15 +7,16 @@
     <!--@if($widget_info->title)-->
     <h2>{$widget_info->title} Top {$widget_info->list_count}</h2>
     <!--@end-->
-    <ul>
-        <!--@foreach($widget_info->file_list as $val)-->
-        <li>
-          <div class="title">
-            <a href="{getUrl('','document_srl',$val->upload_target_srl)}">{$val->source_filename} ({FileHandler::filesize($val->file_size)})</a>: {$val->download_count}회 
-            <!--@if($widget_info->download)--><a href="{$val->download_url}">[Download]</a><!--@end-->
-          </div>
-        </li>
-        <!--@end-->
-    </ul>
+    <table>
+    {@ $no = 1}
+    <!--@foreach($widget_info->file_list as $val)-->
+    <tr class="member_{$val->member_srl}">
+        <td class="left">{$no}위. <a href="{getUrl('','document_srl',$val->upload_target_srl)}">{$val->source_filename} ({FileHandler::filesize($val->file_size)})</a></td>
+        <td class="center">{$val->download_count}회</td>
+        <!--@if($widget_info->download)--><td class="right"><a href="{$val->download_url}">[Download]</a></td><!--@end-->
+    </tr>
+    {@ $no++}
+    <!--@end-->
+    </table>
 </div>
 </div>

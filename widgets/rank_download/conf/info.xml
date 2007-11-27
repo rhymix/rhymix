@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">다운로드 랭킹 출력</title>
-    <author email_address="k10206@naver.com" link="http://www.simulz.com" date="2007. 8. 29">
+    <author email_address="k10206@naver.com" link="http://php.simulz.com" date="2007. 8. 29">
         <name xml:lang="ko">Simulz</name>
         <description xml:lang="ko">자료 내려받기 순위를 출력합니다.</description>
     </author>

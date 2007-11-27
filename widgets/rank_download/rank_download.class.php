@@ -3,7 +3,6 @@
      * @class rank_download
      * @author Simulz.com (k10206@naver.com)
      * @brief 파일 다운로드 랭킹
-     * @version 0.1
      **/
 
     class rank_download extends WidgetHandler {
