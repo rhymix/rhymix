@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget version="0.5">
+<widget version="0.7">
     <title xml:lang="ko">글, 댓글 랭킹 출력</title>
     <author email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 07">
         <name xml:lang="ko">Simulz</name>

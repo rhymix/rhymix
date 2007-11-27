@@ -7,13 +7,15 @@
     <!--@if($widget_info->title)-->
     <h2>{$widget_info->title} Top {$widget_info->list_count}</h2>
     <!--@end-->
-    <h5><!--@if($widget_info->period)-->(기간: {$widget_info->period}일, {$widget_info->date_from}~)<!--@end--></h5>
-    
+    <!--@if($widget_info->period)-->
+    <h5>(기간: {$widget_info->period}일, {$widget_info->date_from}~)</h5>
+    <!--@end-->
+
     <table>
     {@ $no = 1}
     <!--@foreach($widget_info->data as $val)-->
-    <tr class="member_{$val->member_srl}">
-        <td class="left">{$no}위. <span class="nick_name" {$val->perlev}>{$val->nick_name}</span></td>
+    <tr>
+        <td class="left">{$no}위. <span class="member_{$val->member_srl}" {$val->perlev}>{$val->nick_name}</span></td>
         <td class="center">{$val->count}회</td>
         <td class="right">
             <!--@if($logged_info->is_admin == "Y")-->

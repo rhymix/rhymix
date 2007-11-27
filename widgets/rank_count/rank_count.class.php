@@ -3,7 +3,6 @@
      * @class rank_count
      * @author Simulz.com (simulz@simulz.com)
      * @brief 글, 댓글, 첨부 랭킹
-     * @version 0.1
      **/
 
     class rank_count extends WidgetHandler {
