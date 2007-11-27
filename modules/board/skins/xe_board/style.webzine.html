@@ -97,9 +97,9 @@
 
                     <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
                     <td rowspan="2" class="thumb"><a href="{getUrl('','document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" /></a></td>
-                    <td class="webzineTitle bold">
+                    <td class="webzineTitle">
                     <!--@else-->
-                    <td class="webzineTitle bold" colspan="2">
+                    <td class="webzineTitle" colspan="2">
                     <!--@end-->
                         <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
                         <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
