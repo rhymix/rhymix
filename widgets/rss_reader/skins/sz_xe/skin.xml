@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">Simulz 스킨 (목록형)</title>
+  <maker email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 26">
+    <name xml:lang="ko">Simulz</name>
+    <description xml:lang="ko">
+        Simulz 스킨입니다.
+    </description>
+  </maker>
+  <colorset>
+    <color name="Box_000">
+      <title xml:lang="ko">기본</title>
+    </color>
+    <color name="Box_001">
+      <title xml:lang="ko">회색</title>
+    </color>
+    <color name="Box_002">
+      <title xml:lang="ko">연두</title>
+    </color>
+    <color name="Box_003">
+      <title xml:lang="ko">분홍</title>
+    </color>
+    <color name="Box_004">
+      <title xml:lang="ko">보라</title>
+    </color>
+    <color name="Box_005">
+      <title xml:lang="ko">밝은 파랑</title>
+    </color>
+    <color name="Box_006">
+      <title xml:lang="ko">청록</title>
+    </color>
+    <color name="Box_007">
+      <title xml:lang="ko">초록</title>
+    </color>
+    <color name="Box_008">
+      <title xml:lang="ko">노랑</title>
+    </color>
+    <color name="Box_009">
+      <title xml:lang="ko">파랑</title>
+    </color>
+  </colorset>
+</skin>

@@ -1,0 +1,34 @@
+<!--%import("css/select.css")-->
+<!--%import("js/tab.js")-->
+{@ $tab_id = mt_rand()}
+<div class="tab_menu_latest_{$colorset}">
+    <!--@if($widget_info->title)-->
+    <h2 title="{date('Y-m-d H:i:s')}">{$widget_info->title}</h2>
+    <!--@else-->
+    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->rss->title}</a></h2>
+    <!--@end-->
+    <table>
+    <tr><td>
+        <div id="tablist">
+        {@$i=1}
+        <select onchange="tab_menu_select({$tab_id}, {count($widget_info->rss_list)}, this.value, this);resize_rss_tabcontent('tab{$tab_id}',{$widget_info->rss_height})">
+        <!--@foreach($widget_info->rss_list as $key => $item)-->
+        <option value="{$i}">{$item->title}</option>
+        {@$i++}
+        <!--@end-->
+        </select>
+        </div>
+    </td></tr>
+    </table>
+
+    {@$i=1}
+    <DIV id="tab{$tab_id}" class="tabcontentcontainer">
+    <!--@foreach($widget_info->rss_list as $key => $item)-->
+    <div id="tab{$tab_id.$i}" class="tabcontent_rss" style="height:{$widget_info->rss_height}px;overflow:auto;<!--@if($i==1)-->display:block;<!--@end-->">
+        <div class="date">{$item->date} | {$item->author} <a href="{$item->link}" onclick="window.open(this.href);return false"><img src="./images/forward.png" align="absmiddle" class="iePngFix"></a></div>
+        {$item->description}
+    </div>
+    {@$i++}
+    <!--@end-->
+    </DIV>
+</div>

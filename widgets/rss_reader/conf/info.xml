@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="#7">
+    <title xml:lang="ko">RSS 리더</title>
+    <author email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 10. 26">
+        <name xml:lang="ko">Simulz</name>
+        <description xml:lang="ko">RSS 리더입니다.</description>
+    </author>
+   <extra_vars>
+        <var id="title">
+            <name xml:lang="ko">제목</name>
+            <type>text</type>
+            <description xml:lang="ko"></description>
+        </var>
+        <var id="rss_url">
+            <name xml:lang="ko">RSS URL</name>
+            <type>text</type>
+            <description xml:lang="ko"></description>
+        </var>
+        <var id="page_limit">
+            <name xml:lang="ko">페이지 수</name>
+            <type>text</type>
+            <description xml:lang="ko">기본 값 10</description>
+        </var>
+        <var id="date_format">
+            <name xml:lang="ko">날짜 형식</name>
+            <type>text</type>
+            <description xml:lang="ko">기본 값 Y-m-d H:i:s</description>
+        </var>
+        <var id="rss_height">
+            <name xml:lang="ko">본문 높이</name>
+            <type>text</type>
+            <description xml:lang="ko">select 스킨에서 본문 높이 (기본값 200px)</description>
+        </var>
+   </extra_vars>
+</widget>
