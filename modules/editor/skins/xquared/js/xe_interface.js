@@ -30,7 +30,7 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
-    var additionalAttributes = ['editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic'];
+    var additionalAttributes = ['editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic', 'language'];
     var additionalTags = ['embed', 'param', 'object'];
     additionalAttributes.each( function (item, index) {
 	editor.config.allowedAttributes.push(item); } );
@@ -81,6 +81,49 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
 
 xq.Editor.prototype.insertHTML = function (html) {
     this.rdom.insertHtml(html);
+}
+
+xq.ui_templates.basicLangSelectDialog='<form action="#" class="xqFormDialog xqBasicLangSelectDialog">\n	<div>\n		 	<select name="lang">\n			<option value="Php">PHP</option>\n			<option value="Css">CSS</option>\n			<option value="JScript">Javascript</option>\n			<option value="Xml">XML</option>\n			<option value="Cpp">C++</option>\n			<option value="CSharp">C#</option>\n			 <option value="Vb">VB</option>\n			 <option value="Java">Java</option>\n			 <option value="Delphi">Delphi</option>\n			 <option value="Python">Python</option>\n			 <option value="Ruby">Ruby</option>\n			 <option value="Sql">SQL</option>\n		 </select>\n		<input type="submit" value="Ok" />\n			<input type="button" class="cancel" value="Cancel" />\	</div>\n</form>';
+
+xq.Editor.prototype.handleList = function (type, selected) {
+    if(type == "CODE" && selected == undefined)
+    {
+	var dialog = new xq.controls.FormDialog(
+	    this,
+	    xq.ui_templates.basicLangSelectDialog,
+	    function(dialog) {
+	    },
+	    function(data) {
+		this.focus();
+		if(!data) return;
+		this.handleList("CODE", data.lang);
+	    }.bind(this)
+	);
+
+	dialog.show({position: 'centerOfEditor'});
+
+	return true;
+    }
+
+    if(this.rdom.hasSelection()) {
+	var blocks = this.rdom.getBlockElementsAtSelectionEdge(true, true);
+	if(blocks.first() != blocks.last()) {
+	    blocks = this.rdom.applyLists(blocks.first(), blocks.last(), type);
+	} else {
+	    blocks[0] = blocks[1] = this.rdom.applyList(blocks.first(), type);
+	}
+	this.rdom.selectBlocksBetween(blocks.first(), blocks.last());
+    } else {
+	var block = this.rdom.applyList(this.rdom.getCurrentBlockElement(), type);
+	this.rdom.placeCaretAtStartOf(block);
+	if(selected != undefined) {
+		block.parentNode.setAttribute("language", selected);
+	}
+    }
+    var historyAdded = this.editHistory.onCommand();
+    this._fireOnCurrentContentChanged(this);
+
+    return true;
 }
 
 function editor_insert_file_xq(editor_sequence) {
