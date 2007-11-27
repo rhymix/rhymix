@@ -1,0 +1,6 @@
+.tag_list ul.items li { display:inline; margin:none;}
+.tag_list ul.items li.typeA a { color:#fe3614; font-weight:bold; font-size:12pt; background-color:#EFEFEF; margin:0;}
+.tag_list ul.items li.typeB a { color:#fe3614; font-size:11pt; margin:0;}
+.tag_list ul.items li.typeC a { font-weight:bold; font-size:11pt; margin:0; background-color:#EFEFEF;}
+.tag_list ul.items li.typeD a { font-weight:bold; margin:0; background-color:#EFEFEF;}
+.tag_list ul.items li.typeE a { font-weight:normal; margin:0;}

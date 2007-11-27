@@ -8,12 +8,14 @@
     <!--%import("css/red.css")-->
 <!--@elseif($colorset=="purple")-->
     <!--%import("css/purple.css")-->
-<!--@else-->
+<!--@elseif($colorset=="normal")-->
     <!--%import("css/normal.css")-->
-    {@ $colorset = "normal" }
+<!--@else-->
+    {@ $colorset = "" }
 <!--@end-->
 
-<div class="newestTrackback_{$colorset}">
+<div class="blog_widget_{$colorset}">
+  <div class="newest_trackback">
     <div class="header">
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
@@ -22,10 +24,10 @@
         <!--@end-->
     </div>
 
-    <ul class="trackbackList">
+    <ul class="items">
         <!--@foreach($widget_info->trackback_list as $val)-->
         <li><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,60,'...')}</a></li>
         <!--@end-->
     </ul>
-
+  </div>
 </div>

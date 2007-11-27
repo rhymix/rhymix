@@ -35,3 +35,6 @@
 .replyAndTrackback { background:url(../images/red/bgBlogListTh.gif) repeat-x left 0px; }
 .replyAndTrackback a strong { color:#ff6600;}
 .replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/red/iconFile.gif) no-repeat left;}
+
+/* widget common css */
+.blog_widget_ { position:relative; border:1px solid #e0e1db; background:url(../images/red/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
