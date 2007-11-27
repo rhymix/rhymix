@@ -26,7 +26,7 @@
         <!--@end-->
     </div>
 
-    <ul class="items">
+    <div class="items">
         <!--@foreach($widget_info->tag_list as $val)-->
 
             <!--@if($val->count>10)-->
@@ -41,14 +41,14 @@
                 {@ $tag_class = "typeE" }
             <!--@end-->
 
-            <li <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
+            <span <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
                 <!--@if($layout_info->mid)-->
                     <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
                 <!--@else-->
                     <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
                 <!--@end-->
-            </li>
+            </span>
         <!--@end-->
-    </ul>
+    </div>
   </div>
 </div>
