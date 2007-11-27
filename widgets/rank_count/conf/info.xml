@@ -1,73 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.7">
     <title xml:lang="ko">글, 댓글 랭킹 출력</title>
+	<title xml:lang="zh-CN">输出主题, 评论排行</title>
     <author email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 07">
         <name xml:lang="ko">Simulz</name>
+		<name xml:lang="zh-CN">Simulz</name>
         <description xml:lang="ko">글, 댓글 작성 순위를 출력합니다.</description>
+		<description xml:lang="zh-CN">输出主题, 内容排行.</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
+			<name xml:lang="zh-CN">主题</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
+			<description xml:lang="zh-CN">输出控件的主题.</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
+			<name xml:lang="zh-CN">目录数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+			<description xml:lang="zh-CN">可以知道要输出的目录数. (默认 5个)</description>
         </var>
         <var id="rankby">
             <name xml:lang="ko">순위 대상</name>
+			<name xml:lang="zh-CN">排行对象</name>
             <type>select</type>
             <description xml:lang="ko">대상을 선택하세요.</description>
+			<description xml:lang="zh-CN">请选择对象.</description>
             <options>
                 <name xml:lang="ko">글 작성</name>
+				<name xml:lang="zh-CN">发表新帖</name>
                 <value>document</value>
             </options>
             <options>
                 <name xml:lang="ko">댓글 작성</name>
+				<name xml:lang="zh-CN">发表评论</name>
                 <value>comment</value>
             </options>
             <options>
                 <name xml:lang="ko">파일 첨부</name>
+				<name xml:lang="zh-CN">上传附件</name>
                 <value>attach</value>
             </options>
             <options>
                 <name xml:lang="ko">추천 수</name>
+				<name xml:lang="zh-CN">推荐数</name>
                 <value>vote</value>
             </options>
             <options>
                 <name xml:lang="ko">조회 수</name>
+				<name xml:lang="zh-CN">阅读数</name>
                 <value>read</value>
             </options>
         </var>
         <var id="without_admin">
             <name xml:lang="ko">관리자</name>
+			<name xml:lang="zh-CN">管理员</name>
             <type>select</type>
             <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
+			<description xml:lang="zh-CN">在排行包括管理员.</description>
             <options>
                 <name xml:lang="ko">포함</name>
+				<name xml:lang="zh-CN">包括</name>
                 <value>false</value>
             </options>
             <options>
                 <name xml:lang="ko">미포함</name>
+				<name xml:lang="zh-CN">不包括</name>
                 <value>true</value>
             </options>
         </var>
         <var id="with_group">
             <name xml:lang="ko">그룹 포함</name>
+			<name xml:lang="zh-CN">包括组</name>
             <type>text</type>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
+			<description xml:lang="zh-CN">请输入要显示的会员组. 例)准会员,正会员</description>
         </var>
         <var id="without_group">
             <name xml:lang="ko">그룹 제외</name>
+			<name xml:lang="zh-CN">组除外</name>
             <type>text</type>
             <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹</description>
+			<description xml:lang="zh-CN">请输入将除外的会员组. 例)管理组</description>
         </var>
         <var id="regdate">
             <name xml:lang="ko">기간(일)</name>
+			<name xml:lang="zh-CN">期间(日期)</name>
             <type>text</type>
             <description xml:lang="ko">설정 기간 내의 순위를 출력합니다.</description>
+			<description xml:lang="zh-CN">输出设置期间内的排行.</description>
         </var>
     </extra_vars>
 </widget>

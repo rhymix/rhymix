@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="#7">
     <title xml:lang="ko">RSS 리더</title>
+	<title xml:lang="zh-CN">RSS 阅读器</title>
     <author email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 10. 26">
         <name xml:lang="ko">Simulz</name>
+		<name xml:lang="zh-CN">Simulz</name>
         <description xml:lang="ko">RSS 리더입니다.</description>
+		<description xml:lang="zh-CN">RSS 阅读器.</description>
     </author>
    <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
+			<name xml:lang="zh-CN">主题</name>
             <type>text</type>
             <description xml:lang="ko"></description>
+			<description xml:lang="zh-CN"></description>
         </var>
         <var id="rss_url">
             <name xml:lang="ko">RSS URL</name>
+			<name xml:lang="zh-CN">RSS URL</name>
             <type>text</type>
             <description xml:lang="ko"></description>
+			<description xml:lang="zh-CN"></description>
         </var>
         <var id="page_limit">
             <name xml:lang="ko">페이지 수</name>
+			<name xml:lang="zh-CN">页面数</name>
             <type>text</type>
             <description xml:lang="ko">기본 값 10</description>
+			<description xml:lang="zh-CN">默认数 10</description>
         </var>
         <var id="date_format">
             <name xml:lang="ko">날짜 형식</name>
+			<name xml:lang="zh-CN">日期形式</name>
             <type>text</type>
             <description xml:lang="ko">기본 값 Y-m-d H:i:s</description>
+			<description xml:lang="zh-CN">默认值 Y-m-d H:i:s</description>
         </var>
         <var id="rss_height">
             <name xml:lang="ko">본문 높이</name>
+			<name xml:lang="zh-CN">文本高度</name>
             <type>text</type>
             <description xml:lang="ko">select 스킨에서 본문 높이 (기본값 200px)</description>
+			<description xml:lang="zh-CN">在select皮肤文本高度 (默认值 200px)</description>
         </var>
    </extra_vars>
 </widget>
