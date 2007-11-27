@@ -34,7 +34,10 @@
 
             // 시간, 일, 월, 년도별로 데이터 가져오기
             $type = Context::get('type');
-            if(!$type) $type = 'hour';
+            if(!$type) {
+                $type = 'day';
+                Context::set('type',$type);
+            }
             $detail_status = $oCounterModel->getHourlyStatus($type, $selected_date);
             Context::set('detail_status', $detail_status);
             
