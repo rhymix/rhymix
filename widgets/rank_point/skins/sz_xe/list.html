@@ -10,8 +10,8 @@
     <table>
     {@ $no = 1}
     <!--@foreach($widget_info->point_list as $val)-->
-    <tr class="member_{$val->member_srl}">
-        <td class="left">{$no}위. <span class="nick_name" {$val->perlev}>{$val->nick_name}</span></td>
+    <tr>
+        <td class="left">{$no}위. <div class="member_{$val->member_srl}" {$val->perlev}>{$val->nick_name}</div></td>
         <td class="center">{$val->point}점</td>
         <td class="right">
             <!--@if($logged_info->is_admin == "Y")-->
