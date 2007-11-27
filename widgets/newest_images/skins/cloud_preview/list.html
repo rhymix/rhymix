@@ -1,0 +1,87 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div class="imgcloudoutline_preview">
+    <!--@if($widget_info->title)-->
+        <h2>{$widget_info->title}</h2>
+    <!--@end-->
+
+    <!--@if($widget_info->module_name)-->
+        <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
+    <!--@end-->
+
+    <!--@if(count($widget_info->document_list))-->
+    {@ shuffle($widget_info->document_list)}
+
+    <!--@for($i = 0; $i < 14; $i++)-->
+        {@
+            $width = $widget_info->thumbnail_width ? $widget_info->thumbnail_width : "40";
+            $height = $widget_info->thumbnail_height ? $widget_info->thumbnail_height : "40";
+            $ratio = $width / $height;
+
+            $image[$i] = ($widget_info->document_list[$i]->document_srl) ? $widget_info->document_list[$i]->getThumbnail(200*$ratio,200,$widget_info->thumbnail_type) : $tpl_path."/images/blank.gif";
+        }
+    <!--@end-->
+	<table cellpadding="0" cellspacing="0" border="0">
+		<tbody>
+		<tr valign="middle">
+			<td colspan="2" rowspan="2">
+				<div class="imgcloudbig"><img align="absmiddle" class="cloudimg" src="{$image[0]}" width="{$width*2+4}" height="{$height*2+4}" /></a></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[1]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[2]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[3]}" width="{$width}" height="{$height}" /></div>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[4]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[5]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[6]}" width="{$width}" height="{$height}" /></div>
+			</td>
+		</tr>
+
+		<tr valign="middle">
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[7]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[8]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[9]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td colspan="2" rowspan="2">
+				<div class="imgcloudbig"><img align="absmiddle" class="cloudimg" src="{$image[10]}" width="{$width*2+4}" height="{$height*2+4}" /></div>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[11]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[12]}" width="{$width}" height="{$height}" /></div>
+			</td>
+			<td>
+				<div class="imgcloud"><img align="absmiddle" class="cloudimg" src="{$image[13]}" width="{$width}" height="{$height}" /></div>
+			</td>
+		</tr>
+
+		</tbody>
+	</table>
+    <!--@end-->
+</div>
