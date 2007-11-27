@@ -1,0 +1,223 @@
+/* Main style for the table */
+
+.dp-highlighter
+{
+	font-family: "Courier New" , Courier, mono;
+	font-size: 12px;
+	border: 1px solid #eee;
+	background-color: #fff;
+	width: 99%;
+	overflow: auto;
+	margin: 18px 0px 18px 0px;
+}
+
+.dp-highlighter .bar
+{
+	padding-left: 45px;
+}
+
+.dp-highlighter.collapsed .bar, .dp-highlighter.nogutter .bar
+{
+	padding-left: 0px;
+}
+
+.dp-highlighter ol
+{
+	margin: 0px 0px 1px 45px; /* 1px bottom margin seems to fix occasional Firefox scrolling */
+	padding: 0px;
+	color: #666;
+}
+
+.dp-highlighter.nogutter ol
+{
+	list-style-type: none;
+	margin-left: 0px;
+}
+
+.dp-highlighter ol li, .dp-highlighter .columns div
+{
+	border-left: 1px solid #999;
+	background-color: #fff;
+	padding-left: 10px;
+	line-height: 14px;
+}
+
+.dp-highlighter.nogutter ol li, .dp-highlighter.nogutter .columns div
+{
+	border: 0;
+}
+
+.dp-highlighter .columns
+{
+	color: gray;
+	overflow: hidden;
+	width: 100%;
+}
+
+.dp-highlighter .columns div
+{
+	padding-bottom: 5px;
+}
+
+.dp-highlighter ol li.alt
+{
+	background-color: #f8f8f8;
+}
+
+.dp-highlighter ol li span
+{
+	color: Black;
+}
+
+/* Adjust some properties when collapsed */
+
+.dp-highlighter.collapsed ol
+{
+	margin: 0px;
+}
+
+.dp-highlighter.collapsed ol li
+{
+	display: none;
+}
+
+/* Additional modifications when in print-view */
+
+.dp-highlighter.printing
+{
+	border: none;
+}
+
+.dp-highlighter.printing .tools
+{
+	display: none !important;
+}
+
+.dp-highlighter.printing li
+{
+	display: list-item !important;
+}
+
+/* Styles for the tools */
+
+.dp-highlighter .tools
+{
+	padding: 3px 8px 3px 10px;
+	border-bottom: 1px solid #999;
+	font: 9px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: silver;
+}
+
+.dp-highlighter.collapsed .tools
+{
+	border-bottom: 0;
+}
+
+.dp-highlighter .tools a
+{
+	font-size: 9px;
+	color: gray;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.dp-highlighter .tools a:hover
+{
+	color: red;
+	text-decoration: underline;
+}
+
+/* About dialog styles */
+
+.dp-about { background-color: #fff; margin: 0px; padding: 0px; }
+.dp-about table { width: 100%; height: 100%; font-size: 11px; font-family: Tahoma, Verdana, Arial, sans-serif !important; }
+.dp-about td { padding: 10px; vertical-align: top; }
+.dp-about .dp-copy { border-bottom: 1px solid #ACA899; height: 95%; }
+.dp-about .dp-title { color: red; font-weight: bold; }
+.dp-about .dp-para { margin: 0 0 4px 0; }
+.dp-about .dp-footer { background-color: #ECEADB; border-top: 1px solid #fff; text-align: right; }
+.dp-about .dp-close { font-size: 11px; font-family: Tahoma, Verdana, Arial, sans-serif !important; background-color: #ECEADB; width: 60px; height: 22px; }
+
+/* Language specific styles */
+
+.dp-c {}
+.dp-c .dp-comment { color: green; }
+.dp-c .dp-string { color: blue; }
+.dp-c .dp-preprocessor { color: gray; }
+.dp-c .dp-keyword { color: blue; }
+.dp-c .dp-vars { color: #d00; }
+
+.dp-vb {}
+.dp-vb .dp-comment { color: green; }
+.dp-vb .dp-string { color: blue; }
+.dp-vb .dp-preprocessor { color: gray; }
+.dp-vb .dp-keyword { color: blue; }
+
+.dp-sql {}
+.dp-sql .dp-comment { color: green; }
+.dp-sql .dp-string { color: red; }
+.dp-sql .dp-keyword { color: blue; }
+.dp-sql .dp-func { color: #ff1493; }
+.dp-sql .dp-op { color: #808080; }
+
+.dp-xml {}
+.dp-xml .dp-cdata { color: #ff1493; }
+.dp-xml .dp-comments { color: green; }
+.dp-xml .dp-tag { font-weight: bold; color: blue; }
+.dp-xml .dp-tag-name { color: black; font-weight: bold; }
+.dp-xml .dp-attribute { color: red; }
+.dp-xml .dp-attribute-value { color: blue; }
+
+.dp-delphi {}
+.dp-delphi .dp-comment { color: #008200; font-style: italic; }
+.dp-delphi .dp-string { color: blue; }
+.dp-delphi .dp-number { color: blue; }
+.dp-delphi .dp-directive { color: #008284; }
+.dp-delphi .dp-keyword { font-weight: bold; color: navy; }
+.dp-delphi .dp-vars { color: #000; }
+
+.dp-py {}
+.dp-py .dp-comment { color: green; }
+.dp-py .dp-string { color: red; }
+.dp-py .dp-docstring { color: green; }
+.dp-py .dp-keyword { color: blue; font-weight: bold;}
+.dp-py .dp-builtins { color: #ff1493; }
+.dp-py .dp-magicmethods { color: #808080; }
+.dp-py .dp-exceptions { color: brown; }
+.dp-py .dp-types { color: brown; font-style: italic; }
+.dp-py .dp-commonlibs { color: #8A2BE2; font-style: italic; }
+
+.dp-rb {}
+.dp-rb .dp-comment { color: #c00; }
+.dp-rb .dp-string  { color: #f0c; }
+.dp-rb .dp-symbol  { color: #02b902; }
+.dp-rb .dp-keyword { color: #069; }
+.dp-rb .dp-variable { color: #6cf; }
+
+.dp-css {}
+.dp-css .dp-comment { color: green; }
+.dp-css .dp-string { color: red; }
+.dp-css .dp-keyword { color: blue; }
+.dp-css .dp-colors { color: darkred; }
+.dp-css .dp-vars { color: #d00; }
+
+.dp-j {}
+.dp-j .dp-comment { color: rgb(63,127,95); }
+.dp-j .dp-string { color: rgb(42,0,255); }
+.dp-j .dp-keyword { color: rgb(127,0,85); font-weight: bold }
+.dp-j .dp-annotation { color: #646464; }
+.dp-j .dp-number { color: #C00000; }
+
+.dp-cpp {}
+.dp-cpp .dp-comment { color: #e00; }
+.dp-cpp .dp-string { color: red; }
+.dp-cpp .dp-preprocessor { color: #CD00CD; font-weight: bold; }
+.dp-cpp .dp-keyword { color: #5697D9; font-weight: bold; }
+.dp-cpp .dp-datatypes { color: #2E8B57; font-weight: bold; }
+
+.dp-php { color: #800000; }
+.dp-php .dp-comment { color: #008000; }
+.dp-php .dp-keyword { color: #4B00FB; }
+.dp-php .dp-string { color: #FB00FB; }
+.dp-php .dp-func { color: #FF0000; }
+.dp-php .dp-vars { color: #008080; }

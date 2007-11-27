@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component version="0.1">
+    <title xml:lang="ko">Code Highlighter</title>
+    <author email_address="bnufactory@gmail.com" link="http://bnufactory.com" date="2007. 11. 11">
+        <name xml:lang="ko">BNU</name>
+        <description xml:lang="ko">코드를 보기 좋게 출력합니다.</description>
+    </author>
+</component>
