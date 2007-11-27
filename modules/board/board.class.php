@@ -22,6 +22,7 @@
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminContent');
+            $oModuleController->insertActionForward('board', 'view', 'dispBoardTagList');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminBoardInfo');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminInsertBoard');
             $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminDeleteBoard');
@@ -76,6 +77,11 @@
              **/
             if(!$oModuleModel->getActionForward('dispBoardAdminBoardAdditionSetup')) return true;
 
+            /**
+             * 2007. 11. 27 : 태그 목록 보기 액션 설정
+             **/
+            if(!$oModuleModel->getActionForward('dispBoardTagList')) return true;
+
             return false;
         }
 
@@ -95,6 +101,12 @@
              **/
             if(!$oModuleModel->getActionForward('dispBoardAdminBoardAdditionSetup'))
                 $oModuleController->insertActionForward('board', 'view', 'dispBoardAdminBoardAdditionSetup');
+
+            /**
+             * 2007. 11. 27 : 태그 목록 보기 액션 설정
+             **/
+            if(!$oModuleModel->getActionForward('dispBoardTagList')) 
+                $oModuleController->insertActionForward('board', 'view', 'dispBoardTagList');
 
             return new Object(0, 'success_updated');
         }

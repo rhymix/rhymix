@@ -46,6 +46,7 @@
     </grants>
     <permissions>
         <permission action="dispBoardContent" target="manager" />
+        <permission action="dispBoardTagList" target="manager" />
         <permission action="dispBoardWrite" target="manager" />
         <permission action="dispBoardDelete" target="manager" />
         <permission action="dispBoardReplyComment" target="manager" />
@@ -76,6 +77,7 @@
     </permissions>
     <actions>
         <action name="dispBoardContent" type="view" index="true" />
+        <action name="dispBoardTagList" type="view" />
         <action name="dispBoardWrite" type="view" />
         <action name="dispBoardDelete" type="view" />
         <action name="dispBoardReplyComment" type="view" />

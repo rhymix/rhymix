@@ -29,17 +29,17 @@
             $oTagModel = &getModel('tag');
             $output = $oTagModel->getTagList($obj);
 
-
-            // 내용을 랜던으로 정렬
-            $numbers = array_keys($output->data);
-            shuffle($numbers);
-
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
             
             $widget_info->title = $title;
 
             if(count($output->data)) {
+
+                // 내용을 랜던으로 정렬
+                $numbers = array_keys($output->data);
+                shuffle($numbers);
+                
                 foreach($numbers as $k => $v) {
                     $widget_info->tag_list[] = $output->data[$v];
                 }

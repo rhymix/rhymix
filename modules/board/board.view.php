@@ -150,6 +150,37 @@
 
             $this->setTemplateFile('list');
         }
+
+        /**
+         * @brief 태그 목록 모두 보기
+         **/
+        function dispBoardTagList() {
+            // 권한 체크
+            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
+
+            // 태그 모델 객체에서 태그 목록을 구해옴
+            $oTagModel = &getModel('tag');
+
+            $obj->mid = $this->module_info->mid;
+            $obj->list_count = 10000;
+            $output = $oTagModel->getTagList($obj);
+
+            // 내용을 랜던으로 정렬
+            if(count($output->data)) {
+                $numbers = array_keys($output->data);
+                shuffle($numbers);
+
+                if(count($output->data)) {
+                    foreach($numbers as $k => $v) {
+                        $tag_list[] = $output->data[$v];
+                    }
+                }
+            }
+
+            Context::set('tag_list', $tag_list);
+
+            $this->setTemplateFile('tag_list');
+        }
         
         /**
          * @brief 글 작성 화면 출력
