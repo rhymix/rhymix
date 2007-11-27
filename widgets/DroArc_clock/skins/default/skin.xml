@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">플래시 디지털 시계</title>
+  <title xml:lang="zh-CN">Flash数字时钟</title>
+  <title xml:lang="en">Flash Digital Clock</title>
+  <maker email_address="ac7614@empas.com" link="http://widz.inven.co.kr" date="2007. 7. 26">
+    <name xml:lang="ko">드로아크</name>
+    <name xml:lang="zh-CN">DroArc</name>
+    <name xml:lang="en">DroArc</name>
+    <description xml:lang="ko">플래시 디지털 시계를 출력합니다. 자체적인 오른쪽 마우스 메뉴를 사용가능합니다.</description>
+    <description xml:lang="zh-CN">显示Flash数字时钟。</description>
+    <description xml:lang="en">It displays flash digital clock.</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">일반</title>
+      <title xml:lang="zh-CN">普通</title>
+      <title xml:lang="jp">いっぱん</title>
+      <title xml:lang="en">Normal</title>
+    </color>
+  </colorset>
+</skin>
