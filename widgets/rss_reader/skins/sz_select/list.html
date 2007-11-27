@@ -3,11 +3,7 @@
 {@ $tab_id = mt_rand()}
 <div class="sz_rss_reader_select">
 <div class="sz_{$colorset}">
-    <!--@if($widget_info->title)-->
-    <h2 title="{date('Y-m-d H:i:s')}">{$widget_info->title}</h2>
-    <!--@else-->
-    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->rss->title}</a></h2>
-    <!--@end-->
+    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->title?$widget_info->title:$widget_info->rss->title}</a></h2>
     <table>
     <tr><td>
         <div id="tablist">
