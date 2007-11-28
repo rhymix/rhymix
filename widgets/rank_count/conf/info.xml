@@ -21,7 +21,7 @@
 			<name xml:lang="zh-CN">目录数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
-			<description xml:lang="zh-CN">可以知道要输出的目录数. (默认 5个)</description>
+			<description xml:lang="zh-CN">可以指定要输出的目录数. (默认 5个)</description>
         </var>
         <var id="rankby">
             <name xml:lang="ko">순위 대상</name>
