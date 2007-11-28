@@ -15,6 +15,12 @@
     <description xml:lang="en">It displays newest trackback list with blog style.</description>
   </maker>
   <colorset>
+    <color name="layout">
+      <title xml:lang="ko">레이아웃에 맞춤</title>
+      <title xml:lang="jp">레이아웃에 맞춤</title>
+      <title xml:lang="zh-CN">레이아웃에 맞춤</title>
+      <title xml:lang="en">레이아웃에 맞춤</title>
+    </color>
     <color name="normal">
       <title xml:lang="ko">기본 컬러</title>
       <title xml:lang="jp">デフォルトカラー</title>
