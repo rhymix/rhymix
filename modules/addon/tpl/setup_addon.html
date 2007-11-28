@@ -1,7 +1,7 @@
 <!--%import("filter/setup_addon.xml")-->
 
 <div id="popHeadder">
-    <h1>{$lang->cmd_setup}</h1>
+    <h3>{$lang->cmd_setup}</h3>
 </div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, setup_addon);">
@@ -28,7 +28,7 @@
         <tr>
             <th scope="row">{$val->title}</th>
             <td>
-                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w100" />
+                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w400" />
                 <!--@if($val->description)--><p>{$val->description}</p><!--@end-->
             </td>
         </tr>
