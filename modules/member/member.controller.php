@@ -787,7 +787,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
             // 현재 비밀번호가 맞는지 확인
-            if(!$oMemberModel->isValidOldPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
+            if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
             // member_srl의 값에 따라 insert/update
             $args->member_srl = $member_srl;
