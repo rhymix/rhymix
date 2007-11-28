@@ -1,0 +1,9 @@
+<query id="insertRefererStatistics" action="insert">
+    <tables>
+	<table name="referer_statistics" />
+    </tables>
+    <columns>
+	<column name="host" var="host" notnull="notnull" />
+	<column name="count" var="count" default="1" />
+    </columns>
+</query>

@@ -1,0 +1,60 @@
+<h3>{$lang->referer} <span class="gray">{$lang->cmd_management}</span></h3>
+    <div style="width: 250px; float:left; position:relative;">
+    <div class="tableSummaryType1" style="position:relative; top:10px;">
+    {$lang->ranking}
+    </div>
+    <div class="tableSummaryType1" style="position:relative; top:10px;">
+    <table cellspacing="0" class="adminTable refererStat">
+    <tbody>
+	<col width="50" />
+	<col width="150" />
+	<col width="50" />
+	<!--@foreach($referer_status as $no => $val)-->
+	<tr>
+	    <td class="tahoma">{$no} </td>
+	    <td class="tahoma">{$val->host}</td>
+	    <td class="tahoma">{$val->count}</td>
+	</td>
+	<!--@end-->
+    </tbody>
+    </table>
+    </div>
+    </div>
+
+<div style="float:left; position:relative; left:20px;"> 
+<div class="tableSummaryType1" style="position:relative; top:10px;">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<div style="position:relative; top:10px;"> 
+    <table cellspacing="0" class="adminTable referer">
+    <col width="80" />
+    <col width="150" />
+    <col width="350" />
+
+    <tbody>
+        <!--@foreach($referer_list as $no => $val)-->
+        <tr>
+            <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+            <td class="tahoma">{$val->host}</td>
+            <td class="tahoma"><a href="{$val->url}">{$val->url}</a></td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+<!-- 버튼 -->
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation" style="position:relative; top:10px;">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+</div>
