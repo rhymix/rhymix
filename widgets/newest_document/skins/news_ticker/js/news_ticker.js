@@ -35,7 +35,7 @@ function doScroll(obj) {
     if(st > xHeight(obj.child)) st = 0;
     obj.pObj.scrollTop = st;
 
-    if(obj.pObj.scrollTop % obj.itemHeight == 0) setTimeout( function() { doScroll(obj); }, 1000 );
+    if(obj.pObj.scrollTop % obj.itemHeight == 0) setTimeout( function() { doScroll(obj); }, 2500 );
     else setTimeout( function() { doScroll(obj); }, obj.scrollSpeed );
 
 }
