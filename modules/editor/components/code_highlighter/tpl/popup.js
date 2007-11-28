@@ -5,25 +5,34 @@
 var selected_node = null;
 function getCode() {
     // 부모 위지윅 에디터에서 선택된 영역이 있는지 확인
-    if(typeof(opener)=="undefined") return;
+    if(typeof(opener)=='undefined') return;
 
     var node = opener.editorPrevNode;
-    if(!node || node.nodeName != "DIV") return;
+    if(!node || node.nodeName != 'DIV') return;
 
     selected_node = node;
 
-    var code_type = node.getAttribute("code_type");
+    var code_type = node.getAttribute('code_type');
+    var collapse = node.getAttribute('collapse');
+    var nogutter = node.getAttribute('nogutter');
+    var nocontrols = node.getAttribute('nocontrols');
 
-    xGetElementById("code_type").value = code_type;
+    xGetElementById('code_type').value = code_type;
+    if(collapse == 'Y') xGetElementById('collapse').checked = true;
+    if(nogutter == 'Y') xGetElementById('nogutter').checked = true;
+    if(nocontrols == 'Y') xGetElementById('nocontrols').checked = true;
 }
 
 /* 추가 버튼 클릭시 부모창의 위지윅 에디터에 인용구 추가 */
 function insertCode() {
-    if(typeof(opener)=="undefined") return;
+    if(typeof(opener)=='undefined') return;
 
-    var code_type = xGetElementById("code_type").value;
+    var code_type = xGetElementById('code_type').value;
+    var collapse = xGetElementById('collapse').checked;
+    var nogutter = xGetElementById("nogutter").checked;
+    var nocontrols = xGetElementById("nocontrols").checked;
 
-    var content = "";
+    var content = '';
     if(selected_node) content = xInnerHtml(selected_node);
     else content = opener.editorGetSelectedHtml(opener.editorPrevSrl);
 
@@ -31,11 +40,26 @@ function insertCode() {
 
     if(!content) content = "&nbsp;";
 
-    var text = "\n<div editor_component=\"code_highlighter\" code_type="+code_type+" style=\""+style+"\">"+content+"</div>\n<br />";
+    var text = "\n<div editor_component=\"code_highlighter\" code_type=\""+code_type+"\" style=\""+style+"\">"+content+"</div>\n<br />";
 
     if(selected_node) {
-        selected_node.setAttribute("code_type", code_type);
-        selected_node.setAttribute("style", style);
+        selected_node.setAttribute('code_type', code_type);
+        if(collapse == true) {
+            selected_node.setAttribute('collapse', 'Y');
+        } else {
+            selected_node.setAttribute('collapse', 'N');
+        }
+        if(nogutter == true) {
+            selected_node.setAttribute('nogutter', 'Y');
+        } else {
+            selected_node.setAttribute('nogutter', 'N');
+        }
+        if(nocontrols == true && collapse == false) {
+            selected_node.setAttribute('nocontrols', 'Y');
+        } else {
+            selected_node.setAttribute('nocontrols', 'N');
+        }
+        selected_node.setAttribute('style', style);
         opener.editorFocus(opener.editorPrevSrl);
 
     } else {
@@ -49,4 +73,4 @@ function insertCode() {
     window.close();
 }
 
-xAddEventListener(window, "load", getCode);
+xAddEventListener(window, 'load', getCode);

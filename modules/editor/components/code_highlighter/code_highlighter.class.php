@@ -41,15 +41,25 @@ class code_highlighter extends EditorHandler {
 	 **/
 	function transHTML($xml_obj) {
 		$code_type = $xml_obj->attrs->code_type;
+		$option_collapse = $xml_obj->attrs->collapse;
+		$option_nogutter = $xml_obj->attrs->nogutter;
+		$option_nocontrols = $xml_obj->attrs->nocontrols;
+		if($option_collapse == 'Y') $code_type = $code_type.':collapse';
+		if($option_nogutter == 'Y') $code_type = $code_type.':nogutter';
+		if($option_nocontrols == 'Y' && $option_collapse !== 'Y') $code_type = $code_type.':nocontrols';
 		$body = $xml_obj->body;
+
 		$body = preg_replace('@<br\\s*/?>@Ui' , "\r\n", $body);
-		$body = preg_replace('@</?p>@Ui' , "", $body);
+		$body = strip_tags($body);
 
 		if(!$GLOBALS['_called_code_highlighter_']) {
 			$GLOBALS['_called_code_highlighter_'] = true;
-			$js_code = <<<EndOfCss
-<script type="text/javascript">dp.SyntaxHighlighter.HighlightAll('CodeHighLighterArea');</script>
-EndOfCss;
+			$js_code = <<<dpScript
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '{$this->component_path}script/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('CodeHighLighterArea');
+</script>
+dpScript;
 
 			Context::addHtmlFooter($js_code);
 		}
@@ -59,7 +69,7 @@ EndOfCss;
 		Context::addJsFile($this->component_path.'script/shCore.js');
 		Context::addJsFile($this->component_path.'script/shBrush'.$code_type.'.js');
 
-		$output = sprintf('<textarea name="CodeHighLighterArea" class="%s">%s</textarea>', $code_type, $body);
+		$output = sprintf('<pre name="CodeHighLighterArea" class="%s">%s</pre>', $code_type, $body);
 		return $output;
 	}
 }

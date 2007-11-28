@@ -1,22 +1,10 @@
-dp.sh.Brushes.JScript = function()
-{
-	var keywords =	'abstract boolean break byte case catch char class const continue debugger ' +
-					'default delete do double else enum export extends false final finally float ' +
-					'for function goto if implements import in instanceof int interface long native ' +
-					'new null package private protected public return short static super switch ' +
-					'synchronized this throw throws transient true try typeof var void volatile while with';
+/*
+ * JsMin
+ * Javascript Compressor
+ * http://www.crockford.com/
+ * http://www.smallsharptools.com/
+*/
 
-	this.regexList = [
-		{ regex: dp.sh.RegexLib.SingleLineCComments,				css: 'dp-comment' },			// one line comments
-		{ regex: dp.sh.RegexLib.MultiLineCComments,					css: 'dp-comment' },			// multiline comments
-		{ regex: dp.sh.RegexLib.DoubleQuotedString,					css: 'dp-string' },			// double quoted strings
-		{ regex: dp.sh.RegexLib.SingleQuotedString,					css: 'dp-string' },			// single quoted strings
-		{ regex: new RegExp('^\\s*#.*', 'gm'),						css: 'dp-preprocessor' },		// preprocessor tags like #region and #endregion
-		{ regex: new RegExp(this.GetKeywords(keywords), 'gm'),		css: 'dp-keyword' }			// keywords
-		];
-
-	this.CssClass = 'dp-c';
-}
-
-dp.sh.Brushes.JScript.prototype	= new dp.sh.Highlighter();
-dp.sh.Brushes.JScript.Aliases	= ['js', 'jscript', 'javascript'];
+dp.sh.Brushes.JScript=function()
+{var keywords='abstract boolean break byte case catch char class const continue debugger '+'default delete do double else enum export extends false final finally float '+'for function goto if implements import in instanceof int interface long native '+'new null package private protected public return short static super switch '+'synchronized this throw throws transient true try typeof var void volatile while with';this.regexList=[{regex:dp.sh.RegexLib.SingleLineCComments,css:'comment'},{regex:dp.sh.RegexLib.MultiLineCComments,css:'comment'},{regex:dp.sh.RegexLib.DoubleQuotedString,css:'string'},{regex:dp.sh.RegexLib.SingleQuotedString,css:'string'},{regex:new RegExp('^\\s*#.*','gm'),css:'preprocessor'},{regex:new RegExp(this.GetKeywords(keywords),'gm'),css:'keyword'}];this.CssClass='dp-c';}
+dp.sh.Brushes.JScript.prototype=new dp.sh.Highlighter();dp.sh.Brushes.JScript.Aliases=['js','jscript','javascript'];

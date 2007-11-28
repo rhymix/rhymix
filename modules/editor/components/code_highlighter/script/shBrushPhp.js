@@ -1,6 +1,6 @@
 dp.sh.Brushes.Php = function()
 {
-	var funcs	=	'sprintf abs acos acosh addcslashes addslashes ' +
+	var funcs	=	'abs acos acosh addcslashes addslashes '+
 					'array_change_key_case array_chunk array_combine array_count_values array_diff '+
 					'array_diff_assoc array_diff_key array_diff_uassoc array_diff_ukey array_fill '+
 					'array_filter array_flip array_intersect array_intersect_assoc array_intersect_key '+
@@ -21,7 +21,7 @@ dp.sh.Brushes.Php = function()
 					'fileatime filectime filegroup fileinode filemtime fileowner fileperms filesize filetype '+
 					'floatval flock floor flush fmod fnmatch fopen fpassthru fprintf fputcsv fputs fread fscanf '+
 					'fseek fsockopen fstat ftell ftok getallheaders getcwd getdate getenv gethostbyaddr gethostbyname '+
-					'get_magic_quotes_gpc gethostbynamel getimagesize getlastmod getmxrr getmygid getmyinode getmypid getmyuid getopt '+
+					'gethostbynamel getimagesize getlastmod getmxrr getmygid getmyinode getmypid getmyuid getopt '+
 					'getprotobyname getprotobynumber getrandmax getrusage getservbyname getservbyport gettext '+
 					'gettimeofday gettype glob gmdate gmmktime ini_alter ini_get ini_get_all ini_restore ini_set '+
 					'interface_exists intval ip2long is_a is_array is_bool is_callable is_dir is_double '+
@@ -33,24 +33,30 @@ dp.sh.Brushes.Php = function()
 					'str_word_count strcasecmp strchr strcmp strcoll strcspn strftime strip_tags stripcslashes '+
 					'stripos stripslashes stristr strlen strnatcasecmp strnatcmp strncasecmp strncmp strpbrk '+
 					'strpos strptime strrchr strrev strripos strrpos strspn strstr strtok strtolower strtotime '+
-					'strtoupper strtr strval substr substr_compare';
+					'strtoupper strtr strval substr substr_compare get_magic_quotes_gpc sprintf implode';
 
-	var keywords =	'and or xor __FILE__ __LINE__ array as break case ' +
+	var keywords =	'and or xor __FILE__ __LINE__ array as break case :: ' +
 					'cfunction class const continue declare default die do else ' +
 					'elseif empty enddeclare endfor endforeach endif endswitch endwhile ' +
 					'extends for foreach function include include_once global if ' +
 					'new old_function return static switch use require require_once ' +
 					'var while __FUNCTION__ __CLASS__ ' +
-					'__METHOD__ abstract interface public implements extends private protected throw';
+					'__METHOD__ abstract interface public implements extends private protected throw '+
+					'NULL FALSE TRUE';
+
+
+	var zbxe_funcs = 'moduleInstall checkUpdate moduleUpdate getModel setBrowserTitle';
+
+	var zbxe_class = 'ModuleObject Context';
 
 	this.regexList = [
-		{ regex: dp.sh.RegexLib.SingleLineCComments,				css: 'dp-comment' },			// one line comments
-		{ regex: dp.sh.RegexLib.MultiLineCComments,					css: 'dp-comment' },			// multiline comments
-		{ regex: dp.sh.RegexLib.DoubleQuotedString,					css: 'dp-string' },			// double quoted strings
-		{ regex: dp.sh.RegexLib.SingleQuotedString,					css: 'dp-string' },			// single quoted strings
-		{ regex: new RegExp('\\$\\w+', 'g'),						css: 'dp-vars' },				// variables
-		{ regex: new RegExp(this.GetKeywords(funcs), 'gmi'),		css: 'dp-func' },				// functions
-		{ regex: new RegExp(this.GetKeywords(keywords), 'gm'),		css: 'dp-keyword' }			// keyword
+		{ regex: dp.sh.RegexLib.SingleLineCComments,				css: 'comment' },			// one line comments
+		{ regex: dp.sh.RegexLib.MultiLineCComments,					css: 'comment' },			// multiline comments
+		{ regex: dp.sh.RegexLib.DoubleQuotedString,					css: 'string' },			// double quoted strings
+		{ regex: dp.sh.RegexLib.SingleQuotedString,					css: 'string' },			// single quoted strings
+		{ regex: new RegExp('\\$[a-zA-Z0-9_\\-&lt;]+', 'g'),			css: 'vars' },				// variables
+		{ regex: new RegExp(this.GetKeywords(funcs), 'gmi'),		css: 'func' },				// functions
+		{ regex: new RegExp(this.GetKeywords(keywords), 'gm'),		css: 'keyword' }			// keyword
 		];
 
 	this.CssClass = 'dp-php';
