@@ -33,6 +33,11 @@
             if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
 
+            // 현재 글이 있는 모듈의 타이틀 지정
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+            Context::setBrowserTitle($module_info->browser_title);
+
             // 엮인글 발송
             return $this->sendTrackback($oDocument, $trackback_url, $charset);
         }
