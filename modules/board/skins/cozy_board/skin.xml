@@ -97,8 +97,8 @@
             <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
             <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
             <description xml:lang="en">It can align articles as registered order or modified order.</description>
-            <default>newest</default>
-            <default>updated</default>
+            <default>list_order</default>
+            <default>update_order</default>
         </var>
         <var name="order_type" type="select">
             <title xml:lang="ko">정렬 방법</title>
