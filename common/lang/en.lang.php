@@ -134,8 +134,8 @@
     $lang->last_login = 'Last Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
-    $lang->search_target = 'Searching Target';
-    $lang->search_keyword = 'Searching Keyword';
+    $lang->search_target = 'Target for Search';
+    $lang->search_keyword = 'Keyword';
     $lang->is_default = 'Default';
 
     $lang->no_documents = 'No Articles';
