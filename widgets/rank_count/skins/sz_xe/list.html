@@ -15,7 +15,7 @@
     {@ $no = 1}
     <!--@foreach($widget_info->data as $val)-->
     <tr>
-        <td class="left">{$no}위. <span class="member_{$val->member_srl}" {$val->perlev}>{$val->nick_name}</span></td>
+        <td class="left">{$no}위. <span class="member_{$val->member_srl}">{$val->nick_name}</span></td>
         <td class="center">{$val->count}회</td>
         <td class="right">
             <!--@if($logged_info->is_admin == "Y")-->

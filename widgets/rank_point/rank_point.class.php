@@ -6,33 +6,6 @@
      **/
 
     class rank_point extends WidgetHandler {
-        
-        /**
-         * @brief 포인트 정보 표시
-         **/
-        function point_info($member_srl) {
-                $oModuleModel = &getModel('module');
-                $this->config = $oModuleModel->getModuleConfig('point');
-
-            $point = $this->oPointModel->getPoint($member_srl);
-            $level = $this->oPointModel->getLevel($point, $this->config->level_step);
-
-            $src = sprintf("modules/point/icons/%s/%d.gif", $this->config->level_icon, $level);
-                $info = getimagesize($src);
-                $this->icon_width = $info[0];
-                $this->icon_height = $info[1];
-
-            if($level < $this->config->max_level) {
-                $next_point = $this->config->level_step[$level+1];
-                if($next_point > 0) {
-                    $per = (int)($point / $next_point*100);
-                }
-            }
-
-            $code = sprintf('title="%s:%s%s %s, %s:%s/%s" style="background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx"', Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height);
-            return $code;
-        }
-
         /**
          * @brief 위젯의 실행 부분
          *
@@ -106,19 +79,6 @@
             // 결과가 있으면 각 문서 객체화를 시킴
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
-                    $val->perlev = $this->point_info($val->member_srl);
-
-                    $image_name = $oMemberModel->getImageName($val->member_srl);
-                    $image_mark = $oMemberModel->getImageMark($val->member_srl);
-                    if($image_name->width) {
-                        if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
-                        else $top_margin = 0;
-                        $val->nick_name = sprintf('<img src="%s" border="0" alt="%s" title="%s" width="%s" height="%s" align="absmiddle" style="margin-top:%dpx;" />', Context::getRequestUri().$image_name->file, $image_name->file, $image_name->file, $image_name->width, $image_name->height, $top_margin);
-                    }
-                    if($image_mark->width) {
-                        $val->nick_name = sprintf('<img src="%s" border="0" alt="%s" title="%s" width="%s" height="%s" align="absmiddle" />', Context::getRequestUri().$image_mark->file, $image_mark->file, $image_mark->file, $image_mark->width, $image_mark->height).$val->nick_name;
-                    }
-
                     $point_list[$key] = $val;
                 }
             } else {

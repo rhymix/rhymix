@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget version="#9">
+<widget version="1.0">
     <title xml:lang="ko">포인트 랭킹 출력</title>
 	<title xml:lang="zh-CN">输出积分排行</title>
     <author email_address="k10206@naver.com" link="http://php.simulz.com" date="2007. 8. 29">

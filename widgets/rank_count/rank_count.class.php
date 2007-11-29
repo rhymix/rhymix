@@ -113,20 +113,6 @@
             // 결과가 있으면 각 문서 객체화를 시킴
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
-                    $val->point = $this->oPointModel->getPoint($val->member_srl);
-                    $val->perlev = $this->point_info($val->member_srl);
-
-                    $image_name = $oMemberModel->getImageName($val->member_srl);
-                    $image_mark = $oMemberModel->getImageMark($val->member_srl);
-                    if($image_name->width) {
-                        if($image_mark->height && $image_mark->height > $image_name->height) $top_margin = ($image_mark->height - $image_name->height)/2;
-                        else $top_margin = 0;
-                        $val->nick_name = sprintf('<img src="%s" border="0" alt="%s" title="%s" width="%s" height="%s" align="absmiddle" style="margin-top:%dpx;" />', Context::getRequestUri().$image_name->file, $image_name->file, $image_name->file, $image_name->width, $image_name->height, $top_margin);
-                    }
-                    if($image_mark->width) {
-                        $val->nick_name = sprintf('<img src="%s" border="0" alt="%s" title="%s" width="%s" height="%s" align="absmiddle" />', Context::getRequestUri().$image_mark->file, $image_mark->file, $image_mark->file, $image_mark->width, $image_mark->height).$val->nick_name;
-                    }
-
                     $rank_list[$key] = $val;
                 }
             } else {
