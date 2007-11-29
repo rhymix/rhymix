@@ -11,12 +11,14 @@
         <col />
         <col width="50" />
         <tbody>
+	<!--{$rank = 1}-->
         <!--@foreach($referer_status as $no => $val)-->
         <tr>
-            <td class="tahoma">{$no} </td>
+            <td class="tahoma">{$rank} </td>
             <td class="tahoma">{$val->host}</td>
             <td class="tahoma">{$val->count}</td>
         </td>
+	<!--{$rank += 1} -->
         <!--@end-->
         </tbody>
         </table>
