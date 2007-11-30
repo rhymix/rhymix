@@ -22,6 +22,10 @@
             $skin_list = $oModuleModel->getskins($this->module_path);
             Context::set('skin_list', $skin_list);
 
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $config = $oModuleModel->getModuleConfig('message');
+            Context::set('config',$config);
+
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('config');
