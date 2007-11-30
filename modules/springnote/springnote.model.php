@@ -91,7 +91,6 @@
             $page->tags = $xmldoc->page->tags->body;
             $page->body = trim($xmldoc->page->body);
             $page->source = trim($xmldoc->page->source->body);
-            $page->source = preg_replace('"\/pages\/([0-9]+)"','./?mid='.Context::get('mid').'&pageid=\\1', $page->source);
 
             $uri = preg_replace('/pages(.*)$/i','',$page->uri);
             $page->css_files = array(
