@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader h3 { border-bottom:3px solid #ed135a; }
+
+/* board Information */
+.articleNum { float:left; background:url(../images/red/iconArticle.gif) no-repeat left top; }
+.articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
+
+/* account Navigation */
+.accountNavigation li.join a { background:url(../images/red/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.myInfo a { background:url(../images/red/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+

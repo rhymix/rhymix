@@ -1,0 +1,120 @@
+<!-- JS 파일 로드 -->
+    <!--%import("js/board.js")-->
+
+<!-- 컬러셋 체크 -->
+    <!--@if(!$module_info->colorset)-->
+        {@$module_info->colorset = "white"}
+    <!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+    <!--%import("css/common.css")-->
+
+    <!--@if($module_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+    <!--@elseif($module_info->colorset == "red")--> <!--%import("css/red.css")-->
+    <!--@elseif($module_info->colorset == "green")--> <!--%import("css/green.css")-->
+    <!--@elseif($module_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+    <!--@else--> <!--%import("css/white.css")-->
+    <!--@end-->
+
+<!-- 상단 텍스트 출력 -->
+    {$module_info->header_text}
+
+<!-- 스킨의 제목/간단한 설명 출력 -->
+    <!--@if($module_info->title)-->
+    <div class="boardHeader">
+        <h3>{$module_info->title}</h3>
+    </div>
+    <!--@end-->
+
+<!-- 게시판 정보 -->
+    <div class="boardInformation">
+
+        <!-- 게시물 수 -->
+        <div class="articleNum">{$lang->document_count} <strong>{number_format(count($pages))}</strong></div>
+
+        <!-- 로그인 정보 -->
+        <ul class="accountNavigation">
+
+        <!-- 로그인 되어 있을 경우 -->
+        <!--@if($is_logged)-->
+
+            <!-- 관리자이면 설정 버튼 출력 -->
+            <!--@if($grant->is_admin)-->
+            <li class="setup"><a href="{getUrl('act','dispSpringnoteAdminSpringnoteInfo')}">{$lang->cmd_setup}</a></li>
+            <!--@end-->
+
+            <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+            <!--@if($logged_info->is_admin == 'Y')-->
+            <li class="admin"><a href="{getUrl('','module','admin','act','dispSpringnoteAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
+            <!--@end-->
+
+            <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
+            <!--@if(!$module_info->layout_srl)-->
+            <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+            <!--@end-->
+
+        <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
+        <!--@elseif(!$is_logged && !$module_info->layout_srl)-->
+            <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+        <!--@end-->
+
+            <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+        </ul>
+    </div>
+
+<!--@if($page)-->
+<!-- 선택된 페이지가 있을 경우 -->
+    <div class="pageInfo">
+        <table cellspacing="0">
+        <col width="160" />
+        <col />
+        <tr>
+            <th>{$lang->title}</th>
+            <td>{$page->title}</td>
+        </tr>
+        <tr>
+            <th>{$lang->page_url}</th>
+            <td><a href="{$page->uri}" onclick="window.open(this.href); return false;">{$page->uri}</a></td>
+        </tr>
+        <!--@if($page->date_modified)-->
+        <tr>
+            <th>{$lang->page_modified}</th>
+            <td>{$page->date_modified}</td>
+        </tr>
+        <tr>
+            <th>{$lang->page_modifier}</th>
+            <td><a href="{$page->contributor_modified}" onclick="window.open(this.href);return false;">{$page->contributor_modified}</a></td>
+        </tr>
+        <!--@end-->
+        </table>
+    </div>
+
+    <div class="pageView">
+        <div class="xhtmlEditorBody background_no">
+            {$page->source}
+        </div>
+    </div>
+<!--@end-->
+
+<!-- 전체 목록 -->
+    <div class="pageSearch">
+        <form action="./" method="get">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="text" name="q" value="{htmlspecialchars($q)}" class="inputTypeText w200" /><span class="button"><input type="submit" value="{$lang->cmd_search}" /></span><span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('','mid',$mid)}';return false;" /></span>
+        </form>
+    </div>
+    <div class="pageList">
+        {@ $_idx = 0 }
+        <!--@foreach($pages as $key => $val)-->
+            <div class="page <!--@if(!$_idx)-->noline<!--@end--> <!--@if($val->pageid == $pageid)-->selected<!--@end-->" style="padding-left:{($val->depth+1)*20}px;">
+                <div class="title"><a href="{getUrl('pageid',$key)}">{$val->title}</a></div>
+                <!--@if($val->source)--><div class="desc">{$val->source}</div><!--@end-->
+            </div>
+            {@ $_idx++}
+        <!--@end-->
+    </div>
+
+<!-- 하단 텍스트 출력 -->
+{$module_info->footer_text}

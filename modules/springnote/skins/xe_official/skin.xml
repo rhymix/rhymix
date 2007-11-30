@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+    <title xml:lang="ko">스프링 노트 연동 기본 스킨</title>
+    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007.11.30">
+        <name xml:lang="ko">zero</name>
+        <description xml:lang="ko">스프링 노트 연동 모듈의 기본 스킨</description>
+    </maker>
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="en">White (default)</title>
+        </color>
+        <color name="cyan" src="screenshot/cyan.gif">
+            <title xml:lang="ko">청록색</title>
+            <title xml:lang="jp">青緑</title>
+            <title xml:lang="zh-CN">青绿色</title>
+            <title xml:lang="en">Cyan</title>
+        </color>
+        <color name="green" src="screenshot/green.gif">
+            <title xml:lang="ko">초록색</title>
+            <title xml:lang="jp">緑</title>
+            <title xml:lang="zh-CN">绿色</title>
+            <title xml:lang="en">Green</title>
+        </color>
+        <color name="red" src="screenshot/red.gif">
+            <title xml:lang="ko">빨간색</title>
+            <title xml:lang="jp">赤</title>
+            <title xml:lang="zh-CN">红色</title>
+            <title xml:lang="en">Red</title>
+        </color>
+        <color name="purple" src="screenshot/purple.gif">
+            <title xml:lang="ko">보라색</title>
+            <title xml:lang="jp">紫</title>
+            <title xml:lang="zh-CN">紫色</title>
+            <title xml:lang="en">Purple</title>
+        </color>
+    </colorset>
+    <extra_vars>
+        <var name="title" type="text">
+            <title xml:lang="ko">게시판 제목</title>
+            <title xml:lang="jp">掲示板タイトル</title>
+            <title xml:lang="zh-CN">版面标题</title>
+            <title xml:lang="en">Title of Board</title>
+            <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+            <description xml:lang="jp">掲示板タイトルを入力してください。</description>
+            <description xml:lang="zh-CN">请输入版面标题(留空为不显示)。</description>
+            <description xml:lang="en">Plase input the title of board.</description>
+        </var>
+    </extra_vars>
+</skin>

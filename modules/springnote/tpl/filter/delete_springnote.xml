@@ -1,0 +1,10 @@
+<filter name="delete_springnote" module="springnote" act="procSpringnoteAdminDeleteSpringnote">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteSpringnote">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>
