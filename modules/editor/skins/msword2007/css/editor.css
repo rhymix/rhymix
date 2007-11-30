@@ -3,7 +3,7 @@
 .xeEditor { }
 .xeEditor .optionABC,
 .xeEditor .option2,
-.xeEditor .optionDE { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat -3px bottom;}
+.xeEditor .optionDE { clear:both; width:100%; border-bottom:1px solid #c2c2c2; overflow:hidden; background:#ffffff url(../images/bgBoardEditorOption.png) no-repeat -3px bottom;}
 .xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:22px; margin:0 .5em 0 0; padding-left:1em; float:left;}
 .xeEditor .optionABC .buttonGroup,
 .xeEditor .option2 .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:22px; overflow:hidden; padding-left:2px;}
@@ -13,7 +13,7 @@
 .xeEditor .optionB,
 .xeEditor .optionC,
 .xeEditor .optionE,
-.xeEditor .optionF { float:left; background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat left bottom; padding:.5em 0 .5em .7em; overflow:hidden;}
+.xeEditor .optionF { float:left; background:#ffffff url(../images/bgBoardEditorOption.png) no-repeat left bottom; padding:.5em 0 .5em .7em; overflow:hidden;}
 .xeEditor .optionA *,
 .xeEditor .optionB *,
 .xeEditor .optionC *,
