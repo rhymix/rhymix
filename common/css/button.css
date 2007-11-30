@@ -136,6 +136,7 @@ span.button-behavior-hover{
 
 a.button:hover span, 
 span.button:hover button, 
+span.button:hover input, 
 a.button:focus span, 
 
 span.button-behavior-hover button, 
