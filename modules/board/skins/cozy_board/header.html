@@ -35,14 +35,17 @@
     <!--@end-->
 
 <!-- 사용자가 선택한 게시판 형태에 따른 설정(포럼형은 적용 안됨) -->
+<!--@if(!$module_info->default_style)-->
+    {@ $module_info->default_style = 'list'}
+<!--@end-->
+
 <!--@if($listStyle=='gallery')-->
     {@ $module_info->default_style = 'gallery'}
 <!--@elseif($listStyle=='webzine')-->
     {@ $module_info->default_style = 'webzine'}
-<!--@else-->
+<!--@elseif($listStyle=='list')-->
     {@ $module_info->default_style = 'list'}
 <!--@end-->
-
 
 <!-- 상단 텍스트 출력 -->
 {$module_info->header_text}
