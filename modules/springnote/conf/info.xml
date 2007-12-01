@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1" category="service">
     <title xml:lang="ko">스프링노트 연동</title>
+	<title xml:lang="en">Springnote</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007.11.30">
-        <name xml:lang="ko">zero</name>
+        <name xml:lang="ko">제로</name>
+		<name xml:lang="en">Zero</name>
         <description xml:lang="ko">스프링노트의 페이지를 제로보드XE에서 연동하여 출력하는 기능을 가지고 있는 모듈입니다.</description>
+		<description xml:lang="en">This modules links pages of Springnote with ZeroboardXE, and display them.</description>
     </author>
 </module>
