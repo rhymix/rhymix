@@ -19,6 +19,9 @@
             <description><![CDATA[{$oDocument->getContentText(100)}]]></description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
+            <!--@foreach($oDocument->get('tag_list') as $tag)-->
+            <category>{$tag}</category>
+            <!--@end-->
         </item>
         <!--@end-->
     </channel>
