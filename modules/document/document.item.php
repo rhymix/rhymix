@@ -300,6 +300,12 @@
             return $val;
         }
 
+        function getExtraVarsValue($key) {
+            $extra_vals = unserialize($this->get('extra_vars'));
+            $val = $extra_vals->$key;
+            return $val;
+        }
+
         function getCommentCount() {
             if(!$this->isGranted() && $this->isSecret()) return 0;
             return $this->get('comment_count');
