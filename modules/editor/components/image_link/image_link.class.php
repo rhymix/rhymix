@@ -45,9 +45,10 @@
             $height = $xml_obj->attrs->height;
             $align = $xml_obj->attrs->align;
             $alt = $xml_obj->attrs->alt;
-            $border = $xml_obj->attrs->border;
+            $border = (int)$xml_obj->attrs->border;
             $link_url = $xml_obj->attrs->link_url;
             $open_window = $xml_obj->attrs->open_window;
+            $style = $xml_obj->attrs->style;
 
             if(!$alt) {
                 $tmp_arr = explode('/',$src);
@@ -58,7 +59,6 @@
             if(!$alt) $alt = $src;
 
             $attr_output = array();
-            $style_output = array();
             $attr_output = array("src=\"".$src."\"");
             if($alt) {
                 $attr_output[] = "alt=\"".$alt."\"";
@@ -68,11 +68,11 @@
 
             if(eregi("\.png$",$src)) $attr_output[] = "class=\"iePngFix\"";
 
-            if($width) $style_output[] = "width:".$width."px";
-            if($height) $style_output[] = "height:".$height."px";
-            //if(!$align) $style_output[] = "display:block";
-            if($border) $style_output[] = "border:".$border."px";
-            $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), implode(";",$style_output));
+            if($width) $attr_output[] = 'width="'.$width.'"';
+            if($height) $attr_output[] = 'height="'.$height.'"';
+            if($border) $attr_output[] = 'border="'.$border.'"';
+
+            $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), $style);
 
             if($link_url) {
                 if($open_window =='Y') $code = sprintf('<a href="%s" onclick="window.open(this.href);return false;">%s</a>', $link_url, $code);
