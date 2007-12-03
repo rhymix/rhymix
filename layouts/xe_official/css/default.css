@@ -35,6 +35,7 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 #isSearch { position:absolute; top:48px; right:15px; width:214px; text-align:right;}
 #isSearch .searchOrder { display:none;}
 #isSearch .checked { position:absolute; left:0; top:0; text-align:left; display:block; padding:5px 0 0 5px; width:64px; height:14px; background:url(../images/default/bgSearchTerm.gif) no-repeat; font:11px "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif; color:#ffffff; line-height:normal;}
+*:first-child+html #isSearch .checked { top:1px; }
 #isSearch ul { display:none; position:absolute; left:0; top:18px; padding:2px 0 3px 0; text-align:left; border:1px solid #919898; background:#536c6d;}
 #isSearch ul li { width:67px; height:18px; list-style:none; }
 #isSearch ul li input { display:none;}
