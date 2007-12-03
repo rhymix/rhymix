@@ -13,7 +13,7 @@
     $lang->about_address_use = "Please search the address first and then press [Insert] button. Then, the map would be added to the article.";
 
     // Error Messages
-    $lang->msg_not_exists_addr = "Address doesn't exists";
+    $lang->msg_not_exists_addr = "Address doesn't exist";
     $lang->msg_fail_to_socket_open = "Failed to connect zip code searching server";
     $lang->msg_no_result = "Nothing Found";
 
