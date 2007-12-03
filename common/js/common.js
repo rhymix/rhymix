@@ -194,7 +194,7 @@ function displayMultimedia(src, width, height, auto_start) {
             "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\"></embed>"+
+            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
         html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
