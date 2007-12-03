@@ -20,12 +20,10 @@
             <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->><!--@if($oDocument->document_srl)-->
 
                 <table cellspacing="0" class="thumbnailBox">
-                <col width="{$widget_info->thumbnail_width+30}" />
+                <col width="{$widget_info->thumbnail_width+20}" />
                 <col />
                 <tr>
-                    <td class="thumbnail" height="100">
-                        <a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a>
-                    </td>
+                    <td class="thumbnail" height="{$widget_info->thumbnail_height}"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a></td>
                     <td class="desc">
 
                         <div class="titleBox">
@@ -85,7 +83,4 @@
     <!--@end-->
     </div>
 
-    <!--@if($widget_info->module_name)-->
-        <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
-    <!--@end-->
 </div>
