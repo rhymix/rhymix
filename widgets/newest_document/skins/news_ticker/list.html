@@ -8,7 +8,7 @@
 <!--@elseif($colorset=="black")--> <!--%import("css/black.css")-->
 <!--@else--> {@ $colorset = "none" } <!--%import("css/none.css")--> <!--@end-->
 
-{@ $_news_ticker_id = "news_ticker_"+time() }
+{@ $_news_ticker_id = "news_ticker_".time() }
 <div class="news_ticker_{$colorset}">
     <table cellspacing="0">
     <col width="15" />
