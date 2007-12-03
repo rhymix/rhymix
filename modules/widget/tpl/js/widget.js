@@ -112,7 +112,7 @@ function getContentWidgetCode(childObj, widget) {
 function getWidgetBoxCode(childObj, widget) {
     var cobj = childObj.firstChild;
     while(cobj) {
-        if(cobj.className == "widgetBorder") {
+        if(cobj.className == "widgetBorder" || cobj.className == "widgetBoxBorder") {
             var c2obj = cobj.firstChild;
             while(c2obj) {
                 if(c2obj.className == "nullWidget") {
@@ -200,12 +200,12 @@ function completeAddContent(ret_obj) {
 function doAddWidgetBox() {
     var tpl = ''+
     '<div class="widgetOutput" style="float:left;width:100%;height:12px;" widget="widgetBox" >'+
-        '<div class="widgetCopy"></div>'+
-        '<div class="widgetSize"></div>'+
-        '<div class="widgetRemove"></div>'+
-        '<div class="widgetResize"></div>'+
-        '<div class="widgetResizeLeft"></div>'+
-        '<div class="widgetBorder">'+
+        '<div class="widgetBoxCopy"></div>'+
+        '<div class="widgetBoxSize"></div>'+
+        '<div class="widgetBoxRemove"></div>'+
+        '<div class="widgetBoxResize"></div>'+
+        '<div class="widgetBoxResizeLeft"></div>'+
+        '<div class="widgetBoxBorder">'+
             '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
             '<div class="clear"></div>'+
         '</div>'+
@@ -229,6 +229,12 @@ function doAddWidget(fo) {
 // widgetBorder에 height를 widgetOutput와 맞춰줌
 function doFitBorderSize() {
     var obj_list = xGetElementsByClassName('widgetBorder', zonePageObj);
+    for(var i=0;i<obj_list.length;i++) {
+        var obj = obj_list[i];
+        xHeight(obj, xHeight(obj.parentNode));
+        obj.parentNode.style.clear = '';
+    }
+    var obj_list = xGetElementsByClassName('widgetBoxBorder', zonePageObj);
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         xHeight(obj, xHeight(obj.parentNode));
@@ -263,7 +269,7 @@ function doCheckWidget(e) {
         else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget,'GenerateCodeInPage');
         return;
     // 위젯 복사
-    } else if(obj.className == 'widgetCopy') {
+    } else if(obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy') {
         var p_obj = obj.parentNode;
         if(p_obj.className == 'widgetOutput') {
             var dummy = xCreateElement("DIV");
@@ -289,7 +295,7 @@ function doCheckWidget(e) {
         return;
 
     // 위젯 사이트/ 여백 조절
-    } else if(obj.className == 'widgetSize') {
+    } else if(obj.className == 'widgetSize' || obj.className == 'widgetBoxSize') {
         var p_obj = obj.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
@@ -297,7 +303,7 @@ function doCheckWidget(e) {
         doShowWidgetSizeSetup(evt.pageX, evt.pageY, selectedWidget);
         return;
     // 위젯 제거
-    } else if(obj.className == 'widgetRemove') {
+    } else if(obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') {
         var p_obj = obj.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(confirm(confirm_delete_msg)) p_obj.parentNode.removeChild(p_obj);
@@ -332,11 +338,11 @@ function doCheckWidgetDrag(e) {
 
     doHideWidgetSizeSetup();
 
-    if(obj.className == 'widgetSetup' || obj.className == 'widgetCopy' || obj.className == 'widgetSize' || obj.className == 'widgetRemove') return;
+    if(obj.className == 'widgetSetup' || obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy' || obj.className == 'widgetSize' || obj.className == 'widgetBoxSize' || obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') return;
 
     p_obj = obj;
     while(p_obj) {
-        if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize' || p_obj.className == 'widgetResizeLeft') {
+        if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize' || p_obj.className == 'widgetResizeLeft' || p_obj.className == 'widgetBoxResize' || p_obj.className == 'widgetBoxResizeLeft') {
             widgetDragEnable(p_obj, widgetDragStart, widgetDrag, widgetDragEnd);
             widgetMouseDown(e);
             return;
@@ -506,7 +512,7 @@ function doApplyWidgetSize(fo_obj) {
 
         var borderObj = selectedSizeWidget.firstChild;
         while(borderObj) {
-            if(borderObj.nodeName == "DIV" && borderObj.className == "widgetBorder") {
+            if(borderObj.nodeName == "DIV" && (borderObj.className == "widgetBorder" || borderObj.className == "widgetBoxBorder")) {
                 var contentObj = borderObj.firstChild;
                 while(contentObj) {
                     if(contentObj.nodeName == "DIV") {
@@ -621,7 +627,7 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 
 // 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
 function widgetDragStart(tobj, px, py) { 
-    if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' ) return;
+    if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResize' || tobj.className == 'widgetBoxResizeLeft') return;
     var obj = widgetGetTmpObject(tobj);
 
     xInnerHtml(obj, xInnerHtml(tobj));
@@ -655,7 +661,7 @@ function widgetDrag(tobj, dx, dy) {
     if(!float) float = 'left';
 
     // 위젯 리사이즈 (우측)
-    if(tobj.className == 'widgetResize') {
+    if(tobj.className == 'widgetResize' || tobj.className == 'widgetBoxResize') {
         if(nx < sx+minWidth) nx = sx+minWidth;
         if(nx > zoneRight) nx = zoneRight;
 
@@ -677,7 +683,7 @@ function widgetDrag(tobj, dx, dy) {
         xHeight(tobj.parentNode, new_height);
 
     // 위젯 리사이즈 (좌측)
-    } else if(tobj.className == 'widgetResizeLeft') {
+    } else if(tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResizeLeft') {
 
         if(nx < zoneLeft) nx = zoneLeft;
 
