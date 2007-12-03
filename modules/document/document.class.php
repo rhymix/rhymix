@@ -84,6 +84,12 @@
             // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
             if(!$oDB->isIndexExists("documents","idx_module_notice")) return true;
 
+            /**
+             * 2007. 12. 03 : 확장변수(extra_vars) 컬럼이 없을 경우 추가
+             **/
+            if(!$oDB->isColumnExists("documents","extra_vars")) return true;
+
+
             return false;
         }
 
@@ -156,6 +162,11 @@
 
             // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
             if(!$oDB->isIndexExists("documents","idx_module_notice")) $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
+
+            /**
+             * 2007. 12. 03 : 확장변수(extra_vars) 컬럼이 없을 경우 추가
+             **/
+            if(!$oDB->isColumnExists("documents","extra_vars")) $oDB->addColumn('documents','extra_vars','text');
 
             return new Object(0,'success_updated');
         }
