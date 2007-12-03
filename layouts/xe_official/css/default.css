@@ -43,9 +43,9 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 #isSearch ul li label.on { background:#455a5b; }
 #isSearch ul li label:hover,
 #isSearch ul li label:focus { background:#455a5b;}
-#isSearch .inputText { vertical-align:middle; _position:relative; _top:-1px; padding:3px 3px 1px 3px; width:94px; height:15px; color:#ffffff; border:none; background:url(../images/default/bgSearch.gif) no-repeat;}
+#isSearch .inputText { vertical-align:middle; position:relative; top:0; _top:-1px; left:1px; padding:3px 3px 1px 3px; width:94px; height:13px; color:#ffffff; border:1px solid #8E8E8D; background-color:#857C79; }
 #isSearch .inputText:hover,
-#isSearch .inputText:focus { background:url(../images/default/bgSearchOn.gif) no-repeat;}
+#isSearch .inputText:focus { border:1px solid #B0B0AF; background-color:#A9A4A3; }
 *:first-child+html body#default #isSearch .inputText { position:relative; top:-1px;}
 #isSearch .submit { vertical-align:middle; _position:relative; _top:-1px;}
 *:first-child+html body#default #isSearch .submit { position:relative; top:-1px;}
