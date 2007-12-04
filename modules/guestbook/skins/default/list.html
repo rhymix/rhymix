@@ -29,14 +29,14 @@
             </div>
 
             <div class="author">
-            <!--@if(!$document->member_srl)-->
-                <!--@if($document->homepage)-->
-                    <a href="{$document->homepage}" onclick="window.open(this.href);return false;">{$document->getNickName()}</a>
+            <!--@if(!$document->get('member_srl'))-->
+                <!--@if($document->get('homepage'))-->
+                    <a href="{$document->get('homepage')}" onclick="window.open(this.href);return false;">{$document->getNickName()}</a>
                 <!--@else-->
                     {$document->getNickName()}
                 <!--@end-->
             <!--@else-->
-                <div class="member_{$document->member_srl}">{$document->getNickName()}</div>
+                <div class="member_{$document->get('member_srl')}">{$document->getNickName()}</div>
             <!--@end-->
             </div>
 

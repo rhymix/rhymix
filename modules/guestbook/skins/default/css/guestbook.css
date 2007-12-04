@@ -57,7 +57,7 @@
 .documentBox { padding:.6em .6em; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
 .documentBox .documentItem { padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; list-style:none;}
 .documentBox p { display:inline; margin-bottom:1em;}
-.documentBox .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
+.documentBox .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0; cursor:pointer;}
 .documentBox .author a { color:#3074a5; margin-right:.3em; text-decoration:none; }
 .documentBox .voted { float:left; font-size:.9em; color:#AAAAAA; margin:0 .3em .5em 1em;}
 .documentBox .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
