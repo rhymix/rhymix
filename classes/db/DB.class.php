@@ -246,6 +246,7 @@
 
             if( (is_a($output, 'Object')||is_subclass_of($output,'Object'))&&!$output->toBool()) return $output;
 
+
             // action값에 따라서 쿼리 생성으로 돌입
             switch($output->action) {
                 case 'insert' :
@@ -394,6 +395,25 @@
                         return $name.' is null';
                     break;
             }
+        }
+
+        /**
+         * @brief condition key를 return
+         **/
+        function getConditionList($output) {
+            $conditions = array();
+            if(count($output->conditions)) {
+                foreach($output->conditions as $key => $val) {
+                    if($val['condition']) {
+                        foreach($val['condition'] as $k => $v) {
+                            $conditions[] = $v['column'];
+                        }
+                    }
+                }
+            }
+
+            return $conditions;
+
         }
     }
 ?>

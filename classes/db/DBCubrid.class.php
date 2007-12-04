@@ -556,17 +556,45 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
             $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
-            if($output->order) {
-                foreach($output->order as $key => $val) {
+            // list_count를 사용할 경우 적용
+            if($output->list_count['value']) {
+
+                $start_count = 0;
+                $list_count = $output->list_count['value'];
+
+                if ($output->order) {
+                  foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                  }
+                  if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                  $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                else {
+                  if (count($output->groups))
+                    $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count, $list_count);
+                  else {
+                    if ($condition)
+                      $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count, $list_count);
+                    else 
+                      $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count, $list_count);
+                  }
+                }
+
+            } else {
+
+                if($output->order) {
+                    foreach($output->order as $key => $val) {
+                        $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                    }
+                    if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                }
+
             }
 
             $result = $this->_query($query);
