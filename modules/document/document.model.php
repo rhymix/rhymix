@@ -139,7 +139,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
-            if($except_notice) $args->s_is_notice = 'N';
+            //if($except_notice) $args->s_is_notice = 'N';
 
             $query_id = 'document.getDocumentList';
 
@@ -241,15 +241,29 @@
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
 
-            foreach($output->data as $key => $attribute) {
-                $document_srl = $attribute->document_srl;
+            $idx = 0;
+            $data = $output->data;
+            unset($output->data);
 
+            $keys = array_keys($data);
+            $virtual_number = $keys[0];
+
+            if($except_notice) {
+                foreach($data as $key => $attribute) {
+                    if($attribute->is_notice == 'Y') $virtual_number --;
+                }
+            }
+
+            foreach($data as $key => $attribute) {
+                if($except_notice && $attribute->is_notice == 'Y') continue;
+                $document_srl = $attribute->document_srl;
                 $oDocument = null;
                 $oDocument = new documentItem();
                 $oDocument->setAttribute($attribute);
                 if($is_admin) $oDocument->setGrant();
 
-                $output->data[$key] = $oDocument;
+                $output->data[$virtual_number] = $oDocument;
+                $virtual_number --;
             
             }
             return $output;
