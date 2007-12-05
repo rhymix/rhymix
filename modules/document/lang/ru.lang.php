@@ -14,6 +14,8 @@
     $lang->title_bold = 'Жирное Название';
     $lang->title_color = 'Цвет Названия';
 
+    $lang->cmd_search_next = '계속 검색';
+
     $lang->cmd_temp_save = 'Сохранить временно';
 
 	$lang->cmd_toggle_checked_document = 'Перевернуть выбранные объекты';

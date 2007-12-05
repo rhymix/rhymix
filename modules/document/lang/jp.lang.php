@@ -13,6 +13,8 @@
     $lang->move_target_module = "移動対象モジュール";
     $lang->title_bold = 'タイトル太字';
     $lang->title_color = 'タイトル文字色';
+
+    $lang->cmd_search_next = '계속 검색';
     
     $lang->cmd_temp_save = '臨時保存';
 

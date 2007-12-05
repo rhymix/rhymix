@@ -1,0 +1,12 @@
+<query id="getDocumentDivisionCount" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count"/>
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="excess" column="list_order" var="list_order" filter="number" pipe="and" />
+    </conditions>
+</query>

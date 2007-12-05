@@ -8,6 +8,11 @@
     <conditions>
         <condition operation="in" column="module_srl" var="module_srl" filter="number" />
         <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+        <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
+        <group pipe="and">
+            <condition operation="more" column="list_order" var="division" pipe="and" />
+            <condition operation="below" column="list_order" var="last_division" pipe="and" />
+        </group>
         <group pipe="and">
             <condition operation="like" column="title" var="s_title" />
             <condition operation="like" column="content" var="s_content" pipe="or" />
@@ -48,7 +53,6 @@
             <condition operation="like" column="extra_vars19" var="s_extra_vars19" pipe="or" />
             <condition operation="like" column="extra_vars20" var="s_extra_vars20" pipe="or" />
         </group>
-        <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="last_update" var="start_date" pipe="and" />
             <condition operation="less" column="last_update" var="end_date" pipe="and" />
