@@ -266,7 +266,7 @@
             $oSourceComment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$oSourceComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$oSourceComment->isExists()) return $this->dispBlogMessage('msg_invalid_request');
 
             // 대상 댓글을 생성
             $oComment = $oCommentModel->getComment();
@@ -302,7 +302,7 @@
             $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$oComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$oComment->isExists()) return $this->dispBlogMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');
