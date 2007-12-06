@@ -30,7 +30,8 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
-    editor.config.imagePathForDefaultToolbar = request_uri+editor_path.substring(1)+'examples/img/toolbar/';
+    editor.config.imagePathForDefaultToobar = request_uri+editor_path.substring(2)+'examples/img/toolbar/'; 
+    editor.config.imagePathForContent = request_uri+editor_path.substring(2)+'examples/img/content/'; 
     editor.config.allowedAttributes.push('editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic', 'language','align');
     editor.config.allowedTags.push('embed', 'param', 'object');
 
@@ -81,7 +82,7 @@ xq.Editor.prototype.insertHTML = function (html) {
     this.rdom.insertHtml(html);
 }
 
-xq.ui_templates.basicLangSelectDialog='<form action="#" class="xqFormDialog xqBasicLangSelectDialog">\n	<div>\n		 	<select name="lang">\n			<option value="Php">PHP</option>\n			<option value="Css">CSS</option>\n			<option value="JScript">Javascript</option>\n			<option value="Xml">XML</option>\n			<option value="Cpp">C++</option>\n			<option value="CSharp">C#</option>\n			 <option value="Vb">VB</option>\n			 <option value="Java">Java</option>\n			 <option value="Delphi">Delphi</option>\n			 <option value="Python">Python</option>\n			 <option value="Ruby">Ruby</option>\n			 <option value="Sql">SQL</option>\n		 </select>\n		<input type="submit" value="Ok" />\n			<input type="button" class="cancel" value="Cancel" />\	</div>\n</form>';
+xq.ui_templates.basicLangSelectDialog='<form action="#" class="xqFormDialog xqBasicLangSelectDialog">\n	<div>\n		 	<select name="lang" class="initialFocus">\n			<option value="Php">PHP</option>\n			<option value="Css">CSS</option>\n			<option value="JScript">Javascript</option>\n			<option value="Xml">XML</option>\n			<option value="Cpp">C++</option>\n			<option value="CSharp">C#</option>\n			 <option value="Vb">VB</option>\n			 <option value="Java">Java</option>\n			 <option value="Delphi">Delphi</option>\n			 <option value="Python">Python</option>\n			 <option value="Ruby">Ruby</option>\n			 <option value="Sql">SQL</option>\n		 </select>\n		<input type="submit" value="Ok" />\n			<input type="button" class="cancel" value="Cancel" />\	</div>\n</form>';
 
 xq.Editor.prototype.handleList = function (type, selected) {
     if(type == "CODE" && selected == undefined)

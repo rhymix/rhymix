@@ -4,13 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <title>Xquared example - Extension point</title>
 	<link rel="stylesheet" type="text/css" href="css/xq_ui.css" />
-	<script type="text/javascript" src="../js/prototype.js"></script>
 	<script type="text/javascript" src="../js/xquared.js"></script>
 	<script type="text/javascript">//<![CDATA[
 	var xed;
 	
 	window.onload = function() {
-		xed = new xq.Editor($("xqEditor"));
+		xed = new xq.Editor("xqEditor");
 		xed.setEditMode('wysiwyg');
 
 		xed.addShortcuts(getAdditionalShortcuts());
@@ -101,11 +100,10 @@
 			}},
 			{id:'separator', criteria: /^----*$/, handler: function(xed, rdom, block, text) {
 				if(rdom.tree.isBlockContainer(block)) block = rdom.wrapAllInlineOrTextNodesAs("P", block, true)[0];
-				
+				rdom.insertNodeAt(rdom.createElement("HR"), block, "before");
 				block.innerHTML = "";
-				block.appendChild(rdom.createElement("HR"));
-				rdom.selectElement(block);
-				rdom.collapseSelection();
+				rdom.placeCaretAtStartOf(block);
+				return true;
 			}},
 			{id:'heading', criteria: /^\=+[^=]*\=+(\&nbsp;)*$/, handler: function(xed, rdom, block, text) {
 				var textWithoutEqualMarks = text.strip().replace(/=/g, "");

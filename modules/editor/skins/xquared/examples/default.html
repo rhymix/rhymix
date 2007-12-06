@@ -4,13 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <title>Xquared example - Default</title>
 	<link rel="stylesheet" type="text/css" href="css/xq_ui.css" />
-	<script type="text/javascript" src="../js/prototype.js"></script>
 	<script type="text/javascript" src="../js/xquared.js"></script>
 	<script type="text/javascript">//<![CDATA[
 	var xed;
 	
 	window.onload = function() {
-		xed = new xq.Editor($("xqEditor"));
+		xed = new xq.Editor("xqEditor");
 		xed.setEditMode('wysiwyg');
 		xed.loadStylesheet("css/xq_contents.css");
 		xed.focus();

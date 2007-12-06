@@ -2,9 +2,257 @@
  * Namespace for entire Xquared classes
  */
 var xq = {
-	majorVersion: '0.1',
-	minorVersion: '2007119'
+	majorVersion: '0.2',
+	minorVersion: '20071205'
 };
+
+
+
+/**
+ * Add prototype.js like functions
+ */
+xq.Class = function() { // TODO
+	var parent = null, properties = xq.$A(arguments);
+	if (typeof properties[0] == "function")
+		parent = properties.shift();
+	
+	function klass() {
+		this.initialize.apply(this, arguments);
+	}
+	
+	if(parent) {
+		for (var key in parent.prototype)
+			klass.prototype[key] = parent.prototype[key];
+	}
+		
+	for (var key in properties[0])
+		klass.prototype[key] = properties[0][key];
+	
+	if (!klass.prototype.initialize)
+		klass.prototype.initialize = function() {};
+	
+	klass.prototype.constructor = klass;
+	
+	return klass;
+}
+
+xq.observe = function(element, eventName, handler) {
+	if (element.addEventListener) {
+		element.addEventListener(eventName, handler, false);
+	} else {
+		element.attachEvent('on' + eventName, handler);
+	}
+	element = null;
+}
+
+xq.stopObserving = function(element, eventName, handler) {
+	if (element.removeEventListener) {
+		element.removeEventListener(eventName, handler, false);
+	} else {
+		element.detachEvent("on" + eventName, handler);
+	}
+	element = null;
+}
+
+xq.cancelHandler = function(e) {xq.stopEvent(e); return false};
+
+xq.stopEvent = function(event) {
+      if(event.preventDefault) event.preventDefault();
+      if(event.stopPropagation) event.stopPropagation();
+      event.returnValue = false;
+      event.cancelBubble = true;
+      event.stopped = true;
+}
+
+xq.isButton = function(event, code) {
+     return event.which ? (event.which === code + 1) : (event.button === code);
+}
+xq.isLeftClick = function(event) {return isButton(event, 0);}
+xq.isMiddleClick = function(event) {return isButton(event, 1);}
+xq.isRightClick = function(event) {return isButton(event, 2);}
+
+xq.getEventPoint = function(event) {
+	return {
+		x: event.pageX || (event.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft)),
+		y: event.pageY || (event.clientY + (document.documentElement.scrollTop || document.body.scrollTop))
+	};
+}
+
+xq.getCumulativeOffset = function(element) {
+	var top = 0, left = 0;
+	
+	do {
+		top += element.offsetTop  || 0;
+		left += element.offsetLeft || 0;
+		element = element.offsetParent;
+	} while (element);
+	
+	return {top:top, left:left};
+}
+
+xq.$ = function(id) {
+	return document.getElementById(id);
+}
+
+xq.isEmptyHash = function(h) {
+	for(var key in h) {
+		return false;
+	}
+	return true;
+}
+
+xq.$A = function(arraylike) {
+	var len = arraylike.length, a = new Array(len);
+	while (len--) a[len] = arraylike[len];
+	return a;
+}
+
+xq.hasClassName = function(element, className) {
+	var classNames = element.className;
+	return (classNames.length > 0 && (classNames == className || new RegExp("(^|\\s)" + className + "(\\s|$)").test(classNames)));
+}
+
+xq.serializeForm = function(f) {
+
+try{
+	var options = {hash: true};
+	var data = {};
+	var elements = f.getElementsByTagName("*");
+	for(var i = 0; i < elements.length; i++) {
+		var element = elements[i];
+		var tagName = element.tagName.toLowerCase();
+		if(element.disabled || !element.name || ['input', 'textarea', 'option', 'select'].indexOf(tagName) == -1) continue;
+		
+		var key = element.name;
+		var value = xq.getValueOfElement(element);
+		
+		if(value === undefined) continue;
+		
+		if(key in data) {
+			if(data[key].constructor == Array) data[key] = [data[key]];
+			data[key].push(value);
+		} else {
+			data[key] = value;
+		}
+	}
+	return data;
+} catch(e) {alert(e)}
+}
+
+xq.getValueOfElement = function(e) {
+	var type = e.type.toLowerCase();
+	if(type == 'checkbox' || type == 'radio') return e.checked ? e.value : undefined;
+	return e.value;
+}
+
+xq.getElementsByClassName = function(element, className) {
+	if(element.getElementsByClassName) return element.getElementsByClassName(className);
+	
+	var elements = element.getElementsByTagName("*");
+	var len = elements.length;
+	var result = [];
+	var p = new RegExp("(^|\\s)" + className + "($|\\s)");
+	for(var i = 0; i < len; i++) {
+		var cur = elements[i];
+		if(p.test(cur.className)) result.push(cur);
+	}
+	return result;
+}
+
+try {Prototype.version;	__prototype = true;} catch(ignored) {__prototype = false;}
+
+if(!__prototype) {
+	if(!Function.prototype.bind) {
+		Function.prototype.bind = function() {
+			var __m = this, arg = xq.$A(arguments), o = arg.shift();
+			return function() {
+				return __m.apply(o, arg.concat(xq.$A(arguments)));
+			}
+		}
+	}
+	
+	if(!Function.prototype.bindAsEventListener) {
+		Function.prototype.bindAsEventListener = function() {
+			var __m = this, arg = xq.$A(arguments), o = arg.shift();
+			return function(event) {
+				return __m.apply(o, [event || window.event].concat(arg));
+			}
+		}
+	}
+	
+	Array.prototype.find = function(f) {
+		for(var i = 0; i < this.length; i++) {
+			if(f(this[i])) return this[i];
+		}
+	}
+	
+	Array.prototype.findAll = function(f) {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			if(f(this[i])) result.push(this[i]);
+		}
+		return result;
+	}
+	
+	Array.prototype.first = function() {return this[0]}
+	
+	Array.prototype.last = function() {return this[this.length - 1]}
+	
+	Array.prototype.include = function(o) {
+		if (this.indexOf(o) != -1) return true;
+	
+	    var found = false;
+	    for(var i = 0; i < this.length; i++) {
+	    	if(this[i] == o) return true;
+	    }
+	    
+	    return false;
+	}
+	
+	Array.prototype.flatten = function() {
+		var result = [];
+		var _flatten = function(array) {
+			for(var i = 0; i < array.length; i++) {
+				if(array[i].constructor === Array) {
+					_flatten(array[i]);
+				} else {
+					result.push(array[i]);
+				}
+			}
+		}
+		_flatten(this);
+		
+		return result;
+	}
+	
+	String.prototype.blank = function() {
+		return /^\s*$/.test(this);
+	}
+	String.prototype.stripTags = function() {
+	    return this.replace(/<\/?[^>]+>/gi, '');
+	}
+	String.prototype.escapeHTML = function() {
+		xq._text.data = this;
+		return xq._div.innerHTML;
+	}
+	xq._text = document.createTextNode('');
+	xq._div = document.createElement('div');
+	xq._div.appendChild(xq._text);
+	
+	String.prototype.strip = function() {
+		return this.replace(/^\s+/, '').replace(/\s+$/, '');
+	}
+	
+	Array.prototype.indexOf = function(n) {
+		for(var i = 0; i < this.length; i++) {
+			if(this[i] == n) return i;
+		}
+		
+		return -1;
+	}
+}
+
+
 
 /**
  * Make given object as event source
@@ -20,7 +268,7 @@ xq.asEventSource = function(object, prefix, events) {
 			for(var i = 0; i < this._listeners.length; i++) {
 				var listener = this._listeners[i];
 				var func = listener["on" + prefix + name];
-				if(func) func.apply(listener, $A(arguments));
+				if(func) func.apply(listener, xq.$A(arguments));
 			}
 		}
 	}
@@ -33,18 +281,7 @@ xq.asEventSource = function(object, prefix, events) {
 	}
 }
 
-/**
- * Returns the index of given element
- *
- * @returns {Number} index or -1
- */
-Array.prototype.indexOf = function(n) {
-	for(var i = 0; i < this.length; i++) {
-		if(this[i] == n) return i;
-	}
-	
-	return -1;
-}
+
 
 Date.preset = null;
 Date.pass = function(msec) {
@@ -107,8 +344,37 @@ String.prototype.parseURL = function() {
 	};
 }
 
+
+
+/**
+ * Automatic finalizer
+ */
+xq.autoFinalizeQueue = [];
+
+xq.addToFinalizeQueue = function(obj) {
+	xq.autoFinalizeQueue.push(obj);
+}
+
+xq.finalize = function(obj) {
+	if(typeof obj.finalize == "function") {
+		try {obj.finalize();} catch(ignored) {}
+	}
+	
+	for(key in obj) obj[key] = null;
+}
+
+xq.observe(window, "unload", function() {
+	for(var i = 0; i < xq.autoFinalizeQueue.length; i++) xq.finalize(xq.autoFinalizeQueue[i]);
+	xq = null;
+});
+
+
+
+/**
+ * Script loader
+ */
 xq.findXquaredScript = function() {
-    return $A(document.getElementsByTagName("script")).find(function(script) {
+    return xq.$A(document.getElementsByTagName("script")).find(function(script) {
     	return script.src && script.src.match(/xquared\.js/i);
     });
 }
@@ -142,26 +408,31 @@ xq.loadOthers = function() {
 		'Controls.js',
 		'_ui_templates.js'
 	];
-	others.each(function(name) {
-		xq.loadScript(basePath + name);
-	});
+	for(var i = 0; i < others.length; i++) {
+		xq.loadScript(basePath + others[i]);
+	};
 }
 
 if(xq.shouldLoadOthers()) xq.loadOthers();
 /**
  * @fileOverview xq.Editor manages configurations such as autocompletion and autocorrection, edit mode/normal mode switching, handles editing commands, keyboard shortcuts and other events.
  */
-xq.Editor = Class.create({
+xq.Editor = xq.Class({
 	/**
 	 * Initialize editor but it doesn't automatically start designMode. setEditMode should be called after initialization.
 	 *
      * @constructor
-	 * @param {Element} contentElement HTML element(TEXTAREA or normal block element such as DIV) to be replaced with editable area
-	 * @param {Element} toolbarContainer HTML element which contains toolbar icons
+	 * @param {Object} contentElement HTML element(TEXTAREA or normal block element such as DIV) to be replaced with editable area, or DOM ID string.
+	 * @param {Object} toolbarContainer HTML element which contains toolbar icons, or DOM ID string.
 	 */
 	initialize: function(contentElement, toolbarContainer) {
+		xq.addToFinalizeQueue(this);
+		
+		if(typeof contentElement == 'string') contentElement = xq.$(contentElement);
 		if(!contentElement) throw "[contentElement] is null";
 		if(contentElement.nodeType != 1) throw "[contentElement] is not an element";
+		
+		if(typeof toolbarContainer == 'string') toolbarContainer = xq.$(toolbarContainer);
 		
 		xq.asEventSource(this, "Editor", ["ElementChanged", "BeforeEvent", "AfterEvent", "CurrentContentChanged", "StaticContentChanged", "CurrentEditModeChanged"]);
 		
@@ -224,7 +495,8 @@ xq.Editor = Class.create({
 			]
 		];
 		
-		this.config.imagePathForDefaultToobar = request_uri+editor_path.substring(1)+'examples/img/toolbar/';
+		this.config.imagePathForDefaultToobar = 'img/toolbar/';
+		this.config.imagePathForContent = 'img/content/';
 		
 		// relative | host_relative | absolute | browser_default
 		this.config.urlValidationMode = 'absolute';
@@ -335,6 +607,7 @@ xq.Editor = Class.create({
 		 * @type Array
 		 */
 		this.toolbarButtons = null;
+		this._toolbarAnchorsCache = [];
 		
 		/**
 		 * Undo/redo manager
@@ -367,6 +640,15 @@ xq.Editor = Class.create({
 				xed.updateAllToolbarButtonsStatus(curFocusElement);
 			}
 		});
+	},
+	
+	finalize: function() {
+		for(var i = 0; i < this._toolbarAnchorsCache.length; i++) {
+			this._toolbarAnchorsCache[i].xed = null;
+			this._toolbarAnchorsCache[i].handler = null;
+			this._toolbarAnchorsCache[i] = null;
+		}
+		this._toolbarAnchorsCache = null;
 	},
 	
 	
@@ -475,9 +757,9 @@ xq.Editor = Class.create({
 	 * @param {Array} list of shortcuts. each element should have following structure: {event:"keymap expression", handler:handler}
 	 */
 	addShortcuts: function(list) {
-		list.each(function(shortcut) {
-			this.addShortcut(shortcut.event, shortcut.handler);
-		}.bind(this));
+		for(var i = 0; i < list.length; i++) {
+			this.addShortcut(list[i].event, list[i].handler);
+		}
 	},
 
 	/**
@@ -520,9 +802,9 @@ xq.Editor = Class.create({
 	 * @param {Array} list of autocorrection. each element should have following structure: {id:"identifier", criteria:criteria, handler:handler}
 	 */
 	addAutocorrections: function(list) {
-		list.each(function(ac) {
-			this.addAutocorrection(ac.id, ac.criteria, ac.handler);
-		}.bind(this));
+		for(var i = 0; i < list.length; i++) {
+			this.addAutocorrection(list[i].id, list[i].criteria, list[i].handler);
+		}
 	},
 	
 	/**
@@ -568,9 +850,9 @@ xq.Editor = Class.create({
 	 * @param {Array} list of autocompletion. each element should have following structure: {id:"identifier", criteria:criteria, handler:handler}
 	 */
 	addAutocompletions: function(list) {
-		list.each(function(ac) {
-			this.addAutocompletion(ac.id, ac.criteria, ac.handler);
-		}.bind(this));
+		for(var i = 0; i < list.length; i++) {
+			this.addAutocompletion(list[i].id, list[i].criteria, list[i].handler);
+		}
 	},
 	
 	/**
@@ -608,9 +890,9 @@ xq.Editor = Class.create({
 	 * @param {Array} list of template processors. Each element should have following structure: {id:"identifier", handler:handler}
 	 */
 	addTemplateProcessors: function(list) {
-		list.each(function(tp) {
-			this.addTemplateProcessor(tp.id, tp.handler);
-		}.bind(this));
+		for(var i = 0; i < list.length; i++) {
+			this.addTemplateProcessor(list[i].id, list[i].handler);
+		}
 	},
 	
 	/**
@@ -650,9 +932,9 @@ xq.Editor = Class.create({
 	 * @param {Array} list of handlers. Each element should have following structure: {id:"identifier", handler:handler}
 	 */
 	addContextMenuHandlers: function(list) {
-		list.each(function(mh) {
-			this.addContextMenuHandler(mh.id, mh.handler);
-		}.bind(this));
+		for(var i = 0; i < list.length; i++) {
+			this.addContextMenuHandler(list[i].id, list[i].handler);
+		}
 	},
 	
 	/**
@@ -849,15 +1131,16 @@ xq.Editor = Class.create({
 		if(!this.toolbarContainer) return;
 		exceptions = exceptions || [];
 		
-		$(this.toolbarContainer).select('li').each(function(li) {
-			var buttonsClassName = li.classNames().find(function(name) {return name != 'xq_separator'});
-			var exception = exceptions.include(buttonsClassName);
-			exec(li, exception);
-		});
+		var lis = this.toolbarContainer.getElementsByTagName('LI');
+		for(var i = 0; i < lis.length; i++) {
+			var buttonsClassName = lis[i].className.split(" ").find(function(name) {return name != 'xq_separator'});
+			var exception = exceptions.indexOf(buttonsClassName) != -1;
+			exec(lis[i], exception);
+		}
 	},
 
 	_updateToolbarButtonStatus: function(buttonClassName, selected) {
-		var button = this.toolbarButtons.get(buttonClassName);
+		var button = this.toolbarButtons[buttonClassName];
 		if(button) button.firstChild.firstChild.className = selected ? 'selected' : '';
 	},
 	
@@ -871,13 +1154,13 @@ xq.Editor = Class.create({
 				"paragraph", "heading1", "heading2", "heading3", "heading4", "heading5", "heading6"
 			];
 			
-			this.toolbarButtons = $H({});
+			this.toolbarButtons = {};
 			
-			classNames.each(function(className) {
-				var found = $(this.toolbarContainer).getElementsBySelector("." + className);
+			for(var i = 0; i < classNames.length; i++) {
+				var found = xq.getElementsByClassName(this.toolbarContainer, classNames[i]);
 				var button = found && found.length > 0 ? found[0] : null;
-				if(button) this.toolbarButtons.set(className, button);
-			}.bind(this));
+				if(button) this.toolbarButtons[classNames[i]] = button;
+			}
 		}
 		
 		var buttons = this.toolbarButtons;
@@ -1128,6 +1411,15 @@ xq.Editor = Class.create({
 			this.editorDoc.documentElement.style.overflowX='hidden';
 		}
 		
+		// override image path
+		if(this.config.generateDefaultToolbar) {
+			this._addStyleRules([
+				{selector:".xquared div.toolbar", rule:"background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarBg.gif)"},
+				{selector:".xquared ul.buttons li", rule:"background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarButtonBg.gif)"},
+				{selector:".xquared ul.buttons li.xq_separator", rule:"background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarSeparator.gif)"}
+			]);
+		}
+		
 		this.rdom.setWin(this.editorWin);
 		this.rdom.setRoot(this.editorBody);
 		this.validator = xq.Validator.createInstance(this.doc.location.href, this.config.urlValidationMode, this.config.allowedTags, this.config.allowedAttributes);
@@ -1147,30 +1439,51 @@ xq.Editor = Class.create({
 		}
 	},
 	
-	_addStyleRule: function(selector, rule) {
+	_addStyleRules: function(rules) {
 		if(!this.dynamicStyle) {
 			if(xq.Browser.isTrident) {
 			    this.dynamicStyle = this.doc.createStyleSheet();
 			} else {
 	    		var style = this.doc.createElement('style');
 	    		this.doc.body.appendChild(style);
-		    	this.dynamicStyle = $A(this.doc.styleSheets).last();
+		    	this.dynamicStyle = xq.$A(this.doc.styleSheets).last();
 			}
 		}
 		
-		if(xq.Browser.isTrident) {
-			this.dynamicStyle.addRule(selector, rule);
+		for(var i = 0; i < rules.length; i++) {
+			var rule = rules[i];
+			if(xq.Browser.isTrident) {
+				this.dynamicStyle.addRule(rules[i].selector, rules[i].rule);
+			} else {
+		    	this.dynamicStyle.insertRule(rules[i].selector + " {" + rules[i].rule + "}", this.dynamicStyle.cssRules.length);
+	    	}
+		}
+	},
+	
+	_defaultToolbarClickHandler: function(e) {
+		var src = e.target || e.srcElement;
+		while(src.nodeName != "A") src = src.parentNode;
+		
+		if(xq.hasClassName(src.parentNode, 'disabled') || xq.hasClassName(this.toolbarContainer, 'disabled')) {
+			xq.stopEvent(e);
+			return false;
+		}
+		
+		if(xq.Browser.isTrident) this.focus();
+		
+		var handler = src.handler;
+		var xed = this;
+		var stop = (typeof handler == "function") ? handler(this) : eval(handler);
+		
+		if(stop) {
+			xq.stopEvent(e);
+			return false;
 		} else {
-	    	this.dynamicStyle.insertRule(selector + " {" + rule + "}", this.dynamicStyle.cssRules.length);
-    	}
+			return true;
+		}
 	},
 	
 	_generateDefaultToolbar: function() {
-		// override image path
-		this._addStyleRule(".xquared div.toolbar", "background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarBg.gif)");
-		this._addStyleRule(".xquared ul.buttons li", "background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarButtonBg.gif)");
-		this._addStyleRule(".xquared ul.buttons li.xq_separator", "background-image: url(" + this.config.imagePathForDefaultToobar + "toolbarSeparator.gif)");
-		
 		// outmost container
 		var container = this.doc.createElement('div');
 		container.className = 'toolbar';
@@ -1181,7 +1494,6 @@ xq.Editor = Class.create({
 		container.appendChild(buttons);
 		
 		// Generate buttons from map and append it to button container
-		var cancelMousedown = function(e) {Event.stop(e); return false};
 		var map = this.config.defaultToolbarButtonMap;
 		for(var i = 0; i < map.length; i++) {
 			for(var j = 0; j < map[i].length; j++) {
@@ -1199,28 +1511,12 @@ xq.Editor = Class.create({
 				a.href = '#';
 				a.title = buttonConfig.title;
 				a.handler = buttonConfig.handler;
-				a.xed = this;
-				Event.observe(a, 'mousedown', cancelMousedown);
-				Event.observe(a, 'click', function(e) {
-					var xed = this.xed;
-					
-					if($(this.parentNode).hasClassName('disabled') || xed.toolbarContainer.hasClassName('disabled')) {
-						Event.stop(e);
-						return false;
-					}
-					
-					if(xq.Browser.isTrident) xed.focus();
-					
-					var handler = this.handler;
-					var stop = (typeof handler == "function") ? handler(xed) : eval(handler);
-					if(stop) {
-						Event.stop(e);
-						return false;
-					} else {
-						return true;
-					}
-				}.bind(a));
 				
+				this._toolbarAnchorsCache.push(a);
+				
+				xq.observe(a, 'mousedown', xq.cancelHandler);
+				xq.observe(a, 'click', this._defaultToolbarClickHandler.bindAsEventListener(this));
+
 				var img = this.doc.createElement('img');
 				a.appendChild(img);
 				img.src = this.config.imagePathForDefaultToobar + buttonConfig.className + '.gif';
@@ -1238,13 +1534,13 @@ xq.Editor = Class.create({
 	// Event Management
 	
 	_registerEventHandlers: function() {
-		var events = ['keydown', 'click', 'keyup', 'mouseup', 'contextmenu', 'scroll'];
+		var events = ['keydown', 'click', 'keyup', 'mouseup', 'contextmenu'];
 		
 		if(xq.Browser.isTrident && this.config.changeCursorOnLink) events.push('mousemove');
 		if(xq.Browser.isMac && xq.Browser.isGecko) events.push('keypress');
 		
 		for(var i = 0; i < events.length; i++) {
-			Event.observe(this.getDoc(), events[i], this._handleEvent.bindAsEventListener(this));
+			xq.observe(this.getDoc(), events[i], this._handleEvent.bindAsEventListener(this));
 		}
 	},
 	
@@ -1258,7 +1554,11 @@ xq.Editor = Class.create({
 		if(e.type == 'mousemove' && this.config.changeCursorOnLink) {
 			// Trident only
 			var link = !!this.rdom.getParentElementOf(e.srcElement, ["A"]);
-			if(this.editorBody.contentEditable != link && !this.rdom.hasSelection()) this.editorBody.contentEditable = !link;
+			
+			var editable = this.editorBody.contentEditable;
+			editable = editable == 'inherit' ? false : editable;
+			
+			if(editable != link && !this.rdom.hasSelection()) this.editorBody.contentEditable = !link;
 		} else if(e.type == 'click' && e.button == 0 && this.config.enableLinkClick) {
 			var a = this.rdom.getParentElementOf(e.target || e.srcElement, ["A"]);
 			if(a) stop = this.handleClick(e, a);
@@ -1275,13 +1575,13 @@ xq.Editor = Class.create({
 				
 				if(key == "undo") undoPerformed = true;
 			}
-		} else if(["mouseup", "keyup"].include(e.type)) {
+		} else if(["mouseup", "keyup"].indexOf(e.type) != -1) {
 			modifiedByCorrection = this.rdom.correctParagraph();
-		} else if(["contextmenu"].include(e.type)) {
+		} else if(["contextmenu"].indexOf(e.type) != -1) {
 			this._handleContextMenu(e);
 		}
 		
-		if(stop) Event.stop(e);
+		if(stop) xq.stopEvent(e);
 		
 		this._fireOnCurrentContentChanged(this);
 		this._fireOnAfterEvent(this, e);
@@ -1335,8 +1635,8 @@ xq.Editor = Class.create({
 	 * TODO: remove dup with handleAutocorrection
 	 */
 	handleAutocompletion: function() {
-		var acs = $H(this.config.autocompletions);
-		if(acs.size() == 0) return;
+		var acs = this.config.autocompletions;
+		if(xq.isEmptyHash(acs)) return;
 
 		if(this.rdom.hasSelection()) {
 			var text = this.rdom.getSelectionAsText();
@@ -1345,41 +1645,58 @@ xq.Editor = Class.create({
 			wrapper.innerHTML = text;
 			
 			var marker = this.rdom.pushMarker();
-
-			var filtered = 
-				acs.map(function(pair) {
-					return [pair.key, pair.value.criteria(text)];
-				}.bind(this)).findAll(function(elem) {
-					return elem[1] != -1;
-				}).sortBy(function(elem) {
-					return elem[1];
-				});
 			
+			var filtered = [];
+			for(var key in acs) {
+				filtered.push([key, acs[key].criteria(text)]);
+			}
+			filtered = filtered.findAll(function(elem) {
+				return elem[1] != -1;
+			});
+
 			if(filtered.length == 0) {
 				this.rdom.popMarker(true);
 				return;
 			}
-			var ac = acs.get(filtered[0][0]);
+
+			var minIndex = 0;
+			var min = filtered[0][1];
+			for(var i = 0; i < filtered.length; i++) {
+				if(filtered[i][1] < min) {
+					minIndex = i;
+					min = filtered[i][1];
+				}
+			}
+			
+			var ac = acs[filtered[minIndex][0]];
 			
 			this.editHistory.disable();
 		} else {
 			var marker = this.rdom.pushMarker();
-			
-			var filtered = 
-				acs.map(function(pair) {
-					return [pair.key, this.rdom.testSmartWrap(marker, pair.value.criteria).textIndex];
-				}.bind(this)).findAll(function(elem) {
-					return elem[1] != -1;
-				}).sortBy(function(elem) {
-					return elem[1];
-				});
+
+			var filtered = [];
+			for(var key in acs) {
+				filtered.push([key, this.rdom.testSmartWrap(marker, acs[key].criteria).textIndex]);
+			}
+			filtered = filtered.findAll(function(elem) {
+				return elem[1] != -1;
+			});
 			
 			if(filtered.length == 0) {
 				this.rdom.popMarker(true);
 				return;
 			}
 			
-			var ac = acs.get(filtered[0][0]);
+			var minIndex = 0;
+			var min = filtered[0][1];
+			for(var i = 0; i < filtered.length; i++) {
+				if(filtered[i][1] < min) {
+					minIndex = i;
+					min = filtered[i][1];
+				}
+			}
+			
+			var ac = acs[filtered[minIndex][0]];
 			
 			this.editHistory.disable();
 			
@@ -1405,7 +1722,6 @@ xq.Editor = Class.create({
 		try {
 			this.rdom.unwrapElement(wrapper);
 		} catch(ignored) {}
-
 		
 		if(this.rdom.isEmptyBlock(block)) this.rdom.correctEmptyElement(block);
 		
@@ -1701,7 +2017,7 @@ xq.Editor = Class.create({
 		var rtable = new xq.RichTable(this.rdom, table);
 		var target = null;
 		
-		if(["next", "prev"].include(dir)) {
+		if(["next", "prev"].indexOf(dir) != -1) {
 			var toNext = dir == "next";
 			target = toNext ? rtable.getNextCellOf(cell) : rtable.getPreviousCellOf(cell);
 		} else {
@@ -1710,7 +2026,7 @@ xq.Editor = Class.create({
 		}
 
 		if(!target) {
-			var finder = function(node) {return !['TD', 'TH'].include(node.nodeName) && this.tree.isBlock(node) && !this.tree.hasBlocks(node);}.bind(this.rdom);
+			var finder = function(node) {return ['TD', 'TH'].indexOf(node.nodeName) == -1 && this.tree.isBlock(node) && !this.tree.hasBlocks(node);}.bind(this.rdom);
 			var exitCondition = function(node) {return this.tree.isBlock(node) && !this.tree.isDescendantOf(this.getRoot(), node)}.bind(this.rdom);
 			
 			target = (toNext || toBelow) ? 
@@ -2161,24 +2477,26 @@ xq.Editor = Class.create({
 	
 	_handleContextMenu: function(e) {
 		if (xq.Browser.isWebkit) {
-			if (e.metaKey || Event.isLeftClick(e)) return false;
+			if (e.metaKey || xq.isLeftClick(e)) return false;
 		} else if (e.shiftKey || e.ctrlKey || e.altKey) {
 			return false;
 		}
 		
-		var x=Event.pointerX(e);
-		var y=Event.pointerY(e);
-		var pos=Position.cumulativeOffset(this.getFrame());
-		x+=pos[0];
-		y+=pos[1];
+		var point = xq.getEventPoint(e);
+		var x = point.x;
+		var y = point.y;
+		
+		var pos = xq.getCumulativeOffset(this.getFrame());
+		x += pos.left;
+		y += pos.top;
 		this._contextMenuTargetElement = e.target || e.srcElement;
 		
 		//TODO: Safari on Windows doesn't work with context key(app key)
 		if (!x || !y || xq.Browser.isTrident) {
-			var pos = Position.cumulativeOffset(this._contextMenuTargetElement);
-			var posFrame = Position.cumulativeOffset(this.getFrame());
-			x = pos[0] + posFrame[0] - this.getDoc().documentElement.scrollLeft;
-			y = pos[1] + posFrame[1] - this.getDoc().documentElement.scrollTop;
+			var pos = xq.getCumulativeOffset(this._contextMenuTargetElement);
+			var posFrame = xq.getCumulativeOffset(this.getFrame());
+			x = pos.left + posFrame.left - this.getDoc().documentElement.scrollLeft;
+			y = pos.top + posFrame.top - this.getDoc().documentElement.scrollTop;
 		}
 		
 		if (!xq.Browser.isTrident) {
@@ -2197,7 +2515,7 @@ xq.Editor = Class.create({
 		for(var cmh in this.config.contextMenuHandlers) {
 			var stop = this.config.contextMenuHandlers[cmh].handler(this, this._contextMenuTargetElement, x, y);
 			if(stop) {
-				Event.stop(e);
+				xq.stopEvent(e);
 				return true;
 			}
 		}
@@ -2213,8 +2531,8 @@ xq.Editor = Class.create({
 			this._contextMenuContainer.className = 'xqContextMenu';
 			this._contextMenuContainer.style.display='none';
 			
-			Event.observe(this.doc, 'click', this._contextMenuClicked.bindAsEventListener(this));
-			Event.observe(this.rdom.getDoc(), 'click', this.hideContextMenu.bindAsEventListener(this));
+			xq.observe(this.doc, 'click', this._contextMenuClicked.bindAsEventListener(this));
+			xq.observe(this.rdom.getDoc(), 'click', this.hideContextMenu.bindAsEventListener(this));
 			
 			this.body.appendChild(this._contextMenuContainer);
 		} else {
@@ -2267,7 +2585,10 @@ xq.Editor = Class.create({
 		
 		if (!this._contextMenuContainer) return;
 		
-		var node = Event.findElement(e, 'LI');
+		var node = e.srcElement || e.target;
+		while(node && node.nodeName != "LI") {
+			node = node.parentNode;
+		}
 		if (!node || !this.rdom.tree.isDescendantOf(this._contextMenuContainer, node)) return;
 
 		for (var i=0; i < this._contextMenuItems.length; i++) {
@@ -2312,9 +2633,10 @@ xq.Editor = Class.create({
 	
 	_processTemplate: function(html) {
 		// apply template processors
-		var tps = $H(this.getTemplateProcessors()).values();
-		for(var i = 0; i < tps.length; i++) {
-			html = tps[i].handler(html);
+		var tps = this.getTemplateProcessors();
+		for(var key in tps) {
+			var value = tps[key];
+			html = value.handler(html);
 		}
 		
 		// remove all whitespace characters between block tags
@@ -2374,8 +2696,10 @@ xq.Browser = {
 	isIE6: navigator.userAgent.indexOf('MSIE 6') != -1,
 	isIE7: navigator.userAgent.indexOf('MSIE 7') != -1
 };
-xq.Shortcut = Class.create({
+xq.Shortcut = xq.Class({
 	initialize: function(keymapOrExpression) {
+		xq.addToFinalizeQueue(this);
+
 		this.keymap = (typeof keymapOrExpression == "string") ?
 			xq.Shortcut.interprete(keymapOrExpression).keymap :
 			keymapOrExpression;
@@ -2506,8 +2830,9 @@ xq.Shortcut._keyNames =
  *
  * TODO: Add specs
  */
-xq.DomTree = Class.create({
+xq.DomTree = xq.Class({
 	initialize: function() {
+		xq.addToFinalizeQueue(this);
 		this._blockTags = ["DIV", "DD", "LI", "ADDRESS", "CAPTION", "DT", "H1", "H2", "H3", "H4", "H5", "H6", "HR", "P", "BODY", "BLOCKQUOTE", "PRE", "PARAM", "DL", "OL", "UL", "TABLE", "THEAD", "TBODY", "TR", "TH", "TD"];
 		this._blockContainerTags = ["DIV", "DD", "LI", "BODY", "BLOCKQUOTE", "UL", "OL", "DL", "TABLE", "THEAD", "TBODY", "TR", "TH", "TD"];
 		this._listContainerTags = ["OL", "UL", "DL"];
@@ -2590,6 +2915,7 @@ xq.DomTree = Class.create({
 		
 		var left = findLeft(element);
 		var right = findRight(element);
+		
 		return [left == element ? null : left, right == element ? null : right];
 	},
 	
@@ -2782,17 +3108,17 @@ xq.DomTree = Class.create({
 	
 	isBlockOnlyContainer: function(element) {
 		if(!element) return false;
-		return this._blockOnlyContainerTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._blockOnlyContainerTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isTableCell: function(element) {
 		if(!element) return false;
-		return this._tableCellTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._tableCellTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isBlockContainer: function(element) {
 		if(!element) return false;
-		return this._blockContainerTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._blockContainerTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isHeading: function(element) {
@@ -2802,17 +3128,17 @@ xq.DomTree = Class.create({
 	
 	isBlock: function(element) {
 		if(!element) return false;
-		return this._blockTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._blockTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isAtomic: function(element) {
 		if(!element) return false;
-		return this._atomicTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._atomicTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isListContainer: function(element) {
 		if(!element) return false;
-		return this._listContainerTags.include(typeof element == 'string' ? element : element.nodeName);
+		return this._listContainerTags.indexOf(typeof element == 'string' ? element : element.nodeName) != -1;
 	},
 	
 	isTextOrInlineNode: function(node) {
@@ -2824,13 +3150,15 @@ xq.DomTree = Class.create({
  *
  * RichDom provides basic CRUD + Advanced DOM manipulation API, various query methods and caret/selection management API
  */
-xq.RichDom = Class.create({
+xq.RichDom = xq.Class({
 	/**
 	 * Initialize RichDom. Target window and root element should be set after initialization. See setWin and setRoot.
 	 *
      * @constructor
 	 */
 	initialize: function() {
+		xq.addToFinalizeQueue(this);
+
 		/**
 		 * {xq.DomTree} instance of DomTree
 		 */
@@ -2921,7 +3249,7 @@ xq.RichDom = Class.create({
 	 * @param {Object} map key-value pairs
 	 */
 	setAttributes: function(element, map) {
-		for(key in map) element.setAttribute(key, map[key]);
+		for(var key in map) element.setAttribute(key, map[key]);
 	},
 
 	/**
@@ -3023,8 +3351,8 @@ xq.RichDom = Class.create({
 	 */
 	insertNodeAt: function(node, target, where, performValidation) {
 		if(
-			["HTML", "HEAD"].include(target.nodeName) ||
-			["BODY"].include(target.nodeName) && ["before", "after"].include(where)
+			["HTML", "HEAD"].indexOf(target.nodeName) != -1 ||
+			"BODY" == target.nodeName && ["before", "after"].indexOf(where) != -1
 		) throw "Illegal argument. Cannot move node[" + node.nodeName + "] to '" + where + "' of target[" + target.nodeName + "]"
 		
 		var object;
@@ -3217,7 +3545,10 @@ xq.RichDom = Class.create({
 		
 		// find textnode and break-point
 		var nodeIndex = 0;
-		var nodeValues = textNodes.pluck("nodeValue");
+		var nodeValues = [];
+		for(var i = 0; i < textNodes.length; i++) {
+			nodeValues.push(textNodes[i].nodeValue);
+		}
 		var textToWrap = nodeValues.join("");
 		var textIndex = criteria(textToWrap)
 		var breakPoint = textIndex;
@@ -3531,13 +3862,16 @@ xq.RichDom = Class.create({
 			var elements = this.getBlockElementsBetween(from, to);
 			for(var i = 0; i < elements.length; i++) {
 				if(this.tree.isBlockContainer(elements[i])) {
-					applied.push(this.wrapAllInlineOrTextNodesAs(tagName, elements[i], true));
+					var wrappers = this.wrapAllInlineOrTextNodesAs(tagName, elements[i], true);
+					for(var j = 0; j < wrappers.length; j++) {
+						applied.push(wrappers[j]);
+					}
 				} else {
 					applied.push(this.replaceTag(tagName, elements[i]));
 				}
 			}
 		}
-		return applied.flatten();
+		return applied;
 	},
 	
 	/**
@@ -3564,7 +3898,7 @@ xq.RichDom = Class.create({
 			
 			if(target) {
 				var singleNodeLi = target.nodeName == 'LI' && ((target.childNodes.length == 1 && this.tree.isBlock(target.firstChild)) || !this.tree.hasBlocks(target));
-				var table = ['TABLE', 'TR'].include(target.nodeName);
+				var table = ['TABLE', 'TR'].indexOf(target.nodeName) != -1;
 
 				where = this.tree.isBlockContainer(target) && !singleNodeLi && !table ? "end" : "before";
 			} else if(block.parentNode != this.getRoot()) {
@@ -3576,7 +3910,7 @@ xq.RichDom = Class.create({
 			
 			if(target) {
 				var singleNodeLi = target.nodeName == 'LI' && ((target.childNodes.length == 1 && this.tree.isBlock(target.firstChild)) || !this.tree.hasBlocks(target));
-				var table = ['TABLE', 'TR'].include(target.nodeName);
+				var table = ['TABLE', 'TR'].indexOf(target.nodeName) != -1;
 				
 				where = this.tree.isBlockContainer(target) && !singleNodeLi && !table ? "start" : "after";
 			} else if(block.parentNode != this.getRoot()) {
@@ -3588,7 +3922,7 @@ xq.RichDom = Class.create({
 		
 		// no way to go?
 		if(!target) return null;
-		if(["TBODY", "THEAD"].include(target.nodeName)) return null;
+		if(["TBODY", "THEAD"].indexOf(target.nodeName) != -1) return null;
 		
 		// normalize
 		this.wrapAllInlineOrTextNodesAs("P", target, true);
@@ -3617,6 +3951,8 @@ xq.RichDom = Class.create({
 				this.deleteNode(moved.nextSibling);
 			}
 		}
+		
+		this.correctEmptyElement(moved);
 		
 		return moved;
 	},
@@ -3714,7 +4050,7 @@ xq.RichDom = Class.create({
 	 * Split container of element into (maxium) three pieces.
 	 */
 	splitContainerOf: function(element, preserveElementItself, dir) {
-		if([element, element.parentNode].include(this.getRoot())) return element;
+		if([element, element.parentNode].indexOf(this.getRoot()) != -1) return element;
 
 		var container = element.parentNode;
 		if(element.previousSibling && (!dir || dir.toLowerCase() == "prev")) {
@@ -3746,7 +4082,7 @@ xq.RichDom = Class.create({
 	 */
 	splitParentElement: function(seperator) {
 		var parent = seperator.parentNode;
-		if(["HTML", "HEAD", "BODY"].include(parent.nodeName)) throw "Illegal argument. Cannot seperate element[" + parent.nodeName + "]";
+		if(["HTML", "HEAD", "BODY"].indexOf(parent.nodeName) != -1) throw "Illegal argument. Cannot seperate element[" + parent.nodeName + "]";
 
 		var previousSibling = seperator.previousSibling;
 		var nextSibling = seperator.nextSibling;
@@ -3824,8 +4160,8 @@ xq.RichDom = Class.create({
 		
 		try {
 			var containersAreTableCell =
-				prevContainer && (this.tree.isTableCell(prevContainer) || ['TR', 'THEAD', 'TBODY'].include(prevContainer.nodeName)) &&
-				nextContainer && (this.tree.isTableCell(nextContainer) || ['TR', 'THEAD', 'TBODY'].include(nextContainer.nodeName));
+				prevContainer && (this.tree.isTableCell(prevContainer) || ['TR', 'THEAD', 'TBODY'].indexOf(prevContainer.nodeName) != -1) &&
+				nextContainer && (this.tree.isTableCell(nextContainer) || ['TR', 'THEAD', 'TBODY'].indexOf(nextContainer.nodeName) != -1);
 			
 			if(containersAreTableCell && prevContainer != nextContainer) return null;
 			
@@ -3964,7 +4300,7 @@ xq.RichDom = Class.create({
 	 * @param {Elemet} to target element
 	 */
 	moveChildNodes: function(from, to) {
-		if(this.tree.isDescendantOf(from, to) || ["HTML", "HEAD"].include(to.nodeName))
+		if(this.tree.isDescendantOf(from, to) || ["HTML", "HEAD"].indexOf(to.nodeName) != -1)
 			throw "Illegal argument. Cannot move children of element[" + from.nodeName + "] to element[" + to.nodeName + "]";
 		
 		if(from == to) return;
@@ -3988,7 +4324,7 @@ xq.RichDom = Class.create({
 		for(var i = 0; i < attrs.length; i++) {
 			if(attrs[i].nodeName == "class" && attrs[i].nodeValue) {
 				to.className = attrs[i].nodeValue;
-			} else if((copyId || !["id"].include(attrs[i].nodeName)) && attrs[i].nodeValue) {
+			} else if((copyId || "id" != attrs[i].nodeName) && attrs[i].nodeValue) {
 				to.setAttribute(attrs[i].nodeName, attrs[i].nodeValue);
 			}
 		}
@@ -4017,7 +4353,7 @@ xq.RichDom = Class.create({
 			}
 		}
 
-		var children=$A(node.childNodes);
+		var children=xq.$A(node.childNodes);
 		for (var i=0; i < children.length; i++)
 			this._indentElements(children[i], blocks, affect);
 		return;
@@ -4036,7 +4372,7 @@ xq.RichDom = Class.create({
 				return [affected];
 		}
 		
-		var children = $A(top.parent.childNodes);
+		var children = xq.$A(top.parent.childNodes);
 		for (var i=0; i < children.length; i++) {
 			this._indentElements(children[i], blocks, affect);
 		}
@@ -4069,7 +4405,7 @@ xq.RichDom = Class.create({
 		}
 		
 		if (blocks.include(node)) {
-			var children = $A(node.parentNode.childNodes);
+			var children = xq.$A(node.parentNode.childNodes);
 			var isCode = this.outdentElementsCode(node);
 			var affected = this.outdentElement(node, true, isCode);
 			if (affected) {
@@ -4084,7 +4420,7 @@ xq.RichDom = Class.create({
 			}
 		}
 
-		var children=$A(node.childNodes);
+		var children=xq.$A(node.childNodes);
 		for (var i=0; i < children.length; i++)
 			this._outdentElements(children[i], blocks, affect);
 		return;
@@ -4108,7 +4444,7 @@ xq.RichDom = Class.create({
 				return [affected];
 		}
 		
-		var children = $A(top.parent.childNodes);
+		var children = xq.$A(top.parent.childNodes);
 		for (var i=0; i < children.length; i++) {
 			this._outdentElements(children[i], blocks, affect);
 		}
@@ -4299,10 +4635,9 @@ xq.RichDom = Class.create({
 	},
 	
 	justifyBlocks: function(blocks, dir) {
-		blocks.each(function(block) {
-			this.justifyBlock(block, dir);
-		}.bind(this));
-		
+		for(var i = 0; i < blocks.length; i++) {
+			this.justifyBlock(blocks[i], dir);
+		}
 		return blocks;
 	},
 	
@@ -4466,7 +4801,7 @@ xq.RichDom = Class.create({
 		return null;
 	},
 	wrapBlock: function(tag, start, end) {
-		if(!this.tree._blockTags.include(tag)) throw "Unsuppored block container: [" + tag + "]";
+		if(this.tree._blockTags.indexOf(tag) == -1) throw "Unsuppored block container: [" + tag + "]";
 		if(!start) start = this.getCurrentBlockElement();
 		if(!end) end = start;
 		
@@ -4782,18 +5117,19 @@ xq.RichDom = Class.create({
 		if(!found) found = [];
 
 		var regexp = /^h[1-6]/ig;
-
-		if (!element.childNodes) return [];
-		$A(element.childNodes).each(function(child) {
-			var isContainer = child && this.tree._blockContainerTags.include(child.nodeName);
-			var isHeading = child && child.nodeName.match(regexp);
+		var nodes = element.childNodes;
+		if (!nodes) return [];
+		
+		for(var i = 0; i < nodes.length; i++) {
+			var isContainer = nodes[i] && this.tree._blockContainerTags.indexOf(nodes[i].nodeName) != -1;
+			var isHeading = nodes[i] && nodes[i].nodeName.match(regexp);
 
 			if (isContainer) {
-				this.searchHeadings(child, found);
+				this.searchHeadings(nodes[i], found);
 			} else if (isHeading) {
-				found.push(child);
+				found.push(nodes[i]);
 			}
-		}.bind(this));
+		}
 
 		return found;
 	},
@@ -4808,6 +5144,10 @@ xq.RichDom = Class.create({
 		if(!element || element.nodeName == "#document") return {};
 
 		var block = this.getParentBlockElementOf(element);
+		
+		// IE���� ��Ȥ DOM�� �� ��: element�� ���ڷ� �Ѿ�4�?��찡��?
+		if(block == null) return {};
+		
 		var parents = this.tree.collectParentsOf(element, true, function(node) {return block.parentNode == node});
 		var blockName = block.nodeName;
 
@@ -4846,37 +5186,6 @@ xq.RichDom = Class.create({
 			list: list,
 			justification: justification
 		};
-	},
-	
-	/**
-	 * Find elements by CSS selector.
-	 *
-	 * WARNING: Use this method carefully since prototype.js doesn't work well with designMode DOM.
-	 */
-	findBySelector: function(selector) {
-		return Element.getElementsBySelector(this.root, selector);
-	},
-	
-	/**
-	 * Find elements by attribute.
-	 * 
-	 * This method will be deprecated when findBySelector get stabilized.
-	 */
-	findByAttribute: function(name, value) {
-		var nodes = [];
-		this._findByAttribute(nodes, this.root, name, value);
-		return nodes;
-	},
-	
-	/** @private */
-	_findByAttribute: function(nodes, element, name, value) {
-		if(element.getAttribute(name) == value) nodes.push(element);
-		if(!element.hasChildNodes()) return;
-		
-		var children = element.childNodes;
-		for(var i = 0; i < children.length; i++) {
-			if(children[i].nodeType == 1) this._findByAttribute(nodes, children[i], name, value);
-		}
 	},
 	
 	/**
@@ -4921,7 +5230,7 @@ xq.RichDom = Class.create({
 	 */
 	getParentBlockElementOf: function(element) {
 		while(element) {
-			if(this.tree._blockTags.include(element.nodeName)) return element;
+			if(this.tree._blockTags.indexOf(element.nodeName) != -1) return element;
 			element = element.parentNode;
 		}
 		return null;
@@ -4938,7 +5247,7 @@ xq.RichDom = Class.create({
 	 */
 	getParentElementOf: function(element, tagNames) {
 		while(element) {
-			if(tagNames.include(element.nodeName)) return element;
+			if(tagNames.indexOf(element.nodeName) != -1) return element;
 			element = element.parentNode;
 		}
 		return null;
@@ -5017,11 +5326,8 @@ xq.RichDom = Class.create({
 	getFirstChild: function(element) {
 		if(!element) return null;
 		
-		var nodes = $A(element.childNodes);
-		for(var i = 0; i < nodes.length; i++) {
-			if(!this.isEmptyTextNode(nodes[i])) return nodes[i];
-		}
-		return null;
+		var nodes = xq.$A(element.childNodes);
+		return nodes.find(function(node) {return !this.isEmptyTextNode(node)}.bind(this));
 	},
 	
 	/**
@@ -5076,7 +5382,7 @@ xq.RichDom.createInstance = function() {
 /**
  * RichDom for W3C Standard Engine
  */
-xq.RichDomW3 = Class.create(xq.RichDom, {
+xq.RichDomW3 = xq.Class(xq.RichDom, {
 	insertNode: function(node) {
 		var rng = this.rng();
 		rng.insertNode(node);
@@ -5317,7 +5623,7 @@ xq.RichDomW3 = Class.create(xq.RichDom, {
 	getLastChild: function(element) {
 		if(!element || !element.hasChildNodes()) return null;
 		
-		var nodes = $A(element.childNodes).reverse();
+		var nodes = xq.$A(element.childNodes).reverse();
 		
 		for(var i = 0; i < nodes.length; i++) {
 			if(!this.isPlaceHolder(nodes[i]) && !this.isEmptyTextNode(nodes[i])) return nodes[i];
@@ -5450,7 +5756,7 @@ xq.RichDomW3 = Class.create(xq.RichDom, {
 /**
  * RichDom for Gecko
  */
-xq.RichDomGecko = Class.create(xq.RichDomW3, {
+xq.RichDomGecko = xq.Class(xq.RichDomW3, {
 	makePlaceHolder: function() {
 		var holder = this.createElement("BR");
 		holder.setAttribute("type", "_moz");
@@ -5496,7 +5802,7 @@ xq.RichDomGecko = Class.create(xq.RichDomW3, {
 /**
  * RichDom for Webkit
  */
-xq.RichDomWebkit = Class.create(xq.RichDomW3, {
+xq.RichDomWebkit = xq.Class(xq.RichDomW3, {
 	makePlaceHolder: function() {
 		var holder = this.createElement("BR");
 		holder.className = "webkit-block-placeholder";
@@ -5580,7 +5886,7 @@ xq.RichDomWebkit = Class.create(xq.RichDomW3, {
 /**
  * RichDom for Internet Explorer 6 and 7
  */
-xq.RichDomTrident = Class.create(xq.RichDom, {
+xq.RichDomTrident = xq.Class(xq.RichDom, {
 	makePlaceHolder: function() {
 		return this.createTextNode(" ");
 	},
@@ -5621,7 +5927,7 @@ xq.RichDomTrident = Class.create(xq.RichDom, {
 		
 		var text = block.innerText;
 		var lastCharCode = text.charCodeAt(text.length - 1);
-		if(text.length <= 1 || ![32,160].include(lastCharCode)) return;
+		if(text.length <= 1 || [32,160].indexOf(lastCharCode) == -1) return;
 		
 		var node = block;
 		
@@ -5682,10 +5988,14 @@ xq.RichDomTrident = Class.create(xq.RichDom, {
 					block,
 					function(node) {return this.tree.isBlock(node) && !this.tree.isBlockOnlyContainer(node)}.bind(this)
 				);
+				
 				if(nextBlock) {
 					this.deleteNode(block);
 					this.placeCaretAtStartOf(nextBlock);
+				} else {
+					this.placeCaretAtStartOf(block);
 				}
+				
 				return true;
 			}
 		} else {
@@ -5837,7 +6147,7 @@ xq.RichDomTrident = Class.create(xq.RichDom, {
 	isEmptyBlock: function(element) {
 		if(!element.hasChildNodes()) return true;
 		if(element.nodeType == 3 && !element.nodeValue) return true;
-		if(["&nbsp;", " ", ""].include(element.innerHTML)) return true;
+		if(["&nbsp;", " ", ""].indexOf(element.innerHTML) != -1) return true;
 		
 		return false;
 	},
@@ -5845,7 +6155,7 @@ xq.RichDomTrident = Class.create(xq.RichDom, {
 	getLastChild: function(element) {
 		if(!element || !element.hasChildNodes()) return null;
 		
-		var nodes = $A(element.childNodes).reverse();
+		var nodes = xq.$A(element.childNodes).reverse();
 		
 		for(var i = 0; i < nodes.length; i++) {
 			if(nodes[i].nodeType != 3 || nodes[i].nodeValue.length != 0) return nodes[i];
@@ -5938,8 +6248,10 @@ xq.RichDomTrident = Class.create(xq.RichDom, {
 		bookmark.select();
 	}
 });
-xq.RichTable = Class.create({
+xq.RichTable = xq.Class({
 	initialize: function(rdom, table) {
+		xq.addToFinalizeQueue(this);
+
 		this.rdom = rdom;
 		this.table = table;
 	},
@@ -6087,9 +6399,11 @@ xq.RichTable = Class.create({
 		return this.table.tBodies[0].rows[0].cells[0].nodeName == "TH";
 	},
 	correctEmptyCells: function() {
-		var cells = $A(this.table.getElementsByTagName("TH"));
-		cells.push($A(this.table.getElementsByTagName("TD")));
-		cells = cells.flatten();
+		var cells = xq.$A(this.table.getElementsByTagName("TH"));
+		var tds = xq.$A(this.table.getElementsByTagName("TD"));
+		for(var i = 0; i < tds.length; i++) {
+			cells.push(tds[i]);
+		}
 		
 		for(var i = 0; i < cells.length; i++) {
 			if(this.rdom.isEmptyBlock(cells[i])) this.rdom.correctEmptyElement(cells[i])
@@ -6098,8 +6412,8 @@ xq.RichTable = Class.create({
 });
 
 xq.RichTable.create = function(rdom, cols, rows, headerPositions) {
-	if(["t", "tl", "lt"].include(headerPositions)) var headingAtTop = true
-	if(["l", "tl", "lt"].include(headerPositions)) var headingAtLeft = true
+	if(["t", "tl", "lt"].indexOf(headerPositions) != -1) var headingAtTop = true
+	if(["l", "tl", "lt"].indexOf(headerPositions) != -1) var headingAtLeft = true
 
 	var sb = []
 	sb.push('<table class="datatable">')
@@ -6143,8 +6457,10 @@ xq.RichTable.create = function(rdom, cols, rows, headerPositions) {
 /**
  * Validates and invalidates designmode contents
  */
-xq.Validator = Class.create({
+xq.Validator = xq.Class({
 	initialize: function(curUrl, urlValidationMode, allowedTags, allowedAttrs) {
+		xq.addToFinalizeQueue(this);
+
 		this.allowedTags = (allowedTags || ['a', 'abbr', 'acronym', 'address', 'blockquote', 'br', 'caption', 'cite', 'code', 'dd', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'img', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 'samp', 'span', 'sup', 'sub', 'strong', 'table', 'thead', 'tbody', 'td', 'th', 'tr', 'ul', 'var']).join(' ') + ' ';
 		this.allowedAttrs = (allowedAttrs || ['alt', 'cite', 'class', 'datetime', 'height', 'href', 'id', 'rel', 'rev', 'src', 'style', 'title', 'width']).join(' ') + ' ';
 		
@@ -6198,7 +6514,7 @@ xq.Validator = Class.create({
 	},
 	
 	removeDangerousElements: function(element) {
-		var scripts = $A(element.getElementsByTagName('SCRIPT')).reverse();
+		var scripts = xq.$A(element.getElementsByTagName('SCRIPT')).reverse();
 		for(var i = 0; i < scripts.length; i++) {
 			scripts[i].parentNode.removeChild(scripts[i]);
 		}
@@ -6370,7 +6686,7 @@ xq.Validator.createInstance = function(curUrl, urlValidationMode, allowedTags, a
 /**
  * Validator for W3C Standard Engine
  */
-xq.ValidatorW3 = Class.create(xq.Validator, {
+xq.ValidatorW3 = xq.Class(xq.Validator, {
 	validate: function(element, fullValidation) {
 		element = element.cloneNode(true);
 
@@ -6405,15 +6721,15 @@ xq.ValidatorW3 = Class.create(xq.Validator, {
 		rdom.setRoot(element);
 		
 		// <span class="strike"> -> <strike>
-		var strikes = rdom.findByAttribute("class", "strike");
+		var strikes = xq.getElementsByClassName(rdom.getRoot(), "strike");
 		for(var i = 0; i < strikes.length; i++) {
 			if("SPAN" == strikes[i].nodeName) rdom.replaceTag("strike", strikes[i]).removeAttribute("class");
 		}
 		
 		// <em|i class="underline"> -> <u>
-		var underlines = rdom.findByAttribute("class", "underline");
+		var underlines = xq.getElementsByClassName(rdom.getRoot(), "underline");
 		for(var i = 0; i < underlines.length; i++) {
-			if(["EM", "I"].include(underlines[i].nodeName)) rdom.replaceTag("u", underlines[i]).removeAttribute("class");
+			if(["EM", "I"].indexOf(underlines[i].nodeName) != -1) rdom.replaceTag("u", underlines[i]).removeAttribute("class");
 		}
 		
 		var content = rdom.getRoot().innerHTML;
@@ -6445,7 +6761,7 @@ xq.ValidatorW3 = Class.create(xq.Validator, {
 		var rdom = xq.RichDom.createInstance();
 		rdom.setRoot(element);
 
-		var fonts = $A(element.getElementsByTagName('FONT')).reverse();
+		var fonts = xq.$A(element.getElementsByTagName('FONT')).reverse();
 		for(var i = 0; i < fonts.length; i++) {
 			var font = fonts[i];
 			var color = font.getAttribute('color');
@@ -6474,12 +6790,12 @@ xq.ValidatorW3 = Class.create(xq.Validator, {
 /**
  * Validator for Gecko Engine
  */
-xq.ValidatorGecko = Class.create(xq.ValidatorW3, {
+xq.ValidatorGecko = xq.Class(xq.ValidatorW3, {
 });
 /**
  * Validator for Webkit
  */
-xq.ValidatorWebkit = Class.create(xq.ValidatorW3, {
+xq.ValidatorWebkit = xq.Class(xq.ValidatorW3, {
 });
 
 /*
@@ -6493,7 +6809,7 @@ if(node.nodeName == "SPAN" && node.className == "Apple-style-span" && node.style
 /**
  * Validator for Internet Explorer 6 and 7
  */
-xq.ValidatorTrident = Class.create(xq.Validator, {
+xq.ValidatorTrident = xq.Class(xq.Validator, {
 	validate: function(element, fullValidation) {
 		element = element.cloneNode(true);
 		
@@ -6521,15 +6837,15 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 		this.invalidateBackgroundColor(element);
 		
 		// <span class="strike"> -> <strike>
-		var strikes = rdom.findByAttribute("className", "strike");
+		var strikes = xq.getElementsByClassName(rdom.getRoot(), "strike");
 		for(var i = 0; i < strikes.length; i++) {
 			if("SPAN" == strikes[i].nodeName) rdom.replaceTag("strike", strikes[i]).removeAttribute("className");
 		}
 		
 		// <em|i class="underline"> -> <u>
-		var underlines = rdom.findByAttribute("className", "underline");
+		var underlines = xq.getElementsByClassName(rdom.getRoot(), "underline");
 		for(var i = 0; i < underlines.length; i++) {
-			if(["EM", "I"].include(underlines[i].nodeName)) rdom.replaceTag("u", underlines[i]).removeAttribute("className");
+			if(["EM", "I"].indexOf(underlines[i].nodeName) != -1) rdom.replaceTag("u", underlines[i]).removeAttribute("className");
 		}
 
 		var content = rdom.getRoot().innerHTML;
@@ -6562,7 +6878,7 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 		rdom.setRoot(element);
 		
 		// It should be reversed to deal with nested elements
-		var fonts = $A(element.getElementsByTagName('FONT')).reverse();
+		var fonts = xq.$A(element.getElementsByTagName('FONT')).reverse();
 		for(var i = 0; i < fonts.length; i++) {
 			var font = fonts[i];
 			var color = font.getAttribute('color');
@@ -6579,7 +6895,7 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 		var rdom = xq.RichDom.createInstance();
 		rdom.setRoot(element);
 
-		var spans = $A(element.getElementsByTagName('SPAN')).reverse();
+		var spans = xq.$A(element.getElementsByTagName('SPAN')).reverse();
 		for(var i = 0; i < spans.length; i++) {
 			var span = spans[i];
 			var color = span.style.color;
@@ -6597,7 +6913,7 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 		rdom.setRoot(element);
 
 		// It should be reversed to deal with nested elements
-		var fonts = $A(element.getElementsByTagName('FONT')).reverse();
+		var fonts = xq.$A(element.getElementsByTagName('FONT')).reverse();
 		for(var i = 0; i < fonts.length; i++) {
 			if(fonts[i].style.color || fonts[i].style.backgroundColor) rdom.replaceTag("span", fonts[i]);
 		}
@@ -6608,7 +6924,7 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 		rdom.setRoot(element);
 
 		// It should be reversed to deal with nested elements
-		var spans = $A(element.getElementsByTagName('SPAN')).reverse();
+		var spans = xq.$A(element.getElementsByTagName('SPAN')).reverse();
 		for(var i = 0; i < spans.length; i++) {
 			if(spans[i].style.color || spans[i].style.backgroundColor) rdom.replaceTag("font", spans[i]);
 		}
@@ -6632,7 +6948,7 @@ xq.ValidatorTrident = Class.create(xq.Validator, {
 /**
  * @fileOverview xq.EditHistory manages editing history and performs UNDO/REDO.
  */
-xq.EditHistory = Class.create({
+xq.EditHistory = xq.Class({
     /**
 	 * Initializer
 	 *
@@ -6641,6 +6957,7 @@ xq.EditHistory = Class.create({
 	 * @param {Number} [max] maximum UNDO buffer size(default value is 100).
 	 */
 	initialize: function(rdom, max) {
+		xq.addToFinalizeQueue(this);
 		if (!rdom) throw "IllegalArgumentException";
 
 		this.disabled = false;
@@ -6698,11 +7015,11 @@ xq.EditHistory = Class.create({
 
 		// ignore normal keys
 		if('keydown' == event.type && !(event.ctrlKey || event.metaKey)) return false;
-		if(['keydown', 'keyup', 'keypress'].include(event.type) && !event.ctrlKey && !event.altKey && !event.metaKey && ![33,34,35,36,37,38,39,40].include(event.keyCode)) return false;
-		if(['keydown', 'keyup', 'keypress'].include(event.type) && (event.ctrlKey || event.metaKey) && [89,90].include(event.keyCode)) return false;
+		if(['keydown', 'keyup', 'keypress'].indexOf(event.type) != -1 && !event.ctrlKey && !event.altKey && !event.metaKey && [33,34,35,36,37,38,39,40].indexOf(event.keyCode) == -1) return false;
+		if(['keydown', 'keyup', 'keypress'].indexOf(event.type) != -1 && (event.ctrlKey || event.metaKey) && [89,90].indexOf(event.keyCode) != -1) return false;
 		
 		// ignore ctrl/shift/alt/meta keys
-		if([16,17,18,224].include(event.keyCode)) return false;
+		if([16,17,18,224].indexOf(event.keyCode) != -1) return false;
 		
 		return this.pushContent();
 	},
@@ -6791,7 +7108,7 @@ xq.controls = {};
 
 
 
-xq.controls.FormDialog = Class.create({
+xq.controls.FormDialog = xq.Class({
 	/**
      * @constructor
      *
@@ -6799,6 +7116,8 @@ xq.controls.FormDialog = Class.create({
      * @param {Function} [onLoadHandler] callback function to be called when the form is loaded
 	 */
 	initialize: function(xed, html, onLoadHandler, onCloseHandler) {
+		xq.addToFinalizeQueue(this);
+
 		this.xed = xed;
 		this.html = html;
 		this.onLoadHandler = onLoadHandler || function() {};
@@ -6819,21 +7138,21 @@ xq.controls.FormDialog = Class.create({
 		var self = this;
 		
 		// create and append container
-		var container = $(document.createElement('DIV'));
+		var container = document.createElement('DIV');
 		container.style.display = 'none';
 		document.body.appendChild(container);
 		
 		// initialize form
 		container.innerHTML = this.html;
-		this.form = $(container.getElementsByTagName('FORM')[0]);
+		this.form = container.getElementsByTagName('FORM')[0];
 		
 		this.form.onsubmit = function() {
-			self.onCloseHandler($(this).serialize(true));
+			self.onCloseHandler(xq.serializeForm(this));
 			self.close();
 			return false;
 		};
 		
-		var cancelButton = this.form.getElementsByClassName('cancel')[0];
+		var cancelButton = xq.getElementsByClassName(this.form, 'cancel')[0];
 		cancelButton.onclick = function() {
 			self.onCloseHandler();
 			self.close();
@@ -6847,12 +7166,12 @@ xq.controls.FormDialog = Class.create({
 		this.setPosition(options.position);
 		
 		// give focus
-		var elementToFocus = this.form.getElementsByClassName('initialFocus');
+		var elementToFocus = xq.getElementsByClassName(this.form, 'initialFocus');
 		if(elementToFocus.length > 0) elementToFocus[0].focus();
 		
 		// handle cancelOnEsc option
 		if(options.cancelOnEsc) {
-			Event.observe(this.form, 'keydown', function(e) {
+			xq.observe(this.form, 'keydown', function(e) {
 				if(e.keyCode == 27) {
 					this.onCloseHandler();
 					this.close();
@@ -6863,24 +7182,25 @@ xq.controls.FormDialog = Class.create({
 		
 		this.onLoadHandler(this);
 	},
+	
 	close: function() {
 		this.form.parentNode.removeChild(this.form);
 	},
+	
 	setPosition: function(target) {
-		var targetElement;
-		var curleft = curtop = 0;
+		var targetElement = null;
+		var left = 0;
+		var top = 0;
 		
 		if(target == 'centerOfWindow') {
 			targetElement = document.documentElement;
 		} else if(target == 'centerOfEditor') {
 			targetElement = this.xed.getFrame();
-			var obj = targetElement;
-			while( obj.offsetParent )
-			{
-			    curleft += obj.offsetLeft;
-			    curtop += obj.offsetTop;
-			    obj = obj.offsetParent;
-			}
+			var o = targetElement;
+			do {
+				left += o.offsetLeft;
+				top += o.offsetTop;
+			} while(o = o.offsetParent)
 		} else if(target == 'nearbyCaret') {
 			throw "Not implemented yet";
 		} else {
@@ -6892,21 +7212,22 @@ xq.controls.FormDialog = Class.create({
 		var dialogWidth = this.form.clientWidth;
 		var dialogHeight = this.form.clientHeight;
 		
-		var x = curleft + parseInt((targetWidth - dialogWidth) / 2);
-		var y = curtop + parseInt((targetHeight - dialogHeight) / 2);
+		left += parseInt((targetWidth - dialogWidth) / 2);
+		top += parseInt((targetHeight - dialogHeight) / 2);
 		
-		this.form.style.left = x + "px";
-		this.form.style.top = y + "px";
+		this.form.style.left = left + "px";
+		this.form.style.top = top + "px";
 	}
 })
 
 
 
-xq.controls.QuickSearchDialog = Class.create({
+xq.controls.QuickSearchDialog = xq.Class({
 	/**
      * @constructor
 	 */
 	initialize: function(xed, param) {
+		xq.addToFinalizeQueue(this);
 		this.xed = xed;
 		
 		this.rdom = xq.RichDom.createInstance();
@@ -6931,7 +7252,7 @@ xq.controls.QuickSearchDialog = Class.create({
 		}
 		
 		this.close();
-		Event.stop(e);
+		xq.stopEvent(e);
 		return false;
 	},
 	
@@ -7018,12 +7339,19 @@ xq.controls.QuickSearchDialog = Class.create({
 	},
 	
 	setPosition: function(target) {
-		var targetElement;
+		var targetElement = null;
+		var left = 0;
+		var top = 0;
 		
 		if(target == 'centerOfWindow') {
 			targetElement = document.documentElement;
 		} else if(target == 'centerOfEditor') {
-			targetElement = this.xed.getDoc().documentElement;
+			targetElement = this.xed.getFrame();
+			var o = targetElement;
+			do {
+				left += o.offsetLeft;
+				top += o.offsetTop;
+			} while(o = o.offsetParent)
 		} else if(target == 'nearbyCaret') {
 			throw "Not implemented yet";
 		} else {
@@ -7035,10 +7363,11 @@ xq.controls.QuickSearchDialog = Class.create({
 		var dialogWidth = this.container.clientWidth;
 		var dialogHeight = this.container.clientHeight;
 		
-		var x = parseInt((targetWidth - dialogWidth) / 2);
-		var y = parseInt((targetHeight - dialogHeight) / 2);
-		this.container.style.left = x + "px";
-		this.container.style.top = y + "px";
+		left += parseInt((targetWidth - dialogWidth) / 2);
+		top += parseInt((targetHeight - dialogHeight) / 2);
+		
+		this.container.style.left = left + "px";
+		this.container.style.top = top + "px";
 	},
 	
 	matchCount: function() {
@@ -7071,11 +7400,11 @@ xq.controls.QuickSearchDialog = Class.create({
 		// make list
 		var list = this.rdom.createElement("OL");
 
-	    Event.observe(input, 'blur', this.onBlur.bindAsEventListener(this));
-    	Event.observe(input, 'keypress', this.onKey.bindAsEventListener(this));
-    	Event.observe(list, 'click', this.onClick.bindAsEventListener(this), true);
-    	Event.observe(form, 'submit', this.onSubmit.bindAsEventListener(this));
-    	Event.observe(form, 'reset', this.onCancel.bindAsEventListener(this));
+	    xq.observe(input, 'blur', this.onBlur.bindAsEventListener(this));
+    	xq.observe(input, 'keypress', this.onKey.bindAsEventListener(this));
+    	xq.observe(list, 'click', this.onClick.bindAsEventListener(this), true);
+    	xq.observe(form, 'submit', this.onSubmit.bindAsEventListener(this));
+    	xq.observe(form, 'reset', this.onCancel.bindAsEventListener(this));
 
 		container.appendChild(list);
 		return container;
@@ -7122,7 +7451,7 @@ xq.controls.QuickSearchDialog = Class.create({
 		var index = this._getSelectedIndex();
 		var ol = this._getListContainer();
 		ol.childNodes[index].className = "";
-
+		
 		index++;
 		if(index >= count) index = 0;
 		
