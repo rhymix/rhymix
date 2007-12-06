@@ -30,6 +30,7 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
+    editor.config.imagePathForDefaultToolbar = request_uri+editor_path.substring(1)+'examples/img/toolbar/';
     editor.config.allowedAttributes.push('editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic', 'language','align');
     editor.config.allowedTags.push('embed', 'param', 'object');
 
