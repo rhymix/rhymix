@@ -74,7 +74,7 @@
             $obj->isvalid = 'Y';
 
             // 정해진 모듈에서 문서별 파일 목록을 구함
-            $files_output = executeQuery("file.getOneFileInDocument", $obj);
+            $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
 
             $oDocumentModel = &getModel('document');
             if(count($files_output->data)) {

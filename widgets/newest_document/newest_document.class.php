@@ -54,7 +54,7 @@
             $obj->order_type = $order_type=="desc"?"asc":"desc";
             $obj->list_count = $list_count;
 
-            $output = executeQuery('widgets.newest_document.getNewestDocuments', $obj);
+            $output = executeQueryArray('widgets.newest_document.getNewestDocuments', $obj);
 
             // document 모듈의 model 객체를 받아서 결과를 객체화 시킴
             $oDocumentModel = &getModel('document');
