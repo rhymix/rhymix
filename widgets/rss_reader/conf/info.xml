@@ -33,11 +33,11 @@
         <var id="page_limit">
             <name xml:lang="ko">페이지 수</name>
 	    <name xml:lang="zh-CN">页面数</name>
-	    <name xml:lang="en">number of pages</name>
+	    <name xml:lang="en">Number of Pages</name>
             <type>text</type>
             <description xml:lang="ko">기본 값 10</description>
 	    <description xml:lang="zh-CN">默认数 10</description>
-	    <description xml:lang="en">default 10</description>
+	    <description xml:lang="en">Default: 10</description>
         </var>
         <var id="date_format">
             <name xml:lang="ko">날짜 형식</name>
@@ -46,7 +46,7 @@
             <type>text</type>
             <description xml:lang="ko">기본 값 Y-m-d H:i:s</description>
 	    <description xml:lang="zh-CN">默认值 Y-m-d H:i:s</description>
-	    <description xml:lang="en">Default Y-m-d H:i:s</description>
+	    <description xml:lang="en">Default: Y-m-d H:i:s</description>
         </var>
         <var id="rss_height">
             <name xml:lang="ko">본문 높이</name>
@@ -55,7 +55,7 @@
             <type>text</type>
             <description xml:lang="ko">select 스킨에서 본문 높이 (기본값 200px)</description>
 	    <description xml:lang="zh-CN">在select皮肤文本高度 (默认值 200px)</description>
-	    <description xml:lang="en"></description>
+	    <description xml:lang="en">Height of select skin (default: 200px)</description>
         </var>
    </extra_vars>
 </widget>

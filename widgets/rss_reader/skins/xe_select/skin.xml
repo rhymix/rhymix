@@ -2,14 +2,19 @@
 <skin>
   <title xml:lang="ko">XE 최신글 스킨 (Select 메뉴)</title>
   <title xml:lang="zh-CN">XE 最新主题皮肤 (Select 菜单)</title>
+  <title xml:lang="en">XE Newest Article Skin (Select menu)</title>
   <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 11. 5">
     <name xml:lang="ko">Simulz</name>
 	<name xml:lang="zh-CN">Simulz</name>
+	<name xml:lang="en">Simulz</name>
     <description xml:lang="ko">
         XE 공식 레이아웃에 적합한 최신글 스킨입니다.
     </description>
 	<description xml:lang="zh-CN">
         适合XE 官方网站的主题列表.
+    </description>
+	<description xml:lang="ko">
+        This is a newest article skin that is suitable for XE official layout.
     </description>
   </maker>
   <colorset>

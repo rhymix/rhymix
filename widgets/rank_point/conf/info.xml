@@ -1,58 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="1.0">
     <title xml:lang="ko">포인트 랭킹 출력</title>
+	<title xml:lang="en">Display Point Ranking</title>
 	<title xml:lang="zh-CN">输出积分排行</title>
     <author email_address="k10206@naver.com" link="http://php.simulz.com" date="2007. 8. 29">
         <name xml:lang="ko">Simulz</name>
+		<name xml:lang="en">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
         <description xml:lang="ko">회원의 포인트 순위를 출력합니다.</description>
+		<description xml:lang="en">This widget displays members' point ranking.</description>
 		<description xml:lang="zh-CN">输出会员积分排行.</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
+			<name xml:lang="en">Title</name>
 			<name xml:lang="zh-CN">主题</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
+			<description xml:lang="en">It will be displayed as widget's title.</description>
 			<description xml:lang="zh-CN">输出控件的主题.</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
+			<name xml:lang="en">No. of List</name>
 			<name xml:lang="zh-CN">目录数</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+			<description xml:lang="en">You may set number of list that will be displayed. (default 5)</description>
 			<description xml:lang="zh-CN">可以指定要输出的目录数. (默认 5个)</description>
         </var>
         <var id="without_admin">
             <name xml:lang="ko">관리자</name>
+			<name xml:lang="en">Administrator</name>
 			<name xml:lang="zh-CN">管理员</name>
             <type>select</type>
             <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
+			<description xml:lang="en">Administrators will be also ranked.</description>
 			<description xml:lang="zh-CN">在排行显示管理员.</description>
             <options>
                 <name xml:lang="ko">포함</name>
+				<name xml:lang="en">Include</name>
 				<name xml:lang="zh-CN">显示</name>
                 <value>false</value>
             </options>
             <options>
                 <name xml:lang="ko">미포함</name>
+				<name xml:lang="en">Exclude</name>
 				<name xml:lang="zh-CN">不显示</name>
                 <value>true</value>
             </options>
         </var>
         <var id="with_group">
             <name xml:lang="ko">그룹 포함</name>
+			<name xml:lang="en">Include Group</name>
 			<name xml:lang="zh-CN">包括组</name>
             <type>text</type>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
+			<description xml:lang="en">Please input name of group to include. ex) Associate, Regular Group </description>
 			<description xml:lang="zh-CN">请输入要输出的会员组. 例)准会员,正会员</description>
         </var>
         <var id="without_group">
             <name xml:lang="ko">그룹 제외</name>
+			<name xml:lang="en">Exclude Group</name>
 			<name xml:lang="zh-CN">组除外</name>
             <type>text</type>
             <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹,정회원</description>
-			<description xml:lang="ko">请输入要不包括的用户组. 例)管理组,正会员</description>
+			<description xml:lang="en">Please input name of group to exclude. ex) Managing, Regular Group</description>
+			<description xml:lang="zh-CN">请输入要不包括的用户组. 例)管理组,正会员</description>
         </var>
     </extra_vars>
 </widget>

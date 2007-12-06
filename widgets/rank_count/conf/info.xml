@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="1.0">
     <title xml:lang="ko">글, 댓글 랭킹 출력</title>
+	<title xml:lang="en">Article, Comment Ranking</title>
 	<title xml:lang="zh-CN">输出主题, 评论排行</title>
     <author email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 07">
         <name xml:lang="ko">Simulz</name>
+		<name xml:lang="en">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
         <description xml:lang="ko">글, 댓글 작성 순위를 출력합니다.</description>
+		<description xml:lang="en">This widget displays articles and comments ranking.</description>
 		<description xml:lang="zh-CN">输出主题, 内容排行.</description>
     </author>
     <extra_vars>
