@@ -17,14 +17,17 @@
         <tr valign="top">
             <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
                 {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
+                {@ $_existsThumbnail = $oDocument->thumbnailExists($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type) }
             <td <!--@if($widget_info->rows_list_count>1)-->class="bottomBorder"<!--@end-->><!--@if($oDocument->document_srl)-->
 
                 <table cellspacing="0" class="thumbnailBox">
+                <!--@if($_existsThumbnail)-->
                 <col width="{$widget_info->thumbnail_width+20}" />
                 <col />
+                <!--@end-->
                 <tr>
-                    <td class="thumbnail" height="{$widget_info->thumbnail_height}"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a></td>
-                    <td class="desc">
+                    <!--@if($_existsThumbnail)--><td class="thumbnail" height="{$widget_info->thumbnail_height}"><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a></td><!--@end-->
+                    <td class="desc" height="{$widget_info->thumbnail_height}">
 
                         <div class="titleBox">
 

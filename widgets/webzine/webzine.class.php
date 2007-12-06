@@ -43,6 +43,15 @@
             $widget_info->cols_list_count = (int)$args->cols_list_count;
             if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 2;
 
+            // 정렬 대상
+            $widget_info->order_target = $args->order_target;
+            if(!in_array($widget_info->order_target, array('list_order','update_order'))) $widget_info->order_target = 'list_order';
+
+            // 정렬 순서
+            $widget_info->order_type = $args->order_type;
+            if(!in_array($widget_info->order_type, array('asc','desc'))) $widget_info->order_type = 'asc';
+
+
             // 노출 여부 체크
             if($args->display_author!='Y') $widget_info->display_author = 'N';
             else $widget_info->display_author = 'Y';
@@ -62,29 +71,40 @@
             // 템플릿 파일에서 사용할 변수들을 세팅
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
 
-            // 변수 정리
-            $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
-
             // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
             $module_srl_list = $oModuleModel->getModuleSrlByMid($mid_list);
-            if(is_array($module_srl_list)) $obj->module_srls = implode(",",$module_srl_list);
-            else $obj->module_srls = $module_srl_list;
-            $obj->direct_download = 'Y';
-            $obj->isvalid = 'Y';
+            if(is_array($module_srl_list)) $obj->module_srl = implode(",",$module_srl_list);
+            else $obj->module_srl = $module_srl_list;
+            $obj->sort_index = $widget_info->order_target;
+            $obj->order_type = $widget_info->order_type=="desc"?"asc":"desc";
+            $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
 
-            // 정해진 모듈에서 문서별 파일 목록을 구함
-            $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
+            $output = executeQueryArray('widgets.newest_document.getNewestDocuments', $obj);
 
+            // document 모듈의 model 객체를 받아서 결과를 객체화 시킴
             $oDocumentModel = &getModel('document');
-            if(count($files_output->data)) {
-                foreach($files_output->data as $key => $val) {
+
+            // 오류가 생기면 그냥 무시
+            if(!$output->toBool()) return;
+
+            // 결과가 있으면 각 문서 객체화를 시킴
+            if(count($output->data)) {
+                foreach($output->data as $key => $attribute) {
+                    $document_srl = $attribute->document_srl;
+
                     $oDocument = null;
-                    $oDocument = $oDocumentModel->getDocument();
-                    $oDocument->setAttribute($val);
-                    $document_list[] = $oDocument;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute);
+
+                    $document_list[$key] = $oDocument;
                 }
+            } else {
+
+                $document_list = array();
+                
             }
+
             $document_count = count($document_list);
             $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
             for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
