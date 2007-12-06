@@ -46,6 +46,7 @@
                 if(eregi('\.(jpg|jpeg|gif|png)$',$file)) $output[] = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
             }
             $oDir->close();
+            if(count($output)) asort($output);
             return $output;
 		}
 		
