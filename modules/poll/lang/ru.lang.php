@@ -6,7 +6,7 @@
      **/
 
     $lang->poll = "Опрос"; 
-    $lang->poll_stop_date = "Дата Истечения";
+    $lang->poll_stop_date = "Дата истечения";
     $lang->poll_join_count = "Участников";
     $lang->poll_checkcount = "Число полей выбора";
 

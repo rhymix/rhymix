@@ -5,32 +5,32 @@
      * @brief  Russian basic language pack for Zeroboard XE
      **/
 
-    $lang->module_list = "Список Модулей";
-    $lang->module_index = "Список Модулей";
-    $lang->module_category = "Категория Модуля";
+    $lang->module_list = "Список модулей";
+    $lang->module_index = "Список модулей";
+    $lang->module_category = "Категория модуля";
     $lang->module_info = "Информация";
-    $lang->add_shortcut = "Добавить Ярлыки";
+    $lang->add_shortcut = "Добавить ярлыки";
     $lang->module_action = "Действия";
-    $lang->module_maker = "Разработчик Модуля";
-    $lang->module_history = "История Обновлений";
-    $lang->category_title = "Название Категории";
-    $lang->header_text = 'Верхний Колонтитул';
-    $lang->footer_text = 'Нижний Колонтитул';
-    $lang->use_category = 'Включить Категорию';
-    $lang->category_title = 'Название Категории';
+    $lang->module_maker = "Разработчик модуля";
+    $lang->module_history = "История обновлений";
+    $lang->category_title = "Название категории";
+    $lang->header_text = 'Верхний колонтитул';
+    $lang->footer_text = 'Нижний колонтитул';
+    $lang->use_category = 'Включить категорию';
+    $lang->category_title = 'Название категории';
     $lang->checked_count = 'Число выбранных статей'; // translator's note: возможно "checked" следует перевести как "проверенных"
-    $lang->skin_default_info = 'Информация Стандартного Скина';
-    $lang->skin_maker = 'Разработчик Скина';
-    $lang->skin_maker_homepage = "Домашняя Страница Разработчика";
-    $lang->module_copy = "Копировать Модуль";
+    $lang->skin_default_info = 'Информация стандартного скина';
+    $lang->skin_maker = 'Разработчик скина';
+    $lang->skin_maker_homepage = "Домашняя страница разработчика";
+    $lang->module_copy = "Копировать модуль";
 
-    $lang->cmd_add_shortcut = "Добавить Ярлык";
+    $lang->cmd_add_shortcut = "Добавить ярлык";
     $lang->cmd_install = "Установить";
     $lang->cmd_update = "Обновить";
-    $lang->cmd_manage_category = 'Управление Категориями';
-    $lang->cmd_manage_grant = 'Управление Правами Доступа';
-    $lang->cmd_manage_skin = 'Управление Скинами';
-    $lang->cmd_manage_document = 'Управление Статьями';
+    $lang->cmd_manage_category = 'Управление категориями';
+    $lang->cmd_manage_grant = 'Управление правами доступа';
+    $lang->cmd_manage_skin = 'Управление скинами';
+    $lang->cmd_manage_document = 'Управление статьями';
 
     $lang->msg_new_module = "Создать новый модуль";
     $lang->msg_update_module = "Изменить модуль";

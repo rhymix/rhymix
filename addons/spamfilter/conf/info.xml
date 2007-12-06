@@ -4,13 +4,15 @@
   <title xml:lang="zh-CN">垃圾过滤</title>
   <title xml:lang="en">Addon for filtering spam</title>
   <title xml:lang="es">Addon para filtrar los Spam</title>
-  <title xml:lang="jp">スパムフィルターアドオン</title>
+  <title xml:lang="jp">スパムフィルター</title>
+  <title xml:lang="ru">Аддон для фильтрации спама</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="es">zero</name>
     <name xml:lang="jp">Zero</name>
+    <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
         SpamFilter 모듈을 이용하여 글/코멘트/트랙백 등록 이전에 스팸 필터링 및 도배 방지를 합니다.
         자세한 설정은 &quot; 스팸필터 모듈&quot; 에서 해주세요.
@@ -27,8 +29,11 @@
         Este addon filtra y previene de los documentos/ commentarios/ trackback no deseado antes de ser agregados.
         Para la configuración más detallada, debe hacerse en el &quot; Módulo de Filtro de Spam&quot;.
     </description>
-    <description xml:lang="jp">
-        SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
+    <description xml:lang="jp">       SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
+    </description>
+    <description xml:lang="ru">
+        Этот аддон фильтрует спам и предотвращает беспорядок перед сохранением элементов, комментариев или  трекбеков в базу данных посредством установки модуля Фильтра Спама.
+        Вы можете установить детали на странице &quot;Модуля Спам Фильтра&quot;.
     </description>
   </author>
 </addon>

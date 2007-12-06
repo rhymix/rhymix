@@ -5,22 +5,20 @@
      * @brief  Russian basic language pack for Zeroboard XE
      **/
 
-    $lang->document_list = 'Список Документов';
-    $lang->thumbnail_type = 'Тип Миниатюры';
+    $lang->document_list = 'Список документов';
+    $lang->thumbnail_type = 'Тип миниатюры';
     $lang->thumbnail_crop = 'Обрезать';
     $lang->thumbnail_ratio = 'Отношение';
     $lang->cmd_delete_all_thumbnail = 'Удалить все миниарюры';
     $lang->move_target_module = "Переместить в";
-    $lang->title_bold = 'Жирное Название';
-    $lang->title_color = 'Цвет Названия';
-
-    $lang->cmd_search_next = '계속 검색';
+    $lang->title_bold = 'Жирное название';
+    $lang->title_color = 'Цвет названия';
 
     $lang->cmd_temp_save = 'Сохранить временно';
 
 	$lang->cmd_toggle_checked_document = 'Перевернуть выбранные объекты';
     $lang->cmd_delete_checked_document = 'Удалить выбранные';
-    $lang->cmd_document_do = 'Вы бы...';
+    $lang->cmd_document_do = 'Действия';
 
     $lang->msg_cart_is_null = 'Выберите статьи, которые Вы хотите удалить';
     $lang->msg_category_not_moved = 'Невозможно переместить';

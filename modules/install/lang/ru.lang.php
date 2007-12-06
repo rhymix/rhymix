@@ -295,9 +295,9 @@ EndOfLicense;
     $lang->install_checklist_title = array(
 			'php_version' => 'Версия PHP',
             'permission' => 'Права доступа',
-            'xml' => 'XML Библиотека',
-            'iconv' => 'ICONV Библиотека',
-            'gd' => 'GD Библиотека',
+            'xml' => 'XML библиотека',
+            'iconv' => 'ICONV библиотека',
+            'gd' => 'GD библиотека',
             'session' => 'Session.auto_start настройка',
         );
 
@@ -310,16 +310,16 @@ EndOfLicense;
             'gd' => 'GD Библиотека должна быть установлена для использования функции конвертироваия изображений',
         );
 
-    $lang->install_checklist_xml = 'Установить XML Библиотеку';
-    $lang->install_without_xml = 'XML Библиотека не установлена';
-    $lang->install_checklist_gd = 'Установить GD Библиотеку';
-    $lang->install_without_gd  = 'GD Библиотека не установлена';
-    $lang->install_checklist_gd = 'Установить GD Библиотеку';
-    $lang->install_without_iconv = 'Iconv Библиотека не установлена';
+    $lang->install_checklist_xml = 'Установить XML библиотеку';
+    $lang->install_without_xml = 'XML библиотека не установлена';
+    $lang->install_checklist_gd = 'Установить GD библиотеку';
+    $lang->install_without_gd  = 'GD библиотека не установлена';
+    $lang->install_checklist_gd = 'Установить GD библиотеку';
+    $lang->install_without_iconv = 'Iconv библиотека не установлена';
     $lang->install_session_auto_start = 'Возможно возникнут проблемы из-за настройки PHP session.auto_start, установленной в 1';
     $lang->install_permission_denied = 'Права доступа пути не установлены в 707';
 
-    $lang->cmd_agree_license = 'Я согласен с данной Лицензией';
+    $lang->cmd_agree_license = 'Я согласен с данной лицензией';
     $lang->cmd_install_fix_checklist = 'Я удоволетворил требуемые условия';
     $lang->cmd_install_next = 'Продолжить установку';
 
@@ -343,10 +343,10 @@ EndOfLicense;
     $lang->db_database_file = 'Файл базы данных';
     $lang->db_table_prefix = 'Префикс таблиц';
 
-    $lang->admin_title = 'Административная Информация';
+    $lang->admin_title = 'Административная информация';
 
     $lang->env_title = 'Конфигурация';
-    $lang->use_optimizer = 'Включить Оптимизатор';
+    $lang->use_optimizer = 'Включить оптимизатор';
     $lang->about_optimizer = 'Если оптимизатор включен, пользователи могут быстро использовать этот сайт, поскольку несколько CSS / JS файлов собраны вместе и сжаты до передачи. <br /> Тем не менее, эта оптимизация может быть проблематичной согласно CSS или JS. Если Вы выключите ее, движок будет работать правильно, хотя и медленее.';
     $lang->use_rewrite = 'Использовать модуль перезаписи (rewrite mod)';
     $lang->about_rewrite = "Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123";
@@ -355,8 +355,8 @@ EndOfLicense;
 
     $lang->about_database_file = 'Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>';
 
-    $lang->success_installed = 'Установка Завершена';
-    $lang->success_updated = 'Обновление Завершено';
+    $lang->success_installed = 'Установка завершена';
+    $lang->success_updated = 'Обновление завершено';
 
     $lang->msg_cannot_proc = 'Невозможно исполнить запрос, поскольку окружение установки не указано';
     $lang->msg_already_installed = 'Zeroboard уже установлена';

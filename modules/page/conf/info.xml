@@ -5,16 +5,19 @@
     <title xml:lang="jp">ページ</title>
     <title xml:lang="en">Page</title>
 	<title xml:lang="es">Página</title>
+    <title xml:lang="ru">Страницы</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">페이지를 제작하여 컨텐츠로 연결할 수 있는 모듈</description>
         <description xml:lang="zh-CN">制作页面并能连接到内容区的模块。</description>
         <description xml:lang="jp">ページを作成してコンテンツとしてリンクできるようにするためのモジュールです。</description>
         <description xml:lang="en">This module is for creating pages to link with contents.</description>
 		<description xml:lang="es">Este módulo is para crear página para enlazar con contenidos.</description>
+        <description xml:lang="ru">Этот модуль служит для создания страниц, чтобы связать их с содержимым.</description>
     </author>
 </module>

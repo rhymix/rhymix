@@ -6,8 +6,8 @@
      **/
 
     // действия
-    $lang->cmd_denied_ip = "Черный Список IP-адресов";
-    $lang->cmd_denied_word = "Черный Список Слов";
+    $lang->cmd_denied_ip = "Черный список IP-адресов";
+    $lang->cmd_denied_word = "Черный список слов";
 
     // главные слова
     $lang->spamfilter = "Фильтр спама";

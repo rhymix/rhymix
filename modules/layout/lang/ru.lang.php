@@ -5,18 +5,18 @@
      * @brief  Russian basic language pack for Zeroboard XE
      **/
 
-    $lang->cmd_layout_management = 'Настройки Лейаута';
-    $lang->cmd_layout_edit = 'Редактировать Лейаут';
+    $lang->cmd_layout_management = 'Настройки лейаута';
+    $lang->cmd_layout_edit = 'Редактировать лейаут';
 
-    $lang->layout_name = 'Имя Лейаута';
-    $lang->layout_maker = "Разработчик Лейаута";
+    $lang->layout_name = 'Имя лейаута';
+    $lang->layout_maker = "Разработчик лейаута";
     $lang->layout_history = "Обновления";
-    $lang->layout_info = "Информация Лейаута";
-    $lang->layout_list = 'Список Лейаутов';
+    $lang->layout_info = "Информация лейаута";
+    $lang->layout_list = 'Список лейаутов';
     $lang->menu_count = 'Меню';
-    $lang->downloaded_list = 'Список Закачек';
+    $lang->downloaded_list = 'Список закачек';
     $lang->layout_preview_content = 'Содержимое отображается здесь';
-    $lang->not_apply_menu = 'Применить Лейауты';
+    $lang->not_apply_menu = 'Применить лейауты';
 
     $lang->cmd_move_to_installed_list = "Просмотреть созданный список";
 

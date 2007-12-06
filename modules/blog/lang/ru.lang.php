@@ -6,9 +6,9 @@
      **/
 
     // Слова, использованные в кнопке
-    $lang->cmd_blog_list = 'Список Блогов';
+    $lang->cmd_blog_list = 'Список блогов';
     $lang->cmd_module_config = 'Общие настройки блога';
-    $lang->cmd_view_info = 'Иформация Блога';
+    $lang->cmd_view_info = 'Иформация блога';
     $lang->cmd_manage_menu = 'Управление меню';
     $lang->cmd_make_child = 'Добавить дочернюю категорию';
     $lang->cmd_enable_move_category = "Изменить позицию категории (Перетащите верхнее меню после выделения)";
@@ -20,7 +20,7 @@
     $lang->parent_category_title = 'Родительская категория';
     $lang->category_title = 'Категория';
     $lang->expand = 'Расширить';
-    $lang->category_group_srls = 'Доступные Группы';
+    $lang->category_group_srls = 'Доступные группы';
     $lang->search_result = 'Результат поиска';
     
     // blah blah.. или чушь всякая... ;)

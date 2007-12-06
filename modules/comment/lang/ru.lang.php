@@ -5,9 +5,9 @@
      * @brief  Russian basic language pack for Zeroboard XE
      **/
 	
-    $lang->cmd_comment_do = 'Вы бы...';
+    $lang->cmd_comment_do = 'Действия';
     
-    $lang->comment_list = 'Список Комментариев';
+    $lang->comment_list = 'Список комментариев';
     $lang->cmd_delete_checked_comment = 'Удалить выбранный объект';
 
     $lang->msg_cart_is_null = 'Пожалуйста, выберите статью для удаления.';

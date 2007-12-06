@@ -13,7 +13,7 @@
     $lang->component_date = "Дата";
     $lang->component_description = "Описание";
     $lang->component_extra_vars = "Экстра перем.";
-    $lang->component_grant = "Настройки Прав Доступа"; 
+    $lang->component_grant = "Настройки прав доступа"; 
 
     $lang->about_component = "О компоненте";
     $lang->about_component_grant = "Только выбранным группам позволено использование. (Каждый может использовать его, если режим выключен)";
@@ -23,14 +23,14 @@
     $lang->msg_component_is_first_order = 'Выбранный компонент находится на первой позиции';
     $lang->msg_component_is_last_order = 'Выбранный компонент находится на последней позиции';
     $lang->msg_load_saved_doc = "Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?\nАвтоматически сохраненный черновик будет отменен после сохранения текущей статьи";
-    $lang->msg_auto_saved = "Автоматически Сохранено";
+    $lang->msg_auto_saved = "Автоматически сохранено";
 
     $lang->cmd_disable = "Неавтивно";
     $lang->cmd_enable = "Активно";
 
     $lang->edit->fontname = 'Шрифт';
     $lang->edit->fontsize = 'Размер';
-    $lang->edit->use_paragraph = 'Функции Параграфа';
+    $lang->edit->use_paragraph = 'Функции параграфа';
     $lang->edit->fontlist = array(
     "Gulim",
     "Dodum",
@@ -73,8 +73,8 @@
 
     $lang->edit->upload = 'Вложение';
     $lang->edit->upload_file = 'Вложить'; 
-    $lang->edit->link_file = 'Вставить в Содержание';
-    $lang->edit->delete_selected = 'Удалить Выбранное';
+    $lang->edit->link_file = 'Вставить в содержание';
+    $lang->edit->delete_selected = 'Удалить выбранное';
 
     $lang->edit->icon_align_article = 'Занять весь параграф';
     $lang->edit->icon_align_left = 'Выровнять по левому краю';

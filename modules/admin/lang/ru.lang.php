@@ -5,40 +5,40 @@
      * @brief  Russian basic language pack for Zeroboard XE
      **/
 
-    $lang->admin_info = 'Информация Администратора';
-    $lang->admin_index = 'Индексная Страница Администратора';
+    $lang->admin_info = 'Информация администратора';
+    $lang->admin_index = 'Индексная страница администратора';
 
     $lang->module_category_title = array(
-        'service' => 'Служебные Модули',
-        'manager' => 'Управляющие Модули',
-        'utility' => 'Утилиратные Модули',
-        'accessory' => 'Дополнительные Модули',
-        'base' => 'Базовые Модули',
+        'service' => 'Служебные модули',
+        'manager' => 'Управляющие модули',
+        'utility' => 'Утилиратные модули',
+        'accessory' => 'Дополнительные модули',
+        'base' => 'Базовые модули',
     );
 
-    $lang->newest_news = "Последние Новости";
+    $lang->newest_news = "Последние новости";
     
     $lang->env_setup = "Настройка";
 
-    $lang->env_information = "Информация Окружения";
-    $lang->current_version = "Текущая Версия";
-    $lang->current_path = "Текущий Путь";
-    $lang->released_version = "Последняя Версия";
+    $lang->env_information = "Информация окружения";
+    $lang->current_version = "Текущая версия";
+    $lang->current_path = "Текущий путь";
+    $lang->released_version = "Последняя версия";
     $lang->about_download_link = "Новая версия XE доступна. Чтобы скачать последнюю версию, нажмите ссылку закачки.";
     
-    $lang->item_module = "Список Модулей";
-    $lang->item_addon  = "Список Аддонов";
-    $lang->item_widget = "Список Виджетов";
-    $lang->item_layout = "Список Лейаутов";
+    $lang->item_module = "Список модулей";
+    $lang->item_addon  = "Список аддонов";
+    $lang->item_widget = "Список виджетов";
+    $lang->item_layout = "Список лейаутов";
 
-    $lang->module_name = "Имя Модуля";
-    $lang->addon_name = "Имя Аддона";
+    $lang->module_name = "Имя модуля";
+    $lang->addon_name = "Имя аддона";
     $lang->version = "Версия";
     $lang->author = "Разработчик";
-    $lang->table_count = "Номер Таблицы";
-    $lang->installed_path = "Путь Установки";
+    $lang->table_count = "Номер таблицы";
+    $lang->installed_path = "Путь установки";
 
-    $lang->cmd_shortcut_management = "Редактировать Меню";
+    $lang->cmd_shortcut_management = "Редактировать меню";
 
     $lang->msg_is_not_administrator = 'Только для администраторов!';
     $lang->msg_manage_module_cannot_delete = 'Ярлыки модулей, аддонов, лейаутов, виджетов не могут быть удалены';
@@ -48,8 +48,8 @@
     $lang->about_admin_page = "Страница администратора все еще в разработке,\nМы добавим важные доработки, принимая много хороших предложений на этапе Closebeta.";
     $lang->about_lang_env = "Чтобы применить выбранный язык для пользователей как страндартный, нажмите кнопку Сохранить [Save] после изменения.";
 
-    $lang->zeroboard_xe_user_links = 'Ссылки для Пользователей';
-    $lang->zeroboard_xe_developer_links = 'Ссылки для Разработчиков';
+    $lang->zeroboard_xe_user_links = 'Ссылки для пользователей';
+    $lang->zeroboard_xe_developer_links = 'Ссылки для разработчиков';
 
     $lang->xe_user_links = array(
         'Официальный веб-сайт' => 'http://www.zeroboard.com',
@@ -64,22 +64,22 @@
 
     $lang->xe_developer_links = array(
         //'Manual' => 'http://www.zeroboard.com/wiki/manual',
-        "Форум Разработчиков" => 'http://spring.zeroboard.com',
-        'Обсуждение Восросов' => 'http://trac.zeroboard.com',
-        'SVN Репозиторий' => 'http://svn.zeroboard.com',
+        "Форум разработчиков" => 'http://spring.zeroboard.com',
+        'Обсуждение вопсросов' => 'http://trac.zeroboard.com',
+        'SVN репозиторий' => 'http://svn.zeroboard.com',
         'Документация' => 'http://doc.zeroboard.com',
-        'PDF Документация' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'PDF документация' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
     );
 
-    $lang->zeroboard_xe_usefulness_module = 'Полезные Модули';
+    $lang->zeroboard_xe_usefulness_module = 'Полезные модули';
     $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => 'Менеждер Редактора',
-        'dispDocumentAdminList' => 'Менеждер Статей',
-        'dispCommentAdminList' => 'Менеждер Комментариев',
-        'dispFileAdminList' => 'Менеждер Вложений',
-        'dispPollAdminList' => 'Менеждер Голосований',
-        'dispSpamfilterAdminConfig' => 'Менеждер Спам-фильтра',
-        'dispCounterAdminIndex' => 'Лог Счетчика',
+        'dispEditorAdminIndex' => 'Менеждер редактора',
+        'dispDocumentAdminList' => 'Менеждер статей',
+        'dispCommentAdminList' => 'Менеждер комментариев',
+        'dispFileAdminList' => 'Менеждер вложений',
+        'dispPollAdminList' => 'Менеждер голосований',
+        'dispSpamfilterAdminConfig' => 'Менеждер спам-фильтра',
+        'dispCounterAdminIndex' => 'Лог счетчика',
 
     );
 

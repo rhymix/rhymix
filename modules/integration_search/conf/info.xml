@@ -5,12 +5,14 @@
     <title xml:lang="jp">統合検索</title>
     <title xml:lang="en">Integration Search</title>
 	<title xml:lang="es">Búsqueda Integrada</title>
+    <title xml:lang="ru">Интегрируемый поиск</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 24">
         <name xml:lang="ko">제로</name>
 		<name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
     	<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">
             선택한 모듈들을 대상으로 통합검색을 지원합니다.
             선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 하셔야 합니다.
@@ -24,11 +26,15 @@
         </description>
         <description xml:lang="en">
             It supports integration search for chosen modules.
-            All articles except secret articles will be searched, so you need to be careful not to include secret module to target  .
+            All articles except secret articles will be searched, so you need to be careful not to include secret module to target.
         </description>
         <description xml:lang="es">
             Soporta la búsqueda integrada de los módulos elegidos.
             Todo los documentos excepto los secretos serán buscados, y es necesario tener cuidado de no incluir módulo secreto como  objetivo.
+        </description>
+        <description xml:lang="ru">
+            Поддерживает интеграцию поиска в выбранные модули.
+            Все статьи, за исключением секретных, будут подлежать поиску, поэтому Вам нужно быть осторожным с тем, чтобы не включить модуль секретов в назначение.
         </description>
     </author>
 </module>

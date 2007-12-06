@@ -14,7 +14,7 @@
         'year' => 'По годам',
     );
 
-    $lang->total_counter = 'Общее Состояние';
+    $lang->total_counter = 'Общее состояние';
     $lang->selected_day_counter = 'Состояние на выбранный день';
 
     $lang->unique_visitor = 'Посетителей';

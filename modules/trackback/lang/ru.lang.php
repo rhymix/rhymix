@@ -11,11 +11,11 @@
     $lang->msg_checked_trackback_is_deleted = '%d трекбеков удалено.';
 
     $lang->search_target_list = array(
-        'url' => 'URL Назначения',
-        'blog_name' => 'Имя Сайта',
+        'url' => 'URL назначения',
+        'blog_name' => 'Имя сайта',
         'title' => 'Заголовок',
         'excerpt' => 'Выдержка',
-        'regdate' => 'Дата Отправки',
+        'regdate' => 'Дата отправки',
         'ipaddress' => 'IP-адрес',
     );
 

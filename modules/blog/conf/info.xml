@@ -5,19 +5,23 @@
     <title xml:lang="en">Blog</title>
     <title xml:lang="es">Blog</title>
     <title xml:lang="zh-CN">博客</title>
+    <title xml:lang="ru">Блог</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">
             블로그의 기능을 담당하는 모듈. 
             게시판과 비슷하지만 보여지는 view가 다르고 블로그에 적합한 method가 추가되었음.
             레이아웃과 기본 메뉴를 직접 담당
         </description>
         <description xml:lang="jp">
-            ブログの機能を担当するモジュールです。掲示板と似ているが、内容の表示が異なり、ブログに適切なメソッドが追加されています。 レイアウトと基本メニューを直接担当します。
+            ブログの機能を担当するモジュール 
+            掲示板と似ているが、内容の表示が異なり、ブログに適切なメソッドが追加されている。
+            レイアウトと基本メニューを直接担当します。
         </description>
         <description xml:lang="en">
             This module contains the blog functions.
@@ -33,6 +37,11 @@
             是负责博客功能的模块。
             虽然类似版面，但其显示模式不同，且还添加了适合博客的method。
             内置布局和基本的菜单。
+        </description>
+        <description xml:lang="ru">
+            Этот модуль содержит функции блога.
+            Он похож на модуль BBS, но имеет другой вид и более подходящие методы для блога.
+            Этот модуль управляет лейвутом и базовым меню самостоятельно.
         </description>
     </author>
 </module>

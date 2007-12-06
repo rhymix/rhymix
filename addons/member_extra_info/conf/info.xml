@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
-  <title xml:lang="jp">会員情報・コミュニティ活性化機能</title>
+  <title xml:lang="jp">会員情報・コミュニティ</title>
   <title xml:lang="zh-CN">用户扩展信息</title>
   <title xml:lang="en">Addon for enabling facilities for providing additional information about users and communicating</title>
   <title xml:lang="es">Addon para activar la función de la Información addcional del usuario y  de la comunicación.</title>
+  <title xml:lang="ru">Аддон для предоставления дополнительной информации о пользователях и коммуникации</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="es">zero</name>
+    <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
         사용자의 정보중 이미지이름, 이미지마크, 서명등을 화면에 출력해주는 애드온입니다.
         이런 정보들을 사용하지 않을 경우를 대비하여 별도의 애드온으로 빼어서 실행시간을 줄여줍니다.
@@ -22,11 +24,11 @@
         5. MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
     </description>
     <description xml:lang="jp">
-        会員情報のイメージ名、イメージマーク、署名などを画面に表示するアドオンです。このような情報を使用しない場合、アドオンを「未使用」に設定すれば、実行時間を少なくします。イメージ名、イメージマーク、署名などを表示させたい時は、このアドオンを「使用」に設定して下さい。
+        会員情報のイメージ名、イメージマーク、署名などを画面に表示するアドオンです。このような情報を使用しない場合、アドオンを「使用」に設定すれば、実行時間を少なくします。イメージ名、イメージマーク、署名などを表示させたい時は、このアドオンを「使用」に設定して下さい。
         
         1. 出力の直前 &lt;div class="member_会員番号"&gt;....&lt;/div&gt; に定義された部分を探し、会員番号をチェックしてイメージ名、イメージマークがあるかを確認します。あった場合は内容を変更します
         2. 出力の直前 &lt;div class="document_番号"&gt;...&lt;/div&gt;に定義された部分を探し、書込みの内容だと判断して、下段に署名を追加します
-        3. 新しいメッセージが届いた時、ポップアップで表示します
+        3. 新しいメッセージが来た場合ポップアップで表示します
         4. MemberModel::getMemberMenu を呼出す時、相手が会員の場合はメッセージ送信の機能を追加します
         5. MemberModel::getMemberMenu を呼出す時、友達登録メニュを追加します
     </description>
@@ -59,6 +61,16 @@
         3. Si ha llegado un nuevo mensaje, aprarecerá una ventana popup.
         4. Se activa la función "Enviar Mensajes" si la persona que envió la nota es usuario al comprobar en MemberModel::getMemberMenu.
         5. Agrega el menú "Ägregar Amigo" al llamar MemberModel::getMemberMenu.
+    </description>
+    <description xml:lang="ru">
+        Среди другой информации о пользователях, этот аддон показывает имя изображения, марку изображения и подпись.
+        В случае, если Вы не используете эту информацию, это стоит в стороне от базовой информации, так что время выполнения будет снижено.
+        Чтобы отображать имя изображения, марку изображения и подпись, пожалуйста, включите этот аддон.
+        1. Прямо перед отображением информации пользователя, это создаст уникальный ключ члена из определения "&amp;lt;div class="член_{уникальный ключ члена}"&amp;gt;....&amp;lt;/div&amp;gt;" и заменит имя изображения и/или марку изображения, если они существуют.
+        2. Прямо перед отображением, это должно найти определение "&amp;lt;div class="документ_{уникальный ключ документа}"&amp;gt;...&amp;lt;/div&amp;gt;" и вставить подпись внизу.
+        3. Когда будет получено новое сообщение, оно всплывет.
+        4. Это позволяет отправить сообщение, если назначение является членом, когда MemberModel::getMemberMenu вызывается.
+        5. Это добавляет меню для регистрации как друга, когда MemberModel::getMemberMenu вызывается.
     </description>
   </author>
 </addon>

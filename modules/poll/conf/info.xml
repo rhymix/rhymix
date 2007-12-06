@@ -5,16 +5,19 @@
     <title xml:lang="jp">アンケート</title>
     <title xml:lang="en">Poll</title>
 	<title xml:lang="es">Encuesta</title>
+    <title xml:lang="ru">Опрос</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">설문조사 관리 모듈</description>
         <description xml:lang="zh-CN">管理投票调查的模块。</description>
         <description xml:lang="jp">アンケート管理モジュール</description>
         <description xml:lang="en">This module is for managering polls.</description>
-		<description xml:lang="en">Este módulo es para manejar las encuestas.</description>
+		<description xml:lang="es">Este módulo es para manejar las encuestas.</description>
+        <description xml:lang="ru">Этот модуль служит для управления опросами.</description>
     </author>
 </module>

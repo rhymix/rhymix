@@ -5,16 +5,19 @@
     <title xml:lang="en">Spam Filter</title>
 	<title xml:lang="es">Filtro de Spam</title>
     <title xml:lang="jp">スパムフィルター</title>
+    <title xml:lang="ru">Фильтр спама</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
         <name xml:lang="jp">Zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">제로보드 XE의 기본 스팸필터입니다.</description>
         <description xml:lang="zh-CN">Zeroboard XE的基本垃圾过滤模块。</description>
         <description xml:lang="en">A default spam filter of Zeroboard XE.</description>
 		<description xml:lang="es">Filtro de Span predefinido de Zeroboard XE.</description>
         <description xml:lang="jp">ゼロボードXEのスパムフィルターです。</description>
+        <description xml:lang="ru">Стандартный фильтр спама Zeroboard XE.</description>
     </author>
 </module>

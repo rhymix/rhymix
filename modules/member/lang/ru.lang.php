@@ -6,11 +6,11 @@
      **/
 
     $lang->member = 'Пользователь';
-    $lang->member_default_info = 'Базовая Информация';
-    $lang->member_extend_info = 'Дополнительная Информация';
-    $lang->default_group_1 = "Общая Группа";
-    $lang->default_group_2 = "Особая Группа";
-    $lang->admin_group = "Администативная Группа";
+    $lang->member_default_info = 'Базовая информация';
+    $lang->member_extend_info = 'Дополнительная информация';
+    $lang->default_group_1 = "Общая группа";
+    $lang->default_group_2 = "Особая группа";
+    $lang->admin_group = "Администативная группа";
     $lang->remember_user_id = 'Сохранить ID';
     $lang->already_logged = "Вы уже вошли";
     $lang->denied_user_id = 'Извините. Этот ID запрещен.';
@@ -19,45 +19,45 @@
     $lang->invalid_authorization = 'Не авторизировано';
     $lang->invalid_user_id= "Указанный ID не существует";
     $lang->invalid_password = 'Неверный пароль';
-    $lang->allow_mailing = 'Присоединиться к Списку Рассылки';
-    $lang->allow_message = 'Разрешить Прием Сообщений';
+    $lang->allow_mailing = 'Присоединиться к списку рассылки';
+    $lang->allow_message = 'Разрешить прием сообщений';
     $lang->allow_message_type = array(
-             'Y' => 'Принимать Все',
-             'N' => 'Отклонять Все',
-             'F' => 'Только Друзья',
+             'Y' => 'Принимать все',
+             'N' => 'Отклонять все',
+             'F' => 'Только друзья',
         );
     $lang->denied = 'Отказано';
-    $lang->is_admin = 'Суперадминистративные Права';
-    $lang->group = 'Присвоенная Группа';
-    $lang->group_title = 'Имя Группы';
-    $lang->group_srl = 'Номер Группы';
+    $lang->is_admin = 'Суперадминистративные права';
+    $lang->group = 'Присвоенная группа';
+    $lang->group_title = 'Имя группы';
+    $lang->group_srl = 'Номер группы';
     $lang->signature = 'Подпись';
-    $lang->profile_image = 'Изображение Профиля';
-    $lang->profile_image_max_width = 'Макс. Ширина';
-    $lang->profile_image_max_height = 'Макс. Высота';
-    $lang->image_name = 'Имя Изображения';
-    $lang->image_name_max_width = 'Макс. Ширина';
-    $lang->image_name_max_height = 'Макс. Высота';
+    $lang->profile_image = 'Изображение профиля';
+    $lang->profile_image_max_width = 'Макс. ширина';
+    $lang->profile_image_max_height = 'Макс. высота';
+    $lang->image_name = 'Имя изображения';
+    $lang->image_name_max_width = 'Макс. ширина';
+    $lang->image_name_max_height = 'Макс. высота';
     $lang->image_mark = 'Изображение-марка';
-    $lang->image_mark_max_width = 'Макс. Ширина';
-    $lang->image_mark_max_height = 'Макс. Высота';
-    $lang->enable_openid = 'Включить Открытый ID (OpenID)';
-    $lang->enable_join = 'Позволить Пользователям Регистрироваться';
-    $lang->limit_day = 'Временный Лимит Даты';
-    $lang->limit_date = 'Дата Лимита';
-    $lang->redirect_url = 'URL после Регистрации';
-    $lang->agreement = 'Пользовательское Соглашение Регистрации';
+    $lang->image_mark_max_width = 'Макс. ширина';
+    $lang->image_mark_max_height = 'Макс. высота';
+    $lang->enable_openid = 'Включить открытый ID (OpenID)';
+    $lang->enable_join = 'Позволить пользователям регистрироваться';
+    $lang->limit_day = 'Временный лимит даты';
+    $lang->limit_date = 'Дата лимита';
+    $lang->redirect_url = 'URL после регистрации';
+    $lang->agreement = 'Пользовательское соглашение о регистрации';
     $lang->accept_agreement = 'Согласен';
     $lang->sender = 'Отправитель';
     $lang->receiver = 'Получатель';
-    $lang->friend_group = 'Группа Друзей';
-    $lang->default_friend_group = 'Неприсвоенная Группа';
-    $lang->member_info = 'Пользовательская Информация';
-    $lang->current_password = 'Текущий Пароль';
+    $lang->friend_group = 'Группа друзей';
+    $lang->default_friend_group = 'Неприсвоенная группа';
+    $lang->member_info = 'Пользовательская информация';
+    $lang->current_password = 'Текущий пароль';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = "Имя Веб-мастера";
-    $lang->webmaster_email = "Email Веб-мастера";
+    $lang->webmaster_name = "Имя веб-мастера";
+    $lang->webmaster_email = "Email веб-мастера";
 
     $lang->about_webmaster_name = "Пожалуйста, введите имя веб-мастера, которое будет использоваться для аутентификационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)";
     $lang->about_webmaster_email = "Пожалуйста, введите email адрес веб-мастера.";
@@ -67,46 +67,46 @@
         'user_name' => 'Имя',
         'nick_name' => 'Ник',
         'email_address' => 'Email',
-        'regdate' => 'Дата Регистрации',
-        'last_login' => 'Дата Последнего Входа',
-        'extra_vars' => 'Экстра Перем.',
+        'regdate' => 'Дата регистрации',
+        'last_login' => 'Дата последнего входа',
+        'extra_vars' => 'Экстра перем.',
     );
 
     $lang->message_box = array(
         'R' => 'Принятые',
         'S' => 'Отправленные',
-        'T' => 'Почтовый Ящик',
+        'T' => 'Почтовый ящик',
     );
 
-    $lang->readed_date = "Дата Прочтения"; 
+    $lang->readed_date = "Дата прочтения"; 
 
     $lang->cmd_login = 'Войти';
     $lang->cmd_logout = 'Выйти';
     $lang->cmd_signup = 'Регистрация';
-    $lang->cmd_modify_member_info = 'Изменить Информацию Пользователя';
-    $lang->cmd_modify_member_password = 'Изменить Пароль';
-    $lang->cmd_view_member_info = 'Информация Пользователя';
+    $lang->cmd_modify_member_info = 'Изменить информацию пользователя';
+    $lang->cmd_modify_member_password = 'Изменить пароль';
+    $lang->cmd_view_member_info = 'Информация пользователя';
     $lang->cmd_leave = 'Покинуть';
-    $lang->cmd_find_member_account = 'Найти Информацию Аккаунта';
+    $lang->cmd_find_member_account = 'Найти информацию аккаунта';
 
-    $lang->cmd_member_list = 'Список Пользователей';
-    $lang->cmd_module_config = 'Стандартные Настройки';
-    $lang->cmd_member_group = 'Увтавление Группами';
-    $lang->cmd_send_mail = 'Отправить Почту';
-    $lang->cmd_manage_id = 'Управление Запрещенными ID';
-    $lang->cmd_manage_form = 'Управление Формой Регистрации';
-    $lang->cmd_view_own_document = 'Просмотреть Написанные Статьи';
+    $lang->cmd_member_list = 'Список пользователей';
+    $lang->cmd_module_config = 'Стандартные настройки';
+    $lang->cmd_member_group = 'Увтавление группами';
+    $lang->cmd_send_mail = 'Отправить почту';
+    $lang->cmd_manage_id = 'Управление запрещенными ID';
+    $lang->cmd_manage_form = 'Управление формой регистрации';
+    $lang->cmd_view_own_document = 'Просмотреть написанные статьи';
     $lang->cmd_view_scrapped_document = 'Черновики';
-    $lang->cmd_view_saved_document = 'Просмотреть Сохраненные Статьи';
-    $lang->cmd_send_email = 'Отправить Почту';
-    $lang->cmd_send_message = 'Отправить Сообщение';
+    $lang->cmd_view_saved_document = 'Просмотреть сохраненные статьи';
+    $lang->cmd_send_email = 'Отправить почту';
+    $lang->cmd_send_message = 'Отправить сообщение';
     $lang->cmd_reply_message = 'Ответить';
     $lang->cmd_view_friend = 'Дзузья';
-    $lang->cmd_add_friend = 'Сделать Другом';
-    $lang->cmd_view_message_box = 'Ящик Сообщений';
+    $lang->cmd_add_friend = 'Сделать другом';
+    $lang->cmd_view_message_box = 'Ящик сообщений';
     $lang->cmd_store = "Сохранить";
-    $lang->cmd_add_friend_group = 'Добавить Группу Друзей';
-    $lang->cmd_rename_friend_group = 'Изменить Имя Группы Друзей';
+    $lang->cmd_add_friend_group = 'Добавить группу друзей';
+    $lang->cmd_rename_friend_group = 'Изменить имя группы друзей';
 
     $lang->msg_email_not_exists = "Email адрес не существует";
 
@@ -115,7 +115,7 @@
     $lang->msg_cart_is_null = 'Пожалуйста, выберите назначение';
     $lang->msg_checked_file_is_deleted = '%d вложенных файлов удалено';
 
-    $lang->msg_find_account_title = 'Информация Аккаунта';
+    $lang->msg_find_account_title = 'Информация аккаунта';
     $lang->msg_find_account_info = 'Это требуемая информация аккаунта.';
     $lang->msg_find_account_comment = 'Пароль будет изменен на указанный выше после нажатия по ссылке ниже.<br />Пожалуйста, изменить пароль после входа.';
     $lang->msg_auth_mail_sended = 'Аутентификационное почтовое сообщение было отправлено для %s. Пожалуйста, проверьте Вашу почту.';
@@ -125,8 +125,8 @@
     $lang->msg_no_message = 'Нет сообщений';
     $lang->message_received = 'Новое сообщение';
 
-    $lang->msg_new_member = 'Добавить Пользователя';
-    $lang->msg_update_member = 'Изменить Информацию Пользователя';
+    $lang->msg_new_member = 'Добавить пользователя';
+    $lang->msg_update_member = 'Изменить информацию пользователя';
     $lang->msg_leave_member = 'Покинуть';
     $lang->msg_group_is_null = 'Нет зарегистрированной группы';
     $lang->msg_not_delete_default = 'Стандартные объекты не могут быть удалены';
