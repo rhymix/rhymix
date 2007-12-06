@@ -19,6 +19,6 @@
 
     $lang->about_springnote = "Спрингноут (Springnote) - это Вики Служба (Wiki Service), которую предоставляет Openmaru.<br />Springnote ZeroboardXE модуль отображает определенные спрингноут страницы как внутренние документы.";
     $lang->about_springnote_openid = "Пожалуйста, введите Ваш OpenID, который создал Springnote.";
-    $lang->about_springnote_userkey = 'Ключ юзера нужен для того, чтобы включить Springnote модуль.<br />Пожалуйста, введи сгенерированный Ключ Юзера после ввода Вашего OpenID на [<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">Получить Ключ Юзера</a>] .';
+    $lang->about_springnote_userkey = 'Ключ юзера нужен для того, чтобы включить Springnote модуль.<br />Пожалуйста, введите сгенерированный Ключ Юзера после ввода Вашего OpenID на [<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">Получить Ключ Юзера</a>] .';
     $lang->about_springnote_pageid = 'Пожалуйста, введите pageid, если вы хотите отобразить определенную страницу сначала.';
 ?>
