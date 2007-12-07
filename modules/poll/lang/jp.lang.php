@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/poll/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  アンケート（poll）モジュールの基本言語パッケージ
      **/
 
@@ -13,7 +13,7 @@
     $lang->cmd_poll_list = 'アンケートのリスト表示';
     $lang->cmd_delete_checked_poll = '選択項目削除';
     $lang->cmd_apply_poll = 'アンケート調査へ参加する';
-    $lang->cmd_view_result = 'Preview result';
+    $lang->cmd_view_result = '結果を見る';
     $lang->cmd_delete_checked_poll = '選択アンケート削除';
 
     $lang->success_poll = 'アンケート調査へのご応募ありがとうございます。';
