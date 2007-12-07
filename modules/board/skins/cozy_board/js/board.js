@@ -125,15 +125,15 @@ function doScrap(document_srl) {
 
 // Editor Reply And Trackback Toggle
 function toggleReply(id) {
-    xGetElementById('reply').style.display = 'block';
-    xGetElementById('trackback').style.display = 'none';
+    if(xGetElementById('reply')) xGetElementById('reply').style.display = 'block';
+    if(xGetElementById('trackback')) xGetElementById('trackback').style.display = 'none';
     xGetElementById('toggleReply').parentNode.className = 'selected';
     xGetElementById('toggleTrackback').parentNode.className = '';
 }
 
 function toggleTrackback(id) {
-    xGetElementById('reply').style.display = 'none';
-    xGetElementById('trackback').style.display = 'block';
+    if(xGetElementById('reply')) xGetElementById('reply').style.display = 'none';
+    if(xGetElementById('trackback')) xGetElementById('trackback').style.display = 'block';
     xGetElementById('toggleReply').parentNode.className = '';
     xGetElementById('toggleTrackback').parentNode.className = 'selected';
 }
