@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">웹진 형태 최근 문서 출력</title>
     <title xml:lang="zh-CN">输出新闻类型主题列表.</title>
-    <title xml:lang="jp">웹진 형태 최근 문서 출력</title>
+    <title xml:lang="jp">ウェブジンスタイル最新コンテンツ出力</title>
     <title xml:lang="en">Display webzine style newest documents</title>
     <title xml:lang="es">웹진 형태 최근 문서 출력</title>
     <title xml:lang="ru">Отображение последних статей в стиле webzine</title>
@@ -14,7 +14,7 @@
 		<name xml:lang="en">zero</name>
         <description xml:lang="ko">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">输出新闻类型最新主题列表的控件.</description>
-        <description xml:lang="jp">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
+        <description xml:lang="jp">最新コンテンツをウェブジンスタイルで出力するウィジェットです。</description>
         <description xml:lang="en">This widget displays newest articles like webzine style.</description>
         <description xml:lang="es">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
         <description xml:lang="ru">Этот виджет отображает последние статьи в стиле webzine.</description>
