@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">최근 엮인글 출력</title>
     <title xml:lang="zh-CN">引用列表</title>
-    <title xml:lang="jp">最近のトラックバック</title>
+    <title xml:lang="jp">最新トラックバック</title>
     <title xml:lang="en">Display Newest Trackbacks</title>
 	<title xml:lang="es">Mostrar Trackbacks recientes</title>
     <title xml:lang="ru">Отображение последних трекбеков</title>
@@ -15,7 +15,7 @@
         <name xml:lang="ru">zero</name>
         <description xml:lang="ko">최근 엮인글 (trackback)을 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">显示最新引用 (trackback)列表的控件。</description>
-        <description xml:lang="jp">最近のトラックバック（trackback）を表示させるウィジェットです。</description>
+        <description xml:lang="jp">最新のトラックバック（trackback）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget displays newest trackbacks.</description>
 		<description xml:lang="es">Este widget muestra los trackbacks recientes.</description>
         <description xml:lang="ru">Этот виджет отображает последние трекбеки.</description>
