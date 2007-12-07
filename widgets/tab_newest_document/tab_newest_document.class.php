@@ -88,7 +88,7 @@
                 $browser_title = $value->browser_title;
 
                 $obj->module_srl = $module_srl;
-                $output = executeQuery("widgets.tab_newest_document.getNewestDocuments", $obj);
+                $output = executeQueryArray("widgets.tab_newest_document.getNewestDocuments", $obj);
                 unset($data);
 
                 if($output->data && count($output->data)) {
