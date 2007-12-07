@@ -4,14 +4,17 @@
     <title xml:lang="jp">アンケート調査</title>
     <title xml:lang="zh-CN">投票调查</title>
     <title xml:lang="en">Poll Component</title>
+    <title xml:lang="ru">Компонент опросов</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">글 작성시에 설문조사를 첨부하실 수 있습니다. 설문조사 컴포넌트는 설문조사 모듈의 설정에 영향을 받습니다.</description>
         <description xml:lang="jp">書き込みの時、アンケート機能の追加ができます。アンケートモジュールの影響を受けます。</description>
         <description xml:lang="zh-CN">发表主题时可以附加投票调查。投票调查组件受投票调查模块设置的影响。</description>
         <description xml:lang="en">You can attach a poll on writing articles. Poll component is affected by setting of poll module.</description>
+        <description xml:lang="ru">Вы можете присоединить опрос при написании статей. Компонент опросов зависит от настроек модуля отпросов.</description>
     </author>
 </component>
