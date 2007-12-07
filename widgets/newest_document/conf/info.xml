@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">최근 문서 출력</title>
     <title xml:lang="zh-CN">主题列表</title>
-    <title xml:lang="jp">最近の書き込み表示</title>
+    <title xml:lang="jp">最新書き込み表示</title>
     <title xml:lang="en">Display Newest Articles</title>
 	<title xml:lang="es">Mostrar los documentos recientes</title>
     <title xml:lang="ru">Отображение последних статей</title>
@@ -15,7 +15,7 @@
         <name xml:lang="ru">zero</name>
         <description xml:lang="ko">최근 문서 (document)를 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">显示最新主题列表 (document)的控件。</description>
-        <description xml:lang="jp">最近の書き込み（document）を表示させるウィジェットです。</description>
+        <description xml:lang="jp">最新の書き込み（document）を表示させるウィジェットです。</description>
         <description xml:lang="en">This widget displays newest articles.</description>
 		<description xml:lang="es">Este widget muestra los documentos recientes.</description>
         <description xml:lang="ru">Этот виджет отображает последние статьи.</description>
@@ -31,7 +31,7 @@
             <type>text</type>
             <description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
             <description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
-            <description xml:lang="jp">最近の書き込みのタイトルとして表示されます。</description>
+            <description xml:lang="jp">最新の書き込みのタイトルとして表示されます。</description>
             <description xml:lang="en">It will be the title of the newest articles.</description>
 			<description xml:lang="es">Este será el título de los documentos recientes.</description>
             <description xml:lang="ru">Это будет заголовком последних статей.</description>
@@ -62,7 +62,7 @@
             <options>
                 <name xml:lang="ko">최근 변경순</name>
                 <name xml:lang="zh-CN">最新修改顺</name>
-                <name xml:lang="jp">最近変更順</name>
+                <name xml:lang="jp">最新変更順</name>
                 <name xml:lang="en">Newest Modified Order</name>
 				<name xml:lang="es">Orden de modificados recientemente</name>
                 <name xml:lang="ru">Порядок измененных статей</name>
