@@ -5,17 +5,17 @@
      * @brief  editor Module > language pack of image_link component
      **/
 
-    $lang->image_url = "Ïóòü èçîáðàæåíèÿ";
-    $lang->image_alt = "Ââåäèòå îïèñàíèå";
-    $lang->image_scale = "Ðàçìåð èçîáðàæåíèÿ";
-    $lang->image_align = "Ñòèëü âûðàâíèâàíèÿ";
-    $lang->image_align_normal = "Çàíÿòü ïàðàãðàô";
-    $lang->image_align_left = "Ëåâî";
-    $lang->image_align_middle = "Öåíòð";
-    $lang->image_align_right = "Ïðàâî";
-    $lang->image_border = "Òîëùèíà ðàìêè";
+    $lang->image_url = "ÐŸÑƒÑ‚ÑŒ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ";
+    $lang->image_alt = "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ðµ";
+    $lang->image_scale = "Ð Ð°Ð·Ð¼ÐµÑ€ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ";
+    $lang->image_align = "Ð¡Ñ‚Ð¸Ð»ÑŒ Ð²Ñ‹Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°Ð½Ð¸Ñ";
+    $lang->image_align_normal = "Ð—Ð°Ð½ÑÑ‚ÑŒ Ð¿Ð°Ñ€Ð°Ð³Ñ€Ð°Ñ„";
+    $lang->image_align_left = "Ð›ÐµÐ²Ð¾";
+    $lang->image_align_middle = "Ð¦ÐµÐ½Ñ‚Ñ€";
+    $lang->image_align_right = "ÐŸÑ€Ð°Ð²Ð¾";
+    $lang->image_border = "Ð¢Ð¾Ð»Ñ‰Ð¸Ð½Ð° Ñ€Ð°Ð¼ÐºÐ¸";
     $lang->urllink_url = "URL";
 
-    $lang->about_url_link_open_window = "Ñîçäàéòå ññûëêó äëÿ îòêðûòèÿ â íîâîì îêíå";
-    $lang->cmd_get_scale = "Ïîëó÷èòü ðàçìåð èçîáðàæåíèÿ";
+    $lang->about_url_link_open_window = "Ð¡Ð¾Ð·Ð´Ð°Ð¹Ñ‚Ðµ ÑÑÑ‹Ð»ÐºÑƒ Ð´Ð»Ñ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ð² Ð½Ð¾Ð²Ð¾Ð¼ Ð¾ÐºÐ½Ðµ";
+    $lang->cmd_get_scale = "ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ";
 ?>
