@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">Simulz 스킨 (Select 메뉴)</title>
-  <title xml:lang="ko">Simulz スキン (Select メニュー)</title>
+  <title xml:lang="jp">Simulz スキン (Select メニュー)</title>
   <title xml:lang="zh-CN">Simulz 皮肤 (Select 菜单)</title>
   <title xml:lang="en">Simulz Skin (Select menu)</title>
   <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 11. 5">
