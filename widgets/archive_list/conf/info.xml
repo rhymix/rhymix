@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">월별 보관 현황 출력</title>
     <title xml:lang="zh-CN">存档</title>
-    <title xml:lang="jp">バックアップリスト</title>
+    <title xml:lang="jp">月別バックアップリスト</title>
     <title xml:lang="en">Report of Stored-Articles by Month</title>
 	<title xml:lang="es">Reporte del almacenamiento de documentos por mes</title>
     <title xml:lang="ru">Отчет о размещенных статьях по месяцам</title>
@@ -22,7 +22,8 @@
             主题过多可能会导致服务器超负荷运行。
         </description>
         <description xml:lang="jp">
-            選択されたモジュールの月別コンテンツのバクアップリストを表示します。書き込みが多いと負荷がかかる場合があります。
+            選択されたモジュールの月別コンテンツのバックアップリストを表示します。
+			書き込みが多すぎると負荷がかかる場合があります。
         </description>
         <description xml:lang="en">
             This widget displays the present status of stored-articles selected module by month.
