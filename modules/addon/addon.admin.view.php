@@ -39,6 +39,11 @@
             $addon_info = $oAddonModel->getAddonInfoXml($selected_addon);
             Context::set('addon_info', $addon_info);
 
+            // mid 목록을 가져옴
+            $oModuleModel = &getModel('module');
+            $mid_list = $oModuleModel->getMidList();
+            Context::set('mid_list', $mid_list);
+
             // 레이아웃을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 

@@ -24,12 +24,37 @@
             <td><a href="{$addon_info->author->homepage}" onclick="window.open(this.href);return false;">{$addon_info->author->homepage}</a></td>
         </tr>
 
-        <!--@foreach($addon_info->extra_vars as $key => $val)-->
+        <!--@foreach($addon_info->extra_vars as $id => $var)-->
         <tr>
-            <th scope="row">{$val->title}</th>
+            <th scope="row">
+                {$var->title}
+                <!--@if($var->type == 'mid_list')-->
+                    <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$var->name}'); return false;" />
+                <!--@end-->
+            </th>
             <td>
-                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w400" />
-                <!--@if($val->description)--><p>{$val->description}</p><!--@end-->
+                <!--@if($var->type == 'text')-->
+                <input type="text" name="{$var->name}" value="{$var->value}" class="inputTypeText w400" />
+
+                <!--@elseif($var->type == 'textarea')-->
+                <textarea name="{$var->name}" class="inputTypeTextArea">{$var->value}</textarea>
+
+                <!--@elseif($var->type == 'select')-->
+                <select name="{$var->name}">
+                    <!--@foreach($var->options as $val)-->
+                    <option value="{$val->value}"<!--@if($var->value == $val->value)--> selected="selected"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                </select>
+
+                <!--@elseif($var->type == 'mid_list')-->
+                    <!--@foreach($mid_list as $key => $val)-->
+                <div class="addon_mid_list">
+                    <input type="checkbox" value="{$key}" name="{$var->name}" id="chk_mid_list_{$key}" <!--@if(in_array($key, $var->value))-->checked="checkde" <!--@end-->/>
+                    <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                </div>
+                    <!--@end-->
+                <!--@end-->
+                <p class="clear">{nl2br($var->description)}</p>
             </td>
         </tr>
         <!--@end-->
