@@ -29,6 +29,7 @@
     $lang->cmd_vote = 'Recommend';
     $lang->cmd_vote_down = 'Criticize';
     $lang->cmd_declare = 'Accuse';
+    $lang->cmd_cancel_declare = 'Cancel Accuse';
     $lang->cmd_declared_list = 'Accusations List';
     $lang->cmd_copy = 'Copy';
     $lang->cmd_move = 'Move';

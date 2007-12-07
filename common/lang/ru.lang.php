@@ -29,6 +29,7 @@
     $lang->cmd_vote = 'Рекомендовать';
     $lang->cmd_vote_down = 'Критиковать';
     $lang->cmd_declare = 'Обвинить';
+    $lang->cmd_cancel_declare = 'Отменить Обвинить';
     $lang->cmd_declared_list = 'Список обвинений';
     $lang->cmd_copy = 'Копировать';
     $lang->cmd_move = 'Переместить';

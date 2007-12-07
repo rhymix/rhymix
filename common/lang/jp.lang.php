@@ -29,6 +29,7 @@
     $lang->cmd_vote = '推薦';
     $lang->cmd_vote_down = '非推薦';
     $lang->cmd_declare = '通報';
+    $lang->cmd_cancel_declare = '通報キャンセル';
     $lang->cmd_declared_list = '通報リスト';
     $lang->cmd_copy = 'コピー';
     $lang->cmd_move = '移動';

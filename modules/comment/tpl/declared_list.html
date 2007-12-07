@@ -45,6 +45,9 @@
     </table>
 
 <!-- 버튼 -->
+    <div class="fl gap1">
+        <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
+    </div>
     <div class="fr gap1">
         <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
         <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
@@ -53,6 +56,7 @@
 </form>
 
 <!-- 페이지 네비게이션 -->
+<div class="clear"></div>
 <div class="pageNavigation">
     <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->

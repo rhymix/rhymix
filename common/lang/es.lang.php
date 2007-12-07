@@ -29,6 +29,7 @@
     $lang->cmd_vote = 'Recomendar';
     $lang->cmd_vote_down = '비추천';
     $lang->cmd_declare = '신고';
+    $lang->cmd_cancel_declare = '신고 취소';
     $lang->cmd_declared_list = '신고 목록';
     $lang->cmd_copy = 'Copia';
     $lang->cmd_move = 'Mover';

@@ -44,6 +44,19 @@
         }
 
         /**
+         * @brief 신고대상을 취소 시킴
+         **/
+        function procCommentAdminCancelDeclare() {
+            $comment_srl = trim(Context::get('comment_srl'));
+
+            if($comment_srl) {
+                $args->comment_srl = $comment_srl;
+                $output = executeQuery('comment.deleteDeclaredComments', $args);
+                if(!$output->toBool()) return $output;
+            }
+        }
+
+        /**
          * @brief 특정 모듈의 모든 댓글 삭제
          **/
         function deleteModuleComments($module_srl) {
