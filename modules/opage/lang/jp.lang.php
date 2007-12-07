@@ -5,7 +5,7 @@
      * @brief  外部ページ(opage)モジュールの基本言語パッケージ
      **/
 
-    $lang->opage = "外d部ページ";
+    $lang->opage = "外部ページ";
     $lang->opage_path = "外部ドキュメントの場所";
     $lang->opage_caching_interval = "キャッシング時間設定";
 
