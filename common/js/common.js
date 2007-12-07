@@ -239,10 +239,10 @@ function resizeImageContents() {
         var obj_width = xWidth(obj);
         var obj_height = xHeight(obj);
 
-        // 만약 선택된 이미지의 가로 크기가 부모의 가로크기보다 크면 리사이즈 (이때 부모의 가로크기 - 20 정도로 지정해줌)
-        if(obj_width > parent_width - 20) {
+        // 만약 선택된 이미지의 가로 크기가 부모의 가로크기보다 크면 리사이즈 (이때 부모의 가로크기 - 2 정도로 지정해줌)
+        if(obj_width > parent_width - 2) {
             obj.style.cursor = "pointer";
-            var new_w = parent_width - 20;
+            var new_w = parent_width - 2;
             var new_h = Math.round(obj_height * new_w/obj_width);
             xWidth(obj, new_w);
             xHeight(obj, new_h);
@@ -251,7 +251,7 @@ function resizeImageContents() {
         } else {
             var orig_img = new Image();
             orig_img.src = obj.src;
-            if(orig_img.width > parent_width - 20 || orig_img.width != obj_width) {
+            if(orig_img.width > parent_width - 2 || orig_img.width != obj_width) {
                 obj.style.cursor = "pointer";
                 xAddEventListener(obj,"click", showOriginalImage);
             }
