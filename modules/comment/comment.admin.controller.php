@@ -27,16 +27,20 @@
 
             $oCommentController = &getController('comment');
 
+            $deleted_count = 0;
+
             // 글삭제
             for($i=0;$i<$comment_count;$i++) {
                 $comment_srl = trim($comment_srl_list[$i]);
                 if(!$comment_srl) continue;
 
                 $output = $oCommentController->deleteComment($comment_srl, true);
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) continue;
+
+                $deleted_count ++;
             }
 
-            $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $comment_count) );
+            $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
         }
 
         /**
