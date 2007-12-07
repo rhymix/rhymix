@@ -10,7 +10,7 @@
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">에디터에 wmv,avi,flv등의 멀티미디어 자료를 추가하거나 속성을 수정할 수 있습니다.</description>
-        <description xml:lang="jp">エディターで拡張子が「wmv,avi,flv」などのマルチメディアコンテンツを追加したり、属性を修正したりすることができます。</description>
+        <description xml:lang="jp">エディターに拡張子が「wmv,avi,flv」などのマルチメディアコンテンツを追加、または属性の修正などができます。</description>
         <description xml:lang="zh-CN">插入wmv,avi,flv等多媒体文件或修改其相应属性 。</description>
         <description xml:lang="en">It can add multimedia data like wmv,avi,flv to editor or change the attribution of multimedia data.</description>
     </author>

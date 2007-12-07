@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/code_highlighter/lang/ko.lang.php
+     * @file   /modules/editor/components/code_highlighter/lang/jp.lang.php
      * @author BNU <bnufactory@gamil.com> 翻訳：ミニミ
      * @brief  ウイジウイグエディター(editor) モジュール >  コードハイライター (code_highlighter) コンポーネントの言語パッケージ
      **/

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">MS Word 2007 테마</title>
+  <title xml:lang="jp">MS Word 2007 テーマ</title>
   <title xml:lang="zh-CN">MS Word 2007 主题</title>
   <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 9. 10">
     <name xml:lang="ko">Simulz</name>
+    <name xml:lang="jp">Simulz</name>
 	<name xml:lang="zh-CN">Simulz</name>
     <description xml:lang="ko">
         MS Word 2007 테마입니다.
+    </description>
+    <description xml:lang="jp">
+        MS Word 2007 テーマです。
     </description>
 	<description xml:lang="zh-CN">
         MS Word 2007 主题.

@@ -4,7 +4,7 @@
     <title xml:lang="en">WYSIWYG Editor</title>
     <title xml:lang="es">Editor WYSIWYG</title>
     <title xml:lang="zh-CN">网页编辑器</title>
-    <title xml:lang="jp">エディター</title>
+    <title xml:lang="jp">ウイジウイグエディター</title>
     <title xml:lang="ru">WYSIWYG-редактор</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
@@ -17,7 +17,7 @@
         <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
         <description xml:lang="es">Módulo para mostrar en la pantalla el editor de WYSIWYG y para el manejo/relato de los componentes del editor.</description>
         <description xml:lang="zh-CN">显示网页编辑器或管理/传递编辑器组件的模块。</description>
-        <description xml:lang="jp">ウィジウィグエディター を出力したり、エディターのコンポネントを管理中継するモジュールです。</description>
+        <description xml:lang="jp">ウイジウイグエディター を出力したり、エディターのコンポーネントを管理/中継するモジュールです。</description>
         <description xml:lang="ru">Модуль для отображения WYSIWYG-редактора и управления/смены комментариев редактора.</description>
     </author>
 </module>

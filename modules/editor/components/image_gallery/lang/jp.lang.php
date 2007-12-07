@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/image_gallery/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール > イメージギャラリー（image_gallery）コンポネント言語パッケージ
      **/
 
@@ -19,8 +19,9 @@
     $lang->gallery_border_color = "ボーダーカラー"; 
     $lang->gallery_border_thickness = "ボーダー"; 
     $lang->gallery_bg_color = "背景色"; 
-    $lang->about_image_list = "イメージギャラリーに追加するファイルを選択してください。選択・ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」ができます。";
-    $lang->cmd_gallery_prev = "前のイメージ表示";
+    $lang->about_image_list = "イメージギャラリーに追加するファイルを選択してください。選択した後、ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」ができます。";
+
+	$lang->cmd_gallery_prev = "前のイメージ表示";
     $lang->cmd_gallery_next = "次のイメージ表示";
     $lang->cmd_gallery_thumbnail = "サムネール表示";
 ?>

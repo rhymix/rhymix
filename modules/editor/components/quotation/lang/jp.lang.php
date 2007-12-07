@@ -1,17 +1,17 @@
 <?php
     /**
      * @file   /modules/editor/components/emoticon/lang/ko.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール >  引用句 （quotation）コンポネント言語パッケージ
      **/
 
-    $lang->quotation_use_folder = "畳み機能使用";
+    $lang->quotation_use_folder = "折りたたみ機能使用";
     $lang->quotation_opener = "開くボタン名";
     $lang->quotation_closer = "閉じるボタン名";
     $lang->quotation_padding = "内部余白";
     $lang->quotation_margin = "外部余白";
     $lang->quotation_border_color = "ボーダーカラー";
-    $lang->quotation_border_thickness = "ボーダー";
+    $lang->quotation_border_thickness = "ボーダーの太さ";
 
     $lang->folder_text_bold = "太字にする";
     $lang->about_folder_text_bold = "チェックするとリンクの文字列が太字で表示されます。";

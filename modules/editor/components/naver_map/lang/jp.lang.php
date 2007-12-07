@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/naver_map/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor） > マルチメディアリンク（naver_map）コンポネント言語パッケージ
      **/
 
@@ -10,7 +10,7 @@
 
     // 表示メッセージ
     $lang->about_address = "例）분당 정자동, 역삼";
-    $lang->about_address_use = "検索ウィンドウで住所を検索した後、出力された結果を選択して、「追加」ボタンを押せば、書き込みに地図が追加されます。";
+    $lang->about_address_use = "検索ウィンドウで住所を検索した後、出力された結果を選択して、「追加」ボタンを押せば、書き込みの内容に地図が追加されます。";
 
     // エラーメッセージ
     $lang->msg_not_exists_addr = "検索対象がありません。";

@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   /modules/editor/components/emoticon/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
-     * @brief  ウィジウィグエディター（editor） >  テーブル生成(table_maker)コンポネント言語パッケージ
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
+     * @brief  ウィジウィグエディター（editor） >  テーブル生成(table_maker)コンポーネントの言語パッケージ
      **/
 
     $lang->table_attribute = "テーブル属性変更";
@@ -17,7 +17,7 @@
     $lang->table_inner_border = "ボーダー境界線の太さ";
 
     $lang->cell_width = "セル横幅";
-    $lang->cell_height = "セル立幅";
+    $lang->cell_height = "セル縦幅";
 
     $lang->table_border_color = "ボーダーカラー";
     $lang->table_bg_color = "背景色";
