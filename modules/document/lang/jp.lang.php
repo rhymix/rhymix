@@ -1,20 +1,19 @@
 <?php
     /**
      * @file   modules/document/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ドキュメント（document）モジュルの基本言語パッケージ
      **/
 
     $lang->document_list = 'ドキュメントリスト';
     $lang->thumbnail_type = 'サムネールタイプ';
-    $lang->thumbnail_crop = 'Crop';
-    $lang->thumbnail_ratio = 'Ratio';
+    $lang->thumbnail_crop = 'トリミングする';
+    $lang->thumbnail_ratio = '倍率に合わせる';
     $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
-    $lang->move_target_module = "移動対象モジュール";
     $lang->title_bold = 'タイトル太字';
     $lang->title_color = 'タイトル文字色';
 
-    $lang->cmd_search_next = '계속 검색';
+    $lang->cmd_search_next = '継続検索';
     
     $lang->cmd_temp_save = '臨時保存';
 
@@ -23,9 +22,11 @@
     $lang->cmd_document_do = 'この書き込みを..';
 
     $lang->msg_cart_is_null = '削除する書き込みを選択してください。';
-    $lang->msg_category_not_moved = '移動することができません。';
+    $lang->msg_category_not_moved = '移動できません。';
     $lang->msg_is_secret = '非公開設定の書き込みです。';
     $lang->msg_checked_document_is_deleted = '%d個の書き込みが削除されました。';
+
+    $lang->move_target_module = "移動対象モジュール";
 
     // 管理者ページで検索する内容
     $lang->search_target_list = array(
@@ -36,7 +37,7 @@
         'user_name' => 'ユーザ名',
         'nick_name' => 'ニックネーム',
         'email_address' => 'メールアドレス',
-        'homepage' => 'ホームページ',
+        'homepage' => 'ホームページURL',
         'is_notice' => 'お知らせ',
         'is_secret' => '非公開書き込み',
         'tags' => 'タグ',
