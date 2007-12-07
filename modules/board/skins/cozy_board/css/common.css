@@ -186,8 +186,8 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .replyAndTrackback li strong { padding:0 1.1em 0 0; background:#B8B8B8 url(../images/common/icon_close.gif) no-repeat right .2em;}
 .boardRead .replyAndTrackback li.selected a { color:#666666;}
 .boardRead .replyAndTrackback li.selected strong { padding:0 1.1em 0 0; background:#FFFFFF url(../images/common/icon_open.gif) no-repeat right .2em;}
-.boardRead .replyAndTrackback a#toggleReply { background:url(../images/common/buttonToggleReply.gif) no-repeat right top;}
-.boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/common/buttonToggleReply.gif) no-repeat right -13px;}
+/*.boardRead .replyAndTrackback a#toggleReply { background:url(../images/common/buttonToggleReply.gif) no-repeat right top;}*/
+/*.boardRead .replyAndTrackback a#toggleTrackback { background:url(../images/common/buttonToggleReply.gif) no-repeat right -13px;}*/
 
 .boardRead #reply,
 .boardRead #trackback { color:#666666; border-left:1px solid #EAEAEA; border-right:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; padding-top:1em;}
