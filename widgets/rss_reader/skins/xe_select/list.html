@@ -1,7 +1,7 @@
 <!--%import("css/select.css")-->
 <!--%import("js/tab.js")-->
 {@ $tab_id = mt_rand()}
-<div class="tab_menu_latest_{$colorset}">
+<div class="rss_reader_select">
     <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->title?$widget_info->title:$widget_info->rss->title}</a></h2>
     <table>
     <tr><td>
