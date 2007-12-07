@@ -26,10 +26,10 @@
     $lang->disable_download = '禁止下载';
     $lang->about_disable_download = '没有积分时，将禁止下载。 (图片除外)';
 
-    $lang->level_point_calc = '等级别积分计算';
-    $lang->expression = '使用等级变数 <b>i</b>输入Javascrīpt代码. 例: Math.pow(i, 2) * 90';
+    $lang->level_point_calc = '计算级别积分';
+    $lang->expression = '使用级别变数<b>"i"</b>输入JS数学函数。例: Math.pow(i, 2) * 90';
     $lang->cmd_exp_calc = '计算';
-    $lang->cmd_exp_reset = '初期化';
+    $lang->cmd_exp_reset = '初始化';
 
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 

@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">꼬리표 목록 출력</title>
   <title xml:lang="jp">タグリスト表示</title>
-  <title xml:lang="zh-CN">标签目录</title>
+  <title xml:lang="zh-CN">标签目录皮肤</title>
   <title xml:lang="en">Display Tag List</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
@@ -18,7 +18,7 @@
     <color name="layout">
       <title xml:lang="ko">레이아웃에 맞춤</title>
       <title xml:lang="jp">レイアウトに合わせる</title>
-      <title xml:lang="zh-CN">레이아웃에 맞춤</title>
+      <title xml:lang="zh-CN">随布局</title>
       <title xml:lang="en">레이아웃에 맞춤</title>
     </color>
     <color name="normal">

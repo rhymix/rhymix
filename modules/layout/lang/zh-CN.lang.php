@@ -26,9 +26,9 @@
     $lang->about_title = '请输入连接模块时容易区分的标题。';
     $lang->about_not_apply_menu = '更新所有被连接到菜单的模块布局。';
 
-    $lang->about_layout = "布局模块是使制作网站变得更简单。<br />通过布局设定和菜单的链接可以展示多种模块组成的网站。<br />* 不能删除和修改的布局是博客或其他模块自带的布局，要设定到相关模块设置。";
+    $lang->about_layout = "布局模块使网站制作变得更简单。<br />通过布局设置及菜单的链接，可以轻松制作以多种模块组成的完整网站。<br />- 无法删除和修改的布局可能是博客或其他模块自带的模板，因此应到相关模块进行设置。";
     $lang->about_layout_code = 
-        "修改下面的布局代码，保存后即可生效。
+        "修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
-        Zeroboard XE 模板语法请参考 <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">zeroboard XE 模板</a>。";
+        Zeroboard XE 布局语法请参考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Zeroboard XE 模板</a>。";
 ?>

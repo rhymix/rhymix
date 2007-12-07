@@ -18,9 +18,9 @@
 
     $lang->newest_news = "最新消息";
 
-    $lang->env_setup = "环境设置";
+    $lang->env_setup = "系统设置";
 
-    $lang->env_information = "环境信息";
+    $lang->env_information = "系统信息";
     $lang->current_version = "安装版本";
     $lang->current_path = "安装路径";
     $lang->released_version = "最新版本";

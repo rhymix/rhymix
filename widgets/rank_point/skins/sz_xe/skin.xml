@@ -3,7 +3,7 @@
   <title xml:lang="ko">Simulz 포인트 랭킹 스킨</title>
   <title xml:lang="jp">Simulz ポイントランキングスキン</title>
   <title xml:lang="en">Simulz Point Ranking Skin</title>
-  <title xml:lang="zh-CN">Simulz 积分排行皮肤</title>
+  <title xml:lang="zh-CN">Simulz会员积分排行榜皮肤</title>
   <maker email_address="k10206@naver.com" link="http://www.simulz.com" date="2007. 8. 29">
     <name xml:lang="ko">Simulz</name>
     <name xml:lang="jp">Simulz</name>
@@ -19,7 +19,7 @@
         This is Simulz Point Ranking Skin.
     </description>
 	<description xml:lang="zh-CN">
-        Simulz 积分排行皮肤.
+        Simulz样式会员积分排行榜皮肤。
     </description>
   </maker>
   <colorset>

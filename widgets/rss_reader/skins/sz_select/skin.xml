@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">Simulz 스킨 (Select 메뉴)</title>
   <title xml:lang="jp">Simulz スキン (Select メニュー)</title>
-  <title xml:lang="zh-CN">Simulz 皮肤 (Select 菜单)</title>
+  <title xml:lang="zh-CN">Simulz样式Select菜单型皮肤</title>
   <title xml:lang="en">Simulz Skin (Select menu)</title>
   <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 11. 5">
     <name xml:lang="ko">Simulz</name>
@@ -16,7 +16,7 @@
         Simulz スキンです。
     </description>
 	<description xml:lang="zh-CN">
-        Simulz 皮肤.
+        Simulz样式Select菜单型皮肤。
     </description>
 	<description xml:lang="en">
         This is Simulz skin.
@@ -37,12 +37,6 @@
     </color>
     <color name="Box_002">
       <title xml:lang="ko">연두</title>
-	  <title xml:lang="zh-CN">淡绿</title>
-	  <title xml:lang="en">Yellowish Green</title>
-    </color>
-    <color name="Box_002">
-      <title xml:lang="ko">연두</title>
-      <title xml:lang="jp">薄緑</title>
 	  <title xml:lang="zh-CN">淡绿</title>
 	  <title xml:lang="en">Yellowish Green</title>
     </color>

@@ -61,10 +61,10 @@
             <title xml:lang="ru">delegate</title>
             <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.delegate 值。</description>
-            <description xml:lang="en">Пожалуйста, введите Ваше значение openid делегата.</description>
-            <description xml:lang="en">Ingresar el valor del openid.delegate</description>
+            <description xml:lang="en">Please input your openid.delegate value.</description>
+            <description xml:lang="es">Ingresar el valor del openid.delegate</description>
             <description xml:lang="jp">openid.delegate の値を入力してください。</description>
-            <description xml:lang="ru">Please input your openid.delegate value.</description>
+            <description xml:lang="ru">Пожалуйста, введите Ваше значение openid делегата.</description>
         </var>
         <var name="xrds">
             <title xml:lang="ko">xrds</title>

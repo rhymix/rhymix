@@ -14,7 +14,7 @@
     $lang->title_bold = '粗标题';
     $lang->title_color = '标题颜色';
 
-    $lang->cmd_search_next = '계속 검색';
+    $lang->cmd_search_next = '继续搜索';
 
     $lang->cmd_temp_save = '临时保存';
 

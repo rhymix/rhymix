@@ -35,7 +35,8 @@
             <name xml:lang="ko">세로길이</name>
             <name xml:lang="zh-CN">高度</name>
             <name xml:lang="jp">縦幅</name>
-            <name xml:lang="en">Высота</name>
+            <name xml:lang="ru">Высота</name>
+            <name xml:lang="en">Height</name>
             <type>text</type>
             <description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
             <description xml:lang="zh-CN">可以设置高度大小。(默认为 64px)</description>

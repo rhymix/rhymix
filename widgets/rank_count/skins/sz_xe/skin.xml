@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">Simulz 랭킹 스킨</title>
   <title xml:lang="jp">Simulzランキングスキン</title>
-  <title xml:lang="zh-CN">Simulz 排行皮肤</title>
+  <title xml:lang="zh-CN">Simulz会员排行榜皮肤</title>
   <title xml:lang="en">Simulz Ranking Skin</title>
   <maker email_address="k10206@naver.com" link="http://php.simulz.com" date="2007. 8. 29">
     <name xml:lang="ko">Simulz</name>
@@ -16,7 +16,7 @@
         Simulzランキングスキンです。
     </description>
 	<description xml:lang="zh-CN">
-        Simulz 排行皮肤.
+        Simulz样式会员排行榜皮肤。
     </description>
 	<description xml:lang="en">
         This is Simulz ranking skin.
