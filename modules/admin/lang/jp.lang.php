@@ -24,7 +24,7 @@
     $lang->current_version = "インストールバージョン";
     $lang->current_path = "インストールパス";
     $lang->released_version = "最新バージョン";
-    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されました。ダウンロードリンクをクリックするとダウンロードできます。";
+    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。ダウンロードリンクをクリックするとダウンロードできます。";
 
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
@@ -63,8 +63,8 @@
     );
 
     $lang->xe_developer_links = array(
-        'デベロッパーフォーラム' => 'http://spring.zeroboard.com',
-        //'マニュアル' => 'http://www.zeroboard.com/wiki/manual',
+        'マニュアル' => 'http://www.zeroboard.com/wiki/manual',
+        //'デベロッパーフォーラム' => 'http://spring.zeroboard.com',
         'イッシュートラッキング' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'Doxygen Document' => 'http://doc.zeroboard.com',
