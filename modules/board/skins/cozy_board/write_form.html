@@ -84,20 +84,6 @@
 
             <div>{$editor}</div>
 
-            <div class="trackbackURI">
-                <label for="trackbackURI">{$lang->cmd_send_trackback}</label>
-                <input type="text" name="trackback_url" id="trackbackURI" class="inputTypeText" />
-                <select name="trackback_charset">
-                    <option value='UTF-8'>UTF-8</option>
-                    <option value='EUC-KR'>EUC-KR</option>
-                    <option value='EUC-JP'>EUC-JP</option>
-                    <option value='SHIFT_JIS'>SHIFT_JIS</option>
-                    <option value='EUC-CN'>EUC-CN</option>
-                    <option value='HZ'>HZ</option>
-                    <option value='BIG5'>BIG5</option>
-                </select>
-            </div>
-
             <div class="tag">
                 <label for="tag_input">{$lang->tag}</label>
                 <input type="text" name="tags" id="tag_input" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
