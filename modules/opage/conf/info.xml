@@ -2,7 +2,7 @@
 <module version="0.1" category="service">
     <title xml:lang="ko">외부 페이지</title>
     <title xml:lang="zh-CN">外部页面</title>
-    <title xml:lang="jp">外でページ</title>
+    <title xml:lang="jp">外部ページ</title>
     <title xml:lang="en">External Page</title>
 	<title xml:lang="es">Afuera Página</title>
     <title xml:lang="ru">Внешние страницы</title>
@@ -15,7 +15,7 @@
         <name xml:lang="ru">zero</name>
         <description xml:lang="ko">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
         <description xml:lang="zh-CN">可以把外部页面插入到 Zeroboard XE内部的模块。</description>
-        <description xml:lang="jp">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
+        <description xml:lang="jp">外部ページをゼロボードXE内部に挿入させるモジュール</description>
         <description xml:lang="en">Module for inserting external pages into inside of Zeroboard XE.</description>
         <description xml:lang="es">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
         <description xml:lang="ru">Модуль для вставки внешних страниц внутрь Zeroboard XE.</description>
