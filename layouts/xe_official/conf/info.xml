@@ -19,8 +19,8 @@
         </description>
         <description xml:lang="jp">
             ゼロボードXEのオフィシャルサイトのレイアウトです。
-            デザイン：イソラ 
-            パブリシング：ジョンチャンミョン
+            デザイン：イ ソラ 
+            パブリシング：ジョン チャンミョン
             レイアウト作成：Zero
         </description>
         <description xml:lang="en">
@@ -50,7 +50,7 @@
             <title xml:lang="en">Colorset</title>
             <title xml:lang="es">Set de colores</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
-            <description xml:lang="jp">希望する色を選択してください。</description>
+            <description xml:lang="jp">希望するカラーセットを選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
@@ -81,7 +81,7 @@
         </var>
         <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
-            <title xml:lang="jp">ロゴのイメージ</title>
+            <title xml:lang="jp">ロゴイメージ</title>
             <title xml:lang="zh-CN">LOGO图片</title>
             <title xml:lang="en">Logo image</title>
             <title xml:lang="es">Imagen del logotipo</title>
@@ -93,7 +93,7 @@
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
-            <title xml:lang="jp">ホームページ URL</title>
+            <title xml:lang="jp">ホームページURL</title>
             <title xml:lang="zh-CN">主页地址</title>
             <title xml:lang="en">Homepage URL</title>
             <title xml:lang="es">URL de la página web</title>
@@ -119,7 +119,7 @@
     <menus>
         <menu name="main_menu" default="true">
             <title xml:lang="ko">상단 메뉴</title>
-            <title xml:lang="jp">上端メニュー</title>
+            <title xml:lang="jp">上段メニュー</title>
             <title xml:lang="zh-CN">主菜单</title>
             <title xml:lang="en">Top menu</title>
             <title xml:lang="es">Menú Principal</title>
