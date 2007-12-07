@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.1" category="accessory">
     <title xml:lang="ko">리퍼러 통계</title>
+    <title xml:lang="jp">リファラー統計</title>
     <title xml:lang="en">Referer Statistics</title>
     <title xml:lang="ru">Статистика рефералов</title>
     <author email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007. 11. 29">
         <name xml:lang="ko">haneul</name>
+        <name xml:lang="jp">Haneul</name>
         <name xml:lang="en">haneul</name>
         <name xml:lang="ru">haneul</name>
         <description xml:lang="ko">기본 리퍼러 통계 프로그램입니다.</description>
+        <description xml:lang="jp">デフォルトのリファラー統計プログラムです。</description>
         <description xml:lang="en">Basic referer statistics program.</description>
         <description xml:lang="ru">Базовая программа статистики рефералов.</description>
     </author>
