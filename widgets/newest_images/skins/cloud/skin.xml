@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">이미지 클라우드</title>
+  <title xml:lang="jp">イメージクラウド</title>
   <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 9. 28">
     <name xml:lang="ko">Simulz</name>
+    <name xml:lang="jp">Simulz</name>
     <description xml:lang="ko">올블로그 이미지 클라우드</description>
+    <description xml:lang="jp">オールイメージクラウド</description>
   </maker>
   <colorset>
     <color name="normal">
