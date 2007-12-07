@@ -30,7 +30,7 @@
                     <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
                 </div>
                 <!--@if($widget_info->display_author == 'Y')-->
-                <div class="author member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div>
+                <div><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
                 <!--@end-->
 
                 <!--@if($widget_info->display_regdate == 'Y')-->
