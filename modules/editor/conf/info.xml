@@ -17,7 +17,7 @@
         <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
         <description xml:lang="es">Módulo para mostrar en la pantalla el editor de WYSIWYG y para el manejo/relato de los componentes del editor.</description>
         <description xml:lang="zh-CN">显示网页编辑器或管理/传递编辑器组件的模块。</description>
-        <description xml:lang="jp">ウイジウイグエディター を出力したり、エディターのコンポーネントを管理/中継するモジュールです。</description>
+        <description xml:lang="jp">ウイジウイグエディター を出力したり、エディターのコンポーネントを管理・中継するモジュールです。</description>
         <description xml:lang="ru">Модуль для отображения WYSIWYG-редактора и управления/смены комментариев редактора.</description>
     </author>
 </module>
