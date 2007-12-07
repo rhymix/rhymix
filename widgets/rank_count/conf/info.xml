@@ -4,33 +4,48 @@
     <title xml:lang="jp">書き込み、コメント出力</title>
 	<title xml:lang="en">Article, Comment Ranking</title>
 	<title xml:lang="zh-CN">输出主题, 评论排行</title>
+	<title xml:lang="ru">Рейтинг статей, комментариев</title>
     <author email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 07">
         <name xml:lang="ko">Simulz</name>
         <name xml:lang="jp">Simulz</name>
 		<name xml:lang="en">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
+		<name xml:lang="ru">Simulz</name>
         <description xml:lang="ko">글, 댓글 작성 순위를 출력합니다.</description>
         <description xml:lang="jp">書き込み、コメントの作成順位を出力します。</description>
 		<description xml:lang="zh-CN">输出主题, 内容排行.</description>
+		<description xml:lang="ru">Этот виджет отображает рейтинг статей и комментариев.</description>
     </author>
     <extra_vars>
         <var id="title">
             <name xml:lang="ko">제목</name>
             <name xml:lang="jp">タイトル</name>
 			<name xml:lang="zh-CN">主题</name>
+            <name xml:lang="en">Title</name>
+            <name xml:lang="ru">Заголовок</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
             <description xml:lang="jp">ウィジェットのタイトルとして出力されます。</description>
 			<description xml:lang="zh-CN">输出控件的主题.</description>
+            <description xml:lang="en">It will be the title.</description>
+            <description xml:lang="ru">Это будет заголовком.</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
             <name xml:lang="jp">リスト数</name>
 			<name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="jp">リスト数</name>
+            <name xml:lang="en">The number of list</name>
+			<name xml:lang="es">Número de la lista</name>
+            <name xml:lang="ru">Число списка</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">出力されるリスト数が設定できます（デフォルト5個）。</description>
 			<description xml:lang="zh-CN">可以指定要输出的目录数. (默认 5个)</description>
+            <description xml:lang="jp">出力されるリストの数を指定することができます（デフォルト５個）</description>
+            <description xml:lang="en">You can set the number of list to be displayed.(default is 5)</description>
+			<description xml:lang="es">Usted puede definir el número de listas a mostrar.(predefinido: 5)</description>
+			<description xml:lang="ru">Вы можете выбрать число списка трекбеков для отображения. (стандарт: 5)</description>
         </var>
         <var id="rankby">
             <name xml:lang="ko">순위 대상</name>
@@ -40,34 +55,46 @@
             <description xml:lang="ko">대상을 선택하세요.</description>
             <description xml:lang="jp">対象を選択してください。</description>
 			<description xml:lang="zh-CN">请选择对象.</description>
+			<description xml:lang="en">Rank by</description>
+			<description xml:lang="ru">Рейтинговать по</description>
             <options>
                 <name xml:lang="ko">글 작성</name>
                 <name xml:lang="jp">書き込み作成</name>
 				<name xml:lang="zh-CN">发表新帖</name>
+                <name xml:lang="en">Article</name>
+                <name xml:lang="ru">Статья</name>
                 <value>document</value>
             </options>
             <options>
                 <name xml:lang="ko">댓글 작성</name>
                 <name xml:lang="jp">コメント作成</name>
 				<name xml:lang="zh-CN">发表评论</name>
+                <name xml:lang="en">Comment</name>
+                <name xml:lang="ru">Комментарий</name>
                 <value>comment</value>
             </options>
             <options>
                 <name xml:lang="ko">파일 첨부</name>
                 <name xml:lang="jp">ファイル添付</name>
 				<name xml:lang="zh-CN">上传附件</name>
+                <name xml:lang="en">Attach</name>
+                <name xml:lang="ru">Вложение</name>
                 <value>attach</value>
             </options>
             <options>
                 <name xml:lang="ko">추천 수</name>
                 <name xml:lang="jp">推薦数</name>
 				<name xml:lang="zh-CN">推荐数</name>
+                <name xml:lang="en">Votes</name>
+                <name xml:lang="ru">Голоса</name>
                 <value>vote</value>
             </options>
             <options>
                 <name xml:lang="ko">조회 수</name>
                 <name xml:lang="jp">照合数</name>
 				<name xml:lang="zh-CN">阅读数</name>
+                <name xml:lang="en">Reads</name>
+                <name xml:lang="ru">Прочтения</name>
                 <value>read</value>
             </options>
         </var>
@@ -75,20 +102,28 @@
             <name xml:lang="ko">관리자</name>
             <name xml:lang="jp">管理者</name>
 			<name xml:lang="zh-CN">管理员</name>
+            <name xml:lang="en">Without Admin</name>
+            <name xml:lang="ru">Без админа</name>
             <type>select</type>
             <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
             <description xml:lang="jp">順位に管理者を含みます。</description>
 			<description xml:lang="zh-CN">在排行包括管理员.</description>
+            <description xml:lang="en">Disables admins' ranking</description>
+			<description xml:lang="ru">Отключает учет рейтинга админов</description>
             <options>
                 <name xml:lang="ko">포함</name>
                 <name xml:lang="jp">含む</name>
 				<name xml:lang="zh-CN">包括</name>
+                <name xml:lang="en">False</name>
+                <name xml:lang="ru">Нет</name>
                 <value>false</value>
             </options>
             <options>
                 <name xml:lang="ko">미포함</name>
                 <name xml:lang="jp">含まない</name>
 				<name xml:lang="zh-CN">不包括</name>
+                <name xml:lang="en">True</name>
+                <name xml:lang="ru">Да</name>
                 <value>true</value>
             </options>
         </var>
@@ -96,28 +131,40 @@
             <name xml:lang="ko">그룹 포함</name>
             <name xml:lang="jp">グループを含む</name>
 			<name xml:lang="zh-CN">包括组</name>
+            <name xml:lang="en">With Group</name>
+            <name xml:lang="ru">С группой</name>
             <type>text</type>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
             <description xml:lang="jp">出力する会員のグループ名を入力してください（例：準会員、正会員）。</description>
 			<description xml:lang="zh-CN">请输入要显示的会员组. 例)准会员,正会员</description>
+            <description xml:lang="en">Enables group's ranking</description>
+			<description xml:lang="ru">Включает учет рейтинга группы</description>
         </var>
         <var id="without_group">
             <name xml:lang="ko">그룹 제외</name>
             <name xml:lang="jp">グループ除外</name>
 			<name xml:lang="zh-CN">组除外</name>
+            <name xml:lang="en">Without Group</name>
+            <name xml:lang="ru">Без группы</name>
             <type>text</type>
             <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹</description>
             <description xml:lang="jp">除外する会員グループ名を入力してください（例：管理グループ）。</description>
 			<description xml:lang="zh-CN">请输入将除外的会员组. 例)管理组</description>
+            <description xml:lang="en">Disables group's ranking</description>
+			<description xml:lang="ru">Выключает учет рейтинга группы</description>
         </var>
         <var id="regdate">
             <name xml:lang="ko">기간(일)</name>
             <name xml:lang="jp">期間（日）</name>
 			<name xml:lang="zh-CN">期间(日期)</name>
+            <name xml:lang="en">Registration Date</name>
+            <name xml:lang="ru">Дата регистрации</name>
             <type>text</type>
             <description xml:lang="ko">설정 기간 내의 순위를 출력합니다.</description>
             <description xml:lang="jp">設定期間内の順位を出力します。</description>
 			<description xml:lang="zh-CN">输出设置期间内的排行.</description>
+            <description xml:lang="en">Registration Date</description>
+			<description xml:lang="ru">Дата регистрации</description>
         </var>
     </extra_vars>
 </widget>

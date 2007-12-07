@@ -4,15 +4,18 @@
     <title xml:lang="jp">ダウンロードランキング出力</title>
 	<title xml:lang="en">Download Ranking</title>
 	<title xml:lang="zh-CN">输出下载排行</title>
+	<title xml:lang="ru">Рейтинг закачек</title>
     <author email_address="k10206@naver.com" link="http://php.simulz.com" date="2007. 8. 29">
         <name xml:lang="ko">Simulz</name>
         <name xml:lang="jp">Simulz</name>
 		<name xml:lang="en">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
+		<name xml:lang="ru">Simulz</name>
         <description xml:lang="ko">자료 내려받기 순위를 출력합니다.</description>
         <description xml:lang="jp">ダウンロードの順位を出力します。</description>
 		<description xml:lang="en">This widget displays download ranking.</description>
 		<description xml:lang="zh-CN">输出下载文件顺位.</description>
+		<description xml:lang="ru">Этот виджет отображает рейтинг закачек.</description>
     </author>
     <extra_vars>
         <var id="title">
@@ -20,38 +23,45 @@
             <name xml:lang="jp">제목</name>
 			<name xml:lang="en">Title</name>
 			<name xml:lang="zh-CN">主题</name>
+			<name xml:lang="ru">Залоговок</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
             <description xml:lang="jp">ウィジェットの題名として出力されます。</description>
 			<description xml:lang="en">It will be displayed as widget's title.</description>
 			<description xml:lang="zh-CN">输出控件的主题.</description>
+			<description xml:lang="ru">Это будет заголовком виджета.</description>
         </var>
         <var id="list_count">
             <name xml:lang="ko">목록수</name>
             <name xml:lang="jp">リスト数</name>
 			<name xml:lang="en">No. of List</name>
 			<name xml:lang="zh-CN">目录数</name>
+			<name xml:lang="ru">Число списка</name>
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">出力するリストの数を指定します（デフォルト5個）。</description>
 			<description xml:lang="en">You may set number of list that will be displayed. (default 5)</description>
 			<description xml:lang="zh-CN">可以指定将输出的目录数.(默认 5个)</description>
+			<description xml:lang="ru">Вы можете выбрать число списка для отображения. (стандарт: 5)</description>
         </var>
         <var id="attach_type">
             <name xml:lang="ko">파일 종류</name>
             <name xml:lang="jp">ファイルの種類</name>
 			<name xml:lang="en">File Type</name>
 			<name xml:lang="zh-CN">文件类型</name>
+			<name xml:lang="ru">Тип файла</name>
             <type>select</type>
             <description xml:lang="ko">순위에 포함할 파일 종류를 선택하세요.</description>
             <description xml:lang="jp">順位に含むファイルの種類を選択してください。</description>
 			<description xml:lang="en">Please select file type to include.</description>
 			<description xml:lang="zh-CN">请选择输出目录中要包涵的文件类型.</description>
+			<description xml:lang="ru">Пожалуйста, выберите тип файла для включения.</description>
             <options>
                 <name xml:lang="ko">모두</name>
                 <name xml:lang="jp">すべて</name>
 				<name xml:lang="en">All</name>
 				<name xml:lang="zh-CN">全部</name>
+				<name xml:lang="ru">Все</name>
                 <value>all</value>
             </options>
             <options>
@@ -59,6 +69,7 @@
                 <name xml:lang="jp">イメージ除外</name>
 				<name xml:lang="en">Exclude Images</name>
 				<name xml:lang="zh-CN">图片除外</name>
+				<name xml:lang="ru">Исключить изображения</name>
                 <value>noimage</value>
             </options>
             <options>
@@ -66,6 +77,7 @@
                 <name xml:lang="jp">イメージのみ</name>
 				<name xml:lang="en">Images Only</name>
 				<name xml:lang="zh-CN">只输出图片类</name>
+				<name xml:lang="ru">Только изображения</name>
                 <value>image</value>
             </options>
         </var>
@@ -74,16 +86,19 @@
             <name xml:lang="jp">ダウンロード</name>
 			<name xml:lang="en">Download</name>
 			<name xml:lang="zh-CN">显示下载链接</name>
+			<name xml:lang="ru">Скачать</name>
             <type>select</type>
             <description xml:lang="ko">바로 내려 받는 링크를 보여줍니다.</description>
             <description xml:lang="jp">直接ダウンロードするリンクを表示します。</description>
 			<description xml:lang="en">It shows direct download link.</description>
 			<description xml:lang="zh-CN">显示直接下载链接</description>
+			<description xml:lang="ru">Это показывает прямую ссылку для скачки.</description>
             <options>
                 <name xml:lang="ko">링크 보임</name>
                 <name xml:lang="jp">リンク表示</name>
 				<name xml:lang="en">Show Link</name>
 				<name xml:lang="zh-CN">显示连接</name>
+				<name xml:lang="ru">Показать ссылку</name>
                 <value>Y</value>
             </options>
             <options>
@@ -91,6 +106,7 @@
                 <name xml:lang="jp">リンク非表示</name>
 				<name xml:lang="en">Hide Link</name>
 				<name xml:lang="zh-CN">隐藏链接</name>
+				<name xml:lang="ru">Спрятать ссылку</name>
                 <value>N</value>
             </options>
         </var>
@@ -99,11 +115,13 @@
             <name xml:lang="jp">対象モジュール</name>
 			<name xml:lang="en">Target Module</name>
 			<name xml:lang="zh-CN">对象模块</name>
+            <name xml:lang="ru">Модуль назначения</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="jp">選択モジュールに登録された書き込みを対象とします。</description>
 			<description xml:lang="en">Articles in selected module will be target.</description>
 			<description xml:lang="zh-CN">被选中的模块将输出.</description>
+            <description xml:lang="ru">Статьи в выбранном модуле будут назначением.</description>
         </var>
     </extra_vars>
 </widget>

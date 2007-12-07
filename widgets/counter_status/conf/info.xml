@@ -5,12 +5,14 @@
     <title xml:lang="en">Basic Counter Widget</title> 
     <title xml:lang="es">Widget de Contador Básico</title>
     <title xml:lang="zh-CN">计数器</title>
+    <title xml:lang="ru">Базовый виджет счетчика</title> 
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">
             기본 카운터 모듈을 이용하여 전체, 어제, 오늘의 접속현황을 표시합니다.
             counter모듈이 설치되어 있어야 하고 counter 애드온이 켜져 있어야 합니다.
@@ -30,6 +32,11 @@
         <description xml:lang="zh-CN">
             利用访问统计模块显示总访问量以及昨天，今日的访问统计流量。
             要想使用此组件必须先安装访问统计模块且得激活访问统计插件。
+        </description>
+        <description xml:lang="en">
+            Этот виджет отображает количество посетителей за вчера и сегодня, используя базовый модуль счетчика.
+            Он также отображает полное число визитов.
+            Для работы, модуль счетчика должен быть установлен и аддон счетчика должен быть включен.
         </description>
     </author>
     <extra_vars />
