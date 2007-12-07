@@ -408,6 +408,9 @@
         // script code 제거
         $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
 
+        // meta 태그 제거
+        $content = preg_replace("!<meta(.*?)>!is","",$content);
+
         return $content;
     }
 
