@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">최근 엮인글 출력</title>
     <title xml:lang="zh-CN">引用列表</title>
-    <title xml:lang="jp">最新トラックバック</title>
+    <title xml:lang="jp">最新トラックバック表示</title>
     <title xml:lang="en">Display Newest Trackbacks</title>
 	<title xml:lang="es">Mostrar Trackbacks recientes</title>
     <title xml:lang="ru">Отображение последних трекбеков</title>
