@@ -131,14 +131,14 @@
         </var>
         <var id="content_cut_size">
           <name xml:lang="ko">내용 글자수</name>
-          <name xml:lang="jo">내용 글자수</name>
+          <name xml:lang="jo">内容の文字数</name>
           <name xml:lang="zh-CN">内容字数</name>
           <name xml:lang="en">Length of Content</name>
 		  <name xml:lang="es">Número de letras del Contenidos</name>
           <name xml:lang="ru">Длина содержания</name>
           <type>text</type>
           <description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
-          <description xml:lang="jp">내용 글자수를 지정할 수 있습니다. (기본 50)</description>
+          <description xml:lang="jp">内容の文字数が指定できます。(デフォルト 50)</description>
           <description xml:lang="zh-CN">可以指定要显示的内容字数。(默认为50)</description>
           <description xml:lang="en">Length of Content can be assigned. (default 50)</description>
 		  <description xml:lang="es">El largo del Contenidos puede ser asignado. (Predefinido 50)</description>

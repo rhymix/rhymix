@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">월별 보관 현황 출력</title>
     <title xml:lang="zh-CN">存档</title>
-    <title xml:lang="jp">月別バックアップリスト</title>
+    <title xml:lang="jp">月別アーカイブリスト</title>
     <title xml:lang="en">Report of Stored-Articles by Month</title>
 	<title xml:lang="es">Reporte del almacenamiento de documentos por mes</title>
     <title xml:lang="ru">Отчет о размещенных статьях по месяцам</title>

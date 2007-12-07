@@ -12,7 +12,7 @@
 		<name xml:lang="en">Zero</name>
 		<name xml:lang="ru">Zero</name>
         <description xml:lang="ko">스프링노트의 페이지를 제로보드XE에서 연동하여 출력하는 기능을 가지고 있는 모듈입니다.</description>
-        <description xml:lang="jp">スプリングノートのページをゼロボードXEと連動させて出力する機能を持っているモジュールです。</description>
+        <description xml:lang="jp">スプリングノートのページをゼロボードXEと連動させて出力する機能のモジュールです。</description>
         <description xml:lang="zh-CN">把Springnote网站页面整合到Zeroboard XE的模块。</description>
 		<description xml:lang="en">This modules links pages of Springnote with ZeroboardXE, and display them.</description>
 		<description xml:lang="ru">Этот модуль связывает страницы Springnote с ZeroboardXE, и отображает их.</description>

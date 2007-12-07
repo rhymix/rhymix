@@ -10,7 +10,7 @@
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">특정 범위를 인용문으로 꾸밀 수 있습니다. 외곽선의 종류나 색상, 굵기를 수정할 수 있으며 열기/닫기 기능을 가진 폴더기능을 만들 수 있습니다.</description>
-        <description xml:lang="jp">特定範囲を引用文として表示することができます。ボーダーの種類、色、太さを修正することができ、「開く・畳む」の機能も作成できます。</description>
+        <description xml:lang="jp">特定範囲を引用文として表示できます。ボーダーの種類、色、太さを修正することができ、「展開・折りたたみ」の機能も可能です。</description>
         <description xml:lang="zh-CN">可以把要发表的主题特定范围用引用布置。可以修改外围线的种类或粗细，还支持展开/折叠功能。</description>
         <description xml:lang="en">You can decorate specific range as quotation. The style, color or thickness of outline can be modified and folder system which has open/close function can be made.</description>
     </author>

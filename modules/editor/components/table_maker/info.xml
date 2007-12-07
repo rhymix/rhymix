@@ -10,7 +10,7 @@
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <description xml:lang="ko">에디터에 표(table)을 생성하거나 표(table) 또는 칸(td)의 속성을 변경할 수 있습니다.</description>
-        <description xml:lang="jp">エディターでテーブル（table）を作成したり、テーブル（table）またはセル（td）の属性を変更したりすることができます。</description>
+        <description xml:lang="jp">エディターでテーブル（table）の作成、テーブル（table）またはセル（td）の属性の変更ができます。</description>
         <description xml:lang="zh-CN">插入表格(table)或编辑表格属性。</description>
         <description xml:lang="en">It can create a table on editor or modify the attribution of table or td.</description>
     </author>

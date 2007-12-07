@@ -2,7 +2,7 @@
 <widget version="1.0">
     <title xml:lang="ko">플래시 디지털 시계</title>
     <title xml:lang="zh-CN">Flash数字时钟</title>
-    <title xml:lang="jp">デジタル時計</title>
+    <title xml:lang="jp">フラッシュデジタル時計</title>
     <title xml:lang="en">Flash digital Clock</title>
     <title xml:lang="ru">Цифровые Flash часы</title>
     <author email_address="ac7614@empas.com" link="http://widz.inven.co.kr/2nd_xe/DroArc" date="2007. 8. 9">
@@ -27,7 +27,7 @@
             <type>text</type>
             <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 150px)</description>
             <description xml:lang="zh-CN">可以设置宽度大小。 (默认为 150px)</description>
-            <description xml:lang="jp">横幅のサイズを指定することができます（デフォルト150px）。</description>
+            <description xml:lang="jp">横幅のサイズの指定ができます（デフォルト150px）。</description>
             <description xml:lang="en">It will be able to set the width. (default is 150px)</description>
             <description xml:lang="ru">Возможно установить ширину. (стандартное значение 150px)</description>
         </var>
@@ -40,7 +40,7 @@
             <type>text</type>
             <description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
             <description xml:lang="zh-CN">可以设置高度大小。(默认为 64px)</description>
-            <description xml:lang="jp">縦幅のサイズを指定することができます（デフォルト64px）。</description>
+            <description xml:lang="jp">縦幅のサイズの指定ができます（デフォルト64px）。</description>
             <description xml:lang="en">It will be able to set the width. (default is 64px)</description>
             <description xml:lang="ru">Возможно установить высоту. (стандартное значение 64px)</description>
         </var>

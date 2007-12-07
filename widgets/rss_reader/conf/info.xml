@@ -25,7 +25,7 @@
 			<name xml:lang="en">Title</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
-			<description xml:lang="jp"></description>
+			<description xml:lang="jp">ウィジェットのタイトルとして表示されます。</description>
 			<description xml:lang="en">It will be displayed as widget's title.</description>
 	        <description xml:lang="zh-CN">显示为栏目名。</description>
 			<description xml:lang="ru">Это будет заголовком виджета.</description>
@@ -58,7 +58,7 @@
         </var>
         <var id="date_format">
             <name xml:lang="ko">날짜 형식</name>
-			<name xml:lang="jp">データフォーマット</name>
+			<name xml:lang="jp">日付の形式</name>
 	    <name xml:lang="zh-CN">日期形式</name>
 	    <name xml:lang="en">Date Format</name>
 	    <name xml:lang="ru">Формат даты</name>

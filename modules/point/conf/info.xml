@@ -24,7 +24,9 @@
             必须是先激活积分系统才可以使用。
         </description>
         <description xml:lang="jp">
-            書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることができます。但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
+            書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。
+            ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることができます。
+            但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
         </description>
         <description xml:lang="en">
             You can grant point on writing/deleting/adding comments/deleting comments.

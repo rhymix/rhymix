@@ -29,7 +29,10 @@
         Este addon filtra y previene de los documentos/ commentarios/ trackback no deseado antes de ser agregados.
         Para la configuración más detallada, debe hacerse en el &quot; Módulo de Filtro de Spam&quot;.
     </description>
-    <description xml:lang="jp">       SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
+    <description xml:lang="jp">
+        SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。
+        更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。
+        詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
     </description>
     <description xml:lang="ru">
         Этот аддон фильтрует спам и предотвращает беспорядок перед сохранением элементов, комментариев или  трекбеков в базу данных посредством установки модуля Фильтра Спама.

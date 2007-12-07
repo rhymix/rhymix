@@ -4,7 +4,7 @@
     <title xml:lang="zh-CN">访问统计</title>
     <title xml:lang="en">Basic Counter</title>
     <title xml:lang="es">Contador Básico</title>
-    <title xml:lang="jp">接続カウンター</title>
+    <title xml:lang="jp">デフォルト接続カウンター</title>
     <title xml:lang="ru">Базовый счетчик</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
@@ -17,7 +17,7 @@
         <description xml:lang="zh-CN">默认访问统计程序。</description>
         <description xml:lang="en">Basic connection statistics program.</description>
         <description xml:lang="es">Programa básico para la estadística de la conección.</description>
-        <description xml:lang="jp">接続統計のプログラムです。</description>
+        <description xml:lang="jp">デフォルト接続統計のプログラムです。</description>
         <description xml:lang="ru">Базовая программа статистики подключений.</description>
     </author>
 </module>

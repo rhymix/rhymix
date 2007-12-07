@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component version="0.1">
     <title xml:lang="ko">기본 이미지 갤러리</title>
-    <title xml:lang="jp">イメージギャラリー</title>
+    <title xml:lang="jp">デフォルトイメージギャラリー</title>
     <title xml:lang="zh-CN">图片相册</title>
     <title xml:lang="en">Basic Image Gallery</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
