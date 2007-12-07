@@ -5,7 +5,7 @@
      * @brief  スプリングノート(springnote) モジュールの基本言語パッケージ 日本語翻訳：RisaPapa
      **/
 
-    $lang->springnote = "SpringNote";
+    $lang->springnote = "スプリングノート";
     $lang->springnote_openid = "オープンID";
     $lang->springnote_userkey = "ユーザーKey";
     $lang->springnote_pageid = "ページ番号";
@@ -14,8 +14,8 @@
     $lang->page_modified = "最終修正";
     $lang->page_modifier = "最終修正者";
 
-    $lang->cmd_springnote_list = 'SpringNote リスト';
-    $lang->cmd_view_info = 'SpringNote 情報';
+    $lang->cmd_springnote_list = 'スプリングノートリスト';
+    $lang->cmd_view_info = 'スプリングノート情報';
 
     $lang->about_springnote = "スプリングノートは、「openmaru.com」から提供されるウィキサービスです。<br />スプリングノート連動モジュールは、スプリングノートの特定のページを自分のコンテンツの閲覧することができるようにするモジュールです。";
     $lang->about_springnote_openid = "スプリングノートでページを作成したオープンIDを入力してください。";
