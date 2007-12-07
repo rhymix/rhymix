@@ -65,6 +65,7 @@
     <extra_vars>
         <var name="default_style" type="select">
             <title xml:lang="ko">기본 형태</title>
+            <title xml:lang="jp">デフォルトスタイル</title>
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
             <description xml:lang="ko">
@@ -102,13 +103,13 @@
         </var>
         <var name="order_type" type="select">
             <title xml:lang="ko">정렬 방법</title>
-            <title xml:lang="zh-CN">排序方式</title>
             <title xml:lang="jp">ソート方法</title>
+            <title xml:lang="zh-CN">排序方式</title>
             <title xml:lang="en">Sorting Type</title>
 			<title xml:lang="es">Tipo de ordenamiento</title>
             <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
-            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="jp">ソート方法を、降順、昇順にできます。</description>
+            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="en">You can sort target articles by asending or desending order.</description>
 			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
             <default>asc</default>
