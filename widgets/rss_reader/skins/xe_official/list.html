@@ -6,7 +6,9 @@
     <!--%import("css/white.css")-->
 <!--@end-->
 <div class="rss_reader_{$colorset}">
-    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->title?$widget_info->title:$widget_info->rss->title}</a></h2>
+    <!--@if($widget_info->title)--> 
+    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->title}</a></h2> 
+    <!--@end-->
     <ul>
         <!--@foreach($widget_info->rss_list as $key => $item)-->
         <li>
