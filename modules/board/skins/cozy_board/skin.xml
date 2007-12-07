@@ -16,8 +16,8 @@
         </description>
         <description xml:lang="jp">
             Cozyシンプルスキンのリストスタイルです。
-            디자인 : 서기정 (http://blog.naver.com/addcozy)
-            HTML/CSS : 소지훈
+            デザイン：ソギジョン (http://blog.naver.com/addcozy)
+            HTML/CSS : ソジフン
         </description>
         <description xml:lang="en">
             This is list style board of cozy simple skin.
@@ -94,7 +94,7 @@
             <title xml:lang="en">Align Target</title>
             <type>select</type>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-            <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
+            <description xml:lang="jp">登録順、変更順でソートできます。</description>
             <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
             <description xml:lang="en">It can align articles as registered order or modified order.</description>
             <default>list_order</default>
@@ -120,7 +120,7 @@
             <title xml:lang="zh-CN">版面标题</title>
             <title xml:lang="en">Title of Board</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
-            <description xml:lang="jp">掲示板タイトルを入力してください。</description>
+            <description xml:lang="jp">掲示板のタイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面标题。(留空为不显示)</description>
             <description xml:lang="en">Please input the title of board.</description>
         </var>
@@ -181,7 +181,7 @@
         </var>
         <var name="display_last_update" type="select">
             <title xml:lang="ko">최근 변경시간 표시</title>
-            <title xml:lang="jp">最近の変更時間表示</title>
+            <title xml:lang="jp">最新の変更時間表示</title>
             <title xml:lang="zh-CN">显示最后更新时间</title>
             <title xml:lang="en">Display Latest Update</title>
             <default>N</default>
@@ -204,7 +204,7 @@
             <title xml:lang="jp">サムネール生成方法</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
-            <description xml:lang="jp">サムネールの生成方法を選択します(Crop : 切り取り, Ratio : 比率)。</description>
+            <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式(crop : 裁减, ratio : 比例)。</description>
             <default>crop</default>
             <default>ratio</default>

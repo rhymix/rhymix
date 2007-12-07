@@ -8,7 +8,7 @@
     $lang->document_list = 'ドキュメントリスト';
     $lang->thumbnail_type = 'サムネールタイプ';
     $lang->thumbnail_crop = 'トリミングする';
-    $lang->thumbnail_ratio = '倍率に合わせる';
+    $lang->thumbnail_ratio = '比率に合わせる';
     $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
     $lang->title_bold = 'タイトル太字';
     $lang->title_color = 'タイトル文字色';

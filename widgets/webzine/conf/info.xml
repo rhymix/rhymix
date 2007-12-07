@@ -151,13 +151,14 @@
             <name xml:lang="en">Thumbnail Type</name>
             <name xml:lang="ru">Тип миниатюры</name>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
-            <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
+            <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
+			<description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <description xml:lang="en">Thumbnail Type may be set here.</description>
             <description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
             <type>select</type>
             <options>
                 <name xml:lang="ko">Crop (채우기)</name>
-                <name xml:lang="jp">Crop (切り取り)</name>
+                <name xml:lang="jp">Crop (トリミング)</name>
                 <name xml:lang="zh-CN">Crop (裁减)</name>
                 <name xml:lang="en">Crop</name>
                 <name xml:lang="ru">Crop (Обрезание)</name>
@@ -194,7 +195,7 @@
             <name xml:lang="en">Height of Image</name>
             <name xml:lang="ru">Высота изображения</name>
             <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
-            <description xml:lang="jp">イメージの立幅サイズを指定します（デフォルト 100px）</description>
+            <description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 100px）</description>
             <description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
             <description xml:lang="en">You can set the height of image. (100 as default)</description>
             <description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 100px)</description>
@@ -209,7 +210,7 @@
             <name xml:lang="ru">Число изображений (колонка)</name>
             <type>text</type>
             <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="jp">表示されるイメージの数を指定します（デフォルト5個）。</description>
+            <description xml:lang="jp">表示されるイメージの横並びの数を指定します（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 5)</description>
@@ -224,7 +225,7 @@
             <name xml:lang="ru">Число изображений (ряд)</name>
             <type>text</type>
             <description xml:lang="ko">출력될 세로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
-            <description xml:lang="jp">表示されるイメージの数を指定することができます（デフォルト5個）。</description>
+            <description xml:lang="jp">表示されるイメージの縦並びの数を指定することができます（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的纵向图片个数。(默认为1个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el número de imágenes a mostrar. (predefinido: 5 )</description>
