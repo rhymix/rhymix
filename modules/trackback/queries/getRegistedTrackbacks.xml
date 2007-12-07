@@ -1,0 +1,12 @@
+<query id="getRegistedTrackbacks" action="select">
+    <tables>
+        <table name="trackbacks" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like_prefix" column="ipaddress" var="ipaddress" notnull="notnull" />
+        <condition operation="more" column="regdate" var="regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

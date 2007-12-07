@@ -97,5 +97,15 @@
             }
             return $module_trackback_config;
         }
+
+        /**
+         * @brief 정해진 시간내에 전체 엮인글 등록수를 구함
+         **/
+        function getRegistedTrackback($time, $ipaddress) {
+            $obj->regdate = date("YmdHis",time()-$time);
+            $obj->ipaddress = $ipaddress;
+            $output = executeQuery('trackback.getRegistedTrackback', $obj);
+            return $output->data->count;
+        }
     }
 ?>
