@@ -23,7 +23,7 @@
         </description>
         <description xml:lang="jp">
             選択されたモジュールの月別コンテンツのバックアップリストを表示します。
-			書き込みが多すぎると負荷がかかる場合があります。
+            書き込みが多すぎると負荷がかかる場合があります。
         </description>
         <description xml:lang="en">
             This widget displays the present status of stored-articles selected module by month.
