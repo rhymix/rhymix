@@ -27,7 +27,7 @@
     $lang->about_disable_download = 'チェックするとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。';
 
     $lang->level_point_calc = 'レベル別ポイント計算';
-    $lang->expression = 'レベル変数<b>i</b>を使用してJavaスクリプト数式を入力してください（例: Math.pow(i, 2) * 90'）;
+    $lang->expression = 'レベル変数<b>i</b>を使用してJavaスクリプト数式を入力してください（例: Math.pow(i, 2) * 90）';
     $lang->cmd_exp_calc = '計算';
     $lang->cmd_exp_reset = '初期化';
 
