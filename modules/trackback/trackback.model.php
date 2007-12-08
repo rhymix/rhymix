@@ -101,9 +101,13 @@
         /**
          * @brief 정해진 시간내에 전체 엮인글 등록수를 구함
          **/
-        function getRegistedTrackback($time, $ipaddress) {
+        function getRegistedTrackback($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);
             $obj->ipaddress = $ipaddress;
+            $obj->url = $url;
+            $obj->blog_name = $blog_name;
+            $obj->title = $title;
+            $obj->excerpt = $excerpt;
             $output = executeQuery('trackback.getRegistedTrackback', $obj);
             return $output->data->count;
         }

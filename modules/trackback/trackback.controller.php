@@ -292,9 +292,13 @@
         /**
          * @brief 특정 ipaddress의 특정 시간대 내의 엮인글을 모두 삭제
          **/
-        function deleteTrackbackSender($time, $ipaddress) {
+        function deleteTrackbackSender($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);
             $obj->ipaddress = $ipaddress;
+            $obj->url = $url;
+            $obj->blog_name = $blog_name;
+            $obj->title = $title;
+            $obj->excerpt = $excerpt;
             $output = executeQueryArray('trackback.getRegistedTrackbacks', $obj);
             if(!$output->data || !count($output->data)) return;
 

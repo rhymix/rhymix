@@ -108,11 +108,11 @@
             $oTrackbackModel = &getModel('trackback');
             list($ipA,$ipB,$ipC,$ipD) = explode('.',$_SERVER['REMOTE_ADDR']);
             $ipaddress = $ipA.'.'.$ipB.'.'.$ipC;
-            $count = $oTrackbackModel->getRegistedTrackback(24*60*60, $ipaddress);
+            $count = $oTrackbackModel->getRegistedTrackback(12*60*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
             if($count > 2) {
                 $oTrackbackController = &getController('trackback');
-                $oTrackbackController->deleteTrackbackSender(24*60*60, $ipaddress);
-                $this->insertIP($_SERVER['REMOTE_ADDR']);
+                $oTrackbackController->deleteTrackbackSender(12*60*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
+                $this->insertIP($ipaddress.'.*');
                 return new Object(-1,'msg_alert_trackback_denied');
             }
 
