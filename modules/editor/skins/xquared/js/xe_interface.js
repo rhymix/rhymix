@@ -30,8 +30,8 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
-    editor.config.imagePathForDefaultToobar = request_uri+editor_path.substring(2)+'examples/img/toolbar/'; 
-    editor.config.imagePathForContent = request_uri+editor_path.substring(2)+'examples/img/content/'; 
+    editor.config.imagePathForDefaultToobar = request_uri+editor_path.substring(2)+'images/toolbar/'; 
+    editor.config.imagePathForContent = request_uri+editor_path.substring(2)+'images/content/'; 
     editor.config.allowedAttributes.push('editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic', 'language','align');
     editor.config.allowedTags.push('embed', 'param', 'object');
 
@@ -63,7 +63,7 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
 
     editor.setStaticContent(fo_obj[content_key].value);
     editor.setEditMode('wysiwyg');
-    editor.loadStylesheet(request_uri+editor_path+"/examples/css/xq_contents.css");
+    editor.loadStylesheet(request_uri+editor_path+"/css/xq_contents.css");
     editor.getFrame().style.width = "100%";
     editor.getFrame().parentNode.style.height = editor_height;
     editor.getBody().setAttribute('editor_sequence', editor_sequence);

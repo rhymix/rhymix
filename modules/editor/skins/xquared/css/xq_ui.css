@@ -9,7 +9,7 @@
 	background-color: #ebebeb;
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url(../img/toolbar/toolbarBg.gif);
+	background-image: url('../images/toolbar/toolbarBg.gif');
 }
 
 .xquared ul.buttons {
@@ -26,14 +26,14 @@
 	padding-bottom: 3px;
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url(../img/toolbar/toolbarButtonBg.gif);
+	background-image: url('../images/toolbar/toolbarButtonBg.gif');
 }
 .xquared ul.buttons li.xq_separator {
 	padding-left: 8px;
 	margin-left: 8px; 
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url(../img/toolbar/toolbarSeparator.gif);
+	background-image: url('../images/toolbar/toolbarSeparator.gif');
 }
 .xquared ul.buttons li a {
 	display: block;

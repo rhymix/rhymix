@@ -69,15 +69,15 @@
 	font-family: monospace;
 	list-style-type: none;
 	border-color: #ffb781;
-	background: url(../img/content/code.gif) no-repeat 0 0;
+	background: url('../images/content/code.gif') no-repeat 0 0;
 }
 .xed div {
 	border-color: #8ccfff;
-	background: url(../img/content/div.gif) no-repeat 0 0;
+	background: url('../images/content/div.gif') no-repeat 0 0;
 }
 .xed blockquote {
 	border-color: #c9c9c9;
-	background: url(../img/content/blockquote.gif) no-repeat 0 0;
+	background: url('../images/content/blockquote.gif') no-repeat 0 0;
 }
 
 

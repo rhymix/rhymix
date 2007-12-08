@@ -495,8 +495,8 @@ xq.Editor = xq.Class({
 			]
 		];
 		
-		this.config.imagePathForDefaultToobar = 'img/toolbar/';
-		this.config.imagePathForContent = 'img/content/';
+		this.config.imagePathForDefaultToobar = 'images/toolbar/';
+		this.config.imagePathForContent = 'images/content/';
 		
 		// relative | host_relative | absolute | browser_default
 		this.config.urlValidationMode = 'absolute';
