@@ -78,7 +78,7 @@
             $count = count($word_list);
             for($i=0;$i<$count;$i++) {
                 $word = $word_list[$i]->word;
-                if(strpos($text, $word)!==false) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+                if(eregi($word, $text)!==false) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
             }
 
             return new Object();
