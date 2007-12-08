@@ -41,7 +41,7 @@
             $ipaddress = $_SERVER['REMOTE_ADDR'];
 
             $ip_list = $this->getDeniedIPList();
-            if(!count($ip_list)) return false;
+            if(!count($ip_list)) return new Object();
 
             $count = count($ip_list);
             $patterns = array();
@@ -73,7 +73,7 @@
          **/
         function isDeniedWord($text) {
             $word_list = $this->getDeniedWordList();
-            if(!count($word_list)) return false;
+            if(!count($word_list)) return new Object();
 
             $count = count($word_list);
             for($i=0;$i<$count;$i++) {
