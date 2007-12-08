@@ -436,7 +436,7 @@
 
             // 등록된 첨부파일의 상태를 무효로 지정
             if($oDocument->hasUploadedFiles()) {
-                $args->upload_target_srl = $oDocument->document_srl;
+                $args->upload_target_srl = $obj->document_srl;
                 $args->isvalid = 'N';
                 executeQuery('file.updateFileValid', $args);
             }
