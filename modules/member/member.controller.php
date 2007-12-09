@@ -1592,6 +1592,9 @@
          * member_extra_info 애드온에서 요청이 됨
          **/
         function transSignature($matches) {
+            $oModuleModel = &getModel('module');
+            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
+            
             $member_srl = $matches[2];
             if(!$member_srl) return $matches[0];
 
@@ -1606,8 +1609,17 @@
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
                 if($profile_image->src) $signature = sprintf('<img src="%s" width="%d" height="%d" alt="" class="member_profile_image" />%s', $profile_image->src, $profile_image->width, $profile_image->height, $signature);
 
-                if($signature) $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
-                else $GLOBALS['_transSignatureList'][$member_srl] = null;
+                // 서명이 있으면 반환
+                if($signature) {
+                    // 서명 높이 제한 값이 있으면 표시 높이 제한
+                    if($memberModuleConfig->signature_max_height) {
+                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: hidden; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
+                    } else {
+                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
+                    }
+                } else {
+                    $GLOBALS['_transSignatureList'][$member_srl] = null;
+                }
             }
 
             return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];
