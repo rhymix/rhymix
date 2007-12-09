@@ -410,7 +410,7 @@
 
             $logged_info = Context::get('logged_info');
 
-            // form 정보를 모두 받으a
+            // form 정보를 모두 받음
             $obj = Context::getRequestVars();
 
             // 글의 대상 모듈을 회원 정보로 변경
@@ -432,11 +432,12 @@
                 $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
+                $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
             }
 
             // 등록된 첨부파일의 상태를 무효로 지정
             if($oDocument->hasUploadedFiles()) {
-                $args->upload_target_srl = $obj->document_srl;
+                $args->upload_target_srl = $oDocument->document_srl;
                 $args->isvalid = 'N';
                 executeQuery('file.updateFileValid', $args);
             }
