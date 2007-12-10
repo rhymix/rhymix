@@ -1,0 +1,34 @@
+<!-- JS 파일 로드 -->
+<script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js"></script>
+    <!--%import("js/lifepod.js")-->
+<script type="text/javascript" src="./modules/lifepod/skins/xe_official/js/xe_interface.js"></script>
+    <!--{count($page->data)}-->
+<script type="text/javascript">//<![CDATA[
+xAddEventListener(window, 'load', startLifepod);
+<!--@foreach($page->data as $key => $val)-->
+    calAdd({$val->childNodes["identifier"]->body},'{$val->childNodes["date-start"]->body}', '{$val->childNodes["date-end"]->body}', '{$val->childNodes["title"]->body}', '{$val->childNodes["description"]->body}', '{$val->childNodes["type"]->body}', '{$page->title}', 'green'); 
+<!--@end-->
+<!--@if($day)-->
+    setDate({$year},{$month},{$day});
+<!--@end-->
+//]]></script>
+
+
+<!--%import("css/common.css")-->
+
+<!-- 상단 텍스트 출력 -->
+    {$module_info->header_text}
+
+<!-- 스킨의 제목/간단한 설명 출력 -->
+    <!--@if($module_info->title)-->
+    <div class="boardHeader">
+        <h3>{$module_info->title}</h3>
+    </div>
+    <!--@end-->
+<div id="div_calendar" style="width:750;height:600px">
+ <!-- 캘린더가 그려질 부분 -->
+</div>
+
+
+<!-- 하단 텍스트 출력 -->
+{$module_info->footer_text}

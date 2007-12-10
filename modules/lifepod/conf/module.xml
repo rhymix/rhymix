@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="view" default="guest">
+            <title xml:lang="ko">열람</title>
+	    <title xml:lang="zh-CN">查看</title>
+            <title xml:lang="jp">閲覧</title>
+            <title xml:lang="en">view</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispLifepodContent" type="view" index="true" />
+
+        <action name="dispLifepodAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispLifepodAdminLifepodInfo" type="view" standalone="true" />
+        <action name="dispLifepodAdminInsertLifepod" type="view" standalone="true" />
+        <action name="dispLifepodAdminDeleteLifepod" type="view" standalone="true" />
+        <action name="dispLifepodAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispLifepodAdminSkinInfo" type="view" standalone="true" />
+
+        <action name="procLifepodAdminInsertLifepod" type="controller" standalone="true" />
+        <action name="procLifepodAdminDeleteLifepod" type="controller" standalone="true" />
+        <action name="procLifepodAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procLifepodAdminUpdateSkinInfo" type="controller" standalone="true" />
+    </actions>
+</module>

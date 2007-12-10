@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+    <title xml:lang="ko">라이프팟 연동 기본 스킨</title>
+    <title xml:lang="en">Lifepod Module Basic Skin</title>
+    <maker email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007.11.30">
+        <name xml:lang="ko">haneul</name>
+	<name xml:lang="en">haneul</name>
+        <description xml:lang="ko">라이프팟 노트 연동 모듈의 기본 스킨</description>
+	<description xml:lang="en">Default Skin of Lifepod Module</description>
+    </maker>
+    <extra_vars>
+        <var name="title" type="text">
+            <title xml:lang="ko">게시판 제목</title>
+            <title xml:lang="en">Title of Board</title>
+            <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+            <description xml:lang="en">Please input the title of board.</description>
+        </var>
+    </extra_vars>
+</skin>

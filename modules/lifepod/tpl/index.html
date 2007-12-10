@@ -1,0 +1,79 @@
+<!--#include("header.html")-->
+
+<!-- 정보 -->
+<div class="tableSummaryType1">
+    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+</div>
+
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<col width="50" />
+<col width="130" />
+<col />
+<col width="80" />
+<col width="50" />
+<col width="50" />
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">
+            <form action="./" method="get" onsubmit="return doChangeCategory(this);">
+                <input type="hidden" name="module" value="{$module}" />
+                <input type="hidden" name="act" value="{$act}" />
+                <select name="module_category_srl" class="w80">
+                    <option value="">{$lang->module_category}</option>
+                    <!--@foreach($module_category as $key => $val)-->
+                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                    <option value="">---------</option>
+                    <option value="-1">{$lang->cmd_management}</option>
+                </select>
+                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
+            </form>
+        </th>
+        <th scope="col">{$lang->mid} / {$lang->browser_title}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_view}</th>
+        <th scope="col">{$lang->cmd_delete}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($lifepod_list as $no => $val)-->
+    <tr>
+        <td class="tahoma">{$no}</td>
+        <td>
+            <!--@if(!$val->module_category_srl)-->
+                {$lang->not_exists}
+            <!--@else-->
+                {$module_category[$val->module_category_srl]->title}
+            <!--@end-->
+        </td>
+        <td class="left subject">
+            {$val->mid} -
+            <a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a>
+        </td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!-- 버튼 -->
+<div class="fr gap1">
+    <a href="{getUrl('act','dispLifepodAdminInsertLifepod','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
