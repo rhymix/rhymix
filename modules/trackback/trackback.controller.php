@@ -96,6 +96,12 @@
             $obj = Context::gets('document_srl','blog_name','url','title','excerpt');
             if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
 
+            // 올바른 trackback url인지 검사
+            $given_key = Context::get('key');
+            $oTrackbackModel = &getModel('trackback');
+            $key = $oTrackbackModel->getTrackbackKey($obj->document_srl);
+            if($key != $given_key) return $this->stop('fail');
+
             // 엮인글 모듈의 기본 설정을 받음
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('trackback');

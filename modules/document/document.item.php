@@ -288,7 +288,9 @@
         }
 
         function getTrackbackUrl() {
-            return getUrl('','document_srl',$this->document_srl,'act','trackback');
+            // 스팸을 막기 위한 key 생성
+            $oTrackbackModel = &getModel('trackback');
+            return $oTrackbackModel->getTrackbackUrl($this->document_srl);
         }
 
         function updateReadedCount() {

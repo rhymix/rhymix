@@ -566,7 +566,9 @@
                 } elseif($var_count == 3) {
                     asort($var_keys);
                     $target = implode('.',$var_keys);
-                    if($target=='category.mid.page') {
+                    if($target=='act.document_srl.key') {
+                        return sprintf('%s%s/%s/%s',$this->path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
+                    } elseif($target=='category.mid.page') {
                         return sprintf('%s%s/category/%s/page/%s',$this->path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
                     } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='tag') {
                         return sprintf('%s%s/tag/%s',$this->path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
