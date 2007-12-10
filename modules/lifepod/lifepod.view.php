@@ -27,10 +27,10 @@
             $this->setTemplatePath($template_path);
         }
 
-	function dateFormatChange($dates) {
+	function dateFormatChange($dates, $plus = 0) {
 	    $dates = str_replace( "T", " ", $dates);
 	    $dates = str_replace( "Z", "+0", $dates);
-	    $dates = date("Y-m-d H:i:s", strtotime($dates));
+	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus);
 	    return $dates;
 	}
 
@@ -57,7 +57,10 @@
 		}
 		if($val->childNodes["date-end"])
 		{
-		    $val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body);
+		    $plus = 0;
+		    if($val->childNodes["type"]->body == "daylong")
+			$plus = -1;
+		    $val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
 		}
 	    }
 
