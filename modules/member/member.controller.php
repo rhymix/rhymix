@@ -1618,7 +1618,7 @@
                 if($signature) {
                     // 서명 높이 제한 값이 있으면 표시 높이 제한
                     if($memberModuleConfig->signature_max_height) {
-                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: hidden; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
+                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: auto; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
                     } else {
                         $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
                     }
