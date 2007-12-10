@@ -6,6 +6,6 @@ body { margin:10px; }
 .menuListZone td { vertical-align:top; }
 .menuListZone td.category_zone { padding-right:10px; }
 
-#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; width:250px; overflow:hidden; float:left; }
-#category_info { margin-left:10px; width:560px; _width:540px; float:left; }
+#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; width:250px; overflow:hidden; float:left; position:absolute; left:10px;}
+#category_info { margin-left:10px; width:560px; _width:540px; float:left; position:absolute; right:10px;}
 *:first-child+html #category_info { width:550px; }

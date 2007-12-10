@@ -172,7 +172,12 @@ function hideCategoryInfo() {
 
 function completeGetCategoryTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('category_info');
-    obj.style.marginTop = xScrollTop()+'px';
+    if(xScrollTop()>200) {
+        obj.style.marginTop = ( xScrollTop() - 210 )+'px';
+    } else {
+        obj.style.marginTop = '0px';
+    }
+
     var tpl = ret_obj['tpl'];
     xInnerHtml(obj, tpl);
     obj.style.display = 'block';
@@ -180,6 +185,7 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     var fo_obj = xGetElementById("fo_category");
     fo_obj.category_title.focus();
 
+    /*
     var x = _xPos + 50;
     var y = _yPos - xHeight(obj)/2+ xScrollTop();
     xLeft(obj, x);
@@ -191,6 +197,7 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     }
 
     if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
+    */
 }
 
 /* 카테고리 아이템 입력후 */ 
