@@ -92,6 +92,9 @@
             $page->body = trim($xmldoc->page->body);
             $page->source = trim($xmldoc->page->source->body);
 
+            // source에서 /pages/숫자로 되어 있는 url의 수정
+            $page->source = preg_replace('/="\/pages\/([0-9]+)"/is','="?mid='.Context::get('mid').'&pageid=\\1"', $page->source);
+
             $uri = preg_replace('/pages(.*)$/i','',$page->uri);
             $page->css_files = array(
                     sprintf('%sstylesheets/xhtmlContent.css?%d', $uri, time()),
