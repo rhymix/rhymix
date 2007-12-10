@@ -104,13 +104,23 @@
             $output = $oFilterModel->isDeniedWord($text);
             if(!$output->toBool()) return $output;
 
-            // 3분 이내에 1개 이상의 한 C클래스의 ip에서 엮인글 등록 시도시 금지 아이피로 지정하고 해당 ip의 글을 모두 삭제
+            // 필터링 시작
             $oTrackbackModel = &getModel('trackback');
+            $oTrackbackController = &getController('trackback');
+
             list($ipA,$ipB,$ipC,$ipD) = explode('.',$_SERVER['REMOTE_ADDR']);
             $ipaddress = $ipA.'.'.$ipB.'.'.$ipC;
-            $count = $oTrackbackModel->getRegistedTrackback(3*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
+
+            // 제목과 블로그이름이 동일할 경우 최근 6시간내의 ip를 조사하여 삭제하고 금지ip로 등록
+            if($obj->title == $obj->excerpt) {
+                $oTrackbackController->deleteTrackbackSender(60*60*6, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
+                $this->insertIP($ipaddress.'.*');
+                return new Object(-1,'msg_alert_trackback_denied');
+            }
+
+            // 30분 이내에 1개 이상의 한 C클래스의 ip에서 엮인글 등록 시도시 금지 아이피로 지정하고 해당 ip의 글을 모두 삭제
+            $count = $oTrackbackModel->getRegistedTrackback(30*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
             if($count > 1) {
-                $oTrackbackController = &getController('trackback');
                 $oTrackbackController->deleteTrackbackSender(3*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
                 $this->insertIP($ipaddress.'.*');
                 return new Object(-1,'msg_alert_trackback_denied');
