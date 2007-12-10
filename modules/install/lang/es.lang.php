@@ -241,6 +241,7 @@ EndOfLicense;
         'sqlite2' => 'Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)',
         'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
         'cubrid' => 'Usar BD CUBRID.',
+        'postgresql' => 'Usar BD PostgreSql.',
     );
 
     $lang->form_title = 'Ingresar  BD &amp; Información del Administrador;';

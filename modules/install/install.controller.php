@@ -42,6 +42,7 @@
             $oDB = &DB::getInstance();
 
             // DB접속이 가능한지 체크
+            $output = $oDB->getError();
             if(!$oDB->isConnected()) return $oDB->getError();
 
             $oDB->begin();

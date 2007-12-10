@@ -72,7 +72,7 @@
 			$conn_string = "";
 
             // db 정보가 없으면 무시
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+            if(!$this->hostname || !$this->userid || !$this->database) return;
 
 			// connection string 만들기
 			$conn_string .= ($this->hostname) ? " host=$this->hostname" : "";
@@ -92,7 +92,7 @@
             $this->is_connected = true;
 
             // utf8임을 지정
-            $this ->_query('set client_encoding to uhc')
+            //$this ->_query('set client_encoding to uhc');
         }
 
         /**
@@ -116,7 +116,7 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
-            if(!$this->isConnect() || $this->transaction_started == false) return;
+            if(!$this->isConnected() || $this->transaction_started == false) return;
             if($this->_query($this->fd, 'BEGIN'))
             $this->transaction_started = true;
         }
@@ -125,7 +125,7 @@
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->isConnect() || $this->transaction_started == false) return;
+            if(!$this->isConnected() || $this->transaction_started == false) return;
             if($this->_query($this->fd, 'ROLLBACK'))
             $this->transaction_started = false;
         }
@@ -134,7 +134,7 @@
          * @brief 커밋
          **/
         function commit() {
-            if(!$this->isConnect() || $this->transaction_started == false) return;
+            if(!$this->isConnected() || $this->transaction_started == false) return;
             if($this->_query($this->fd, 'COMMIT'))
             $this->transaction_started = false;
         }
@@ -193,7 +193,9 @@
          * @brief 테이블 기생성 여부 return
          **/
         function isTableExists($target_name) {
+            if($target_name == "sequence") return true;
             $query = sprintf("SELECT tablename FROM pg_tables WHERE tablename = '%s%s' AND schemaname = current_schema()", $this->prefix, $this->addQuotes($target_name));
+
             $result = $this->_query($query);
             $tmp = $this->_fetch($result);
             if(!$tmp) return false;
@@ -237,6 +239,11 @@
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
+            if(strpos($table_name,$this->prefix)===false) $table_name = $this->prefix.$table_name;
+
+            // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+            $index_name = $table_name.$index_name;
+
             $query = sprintf("create %s index %s on %s (%s);", $is_unique?'unique':'', $index_name, $table_name, implode(',',$target_columns));
             $this->_query($query);
         }
@@ -245,8 +252,13 @@
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
+            if(strpos($table_name,$this->prefix)===false) $table_name = $this->prefix.$table_name;
+
+            // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+            $index_name = $table_name.$index_name;
+
             //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
-            $query = sprintf("select indexname from pg_indexes where schemaname = current_schema() and tablename = '%s%s' and indexname = '%s'", $this->prefix, $table_name, strtolower($index_name));
+            $query = sprintf("select indexname from pg_indexes where schemaname = current_schema() and tablename = '%s' and indexname = '%s'", $table_name, strtolower($index_name));
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
