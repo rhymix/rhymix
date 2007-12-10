@@ -5,16 +5,19 @@
     <title xml:lang="zh-CN">数据导入</title>
     <title xml:lang="jp">ZBデータ移転</title>
     <title xml:lang="es">Transferencia de los datos de ZeroBoard</title>
+    <title xml:lang="ru">Трансферинг данных Zeroboard</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="es">Zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">XML파일을 이용하여 회원정보 또는 게시판등의 데이터를 입력합니다. </description>
         <description xml:lang="en">Inputting member information or board's data using XML file.</description>
         <description xml:lang="zh-CN">利用XML文件导入会员信息或版面数据。</description>
         <description xml:lang="jp">XMLファイルを用いて会員情報または掲示板などの情報を入力します。</description>
         <description xml:lang="es">Ingresa la información del usuario o los datos del tablero utilizando el archivo XML.</description>
+        <description xml:lang="ru">Запись информации пользователей или форума, используя XML-файл.</description>
     </author>
 </module>

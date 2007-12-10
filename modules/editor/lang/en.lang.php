@@ -18,8 +18,8 @@
     $lang->about_component = "About component";
     $lang->about_component_grant = "Only selected groups are allowed to use. (Everyone can use it when mode is disabled)";
 
-    $lang->msg_component_is_not_founded = 'Unabled to find editor component %s';
-    $lang->msg_component_is_inserted = 'Selected component is already inputted';
+    $lang->msg_component_is_not_founded = 'Cannot find editor component %s';
+    $lang->msg_component_is_inserted = 'Selected component is already inserted';
     $lang->msg_component_is_first_order = 'Selected component is located at the first position';
     $lang->msg_component_is_last_order = 'Selected component is located at the last position';
     $lang->msg_load_saved_doc = "There is an automatically saved article. Do you wish to recover it?\nThe auto-saved draft will be discarded after saving current article";
@@ -69,7 +69,7 @@
     $lang->edit->help_remove_indent = "Remove indent";
     $lang->edit->help_list_number = "Apply number list";
     $lang->edit->help_list_bullet = "Apply bullet list";
-    $lang->edit->help_use_paragrapth = "Press Ctrl+Enter to use paragraph. (Press Alt+S to save)";
+    $lang->edit->help_use_paragrapth = "Press Ctrl+Enter to use paragraph. (Press Alt+S to submit)";
 
     $lang->edit->upload = 'Attachment';
     $lang->edit->upload_file = 'Attach'; 
@@ -81,5 +81,5 @@
     $lang->edit->icon_align_middle = 'Align Center';
     $lang->edit->icon_align_right = 'Align Right';
 
-    $lang->about_dblclick_in_editor = 'You are able to set detail component configure by double-clicking on background, text, images, or quotations';
+    $lang->about_dblclick_in_editor = 'You may set detail component configures by double-clicking background, text, images, or quotations';
 ?>

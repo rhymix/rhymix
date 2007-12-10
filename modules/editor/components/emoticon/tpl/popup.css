@@ -2,8 +2,8 @@
 
 @import url(../../../../../modules/admin/tpl/css/admin.css);
 
-img.emoticon {
-    margin:10px;
-    cursor:pointer;
-}
+img.emoticon { margin:10px; cursor:pointer; }
+
+.emoticonList { position:absolute; top:20px; _top:17px; right:20px; }
+*:first-child+html .emoticonList { top:15px; }
 

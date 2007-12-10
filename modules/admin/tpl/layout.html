@@ -9,6 +9,7 @@
                 <div class="adminInfo">
                     <div class="fl">{$lang->admin_info}</div>
                     <div class="expandButton"><a href="#" onclick="toggleDisplay('adminMemberInfo','block'); return false;"><img src="./images/expand.gif" alt="toggle" /></a></div>
+                    <div class="clear"></div>
                 </div>
                 <div id="adminMemberInfo" style="display:none;">
                     {$logged_info->nick_name} ({$logged_info->user_id})
@@ -19,13 +20,12 @@
             </div>
 
             <h3 class="summary">
-                <span class="fl"><a href="{getUrl('','module','admin')}">{$lang->admin_index}</a></span>
+                <span><a href="{getUrl('','module','admin')}">{$lang->admin_index}</a></span>
             </h3>
 
         <!--@foreach($lang->module_category_title as $key => $val)-->
             <h3 class="{$key}">
-                <span class="fl"><a href="#" onclick="toggleAdminMenu('amm_{$key}'); return false;">{$val}</a></span>
-                <span class="expandButton"><a href="#" onclick="toggleAdminMenu('amm_{$key}'); return false;"><img src="./images/expand.gif" alt="toggle" /></a></span>
+                <span><a href="#" onclick="toggleAdminMenu('amm_{$key}'); return false;">{$val}</a></span>
             </h3>
 
             <ul id="amm_{$key}" style="display:{$_COOKIE['amm_'.$key]}">

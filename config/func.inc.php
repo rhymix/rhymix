@@ -247,14 +247,25 @@
     }
 
     /**
+     * @brief 월이름을 return
+     **/
+    function getMonthName($month, $short = true) {
+        $short_month = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+        $long_month = array("January","February","March","April","May","June","July","August","September","October","November","December");
+        return !$short?$long_month[$month]:$short_month[$month];
+    }
+
+    /**
      * @brief YYYYMMDDHHIISS 형식의 시간값을 원하는 시간 포맷으로 변형
      * @param str YYYYMMDDHHIISS 형식의 시간값
      * @param format php date()함수의 시간 포맷
      * @return string
      **/
     function zdate($str, $format = "Y-m-d H:i:s") {
+        // 대상 시간이 없으면 null return
         if(!$str) return;
 
+        // 언어권에 따라서 지정된 날짜 포맷을 변경
         switch(Context::getLangType()) {
             case "en" :
             case "es" :
@@ -264,6 +275,23 @@
                 break;
 
         }
+
+        // 년도가 1970년 이전이면 별도 처리
+        if((int)substr($str,0,4)<1970) {
+            $hour = (int)substr($str,8,2);
+            $min = (int)substr($str,10,2);
+            $sec = (int)substr($str,12,2);
+            $year = (int)substr($str,0,4);
+            $month = (int)substr($str,4,2);
+            $day = (int)substr($str,6,2);
+            return str_replace(
+                        array("Y","m","d","H","h","i","s","a","M", "F"),
+                        array($year,$month,$day,$hour,$hour/12,$min,$sec,$hour<=12?"am":"pm",getMonthName($month), getMonthName($month,false)),
+                        $format
+                    );
+        }
+
+        // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
         return date($format, ztime($str));
     }
 
@@ -379,6 +407,9 @@
 
         // script code 제거
         $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
+
+        // meta 태그 제거
+        $content = preg_replace("!<meta(.*?)>!is","",$content);
 
         return $content;
     }

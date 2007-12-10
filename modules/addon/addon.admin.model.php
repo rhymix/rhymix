@@ -18,7 +18,7 @@
          **/
         function getAddonPath($addon_name) {
             $class_path = sprintf('./addons/%s/', $addon_name);
-            if(is_dir($class_path)) return $class_path; 
+            if(is_dir($class_path)) return $class_path;
             return "";
         }
 
@@ -95,7 +95,7 @@
             $addon_info->author->date = $xml_obj->author->attrs->date;
             $addon_info->author->description = trim($xml_obj->author->description->body);
 
-            // history 
+            // history
             if(!is_array($xml_obj->history->author)) $history[] = $xml_obj->history->author;
             else $history = $xml_obj->history->author;
 
@@ -123,10 +123,25 @@
 
                 foreach($extra_vars as $key => $val) {
                     unset($obj);
+                    if(!$val->type->body) { $val->type->body = 'text'; }
+
                     $obj->name = $val->attrs->name;
                     $obj->title = $val->title->body;
+                    $obj->type = $val->type->body;
                     $obj->description = $val->description->body;
                     $obj->value = $extra_vals->{$obj->name};
+                    if(strpos($obj->value, '|@|') != 0) { $obj->value = explode('|@|', $obj->value); }
+
+                    // 'select'type에서 option목록을 구한다.
+                    if(is_array($val->options)) {
+                        $option_count = count($val->options);
+
+                        for($i = 0; $i < $option_count; $i++) {
+                            $obj->options[$i]->title = $val->options[$i]->title->body;
+                            $obj->options[$i]->value = $val->options[$i]->value->body;
+                        }
+                    }
+
                     $addon_info->extra_vars[] = $obj;
                 }
             }

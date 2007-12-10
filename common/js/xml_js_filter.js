@@ -23,12 +23,12 @@ function filterAlertMessage(ret_obj) {
     var redirect_url = ret_obj["redirect_url"];
     var url = location.href;
 
-    if(url.substr(url.length-1,1)=="#") url = url.substr(0,url.length-1);
-
     if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
 
     if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
     else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
+
+    if(url == location.href) url = url.replace(/#(.+)$/,'');
 
     location.href = url;
 }
@@ -302,9 +302,8 @@ function XmlJsFilterProc(confirm_msg) {
 function procFilter(fo_obj, filter_func) {
     // form문 안에 위지윅 에디터가 세팅되어 있을 경우 에디터의 값과 지정된 content field를 sync
     var editor_sequence = fo_obj.getAttribute('editor_sequence');
-    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined' && typeof(editorGetContent)=='function') {
-        var content = editorGetContent(editor_sequence);
-        editorRelKeys[editor_sequence]['content'].value = content;
+    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') { 
+	editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
     }
 
     filter_func(fo_obj);

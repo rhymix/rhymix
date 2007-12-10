@@ -499,15 +499,18 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $col = $val[0];
-                    if(!in_array($col, array('list_order','update_order'))) continue;
-                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                $conditions = $this->getConditionList($output);
+                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
+                    foreach($output->order as $key => $val) {
+                        $col = $val[0];
+                        if(!in_array($col, array('list_order','update_order'))) continue;
+                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                        else $condition = sprintf(' where %s < 2100000000 ', $col);
+                    }
                 }
             }
 
@@ -521,6 +524,9 @@
                 }
                 if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
             }
+
+            // list_count를 사용할 경우 적용
+            if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
             $result = $this->_query($query);
             if($this->isError()) return;
@@ -562,11 +568,14 @@
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $col = $val[0];
-                    if(!in_array($col, array('list_order','update_order'))) continue;
-                    if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                    else $condition = sprintf(' where %s < 2100000000 ', $col);
+                $conditions = $this->getConditionList($output);
+                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
+                    foreach($output->order as $key => $val) {
+                        $col = $val[0];
+                        if(!in_array($col, array('list_order','update_order'))) continue;
+                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                        else $condition = sprintf(' where %s < 2100000000 ', $col);
+                    }
                 }
             }
 

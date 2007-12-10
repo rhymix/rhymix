@@ -1,0 +1,12 @@
+.rss_reader_select { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
+.rss_reader_select h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; background:url(../images/black/lineNotice.gif) no-repeat left bottom; font-size:1em;}
+.rss_reader_select h2 a,
+.rss_reader_select .tabcontent_rss a { text-decoration:none; color:#000000;} 
+.rss_reader_select h2 a:hover,
+.rss_reader_select .tabcontent_rss a:hover { text-decoration:underline;} 
+
+.rss_reader_select .tabcontentcontainer {width:100%;}
+
+.rss_reader_select .tabcontent_rss {display:none;width:100%; color:#555555;}
+
+.rss_reader_select .date { color:#999999; font:.9em Tahoma; white-space:nowrap; margin-right:5px;}

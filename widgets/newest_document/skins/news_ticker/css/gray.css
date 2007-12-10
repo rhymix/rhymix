@@ -1,0 +1,16 @@
+.news_ticker_gray { height:25px; overflow:hidden; clear:both; background:#FFFFFF url("../images/gray/bg.gif") repeat-x left top; white-space:nowrap; }
+
+.news_ticker_gray table { width:100%; height:25px; margin:0; padding:0; table-layout:fixed;}
+.news_ticker_gray table td { white-space:nowrap; overflow:hidden; height:25px; vertical-align:top; }
+
+.news_ticker_gray .tickerBox { height:25px; padding-top:6px; white-space:nowrap; overflow:hidden; }
+
+.news_ticker_gray ul { white-space:nowrap; overflow:hidden; }
+.news_ticker_gray li { list-style:none; height:25px; overflow:hidden; white-space:nowrap; font-size:9pt;}
+
+.news_ticker_gray ul li .title a { color:#000000; text-decoration:none;  font-size:9pt;}
+.news_ticker_gray ul li .title a:hover { text-decoration:underline; }
+.news_ticker_gray ul li .title span.comment { color:#766C6C; font:.8em Tahoma; }
+.news_ticker_gray ul li .title span.comment a { color:#766C6C; font:.8em Tahoma; text-decoration:none; }
+
+.news_ticker_gray ul li .date { color:#333333; font:.8em Tahoma; white-space:nowrap; margin-right:5px;}

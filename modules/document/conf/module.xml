@@ -30,5 +30,6 @@
         <action name="procDocumentAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procDocumentAdminInsertConfig" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteAllThumbnail" type="controller" standalone="true" />
+        <action name="procDocumentAdminCancelDeclare" type="controller" standalone="true" />
     </actions>
 </module>

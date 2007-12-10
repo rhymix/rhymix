@@ -155,25 +155,41 @@
                         if(!$oDocument->isExists() || !$oDocument->isGranted()) {
                             printContent( getXmlRpcFailure(1, 'no permission') );
                         } else {
+                            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+                            $category = "";
+                            if($oDocument->get('category_srl')) {
+                                $oDocumentModel = &getModel('document');
+                                $category_list = $oDocumentModel->getCategoryList($oDocument->get('module_srl'));
+                                if($category_list[$oDocument->get('category_srl')]) {
+                                    $category = $category_list[$oDocument->get('category_srl')]->title;
+                                }
+                            }
+                            
                             $content = sprintf(
                                     '<methodResponse>'.
-                                    '<params><param><value><struct>'.
-                                    '<member><name>categories</name><value><array><data><value>%s</value></data></array></value></member>'.
-                                    '<member><name>dateCreated</name><value><dateTime.iso8601>%s</dateTime.iso8601></value></member>'.
-                                    '<member><name>description</name><value>%s</value></value></member>'.
-                                    '<member><name>link</name><value>%s</value></member>'.
-                                    '<member><name>postid</name><value><string>%s</string></value></member>'.
-                                    '<member><name>title</name><value>%s</value></member>'.
-                                    '<member><name>publish</name><value><boolean>1</boolean></value></member>'.
-                                    '</struct></value></param></params></methodResponse>',
-                                    $oDocument->get('category_srl'),
+                                    '<params>'.
+                                        '<param>'.
+                                            '<value>'.
+                                                '<struct>'.
+                                                    '<member><name>categories</name><value><array><data><value><![CDATA[%s]]></value></data></array></value></member>'.
+                                                    '<member><name>dateCreated</name><value><dateTime.iso8601>%s</dateTime.iso8601></value></member>'.
+                                                    '<member><name>description</name><value><![CDATA[%s]]></value></member>'.
+                                                    '<member><name>link</name><value>%s</value></member>'.
+                                                    '<member><name>postid</name><value><string>%s</string></value></member>'.
+                                                    '<member><name>title</name><value><![CDATA[%s]]></value></member>'.
+                                                    '<member><name>publish</name><value><boolean>1</boolean></value></member>'.
+                                                '</struct>'.
+                                            '</value>'.
+                                        '</param>'.
+                                    '</params>'.
+                                    '</methodResponse>',
+                                    $category,
                                     date("Ymd", $oDocument->getRegdateTime()).'T'.date("H:i:s", $oDocument->getRegdateTime()),
-                                    'sadfsadf',//$oDocument->getContent(false),
+                                    $oDocument->getContent(false),
                                     $oDocument->getPermanentUrl(),
                                     $oDocument->document_srl,
-                                    'asfasdfs'//$oDocument->getTitleText()
+                                    $oDocument->getTitleText()
                                 );
-                            debugPrint($content);
                             printContent($content);
                         }
                     }

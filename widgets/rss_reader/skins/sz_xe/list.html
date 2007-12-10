@@ -1,0 +1,17 @@
+<!--%import("css/default.css")-->
+
+<div class="rss_reader_sz_xe">
+<div class="sz_{$colorset}">
+    <!--@if($widget_info->title)--> 
+    <h2 title="{date('Y-m-d H:i:s')}"><a href="{$widget_info->rss->link}" onclick="window.open(this.href);return false">{$widget_info->title}</a></h2> 
+    <!--@end-->
+    <ul>
+        <!--@foreach($widget_info->rss_list as $key => $item)-->
+        <li title="{strip_tags($item->description)}">
+            <span class="date">{$item->date}</span>
+            <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{$item->title}</a></span>
+        </li>
+        <!--@end-->
+    </ul>
+</div>
+</div>

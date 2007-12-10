@@ -194,7 +194,7 @@ function displayMultimedia(src, width, height, auto_start) {
             "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\"></embed>"+
+            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
         html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
@@ -224,38 +224,38 @@ function resizeImageContents() {
         // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
         while(parent) {
-            if(/(document_|comment_)/ig.test(parent.className)) break;
+            if(parent.className && parent.className.search(/document_|comment_/i) != -1) break;
             parent = parent.parentNode;
         }
-        if(!parent || !/(document_|comment_)/ig.test(parent.className)) continue;
+        if (!parent || parent.className.search(/document_|comment_/i) < 0) continue;
 
         if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
         parent.style.width = '100%';
         parent.style.overflow = 'hidden';
 
+
         var parent_width = xWidth(parent);
         if(parent.parentNode && xWidth(parent.parentNode)<parent_width) parent_width = xWidth(parent.parentNode);
         var obj_width = xWidth(obj);
+        var obj_height = xHeight(obj);
 
-        var orig_img = new Image();
-        orig_img.src = obj.src;
-
-        if(parent_width<1 || obj_width <1 || parent_width >= orig_img.width) continue;
-
-        obj.style.cursor = "pointer";
-
-        obj.source_width = orig_img.width;
-        obj.source_height = orig_img.height;
-
-        if(obj_width >= parent_width) {
-			var new_w = parent_width-10;
-			var new_h = Math.round(xHeight(obj)*new_w/obj_width);
-			
+        // 만약 선택된 이미지의 가로 크기가 부모의 가로크기보다 크면 리사이즈 (이때 부모의 가로크기 - 2 정도로 지정해줌)
+        if(obj_width > parent_width - 2) {
+            obj.style.cursor = "pointer";
+            var new_w = parent_width - 2;
+            var new_h = Math.round(obj_height * new_w/obj_width);
             xWidth(obj, new_w);
             xHeight(obj, new_h);
+            xAddEventListener(obj,"click", showOriginalImage);
+        // 선택된 이미지가 부모보다 작을 경우 일단 원본 이미지를 불러와서 비교
+        } else {
+            var orig_img = new Image();
+            orig_img.src = obj.src;
+            if(orig_img.width > parent_width - 2 || orig_img.width != obj_width) {
+                obj.style.cursor = "pointer";
+                xAddEventListener(obj,"click", showOriginalImage);
+            }
         }
-
-        xAddEventListener(obj,"click", showOriginalImage);
     }
 }
 xAddEventListener(window, "load", resizeImageContents);

@@ -5,11 +5,13 @@
     <title xml:lang="jp">イメージカウンターウィジェット</title>
     <title xml:lang="es">Widget Contador de imagen</title>
     <title xml:lang="en">Image Counter Widget</title>
+    <title xml:lang="ru">Виджет изображения счетчика</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 8. 27">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
-	<name xml:lang="en">zero</name>
+		<name xml:lang="en">zero</name>
+		<name xml:lang="ru">zero</name>
         <description xml:lang="ko">
             제로보드XE의 기본 카운터를 블로그나 사이트에 달 수 있는 작은 그래프로 표시를 합니다.
             크기, 배경색등의 조건을 설정하지 않으시면 기본 설정으로 사용됩니다.
@@ -35,6 +37,11 @@
 	    Unless you configure settings, such as size, and background color, it uses predefined configuration.
 	    To show the graph, GD library should be installed.
 	</description>
+	<description xml:lang="ru">
+	    Виджет изображения счетчика представляет маленький график, показывающий количество посетителей, который Вы можете присоединить к Вашим блогам или сайтам.
+	    Пока Вы не сконфигурируете настройки, такие как размер и цвет фона, он будет исользовать предустановленную конфигурацию.
+	    Чтобы отображать график, GD библиотека должна быть установлена.
+	</description>
     </author>
     <extra_vars>
         <var id="graph_width">
@@ -43,6 +50,7 @@
             <name xml:lang="jp">横幅</name>
 	    <name xml:lang="es">Tamaño del ancho</name>
 	    <name xml:lang="en">Width</name>
+	    <name xml:lang="ru">Ширина</name>
             <type>text</type>
             <description xml:lang="ko">
                 그래프 이미지의 가로크기를 지정하실 수 있습니다.
@@ -68,6 +76,11 @@
 		You can set the width of the graph image. 
 		If you don't input any value, it will be defined as 150px. 
 		This value is applied differently from widget's width you can find at the bottom of this page.
+	    </description>
+	    <description xml:lang="ru">
+		Вы можете установить ширину изображения графика.  
+		Если Вы не введете значение, стандарное будет установлено как 150px. 
+		Это значение применяется иным образом, нежели ширина виджета, которую Вы можете найти внизу этой страницы.
 	    </description>
         </var>
         <var id="graph_height">
@@ -97,6 +110,10 @@
 		You can set the height of the graph image. 
 		If you don't input any value, it will be defined as 100px. 
 	    </description>
+	    <description xml:lang="ru">
+		Вы можете установить высоту изображения графика.  
+		Если Вы не введете значение, стандарное будет установлено как 100px. 
+	    </description>
         </var>
         <var id="day_range">
             <name xml:lang="ko">출력 기간</name> 
@@ -117,13 +134,17 @@
                 今日から指定した期間だけのデータをグラフで表示します。
                 数字を入力してください（デフォルト：過去7日）。
             </description> 
-	    <description xml:lang="es">
+			<description xml:lang="es">
                 Desde el día de hoy hasta el tiempo asignado, se mostrará el gráfico.
                 Ingrese números. (Predefinido: transcurridos los 7 días)
             </description>
-	    <description xml:lang="en">
-		The graph would contain the data of the assigned duration from today.
-		Input numerical value (unit:day, default: past 7 days).
+			<description xml:lang="en">
+				The graph would contain the data of the assigned duration from today.
+				Input numerical value (unit:day, default: past 7 days).
+            </description>
+			<description xml:lang="ru">
+				График будет содержать данные, присвоенного промежутка, начиная с сегодня.
+				Введите цифровое значение (ед.: день, стандарт: прошедшие 7 дней).
             </description>
         </var>
         <var id="bg_color">
@@ -132,6 +153,7 @@
             <name xml:lang="jp">背景色</name>
 	    <name xml:lang="es">Color de Fondo</name>
 	    <name xml:lang="en">Background Color</name>
+	    <name xml:lang="ru">Цвет фона</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 배경을 그립니다. 
                 기본 : #FFFFFF
@@ -146,8 +168,11 @@
                 Predefinido : #FFFFFF
                 Ingrese # + 6 espacios del código del color]]></description>	
 	    <description xml:lang="en"><![CDATA[Set background color as the assigned color code. 
-		Default : #FFFFFF. 
+		Default : <span style="color:#FFFFFF">#FFFFFF</span> 
 		Input as # + 6 digit color code.]]> </description>
+	    <description xml:lang="ru"><![CDATA[Установить цвет фона как присвоенный цвет. 
+		Стандарт : <span style="color:#FFFFFF">#FFFFFF</span> 
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
         </var>
         <var id="check_bg_color">
             <name xml:lang="ko">체크 무늬 배경색</name> 
@@ -155,6 +180,7 @@
             <name xml:lang="jp">チェック柄の背景色</name>
 	    <name xml:lang="es">Textura escocés de fondo</name>
 	    <name xml:lang="en">Background Color for the Darker part</name>
+	    <name xml:lang="ru">Цвет фона для темной части</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 체크 무늬 배경을 그립니다.
                 기본 : <span style="color:#F9F9F9">#F9F9F9</span>
@@ -169,9 +195,11 @@
                 Predefinido : <span style="color:#F9F9F9">#F9F9F9</span>
                 Ingrese # + 6 espacios del código del color]]></description>	
 	    <description xml:lang="en"><![CDATA[Set background color of the darker part as the assigned color code. 
-		Default : #F9F9F9 
+		Default : <span style="color:#F9F9F9">#F9F9F9</span> 
 		Input as # + 6 digit color code.]]> </description>
-
+	    <description xml:lang="ru"><![CDATA[Установить цвет фона для темной части как присвоенный цвет. 
+		Стандарт : <span style="color:#F9F9F9">#F9F9F9</span>
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
         </var>
         <var id="grid_color">
             <name xml:lang="ko">격자 선 색</name> 
@@ -179,6 +207,7 @@
             <name xml:lang="jp">グリッド線の色</name>
 	    <name xml:lang="es">Color Línea de la grilla</name>
 	    <name xml:lang="en">Color of Grid</name>
+	    <name xml:lang="ru">Цвет решетки</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 xy 격자를 그립니다.
                 기본 : <span style="color:#9d9d9d">#9d9d9d</span>
@@ -195,6 +224,9 @@
 	    <description xml:lang="en"><![CDATA[Set the color of grid as the assigned color code.
 		Default : <span style="color:#9d9d9d">#9d9d9d</span>
 		Input as # + 6 digit color code.]]> </description>
+	    <description xml:lang="ru"><![CDATA[Установить цвет фона для решетки как присвоенный цвет. 
+		Стандарт : <span style="color:#9d9d9d">#9d9d9d</span> 
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
         </var>
         <var id="unique_line_color">
             <name xml:lang="ko">그래프 선색</name> 
@@ -202,6 +234,7 @@
             <name xml:lang="jp">グラフ線の色</name>
 	    <name xml:lang="es">Color Línea del Gráfico</name>
 	    <name xml:lang="en">Color of the Lines</name>
+	    <name xml:lang="ru">Цвет линий</name>
             <type>text</type>
             <description xml:lang="ko"> <![CDATA[지정하신 색상 코드로 그래프 선색을 그립니다.
 		기본 : <span style="color:#BBBBBB">#BBBBBB</span>
@@ -218,6 +251,9 @@
 	    <description xml:lang="en"> <![CDATA[Set the color of the lines in the graph as the assigned color code. 
 		Default : <span style="color:#BBBBBB">#BBBBBB</span>
 		Input as # + 6 digit color code.]]> </description>
+	    <description xml:lang="ru"><![CDATA[Установить цвет фона для линий как присвоенный цвет. 
+		Стандарт : <span style="color:#BBBBBB">#BBBBBB</span>
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
         </var>
         <var id="unique_text_color">
             <name xml:lang="ko">방문자 수 글자색</name> 
@@ -225,6 +261,7 @@
             <name xml:lang="jp">訪問者数の文字色</name>
 	    <name xml:lang="es">Color del número de los visitados</name>
 	    <name xml:lang="en">Character Color of the number of visitors</name>
+	    <name xml:lang="ru">Цвет знаков числа посетителей</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[지정하신 색상 코드로 방문자 수 글자를 표시합니다.
                 Predefinido : <span style="color:#666666">#666666</span>
@@ -241,6 +278,9 @@
 	    <description xml:lang="en"> <![CDATA[Set the color of the number of visitors as the assigned color code. 
 		Default : <span style="color:#666666">#666666</span>
 		Input as # + 6 digit color code.]]> </description>
+	    <description xml:lang="ru"><![CDATA[Установить цвет знаков числа посетителей как присвоенный цвет. 
+		Стандарт : <span style="color:#666666">#666666</span>
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
 	</var>
         <var id="point_color">
             <name xml:lang="ko">포인트 점 색</name> 
@@ -248,6 +288,7 @@
             <name xml:lang="jp">ポイントの色</name>
 	    <name xml:lang="es">Color del Punto</name>
 	    <name xml:lang="en">Color of Points</name>
+	    <name xml:lang="ru">Цвет поинтов</name>
             <type>text</type>
             <description xml:lang="ko"><![CDATA[그래프의 꺽인 포인트 부분의 점 색을 지정할 수 있습니다.
                 기본 : <span style="color:#ed3027">#ed3027</span>
@@ -264,6 +305,9 @@
 	    <description xml:lang="en"> <![CDATA[Set the color of the points as the assigned color code. 
 		Default : <span style="color:#ed3027">#ed3027</span>
 		Input as # + 6 digit color code.]]> </description>
+	    <description xml:lang="ru"><![CDATA[Установить цвет поинтов как присвоенный цвет. 
+		Стандарт : <span style="color:#ed3027">#ed3027</span>
+		Вводите как # + 6-ти цифровой код цвета.]]> </description>
         </var>
     </extra_vars>
 </widget>

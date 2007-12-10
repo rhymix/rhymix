@@ -97,9 +97,9 @@
 
                     <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
                     <td rowspan="2" class="thumb"><a href="{getUrl('','document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" /></a></td>
-                    <td class="webzineTitle bold">
+                    <td class="webzineTitle">
                     <!--@else-->
-                    <td class="webzineTitle bold" colspan="2">
+                    <td class="webzineTitle" colspan="2">
                     <!--@end-->
                         <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
                         <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
@@ -130,7 +130,12 @@
                 <!--@if($module_info->display_regdate != 'N')-->{@ $_col_count++ }<!--@end-->
                 <!--@if($module_info->display_last_update == 'Y')-->{@ $_col_count++ }<!--@end-->
                 <tr class="bg{($no+1)%2+1}">
-                    <td colspan="{$_col_count}" class="summary"><a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(120)}</a>&nbsp;</td>
+                    <td colspan="{$_col_count}" class="summary">
+                        <!--@if($grant->view)-->
+                        <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(120)}</a>
+                        <!--@end-->
+                        &nbsp;
+                    </td>
                 </tr>
             <!--@end-->
         <!--@end-->

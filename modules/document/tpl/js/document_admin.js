@@ -69,3 +69,21 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
         obj.options[obj.options.length] = opt;
     }
 }
+
+function doCancelDeclare() {
+    var fo_obj = xGetElementById('fo_list');
+    var document_srl = new Array();
+    for(var i=0;i<fo_obj.cart.length;i++) {
+        if(fo_obj.cart[i].checked) document_srl[document_srl.length] = fo_obj.cart[i].value;
+    }
+    if(document_srl.length<1) return;
+
+    var params = new Array();
+    params['document_srl'] = document_srl.join(',');
+
+    exec_xml('document','procDocumentAdminCancelDeclare', params, completeCancelDeclare);
+}
+
+function completeCancelDeclare(ret_obj) {
+    location.reload();
+}

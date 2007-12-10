@@ -5,16 +5,19 @@
     <title xml:lang="jp">トラックバック</title>
     <title xml:lang="en">Trackback</title> 
     <title xml:lang="es">Trackback</title>
+    <title xml:lang="ru">Трекбек</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
-     	<name xml:lang="en">Zero</name>
+     	<name xml:lang="es">Zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">엮인글 관리 모듈</description>
         <description xml:lang="zh-CN">管理引用模块。</description>
         <description xml:lang="jp">トラックバック管理モジュール</description>
-        <description xnl:lang="en">Module for managing trackbacks</description> 
-	    <description xnl:lang="es">Módulo para el manejo de trackbacks</description>
+        <description xnl:lang="en">Module for managing trackbacks.</description> 
+		<description xnl:lang="es">Módulo para el manejo de trackbacks.</description>
+        <description xnl:lang="ru">Модуль для управления трекбеками.</description> 
     </author>
 </module>

@@ -75,8 +75,9 @@
                         if(!$start_year) $start_year = date("Y");
                         for($i=$start_year;$i<=date("Y");$i++) {
                             unset($args);
-                            $args->regdate = sprintf('%04d', $i);
-                            $output = executeQuery('counter.getCounterLog', $args);
+                            $args->start_date = sprintf('%04d0000', $i);
+                            $args->end_date = sprintf('%04d1231', $i);
+                            $output = executeQuery('counter.getCounterLogStatus', $args);
                             $count = (int)$output->data->count;
                             $status->list[$i] = $count;
                             if($count>$max) $max = $count;
@@ -88,21 +89,19 @@
                         $year = substr($selected_date, 0, 4);
                         for($i=1;$i<=12;$i++) {
                             unset($args);
-                            $args->regdate = sprintf('%04d%02d', $year, $i);
-                            $output = executeQuery('counter.getCounterLog', $args);
+                            $args->start_date = sprintf('%04d%02d00', $year, $i);
+                            $args->end_date = sprintf('%04d%02d31', $year, $i);
+                            $output = executeQuery('counter.getCounterLogStatus', $args);
                             $count = (int)$output->data->count;
-                            $status->list[$i] = $count;
+                            $status->list[$i] = (int)$count;
                             if($count>$max) $max = $count;
                             $sum += $count;
                         }
                     break;
-                case 'day' :
-                        $year = substr($selected_date, 0, 4);
-                        $month = substr($selected_date, 4, 2);
-                        $end_day = date('t', mktime(0,0,0,$month,1,$year));
-                        for($i=1;$i<=$end_day;$i++) {
+                case 'hour' :
+                        for($i=0;$i<24;$i++) {
                             unset($args);
-                            $args->regdate = sprintf('%04d%02d%02d', $year, $month, $i);
+                            $args->regdate = sprintf('%08d%02d', $selected_date, $i);
                             $output = executeQuery('counter.getCounterLog', $args);
                             $count = (int)$output->data->count;
                             $status->list[$i] = $count;
@@ -111,10 +110,14 @@
                         }
                     break;
                 default : 
-                        for($i=0;$i<24;$i++) {
+                        $year = substr($selected_date, 0, 4);
+                        $month = substr($selected_date, 4, 2);
+                        $end_day = date('t', mktime(0,0,0,$month,1,$year));
+                        for($i=1;$i<=$end_day;$i++) {
                             unset($args);
-                            $args->regdate = sprintf('%08d%02d', $selected_date, $i);
-                            $output = executeQuery('counter.getCounterLog', $args);
+                            $args->start_date = sprintf('%04d%02d%02d', $year, $month, $i);
+                            $args->end_date = sprintf('%04d%02d%02d', $year, $month, $i);
+                            $output = executeQuery('counter.getCounterLogStatus', $args);
                             $count = (int)$output->data->count;
                             $status->list[$i] = $count;
                             if($count>$max) $max = $count;

@@ -13,12 +13,12 @@
     $lang->admin_group = "Managing Group";
     $lang->remember_user_id = 'Save ID';
     $lang->already_logged = "You're already logged on";
-    $lang->denied_user_id = 'Sorry. This ID is prohibited.';
+    $lang->denied_user_id = 'Entered ID is prohibited.';
     $lang->null_user_id = 'Please input user ID';
     $lang->null_password = 'Please input password';
     $lang->invalid_authorization = 'It is not certificated';
-    $lang->invalid_user_id= "This ID doesn't exist";
-    $lang->invalid_password = 'This is wrong password';
+    $lang->invalid_user_id= "You have entered an invalid ID";
+    $lang->invalid_password = 'You have entered an invalid password';
     $lang->allow_mailing = 'Join Mailing';
     $lang->allow_message = 'Allow Message Reception';
     $lang->allow_message_type = array(
@@ -123,7 +123,7 @@
     $lang->msg_success_authed = 'Your account has been successfully authenticated and logged on. Please modify the password to your own one using the password in the authentication mail.';
 
     $lang->msg_no_message = 'There are no messages';
-    $lang->message_received = 'You got a new message';
+    $lang->message_received = 'You have a new message';
 
     $lang->msg_new_member = 'Add Member';
     $lang->msg_update_member = 'Modify Member Info';
@@ -147,16 +147,16 @@
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
 
-    $lang->msg_accept_agreement = 'You have to agree to agreement first'; 
+    $lang->msg_accept_agreement = 'You have to agree to the agreement'; 
 
-    $lang->msg_user_denied = 'Inputted ID is now prohibited';
-    $lang->msg_user_limited = 'Inputted ID can be used after %s';
+    $lang->msg_user_denied = 'This ID is prohibited';
+    $lang->msg_user_limited = 'This ID can be used after %s';
 
     $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
     $lang->about_password = 'Password should be 6~20 letters long';
     $lang->about_user_name = 'Name should be 2~20 letters long';
     $lang->about_nick_name = 'Nickname should be 2~20 letters long';
-    $lang->about_email_address = 'Email address is used to modify/find password after email certification';
+    $lang->about_email_address = 'Email address will be used to modify/find password after email certification';
     $lang->about_homepage = 'Please input if you have your websites';
     $lang->about_blog_url = 'Please input if you have your blogs';
     $lang->about_birthday = 'Please input your birth date';

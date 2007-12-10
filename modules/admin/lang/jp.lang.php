@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -24,7 +24,7 @@
     $lang->current_version = "インストールバージョン";
     $lang->current_path = "インストールパス";
     $lang->released_version = "最新バージョン";
-    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されました。ダウンロードリンクをクリックするとダウンロードできます。";
+    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。ダウンロードリンクをクリックするとダウンロードできます。";
 
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
@@ -40,12 +40,12 @@
 
     $lang->cmd_shortcut_management = "メニュー編集";
 
-    $lang->msg_is_not_administrator = '管理者のみ接続できます';
+    $lang->msg_is_not_administrator = '管理者のみアクセスできます';
     $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除できません。';
     $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することができません。';
 
     $lang->welcome_to_zeroboard_xe = 'ゼロボードXEの管理者ページです。';
-    $lang->about_admin_page = "管理者ページはまだ未完成です。クローズベタバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
+    $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベタバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
     $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックしてください。";
 
     $lang->zeroboard_xe_user_links = 'ユーザのためのリンク';
@@ -63,8 +63,8 @@
     );
 
     $lang->xe_developer_links = array(
-        'デベロッパーフォーラム' => 'http://spring.zeroboard.com',
-        //'マニュアル' => 'http://www.zeroboard.com/wiki/manual',
+        'マニュアル' => 'http://www.zeroboard.com/wiki/manual',
+        //'デベロッパーフォーラム' => 'http://spring.zeroboard.com',
         'イッシュートラッキング' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'Doxygen Document' => 'http://doc.zeroboard.com',

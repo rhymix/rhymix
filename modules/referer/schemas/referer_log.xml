@@ -1,0 +1,5 @@
+<table name="referer_log">
+    <column name="host" type="varchar" size="64" notnull="notnull" /> 
+    <column name="url" type="varchar" size="250" notnull="notnull" /> 
+    <column name="regdate" type="date" index="idx_referer_log" />
+</table>

@@ -1,4 +1,4 @@
-<query id="getDocumentList" action="select">
+<query id="getNewestDocuments" action="select">
     <tables>
         <table name="documents" />
     </tables>

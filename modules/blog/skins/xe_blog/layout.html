@@ -13,7 +13,6 @@
 
 <!-- CSS 파일 로드 (컬러셋에 따라서) -->
     <!--%import("css/common.css")-->
-
     <!--@if($layout_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
     <!--@elseif($layout_info->colorset == "red")--> <!--%import("css/red.css")-->
     <!--@elseif($layout_info->colorset == "green")--> <!--%import("css/green.css")-->
@@ -119,8 +118,8 @@
 			<div id="searchBox">
 				<form action="{getUrl()}" method="post">
                     <input type="hidden" name="mid" value="{$layout_info->mid}" />
-					<input name="search_keyword" type="text" class="inputTypeText w140" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
-					<input type="image" alt="search" src="./images/common/find_button.gif" width="21" height="21" align="absmiddle" />
+					<input name="search_keyword" type="text" class="inputTypeText w140" size="4" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+					<input type="image" alt="search" src="./images/common/find_button.gif" class="imgBtn" />
 				</form>
 			</div>
 
@@ -130,22 +129,22 @@
             <!-- 왼쪽 위젯 출력 위치 -->
 
             <!-- 최근문서 출력 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="{$layout_info->colorset}" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 최근댓글 출력 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="{$layout_info->colorset}" title="Recent Comments" list_count="10" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" title="Recent Comments" list_count="10" mid_list="{$layout_info->mid}" />
 
             <!-- 엮인글들 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="{$layout_info->colorset}" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->mid}" />
 
             <!-- 꼬리표들 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" colorset="{$layout_info->colorset}" title="Site Tags" list_count="60" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" title="Site Tags" list_count="60" mid_list="{$layout_info->mid}" />
 
             <!-- 월별 현황들 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" colorset="{$layout_info->colorset}" title="Archives" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" title="Archives" mid_list="{$layout_info->mid}" />
 
             <!-- 달력 -->
-            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="{$layout_info->colorset}" mid_list="{$layout_info->mid}" />
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" mid_list="{$layout_info->mid}" />
 
             <!-- 카운터 -->
             <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="image_counter" widget_margin_left="5px" widget_margin_bottom="10px" graph_width="170" graph_height="100" day_range="5" />

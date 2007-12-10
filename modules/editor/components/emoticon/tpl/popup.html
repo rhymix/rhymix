@@ -2,13 +2,22 @@
 <!--%import("popup.css")-->
 
 <div id="popHeadder">
-    <h1>{$component_info->title} ver. {$component_info->version}</h1>
+    <h3>
+        {$component_info->title} ver. {$component_info->version}
+    </h3>
+</div>
+
+<div class="emoticonList">
+    <select name="list" onchange="getEmoticons(this.options[this.selectedIndex].value); return false;">
+    <!--@foreach($emoticon_list as $key => $val)-->
+        <option value="{$val}">{$val}</option>
+    <!--@end-->
+    </select>
 </div>
 
 <div id="popBody">
-
-    <!--@foreach($emoticon_list as $emoticon)-->
-    <img src="images/{$emoticon}" alt="emoticon" onclick="insertEmoticon(this); return false;" class="emoticon" />
+    <!--@foreach($emoticons as $src)-->
+    <img src="images/{$src}" alt="{$src}" onclick="insertEmoticon(this); return false;" class="emoticon" />
     <!--@end-->
 
 </div>

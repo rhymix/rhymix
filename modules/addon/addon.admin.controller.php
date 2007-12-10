@@ -56,7 +56,7 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons();
             foreach($addon_list as $addon=> $val) {
-                if($val->is_used != 'Y') continue;
+                if($val->is_used != 'Y' || !is_dir('./addons/'.$addon) ) continue;
 
                 if($val->extra_vars) {
                     unset($extra_vars);

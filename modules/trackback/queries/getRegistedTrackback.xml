@@ -1,0 +1,18 @@
+<query id="getRegistedTrackback" action="select">
+    <tables>
+        <table name="trackbacks" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="more" column="regdate" var="regdate" notnull="notnull" />
+        <group pipe="and">
+            <condition operation="like_prefix" column="ipaddress" var="ipaddress" />
+            <condition operation="equal" column="url" var="url" pipe="or" />
+            <condition operation="equal" column="blog_name" var="blog_name" pipe="or" />
+            <condition operation="equal" column="title" var="title" pipe="or" />
+            <condition operation="equal" column="excerpt" var="excerpt" pipe="or" />
+        </group>
+    </conditions>
+</query>

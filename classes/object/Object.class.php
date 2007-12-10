@@ -86,7 +86,7 @@
             $args_list = func_get_args();
             for($i=0;$i<$num_args;$i++) {
                 $key = $args_list[$i];
-                $output->{$key} = $this->gets($key);
+                $output->{$key} = $this->get($key);
             }
             return $output;
         }

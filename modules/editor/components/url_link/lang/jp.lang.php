@@ -1,13 +1,13 @@
 <?php
     /**
      * @file   /modules/editor/components/urllink/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディターモジュール > urllink コンポネント言語パッケージ
      **/
 
     $lang->urllink_title = "タイトル";
     $lang->urllink_url = "URL";
-    $lang->urllink_open_window = "新しい窓で開く";
+    $lang->urllink_open_window = "新しいウィンドウで開く";
     $lang->urllink_bold = "太字にする";
 
     $lang->urllink_color = "リンクカラー ";

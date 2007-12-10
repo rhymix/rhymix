@@ -1,0 +1,34 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--%import("css/default.css")-->
+
+<div class="szrank_count">
+<div class="sz_{$colorset}">
+    <!--@if($widget_info->title)-->
+    <h2>{$widget_info->title} Top {$widget_info->list_count}</h2>
+    <!--@end-->
+    <!--@if($widget_info->period)-->
+    <h5>(기간: {$widget_info->period}일, {$widget_info->date_from}~)</h5>
+    <!--@end-->
+
+    <table>
+    {@ $no = 1}
+    <!--@foreach($widget_info->data as $val)-->
+    <tr>
+        <td class="left">{$no}위. <span class="member_{$val->member_srl}">{$val->nick_name}</span></td>
+        <td class="center">{$val->count}회</td>
+        <td class="right">
+            <!--@if($logged_info->is_admin == "Y")-->
+                <!--@if($widget_info->rankby == "document")-->
+                <a href="{getUrl('module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$val->member_srl)}" target="_blank">[작성글]</a>
+                <!--@elseif($widget_info->rankby == "comment")-->
+                <a href="{getUrl('module','admin','act','dispCommentAdminList','search_target','user_id','search_keyword',$val->user_id)}" target="_blank">[작성댓글]</a>
+                <!--@end-->
+            <!--@end-->
+        </td>
+    </tr>
+    {@ $no++}
+    <!--@end-->
+    </table>
+</div>
+</div>

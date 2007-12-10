@@ -60,6 +60,9 @@
     </table>
 
 <!-- 버튼 -->
+<div class="fl gap1">
+    <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
+</div>
 <div class="fr gap1">
     <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
 </div>
@@ -67,6 +70,7 @@
 </form>
 
 <!-- 페이지 네비게이션 -->
+<div class="clear"></div>
 <div class="pageNavigation">
     <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->

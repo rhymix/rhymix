@@ -59,7 +59,10 @@
             if(!method_exists($oComponent, $method)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
             //$output = call_user_method($method, $oComponent);
-            $output = call_user_func(array($oComponent, $method));
+            //$output = call_user_func(array($oComponent, $method));
+            if(method_exists($oComponent, $method)) $output = $oComponent->{$method}();
+            else return new Object(-1,sprintf('%s method is not exists', $method));
+
             if((is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
 
             $this->setError($oComponent->getError());

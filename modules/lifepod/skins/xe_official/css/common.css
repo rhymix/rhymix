@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader { border:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden; _width:100%;}
+.boardHeader h3 { float:left; font-size:1.2em; padding:1em 2em .7em 1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+
+/* board Information */
+.boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
+.articleNum { float:left; padding:0 0 0 15px; }
+
+.CalendarViewDay
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#8888cc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarView4Day
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#8888cc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarViewWeek
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#8888cc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarView2Week
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#8888cc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarViewMonth
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#8888cc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarMoveToday
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#cccccc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarMoveNext
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#cccccc;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.CalendarMovePrev
+{
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    border-color:#cccccc;
+    cursor: pointer;
+    margin-right: 2px;
+}

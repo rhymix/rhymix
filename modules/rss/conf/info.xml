@@ -5,16 +5,19 @@
     <title xml:lang="jp">RSS</title>
     <title xml:lang="en">RSS</title>
 	<title xml:lang="es">RSS</title>
+    <title xml:lang="ru">RSS</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
-        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
-		<name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">RSS 출력을 담당하는 모듈</description>
         <description xml:lang="zh-CN">负责输出RSS的模块。</description>
         <description xml:lang="jp">RSS出力を担うモジュールです。</description>
         <description xml:lang="en">This modules is for printing RSS.</description>
-		<description xml:lang="en">Este módulo es para imprimir RSS.</description>
+		<description xml:lang="es">Este módulo es para imprimir RSS.</description>
+        <description xml:lang="ru">Этот модуль служит для печати RSS.</description>
     </author>
 </module>

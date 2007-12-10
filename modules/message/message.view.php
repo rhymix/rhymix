@@ -19,7 +19,7 @@
         function dispMessage() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('rss');
+            $config = $oModuleModel->getModuleConfig('message');
             if(!$config->skin) $config->skin = 'default';
 
             // 템플릿 경로를 지정

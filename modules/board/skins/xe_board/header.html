@@ -103,6 +103,8 @@
 
             <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
 
+            <li class="tag_info"><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/common/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
+
         <!-- 목록형태 (포럼형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
             <!--@if($module_info->default_style != 'forum')-->
             <li class="listType"><a href="{getUrl('listStyle','list')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>

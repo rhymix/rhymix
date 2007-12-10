@@ -42,7 +42,7 @@
             $module_srl = $obj->module_srl;
             $document_srl = $obj->document_srl;
             $tags = $obj->tags;
-            if(!$document_srl || !$tags) return new Object();
+            if(!$document_srl) return new Object();
 
             // 해당 글의 tags를 모두 삭제
             $output = $this->triggerDeleteTag($obj);

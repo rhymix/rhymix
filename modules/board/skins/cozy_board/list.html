@@ -1,0 +1,71 @@
+<!-- header.html include -->
+    <!--#include("header.html")-->
+
+<!-- 검색을 위한 xml filter import-->
+    <!--%import("filter/search.xml")-->
+
+<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+    <!--@if($oDocument->isExists())-->
+        <!--#include("./view_document.html")-->
+    <!--@end-->
+
+<!-- 목록 출력 -->
+    <!--@if($module_info->default_style == 'webzine')-->
+        <!--#include("./style.webzine.html")-->
+    <!--@elseif($module_info->default_style == 'gallery')-->
+        <!--#include("./style.gallery.html")-->
+    <!--@else-->
+        <!--#include("./style.list.html")-->
+    <!--@end-->
+
+
+<!-- 페이지 네비게이션 -->
+<div class="pageNavigation">
+
+    <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="goToFirst"><img src="./images/common/icon_gofirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <span class="current">{$page_no}</span> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="goToLast"><img src="./images/common/icon_golast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+</div>
+
+
+<!-- 글쓰기, 목록 버튼 -->
+<div class="buttonBox">
+    <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}"><img src="./images/common/btn_list.gif" alt="{$lang->cmd_list}" /></a>
+    <!--@if($grant->write_document)-->
+    <a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="./images/common/btn_write.gif" alt="{$lang->cmd_write}" /></a>
+    <!--@end-->
+    <!--@if($grant->is_admin)-->
+        <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="./images/common/btn_manage.gif" alt="{$lang->cmd_manage_document}" /></a>
+    <!--@end-->
+</div>
+<div class="clear"></div>
+
+<!-- 검색 -->
+<!--@if($grant->view)-->
+<form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search" class="boardSearch">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="category" value="{$category}" />
+
+    <fieldset>
+        <select name="search_target">
+            <!--@foreach($search_option as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
+        <!--@if($last_division)-->
+        <input type="button" onclick="location.href='{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}';return false;" value="{$lang->cmd_search_next}" class="searchNextButton"/>
+        <!--@end-->
+        <input type="image" src="./images/common/btn_search.gif" alt="{$lang->cmd_search}" />
+        <input type="image" onclick="location.href='{getUrl('','mid',$mid)}';return false;" src="./images/common/btn_cancel.gif" alt="{$lang->cmd_cancel}" />
+    </fieldset>
+</form>
+<!--@end-->
+
+<!--#include("footer.html")-->

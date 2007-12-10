@@ -33,6 +33,11 @@
             if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
 
+            // 현재 글이 있는 모듈의 타이틀 지정
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+            Context::setBrowserTitle($module_info->browser_title);
+
             // 엮인글 발송
             return $this->sendTrackback($oDocument, $trackback_url, $charset);
         }
@@ -91,6 +96,12 @@
             $obj = Context::gets('document_srl','blog_name','url','title','excerpt');
             if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
 
+            // 올바른 trackback url인지 검사
+            $given_key = Context::get('key');
+            $oTrackbackModel = &getModel('trackback');
+            $key = $oTrackbackModel->getTrackbackKey($obj->document_srl);
+            if($key != $given_key) return $this->stop('fail');
+
             // 엮인글 모듈의 기본 설정을 받음
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('trackback');
@@ -109,6 +120,15 @@
         }
 
         function insertTrackback($obj, $manual_inserted = false) {
+            // 엮인글 정리
+            $obj = Context::convertEncoding($obj);
+            if(!$obj->blog_name) $obj->blog_name = $obj->title;
+            $obj->excerpt = strip_tags($obj->excerpt);
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('trackback.insertTrackback', 'before', $obj);
+            if(!$output->toBool()) return $output;
+
             // GET으로 넘어온 document_srl을 참조, 없으면 오류~
             $document_srl = $obj->document_srl;
 
@@ -124,10 +144,6 @@
                 $obj->module_srl = $oDocument->get('module_srl');
             }
 
-            // 엮인글 정리
-            $obj = Context::convertEncoding($obj);
-            if(!$obj->blog_name) $obj->blog_name = $obj->title;
-            $obj->excerpt = strip_tags($obj->excerpt);
 
             // 엮인글를 입력
             $obj->trackback_srl = getNextSequence();
@@ -277,6 +293,25 @@
             fclose($fp);
 
             return new Object(0, 'msg_trackback_send_success');
+        }
+
+        /**
+         * @brief 특정 ipaddress의 특정 시간대 내의 엮인글을 모두 삭제
+         **/
+        function deleteTrackbackSender($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
+            $obj->regdate = date("YmdHis",time()-$time);
+            $obj->ipaddress = $ipaddress;
+            $obj->url = $url;
+            $obj->blog_name = $blog_name;
+            $obj->title = $title;
+            $obj->excerpt = $excerpt;
+            $output = executeQueryArray('trackback.getRegistedTrackbacks', $obj);
+            if(!$output->data || !count($output->data)) return;
+
+            foreach($output->data as $trackback) {
+                $trackback_srl = $trackback->trackback_srl;
+                $this->deleteTrackback($trackback_srl, true);
+            }
         }
     }
 ?>

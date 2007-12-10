@@ -20,6 +20,13 @@
 .widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
 
+.widgetOutput .widgetBoxBorder { border:1px dotted #267BEE; z-index:999; }
+.widgetOutput .widgetBoxCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:1px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetBoxSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:15px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetBoxRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:30px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetBoxResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
+.widgetOutput .widgetBoxResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
+
 #pageSizeLayer { width:500px; overflow:hidden; border:1px solid #888888; background:#FFFFFF; z-index:2000; position:absolute; }
 #pageSizeLayer table { border:0; width:100%; table-layout:fixed; }
 #pageSizeLayer table th { padding:4px 0 4px 0; background-color:#DEDEDE; text-align:center; color:#888888;}
@@ -33,3 +40,5 @@
 #pageSizeLayer .small_input { background:#FFFFFF; border:1px solid #AAAAAA; padding:1px; font:8pt verdana; width:20px; }
 #pageSizeLayer .color_input { background:#FFFFFF; border:1px solid #AAAAAA; padding:1px; font:8pt verdana; width:50px; }
 #pageSizeLayer .submit { width:90%; border:1px solid #DEDEDE; background-color:#FFFFFF;}
+
+div.editor { width:700px; }

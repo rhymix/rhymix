@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="list" default="guest">
+            <title xml:lang="ko">목록</title>
+			<title xml:lang="zh-CN">目录</title>
+            <title xml:lang="jp">リスト</title>
+            <title xml:lang="en">list</title>
+        </grant>
+        <grant name="view" default="guest">
+            <title xml:lang="ko">열람</title>
+			<title xml:lang="zh-CN">查看</title>
+            <title xml:lang="jp">閲覧</title>
+            <title xml:lang="en">view</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispSpringnoteContent" type="view" index="true" />
+
+        <action name="dispSpringnoteAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispSpringnoteAdminSpringnoteInfo" type="view" standalone="true" />
+        <action name="dispSpringnoteAdminInsertSpringnote" type="view" standalone="true" />
+        <action name="dispSpringnoteAdminDeleteSpringnote" type="view" standalone="true" />
+        <action name="dispSpringnoteAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispSpringnoteAdminSkinInfo" type="view" standalone="true" />
+
+        <action name="procSpringnoteAdminInsertSpringnote" type="controller" standalone="true" />
+        <action name="procSpringnoteAdminDeleteSpringnote" type="controller" standalone="true" />
+        <action name="procSpringnoteAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procSpringnoteAdminUpdateSkinInfo" type="controller" standalone="true" />
+    </actions>
+</module>

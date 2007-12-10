@@ -1,0 +1,57 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<div id="popHeadder">
+    <h3>{$component_info->title} ver. {$component_info->version}</h3>
+</div>
+
+<div id="popBody">
+
+    <table border="0">
+    <col width="190" />
+    <col />
+    <tr valign="top">
+        <td>
+            <div class="search">
+                <form action="./" method="get" onSubmit="search_address(); return false;" id="fo">
+                <input type="hidden" id="map_x" name="x" value="" />
+                <input type="hidden" id="map_y" name="x" value="" />
+                <input type="hidden" id="marker" name="marker_1" value="" />
+
+                <table border="0">
+                <tr>
+                    <td><input type="text" class="inputTypeText" id="address" value="" /></td>
+                    <td><span class="button"><input type="submit" value="{$lang->cmd_search}" /></span></td>
+                </tr>
+                </table>
+
+                <div class="about_address">{$lang->about_address}</div>
+
+                </form>
+            </div>
+
+            <div class="address_list_box" id="address_list">{$lang->about_address_use}</div>
+
+            <table cellspacing="0" class="tableType5 gap1">
+            <tr>
+                <th scope="row">{$lang->map_width}</th>
+                <td><input type="text" class="inputTypeText" size="3" id="map_width" value="400" />px</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang->map_height}</th>
+                <td><input type="text" class="inputTypeText" size="3" id="map_height" value="300" />px</td>
+            </table>
+        </td>
+        <td>
+            <iframe name="display_map" id="display_map" frameBorder="0" src="./?module=editor&amp;component=naver_map&amp;act=procEditorCall&amp;method=displayMap&amp;width=400&amp;height=400"></iframe>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter" class="tCenter">
+    <a href="#" onclick="insertNaverMap()" class="button"><span>{$lang->cmd_insert}</span></a>
+    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+</div>

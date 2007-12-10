@@ -71,7 +71,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title a:visited { color:#777777;}
 
 .boardList td.topic { padding-left:1em; color:#888888; }
-.boardList td.topic strong a { font-size:1.2em; font-weight:bold; text-decoration:none; color:#444444; }
+.boardList td.topic strong a { font-size:1.2em; font-weight:normal; text-decoration:none; color:#444444; }
 .boardList td.topic strong a:visited { color:#777777; }
 .boardList td.topic .category { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 3px; padding-left:.5em; margin-left:.5em; color:#AAAAAA; }
 .boardList td.topic div.author { margin-top:.5em; color:#BBBBBB; font-size:0.8em; }
@@ -296,3 +296,16 @@ Jeong, Chan Myeong 070601~070630
 /* 게시물의 팝업 메뉴 */
 .comment_popup_menu, .document_popup_menu { text-align:right; margin-top:3em; clear:both; display:block;  background:url(../images/common/document_menu.gif) no-repeat right top; padding-right:16px;  height:18px; }
 .comment_popup_menu span, .document_popup_menu span { cursor:pointer; display:inline; background:none; padding:0 0 0 0; margin:0 0 0 0; }
+
+/* tag list */
+.tagsBox { border:1px solid #EEEEEE; padding:10px; overflow:hidden;}
+.tags { width:100%; }
+.tags div { float:left; padding:2px; margin-right:10px; overflow:hidden; white-space:nowrap; height:15px;}
+.tags div a { text-decoration:none; color:#555555; line-height:150%;}
+.tags div a:hover { background-color:#888888; color:#FFFFFF;}
+.tags .tagTypeA a { color:#fe3614; font-weight:bold; font-size:12pt; background-color:#EFEFEF; margin:0;}
+.tags .tagTypeB a { color:#fe3614; font-size:11pt; margin:0;}
+.tags .tagTypeC a { font-weight:bold; font-size:11pt; margin:0; background-color:#EFEFEF;}
+.tags .tagTypeD a { font-weight:bold; margin:0; background-color:#EFEFEF;}
+.tags .tagTypeE a { font-weight:normal; margin:0;}
+

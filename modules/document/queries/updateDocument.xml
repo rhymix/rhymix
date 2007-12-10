@@ -19,6 +19,7 @@
         <column name="email_address" var="email_address" filter="email" maxlength="250" />
         <column name="homepage" var="homepage" filter="homepage" maxlength="250" />
         <column name="tags" var="tags" />
+        <column name="extra_vars" var="extra_vars" />
         <column name="last_update" var="last_update" default="curdate()" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
         <column name="list_order" var="list_order" />

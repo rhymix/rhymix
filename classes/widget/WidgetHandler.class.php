@@ -73,7 +73,7 @@
                 $widget_padding_top = $args->widget_padding_top;
                 $widget_padding_bottom = $args->widget_padding_bottom;
                 if($include_info) {
-                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s"><div class="widgetCopy"></div><div class="widgetSize"></div><div class="widgetRemove"></div><div class="widgetResize"></div><div class="widgetResizeLeft"></div><div class="widgetBorder"><div class="nullWidget" style="padding:%s %s %s %s;">', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
+                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s"><div class="widgetBoxCopy"></div><div class="widgetBoxSize"></div><div class="widgetBoxRemove"></div><div class="widgetBoxResize"></div><div class="widgetBoxResizeLeft"></div><div class="widgetBoxBorder"><div class="nullWidget" style="padding:%s %s %s %s;">', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
                 } else {
                     $tpl = sprintf('<div style="overflow:hidden;%s;"><div style="padding:%s %s %s %s;"><div>%s', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $body);
                 }

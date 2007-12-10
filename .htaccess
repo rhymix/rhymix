@@ -25,6 +25,9 @@ RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
 # document + act link
 RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$2 [L]
 
+# document + key + act link
+RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$3&key=$2 [L]
+
 # mid + document link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
 
@@ -54,6 +57,3 @@ RewriteRule ^([a-zA-Z0-9_]+)/writer/(.*)$ ./index.php?mid=$1&search_target=nick_
 
 # module link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
-
-# css/img/js/htc등의 경로 처리
-RewriteRule ^(.+)/common/js/iePngFix.htc ./common/js/iePngFix.htc [L]

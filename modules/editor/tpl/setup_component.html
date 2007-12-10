@@ -2,7 +2,7 @@
 <!--%import("filter/setup_component.xml")-->
 
 <div id="popHeadder">
-    <h1>{$lang->cmd_setup}</h1>
+    <h3>{$lang->cmd_setup}</h3>
 </div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
@@ -29,7 +29,7 @@
         <tr>
             <th scope="row">{$val->title}</th>
             <td>
-                <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText" />
+                <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText w400" />
                 <p>{$val->description}</p>
             </td>
         </tr>

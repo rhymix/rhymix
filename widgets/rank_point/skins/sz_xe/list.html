@@ -1,0 +1,26 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--%import("css/default.css")-->
+
+<div class="sz_point">
+<div class="sz_{$colorset}">
+    <!--@if($widget_info->title)-->
+    <h2>{$widget_info->title} Top {$widget_info->list_count}</h2>
+    <!--@end-->
+    <table>
+    {@ $no = 1}
+    <!--@foreach($widget_info->point_list as $val)-->
+    <tr>
+        <td class="left">{$no}위. <div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
+        <td class="center">{$val->point}점</td>
+        <td class="right">
+            <!--@if($logged_info->is_admin == "Y")-->
+            <a href="{getUrl('module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$val->member_srl)}" target="_blank">[작성글]</a>
+            <!--@end-->
+        </td>
+    </tr>
+    {@ $no++}
+    <!--@end-->
+    </table>
+</div>
+</div>

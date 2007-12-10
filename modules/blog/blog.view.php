@@ -88,7 +88,7 @@
 
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
 
-            // document_srl이 있다면 해당 글을 구해오자
+            // document_srl이 있다면 해당 글만 출력
             if($this->grant->list && $document_srl) {
 
                 // 글을 구함
@@ -109,74 +109,71 @@
                     // 조회수 증가
                     $oDocument->updateReadedCount();
 
-                    // 목록수를 1개로 수정 (글이 선택되었을 때만)
-                    $this->list_count = 1;
+                    // 카테고리 설정
+                    Context::set('category', $oDocument->get('category_srl'));
 
-                    // 페이지 변수를 제거하여 직접 구하도록 변경
-                    unset($page);
+                    // comment editor 생성/ 세팅
+                    $comment_editor[$oDocument->document_srl] = $this->getCommentEditor($oDocument->document_srl, 0, 100);
+                    Context::set('comment_editor', $comment_editor);
                 }
-
             }
 
             Context::set('oDocument', $oDocument);
 
-            // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && !$page) {
-                $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
-                Context::set('page', $page);
-            }
+            // document_srl이 없다면 정해진데로 목록을 구함
+            if(!$oDocument->isExists()) {
+                // 목록을 구하기 위한 옵션
+                $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
+                $args->page = $page; ///< 페이지
+                $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
+                $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
 
-            // 목록을 구하기 위한 옵션
-            $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
-            $args->page = $page; ///< 페이지
-            $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
-            $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
+                // 검색 옵션
+                $args->search_target = trim(Context::get('search_target')); ///< 검색대상
+                $args->search_keyword = trim(Context::get('search_keyword')); ///< 검색어
 
-            // 검색 옵션
-            $args->search_target = trim(Context::get('search_target')); ///< 검색대상
-            $args->search_keyword = trim(Context::get('search_keyword')); ///< 검색어
+                // 키워드 검색이 아닌 검색일 경우 목록의 수를 40개로 고정
+                if($args->search_target && $args->search_keyword) $args->list_count = 40;
 
-            // 키워드 검색이 아닌 검색일 경우 목록의 수를 40개로 고정
-            if($args->search_target && $args->search_keyword) $args->list_count = 40;
+                // 키워드 검색의 경우 제목,내용으로 검색 대상 고정
+                if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; 
 
-            // 키워드 검색의 경우 제목,내용으로 검색 대상 고정
-            if($args->search_keyword && !$args->search_target) $args->search_target = "title_content"; 
+                // 블로그 카테고리 
+                $args->category_srl = (int)Context::get('category');
 
-            // 블로그 카테고리 
-            $args->category_srl = (int)Context::get('category');
+                $args->sort_index = 'list_order'; ///< 소팅 값
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
+                // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조
+                $output = $oDocumentModel->getDocumentList($args, true);
 
-            // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조
-            $output = $oDocumentModel->getDocumentList($args, true);
+                // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
+                Context::set('total_count', $output->total_count);
+                Context::set('total_page', $output->total_page);
+                Context::set('page', $output->page);
+                Context::set('document_list', $output->data);
+                Context::set('page_navigation', $output->page_navigation);
 
-            // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('document_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-
-            // 문서 갯수만큼 comment editor 생성
-            if(count($output->data)) {
-                foreach($output->data as $obj) {
-                    $comment_editor[$obj->document_srl] = $this->getCommentEditor($obj->document_srl, 0, 100);
+                // 문서 갯수만큼 comment editor 생성
+                if(count($output->data)) {
+                    foreach($output->data as $obj) {
+                        $comment_editor[$obj->document_srl] = $this->getCommentEditor($obj->document_srl, 0, 100);
+                    }
                 }
-            }
 
-            // 에디터 세팅
-            Context::set('comment_editor', $comment_editor);
+                // 에디터 세팅
+                Context::set('comment_editor', $comment_editor);
 
-            // 템플릿에서 사용할 검색옵션 세팅
-            $count_search_option = count($this->search_option);
-            for($i=0;$i<$count_search_option;$i++) {
-                $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
+                // 템플릿에서 사용할 검색옵션 세팅
+                $count_search_option = count($this->search_option);
+                for($i=0;$i<$count_search_option;$i++) {
+                    $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
+                }
+                Context::set('search_option', $search_option);
             }
-            Context::set('search_option', $search_option);
 
             // 블로그의 코멘트는 ajax로 호출되기에 미리 css, js파일을 import
-            Context::addJsFile('./modules/editor/tpl/js/editor.js');
-            Context::addCSSFile('./modules/editor/tpl/css/editor.css');
+            //Context::addJsFile('./modules/editor/tpl/js/editor.js');
+            //Context::addCSSFile('./modules/editor/tpl/css/editor.css');
 
             $this->setTemplateFile('list');
         }
@@ -269,7 +266,7 @@
             $oSourceComment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$oSourceComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$oSourceComment->isExists()) return $this->dispBlogMessage('msg_invalid_request');
 
             // 대상 댓글을 생성
             $oComment = $oCommentModel->getComment();
@@ -305,7 +302,7 @@
             $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 
             // 댓글이 없다면 오류
-            if(!$oComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+            if(!$oComment->isExists()) return $this->dispBlogMessage('msg_invalid_request');
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');

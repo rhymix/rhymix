@@ -1,0 +1,33 @@
+.rss_reader_sz_select { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
+.rss_reader_sz_select h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
+.rss_reader_sz_select h2 a,
+.rss_reader_sz_select .tabcontent_rss a { text-decoration:none; color:#000000;} 
+.rss_reader_sz_select h2 a:hover,
+.rss_reader_sz_select .tabcontent_rss a:hover { text-decoration:underline;} 
+
+.rss_reader_sz_select .tabcontentcontainer {width:100%;}
+
+.rss_reader_sz_select .tabcontent_rss {display:none;width:100%; color:#555555;}
+
+.rss_reader_sz_select .date { color:#999999; font:.9em Tahoma; white-space:nowrap; margin-right:5px;}
+
+.rss_reader_sz_select .sz_Box_000{ margin:1px; border:solid 0;padding:0;}
+.rss_reader_sz_select .sz_Box_001{ margin:1px; border:solid 1px;border-color:#E7E7E7;background-color:#F4F4F4;color:#696969;}
+.rss_reader_sz_select .sz_Box_002{ margin:1px; border:solid 1px;border-color:#DDEAA8;background-color:#FBFDF1;color:#99B81A;}
+.rss_reader_sz_select .sz_Box_003{ margin:1px; border:solid 1px;border-color:#F9D5D5;background-color:#FEF6F6;color:#D98383;}
+.rss_reader_sz_select .sz_Box_004{ margin:1px; border:solid 1px;border-color:#EFDAF4;background-color:#FCF7FD;color:#AF69C0;}
+.rss_reader_sz_select .sz_Box_005{ margin:1px; border:solid 1px;border-color:#DCDFF6;background-color:#F6F7FE;color:#7381EA;}
+.rss_reader_sz_select .sz_Box_006{ margin:1px; border:solid 1px;border-color:#DAEAEE;background-color:#F0F6F8;color:#619DAC;}
+.rss_reader_sz_select .sz_Box_007{ margin:1px; border:solid 1px;border-color:#D5EDDD;background-color:#EFF9F2;color:#6FB587;}
+.rss_reader_sz_select .sz_Box_008{ margin:1px; border:solid 1px;border-color:#FFEC15;background-color:#FFFCDF;color:#FF9900;}
+.rss_reader_sz_select .sz_Box_009{ margin:1px; border:solid 1px;border-color:#9DD7E8;background-color:#F8FDFF;color:#0A8DBD;}
+
+.rss_reader_sz_select .sz_Box_001 h2 a { text-decoration:none; color:#696969;}
+.rss_reader_sz_select .sz_Box_002 h2 a { text-decoration:none; color:#99B81A;}
+.rss_reader_sz_select .sz_Box_003 h2 a { text-decoration:none; color:#D98383;}
+.rss_reader_sz_select .sz_Box_004 h2 a { text-decoration:none; color:#AF69C0;}
+.rss_reader_sz_select .sz_Box_005 h2 a { text-decoration:none; color:#7381EA;}
+.rss_reader_sz_select .sz_Box_006 h2 a { text-decoration:none; color:#619DAC;}
+.rss_reader_sz_select .sz_Box_007 h2 a { text-decoration:none; color:#6FB587;}
+.rss_reader_sz_select .sz_Box_008 h2 a { text-decoration:none; color:#FF9900;}
+.rss_reader_sz_select .sz_Box_009 h2 a { text-decoration:none; color:#0A8DBD;}

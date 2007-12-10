@@ -145,6 +145,7 @@ EndOfLicense;
         'sqlite2' => 'Supporting sqlite2 which saves the data into the file.<br />When installing, DB file should be created at unreachable place from web.<br />(Never got tested on stabilization)',
         'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
         'cubrid' => 'Use CUBRID DB.',
+        'postgresql' => 'Use PostgreSql DB.',
     );
 
     $lang->form_title = 'Please input DB &amp; Admin information';

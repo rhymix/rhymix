@@ -1,5 +1,5 @@
-.newestComment_purple { border:1px solid #e0e1db; background:url(../images/purple/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
-.newestComment_purple h2 { border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; font-size:1em; color:#54564b; font-family:Tahoma;}
-.newestComment_purple .commentList { padding:1.2em; overflow:hidden;}
-.newestComment_purple .commentList li { display:block; color:#a4a4a4; white-space:nowrap; overflow:hidden; list-style:none; width:100%;}
-.newestComment_purple .commentList li a { color:#a4a4a4; line-height:1.5em;  text-decoration:none;}
+.blog_widget_purple .newest_comment { border:1px solid #e0e1db; background:url(../images/purple/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }
+.blog_widget_purple .newest_comment h2 { border-left:1px solid #ffffff; border-right:1px solid #ffffff; padding:7px 0 0 12px; height:21px; _height:20px; font-size:1em; color:#54564b; }
+.blog_widget_purple .newest_comment .items { padding:10px; overflow:hidden;}
+.blog_widget_purple .newest_comment .items li { font-size:.9em;  display:block; color:#a4a4a4; margin-right:.1em; overflow:hidden; white-space:nowrap; list-style:none; width:100%; padding:3px 0 3px 0;}
+.blog_widget_purple .newest_comment .items li a { color:#a4a4a4; line-height:1.5em; text-decoration:none; }

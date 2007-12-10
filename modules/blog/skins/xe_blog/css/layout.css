@@ -73,6 +73,8 @@ div#blog_category { background-color:#FFFFFF; }
 div#searchBox { margin-bottom:.7em; overflow:hidden; width:100%;}
 div#searchBox fieldset { border:none;}
 div#searchBox fieldset legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em;}
+div#searchBox .imgBtn {vertical-align:middle; _position:relative; top:-4px; }
+*:first-child+html div#searchBox .imgBtn { position:relative; top:-4px; }
 
 /* powered by zbxe */
 #poweredbyzbxe { text-align:center; margin-top:2em; }

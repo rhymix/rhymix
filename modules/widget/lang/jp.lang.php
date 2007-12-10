@@ -41,25 +41,25 @@
     $lang->about_widget_code_in_page = '下に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。';
     $lang->about_widget = "ウィジェットまたはページモジュールに用いられる小単位の構成要素です。内部モジュールまたは外部の OPEN API と連動でき、設定によって様々な応用が利きます。ゼロボードXEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。";
 
-    $lang->cmd_content_insert = "내용 직접 추가";
-    $lang->cmd_box_widget_insert = "상자 위젯 추가";
-    $lang->cmd_remove_all_widgets  = "내용 모두 지우기";
+    $lang->cmd_content_insert = "内容直接追加";
+    $lang->cmd_box_widget_insert = "ボックスウィジェット追加";
+    $lang->cmd_remove_all_widgets  = "すべての内容削除";
 
-    $lang->cmd_widget_size = "위젯 크기";
-    $lang->cmd_widget_align = "위젯 정렬";
-    $lang->cmd_widget_align_left = "왼쪽";
-    $lang->cmd_widget_align_right = "오른쪽";
-    $lang->cmd_widget_margin = "외부 여백";
-    $lang->cmd_widget_padding = "내부 여백";
-    $lang->cmd_widget_border = "위젯 테두리";
-    $lang->cmd_widget_border_solid = "실선";
-    $lang->cmd_widget_border_dotted = "점선";
-    $lang->cmd_widget_background_color = "배경색";
-    $lang->cmd_widget_background_image_url = "배경 이미지";
-    $lang->cmd_widget_background_image_repeat = "반복";
-    $lang->cmd_widget_background_image_no_repeat = "고정";
-    $lang->cmd_widget_background_image_x_repeat = "가로 반복";
-    $lang->cmd_widget_background_image_y_repeat = "세로 반복";
-    $lang->cmd_widget_background_image_x = "가로 위치";
-    $lang->cmd_widget_background_image_y = "세로 위치";
+    $lang->cmd_widget_size = "ウィジェットの大きさ";
+    $lang->cmd_widget_align = "ウィジェット整列";
+    $lang->cmd_widget_align_left = "左へ";
+    $lang->cmd_widget_align_right = "右へ";
+    $lang->cmd_widget_margin = "外部余白";
+    $lang->cmd_widget_padding = "内部余白";
+    $lang->cmd_widget_border = "ウィジェットボーダー";
+    $lang->cmd_widget_border_solid = "実線";
+    $lang->cmd_widget_border_dotted = "点線";
+    $lang->cmd_widget_background_color = "背景色";
+    $lang->cmd_widget_background_image_url = "背景イメージ";
+    $lang->cmd_widget_background_image_repeat = "繰り返す";
+    $lang->cmd_widget_background_image_no_repeat = "固定";
+    $lang->cmd_widget_background_image_x_repeat = "横の繰り返し";
+    $lang->cmd_widget_background_image_y_repeat = "縦の繰り返し";
+    $lang->cmd_widget_background_image_x = "横の位置";
+    $lang->cmd_widget_background_image_y = "縦の位置";
 ?>

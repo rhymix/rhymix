@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+    <title xml:lang="ko">LemonPen XE 애드온</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 12. 10">
+        <name xml:lang="ko">zero</name>
+        <description xml:lang="ko">활성화 하시면 레몬펜을 사이트에 달 수 있습니다.</description>
+    </author>
+    <extra_vars>
+        <var name="sid">
+            <title xml:lang="ko">sid</title>
+			<description xml:lang="ko">레몬펜에에서 사이트 등록시 발급받은 sid값을 입력해주세요.</description>
+		</var>
+    </extra_vars>
+</addon>

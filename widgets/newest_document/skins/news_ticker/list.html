@@ -1,0 +1,45 @@
+<!--%import("js/news_ticker.js")-->
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+<!--@if($colorset=="gray")--> <!--%import("css/gray.css")-->
+<!--@elseif($colorset=="red")--> <!--%import("css/red.css")-->
+<!--@elseif($colorset=="blue")--> <!--%import("css/blue.css")-->
+<!--@elseif($colorset=="green")--> <!--%import("css/green.css")-->
+<!--@elseif($colorset=="yellow")--> <!--%import("css/yellow.css")-->
+<!--@elseif($colorset=="black")--> <!--%import("css/black.css")-->
+<!--@else--> {@ $colorset = "none" } <!--%import("css/none.css")--> <!--@end-->
+
+{@ $_news_ticker_id = "news_ticker_".time() }
+<div class="news_ticker_{$colorset}">
+    <table cellspacing="0">
+    <col width="15" />
+    <col />
+    <col width="14" />
+    <tr>
+        <td><img src="./images/{$colorset}/left.gif" width="15" height="25" alt="" /></td>
+        <td>
+            <div class="tickerBox" id="{$_news_ticker_id}">
+                <ul>
+                    <!--@foreach($widget_info->document_list as $oDocument)-->
+                    <li>
+                      <span class="date">{$oDocument->getRegdate("Y-m-d")}</span>
+                      <span class="title">
+                        <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a>
+                        <!--@if($oDocument->getCommentCount())-->
+                          <span class="comment">[<a href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getCommentCount()}</a>]</span>
+                        <!--@end-->
+
+                        {$oDocument->printExtraImages($widget_info->duration_new)}
+                      </span>
+                    </li>
+                    <!--@end-->
+                </ul>
+            </div>
+        </td>
+        <td><img src="./images/{$colorset}/right.gif" width="14" height="25" alt="" /></td>
+    </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    xAddEventListener(window, 'load', function() { doStartScroll("{$_news_ticker_id}", 25, 100); });
+</script>

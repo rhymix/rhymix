@@ -1,0 +1,6 @@
+.tag_list .items span  a { color:#a4a4a4; line-height:120%;}
+.tag_list .items .typeA a { color:#fe3614; font-weight:bold; font-size:12pt; background-color:#EFEFEF; margin:0;}
+.tag_list .items .typeB a { color:#fe3614; font-size:11pt; margin:0;}
+.tag_list .items .typeC a { font-weight:bold; font-size:11pt; margin:0; background-color:#EFEFEF;}
+.tag_list .items .typeD a { font-weight:bold; margin:0; background-color:#EFEFEF;}
+.tag_list .items .typeE a { font-weight:normal; margin:0;}

@@ -1,0 +1,13 @@
+.rss_reader_black { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
+.rss_reader_black h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#ffffff; background:url(../images/black/lineNotice.gif) no-repeat left bottom; font-size:1em;}
+.rss_reader_black h2 a { text-decoration:none; color:#ffffff;} 
+.rss_reader_black h2 a:hover { text-decoration:underline;} 
+
+.rss_reader_black ul li { height:20px; background:url(../images/black/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; list-style:none; white-space:nowrap;}
+
+.rss_reader_black ul li .title a { color:#818181; text-decoration:none; }
+.rss_reader_black ul li .title a:hover { text-decoration:underline; }
+.rss_reader_black ul li .title span.comment { color:#FE6700; font:.8em Tahoma; }
+.rss_reader_black ul li .title span.comment a { color:#FE6700; font:.8em Tahoma; }
+
+.rss_reader_black ul li .date { color:#999999; font:.8em Tahoma; white-space:nowrap; margin-right:5px;}

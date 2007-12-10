@@ -5,12 +5,14 @@
     <title xml:lang="jp">ポイントシステム</title>
     <title xml:lang="en">Point System</title>
 	<title xml:lang="es">Sistema de Punto</title>
+    <title xml:lang="ru">Система поитов</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 26">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
-		<name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">
             글작성/삭제/댓글작성/삭제시에 포인트를 부여할 수 있습니다.
             포인트마다 레벨을 지정하여 사용자 이름 앞에 아이콘을 표시할 수도 있습니다.
@@ -22,7 +24,9 @@
             必须是先激活积分系统才可以使用。
         </description>
         <description xml:lang="jp">
-            書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることができます。但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
+            書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。
+            ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることができます。
+            但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
         </description>
         <description xml:lang="en">
             You can grant point on writing/deleting/adding comments/deleting comments.
@@ -33,6 +37,11 @@
             Usted puede entregar puntos a las acciones de escribir/eliminar/agregar comentarios/eliminar comentarios.
             Usted también puede mostrar el ícono de punto delande del nombre del usuario seleccionando el nivel sobre cada puntos.
             Pero para activar esas funciones, Usted necesita activar addon relacionado a los puntos.
+        </description>
+        <description xml:lang="ru">
+            Вы можете назначать поинты за написание/удаление/добавление комментариев/удаление комментариев.
+            Вы также можете отображать икнку поинтов напротив имени пользователя, установив уровени для поинтов.
+            Но чтобы включить эти функции, Вам надо активировать аддоны, относящиеся к поинтам.
         </description>
     </author>
 </module>

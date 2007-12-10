@@ -1,0 +1,64 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+<!--%import("js/tab.js")-->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+{@ $_id_prefix = rand(1111111,9999999)}
+{@ $_checked = false; }
+
+<div class="tabWidget">
+    <div class="tabBox">
+    <!--@foreach($tab_list as $key => $val)-->
+        <div class="tab <!--@if(!$_checked)-->on{@ $_checked = true;}<!--@end-->" id="tab_{$_id_prefix}_{$key}" onmouseover="overTab(this);"><div><a href="{getUrl('','mid',$val->mid)}">{htmlspecialchars($val->browser_title)}</a></div></div>
+    <!--@end-->
+        <div class="clear"></div>
+    </div>
+
+    {@ $_checked = false; }
+    <!--@foreach($tab_list as $key => $val)-->
+    <div class="tabContent <!--@if(!$_checked)-->show{@ $_checked = true;}<!--@else-->hide<!--@end-->" id="content_{$_id_prefix}_{$key}">
+        {@ $_thumbnail_checked = false; }
+        <table cellspacing="0">
+        <tr>
+            <!--@foreach($val->document_list as $k => $v)-->
+                <!--@if(!$_thumbnail_checked && $v->thumbnailExists($widget_info->thumbnail_width, $widget_info->thumbnail_height))-->
+                    <td class="thumbnail" width="{$widget_info->thumbnail_width+12}">
+                        <a href="{getUrl('','document_srl',$v->document_srl)}"><img src="{$v->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" /></a>
+                    </td>
+                    {@ $_thumbnail_checked = true; }
+                <!--@end-->
+            <!--@end-->
+
+            <td class="titleBox">
+            <!--@foreach($val->document_list as $k => $v)-->
+                <div class="title">
+                    <!--@if($widget_info->display_regdate == 'Y')-->
+                    <span class="regdate">[{$v->getRegdate("m-d")}]</span>
+                    <!--@end-->
+
+                    <a href="{$v->getPermanentUrl()}#{$v->getCommentCount()}">{$v->getTitle($widget_info->subject_cut_size)}</a> {$v->printExtraImages($widget_info->duration_new)}
+                    <!--@if($v->getCommentCount())--><span class="comment_cnt">*{$v->getCommentCount()}</span><!--@end-->
+
+                    <!--@if($widget_info->display_author == 'Y')-->
+                    <span class="author">by {$v->getNickName()}</span>
+                    <!--@end-->
+
+                    <!--@if($widget_info->display_readed_count == 'Y' || $widget_info->display_voted_count == 'Y' )-->
+                    <span class="readAndVoted">
+                        (<!--@if($widget_info->display_readed_count == 'Y')--><span class="readed">{$v->get('readed_count')}</span><!--@end--><!--@if($widget_info->display_voted_count == 'Y' && $v->get('voted_count')>0 )--><!--@if($widget_info->display_readed_count == 'Y')-->/ <!--@end--><span class="voted">{$v->get('voted_count')}</span><!--@end-->)
+                    </span>
+                    <!--@end-->
+
+                </div>
+            <!--@end-->
+            </td>
+        </tr>
+        </table>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <!--@end-->
+
+</div>

@@ -1,0 +1,16 @@
+<query id="getDocumentList" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+    </navigation>
+</query>

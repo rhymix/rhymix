@@ -8,7 +8,7 @@
     $lang->module_list = "モジュールリスト";
     $lang->module_index = "モジュールインデックス";
     $lang->module_category = "モジュールカテゴリ";
-    $lang->module_info = "モジュール情報";
+    $lang->module_info = "詳細";
     $lang->add_shortcut = "管理者メニューに追加する";
     $lang->module_action = "動作";
     $lang->module_maker = "モジュール作者";

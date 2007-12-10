@@ -25,7 +25,8 @@ IE7 & IE6 & Below
 /* default.css - Type Selector Definition */
 * { margin:0; padding:0; }
 html { width:100%; }
-body { margin:0; font-size:.75em; font-family:sans-serif;}
+body { margin:0; font-size:.75em; _font-size:9pt; font-family:sans-serif;}
+*:first-child+html body { font-size:9pt; }
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
@@ -34,18 +35,38 @@ form { margin:0; padding:0; }
 .zbxe_info { vertical-align:middle; behavior:url(./common/js/iePngFix.htc); }
 
 /* Input Style Definition */
-.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; }
+.inputTypeText { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1.4em; padding:.2em 0 0 .3em; background:#ffffff; font-size:1em; _font-size:9pt; }
+*:first-child+html .inputTypeText { font-size:9pt; }
 .inputTypeText:hover,
 .inputTypeText:focus { background:#f4f4f4; }
-.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff; font-size:1em;}
+.inputTypeTextArea { border:1px solid !important; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff; font-size:1em; _font-size:9pt;}
+*:first-child+html .inputTypeTextArea { font-size:9pt; }
 
 .w40 { width:40px; }
 .w60 { width:60px; }
+.w70 { width:70px; }
 .w80 { width:80px; }
+.w90 { width:90px; }
 .w100 { width:100px; }
+.w110 { width:110px; }
 .w120 { width:120px; }
+.w130 { width:130px; }
 .w140 { width:140px; }
+.w150 { width:150px; }
+.w160 { width:160px; }
+.w170 { width:170px; }
+.w180 { width:180px; }
+.w190 { width:190px; }
 .w200 { width:200px; }
+.w210 { width:210px; }
+.w220 { width:220px; }
+.w230 { width:230px; }
+.w240 { width:240px; }
+.w250 { width:250px; }
+.w260 { width:260px; }
+.w270 { width:270px; }
+.w280 { width:280px; }
+.w290 { width:290px; }
 .w300 { width:300px; }
 .w400 { width:400px; }
 

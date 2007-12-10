@@ -6,6 +6,7 @@
   <title xml:lang="zh-CN">插件</title>
   <title xml:lang="jp">アドオン</title>
   <title xml:lang="fr">Additions</title>
+  <title xml:lang="ru">Аддоны</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="en">zero</name>
@@ -13,11 +14,13 @@
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="jp">Zero</name>
 	<name xml:lang="fr">Zero</name>
+	<name xml:lang="ru">Zero</name>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
     <description xml:lang="es">Este Módulo es para agregar Addons, como también el manejo de ellos.</description>
     <description xml:lang="zh-CN">登录插件或设置启用/禁用插件的管理模块。</description>
-    <description xml:lang="jp">アドオンの「登録、使用、未使用」などを設定するための管理モジュールです。</description>
+    <description xml:lang="jp">アドオンの「登録、使用、未使用」などを設定する管理モジュールです。</description>
 	<description xml:lang="fr">Ce module est pour les Additions de maintien qui peuvent basculer des états d'utilisation et de désuétude. </description>
+    <description xml:lang="ru">Этот модуль служит для управления аддонами, использование которых Вы можете включать и выключать.</description>
   </author>
 </module>

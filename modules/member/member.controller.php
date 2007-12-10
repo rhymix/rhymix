@@ -410,7 +410,7 @@
 
             $logged_info = Context::get('logged_info');
 
-            // form 정보를 모두 받으a
+            // form 정보를 모두 받음
             $obj = Context::getRequestVars();
 
             // 글의 대상 모듈을 회원 정보로 변경
@@ -432,6 +432,7 @@
                 $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
+                $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
             }
 
             // 등록된 첨부파일의 상태를 무효로 지정
@@ -787,7 +788,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
             // 현재 비밀번호가 맞는지 확인
-            if(!$oMemberModel->isValidOldPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
+            if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
             // member_srl의 값에 따라 insert/update
             $args->member_srl = $member_srl;
@@ -1035,7 +1036,12 @@
             FileHandler::makeDir($target_path);
 
             $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
-            FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+
+            // 파일 정보 구함
+            list($width, $height, $type, $attrs) = @getimagesize($target_file);
+
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            else @copy($target_file, $target_filename);
 
         }
 
@@ -1203,7 +1209,7 @@
             if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
 
             // 비밀번호 검사
-            if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
+            if($password && !$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
             // denied == 'Y' 이면 알림
             if($member_info->denied == 'Y') return new Object(-1,'msg_user_denied');
@@ -1591,6 +1597,9 @@
          * member_extra_info 애드온에서 요청이 됨
          **/
         function transSignature($matches) {
+            $oModuleModel = &getModel('module');
+            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
+            
             $member_srl = $matches[2];
             if(!$member_srl) return $matches[0];
 
@@ -1605,8 +1614,17 @@
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
                 if($profile_image->src) $signature = sprintf('<img src="%s" width="%d" height="%d" alt="" class="member_profile_image" />%s', $profile_image->src, $profile_image->width, $profile_image->height, $signature);
 
-                if($signature) $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
-                else $GLOBALS['_transSignatureList'][$member_srl] = null;
+                // 서명이 있으면 반환
+                if($signature) {
+                    // 서명 높이 제한 값이 있으면 표시 높이 제한
+                    if($memberModuleConfig->signature_max_height) {
+                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: hidden; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
+                    } else {
+                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
+                    }
+                } else {
+                    $GLOBALS['_transSignatureList'][$member_srl] = null;
+                }
             }
 
             return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];

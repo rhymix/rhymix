@@ -29,6 +29,7 @@
     $lang->cmd_vote = 'Recommend';
     $lang->cmd_vote_down = 'Criticize';
     $lang->cmd_declare = 'Accuse';
+    $lang->cmd_cancel_declare = 'Cancel Accuse';
     $lang->cmd_declared_list = 'Accusations List';
     $lang->cmd_copy = 'Copy';
     $lang->cmd_move = 'Move';
@@ -134,8 +135,8 @@
     $lang->last_login = 'Last Login';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
-    $lang->search_target = 'Searching Target';
-    $lang->search_keyword = 'Searching Keyword';
+    $lang->search_target = 'Target for Search';
+    $lang->search_keyword = 'Keyword';
     $lang->is_default = 'Default';
 
     $lang->no_documents = 'No Articles';

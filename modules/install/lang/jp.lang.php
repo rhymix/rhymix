@@ -238,6 +238,7 @@ EndOfLicense;
         'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。インストールの際は、DBファイルはウェブがらアクセスできない場所に作成してください。（安定化までのテストは行われていません）',
         'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。インストールの際は、ウェブからアクセスできない場所に作成してください。',
         'cubrid' => 'CUBRID DBを利用します。',
+        'postgresql' => 'PostgreSql DBを利用します。',
     );
 
     $lang->form_title = 'データベース &amp; 管理者情報入力';
@@ -255,8 +256,8 @@ EndOfLicense;
     $lang->admin_title = '管理者情報';
 
     $lang->env_title = '環境設定';
-    $lang->use_optimizer = 'オプトマイザー使用';
-    $lang->about_optimizer = 'オプトマイザーを使用すると多数の「CSS/ JS」ファイルを、統合圧縮してから転送するため、レスポンスが早くなります。但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
+    $lang->use_optimizer = 'オプティマイザ使用';
+    $lang->about_optimizer = 'オプティマイザを使用すると多数の「CSS/ JS」ファイルを、統合圧縮してから転送するため、レスポンスが早くなります。但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
     $lang->use_rewrite = 'リライトモジュール使用';
     $lang->about_rewrite = 'Webサーバで「リライトモジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように簡単にすることができます。';
     $lang->time_zone = 'タイムゾーン';

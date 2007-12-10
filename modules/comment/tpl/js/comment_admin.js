@@ -7,3 +7,21 @@ function doCheckAll(bToggle) {
 		}
     }
 }
+
+function doCancelDeclare() {
+    var fo_obj = xGetElementById('fo_list');
+    var comment_srl = new Array();
+    for(var i=0;i<fo_obj.cart.length;i++) {
+        if(fo_obj.cart[i].checked) comment_srl[comment_srl.length] = fo_obj.cart[i].value;
+    }
+    if(comment_srl.length<1) return;
+
+    var params = new Array();
+    params['comment_srl'] = comment_srl.join(',');
+
+    exec_xml('comment','procCommentAdminCancelDeclare', params, completeCancelDeclare);
+}
+
+function completeCancelDeclare(ret_obj) {
+    location.reload();
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">이미지 클라우드</title>
+  <title xml:lang="jp">イメージクラウド</title>
+  <title xml:lang="zh-CN">相册型最新图片列表皮肤</title>
+  <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 9. 28">
+    <name xml:lang="ko">Simulz</name>
+    <name xml:lang="jp">Simulz</name>
+    <name xml:lang="zh-CN">Simulz</name>
+    <description xml:lang="ko">올블로그 이미지 클라우드</description>
+    <description xml:lang="jp">オールブログイメージクラウド</description>
+    <description xml:lang="zh-CN">相册型最新图片列表皮肤。</description>
+  </maker>
+  <colorset>
+    <color name="normal">
+      <title xml:lang="ko">기본 컬러</title>
+      <title xml:lang="jp">デフォルトカラー</title>
+      <title xml:lang="zh-CN">默认颜色</title>
+      <title xml:lang="en">Default Color</title>
+    </color>
+  </colorset>
+</skin>

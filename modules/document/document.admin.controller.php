@@ -262,6 +262,19 @@
         }
 
         /**
+         * @brief 선택된 글들에 대해 신고 취소
+         **/
+        function procDocumentAdminCancelDeclare() {
+            $document_srl = trim(Context::get('document_srl'));
+
+            if($document_srl) {
+                $args->document_srl = $document_srl;
+                $output = executeQuery('document.deleteDeclaredDocuments', $args);
+                if(!$output->toBool()) return $output;
+            }
+        }
+
+        /**
          * @brief 모든 생성된 썸네일 삭제
          **/
         function procDocumentAdminDeleteAllThumbnail() {

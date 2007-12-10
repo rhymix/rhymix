@@ -29,7 +29,7 @@
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
 
-            $output = executeQuery('tag.getTagList', $args);
+            $output = executeQueryArray('tag.getTagList', $args);
             if(!$output->toBool()) return $output;
 
             return $output;

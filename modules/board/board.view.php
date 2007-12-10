@@ -124,11 +124,11 @@
             $args->order_type = Context::get('order_type');
 
             // 스킨에서 설정한 기본 정렬 대상을 구함
-            if(!$args->sort_index) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'newest';
+            if(!$args->sort_index) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
             if(!$args->order_type) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
             // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'newest' && $args->order_type == 'asc') {
+            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'list_order' && $args->order_type == 'asc') {
                 $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
                 Context::set('page', $page);
                 $args->page = $page;
@@ -149,6 +149,37 @@
             Context::set('page_navigation', $output->page_navigation);
 
             $this->setTemplateFile('list');
+        }
+
+        /**
+         * @brief 태그 목록 모두 보기
+         **/
+        function dispBoardTagList() {
+            // 권한 체크
+            if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
+
+            // 태그 모델 객체에서 태그 목록을 구해옴
+            $oTagModel = &getModel('tag');
+
+            $obj->mid = $this->module_info->mid;
+            $obj->list_count = 10000;
+            $output = $oTagModel->getTagList($obj);
+
+            // 내용을 랜던으로 정렬
+            if(count($output->data)) {
+                $numbers = array_keys($output->data);
+                shuffle($numbers);
+
+                if(count($output->data)) {
+                    foreach($numbers as $k => $v) {
+                        $tag_list[] = $output->data[$v];
+                    }
+                }
+            }
+
+            Context::set('tag_list', $tag_list);
+
+            $this->setTemplateFile('tag_list');
         }
         
         /**

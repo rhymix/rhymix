@@ -29,6 +29,7 @@
     $lang->cmd_vote = '推荐';
     $lang->cmd_vote_down = '反对';
     $lang->cmd_declare = '举报';
+    $lang->cmd_cancel_declare = '取消举报';
     $lang->cmd_declared_list = '举报目录';
     $lang->cmd_copy = '复制';
     $lang->cmd_move = '查看';

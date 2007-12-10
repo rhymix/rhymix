@@ -5,17 +5,20 @@
     <title xml:lang="zh-CN">多国语言切换</title>
     <title xml:lang="en">Language Selection</title>
 	<title xml:lang="es">Selcción del Idioma</title>
+    <title xml:lang="ru">Выбор языка</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
         <description xml:lang="ko">사용자의 접속언어를 변경할 수 있는 select폼을 출력합니다.</description>
         <description xml:lang="jp">言語を変更することができるセレクト（select）フォームを表示します。</description>
         <description xml:lang="zh-CN">可以实现多国语言相互切换。</description>
         <description xml:lang="en">This widget displays a select form for change of users' language.</description>
 		<description xml:lang="es">Este widget muestra la forma de cambiar el idioma del usuario.</description>
+        <description xml:lang="ru">Этот виджет отображает форму для выбора пользовательского языка.</description>
     </author>
     <extra_vars />
 </widget>

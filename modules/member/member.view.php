@@ -84,6 +84,8 @@
          **/
         function dispMemberModifyInfo() {
             $oMemberModel = &getModel('member');
+            $oModuleModel = &getModel('module');
+            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
 
             // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
@@ -108,6 +110,7 @@
                 $option->enable_default_component = true;
                 $option->enable_component = false;
                 $option->resizable = false;
+                if($memberModuleConfig->signature_max_height)
                 $option->height = 200;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);

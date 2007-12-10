@@ -8,22 +8,25 @@
     <!--%import("css/red.css")-->
 <!--@elseif($colorset=="purple")-->
     <!--%import("css/purple.css")-->
-<!--@else-->
+<!--@elseif($colorset=="normal")-->
     <!--%import("css/normal.css")-->
-    {@ $colorset = "normal"; }
+<!--@else-->
+    {$colorset = "" }
 <!--@end-->
 
-<div class="newestDocument_{$colorset}">
+<div class="blog_widget_{$colorset}">
+  <div class="newest_document">
     <div class="header">
-        <!--@if($widget_info->title)-->
-            <h2>{$widget_info->title}</h2>
-        <!--@else-->
-            <h2>newest documents</h2>
-        <!--@end-->
+      <!--@if($widget_info->title)-->
+      <h2>{$widget_info->title}</h2>
+      <!--@else-->
+      <h2>newest documents</h2>
+      <!--@end-->
     </div>
-    <ul class="documentList">
-        <!--@foreach($widget_info->document_list as $oDocument)-->
-            <li><a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a> {$oDocument->printExtraImages($widget_info->duration_new)}</li>
-        <!--@end-->
+    <ul class="items">
+      <!--@foreach($widget_info->document_list as $oDocument)-->
+      <li>{$oDocument->printExtraImages($widget_info->duration_new)} <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a></li>
+      <!--@end-->
     </ul>
+  </div>
 </div>

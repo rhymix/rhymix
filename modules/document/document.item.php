@@ -209,22 +209,35 @@
 
             $content = $this->get('content');
 
+
             // OL/LI 태그를 위한 치환 처리
             $content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$content);
 
             // url에 대해서 정규표현식으로 치환
             $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
-            if(!$add_document_info) return $content;
 
-            $content = sprintf(
-                    '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><div class="document_popup_menu"><span class="document_popup_menu document_%d">%s</span></div><!--AfterDocument(%d,%d)-->', 
-                    $this->document_srl, $this->get('member_srl'), 
-                    $this->document_srl, $this->get('member_srl'), 
-                    $content, 
-                    $this->document_srl, Context::getLang('cmd_document_do'),
-                    $this->document_srl, $this->get('member_srl'), 
-                    $this->document_srl, $this->get('member_srl')
-            );
+            // 추가 정보 출력을 하지 않는 경우 
+            if(!$add_document_info) {
+                $content = sprintf(
+                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><!--AfterDocument(%d,%d)-->', 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $content, 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl')
+                );
+            // 추가 정보를 출력시 "이 게시물을..'이라는 메뉴 추가
+            } else {
+                $content = sprintf(
+                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><div class="document_popup_menu"><span class="document_popup_menu document_%d">%s</span></div><!--AfterDocument(%d,%d)-->', 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $content, 
+                        $this->document_srl, Context::getLang('cmd_document_do'),
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl')
+                );
+            }
             return $content;
         }
 
@@ -275,7 +288,9 @@
         }
 
         function getTrackbackUrl() {
-            return getUrl('','document_srl',$this->document_srl,'act','trackback');
+            // 스팸을 막기 위한 key 생성
+            $oTrackbackModel = &getModel('trackback');
+            return $oTrackbackModel->getTrackbackUrl($this->document_srl);
         }
 
         function updateReadedCount() {
@@ -297,6 +312,12 @@
         function getExtraValue($key) {
             $val = $this->get('extra_vars'.$key);
             if(strpos($val,'|@|')!==false) $val = explode('|@|', $val);
+            return $val;
+        }
+
+        function getExtraVarsValue($key) {
+            $extra_vals = unserialize($this->get('extra_vars'));
+            $val = $extra_vals->$key;
             return $val;
         }
 

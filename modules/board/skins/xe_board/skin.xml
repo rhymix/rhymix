@@ -65,6 +65,7 @@
     <extra_vars>
         <var name="default_style" type="select">
             <title xml:lang="ko">기본 형태</title>
+            <title xml:lang="jp">デフォルトスタイル</title>
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
             <description xml:lang="ko">
@@ -94,7 +95,7 @@
             <title xml:lang="zh-CN">排序对象</title>
             <title xml:lang="en">Align Target</title>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-            <description xml:lang="jp">登録された順、変更された順でソートできます。</description>
+            <description xml:lang="jp">登録順、変更順にソートできます。</description>
             <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
             <description xml:lang="en">It can align articles as registered order or modified order.</description>
             <default>list_order</default>
@@ -102,13 +103,13 @@
         </var>
         <var name="order_type" type="select">
             <title xml:lang="ko">정렬 방법</title>
-            <title xml:lang="zh-CN">排序方式</title>
             <title xml:lang="jp">ソート方法</title>
+            <title xml:lang="zh-CN">排序方式</title>
             <title xml:lang="en">Sorting Type</title>
 			<title xml:lang="es">Tipo de ordenamiento</title>
             <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
-            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="jp">ソート方法を、降順、昇順にできます。</description>
+            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="en">You can sort target articles by asending or desending order.</description>
 			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
             <default>asc</default>
@@ -224,7 +225,7 @@
             <title xml:lang="jp">サムネール生成方法</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
-            <description xml:lang="jp">サムネールの生成方法を選択します(Crop : 切り取り, Ratio : 比率)。</description>
+            <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式(crop : 裁减, ratio : 比例)。</description>
             <default>crop</default>
             <default>ratio</default>

@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader { border:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden; _width:100%;}
+.boardHeader h3 { float:left; font-size:1.2em; padding:1em 2em .7em 1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+
+/* board Information */
+.boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
+.articleNum { float:left; padding:0 0 0 15px; }
+
+/* account Navigation */
+.accountNavigation { float:right; }
+.accountNavigation li { float:left; margin-left:7px; list-style:none; padding-top:3px;}
+.accountNavigation li a { font-size:12px; white-space:nowrap; color:#666666; text-decoration:none;}
+.accountNavigation li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.admin a { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
+.accountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 5px; padding-left:8px; _padding-top:5px;}
+*:first-child+html li.loginAndLogout { padding-top:5px; }
+
+.pageSearch { text-align:right; margin-bottom:10px; }
+.pageList { border:1px solid #E3E3E2; }
+.pageList .page { border-top:1px dotted #EFEFEF; padding:10px; }
+.pageList .selected { background-color:#EFEFEF; }
+.pageList .noline { border-top:none; }
+.pageList .page .title { background:url("../images/common/document.gif") no-repeat left top; padding-left:18px; }
+.pageList .page a { text-decoration:none; color:#666666; }
+.pageList .page a:hover { text-decoration:underline; color:#333333; }
+.pageList .page a:visited { text-decoration:none; color:#999999; }
+.pageList .selected a { color:#555555; font-weight:bold; }
+.pageList .selected a:visited { color:#555555; font-weight:bold; }
+.pageList .page .desc { padding-left:18px; color:#AAAAAA; margin-top:5px;}
+
+.pageInfo table { width:100%;  border-left:1px solid #E3E3E2; border-top:1px solid #E3E3E2; margin-bottom:10px; table-layout:fixed;}
+.pageInfo table th { overflow:hidden; background-color:#FAF8F4; padding:5px; font-weight:normal; text-align:left; padding-left:10px; color:#606060; border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2; }
+.pageInfo table td { overflow:hidden; background-color:#FFFFFF; padding:5px; font-weight:normal; text-align:left; padding-left:10px; color:#5A5A5A;  border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2;}
+.pageInfo td a { text-decoration:none; color:#888888; }
+.pageInfo td a:hover { text-decoration:underline; }
+{ border:1px solid #CCCCCC; margin-bottom:10px; }
+.pageView { border:1px solid #E3E3E2; padding:20px; margin-bottom:10px; }
+.pageView .xhtmlEditorBody ol, .pageView .xhtmlEditorBody ul { margin-left:20px; }

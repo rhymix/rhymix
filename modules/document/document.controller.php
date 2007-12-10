@@ -66,7 +66,7 @@
         }
 
         /**
-         * @brief 문서의 권한 부여 
+         * @brief 문서의 권한 부여
          * 세션값으로 현 접속상태에서만 사용 가능
          **/
         function addGrant($document_srl) {
@@ -91,7 +91,10 @@
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
             if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-            if($obj->notify_message != "Y") $obj->notify_message = "N";
+            if($obj->notify_message != 'Y') $obj->notify_message = 'N';
+
+            // $extra_vars를 serialize
+            $obj->extra_vars = serialize($obj->extra_vars);
 
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);
@@ -180,7 +183,10 @@
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
             if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-            if($obj->notify_message != "Y") $obj->notify_message = "N";
+            if($obj->notify_message != 'Y') $obj->notify_message = 'N';
+
+            // $extra_vars를 serialize
+            $obj->extra_vars = serialize($obj->extra_vars);
 
             // 자동저장용 필드 제거
             unset($obj->_saved_doc_srl);
@@ -520,7 +526,7 @@
             return $output;
         }
 
-        /** 
+        /**
          * @brief 카테고리에 문서의 숫자를 변경
          **/
         function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
@@ -618,7 +624,7 @@
             return new Object();
         }
 
-        /** 
+        /**
          * @brief 카테고리를 아래로 이동
          **/
         function moveCategoryDown($category_srl) {
@@ -698,7 +704,7 @@
             // 캐시 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
 
-            // DB에서 module_srl 에 해당하는 카테고리 목록을 listorder순으로 구해옴 
+            // DB에서 module_srl 에 해당하는 카테고리 목록을 listorder순으로 구해옴
             $oDocumentModel = &getModel('document');
             $list = $oDocumentModel->getCategoryList($module_srl);
 
@@ -752,12 +758,12 @@
                 // 자식 노드의 데이터 가져옴
                 if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree);
 
-                // 변수 정리 
+                // 변수 정리
                 $title = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->title);
                 $expand = $node->expand;
                 $group_srls = $node->group_srls;
 
-                // node->group_srls값이 있으면 
+                // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
@@ -770,7 +776,7 @@
                         $expand,
                         $node->document_count
                 );
-                
+
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
                 else $buff .=  sprintf('<node %s />', $attribute);
             }

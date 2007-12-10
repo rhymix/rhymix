@@ -1,0 +1,25 @@
+<!-- 엮인글 목록 -->
+
+<div id="trackback" class="comment">
+<!--@if($oDocument->getTrackbackCount())-->
+
+    {@ $idx = 0 }
+    <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
+    <a name="trackback_{$val->trackback_srl}"></a>
+    <div class="contentBox <!--@if($idx>0)-->top_border<!--@end-->">
+        <div class="title">
+            <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>
+            <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/common/btn_delete.gif" border="0" alt="delete" /></a>
+        </div>
+        <address>
+            <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->excerpt)}</a>
+            <span class="trackback_date">
+                {zdate($val->regdate, "Y.m.d H:i")}
+                ({$val->ipaddress})
+            </span>
+        </address>
+    </div>
+    {@ $idx++}
+    <!--@end-->
+<!--@end-->
+</div>

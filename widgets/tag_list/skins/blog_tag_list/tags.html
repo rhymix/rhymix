@@ -1,5 +1,7 @@
 <!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
+<!--%import("css/common.css")-->
+
 <!--@if($colorset=="cyan")-->
     <!--%import("css/cyan.css")-->
 <!--@elseif($colorset=="green")-->
@@ -8,11 +10,14 @@
     <!--%import("css/red.css")-->
 <!--@elseif($colorset=="purple")-->
     <!--%import("css/purple.css")-->
-<!--@else-->
+<!--@elseif($colorset=="normal")-->
     <!--%import("css/normal.css")-->
+<!--@else-->
+    {@ $colorset="" }
 <!--@end-->
 
-<div id="tag">
+<div class="blog_widget_{$colorset}">
+  <div class="tag_list">
     <div class="header">
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
@@ -21,24 +26,29 @@
         <!--@end-->
     </div>
 
-    <ul class="tagList">
+    <div class="items">
         <!--@foreach($widget_info->tag_list as $val)-->
+
             <!--@if($val->count>10)-->
                 {@ $tag_class = "typeA" }
-            <!--@elseif($val->count>5)-->
+            <!--@elseif($val->count>7)-->
                 {@ $tag_class = "typeB" }
-            <!--@elseif($val->count>3)-->
+            <!--@elseif($val->count>5)-->
                 {@ $tag_class = "typeC" }
+            <!--@elseif($val->count>3)-->
+                {@ $tag_class = "typeD" }
             <!--@else-->
-                {@ $tag_class = "" }
+                {@ $tag_class = "typeE" }
             <!--@end-->
-            <li <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
+
+            <span <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
                 <!--@if($layout_info->mid)-->
-                    <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                    <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
                 <!--@else-->
-                    <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                    <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
                 <!--@end-->
-            </li>
+            </span>
         <!--@end-->
-    </ul>
+    </div>
+  </div>
 </div>

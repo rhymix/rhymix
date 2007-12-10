@@ -7,12 +7,14 @@
     <!--%import("css/red.css")-->
 <!--@elseif($colorset=="purple")-->
     <!--%import("css/purple.css")-->
-<!--@else-->
+<!--@elseif($colorset=="normal")-->
     <!--%import("css/normal.css")-->
-    {@ $colorset = "normal" }
+<!--@else-->
+    {@ $colorset = "" }
 <!--@end-->
 
-<div class="newestComment_{$colorset}">
+<div class="blog_widget_{$colorset}">
+  <div class="newest_comment">
     <div class="header">
         <!--@if($widget_info->title)-->
             <h2>{$widget_info->title}</h2>
@@ -20,9 +22,10 @@
             <h2>newest comments</h2>
         <!--@end-->
     </div>
-    <ul class="commentList">
+    <ul class="items">
         <!--@foreach($widget_info->comment_list as $val)-->
             <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary(60)}</a></li>
         <!--@end-->
     </ul>
+  </div>
 </div>

@@ -13,6 +13,8 @@
     $lang->title_bold = '제목 굵게';
     $lang->title_color = '제목 색깔';
 
+    $lang->cmd_search_next = '계속 검색';
+
     $lang->cmd_temp_save = '임시 저장';
 
 	$lang->cmd_toggle_checked_document = '선택항목 반전';

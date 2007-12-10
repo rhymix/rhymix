@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
-  <title xml:lang="jp">接続カウンターアドオン</title>
+  <title xml:lang="jp">接続カウンター</title>
   <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Addon for basic counter</title>
   <title xml:lang="es">Addon contador básico</title>
+  <title xml:lang="ru">Аддон для базового счетчика</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
     <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
     <name xml:lang="es">zero</name>
+    <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
         제로보드XE의 기본 카운터 모듈을 이용하여 접속 정보를 기록합니다.
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
     </description>
     <description xml:lang="jp">
-        セロボードXEの接続カウンターモジュールは、接続情報を記録します。このアドオンを「使用」に設定しておくと接続情報が記録されます。
+        セロボードXEの接続カウンターモジュールは、接続情報を記録します。
+        このアドオンを「使用」に設定しておくと接続情報が記録されます。
     </description>
     <description xml:lang="zh-CN">
         利用ZeroboardXE的网站访问统计模块记录网站访问信息。        
@@ -29,6 +32,10 @@
     <description xml:lang="es">
         Este addon contador básico de Zeroboard XE permite llevar la información de acceso a la página web de los visitantes.
 		Es necesario activar este addon para agregar la información de acceso.
+    </description>
+    <description xml:lang="ru">
+        Этот аддон пишет в лог информацию о доступе к сайту, основанную на базовом модуле счетчика в Zeroboard XE.
+        Для сбора информации необходимо включить этот аддон.
     </description>
   </author>
 </addon>

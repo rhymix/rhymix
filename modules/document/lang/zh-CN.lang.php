@@ -14,6 +14,8 @@
     $lang->title_bold = '粗标题';
     $lang->title_color = '标题颜色';
 
+    $lang->cmd_search_next = '继续搜索';
+
     $lang->cmd_temp_save = '临时保存';
 
     $lang->cmd_toggle_checked_document = '反选';

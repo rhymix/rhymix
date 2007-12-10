@@ -139,9 +139,12 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
-            if($except_notice) $args->s_is_notice = 'N';
 
+            // 기본으로 사용할 query id 지정 (몇가지 검색 옵션에 따라 query id가 변경됨)
             $query_id = 'document.getDocumentList';
+
+            // 내용검색일 경우 document division을 지정하여 검색하기 위한 처리
+            $use_division = false;
 
             // 검색 옵션 정리
             $search_target = $obj->search_target;
@@ -151,15 +154,18 @@
                     case 'title' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_title = $search_keyword;
+                            $use_division = true;
                         break;
                     case 'content' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_content = $search_keyword;
+                            $use_division = true;
                         break;
                     case 'title_content' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_title = $search_keyword;
                             $args->s_content = $search_keyword;
+                            $use_division = true;
                         break;
                     case 'user_id' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
@@ -225,14 +231,71 @@
                             $args->s_comment = $search_keyword;
                             $args->sort_index = 'documents.'.$args->sort_index;
                             $query_id = 'document.getDocumentListWithinComment';
+                            $use_division = true;
                         break;
                     default :
                             preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
                             if($matches[1]) {
                                 $args->{"s_extra_vars".$matches[1]} = $search_keyword;
+                                $use_division = true;
                             }
                         break;
                 }
+            }
+
+            /**
+             * 만약 use_division이 true일 경우 document division을 이용하도록 변경
+             **/
+            if($use_division) {
+                // 시작 division 
+                $division = (int)Context::get('division');
+
+                // division값이 없다면 제일 상위 
+                if(!$division) {
+                    $division_args->module_srl = $args->module_srl;
+                    $division_args->list_count = 1;
+                    $division_args->sort_index = $args->sort_index;
+                    $division_args->order_type = $args->order_type;
+                    $output = executeQuery("document.getDocumentList", $division_args);
+                    if($output->data) {
+                        $item = array_pop($output->data);
+                        $division = $item->list_order;
+                    }
+                    $division_args = null;
+                }
+
+                // 마지막 division 
+                $last_division = (int)Context::get('last_division');
+
+                // 지정된 division에서부터 5000개 후의 division값을 구함
+                if(!$last_division) {
+                    $last_division_args->module_srl = $args->module_srl;
+                    $last_division_args->list_count = 1;
+                    $last_division_args->sort_index = $args->sort_index;
+                    $last_division_args->order_type = $args->order_type;
+                    $last_division_args->list_order = $division;
+                    $last_division_args->page = 5001;
+                    $output = executeQuery("document.getDocumentDivision", $last_division_args);
+                    if($output->data) {
+                        $item = array_pop($output->data);
+                        $last_division = $item->list_order;
+                    }
+
+                }
+
+                // last_division 이후로 글이 있는지 확인
+                if($last_division) {
+                    $last_division_args = null;
+                    $last_division_args->module_srl = $args->module_srl;
+                    $last_division_args->list_order = $last_division;
+                    $output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
+                    if($output->data->count<1) $last_division = null;
+                }
+
+                $args->division = $division;
+                $args->last_division = $last_division;
+                Context::set('division', $division);
+                Context::set('last_division', $last_division);
             }
 
             // document.getDocumentList 쿼리 실행
@@ -241,15 +304,29 @@
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
 
-            foreach($output->data as $key => $attribute) {
-                $document_srl = $attribute->document_srl;
+            $idx = 0;
+            $data = $output->data;
+            unset($output->data);
 
+            $keys = array_keys($data);
+            $virtual_number = $keys[0];
+
+            if($except_notice) {
+                foreach($data as $key => $attribute) {
+                    if($attribute->is_notice == 'Y') $virtual_number --;
+                }
+            }
+
+            foreach($data as $key => $attribute) {
+                if($except_notice && $attribute->is_notice == 'Y') continue;
+                $document_srl = $attribute->document_srl;
                 $oDocument = null;
                 $oDocument = new documentItem();
                 $oDocument->setAttribute($attribute);
                 if($is_admin) $oDocument->setGrant();
 
-                $output->data[$key] = $oDocument;
+                $output->data[$virtual_number] = $oDocument;
+                $virtual_number --;
             
             }
             return $output;

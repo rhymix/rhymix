@@ -230,6 +230,7 @@ EndOfLicense;
         'sqlite2' => '支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)',
         'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。',
         'cubrid' => '使用CUBRID DB。',
+        'postgresql' => '使用PostgreSql DB。',
     );
 
     $lang->form_title = '输入数据库及管理员信息';

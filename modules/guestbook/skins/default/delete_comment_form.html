@@ -10,8 +10,8 @@
     <form action="./" method="get" onsubmit="return procFilter(this, delete_comment)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="page" value="{$page}" />
-    <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
-    <input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+    <input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+    <input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 
         <div class="inputPassword tCenter">
             <span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span>

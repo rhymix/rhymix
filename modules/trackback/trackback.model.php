@@ -97,5 +97,39 @@
             }
             return $module_trackback_config;
         }
+
+        /**
+         * @brief 정해진 시간내에 전체 엮인글 등록수를 구함
+         **/
+        function getRegistedTrackback($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
+            $obj->regdate = date("YmdHis",time()-$time);
+            $obj->ipaddress = $ipaddress;
+            $obj->url = $url;
+            $obj->blog_name = $blog_name;
+            $obj->title = $title;
+            $obj->excerpt = $excerpt;
+            $output = executeQuery('trackback.getRegistedTrackback', $obj);
+            return $output->data->count;
+        }
+
+        /**
+         * @brief trackback url을 생성하여 return
+         * trackback url에 key값을 추가함.
+         **/
+        function getTrackbackUrl($document_srl) {
+            return getUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
+        }
+
+        /**
+         * @brief 키값을 생성하여 return
+         * key값은 db 비번 정보 + 10분 단위의 시간값을 합쳐서 hash결과를 이용함
+         * 단 url이 너무 길어져서 1, 10, 20 자리수의 글자 하나씩만을 조합해서 return
+         **/
+        function getTrackbackKey($document_srl) {
+            $time = (int) (time()/(60*10));
+            $db_info = Context::getDBInfo();
+            $key = md5($document_srl.$db_info->db_password.$time);
+            return sprintf("%s%s%s",substr($key,1,1),substr($key,10,1),substr($key,20,1));
+        }
     }
 ?>

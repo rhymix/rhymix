@@ -34,13 +34,6 @@
 <!--@else-->
     <div id="content">
         <h3 class="result">{$result_text}</h3>
-        <!--
-        <ul class="sortBy">
-            <!--@foreach($lang->is_sort_option as $key => $val)-->
-            <li class="on"><a href="#">{$val}</a></li>
-            <!--@end-->
-        </ul>
-        -->
         <ul class="searchResult">
         <!--@foreach($document_list as $no => $document)-->
             <li>
@@ -48,7 +41,7 @@
                 <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" alt="" width="100" height="100" class="thumb" /></a>
                 <!--@end-->
                 <dl>
-                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitleText()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--> | <span class="category"><a href="{getUrl('','mid',$mid_list[$document->get('module_srl')]->mid)}" onclick="window.open(this.href);return false;">{$mid_list[$document->get('module_srl')]->browser_title}</a></span></dt>
+                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitle()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--> | <span class="category"><a href="{getUrl('','mid',$mid_list[$document->get('module_srl')]->mid)}" onclick="window.open(this.href);return false;">{$mid_list[$document->get('module_srl')]->browser_title}</a></span></dt>
 
                     <dd>{$document->getSummary(140)}</dd>
                 </dl>
@@ -58,17 +51,22 @@
         <!--@end-->
         </ul>
         <div class="pageNavigation">
-            <a href="{getUrl('page','','document_srl','','search_target',$search_target,'is_keyword',$is_keyword)}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+            <a href="{getUrl('page','','document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}" class="goToFirst"><img src="./images/{$module_info->colorset}/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
             <!--@while($page_no = $page_navigation->getNextPage())-->
                 <!--@if($page == $page_no)-->
                     <span class="current">{$page_no}</span> 
                 <!--@else-->
-                    <a href="{getUrl('page',$page_no,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword)}">{$page_no}</a>
+                    <a href="{getUrl('page',$page_no,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}">{$page_no}</a>
                 <!--@end-->
             <!--@end-->
-            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword)}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}" class="goToLast"><img src="./images/{$module_info->colorset}/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
         </div>
     </div>
 
 
 <!--@end-->
+    <!--@if($last_division)-->
+    <div class="searchNext">
+        <span class="button"><input type="button" value="{$lang->cmd_search_next}" onclick="location.href='{getUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}';return false;" /></span>
+    </div>
+    <!--@end-->

@@ -1,0 +1,22 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--%import("css/default.css")-->
+
+<div class="sz_download">
+<div class="sz_{$colorset}">
+    <!--@if($widget_info->title)-->
+    <h2>{$widget_info->title} Top {$widget_info->list_count}</h2>
+    <!--@end-->
+    <table>
+    {@ $no = 1}
+    <!--@foreach($widget_info->file_list as $val)-->
+    <tr class="member_{$val->member_srl}">
+        <td class="left">{$no}위. <a href="{getUrl('','document_srl',$val->upload_target_srl)}">{$val->source_filename} ({FileHandler::filesize($val->file_size)})</a></td>
+        <td class="center">{$val->download_count}회</td>
+        <!--@if($widget_info->download)--><td class="right"><a href="{$val->download_url}">[Download]</a></td><!--@end-->
+    </tr>
+    {@ $no++}
+    <!--@end-->
+    </table>
+</div>
+</div>

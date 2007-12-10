@@ -33,7 +33,17 @@
             if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
             
             $widget_info->title = $title;
-            $widget_info->tag_list = $output->data;
+
+            if(count($output->data)) {
+
+                // 내용을 랜던으로 정렬
+                $numbers = array_keys($output->data);
+                shuffle($numbers);
+                
+                foreach($numbers as $k => $v) {
+                    $widget_info->tag_list[] = $output->data[$v];
+                }
+            }
 
             Context::set('widget_info', $widget_info);
 

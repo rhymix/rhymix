@@ -10,11 +10,17 @@
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
     <description xml:lang="ko">블로그 스타일로 최신 엮인글 출력합니다.</description>
-    <description xml:lang="jp">ブログスタイルで最新のトラックバックのコンテンツ（書き込み）を表示します。</description>
+    <description xml:lang="jp">ブログスタイルで最新のトラックバックを表示します。</description>
     <description xml:lang="zh-CN">显示为博客式的最新引用列表。</description>
     <description xml:lang="en">It displays newest trackback list with blog style.</description>
   </maker>
   <colorset>
+    <color name="layout">
+      <title xml:lang="ko">레이아웃에 맞춤</title>
+      <title xml:lang="jp">レイアウトに合わせる</title>
+      <title xml:lang="zh-CN">随布局</title>
+      <title xml:lang="en">레이아웃에 맞춤</title>
+    </color>
     <color name="normal">
       <title xml:lang="ko">기본 컬러</title>
       <title xml:lang="jp">デフォルトカラー</title>
