@@ -17,5 +17,5 @@
     $sid = $addon_info->sid;
 
     // Context::addJsFile()을 이용하면 끝
-    Context::addHtmlHeader(sprintf('<script src="http://script.lemonpen.com/site/lemonpen.js?sid=%s" type="text/javascript" charset="UTF-8"></script>', $sid));
+    if($sid) Context::addHtmlHeader(sprintf('<script src="http://script.lemonpen.com/site/lemonpen.js?sid=%s" type="text/javascript" charset="UTF-8"></script>', $sid));
 ?>
