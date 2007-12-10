@@ -1036,7 +1036,12 @@
             FileHandler::makeDir($target_path);
 
             $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
-            FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+
+            // 파일 정보 구함
+            list($width, $height, $type, $attrs) = @getimagesize($target_file);
+
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            else @copy($target_file, $target_filename);
 
         }
 
