@@ -72,6 +72,8 @@
 			$plus = -1;
 		    $val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
 		}
+
+		$val->childNodes["description"]->body = str_replace("\n", "<BR />", $val->childNodes["description"]->body);
 	    }
 
             Context::set('page', $page);
