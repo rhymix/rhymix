@@ -8,7 +8,7 @@
     set_include_path("./modules/springnote/lib/PEAR");
     require_once('PEAR.php');
     require_once('HTTP/Request.php');
-    require_once('me2dayXmlParser.class.php');
+    require_once('./classes/xml/GeneralXmlParser.class.php');
 
     class lifepodModel extends lifepod {
 
@@ -64,7 +64,7 @@
 
             $body = $oReqeust->getResponseBody();
 
-            $oXmlParser = new Me2DayXmlParser();
+            $oXmlParser = new GeneralXmlParser();
             $xmldoc = $oXmlParser->parse($body);
 	    if(!$xmldoc->childNodes["feed"]->childNodes["entry"])
 	    {
