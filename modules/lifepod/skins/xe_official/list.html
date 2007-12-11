@@ -1,5 +1,5 @@
 <!-- JS 파일 로드 -->
-<script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js"></script>
+<script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js<!--@if($module_info->korean_anniversary!="notuse")-->?calendar=1<!--@end-->"></script>
     <!--%import("js/lifepod.js")-->
 <script type="text/javascript" src="./modules/lifepod/skins/xe_official/js/xe_interface.js"></script>
     <!--{count($page->data)}-->
@@ -12,7 +12,6 @@ xAddEventListener(window, 'load', startLifepod);
     setDate({$year},{$month},{$day});
 <!--@end-->
 //]]></script>
-
 
 <!--%import("css/common.css")-->
 

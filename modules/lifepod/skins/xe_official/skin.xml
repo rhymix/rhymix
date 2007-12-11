@@ -8,12 +8,26 @@
         <description xml:lang="ko">라이프팟 노트 연동 모듈의 기본 스킨</description>
 	<description xml:lang="en">Default Skin of Lifepod Module</description>
     </maker>
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="en">White (default)</title>
+        </color>
+    </colorset>
     <extra_vars>
         <var name="title" type="text">
             <title xml:lang="ko">게시판 제목</title>
             <title xml:lang="en">Title of Board</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="en">Please input the title of board.</description>
+        </var>
+        <var name="korean_anniversary" type="select">
+            <title xml:lang="ko">한국 기념일 표시</title>
+            <title xml:lang="en">Display anniversary</title>
+            <description xml:lang="ko">한국의 기념일을 표시합니다.</description>
+            <description xml:lang="en">Display Korean anniversary.</description>
+            <default>use</default>
+            <default>notuse</default>
         </var>
     </extra_vars>
 </skin>
