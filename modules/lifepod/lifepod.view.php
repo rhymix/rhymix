@@ -31,7 +31,7 @@
          * @brief Reformatting date data from Lifepod API into data type compatible to Lifepod UI 
          **/
 	function dateFormatChange($dates, $plus = 0) {
-	    $dates = ereg_replace("(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z", "\\1-\\2-\\3 \\4:\\5:\\6+0", $dates);
+	    $dates = sprintf("%s-%s-%s %s:%s:%s+0", substr($dates,0,4), substr($dates,4,2), substr($dates,6,2), substr($dates,9,2), substr($dates,11,2), substr($dates,13,2));
 	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus);
 	    return $dates;
 	}
@@ -44,7 +44,16 @@
             if(!$this->grant->view) return $this->dispLifepodMessage('msg_not_permitted');
 
             $oLifepodModel = &getModel('lifepod');
-            $oLifepodModel->setInfo($this->module_info->calendar_address);
+	    
+	    Context::get('member_srl', $this->member_srl);
+	    if($this->member_srl)
+	    {
+		$args->member_srl = $this->member_srl;
+	    }
+	    else
+	    {
+		$oLifepodModel->setInfo($this->module_info->calendar_address);
+	    }
 	    $cYear = Context::get('year');
 	    $cMonth = Context::get('month');
 	    $cDay = Context::get('day');
