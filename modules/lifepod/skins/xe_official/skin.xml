@@ -29,5 +29,11 @@
             <default>use</default>
             <default>notuse</default>
         </var>
+	<var name="calendar_color" type="text">
+	    <title xml:lang="ko">이벤트 표시 색깔</title>
+	    <title xml:lang="en">Display color for events</title>
+	    <description xml:lang="ko">달력에 이벤트를 표시할 색을 정합니다. css에 들어가는 색이름이나 color code를 쓸 수 있습니다. (예: blue, #575757, 기본: green)</description>
+	    <description xml:lang="en">Set color for events. You may use color name or code for CSS style. (e.g., blue, #575757, Default : green)</description>
+	</var>
     </extra_vars>
 </skin>
