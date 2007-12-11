@@ -1,5 +1,6 @@
 <!--%import("filter/delete_checked.xml")-->
 <!--%import("js/file_admin.js")-->
+<!--%import("css/file_list.css")-->
 <!--#include("header.html")-->
 
 <div class="tableSummaryType1">
@@ -45,11 +46,25 @@
 </thead>
 <tbody>
     <!--@foreach($file_list as $no => $val)-->
+    <!--@if($val->upload_target_srl != $cur_upload_target_srl)-->
+        <!--@if($val->target_document_srl)-->
+            {@ $document_srl  = $val->target_document_srl}
+            {@ $move_uri = './?document_srl='.$document_srl.'#comment_'.$val->upload_target_srl}
+        <!--@else-->
+            {@ $document_srl  = $val->upload_target_srl}
+            {@ $move_uri = './?document_srl='.$val->upload_target_srl}
+        <!--@end-->
+        {@ $cur_upload_target_srl = $val->upload_target_srl}
+    <tr class="bg1">
+        <td colspan="9">
+            <a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;" class="blue">{$module_list[$val->module_srl]->browser_title}</a> - <a href="{$move_uri}" onclick="window.open(this.href);return false;">{htmlspecialchars($document_list[$document_srl]->title)}</a>
+        </td>
+    </tr>
+    <!--@end-->
     <tr>
         <td class="tahoma">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
         <td class="left subject">
-            <a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;" class="blue">{$module_list[$val->module_srl]->browser_title}</a><br />
             <a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a>
         </td>
         <td class="tahoma">{$val->file_size}</td>
@@ -63,7 +78,7 @@
         <td class="tahoma">{$val->download_count}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{$val->ipaddress}</td>
-        <td class="blue"><a href="./?document_srl={$val->upload_target_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+        <td class="blue"><a href="{$move_uri}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <!--@end-->
 </tbody>

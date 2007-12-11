@@ -54,12 +54,63 @@
                 }
             }
 
+            // 목록의 loop를 돌면서 document를 구하기
+            $file_count = count($output->data);
+            if($file_count) {
+                $document_srl_list = array();
+
+                foreach($output->data as $val) {
+                    $comment_srl = $val->upload_target_srl;
+                    if(!in_array($comment_srl, $document_srl_list)) $document_srl_list[] = $comment_srl;
+                }
+
+                // comment를 먼저 구해서 document_srl을 구함
+                if(count($document_srl_list)) {
+                    $args->comment_srls = implode(',', $document_srl_list);
+                    $comment_output = executeQuery('comment.getComments', $args);
+                    if($comment_output->data && !is_array($comment_output->data)) {
+                        $comment_output->data = array($comment_output->data);
+                    }
+
+                    if($comment_output->data) {
+                        for($i = 0; $i < count($comment_output->data); $i++) {
+                            $comment_info = $comment_output->data[$i];
+                            $comment_list[$comment_info->comment_srl] = $comment_info;
+                        }
+
+                        foreach($output->data as $val) {
+                            $val->target_document_srl = $comment_list[$val->upload_target_srl]->document_srl;
+                        }
+
+                        foreach($comment_output->data as $val) {
+                            $document_srl = $val->document_srl;
+                            if(!in_array($document_srl, $document_srl_list)) $document_srl_list[] = $document_srl;
+                        }
+                    }
+                }
+
+                // document를 구함
+                if(count($document_srl_list)) {
+                    $args->document_srls = implode(',', $document_srl_list);
+                    $document_output = executeQuery('document.getDocuments', $args);
+                    if($document_output->data && !is_array($document_output->data)) {
+                        $document_output->data = array($document_output->data);
+                    }
+
+                    for($i = 0; $i < count($document_output->data); $i++) {
+                        $document_info = $document_output->data[$i];
+                        $document_list[$document_info->document_srl] = $document_info;
+                    }
+                }
+            }
+
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('file_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
             Context::set('module_list', $module_list);
+            Context::set('document_list', $document_list);
 
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
