@@ -58,7 +58,7 @@
                 unset($this->lang);
             }
 
-            $this->oParser = xml_parser_create();
+            $this->oParser = xml_parser_create('UTF-8');
 
             xml_set_object($this->oParser, $this);
             xml_set_element_handler($this->oParser, "_tagOpen", "_tagClosed");
