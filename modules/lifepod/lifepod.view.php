@@ -27,18 +27,20 @@
             $this->setTemplatePath($template_path);
         }
 
+        /**
+         * @brief Reformatting date data from Lifepod API into data type compatible to Lifepod UI 
+         **/
 	function dateFormatChange($dates, $plus = 0) {
-	    $dates = str_replace( "T", " ", $dates);
-	    $dates = str_replace( "Z", "+0", $dates);
+	    $dates = ereg_replace("(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z", "\\1-\\2-\\3 \\4:\\5:\\6+0", $dates);
 	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus);
 	    return $dates;
 	}
 
         /**
-         * @brief 달력 
+         * @brief Displaying Calendar 
          **/
         function dispLifepodContent() {
-            // 권한 체크
+            // check permission
             if(!$this->grant->view) return $this->dispLifepodMessage('msg_not_permitted');
 
             $oLifepodModel = &getModel('lifepod');
@@ -47,7 +49,6 @@
 	    $cMonth = Context::get('month');
 	    $cDay = Context::get('day');
             
-            // 특정 페이지 선택시 페이지 정보 가져오기
             $page = $oLifepodModel->getPage($cYear, $cMonth, $cDay);
 	    foreach ($page->data as $key => $val)
 	    {

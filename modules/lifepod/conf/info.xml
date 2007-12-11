@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="service">
+<module version="0.11" category="service">
     <title xml:lang="ko">라이프팟 연동</title>
     <title xml:lang="en">Lifepod</title>
     <author email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007.12.10">
