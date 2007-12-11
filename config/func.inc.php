@@ -411,6 +411,9 @@
         // meta 태그 제거
         $content = preg_replace("!<meta(.*?)>!is","",$content);
 
+        // style 태그 제거
+        $content = preg_replace("!<style(.*?)<\/style>!is","",$content);
+
         return $content;
     }
 
