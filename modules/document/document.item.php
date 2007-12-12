@@ -437,20 +437,7 @@
 
             $check_files = false;
 
-            // 사진 이미지 체크
-            if(preg_match('!<img([^>]*?)>!is', $this->get('content'))) {
-                $buffs[] = "image";
-                $check_files = true;
-            }
-
-            // 동영상 체크
-            if(preg_match('!<embed([^>]*?)>!is', $this->get('content'))) {
-                $buffs[] = "movie";
-                $check_files = true;
-            }
-
-            // 첨부파일 체크
-            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
+            $content = $this->get('content');
 
             // 비밀글 체크
             if($this->isSecret()) $buffs[] = "secret";
@@ -461,6 +448,25 @@
             // 새글 체크
             if($this->get('regdate')>$time_check) $buffs[] = "new";
             else if($this->get('last_update')>$time_check) $buffs[] = "update";
+
+            // 사진 이미지 체크
+            preg_match_all('!<img([^>]*?)>!is', $content, $matches);
+            $cnt = count($matches[0]);
+            for($i=0;$i<$cnt;$i++) {
+                if(preg_match('/src=("|\')*(common|modules|widgets|layouts)/i', $matches[0][$i])) continue;
+                $buffs[] = "image";
+                $check_files = true;
+                break;
+            }
+
+            // 동영상 체크
+            if(preg_match('!<embed([^>]*?)>!is', $content) || preg_match('/editor_component=("|\')*multimedia_link/i', $content) ) {
+                $buffs[] = "movie";
+                $check_files = true;
+            }
+
+            // 첨부파일 체크
+            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
 
 
             return $buffs;
