@@ -16,6 +16,7 @@
         var $appkey = '82dee99105c92c166bb8586415d47283b9a54cd2';
         var $server = 'api.springnote.com';
         var $port = 80;
+        var $domain = '';
 
         /**
          * @brief 초기화
@@ -26,16 +27,17 @@
         /**
          * @brief 스프링노트 페이지를 가져오기 위한 기본 값 설정
          **/
-        function setInfo($userid, $userkey) {
+        function setInfo($userid, $userkey, $domain = '') {
             $this->userid = $userid;
             $this->userkey = $userkey;
+            $this->domain = $domain;
         }
 
         /**
          * @brief url 생성
          **/
         function getUrl($pageid = null) {
-            return sprintf('http://%s:%s/pages%s.xml', $this->server, $this->port, $pageid?'/'.$pageid:'');
+            return sprintf('http://%s:%s/pages%s.xml%s', $this->server, $this->port, $pageid?'/'.$pageid:'', $this->domain?'?domain='.$this->domain:'');
         }
 
         /**

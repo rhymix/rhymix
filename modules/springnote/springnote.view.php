@@ -43,7 +43,7 @@
             $q = Context::get('q');
 
             $oSpringnoteModel = &getModel('springnote');
-            $oSpringnoteModel->setInfo($this->module_info->openid, $this->module_info->userkey);
+            $oSpringnoteModel->setInfo($this->module_info->openid, $this->module_info->userkey, $this->module_info->domain);
             
             // 특정 페이지 선택시 페이지 정보 가져오기
             if($this->grant->view && $pageid) {

@@ -10,6 +10,7 @@
         <param name="openid" target="springnote_openid" />
         <param name="userkey" target="springnote_userkey" />
         <param name="pageid" target="springnote_pageid" />
+        <param name="domain" target="springnote_domain" />
         <param name="springnote_name" target="mid" />
         <param name="module_srl" target="module_srl" />
         <param name="module_category_srl" target="module_category_srl" />
