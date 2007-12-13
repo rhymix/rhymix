@@ -113,8 +113,12 @@
          **/
         function getPages($query = null, $fulltext = true) {
 
-            if($query) $url = sprintf('%s?q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
-            else $url = $this->getUrl();
+            if($query) {
+                if($this->domain) $url = sprintf('%s&q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
+                else $url = sprintf('%s?q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
+            } else {
+                $url = $this->getUrl();
+            }
 
             $oReqeust = $this->getRequest($url);
             $oResponse = $oReqeust->sendRequest();
