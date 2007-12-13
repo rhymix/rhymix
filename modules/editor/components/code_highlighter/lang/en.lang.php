@@ -6,7 +6,7 @@
      **/
     $lang->code_type = 'Code Type';
 
-    $lang->used_collapse = 'Used Collapse';
-    $lang->hidden_linenumber = 'Hidden Linenumber';
-    $lang->hidden_controls = 'Hidden Control';
+    $lang->used_collapse = 'Use Folding';
+    $lang->hidden_linenumber = 'Hide Line Number';
+    $lang->hidden_controls = 'Hide Toolbar';
 ?>
