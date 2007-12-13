@@ -92,9 +92,11 @@
     </div>
 
     <div class="pageView">
-        <div class="xhtmlEditorBody background_no">
+        <!--BeforeDocument({$pageid},0)-->
+        <div class="document_{$pageid}_0 xhtmlEditorBody background_no">
             {$page->source}
         </div>
+        <!--AfterDocument({$pageid},0)-->
     </div>
 <!--@end-->
 
