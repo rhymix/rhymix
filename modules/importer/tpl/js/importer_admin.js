@@ -3,135 +3,106 @@
  * @author zero (zero@nzeo.com)
  * @brief  importer에서 사용하는 javascript
  **/
-
-/* Step 1 처리 */
-function completeStep1(ret_obj) {
-    var error = ret_obj['error'];
-    var message = ret_obj['message'];
-    var next_step = ret_obj['next_step'];
-    var module_list = ret_obj['module_list'];
-
-    if(module_list) {
-        var sel = xGetElementById("target_module");
-        var module_list_arr = module_list.split("\n");
-        for(var i=0;i<module_list_arr.length;i++) {
-            var pos = module_list_arr[i].indexOf(',');
-            var value = module_list_arr[i].substr(0,pos);
-            var text = module_list_arr[i].substr(pos+1);
-
-            var opt_obj = new Option(text, value, true, true);
-            sel.options[sel.options.length] = opt_obj;
-        }
-        sel.selectedIndex = 0;
-    }
-
-    xGetElementById('step1').style.display = 'none';
-    xGetElementById('step'+next_step).style.display = 'block';
-}
-
-/* Step 1-2 모듈선택 처리 (카테고리 있으면 카테고리 선택으로, 아니면 바로 파일 업로드로) */
-function completeStep12(ret_obj) {
-    var error = ret_obj['error'];
-    var message = ret_obj['message'];
-    var next_step = ret_obj['next_step'];
-    var category_list = ret_obj['category_list'];
-
-    if(category_list) {
-        var sel = xGetElementById("target_category");
-        var category_list_arr = category_list.split("\n");
-        for(var i=0;i<category_list_arr.length;i++) {
-            var pos = category_list_arr[i].indexOf(',');
-            var value = category_list_arr[i].substr(0,pos);
-            var text = category_list_arr[i].substr(pos+1);
-
-            var opt_obj = new Option(text, value, true, true);
-            sel.options[sel.options.length] = opt_obj;
-        }
-        sel.selectedIndex = 0;
-    }
-
-    xGetElementById('step12').style.display = 'none';
-    xGetElementById('step'+next_step).style.display = 'block';
-}
-
-/* Step 1-3 카테고리 선택후 파일 업로드 보여주기 */
-function doStep13(fo_obj) {
-    xGetElementById('step13').style.display = 'none';
-    xGetElementById('step2').style.display = 'block';
-    return false;
-}
-
-/* Step 2 XML파일을 입력받아서 처리~ */
-function doStep2(fo_obj) {
-    var sel_module = xGetElementById("target_module");
-    if(sel_module.options.length>0) {
-        var module_srl = sel_module.options[sel_module.selectedIndex].value;
-        fo_obj.module_srl.value  = module_srl;
-    }
-
-    var sel_category = xGetElementById("target_category");
-    if(sel_category.options.length>1) {
-        var category_srl = sel_category.options[sel_category.selectedIndex].value;
-        fo_obj.category_srl.value = category_srl;
-    }
-
-    var target_path = xGetElementById("target_path").value;
-    fo_obj.target_path.value = target_path;
-
-    procFilter(fo_obj, import_xml);
-
-
-    xGetElementById('step2_status').style.display = 'block';
-    return false;
-}
-
-/* Step Complete Import */
-function completeImport(ret_obj) {
-    var message = ret_obj['message'];
-    var is_finished = ret_obj['is_finished'];
-    var position = ret_obj['position'];
-    var file_point = ret_obj['file_point'];
-    var total_count = ret_obj['total_count'];
-
-    if(total_count>0) {
-        var bar = xGetElementById('bar');
-        var status = xGetElementById('bar_status');
-        var per = parseInt(position/total_count*100,10)
-        xInnerHtml(status, position+'/'+total_count+' ('+per+'%)');
-        bar.style.width = per+'%';
-    }
-
-    if(is_finished=='Y') {
-        alert(ret_obj["message"]);
-        location.href = location.href;
-    } else {
-        var fo_obj = xGetElementById('fo_step2');
-        fo_obj.position.value = position;
-        fo_obj.file_point.value = file_point;
-        fo_obj.total_count.value = total_count;
-        message = message.replace(/&lt;/g,"<").replace(/&gt;/g,">");
-
-        var obj = xGetElementById('step2_position');
-        var txt = xInnerHtml(obj);
-        if(txt.length > 1024*10) txt = '';
-        if(message != "success") xInnerHtml(obj, txt+message);
-        obj.scrollTop += xHeight(obj);
-        procFilter(fo_obj, import_xml);
-    }
-}
-
-function doManualProcess() {
-    var fo_obj = xGetElementById('fo_step2');
-    procFilter(fo_obj, import_xml);
-}
-
 /* 회원정보와 게시물의 싱크 */
-function doStep3(fo_obj) {
-    exec_xml('importer','procImporterAdminSync', new Array(), completeStep3);
+function doSync(fo_obj) {
+    exec_xml('importer','procImporterAdminSync', new Array(), completeSync);
     return false;
 }
 
-function completeStep3(ret_obj) {
+function completeSync(ret_obj) {
     alert(ret_obj['message']);
     location.href=location.href;
 }
+
+
+/* 회원정보 데이터 import */
+function doImportMember(fo_obj) {
+    var xml_file = fo_obj.xml_file.value;
+    if(!xml_file) return false;
+
+    var params = new Array();
+    params['xml_file'] = xml_file;
+    params['total_count'] = fo_obj.total_count.value;
+    params['success_count'] = fo_obj.success_count.value;
+    params['readed_line'] = fo_obj.readed_line.value;
+
+    var response_tags = new Array("error","message", "total_count", "success_count", "readed_line", "is_finished");
+
+    fo_obj.xml_file.disabled = true;
+    xGetElementById("status").style.display = "block";
+    xGetElementById("status_button_prev").style.display = "none";
+    xGetElementById("status_button").style.display = "block";
+
+    exec_xml('importer','procImporterAdminMemberImport', params, completeImportMember, response_tags);
+
+    return false;
+}
+
+function completeImportMember(ret_obj) {
+    var total_count = ret_obj['total_count'];
+    var success_count = ret_obj['success_count'];
+    var readed_line = ret_obj['readed_line'];
+    var is_finished = ret_obj['is_finished'];
+
+    if(is_finished == '1') {
+        alert(ret_obj['message']);
+        xInnerHtml("status", ret_obj['message']);
+    } else {
+        xInnerHtml("status", ret_obj['message']);
+
+        var fo_obj = xGetElementById("fo_import");
+        fo_obj.total_count.value = total_count;
+        fo_obj.success_count.value = success_count;
+        fo_obj.readed_line.value = readed_line;
+        doImportMember(fo_obj);
+    }
+}
+
+/* 모듈 데이터 import */
+function doImportModule(fo_obj) {
+    var target_module = fo_obj.target_module.options[fo_obj.target_module.selectedIndex].value;
+    if(!target_module) return false;
+
+    var xml_file = fo_obj.xml_file.value;
+    if(!xml_file) return false;
+
+    var params = new Array();
+    params['xml_file'] = xml_file;
+    params['target_module'] = target_module;
+    params['total_count'] = fo_obj.total_count.value;
+    params['success_count'] = fo_obj.success_count.value;
+    params['readed_line'] = fo_obj.readed_line.value;
+
+    var response_tags = new Array("error","message", "total_count", "success_count", "readed_line", "is_finished");
+
+    fo_obj.target_module.disabled = true;
+    fo_obj.xml_file.disabled = true;
+    xGetElementById("status").style.display = "block";
+    xGetElementById("status_button_prev").style.display = "none";
+    xGetElementById("status_button").style.display = "block";
+
+    exec_xml('importer','procImporterAdminModuleImport', params, completeImportModule, response_tags);
+
+    return false;
+}
+
+function completeImportModule(ret_obj, response_tags) {
+    var total_count = ret_obj['total_count'];
+    var success_count = ret_obj['success_count'];
+    var readed_line = ret_obj['readed_line'];
+    var is_finished = ret_obj['is_finished'];
+
+    if(is_finished == '1') {
+        alert(ret_obj['message']);
+        xInnerHtml("status", ret_obj['message']);
+    } else {
+        xInnerHtml("status", ret_obj['message']);
+
+        var fo_obj = xGetElementById("fo_import");
+        fo_obj.total_count.value = total_count;
+        fo_obj.success_count.value = success_count;
+        fo_obj.readed_line.value = readed_line;
+        doImportModule(fo_obj);
+    }
+}
+

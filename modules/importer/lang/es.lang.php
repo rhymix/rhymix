@@ -39,7 +39,7 @@
     $lang->msg_no_xml_file = 'No se puede encontrar el archivo XML. Verifique su ruta.';
     $lang->msg_invalid_xml_file = 'Tipo de archivo XML inválido.';
     $lang->msg_importing = 'Ingresando %d dotos de %d. (Si esto mantiene paralizado presione el botón "Continuar".)';
-    $lang->msg_import_finished = '%d datos fueron completamente ingresados. Dependiendo del caso, pueden haber algunos datos no ingresados.';
+    $lang->msg_import_finished = '%d/%d datos fueron completamente ingresados. Dependiendo del caso, pueden haber algunos datos no ingresados.';
     $lang->msg_sync_completed = 'Sincronización del usuario, artículo y respuestas finalizadas.';
 
     // bla bla...

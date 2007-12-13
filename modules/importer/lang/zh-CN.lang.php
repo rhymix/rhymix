@@ -39,7 +39,7 @@
     $lang->msg_no_xml_file = '找不到XML文件，请重新确认路径。';
     $lang->msg_invalid_xml_file = '错误形式的XML文件！';
     $lang->msg_importing = '%d个的数据中正在输入 %d个。 （长时间没有响应时请按“继续进行”按钮）';
-    $lang->msg_import_finished = '已完成输入%d个数据。根据情况的不同可能有没有被导入的数据。';
+    $lang->msg_import_finished = '已完成输入%d/%d个数据。根据情况的不同可能有没有被导入的数据。';
     $lang->msg_sync_completed = '已完成会员和文章，评论的同步。';
 
     // 说明

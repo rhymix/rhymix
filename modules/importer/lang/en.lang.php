@@ -39,7 +39,7 @@
     $lang->msg_no_xml_file = 'Could not find XML file. Please check the path again';
     $lang->msg_invalid_xml_file = 'Invalid type of XML file.';
     $lang->msg_importing = 'Writing %d datas of %d. (If it keeps being frozen, click the button "Continue")';
-    $lang->msg_import_finished = '%d datas were inputted completely. Depending on the situation, there might be some datas which couldn\'t be inputted.';
+    $lang->msg_import_finished = '%d/%d datas were inputted completely. Depending on the situation, there might be some datas which couldn\'t be inputted.';
     $lang->msg_sync_completed = 'Completed synchronzing member article and comments.';
 
     // blah blah..

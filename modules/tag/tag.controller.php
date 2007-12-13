@@ -55,7 +55,9 @@
             $tag_list = explode(',',$tags);
             $tag_count = count($tag_list);
             for($i=0;$i<$tag_count;$i++) {
-                $args->tag = $tag_list[$i];
+                unset($args->tag);
+                $args->tag = trim($tag_list[$i]);
+                if(!$args->tag) continue;
                 $output = executeQuery('tag.insertTag', $args);
                 if(!$output->toBool()) return $output;
             }

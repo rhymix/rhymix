@@ -39,7 +39,7 @@
     $lang->msg_no_xml_file = 'XMLファイルが見つかりません。パスをもう一度確認してください。';
     $lang->msg_invalid_xml_file = 'XMLファイルのフォーマットが正しくありません。';
     $lang->msg_importing = '%d個のデータの内、%d個を変換中です（止まったままの場合は「続ける」ボタンをクリックしてください）。';
-    $lang->msg_import_finished = '%d個のデータ変換が完了しました。場合によって変換されていないデータがあることもあります。';
+    $lang->msg_import_finished = '%d/%d個のデータ変換が完了しました。場合によって変換されていないデータがあることもあります。';
     $lang->msg_sync_completed = '会員情報、書き込みデータ、コメントのデータの同期化（変換）が完了しました。';
 
     // Bla, Blah..

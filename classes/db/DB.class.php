@@ -324,7 +324,7 @@
             }
 
             if(strpos($name,'.')!==false&&strpos($value,'.')!==false) {
-                list($column_name) = explode('.',$value);
+                list($table_name, $column_name) = explode('.',$value);
                 if($column_type[$column_name]) return $value;
             }
 
