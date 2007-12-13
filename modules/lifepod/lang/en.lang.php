@@ -7,9 +7,9 @@
 
     $lang->lifepod = "Lifepod";
 
-    $lang->calendar_address = "calendar's xml address";
-    $lang->cmd_lifepod_list = 'Lifepod module list';
-    $lang->cmd_view_info = 'Lifepod info.';
+    $lang->calendar_address = "Calendar's xml address";
+    $lang->cmd_lifepod_list = 'Lifepod List';
+    $lang->cmd_view_info = 'Lifepod Info.';
 
-    $lang->about_lifepod = "Lifepod is a calendar service provided by Openmaru Studio.<br />Lifepod Zeroboard XE module desplays Lifepod's scalendar as an internal document.";
+    $lang->about_lifepod = "Lifepod is a calendar service provided by Openmaru Studio.<br />Lifepod Zeroboard XE module desplays Lifepod's specific calendars as internal documents.";
 ?>
