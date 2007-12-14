@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">기본 카운터 애드온</title>
-  <title xml:lang="jp">接続カウンター</title>
+  <title xml:lang="jp">接続カウンターアドオン</title>
   <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Addon for basic counter</title>
   <title xml:lang="es">Addon contador básico</title>
@@ -18,8 +18,8 @@
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
     </description>
     <description xml:lang="jp">
-        セロボードXEの接続カウンターモジュールは、接続情報を記録します。
-        このアドオンを「使用」に設定しておくと接続情報が記録されます。
+        セロボードXEの接続カウンターモジュールで接続（アクセス）情報を記録します。
+        このアドオンを「使用」に設定しておくと接続（アクセス）情報が記録されます。
     </description>
     <description xml:lang="zh-CN">
         利用ZeroboardXE的网站访问统计模块记录网站访问信息。        
