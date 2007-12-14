@@ -8,91 +8,119 @@
 /* board Information */
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
 .articleNum { float:left; padding:0 0 0 15px; }
-
-.CalendarViewDay
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarViewMonth {
+	width:44px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_month.gif);
+	cursor:pointer;
+	margin-right:5px;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarView4Day
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarView2Week {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_2week.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarViewWeek
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarViewWeek {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_week.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarView2Week
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarView4Day {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_4day.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarViewMonth
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarViewDay {
+	width:44px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_day.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMoveToday
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMovePrev {
+	width:34px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_left.gif);
+	cursor:pointer;
+	margin-left:5px;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMoveNext
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMoveToday {
+	width:31px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_today.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMovePrev
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMoveNext {
+	width:34px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_next.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
