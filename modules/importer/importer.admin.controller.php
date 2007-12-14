@@ -201,6 +201,7 @@
                 // 이미지네임
                 if($obj->image_nickname && file_exists($obj->image_nickname)) {
                     $target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($obj->member_srl));
+                    if(!is_dir($target_path)) FileHandler::makeDir($target_path);
                     $target_filename = sprintf('%s%d.gif', $target_path, $obj->member_srl);
                     @rename($obj->image_nickname, $target_filename);
                 }
