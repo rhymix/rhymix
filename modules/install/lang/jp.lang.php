@@ -220,23 +220,23 @@ EndOfLicense;
         );
 
     $lang->install_checklist_xml = 'XMLライブラリのインストール';
-    $lang->install_without_xml = 'XMLライブラリがインストールされていません';
+    $lang->install_without_xml = 'XMLライブラリがインストールされていません。';
     $lang->install_checklist_gd = 'GDライブラリのインストール';
-    $lang->install_without_gd  = 'イメージ変換用のGDライブラリがインストールされていません';
+    $lang->install_without_gd  = 'イメージ変換用のGDライブラリがインストールされていません。';
     $lang->install_checklist_gd = 'GDライブラリのインストール';
-    $lang->install_without_iconv = '文字列処理のための「iconv」ライブラリがインストールされていません';
-    $lang->install_session_auto_start = 'PHPの設定で「session.auto_start==1」 にするとセッション処理に問題が発生することがあります';
-    $lang->install_permission_denied = 'インストールする対象のディレクトリのパーミッションが「707」になっていません';
+    $lang->install_without_iconv = '文字列処理のための「iconv」ライブラリがインストールされていません。';
+    $lang->install_session_auto_start = 'PHPの設定で「session.auto_start==1」 にするとセッション処理に問題が発生することがあります。';
+    $lang->install_permission_denied = 'インストールする対象のディレクトリのパーミッションが「707」になっていません。';
 
-    $lang->cmd_agree_license = 'ライセンスに同意します';
+    $lang->cmd_agree_license = 'ライセンスに同意します。';
     $lang->cmd_install_fix_checklist = 'インストールするための必須条件を設定しました。';
-    $lang->cmd_install_next = 'インストールを続けます';
+    $lang->cmd_install_next = 'インストールを続けます。';
 
     $lang->db_desc = array(
-        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。DBは「myisam」タイプで作成されるため、トランザクション処理はできません。',
-        'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。「innodb」ではトランザクションの処理が行えます。',
-        'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。インストールの際は、DBファイルはウェブがらアクセスできない場所に作成してください。（安定化までのテストは行われていません）',
-        'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。インストールの際は、ウェブからアクセスできない場所に作成してください。',
+        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。',
+        'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。',
+        'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストールの際は、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）',
+        'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストールの際は、DBファイルはウェブからアクセスできない場所に生成してください。',
         'cubrid' => 'CUBRID DBを利用します。',
         'postgresql' => 'PostgreSql DBを利用します。',
     );
@@ -257,11 +257,11 @@ EndOfLicense;
 
     $lang->env_title = '環境設定';
     $lang->use_optimizer = 'オプティマイザ使用';
-    $lang->about_optimizer = 'オプティマイザを使用すると多数の「CSS/ JS」ファイルを、統合圧縮してから転送するため、レスポンスが早くなります。但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
-    $lang->use_rewrite = 'リライトモジュール使用';
-    $lang->about_rewrite = 'Webサーバで「リライトモジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように簡単にすることができます。';
+    $lang->about_optimizer = 'オプティマイザを使用すると多数の「CSS/ JS」ファイルを、統合・圧縮して転送するため、レスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
+    $lang->use_rewrite = 'リライト・モジュールを使用';
+    $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように動的だけど静的なページに見せることができます。';
     $lang->time_zone = 'タイムゾーン';
-    $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間をＷｅｂサービスをしているローカル時間に設定できます。';
+    $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間を指定したところの時間に設定できます。';
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>';
 
@@ -270,7 +270,7 @@ EndOfLicense;
 
     $lang->msg_cannot_proc = 'インストールできる環境が整っていないため、リクエストを実行できませんでした。';
     $lang->msg_already_installed = '既にインストールされています。';
-    $lang->msg_dbconnect_failed = "データベースの接続エラーです。\nデータベースの情報をもう一度確認してください。";
+    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
     $lang->msg_table_is_exists = "既にデータベースにデーブルが作成されています。\nconfigファイルを再作成しました。";
     $lang->msg_install_completed = "インストールが完了しました。\nありがとうございます。";
     $lang->msg_install_failed = "インストールファイルを作成する際にエラーが発生しました。";
