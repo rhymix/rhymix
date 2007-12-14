@@ -6,7 +6,7 @@
         <name xml:lang="ko">zero</name>
         <name xml:lang="jp">zero</name>
         <description xml:lang="ko">활성화 하시면 레몬펜을 사이트에 달 수 있습니다.</description>
-        <description xml:lang="jp">機能をオンにすると、レモンペンをｻｲﾄで使うことが出来ます。 (LemonPen：Openmaru社提供)</description>
+        <description xml:lang="jp">機能をオンにすると、レモンペンをサイト上で使うことが出来ます。 (LemonPen：Openmaru社提供)</description>
     </author>
     <extra_vars>
         <var name="sid">
