@@ -49,7 +49,7 @@ class code_highlighter extends EditorHandler {
 		if($option_nocontrols == 'Y' && $option_collapse !== 'Y') $code_type = $code_type.':nocontrols';
 		$body = $xml_obj->body;
 
-		$body = preg_replace('@<br\\s*/?>@Ui' , "\r\n", $body);
+		$body = preg_replace('@(<br\\s*/?>)(\n)?@i' , "\n", $body);
 		$body = strip_tags($body);
 
 		if(!$GLOBALS['_called_code_highlighter_']) {
