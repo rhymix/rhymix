@@ -44,39 +44,38 @@
             if(!$this->grant->view) return $this->dispLifepodMessage('msg_not_permitted');
 
             $oLifepodModel = &getModel('lifepod');
-	    
-	    Context::get('member_srl', $this->member_srl);
-	    if($this->member_srl)
-	    {
-		$args->member_srl = $this->member_srl;
-	    }
-	    else
-	    {
-		$oLifepodModel->setInfo($this->module_info->calendar_address);
-	    }
+	    $caladdresses = split(", ", $this->module_info->calendar_address);
 	    $cYear = Context::get('year');
 	    $cMonth = Context::get('month');
 	    $cDay = Context::get('day');
-            
-            $page = $oLifepodModel->getPage($cYear, $cMonth, $cDay);
-	    foreach ($page->data as $key => $val)
-	    {
-		if($val->childNodes["date-start"])
-		{
-		    $val->childNodes["date-start"]->body = $this->dateFormatChange($val->childNodes["date-start"]->body);
-		}
-		if($val->childNodes["date-end"])
-		{
-		    $plus = 0;
-		    if($val->childNodes["type"]->body == "daylong")
-			$plus = -1;
-		    $val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
-		}
 
-		$val->childNodes["description"]->body = str_replace("\n", "<BR />", $val->childNodes["description"]->body);
+	    $calendars = array();
+            
+	    foreach($caladdresses as $key => $val)
+	    {
+		$page = $oLifepodModel->getPage($val, $cYear, $cMonth, $cDay);
+		foreach ($page->data as $key => $val)
+		{
+		    if($val->childNodes["date-start"])
+		    {
+			$val->childNodes["date-start"]->body = $this->dateFormatChange($val->childNodes["date-start"]->body);
+		    }
+
+		    if($val->childNodes["date-end"])
+		    {
+			$plus = 0;
+			if($val->childNodes["type"]->body == "daylong")
+			    $plus = -1;
+			$val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
+		    }
+
+		    $val->childNodes["description"]->body = str_replace("\n", "<BR />", $val->childNodes["description"]->body);
+		}
+		$calendars[] = $page;
+
 	    }
 
-            Context::set('page', $page);
+            Context::set('calendars', $calendars);
 
             $this->setTemplateFile('list');
         }
