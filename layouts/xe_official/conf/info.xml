@@ -113,7 +113,7 @@
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="en">Please input if you want to use background image.</description>
-		  <description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
+            <description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
         </var>
     </extra_vars>
     <menus>
