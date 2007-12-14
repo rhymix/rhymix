@@ -28,11 +28,6 @@ function doImportMember(fo_obj) {
 
     var response_tags = new Array("error","message", "total_count", "success_count", "readed_line", "is_finished");
 
-    fo_obj.xml_file.disabled = true;
-    xGetElementById("status").style.display = "block";
-    xGetElementById("status_button_prev").style.display = "none";
-    xGetElementById("status_button").style.display = "block";
-
     exec_xml('importer','procImporterAdminMemberImport', params, completeImportMember, response_tags);
 
     return false;
@@ -45,15 +40,29 @@ function completeImportMember(ret_obj) {
     var is_finished = ret_obj['is_finished'];
 
     if(is_finished == '1') {
-        alert(ret_obj['message']);
-        xInnerHtml("status", ret_obj['message']);
-    } else {
-        xInnerHtml("status", ret_obj['message']);
+        var fo_obj = xGetElementById("fo_import");
+        fo_obj.total_count.value = 0;
+        fo_obj.success_count.value = 0;
+        fo_obj.readed_line.value = 0;
+        fo_obj.xml_file.disabled = false;
+        xGetElementById("status").style.display = "none";
+        xGetElementById("status_button_prev").style.display = "block";
+        xGetElementById("status_button").style.display = "none";
 
+
+        xInnerHtml("status", ret_obj['message']);
+        alert(ret_obj['message']);
+    } else {
         var fo_obj = xGetElementById("fo_import");
         fo_obj.total_count.value = total_count;
         fo_obj.success_count.value = success_count;
         fo_obj.readed_line.value = readed_line;
+        fo_obj.xml_file.disabled = true;
+        xGetElementById("status").style.display = "block";
+        xGetElementById("status_button_prev").style.display = "none";
+        xGetElementById("status_button").style.display = "block";
+        xInnerHtml("status", ret_obj['message']);
+
         doImportMember(fo_obj);
     }
 }
@@ -75,12 +84,6 @@ function doImportModule(fo_obj) {
 
     var response_tags = new Array("error","message", "total_count", "success_count", "readed_line", "is_finished");
 
-    fo_obj.target_module.disabled = true;
-    fo_obj.xml_file.disabled = true;
-    xGetElementById("status").style.display = "block";
-    xGetElementById("status_button_prev").style.display = "none";
-    xGetElementById("status_button").style.display = "block";
-
     exec_xml('importer','procImporterAdminModuleImport', params, completeImportModule, response_tags);
 
     return false;
@@ -93,15 +96,35 @@ function completeImportModule(ret_obj, response_tags) {
     var is_finished = ret_obj['is_finished'];
 
     if(is_finished == '1') {
-        alert(ret_obj['message']);
-        xInnerHtml("status", ret_obj['message']);
-    } else {
+        var fo_obj = xGetElementById("fo_import");
+        fo_obj.target_module.disabled = false;
+        fo_obj.xml_file.disabled = false;
+        fo_obj.total_count.value = 0;
+        fo_obj.success_count.value = 0;
+        fo_obj.readed_line.value = 0;
+
+        xGetElementById("status").style.display = "none";
+        xGetElementById("status_button_prev").style.display = "block";
+        xGetElementById("status_button").style.display = "none";
+
+
         xInnerHtml("status", ret_obj['message']);
 
+        alert(ret_obj['message']);
+    } else {
         var fo_obj = xGetElementById("fo_import");
+        fo_obj.target_module.disabled = true;
+        fo_obj.xml_file.disabled = true;
         fo_obj.total_count.value = total_count;
         fo_obj.success_count.value = success_count;
         fo_obj.readed_line.value = readed_line;
+
+        xGetElementById("status").style.display = "block";
+        xGetElementById("status_button_prev").style.display = "none";
+        xGetElementById("status_button").style.display = "block";
+
+        xInnerHtml("status", ret_obj['message']);
+
         doImportModule(fo_obj);
     }
 }

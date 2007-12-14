@@ -14,6 +14,7 @@
         var $oDocumentController = null;
         var $oDocumentModel = null;
         var $oCommentController = null;
+        var $oCommentModel = null;
         var $oTrackbackController = null;
 
         /**
@@ -258,6 +259,7 @@
             $this->oDocumentController = &getController('document');
             $this->oDocumentModel = &getModel('document');
             $this->oCommentController = &getController('comment');
+            $this->oCommentModel = &getModel('comment');
             $this->oTrackbackController = &getController('trackback');
 
             // 타켓 모듈의 유무 체크
@@ -464,6 +466,7 @@
                     // binary buffer일 경우 임의의 위치에 파일을 저장시켜 놓고 그 파일의 경로를 return
                     $filename = $this->readFileBuff($fp, 'file');
                     $obj->file = $filename;
+                    continue;
                 }
 
                 $buff .= $str;
@@ -572,6 +575,7 @@
 
             // 댓글 등록
             if(count($comments)) {
+                $last_comment_updator = '';
                 foreach($comments as $key => $val) {
                     // 댓글 내용 정리
                     $comment_args->comment_srl = getNextSequence();
@@ -589,6 +593,8 @@
                     $comment_args->homepage = $val->homepage;
                     $comment_args->regdate = $val->regdate;
                     $comment_args->ipaddress = $val->ipaddress;
+
+                    $last_comment_updator = $val->nick_name;
 
                     // 첨부파일 미리 등록
                     if(count($val->attaches)) {
@@ -611,9 +617,12 @@
                         }
                     }
 
-
-                    $this->oCommentController->insertComment($comment_args, true);
+                    $comment_output = $this->oCommentController->insertComment($comment_args, true);
                 }
+
+                // 댓글 수 update
+                $comment_count = $this->oCommentModel->getCommentCount($obj->document_srl);
+                $update_output = $this->oDocumentController->updateCommentCount($obj->document_srl, $comment_count, $last_comment_updator, true);
             }
 
             // 엮인글 등록
@@ -621,7 +630,8 @@
                 foreach($trackbacks as $key => $val) {
                     $val->module_srl = $obj->module_srl;
                     $val->document_srl = $obj->document_srl;
-                    $this->oTrackbackController->insertTrackback($val, true);
+                    $trackback_output = $this->oTrackbackController->insertTrackback($val, true);
+                    debugprint($trackback_output);
                 }
             }
 
