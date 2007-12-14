@@ -424,8 +424,9 @@
                 } elseif($str == '</comment>') {
                     $comments[] = $obj;
                     continue;
+
                 // 첨부파일이 있을때
-                } elseif($str == '<attaches>') {
+                } else if(substr($str,0,9) == '<attaches') {
                     $obj->attaches = $this->importAttaches($fp);
                 }
 
@@ -552,10 +553,18 @@
                     $file_info['name'] = $filename;
 
                     $oFileController = &getController('file');
-                    $oFileController->insertFile($file_info, $obj->module_srl, $obj->document_srl, $download_count, true);
+                    $file_output = $oFileController->insertFile($file_info, $obj->module_srl, $obj->document_srl, $download_count, true);
 
                     // 컨텐츠의 내용 수정 (이미지 첨부파일 관련)
-                    if(eregi("\.(jpg|gif|jpeg|png)$", $filename)) $obj->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $obj->module_srl, $obj->document_srl, $filename), $obj->content);
+                    if($file_output->toBool()) {
+                        if($file_output->get('direct_download') == 'Y') {
+                            $obj->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $obj->module_srl, $obj->document_srl, $filename), $obj->content);
+                        } else {
+                            $oFileModel = &getModel('file');
+                            $url = $oFileModel->getDownloadUrl($file_output->get('file_srl'), $file_output->get('sid'));
+                            $obj->content = str_replace('"'.$filename.'"', $url, $obj->content);
+                        }
+                    }
                     @unlink($file);
                 }
             }
@@ -598,10 +607,10 @@
 
                     // 첨부파일 미리 등록
                     if(count($val->attaches)) {
-                        foreach($val->attaches as $key => $val) {
-                            $filename = $val->filename;
-                            $download_count = (int)$val->download_count;
-                            $file = $val->file;
+                        foreach($val->attaches as $k => $v) {
+                            $filename = $v->filename;
+                            $download_count = (int)$v->download_count;
+                            $file = $v->file;
 
                             if(!file_exists($file)) continue;
 
@@ -609,10 +618,19 @@
                             $file_info['name'] = $filename;
 
                             $oFileController = &getController('file');
-                            $oFileController->insertFile($file_info, $obj->module_srl, $comment_args->comment_srl, $download_count, true);
+                            $file_output = $oFileController->insertFile($file_info, $obj->module_srl, $comment_args->comment_srl, $download_count, true);
+
 
                             // 컨텐츠의 내용 수정 (이미지 첨부파일 관련)
-                            if(eregi("\.(jpg|gif|jpeg|png)$", $filename)) $obj->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $obj->module_srl, $obj->document_srl, $filename), $obj->content);
+                            if($file_output->toBool()) {
+                                if($file_output->get('direct_download') == 'Y') {
+                                    $comment_args->content = str_replace($filename, sprintf('./files/attach/images/%s/%s/%s', $comment_args->module_srl, $comment_args->comment_srl, $filename), $comment_args->content);
+                                } else {
+                                    $oFileModel = &getModel('file');
+                                    $url = $oFileModel->getDownloadUrl($file_output->get('file_srl'), $file_output->get('sid'));
+                                    $comment_args->content = str_replace('"'.$filename.'"', $url, $comment_args->content);
+                                }
+                            }
                             @unlink($file);
                         }
                     }
@@ -631,7 +649,6 @@
                     $val->module_srl = $obj->module_srl;
                     $val->document_srl = $obj->document_srl;
                     $trackback_output = $this->oTrackbackController->insertTrackback($val, true);
-                    debugprint($trackback_output);
                 }
             }
 

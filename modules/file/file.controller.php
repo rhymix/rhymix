@@ -310,6 +310,8 @@
             $output->add('file_size', $args->file_size);
             $output->add('source_filename', $args->source_filename);
             $output->add('upload_target_srl', $upload_target_srl);
+            $output->add('sid', $args->sid);
+            $output->add('direct_download', $args->direct_download);
             return $output;
         }
 
