@@ -589,7 +589,7 @@
                     // 댓글 내용 정리
                     $comment_args->comment_srl = getNextSequence();
                     $comment_parent_srls[$val->sequence] = $comment_args->comment_srl;
-                    $comment_args->parent_srl = $comment_parent_srls[$val->parent];
+                    if($val->parent) $comment_args->parent_srl = $comment_parent_srls[$val->parent];
                     $comment_args->module_srl = $obj->module_srl;
                     $comment_args->document_srl = $obj->document_srl;
                     $comment_args->content = $val->content;
