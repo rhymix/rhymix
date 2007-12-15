@@ -32,7 +32,7 @@
          **/
 	function dateFormatChange($dates, $plus = 0) {
 	    $dates = sprintf("%s-%s-%s %s:%s:%s+0", substr($dates,0,4), substr($dates,4,2), substr($dates,6,2), substr($dates,9,2), substr($dates,11,2), substr($dates,13,2));
-	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus);
+	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus + zgap());
 	    return $dates;
 	}
 
