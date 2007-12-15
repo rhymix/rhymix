@@ -2,15 +2,11 @@
 <script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js<!--@if($module_info->korean_anniversary!="notuse")-->?calendar=1<!--@end-->"></script>
     <!--%import("js/lifepod.js")-->
 <script type="text/javascript" src="./modules/lifepod/skins/xe_official/js/xe_interface.js"></script>
-    <!--{count($page->data)}-->
-    <!--@if(!$module_info->calendar_color)-->
-    <!--{$module_info->calendar_color = "green"}-->
-    <!--@end-->
 <script type="text/javascript">//<![CDATA[
 xAddEventListener(window, 'load', startLifepod);
 <!--@foreach($calendars as $key => $page)-->
     <!--@foreach($page->data as $key => $val)-->
-    calAdd({$val->childNodes["identifier"]->body},'{$val->childNodes["date-start"]->body}', '{$val->childNodes["date-end"]->body}', '{$val->childNodes["title"]->body}', '{$val->childNodes["description"]->body}', '{$val->childNodes["type"]->body}', '{$page->title}', '{$module_info->calendar_color}'); 
+    calAdd({$val->childNodes["identifier"]->body},'{$val->childNodes["date-start"]->body}', '{$val->childNodes["date-end"]->body}', '{$val->childNodes["title"]->body}', '{$val->childNodes["description"]->body}', '{$val->childNodes["type"]->body}', '{$page->title}', '{$page->color}'); 
     <!--@end-->
 <!--@end-->
 <!--@if($day)-->

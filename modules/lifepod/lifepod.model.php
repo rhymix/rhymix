@@ -76,6 +76,7 @@
 		$page->data = array();
 		$page->data[] = $data;
 	    }
+	    $page->color = $xmldoc->childNodes["feed"]->childNodes["color"]->body;
 
             return $page;
         }
