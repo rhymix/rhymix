@@ -29,10 +29,10 @@
         </var>
         <var name="korean_anniversary" type="select">
             <title xml:lang="ko">한국 기념일 표시</title>
-            <title xml:lang="en">Display anniversary</title>
+            <title xml:lang="en">Display Korean Anniversary</title>
             <title xml:lang="jp">韓国記念日表示</title>
             <description xml:lang="ko">한국의 기념일을 표시합니다.</description>
-            <description xml:lang="en">Display Korean anniversary.</description>
+            <description xml:lang="en">It will display Korean anniversaries.</description>
             <description xml:lang="jp">韓国の記念日を表示します。</description>
             <default>use</default>
             <default>notuse</default>
