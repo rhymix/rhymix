@@ -57,9 +57,9 @@
                 <!--@if($widget_info->calendar[$cur_date])-->
                     {@ $item_class_name = "posted"}
                     <!--@if($layout_info->mid)-->
-                      {@ $day_link = getUrl('','mid',$layout_info->mid,'search_target','regdate','search_keyword',$cur_date) }
+                      {@ $day_link = getUrl('','mid',$widget_info->module_name?$widget_info->module_name:$layout_info->mid,'search_target','regdate','search_keyword',$cur_date) }
                     <!--@else-->
-                      {@ $day_link = getUrl('','mid',$mid,'search_target','regdate','search_keyword',$cur_date) }
+                      {@ $day_link = getUrl('','mid',$widget_info->module_name?$widget_info->module_name:$mid,'search_target','regdate','search_keyword',$cur_date) }
                     <!--@end-->
                 <!--@else-->
                     {@ $item_class_name = ""}
