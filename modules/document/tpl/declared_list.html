@@ -11,53 +11,105 @@
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
-    <!-- 목록 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="60" />
-    <col width="40" />
-    <col />
-    <col width="120" />
-    <col width="60" />
-    <col width="60" />
-    <col width="60" />
-    <col width="80" />
-    <thead>
-        <tr>
-            <th scope="col">{$lang->no}</th>
-            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-            <th scope="col">{$lang->title}</th>
-            <th scope="col">{$lang->user_name}</th>
-            <th scope="col">{$lang->cmd_declare}</th>
-            <th scope="col">{$lang->readed_count}</th>
-            <th scope="col">{$lang->voted_count}</th>
-            <th scope="col">{$lang->date}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--@foreach($document_list as $no => $oDocument)-->
-        <tr>
-            <td class="tahoma">{$no}</td>
-            <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
-            <td class="left subject">
-                <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="55" />
+<col width="55" />
+<col width="55" />
+<col width="65" />
 
-                <!--@if($oDocument->getCommentCount())-->
-                    [{$oDocument->getCommentCount()}]
-                <!--@end-->
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="60" />
+<col width="55" />
+<col width="55" />
+<col width="75" />
 
-                <!--@if($oDocument->getTrackbackCount())-->
-                    [{$oDocument->getTrackbackCount()}]
-                <!--@end-->
-            </td>
-            <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
-            <td class="tahoma red"><strong>{$oDocument->get('declared_count')}</strong></td>
-            <td class="tahoma">{$oDocument->get('readed_count')}</td>
-            <td class="tahoma">{$oDocument->get('voted_count')}</td>
-            <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
-        </tr>
-        <!--@end-->
-    </tbody>
-    </table>
+<!--@else if($lang_type == 'zh-CN')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="45" />
+<col width="45" />
+<col width="45" />
+<col width="65" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="55" />
+<col width="55" />
+<col width="55" />
+<col width="75" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="55" />
+<col width="55" />
+<col width="110" />
+<col width="75" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="150" />
+<col width="75" />
+<col width="50" />
+<col width="60" />
+<col width="65" />
+<!--@end-->
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->user_name}</th>
+        <th scope="col">{$lang->cmd_declare}</th>
+        <th scope="col">{$lang->readed_count}</th>
+        <th scope="col">{$lang->voted_count}</th>
+        <th scope="col">{$lang->date}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($document_list as $no => $oDocument)-->
+    <tr>
+        <td class="tahoma">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
+        <td class="left subject">
+            <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
+
+            <!--@if($oDocument->getCommentCount())-->
+                [{$oDocument->getCommentCount()}]
+            <!--@end-->
+
+            <!--@if($oDocument->getTrackbackCount())-->
+                [{$oDocument->getTrackbackCount()}]
+            <!--@end-->
+        </td>
+        <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+        <td class="tahoma red"><strong>{$oDocument->get('declared_count')}</strong></td>
+        <td class="tahoma">{$oDocument->get('readed_count')}</td>
+        <td class="tahoma">{$oDocument->get('voted_count')}</td>
+        <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
 
 <!-- 버튼 -->
 <div class="fl gap1">

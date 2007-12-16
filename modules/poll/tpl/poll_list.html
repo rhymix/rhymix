@@ -10,40 +10,87 @@
 <form action="./" method="get" onsubmit="return procFilter(this, delete_checked)" id="fo_list">
 <input type="hidden" name="page" value="{$page}" />
 
-    <!-- 목록 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="80" />
-    <col width="40" />
-    <col />
-    <col width="60" />
-    <col width="80" />
-    <col width="120" />
-    <col width="100" />
-    <thead>
-        <tr>
-            <th scope="col">{$lang->no}</th>
-            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-            <th scope="col">{$lang->title}</th>
-            <th scope="col">{$lang->poll_checkcount}</th>
-            <th scope="col">{$lang->poll_join_count}</th>
-            <th scope="col">{$lang->regdate}</th>
-            <th scope="col">{$lang->cmd_view}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--@foreach($poll_list as $no => $val)-->
-        <tr>
-            <td class="tahoma">{$no}</td>
-            <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-            <td class="left blue"><a href="{getUrl('','document_srl',$val->upload_target_srl)}" onclick="winopen(this.href); return false;">{htmlspecialchars($val->title)}</a></td>
-            <td class="tahoma">{$val->checkcount}</td>
-            <td class="tahoma">{$val->poll_count}</td>
-            <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
-            <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
-        </tr>
-        <!--@end-->
-    </tbody>
-    </table>
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="110" />
+<col width="60" />
+<col width="95" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="100" />
+<col width="80" />
+<col width="80" />
+<col width="50" />
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="110" />
+<col width="60" />
+<col width="95" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="110" />
+<col width="60" />
+<col width="95" />
+<col width="45" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="130" />
+<col width="90" />
+<col width="75" />
+<col width="40" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col width="40" />
+<col />
+<col width="90" />
+<col width="85" />
+<col width="90" />
+<col width="95" />
+<!--@end-->
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->poll_checkcount}</th>
+        <th scope="col">{$lang->poll_join_count}</th>
+        <th scope="col">{$lang->regdate}</th>
+        <th scope="col">{$lang->cmd_view}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($poll_list as $no => $val)-->
+    <tr>
+        <td class="tahoma">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
+        <td class="left blue"><a href="{getUrl('','document_srl',$val->upload_target_srl)}" onclick="winopen(this.href); return false;">{htmlspecialchars($val->title)}</a></td>
+        <td class="tahoma">{$val->checkcount}</td>
+        <td class="tahoma">{$val->poll_count}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
+        <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
 
 <!-- 버튼 -->
 <div class="fr gap1">

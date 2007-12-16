@@ -2,13 +2,60 @@
 
 <!-- 레이아웃의 목록 -->
 <table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
 <col />
 <col width="50"/>
 <col width="120"/>
 <col width="60"/>
-<col width="70"/>
+<col width="75"/>
 <col width="140"/>
 <col width="80"/>
+
+<!--@else if($lang_type == 'en')-->
+<col />
+<col width="60"/>
+<col width="130"/>
+<col width="55"/>
+<col width="75"/>
+<col width="140"/>
+<col width="95"/>
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col />
+<col width="50"/>
+<col width="120"/>
+<col width="60"/>
+<col width="75"/>
+<col width="140"/>
+<col width="80"/>
+
+<!--@else if($lang_type == 'jp')-->
+<col />
+<col width="80"/>
+<col width="120"/>
+<col width="80"/>
+<col width="75"/>
+<col width="140"/>
+<col width="80"/>
+
+<!--@else if($lang_type == 'es')-->
+<col />
+<col width="60"/>
+<col width="120"/>
+<col width="70"/>
+<col width="75"/>
+<col width="140"/>
+<col width="90"/>
+
+<!--@else if($lang_type == 'ru')-->
+<col />
+<col width="60"/>
+<col width="120"/>
+<col width="60"/>
+<col width="75"/>
+<col width="140"/>
+<col width="110"/>
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->layout_name}</th>
@@ -26,10 +73,10 @@
         <!-- 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
         <!--@if($val->title)-->
         <tr>
-            <td rowspan="2">
+            <th rowspan="2">
                 <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
                 ({$val->layout})
-            </td>
+            </th>
             <td class="tahoma">{$val->version}</td>
             <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$val->author->name}</a></td>
             <td class="tahoma">{$val->menu_count}</td>

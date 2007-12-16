@@ -9,40 +9,87 @@
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
-    <!-- 목록 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="60" />
-    <col />
-    <col width="120" />
-    <col width="80" />
-    <col width="80" />
-    <col width="70" />
-    <col width="50" />
-    <thead>
-        <tr>
-            <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-            <th scope="col">{$lang->comment}</th>
-            <th scope="col">{$lang->user_name}</th>
-            <th scope="col">{$lang->date}</th>
-            <th scope="col">{$lang->cmd_declare}</th>
-            <th scope="col">{$lang->ipaddress}</th>
-            <th scope="col">{$lang->cmd_move}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--@foreach($comment_list as $no => $oComment)-->
-        <tr>
-            <td class="tahoma">{$no}</td>
-            <td class="left"><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
-            <td><div class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</div></td>
-            <td class="tahoma">{$oComment->getRegdate("Y-m-d")}</td>
-            <td class="tahoma red"><strong>{$oComment->get('declared_count')}</strong></td>
-            <td class="tahoma">{$oComment->get('ipaddress')}</td>
-            <td class="blue"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
-        </tr>
-        <!--@end-->
-    </tbody>
-    </table>
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="65" />
+<col width="50" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="80" />
+<col width="60" />
+<col width="90" />
+<col width="50" />
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="65" />
+<col width="45" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="80" />
+<col width="60" />
+<col width="90" />
+<col width="50" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="80" />
+<col width="60" />
+<col width="90" />
+<col width="50" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col />
+<col width="150" />
+<col width="70" />
+<col width="75" />
+<col width="70" />
+<col width="95" />
+<!--@end-->
+<thead>
+    <tr>
+        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
+        <th scope="col">{$lang->comment}</th>
+        <th scope="col">{$lang->user_name}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->cmd_declare}</th>
+        <th scope="col">{$lang->ipaddress}</th>
+        <th scope="col">{$lang->cmd_move}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($comment_list as $no => $oComment)-->
+    <tr>
+        <td class="tahoma">{$no}</td>
+        <td class="left"><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
+        <td><div class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</div></td>
+        <td class="tahoma">{$oComment->getRegdate("Y-m-d")}</td>
+        <td class="tahoma red"><strong>{$oComment->get('declared_count')}</strong></td>
+        <td class="tahoma">{$oComment->get('ipaddress')}</td>
+        <td class="blue"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
 
 <!-- 버튼 -->
     <div class="fl gap1">

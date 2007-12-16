@@ -14,10 +14,42 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
 <col width="50" />
 <col />
-<col width="100" />
-<col width="100" />
+<col width="65" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
+<col />
+<col width="80" />
+<col width="55" />
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col width="50" />
+<col />
+<col width="65" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col />
+<col width="65" />
+<col width="45" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col />
+<col width="75" />
+<col width="70" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col />
+<col width="90" />
+<col width="65" />
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>

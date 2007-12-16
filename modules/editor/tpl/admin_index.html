@@ -3,13 +3,60 @@
 <h3>{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <table cellspacing="0" class="adminTable gap1">
+<!--@if($lang_type == 'ko')-->
 <col />
-<col width="40"/>
-<col width="120"/>
-<col width="70"/>
-<col width="50"/>
-<col width="50"/>
-<col width="50"/>
+<col width="60" />
+<col width="130" />
+<col width="75" />
+<col width="50" />
+<col width="60" />
+<col width="50" />
+
+<!--@else if($lang_type == 'en')-->
+<col />
+<col width="60" />
+<col width="130" />
+<col width="75" />
+<col width="75" />
+<col width="60" />
+<col width="50" />
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col />
+<col width="60" />
+<col width="130" />
+<col width="75" />
+<col width="45" />
+<col width="55" />
+<col width="50" />
+
+<!--@else if($lang_type == 'jp')-->
+<col />
+<col width="80" />
+<col width="130" />
+<col width="80" />
+<col width="50" />
+<col width="60" />
+<col width="50" />
+
+<!--@else if($lang_type == 'es')-->
+<col />
+<col width="60" />
+<col width="130" />
+<col width="75" />
+<col width="100" />
+<col width="85" />
+<col width="50" />
+
+<!--@else if($lang_type == 'ru')-->
+<col />
+<col width="60" />
+<col width="130" />
+<col width="80" />
+<col width="100" />
+<col width="100" />
+<col width="95" />
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->component_name}</th>

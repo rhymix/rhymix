@@ -7,19 +7,19 @@
 <div class="gap1"></div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
-    <col width="100" />
-    <tr>
-        <th scope="col">{$lang->enable_trackback}</th>
-        <td>
-            <input type="checkbox" name="enable_trackback" value="Y" size="3" <!--@if($config->enable_trackback!='N')-->checked="checked"<!--@end-->/> {$lang->cmd_use}
-            <p>{$lang->about_enable_trackback}</p>
-        </td>
-        <th scope="col" class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
-    </tr>
-    </table>
+<table cellspacing="0" class="adminTable">
+<col width="150" />
+<col />
+<col width="130" />
+<tr>
+    <th scope="col">{$lang->enable_trackback}</th>
+    <td>
+        <input type="checkbox" name="enable_trackback" value="Y" size="3" <!--@if($config->enable_trackback!='N')-->checked="checked"<!--@end-->/> {$lang->cmd_use}
+        <p>{$lang->about_enable_trackback}</p>
+    </td>
+    <th scope="col" class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+</tr>
+</table>
 </form>
 
 <!-- 정보 -->
@@ -30,59 +30,106 @@
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
-    <!-- 목록 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="50" />
-    <col width="150" />
-    <col />
-    <col />
-    <col width="80" />
-    <col width="70" />
-    <col width="50" />
-    <thead>
-        <tr>
-            <th scope="col">{$lang->no}</th>
-            <th scope="col">
-                <div class="nowrap">
-                   <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" />
-                    <select name="module_srl" id="module_srl" class="w100">
-                        <option value="">{$lang->module}</option>
-                        <!--@foreach($mid_list as $key => $val)-->
-                        <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
-                        <!--@end-->
-                    </select>
-                    <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
-                </div>
-            </th>
-            <th scope="col">{$lang->blog_name}</th>
-            <th scope="col">{$lang->title}</th>
-            <th scope="col">{$lang->date}</th>
-            <th scope="col">{$lang->ipaddress}</th>
-            <th scope="col">{$lang->cmd_move}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--@foreach($trackback_list as $no => $val)-->
-        <tr>
-            <th rowspan="2" class="tahoma" scope="col">
-                {$no}
-            </th>
-            <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{$module_list[$val->module_srl]->browser_title}</a></td>
-            <td class="blue"><a href="{$val->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->blog_name)}</a></td>
-            <td>{htmlspecialchars($val->title)}</td>
-            <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-            <td class="tahoma">{$val->ipaddress}</td>
-            <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
-        </tr>
-        <tr>
-            <td colspan="6">
-                <input type="checkbox" name="cart" value="{$val->trackback_srl}" />
-                {$val->excerpt}
-            </td>
-        </tr>
-        <!--@end-->
-    </tbody>
-    </table>
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="65" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="80" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'zh-CN')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="65" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="65" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="75" />
+<col width="90" />
+<col width="50" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col />
+<col />
+<col />
+<col width="65" />
+<col width="90" />
+<col width="95" />
+<!--@end-->
+<thead>
+    <tr>
+        <th scope="col">{$lang->no}</th>
+        <th scope="col">
+            <div class="nowrap">
+               <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" />
+                <select name="module_srl" id="module_srl" class="w100">
+                    <option value="">{$lang->module}</option>
+                    <!--@foreach($mid_list as $key => $val)-->
+                    <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
+                    <!--@end-->
+                </select>
+                <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
+            </div>
+        </th>
+        <th scope="col">{$lang->blog_name}</th>
+        <th scope="col">{$lang->title}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->ipaddress}</th>
+        <th scope="col">{$lang->cmd_move}</th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($trackback_list as $no => $val)-->
+    <tr>
+        <th rowspan="2" class="tahoma" scope="col">
+            {$no}
+        </th>
+        <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{$module_list[$val->module_srl]->browser_title}</a></td>
+        <td class="blue"><a href="{$val->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->blog_name)}</a></td>
+        <td>{htmlspecialchars($val->title)}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">{$val->ipaddress}</td>
+        <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <input type="checkbox" name="cart" value="{$val->trackback_srl}" />
+            {$val->excerpt}
+        </td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
 
 <!-- 버튼 -->
 <div class="fr gap1">
