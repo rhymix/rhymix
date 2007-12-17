@@ -446,6 +446,8 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .pwModify input { width:9em;}
 .smallBox .pwModify br { display:block; margin-bottom:.2em}
 .smallBox .pwModify p { text-align:center; margin-top:1em; color:#54564b;}
+.smallBox .messageBox { padding:20px; border:1px solid #EEEEEE;}
+.smallBox .messageBtnBox { text-align:center; padding:10px; background-color:#F3F3F3; border:1px solid #EEEEEE; border-top:none;}
 
 
 /* messageList */

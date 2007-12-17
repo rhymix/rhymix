@@ -291,6 +291,7 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+.smallBox .messageBox { background-color:#F3F3F3; padding:20px; border-bottom:1px solid #EEEEEE;}
 
 
 /* 게시물의 팝업 메뉴 */
