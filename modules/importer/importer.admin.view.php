@@ -34,6 +34,9 @@
                         
                         $template_filename = "module";
                     break;
+                case 'message' : 
+                        $template_filename = "message";
+                    break;
                 case 'sync' : 
                         $template_filename = "sync";
                     break;

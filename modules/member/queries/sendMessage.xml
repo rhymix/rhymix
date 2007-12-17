@@ -13,5 +13,6 @@
         <column name="content" var="content" notnull="notnull" />
         <column name="readed" var="readed" notnull="notnull" />
         <column name="regdate" var="regdate" default="curdate()" />
+        <column name="readed_date" var="readed_date" />
     </columns>
 </query>

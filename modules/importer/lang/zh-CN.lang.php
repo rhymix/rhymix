@@ -13,6 +13,7 @@
     $lang->importer = '数据导入';
     $lang->source_type = '导入对象';
     $lang->type_member = '会员信息';
+    $lang->type_message = '쪽지(메세지) 정보';
     $lang->type_module = '版面信息';
     $lang->type_syncmember = '同步会员信息';
     $lang->target_module = '模块对象';
@@ -44,6 +45,7 @@
 
     // 说明
     $lang->about_type_member = '数据导入对象为会员信息时请选择此项。';
+    $lang->about_type_message = '데이터 이전 대상이 쪽지(메세지)일 경우 선택해주세요';
     $lang->about_type_module = '数据导入对象为版面主题时请选择此项。';
     $lang->about_type_syncmember = '导入会员信息和文章信息后需要同步会员信息时请选择此项。';
     $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>生成XML文件后再上传。";

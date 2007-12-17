@@ -13,6 +13,7 @@
     $lang->importer = 'Transfer zeroboard datas';
     $lang->source_type = 'Previous target';
     $lang->type_member = 'Member data';
+    $lang->type_message = 'Message data';
     $lang->type_module = 'Articles data';
     $lang->type_syncmember = 'Synchronize member data';
     $lang->target_module = 'Target module';
@@ -44,6 +45,7 @@
 
     // blah blah..
     $lang->about_type_member = 'If you are transfering the member information, select this option';
+    $lang->about_type_message = 'If you are transfering the message information, select this option';
     $lang->about_type_module = 'If you are transfering the board or articles information, select this option';
     $lang->about_type_syncmember = 'If you are trying to synchronize the member information after transfering member and article information, select this option';
     $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";

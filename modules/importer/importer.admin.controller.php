@@ -240,6 +240,144 @@
             return false;
         }
 
+        /**
+         * @brief 메세지xml 파일을 분석해서 import
+         **/
+        function procImporterAdminMessageImport() {
+            set_time_limit(0);
+
+            $xml_file = Context::get('xml_file');
+            $total_count = (int)Context::get('total_count');
+            $success_count = (int)Context::get('success_count');
+            $readed_line = (int)Context::get('readed_line');
+
+            // xml_file 경로가 없으면 에러~
+            if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
+
+            // local 파일 지정인데 파일이 없으면 역시 에러~
+            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+
+            // 이제부터 데이터를 가져오면서 처리
+            $fp = $this->getFilePoint($xml_file);
+            if(!$fp) return new Object(-1,'msg_no_xml_file');
+
+            $obj = null;
+            $inserted_count = 0;
+
+            // 본문 데이터부터 처리 시작
+            $read_line = 0;
+            while(!feof($fp)) {
+                $str = trim(fgets($fp, 1024));
+
+                if($str == "</message>") $read_line ++;
+                if($read_line < $readed_line) continue;
+
+                // 한 아이템 준비 시작
+                if($str == '<message>') {
+                    $obj = null;
+                    continue;
+
+                // 아이템 종료시 DB 입력
+                } else if( $str == '</message>') {
+                    if($this->importMessage($obj)) $inserted_count ++;
+                    if($inserted_count >= 500) {
+                        $manual_break = true;
+                        break;
+                    }
+
+                // messages 태그 체크 (전체 개수를 구함)
+                } else if(substr($str,0,9)=='<messages') {
+                    preg_match('/count="([0-9]+)"/i', $str, $matches);
+                    $total_count = $matches[1];
+                    continue;
+
+                // 선언구 패스~
+                } else if(substr($str,0,5)=='<?xml') {
+                    continue;
+                    
+                // 종료 부분
+                } else if($str == '</messages>') {
+                    break;
+
+                // 변수 체크
+                } else {
+                    $buff .= $str;
+                    $pos = strpos($buff, '>');
+                    $key = substr($buff, 1, $pos-1);
+                    if(substr($buff, -1 * ( strlen($key)+3)) == '</'.$key.'>') {
+                        $val = base64_decode(substr($buff, $pos, strlen($buff)-$pos*2-2));
+                        if($is_extra_var) $extra_var->{$key} = $val;
+                        else $obj->{$key} = $val;
+                        $buff = null;
+                    }
+                }
+            }
+
+            fclose($fp);
+
+            $success_count += $inserted_count;
+
+            if($manual_break) {
+                $this->add('total_count',$total_count);
+                $this->add('success_count',$success_count);
+                $this->add('readed_line',$read_line);
+                $this->add('is_finished','0');
+                $this->setMessage(sprintf(Context::getLang('msg_importing'), $total_count, $success_count));
+            } else {
+                $this->add('is_finished','1');
+                $this->setMessage(sprintf(Context::getLang('msg_import_finished'), $success_count, $total_count));
+            }
+        }
+
+        /**
+         * @brief 주어진 xml 파일을 파싱해서 회원 정보 입력
+         **/
+        function importMessage($obj) {
+            // 보낸이/ 받는이의 member_srl을 구함 (존재하지 않으면 그냥 pass..)
+            $sender_args->user_id = $obj->sender;
+            $sender_output = executeQuery('member.getMemberInfo',$sender_args);
+            $sender_srl = $sender_output->data->member_srl;
+            if(!$sender_srl) return false;
+
+            $receiver_args->user_id = $obj->receiver;
+            $receiver_output = executeQuery('member.getMemberInfo',$receiver_args);
+            $receiver_srl = $receiver_output->data->member_srl;
+            if(!$receiver_srl) return false;
+
+            // 보내는 사용자의 쪽지함에 넣을 쪽지
+            $sender_args->sender_srl = $sender_srl;
+            $sender_args->receiver_srl = $receiver_srl;
+            $sender_args->message_type = 'S';
+            $sender_args->title = $obj->title;
+            $sender_args->content = $obj->content;
+            $sender_args->readed = $obj->readed;
+            $sender_args->regdate = $obj->regdate;
+            $sender_args->readed_date = $obj->readed_date;
+            $sender_args->related_srl = getNextSequence();
+            $sender_args->message_srl = getNextSequence();
+            $sender_args->list_order = $sender_args->message_srl * -1;
+
+            $output = executeQuery('member.sendMessage', $sender_args);
+            if(!$output->toBool()) return false;
+
+            // 받는 회원의 쪽지함에 넣을 쪽지
+            $receiver_args->message_srl = $sender_args->related_srl;
+            $receiver_args->list_order = $sender_args->related_srl*-1;
+            $receiver_args->sender_srl = $sender_srl;
+            if(!$receiver_args->sender_srl) $receiver_args->sender_srl = $receiver_srl;
+            $receiver_args->receiver_srl = $receiver_srl;
+            $receiver_args->message_type = 'R';
+            $receiver_args->title = $obj->title;
+            $receiver_args->content = $obj->content;
+            $receiver_args->readed = $obj->readed;
+            $receiver_args->regdate = $obj->regdate;
+            $receiver_args->readed_date = $obj->readed_date;
+            $output = executeQuery('member.sendMessage', $receiver_args);
+            if(!$output->toBool()) return false;
+
+            return true;
+        }
+
         function procImporterAdminModuleImport() {
             set_time_limit(0);
 
