@@ -481,7 +481,15 @@ function doApplyWidgetSize(fo_obj) {
         if(width) selectedSizeWidget.style.width = width;
 
         var height = _getSize(fo_obj.height.value);
-        if(height) selectedSizeWidget.style.height = height;
+        if(height && height != "100%") selectedSizeWidget.style.height = height;
+        else {
+            selectedSizeWidget.style.height = '';
+            var widgetBorder = xGetElementsByClassName('widgetBorder',selectedSizeWidget);
+            for(var i=0;i<widgetBorder.length;i++) {
+                var obj = widgetBorder[i];
+                obj.style.height = '';
+            }
+        }
 
         selectedSizeWidget.style.borderTop = _getBorderStyle(fo_obj.border_top_color, fo_obj.border_top_thick, fo_obj.border_top_type);
         selectedSizeWidget.style.borderBottom = _getBorderStyle(fo_obj.border_bottom_color, fo_obj.border_bottom_thick, fo_obj.border_bottom_type);
