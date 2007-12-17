@@ -280,7 +280,7 @@
                 // 아이템 종료시 DB 입력
                 } else if( $str == '</message>') {
                     if($this->importMessage($obj)) $inserted_count ++;
-                    if($inserted_count >= 500) {
+                    if($inserted_count >= 100) {
                         $manual_break = true;
                         break;
                     }
@@ -334,12 +334,14 @@
          **/
         function importMessage($obj) {
             // 보낸이/ 받는이의 member_srl을 구함 (존재하지 않으면 그냥 pass..)
+            if(!$obj->sender) return false;
             $sender_args->user_id = $obj->sender;
             $sender_output = executeQuery('member.getMemberInfo',$sender_args);
             $sender_srl = $sender_output->data->member_srl;
             if(!$sender_srl) return false;
 
             $receiver_args->user_id = $obj->receiver;
+            if(!$obj->receiver) return false;
             $receiver_output = executeQuery('member.getMemberInfo',$receiver_args);
             $receiver_srl = $receiver_output->data->member_srl;
             if(!$receiver_srl) return false;
