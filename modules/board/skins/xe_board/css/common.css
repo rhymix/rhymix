@@ -71,7 +71,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title a:visited { color:#777777;}
 
 .boardList td.topic { padding-left:1em; color:#888888; }
-.boardList td.topic strong a { font-size:1.2em; font-weight:normal; text-decoration:none; color:#444444; }
+.boardList td.topic strong a { font-size:1em; font-weight:normal; text-decoration:none; color:#222222; }
 .boardList td.topic strong a:visited { color:#777777; }
 .boardList td.topic .category { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 3px; padding-left:.5em; margin-left:.5em; color:#AAAAAA; }
 .boardList td.topic div.author { margin-top:.5em; color:#BBBBBB; font-size:0.8em; }
