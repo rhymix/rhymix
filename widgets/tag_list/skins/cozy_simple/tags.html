@@ -34,9 +34,9 @@
             <!--@end-->
             <li <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
                 <!--@if($layout_info->mid)-->
-                    <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                    <a href="{getUrl('','mid',$widget_info->module_name?$widget_info->module_name:$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
                 <!--@else-->
-                    <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
+                    <a href="{getUrl('','mid',$widget_info->module_name?$widget_info->module_name:$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{cut_str($val->tag,15,'...')}</a>
                 <!--@end-->
             </li>
         <!--@end-->
