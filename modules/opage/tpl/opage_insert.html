@@ -14,7 +14,7 @@
     <tr>
         <th scope="row">{$lang->mid}</th>
         <td>
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText" />
+            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
@@ -42,7 +42,7 @@
     <tr>
         <th scope="row">{$lang->browser_title}</th>
         <td>
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText" />
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
@@ -97,8 +97,8 @@
                 <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
                 <!--@end-->
             </td>
-            <td><a href="#" onclick="doSelectAll(this, '{$key}')" class="blue">{$lang->cmd_select_all}</a></td>
-            <td><a href="#" onclick="doUnSelectAll(this, '{$key}')" class="red">{$lang->cmd_unselect_all}</a></td>
+            <td><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
+            <td><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
         </tr>
         <!--@end-->
     </tbody>

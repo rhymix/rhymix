@@ -18,7 +18,7 @@
     <tr>
         <th scope="row">{$lang->mid}</th>
         <td>
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText" />
+            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
@@ -84,28 +84,28 @@
     <tr>
         <th scope="row">{$lang->description}</th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->header_text}</th>
         <td>
-            <textarea name="header_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->header_text)}</textarea>
+            <textarea name="header_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->header_text)}</textarea>
             <p>{$lang->about_header_text}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->footer_text}</th>
         <td>
-            <textarea name="footer_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <textarea name="footer_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->footer_text)}</textarea>
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->admin_id}</th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <textarea name="admin_id" class="inputTypeTextArea w400"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
