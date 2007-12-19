@@ -39,8 +39,9 @@
             $attribute = array();
             if($vars) {
                 foreach($vars as $key => $val) {
-                    if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
-                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                    if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
+                    $val = htmlspecialchars($val);
+                    $attribute[] = sprintf('%s="%s"', $key, $val);
                 }
             }
 
