@@ -95,7 +95,7 @@
             $page->source = trim($xmldoc->page->source->body);
 
             // source에서 /pages/숫자로 되어 있는 url의 수정
-            $page->source = preg_replace('/="\/pages\/([0-9]+)"/is','="?mid='.Context::get('mid').'&pageid=\\1"', $page->source);
+            $page->source = preg_replace('/="\/pages\/([0-9]+)"/is','="./?mid='.Context::get('mid').'&pageid=\\1"', $page->source);
 
             // 첨부파일의 경로를 변경
             $page->source = preg_replace('/="\/pages\/([0-9]+)\/attachments\/([0-9]+)"/is','="'.$page->uri.'/attachments/\\2"', $page->source);
