@@ -1,0 +1,14 @@
+<query id="getCommentPoint" action="select">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="module_srl" />
+        <column name="member_srl" />
+        <column name="count(*)" alias="count"/>
+    </columns>
+    <groups>
+        <group column="module_srl" />
+        <group column="member_srl" />
+    </groups>
+</query>

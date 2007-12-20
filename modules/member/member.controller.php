@@ -106,6 +106,8 @@
                     if(!$output->toBool()) return $this->stop($output->getMessage());
                 }
 
+                Context::close();
+
                 // 페이지 이동
                 header("location:./");
                 exit();

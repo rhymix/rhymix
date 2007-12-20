@@ -31,6 +31,9 @@
     $lang->cmd_exp_calc = '计算';
     $lang->cmd_exp_reset = '初始化';
 
+    $lang->cmd_point_recal = '포인트 재계산';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
+
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
     $lang->point_signup = '注册';
@@ -49,4 +52,7 @@
     $lang->cmd_point_member_list = '会员积分目录';
 
     $lang->msg_cannot_download = '积分不足无法下载！';
+
+    $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
+    $lang->point_recal_finished = '포인트 재계산이 모두 완료되었습니다';
 ?>

@@ -17,3 +17,35 @@ function exp_calc (form, reset) {
         point.value = eval(exp.value);
     }
 }
+
+/**
+ * @brief 포인트를 전부 체크하여 재계산하는 action 호출
+ **/
+function doPointRecal() {
+
+    var params = new Array();
+    var response_tags = new Array('error','message','total', 'position');
+
+    exec_xml('point','procPointAdminReCal',params, completePointRecal, response_tags);
+}
+
+function completePointRecal(ret_obj) {
+    var total = ret_obj['total'];
+    var message = ret_obj['message'];
+    var position = ret_obj['position'];
+
+    if(position == total) {
+        xInnerHtml('pointReCal', message);
+        alert(message);
+        location.reload();
+    } else {
+        xInnerHtml('pointReCal', message);
+
+        var params = new Array();
+        params['position'] = position;
+        params['total'] = total;
+        var response_tags = new Array('error','message','total', 'position');
+
+        exec_xml('point','procPointAdminApplyPoint',params, completePointRecal, response_tags);
+    }
+}

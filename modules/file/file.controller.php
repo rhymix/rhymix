@@ -181,6 +181,8 @@
             // trigger 호출 (after)
             $output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
+            Context::close();
+
             exit();
         }
 

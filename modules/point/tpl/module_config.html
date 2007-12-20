@@ -11,6 +11,7 @@
         <th>{$lang->point_download_file}</th>
     </tr>
     <!--@foreach($mid_list as $key => $val)-->
+    <!--@if(in_array($val->module,array('guestbook','board','blog')))-->
     <tr>
         <th colspan="4" scope="col">{$val->browser_title} ({$val->mid})</th>
     </tr>
@@ -20,6 +21,7 @@
         <td><input type="text" name="upload_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['upload_file']}" class="inputTypeText w80" /> {$config->point_name}</td>
         <td><input type="text" name="download_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['download_file']}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
+    <!--@end-->
     <!--@end-->
     </table>
 

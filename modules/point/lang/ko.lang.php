@@ -31,6 +31,9 @@
     $lang->cmd_exp_calc = '계산';
     $lang->cmd_exp_reset = '초기화';
 
+    $lang->cmd_point_recal = '포인트 재계산';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
+
     $lang->about_module_point = '모듈별로 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용하게 됩니다<br />모든 점수는 반대 행동을 하였을 경우 원상복귀 됩니다.';
 
     $lang->point_signup = '가입';
@@ -49,4 +52,7 @@
     $lang->cmd_point_member_list = '회원 포인트 목록';
 
     $lang->msg_cannot_download = '포인트가 부족하여 다운로드를 하실 수 없습니다';
+
+    $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
+    $lang->point_recal_finished = '포인트 재계산이 모두 완료되었습니다';
 ?>
