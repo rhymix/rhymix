@@ -166,13 +166,15 @@
             $output = executeQueryArray('point.getDocumentPoint');
             if(!$output->toBool()) return $output;
 
-            foreach($output->data as $key => $val) {
-                if($config->module_point[$val->module_srl]->insert_document) $insert_point = $config->module_point[$val->module_srl]->insert_document;
-                else $insert_point = $config->insert_document;
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->insert_document) $insert_point = $config->module_point[$val->module_srl]->insert_document;
+                    else $insert_point = $config->insert_document;
 
-                if(!$val->member_srl) continue;
-                $point = $insert_point * $val->count;
-                $member[$val->member_srl] += $point;
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
             }
             $output = null;
 
@@ -180,13 +182,15 @@
             $output = executeQueryArray('point.getCommentPoint');
             if(!$output->toBool()) return $output;
 
-            foreach($output->data as $key => $val) {
-                if($config->module_point[$val->module_srl]->insert_comment) $insert_point = $config->module_point[$val->module_srl]->insert_comment;
-                else $insert_point = $config->insert_comment;
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->insert_comment) $insert_point = $config->module_point[$val->module_srl]->insert_comment;
+                    else $insert_point = $config->insert_comment;
 
-                if(!$val->member_srl) continue;
-                $point = $insert_point * $val->count;
-                $member[$val->member_srl] += $point;
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
             }
             $output = null;
 
@@ -194,13 +198,15 @@
             $output = executeQueryArray('point.getFilePoint');
             if(!$output->toBool()) return $output;
 
-            foreach($output->data as $key => $val) {
-                if($config->module_point[$val->module_srl]->upload_file) $insert_point = $config->module_point[$val->module_srl]->upload_file;
-                else $insert_point = $config->upload_file;
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->upload_file) $insert_point = $config->module_point[$val->module_srl]->upload_file;
+                    else $insert_point = $config->upload_file;
 
-                if(!$val->member_srl) continue;
-                $point = $insert_point * $val->count;
-                $member[$val->member_srl] += $point;
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
             }
             $output = null;
 
