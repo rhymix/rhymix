@@ -4,6 +4,24 @@
  * @brief  위젯 관리용 자바스크립트
  **/
 
+/* document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 */
+document.write = document.writeln = function(str){
+	if ( str.match(/^<\//) ) return;
+	if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
+    str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
+    var div = null;
+    if(document.createElementNS) div = document.createElementNS("http://www.w3.org/1999/xhtml","div");
+    else div = xCreateElement('div');
+    xInnerHtml(div, str);
+	var pos;
+    pos = document.getElementsByTagName("*");
+    pos = pos[pos.length - 1];
+	var nodes = div.childNodes;
+	while ( nodes.length ) {
+		pos.parentNode.appendChild( nodes[0] );
+    }
+};
+
 /* DOM 속성을 구하기 위한 몇가지 함수들.. */
 // style의 값을 구하는게 IE랑 그외가 다름.
 function getStyle(obj) {
@@ -180,19 +198,8 @@ function doSyncPageContent() {
 // 부모창에 위젯을 추가
 function completeAddContent(ret_obj) {
     var tpl = ret_obj["tpl"];
-
-    selected_node = opener.selectedWidget;
-
-    if(selected_node  && selected_node.getAttribute("widget")) {
-        selected_node = replaceOuterHTML(selected_node, tpl);
-    } else {
-        var obj = opener.zonePageObj;
-        xInnerHtml(obj, xInnerHtml(obj)+tpl);
-    }
-
-    if(opener.doFitBorderSize) opener.doFitBorderSize();
+    opener.doAddWidgetCode(tpl);
     window.close();
-
     return false;
 }
 
@@ -243,6 +250,31 @@ function doFitBorderSize() {
 }
 
 var selectedWidget = null;
+
+// 위젯 추가
+function doAddWidgetCode(widget_code) {
+    var dummy = xCreateElement('div');
+    xInnerHtml(dummy, widget_code);
+
+    var nodes = dummy.childNodes;
+
+    var zoneObj = xGetElementById('zonePageContent');
+
+    if(selectedWidget  && selectedWidget.getAttribute("widget")) {
+        while ( nodes.length ) {
+            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
+            else selectedWidget.parentNode.insertBefore(nodes[0], selectedWidget);
+        }
+        selectedWidget.parentNode.removeChild(selectedWidget);
+    } else {
+        while ( nodes.length ) {
+            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
+            else zoneObj.appendChild(nodes[0]);
+        }
+    }
+
+    doFitBorderSize();
+}
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
 function doCheckWidget(e) {

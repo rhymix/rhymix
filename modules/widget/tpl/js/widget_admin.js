@@ -20,13 +20,8 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
         return;
     }
 
-    if(selected_node  && selected_node.getAttribute("widget")) {
-        selected_node = replaceOuterHTML(selected_node, widget_code);
-        if(opener.doFitBorderSize) opener.doFitBorderSize();
-    } else {
-        var obj = opener.xGetElementById('zonePageContent');
-        xInnerHtml(obj, xInnerHtml(obj)+widget_code);
-    }
+    opener.doAddWidgetCode(widget_code);
+
     window.close();
 } 
 
