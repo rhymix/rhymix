@@ -38,7 +38,8 @@
             if(!$this->grant->list) return $this->dispSpringnoteMessage('msg_not_permitted');
 
             $pageid = (int)Context::get('pageid');
-            if(!$pageid) $pageid = $this->module_info->pageid;
+            if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pageid = $this->module_info->pageid;
+            if(!$pageid && $this->module_info->pageid) $pageid = $this->module_info->pageid;
 
             $q = Context::get('q');
 
@@ -55,7 +56,11 @@
             }
 
             // 페이지 목록 가져오기
-            $pages = $oSpringnoteModel->getPages($q, true);
+            if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pages = null;
+            else {
+                if($this->module_info->pageid && $this->module_info->pageid_option == 'list') $pages = $oSpringnoteModel->getPages($q, true, $this->module_info->pageid);
+                else $pages = $oSpringnoteModel->getPages($q, true);
+            }
 
             Context::set('page', $page);
             Context::set('pages', $pages);

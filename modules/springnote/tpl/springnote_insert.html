@@ -66,6 +66,14 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->springnote_pageid_setup}</th>
+        <td>
+            <p><input type="radio" name="springnote_pageid_option" value="only" <!--@if($module_info->pageid_option!='list')-->checked="checked"<!--@end--> id="springnote_pageid_option_only" /> <label for="springnote_pageid_option_only">{$lang->springnote_pageid_option_only}</label></p>
+            <p><input type="radio" name="springnote_pageid_option" value="list" <!--@if($module_info->pageid_option=='list')-->checked="checked"<!--@end--> id="springnote_pageid_option_list" /> <label for="springnote_pageid_option_list">{$lang->springnote_pageid_option_list}</label></p>
+            <p>{$lang->about_springnote_pageid_setup}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->springnote_domain}</th>
         <td>
             <input type="text" name="springnote_domain" value="{htmlspecialchars($module_info->domain)}"  class="inputTypeText w300" />

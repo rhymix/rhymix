@@ -101,6 +101,7 @@
 <!--@end-->
 
 <!-- 전체 목록 -->
+<!--@if($pages)-->
     <div class="pageSearch">
         <form action="./" method="get">
             <input type="hidden" name="mid" value="{$mid}" />
@@ -117,6 +118,7 @@
             {@ $_idx++}
         <!--@end-->
     </div>
+<!--@end-->
 
 <!-- 하단 텍스트 출력 -->
 {$module_info->footer_text}

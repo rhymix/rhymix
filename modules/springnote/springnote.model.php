@@ -111,7 +111,7 @@
         /**
          * @brief springnote 페이지 목록 가져오기
          **/
-        function getPages($query = null, $fulltext = true) {
+        function getPages($query = null, $fulltext = true, $p_pageid = 0) {
 
             if($query) {
                 if($this->domain) $url = sprintf('%s&q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
@@ -154,12 +154,29 @@
                     else $root->child[] = &$pages[$pageid];
                 }
 
+                if($p_pageid) $this->getNodes($root->child, $p_pageid, $root);
+
                 $pages = array();
                 $this->arrangePages($pages, $root->child, 0);
 
             }
 
             return $pages;
+        }
+
+        /**
+         * @brief 특정 노드아래만 검색을 하기 위할때 해당 노드의 page_id를 받아서 해당 노드tree만 리턴
+         **/
+        function getNodes($list, $p_pageid, &$root) {
+            if(!count($list)) return;
+            foreach($list as $key => $val) {
+                if($val->pageid == $p_pageid) {
+                    $root = $val;
+                    return;
+                }
+
+                if($val->child) $this->getNodes($val->child, $p_pageid, $root);
+            }
         }
 
         /**
