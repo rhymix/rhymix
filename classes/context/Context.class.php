@@ -222,6 +222,23 @@
         }
 
         /**
+         * @brief 사이트 title adding
+         **/
+        function addBrowserTitle($site_title) {
+            if(!$site_title) return;
+            $oContext = &Context::getInstance();
+            $oContext->_addBrowserTitle($site_title);
+        }
+
+        /**
+         * @brief 사이트 title adding
+         **/
+        function _addBrowserTitle($site_title) {
+            if($this->site_title) $this->site_title .= ' - '.htmlspecialchars($site_title);
+            else $this->site_title .= htmlspecialchars($site_title);
+        }
+
+        /**
          * @brief 사이트 title setting
          **/
         function setBrowserTitle($site_title) {

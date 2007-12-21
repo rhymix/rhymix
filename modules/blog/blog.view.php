@@ -101,7 +101,7 @@
                 } else {
 
                     // 브라우저 타이틀 설정
-                    Context::setBrowserTitle($oDocument->getTitleText());
+                    Context::addBrowserTitle($oDocument->getTitleText());
 
                     // 댓글에디터 설정
                     if($this->grant->write_comment && $oDocument->allowComment() && !$oDocument->isLocked()) $comment_editor[$oDocument->document_srl] = $this->getCommentEditor($oDocument->document_srl, 0, 100);

@@ -49,9 +49,12 @@
             // 특정 페이지 선택시 페이지 정보 가져오기
             if($this->grant->view && $pageid) {
                 $page = $oSpringnoteModel->getPage($pageid);
-                for($i=0;$i<count($page->css_files);$i++) {
-                    $css_file = $page->css_files[$i];
-                    Context::addCssFile($css_file);
+                if($page) {
+                    for($i=0;$i<count($page->css_files);$i++) {
+                        $css_file = $page->css_files[$i];
+                        Context::addCssFile($css_file);
+                    }
+                    Context::addBrowserTitle($page->title);
                 }
             }
 
