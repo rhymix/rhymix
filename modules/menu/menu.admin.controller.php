@@ -349,19 +349,20 @@
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
-                        'node_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
-                        $menu_item_srl,
-                        $group_check_code,
-                        $name_str,
-                        $group_check_code,
-                        $url,
-                        $group_check_code,
-                        $href,
-                        $open_window,
-                        $expand,
-                        $normal_btn,
-                        $hover_btn,
-                        $active_btn
+                    'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
+                    $menu_item_srl,
+                    $node->parent_srl,
+                    $group_check_code,
+                    $name_str,
+                    $group_check_code,
+                    $url,
+                    $group_check_code,
+                    $href,
+                    $open_window,
+                    $expand,
+                    $normal_btn,
+                    $hover_btn,
+                    $active_btn
                 );
                 
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
@@ -417,22 +418,23 @@
 
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                        '"node_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
-                        $node->menu_item_srl, 
-                        $group_check_code,
-                        $node->menu_item_srl,
-                        $group_check_code,
-                        $href,
-                        $group_check_code,
-                        $url,
-                        $open_window,
-                        $normal_btn,
-                        $hover_btn,
-                        $active_btn,
-                        $selected,
-                        $selected,
-                        $expand,
-                        $child_buff
+                    '"node_srl"=>"%s","parent_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
+                    $node->menu_item_srl,
+                    $node->parent_srl,
+                    $group_check_code,
+                    $node->menu_item_srl,
+                    $group_check_code,
+                    $href,
+                    $group_check_code,
+                    $url,
+                    $open_window,
+                    $normal_btn,
+                    $hover_btn,
+                    $active_btn,
+                    $selected,
+                    $selected,
+                    $expand,
+                    $child_buff
                 );
                 
                 // buff 데이터를 생성한다
