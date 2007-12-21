@@ -148,7 +148,7 @@
             if(!eregi("^([a-z0-9\_\.])",$path)) return $str1;
 
             $path = preg_replace('/^(\.\/|\/)/','',$path);
-            $path = '<?=$this->tpl_path?>'.$path;
+            $path = '<?php echo $this->tpl_path?>'.$path;
             $output = str_replace($str2, $path, $str1);
             return $output;
         }
