@@ -605,7 +605,6 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     if(html) {
         // 레이어 출력
         xInnerHtml('popup_menu_area', "<div class=\"box\">"+html+"</div>");
-        xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
