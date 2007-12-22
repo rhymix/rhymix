@@ -162,8 +162,8 @@
 				}
 			} else { // end of the support...
 			
-				header("Cache-Control: no-cache"); // originally here it these lines were empty headers like "Cache-Control: ". I don't know why... but it might break the standards. // X-[Vr]bL1s5
-				header("Pragma: no-cache"); // here too
+				header("Cache-Control: no-cache");
+				header("Pragma: no-cache");
 				header("Content-Type: application/octet-stream");
 				header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
