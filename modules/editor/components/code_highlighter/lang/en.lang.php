@@ -9,4 +9,8 @@
     $lang->used_collapse = 'Use Folding';
     $lang->hidden_linenumber = 'Hide Line Number';
     $lang->hidden_controls = 'Hide Toolbar';
+
+    $lang->file_path = 'File Path';
+    $lang->description = 'Description';
+    $lang->first_line = 'First Line';
 ?>
