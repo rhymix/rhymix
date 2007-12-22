@@ -32,15 +32,28 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">{$lang->used_collapse}</th>
+            <th scope="row">{$lang->file_path}</th>
             <td>
-                <input type="checkbox" id="collapse" name="collapse" value="Y" />
+                <input type="text" id="file_path" name="file_path" class="inputTypeText w400" />
             </td>
         </tr>
         <tr>
-            <th scope="row">{$lang->hidden_linenumber}</th>
+            <th scope="row">{$lang->description}</th>
             <td>
-                <input type="checkbox" id="nogutter" name="nogutter" value="Y" />
+                <input type="text" id="description" name="description" class="inputTypeText w400" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->first_line}</th>
+            <td>
+                <input type="text" id="first_line" name="first_line" value="1" class="inputTypeText w40" />
+                <input type="checkbox" id="nogutter" name="nogutter" value="Y" /> <label for="nogutter">{$lang->hidden_linenumber}</label>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->used_collapse}</th>
+            <td>
+                <input type="checkbox" id="collapse" name="collapse" value="Y" />
             </td>
         </tr>
         <tr>

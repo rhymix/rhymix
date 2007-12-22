@@ -13,11 +13,18 @@ function getCode() {
     selected_node = node;
 
     var code_type = node.getAttribute('code_type');
+    var file_path = node.getAttribute('file_path');
+    var description = node.getAttribute('description');
+    var first_line = node.getAttribute('first_line');
     var collapse = node.getAttribute('collapse');
     var nogutter = node.getAttribute('nogutter');
     var nocontrols = node.getAttribute('nocontrols');
 
     xGetElementById('code_type').value = code_type;
+    xGetElementById('file_path').value = file_path;
+    xGetElementById('description').value = description;
+    if(!first_line) xGetElementById('first_line').value = '1';
+    else xGetElementById('first_line').value = first_line;
     if(collapse == 'Y') xGetElementById('collapse').checked = true;
     if(nogutter == 'Y') xGetElementById('nogutter').checked = true;
     if(nocontrols == 'Y') xGetElementById('nocontrols').checked = true;
@@ -28,6 +35,9 @@ function insertCode() {
     if(typeof(opener)=='undefined') return;
 
     var code_type = xGetElementById('code_type').value;
+    var file_path = xGetElementById('file_path').value;
+    var description = xGetElementById('description').value;
+    var first_line = xGetElementById('first_line').value;
     var collapse = xGetElementById('collapse').checked;
     var nogutter = xGetElementById("nogutter").checked;
     var nocontrols = xGetElementById("nocontrols").checked;
@@ -40,25 +50,16 @@ function insertCode() {
 
     if(!content) content = "&nbsp;";
 
-    var text = "\n<div editor_component=\"code_highlighter\" code_type=\""+code_type+"\" style=\""+style+"\">"+content+"</div>\n<br />";
+    var text = "\n"+'<div editor_component="code_highlighter" code_type="'+code_type+'" file_path="'+file_path+'" description="'+description+'" first_line="'+first_line+'" collapse="'+collapse+'" nogutter="'+nogutter+'" nocontrols="'+nocontrols+'" style="'+style+'">'+content+'</div>'+"\n<br />";
 
     if(selected_node) {
         selected_node.setAttribute('code_type', code_type);
-        if(collapse == true) {
-            selected_node.setAttribute('collapse', 'Y');
-        } else {
-            selected_node.setAttribute('collapse', 'N');
-        }
-        if(nogutter == true) {
-            selected_node.setAttribute('nogutter', 'Y');
-        } else {
-            selected_node.setAttribute('nogutter', 'N');
-        }
-        if(nocontrols == true && collapse == false) {
-            selected_node.setAttribute('nocontrols', 'Y');
-        } else {
-            selected_node.setAttribute('nocontrols', 'N');
-        }
+        selected_node.setAttribute('file_path', file_path);
+        selected_node.setAttribute('description', description);
+        selected_node.setAttribute('first_line', first_line);
+        selected_node.setAttribute("collapse", collapse);
+        selected_node.setAttribute('nogutter', nogutter);
+        selected_node.setAttribute('nocontrols', nocontrols);
         selected_node.setAttribute('style', style);
         opener.editorFocus(opener.editorPrevSrl);
 
