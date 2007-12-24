@@ -68,7 +68,7 @@
         </var>
         <var id="thumbnail_type">
             <name xml:lang="ko">썸네일 생성 방법</name>
-            <name xml:lang="jp">サムネール生成方法</name>
+            <name xml:lang="jp">生成方法</name>
             <name xml:lang="zh-CN">缩略图生成方式</name>
             <name xml:lang="en">Thumbnail Type</name>
             <name xml:lang="ru">Тип миниатюры</name>
