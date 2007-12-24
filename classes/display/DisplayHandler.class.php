@@ -220,10 +220,9 @@
          * @brief RequestMethod에 맞춰 헤더 출력
          ***/
         function _printHeader() {
+            if($this->gz_enabled) header("Content-Encoding: gzip");
             if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
             else return $this->_printHTMLHeader();
-
-            if($this->gz_enabled) header("Content-Encoding: gzip");
         }
 
         /**
