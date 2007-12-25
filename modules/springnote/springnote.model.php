@@ -100,6 +100,9 @@
             // 첨부파일의 경로를 변경
             $page->source = preg_replace('/="\/pages\/([0-9]+)\/attachments\/([0-9]+)"/is','="'.$page->uri.'/attachments/\\2"', $page->source);
 
+	    // Change path of the template images
+            $page->source = preg_replace('/="\/images\/template\/([^"]+)"/is','="http://zbxe.springnote.com/images/template/\\1"', $page->source);
+
             $uri = preg_replace('/pages(.*)$/i','',$page->uri);
             $page->css_files = array(
                     sprintf('%sstylesheets/xhtmlContent.css?%d', $uri, time()),
