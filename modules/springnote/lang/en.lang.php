@@ -25,6 +25,6 @@
     $lang->about_springnote_openid = "Please input your OpenID that created Springnote";
     $lang->about_springnote_userkey = 'User Key is needed to enable Springnote module.<br />Please input generated User Key after entering your OpenID at [<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">Get User Key</a>] .';
     $lang->about_springnote_pageid = 'Please input pageid if you want to display specific page first.';
-    $lang->about_springnote_pageid_setup = '페이지 번호 지정시 해당 페이지만 보이기(목록 비포함), 해당 페이지부터 보이기(목록 포함)등을 지정할 수 있습니다';
+    $lang->about_springnote_pageid_setup = "You can set 'Show only Selected Pages (hide list)', 'Show from Selected Pages (show list)' etc when you set page number.";
     $lang->about_springnote_domain = "You may set other domain's springnote.  (Please input only domain from the form of 'http://domain.springnote.com' )";
 ?>

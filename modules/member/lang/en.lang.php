@@ -120,7 +120,7 @@
     $lang->msg_find_account_comment = 'The password will be modified to above one when you click below link.<br />Please modify the password after login.';
     $lang->msg_auth_mail_sended = 'The authentication mail has been sent to %s. Please check your mail.';
 	$lang->msg_invalid_auth_key = 'This is an invalid request of authentication.<br />Please retry finding account info or contact to administrator.';
-    $lang->msg_success_authed = 'Your account has been successfully authenticated and logged on. Please modify the password to your own one using the password in the authentication mail.';
+    $lang->msg_success_authed = 'Your account has been successfully authenticated and logged on. Please modify the password to your own one with the password in the mail.';
 
     $lang->msg_no_message = 'There are no messages';
     $lang->message_received = 'You have a new message';
@@ -132,11 +132,11 @@
     $lang->msg_not_delete_default = 'Default items cannot be deleted';
     $lang->msg_not_exists_member = "This member doesn't exist";
     $lang->msg_cannot_delete_admin = 'Admin ID cannot be deleted. Please remove the ID from administration and try again.';
-    $lang->msg_exists_user_id = 'This ID already exists. Please try with another ID';
-    $lang->msg_exists_email_address = 'This email address already exists. Please try with another email address.';
-    $lang->msg_exists_nick_name = 'This nickname already exists. Please try with another nickname.';
-    $lang->msg_signup_disabled = 'You are not able to join';
-    $lang->msg_already_logged = 'You have already joined';
+    $lang->msg_exists_user_id = 'This ID already exists. Please try with another one.';
+    $lang->msg_exists_email_address = 'This email address already exists. Please try with another one.';
+    $lang->msg_exists_nick_name = 'This nickname already exists. Please try with another one.';
+    $lang->msg_signup_disabled = 'You are not able to sign up';
+    $lang->msg_already_logged = 'You have already signed up';
     $lang->msg_not_logged = 'Please login first';
     $lang->msg_title_is_null = 'Please input title of message';
     $lang->msg_content_is_null = 'Please input content';
@@ -144,13 +144,14 @@
     $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
     $lang->msg_insert_group_name = 'Please input name of group';
 
+    $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
 
     $lang->msg_accept_agreement = 'You have to agree to the agreement'; 
 
-    $lang->msg_user_denied = 'This ID is prohibited';
-    $lang->msg_user_limited = 'This ID can be used after %s';
+    $lang->msg_user_denied = 'Entered ID is prohibited';
+    $lang->msg_user_limited = 'Entered ID can be used after %s';
 
     $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
     $lang->about_password = 'Password should be 6~20 letters long';
@@ -167,30 +168,30 @@
     $lang->about_description = "Administrator's memo about members";
     $lang->about_group = 'An ID can belong to many groups';
 
-    $lang->about_column_type = 'Please set the format of additional join form';
+    $lang->about_column_type = 'Please set the format of additional sign up form';
     $lang->about_column_name = 'Please input English name that can be used in template (name as variable)';
-    $lang->about_column_title = 'This will be displayed when member joining or modifing/viewing member info';
+    $lang->about_column_title = 'This will be displayed on sign up or modifing/viewing member info form';
     $lang->about_default_value = 'You can set default values';
-    $lang->about_active = 'You have to check on active items to show on join form';
-    $lang->about_form_description = 'If you input in description form, it will be displayed on join form';
-    $lang->about_required = 'If you check, it will be essential item for join';
+    $lang->about_active = 'You have to check on active items to show on sign up form';
+    $lang->about_form_description = 'If you input in description form, it will be displayed on sign up form';
+    $lang->about_required = 'If you check, it will be essential item for sign up';
 
-    $lang->about_enable_openid = 'Allow users to join as OpenID';
-    $lang->about_enable_join = 'Allow users to join';
-    $lang->about_limit_day = 'You can limit certification date after join';
+    $lang->about_enable_openid = 'Allow users to sign up as OpenID';
+    $lang->about_enable_join = 'Allow users to sign up';
+    $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
-    $lang->about_redirect_url = 'Please input URL where users will go after join. When this is empty, it will be set as the previous page of join page.';
-    $lang->about_agreement = "Join agreement will only be displayed when it's not empty";
+    $lang->about_redirect_url = 'Please input URL where users will go after sign up. When this is empty, it will be set as the previous page of sign up page.';
+    $lang->about_agreement = "Sign up agreement will only be displayed when it's not empty";
 
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
     $lang->about_profile_image = 'Allow users to use profile images';
-    $lang->about_accept_agreement = "I've read the agreement all and agree"; 
+    $lang->about_accept_agreement = "I have read the agreement all and agree"; 
 
-    $lang->about_member_default = 'It will be set as default group on join';
+    $lang->about_member_default = 'It will be set as default group on sign up';
 
-    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, but password and certification management will be done on current OpenID offering service';
-    $lang->about_openid_leave = 'The secession of OpenID means deleting your member info in this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
+    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and certification management will be done on current OpenID offering service';
+    $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
     $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';

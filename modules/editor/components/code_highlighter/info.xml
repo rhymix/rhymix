@@ -14,7 +14,7 @@
         <description xml:lang="ko">코드를 보기 좋게 출력합니다.</description>
         <description xml:lang="jp">ソースコードを見やすく表示します。</description>
         <description xml:lang="zh-CN">高亮显示所选代码。</description>
-        <description xml:lang="en">Component serving for code highlighting.</description>
+        <description xml:lang="en">It displays code in good shape.</description>
         <description xml:lang="ru">Компонент служащий для подсветки кода</description>
     </author>
 </component>
