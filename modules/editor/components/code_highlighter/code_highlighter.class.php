@@ -50,7 +50,7 @@ class code_highlighter extends EditorHandler {
         if($option_collapse == 'true') $option = $option.':collapse';
         if($option_nogutter == 'true') $option = $option.':nogutter';
         if($option_nocontrols == 'true' && $option_collapse != 'true') $option = $option.':nocontrols';
-        if($option_first_line) $option = $option.":firstline[$option_first_line]";
+        if($option_first_line > 1) $option = $option.":firstline[$option_first_line]";
         $body = $xml_obj->body;
 
 
@@ -58,8 +58,8 @@ class code_highlighter extends EditorHandler {
         $body = preg_replace('@(<br\\s*/?>)(\n)?@i' , "\n", $body);
         $body = strip_tags($body);
 
-        if(!$GLOBALS['_called_code_highlighter_']) {
-            $GLOBALS['_called_code_highlighter_'] = true;
+        if(!$GLOBALS['_called_editor_component_code_highlighter_']) {
+            $GLOBALS['_called_editor_component_code_highlighter_'] = true;
             $js_code = <<<dpScript
 <script type="text/javascript">
 dp.SyntaxHighlighter.ClipboardSwf = '{$this->component_path}script/clipboard.swf';
@@ -68,18 +68,17 @@ dp.SyntaxHighlighter.HighlightAll('code');
 dpScript;
 
             Context::addHtmlFooter($js_code);
+            Context::addCSSFile($this->component_path.'css/SyntaxHighlighter.css');
+            Context::addJsFile($this->component_path.'script/shCore.js');
         }
 
-        Context::addCSSFile($this->component_path.'css/SyntaxHighlighter.css');
-
-        Context::addJsFile($this->component_path.'script/shCore.js');
         Context::addJsFile($this->component_path.'script/shBrush'.$code_type.'.js');
 
         $output = null;
-        if(isset($option_file_path) || isset($option_description)) {
+        if($option_file_path != null || $option_description != null) {
             $output .= '<div class="ch_infobox">';
-            if(isset($option_file_path)) $output .= '<span class="file_path">'.$option_file_path.'</span>';
-            if(isset($option_description)) $output .= '<span class="description">'.$option_description.'</span>';
+            if($option_file_path != null) $output .= '<span class="file_path">'.$option_file_path.'</span>';
+            if($option_description != null) $output .= '<span class="description">'.$option_description.'</span>';
             $output .= '</div>';
         }
         $output .= sprintf('<pre name="code" class="%s">%s</pre>', $code_type.$option, $body);
