@@ -7,5 +7,6 @@
         <action name="procImporterAdminMemberImport" type="controller" standalone="true" />
         <action name="procImporterAdminMessageImport" type="controller" standalone="true" />
         <action name="procImporterAdminModuleImport" type="controller" standalone="true" />
+        <action name="procImporterAdminTTXMLImport" type="controller" standalone="true" />
     </actions>
 </module>

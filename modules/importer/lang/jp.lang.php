@@ -14,6 +14,7 @@
     $lang->source_type = 'データ変換の対象';
     $lang->type_member = '会員情報';
     $lang->type_message = '쪽지(메세지) 정보';
+    $lang->type_ttxml = 'TTXML';
     $lang->type_module = '書き込みデータ情報';
     $lang->type_syncmember = '会員情報同期化';
     $lang->target_module = '対象モジュール';
@@ -46,6 +47,8 @@
     // Bla, Blah..
     $lang->about_type_member = 'データ変換の対象が会員情報の場合は選択してください。';
     $lang->about_type_message = '데이터 이전 대상이 쪽지(메세지)일 경우 선택해주세요';
+    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
+    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = 'データ変換の対象が書き込みデータである場合は選択してください。';
     $lang->about_type_syncmember = '会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択してください。';
     $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをゼロボードXEのデータに変換することができます。\n変換するためには、<a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。";

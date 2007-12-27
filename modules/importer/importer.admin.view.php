@@ -26,8 +26,14 @@
                 case 'member' : 
                         $template_filename = "member";
                     break;
+                case 'ttxml' : 
+                        $oModuleModel = &getModel('module');
+                        $mid_list = $oModuleModel->getMidList();
+                        Context::set('mid_list', $mid_list);
+                        
+                        $template_filename = "ttxml";
+                    break;
                 case 'module' : 
-                        // 전체 모듈 목록 구함
                         $oModuleModel = &getModel('module');
                         $mid_list = $oModuleModel->getMidList();
                         Context::set('mid_list', $mid_list);

@@ -14,6 +14,7 @@
     $lang->source_type = 'Objetivo a transferir';
     $lang->type_member = 'Información del usuario';
     $lang->type_message = '쪽지(메세지) 정보';
+    $lang->type_ttxml = 'TTXML';
     $lang->type_module = 'Información del documento.';
     $lang->type_syncmember = 'Sincronizar la información del usuario';
     $lang->target_module = 'Objetivo del módulo';
@@ -46,6 +47,8 @@
     // bla bla...
     $lang->about_type_member = 'Seleccione esta opción si estas transferiendo la información del usuario.';
     $lang->about_type_message = '데이터 이전 대상이 쪽지(메세지)일 경우 선택해주세요';
+    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
+    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = 'Seleccione esta opción si estas transfeririendo información del documento de los tableros';
     $lang->about_type_syncmember = 'Seleccione esta opción cuando tenga que sincronizar la información del usuario luego de haber transferido la información del usuario y del artículo.';
     $lang->about_importer = "Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a ZeroBoardXE.\nPara la transferencia debe utilizar <a href=\"#\" onclick=\"winopen('');return false;\">Exportador XML</a> para transformar los datos en archivo XML, y luego subir ese archivo.";

@@ -1,0 +1,60 @@
+<!--%import("js/importer_admin.js")-->
+<!--%import("css/importer.css")-->
+
+<h3>{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!-- 설명 -->
+<div class="infoText">{nl2br($lang->about_importer)}</div>
+
+<!-- step 1-2. 대상이 게시물 정보일 경우 대상 모듈 목록을 선택하도록 함 -->
+<div>
+    <form action="./" method="get" onsubmit="return doImportTTXML(this)" id="fo_import">
+        <input type="hidden" name="total_count" value="0" />
+        <input type="hidden" name="success_count" value="0" />
+        <input type="hidden" name="readed_line" value="0" />
+
+        <table cellspacing="0" class="adminTable">
+        <caption>{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</caption>
+        <tr>
+            <td>
+                <select name="target_module">
+                    <option value="">====================</option>
+                <!--@foreach($mid_list as $key => $val)-->
+                    <option value="{$val->module_srl}">{$val->browser_title}</option>
+                <!--@end-->
+                </select>
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="adminTable">
+        <tr>
+            <td>
+                {$lang->user_id} : <input type="text" name="user_id" value="{$logged_info->user_id}" class="inputTypeText w200" />
+                <p>{$lang->about_ttxml_user_id}</p>
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="adminTable">
+        <caption>{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</caption>
+        <tr>
+            <td>
+                <input type="text" name="xml_file" value="./" class="inputTypeText w400" />
+                <p>ex1) ../module.xml</p>
+                <p>ex2) http://...../module.xml</p>
+            </td>
+        </tr>
+        <tr>    
+            <th class="button">
+                <div id="status_button_prev"><span class="button"><input type="submit" value="{$lang->cmd_next}" /></span></div>
+                <div id="status_button" style="display:none"><span class="button"><input type="submit" value="{$lang->cmd_continue}" /></span></div>
+            </th>
+        </tr>
+        </table>
+
+        <div id="status" style="display:none"></div>
+
+    </form>
+</div>
+

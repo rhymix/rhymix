@@ -17,6 +17,8 @@
         var $oCommentModel = null;
         var $oTrackbackController = null;
 
+        var $oXmlParser = null;
+
         /**
          * @brief 초기화
          **/
@@ -380,6 +382,9 @@
             return true;
         }
 
+        /**
+         * @brief module.xml 형식의 데이터 import
+         **/
         function procImporterAdminModuleImport() {
             set_time_limit(0);
 
@@ -441,6 +446,7 @@
 
                 // 아이템 종료시 DB 입력
                 } else if( $str == '</post>') {
+                    $obj->member_srl = 0;
                     if($this->importDocument($obj)) $inserted_count ++;
                     if($inserted_count >= 50) {
                         $manual_break = true;
@@ -584,7 +590,7 @@
         }
 
         /**
-         * @brief 댓글 정리
+         * @brief 첨부파일 정리
          **/
         function importAttaches($fp) {
             $attaches = array();
@@ -710,7 +716,7 @@
             }
 
             // 게시글 등록
-            $obj->member_srl = 0;
+            //$obj->member_srl = 0;
             $obj->password_is_hashed = true;
             $output = $this->oDocumentController->insertDocument($obj, true);
 
@@ -788,8 +794,14 @@
                 foreach($trackbacks as $key => $val) {
                     $val->module_srl = $obj->module_srl;
                     $val->document_srl = $obj->document_srl;
-                    $trackback_output = $this->oTrackbackController->insertTrackback($val, true);
+                    $val->trackback_srl = getNextSequence();
+                    $val->list_order = $val->trackback_srl*-1;
+                    $trackback_output = executeQuery('trackback.insertTrackback', $val);
+                    //$trackback_output = $this->oTrackbackController->insertTrackback($val, true);
                 }
+                $oTrackbackModel = &getModel('trackback');
+                $trackback_count = $oTrackbackModel->getTrackbackCount($obj->document_srl);
+                $this->oDocumentController->updateTrackbackCount($obj->document_srl, $trackback_count);
             }
 
             return true;
@@ -868,5 +880,293 @@
             fclose($f);
             return $temp_filename;
         }
+
+        /**
+         * @brief TTXML import
+         **/
+        function procImporterAdminTTXMLImport() {
+            set_time_limit(0);
+
+            $xml_file = Context::get('xml_file');
+            $target_module = Context::get('target_module');
+            $user_id = Context::get('user_id');
+            if(!$user_id) return new Object(-1,'msg_invalid_request');
+
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+
+            $total_count = 0;
+            $success_count = 0;
+
+            // xml_file 경로가 없으면 에러~
+            if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
+
+            // local 파일 지정인데 파일이 없으면 역시 에러~
+            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+
+            // 필요한 객체 미리 생성
+            $this->oDocumentController = &getController('document');
+            $this->oDocumentModel = &getModel('document');
+            $this->oCommentController = &getController('comment');
+            $this->oCommentModel = &getModel('comment');
+            $this->oTrackbackController = &getController('trackback');
+
+            // 타켓 모듈의 유무 체크
+            if(!$target_module) return new Object(-1,'msg_invalid_request');
+            $module_srl = $target_module;
+
+            // 타겟 모듈의 카테고리 정보 구함
+            $category_list = $this->oDocumentModel->getCategoryList($module_srl);
+            if(count($category_list)) {
+                foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
+            } else {
+                $category_list = $category_titles = array();
+            }
+
+            // 이제부터 데이터를 가져오면서 처리
+            $fp = $this->getFilePoint($xml_file);
+            if(!$fp) return new Object(-1,'msg_no_xml_file');
+
+            $manual_break = false;
+            $obj = null;
+            $attaches = array();
+            $document_srl = null;
+
+            $inserted_count = 0;
+
+            $this->oXmlParser = new XmlParser();
+
+            // 본문 데이터부터 처리 시작
+            $i=0;
+            $started = $category_started = $post_started = false;
+            $category_buff = '';
+            while(!feof($fp)) {
+                $str = fgets($fp, 1024);
+
+                if(substr($str,0,7)=='</logs>') $str = substr($str,7);
+                if(substr($str,0,6)=='<logs>') $str = substr($str,6);
+
+                if(substr($str,0,10)=='<category>' || substr($str,0,6) == '<post ') $started = true;
+                if(!$started) continue;
+
+                // <category가 나오면 카테고리 버퍼링
+                if(substr($str,0,10)=='<category>') {
+                    $category_started = true;
+                    $category_buff .= $str;
+                }
+
+                // </post 로 시작시 게시글 버퍼링 중지하고 게시글 등록
+                if($post_started && substr($str,0,7)=='</post>') {
+                    $str = substr($str,7);
+
+                    // 게시글 처리
+                    $post_buff .= '</post>';
+                    $xml_doc = $this->oXmlParser->parse($post_buff);
+                    $post = $xml_doc->post;
+
+                    $obj = null;
+                    $obj->module_srl = $module_srl;
+                    $obj->document_srl = getNextSequence();
+                    $obj->title = $post->title->body;
+                    $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$post->content->body);
+                    $obj->password = md5($post->password->body);
+                    $obj->allow_comment = $post->acceptcomment->body==1?'Y':'N';
+                    $obj->allow_trackback= $post->accepttrackback->body==1?'Y':'N';
+                    $obj->regdate = date("YmdHis",$post->created->body);
+                    $obj->last_update = date("YmdHis",$post->modified->body);
+
+                    $category = trim($post->category->body);
+                    if($category) {
+                        $tmp_category = explode('/',$category);
+                        if(count($tmp_category)>1) $category = $tmp_category[1];
+                        $obj->category_srl = (int)$category_titles[$category];
+                        if(!$obj->category_srl) {
+                            $tmp = array_values($category_titles);
+                            $obj->category_srl = (int)$tmp[0];
+                        }
+                    }
+                    $obj->user_id = $member_info->user_id;
+                    $obj->nick_name = $member_info->nick_name;
+                    $obj->user_name = $member_info->user_name;
+                    $obj->member_srl = $member_info->member_srl;
+
+                    // 댓글
+                    $obj->comments = $this->importTTComment($post->comment);
+
+                    // 꼬리표
+                    $tags = $post->tag;
+                    if(!is_array($tags)) $tags = array($tags);
+                    if(count($tags)) {
+                        $tag_list = array();
+                        foreach($tags as $key => $val) {
+                            $tag = trim($val->body);
+                            if(!$tag) continue;
+                            $tag_list[] = $tag;
+                        }
+                        if(count($tag_list)) $obj->tags = implode(',',$tag_list);
+                    }
+
+                    // 엮인글
+                    if($post->trackback) {
+                        $trackbacks = $post->trackback;
+                        if(!is_array($trackbacks)) $trackbacks = array($trackbacks);
+                        if(count($trackbacks)) {
+                            foreach($trackbacks as $key => $val) {
+                                $tobj = null;
+                                $tobj->url = $val->url->body;
+                                $tobj->title = $val->title->body;
+                                $tobj->blog_name = $val->site->body;
+                                $tobj->excerpt = $val->excerpt->body;
+                                $tobj->regdate = date("YmdHis",$val->received->body);
+                                $tobj->ipaddress = $val->ip->body;
+                                $obj->trackbacks[] = $tobj;
+                            }
+                        }
+                    }
+
+                    // 첨부파일
+                    $obj->attaches = $attaches;
+
+                    $total_count ++;
+                    if($this->importDocument($obj)) $success_count ++;
+
+                    // 새로운 게시글을 위한 처리
+                    $post_started = false;
+                    $obj = null;
+                    $post_buff = '';
+                    $attaches = array();
+                }
+
+                // <post가 나오면 새로운 게시글 버퍼링 시작, 만약 이전에 카테고리 버퍼링중이였다면 카테고리 처리
+                if(substr($str,0,6)=='<post ') {
+
+                    // 카테고리 버퍼링중이였다면 카테고리 처리
+                    if($category_started) {
+                        $category_started = false;
+
+                        // 객체 변환후 카테고리 입력
+                        $xml_doc = $this->oXmlParser->parse('<categories>'.$category_buff.'</category_buff>');
+                        if($xml_doc->category) {
+                            $this->insertTTCategory($xml_doc, 0, $module_srl, $category_titles);
+
+                            // 입력완료 후 카테고리 xml파일 재생성
+                            $this->oDocumentController->makeCategoryXmlFile($module_srl);
+                            $xml_doc = null;
+                        }
+
+                        $category_buff = null;
+                    }
+
+                    $post_started = true;
+                }
+
+                // 게시글 버퍼링중일때 처리
+                if($post_started) {
+                    // 첨부파일의 경우 별도로 버퍼링을 하지 않고 직접 파일에 기록해야 함
+                    if(substr($str,0,12)=='<attachment ') $attaches[] = $this->importTTAttaches($fp, $str);
+                    else $post_buff .= $str;
+                }
+            }
+
+            fclose($fp);
+
+            $this->add('is_finished','1');
+            $this->setMessage(sprintf(Context::getLang('msg_import_finished'), $success_count, $total_count));
+        }
+
+        /**
+         * @brief TTXML에 맞게 category정보 입력
+         **/
+        function insertTTCategory($xml_doc, $parent_srl =0, $module_srl, &$category_titles) {
+            // category element가 없으면 pass
+            if(!$xml_doc->category) return;
+            $categories = $xml_doc->category;
+
+            // 하나만 있을 경우 배열 처리
+            if(!is_array($categories)) $categories = array($categories);
+
+            // ttxml에서는 priority순서로 오는게 아니라서 정렬
+            foreach($categories as $obj) {
+                $title = trim($obj->name->body);
+                $priority = $obj->priority->body;
+                $root = $obj->root->body;
+                if($root==1) continue;
+                $category_list[$priority]->title = $title;
+                $category_list[$priority]->category = $obj->category;
+            }
+
+            // 데이터 입력
+            foreach($category_list as $obj) {
+                if(!$category_titles[$obj->title]) {
+                    $args = null;
+                    $args->title = $obj->title;
+                    $args->parent_srl = $parent_srl; 
+                    $args->module_srl = $module_srl; 
+                    $output = $this->oDocumentController->insertCategory($args);
+                    if($output->toBool()) $category_titles[$args->title] = $output->get('category_srl');
+                    $output = null;
+                } 
+
+                $this->insertTTCategory($obj, $category_titles[$obj->title], $module_srl, $category_titles);
+
+            }
+        }
+
+        /**
+         * @brief TTXML 첨부파일 정리
+         **/
+        function importTTAttaches($fp, $buff) {
+            if(substr(trim($buff), -13) != '</attachment>') {
+                while(!feof($fp)) {
+                    $buff .= fgets($fp, 1024);
+                    if(substr(trim($buff), -13) == '</attachment>') break;
+                }
+            }
+
+            $xml_doc = $this->oXmlParser->parse($buff);
+            $buff = '';
+
+            $obj = null;
+            $obj->filename = $xml_doc->attachment->name->body;
+            $obj->file = $this->getTmpFilename('file');
+            $obj->download_count = $xml_doc->attachment->downloads->body;
+
+            $f = fopen($obj->file, "w");
+            fwrite($f, base64_decode($xml_doc->attachment->content->body));
+            fclose($f);
+
+            return $obj;
+        }
+
+        /**
+         * @brief TTXML 댓글 정리
+         **/
+        function importTTComment($comment) {
+            if(!$comment) return;
+            if(!is_array($comment)) $comment = array($comment);
+
+            $comments = array();
+
+            $sequence = 0;
+            foreach($comment as $key => $val) {
+                $obj = null;
+                $obj->sequence = $sequence;
+
+                if($val->commenter->attrs->id) $obj->parent = $sequence-1;
+
+                $obj->is_secret = $val->secret->body==1?'Y':'N';
+                $obj->content = nl2br($val->content->body);
+                $obj->password = $val->password->body;
+                $obj->nick_name = $val->commenter->name->body;
+                $obj->homepage = $val->commenter->homepage->body;
+                $obj->regdate = date("YmdHis",$val->written->body);
+                $obj->ipaddress = $val->commenter->ip->body;
+                $comments[] = $obj;
+                
+                $sequence++;
+            }
+            return $comments;
+        }
+
     }
 ?>

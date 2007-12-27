@@ -14,6 +14,7 @@
     $lang->source_type = 'Предыдущее назначение';
     $lang->type_member = 'Данные пользователей';
     $lang->type_message = '쪽지(메세지) 정보';
+    $lang->type_ttxml = 'TTXML';
     $lang->type_module = 'Данные статей';
     $lang->type_syncmember = 'Синхронизировать данные пользователей';
     $lang->target_module = 'Модуль назначения';
@@ -46,6 +47,8 @@
     // blah blah.. чепуха)
     $lang->about_type_member = 'Если Вы импортируете информацию пользователей, выберите эту опцию';
     $lang->about_type_message = '데이터 이전 대상이 쪽지(메세지)일 경우 선택해주세요';
+    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
+    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = 'Если Вы импортируете информацию форума или статей, выберите эту опцию';
     $lang->about_type_syncmember = 'Если Вы пытаетесь синхронизировать информацию пользователей после импорта информации пользователей и статей, выберите эту опцию';
     $lang->about_importer = "Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в ZeroboardXE.\nЧтобы импортировать, Вам следует использовать <a href=\"#\" onclick=\"winopen('');return false;\">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.";
