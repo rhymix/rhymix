@@ -353,11 +353,16 @@
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
             if(!$height) $height = $width;
+            $thumbnail_type = '';
             
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
-                $oDocumentModel = &getModel('document');
-                $config = $oDocumentModel->getDocumentConfig();
+                $config = $GLOBALS['__document_config__'];
+                if(!$config) {
+                    $oDocumentModel = &getModel('document');
+                    $config = $oDocumentModel->getDocumentConfig();
+                    $GLOBALS['__document_config__'] = $config;
+                }
                 $thumbnail_type = $config->thumbnail_type;
             }
 
