@@ -101,6 +101,7 @@
         }
 
         function doCart() {
+            if(!$this->document_srl) return false;
             if($this->isCarted()) $this->removeCart();
             else $this->addCart();
         }
@@ -118,6 +119,8 @@
         }
 
         function notify($type, $content) {
+            if(!$this->document_srl) return;
+
             // useNotify가 아니면 return
             if(!$this->useNotify()) return;
 
@@ -180,6 +183,8 @@
         }
 
         function getTitle($cut_size = 0, $tail='...') {
+            if(!$this->document_srl) return;
+
             $title = $this->getTitleText($cut_size, $tail);
 
             $attrs = array();
@@ -191,6 +196,8 @@
         }
 
         function getContentText($strlen = 0) {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
@@ -203,6 +210,8 @@
         }
 
         function getContent($add_document_info = true) {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
@@ -242,6 +251,8 @@
         }
 
         function getSummary($str_size = 50) {
+            if(!$this->document_srl) return;
+
             $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent(false))));
             return cut_str($content, $str_size, '...');
         }
@@ -288,6 +299,8 @@
         }
 
         function getTrackbackUrl() {
+            if(!$this->document_srl) return;
+
             // 스팸을 막기 위한 key 생성
             $oTrackbackModel = &getModel('trackback');
             return $oTrackbackModel->getTrackbackUrl($this->document_srl);
@@ -340,6 +353,8 @@
         }
 
         function getTrackbacks() {
+            if(!$this->document_srl) return;
+            
             if(!$this->allowTrackback() || !$this->get('trackback_count')) return;
 
             $oTrackbackModel = &getModel('trackback');
@@ -347,11 +362,14 @@
         }
 
         function thumbnailExists($width = 80, $height = 0, $type = '') {
+            if(!$this->document_srl) return false;
             if(!$this->getThumbnail($width, $height, $type)) return false;
             return true;
         }
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
+            if(!$this->document_srl) return;
+
             if(!$height) $height = $width;
             $thumbnail_type = '';
             
@@ -436,6 +454,7 @@
          * $time_interval 에 지정된 시간(초)로 새글/최신 업데이트글의 판별
          **/
         function getExtraImages($time_interval = 43200) {
+            if(!$this->document_srl) return;
 
             // 아이콘 목록을 담을 변수 미리 설정
             $buffs = array();
@@ -481,6 +500,8 @@
          * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
          **/
         function printExtraImages($time_check = 43200) {
+            if(!$this->document_srl) return;
+
             // 아이콘 디렉토리 구함
             $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
 
@@ -495,11 +516,15 @@
         }
 
         function hasUploadedFiles() {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return false;
             return $this->get('uploaded_count')? true : false;
         }
 
         function getUploadedFiles() {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return;
             if(!$this->get('uploaded_count')) return;
 
