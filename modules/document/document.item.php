@@ -371,7 +371,6 @@
             if(!$this->document_srl) return;
 
             if(!$height) $height = $width;
-            $thumbnail_type = '';
             
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
