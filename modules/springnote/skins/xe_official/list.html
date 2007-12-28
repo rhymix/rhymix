@@ -92,13 +92,16 @@
     </div>
 
     <div class="pageView">
-        <div class="xhtmlEditorBody background_no">
+        <!--BeforeDocument({$pageid},0)-->
+        <div class="document_{$pageid}_0 xhtmlEditorBody background_no">
             {$page->source}
         </div>
+        <!--AfterDocument({$pageid},0)-->
     </div>
 <!--@end-->
 
 <!-- 전체 목록 -->
+<!--@if($pages)-->
     <div class="pageSearch">
         <form action="./" method="get">
             <input type="hidden" name="mid" value="{$mid}" />
@@ -115,6 +118,7 @@
             {@ $_idx++}
         <!--@end-->
     </div>
+<!--@end-->
 
 <!-- 하단 텍스트 출력 -->
 {$module_info->footer_text}

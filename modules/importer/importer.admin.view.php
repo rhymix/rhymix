@@ -20,7 +20,37 @@
          **/
         function dispImporterAdminContent() {
             $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('index');
+
+            $source_type = Context::get('source_type');
+            switch($source_type) {
+                case 'member' : 
+                        $template_filename = "member";
+                    break;
+                case 'ttxml' : 
+                        $oModuleModel = &getModel('module');
+                        $mid_list = $oModuleModel->getMidList();
+                        Context::set('mid_list', $mid_list);
+                        
+                        $template_filename = "ttxml";
+                    break;
+                case 'module' : 
+                        $oModuleModel = &getModel('module');
+                        $mid_list = $oModuleModel->getMidList();
+                        Context::set('mid_list', $mid_list);
+                        
+                        $template_filename = "module";
+                    break;
+                case 'message' : 
+                        $template_filename = "message";
+                    break;
+                case 'sync' : 
+                        $template_filename = "sync";
+                    break;
+                default : 
+                        $template_filename = "index";
+                    break;
+            }
+            $this->setTemplateFile($template_filename);
         }
         
     }

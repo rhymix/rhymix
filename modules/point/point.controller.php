@@ -300,6 +300,10 @@
         function setPoint($member_srl, $point) {
             if($point < 0) $point = 0;
 
+            // 설정 정보 가져오기
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
             // 변수 설정
             $args->member_srl = $member_srl;
             $args->point = $point;
@@ -309,6 +313,7 @@
             if($oPointModel->isExistsPoint($member_srl)) {
                 executeQuery("point.updatePoint", $args);
             } else {
+                $args->point += (int)$config->signup_point;
                 executeQuery("point.insertPoint", $args);
             }
 

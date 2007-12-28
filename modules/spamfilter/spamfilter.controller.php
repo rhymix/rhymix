@@ -16,7 +16,7 @@
         /**
          * @brief 글 작성시 글 작성 시간 체크 및 금지 ip/단어 처리 루틴
          **/
-        function triggerinsertDocument(&$obj) {
+        function triggerInsertDocument(&$obj) {
             // 로그인 여부, 로그인 정보, 권한 유무 체크
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');

@@ -130,7 +130,8 @@
                     $obj->type = $val->type->body;
                     $obj->description = $val->description->body;
                     $obj->value = $extra_vals->{$obj->name};
-                    if(strpos($obj->value, '|@|') != 0) { $obj->value = explode('|@|', $obj->value); }
+                    if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
+                    if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
 
                     // 'select'type에서 option목록을 구한다.
                     if(is_array($val->options)) {

@@ -36,7 +36,7 @@
                 </select>
                 <!--@end-->
 
-                <input type="text" name="title" id="title" class="inputTypeText" value="{$oDocument->getTitleText()}" />
+                <input type="text" name="title" id="title" class="inputTypeText" value="{htmlspecialchars($oDocument->getTitleText())}" />
             </div>
 
             <dl class="option">

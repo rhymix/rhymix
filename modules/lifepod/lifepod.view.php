@@ -27,41 +27,55 @@
             $this->setTemplatePath($template_path);
         }
 
-	function dateFormatChange($dates) {
-	    $dates = str_replace( "T", " ", $dates);
-	    $dates = str_replace( "Z", "+0", $dates);
-	    $dates = date("Y-m-d H:i:s", strtotime($dates));
+        /**
+         * @brief Reformatting date data from Lifepod API into data type compatible to Lifepod UI 
+         **/
+	function dateFormatChange($dates, $plus = 0) {
+	    $dates = sprintf("%s-%s-%s %s:%s:%s+0", substr($dates,0,4), substr($dates,4,2), substr($dates,6,2), substr($dates,9,2), substr($dates,11,2), substr($dates,13,2));
+	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus + zgap());
 	    return $dates;
 	}
 
         /**
-         * @brief 달력 
+         * @brief Displaying Calendar 
          **/
         function dispLifepodContent() {
-            // 권한 체크
+            // check permission
             if(!$this->grant->view) return $this->dispLifepodMessage('msg_not_permitted');
 
             $oLifepodModel = &getModel('lifepod');
-            $oLifepodModel->setInfo($this->module_info->calendar_address);
+	    $caladdresses = split(", ", $this->module_info->calendar_address);
 	    $cYear = Context::get('year');
 	    $cMonth = Context::get('month');
 	    $cDay = Context::get('day');
+
+	    $calendars = array();
             
-            // 특정 페이지 선택시 페이지 정보 가져오기
-            $page = $oLifepodModel->getPage($cYear, $cMonth, $cDay);
-	    foreach ($page->data as $key => $val)
+	    foreach($caladdresses as $key => $val)
 	    {
-		if($val->childNodes["date-start"])
+		$page = $oLifepodModel->getPage($val, $cYear, $cMonth, $cDay);
+		foreach ($page->data as $key => $val)
 		{
-		    $val->childNodes["date-start"]->body = $this->dateFormatChange($val->childNodes["date-start"]->body);
+		    if($val->childNodes["date-start"])
+		    {
+			$val->childNodes["date-start"]->body = $this->dateFormatChange($val->childNodes["date-start"]->body);
+		    }
+
+		    if($val->childNodes["date-end"])
+		    {
+			$plus = 0;
+			if($val->childNodes["type"]->body == "daylong")
+			    $plus = -1;
+			$val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
+		    }
+
+		    $val->childNodes["description"]->body = str_replace("\n", "<BR />", $val->childNodes["description"]->body);
 		}
-		if($val->childNodes["date-end"])
-		{
-		    $val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body);
-		}
+		$calendars[] = $page;
+
 	    }
 
-            Context::set('page', $page);
+            Context::set('calendars', $calendars);
 
             $this->setTemplateFile('list');
         }

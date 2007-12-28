@@ -13,6 +13,8 @@
     $lang->importer = '제로보드 데이터 이전';
     $lang->source_type = '이전 대상';
     $lang->type_member = '회원 정보';
+    $lang->type_message = '쪽지(메세지) 정보';
+    $lang->type_ttxml = 'TTXML';
     $lang->type_module = '게시물 정보';
     $lang->type_syncmember = '회원정보 동기화';
     $lang->target_module = '대상 모듈';
@@ -39,14 +41,16 @@
     $lang->msg_no_xml_file = 'XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요';
     $lang->msg_invalid_xml_file = '잘못된 형식의 XML파일입니다';
     $lang->msg_importing = '%d개의 데이터중 %d개를 입력중입니다. (계속 멈추어 있으면 "계속진행" 버튼을 클릭해주세요)';
-    $lang->msg_import_finished = '%d개의 데이터 입력이 완료되었습니다. 상황에 따라 입력되지 못한 데이터가 있을 수 있습니다.';
+    $lang->msg_import_finished = '%d/%d 개의 데이터 입력이 완료되었습니다. 상황에 따라 입력되지 못한 데이터가 있을 수 있습니다.';
     $lang->msg_sync_completed = '회원과 게시물, 댓글의 동기화가 완료되었습니다.';
 
     // 주절 주절..
     $lang->about_type_member = '데이터 이전 대상이 회원정보일 경우 선택해주세요';
+    $lang->about_type_message = '데이터 이전 대상이 쪽지(메세지)일 경우 선택해주세요';
+    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
+    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = '데이터 이전 대상이 게시판등의 게시물 정보일 경우 선택해주세요';
     $lang->about_type_syncmember = '회원정보와 게시물정보등을 이전후 회원정보 동기화 해야 할때 선택해주세요';
     $lang->about_importer = "제로보드4, zb5beta 또는 다른 프로그램의 데이터를 제로보드XE 데이터로 이전할 수 있습니다.\n이전을 위해서는 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성후 업로드해주셔야 합니다.";
-
     $lang->about_target_path = "첨부파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http://도메인/bbs 처럼 제로보드가 설치된 곳의 url을 입력해주세요";
 ?>

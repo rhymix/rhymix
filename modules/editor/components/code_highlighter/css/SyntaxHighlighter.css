@@ -1,18 +1,17 @@
 .dp-highlighter
 {
-	font-family: "Consolas", "Courier New", Courier, mono, serif;
+	font-family: "Consolas", "Courier New", "Courier", "mono", "serif";
 	font-size: 12px;
 	background-color: #E7E5DC;
 	width: 99%;
 	overflow: auto;
-	margin: 18px 0 18px 0 !important;
 	padding-top: 1px; /* adds a little border on top when controls are hidden */
 }
 
 /* clear styles */
 .dp-highlighter ol,
 .dp-highlighter ol li,
-.dp-highlighter ol li span 
+.dp-highlighter ol li span
 {
 	margin: 0;
 	padding: 0;
@@ -60,7 +59,6 @@
 {
 	list-style: decimal; /* better look for others, override cascade from OL */
 	list-style-position: outside !important;
-	border-left: 3px solid #22AAEE;
 	background-color: #F8F8F8;
 	color: #5C5C5C;
 	padding: 0 3px 0 10px !important;
@@ -137,7 +135,6 @@
 	color: silver;
 	background-color: #f8f8f8;
 	padding-bottom: 10px;
-	border-left: 3px solid #22AAEE;
 }
 
 .dp-highlighter.nogutter .tools
@@ -247,6 +244,7 @@
 .dp-css {}
 .dp-css .comment { color: green; }
 .dp-css .string { color: red; }
+.dp-css .value { color: red; }
 .dp-css .keyword { color: blue; }
 .dp-css .colors { color: darkred; }
 .dp-css .vars { color: #d00; }
@@ -282,11 +280,31 @@
 .dp-abap .datatypes { color: #2E8B57; font-weight: bold; }
 
 
-pre[name='CodeHighLighterArea'] {
-    max-height: 200px;
+pre[name='code'] {
+    max-height: 300px;
     font-size: 1.1em;
     border: #666666 dotted 1px;
     border-left: #22AAEE solid 5px;
     padding: 5px;
     overflow: auto;
+}
+
+
+.ch_infobox {
+    padding: 5px 0;
+    width: 99%;
+    background-color: #F8F8F8;
+    border-top: 1px solid #E7E5DC;
+}
+
+.ch_infobox .file_path {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.ch_infobox .description {
+    color: #AAA;
+    font-size: 0.9em;
+    margin-left: 10px;
 }

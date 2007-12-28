@@ -1,5 +1,11 @@
 <?php
-    class Me2DayXmlParser {
+    /**
+     * @class GeneralXmlParser
+     * @author haneul (haneul0318@gmail.com)
+     * @brief XE에서 쓰는 XmlParser보다 좀더 범용으로 쓸 수 있는 Parser 
+     * @version 0.1
+     */
+    class GeneralXmlParser {
 	var $output = array();
 
 	function parse($input = '') {

@@ -172,14 +172,14 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
 
                     <div class="go">
                         <select name="year" class="selectTypeY" onchange="submit()">
-                            <? for($i = $max_year; $i >= $min_year; $i--):?>
+                            <?php for($i = $max_year; $i >= $min_year; $i--):?>
                             <option value="<?php echo $i?>" <?php echo $year == $i? "selected":""?> class="<?php echo $i%10?($i%2?"select_color1":"select_color2"):"select_color10"?>"><?php echo $i?></option>
-                            <?endfor?>
+                            <?php endfor?>
                         </select>
                         <select name="month" class="selectTypeM" onchange="submit()">
-                            <? for($i = 1; $i <= 12; $i++):?>
+                            <?php for($i = 1; $i <= 12; $i++):?>
                             <option value="<?php echo $i?>" <?php echo $month == $i? "selected":""?> class="<?php echo $i%2?"select_color1":"select_color2"?>"><?php echo sprintf("%02d",$i)?></option>
-                            <?endfor?>
+                            <?php endfor?>
                         </select>
                     </div>
                     <br /><br />
@@ -188,15 +188,15 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
 
                 <table cellspacing="0" class="dd">
                 <tr>
-                    <?for($y = 0; $y < 7; $y++) {?>
+                    <?php for($y = 0; $y < 7; $y++) {?>
                     <td class="<?php echo $y==0?"sun":($y==6?"sat":"")?>"><?php echo $dayName[$y]?></td>
-                    <?}?>
+                    <?php }?>
                 </tr>
                 <?php
                     //1주~6주
                     for($i = 0; $i < 6; $i++) {
                 ?>
-                <tr class="<?if($i == 0){?>first<?}elseif($i == 5){?>last<?}?>">
+                <tr class="<?php if($i == 0){?>first<?php }elseif($i == 5){?>last<?php }?>">
                 <?php
                         //요일
                         for($j = 0; $j < 7; $j++) {
@@ -235,13 +235,13 @@ $before_month_month_day = convertDatetoDay( $month == 1 ? $year - 1 : $year, $mo
                             $date_str = $y.sprintf("%02d", $m).sprintf("%02d", $day);
 
                 ?>
-                    <td class="<?php echo $class_name?>" <?if($day){?> onclick="selectDate('<?php echo $date?>','<?php echo $date_str?>','<?php echo $callback_func?>')"<?}?>>
-                        <?if($m == $month){?><?if(date("Ymd")==$date_str){?><strong><?}?>
-                            <?if($day){?><?php echo $day?><?}else{?>&nbsp;<?}?>
-                            <?if(date("Ymd")==$date_str){?></strong><?}?>
-                        <?}else{?>
-                            <span class="disable"><?if($day){?><?php echo $day?><?}else{?>&nbsp;<?}?></span>
-                        <?}?>
+                    <td class="<?php echo $class_name?>" <?php if($day){?> onclick="selectDate('<?php echo $date?>','<?php echo $date_str?>','<?php echo $callback_func?>')"<?php }?>>
+                        <?php if($m == $month){?><?php if(date("Ymd")==$date_str){?><strong><?php }?>
+                            <?php if($day){?><?php echo $day?><?php }else{?>&nbsp;<?php }?>
+                            <?php if(date("Ymd")==$date_str){?></strong><?php }?>
+                        <?php }else{?>
+                            <span class="disable"><?php if($day){?><?php echo $day?><?php }else{?>&nbsp;<?php }?></span>
+                        <?php }?>
                     </td>
                 <?php
                         }

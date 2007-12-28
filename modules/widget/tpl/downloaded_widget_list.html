@@ -5,12 +5,23 @@
 
 <!-- 위젯의 목록 -->
 <table cellspacing="0" class="adminTable">
-<col />
-<col width="80" />
-<col width="120" />
-<col width="80" />
-<col width="140" />
-<col width="80" />
+<!--@if($lang_type == 'ko')-->
+{@ $col_width = array(0,80,120,80,140,80)}
+<!--@else if($lang_type == 'en')-->
+{@ $col_width = array(0,80,120,80,140,80)}
+<!--@else if($lang_type == 'zh-CN')-->
+{@ $col_width = array(0,80,120,80,140,80)}
+<!--@else if($lang_type == 'jp')-->
+{@ $col_width = array(0,80,120,80,140,80)}
+<!--@else if($lang_type == 'es')-->
+{@ $col_width = array(0,60,120,75,140,110)}
+<!--@else if($lang_type == 'ru')-->
+{@ $col_width = array(0,60,120,80,140,125)}
+<!--@end-->
+
+<!--@foreach($col_width as $width)-->
+<col <!--@if($width)-->width="{$width}" <!--@end-->/>
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->widget_name}</th>

@@ -1,23 +1,69 @@
 <!-- 설명 -->
 <!--#include("header.html")-->
+<!--%import("css/member_list.css")-->
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
 <col width="50" />
 <col />
+<col width="160" />
 <col />
+<col width="65" />
+<col width="80" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
+<col width="50" />
 <col />
+<col width="160" />
+<col />
+<col width="80" />
+<col width="80" />
+<col width="55" />
+
+<!--@else if($lang_type == 'zh-CN')-->
 <col width="50" />
+<col />
+<col width="160" />
+<col />
+<col width="65" />
+<col width="65" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
 <col width="50" />
+<col />
+<col width="160" />
+<col />
 <col width="70" />
-<col width="40" />
+<col width="90" />
+<col width="45" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col />
+<col width="160" />
+<col />
+<col width="80" />
+<col width="80" />
+<col width="70" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col />
+<col width="160" />
+<col />
+<col width="90" />
+<col width="85" />
+<col width="70" />
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
         <th scope="col">{$lang->user_id}</th>
         <th scope="col">{$lang->user_name}</th>
         <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->denied}</th>
         <th scope="col">{$lang->signup_date}</th>
         <th scope="col">{$lang->last_login}</th>
         <th scope="col">{$lang->cmd_delete}</th>
@@ -27,13 +73,16 @@
     <!--@foreach($member_list as $no => $val)-->
     <tr>
         <td class="tahoma">{$no}</td>
-        <td class="blue"><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
+        <td class="blue">
+            <a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a>
+            <!--@if($val->denied == 'Y')--><span class="denied">{$lang->denied}</span><!--@end-->
+            <!--@if($val->limit_date)--><br /><span class="limit_date">{$lang->limit_date} : {zdate($val->limit_date,'Y.m.d')}</span><!--@end-->
+        </td>
         <td>{htmlspecialchars($val->user_name)}</td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">{$val->denied}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="red"><!--@if($val->is_admin!='Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td class="red"><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>

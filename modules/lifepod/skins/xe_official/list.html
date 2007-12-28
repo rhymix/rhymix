@@ -1,18 +1,18 @@
 <!-- JS 파일 로드 -->
-<script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js"></script>
+<script type="text/javascript" src="http://www.lifepod.co.kr/api/calendar.js<!--@if($module_info->korean_anniversary!="notuse")-->?calendar=1<!--@end-->"></script>
     <!--%import("js/lifepod.js")-->
 <script type="text/javascript" src="./modules/lifepod/skins/xe_official/js/xe_interface.js"></script>
-    <!--{count($page->data)}-->
 <script type="text/javascript">//<![CDATA[
 xAddEventListener(window, 'load', startLifepod);
-<!--@foreach($page->data as $key => $val)-->
-    calAdd({$val->childNodes["identifier"]->body},'{$val->childNodes["date-start"]->body}', '{$val->childNodes["date-end"]->body}', '{$val->childNodes["title"]->body}', '{$val->childNodes["description"]->body}', '{$val->childNodes["type"]->body}', '{$page->title}', 'green'); 
+<!--@foreach($calendars as $key => $page)-->
+    <!--@foreach($page->data as $key => $val)-->
+    calAdd({$val->childNodes["identifier"]->body},'{$val->childNodes["date-start"]->body}', '{$val->childNodes["date-end"]->body}', '{$val->childNodes["title"]->body}', '{$val->childNodes["description"]->body}', '{$val->childNodes["type"]->body}', '{$page->title}', '{$page->color}'); 
+    <!--@end-->
 <!--@end-->
 <!--@if($day)-->
     setDate({$year},{$month},{$day});
 <!--@end-->
 //]]></script>
-
 
 <!--%import("css/common.css")-->
 
@@ -25,6 +25,41 @@ xAddEventListener(window, 'load', startLifepod);
         <h3>{$module_info->title}</h3>
     </div>
     <!--@end-->
+
+<!-- 게시판 정보 -->
+    <div class="boardInformation">
+
+        <!-- 로그인 정보 -->
+        <ul class="accountNavigation">
+
+        <!-- 로그인 되어 있을 경우 -->
+        <!--@if($is_logged)-->
+
+            <!-- 관리자이면 설정 버튼 출력 -->
+            <!--@if($grant->is_admin)-->
+            <li class="setup"><a href="{getUrl('act','dispLifepodAdminLifepodInfo')}">{$lang->cmd_setup}</a></li>
+            <!--@end-->
+
+            <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+            <!--@if($logged_info->is_admin == 'Y')-->
+            <li class="admin"><a href="{getUrl('','module','admin','act','dispLifepodAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
+            <!--@end-->
+
+            <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
+            <!--@if(!$module_info->layout_srl)-->
+            <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+            <!--@end-->
+
+        <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
+        <!--@elseif(!$is_logged && !$module_info->layout_srl)-->
+            <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+            <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+        <!--@end-->
+
+            <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+        </ul>
+    </div>
 <div id="div_calendar" style="width:750;height:600px">
  <!-- 캘린더가 그려질 부분 -->
 </div>

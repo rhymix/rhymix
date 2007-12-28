@@ -16,6 +16,7 @@
         var $appkey = '82dee99105c92c166bb8586415d47283b9a54cd2';
         var $server = 'api.springnote.com';
         var $port = 80;
+        var $domain = '';
 
         /**
          * @brief 초기화
@@ -26,16 +27,17 @@
         /**
          * @brief 스프링노트 페이지를 가져오기 위한 기본 값 설정
          **/
-        function setInfo($userid, $userkey) {
+        function setInfo($userid, $userkey, $domain = '') {
             $this->userid = $userid;
             $this->userkey = $userkey;
+            $this->domain = $domain;
         }
 
         /**
          * @brief url 생성
          **/
         function getUrl($pageid = null) {
-            return sprintf('http://%s:%s/pages%s.xml', $this->server, $this->port, $pageid?'/'.$pageid:'');
+            return sprintf('http://%s:%s/pages%s.xml%s', $this->server, $this->port, $pageid?'/'.$pageid:'', $this->domain?'?domain='.$this->domain:'');
         }
 
         /**
@@ -93,7 +95,13 @@
             $page->source = trim($xmldoc->page->source->body);
 
             // source에서 /pages/숫자로 되어 있는 url의 수정
-            $page->source = preg_replace('/="\/pages\/([0-9]+)"/is','="?mid='.Context::get('mid').'&pageid=\\1"', $page->source);
+            $page->source = preg_replace('/="\/pages\/([0-9]+)(#[^"]+)?"/is','="./?mid='.Context::get('mid').'&pageid=\\1\\2"', $page->source);
+
+            // 첨부파일의 경로를 변경
+            $page->source = preg_replace('/="\/pages\/([0-9]+)\/attachments\/([0-9]+)"/is','="'.$page->uri.'/attachments/\\2"', $page->source);
+
+	    // Change path of the template images
+            $page->source = preg_replace('/="\/images\/template\/([^"]+)"/is','="http://zbxe.springnote.com/images/template/\\1"', $page->source);
 
             $uri = preg_replace('/pages(.*)$/i','',$page->uri);
             $page->css_files = array(
@@ -106,10 +114,14 @@
         /**
          * @brief springnote 페이지 목록 가져오기
          **/
-        function getPages($query = null, $fulltext = true) {
+        function getPages($query = null, $fulltext = true, $p_pageid = 0) {
 
-            if($query) $url = sprintf('%s?q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
-            else $url = $this->getUrl();
+            if($query) {
+                if($this->domain) $url = sprintf('%s&q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
+                else $url = sprintf('%s?q=%s&fulltext=%d', $this->getUrl(), urlencode($query), $fulltext?1:0);
+            } else {
+                $url = $this->getUrl();
+            }
 
             $oReqeust = $this->getRequest($url);
             $oResponse = $oReqeust->sendRequest();
@@ -145,12 +157,29 @@
                     else $root->child[] = &$pages[$pageid];
                 }
 
+                if($p_pageid) $this->getNodes($root->child, $p_pageid, $root);
+
                 $pages = array();
                 $this->arrangePages($pages, $root->child, 0);
 
             }
 
             return $pages;
+        }
+
+        /**
+         * @brief 특정 노드아래만 검색을 하기 위할때 해당 노드의 page_id를 받아서 해당 노드tree만 리턴
+         **/
+        function getNodes($list, $p_pageid, &$root) {
+            if(!count($list)) return;
+            foreach($list as $key => $val) {
+                if($val->pageid == $p_pageid) {
+                    $root = $val;
+                    return;
+                }
+
+                if($val->child) $this->getNodes($val->child, $p_pageid, $root);
+            }
         }
 
         /**

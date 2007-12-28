@@ -31,6 +31,9 @@
     $lang->cmd_exp_calc = '計算';
     $lang->cmd_exp_reset = '初期化';
 
+    $lang->cmd_point_recal = '포인트 재계산';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
+
     $lang->about_module_point = 'モジュール別にポイントを指定することができますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
 
     $lang->point_signup = '加入';
@@ -49,4 +52,7 @@
     $lang->cmd_point_member_list = '会員ポイントリスト';
 
     $lang->msg_cannot_download = 'ポイントが不足しているため、ダウンロードできません。';
+
+    $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
+    $lang->point_recal_finished = '포인트 재계산이 모두 완료되었습니다';
 ?>

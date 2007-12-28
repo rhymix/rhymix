@@ -26,6 +26,14 @@
     <td>{$module_info->pageid}&nbsp;</td>
 </tr>
 <tr>
+    <th scope="row">{$lang->springnote_pageid_setup}</th>
+    <td><!--@if($module_info->pageid_option!='list')-->{$lang->springnote_pageid_option_only}<!--@else-->{$lang->springnote_pageid_option_list}<!--@end--></td>
+</tr>
+<tr>
+    <th scope="row">{$lang->springnote_domain}</th>
+    <td>{$module_info->domain}&nbsp;</td>
+</tr>
+<tr>
     <th scope="row">{$lang->layout}</th>
     <td>
         <!--@if($module_info->layout_srl)-->

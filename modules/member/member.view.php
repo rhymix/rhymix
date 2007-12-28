@@ -110,7 +110,6 @@
                 $option->enable_default_component = true;
                 $option->enable_component = false;
                 $option->resizable = false;
-                if($memberModuleConfig->signature_max_height)
                 $option->height = 200;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);

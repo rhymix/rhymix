@@ -14,37 +14,46 @@
         <tr>
             <th scope="row">{$lang->code_type}</th>
             <td>
-                <ul class="buttonLeft nospace">
-                    <li>
-                        <select id="code_type" name="code_type">
-                            <option value="Php">PHP</option>
-                            <option value="Css">CSS</option>
-                            <option value="JScript">Javascript</option>
-                            <option value="Xml">XML</option>
-                            <option value="Cpp">C++</option>
-                            <option value="CSharp">C#</option>
-                            <option value="Vb">VB</option>
-                            <option value="Java">Java</option>
-                            <option value="Delphi">Delphi</option>
-                            <option value="Python">Python</option>
-                            <option value="Ruby">Ruby</option>
-                            <option value="Sql">SQL</option>
-                            <option value="Abap">Abap</option>
-                        </select>
-                    </li>
-                </ul>
+                <select id="code_type" name="code_type">
+                    <option value="Php">PHP</option>
+                    <option value="Xml">HTML/XML</option>
+                    <option value="Css">CSS</option>
+                    <option value="JScript">Javascript</option>
+                    <option value="Cpp">C++</option>
+                    <option value="CSharp">C#</option>
+                    <option value="Vb">VB</option>
+                    <option value="Java">Java</option>
+                    <option value="Delphi">Delphi</option>
+                    <option value="Python">Python</option>
+                    <option value="Ruby">Ruby</option>
+                    <option value="Sql">SQL</option>
+                    <option value="Abap">Abap</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->file_path}</th>
+            <td>
+                <input type="text" id="file_path" name="file_path" class="inputTypeText w400" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->description}</th>
+            <td>
+                <input type="text" id="description" name="description" class="inputTypeText w400" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->first_line}</th>
+            <td>
+                <input type="text" id="first_line" name="first_line" value="1" class="inputTypeText w40" />
+                <input type="checkbox" id="nogutter" name="nogutter" value="Y" /> <label for="nogutter">{$lang->hidden_linenumber}</label>
             </td>
         </tr>
         <tr>
             <th scope="row">{$lang->used_collapse}</th>
             <td>
                 <input type="checkbox" id="collapse" name="collapse" value="Y" />
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang->hidden_linenumber}</th>
-            <td>
-                <input type="checkbox" id="nogutter" name="nogutter" value="Y" />
             </td>
         </tr>
         <tr>

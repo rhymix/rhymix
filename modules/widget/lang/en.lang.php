@@ -41,25 +41,25 @@
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';
     $lang->about_widget = "A widget is a small free-standing application used in a layout or page module.\n It can be linked with internal module or external open api. Through its configuration setting, wide application is possible. \n You can directly add a widget by using the [Generate Code] function without using the Zeroboard XE page module or layout module.";
 
-    $lang->cmd_content_insert = "내용 직접 추가";
-    $lang->cmd_box_widget_insert = "상자 위젯 추가";
-    $lang->cmd_remove_all_widgets  = "내용 모두 지우기";
+    $lang->cmd_content_insert = "Insert Content by Yourself";
+    $lang->cmd_box_widget_insert = "Insert Box Widget";
+    $lang->cmd_remove_all_widgets  = "Remove All Widgets";
 
-    $lang->cmd_widget_size = "위젯 크기";
-    $lang->cmd_widget_align = "위젯 정렬";
-    $lang->cmd_widget_align_left = "왼쪽";
-    $lang->cmd_widget_align_right = "오른쪽";
-    $lang->cmd_widget_margin = "외부 여백";
-    $lang->cmd_widget_padding = "내부 여백";
-    $lang->cmd_widget_border = "위젯 테두리";
-    $lang->cmd_widget_border_solid = "실선";
-    $lang->cmd_widget_border_dotted = "점선";
-    $lang->cmd_widget_background_color = "배경색";
-    $lang->cmd_widget_background_image_url = "배경 이미지";
-    $lang->cmd_widget_background_image_repeat = "반복";
-    $lang->cmd_widget_background_image_no_repeat = "고정";
-    $lang->cmd_widget_background_image_x_repeat = "가로 반복";
-    $lang->cmd_widget_background_image_y_repeat = "세로 반복";
-    $lang->cmd_widget_background_image_x = "가로 위치";
-    $lang->cmd_widget_background_image_y = "세로 위치";
+    $lang->cmd_widget_size = "Widget Size";
+    $lang->cmd_widget_align = "Align Widget";
+    $lang->cmd_widget_align_left = "Left";
+    $lang->cmd_widget_align_right = "Right";
+    $lang->cmd_widget_margin = "Margin";
+    $lang->cmd_widget_padding = "Padding";
+    $lang->cmd_widget_border = "Border";
+    $lang->cmd_widget_border_solid = "Solid";
+    $lang->cmd_widget_border_dotted = "Dotted";
+    $lang->cmd_widget_background_color = "Background Color";
+    $lang->cmd_widget_background_image_url = "Background Image";
+    $lang->cmd_widget_background_image_repeat = "Repeat";
+    $lang->cmd_widget_background_image_no_repeat = "No Repeat";
+    $lang->cmd_widget_background_image_x_repeat = "X Repeat";
+    $lang->cmd_widget_background_image_y_repeat = "Y Repeat";
+    $lang->cmd_widget_background_image_x = "X Position";
+    $lang->cmd_widget_background_image_y = "Y Position";
 ?>

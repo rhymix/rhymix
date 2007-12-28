@@ -8,25 +8,17 @@
     set_include_path("./modules/springnote/lib/PEAR");
     require_once('PEAR.php');
     require_once('HTTP/Request.php');
-    require_once('me2dayXmlParser.class.php');
+    require_once('./classes/xml/GeneralXmlParser.class.php');
 
     class lifepodModel extends lifepod {
 
         var $userid = '';
         var $userkey = '';
-	var $address = '';
 
         /**
          * @brief 초기화
          **/
         function init() { 
-        }
-
-        /**
-         * @brief lifepod 페이지를 가져오기 위한 기본 값 설정
-         **/
-        function setInfo($address) {
-	    $this->address = $address;
         }
 
         /**
@@ -39,15 +31,15 @@
             return $oReqeust;
         }
 
-	function getURL($start, $end) {
-	    return sprintf("%s&start=%s&end=%s", $this->address, $start, $end);
+	function getURL($address, $start, $end) {
+	    return sprintf("%s&start=%s&end=%s", $address, $start, $end);
 	}
 
         /**
          * @brief lifepod 페이지 정보 가져오기
 	 * @remarks 한해씩 끊어서 페이지를 가져옵니다. 아직 50개 이상의 calendar info가 있는 경우 앞에 것만 가져오는 문제가 있습니다.
          **/
-        function getPage($year) {
+        function getPage($address, $year) {
 	    if($year == null)
 	    {
 		$year = date("Y");		
@@ -56,7 +48,7 @@
 	    $start = sprintf("%s-01-01",$year);
 	    $end = sprintf("%s-01-01",$year+1);
 
-            $url = $this->getURL($start, $end);
+            $url = $this->getURL($address, $start, $end);
             $oReqeust = $this->getRequest($url);
             $oResponse = $oReqeust->sendRequest();
 
@@ -64,7 +56,7 @@
 
             $body = $oReqeust->getResponseBody();
 
-            $oXmlParser = new Me2DayXmlParser();
+            $oXmlParser = new GeneralXmlParser();
             $xmldoc = $oXmlParser->parse($body);
 	    if(!$xmldoc->childNodes["feed"]->childNodes["entry"])
 	    {
@@ -84,6 +76,7 @@
 		$page->data = array();
 		$page->data[] = $data;
 	    }
+	    $page->color = $xmldoc->childNodes["feed"]->childNodes["color"]->body;
 
             return $page;
         }

@@ -17,7 +17,7 @@
         <description xml:lang="en">Module for managing documents used in board, blog, etc.</description>
         <description xml:lang="es">Módulo para manejar los documentos en blog y en los tableros.</description>
         <description xml:lang="zh-CN">管理版面，博客等处主题的模块。 </description>
-        <description xml:lang="jp">掲示板、ブログなどのモジュルで使用されるドキュメント（書き込み）を管理するモジュルです。</description>
+        <description xml:lang="jp">掲示板、ブログなどのモジュールで使用されるドキュメント（書き込み）を管理するモジュルです。</description>
         <description xml:lang="ru">Модуль для управления документами в форуме, блоге и прочее.</description>
     </author>
 </module>

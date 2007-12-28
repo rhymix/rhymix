@@ -2,7 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">포인트 활성화 애드온</title>
   <title xml:lang="zh-CN">积分插件</title>
-  <title xml:lang="jp">ポイントシステム</title>
+  <title xml:lang="jp">ポイントシステム用アドオン</title>
   <title xml:lang="en">Addon for activating point</title>
   <title xml:lang="es">Addon para activar los puntos</title>
   <title xml:lang="ru">Аддон для активации поинтов</title>
@@ -20,7 +20,7 @@
         以积分系统模块中设置的内容为基础，对发表/删除新帖，发表/删除评论，上传/下载/删除/文件等动作记录为积分。
     </description>
     <description xml:lang="jp">
-        ポイントシステムモジュールで設定された内容を基に、書き込み作成・削除/コメント作成・削除/ファイルアップロード・削除/ダウンロードなどのユーザの活動に対してポイントを記録します。
+        ポイントシステムモジュールで設定された内容を基に、書き込み作成・削除/コメント作成・削除/ファイルアップロード・削除/ダウンロードなどのユーザの活動に対してそれぞれのポイント付与ができます。
     </description>
     <description xml:lang="en">
         This addon records point on writing/deleting/adding comments/deleting comments/uploading/downloading following to point system module.

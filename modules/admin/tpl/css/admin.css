@@ -64,7 +64,7 @@ h3 .gray { color:#9d9d9d;}
 .adminTable td.tCenter { text-align:center; }
 
 .adminTable td select { height:20px; }
-.adminTable td textarea { width:98%; height:50px; }
+.adminTable td textarea { width:98%; height:120px; }
 .adminTable td a { color:#555555; text-decoration:none; }
 .adminTable td a:hover { text-decoration:underline; }
 .adminTable td p, .adminTable td label { color:#AAAAAA; font-size:.9em; margin-top:5px; }

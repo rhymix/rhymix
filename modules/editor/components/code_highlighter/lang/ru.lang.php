@@ -9,4 +9,8 @@
     $lang->used_collapse = 'Использованное сокращение';
     $lang->hidden_linenumber = 'Скрытый номер строки';
     $lang->hidden_controls = 'Скрытый контрол';
+	
+    $lang->file_path = 'Путь файла';
+    $lang->description = 'Описание';
+    $lang->first_line = 'Первая строка';
 ?>

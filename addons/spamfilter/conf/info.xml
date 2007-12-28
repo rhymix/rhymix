@@ -4,7 +4,7 @@
   <title xml:lang="zh-CN">垃圾过滤</title>
   <title xml:lang="en">Addon for filtering spam</title>
   <title xml:lang="es">Addon para filtrar los Spam</title>
-  <title xml:lang="jp">スパムフィルター</title>
+  <title xml:lang="jp">スパムフィルター(SpamFilter)アドオン</title>
   <title xml:lang="ru">Аддон для фильтрации спама</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
     <name xml:lang="ko">제로</name>
@@ -31,7 +31,7 @@
     </description>
     <description xml:lang="jp">
         SpamFilterモジュールを利用して書き込み・コメント・トラックバックが登録される前にフィルタリングを行います。
-        更に連続書き込みやロボットによる自動書き込みなどを防ぐことができます。
+        更に悪質な連続書き込みやロボットによる自動書き込みなどを防ぐことができます。
         詳細な設定は &quot; スパムフィルターモジュール &quot; で行ってください。
     </description>
     <description xml:lang="ru">

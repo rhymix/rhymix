@@ -197,7 +197,7 @@ function displayMultimedia(src, width, height, auto_start) {
             "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
-        html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf?autoStart="+auto_start+"&file="+src+"\" width=\""+width+"\" height=\""+height+"\" type=\"application/x-shockwave-flash\"></embed>";
+        html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf\" allowfullscreen=\"true\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\"&file="+src+"&width="+width+"&height="+height+"&autostart="+auto_start+"\" />";
     } else {
         html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
     }
@@ -605,7 +605,6 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     if(html) {
         // 레이어 출력
         xInnerHtml('popup_menu_area', "<div class=\"box\">"+html+"</div>");
-        xWidth(area, xWidth(area));
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());

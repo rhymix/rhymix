@@ -26,10 +26,13 @@
     $lang->disable_download = 'Prohibit Downloads';
     $lang->about_disable_download = "This will prohibit downloads when there are not enough points. (Exclude image files)"; 
 
-    $lang->level_point_calc = '레벨별 포인트 계산';
-    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
-    $lang->cmd_exp_calc = '계산';
-    $lang->cmd_exp_reset = '초기화';
+    $lang->level_point_calc = 'Point Calculation per Point';
+    $lang->expression = 'Please input Javascript formula by using level variable <b>i</b>. ex) Math.pow(i, 2) * 90';
+    $lang->cmd_exp_calc = 'Calculate';
+    $lang->cmd_exp_reset = 'Reset';
+
+    $lang->cmd_point_recal = 'Recalculate Point';
+    $lang->about_cmd_point_recal = "This will check articles/comments/attached files and reset all members' point to preset point.";
 
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
@@ -49,4 +52,7 @@
     $lang->cmd_point_member_list = 'Member Point List';
 
     $lang->msg_cannot_download = "You don't have enough point to download";
+
+    $lang->point_recal_message = 'Adjusting Point. (%d / %d)';
+    $lang->point_recal_finished = 'Point recalculation is finished.';
 ?>

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/point/lang/ko.lang.php
+     * @file   modules/point/lang/zh-CN.lang.php
      * @author zero <zero@nzeo.com>
      * @brief  积分 (point) 模块简体中文语言包
      **/
@@ -31,6 +31,9 @@
     $lang->cmd_exp_calc = '计算';
     $lang->cmd_exp_reset = '初始化';
 
+    $lang->cmd_point_recal = '重新计算积分';
+    $lang->about_cmd_point_recal = '文章/评论/附件等从新检查后按相应设置从新计算积分。';
+
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
     $lang->point_signup = '注册';
@@ -49,4 +52,7 @@
     $lang->cmd_point_member_list = '会员积分目录';
 
     $lang->msg_cannot_download = '积分不足无法下载！';
+
+    $lang->point_recal_message = '计算中. (%d / %d)';
+    $lang->point_recal_finished = '所有会员积分从新计算完毕。';
 ?>

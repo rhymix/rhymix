@@ -10,13 +10,15 @@
     $lang->cmd_continue = 'Continue';
 
     // items
-    $lang->importer = 'Transfer zeroboard datas';
-    $lang->source_type = 'Previous target';
-    $lang->type_member = 'Member data';
-    $lang->type_module = 'Articles data';
-    $lang->type_syncmember = 'Synchronize member data';
-    $lang->target_module = 'Target module';
-    $lang->xml_file = 'XML file';
+    $lang->importer = 'Transfer Zeroboard Data';
+    $lang->source_type = 'Previous Target';
+    $lang->type_member = 'Member Data';
+    $lang->type_message = 'Message Data';
+    $lang->type_ttxml = 'TTXML';
+    $lang->type_module = 'Articles Data';
+    $lang->type_syncmember = 'Synchronize Member Data';
+    $lang->target_module = 'Target Module';
+    $lang->xml_file = 'XML File';
 
     $lang->import_step_title = array(
         1 => 'Step 1. Select previous target',
@@ -39,11 +41,14 @@
     $lang->msg_no_xml_file = 'Could not find XML file. Please check the path again';
     $lang->msg_invalid_xml_file = 'Invalid type of XML file.';
     $lang->msg_importing = 'Writing %d datas of %d. (If it keeps being frozen, click the button "Continue")';
-    $lang->msg_import_finished = '%d datas were inputted completely. Depending on the situation, there might be some datas which couldn\'t be inputted.';
+    $lang->msg_import_finished = '%d/%d datas were inputted completely. Depending on the situation, there might be some datas which couldn\'t be inputted.';
     $lang->msg_sync_completed = 'Completed synchronzing member article and comments.';
 
     // blah blah..
     $lang->about_type_member = 'If you are transfering the member information, select this option';
+    $lang->about_type_message = 'If you are transfering the message information, select this option';
+    $lang->about_type_ttxml = 'If you are transfering the TTXML(textcube) information, select this option';
+	$lang->about_ttxml_user_id = 'Please input user ID to set as author on transfering TTXML. (user ID must be already signed up)';
     $lang->about_type_module = 'If you are transfering the board or articles information, select this option';
     $lang->about_type_syncmember = 'If you are trying to synchronize the member information after transfering member and article information, select this option';
     $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";

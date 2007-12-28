@@ -37,11 +37,11 @@
 
             // 세로 이미지 수
             $widget_info->rows_list_count = (int)$args->rows_list_count;
-            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 3;
+            if(!$widget_info->rows_list_count) $widget_info->rows_list_count = 5;
 
             // 가로 이미지 수
             $widget_info->cols_list_count = (int)$args->cols_list_count;
-            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 2;
+            if(!$widget_info->cols_list_count) $widget_info->cols_list_count = 1;
 
             // 정렬 대상
             $widget_info->order_target = $args->order_target;
@@ -108,6 +108,7 @@
             $document_count = count($document_list);
             $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
             for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
+
             $widget_info->document_list = $document_list;
 
             Context::set('widget_info', $widget_info);

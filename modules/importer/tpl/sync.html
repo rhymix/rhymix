@@ -1,0 +1,16 @@
+<!--%import("js/importer_admin.js")-->
+<!--%import("css/importer.css")-->
+
+<h3>{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!-- 설명 -->
+<div class="infoText">{nl2br($lang->about_importer)}</div>
+
+    <form action="./" method="get" onsubmit="return doSync(this)">
+        <table cellspacing="0" class="adminTable">
+        <caption>{$lang->import_step_title[3]} - {$lang->import_step_desc[3]}</caption>
+        <tr>
+            <td><span class="button"><input type="submit" value="{$lang->cmd_sync_member}" /></span></td>
+        </tr>
+        </table>
+    </form>

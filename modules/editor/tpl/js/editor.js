@@ -122,7 +122,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         '<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
-        'body {font-size:9pt;margin:0px; height:'+editor_height+'px;}'+
+        'body {font-size:9pt;margin:0px; height:'+editor_height+'px; background-color:transparent;}'+
         'blockquote, ol, ul { margin-left:40px; }'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+

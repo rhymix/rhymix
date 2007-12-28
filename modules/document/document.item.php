@@ -101,6 +101,7 @@
         }
 
         function doCart() {
+            if(!$this->document_srl) return false;
             if($this->isCarted()) $this->removeCart();
             else $this->addCart();
         }
@@ -118,6 +119,8 @@
         }
 
         function notify($type, $content) {
+            if(!$this->document_srl) return;
+
             // useNotify가 아니면 return
             if(!$this->useNotify()) return;
 
@@ -171,7 +174,7 @@
         }
 
         function getTitleText($cut_size = 0, $tail='...') {
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if(!$this->document_srl) return;
 
             if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
             else $title = $this->get('title');
@@ -180,6 +183,8 @@
         }
 
         function getTitle($cut_size = 0, $tail='...') {
+            if(!$this->document_srl) return;
+
             $title = $this->getTitleText($cut_size, $tail);
 
             $attrs = array();
@@ -191,6 +196,8 @@
         }
 
         function getContentText($strlen = 0) {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
@@ -203,6 +210,8 @@
         }
 
         function getContent($add_document_info = true) {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
@@ -242,6 +251,8 @@
         }
 
         function getSummary($str_size = 50) {
+            if(!$this->document_srl) return;
+
             $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent(false))));
             return cut_str($content, $str_size, '...');
         }
@@ -288,6 +299,8 @@
         }
 
         function getTrackbackUrl() {
+            if(!$this->document_srl) return;
+
             // 스팸을 막기 위한 key 생성
             $oTrackbackModel = &getModel('trackback');
             return $oTrackbackModel->getTrackbackUrl($this->document_srl);
@@ -340,6 +353,8 @@
         }
 
         function getTrackbacks() {
+            if(!$this->document_srl) return;
+            
             if(!$this->allowTrackback() || !$this->get('trackback_count')) return;
 
             $oTrackbackModel = &getModel('trackback');
@@ -347,17 +362,25 @@
         }
 
         function thumbnailExists($width = 80, $height = 0, $type = '') {
+            if(!$this->document_srl) return false;
             if(!$this->getThumbnail($width, $height, $type)) return false;
             return true;
         }
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
+            if(!$this->document_srl) return;
+
             if(!$height) $height = $width;
+            $thumbnail_type = '';
             
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
-                $oDocumentModel = &getModel('document');
-                $config = $oDocumentModel->getDocumentConfig();
+                $config = $GLOBALS['__document_config__'];
+                if(!$config) {
+                    $oDocumentModel = &getModel('document');
+                    $config = $oDocumentModel->getDocumentConfig();
+                    $GLOBALS['__document_config__'] = $config;
+                }
                 $thumbnail_type = $config->thumbnail_type;
             }
 
@@ -431,26 +454,14 @@
          * $time_interval 에 지정된 시간(초)로 새글/최신 업데이트글의 판별
          **/
         function getExtraImages($time_interval = 43200) {
+            if(!$this->document_srl) return;
 
             // 아이콘 목록을 담을 변수 미리 설정
             $buffs = array();
 
             $check_files = false;
 
-            // 사진 이미지 체크
-            if(preg_match('!<img([^>]*?)>!is', $this->get('content'))) {
-                $buffs[] = "image";
-                $check_files = true;
-            }
-
-            // 동영상 체크
-            if(preg_match('!<embed([^>]*?)>!is', $this->get('content'))) {
-                $buffs[] = "movie";
-                $check_files = true;
-            }
-
-            // 첨부파일 체크
-            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
+            $content = $this->get('content');
 
             // 비밀글 체크
             if($this->isSecret()) $buffs[] = "secret";
@@ -462,6 +473,25 @@
             if($this->get('regdate')>$time_check) $buffs[] = "new";
             else if($this->get('last_update')>$time_check) $buffs[] = "update";
 
+            // 사진 이미지 체크
+            preg_match_all('!<img([^>]*?)>!is', $content, $matches);
+            $cnt = count($matches[0]);
+            for($i=0;$i<$cnt;$i++) {
+                if(preg_match('/src=("|\'|\.|\/)*(common|modules|widgets|layouts)/i', $matches[0][$i])) continue;
+                $buffs[] = "image";
+                $check_files = true;
+                break;
+            }
+
+            // 동영상 체크
+            if(preg_match('!<embed([^>]*?)>!is', $content) || preg_match('/editor_component=("|\')*multimedia_link/i', $content) ) {
+                $buffs[] = "movie";
+                $check_files = true;
+            }
+
+            // 첨부파일 체크
+            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
+
 
             return $buffs;
         }
@@ -470,6 +500,8 @@
          * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
          **/
         function printExtraImages($time_check = 43200) {
+            if(!$this->document_srl) return;
+
             // 아이콘 디렉토리 구함
             $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
 
@@ -484,11 +516,15 @@
         }
 
         function hasUploadedFiles() {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return false;
             return $this->get('uploaded_count')? true : false;
         }
 
         function getUploadedFiles() {
+            if(!$this->document_srl) return;
+
             if($this->isSecret() && !$this->isGranted()) return;
             if(!$this->get('uploaded_count')) return;
 

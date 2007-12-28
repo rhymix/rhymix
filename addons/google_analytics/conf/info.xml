@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
     <title xml:lang="ko">Google Analytics</title>
-    <title xml:lang="jp">Google Analytics</title>
     <title xml:lang="zh-CN">Google Analytics</title>
     <title xml:lang="en">Google Analytics</title>
     <title xml:lang="ru">Google Analytics</title>
-    <title xml:lang="jp">Google Analytics</title>
+    <title xml:lang="jp">Google Analyticsアドオン</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 9. 19">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">Zero</name>
@@ -36,9 +35,9 @@
             <title xml:lang="ru">uacct</title>
             <title xml:lang="jp">uacct</title>
 			<description xml:lang="ko">Google Analytics 코드의 _uacct 값을 입력해주세요.</description>
-            <description xml:lang="zh-CN">请输入Google Analytics代码的_uacct值。</description>
-            <description xml:lang="en">Google Analytics _uacct</description>
-            <description xml:lang="ru">Google Analytics _uacct</description>
+			<description xml:lang="zh-CN">请输入Google Analytics代码的_uacct值。</description>
+			<description xml:lang="en">Google Analytics _uacct</description>
+			<description xml:lang="ru">Google Analytics _uacct</description>
 			<description xml:lang="jp">Google Analyticsコードの「_uacct」の値を入力してください。</description>
 		</var>
     </extra_vars>

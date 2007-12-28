@@ -7,12 +7,54 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
+<!--@if($lang_type == 'ko')-->
+<col width="50" />
+<col width="130" />
+<col />
+<col width="65" />
+<col width="45" />
+<col width="45" />
+
+<!--@else if($lang_type == 'en')-->
 <col width="50" />
 <col width="130" />
 <col />
 <col width="80" />
 <col width="50" />
+<col width="55" />
+
+<!--@else if($lang_type == 'zh-CN')-->
 <col width="50" />
+<col width="130" />
+<col />
+<col width="70" />
+<col width="45" />
+<col width="45" />
+
+<!--@else if($lang_type == 'jp')-->
+<col width="50" />
+<col width="130" />
+<col />
+<col width="65" />
+<col width="45" />
+<col width="45" />
+
+<!--@else if($lang_type == 'es')-->
+<col width="50" />
+<col width="130" />
+<col />
+<col width="80" />
+<col width="40" />
+<col width="70" />
+
+<!--@else if($lang_type == 'ru')-->
+<col width="50" />
+<col width="130" />
+<col />
+<col width="90" />
+<col width="95" />
+<col width="70" />
+<!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
@@ -53,7 +95,7 @@
             <a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a>
         </td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="blue"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="green"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
         <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->

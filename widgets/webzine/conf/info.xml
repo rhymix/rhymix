@@ -3,7 +3,7 @@
     <title xml:lang="ko">웹진 형태 최근 문서 출력</title>
     <title xml:lang="zh-CN">网络杂志型主题列表</title>
     <title xml:lang="jp">ウェブジンスタイル最新コンテンツ出力</title>
-    <title xml:lang="en">Display webzine style newest documents</title>
+    <title xml:lang="en">Display Newest Articles with Webzine Style</title>
     <title xml:lang="es">웹진 형태 최근 문서 출력</title>
     <title xml:lang="ru">Отображение последних статей в стиле webzine</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -11,11 +11,11 @@
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
-		<name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
         <description xml:lang="ko">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">把最新主题显示为网络杂志类型的控件。</description>
         <description xml:lang="jp">最新コンテンツをウェブジンスタイルで出力するウィジェットです。</description>
-        <description xml:lang="en">This widget displays newest articles like webzine style.</description>
+        <description xml:lang="en">This widget displays newest articles with webzine style.</description>
         <description xml:lang="es">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
         <description xml:lang="ru">Этот виджет отображает последние статьи в стиле webzine.</description>
     </author>
@@ -209,12 +209,12 @@
 			<name xml:lang="es">Número de imágenes</name>
             <name xml:lang="ru">Число изображений (колонка)</name>
             <type>text</type>
-            <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="jp">表示されるイメージの横並びの数を指定します（デフォルト5個）。</description>
-            <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
-            <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
-			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 5)</description>
-            <description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 5)</description>
+            <description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
+            <description xml:lang="jp">表示されるイメージの横並びの数を指定します（デフォルト1個）。</description>
+            <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为1个)</description>
+            <description xml:lang="en">You can set the number of images to display. (1 as default)</description>
+			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 1)</description>
+            <description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 1)</description>
         </var>
         <var id="rows_list_count">
             <name xml:lang="ko">세로 이미지 수</name>
@@ -224,7 +224,7 @@
 			<name xml:lang="es">Número de imágenes</name>
             <name xml:lang="ru">Число изображений (ряд)</name>
             <type>text</type>
-            <description xml:lang="ko">출력될 세로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
+            <description xml:lang="ko">출력될 세로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">表示されるイメージの縦並びの数を指定することができます（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的纵向图片个数。(默认为1个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>

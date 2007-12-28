@@ -9,6 +9,14 @@
     <col width="120" />
     <col />
     <tr>
+        <th scope="col">{$lang->cmd_point_recal}</th>
+        <td colspan="3">
+            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
+            <p>{$lang->about_cmd_point_recal}</p>
+            <div id="pointReCal"></div>
+        </td>
+    </tr>
+    <tr>
         <th scope="col">{$lang->max_level}</th>
         <td colspan="3">
             <input type="text" class="inputTypeText w80" value="{$config->max_level}" name="max_level" />

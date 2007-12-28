@@ -14,7 +14,12 @@ xAddEventListener(document, 'mousedown', editorDragStart);
 xAddEventListener(document, 'mouseup', editorDragStop);
 
 function editorGetContent(editor_sequence) {
-    return editorRelKeys[editor_sequence]["func"](editor_sequence);
+    // 입력된 내용을 받아옴
+    var content = editorRelKeys[editor_sequence]["func"](editor_sequence);
+
+    // 첨부파일 링크시 url을 변경
+    var reg_pattern = new RegExp( request_uri.replace(/\//g,'\\/')+"(files|common|modules|layouts|widgets)", 'ig' );
+    return content.replace(reg_pattern, "$1");
 }
 
 // 에디터에 포커스를 줌

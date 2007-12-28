@@ -38,24 +38,32 @@
             if(!$this->grant->list) return $this->dispSpringnoteMessage('msg_not_permitted');
 
             $pageid = (int)Context::get('pageid');
-            if(!$pageid) $pageid = $this->module_info->pageid;
+            if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pageid = $this->module_info->pageid;
+            if(!$pageid && $this->module_info->pageid) $pageid = $this->module_info->pageid;
 
             $q = Context::get('q');
 
             $oSpringnoteModel = &getModel('springnote');
-            $oSpringnoteModel->setInfo($this->module_info->openid, $this->module_info->userkey);
+            $oSpringnoteModel->setInfo($this->module_info->openid, $this->module_info->userkey, $this->module_info->domain);
             
             // 특정 페이지 선택시 페이지 정보 가져오기
             if($this->grant->view && $pageid) {
                 $page = $oSpringnoteModel->getPage($pageid);
-                for($i=0;$i<count($page->css_files);$i++) {
-                    $css_file = $page->css_files[$i];
-                    Context::addCssFile($css_file);
+                if($page) {
+                    for($i=0;$i<count($page->css_files);$i++) {
+                        $css_file = $page->css_files[$i];
+                        Context::addCssFile($css_file);
+                    }
+                    Context::addBrowserTitle($page->title);
                 }
             }
 
             // 페이지 목록 가져오기
-            $pages = $oSpringnoteModel->getPages($q, true);
+            if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pages = null;
+            else {
+                if($this->module_info->pageid && $this->module_info->pageid_option == 'list') $pages = $oSpringnoteModel->getPages($q, true, $this->module_info->pageid);
+                else $pages = $oSpringnoteModel->getPages($q, true);
+            }
 
             Context::set('page', $page);
             Context::set('pages', $pages);

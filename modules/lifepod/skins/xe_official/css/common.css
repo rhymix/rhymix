@@ -1,97 +1,136 @@
 @charset "utf-8";
 
 /* board Title */
-.boardHeader { border:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden; _width:100%;}
+.boardHeader { border:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden; _width:100%; margin-bottom:10px; }
 .boardHeader h3 { float:left; font-size:1.2em; padding:1em 2em .7em 1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+.boardHeader h3 { border-bottom:3px solid #fe3614; }
 
 /* board Information */
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
 .articleNum { float:left; padding:0 0 0 15px; }
 
-.CalendarViewDay
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+/* account Navigation */
+.accountNavigation { float:right; }
+.accountNavigation li { float:left; margin-left:7px; list-style:none; padding-top:3px;}
+.accountNavigation li a { font-size:12px; white-space:nowrap; color:#666666; text-decoration:none;}
+.accountNavigation li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.admin a { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
+.accountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 5px; padding-left:8px; _padding-top:5px;}
+*:first-child+html li.loginAndLogout { padding-top:5px; }
+
+INPUT.CalendarViewMonth {
+	width:44px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_month.gif);
+	cursor:pointer;
+	margin-right:5px;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarView4Day
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarView2Week {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_2week.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarViewWeek
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarViewWeek {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_week.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarView2Week
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarView4Day {
+	width:38px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_4day.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarViewMonth
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#8888cc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarViewDay {
+	width:44px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_view_day.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMoveToday
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMovePrev {
+	width:34px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_left.gif);
+	cursor:pointer;
+	margin-left:5px;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMoveNext
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMoveToday {
+	width:31px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_today.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }
 
-.CalendarMovePrev
-{
-    font-size:0.9em;
-    background-color:#FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    border-color:#cccccc;
-    cursor: pointer;
-    margin-right: 2px;
+INPUT.CalendarMoveNext {
+	width:34px;
+	height:26px;
+	overflow:hidden;
+	text-indent:-3000px;
+	line-height:1000px;
+	border:none;
+	background-color:transparent;
+	background-image:url(../image/default_move_next.gif);
+	cursor:pointer;
+	margin-top:5px;
+	/display:block;
+	/float:left;
 }

@@ -150,6 +150,125 @@
         }
 
         /**
+         * @brief 전체글/ 댓글/ 첨부파일과 가입정보를 바탕으로 포인트를 재계산함. 단 로그인 점수는 1번만 부여됨
+         **/
+        function procPointAdminReCal() {
+            set_time_limit(0);
+
+            // 모듈별 포인트 정보를 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            // 회원의 포인트 저장을 위한 변수
+            $member = array();
+            
+            // 게시글 정보를 가져옴
+            $output = executeQueryArray('point.getDocumentPoint');
+            if(!$output->toBool()) return $output;
+
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->insert_document) $insert_point = $config->module_point[$val->module_srl]->insert_document;
+                    else $insert_point = $config->insert_document;
+
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
+            }
+            $output = null;
+
+            // 댓글 정보를 가져옴
+            $output = executeQueryArray('point.getCommentPoint');
+            if(!$output->toBool()) return $output;
+
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->insert_comment) $insert_point = $config->module_point[$val->module_srl]->insert_comment;
+                    else $insert_point = $config->insert_comment;
+
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
+            }
+            $output = null;
+
+            // 첨부파일 정보를 가져옴
+            $output = executeQueryArray('point.getFilePoint');
+            if(!$output->toBool()) return $output;
+
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    if($config->module_point[$val->module_srl]->upload_file) $insert_point = $config->module_point[$val->module_srl]->upload_file;
+                    else $insert_point = $config->upload_file;
+
+                    if(!$val->member_srl) continue;
+                    $point = $insert_point * $val->count;
+                    $member[$val->member_srl] += $point;
+                }
+            }
+            $output = null;
+
+            // 모든 회원의 포인트를 0으로 세팅
+            $output = executeQuery("point.initMemberPoint");
+            if(!$output->toBool()) return $output;
+
+            // 임시로 파일 저장
+            $f = fopen("./files/cache/pointRecal.txt","w");
+            foreach($member as $key => $val) {
+                $val += (int)$config->signup_point;
+                fwrite($f, $key.','.$val."\r\n");
+            }
+            fclose($f);
+
+            $this->add('total', count($member));
+            $this->add('position', 0);
+            $this->setMessage( sprintf(Context::getLang('point_recal_message'), 0, $this->get('total')) );
+        }
+
+        /**
+         * @brief 파일로 저장한 회원 포인트를 5000명 단위로 적용
+         **/
+        function procPointAdminApplyPoint() {
+            $position = (int)Context::get('position');
+            $total = (int)Context::get('total');
+
+            if(!file_exists('./files/cache/pointRecal.txt')) return new Object(-1, 'msg_invalid_request');
+
+            $idx = 0;
+            $f = fopen("./files/cache/pointRecal.txt","r");
+            while(!feof($f)) {
+                $str = trim(fgets($f, 1024));
+                $idx ++;
+                if($idx > $position) {
+                    list($member_srl, $point) = explode(',',$str);
+
+                    $args = null;
+                    $args->member_srl = $member_srl;
+                    $args->point = $point;
+                    $output = executeQuery('point.insertPoint',$args);
+                    if($idx%5000==0) break;
+                }
+            }
+
+            if(feof($f)) {
+                @unlink('./files/cache/pointRecal.txt');
+                $idx = $total;
+
+                @rename('./files/member_extra_info/point','./files/member_extra_info/point.old');
+                FileHandler::removeDir('./files/member_extra_info/point.old');
+            }
+            fclose($f);
+
+
+            $this->add('total', $total);
+            $this->add('position', $idx);
+            $this->setMessage(sprintf(Context::getLang('point_recal_message'), $idx, $total));
+
+        }
+
+        /**
          * @brief 캐시파일 저장
          **/
         function cacheActList() {

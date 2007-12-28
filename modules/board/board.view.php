@@ -98,7 +98,7 @@
 
                     } else {
                         // 브라우저 타이틀 설정
-                        Context::setBrowserTitle($oDocument->getTitleText());
+                        Context::addBrowserTitle($oDocument->getTitleText());
 
                         // 조회수 증가
                         $oDocument->updateReadedCount();

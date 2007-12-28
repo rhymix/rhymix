@@ -3,9 +3,10 @@
     <actions>
         <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" />
 
-        <action name="procImporterAdminStep1" type="controller" standalone="true" />
-        <action name="procImporterAdminStep12" type="controller" standalone="true" />
-        <action name="procImporterAdminImport" type="controller" standalone="true" />
         <action name="procImporterAdminSync" type="controller" standalone="true" />
+        <action name="procImporterAdminMemberImport" type="controller" standalone="true" />
+        <action name="procImporterAdminMessageImport" type="controller" standalone="true" />
+        <action name="procImporterAdminModuleImport" type="controller" standalone="true" />
+        <action name="procImporterAdminTTXMLImport" type="controller" standalone="true" />
     </actions>
 </module>

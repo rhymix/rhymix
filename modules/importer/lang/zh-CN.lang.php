@@ -13,6 +13,8 @@
     $lang->importer = '数据导入';
     $lang->source_type = '导入对象';
     $lang->type_member = '会员信息';
+    $lang->type_message = '短信息(MemoBox)';
+    $lang->type_ttxml = 'TTXML';
     $lang->type_module = '版面信息';
     $lang->type_syncmember = '同步会员信息';
     $lang->target_module = '模块对象';
@@ -39,11 +41,14 @@
     $lang->msg_no_xml_file = '找不到XML文件，请重新确认路径。';
     $lang->msg_invalid_xml_file = '错误形式的XML文件！';
     $lang->msg_importing = '%d个的数据中正在输入 %d个。 （长时间没有响应时请按“继续进行”按钮）';
-    $lang->msg_import_finished = '已完成输入%d个数据。根据情况的不同可能有没有被导入的数据。';
+    $lang->msg_import_finished = '已完成输入%d/%d个数据。根据情况的不同可能有没有被导入的数据。';
     $lang->msg_sync_completed = '已完成会员和文章，评论的同步。';
 
     // 说明
     $lang->about_type_member = '数据导入对象为会员信息时请选择此项。';
+    $lang->about_type_message = '数据导入对象为短信息(MemoBox)时请选择此项。';
+    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
+    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = '数据导入对象为版面主题时请选择此项。';
     $lang->about_type_syncmember = '导入会员信息和文章信息后需要同步会员信息时请选择此项。';
     $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>生成XML文件后再上传。";

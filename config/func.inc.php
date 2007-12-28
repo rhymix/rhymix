@@ -211,6 +211,25 @@
         return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0].$tail : $string; 
     }
 
+    function zgap()
+    {
+	$time_zone = $GLOBALS['_time_zone'];
+	if($time_zone<0) $to = -1; else $to = 1;
+	$t_hour = substr($time_zone,1,2)*$to;
+	$t_min = substr($time_zone,3,2)*$to;
+
+	$server_time_zone = date("O");
+	if($server_time_zone<0) $so = -1; else $so = 1;
+	$c_hour = substr($server_time_zone,1,2)*$so;
+	$c_min = substr($server_time_zone,3,2)*$so;
+
+	$g_min = $t_min - $c_min;
+	$g_hour = $t_hour - $c_hour;
+
+	$gap = $g_min*60 + $g_hour*60*60;
+	return $gap;
+    }
+
     /**
      * @brief YYYYMMDDHHIISS 형식의 시간값을 unix time으로 변경
      * @param str YYYYMMDDHHIISS 형식의 시간값
@@ -227,20 +246,7 @@
         if(strlen($str) <= 8) {
             $gap = 0;
         } else {
-            $time_zone = $GLOBALS['_time_zone'];
-            if($time_zone<0) $to = -1; else $to = 1;
-            $t_hour = substr($time_zone,1,2)*$to;
-            $t_min = substr($time_zone,3,2)*$to;
-
-            $server_time_zone = date("O");
-            if($server_time_zone<0) $so = -1; else $so = 1;
-            $c_hour = substr($server_time_zone,1,2)*$so;
-            $c_min = substr($server_time_zone,3,2)*$so;
-
-            $g_min = $t_min - $c_min;
-            $g_hour = $t_hour - $c_hour;
-
-            $gap = $g_min*60 + $g_hour*60*60;
+	    $gap = zgap();
         }
 
         return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year)+$gap;
@@ -410,6 +416,9 @@
 
         // meta 태그 제거
         $content = preg_replace("!<meta(.*?)>!is","",$content);
+
+        // style 태그 제거
+        $content = preg_replace("!<style(.*?)<\/style>!is","",$content);
 
         return $content;
     }

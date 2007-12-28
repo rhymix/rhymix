@@ -768,7 +768,7 @@
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'node_srl="%s" text="<?=(%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        'node_srl="%s" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
                         $category_srl,
                         $group_check_code,
                         $title,

@@ -71,7 +71,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title a:visited { color:#777777;}
 
 .boardList td.topic { padding-left:1em; color:#888888; }
-.boardList td.topic strong a { font-size:1.2em; font-weight:normal; text-decoration:none; color:#444444; }
+.boardList td.topic strong a { font-size:1em; font-weight:normal; text-decoration:none; color:#222222; }
 .boardList td.topic strong a:visited { color:#777777; }
 .boardList td.topic .category { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 3px; padding-left:.5em; margin-left:.5em; color:#AAAAAA; }
 .boardList td.topic div.author { margin-top:.5em; color:#BBBBBB; font-size:0.8em; }
@@ -291,6 +291,7 @@ Jeong, Chan Myeong 070601~070630
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
+.smallBox .messageBox { background-color:#F3F3F3; padding:20px; border-bottom:1px solid #EEEEEE;}
 
 
 /* 게시물의 팝업 메뉴 */
