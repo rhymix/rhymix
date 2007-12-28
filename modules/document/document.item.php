@@ -174,7 +174,7 @@
         }
 
         function getTitleText($cut_size = 0, $tail='...') {
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if(!$this->document_srl) return;
 
             if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
             else $title = $this->get('title');
