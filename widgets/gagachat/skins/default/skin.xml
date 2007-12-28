@@ -1,0 +1,13 @@
+<?xml version="2.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">가가 채팅 기본 스킨 </title>
+  <maker email_address="digirave@kmle.com" link="http://www.gagalive.kr" date="2007. 7. 1">
+    <name xml:lang="ko">디지레이브</name>
+    <description xml:lang="ko">newest_document의 기본 스킨</description>
+  </maker>
+  <colorset>
+    <color name="default">
+      <title xml:lang="ko">기본</title>
+    </color>
+  </colorset>
+</skin>
