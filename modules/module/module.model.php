@@ -569,7 +569,7 @@
                 $path = ModuleHandler::getModulePath($module_name);
 
                 // schemas내의 테이블 생성 xml파일수를 구함
-                $tmp_files = FileHandler::readDir($path."schemas");
+                $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
                 $table_count = count($tmp_files);
 
                 // 테이블이 설치되어 있는지 체크
