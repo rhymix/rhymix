@@ -93,6 +93,10 @@
             $output = $oModuleController->updateModule($module_info);
             if(!$output->toBool()) return $output;
 
+            // 해당 페이지에 첨부된 파일의 상태를 유효로 변경
+            $oFileController = &getController('file');
+            $oFileController->setFilesValid($module_info->module_srl);
+
             // 캐시파일 재생성
             $this->procPageAdminRemoveWidgetCache();
 
