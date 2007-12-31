@@ -19,10 +19,10 @@
 .xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
 .xeEditor .optionE { padding:4px 0 0 9px; overflow:hidden; float:left;}
 
-.xeEditor .editorInfo { background:transparent; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:5px 20px 0 20px;}
-.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:25px;}
+.xeEditor .editorInfo { background:transparent; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:5px 10px 0 10px;}
+.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:15px;}
 .xeEditor .editor_iframe_box { clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; margin:3px 10px 5px 10px; }
-.xeEditor .editor_iframe_textarea { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:.5em; margin:0 20px 0 20px; width:100%; font-size:1em; display:none;}
+.xeEditor .editor_iframe_textarea { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin:5px 10px 0 10px; width:100%; font-size:1em; display:none;}
 
 .xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}

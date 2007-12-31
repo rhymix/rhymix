@@ -43,7 +43,6 @@ function editorGetContent_xe(editor_sequence) {
     return html;
 }
 
-
 // 에디터 내의 선택된 부분의 NODE를 return
 function editorGetSelectedNode(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -122,7 +121,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         '<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         '<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style style="text/css">'+
-        'body {font-size:9pt;margin:0px; height:'+editor_height+'px; background-color:transparent;}'+
+        'body {font-size:9pt;margin:0px; height:'+editor_height+'px; background-color:transparent; line-height:140%;}'+
         'blockquote, ol, ul { margin-left:40px; }'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
