@@ -70,7 +70,6 @@ form { margin:0; padding:0; }
 .w300 { width:300px; }
 .w400 { width:400px; }
 
-
 /* editor style */
 a.bold { font-weight:bold; }
 
@@ -91,6 +90,14 @@ a.bold { font-weight:bold; }
 .member_signature { margin-top:10px; border:1px solid #DDDDDD; padding:10px; overflow:hidden;}
 .member_profile_image { float:left; margin-right:10px; }
 
+/* xe content */
+div.xe_content { line-height:140%; }
+div.xe_content table { padding:1px; margin:1px; }
+div.xe_content ol { margin-left:40px; }
+div.xe_content ul { margin-left:40px; }
+div.xe_content blockquote { margin-left:40px; }
+
+/* xe layer */
 #waitingforserverresponse { display:inline; border:2px solid #444444; background-color:#FFFFFF; padding:15px 20px 13px 20px; font-weight:bold; color:#444444; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
 #fororiginalimageareabg { z-index:1001; background-color:#FFFFFF; width:100%; height:100%; top:0px; left:0px; position:relative; padding:20px 10px 10px 10px; border:8px solid #DDDDDD; } 
 #fororiginalimagearea { visibility:hidden; padding:0px; margin:0px; width:100%; height:100%; top:0px; left:0px; position:absolute; z-index:1000; text-align:left; overflow:hidden; }
