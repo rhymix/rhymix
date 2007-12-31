@@ -968,7 +968,8 @@
                     $obj->module_srl = $module_srl;
                     $obj->document_srl = getNextSequence();
                     $obj->title = $post->title->body;
-                    $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$post->content->body);
+                    $obj->content = str_replace('[##_ATTACH_PATH_##]','',$post->content->body);
+                    $obj->content = preg_replace_callback('!\[##_1C\|([^\|]*)\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTImgTag'), $obj->content);
                     $obj->password = md5($post->password->body);
                     $obj->allow_comment = $post->acceptcomment->body==1?'Y':'N';
                     $obj->allow_trackback= $post->accepttrackback->body==1?'Y':'N';
@@ -1072,6 +1073,13 @@
 
             $this->add('is_finished','1');
             $this->setMessage(sprintf(Context::getLang('msg_import_finished'), $success_count, $total_count));
+        }
+
+        /**
+         * @brief ttxml의 자체 img 태그를 치환
+         **/
+        function _replaceTTImgTag($matches) {
+            return sprintf("<img src=\"%s\" alt=\"%s\" />", $matches[1], str_replace("\"","\\\"",$matches[3]));
         }
 
         /**
