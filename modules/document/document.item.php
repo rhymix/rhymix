@@ -335,7 +335,6 @@
         }
 
         function getCommentCount() {
-            if(!$this->isGranted() && $this->isSecret()) return 0;
             return $this->get('comment_count');
         }
 
