@@ -168,7 +168,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->insert_document) $insert_point = $config->module_point[$val->module_srl]->insert_document;
+                    if($config->module_point[$val->module_srl]['insert_document']) $insert_point = $config->module_point[$val->module_srl]['insert_document'];
                     else $insert_point = $config->insert_document;
 
                     if(!$val->member_srl) continue;
@@ -184,7 +184,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->insert_comment) $insert_point = $config->module_point[$val->module_srl]->insert_comment;
+                    if($config->module_point[$val->module_srl]['insert_comment']) $insert_point = $config->module_point[$val->module_srl]['insert_comment'];
                     else $insert_point = $config->insert_comment;
 
                     if(!$val->member_srl) continue;
@@ -200,7 +200,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->upload_file) $insert_point = $config->module_point[$val->module_srl]->upload_file;
+                    if($config->module_point[$val->module_srl]['upload_file']) $insert_point = $config->module_point[$val->module_srl]['upload_file'];
                     else $insert_point = $config->upload_file;
 
                     if(!$val->member_srl) continue;
