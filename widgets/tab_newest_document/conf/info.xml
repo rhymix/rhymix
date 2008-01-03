@@ -3,7 +3,7 @@
     <title xml:lang="ko">탭 형태 최근 문서 출력</title>
     <title xml:lang="zh-CN">选项卡主题列表</title>
     <title xml:lang="jp">タブスタイル最新コンテンツ出力</title>
-    <title xml:lang="en">Display tab style newest documents</title>
+    <title xml:lang="en">Display Tab Style Newest Articles</title>
     <title xml:lang="es">탭 형태 최근 문서 출력</title>
     <title xml:lang="ru">Отображение последних статей в стиле закладок</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -16,7 +16,7 @@
         <description xml:lang="ko">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
         <description xml:lang="zh-CN">选项卡样式最新主题列表控件。</description>
         <description xml:lang="jp">最新コンテンツをタブスタイルに出力するウィジェットです。</description>
-        <description xml:lang="en">This widget displays newest articles like tab style.</description>
+        <description xml:lang="en">This widget displays newest articles as tab style.</description>
         <description xml:lang="es">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
         <description xml:lang="en">Этот виджет отображает последние статьи в tab-стиле.</description>
     </author>

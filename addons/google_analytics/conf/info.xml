@@ -18,7 +18,7 @@
             可以添加Google Analytics代码。
         </description>
         <description xml:lang="en">
-            Google Analytics
+            This addon inserts Google Analytics code to site.
         </description>
         <description xml:lang="ru">
             Google Analytics
@@ -36,7 +36,7 @@
             <title xml:lang="jp">uacct</title>
 			<description xml:lang="ko">Google Analytics 코드의 _uacct 값을 입력해주세요.</description>
 			<description xml:lang="zh-CN">请输入Google Analytics代码的_uacct值。</description>
-			<description xml:lang="en">Google Analytics _uacct</description>
+			<description xml:lang="en">Please input _uacct from Google Analytics code.</description>
 			<description xml:lang="ru">Google Analytics _uacct</description>
 			<description xml:lang="jp">Google Analyticsコードの「_uacct」の値を入力してください。</description>
 		</var>
