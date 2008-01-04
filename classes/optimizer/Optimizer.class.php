@@ -126,7 +126,7 @@ $type = "'.$type.'";
 
 if(isset($_SERVER["If-Modified-Since"])) {
     $time = strtotime(preg_replace("/;.*$/", "", $_SERVER["If-Modified-Since"])); 
-    if($mtime == $time) {
+    if($mtime == $time && $time > '.$class_mtime.') {
         header("HTTP/1.1 304"); 
         $cached = true;
     } 
@@ -138,7 +138,7 @@ header("Cache-Control: private, max-age=2592000");
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
-if(!$cached && time()>'.$class_mtime.' && file_exists($content_filename)) {
+if(!$cached && file_exists($content_filename)) {
     $buff = file_get_contents($content_filename);
     if($type != "css" && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")!==false && function_exists("ob_gzhandler")) {
         header("Content-Encoding: gzip");
