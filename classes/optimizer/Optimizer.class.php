@@ -138,15 +138,7 @@ header("Cache-Control: private, max-age=2592000");
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
-if(!$cached && file_exists($content_filename)) {
-    $buff = file_get_contents($content_filename);
-    if($type != "css" && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")!==false && function_exists("ob_gzhandler")) {
-        header("Content-Encoding: gzip");
-        print ob_gzhandler($buff, 5);
-    } else {
-        print $buff;
-    }
-}
+if(!$cached && file_exists($content_filename)) print file_get_contents($content_filename);
 exit();
 ?>';
             FileHandler::writeFile($filename, $header_buff);
