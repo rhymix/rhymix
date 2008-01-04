@@ -72,9 +72,6 @@
          * @brief 이미 저장된 캐시 파일과의 시간등을 검사하여 새로 캐싱해야 할지를 체크
          **/
         function doOptimizedFile($filename, $targets, $type) {
-            // optimizer 변경이 된 것에 대해서 모든 제로보드XE에 적용하기 위해 변경 시점으로 캐시 유무를 재확인
-            if(time() > 1199414354) return $this->makeOptimizedFile($filename, $targets, $type);
-
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
 
             $mtime = filemtime($filename);
