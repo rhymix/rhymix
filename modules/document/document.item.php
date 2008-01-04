@@ -72,13 +72,17 @@
         }
 
         function allowComment() {
-            return $this->get('allow_comment') == 'Y' || !$this->isExists() ? true : false;
+            return $this->get('allow_comment') == 'Y' && $this->isExists() ? true : false;
         }
 
         function allowTrackback() {
-            return $this->get('allow_trackback') == 'Y'  || !$this->isExists() ? true : false;
+            $module_srl = Context::get('module_srl');
+            $oTrackbackModel = &getModel('trackback');
+            $module_config = &$oTrackbackModel->getTrackbackModuleConfig($module_srl);
+            if($module_config->enable_trackback == 'Y' && $this->get('allow_trackback') == 'Y' && $this->isExists()) return true;
+            return false;
         }
-        
+
         function isLocked() {
             return $this->get('lock_comment') == 'Y'  ? true : false;
         }
