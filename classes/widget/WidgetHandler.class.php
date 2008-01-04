@@ -50,6 +50,8 @@
             // 디버그를 위한 위젯 실행 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
 
+            $args->style = preg_replace('/background\-image: url\(none\)/is','', $args->style);
+
             // widget중 widgetContent 는 page 모듈에 종속적인 위젯으로 직접 page.admin.controller.php를 호출하여 처리를 해야 함 (차후 정리 필요)
             if($widget == 'widgetContent') {
                 $style = $args->style;
