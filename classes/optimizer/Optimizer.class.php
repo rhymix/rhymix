@@ -72,6 +72,9 @@
          * @brief 이미 저장된 캐시 파일과의 시간등을 검사하여 새로 캐싱해야 할지를 체크
          **/
         function doOptimizedFile($filename, $targets, $type) {
+            // optimizer 변경이 된 것에 대해서 모든 제로보드XE에 적용하기 위해 변경 시점으로 캐시 유무를 재확인
+            if(time() > 1199414354) return $this->makeOptimizedFile($filename, $targets, $type);
+
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
 
             $mtime = filemtime($filename);
@@ -102,7 +105,6 @@
 
             if($type!="css" && Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
 
-
             $content_file = eregi_replace("\.php$","",$filename);
             $content_filename = str_replace($this->cache_path, '', $content_file);
 
@@ -111,28 +113,45 @@
             /**
              * 압축을 지원하고 캐시 타임을 제대로 이용하기 위한 헤더 파일 구함
              **/
-            // php의 헤더파일 생성
-            // gzip 압축 체크
-            if($type!="css" && Context::isGzEnabled()) $gzip_header =  'header("Content-Encoding: gzip");';
-
             // 확장자별 content-type 체크
             if($type == 'css') $content_type = 'text/css';
             elseif($type == 'js') $content_type = 'text/javascript';
 
-            $header_buff = <<<EndOfBuff
-<?php
-header("Content-Type: {$content_type}; charset=UTF-8");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Content-Length: ".filesize('{$content_filename}'));
-{$gzip_header}
-if(@file_exists("{$content_filename}")) {
-    @fpassthru(fopen("{$content_filename}", "r"));
+            // 캐시를 위한 처리 
+            $unique = crc32($content_filename);
+            $size = filesize($content_file);
+            $mtime = filemtime($content_file);
+            $header_buff = '<?php
+$content_filename = "'.$content_filename.'";
+$mtime = '.$mtime.';
+$cached = false;
+$type = "'.$type.'";
+
+if(isset($_SERVER["If-Modified-Since"])) {
+    $time = strtotime(preg_replace("/;.*$/", "", $_SERVER["If-Modified-Since"])); 
+    if($mtime == $time) {
+        header("HTTP/1.1 304"); 
+        $cached = true;
+    } 
+}
+header("Content-Type: '.$content_type.'; charset=utf-8");
+header("Date: '.substr(gmdate('r'), 0, -5).'GMT");
+header("Expires: '.substr(gmdate('r', strtotime('+1 MONTH')), 0, -5).'GMT");
+header("Cache-Control: private, max-age=2592000"); 
+header("Pragma: cache"); 
+header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
+header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
+if(!$cached && file_exists($content_filename)) {
+    $buff = file_get_contents($content_filename);
+    if($type != "css" && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")!==false && function_exists("ob_gzhandler")) {
+        header("Content-Encoding: gzip");
+        print ob_gzhandler($buff, 5);
+    } else {
+        print $buff;
+    }
 }
 exit();
-?>
-EndOfBuff;
-
+?>';
             FileHandler::writeFile($filename, $header_buff);
         }
 
