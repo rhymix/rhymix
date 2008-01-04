@@ -101,9 +101,6 @@
                 $content_buff .= $str."\n";
             }
             if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
-
-            if($type!="css" && Context::isGzEnabled()) $content_buff = ob_gzhandler($content_buff, 5);
-
             $content_file = eregi_replace("\.php$","",$filename);
             $content_filename = str_replace($this->cache_path, '', $content_file);
 
@@ -120,6 +117,7 @@
             $unique = crc32($content_filename);
             $size = filesize($content_file);
             $mtime = filemtime($content_file);
+            $class_mtime = filemtime("./classes/optimizer/Optimizer.class.php");
             $header_buff = '<?php
 $content_filename = "'.$content_filename.'";
 $mtime = '.$mtime.';
@@ -140,14 +138,14 @@ header("Cache-Control: private, max-age=2592000");
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
-if(!$cached && file_exists($content_filename)) {
+if(!$cached && time()>'.$class_mtime.' && file_exists($content_filename)) {
     $buff = file_get_contents($content_filename);
-    //if($type != "css" && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")!==false && function_exists("ob_gzhandler")) {
-        //header("Content-Encoding: gzip");
-        //print ob_gzhandler($buff, 5);
-    //} else {
+    if($type != "css" && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")!==false && function_exists("ob_gzhandler")) {
+        header("Content-Encoding: gzip");
+        print ob_gzhandler($buff, 5);
+    } else {
         print $buff;
-    //}
+    }
 }
 exit();
 ?>';
