@@ -74,6 +74,8 @@
         function doOptimizedFile($filename, $targets, $type) {
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
 
+            if(filemtime($filename) < filemtime('./classes/optimizer/Optimizer.class.php')) return $this->makeOptimizedFile($filename, $targets, $type);
+
             $mtime = filemtime($filename);
             foreach($targets as $file) {
                 if($mtime < filemtime($file)) return $this->makeOptimizedFile($filename, $targets, $type);
