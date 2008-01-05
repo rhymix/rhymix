@@ -72,7 +72,7 @@
         }
 
         function allowComment() {
-            return $this->get('allow_comment') == 'Y' && $this->isExists() ? true : false;
+            return $this->get('allow_comment') == 'Y' || !$this->isExists() ? true : false;
         }
 
         function allowTrackback() {
