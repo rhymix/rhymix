@@ -76,11 +76,7 @@
         }
 
         function allowTrackback() {
-            $module_srl = Context::get('module_srl');
-            $oTrackbackModel = &getModel('trackback');
-            $module_config = &$oTrackbackModel->getTrackbackModuleConfig($module_srl);
-            if($module_config->enable_trackback == 'Y' && $this->get('allow_trackback') == 'Y' && $this->isExists()) return true;
-            return false;
+            return $this->get('allow_trackback') == 'Y' || !$this->isExists() ? true : false;
         }
 
         function isLocked() {
