@@ -25,18 +25,6 @@
              **/
             $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
 
-            $page = (int)Context::get('page'); ///< 페이지, 없으면 1
-            if(!$page) $page = 1;
-
-            $list_count = (int)Context::get('list_count'); ///< 목록 갯수, 기본 10, 최고 100개
-            if(!$list_count|| $list_count>100) $list_count = 10;
-
-            $start_date = Context::get('start_date'); ///< 시작 일자, 없으면 무시
-            if(strlen($start_date)!=14 || !ereg("^([0-9]){14}$", $start_date) ) unset($start_date);
-
-            $end_date = Context::get('end_date'); ///< 종료 일자, 없으면 무시
-            if(strlen($end_date)!=14 || !ereg("^([0-9]){14}$", $end_date) ) unset($end_date);
-
             // rss module config를 가져옴
             $oModuleModel = &getModel('module');
             $rss_config = $oModuleModel->getModuleConfig('rss');
@@ -102,13 +90,12 @@
              * 출력할 컨텐츠 추출을 위한 인자 정리
              **/
             $args->module_srl = $module_srl; 
-            $args->page = $page;
-            $args->list_count = $list_count;
-            $args->page_count = 10;
+            $args->page = 1;
+            $args->list_count = 15;
             if($start_date) $args->start_date = $start_date;
             if($end_date) $args->end_date = $end_date;
 
-            $args->sort_index = 'update_order'; 
+            $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
 
             // 대상 문서들을 가져옴
