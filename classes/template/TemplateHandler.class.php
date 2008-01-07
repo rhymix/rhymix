@@ -110,7 +110,7 @@
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
 
             // 결과를 출력하지 않는 구문 변경
-            $buff = preg_replace_callback('/\{\@([^\{\}\n]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
+            $buff = preg_replace_callback('/\{\@([^\{\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
 
             // <!--@, --> 의 변경
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
