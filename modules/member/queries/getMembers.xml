@@ -1,0 +1,14 @@
+<query id="getMembers" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="member_srl" var="member_srl" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="member_srl" order="desc" />
+    </navigation>
+</query>

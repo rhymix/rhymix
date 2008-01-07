@@ -143,6 +143,7 @@
     $lang->msg_allow_message_to_friend = "Failed to send because receiver only allows friends' messages";
     $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
     $lang->msg_insert_group_name = 'Please input name of group';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';

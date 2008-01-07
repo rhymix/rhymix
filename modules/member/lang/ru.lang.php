@@ -143,6 +143,7 @@
     $lang->msg_allow_message_to_friend = "Отправка провалена, поскольку получатель принимает сообщения только от друзей";
     $lang->msg_disallow_message = 'Отправка провалена, поскольку получатель отклоняет прием сообщений';
     $lang->msg_insert_group_name = 'Пожалуйста, введите имя группы';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_image_name = 'Имя изображения не может быть зарегистрировано';
     $lang->msg_not_uploaded_image_mark = 'Марка не может быть зарегистрирована';

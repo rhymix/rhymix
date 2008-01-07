@@ -282,3 +282,29 @@ function doDisplaySkinColorset(ret_obj) {
     var new_height = xHeight("member_colorset");
     if(typeof(fixAdminLayoutFooter)=="function") fixAdminLayoutFooter(new_height - old_height);
 }
+
+/* 그룹 일괄 변경 */
+function doManageMemberGroup() {
+    var fo_obj = xGetElementById("member_fo");
+    var member_srl = new Array();
+
+    if(typeof(fo_obj.cart.length)=='undefined') {
+        if(fo_obj.cart.checked) member_srl[member_srl.length] = fo_obj.cart.value;
+    } else {
+        var length = fo_obj.cart.length;
+        for(var i=0;i<length;i++) {
+            if(fo_obj.cart[i].checked) member_srl[member_srl.length] = fo_obj.cart[i].value;
+        }
+    }
+
+    if(member_srl.length<1) return;
+
+    var url = './?module=member&act=dispMemberAdminManageGroup&member_srls='+member_srl.join(',');
+    winopen(url, 'manageMemberGroup','scrollbars=no,width=400,height=500,toolbars=no');
+}
+
+/* 그룹 일괄 변경 후 */
+function completeUpdateMemberGroup(ret_obj) {
+    alert(ret_obj['message']);
+    window.close();
+}

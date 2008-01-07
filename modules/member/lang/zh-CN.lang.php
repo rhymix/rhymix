@@ -142,6 +142,7 @@
     $lang->msg_allow_message_to_friend = '因其为只允许接收好友短消息的用户，所以不能发送短消息。';
     $lang->msg_disallow_message = '因其为拒绝接收短消息的用户，所以不能发送短消息。';
     $lang->msg_insert_group_name = '请输入组名称';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_image_name = '不能登录昵称图像！';
     $lang->msg_not_uploaded_image_mark = '不能登录用户图标！';

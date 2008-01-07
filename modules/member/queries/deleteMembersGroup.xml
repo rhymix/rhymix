@@ -1,0 +1,9 @@
+<query id="deleteMembersGroup" action="delete">
+    <tables>
+        <table name="member_group_member" />
+    </tables>
+    <conditions>
+        <condition operation="over" column="group_srl" default="0" />
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" pipe="and" />
+    </conditions>
+</query>

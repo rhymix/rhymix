@@ -203,5 +203,22 @@
             $this->setTemplateFile('denied_id_list');
         }
 
+        /**
+         * @brief 회원 그룹 일괄 변경
+         **/
+        function dispMemberAdminManageGroup() {
+            // 선택된 회원 목록을 구함
+            $args->member_srl = trim(Context::get('member_srls'));
+            $output = executeQueryArray('member.getMembers', $args);
+            Context::set('member_list', $output->data);
+
+            // 회원 그룹 목록을 구함
+            $oMemberModel = &getModel('member');
+            Context::set('member_groups', $oMemberModel->getGroups());
+
+            $this->setLayoutFile('popup_layout');
+            $this->setTemplateFile('manage_member_group');
+        }
+
     }
 ?>

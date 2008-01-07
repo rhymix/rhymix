@@ -142,6 +142,7 @@
     $lang->msg_allow_message_to_friend = "Falló el envío por permitir sólo mensajes de sus amigos";
     $lang->msg_disallow_message = 'Falló el envío por ser usuario rechazado para recibir mensajes';
     $lang->msg_insert_group_name = 'Por favor ingresar el nombre del grupo';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_image_name = 'Imagen del nombre no puede ser registrado';
     $lang->msg_not_uploaded_image_mark = 'Imagen de marca no puede ser resistrado';

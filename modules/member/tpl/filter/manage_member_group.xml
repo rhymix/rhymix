@@ -1,0 +1,8 @@
+<filter name="manage_member_group" module="member" act="procMemberAdminUpdateMembersGroup">
+    <form />
+    <response callback_func="completeUpdateMemberGroup">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

@@ -202,6 +202,55 @@
         }
 
         /**
+         * @brief 선택된 회원들의 그룹을 일괄 변경
+         **/
+        function procMemberAdminUpdateMembersGroup() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(-1,'msg_invalid_request');
+            $member_srls = explode(',',$member_srl);
+
+            $group_srl = Context::get('group_srl');
+            $group_srls = explode('|@|', $group_srl);
+            if(!$group_srl) return new Object(-1,'msg_check_group');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            // 선택된 회원들의 그룹을 삭제
+            $args->member_srl = $member_srl;
+            $output = executeQuery('member.deleteMembersGroup', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 선택된 그룹으로 추가
+            $group_count = count($group_srls);
+            $member_count = count($member_srls);
+            for($j=0;$j<$group_count;$j++) {
+                $group_srl = (int)trim($group_srls[$j]);
+                if(!$group_srl) continue;
+                for($i=0;$i<$member_count;$i++) {
+                    $member_srl = (int)trim($member_srls[$i]);
+                    if(!$member_srl) continue;
+
+                    $args = null;
+                    $args->member_srl = $member_srl;
+                    $args->group_srl = $group_srl;
+
+                    $output = executeQuery('member.addMemberToGroup', $args);
+                    if(!$output->toBool()) {
+                        $oDB->rollback();
+                        return $output;
+                    }
+                }
+            }
+            $oDB->commit();
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
          * @brief 금지 아이디 추가
          **/
         function procMemberAdminInsertDeniedID() {

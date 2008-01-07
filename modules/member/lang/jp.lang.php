@@ -143,6 +143,7 @@
     $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することができません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
