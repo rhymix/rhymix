@@ -126,7 +126,7 @@
 
             $oTrackbackModel = &getModel('trackback');
             $count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
-            if($count>0) return Object(-1, 'msg_alert_trackback_denied');
+            if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
 
             return new Object();
         }
