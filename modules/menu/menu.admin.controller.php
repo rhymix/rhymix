@@ -301,11 +301,11 @@
             }
 
             // xml 캐시 파일 생성
-            $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
+            $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true; ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
-            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $lang_type = Context::getLangType(); %s; $menu->list = array(%s); ?>', $php_output['name'], $php_output['buff']);
+            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $lang_type = Context::getLangType(); %s; $menu->list = array(%s); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true; ?>', $php_output['name'], $php_output['buff']);
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
@@ -347,7 +347,7 @@
                 $group_srls = $node->group_srls;
 
                 // node->group_srls값이 있으면 
-                if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
+                if($group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
                     'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
@@ -401,7 +401,7 @@
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 
                 // node->group_srls값이 있으면 
-                if($node->group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                if($node->group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
                 else $group_check_code = "true";
 
                 // 변수 정리
