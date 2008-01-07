@@ -406,14 +406,19 @@
          * @brief 프로필 이미지의 정보를 구함 
          **/
         function getProfileImage($member_srl) {
-            $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_name_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_name_file;
-            $info->file = './'.$image_name_file;
-            return $info;
+            $exts = array('gif','jpg','png');
+            for($i=0;$i<3;$i++) {
+                $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
+                if(file_exists($image_name_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                    $info->width = $width;
+                    $info->height = $height;
+                    $info->src = Context::getRequestUri().$image_name_file;
+                    $info->file = './'.$image_name_file;
+                    return $info;
+                }
+            }
+            return;
         }
 
         /**

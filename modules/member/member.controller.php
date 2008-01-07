@@ -898,13 +898,16 @@
             $target_path = sprintf('files/member_extra_info/profile_image/%s/', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
 
-            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
-
             // 파일 정보 구함
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
+            if($type == 3) $ext = 'png';
+            elseif($type == 2) $ext = 'jpg';
+            else $ext = 'gif';
+
+            $target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 
             // 지정된 사이즈보다 크거나 gif가 아니면 변환
-            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
             else @copy($target_file, $target_filename);
         }
 
@@ -965,11 +968,14 @@
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(0,'success');
 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->profile_image == 'N') return new Object(0,'success');
-
             $logged_info = Context::get('logged_info');
+
+            if($logged_info->is_admin != 'Y') {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+                if($config->profile_image == 'N') return new Object(0,'success');
+            }
+
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
@@ -985,11 +991,14 @@
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(0,'success');
 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->image_name == 'N') return new Object(0,'success');
-
             $logged_info = Context::get('logged_info');
+
+            if($logged_info->is_admin != 'Y') {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+                if($config->image_name == 'N') return new Object(0,'success');
+            }
+
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);

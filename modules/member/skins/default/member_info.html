@@ -22,6 +22,12 @@
         <th scope="row">{$lang->nick_name}</th>
         <td>{htmlspecialchars($member_info->nick_name)}</td>
     </tr>
+    <!--@if($member_info->profile_image->src)-->
+    <tr>
+        <th scope="row">{$lang->profile_image}</th>
+        <td><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></td>
+    </tr>
+    <!--@end-->
     <!--@if($member_info->image_name->src)-->
     <tr>
         <th scope="row">{$lang->image_name}</th>
