@@ -45,6 +45,7 @@
 
             // 카테고리 xml 파일 위치 지정
             $this->module_info->category_xml_file = getUrl().$oDocumentModel->getCategoryXmlFile($this->module_info->module_srl);
+            $this->module_info->category_php_file = $oDocumentModel->getCategoryPhpFile($this->module_info->module_srl);
 
             // 메뉴 등록시 메뉴 정보를 구해옴
             if($this->module_info->menu) {

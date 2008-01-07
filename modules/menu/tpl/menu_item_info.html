@@ -15,7 +15,7 @@
 {@ $_row = 0;}
 <!--@foreach($lang_supported as $key => $val)-->
 <tr>
-    <!--@if($_row==0)--><th scope="row" scope="row" rowspan="{count($lang_supported)}">{$lang->menu_name}</th><!--@end-->
+    <!--@if($_row==0)--><th scope="row" rowspan="{count($lang_supported)}">{$lang->menu_name}</th><!--@end-->
     <th>{$val}</th>
     <td><input type="text" name="menu_name_{$key}" value="{htmlspecialchars($item_info->name[$key])}" class="inputTypeText"/></td>
     {@ $_row ++ }

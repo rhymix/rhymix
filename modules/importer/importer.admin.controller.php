@@ -1061,7 +1061,7 @@
                                 $this->insertTTCategory($xml_doc, 0, $module_srl, $category_titles);
 
                                 // 입력완료 후 카테고리 xml파일 재생성
-                                $this->oDocumentController->makeCategoryXmlFile($module_srl);
+                                $this->oDocumentController->makeCategoryFile($module_srl);
                                 $xml_doc = null;
                             }
 

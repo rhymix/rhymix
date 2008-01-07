@@ -331,7 +331,7 @@
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $oDocumentController->makeCategoryXmlFile($args->module_srl);
+            $xml_file = $oDocumentController->makeCategoryFile($args->module_srl);
 
             $oDB->commit();
 
@@ -403,7 +403,7 @@
             }
 
             // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $oDocumentController->makeCategoryXmlFile($args->module_srl);
+            $xml_file = $oDocumentController->makeCategoryFile($args->module_srl);
 
             $oDB->commit();
 
@@ -440,7 +440,7 @@
             if(!$output->toBool()) return $output;
 
             // xml파일 재생성 
-            $xml_file = $oDocumentController->makeCategoryXmlFile($source_category->module_srl);
+            $xml_file = $oDocumentController->makeCategoryFile($source_category->module_srl);
 
             // return 변수 설정
             $this->add('xml_file', $xml_file);
@@ -459,7 +459,7 @@
 
             // xml파일 재생성 
             $oDocumentController = &getController('document');
-            $xml_file = $oDocumentController->makeCategoryXmlFile($module_srl);
+            $xml_file = $oDocumentController->makeCategoryFile($module_srl);
 
             // return 값 설정 
             $this->add('xml_file',$xml_file);

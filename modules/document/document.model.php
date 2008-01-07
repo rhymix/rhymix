@@ -461,9 +461,21 @@
             $xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
             if(!file_exists($xml_file)) {
                 $oDocumentController = &getController('document');
-                $oDocumentController->makeCategoryXmlFile($module_srl);
+                $oDocumentController->makeCategoryFile($module_srl);
             }
             return $xml_file;
+        } 
+
+        /**
+         * @brief 문서 category정보의 php 캐시 파일을 return
+         **/
+        function getCategoryPhpFile($module_srl) {
+            $php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
+            if(!file_exists($php_file)) {
+                $oDocumentController = &getController('document');
+                $oDocumentController->makeCategoryFile($module_srl);
+            }
+            return $php_file;
         } 
 
         /**

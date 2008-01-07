@@ -272,6 +272,7 @@
             if(!$list) {
                 $xml_buff = "<root />";
                 FileHandler::writeFile($xml_file, $xml_buff);
+                FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
                 return $xml_file;
             }
 

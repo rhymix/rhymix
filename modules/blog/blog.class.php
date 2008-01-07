@@ -82,7 +82,7 @@
             // 블로그 모듈에서 사용되는 모든 메뉴 목록을 재 생성
             foreach($list as $blog_item) {
                 $module_srl = $blog_item->module_srl;
-                $oDocumentController->makeCategoryXmlFile($module_srl);
+                $oDocumentController->makeCategoryFile($module_srl);
             }
 
         }

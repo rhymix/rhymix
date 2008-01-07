@@ -537,7 +537,7 @@
             $args->category_srl = $category_srl;
             $args->document_count = $document_count;
             $output = executeQuery('document.updateCategoryCount', $args);
-            if($output->toBool()) $this->makeCategoryXmlFile($module_srl);
+            if($output->toBool()) $this->makeCategoryFile($module_srl);
 
             return $output;
         }
@@ -688,10 +688,10 @@
         }
 
         /**
-         * @brief 카테고리를 xml파일로 저장
+         * @brief 카테고리를 캐시 파일로 저장
          **/
-        function makeCategoryXmlFile($module_srl) {
-            // xml파일 생성시 필요한 정보가 없으면 그냥 return
+        function makeCategoryFile($module_srl) {
+            // 캐시 파일 생성시 필요한 정보가 없으면 그냥 return
             if(!$module_srl) return;
 
             // 모듈 정보를 가져옴 (mid를 구하기 위해)
@@ -703,6 +703,7 @@
 
             // 캐시 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
+            $php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
             // DB에서 module_srl 에 해당하는 카테고리 목록을 listorder순으로 구해옴
             $oDocumentModel = &getModel('document');
@@ -712,6 +713,7 @@
             if(!$list) {
                 $xml_buff = "<root />";
                 FileHandler::writeFile($xml_file, $xml_buff);
+                FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
                 return $xml_file;
             }
 
@@ -739,8 +741,13 @@
             // xml 캐시 파일 생성
             $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
 
+            // php 캐시 파일 생성
+            $php_output = $this->getPhpCacheCode($tree[0], $tree);
+            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); %s; $menu->list = array(%s); ?>', $php_output['category_title_str'], $php_output['buff']);
+
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
+            FileHandler::writeFile($php_file, $php_buff);
             return $xml_file;
         }
 
@@ -782,5 +789,57 @@
             }
             return $buff;
         }
+
+        /**
+         * @brief array로 정렬된 노드들을 php code로 변경하여 return
+         * 메뉴에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
+         * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
+         * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
+         **/
+        function getPhpCacheCode($source_node, $tree) {
+            $output = array("buff"=>"", "category_srl_list"=>array());
+            if(!$source_node) return $output;
+
+            foreach($source_node as $category_srl => $node) {
+                // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
+                if($category_srl&&$tree[$category_srl]) $child_output = $this->getPhpCacheCode($tree[$category_srl], $tree);
+                else $child_output = array("buff"=>"", "category_srl_list"=>array());
+
+                // 변수 정리 
+                $category_title_str = sprintf('$_category_title[%d] = "%s"; %s', $node->category_srl, $node->title, $child_output['category_title_str']);
+
+                // 현재 노드의 url값이 공란이 아니라면 category_srl_list 배열값에 입력
+                $child_output['category_srl_list'][] = $node->category_srl;
+                $output['category_srl_list'] = array_merge($output['category_srl_list'], $child_output['category_srl_list']);
+
+                // node->group_srls값이 있으면 
+                if($node->group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                else $group_check_code = "true";
+
+                // 변수 정리
+                $selected = '"'.implode('","',$child_output['category_srl_list']).'"';
+                $child_buff = $child_output['buff'];
+                $expand = $node->expand;
+
+                // 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
+                $attribute = sprintf(
+                    '"node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>%s?$_category_title[%d]:"","selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
+                    $node->category_srl,
+                    $node->category_srl,
+                    $node->parent_srl,
+                    $group_check_code,
+                    $node->category_srl,
+                    $selected,
+                    $expand,
+                    $child_buff
+                );
+                
+                // buff 데이터를 생성한다
+                $output['buff'] .=  sprintf('%s=>array(%s),', $node->category_srl, $attribute);
+                $output['category_title_str'] .= $category_title_str;
+            }
+            return $output;
+        }
+
     }
 ?>
