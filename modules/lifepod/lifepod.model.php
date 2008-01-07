@@ -5,7 +5,7 @@
      * @brief  lifepod모듈의 model 클래스
      **/
 
-    set_include_path("./modules/springnote/lib/PEAR");
+    set_include_path("./libs/PEAR");
     require_once('PEAR.php');
     require_once('HTTP/Request.php');
     require_once('./classes/xml/GeneralXmlParser.class.php');
