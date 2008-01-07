@@ -85,6 +85,9 @@
             unset($extra_vars->component_name);
             unset($extra_vars->module);
             unset($extra_vars->act);
+            unset($extra_vars->body);
+
+            if($extra_vars->target_group) $extra_vars->target_group = explode('|@|', $extra_vars->target_group);
 
             $args->component_name = $component_name;
             $args->extra_vars = serialize($extra_vars);

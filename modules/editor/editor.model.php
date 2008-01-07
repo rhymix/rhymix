@@ -246,6 +246,15 @@
             // 파일목록을 구함
             $downloaded_list = FileHandler::readDir($this->module_path.'components');
 
+            // 로그인 여부 및 소속 그룹 구함
+            $is_logged = Context::get('is_logged');
+            if($is_logged) {
+                $logged_info = Context::get('logged_info');
+                if($logged_info->group_list && is_array($logged_info->group_list)) {
+                    $group_list = array_keys($logged_info->group_list);
+                } else $group_list = array();
+            }
+
             // DB 목록을 loop돌면서 xml정보까지 구함
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
@@ -259,10 +268,33 @@
                 $xml_info = $this->getComponentXmlInfo($component_name);
                 $xml_info->enabled = $component->enabled;
 
-                if($component->extra_vars && $xml_info->extra_vars) {
+                if($component->extra_vars) {
                     $extra_vars = unserialize($component->extra_vars);
-                    foreach($xml_info->extra_vars as $key => $val) {
-                        $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+
+                    // 사용권한이 있으면 권한 체크
+                    if($extra_vars->target_group) {
+                        // 사용권한이 체크되어 있는데 로그인이 되어 있지 않으면 무조건 사용 중지
+                        if(!$is_logged) continue;
+
+                        // 대상 그룹을 구해서 현재 로그인 사용자의 그룹과 비교
+                        $target_group = $extra_vars->target_group;
+                        unset($extra_vars->target_group);
+
+                        $is_granted = false;
+                        foreach($group_list as $group_srl) {
+                            if(in_array($group_srl, $target_group)) {
+                                $is_granted = true; 
+                                break;
+                            }
+                        }
+                        if(!$is_granted) continue;
+                    }
+
+                    // 에디터 컴포넌트의 설정 정보를 체크
+                    if($xml_info->extra_vars) {
+                        foreach($xml_info->extra_vars as $key => $val) {
+                            $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+                        }
                     }
                 }
 
@@ -309,12 +341,23 @@
             $xml_info = $this->getComponentXmlInfo($component_name);
             $xml_info->enabled = $component->enabled;
 
+            $xml_info->target_group = array();
+
             if($component->extra_vars) {
                 $extra_vars = unserialize($component->extra_vars);
-                foreach($xml_info->extra_vars as $key => $val) {
-                    $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+
+                if($extra_vars->target_group) {
+                    $xml_info->target_group = $extra_vars->target_group;
+                    unset($extra_vars->target_group);
+                }
+
+                if($xml_info->extra_vars) {
+                    foreach($xml_info->extra_vars as $key => $val) {
+                        $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+                    }
                 }
             }
+
 
             return $xml_info;
         }
