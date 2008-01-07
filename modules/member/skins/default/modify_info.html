@@ -109,7 +109,7 @@
         <td><input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" /> <p>{$lang->about_blog_url}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->birthday} *</th>
+        <th scope="row">{$lang->birthday}</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
             <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">{zdate($member_info->birthday,"Y-m-d")}</div>

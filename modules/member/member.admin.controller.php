@@ -146,7 +146,7 @@
             $args->member_join_form_srl = Context::get('member_join_form_srl');
 
             $args->column_type = Context::get('column_type');
-            $args->column_name = Context::get('column_name');
+            $args->column_name = strtolower(Context::get('column_name'));
             $args->column_title = Context::get('column_title');
             $args->default_value = explode('|@|', Context::get('default_value'));
             $args->is_active = Context::get('is_active');

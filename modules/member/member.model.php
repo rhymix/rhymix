@@ -280,6 +280,8 @@
                 if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
                 $join_form_count = count($join_form_list);
                 for($i=0;$i<$join_form_count;$i++) {
+                    $join_form_list[$i]->column_name = strtolower($join_form_list[$i]->column_name);
+
                     $member_join_form_srl = $join_form_list[$i]->member_join_form_srl;
                     $column_type = $join_form_list[$i]->column_type;
                     $column_name = $join_form_list[$i]->column_name;
