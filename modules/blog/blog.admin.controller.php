@@ -125,6 +125,7 @@
                 }
 
                 // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
+                /*
                 if(count($menu_srl_list)) {
                     // 해당 메뉴와 레이아웃 값을 매핑
                     $oMenuAdminController = &getAdminController('menu');
@@ -133,6 +134,7 @@
                     // 해당 메뉴에 속한 mid의 layout값을 모두 변경
                     $oModuleController->updateModuleLayout($module_srl, $menu_srl_list);
                 }
+                */
             }
 
             // serialize하여 저장
