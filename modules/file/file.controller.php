@@ -386,6 +386,7 @@
             $output->add('direct_download', $args->direct_download);
             $output->add('source_filename', $args->source_filename);
             $output->add('upload_target_srl', $upload_target_srl);
+            $output->add('uploaded_filename', $args->uploaded_filename);
             return $output;
         }
 

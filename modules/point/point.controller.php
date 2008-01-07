@@ -221,7 +221,7 @@
          * 유효파일을 삭제할 경우에만 포인트 삭제
          **/
         function triggerDeleteFile(&$obj) {
-            if($obj->isvalid != 'Y') return Object();
+            if($obj->isvalid != 'Y') return new Object();
 
             $module_srl = $obj->module_srl;
             $member_srl = $obj->member_srl;

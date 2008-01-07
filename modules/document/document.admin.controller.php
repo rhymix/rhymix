@@ -142,13 +142,44 @@
 
                 $source_category_srl = $oDocument->get('category_srl');
 
-                unset($document_args);
-                $document_args->module_srl = $module_srl;
-                $document_args->category_srl = $category_srl;
-                $document_args->document_srl = $document_srl;
+                unset($obj);
+                $obj = $oDocument->getObjectVars();
+
+                // 첨부파일 이동
+                if($oDocument->hasUploadedFiles()) {
+                    $oFileController = &getController('file');
+
+                    $files = $oDocument->getUploadedFiles();
+                    foreach($files as $key => $val) {
+                        $file_info = array();
+                        $file_info['tmp_name'] = $val->uploaded_filename;
+                        $file_info['name'] = $val->source_filename;
+                        $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
+
+                        // 이미지/동영상등일 경우
+                        if($val->direct_download == 'Y') {
+                            $source_filename = substr($val->uploaded_filename,2);
+                            $target_filename = substr($inserted_file->get('uploaded_filename'),2);
+                            $obj->content = str_replace($source_filename, $target_filename, $obj->content);
+
+                        // binary 파일일 경우
+                        } else {
+                            $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
+                            $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
+                        }
+
+                        // 기존 파일 삭제
+                        $oFileController->deleteFile($val->file_srl);
+                    }
+
+                    // 등록된 모든 파일을 유효로 변경
+                    $oFileController->setFilesValid($obj->document_srl);
+                }
 
                 // 게시물의 모듈 이동
-                $output = executeQuery('document.updateDocumentModule', $document_args);
+                $obj->module_srl = $module_srl;
+                $obj->category_srl = $category_srl;
+                $output = executeQuery('document.updateDocumentModule', $obj);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
@@ -159,6 +190,7 @@
                     if($source_category_srl) $oDocumentController->updateCategoryCount($oDocument->get('module_srl'), $source_category_srl);
                     if($category_srl) $oDocumentController->updateCategoryCount($module_srl, $category_srl);
                 }
+
             }
 
             $args->document_srls = implode(',',$document_srl_list);
@@ -198,6 +230,8 @@
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
 
+            $oFileModel = &getModel('file');
+
             $oDB = &DB::getInstance();
             $oDB->begin();
 
@@ -223,7 +257,19 @@
                         $file_info['tmp_name'] = $val->uploaded_filename;
                         $file_info['name'] = $val->source_filename;
                         $oFileController = &getController('file');
-                        $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
+                        $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
+
+                        // 이미지/동영상등일 경우
+                        if($val->direct_download == 'Y') {
+                            $source_filename = substr($val->uploaded_filename,2);
+                            $target_filename = substr($inserted_file->get('uploaded_filename'),2);
+                            $obj->content = str_replace($source_filename, $target_filename, $obj->content);
+
+                        // binary 파일일 경우
+                        } else {
+                            $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
+                            $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
+                        }
                     }
                 }
                 
@@ -232,6 +278,52 @@
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
+                }
+
+                // 댓글 이전
+                if($oDocument->getCommentCount()) {
+                    $oCommentModel = &getModel('comment');
+                    $comments = $oCommentModel->getCommentList($document_srl, true);
+                    if(count($comments)) {
+                        $oCommentController = &getController('comment');
+                        $success_count = 0;
+                        $p_comment_srl = array();
+                        foreach($comments as $comment_obj) {
+                            $comment_srl = getNextSequence();
+                            $p_comment_srl[$comment_obj->comment_srl] = $comment_srl;
+
+                            $comment_obj->module_srl = $obj->module_srl;
+                            $comment_obj->document_srl = $obj->document_srl;
+                            $comment_obj->comment_srl = $comment_srl;
+
+                            if($comment_obj->parent_srl) $comment_obj->parent_srl = $p_comment_srl[$comment_obj->parent_srl];
+
+                            $output = $oCommentController->insertComment($comment_obj, true);
+                            if($output->toBool()) $success_count ++;
+                        }
+                        $oDocumentController->updateCommentCount($obj->document_srl, $success_count, $comment_obj->nick_name, true);
+
+                    }
+
+                }
+
+                // 엮인글 이전
+                if($oDocument->getTrackbackCount()) {
+                    $oTrackbackModel = &getModel('trackback');
+                    $trackbacks = $oTrackbackModel->getTrackbackList($oDocument->document_srl);
+                    if(count($trackbacks)) {
+                        $success_count = 0;
+                        foreach($trackbacks as $trackback_obj) {
+                            $trackback_obj->trackback_srl = getNextSequence();
+                            $trackback_obj->module_srl = $obj->module_srl;
+                            $trackback_obj->document_srl = $obj->document_srl;
+                            $output = executeQuery('trackback.insertTrackback', $trackback_obj);
+                            if($output->toBool()) $success_count++;
+                        }
+
+                        // 엮인글 수 업데이트
+                        $oDocumentController->updateTrackbackCount($obj->document_srl, $success_count);
+                    }
                 }
             }
             
