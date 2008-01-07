@@ -111,11 +111,18 @@
             }
 
             // 모듈의 목록을 가져옴
-            //$args->select_module = "'board','blog'";
-            $output = executeQuery('document.getAllModules', $args);
-            $module_list = $output->data;
+            $oModuleModel = &getModel('module');
+            $module_list = ($oModuleModel->getMidList());
 
-            if($module_list && !is_array($module_list)) $module_list = array($module_list);
+            // 최고 관리자가 아닌 경우 자신의 관리 대상 모듈만 구해옴
+            $logged_info = Context::get('logged_info');
+            $user_id = $logged_info->user_id;
+            if($logged_info->is_admin != 'Y') {
+                foreach($module_list as $key => $val) {
+                    $info = $oModuleModel->arrangeModuleInfo($val);
+                    if(!in_array($user_id, $info->admin_id)) unset($module_list[$key]);
+                }
+            }
             Context::set('module_list', $module_list);
 
             // 팝업 레이아웃 선택
