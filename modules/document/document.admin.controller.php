@@ -89,6 +89,10 @@
                 }
             }
 
+            // 스팸 처리가 되지 않도록 스팸필터 설정
+            $oSpamController = &getController('spamfilter');
+            $oSpamController->setAvoidLog();
+
             if($type == 'move') {
                 if(!$module_srl) return new Object(-1, 'fail_to_move');
 

@@ -117,10 +117,27 @@
             // 최고 관리자가 아닌 경우 자신의 관리 대상 모듈만 구해옴
             $logged_info = Context::get('logged_info');
             $user_id = $logged_info->user_id;
+            $group_list = $logged_info->group_list;
+
             if($logged_info->is_admin != 'Y') {
                 foreach($module_list as $key => $val) {
                     $info = $oModuleModel->arrangeModuleInfo($val);
-                    if(!in_array($user_id, $info->admin_id)) unset($module_list[$key]);
+
+                    // 직접 최고 관리자로 지정이 안되어 있으면 그룹을 체크
+                    if(!in_array($user_id, $info->admin_id)) {
+
+                        $is_granted = false;
+                        $manager_group = $info->grants['manager'];
+                        if(count($group_list) && count($manager_group)) {
+                            foreach($group_list as $group_srl => $group_info) {
+                                if(in_array($group_srl, $manager_group)) {
+                                    $is_granted = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(!$is_granted) unset($module_list[$key]);
+                    }
                 }
             }
             Context::set('module_list', $module_list);
