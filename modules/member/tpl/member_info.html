@@ -95,19 +95,19 @@
 </tr>
 <tr>
     <th scope="row">{$lang->homepage}</th>
-    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end--></td>
+    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->blog}</th>
-    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end--></td>
+    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->birthday}</th>
-    <td>{zdate($member_info->birthday,'Y-m-d')}</td>
+    <td>{zdate($member_info->birthday,'Y-m-d')}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->allow_mailing}</th>
-    <td>{$member_info->allow_mailing}</td>
+    <td>{$member_info->allow_mailing}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->allow_message}</th>
@@ -115,7 +115,7 @@
 </tr>
 <tr>
     <th scope="row">{$lang->signature}</th>
-    <td>{$member_info->signature}</td>
+    <td>{$member_info->signature}&nbsp;</td>
 </tr>
 <tr>
     <th scope="row">{$lang->denied}</th>
@@ -127,6 +127,7 @@
         <!--@if($member_info->limit_date)-->
             {zdate($member_info->limit_date,"Y-m-d H:i")}
         <!--@end-->
+        &nbsp;
     </td>
 </tr>
 <tr>
@@ -147,23 +148,28 @@
     <th scope="row">{htmlspecialchars($val->column_title)}</th>
     <td>
         <!--@if($val->column_type=='tel')-->
-            {htmlspecialchars($val->value[0])} - {htmlspecialchars($val->value[1])} - {htmlspecialchars($val->value[2])}
+            {htmlspecialchars($val->value[0])} 
+                <!--@if($val->value[1])-->-<!--@end-->
+            {htmlspecialchars($val->value[1])} 
+                <!--@if($val->value[2])-->-<!--@end-->
+            {htmlspecialchars($val->value[2])}
         <!--@elseif($val->column_type=='kr_zip')-->
-            {htmlspecialchars($val->value[0])} {htmlspecialchars($val->value[1])}
-        <!--@elseif($val->column_type=='checkbox' && $val->value)-->
-            {htmlspecialchars(implode(",",$val->value))}
+            {htmlspecialchars($val->value[0])}<!--@if($val->value[1]&&$val->value[0])--><br /><!--@end-->{htmlspecialchars($val->value[1])}
+        <!--@elseif($val->column_type=='checkbox' && is_array($val->value))-->
+            {htmlspecialchars(implode(", ",$val->value))}
         <!--@elseif($val->column_type=='date')-->
             {zdate($val->value, "Y-m-d")}
         <!--@else-->
             {nl2br(htmlspecialchars($val->value))}
         <!--@end-->
+        &nbsp;
     </td>
 </tr>
 <!--@end-->
 <!--@end-->
 <tr>
     <th scope="row">{$lang->description}</th>
-    <td>{htmlspecialchars($member_info->description)}</td>
+    <td>{htmlspecialchars($member_info->description)}&nbsp;</td>
 </tr>
 </table>
 
