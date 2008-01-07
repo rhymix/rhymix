@@ -124,8 +124,8 @@ $mtime = '.$mtime.';
 $cached = false;
 $type = "'.$type.'";
 
-if(isset($_SERVER["If-Modified-Since"])) {
-    $time = strtotime(preg_replace("/;.*$/", "", $_SERVER["If-Modified-Since"])); 
+if(isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
+    $time = strtotime(preg_replace("/;.*$/", "", $_SERVER["HTTP_IF_MODIFIED_SINCE"])); 
     if($mtime == $time && $time > '.$class_mtime.') {
         header("HTTP/1.1 304"); 
         $cached = true;
