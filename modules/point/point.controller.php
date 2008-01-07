@@ -88,9 +88,14 @@
 
             $point = $config->module_point[$module_srl]['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
+            $cur_point += $point;
+
+            // 첨부파일 등록에 대한 포인트 추가
+            $point = $config->module_point[$module_srl]['upload_file'];
+            if(!isset($point)) $point = $config->upload_file;
+            if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
 
             // 포인트 증감
-            $cur_point += $point;
             $this->setPoint($member_srl,$cur_point);
 
             return new Object();
@@ -118,9 +123,14 @@
 
             $point = $config->module_point[$module_srl]['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
+            $cur_point -= $point;
+
+            // 첨부파일 삭제에 대한 포인트 추가
+            $point = $config->module_point[$module_srl]['upload_file'];
+            if(!isset($point)) $point = $config->upload_file;
+            if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
 
             // 포인트 증감
-            $cur_point -= $point;
             $this->setPoint($member_srl,$cur_point);
 
             return new Object();
@@ -180,8 +190,10 @@
 
         /**
          * @brief 파일 등록 trigger 추가
+         * 비유효 파일의 등록에 의한 포인트 획득을 방지하고자 이 method는 일단 무효로 둠
          **/
         function triggerInsertFile(&$obj) {
+            return new Object();
             $module_srl = $obj->module_srl;
             $member_srl = $obj->member_srl;
             if(!$module_srl || !$member_srl) return new Object();
@@ -206,8 +218,11 @@
 
         /**
          * @brief 파일 삭제 포인트 적용 trigger
+         * 유효파일을 삭제할 경우에만 포인트 삭제
          **/
         function triggerDeleteFile(&$obj) {
+            if($obj->isvalid != 'Y') return Object();
+
             $module_srl = $obj->module_srl;
             $member_srl = $obj->member_srl;
             if(!$module_srl || !$member_srl) return new Object();
