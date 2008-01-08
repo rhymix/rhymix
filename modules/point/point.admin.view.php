@@ -30,6 +30,18 @@
             $level_icon_list = FileHandler::readDir("./modules/point/icons");
             Context::set('level_icon_list', $level_icon_list);
 
+            // 그룹 목록 가져오기
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
+            $selected_group_list = array();
+            if(count($group_list)) {
+                foreach($group_list as $key => $val) {
+                    if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;    
+                    $selected_group_list[$key] = $val;
+                }
+            }
+            Context::set('group_list', $selected_group_list);
+
             // 템플릿 지정
             $this->setTemplateFile('config');
         }

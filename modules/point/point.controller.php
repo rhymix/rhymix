@@ -346,10 +346,16 @@
             if($point < 0) $point = 0;
 
             // 설정 정보 가져오기
+            $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
+            $oPointModel = &getModel('point');
             $config = $oModuleModel->getModuleConfig('point');
 
-            // 변수 설정
+            // 기존 포인트 정보를 구함
+            $prev_point = $oPointModel->getPoint($member_srl, true);
+            $prev_level = $oPointModel->getLevel($prev_point, $config->level_step);
+
+            // 포인트 변경
             $args->member_srl = $member_srl;
             $args->point = $point;
 
@@ -360,6 +366,58 @@
             } else {
                 $args->point += (int)$config->signup_point;
                 executeQuery("point.insertPoint", $args);
+            }
+
+            // 새로운 레벨을 구함
+            $level = $oPointModel->getLevel($point, $config->level_step);
+
+            // 기존 레벨과 새로운 레벨이 다르면 포인트 그룹 설정 시도
+            if($level != $prev_point) {
+
+                // 현재 포인트 대비하여 레벨을 계산하고 레벨에 맞는 그룹 설정을 체크
+                $point_group = $config->point_group;
+
+                // 포인트 그룹 정보가 있을때 시행
+                if($point_group && is_array($point_group) && count($point_group) ) { 
+
+                    // 기본 그룹을 구함
+                    $default_group = $oMemberModel->getDefaultGroup();
+
+                    // 포인트 그룹에 속한 그룹과 새로 부여 받을 그룹을 구함
+                    $point_group_list = array();
+                    $current_group_srl = 0;
+
+                    asort($point_group);
+
+                    // 포인트 그룹 설정을 돌면서 현재 레벨까지 체크
+                    foreach($point_group as $group_srl => $target_level) {
+                        $point_group_list[] = $group_srl;
+                        if($target_level <= $level) {
+                            $current_group_srl = $group_srl;
+                        }
+                    }
+                    $point_group_list[] = $default_group->group_srl;
+
+                    // 만약 새로운 그룹이 없다면 기본 그룹을 부여 받음
+                    if(!$current_group_srl) $current_group_srl = $default_group->group_srl;
+
+                    // 일단 기존의 그룹을 모두 삭제
+                    $del_group_args->member_srl = $member_srl;
+                    $del_group_args->group_srl = implode(',',$point_group_list);
+                    $del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
+
+                    // 새로운 그룹을 부여
+                    $new_group_args->member_srl = $member_srl;
+                    $new_group_args->group_srl = $current_group_srl;
+                    $new_group_output = executeQuery('member.addMemberToGroup', $new_group_args);
+
+                    // 만약 대상 사용자와 로그인 사용자의 정보가 동일하다면 세션을 변경해줌
+                    $logged_info = Context::get('logged_info');
+                    if($logged_info->member_srl == $member_srl) {
+                        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                        $_SESSION['logged_info']->group_list = $member_info->group_list;
+                    }
+                }
             }
 
             // 캐시 설정

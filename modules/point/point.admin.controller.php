@@ -24,9 +24,11 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
+            // 포인트 이름 체크
             $config->point_name = $args->point_name;
             if(!$config->point_name) $config->point_name = 'point';
 
+            // 기본 포인트 지정
             $config->signup_point = (int)$args->signup_point;
             $config->login_point = (int)$args->login_point;
             $config->insert_document = (int)$args->insert_document;
@@ -35,20 +37,35 @@
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
 
+            // 최고 레벨
             $config->max_level = $args->max_level;
             if($config->max_level>1000) $config->max_level = 1000;
             if($config->max_level<1) $config->max_level = 1;
 
+            // 레벨 아이콘 설정
             $config->level_icon = $args->level_icon;
+
+            // 포인트 미달시 다운로드 금지 여부 체크
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
 
+            // 레벨별 그룹 설정
+            foreach($args as $key => $val) {
+                if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;
+                $group_srl = substr($key, strlen('point_group_'));
+                $level = $val;
+                if(!$level) unset($config->point_group[$group_srl]);
+                else $config->point_group[$group_srl] = $level;
+            }
+
+            // 레벨별 포인트 설정
             unset($config->level_step);
             for($i=1;$i<=$config->max_level;$i++) {
                 $key = "level_step_".$i;
                 $config->level_step[$i] = (int)$args->{$key};
             }
 
+            // 레벨별 포인트 계산 함수
             $config->expression = $args->expression;
 
             // 저장

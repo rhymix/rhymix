@@ -17,6 +17,19 @@
         </td>
     </tr>
     <tr>
+        <th scope="col" rowspan="{(count($group_list)+2)}">{$lang->point_link_group}</th>
+        <th colspan="2">{$lang->group}</th>
+        <th>{$lang->level}</th>
+    </tr>
+    <!--@foreach($group_list as $key => $val)-->
+    <tr>
+        <td colspan="2">{$val->title}</td>
+        <td><input type="text" class="inputTypeText w80" value="{$config->point_group[$key]}" name="point_group_{$key}" /></td>
+    <!--@end-->
+    <tr>
+        <td colspan="3"><p>{$lang->about_point_link_group}</p></td>
+    </tr>
+    <tr>
         <th scope="col">{$lang->max_level}</th>
         <td colspan="3">
             <input type="text" class="inputTypeText w80" value="{$config->max_level}" name="max_level" />

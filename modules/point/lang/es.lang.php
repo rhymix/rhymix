@@ -34,6 +34,9 @@
     $lang->cmd_point_recal = '포인트 재계산';
     $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
 
+    $lang->point_link_group = '그룹 연동';
+    $lang->about_point_link_group = '그룹에 원하는 레벨을 지정하면 해당 레벨에 도달할때 그룹이 변경됩니다. 단 새로운 그룹으로 변경될때 이전에 자동 등록된 그룹은 제거됩니다.';
+
     $lang->about_module_point = "Usted puede definir los puntos para cada módulo y los módulos que no tengan ningun valor usarán punto predefinido.<br />Todos los puntos serán restituidos al actuar en forma contraria.";
 
     $lang->point_signup = 'Fecha del';
