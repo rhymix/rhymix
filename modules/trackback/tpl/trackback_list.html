@@ -14,7 +14,7 @@
 <tr>
     <th scope="col">{$lang->enable_trackback}</th>
     <td>
-        <input type="checkbox" name="enable_trackback" value="Y" size="3" <!--@if($config->enable_trackback!='N')-->checked="checked"<!--@end-->/> {$lang->cmd_use}
+        <input type="checkbox" name="enable_trackback" value="Y" size="3" <!--@if($config->enable_trackback=='Y')-->checked="checked"<!--@end-->/> {$lang->cmd_use}
         <p>{$lang->about_enable_trackback}</p>
     </td>
     <th scope="col" class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
