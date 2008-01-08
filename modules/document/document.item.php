@@ -9,6 +9,8 @@
 
         var $document_srl = 0;
 
+        var $allow_trackback_status = null;
+
         function documentItem($document_srl = 0) {
             $this->document_srl = $document_srl;
             $this->_loadFromDB();
@@ -72,11 +74,37 @@
         }
 
         function allowComment() {
-            return $this->get('allow_comment') == 'Y' || !$this->isExists() ? true : false;
+            if(!$this->isExists()) return false;
+
+            return $this->get('allow_comment') == 'Y' ? true : false;
         }
 
         function allowTrackback() {
-            return $this->get('allow_trackback') == 'Y' || !$this->isExists() ? true : false;
+            if(!$this->isExists()) return false;
+
+            // allowTrackback()의 경우 여러번 호출됨으로 자체 변수 설정후 사용
+            if(!isset($this->allow_trackback_status)) {
+
+                // 글쓴이가 허용하였으면 사용으로 체크
+                if($this->get('allow_trackback')=='Y') $this->allow_trackback_status = true;
+
+                // 글쓴이가 허용하였더라도 모듈 설정에서 허용이 아니라면 금지로 설정
+                if($this->allow_trackback_status) {
+                    $oModuleModel = &getModel('module');
+                    $trackback_config = $oModuleModel->getModuleConfig('trackback');
+
+                    // 전체 설정에서 엮인글 사용금지이면 모든 엮인글의 사용을 금지함
+                    if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+
+                    // 전체 설정에서 허용시 모듈별 설정을 체크
+                    else {
+                        $module_config = $trackback_config->module_config[$this->get('module_srl')];
+                        if(!$module_config || $module_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+                    }
+                }
+            }
+
+            return $this->allow_trackback_status;
         }
 
         function isLocked() {
