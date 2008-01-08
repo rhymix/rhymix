@@ -91,11 +91,11 @@ a.bold { font-weight:bold; }
 .member_profile_image { float:left; margin-right:10px; }
 
 /* xe content */
-div.xe_content { line-height:140%; }
-div.xe_content ol { margin-left:40px; }
-div.xe_content ul { margin-left:40px; }
-div.xe_content blockquote { margin-left:40px; }
-div.xe_content p { display:inline; }
+div.xe_content { line-height:140%;  !important}
+div.xe_content ol { margin-left:40px;  !important}
+div.xe_content ul { margin-left:40px;  !important}
+div.xe_content blockquote { margin-left:40px;  !important}
+div.xe_content p { display:inline !important; }
 
 /* xe layer */
 #waitingforserverresponse { display:inline; border:2px solid #444444; background-color:#FFFFFF; padding:15px 20px 13px 20px; font-weight:bold; color:#444444; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
