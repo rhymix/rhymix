@@ -90,15 +90,23 @@
             if($is_logged) {
                 /* 로그인 사용자에 대한 관리자 여부는 다양한 방법으로 체크가 됨 */
                 // 1. 최고관리자일 경우
-                if($logged_info->is_admin == 'Y') $grant->is_admin = true;
+                if($logged_info->is_admin == 'Y') {
+                    $grant->is_admin = true;
 
                 // 2. 최고 관리자는 아니지만 모듈 object가 있고 admin_id 컬럼에 로그인 사용자의 아이디가 있을 경우
-                elseif($this->module_info->admin_id) {
+                } elseif($this->module_info->admin_id) {
                     if(is_array($this->module_info->admin_id) && in_array($user_id, $this->module_info->admin_id)) $grant->is_admin = true;
 
-                // 3. 1/2번이 아닐 경우 직접 모듈에 요청을 하여 체크를 함. (모듈.class.php에 정의)
+                // 4. 1/2번이 아닐 경우 그룹을 체크하고 직접 모듈에 요청을 하여 체크를 함. (모듈.class.php에 정의)
                 } else {
-                    if($module_info->module) {
+                    $manager_group = $this->module_info->grants['manager'];
+                    if(count($user_group) && count($manager_group)) {
+                        foreach($user_group as $group_srl => $group_info) {
+                            if(in_array($group_srl, $manager_group)) $grant->is_admin = true;
+                        }
+                    }
+
+                    if(!$grant->is_admin && $module_info->module) {
                         $oClass = &getClass($module_info->module);
                         if($oClass && method_exists($oClass, 'isAdmin')) $grant->is_admin = $oClass->isAdmin();
                     }

@@ -191,8 +191,6 @@
 
             // 사용자 아이디를 구함
             $logged_info = Context::get('logged_info');
-            $user_id = $logged_info->user_id;
-            $group_list = $logged_info->group_list;
 
             // 모듈 요청에 사용된 변수들을 가져옴
             $args = Context::getRequestVars();
@@ -207,17 +205,7 @@
                         $module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->srl);
                         if(!$module_info) return false;
 
-                        // 직접 관리자로 선택하였을 경우 확인
-                        if(is_array($module_info->admin_id) && in_array($user_id, $module_info->admin_id)) return true;
-
-                        // 관리자 그룹으로 등록되어 있을 경우 확인
-                        $manager_group = $module_info->grants['manager'];
-                        if(count($group_list) && count($manager_group)) {
-                            foreach($group_list as $group_srl => $group_info) {
-                                if(in_array($group_srl, $manager_group)) return true;
-                            }
-                        }
-
+                        if($oModuleModel->isModuleAdmin($module_info, $logged_info)) return true;
                     break;
 
                 // 체크된 게시글을 관리하는 action
@@ -239,15 +227,7 @@
                                         $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->target_module);
                                         if(!$module_info) return false;
 
-                                        if(is_array($module_info->admin_id) && in_array($user_id, $module_info->admin_id)) return true;
-
-                                        // 관리자 그룹으로 등록되어 있을 경우 확인
-                                        $manager_group = $module_info->grants['manager'];
-                                        if(count($group_list) && count($manager_group)) {
-                                            foreach($group_list as $group_srl => $group_info) {
-                                                if(in_array($group_srl, $manager_group)) return true;
-                                            }
-                                        }
+                                        if($oModuleModel->isModuleAdmin($module_info, $logged_info)) return true;
                                     }
                                 break;
 

@@ -604,5 +604,26 @@
             return $list;
         }
 
+        /**
+         * @brief 특정 모듈의 정보와 회원의 정보를 받아서 관리 권한 유무를 판단
+         **/
+        function isModuleAdmin($module_info, $member_info) {
+           $user_id = $member_info->user_id;
+           $group_list = $member_info->group_list;
+
+            // 직접 관리자로 선택하였을 경우 확인
+            if(is_array($module_info->admin_id) && in_array($user_id, $module_info->admin_id)) return true;
+
+            // 관리자 그룹으로 등록되어 있을 경우 확인
+            $manager_group = $module_info->grants['manager'];
+            if(count($group_list) && count($manager_group)) {
+                foreach($group_list as $group_srl => $group_info) {
+                    if(in_array($group_srl, $manager_group)) return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 ?>
