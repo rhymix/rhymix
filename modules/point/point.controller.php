@@ -372,7 +372,7 @@
             $level = $oPointModel->getLevel($point, $config->level_step);
 
             // 기존 레벨과 새로운 레벨이 다르면 포인트 그룹 설정 시도
-            if($level != $prev_point) {
+            if($level != $prev_level) {
 
                 // 현재 포인트 대비하여 레벨을 계산하고 레벨에 맞는 그룹 설정을 체크
                 $point_group = $config->point_group;
