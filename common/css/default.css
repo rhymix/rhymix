@@ -95,6 +95,7 @@ div.xe_content { line-height:140%; }
 div.xe_content ol { margin-left:40px; }
 div.xe_content ul { margin-left:40px; }
 div.xe_content blockquote { margin-left:40px; }
+div.xe_content p { display:inline; }
 
 /* xe layer */
 #waitingforserverresponse { display:inline; border:2px solid #444444; background-color:#FFFFFF; padding:15px 20px 13px 20px; font-weight:bold; color:#444444; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
