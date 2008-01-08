@@ -44,6 +44,7 @@
     $lang->point_upload_file = 'При закачке файлов';
     $lang->point_delete_file = 'При скачке файлов';
     $lang->point_download_file = 'При скачке файлов (кроме изображений)';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = 'Настройки по умолчанию';

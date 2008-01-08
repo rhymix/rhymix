@@ -41,6 +41,7 @@
                 $module_config['insert_comment'] = $config->insert_comment;
                 $module_config['upload_file'] = $config->upload_file;
                 $module_config['download_file'] = $config->download_file;
+                $module_config['read_document'] = $config->read_document;
             }
 
             $module_config['module_srl'] = $current_module_srl;

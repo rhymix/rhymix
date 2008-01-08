@@ -30,6 +30,7 @@
             $config->signup_point = (int)$args->signup_point;
             $config->login_point = (int)$args->login_point;
             $config->insert_document = (int)$args->insert_document;
+            $config->read_document = (int)$args->read_document;
             $config->insert_comment = (int)$args->insert_comment;
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
@@ -71,7 +72,7 @@
             $args = Context::getRequestVars();
 
             foreach($args as $key => $val) {
-                preg_match("/^(insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
+                preg_match("/^(insert_document|insert_comment|upload_file|download_file|read_document)_([0-9]+)$/", $key, $matches);
                 if(!$matches[1]) continue;
                 $name = $matches[1];
                 $module_srl = $matches[2];
@@ -103,6 +104,7 @@
             $config->module_point[$module_srl]['insert_comment'] = (int)Context::get('insert_comment');
             $config->module_point[$module_srl]['upload_file'] = (int)Context::get('upload_file');
             $config->module_point[$module_srl]['download_file'] = (int)Context::get('download_file');
+            $config->module_point[$module_srl]['read_document'] = (int)Context::get('read_document');
 
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);

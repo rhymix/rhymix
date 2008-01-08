@@ -310,6 +310,36 @@
         }
 
         /**
+         * @brief 조회수 증가시 포인트 적용
+         **/
+        function triggerUpdateReadedCount(&$obj) {
+            // 로그인 상태일때만 실행
+            $logged_info = Context::get('logged_info');
+            if(!$logged_info->member_srl) return new Object();
+
+            // point 모듈 정보 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            $member_srl = $logged_info->member_srl;
+            $module_srl = $obj->get('module_srl');
+
+            // 대상 회원의 포인트를 구함
+            $oPointModel = &getModel('point');
+            $cur_point = $oPointModel->getPoint($member_srl, true);
+
+            // 포인트를 구해옴
+            $point = $config->module_point[$obj->get('module_srl')]['read_document'];
+            if(!isset($point)) $point = $config->read_document;
+            
+            // 포인트 증감
+            $cur_point += $point;
+            $this->setPoint($member_srl,$cur_point);
+
+            return new Object();
+        }
+
+        /**
          * @brief 포인트 설정
          **/
         function setPoint($member_srl, $point) {

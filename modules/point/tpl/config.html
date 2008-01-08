@@ -31,7 +31,7 @@
         </td>
     </tr>
     <tr>
-        <th scope="col" rowspan="6">{$lang->is_default}</th>
+        <th scope="col" rowspan="7">{$lang->is_default}</th>
         <td colspan="2">{$lang->point_signup}</th>
         <td>
             <input type="text" class="inputTypeText w80" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
@@ -57,6 +57,10 @@
     <tr>
         <td colspan="2">{$lang->point_download_file}</td>
         <td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$lang->point_read_document}</td>
+        <td><input type="text" name="read_document" value="{$config->read_document}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
         <th scope="col">{$lang->level_icon}</th>

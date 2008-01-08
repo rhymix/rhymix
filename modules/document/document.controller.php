@@ -361,6 +361,10 @@
             // 로그 남기기
             $output = executeQuery('document.insertDocumentReadedLog', $args);
 
+            // 조회수 업데이트가 되면 trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
+            if(!$output->toBool()) return $output;
+
             // 세션 정보에 남김
             return $_SESSION['readed_document'][$document_srl] = true;
         }

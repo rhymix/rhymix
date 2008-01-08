@@ -44,6 +44,7 @@
     $lang->point_upload_file = '上传文件';
     $lang->point_delete_file = '删除文件';
     $lang->point_download_file = '下载文件 (图片除外)';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = '基本设置';

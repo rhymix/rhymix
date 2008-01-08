@@ -44,6 +44,7 @@
     $lang->point_upload_file = 'アップロード';
     $lang->point_delete_file = 'ファイル削除';
     $lang->point_download_file = 'ダウンロード';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = 'デフォルト設定';

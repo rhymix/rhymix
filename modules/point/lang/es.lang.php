@@ -44,6 +44,7 @@
     $lang->point_upload_file = 'Al subri archivos';
     $lang->point_delete_file = 'Al borrar archivos';
     $lang->point_download_file = 'Al descargar archivos (Excepto imágenes)';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = 'Configuración predefinida';
