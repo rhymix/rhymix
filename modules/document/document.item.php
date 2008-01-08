@@ -74,7 +74,7 @@
         }
 
         function allowComment() {
-            if(!$this->isExists()) return false;
+            if(!$this->isExists()) return true;
 
             return $this->get('allow_comment') == 'Y' ? true : false;
         }
