@@ -120,7 +120,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
 		//'<base href="'+request_uri+'" />'+
         //'<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         //'<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
-        '<style style="text/css">'+
+        '<style type="text/css">'+
         'body {font-size:9pt;height:'+editor_height+'px; background-color:transparent; line-height:140%;}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
