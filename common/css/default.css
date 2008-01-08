@@ -23,7 +23,7 @@ IE7 & IE6 & Below
 .nowrap { white-space:nowrap; }
 
 /* default.css - Type Selector Definition */
-* { margin:0; padding:0; }
+body,p,div,ul,ol,li,dd,dt,span,fieldset,h1,h2,h3,h4,h5,h6 { margin:0; padding:0; }
 html { width:100%; }
 body { margin:0; font-size:.75em; _font-size:9pt; font-family:sans-serif;}
 *:first-child+html body { font-size:9pt; }
@@ -92,7 +92,6 @@ a.bold { font-weight:bold; }
 
 /* xe content */
 div.xe_content { line-height:140%; }
-div.xe_content table { padding:1px; margin:1px; }
 div.xe_content ol { margin-left:40px; }
 div.xe_content ul { margin-left:40px; }
 div.xe_content blockquote { margin-left:40px; }
