@@ -82,17 +82,19 @@
             $ccl_image = '';
             if($ccl_use_mark == "Y") {
                 $ccl_image = sprintf('
-                        <a href="license" href="http://creativecommons.org/licenses/by%s%s%s%s" onclick="window.open(this.href); return false;"><img src="http://i.creativecommons.org/l/by%s%s%s/88x31.png" alt="Creative Commons License" style="margin-bottom:5px;border:0;" /></a><br />',
-                        $opt1, $opt2, $version, $lang_file,
-                        $opt1, $opt2, $version, $lang_file
+                        <a rel="license" href="http://creativecommons.org/licenses/by%s%s%s" onclick="window.open(this.href); return false;"><img src="http://i.creativecommons.org/l/by%s%s%s/88x31.png" alt="Creative Commons License" style="margin-bottom:5px;border:0;" /></a><br />',
+                        $opt1, $opt2, $version,
+                        $opt1, $opt2, $version
                 );
             }
 
             // 결과물 생성
-            $text = $ccl_image . sprintf($default_message, $opt1, $opt2, $opt3, $opt4, $ccl_title, $option['ccl_allow_commercial'][$ccl_allow_commercial], $option['ccl_allow_modification'][$ccl_allow_modification], $version);
+            $text = $ccl_image . sprintf($default_message, $opt1, $opt2, $version, '', $ccl_title, $option['ccl_allow_commercial'][$ccl_allow_commercial], $option['ccl_allow_modification'][$ccl_allow_modification], $version);
 
             $style = sprintf('<style type="text/css">.cc_license { clear:both; margin:20px auto 20px auto; padding:8px; width:%s;border:1px solid #c0c0c0; color:#808080; text-align:center; } .cc_license legend { font-weight:bold; } .cc_license a { color:#404040; text-decoration:none; } .cc_license a:hover { text-decoration:underline; </style>', $width);
+
             $output = sprintf('%s<fieldset class="cc_license"><legend>%s</legend>%s</fieldset>', $style, $ccl_title, $text);
+
             return $output;
         }
     }

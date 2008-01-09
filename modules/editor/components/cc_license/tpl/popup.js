@@ -14,14 +14,12 @@ function getCode() {
     selected_node = node;
 
     // 이미 정의되어 있는 변수에서 데이터를 구함
-    var ccl_title = node.getAttribute('ccl_title');
     var ccl_use_mark = node.getAttribute('ccl_use_mark');
     var ccl_allow_commercial = node.getAttribute('ccl_allow_commercial');
     var ccl_allow_modification = node.getAttribute('ccl_allow_modification');
 
     // form문에 적용
     var fo_obj = xGetElementById('fo');
-    fo_obj.ccl_title.value = ccl_title;
 
     if(ccl_use_mark == 'Y') fo_obj.ccl_use_mark.selectedIndex = 0; 
     else fo_obj.ccl_use_mark.selectedIndex = 1;
@@ -40,7 +38,6 @@ function insertCode() {
 
     var fo_obj = xGetElementById('fo');
 
-    var ccl_title = escape(fo_obj.ccl_title.value);
     var ccl_use_mark = fo_obj.ccl_use_mark.options[fo_obj.ccl_use_mark.selectedIndex].value;
     var ccl_allow_commercial = fo_obj.ccl_allow_commercial.options[fo_obj.ccl_allow_commercial.selectedIndex].value;
     var ccl_allow_modification = fo_obj.ccl_allow_modification.options[fo_obj.ccl_allow_modification.selectedIndex].value;
@@ -49,10 +46,9 @@ function insertCode() {
 
     var style = "width:90%; margin:20px auto 20px auto; height:50px; border:1px solid #c0c0c0; background: transparent url('./modules/editor/components/cc_license/ccl_logo.gif') no-repeat center center;";
 
-    var text = '<br /><img editor_component="cc_license" ccl_title="'+ccl_title+'" ccl_use_mark="'+ccl_use_mark+'" ccl_allow_commercial="'+ccl_allow_commercial+'" ccl_allow_modification="'+ccl_allow_modification+'" style="'+style+'" src="./common/tpl/images/blank.gif" alt="ccl" /><br />';
+    var text = '<br /><img editor_component="cc_license" ccl_use_mark="'+ccl_use_mark+'" ccl_allow_commercial="'+ccl_allow_commercial+'" ccl_allow_modification="'+ccl_allow_modification+'" style="'+style+'" src="./common/tpl/images/blank.gif" alt="ccl" /><br />';
 
     if(selected_node) {
-        selected_node.setAttribute('ccl_title', ccl_title);
         selected_node.setAttribute('ccl_use_mark', ccl_use_mark);
         selected_node.setAttribute('ccl_allow_commercial', ccl_allow_commercial);
         selected_node.setAttribute('ccl_allow_modification', ccl_allow_modification);
