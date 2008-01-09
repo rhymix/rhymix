@@ -86,7 +86,7 @@
         function display($content) {
             $content .= $this->_debugOutput();
 
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
+            $path = getScriptPath();
 
             // commons/modules/files/widgets/layouts/addons 로 시작되는 src나 href의 값을 절대경로로 변경
             $content = preg_replace('!(href|src)=("|\'){0,1}(commons|modules|widgets|layouts|addons|files)!is', '\\1=\\2'.$path.'\\3', $content);

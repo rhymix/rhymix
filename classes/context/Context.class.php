@@ -609,11 +609,7 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri() {
-            $hostname = $_SERVER['HTTP_HOST'];
-            //$port = $_SERVER['SERVER_PORT'];
-            //if($port!=80) $hostname .= ":{$port}";
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
-            return sprintf("http://%s%s",$hostname,$path);
+            return sprintf("http://%s%s",$_SERVER['HTTP_HOST'], getScriptPath());
         }
 
         /**

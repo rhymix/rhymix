@@ -463,4 +463,11 @@
         return sprintf("%08lx%08lx", $nr, $nr2);
     }
 
+    /**
+     * 현재 요청받은 스크립트 경로를 return
+     **/
+    function getScriptPath() {
+        if(function_exists('php_sapi_name') && php_sapi_name()=='cgi') return preg_replace('/index.php/i','',$_SERVER['PATH_INFO']);
+        return preg_replace('/index.php/i','',$_SERVER['SCRIPT_NAME']);
+    }
 ?>
