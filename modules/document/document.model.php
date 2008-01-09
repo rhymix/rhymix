@@ -244,6 +244,11 @@
             }
 
             /**
+             * division은 list_order의 asc 정렬일때만 사용할 수 있음
+             **/
+            if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
+
+            /**
              * 만약 use_division이 true일 경우 document division을 이용하도록 변경
              **/
             if($use_division) {
