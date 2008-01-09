@@ -68,7 +68,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
     xWidth(iframe_obj.parentNode, '100%');
-    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode));
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
@@ -121,7 +121,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         //'<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         //'<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style type="text/css">'+
-        'body {font-size:9pt;height:'+editor_height+'px; background-color:transparent; line-height:140%;}'+
+        'body {font-size:9pt;height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; line-height:140%;}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
