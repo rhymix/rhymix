@@ -134,7 +134,7 @@ if(isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
 header("Content-Type: '.$content_type.'; charset=utf-8");
 header("Date: '.substr(gmdate('r'), 0, -5).'GMT");
 header("Expires: '.substr(gmdate('r', strtotime('+1 MONTH')), 0, -5).'GMT");
-header("Cache-Control: private, max-age=2592000"); 
+header("Cache-Control: private, max-age=86400"); 
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
