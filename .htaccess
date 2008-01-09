@@ -4,6 +4,9 @@ RewriteEngine On
 RewriteRule ^([a-zA-Z0-9_]+)/files/attach/images/(.*) ./files/attach/images/$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/widgets/(.*) ./widgets/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/layouts/(.*) ./layouts/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/addons/(.*) ./addons/$2 [L]
 
 # page 
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
