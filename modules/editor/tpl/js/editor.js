@@ -68,7 +68,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
     xWidth(iframe_obj.parentNode, '100%');
-    xWidth(iframe_obj, xWidth(iframe_obj.parentNode));
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-2);
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
