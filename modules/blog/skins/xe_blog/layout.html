@@ -50,8 +50,10 @@
                 <!-- 로그인 되었을 때 -->
 
                 <!-- 관리자이면 설정 버튼 출력 -->
-                <!--@if($grant->is_admin)-->
+                <!--@if($grant->write_document)-->
                 <li class="write"><a href="{getUrl('mid', $layout_info->mid, 'act','dispBlogWrite','document_srl','')}">{$lang->cmd_write}</a></li>
+                <!--@end-->
+                <!--@if($grant->is_admin)-->
                 <li class="setup"><a href="{getUrl('mid',$layout_info->mid,'act','dispBlogAdminBlogInfo')}">{$lang->cmd_setup}</a></li>
                 <!--@end-->
 
