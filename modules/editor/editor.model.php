@@ -25,14 +25,32 @@
          * @brief 모듈별 에디터 설정을 return
          **/
         function getEditorConfig($module_srl) {
-            // 선택된 모듈의 trackback설정을 가져옴
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('editor');
+            if(!$GLOBLAS['__editor_module_config__']) {
+                // 선택된 모듈의 trackback설정을 가져옴
+                $oModuleModel = &getModel('module');
+                $GLOBLAS['__editor_module_config__'] = $oModuleModel->getModuleConfig('editor');
+            }
 
-            $editor_skin = $config->module_config[$module_srl];
-            if(!$editor_skin) $editor_skin = "default";
+            $editor_config = $GLOBLAS['__editor_module_config__']->module_config[$module_srl];
 
-            return $editor_skin;
+            if(!is_object($editor_config)) $editor_config = null;
+
+            if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
+            if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
+            if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
+            if(!is_array($editor_config->comment_upload_file_grant)) $editor_config->comment_upload_file_grant = array();
+            if(!is_array($editor_config->enable_default_component_grant)) $editor_config->enable_default_component_grant = array();
+            if(!is_array($editor_config->enable_comment_default_component_grant)) $editor_config->enable_comment_default_component_grant = array();
+            if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
+            if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
+
+            if(!$editor_config->editor_height) $editor_config->editor_height = 500;
+            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 200;
+            if($editor_config->enable_height_resizable!='N') $editor_config->enable_height_resizable= "Y";
+            if($editor_config->enable_comment_height_resizable!='Y') $editor_config->enable_comment_height_resizable= "N";
+            if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
+
+            return $editor_config;
         }
 
         /**
@@ -73,11 +91,8 @@
             else $editor_height = $option->height;
 
             // 스킨 설정
-            if(!$option->skin) {
-                $module_srl = Context::get('module_srl');
-                $skin = $this->getEditorConfig($module_srl);
-                
-            } else $skin = $option->skin;
+            $skin = $option->skin;
+            if(!$skin) $skin = 'default';
 
             /**
              * 자동백업 기능 체크 (글 수정일 경우는 사용하지 않음)
@@ -177,6 +192,112 @@
             // tpl 파일을 compile한 결과를 return
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
+        }
+
+        /**
+         * @brief 모듈별 설정이 반영된 에디터 template을 return
+         * getEditor() 와 동일한 결과물을 return하지만 getModuleEditor()는 각 모듈별 추가 설정을 통해 직접 제어되는 설정을 이용하여 에디터를 생성함
+         *
+         * document/ comment 2가지 종류를 이용함.
+         * 굳이 나눈 이유는 하나의 모듈에서 2개 종류의 에디터 사용을 위해서인데 게시판이나 블로그등 원글과 그에 연관된 글(댓글)을 위한 용도임.
+         **/
+        function getModuleEditor($type = 'document', $module_srl, $upload_target_srl, $primary_key_name, $content_key_name) {
+            // 지정된 모듈의 에디터 설정을 구해옴
+            $editor_config = $this->getEditorConfig($module_srl);
+
+            // type에 따른 설정 정리
+            if($type == 'document') {
+                $config->editor_skin = $editor_config->editor_skin;
+                $config->upload_file_grant = $editor_config->upload_file_grant;
+                $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
+                $config->enable_component_grant = $editor_config->enable_component_grant;
+                $config->enable_html_grant = $editor_config->enable_html_grant;
+                $config->editor_height = $editor_config->editor_height;
+                $config->enable_height_resizable = $editor_config->enable_height_resizable;
+                $config->enable_autosave = $editor_config->enable_autosave;
+            } else {
+                $config->editor_skin = $editor_config->comment_editor_skin;
+                $config->upload_file_grant = $editor_config->comment_upload_file_grant;
+                $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
+                $config->enable_component_grant = $editor_config->enable_comment_component_grant;
+                $config->enable_html_grant = $editor_config->enable_comment_html_grant;
+                $config->editor_height = $editor_config->comment_editor_height;
+                $config->enable_height_resizable = $editor_config->enable_comment_height_resizable;
+                $config->enable_autosave = 'N';
+            }
+
+            // 권한 체크를 위한 현재 로그인 사용자의 그룹 설정 체크
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $group_list = $logged_info->group_list;
+            } else {
+                $group_list = array();
+            }
+            
+            // 에디터 옵션 변수를 미리 설정
+            $option->skin = $config->editor_skin;
+
+            // 파일 업로드 권한 체크
+            $option->allow_fileupload = false;
+            if(count($config->upload_file_grant)) {
+                foreach($group_list as $group_srl => $group_info) {
+                    if(in_array($group_srl, $config->upload_file_grant)) {
+                        $option->allow_fileupload = true;    
+                        break;
+                    }
+                }
+            } else $option->allow_fileupload = true;
+
+            // 기본 컴포넌트 사용 권한 
+            $option->enable_default_component = false;
+            if(count($config->enable_default_component_grant)) {
+                foreach($group_list as $group_srl => $group_info) {
+                    if(in_array($group_srl, $config->enable_default_component_grant)) {
+                        $option->enable_default_component = true;    
+                        break;
+                    }
+                }
+            } else $option->enable_default_component = true;
+
+            // 확장 컴포넌트 사용 권한
+            $option->enable_component = false;
+            if(count($config->enable_component_grant)) {
+                foreach($group_list as $group_srl => $group_info) {
+                    if(in_array($group_srl, $config->enable_component_grant)) {
+                        $option->enable_component = true;    
+                        break;
+                    }
+                }
+            } else $option->enable_component = true;
+
+            // HTML 편집 권한 
+            $enable_html = false;
+            if(count($config->enable_html_grant)) {
+                foreach($group_list as $group_srl => $group_info) {
+                    if(in_array($group_srl, $config->enable_html_grant)) {
+                        $enable_html = true;    
+                        break;
+                    }
+                }
+            } else $enable_html = true;
+
+            if($enable_html) $option->disable_html = false;
+            else $option->disable_html = true;
+
+            // 높이 설정
+            $option->height = $config->editor_height;
+
+            // 높이 조절 옵션 설정
+            $option->resizable = $config->enable_height_resizable=='Y'?true:false;
+
+            // 자동 저장 유무 옵션 설정 
+            $option->enable_autosave = $config->enable_autosave=='Y'?true:false;
+
+            // 기타 설정
+            $option->primary_key_name = $primary_key_name;
+            $option->content_key_name = $content_key_name;
+
+            return $this->getEditor($upload_target_srl, $option);
         }
 
         /**

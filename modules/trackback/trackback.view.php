@@ -45,14 +45,14 @@
          **/
         function triggerDispTrackbackAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
+            $current_module_srls = Context::get('module_srls');
 
-            if(!$current_module_srl) {
+            if(!$current_module_srl && !$current_module_srls) {
                 // 선택된 모듈의 정보를 가져옴
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
+                if(!$current_module_srl) return new Object();
             }
-
-            if(!$current_module_srl) return new Object();
 
             // 선택된 모듈의 trackback설정을 가져옴
             $oTrackbackModel = &getModel('trackback');

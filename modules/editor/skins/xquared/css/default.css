@@ -1,6 +1,6 @@
 @charset "utf-8";
-.xeEditor .editor_info .editor_autosaved_message { color:#888888; text-align:right; }
-.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; border-bottom:1px solid #e1e1e1; height:29px;}
+.xeEditor .editor_info .editor_autosaved_message { display:none; color:#888888; text-align:right; }
+.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:#f8f8f8; height:29px;}
 .xeEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
 .xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
 .xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}

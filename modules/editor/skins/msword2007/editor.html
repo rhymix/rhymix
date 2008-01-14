@@ -121,19 +121,27 @@
     <!--@end-->
 
     <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
+    <!--@if($html_mode || $enable_autosave)-->
     <div class="editor_info">
+        <!--@if($html_mode)-->
         <div class="editor_option">
             <input type="checkbox" id="use_html_{$editor_sequence}" value="Y" onclick="editorChangeMode(this, '{$editor_sequence}');" /> <label for="use_html_{$editor_sequence}">HTML</label>
         </div>
+        <!--@end-->
+        <!--@if($enable_autosave)-->
         <div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</div>
+        <!--@end-->
     </div>
+    <!--@end-->
 
     <!-- 에디터 출력 -->
     <div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" width="100%" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->
+    <!--@if($enable_resizable)-->
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
+    <!--@end-->
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->

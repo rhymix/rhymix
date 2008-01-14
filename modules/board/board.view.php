@@ -211,15 +211,7 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $option->primary_key_name = 'document_srl';
-            $option->content_key_name = 'content';
-            $option->allow_fileupload = $this->grant->fileupload;
-            $option->enable_autosave = true;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = 400;
-            $editor = $oEditorModel->getEditor($document_srl, $option);
+            $editor = $oEditorModel->getModuleEditor('document', $this->module_srl, $document_srl, 'document_srl', 'content');
             Context::set('editor', $editor);
 
             // 확장변수처리를 위해 xml_js_filter를 직접 header에 적용
@@ -390,18 +382,9 @@
         function setCommentEditor($comment_srl = 0, $height = 100) {
             Context::set('comment_srl', $comment_srl);
 
-            // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $option->primary_key_name = 'comment_srl';
-            $option->content_key_name = 'content';
-            $option->allow_fileupload = $this->grant->comment_fileupload;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = true;
-            $option->height = $height;
-            $comment_editor = $oEditorModel->getEditor($comment_srl, $option);
-            Context::set('comment_editor', $comment_editor);
+            $editor = $oEditorModel->getModuleEditor('comment', $this->module_srl, $comment_srl, 'comment_srl', 'content');
+            Context::set('comment_editor', $editor);
         }
 
         /**

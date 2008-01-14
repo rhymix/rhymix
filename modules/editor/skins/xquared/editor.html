@@ -44,7 +44,6 @@
         </div>
         <!--@end-->
 
-
     <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
     <div class="editor_info">
         <div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</div>
@@ -55,7 +54,9 @@
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->
+    <!--@if($enable_resizable)-->
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
+    <!--@end-->
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->

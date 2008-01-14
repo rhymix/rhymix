@@ -113,15 +113,6 @@
                 }
             }
 
-            // module.xml 에 있는 권한 정보를 정리
-            if($module_info->grants) {
-                foreach($module_info->grants as $key => $val) {
-                    if(!$xml_info->grant->{$key}) {
-                        $xml_info->grant->{$key}->title = $key;
-                    }
-                }
-            }
-
             // 권한 설정
             if($xml_info->grant) {
 

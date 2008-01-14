@@ -125,6 +125,43 @@
          * @brief 게시판 추가
          **/
         function procBoardAdminInsertBoard($args = null) {
+            // module 모듈의 model/controller 객체 생성
+            $oModuleController = &getController('module');
+            $oModuleModel = &getModel('module');
+
+            // 만약 module_srl이 , 로 연결되어 있다면 일괄 정보 수정으로 처리
+            if(preg_match('/^([0-9,]+)$/',Context::get('module_srl'))) {
+                // 대상 모듈들을 구해옴
+                $modules = $oModuleModel->getModulesInfo(Context::get('module_srl'));
+                $args = Context::getRequestVars();
+
+                for($i=0;$i<count($modules);$i++) {
+                    $obj = $extra_vars = null;
+
+                    $obj = $modules[$i];
+                    $extra_vars = unserialize($obj->extra_vars);
+
+                    $obj->module_category_srl = $args->module_category_srl;
+                    $obj->layout_srl = $args->layout_srl;
+                    $obj->skin = $args->skin;
+                    $obj->description = $args->description;
+                    $obj->header_text = $args->header_text;
+                    $obj->footer_text = $args->footer_text;
+                    $obj->admin_id = $args->admin_id;
+
+                    $extra_vars->use_category = $args->use_category=='Y'?'Y':'N';
+                    $extra_vars->list_count = $args->list_count;
+                    $extra_vars->page_count = $args->page_count;
+
+                    $obj->extra_vars = serialize($extra_vars);
+
+                    $output = $oModuleController->updateModule($obj);
+                    if(!$output->toBool()) return $output;
+                }
+
+                return new Object(0,'success_updated');
+            }
+
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             if(!$args) {
                 $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
@@ -158,7 +195,6 @@
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
-                $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
 
                 // 만약 원래 모듈이 없으면 새로 입력하기 위한 처리
@@ -167,9 +203,6 @@
 
             // $extra_var를 serialize
             $args->extra_vars = serialize($extra_var);
-
-            // module 모듈의 controller 객체 생성
-            $oModuleController = &getController('module');
 
             // is_default=='Y' 이면
             if($args->is_default=='Y') $oModuleController->clearDefaultModule();
@@ -186,7 +219,7 @@
                     $admin_group_srl = $admin_group->group_srl;
 
                     $module_srl = $output->get('module_srl');
-                    $grants = serialize(array('fileupload'=>array($admin_group_srl), 'comment_fileupload'=>array($admin_group_srl), 'manager'=>array($admin_group_srl)));
+                    $grants = serialize(array('manager'=>array($admin_group_srl)));
 
                     $oModuleController->updateModuleGrant($module_srl, $grants);
                 }

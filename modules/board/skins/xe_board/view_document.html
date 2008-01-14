@@ -168,7 +168,7 @@
         <!--%import("filter/insert_comment.xml")-->
         <div class="boardWrite">
 
-            <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" >
+            <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
                 <fieldset>
                     <input type="hidden" name="mid" value="{$mid}" />
                     <input type="hidden" name="document_srl" value="{$document_srl}" />

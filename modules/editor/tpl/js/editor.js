@@ -121,7 +121,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         //'<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
         //'<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
         '<style type="text/css">'+
-        'body {font-size:9pt;height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; line-height:140%;}'+
+        'body {font-size:9pt;height:'+editor_height+'px; padding:5px; margin:0; background-color:transparent; line-height:140%;}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+

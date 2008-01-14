@@ -1,9 +1,11 @@
 <!--%import("filter/insert_point_module_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point">
-    <input type="hidden" name="target_module_srl" value="{$module_config['module_srl']}" />
+    <input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_srl['module_srl']:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
+    <col width="200" />
+    <col />
     <caption>{$lang->point}</caption>
     <tr>
         <th>{$lang->point_insert_document}</th>

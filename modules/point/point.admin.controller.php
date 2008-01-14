@@ -113,20 +113,30 @@
             $module_srl = Context::get('target_module_srl');
             if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
             // 설정 정보 가져오기
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
 
-            $config->module_point[$module_srl]['insert_document'] = (int)Context::get('insert_document');
-            $config->module_point[$module_srl]['insert_comment'] = (int)Context::get('insert_comment');
-            $config->module_point[$module_srl]['upload_file'] = (int)Context::get('upload_file');
-            $config->module_point[$module_srl]['download_file'] = (int)Context::get('download_file');
-            $config->module_point[$module_srl]['read_document'] = (int)Context::get('read_document');
+            // 설정 저장
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $config->module_point[$srl]['insert_document'] = (int)Context::get('insert_document');
+                $config->module_point[$srl]['insert_comment'] = (int)Context::get('insert_comment');
+                $config->module_point[$srl]['upload_file'] = (int)Context::get('upload_file');
+                $config->module_point[$srl]['download_file'] = (int)Context::get('download_file');
+                $config->module_point[$srl]['read_document'] = (int)Context::get('read_document');
+            }
 
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);
 
-            return new Object(0, 'success_registed');
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
 
         /**

@@ -2,7 +2,7 @@
 <!--#include("header.html")-->
 
 <div class="boardWrite bottomBorder">
-    <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" id="fo_write">
+    <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" class="boardEditor" id="fo_write">
         <fieldset class="bottomBorder">
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="content" value="{$oDocument->getContentText()}" />

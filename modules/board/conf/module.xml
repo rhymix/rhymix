@@ -25,18 +25,6 @@
             <title xml:lang="jp">コメント作成</title>
             <title xml:lang="en">write comment</title>
         </grant>
-        <grant name="fileupload" default="guest">
-            <title xml:lang="ko">파일 첨부</title>
-			<title xml:lang="zh-CN">附件</title>
-            <title xml:lang="jp">ファイル添付</title>
-            <title xml:lang="en">file upload</title>
-        </grant>
-        <grant name="comment_fileupload" default="guest">
-            <title xml:lang="ko">댓글 파일 첨부</title>
-			<title xml:lang="zh-CN">评论附件</title>
-            <title xml:lang="jp">コメントファイル添付</title>
-            <title xml:lang="en">comment file upload</title>
-        </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
 			<title xml:lang="zh-CN">管理</title>

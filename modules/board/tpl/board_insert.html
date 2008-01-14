@@ -4,7 +4,7 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_board)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="module_srl" value="{$module_srl?$module_srl:$module_srls}" />
 <!--@if($module_info->is_default=='Y')-->
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
@@ -13,21 +13,23 @@
     <col width="150" />
     <col />
 
-    <tr>
-        <th scope="row">{$lang->mid}</th>
-        <td>
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
-            <p>{$lang->about_mid}</p>
-        </td>
-    </tr>
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th scope="row">{$lang->is_default}</th>
-        <td>
-            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <label for="fld_for_default">{$lang->about_default}</label>
-        </td>
-    </tr>
+    <!--@if(!$module_srls)-->
+        <tr>
+            <th scope="row">{$lang->mid}</th>
+            <td>
+                <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+                <p>{$lang->about_mid}</p>
+            </td>
+        </tr>
+        <!--@if($module_info->is_default!='Y')-->
+        <tr>
+            <th scope="row">{$lang->is_default}</th>
+            <td>
+                <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
+                <label for="fld_for_default">{$lang->about_default}</label>
+            </td>
+        </tr>
+        <!--@end-->
     <!--@end-->
     <tr>
         <th scope="row">{$lang->module_category}</th>
@@ -42,6 +44,7 @@
         </td>
     </tr>
 
+    <!--@if(!$module_srls)-->
     <tr>
         <th scope="row">{$lang->browser_title}</th>
         <td>
@@ -49,6 +52,8 @@
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
+    <!--@end-->
+
     <tr>
         <th scope="row">{$lang->layout}</th>
         <td>
@@ -125,65 +130,68 @@
     <tr>
         <th scope="row" colspan="2" class="button">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
         </th>
     </table>
 
-    <!--@for($i=1;$i<=20;$i++)-->
-        <div class="gap1"></div>
-        {@ $extra_vars_name = ''}
-        {@ $extra_vars_type = ''}
-        {@ $extra_vars_is_required = ''}
-        {@ $extra_vars_default_value = ''}
-        {@ $extra_vars_desc = ''}
-        {@ $extra_vars_search = ''}
-        <!--@if($module_info->extra_vars[$i])-->
-            {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
-            {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
-            {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
-            {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
-            {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
-            {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
-        <!--@end-->
-    <table cellspacing="0" class="adminTable ">
-    <col width="150" />
-    <col />
-    <caption>{$lang->extra_vars} {$i}</caption>
-    <tr>
-        <th>{$lang->column_name}</th>
-        <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
-    </tr>
-    <tr>
-        <th>{$lang->column_type}</th>
-        <td>
-            <select name="extra_vars_{$i}_type">
-                <!--@foreach($lang->column_type_list as $key => $val)-->
-                    <!--@if($key != 'kr_zip')-->
-                    <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
+    <!--@if(!$module_srls)-->
+        <!--@for($i=1;$i<=20;$i++)-->
+            <div class="gap1"></div>
+            {@ $extra_vars_name = ''}
+            {@ $extra_vars_type = ''}
+            {@ $extra_vars_is_required = ''}
+            {@ $extra_vars_default_value = ''}
+            {@ $extra_vars_desc = ''}
+            {@ $extra_vars_search = ''}
+            <!--@if($module_info->extra_vars[$i])-->
+                {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+                {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+                {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
+                {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
+                {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
+                {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
+            <!--@end-->
+        <table cellspacing="0" class="adminTable ">
+        <col width="150" />
+        <col />
+        <caption>{$lang->extra_vars} {$i}</caption>
+        <tr>
+            <th>{$lang->column_name}</th>
+            <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
+        </tr>
+        <tr>
+            <th>{$lang->column_type}</th>
+            <td>
+                <select name="extra_vars_{$i}_type">
+                    <!--@foreach($lang->column_type_list as $key => $val)-->
+                        <!--@if($key != 'kr_zip')-->
+                        <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
+                        <!--@end-->
                     <!--@end-->
-                <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <th>{$lang->is_required}</th>
-        <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
-    </tr>
-    <tr>
-        <th>{$lang->default_value}</th>
-        <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
-    </tr>
-    <tr>
-        <th>{$lang->description}</th>
-        <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
-    </tr>
-    <tr>
-        <th>{$lang->cmd_search}</th>
-        <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
-    </tr>
-    <tr>
-        <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
-    </tr>
-    </table>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>{$lang->is_required}</th>
+            <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
+        </tr>
+        <tr>
+            <th>{$lang->default_value}</th>
+            <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
+        </tr>
+        <tr>
+            <th>{$lang->description}</th>
+            <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
+        </tr>
+        <tr>
+            <th>{$lang->cmd_search}</th>
+            <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
+        </tr>
+        <tr>
+            <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+        </tr>
+        </table>
+        <!--@end-->
     <!--@end-->
 
 

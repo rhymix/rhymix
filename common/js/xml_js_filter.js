@@ -231,6 +231,8 @@ function XmlJsFilterCheckFieldItem() {
         var equalto = item[4];
         var filter = item[5].split(",");
 
+        if(typeof(this.fo_obj[target])=='undefined') continue;
+
         for(var j=0; j<notnull_list.length; j++) {
             if(notnull_list[j]==target) required = true;
         }

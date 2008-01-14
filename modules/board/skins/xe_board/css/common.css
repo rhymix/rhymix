@@ -259,6 +259,7 @@ Jeong, Chan Myeong 070601~070630
 
 /* boardWrite */
 .boardWrite { width:100%; position:relative;}
+.boardWrite fieldset { border:none; }
 .boardWrite .userNameAndPw { margin-bottom:-1px;}
 .boardWrite .boardEditor fieldset { width:auto; position:relative;}
 .boardWrite div.title { border-bottom:1px solid #eff0ed; border-top:1px solid #eff0ed; padding:.5em 0; white-space:nowrap;}

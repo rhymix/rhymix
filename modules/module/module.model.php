@@ -61,6 +61,17 @@
         }
 
         /**
+         * @brief 여러개의 module_srl에 해당하는 모듈의 정보를 구함
+         **/
+        function getModulesInfo($module_srls) {
+            // 데이터를 가져옴
+            $args->module_srls = $module_srls;
+            $output = executeQueryArray('module.getModulesInfo', $args);
+            if(!$output->toBool()) return;
+            return $output->data;
+        }
+
+        /**
          * @brief DB에서 가져온 원 모듈 정보에서 grant, extraVar등의 정리
          **/
         function arrangeModuleInfo($source_module_info) {

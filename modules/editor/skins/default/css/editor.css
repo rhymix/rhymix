@@ -27,9 +27,9 @@
 .xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
 .xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
 
-.xeEditor .editor_info { clear:both; padding:5px 20px 0 10px; overflow:hidden;}
+.xeEditor .editor_info { clear:both; padding:5px 10px 0 10px; overflow:hidden;}
 .xeEditor .editor_info .editor_option { float:left; color:#888888; }
-.xeEditor .editor_info .editor_autosaved_message { color:#888888; float:right; }
+.xeEditor .editor_info .editor_autosaved_message { display:none; color:#888888; float:right; }
 
 .xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
 .xeEditor #textAreaDrag {}

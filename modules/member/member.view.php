@@ -110,6 +110,7 @@
                 $option->enable_default_component = true;
                 $option->enable_component = false;
                 $option->resizable = false;
+                $option->disable_html = true;
                 $option->height = 200;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
@@ -381,6 +382,7 @@
             $option->enable_default_component = false;
             $option->enable_component = false;
             $option->resizable = false;
+            $option->disable_html = true;
             $option->height = 300;
             $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);

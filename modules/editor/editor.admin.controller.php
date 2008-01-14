@@ -102,20 +102,80 @@
          * @brief 에디터의 모듈별 추가 확장 폼을 저장
          **/
         function procEditorAdminInsertModuleConfig() {
-            // 필요한 변수를 받아옴
-            $module_srl = Context::get('target_module_srl');
-            $editor_skin = Context::get('editor_skin');
-
             // 기존 설정을 가져옴 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('editor');
 
-            $config->module_config[$module_srl] = $editor_skin;
+            // 대상을 구함
+            $module_srl = Context::get('target_module_srl');
+
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
+            $editor_config = null;
+
+            $editor_config->editor_skin = Context::get('editor_skin');
+            $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
+
+            $enable_html_grant = trim(Context::get('enable_html_grant'));
+            if($enable_html_grant) $editor_config->enable_html_grant = explode('|@|', $enable_html_grant);
+            else $editor_config->enable_html_grant = array();
+
+            $enable_comment_html_grant = trim(Context::get('enable_comment_html_grant'));
+            if($enable_comment_html_grant) $editor_config->enable_comment_html_grant = explode('|@|', $enable_comment_html_grant);
+            else $editor_config->enable_comment_html_grant = array();
+
+            $upload_file_grant = trim(Context::get('upload_file_grant'));
+            if($upload_file_grant) $editor_config->upload_file_grant = explode('|@|', $upload_file_grant);
+            else $editor_config->upload_file_grant = array();
+
+            $comment_upload_file_grant = trim(Context::get('comment_upload_file_grant'));
+            if($comment_upload_file_grant) $editor_config->comment_upload_file_grant = explode('|@|', $comment_upload_file_grant);
+            else $editor_config->comment_upload_file_grant = array();
+
+            $enable_default_component_grant = trim(Context::get('enable_default_component_grant'));
+            if($enable_default_component_grant) $editor_config->enable_default_component_grant = explode('|@|', $enable_default_component_grant);
+            else $editor_config->enable_default_component_grant = array();
+
+            $enable_comment_default_component_grant = trim(Context::get('enable_comment_default_component_grant'));
+            if($enable_comment_default_component_grant) $editor_config->enable_comment_default_component_grant = explode('|@|', $enable_comment_default_component_grant);
+            else $editor_config->enable_comment_default_component_grant = array();
+
+            $enable_component_grant = trim(Context::get('enable_component_grant'));
+            if($enable_component_grant) $editor_config->enable_component_grant = explode('|@|', $enable_component_grant);
+            else $editor_config->enable_component_grant = array();
+
+            $enable_comment_component_grant = trim(Context::get('enable_comment_component_grant'));
+            if($enable_comment_component_grant) $editor_config->enable_comment_component_grant = explode('|@|', $enable_comment_component_grant);
+            else $editor_config->enable_comment_component_grant = array();
+
+            $editor_config->editor_height = (int)Context::get('editor_height');
+
+            $editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
+
+            $editor_config->enable_height_resizable = Context::get('enable_height_resizable');
+
+            $editor_config->enable_comment_height_resizable = Context::get('enable_comment_height_resizable');
+
+            $editor_config->enable_autosave = Context::get('enable_autosave');
+
+            if($editor_config->enable_height_resizable != 'Y') $editor_config->enable_height_resizable = 'N';
+            if($editor_config->enable_comment_height_resizable != 'Y') $editor_config->enable_comment_height_resizable = 'N';
+            if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
+
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $config->module_config[$srl] = $editor_config;
+            }
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('editor',$config);
-            return $output;
+
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
 
         /**

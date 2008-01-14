@@ -77,6 +77,11 @@
         function procFileAdminInsertModuleConfig() {
             // 필요한 변수를 받아옴
             $module_srl = Context::get('target_module_srl');
+
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
             $download_grant = trim(Context::get('download_grant'));
 
             // 설정 정보를 받아옴 (module model 객체를 이용)
@@ -89,12 +94,19 @@
             $module_file_config->allowed_filetypes = Context::get('allowed_filetypes');
             if($download_grant) $module_file_config->download_grant = explode('|@|',$download_grant);
             else $module_file_config->download_grant = array();
-            $config->module_config[$module_srl] = $module_file_config;
+
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $config->module_config[$srl] = $module_file_config;
+            }
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('file',$config);
-            return $output;
+
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
     }
 ?>
