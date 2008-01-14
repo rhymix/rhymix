@@ -147,7 +147,7 @@
 
     $lang->use = 'Use';
     $lang->notuse = 'Not use';
-    $lang->not_exists = "Does not exist";
+    $lang->not_exists = "Doesn't exist";
 
     $lang->unit_sec = 'sec';
     $lang->unit_min = 'min';
