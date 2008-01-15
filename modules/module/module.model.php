@@ -15,11 +15,9 @@
 
         /**
          * @brief document_srl로 모듈의 정보르 구함
-         * 
          * 이 경우는 캐시파일을 이용할 수가 없음
          **/
         function getModuleInfoByDocumentSrl($document_srl) {
-            // 데이터를 DB에서 가져옴
             $args->document_srl = $document_srl;
             $output = executeQuery('module.getModuleInfoByDocument', $args);
 
@@ -37,13 +35,9 @@
             }
 
             // 모듈의 정보가 없다면($mid가 잘못이거나 없었을 경우) 기본 모듈을 가져옴
-            if(!$output->data) {
-                $output = executeQuery('module.getDefaultMidInfo');
-            }
+            if(!$output->data) $output = executeQuery('module.getDefaultMidInfo');
 
-            $module_info = $this->arrangeModuleInfo($output->data);
-
-            return $module_info;
+            return $this->arrangeModuleInfo($output->data);
         }
 
         /**
@@ -55,20 +49,56 @@
             $output = executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
 
-            $module_info = $this->arrangeModuleInfo($output->data);
-
-            return $module_info;
+            return $this->arrangeModuleInfo($output->data);
         }
 
         /**
          * @brief 여러개의 module_srl에 해당하는 모듈의 정보를 구함
          **/
         function getModulesInfo($module_srls) {
-            // 데이터를 가져옴
             $args->module_srls = $module_srls;
             $output = executeQueryArray('module.getModulesInfo', $args);
             if(!$output->toBool()) return;
             return $output->data;
+        }
+
+        /**
+         * @brief DB에 생성된 mid 전체 목록을 구해옴
+         **/
+        function getMidList($args = null) {
+            $output = executeQuery('module.getMidList', $args);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+
+            if(!is_array($list)) $list = array($list);
+
+            foreach($list as $val) {
+                $mid_list[$val->mid] = $val;
+            }
+            return $mid_list;
+        }
+
+        /**
+         * @brief mid 목록에 대응하는 module_srl을 배열로 return
+         **/
+        function getModuleSrlByMid($mid) {
+            if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
+
+            $args->mid = $mid;
+            $output = executeQuery('module.getModuleSrlByMid', $args);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+            if(!is_array($list)) $list = array($list);
+
+            foreach($list as $key => $val) {
+                $module_srl_list[] = $val->module_srl;
+            }
+
+            return $module_srl_list;
         }
 
         /**
@@ -142,40 +172,6 @@
             $args->called_position = $called_position;
             $output = executeQuery('module.getTrigger',$args);
             return $output->data;
-        }
-
-        /**
-         * @brief DB에 생성된 mid목록을 구해옴
-         **/
-        function getMidList($args = null) {
-            $output = executeQuery('module.getMidList', $args);
-            if(!$output->toBool()) return $output;
-
-            $list = $output->data;
-            if(!$list) return;
-
-            if(!is_array($list)) $list = array($list);
-
-            foreach($list as $val) {
-                $mid_list[$val->mid] = $val;
-            }
-            return $mid_list;
-        }
-
-        /**
-         * @brief mid 목록에 대응하는 module_srl을 배열로 return
-         **/
-        function getModuleSrlByMid($mid) {
-            if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
-            $args->mid = $mid;
-            $output = executeQuery('module.getModuleSrlByMid', $args);
-            if(!$output->toBool()) return $output;
-
-            $list = $output->data;
-            if(!$list) return;
-            if(!is_array($list)) $list = array($list);
-            foreach($list as $key => $val) $module_srl_list[] = $val->module_srl;
-            return $module_srl_list;
         }
 
         /**
@@ -311,7 +307,6 @@
 
         /**
          * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
-         *
          * module.xml 파일의 경우 파싱하는데 시간이 걸리기에 캐싱을 한다...
          * 캐싱을 할때 바로 include 할 수 있도록 역시 코드까지 추가하여 캐싱을 한다.
          * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
@@ -617,6 +612,9 @@
 
         /**
          * @brief 특정 모듈의 정보와 회원의 정보를 받아서 관리 권한 유무를 판단
+         * 회원의 아이디가 해당 모듈의 admin_id에 있으면 true
+         * 회원이 속한 그룹이 해당 모듈의 manager 그룹에 있으면 true
+         * 이 method는 각 모듈.class.php 에서 isAdmin method에서 사용됨
          **/
         function isModuleAdmin($module_info, $member_info) {
            $user_id = $member_info->user_id;

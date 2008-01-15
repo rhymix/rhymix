@@ -73,7 +73,7 @@
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
-            // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
+            // document_srl만 있을 경우 document_srl로 모듈과 모듈 정보를 구함
             if($this->document_srl && !$this->mid && !$this->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
                 if($this->module && $module_info->module != $this->module) unset($module_info);
@@ -147,14 +147,6 @@
                 return;
             }
 
-            // 설정된 mid가 없을 경우 요청된 act의 standalone 여부 체크
-            /*
-            if(!$this->mid && !$xml_info->action->{$this->act}->standalone) {
-                $this->error = 'msg_module_is_not_standalone';
-                return;
-            }
-            */
-
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
             $grant = $xml_info->action->{$this->act}->grant;
@@ -210,6 +202,7 @@
 
             // 해당 모듈에 layout_srl이 있는지 확인
             if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
+
                 // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
                 $oLayoutModel = &getModel('layout');
                 $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
