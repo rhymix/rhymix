@@ -22,16 +22,16 @@
             $oAddonController->doInsert('blogapi');
             $oAddonController->doInsert('counter');
             $oAddonController->doInsert('member_extra_info');
-            $oAddonController->doInsert('naver_search');
             $oAddonController->doInsert('openid_delegation_id');
             $oAddonController->doInsert('rainbow_link');
-            $oAddonController->doInsert('spamfilter');
+            $oAddonController->doInsert('point_level_icon');
+            $oAddonController->doInsert('referer');
 
             // 몇가지 애드온을 기본 활성화 상태로 변경
             $oAddonController->doActivate('member_extra_info');
             $oAddonController->doActivate('counter');
             $oAddonController->doActivate('blogapi');
-            $oAddonController->doActivate('spamfilter');
+            $oAddonController->doActivate('referer');
             $oAddonController->procAddonAdminToggleActivate();
             return new Object();
         }
