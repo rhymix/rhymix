@@ -123,7 +123,7 @@
             $url = trim($this->get('homepage'));
             if(!$url) return;
 
-            if(!eregi("^http:\/\/",$url)) $url = "http://".$url;
+            if(!preg_match("/^http:\/\//i",$url)) $url = "http://".$url;
 
             return $url;
         }

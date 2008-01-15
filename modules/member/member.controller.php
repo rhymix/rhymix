@@ -1264,7 +1264,7 @@
             if(!$member_info->member_srl) return;
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
-            if(eregi("^([0-9a-z]+)$", $member_info->user_id)) $member_info->is_openid = false;
+            if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
 
             // 로그인 처리를 위한 세션 설정
@@ -1330,8 +1330,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^http:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^http:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
@@ -1433,8 +1433,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^http:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^http:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 아이디, 닉네임, email address 의 중복 체크
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);

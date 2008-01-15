@@ -93,7 +93,7 @@
                     if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
 
                     // 이미지 파일이 아니어도 무시 (swf는 패스~)
-                    if(!eregi("\.(jpg|jpeg|gif|png|swf)$", $image_obj['name'])) continue;
+                    if(!preg_match("/\.(jpg|jpeg|gif|png|swf)$/i", $image_obj['name'])) continue;
 
                     // 경로를 정해서 업로드
                     $path = sprintf("./files/attach/images/%s/", $args->layout_srl);

@@ -180,7 +180,7 @@
             $url = trim($this->get('homepage'));
             if(!$url) return;
 
-            if(!eregi("^http:\/\/",$url)) $url = "http://".$url;
+            if(!preg_match("/^http:\/\//i",$url)) $url = "http://".$url;
 
             return $url;
         }
@@ -441,7 +441,7 @@
             if(count($file_list)) {
                 foreach($file_list as $file) {
                     if($file->direct_download!='Y') continue;
-                    if(!eregi("(jpg|png|jpeg|gif)$",$file->source_filename)) continue;
+                    if(!preg_match("/(jpg|png|jpeg|gif)$/i",$file->source_filename)) continue;
 
                     $filename = $file->uploaded_filename;
                     if(!file_exists($filename)) continue;
@@ -458,7 +458,7 @@
             preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
                 $src = $matches[$i][0];
-                if(ereg('\/(common|modules|widgets|addons|layouts)\/', $src)) continue;
+                if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $src)) continue;
                 else {
                     $target_src = $src; 
                     break;

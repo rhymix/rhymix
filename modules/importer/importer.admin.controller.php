@@ -55,7 +55,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 이제부터 데이터를 가져오면서 처리
             $fp = $this->getFilePoint($xml_file);
@@ -163,8 +163,8 @@
          **/
         function importMember($obj) {
             // homepage, blog의 url을 정확히 만듬
-            if($obj->homepage && !eregi("^http:\/\/",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-            if($obj->blog && !eregi("^http:\/\/",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
+            if($obj->homepage && !preg_match("/^http:\/\//i",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->blog && !preg_match("/^http:\/\//i",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
 
             $obj->email_address = $obj->email;
             list($obj->email_id, $obj->email_host) = explode('@', $obj->email);
@@ -257,7 +257,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 이제부터 데이터를 가져오면서 처리
             $fp = $this->getFilePoint($xml_file);
@@ -398,7 +398,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 필요한 객체 미리 생성
             $this->oDocumentController = &getController('document');
@@ -813,7 +813,7 @@
          **/
         function getFilePoint($filename) {
             $fp = null;
-            if(eregi('^http:', $filename)) {
+            if(preg_match('/^http:/i', $filename)) {
                 $url_info = parse_url($filename);
                 if(!$url_info['port']) $url_info['port'] = 80;
                 if(!$url_info['path']) $url_info['path'] = '/';
@@ -902,7 +902,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 필요한 객체 미리 생성
             $this->oDocumentController = &getController('document');

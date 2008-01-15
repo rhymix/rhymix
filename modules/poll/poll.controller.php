@@ -34,7 +34,7 @@
             $vars = Context::getRequestVars();
             foreach($vars as $key => $val) {
                 if(strpos($key,'tidx')) continue;
-                if(!eregi("^(title|checkcount|item)_", $key)) continue;
+                if(!preg_match("/^(title|checkcount|item)_/i", $key)) continue;
                 if(!trim($val)) continue;
 
                 $tmp_arr = explode('_',$key);

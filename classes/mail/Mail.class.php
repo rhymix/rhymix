@@ -106,7 +106,7 @@
         }
 
         function isVaildMailAddress($email_address) {
-            if( eregi("([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)", $email_address) ) return $email_address;
+            if( preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address) ) return $email_address;
             else return ''; 
         }
     }

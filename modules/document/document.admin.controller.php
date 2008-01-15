@@ -388,7 +388,7 @@
                     if (is_dir($path."/".$entry)) {
                         $this->deleteThumbnailFile($path."/".$entry);
                     } else {
-                        if(!eregi('^thumbnail_([^\.]*)\.jpg$',$entry)) continue;
+                        if(!preg_match('/^thumbnail_([^\.]*)\.jpg$/i',$entry)) continue;
                         @unlink($path.'/'.$entry);
                     }
                 }

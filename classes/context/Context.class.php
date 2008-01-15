@@ -80,7 +80,7 @@
                 list($lang_prefix, $lang_text) = explode(',',$val);
                 $lang_text = trim($lang_text);
                 $lang_supported[$lang_prefix] = $lang_text;
-                if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+                if(!$this->lang_type && stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'],$lang_prefix)!==false) {
                     $this->lang_type = $lang_prefix;
                     setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
                 }
@@ -504,7 +504,7 @@
          **/
         function _setUploadedArgument() {
             if($this->_getRequestMethod() != 'POST') return;
-            if(!eregi("^multipart\/form-data", $_SERVER['CONTENT_TYPE'])) return;
+            if(stripos($_SERVER['CONTENT_TYPE'],"multipart/form-data")===false) return;
             if(!$_FILES) return;
 
             foreach($_FILES as $key => $val) {
@@ -575,7 +575,7 @@
                 } elseif($var_count == 2) {
                     asort($var_keys);
                     $target = implode('.',$var_keys);
-                    if($target=='act.mid' && !ereg('([A-Z]+)',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
+                    if($target=='act.mid' && !preg_match('/([A-Z]+)/',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
                     elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['document_srl']);
                     elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$this->path,$get_vars['document_srl'],$get_vars['act']);
                     elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$this->path,$get_vars['mid'],$get_vars['page']);
@@ -714,7 +714,7 @@
         function _addJsFile($file) {
             if(in_array($file, $this->js_files)) return;
 
-            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            if(stripos($file,'http://')===false) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = $file;
         }
 
@@ -749,7 +749,7 @@
         function _addCSSFile($file) {
             if(in_array($file, $this->css_files)) return;
 
-            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            if(stripos($file,'http://')===false) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = $file;
         }
 
@@ -890,8 +890,8 @@
          * @brief <!--Meta:파일이름.(css|js)-->를 변경
          **/
         function transMeta($matches) {
-            if(eregi('\.css$', $matches[1])) $this->addCSSFile($matches[1]);
-            elseif(eregi('\.js$', $matches[1])) $this->addJSFile($matches[1]);
+            if(substr($matches[1],'-4')=='.css') $this->addCSSFile($matches[1]);
+            elseif(substr($matches[1],'-3')=='.js') $this->addJSFile($matches[1]);
         }
 
         /**

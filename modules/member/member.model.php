@@ -146,7 +146,7 @@
             unset($info->extra_vars);
             if(!$extra_vars) return $info;
             foreach($extra_vars as $key => $val) {
-                if(eregi('\|\@\|', $val)) $val = explode('|@|', $val);
+                if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
                 if(!$info->{$key}) $info->{$key} = $val;
             }
             return $info;

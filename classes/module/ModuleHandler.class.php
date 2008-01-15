@@ -57,9 +57,9 @@
             else $this->module_srl = (int)$module_srl;
 
             // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
-            if($this->module && !eregi("^([a-z0-9\_\-]+)$",$this->module)) die(Context::getLang("msg_invalid_request"));
-            if($this->mid && !eregi("^([a-z0-9\_\-]+)$",$this->mid)) die(Context::getLang("msg_invalid_request"));
-            if($this->act && !eregi("^([a-z0-9\_\-]+)$",$this->act)) die(Context::getLang("msg_invalid_request"));
+            if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
+            if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) die(Context::getLang("msg_invalid_request"));
+            if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->act)) die(Context::getLang("msg_invalid_request"));
 
             // 애드온 실행 (모듈 실행 전)
             $called_position = 'before_module_init';

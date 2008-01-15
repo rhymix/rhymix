@@ -42,7 +42,7 @@
             foreach($source_files as $file) {
                 if(!$file) continue;
                 $file = str_replace("\\","/",$file);
-                if(eregi("^http:\/\/",$file) || $file == './common/css/button.css') $files[] = $file;
+                if(substr($file,7)=='http://' || $file == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
 
@@ -105,7 +105,7 @@
                 $content_buff .= $str."\n";
             }
             if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
-            $content_file = eregi_replace("\.php$","",$filename);
+            $content_file = substr($filename, 0, -1);
             $content_filename = str_replace($this->cache_path, '', $content_file);
 
             FileHandler::writeFile($content_file, $content_buff);
@@ -152,7 +152,7 @@ exit();
          * @brief css의 경우 import/ background 등의 속성에서 사용되는 url내의 경로를 변경시켜줌
          **/
         function replaceCssPath($file, $str) {
-            $this->tmp_css_path = Context::getRequestUri().ereg_replace("^\.\/","",dirname($file))."/";
+            $this->tmp_css_path = Context::getRequestUri().preg_replace("/^\.\//is","",dirname($file))."/";
             $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
 
             $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
@@ -163,7 +163,7 @@ exit();
         }
 
         function _replaceCssPath($matches) {
-            if(eregi("^(http|\/|\.\/common\/)",$matches[2])) return $matches[0];
+            if(preg_match("/^(http|\/|\.\/common\/)/is",$matches[2])) return $matches[0];
             return sprintf('url(%s%s)', $matches[1], $this->tmp_css_path.$matches[2]);
         }
 

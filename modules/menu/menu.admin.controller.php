@@ -130,7 +130,7 @@
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
             // url이 mid일 경우 기록 남김 
-            if(eregi('^([a-zA-Z0-9\_\-]+)$', $args->url)) {
+            if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $args->url)) {
                 $mid = $args->url;
 
                 $mid_args->menu_srl = $args->menu_srl;
@@ -337,7 +337,7 @@
                 $name_str = sprintf('$_names = array(%s); print $_names[$_SESSION["lang_type"]];', $name_arr_str);
 
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-                if(eregi('^([0-9a-zA-Z\_\-]+)$', $node->url)) $href = getUrl('','mid',$node->url);
+                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url)) $href = getUrl('','mid',$node->url);
                 else $href = $url;
                 $open_window = $node->open_window;
                 $expand = $node->expand;
@@ -407,7 +407,7 @@
                 // 변수 정리
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-                if(eregi('^([0-9a-zA-Z\_\-]+)$', $node->url)) $href = getUrl('','mid',$node->url);
+                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url)) $href = getUrl('','mid',$node->url);
                 else $href = $url;
                 $open_window = $node->open_window;
                 $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
