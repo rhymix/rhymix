@@ -105,7 +105,7 @@
                 $content_buff .= $str."\n";
             }
             if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
-            $content_file = substr($filename, 0, -1);
+            $content_file = substr($filename, 0, -4);
             $content_filename = str_replace($this->cache_path, '', $content_file);
 
             FileHandler::writeFile($content_file, $content_buff);
