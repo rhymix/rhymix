@@ -24,10 +24,13 @@
          * @brief 문서 가져오기
          **/
         function getDocument($document_srl=0, $is_admin = false) {
-            $oDocument = new documentItem($document_srl);
-            if($is_admin) $oDocument->setGrant();
+            if(!$GLOBALS['__DocumentItem__'][$document_srl]) {
+                $oDocument = new documentItem($document_srl);
+                if($is_admin) $oDocument->setGrant();
+                $GLOBALS['__DocumentItem__'][$document_srl] = $oDocument;
+            }
 
-            return $oDocument;
+            return $GLOBALS['__DocumentItem__'][$document_srl];
        }
 
         /**

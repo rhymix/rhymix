@@ -338,7 +338,8 @@
             $oDocumentModel = &getModel('document');
 
             // 권한이 있는지 확인
-            if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
             $args->document_srl = $document_srl;
