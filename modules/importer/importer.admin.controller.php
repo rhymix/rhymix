@@ -1081,8 +1081,7 @@
             }
             fclose($fp);
 
-            $output = ob_get_contents();
-            ob_end_clean();
+            $output = ob_get_clean();
 
             $this->add('is_finished','1');
             $this->add('total_count',$total_count);

@@ -429,49 +429,5 @@
 
             return $output;
         }
-
-        /**
-         * @brief 포인트 레벨 아이콘 표시
-         **/
-        function transLevelIcon($matches) {
-            if(!$this->config) {
-                $oModuleModel = &getModel('module');
-                $this->config = $oModuleModel->getModuleConfig('point');
-            }
-
-            if(!$this->oPointModel) $this->oPointModel = &getModel('point');
-
-            $member_srl = $matches[3];
-            if($member_srl<1) return $matches[0];
-
-            if($this->member_code[$member_srl]) return $this->member_code[$member_srl];
-
-            $point = $this->oPointModel->getPoint($member_srl);
-            $level = $this->oPointModel->getLevel($point, $this->config->level_step);
-
-            $text = $matches[5];
-
-            $src = sprintf("modules/point/icons/%s/%d.gif", $this->config->level_icon, $level);
-            if(!$this->icon_width) {
-                $info = getimagesize($src);
-                $this->icon_width = $info[0];
-                $this->icon_height = $info[1];
-            }
-
-            if($level < $this->config->max_level) {
-                $next_point = $this->config->level_step[$level+1];
-                if($next_point > 0) {
-                    $per = (int)($point / $next_point*100);
-                }
-            }
-
-            $title = sprintf("%s:%s%s %s, %s:%s/%s", Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level);
-
-            $text = sprintf('<span class="nowrap member_%s" style="cursor:pointer"><img src="%s" width="%s" height="%s" alt="%s" title="%s" style="vertical-align:middle;margin-right:3px"/>%s</span>', $member_srl, Context::getRequestUri().$src, $this->icon_width, $this->icon_height, $title, $title, $text);
-
-            $this->member_code[$member_srl] = $text;
-
-            return $this->member_code[$member_srl];
-        }
     }
 ?>

@@ -895,7 +895,7 @@
             if(!$max_height) $max_height = "20";
 
             // 저장할 위치 구함
-            $target_path = sprintf('files/member_extra_info/profile_image/%s/', getNumberingPath($member_srl));
+            $target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
 
             // 파일 정보 구함
@@ -1417,6 +1417,7 @@
 
             // 수정하려는 대상의 원래 정보 가져오기
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            if(!$args->user_id) $args->user_id = $member_info->user_id;
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
@@ -1566,79 +1567,6 @@
             $this->delSignature($member_srl);
 
             return $output;
-        }
-
-        /**
-         * @brief 최종 출력물에서 이미지 이름을 변경
-         * member_extra_info 애드온에서 요청이 됨
-         **/
-        function transImageName($matches) {
-            $member_srl = $matches[3];
-            if($member_srl<0) return $matches[5];
-
-            $text = $matches[5];
-            if(!$member_srl) return $matches[0];
-
-            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
-            if(!$GLOBALS['_transImageNameList'][$member_srl]) {
-                $oMemberModel = &getModel('member');
-
-                $GLOBALS['_transImageNameList'][$member_srl]['image_name'] = $oMemberModel->getImageName($member_srl);
-                $GLOBALS['_transImageNameList'][$member_srl]['image_mark'] = $oMemberModel->getImageMark($member_srl);
-            } 
-            $image_name = $GLOBALS['_transImageNameList'][$member_srl]['image_name'];
-            $image_mark = $GLOBALS['_transImageNameList'][$member_srl]['image_mark'];
-
-            // 이미지이름이나 마크가 없으면 원본 정보를 세팅
-            if(!$image_name && !$image_mark) return $matches[0];
-
-            if($image_name->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
-            }
-
-            if($image_mark->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
-            }
-
-            return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);
-        }
-
-        /**
-         * @brief 최종 출력물에서 서명을 변경, 프로필 이미지도 같이 적용함
-         * member_extra_info 애드온에서 요청이 됨
-         **/
-        function transSignature($matches) {
-            $oModuleModel = &getModel('module');
-            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
-            
-            $member_srl = $matches[2];
-            if(!$member_srl) return $matches[0];
-
-            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
-            if(!isset($GLOBALS['_transSignatureList'][$member_srl])) {
-                $oMemberModel = &getModel('member');
-
-                // 서명을 구해옴
-                $signature = $oMemberModel->getSignature($member_srl);
-
-                // 프로필 이미지를 구해옴
-                $profile_image = $oMemberModel->getProfileImage($member_srl);
-                if($profile_image->src) $signature = sprintf('<img src="%s" width="%d" height="%d" alt="" class="member_profile_image" />%s', $profile_image->src, $profile_image->width, $profile_image->height, $signature);
-
-                // 서명이 있으면 반환
-                if($signature) {
-                    // 서명 높이 제한 값이 있으면 표시 높이 제한
-                    if($memberModuleConfig->signature_max_height) {
-                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: auto; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
-                    } else {
-                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
-                    }
-                } else {
-                    $GLOBALS['_transSignatureList'][$member_srl] = null;
-                }
-            }
-
-            return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];
         }
 
         /**

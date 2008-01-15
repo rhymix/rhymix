@@ -12,6 +12,8 @@
     // before_display_content 가 아니면 return
     if($called_position != "before_display_content") return;
 
+    require_once('./addons/point_level_icon/point_level_icon.lib.php');
+
     $oPointController = &getController('point');
-    $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9\-]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oPointController, 'transLevelIcon'), $output);
+    $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9\-]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', 'pointLevelIconTrans', $output);
 ?>

@@ -106,8 +106,7 @@
                 // 일단 대상 파일을 읽어서 내용을 구함
                 ob_start();
                 @include($path);
-                $content = ob_get_contents();
-                ob_end_clean();
+                $content = ob_get_clean();
 
                 FileHandler::writeFile($cache_file, $content);
 
@@ -127,8 +126,7 @@
 
             ob_start();
             @include($cache_file);
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content = ob_get_clean();
 
             return $content;
         }
