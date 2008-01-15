@@ -28,7 +28,8 @@
             $this->_printHeader();
 
             // request method에 따른 처리
-            $content = $this->getContent($oModule);
+            if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
+            else $content = $this->_toHTMLDoc($oModule);
 
             // 요청방식에 따라 출력을 별도로
             if(Context::getResponseMethod()!="XMLRPC") {
@@ -98,22 +99,6 @@
 
             if($this->gz_enabled) print ob_gzhandler($content, 5);
             else print $content;
-        }
-
-        /**
-         * @brief 모듈 객체의 content return
-         **/
-        function getContent(&$oModule) {
-            return $this->_toDoc($oModule);
-        }
-
-        /**
-         * @brief 모듈 객체의 content return
-         **/
-        function _toDoc(&$oModule) {
-            if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
-            else $content = $this->_toHTMLDoc($oModule);
-            return $content;
         }
 
         /**
