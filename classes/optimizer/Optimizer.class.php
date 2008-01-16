@@ -65,25 +65,27 @@
          * 개별 파일과 optimizer 클래스 파일의 변경을 적용하기 위해 각 파일들과 Optimizer.class.php의 filemtime을 비교, 파일이름에 반영
          **/
         function getHashFilename($files) {
-            $count = count($files);
-            $last_modified = 0;
-            for($i=0;$i<$count;$i++) {
-                $mtime = filemtime($files[$i]);
-                if($last_modified < $mtime) $last_modified = $mtime;
-            }
-
-            $mtime = filemtime('./classes/optimizer/Optimizer.class.php');
-            if($last_modified < $mtime) $last_modified = $mtime;
-
             $buff = implode("\n", $files);
-            return md5($buff).'.'.$last_modified;
+            return md5($buff);
         }
 
         /**
          * @brief 이미 저장된 캐시 파일과의 시간등을 검사하여 새로 캐싱해야 할지를 체크
          **/
         function doOptimizedFile($filename, $targets, $type) {
+            // optimized 파일이 없으면 새로 옵티마이징
             if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
+
+            // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
+            $count = count($targets);
+            $last_modified = 0;
+            for($i=0;$i<$count;$i++) {
+                $mtime = filemtime($targets[$i]);
+                if($last_modified < $mtime) $last_modified = $mtime;
+            }
+
+            $mtime = filemtime($filename);
+            if($mtime < $last_modified || $mtime < filemtime('./classes/optimizer/Optimizer.class.php')) return $this->makeOptimizedFile($filename, $targets, $type);
         }
 
         /**
@@ -138,7 +140,7 @@ if(isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
 header("Content-Type: '.$content_type.'; charset=utf-8");
 header("Date: '.substr(gmdate('r'), 0, -5).'GMT");
 header("Expires: '.substr(gmdate('r', strtotime('+1 MONTH')), 0, -5).'GMT");
-header("Cache-Control: private, max-age=2678400"); 
+header("Cache-Control: private, max-age=86400"); 
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
