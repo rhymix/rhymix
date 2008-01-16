@@ -124,6 +124,8 @@
             $size = filesize($content_file);
             $mtime = filemtime($content_file);
             $class_mtime = filemtime("./classes/optimizer/Optimizer.class.php");
+
+            // js, css 파일을 php를 통해서 출력하고 이 출력시에 헤더값을 조작하여 캐싱과 압축전송이 되도록 함 (IE6는 CSS파일일 경우 gzip압축하지 않음)
             $header_buff = '<?php
 $content_filename = "'.$content_filename.'";
 $mtime = '.$mtime.';
@@ -137,15 +139,33 @@ if(isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
         $cached = true;
     } 
 }
+
+if( preg_match("/MSIE 6.0/i",$_SERVER["HTTP_USER_AGENT"]) || strpos($_SERVER["HTTP_ACCEPT_ENCODING"], "gzip")===false || !function_exists("ob_gzhandler") ) {
+    $size = filesize($content_filename);
+} else {
+    $f = fopen($content_filename,"r");
+    $buff = fread($f, filesize($content_filename));
+    fclose($f);
+    $buff = ob_gzhandler($buff, 5);
+    $size = strlen($buff);
+    header("Content-Encoding: gzip");
+}
+
 header("Content-Type: '.$content_type.'; charset=utf-8");
 header("Date: '.substr(gmdate('r'), 0, -5).'GMT");
 header("Expires: '.substr(gmdate('r', strtotime('+1 MONTH')), 0, -5).'GMT");
-header("Cache-Control: private, max-age=86400"); 
+header("Cache-Control: private, max-age=2592000"); 
 header("Pragma: cache"); 
 header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
-header("ETag: '.dechex($unique).'-'.dechex($size).'-'.dechex($mtime).'"); 
-if(!$cached && file_exists($content_filename)) print file_get_contents($content_filename);
-exit();
+header("ETag: \"'.dechex($unique).'-".dechex($size)."-'.dechex($mtime).'\""); 
+
+if(!$cached) {
+    if(!$buff) {
+        $f = fopen($content_filename,"r");
+        fpassthru($f);
+    } else print $buff;
+}
+
 ?>';
             FileHandler::writeFile($filename, $header_buff);
         }
@@ -154,11 +174,14 @@ exit();
          * @brief css의 경우 import/ background 등의 속성에서 사용되는 url내의 경로를 변경시켜줌
          **/
         function replaceCssPath($file, $str) {
+            // css 파일의 위치를 구함
             $this->tmp_css_path = Context::getRequestUri().preg_replace("/^\.\//is","",dirname($file))."/";
-            $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
 
+            // url() 로 되어 있는 css 파일의 경로를 변경
+            $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
             $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
 
+            // charset 지정 문구를 제거
             $str = preg_replace('!@charset([^;]*?);!is','',$str);
 
             return $str;

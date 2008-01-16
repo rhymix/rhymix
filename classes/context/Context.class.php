@@ -864,17 +864,8 @@
             // body 내의 <style ..></style>를 header로 이동
             $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
-            // <br> 코드 변환
-            $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
-
-            // 몇가지 대문자 태그를 소문자로 변경
-            //$content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'transTagToLowerCase'), $content);
-
-            // <img ...> 코드를 <img ... /> 코드로 변환
-            $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
-
-            // blogapi tool에서 삽입된 코드 삭제
-            //$content = str_replace('atomicselection="true"','',$content);
+            // <img|br> 코드 변환
+            $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
 
             return $content;
         }

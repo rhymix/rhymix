@@ -87,15 +87,8 @@
         function display($content) {
             $content .= $this->_debugOutput();
 
-            $path = getScriptPath();
-
-            // commons/modules/files/widgets/layouts/addons 로 시작되는 src나 href의 값을 절대경로로 변경
-            $content = preg_replace('!(href|src)=("|\'){0,1}(commons|modules|widgets|layouts|addons|files)!is', '\\1=\\2'.$path.'\\3', $content);
-            $content = preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'\\3/', $content);
-
             // 출력하기 전에 trigger 호출 (after)
             ModuleHandler::triggerCall('display', 'after', $content);
-
 
             if($this->gz_enabled) print ob_gzhandler($content, 5);
             else print $content;
