@@ -80,7 +80,7 @@
                 list($lang_prefix, $lang_text) = explode(',',$val);
                 $lang_text = trim($lang_text);
                 $lang_supported[$lang_prefix] = $lang_text;
-                if(!$this->lang_type && stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'],$lang_prefix)!==false) {
+                if(!$this->lang_type && preg_match('/'.$lang_prefix.'/i',$_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                     $this->lang_type = $lang_prefix;
                     setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
                 }
@@ -504,7 +504,7 @@
          **/
         function _setUploadedArgument() {
             if($this->_getRequestMethod() != 'POST') return;
-            if(stripos($_SERVER['CONTENT_TYPE'],"multipart/form-data")===false) return;
+            if(!preg_match("/multipart\/form-data/i",$_SERVER['CONTENT_TYPE'])) return;
             if(!$_FILES) return;
 
             foreach($_FILES as $key => $val) {
@@ -714,7 +714,7 @@
         function _addJsFile($file) {
             if(in_array($file, $this->js_files)) return;
 
-            if(stripos($file,'http://')===false) $file = str_replace(realpath("."), ".", realpath($file));
+            if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = $file;
         }
 
@@ -749,7 +749,7 @@
         function _addCSSFile($file) {
             if(in_array($file, $this->css_files)) return;
 
-            if(stripos($file,'http://')===false) $file = str_replace(realpath("."), ".", realpath($file));
+            if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = $file;
         }
 

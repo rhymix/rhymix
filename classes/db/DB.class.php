@@ -83,7 +83,7 @@
             for($i=0;$i<count($supported_list);$i++) {
                 $db_type = $supported_list[$i];
 
-                if(version_compare(phpversion(), '5.0') < 0 && stripos($db_type, 'pdo') !== false) continue;
+                if(version_compare(phpversion(), '5.0') < 0 && preg_match('/pdo/i',$db_type) !== false) continue;
 
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
                 $class_file = sprintf("./classes/db/%s.class.php", $class_name);
