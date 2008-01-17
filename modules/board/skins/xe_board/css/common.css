@@ -58,10 +58,10 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .userInfo .ipaddress { font-size:.9em; color:#AAAAAA;  }
 
 /* extraVars list */
-.extraVarsList { width:100%; border-top:1px solid #e0e1db; border-bottom:none; margin:10px 0 10px 0; table-layout:fixed;}
-.extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
-.extraVarsList td { color:#555555; border-bottom:1px solid #e0e1db; padding:4px 0 4px 10px; }
-.extraVarsList td a { color:#555555; }
+.boardRead .extraVarsList { width:100%; border-top:1px solid #e0e1db; border-bottom:none; margin:10px 0 10px 0; table-layout:fixed;}
+.boardRead .extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
+.boardRead .extraVarsList td { color:#555555; border-bottom:1px solid #e0e1db; padding:4px 0 4px 10px; }
+.boardRead .extraVarsList td a { color:#555555; }
 
 .boardRead .readBody { margin:10px 10px 0 10px; color:#555555; }
 
@@ -257,10 +257,10 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .tag .help { vertical-align:middle;}
 .boardWrite .tag .info { font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
 
-.boardWrite .extra_vars { clear:both; border-bottom:1px solid #eff0ed; padding-bottom:5px; }
-.boardWrite .extra_vars label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
-.boardWrite .extra_vars .info { clear:both; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
-.boardWrite .extra_vars ul li { float:left; margin-right:1em; }
+.boardWrite .extraVarsList { width:100%; border-top:1px solid #e0e1db; border-bottom:none; margin:10px 0 10px 0; table-layout:fixed;}
+.boardWrite .extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
+.boardWrite .extraVarsList td { color:#555555; border-bottom:1px solid #e0e1db; padding:4px 0 4px 10px; }
+.boardWrite .extraVarsList td a { color:#555555; }
 
 .smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
 .smallBox.w268 { width:268px;}
