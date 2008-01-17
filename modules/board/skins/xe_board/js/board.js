@@ -39,12 +39,6 @@ function completeSearch(fo_obj, params) {
     fo_obj.submit();
 }
 
-/* 추천, 추천은 별도의 폼입력이 필요 없어 직접 필터 사용 */
-function doVote() {
-    var fo_obj = document.getElementById('fo_document_info');
-    procFilter(fo_obj, vote);
-}
-
 function completeVote(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];

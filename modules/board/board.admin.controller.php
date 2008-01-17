@@ -130,7 +130,7 @@
             $oModuleModel = &getModel('module');
 
             // 만약 module_srl이 , 로 연결되어 있다면 일괄 정보 수정으로 처리
-            if(preg_match('/^([0-9,]+)$/',Context::get('module_srl'))) {
+            if(strpos(Context::get('module_srl'),',')!==false) {
                 // 대상 모듈들을 구해옴
                 $modules = $oModuleModel->getModulesInfo(Context::get('module_srl'));
                 $args = Context::getRequestVars();

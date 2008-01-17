@@ -37,9 +37,7 @@
 <!-- 글쓰기, 목록 버튼 -->
 <div class="buttonBox">
     <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','')}"><img src="./images/common/btn_list.gif" alt="{$lang->cmd_list}" /></a>
-    <!--@if($grant->write_document)-->
     <a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="./images/common/btn_write.gif" alt="{$lang->cmd_write}" /></a>
-    <!--@end-->
     <!--@if($grant->is_admin)-->
         <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="./images/common/btn_manage.gif" alt="{$lang->cmd_manage_document}" /></a>
     <!--@end-->

@@ -13,24 +13,39 @@
          * board 모듈은 일반 사용과 관리자용으로 나누어진다.\n
          **/
         function init() {
-            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+            /**
+             * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+             **/
             if($this->module_info->use_category=='Y') {
                 $oDocumentModel = &getModel('document');
                 $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
                 Context::set('category_list', $this->category_list);
             }
 
+            /**
+             * 스킨등에서 사용될 module_srl이나 module_info등을 context set
+             **/
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 
+            // 현재 호출된 게시판의 모듈 정보를 module_info 라는 이름으로 context setting
             Context::set('module_info',$this->module_info);
         
-            // 기본 모듈 정보들 설정
-            $this->list_count = $this->module_info->list_count?$this->module_info->list_count:20;
-            $this->page_count = $this->module_info->page_count?$this->module_info->page_count:10;
+            // 기본 모듈 정보들 설정 (list_count, page_count는 게시판 모듈 전용 정보이고 기본 값에 대한 처리를 함)
+            if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
+            if($this->module_info->page_count) $this->page_count = $this->module_info->page_count;
 
-            // 스킨 템플릿 경로 지정
+            /**
+             * 스킨 경로를 미리 template_path 라는 변수로 설정함
+             **/
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+
+            // 만약 스킨 경로가 없다면 xe_board로 변경
+            if(!is_dir($template_path)) {
+                $this->module_info->skin = 'xe_board';
+                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            }
+
             $this->setTemplatePath($template_path);
         }
 
@@ -38,43 +53,48 @@
          * @brief 목록 및 선택된 글 출력
          **/
         function dispBoardContent() {
-            // 권한 체크
+
+            /**
+             * 목록보기 권한 체크 (모든 권한은 ModuleObject에서 xml 정보와 module_info의 grant 값을 비교하여 미리 설정하여 놓음)
+             **/
             if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
-            // 템플릿에서 사용할 검색옵션 세팅
-            $count_search_option = count($this->search_option);
-            for($i=0;$i<$count_search_option;$i++) {
-                $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
-            }
+            /**
+             * 목록이 노출될때 같이 나오는 검색 옵션을 정리하여 스킨에서 쓸 수 있도록 context set
+             **/
+            // 템플릿에서 사용할 검색옵션 세팅 (검색옵션 key값은 미리 선언되어 있는데 이에 대한 언어별 변경을 함)
+            foreach($this->search_option as $opt) $search_option[$opt] = Context::getLang($opt);
 
             // 모듈정보를 확인하여 확장변수에서도 검색이 설정되어 있는지 확인
             for($i=1;$i<=20;$i++) {
-                $ex_name = $this->module_info->extra_vars[$i]->name;
-                $ex_search = $this->module_info->extra_vars[$i]->search;
-                if($ex_name && $ex_search == 'Y') {
-                    $search_option['extra_vars'.$i] = $ex_name;
-                }
+                $ex_name = trim($this->module_info->extra_vars[$i]->name);
+                if(!$ex_name) continue;
+
+                if($this->module_info->extra_vars[$i]->search == 'Y') $search_option['extra_vars'.$i] = $ex_name;
             }
             Context::set('search_option', $search_option);
+
+            /**
+             * 게시글 목록을 추출함
+             **/
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
             $page = Context::get('page');
 
-            // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
+            // document model 객체를 생성
             $oDocumentModel = &getModel('document');
 
-            // 선택된 문서 표시를 위한 객체 생성 
-            $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+            // 혹시 선택된 문서가 있다면 해당 문서에 대한 객체를 생성함 (일단 빈객체를 만드는 것은 선택된 글이 없을때 스킨에서 object 오류발생하는 것을 막기 위함)
+            $oDocument = $oDocumentModel->getDocument(0);
 
             // document_srl이 있다면 해당 글을 구해와서 $oDocument로 세팅
             if($document_srl) {
 
-                // 글을 구함
+                // 글에 대한 정보를 구함
                 $oDocument->setDocument($document_srl);
-                if($this->grant->manager) $oDocument->setGrant();
 
-                // 글이 존재하지 않으면 그냥 무시하고 글이 존재 하지 않는다는 오류 메세지 출력
+                // 글이 존재하지 않으면 글이 존재 하지 않는다는 오류 메세지 출력
                 if(!$oDocument->isExists()) {
 
                     unset($document_srl);
@@ -83,71 +103,73 @@
 
                     $this->alertMessage('msg_not_founded');
 
+                // 글이 존재하면 글 보기 권한에 대한 확인과 조회수증가/ 브라우저 타이틀의 설정을 함
                 } else {
+
+                    // 관리 권한이 있다면 권한을 부여
+                    if($this->grant->manager) $oDocument->setGrant();
 
                     // 글 보기 권한을 체크해서 권한이 없으면 오류 메세지 출력하도록 처리
                     if(!$this->grant->view && !$oDocument->isGranted()) {
-
                         $oDocument = null;
-                        $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+                        $oDocument = $oDocumentModel->getDocument(0);
 
                         Context::set('document_srl','',true);
 
                         $this->alertMessage('msg_not_permitted');
-
-
                     } else {
-                        // 브라우저 타이틀 설정
+                        // 브라우저 타이틀에 글의 제목을 추가
                         Context::addBrowserTitle($oDocument->getTitleText());
 
                         // 조회수 증가
                         $oDocument->updateReadedCount();
+
+                        // 댓글에디터 설정
+                        $this->setCommentEditor(0, 100);
                     }
                 }
             }
+
+            // 스킨에서 사용하기 위해 context set
             Context::set('oDocument', $oDocument);
 
-            // 댓글에디터 설정
-            $this->setCommentEditor(0, 100);
-
-            // 목록을 구하기 위한 옵션
+            // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
             $args->page = $page; ///< 페이지
             $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
             $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
 
-            // 검색 옵션
+            // 검색과 정렬을 위한 변수 설정
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
             $args->sort_index = Context::get('sort_index');
             $args->order_type = Context::get('order_type');
 
-            // 스킨에서 설정한 기본 정렬 대상을 구함
+            // 지정된 정렬값이 없다면 스킨에서 설정한 정렬 값을 이용함
             if(!$args->sort_index) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
             if(!$args->order_type) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
-            // 만약 document_srl은 있는데 page가 없다면 글만 호출된 경우 page를 구해서 세팅해주자..
-            if($document_srl && ($oDocument->isExists()&&!$oDocument->isNotice()) && !$args->category_srl && !$args->search_keyword && $args->sort_index == 'list_order' && $args->order_type == 'asc') {
-                $page = $oDocumentModel->getDocumentPage($document_srl, $this->module_srl, $this->list_count);
+            // 특정 문서의 permalink로 직접 접속할 경우 page값을 직접 구함
+            if(count($_GET)==1 && isset($_GET['document_srl']) && $oDocument->isExists() && !$oDocument->isNotice()) {
+                $page = $oDocumentModel->getDocumentPage($oDocument->document_srl, $this->module_srl, $this->list_count);
                 Context::set('page', $page);
                 $args->page = $page;
             }
 
-            // 먼저 공지사항을 구해옴
+            // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
             $notice_output = $oDocumentModel->getNoticeList($args);
             Context::set('notice_list', $notice_output->data);
 
-            // 목록 구함
+            // 일반 글을 구해서 context set
             $output = $oDocumentModel->getDocumentList($args, true);
-
-            // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
+            Context::set('document_list', $output->data);
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
-            Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
+            // template_file을 list.html로 지정
             $this->setTemplateFile('list');
         }
 
@@ -155,7 +177,7 @@
          * @brief 태그 목록 모두 보기
          **/
         function dispBoardTagList() {
-            // 권한 체크
+            // 만약 목록 보기 권한조치 없을 경우 태그 목록도 보여주지 않음
             if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
             // 태그 모델 객체에서 태그 목록을 구해옴

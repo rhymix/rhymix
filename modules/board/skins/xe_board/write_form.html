@@ -82,14 +82,6 @@
                 <!--@end-->
             </dl>
 
-            <div>{$editor}</div>
-
-            <div class="tag">
-                <label for="tag_input">{$lang->tag}</label>
-                <input type="text" name="tags" id="tag_input" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
-                <p class="info">{$lang->about_tag}</p>
-            </div>
-
             <!--@foreach($module_info->extra_vars as $key => $val)-->
                 <!--@if($val->name)-->
             <div class="extra_vars">
@@ -99,6 +91,14 @@
             </div>
                 <!--@end-->
             <!--@end-->
+
+            <div>{$editor}</div>
+
+            <div class="tag">
+                <label for="tag_input">{$lang->tag}</label>
+                <input type="text" name="tags" id="tag_input" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
+                <p class="info">{$lang->about_tag}</p>
+            </div>
 
         </fieldset>
 

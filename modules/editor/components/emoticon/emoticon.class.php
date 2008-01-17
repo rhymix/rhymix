@@ -26,7 +26,7 @@
          **/
         function getEmoticonList() {
             $emoticon = Context::get('emoticon');
-            if(!$emoticon || !preg_replace("/^([a-z0-9\_]+)$/i",$emoticon)) return new Object(-1,'msg_invalid_request');
+            if(!$emoticon || !preg_match("/^([a-z0-9\_]+)$/i",$emoticon)) return new Object(-1,'msg_invalid_request');
 
             $list = $this->getEmoticons($emoticon);
 
