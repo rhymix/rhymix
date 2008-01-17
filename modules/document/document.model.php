@@ -157,13 +157,9 @@
             if($search_target && $search_keyword) {
                 switch($search_target) {
                     case 'title' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_title = $search_keyword;
-                            $use_division = true;
-                        break;
                     case 'content' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_content = $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                             $use_division = true;
                         break;
                     case 'title_content' :
@@ -177,66 +173,40 @@
                             $args->s_user_id = $search_keyword;
                             $args->sort_index = 'documents.'.$args->sort_index;
                         break;
-                    case 'member_srl' :
-                            $args->s_member_srl = (int)$search_keyword;
-                        break;
                     case 'user_name' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_user_name = $search_keyword;
-                        break;
                     case 'nick_name' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_nick_name = $search_keyword;
-                        break;
                     case 'email_address' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_email_address = $search_keyword;
-                        break;
                     case 'homepage' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_homepage = $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                         break;
                     case 'is_notice' :
-                            if($search_keyword=='Y') $args->s_is_notice = 'Y';
-                            else $args->s_is_notice = '';
-                        break;
                     case 'is_secret' :
-                            if($search_keyword=='Y') $args->s_is_secret = 'Y';
-                            else $args->s_is_secret = '';
+                            if($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            else $args->{"s_".$search_target} = '';
                         break;
-                    case 'tag' :
-                            $args->s_tags = str_replace(' ','%',$search_keyword);
-                            $query_id = 'document.getDocumentListWithinTag';
-                        break;
+                    case 'member_srl' :
                     case 'readed_count' :
-                            $args->s_readed_count = (int)$search_keyword;
-                        break;
                     case 'voted_count' :
-                            $args->s_voted_count = (int)$search_keyword;
-                        break;
                     case 'comment_count' :
-                            $args->s_comment_count = (int)$search_keyword;
-                        break;
                     case 'trackback_count' :
-                            $args->s_trackback_count = (int)$search_keyword;
-                        break;
                     case 'uploaded_count' :
-                            $args->s_uploaded_count = (int)$search_keyword;
+                            $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
                     case 'regdate' :
-                            $args->s_regdate = $search_keyword;
-                        break;
                     case 'last_update' :
-                            $args->s_last_upate = $search_keyword;
-                        break;
                     case 'ipaddress' :
-                            $args->s_ipaddress= $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                         break;
                     case 'comment' :
                             $args->s_comment = $search_keyword;
                             $args->sort_index = 'documents.'.$args->sort_index;
                             $query_id = 'document.getDocumentListWithinComment';
                             $use_division = true;
+                        break;
+                    case 'tag' :
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
+                            $query_id = 'document.getDocumentListWithinTag';
                         break;
                     default :
                             preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);

@@ -22,47 +22,45 @@
 
 <!-- 글쓰기 폼 -->
 <!--%import("filter/insert_comment.xml")-->
-<div class="boardWrite">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+<input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
+<input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
 
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
-        <fieldset>
-            <input type="hidden" name="mid" value="{$mid}" />
-            <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
-            <input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
-            <input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
-            <input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+<div class="boardWrite commentEditor">
 
-            <div class="userNameAndPw">
-                <!--@if(!$is_logged)-->
-                <label for="userName">{$lang->writer}</label>
-                <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
+    <div class="userNameAndPw">
+        <!--@if(!$is_logged)-->
+        <label for="userName">{$lang->writer}</label>
+        <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
 
-                <label for="userPw">{$lang->password}</label>
-                <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
+        <label for="userPw">{$lang->password}</label>
+        <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
 
-                <label for="emailAddress">{$lang->email_address}</label>
-                <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
+        <label for="emailAddress">{$lang->email_address}</label>
+        <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
 
-                <label for="homePage">{$lang->homepage}</label>
-                <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
-                <!--@else-->
-                <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
-                <label for="notify_message">{$lang->notify}</label>
-                <!--@end-->
+        <label for="homePage">{$lang->homepage}</label>
+        <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
+        <!--@else-->
+        <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
+        <label for="notify_message">{$lang->notify}</label>
+        <!--@end-->
 
-                <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
-                <label for="is_secret">{$lang->secret}</label>
-            </div>
+        <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
+        <label for="is_secret">{$lang->secret}</label>
+    </div>
 
-            <div <!--@if($is_logged)-->class="borderTop"<!--@end-->>{$comment_editor}</div>
-
-        </fieldset>
-
-        <div class="commentButton tRight">
-            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
-            <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-        </div>
-    </form>
+    <div class="editor">{$comment_editor}</div>
 </div>
+
+<div class="commentButton tRight">
+    <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
+    <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+</div>
+
+</form>
 
 <!--#include("footer.html")-->

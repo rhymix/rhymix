@@ -52,7 +52,9 @@
 <!-- 스킨의 제목/간단한 설명 출력 -->
     <!--@if($module_info->title)-->
     <div class="boardHeader">
-        <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+        <div class="boardHeaderBorder">
+            <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+        </div>
     </div>
     <!--@end-->
 
@@ -112,4 +114,5 @@
             <li class="listType"><a href="{getUrl('listStyle','gallery','act','')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
             <!--@end-->
         </ul>
+
     </div>

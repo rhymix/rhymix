@@ -21,9 +21,9 @@
 .pageNavigation .current { color:#38b549; border-right:1px solid #CCCCCC; }
 
 /* boardRead */
-.boardRead .readFooter .fileAttached li a { background:url(../images/green/iconFile.gif) no-repeat left top;}
+.boardRead .fileAttached li a { background:url(../images/green/iconFile.gif) no-repeat left top;}
 
 /* replyAndTrackback */
-.replyAndTrackback { background:url(../images/green/bgBoardListTh.gif) repeat-x left 0px; }
-.replyAndTrackback a strong { color:#38b549;}
+.buttonBox .replyAndTrackback a strong { color:#38b549;}
+
 .replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/green/iconFile.gif) no-repeat left;}
