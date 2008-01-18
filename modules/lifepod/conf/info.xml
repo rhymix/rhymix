@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module version="0.11" category="service">
+<module version="0.12" category="service">
     <title xml:lang="ko">라이프팟 연동</title>
     <title xml:lang="en">Lifepod</title>
     <title xml:lang="jp">Lifepod連動</title>
