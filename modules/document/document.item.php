@@ -370,6 +370,7 @@
 
         function getComments() {
             if(!$this->allowComment() || !$this->getCommentCount()) return;
+            if(!$this->isGranted() && $this->isSecret()) return;
 
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getCommentList($this->document_srl, $is_admin);
