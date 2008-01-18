@@ -48,13 +48,14 @@
 
             if(!count($targets)) return $files;
 
-            $hashed_filename = $this->getHashFilename($targets);
+            $optimized_info = $this->getOptimizedInfo($targets);
 
-            $filename = sprintf("%s%s.%s.php", $this->cache_path, $hashed_filename, $type);
+            $path = sprintf("%s%s", $this->cache_path, $optimized_info[0]);
+            $filename = sprintf("%s.%s.%s.php", $optimized_info[0], $optimized_info[1], $type);
 
-            $this->doOptimizedFile($filename, $targets, $type);
+            $this->doOptimizedFile($path, $filename, $targets, $type);
 
-            $files[] = $filename;
+            $files[] = $path.'/'.$filename;
 
             return $files;
 
@@ -64,34 +65,38 @@
          * @brief optimize는 대상 파일을 \n로 연결후 md5 hashing하여 파일이름의 중복을 피함
          * 개별 파일과 optimizer 클래스 파일의 변경을 적용하기 위해 각 파일들과 Optimizer.class.php의 filemtime을 비교, 파일이름에 반영
          **/
-        function getHashFilename($files) {
+        function getOptimizedInfo($files) {
+            // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
+            $count = count($files);
+            $last_modified = 0;
+            for($i=0;$i<$count;$i++) {
+                $mtime = filemtime($files[$i]);
+                if($last_modified < $mtime) $last_modified = $mtime;
+            }
+
             $buff = implode("\n", $files);
-            return md5($buff);
+
+            return array(md5($buff), $last_modified);
         }
 
         /**
          * @brief 이미 저장된 캐시 파일과의 시간등을 검사하여 새로 캐싱해야 할지를 체크
          **/
-        function doOptimizedFile($filename, $targets, $type) {
-            // optimized 파일이 없으면 새로 옵티마이징
-            if(!file_exists($filename)) return $this->makeOptimizedFile($filename, $targets, $type);
+        function doOptimizedFile($path, $filename, $targets, $type) {
+            // 대상 파일이 있으면 그냥 패스~
+            if(file_exists($path.'/'.$filename)) return;
 
-            // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
-            $count = count($targets);
-            $last_modified = 0;
-            for($i=0;$i<$count;$i++) {
-                $mtime = filemtime($targets[$i]);
-                if($last_modified < $mtime) $last_modified = $mtime;
-            }
+            // 대상 파일이 없으면 hashed_filename으로 생성된 파일들을 모두 삭제
+            FileHandler::removeFilesInDir($path);
 
-            $mtime = filemtime($filename);
-            if($mtime < $last_modified || $mtime < filemtime('./classes/optimizer/Optimizer.class.php')) return $this->makeOptimizedFile($filename, $targets, $type);
+            // 새로 캐시 파일을 생성
+            $this->makeOptimizedFile($path, $filename, $targets, $type);
         }
 
         /**
          * @brief css나 js파일을 묶어서 하나의 파일로 만들고 gzip 압축이나 헤더등을 통제하기 위해서 php파일을 별도로 만들어서 진행함
          **/
-        function makeOptimizedFile($filename, $targets, $type) {
+        function makeOptimizedFile($path, $filename, $targets, $type) {
             /**
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
@@ -107,23 +112,21 @@
                 $content_buff .= $str."\n";
             }
             if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
-            $content_file = substr($filename, 0, -4);
-            $content_filename = str_replace($this->cache_path, '', $content_file);
 
-            FileHandler::writeFile($content_file, $content_buff);
+            $content_filename = substr($filename, 0, -4);
+            FileHandler::writeFile($path.'/'.$content_filename, $content_buff);
 
             /**
              * 캐시 타임을 제대로 이용하기 위한 헤더 파일 구함
              **/
             // 확장자별 content-type 체크
             if($type == 'css') $content_type = 'text/css';
-            elseif($type == 'js') $content_type = 'text/javascript';
+            elseif($type == 'js') $content_type = 'application/x-javascript';
 
             // 캐시를 위한 처리 
             $unique = crc32($content_filename);
-            $size = filesize($content_file);
-            $mtime = filemtime($content_file);
-            $class_mtime = filemtime("./classes/optimizer/Optimizer.class.php");
+            $size = filesize($path.'/'.$content_file);
+            $mtime = filemtime($path.'/'.$content_file);
 
             // js, css 파일을 php를 통해서 출력하고 이 출력시에 헤더값을 조작하여 캐싱과 압축전송이 되도록 함 (IE6는 CSS파일일 경우 gzip압축하지 않음)
             $header_buff = '<?php
@@ -134,7 +137,7 @@ $type = "'.$type.'";
 
 if(isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
     $time = strtotime(preg_replace("/;.*$/", "", $_SERVER["HTTP_IF_MODIFIED_SINCE"])); 
-    if($mtime == $time && $time > '.$class_mtime.') {
+    if($mtime == $time) {
         header("HTTP/1.1 304"); 
         $cached = true;
     } 
@@ -167,7 +170,7 @@ if(!$cached) {
 }
 
 ?>';
-            FileHandler::writeFile($filename, $header_buff);
+            FileHandler::writeFile($path.'/'.$filename, $header_buff);
         }
 
         /**
@@ -175,7 +178,7 @@ if(!$cached) {
          **/
         function replaceCssPath($file, $str) {
             // css 파일의 위치를 구함
-            $this->tmp_css_path = Context::getRequestUri().preg_replace("/^\.\//is","",dirname($file))."/";
+            $this->tmp_css_path = './'.preg_replace("/^\.\//is","",dirname($file))."/";
 
             // url() 로 되어 있는 css 파일의 경로를 변경
             $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);

@@ -2,56 +2,65 @@
 <div class="boardRead">
     <div class="originalContent">
         <div class="readHeader">
-            <div class="titleAndCategory">
+            <div class="titleAndUser">
 
-                <h4>{$oDocument->getTitle()}</h4>
+                <div class="title">
+                    <h4><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></h4>
+                </div>
 
-                <!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->
-                <span class="vr">-</span><span class="category">{$category_list[$oDocument->get('category_srl')]->title}</span>
-                <!--@end-->
+                <div class="userInfo">
+                    <!--@if(!$oDocument->getMemberSrl())-->
+                        <div class="author">
+                        <!--@if($oDocument->isExistsHomepage())-->
+                            <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
+                        <!--@else-->
+                            {$oDocument->getNickName()}
+                        <!--@end-->
+                        </div>
+                    <!--@else-->
+                        <div class="author"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
+                    <!--@end-->
+                </div>
+
+                <div class="clear"></div>
+            
             </div>
 
             <div class="dateAndCount">
-                {$lang->readed_count}:
-                <strong>{$oDocument->get('readed_count')}</strong>,
+                <div class="date" title="{$lang->regdate}">
+                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
+                </div>
+
+                <div class="readedCount" title="{$lang->readed_count}">{$oDocument->get('readed_count')}</div>
 
                 <!--@if($oDocument->get('voted_count')!=0)-->
-                    {$lang->voted_count}:
-                    <strong>{$oDocument->get('voted_count')}</strong>,
+                <div class="votedCount" title="{$lang->voted_count}">
+                    <strong>{$oDocument->get('voted_count')}</strong>
+                </div>
                 <!--@end-->
 
-                <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
-            </div>
-            
-            <div class="clear"></div>
-        </div>
-        
-        <div class="contentInfo">
-            <div class="userInfo">
-                <!--@if(!$oDocument->getMemberSrl())-->
-                    <div class="author">
-                    <!--@if($oDocument->isExistsHomepage())-->
-                        <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
-                    <!--@else-->
-                        {$oDocument->getNickName()}
+                <div class="replyAndTrackback">
+                    <!--@if($grant->write_comment && $oDocument->allowComment()) -->
+                    <a href="#comment" class="reply" title="{$lang->comment}"><strong>{$oDocument->getCommentcount()}</strong></a>
                     <!--@end-->
-                    </div>
-                <!--@else-->
-                    <div class="author"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
+                    <!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
+                    <a href="#trackback" class="trackback" title="{$lang->trackback}"><strong>{$oDocument->getTrackbackCount()}</strong></a>
+                    <!--@end-->
+                </div>
+
+                <!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->
+                <div class="category" title="{$lang->category}"><a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}">{$category_list[$oDocument->get('category_srl')]->title}</a></div>
                 <!--@end-->
 
-                <!--@if($grant->is_admin)-->
-                <div class="ipaddress">{$oDocument->get('ipaddress')}</div>
-                <!--@end-->
+                <div class="uri" title="{$lang->document_url}"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getPermanentUrl()}</a></div>
+
+                <div class="clear"></div>
             </div>
-            <ul class="uri">
-                <li>{$lang->document_url} : {$oDocument->getPermanentUrl()}</li>
-                <!--@if($oDocument->allowTrackback())-->
-                <li>{$lang->trackback_url} : {$oDocument->getTrackbackUrl()}</li>
-                <!--@end-->
-            </ul>
+
             <div class="clear"></div>
         </div>
+
+        <div class="clear"></div>
 
         <!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
         <table cellspacing="0" summary="" class="extraVarsList">
@@ -91,6 +100,9 @@
                     {$oDocument->getContent()}
                 <!--@end-->
 
+                <!--@if($grant->is_admin)-->
+                <div class="ipaddress">ipaddress : {$oDocument->get('ipaddress')}</div>
+                <!--@end-->
             </div>
         </div>
 
@@ -108,9 +120,8 @@
 
         <!--@if($oDocument->hasUploadedFiles())-->
         <div class="fileAttached">
-            <h5>{$lang->uploaded_file} : </h5>
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
             <ul>
-                {@ $uploaded_list = $oDocument->getUploadedFiles() }
                 <!--@foreach($uploaded_list as $key => $file)-->
                 <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
                 <!--@end-->
@@ -120,75 +131,63 @@
         <!--@end-->
     </div>
 
-    <div class="buttonBox">
-        <div class="replyAndTrackback">
-            <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-            <a href="#comment" class="reply">{$lang->comment} : <strong>{$oDocument->getCommentcount()}</strong></a>
-            <!--@end-->
-            <!--@if($oDocument->allowTrackback())-->
-            <a href="#trackback" class="trackback">{$lang->trackback} : <strong>{$oDocument->getTrackbackCount()}</strong></a>
-            <!--@end-->
-        </div>
-
-        <!-- 목록, 수정/삭제 버튼 --> 
-        <div class="contentButton">
-            <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
-            <!--@if($oDocument->isEditable())-->
-            <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
-            <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
-            <!--@end-->
-        </div>
+    <!-- 목록, 수정/삭제 버튼 --> 
+    <div class="contentButton">
+        <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+        <!--@if($oDocument->isEditable())-->
+        <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@end-->
     </div>
-    <div class="clear"></div>
+
 </div>
 
 <!-- 엮인글 -->
-    <!--@if($oDocument->allowTrackback())-->
-        <a name="trackback"></a>
-        <!--#include("./trackback.html")-->
-    <!--@end-->
+<!--@if($oDocument->allowTrackback())-->
+    <!--#include("./trackback.html")-->
+<!--@end-->
 
 <!-- 댓글 -->
-    <a name="comment"></a>
-    <!--#include("./comment.html")-->
+<a name="comment"></a>
+<!--#include("./comment.html")-->
 
-    <!-- 댓글 입력 폼 -->
-    <!--@if($grant->write_comment && !$oDocument->isLocked() && $oDocument->allowComment() )-->
-        <!--%import("filter/insert_comment.xml")-->
-        <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
-        <input type="hidden" name="mid" value="{$mid}" />
-        <input type="hidden" name="document_srl" value="{$document_srl}" />
-        <input type="hidden" name="comment_srl" value="" />
-        <input type="hidden" name="content" value="" />
-            <div class="boardWrite commentEditor">
-                <div class="userNameAndPw">
-                    <!--@if(!$is_logged)-->
-                    <label for="userName">{$lang->writer}</label>
-                    <input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/>
+<!-- 댓글 입력 폼 -->
+<!--@if($grant->write_comment && !$oDocument->isLocked() && $oDocument->allowComment() )-->
+    <!--%import("filter/insert_comment.xml")-->
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+    <input type="hidden" name="comment_srl" value="" />
+    <input type="hidden" name="content" value="" />
+        <div class="boardWrite commentEditor">
+            <div class="userNameAndPw">
+                <!--@if(!$is_logged)-->
+                <label for="userName">{$lang->writer}</label>
+                <input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/>
 
-                    <label for="userPw">{$lang->password}</label>
-                    <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
+                <label for="userPw">{$lang->password}</label>
+                <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
 
-                    <label for="emailAddress">{$lang->email_address}</label>
-                    <input type="text" name="email_address" value="" id="emailAddress" class="emailAddress inputTypeText"/>
+                <label for="emailAddress">{$lang->email_address}</label>
+                <input type="text" name="email_address" value="" id="emailAddress" class="emailAddress inputTypeText"/>
 
-                    <label for="homePage">{$lang->homepage}</label>
-                    <input type="text" name="homepage" value="" id="homePage" class="homePage inputTypeText"/>
-                    <!--@else-->
-                    <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
-                    <label for="notify_message">{$lang->notify}</label>
-                    <!--@end-->
+                <label for="homePage">{$lang->homepage}</label>
+                <input type="text" name="homepage" value="" id="homePage" class="homePage inputTypeText"/>
+                <!--@else-->
+                <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
+                <label for="notify_message">{$lang->notify}</label>
+                <!--@end-->
 
-                    <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
-                    <label for="is_secret">{$lang->secret}</label>
+                <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
+                <label for="is_secret">{$lang->secret}</label>
 
-                </div>
-
-                <div class="editor">{$comment_editor}</div>
             </div>
 
-            <div class="commentButton tRight">
-                <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-            </div>
-        </form>
-    <!--@end-->
+            <div class="editor">{$oDocument->getCommentEditor()}</div>
+        </div>
+
+        <div class="commentButton tRight">
+            <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+        </div>
+    </form>
+<!--@end-->

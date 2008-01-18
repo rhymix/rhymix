@@ -249,5 +249,14 @@
             $file_list = $oFileModel->getFiles($this->comment_srl, $is_admin);
             return $file_list;
         }
+
+        /**
+         * @brief 에디터 html을 구해서 return
+         **/
+        function getEditor() {
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $this->comment_srl, 'comment_srl', 'content');
+        }
+
     }
 ?>

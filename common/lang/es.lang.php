@@ -123,6 +123,7 @@
     $lang->document_count = 'Cantidad de documentos';
     $lang->page_count = 'Cantidad de páginas';
     $lang->list_count = 'Cantidad de listas';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = 'Leídos';
     $lang->voted_count = 'Recomendados';
     $lang->member_count = 'Cantidad de usuarios';

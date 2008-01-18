@@ -92,7 +92,7 @@
     </table>
     <!--@end-->
 
-    <div class="editor">{$editor}</div>
+    <div class="editor">{$oDocument->getEditor()}</div>
 
     <div class="tag">
         <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />

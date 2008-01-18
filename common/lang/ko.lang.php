@@ -124,6 +124,7 @@
     $lang->document_count = '글수';
     $lang->page_count = '페이지수';
     $lang->list_count = '목록 수';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = '조회수';
     $lang->voted_count = '추천수';
     $lang->member_count = '회원수';

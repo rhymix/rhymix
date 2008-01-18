@@ -124,6 +124,7 @@
     $lang->document_count = 'Total Articles';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = 'Views';
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';

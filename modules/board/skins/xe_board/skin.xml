@@ -87,6 +87,7 @@
             <default>list</default>
             <default>webzine</default>
             <default>gallery</default>
+            <default>blog</default>
             <default>forum</default>
         </var>
         <var name="order_target" type="select">

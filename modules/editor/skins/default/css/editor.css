@@ -32,16 +32,17 @@
 .xeEditor .editor_info .editor_autosaved_message { display:none; color:#888888; float:right; }
 
 .xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
-.xeEditor #textAreaDrag {}
-.xeEditor .fileAttach { padding:0 1em .5em 1em;}
-.xeEditor .fileAttach .preview { padding:5px; width:110px; height:110px; border:1px solid #e1e1dd; background:transparent; float:left; margin-right:.5em;}
-.xeEditor .fileAttach .preview img { width:110px; height:110px; float:left; display:block;}
-.xeEditor .fileAttach .fileListArea { float:left; width:50%; margin-right:.7em; padding-bottom:.5em; margin-bottom:1em}
-.xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:.3em; font-size:11px;}
+
+.xeEditor .fileAttach { border:none; table-layout:fixed; margin:0 10px 0 10px; }
+
+.xeEditor .fileAttach .preview { padding:5px; border:1px solid #e1e1dd; width:100px; height:100px; margin-right:10px;}
+.xeEditor .fileAttach .preview img { width:100px; height:100px; }
+
+.xeEditor .fileAttach .fileListArea .fileList { overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:10px; font-size:11px;}
 .xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
-.xeEditor .fileAttach .fileListArea span.file_attach_info { color:#3f4040; font-size:11px; text-align:left;}
-.xeEditor .fileAttach .fileListArea span.file_attach_info strong { color:#ff6600; font-size:11px; font-weight:bold; }
-.xeEditor .fileAttach .fileUploadControl { margin-bottom:5px; }
+.xeEditor .fileAttach .fileUploadControl { float:left; }
+.xeEditor .fileAttach .file_attach_info { color:#AAAAAA; font-size:.9em; _font-size:7pt; text-align:right;}
+*:first-child+html .xeEditor .fileAttach .file_attach_info { font-size:7pt; }
 
 .xeEditor .fileAttach .fileUploadControl .uploaderButton { display:block; cursor:pointer; background:url(../images/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
 .xeEditor .fileAttach .fileUploadControl .uploaderButton:hover { text-decoration:none;}

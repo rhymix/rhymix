@@ -163,21 +163,25 @@
         <!--@end-->
     //]]></script>
 
-    <div class="fileAttach">
-        <div class="preview" id="preview_uploaded_{$editor_sequence}"><img src="./images/blank.gif" alt="preview" width="100" height="100" /></div>
-
-        <!-- 파일 업로드 영역 -->
-        <div class="fileListArea">
-            <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
-            <span class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</span>
-        </div>
-
-        <div class="fileUploadControl"><a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a></div>
-
-        <div class="clear"></div>
-    </div>
+    <table cellspacing="0" class="fileAttach">
+    <col width="120" />
+    <col width="100%" />
+    <tr valign="top">
+        <td width="120"><div class="preview" id="preview_uploaded_{$editor_sequence}"><img src="./images/blank.gif" alt="preview" width="100" height="100" /></div></td>
+        <td>
+            <!-- 파일 업로드 영역 -->
+            <div class="fileListArea">
+                <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
+            </div>
+            <div class="fileUploadControl">
+                <a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a>
+                <a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
+                <a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
+            </div>
+            <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+        </td>
+    </tr>
+    </table>
 <!--@end-->
 </div>
 

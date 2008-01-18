@@ -17,8 +17,6 @@
          *
          * 단, 수정하는 경우 또는 파일업로드를 한 자동저장본의 경우는 getNextSequence() 값으로 저장된 editor_seqnece가 
          * 설정된다.
-         *
-         * editor_sequence <= 30 일경우에는 무조건 가상의 번호로 판별함
          **/
 
         /**
@@ -190,7 +188,7 @@
             Context::set('editor_path', $tpl_path);
 
             // tpl 파일을 compile한 결과를 return
-            $oTemplate = &TemplateHandler::getInstance();
+            $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
 

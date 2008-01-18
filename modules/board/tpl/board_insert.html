@@ -92,13 +92,26 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->search_list_count}</th>
+        <td>
+            <input type="text" name="search_list_count" value="{$module_info->search_list_count?$module_info->search_list_count:20}"  class="inputTypeText" />
+            <p>{$lang->about_search_list_count}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->page_count}</th>
         <td>
             <input type="text" name="page_count" value="{$module_info->page_count?$module_info->page_count:10}"  class="inputTypeText" />
             <p>{$lang->about_page_count}</p>
         </td>
     </tr>
-
+    <tr>
+        <th scope="row">{$lang->except_notice}</th>
+        <td>
+            <input type="checkbox" name="except_notice" value="Y" <!--@if($module_info->except_notice!='N')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_except_notice}</p>
+        </td>
+    </tr>
     <tr>
         <th scope="row">{$lang->description}</th>
         <td>

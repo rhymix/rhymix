@@ -1,24 +1,26 @@
 <!-- 엮인글 목록 -->
 
-<!--@if($oDocument->getTrackbackCount())-->
 <div class="trackbackBox">
 
-    <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
-    <div class="trackbackItem">
-        <a name="trackback_{$val->trackback_srl}"></a>
-        <address>
-            <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>
-            <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/common/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
-            <span class="date">
-                {zdate($val->regdate, "Y.m.d H:i")}
-                ({$val->ipaddress})
-            </span>
-        </address>
-        <div>
-            <a href="{$val->url}" onclick="winopen(this.href);return false;">{$val->excerpt}</a> 
+    <div class="trackbackUrl"><a name="trackback" href="{$oDocument->getTrackbackUrl()}" onclick="return false;">{$lang->trackback_url} : {$oDocument->getTrackbackUrl()}</a></div>
+
+    <!--@if($oDocument->getTrackbackCount())-->
+        <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
+        <div class="trackbackItem">
+            <a name="trackback_{$val->trackback_srl}"></a>
+            <address>
+                <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>
+                <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/common/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
+                <span class="date">
+                    {zdate($val->regdate, "Y.m.d H:i")}
+                    ({$val->ipaddress})
+                </span>
+            </address>
+            <div>
+                <a href="{$val->url}" onclick="winopen(this.href);return false;">{$val->excerpt}</a> 
+            </div>
         </div>
-    </div>
+        <!--@end-->
     <!--@end-->
 
 </div>
-<!--@end-->

@@ -1,0 +1,50 @@
+<!-- 검색된 글 목록이 있고 권한이 있을 경우 출력 -->
+    <!--@if($grant->list)-->
+
+        <!--@if($category || $search_keyword)-->
+
+            <!--@if($oDocument->isExists())-->
+            <div class="viewDocument">
+            <!--#include("./view_document.html")-->
+            </div>
+            <!--@end-->
+
+            <!-- 글이 선택되어 있거나 검색어가 있으면 목록을 출력 -->
+            <!--#include("./style.list.html")-->
+
+        <!--@elseif($oDocument->isExists())-->
+
+            <div class="viewDocument">
+                <!--#include("./view_document.html")-->
+            </div>
+
+        <!--@else-->
+
+            <!-- 공지사항 -->
+            <!--@foreach($notice_list as $no => $document)-->
+                <div class="blogNotice">
+                    <span class="date">[{$document->getRegdate("Y-m-d")}]</span>
+                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitle()}</a>
+
+                    <!--@if($document->getCommentCount())-->
+                        <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                    <!--@end-->
+
+                    <!--@if($document->getTrackbackCount())-->
+                        <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                    <!--@end-->
+
+                    {$document->printExtraImages(60*60*$module_info->duration_new)}
+                </div>
+            <!--@end-->
+
+            <!-- 일반글 -->
+            <!--@foreach($document_list as $no => $oDocument)-->
+            <div class="viewDocument">
+            <!--#include("./view_document.html")-->
+            </div>
+            <!--@end-->
+
+        <!--@end-->
+
+    <!--@end-->

@@ -51,7 +51,8 @@
     $lang->about_footer_text = '显示在模块底部的内容。(可以使用HTML)';
     $lang->about_skin = '可以选择模块皮肤。';
     $lang->about_use_category = '选择此项可以使用分类功能。';
-    $lang->about_list_count = '可以指定每页显示的主题数。(默认为1个)';
+    $lang->about_list_count = '可以指定每页显示的主题数。(默认为20个)';
+    $lang->about_search_list_count = '검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)';
     $lang->about_page_count = '可以指定显示在目录下方的页面数。 (默认为10个)';
     $lang->about_admin_id = '可以对该模块指定最高管理权限。<br />有多名管理员时，可以用,(逗号)来分隔。 (不能访问管理页面)';
     $lang->about_grant = '全部解除特定权限的对象时，没有登录的会员也将具有相关权限。';

@@ -151,6 +151,8 @@
 
                     $extra_vars->use_category = $args->use_category=='Y'?'Y':'N';
                     $extra_vars->list_count = $args->list_count;
+                    $extra_vars->search_list_count = $args->search_list_count;
+                    $extra_vars->except_notice = $args->except_notice!='Y'?'N':'Y';
                     $extra_vars->page_count = $args->page_count;
 
                     $obj->extra_vars = serialize($extra_vars);
@@ -175,6 +177,7 @@
             // 기본 값외의 것들을 정리
             $extra_var = delObjectVars(Context::getRequestVars(), $args);
             if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
+            if($extra_var->except_notice!='Y') $extra_var->except_notice = 'N';
             unset($extra_var->act);
             unset($extra_var->page);
             unset($extra_var->board_name);

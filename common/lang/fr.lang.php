@@ -122,6 +122,7 @@
     $lang->document_count = 'Nombre Total des Articles';
     $lang->page_count = 'Nombre de Pages';
     $lang->list_count = 'Nombre de Listes';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = 'Nombre de Fois Lues';
     $lang->voted_count = 'Nombre de Voix';
     $lang->member_count = 'Nombre de Membres';

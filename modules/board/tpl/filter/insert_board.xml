@@ -3,6 +3,7 @@
         <node target="mid" required="true" filter="alpha_number" />
         <node target="browser_title" required="true" maxlength="250" />
         <node target="list_count" required="true" filter="number" />
+        <node target="search_list_count" required="true" filter="number" />
         <node target="page_count" required="true" filter="number" />
     </form>
     <parameter>
@@ -14,6 +15,8 @@
         <param name="browser_title" target="browser_title" />
         <param name="use_category" target="use_category" />
         <param name="list_count" target="list_count" />
+        <param name="search_list_count" target="search_list_count" />
+        <param name="except_notice" target="except_notice" />
         <param name="page_count" target="page_count" />
         <param name="is_default" target="is_default" />
         <param name="description" target="description" />

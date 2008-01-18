@@ -41,6 +41,8 @@
         {@ $module_info->default_style = 'gallery'}
     <!--@elseif($listStyle=='webzine')-->
         {@ $module_info->default_style = 'webzine'}
+    <!--@elseif($listStyle=='blog')-->
+        {@ $module_info->default_style = 'blog'}
     <!--@elseif($listStyle=='list')-->
         {@ $module_info->default_style = 'list'}
     <!--@end-->
@@ -107,11 +109,12 @@
 
             <li class="tag_info"><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/common/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
 
-        <!-- 목록형태 (포럼형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
-            <!--@if($module_info->default_style != 'forum')-->
-            <li class="listType"><a href="{getUrl('listStyle','list','act','')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
-            <li class="listType"><a href="{getUrl('listStyle','webzine','act','')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
-            <li class="listType"><a href="{getUrl('listStyle','gallery','act','')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
+        <!-- 목록형태 (포럼형/ 블로그형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
+            <!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
+            <li class="listType"><a href="{getUrl('listStyle','list','act','','document_srl','')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','webzine','act','','document_srl','')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','gallery','act','','document_srl','')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','blog','act','','document_srl','')}"><img src="./images/common/typeBlog.gif" border="0" width="13" height="13" alt="Blog" /></a></li>
             <!--@end-->
         </ul>
 

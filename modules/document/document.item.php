@@ -369,8 +369,7 @@
         }
 
         function getComments() {
-            if(!$this->allowComment() || !$this->get('comment_count')) return;
-            if(!$this->isGranted() && $this->isSecret()) return;
+            if(!$this->allowComment() || !$this->getCommentCount()) return;
 
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getCommentList($this->document_srl, $is_admin);
@@ -559,6 +558,22 @@
             $oFileModel = &getModel('file');
             $file_list = $oFileModel->getFiles($this->document_srl, $is_admin);
             return $file_list;
+        }
+
+        /**
+         * @brief 에디터 html을 구해서 return
+         **/
+        function getEditor() {
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('document', $this->get('module_srl'), $this->document_srl, 'document_srl', 'content');
+        }
+
+        /**
+         * @brief 댓글 에디터 html을 구해서 return
+         **/
+        function getCommentEditor() {
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
         }
     }
 ?>

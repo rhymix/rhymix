@@ -18,7 +18,7 @@
 .buttonTypeGo { background:url(../images/purple/buttonTypeInput24.gif) no-repeat; }
 
 /* pageNavigation */
-.pageNavigation .current { color:#b1ae00; border-right:1px solid #CCCCCC; }
+.pageNavigation .current { color:#b1ae00; }
 
 /* boardRead */
 .boardRead .fileAttached li a { background:url(../images/purple/iconFile.gif) no-repeat left top;}

@@ -18,7 +18,7 @@
 .buttonTypeGo { background:url(../images/cyan/buttonTypeInput24.gif) no-repeat; }
 
 /* pageNavigation */
-.pageNavigation .current { color:#2895c0; border-right:1px solid #CCCCCC; }
+.pageNavigation .current { color:#2895c0; }
 
 /* boardRead */
 boardRead .fileAttached li a { background:url(../images/cyan/iconFile.gif) no-repeat left top;}

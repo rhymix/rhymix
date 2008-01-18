@@ -33,6 +33,8 @@
         
             // 기본 모듈 정보들 설정 (list_count, page_count는 게시판 모듈 전용 정보이고 기본 값에 대한 처리를 함)
             if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
+            if($this->module_info->search_list_count) $this->search_list_count = $this->module_info->search_list_count;
+            if($this->module_info->except_notice == 'N') $this->except_notice = false; else $this->except_notice = true;
             if($this->module_info->page_count) $this->page_count = $this->module_info->page_count;
 
             /**
@@ -123,9 +125,6 @@
 
                         // 조회수 증가
                         $oDocument->updateReadedCount();
-
-                        // 댓글에디터 설정
-                        $this->setCommentEditor(0, 100);
                     }
                 }
             }
@@ -133,8 +132,13 @@
             // 스킨에서 사용하기 위해 context set
             Context::set('oDocument', $oDocument);
 
-            // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
+            // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
+
+            $notice_output = $oDocumentModel->getNoticeList($args);
+            Context::set('notice_list', $notice_output->data);
+
+            // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
             $args->page = $page; ///< 페이지
             $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
             $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
@@ -157,12 +161,11 @@
                 $args->page = $page;
             }
 
-            // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
-            $notice_output = $oDocumentModel->getNoticeList($args);
-            Context::set('notice_list', $notice_output->data);
+            // 만약 카테고리가 있거나 검색어가 있으면list_count를 search_list_count 로 이용
+            if($args->category_srl || $args->search_keyword) $args->list_count = $this->search_list_count;
 
             // 일반 글을 구해서 context set
-            $output = $oDocumentModel->getDocumentList($args, true);
+            $output = $oDocumentModel->getDocumentList($args, $this->except_notice);
             Context::set('document_list', $output->data);
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
@@ -231,11 +234,6 @@
             Context::set('document_srl',$document_srl);
             Context::set('oDocument', $oDocument);
 
-            // 에디터 모듈의 getEditor를 호출하여 세팅
-            $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getModuleEditor('document', $this->module_srl, $document_srl, 'document_srl', 'content');
-            Context::set('editor', $editor);
-
             // 확장변수처리를 위해 xml_js_filter를 직접 header에 적용
             $oDocumentController = &getController('document');
             $oDocumentController->addXmlJsFilter($this->module_info);
@@ -299,9 +297,6 @@
             Context::set('oSourceComment',$oSourceComment);
             Context::set('oComment',$oComment);
 
-            // 댓글 에디터 세팅 
-            $this->setCommentEditor(0, 400);
-
             $this->setTemplateFile('comment_form');
         }
 
@@ -332,9 +327,6 @@
             // 필요한 정보들 세팅
             Context::set('oSourceComment', $oCommentModel->getComment());
             Context::set('oComment', $oComment);
-
-            // 댓글 에디터 세팅 
-            $this->setCommentEditor($comment_srl, 301);
 
             $this->setTemplateFile('comment_form');
         }
@@ -394,19 +386,6 @@
             if(!$msg) $msg = $msg_code;
             Context::set('message', $msg);
             $this->setTemplateFile('message');
-        }
-
-        /**
-         * @brief 댓글의 editor 를 세팅
-         * 댓글의 경우 수정하는 경우가 아니라면 고유값이 없음.\n
-         * 따라서 고유값이 없을 경우 고유값을 가져와서 지정해 주어야 함
-         **/
-        function setCommentEditor($comment_srl = 0, $height = 100) {
-            Context::set('comment_srl', $comment_srl);
-
-            $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getModuleEditor('comment', $this->module_srl, $comment_srl, 'comment_srl', 'content');
-            Context::set('comment_editor', $editor);
         }
 
         /**
