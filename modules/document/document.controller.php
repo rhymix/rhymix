@@ -522,12 +522,34 @@
          * @brief 카테고리 추가
          **/
         function insertCategory($obj) {
-            $obj->list_order = $obj->category_srl = getNextSequence();
+            // 특정 카테고리의 하단으로 추가시 정렬순서 재정렬
+            if($obj->parent_srl) {
+                // 부모 카테고리 구함
+                $oDocumentModel = &getModel('document');
+                $parent_category = $oDocumentModel->getCategory($obj->parent_srl);
+                $obj->list_order = $parent_category->list_order;
+                $this->updateCategoryListOrder($parent_category->module_srl, $parent_category->list_order+1);
+                if(!$obj->category_srl) $obj->category_srl = getNextSequence();
+            } else {
+                $obj->list_order = $obj->category_srl = getNextSequence();
+            }
 
             $output = executeQuery('document.insertCategory', $obj);
-            if($output->toBool()) $output->add('category_srl', $obj->category_srl);
+            if($output->toBool()) {
+                $output->add('category_srl', $obj->category_srl);
+                $this->makeCategoryFile($obj->module_srl);
+            }
 
             return $output;
+        }
+
+        /**
+         * @brief 특정 카테고리 부터 list_count 증가
+         **/
+        function updateCategoryListOrder($module_srl, $list_order) {
+            $args->module_srl = $module_srl;
+            $args->list_order = $list_order;
+            return executeQuery('document.updateCategoryOrder', $args);
         }
 
         /**
@@ -550,7 +572,9 @@
          * @brief 카테고리의 정보를 수정
          **/
         function updateCategory($obj) {
-            return executeQuery('document.updateCategory', $obj);
+            $output = executeQuery('document.updateCategory', $obj);
+            if($output->toBool()) $this->makeCategoryFile($obj->module_srl);
+            return $output;
         }
 
         /**
@@ -559,10 +583,19 @@
          **/
         function deleteCategory($category_srl) {
             $args->category_srl = $category_srl;
+            $oDocumentModel = &getModel('document');
+            $category_info = $oDocumentModel->getCategory($category_srl);
+
+            // 자식 카테고리가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
+            $output = executeQuery('document.getChildCategoryCount', $args);
+            if(!$output->toBool()) return $output;
+            if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
 
             // 카테고리 정보를 삭제
             $output = executeQuery('document.deleteCategory', $args);
             if(!$output->toBool()) return $output;
+
+            $this->makeCategoryFile($category_info->module_srl);
 
             // 현 카테고리 값을 가지는 문서들의 category_srl을 0 으로 세팅
             unset($args);
@@ -570,6 +603,7 @@
             $args->target_category_srl = 0;
             $args->source_category_srl = $category_srl;
             $output = executeQuery('document.updateDocumentCategory', $args);
+
             return $output;
         }
 

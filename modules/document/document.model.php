@@ -387,7 +387,7 @@
             if($node->group_srls) {
                 $group_srls = explode(',',$node->group_srls);
                 unset($node->group_srls);
-                $node->group_srls = explode(',',$node->group_srls);
+                $node->group_srls = $group_srls;
             } else {
                 unset($node->group_srls);
                 $node->group_srls = array();

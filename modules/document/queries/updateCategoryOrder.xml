@@ -1,0 +1,12 @@
+<query id="updateCategoryOrder" action="update">
+    <tables>
+        <table name="document_categories" />
+    </tables>
+    <columns>
+        <column name="list_order" default="plus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="more" column="list_order" var="list_order" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

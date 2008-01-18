@@ -14,15 +14,6 @@
          **/
         function init() {
             /**
-             * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
-             **/
-            if($this->module_info->use_category=='Y') {
-                $oDocumentModel = &getModel('document');
-                $this->category_list = $oDocumentModel->getCategoryList($this->module_srl);
-                Context::set('category_list', $this->category_list);
-            }
-
-            /**
              * 스킨등에서 사용될 module_srl이나 module_info등을 context set
              **/
             // 템플릿에서 사용할 변수를 Context::set()
@@ -55,11 +46,18 @@
          * @brief 목록 및 선택된 글 출력
          **/
         function dispBoardContent() {
-
             /**
              * 목록보기 권한 체크 (모든 권한은 ModuleObject에서 xml 정보와 module_info의 grant 값을 비교하여 미리 설정하여 놓음)
              **/
             if(!$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
+
+            /**
+             * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+             **/
+            if($this->module_info->use_category=='Y') {
+                $oDocumentModel = &getModel('document');
+                Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
+            }
 
             /**
              * 목록이 노출될때 같이 나오는 검색 옵션을 정리하여 스킨에서 쓸 수 있도록 context set
@@ -214,11 +212,46 @@
             // 권한 체크
             if(!$this->grant->write_document) return $this->dispBoardMessage('msg_not_permitted');
 
+            $oDocumentModel = &getModel('document');
+
+            /**
+             * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅, 권한도 함께 체크
+             **/
+            if($this->module_info->use_category=='Y') {
+
+                // 로그인한 사용자의 그룹 정보를 구함
+                if(Context::get('is_logged')) {
+                    $logged_info = Context::get('logged_info');
+                    $group_srls = array_keys($logged_info->group_list);
+                } else {
+                    $group_srls = array();
+                }
+                $group_srls_count = count($group_srls);
+
+                // 카테고리 목록을 구하고 권한을 체크
+                $normal_category_list = $oDocumentModel->getCategoryList($this->module_srl);
+                if(count($normal_category_list)) {
+                    foreach($normal_category_list as $category_srl => $category) {
+                        $is_granted = true;
+                        if($category->group_srls) {
+                            $category_group_srls = explode(',',$category->group_srls);
+                            $is_granted = false;
+                            for($i=0;$i<$group_srls_count;$i++) {
+                                if(in_array($group_srls[$i],$category_group_srls)) {
+                                    $is_granted = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                        if($is_granted) $category_list[$category_srl] = $category;
+                    }
+                }
+                Context::set('category_list', $category_list);
+            }
+
             // GET parameter에서 document_srl을 가져옴
             $document_srl = Context::get('document_srl');
-
-            // document 모듈 객체 생성
-            $oDocumentModel = &getModel('document');
 
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
             $oDocument->setDocument($document_srl);

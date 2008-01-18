@@ -39,7 +39,7 @@
         <!--@if($grant->manager)-->
         {@ $_color = array('555555','222288','226622','2266EE','8866CC','88AA66','EE2222','EE6622','EEAA22','EEEE22') }
         <dd><select name="title_color" id="title_color" <!--@if($oDocument->get('title_color'))-->style="background-color:#{$oDocument->get('title_color')};"<!--@end--> onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor;">
-                <option value="" style="background-color:none;">{$lang->title_color}</option>
+                <option value="" style="background-color:#FFFFFF;">{$lang->title_color}</option>
                 <!--@foreach($_color as $_col)-->
                 <option value="{$_col}" style="background-color:#{$_col}" <!--@if($oDocument->get('title_color')==$_col)-->selected="selected"<!--@end-->>{$lang->title_color}</option>
                 <!--@end-->

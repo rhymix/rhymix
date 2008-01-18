@@ -52,6 +52,8 @@
         <permission action="procBoardUploadFile" target="manager" />
         <permission action="procBoardDownloadFile" target="manager" />
 
+        <permission action="getBoardAdminCategoryTplInfo" target="manager" />
+
         <permission action="dispBoardAdminInsertBoard" target="manager" />
         <permission action="dispBoardAdminBoardInfo" target="manager" />
         <permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
@@ -62,6 +64,9 @@
         <permission action="procBoardAdminUpdateSkinInfo" target="manager" />
         <permission action="procBoardAdminInsertCategory" target="manager" />
         <permission action="procBoardAdminUpdateCategory" target="manager" />
+        <permission action="procBoardAdminDeleteCategory" target="manager" />
+        <permission action="procBoardAdminMakeXmlFile" target="manager" />
+        <permission action="procBoardAdminMoveCategory" target="manager" />
     </permissions>
     <actions>
         <action name="dispBoardContent" type="view" index="true" />
@@ -85,6 +90,8 @@
         <action name="procBoardUploadFile" type="controller" />
         <action name="procBoardDownloadFile" type="controller" />
 
+        <action name="getBoardAdminCategoryTplInfo" type="model" standalone="true" />
+
         <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
         <action name="dispBoardAdminBoardAdditionSetup" type="view" standalone="true" />
@@ -100,5 +107,8 @@
         <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
         <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminDeleteCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procBoardAdminMoveCategory" type="controller" standalone="true" />
     </actions>
 </module>

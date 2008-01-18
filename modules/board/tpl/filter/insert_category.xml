@@ -1,12 +1,23 @@
 <filter name="insert_category" module="board" act="procBoardAdminInsertCategory" confirm_msg_code="confirm_submit">
     <form>
         <node target="module_srl" required="true" />
+        <node target="category_srl" required="true" />
         <node target="category_title" required="true" />
     </form>
-    <response callback_func="completeUpdateCategory">
+    <parameter>
+        <param name="module_srl" target="module_srl" />
+        <param name="category_srl" target="category_srl" />
+        <param name="parent_srl" target="parent_srl" />
+        <param name="title" target="category_title" />
+        <param name="expand" target="expand" />
+        <param name="group_srls" target="group_srls" />
+    </parameter>
+    <response callback_func="completeInsertCategory">
         <tag name="error" />
         <tag name="message" />
-        <tag name="page" />
         <tag name="module_srl" />
+        <tag name="category_srl" />
+        <tag name="parent_srl" />
+        <tag name="xml_file" />
     </response>
 </filter>

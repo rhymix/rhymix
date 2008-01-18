@@ -181,32 +181,18 @@
          * @brief 카테고리의 정보 출력
          **/
         function dispBoardAdminCategoryInfo() {
-
             // module_srl을 구함
-            $module_srl = Context::get('module_srl');
+            $module_srl = $this->module_info->module_srl;
 
-            // 카테고리의 목록을 구해옴
+            // 카테고리 정보를 가져옴
             $oDocumentModel = &getModel('document');
-            $category_list = $oDocumentModel->getCategoryList($module_srl);
-            Context::set('category_list', $category_list);
+            $category_xml_file = $oDocumentModel->getCategoryXmlFile($module_srl);
 
-            // 수정하려는 카테고리가 있다면해당 카테고리의 정보를 가져옴
-            $category_srl = Context::get('category_srl');
+            Context::set('category_xml_file', $category_xml_file);
+            Context::addJsFile('./common/js/tree_menu.js');
 
-            if($category_srl) {
-
-                $selected_category = $oDocumentModel->getCategory($category_srl);
-
-                if(!$selected_category) Context::set('category_srl','');
-                else Context::set('selected_category',$selected_category);
-
-                $this->setTemplateFile('category_update_form');
-
-            } else {
-
-                $this->setTemplateFile('category_list');
-
-            }
+            Context::set('layout','none');
+            $this->setTemplateFile('category_list');
         }
 
         /**
