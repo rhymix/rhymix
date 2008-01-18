@@ -71,6 +71,8 @@
 		    }
 
 		    $data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
+		    $data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
+		    $data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
 		}
 		$calendars[] = $page;
 	    }
