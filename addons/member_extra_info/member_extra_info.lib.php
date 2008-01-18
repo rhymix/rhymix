@@ -28,7 +28,7 @@
         // 이미지이름이나 마크가 없으면 원본 정보를 세팅
         if(!$image_name_file && !$image_mark_file) return $matches[0];
 
-        $nick_name = htmlspecialchars(strip_tags($nick_name));
+        $text = $nick_name = htmlspecialchars(strip_tags($nick_name));
 
         // 이미지 이름이 있을 경우
         if($image_name_file) $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', $image_name_file, $nick_name, $nick_name);
