@@ -36,13 +36,11 @@
     <!--@end-->
 
 <!-- 사용자가 선택한 게시판 형태에 따른 설정(포럼형은 적용 안됨) -->
-<!--@if($module_info->default_style != 'forum')-->
+<!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
     <!--@if($listStyle=='gallery')-->
         {@ $module_info->default_style = 'gallery'}
     <!--@elseif($listStyle=='webzine')-->
         {@ $module_info->default_style = 'webzine'}
-    <!--@elseif($listStyle=='blog')-->
-        {@ $module_info->default_style = 'blog'}
     <!--@elseif($listStyle=='list')-->
         {@ $module_info->default_style = 'list'}
     <!--@end-->
