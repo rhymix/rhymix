@@ -43,10 +43,10 @@
 
                 <div class="replyAndTrackback">
                     <!--@if($grant->write_comment && $oDocument->allowComment()) -->
-                    <a href="#comment" class="reply" title="{$lang->comment}"><strong>{$oDocument->getCommentcount()}</strong></a>
+                    <div class="replyCount"><a href="#comment" title="{$lang->comment}"><strong>{$oDocument->getCommentcount()}</strong></a></div>
                     <!--@end-->
                     <!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
-                    <a href="#trackback" class="trackback" title="{$lang->trackback}"><strong>{$oDocument->getTrackbackCount()}</strong></a>
+                    <div class="trackbackCount"><a href="#trackback" title="{$lang->trackback}"><strong>{$oDocument->getTrackbackCount()}</strong></a></div>
                     <!--@end-->
                 </div>
 

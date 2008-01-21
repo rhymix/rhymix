@@ -58,15 +58,15 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .titleAndUser .userInfo .author { color:#3074a5; }
 .boardRead .titleAndUser .userInfo .author a { font-size:.9em; color:#3074a5; text-decoration:none; }
 
-.boardRead .dateAndCount { clear:both; white-space:nowrap; color:#444444; margin:10px 0 30px 1px; float:left; font-size:.9em; font-family:tahoma; line-height:17px; padding-bottom:10px; width:100%;}
+.boardRead .dateAndCount { clear:both; white-space:nowrap; color:#444444; margin:5px 0 0 0; float:left; font-size:.9em; font-family:tahoma; line-height:17px; padding-bottom:10px; }
 .boardRead .dateAndCount .date { float:right; background:url("../images/common/calendar.gif") no-repeat left top; padding-left:18px; margin-left:10px; }
 .boardRead .dateAndCount .readedCount { float:right; color:#AAAAAA; margin-left:10px; background:url("../images/common/read.gif") no-repeat left top; padding-left:18px; color:#4A3FD7;}
 .boardRead .dateAndCount .votedCount { float:right; color:#AAAAAA;  margin-left:10px; background:url("../images/common/vote.gif") no-repeat left top; padding-left:18px; color:#D76A3F;}
 .boardRead .dateAndCount .replyAndTrackback { float:right; }
-.boardRead .dateAndCount .replyAndTrackback a { color:#333333; white-space:nowrap; text-decoration:none; margin-left:10px;}
+.boardRead .dateAndCount .replyAndTrackback .replyCount { margin-left:10px; float:left; background:#FFFFFF url(../images/common/iconReply.gif) no-repeat left 1px; padding-left:15px; }
+.boardRead .dateAndCount .replyAndTrackback .trackbackCount { margin-left:10px; float:left; background:#FFFFFF url(../images/common/iconTrackback.gif) no-repeat left 1px; padding-left:15px; }
+.boardRead .dateAndCount .replyAndTrackback a { color:#333333; white-space:nowrap; text-decoration:none; }
 .boardRead .dateAndCount .replyAndTrackback a:hover { text-decoration:underline; }
-.boardRead .dateAndCount .replyAndTrackback a.reply { background:#FFFFFF url(../images/common/iconReply.gif) no-repeat left top; padding-left:15px; }
-.boardRead .dateAndCount .replyAndTrackback a.trackback { background:#FFFFFF url(../images/common/iconTrackback.gif) no-repeat left top; padding-left:15px; }
 .boardRead .dateAndCount .category { float:left; margin-right:10px; }
 .boardRead .dateAndCount .category a { color:#555555; text-decoration:none; background:url("../images/common/category.gif") no-repeat left -1px; padding-left:18px; font-weight:bold;}
 .boardRead .dateAndCount .category a:hover { text-decoration:underline; }
