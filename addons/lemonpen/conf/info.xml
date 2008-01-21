@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
     <title xml:lang="ko">LemonPen XE 애드온</title>
-	<title xml:lang="en">LemonPen XE</title>
+	<title xml:lang="en">LemonPen XE Addon</title>
     <title xml:lang="jp">LemonPen XE アドオン</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 12. 10">
         <name xml:lang="ko">zero</name>
@@ -17,7 +17,7 @@
 			<title xml:lang="en">sid</title>
             <title xml:lang="jp">sid</title>
 			<description xml:lang="ko">레몬펜에서 사이트 등록시 발급받은 sid값을 입력해주세요.</description>
-			<description xml:lang="en">Please input sid that you got after registering site at LemonPen.</description>
+			<description xml:lang="en">Please input sid value that you got after registering site at LemonPen.</description>
 			<description xml:lang="jp">レモンペンのサイトで発行されたsidを入力してください。 (LemonPen：Openmaru社提供)</description>
 		</var>
     </extra_vars>
