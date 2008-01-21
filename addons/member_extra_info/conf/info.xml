@@ -45,7 +45,7 @@
     </description>
     <description xml:lang="en">
         Among other information about users, this addon displays image name, image mark, and signature.
-        In case of you not use this information, this stands apart from basic information so runtime should be reduced.
+        In case of you not using this information, this stands apart from basic information so runtime can be reduced.
         To expose image name, image mark, and signature, please turn on this addon.
         1. Just before displaying user information, this will figure out unique key of member from the definition of "&amp;lt;div class="member_{unique key of member}"&amp;gt;....&amp;lt;/div&amp;gt;" and replace image name and/or image mark if they exsist.
         2. Just before displaying, this is gonna locate the definition of "&amp;lt;div class="document_{unique key of document}"&amp;gt;...&amp;lt;/div&amp;gt;" and insert the signature below it.
