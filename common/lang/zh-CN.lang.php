@@ -124,7 +124,7 @@
     $lang->document_count = '帖子数';
     $lang->page_count = '页数';
     $lang->list_count = '目录数';
-    $lang->search_list_count = '검색 목록 수';
+    $lang->search_list_count = '搜索目录';
     $lang->readed_count = '查看';
     $lang->voted_count = '推荐';
     $lang->member_count = '会员数';
