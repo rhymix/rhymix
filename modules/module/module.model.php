@@ -619,19 +619,14 @@
         function isModuleAdmin($module_info, $member_info) {
            $user_id = $member_info->user_id;
            $group_list = $member_info->group_list;
+           if(!$group_list || !is_array($group_list) || !count($group_list)) return false;
 
             // 직접 관리자로 선택하였을 경우 확인
             if(is_array($module_info->admin_id) && in_array($user_id, $module_info->admin_id)) return true;
 
             // 관리자 그룹으로 등록되어 있을 경우 확인
             $manager_group = $module_info->grants['manager'];
-            if(count($group_list) && count($manager_group)) {
-                foreach($group_list as $group_srl => $group_info) {
-                    if(in_array($group_srl, $manager_group)) return true;
-                }
-            }
-
-            return false;
+            return count(array_intersect(array_keys($group_list), $manager_group));
         }
 
     }

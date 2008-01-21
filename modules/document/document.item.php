@@ -565,8 +565,11 @@
          * @brief 에디터 html을 구해서 return
          **/
         function getEditor() {
+            $module_srl = $this->get('module_srl');
+            if(!$module_srl) $module_srl = Context::get('module_srl');
+
             $oEditorModel = &getModel('editor');
-            return $oEditorModel->getModuleEditor('document', $this->get('module_srl'), $this->document_srl, 'document_srl', 'content');
+            return $oEditorModel->getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
         }
 
         /**

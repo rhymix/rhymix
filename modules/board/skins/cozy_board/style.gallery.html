@@ -11,7 +11,7 @@
                 <select name="category" id="board_category">
                     <option value="">{$lang->category}</option>
                     <!--@foreach($category_list as $val)-->
-                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                     <!--@end-->
                 </select>
                 <input type="button" name="go_button" id="go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" />

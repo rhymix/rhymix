@@ -8,6 +8,7 @@
                     <h4><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></h4>
                 </div>
 
+                <!--@if($module_info->display_author!='N')-->
                 <div class="userInfo">
                     <!--@if(!$oDocument->getMemberSrl())-->
                         <div class="author">
@@ -21,6 +22,7 @@
                         <div class="author"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
                     <!--@end-->
                 </div>
+                <!--@end-->
 
                 <div class="clear"></div>
             

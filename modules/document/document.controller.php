@@ -730,7 +730,7 @@
          **/
         function makeCategoryFile($module_srl) {
             // 캐시 파일 생성시 필요한 정보가 없으면 그냥 return
-            if(!$module_srl) return;
+            if(!$module_srl) return false;
 
             // 모듈 정보를 가져옴 (mid를 구하기 위해)
             $oModuleModel = &getModel('module');
@@ -743,9 +743,22 @@
             $xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
             $php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-            // DB에서 module_srl 에 해당하는 카테고리 목록을 listorder순으로 구해옴
-            $oDocumentModel = &getModel('document');
-            $list = $oDocumentModel->getCategoryList($module_srl);
+            // 카테고리 목록을 구함
+            $args->module_srl = $module_srl;
+            $args->sort_index = 'list_order';
+            $output = executeQuery('document.getCategoryList', $args);
+
+            $category_list = $output->data;
+
+            if(!$category_list) return false;
+            if(!is_array($category_list)) $category_list = array($category_list);
+
+            $category_count = count($category_list);
+            for($i=0;$i<$category_count;$i++) {
+                $category_srl = $category_list[$i]->category_srl;
+                if(!preg_match('/^[0-9,]+$/', $category_list[$i]->group_srls)) $category_list[$i]->group_srls = '';
+                $list[$category_srl] = $category_list[$i];
+            }
 
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
             if(!$list) {
@@ -780,7 +793,7 @@
             $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
 
             // php 캐시 파일 생성
-            $php_output = $this->getPhpCacheCode($tree[0], $tree);
+            $php_output = $this->getPhpCacheCode($tree[0], $tree, 0);
             $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); %s; $menu->list = array(%s); ?>', $php_output['category_title_str'], $php_output['buff']);
 
             // 파일 저장
@@ -807,13 +820,18 @@
                 $title = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->title);
                 $expand = $node->expand;
                 $group_srls = $node->group_srls;
+                $mid = $node->mid;
+                $module_srl = $node->module_srl;
 
                 // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'node_srl="%s" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        'mid="%s" module_srl="%d" node_srl="%d" category_srl = "%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        $mid,
+                        $module_srl,
+                        $category_srl,
                         $category_srl,
                         $group_check_code,
                         $title,
@@ -838,7 +856,9 @@
             $output = array("buff"=>"", "category_srl_list"=>array());
             if(!$source_node) return $output;
 
+            // 루프를 돌면서 1차 배열로 정리하고 include할 수 있는 php script 코드를 생성
             foreach($source_node as $category_srl => $node) {
+
                 // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
                 if($category_srl&&$tree[$category_srl]) $child_output = $this->getPhpCacheCode($tree[$category_srl], $tree);
                 else $child_output = array("buff"=>"", "category_srl_list"=>array());
@@ -861,15 +881,18 @@
 
                 // 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                    '"node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>%s?$_category_title[%d]:"","selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
+                    '"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_category_title[%d],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+                    $node->mid,
+                    $node->module_srl,
                     $node->category_srl,
                     $node->category_srl,
                     $node->parent_srl,
-                    $group_check_code,
                     $node->category_srl,
                     $selected,
                     $expand,
-                    $child_buff
+                    $child_buff,
+                    $node->document_count,
+                    $group_check_code
                 );
                 
                 // buff 데이터를 생성한다

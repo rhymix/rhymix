@@ -168,9 +168,10 @@ function move_url(url, open_wnidow) {
  **/
 function toggleDisplay(obj, opt) {
     obj = xGetElementById(obj);
+    if(!obj) return;
     if(typeof(opt)=="undefined") opt = "inline";
-    if(obj.style.display == "none") obj.style.display = opt;
-    else obj.style.display = "none";
+    if(!obj.style.display || obj.style.display == "block") obj.style.display = 'none';
+    else obj.style.display = opt;
 }
 
 /**

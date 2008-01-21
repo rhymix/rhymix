@@ -236,12 +236,7 @@
                         if($category->group_srls) {
                             $category_group_srls = explode(',',$category->group_srls);
                             $is_granted = false;
-                            for($i=0;$i<$group_srls_count;$i++) {
-                                if(in_array($group_srls[$i],$category_group_srls)) {
-                                    $is_granted = true;
-                                    break;
-                                }
-                            }
+                            if(count(array_intersect($group_srls, $category_group_srls))) $is_granted = true; 
 
                         }
                         if($is_granted) $category_list[$category_srl] = $category;

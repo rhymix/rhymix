@@ -406,23 +406,86 @@
 
         /**
          * @brief 특정 모듈의 카테고리 목록을 가져옴
+         * 속도나 여러가지 상황을 고려해서 카테고리 목록은 php로 생성된 script를 include하여 사용하는 것을 원칙으로 함
          **/
         function getCategoryList($module_srl) {
+            // 한 페이지에서 여러번 호출될 경우를 대비해서 static var로 보관 (php4때문에 다른 방법으로 구현)
+            if(isset($this->category_list[$module_srl])) return $this->category_list[$module_srl];
+
+            // php 캐싱된 파일의 유무를 체크하여 처리
             $args->module_srl = $module_srl;
             $args->sort_index = 'list_order';
             $output = executeQuery('document.getCategoryList', $args);
 
-            $category_list = $output->data;
+            // 대상 모듈의 카테고리 파일을 불러옴
+            $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-            if(!$category_list) return NULL;
-            if(!is_array($category_list)) $category_list = array($category_list);
-
-            $category_count = count($category_list);
-            for($i=0;$i<$category_count;$i++) {
-                $category_srl = $category_list[$i]->category_srl;
-                $list[$category_srl] = $category_list[$i];
+            // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+            if(!file_exists($filename)) {
+                $oDocumentController = &getController('document');
+                if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
             }
-            return $list;
+
+            @include($filename);
+
+            // 카테고리의 정리
+            $document_category = array();
+            $this->_arrangeCategory($document_category, $menu->list, 0);
+
+            return $document_category;
+        }
+
+        /**
+         * @brief 카테고리를 1차 배열 형식으로 변경하는 내부 method
+         **/
+        function _arrangeCategory(&$document_category, $list, $depth) {
+            $idx = 0;
+            $list_order = array();
+            foreach($list as $key => $val) {
+                $obj = null;
+                $obj->mid = $val['mid'];
+                $obj->module_srl = $val['module_srl'];
+                $obj->category_srl = $val['category_srl'];
+                $obj->parent_srl = $val['parent_srl'];
+                $obj->title = $obj->text = $val['text'];
+                $obj->expand = $val['expand']=='Y'?true:false;
+                $obj->document_count = $val['document_count'];
+                $obj->depth = $depth;
+                $obj->child_count = 0;
+                $obj->childs = array();
+                $obj->grant = $val['grant'];
+
+                if(Context::get('mid') == $obj->mid && Context::get('category') == $obj->category_srl) $selected = true;
+                else $selected = false;
+
+                $obj->selected = $selected;
+
+                $list_order[$idx++] = $obj->category_srl;
+
+                // 부모 카테고리가 있으면 자식노드들의 데이터를 적용
+                if($obj->parent_srl) {
+
+                    $parent_srl = $obj->parent_srl;
+                    $document_count = $obj->document_count;
+                    $expand = $obj->expand;
+                    if($selected) $expand = true;
+
+                    while($parent_srl) {
+                        $document_category[$parent_srl]->document_count += $document_count;
+                        $document_category[$parent_srl]->childs[] = $obj->category_srl;
+                        $document_category[$parent_srl]->child_count = count($document_category[$parent_srl]->childs);
+                        if($expand) $document_category[$parent_srl]->expand = $expand;
+
+                        $parent_srl = $document_category[$parent_srl]->parent_srl;
+                    }
+                }
+
+                $document_category[$key] = $obj;
+
+                if(count($val['list'])) $this->_arrangeCategory($document_category, $val['list'], $depth+1);
+            }
+            $document_category[$list_order[0]]->first = true;
+            $document_category[$list_order[count($list_order)-1]]->last = true;
         }
 
         /**
@@ -513,7 +576,7 @@
 
             $output = '';
             foreach($categories as $category_srl => $category) {
-                $output .= sprintf("%d,%s\n",$category_srl, $category->title);
+                $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
             }
             $this->add('categories', $output);
         }

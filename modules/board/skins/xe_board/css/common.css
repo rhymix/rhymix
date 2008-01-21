@@ -257,20 +257,22 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .userNameAndPw .emailAddress {width:80px; margin-right:10px; }
 .boardWrite .userNameAndPw .homePage {width:80px; margin-right:10px; }
 
-.boardWrite .title { margin-left:10px; margin-top:5px; }
+.boardWrite .title { margin-top:5px; }
+.boardWrite .title .category { margin-left:10px; }
+.boardWrite .title label.title { margin:0 10px 0 10px; }
 .boardWrite .title input.title { width:60%;}
 
-.boardWrite dl.option { margin:3px 0 3px 10px; padding:0;}
-.boardWrite dl.option dd { display:inline; margin-right:11px; }
+.boardWrite dl.option { margin:10px 0 3px 10px; padding:0;}
+.boardWrite dl.option dd { display:inline; margin-right:5px; }
 .boardWrite dl.option dd * { vertical-align:middle;}
 .boardWrite dl.option dd select { width:8em; font-size:.95em; }
 
 .boardWrite .editor { border-top:1px solid #e0e1db; margin-top:10px;}
 
-.boardWrite .tag { margin-left:10px; }
+.boardWrite .tag { margin-top:10px; margin-left:10px; }
 .boardWrite .tag .inputTypeText { width:90%; background:#FFFFFF url(../images/common/iconTag.gif) no-repeat 5px 5px; padding-left:30px;}
 .boardWrite .tag .help { vertical-align:middle;}
-.boardWrite .tag .info { font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
+.boardWrite .tag .info { font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center; margin-top:5px;}
 
 .boardWrite .extraVarsList { width:100%; border-top:1px solid #e0e1db; border-bottom:none; margin:10px 0 10px 0; table-layout:fixed;}
 .boardWrite .extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}

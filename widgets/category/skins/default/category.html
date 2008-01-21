@@ -1,0 +1,58 @@
+<!--%import("css/category.css")-->
+<!--%import("js/category.js")-->
+
+<div class="categoryWidget">
+
+    <div class="top <!--@if($mid == $widget_info->mid && !$category)-->selected<!--@end-->"><a href="{getUrl('','mid',$widget_info->mid)}">{$widget_info->module_info->browser_title}</a> <strong>[{$widget_info->total_document_count}]</strong></div>
+
+    {@ $prev_depth = 0}
+    {@ $prev_last = false}
+    {@ $prev_srl = 0}
+    {@ $prev_expand = false}
+
+<!--@foreach($widget_info->category_list as $key => $val)-->
+
+    <!--@if($val->last)-->
+        <!--@if($val->child_count)-->
+            <!--@if(!$val->expand)-->{@ $class = "plusBottom" }<!--@else-->{@ $class = "minusBottom" }<!--@end-->
+        <!--@else-->
+            {@ $class = "joinBottom" }
+        <!--@end-->
+    <!--@elseif($val->first)-->
+        <!--@if($val->child_count)-->
+            <!--@if(!$val->expand)-->{@ $class = "plus" }<!--@else-->{@ $class = "minus" }<!--@end-->
+        <!--@else-->
+            {@ $class = "join" }
+        <!--@end-->
+    <!--@else-->
+        <!--@if($val->child_count)-->
+            <!--@if(!$val->expand)-->{@ $class = "plus" }<!--@else-->{@ $class = "minus" }<!--@end-->
+        <!--@else-->
+            {@ $class = "join" }
+        <!--@end-->
+    <!--@end-->
+
+    <!--@if($prev_depth < $val->depth)-->
+        {@ $prev_depth = $val->depth }
+        <div class="<!--@if(!$prev_last)-->child<!--@else-->childBottom<!--@end-->" id="category_{$prev_srl}" <!--@if(!$prev_expand)-->style="display:none;"<!--@end-->>
+    <!--@elseif($prev_depth > $val->depth)-->
+        <!--@for($i=$val->depth;$i<$prev_depth;$i++)--></div><!--@end-->
+        {@ $prev_depth = $val->depth }
+    <!--@end-->
+
+    <div class="{$class}" id="category_parent_{$val->category_srl}">
+        <div class="item <!--@if($val->selected)-->selected<!--@end-->">
+            <a href="{getUrl('','mid',$widget_info->mid, 'category',$val->category_srl)}">{$val->text}</a> 
+            <!--@if($val->document_count)--><strong>[{$val->document_count}]</strong><!--@end-->
+        </div>
+    </div>
+
+    {@ $prev_last = $val->last}
+    {@ $prev_srl = $val->category_srl}
+    {@ $prev_expand = $val->expand}
+
+<!--@end-->
+
+    <!--@for($i=0;$i<$prev_depth;$i++)--></div><!--@end-->
+
+</div>
