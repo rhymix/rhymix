@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">레인보우 링크 애드온</title>
   <title xml:lang="zh-CN">Rainbow 链接</title>
-  <title xml:lang="en">Addon for rainbow links</title>
+  <title xml:lang="en">Rainbow Link Addon</title>
   <title xml:lang="es">Adición Enlace Arco Iris</title>
   <title xml:lang="jp">レインボーリンクアドオン</title>
   <title xml:lang="ru">Аддон для радужных ссылок</title>
