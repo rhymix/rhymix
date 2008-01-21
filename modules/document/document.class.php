@@ -175,6 +175,8 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
+            // 게시글 분류 캐시 파일 삭제
+            FileHandler::removeFilesInDir("./files/cache/document_category");
         }
 
         /**
