@@ -439,6 +439,7 @@
          * @brief 카테고리를 1차 배열 형식으로 변경하는 내부 method
          **/
         function _arrangeCategory(&$document_category, $list, $depth) {
+            if(!count($list)) return;
             $idx = 0;
             $list_order = array();
             foreach($list as $key => $val) {
