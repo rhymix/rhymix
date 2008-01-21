@@ -43,7 +43,7 @@
             if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 
             if(!$editor_config->editor_height) $editor_config->editor_height = 500;
-            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 200;
+            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
             if($editor_config->enable_height_resizable!='N') $editor_config->enable_height_resizable= "Y";
             if($editor_config->enable_comment_height_resizable!='Y') $editor_config->enable_comment_height_resizable= "N";
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";

@@ -290,7 +290,7 @@ Jeong, Chan Myeong 070601~070630
 
 
 /* 게시물의 팝업 메뉴 */
-.comment_popup_menu, .document_popup_menu { text-align:right; margin-top:3em; clear:both; display:block;  background:url(../images/common/document_menu.gif) no-repeat right top; padding-right:16px;  height:18px; }
+.comment_popup_menu, .document_popup_menu { text-align:right; background:url(../images/common/document_menu.gif) no-repeat right top; padding-right:16px; }
 .comment_popup_menu span, .document_popup_menu span { cursor:pointer; display:inline; background:none; padding:0 0 0 0; margin:0 0 0 0; }
 
 /* tag list */
