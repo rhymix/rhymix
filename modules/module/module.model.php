@@ -53,6 +53,23 @@
         }
 
         /**
+         * @brief layout_srl에 해당하는 모듈의 정보를 구함
+         **/
+        function getModulesInfoByLayout($layout_srl) {
+            // 데이터를 가져옴
+            $args->layout_srl = $layout_srl;
+            $output = executeQueryArray('module.getModulesByLayout', $args);
+
+            $count = count($output->data);
+
+            $modules = array();
+            for($i=0;$i<$count;$i++) {
+                $modules[] = $this->arrangeModuleInfo($output->data[$i]);
+            }
+            return $modules;
+        }
+
+        /**
          * @brief 여러개의 module_srl에 해당하는 모듈의 정보를 구함
          **/
         function getModulesInfo($module_srls) {

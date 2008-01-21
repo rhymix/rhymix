@@ -44,7 +44,7 @@ Jeong, Chan Myeong 070601~070630
 .blogNotice .item .replyAndTrackback { color:#AAAAAA; font-size:.9em; }
 
 /* boardRead */
-.viewDocument { border:1px solid #e0e1db; padding:10px; border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
+.viewDocument { border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
 .boardRead { margin:0 0 10px 0; }
 
 .boardRead .titleAndUser { overflow:hidden; border-bottom:1px solid #e0e1db; }
@@ -113,7 +113,7 @@ Jeong, Chan Myeong 070601~070630
 .replyBox .voted { float:left; font-size:.9em; color:#AAAAAA; margin:0 .3em .5em 1em;}
 .replyBox .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
 
-.replyBox .replyOption { float:right; white-space:nowrap; margin-left:.2em;}
+.replyBox .replyOption { height:20px; float:right; white-space:nowrap; margin-left:.2em;}
 .replyBox .replyOption img { vertical-align:middle;}
 
 .replyBox .replyContent { clear:left; }
@@ -243,7 +243,7 @@ Jeong, Chan Myeong 070601~070630
 .pageNavigation a.goToFirst img, .pageNavigation a.goToLast img { margin-bottom:2px;}
 
 /* Search Form */
-.boardSearch { margin-left:auto; margin-right:auto; clear:both; text-align:center;}
+.boardSearch { margin-top:30px; margin-left:auto; margin-right:auto; clear:both; text-align:center;}
 .boardSearch select { height:20px; }
 .boardSearch input { height:18px; }
 

@@ -24,8 +24,7 @@
 }
 
 .categoryWidget .selected a {
-    background-color:#0A246A;
-    color:#FFFFFF;
+    font-weight:bold;
 }
 
 .categoryWidget .item {

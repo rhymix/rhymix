@@ -49,7 +49,8 @@
 <!-- 상단 텍스트 출력 -->
     {$module_info->header_text}
 
-<!-- 스킨의 제목/간단한 설명 출력 -->
+<!-- 블로그 스킨이 아닐 경우 스킨의 제목/간단한 설명 출력 -->
+<!--@if($module_info->default_style != 'blog')-->
     <!--@if($module_info->title)-->
     <div class="boardHeader">
         <div class="boardHeaderBorder">
@@ -116,3 +117,4 @@
         </ul>
 
     </div>
+<!--@end-->

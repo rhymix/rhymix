@@ -1,0 +1,155 @@
+<!-- 레이아웃과 연동될 css 파일 import -->
+    <!--%import("css/layout.css")-->
+
+<!-- 컬러셋 체크 -->
+    <!--@if(!$layout_info->colorset)-->
+        {@$layout_info->colorset = "white"}
+    <!--@end-->
+
+<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+    <!--@if($layout_info->colorset == "cyan")--> <!--%import("css/cyan.css")-->
+    <!--@elseif($layout_info->colorset == "red")--> <!--%import("css/red.css")-->
+    <!--@elseif($layout_info->colorset == "green")--> <!--%import("css/green.css")-->
+    <!--@elseif($layout_info->colorset == "purple")--> <!--%import("css/purple.css")-->
+    <!--@else--> <!--%import("css/white.css")-->
+    <!--@end-->
+
+<!--@if($layout_info->background_image)-->
+  <style type="text/css">
+    body {  background-repeat:repeat-x; background-image:url({getUrl()}{$layout_info->background_image}); }       
+  </style>
+<!--@end-->
+
+<div id="bodyWrap">
+
+    <!-- 상단 타이틀 및 메뉴 -->
+    <div id="header">
+
+        <!-- 회원 관련 기능 -->
+        <ul id="blogAccountNavigation">
+            <!--@if(!$is_logged)-->
+                <!-- 비로그인 상태 -->
+                <li class="join"><a href="{getUrl('mid',$layout_info->target_mid,'act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+            <!--@else-->
+                <!-- 로그인 되었을 때 -->
+                <!--@if($grant->is_admin)-->
+                <li class="write"><a href="{getUrl('mid', $layout_info->target_mid, 'act','dispBoardWrite','document_srl','')}">{$lang->cmd_write}</a></li>
+                <!--@end-->
+
+                <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+                <!--@if($logged_info->is_admin == 'Y')-->
+                <li class="admin"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
+                <!--@end-->
+                <!--@if($grant->is_admin)-->
+                <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
+                <li class="layout_setup"><a href="{getUrl('','mid',$layout_info->target_mid,'act','dispLayoutAdminModify','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_layout_setup}</a></li>
+                <li class="layout_edit"><a href="{getUrl('','mid',$layout_info->target_mid,'act','dispLayoutAdminEdit','layout_srl',$layout_info->layout_srl)}">{$lang->cmd_layout_edit}</a></li>
+                <!--@end-->
+                <li class="myinfo"><a href="{geturl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+                <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+
+            <!--@end-->
+                                                                                                                                                                                                                     <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+                <!--@if($rss_url)-->
+                    <li class="rss"><a href="{$rss_url}"><img src="./images/common/iconRss.gif" alt="rss" width="13" height="13" /></a></li>
+                <!--@end-->
+                <li class="tag_info"><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/common/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
+
+        </ul>
+
+
+        <h1>
+            <!--@if($layout_info->logo_image)-->
+                <a href="{getUrl('','mid',$layout_info->target_mid)}"><img src="{$layout_info->logo_image}" border="0" alt="{$layout_info->browser_title}"/></a>
+            <!--@end-->
+            <!--@if($layout_info->top_title)-->
+                <a href="{getUrl('','mid',$layout_info->target_mid)}">{$layout_info->top_title}</a>
+            <!--@end-->
+        </h1>
+
+        <!--@if($layout_info->sub_title)-->
+        <p id="tagLine">{$layout_info->sub_title}</p>
+        <!--@end-->
+
+        <!-- top_menu 시작 -->
+        <ul id="globalNavigation">
+            <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
+            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+            <!--@end--><!--@end-->
+        </ul>
+    </div>
+
+    <!-- 프로필 영역 및 카테고리등의 요소 -->
+	<div id="contentBody">
+		<div id="columnLeft">
+
+            <!-- 프로필 -->
+            <!--@if($layout_info->profile_image || $layout_info->profile)-->
+			<div id="profile" class="boxTypeA">
+                <!--@if($layout_info->profile_image)-->
+                <img src="{$layout_info->profile_image}" border="0" alt="my profile image" width="160" class="profile"/>
+                <!--@end-->
+
+                <!-- 프로필 글 -->
+                <!--@if($layout_info->profile)-->
+				<dl id="hello">
+					<dd>{$layout_info->profile}</dd>
+				</dl>
+                <!--@end-->
+			</div>
+            <!--@end-->
+
+            <!-- 검색폼 -->
+			<div id="searchBox">
+				<form action="{getUrl()}" method="post">
+                    <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
+					<input name="search_keyword" type="text" class="inputTypeText w140" size="4" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+					<input type="image" alt="search" src="./images/common/find_button.gif" class="imgBtn" />
+				</form>
+			</div>
+
+            <!-- 왼쪽 위젯 출력 위치 -->
+
+            <!-- 카테고리 출력 -->
+            <div class="category_widget">
+                <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="category" skin="default" mid_list="{$layout_info->target_mid}" />
+            </div>
+
+            <!-- 최근문서 출력 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" title="Recent Articles" order_target="list_order" order_type="desc" list_count="10" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 최근댓글 출력 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" title="Recent Comments" list_count="10" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 엮인글들 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" title="Recent Trackbacks" list_count="5" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 꼬리표들 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="tag_list" skin="blog_tag_list" title="Site Tags" list_count="60" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 월별 현황들 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="archive_list" skin="blog_archive_list" title="Archives" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 달력 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" mid_list="{$layout_info->target_mid}" />
+
+            <!-- 카운터 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="image_counter" widget_margin_left="5px" widget_margin_bottom="10px" graph_width="170" graph_height="100" day_range="5" />
+
+            <!-- 언어선택 위젯 -->
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="language_select" skin="default" colorset="normal" widget_cache="0" />
+
+            <!-- powered by zbxe -->
+            <div id="poweredbyzbxe">
+              <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/common/poweredbyzbxe.png" alt="powered by zeroboard XE" /></a>
+            </div>
+
+        </div>
+
+        <!-- 컨텐츠 출력 부분 -->
+        <div id="content">{$content}</div>
+
+    </div>
+
+</div>

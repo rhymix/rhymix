@@ -59,6 +59,8 @@
     $lang->cmd_reset = 'Rehacer';
     $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_publish = "발행";
+    $lang->cmd_layout_setup = 'Configuración del diseño';
+    $lang->cmd_layout_edit = 'Editar el diseño';
 
     $lang->enable = 'Activar';
     $lang->disable = 'Desactivar';

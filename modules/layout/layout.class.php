@@ -66,16 +66,27 @@
 
             // act의 값에 따라서 관리 권한 체크
             switch($args->act) {
+                case 'procLayoutAdminUpdate' :
                 case 'dispLayoutAdminPreview' :
                 case 'procLayoutAdminCodeReset' :
                 case 'procLayoutAdminCodeUpdate' :
+                        // 레이아웃 정보에 할당된 srl이 없으면 패스
                         if(!$args->layout_srl) return false;
 
+                        // 모듈중 레이아웃이 해당 srl에 연결될 것이 있는지 확인
                         $oModuleModel = &getModel('module');
-                        $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->layout_srl);
-                        if(!$module_info) return false;
+                        $module_list = $oModuleModel->getModulesInfoByLayout($args->layout_srl);
+                        $module_count = count($module_list);
 
-                        if($oModuleModel->isModuleAdmin($module_info, $logged_info)) return true; 
+                        $is_granted = false;
+                        for($i=0;$i<$module_count;$i++) {
+                            $module_info = $module_list[$i];
+                            if($oModuleModel->isModuleAdmin($module_list[$i],$logged_info)) {
+                                $is_granted = true;
+                                break;
+                            }
+                        }
+                        return $is_granted;
                     break;
             }
 

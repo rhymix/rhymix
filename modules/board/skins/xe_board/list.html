@@ -31,7 +31,9 @@
             <!--@if($grant->is_admin)-->
                 <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
             <!--@end-->
+            <!--@if($module_info->default_style != 'blog')-->
             <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>
+            <!--@end-->
         </div>
 
         <div class="rightButtonBox">
@@ -54,7 +56,7 @@
 
 
     <!-- 검색 -->
-        <!--@if($grant->view)-->
+        <!--@if($grant->view && $module_info->default_style != 'blog')-->
         <div class="boardSearch">
             <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search">
                 <input type="hidden" name="mid" value="{$mid}" />

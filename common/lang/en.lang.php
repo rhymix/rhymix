@@ -60,6 +60,8 @@
     $lang->cmd_reset = 'Reset';
     $lang->cmd_remake_cache = "Re-create cache file";
     $lang->cmd_publish = "Publish";
+    $lang->cmd_layout_setup = 'Configure layout';
+    $lang->cmd_layout_edit = 'Edit layout';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';

@@ -60,6 +60,8 @@
     $lang->cmd_reset = 'Сброс';
     $lang->cmd_remake_cache = "Пере-создать файл кэша";
     $lang->cmd_publish = "Опубликовать";
+    $lang->cmd_layout_setup = 'Конфигурировать лейаут';
+    $lang->cmd_layout_edit = 'Редактировать лейаут';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';

@@ -59,6 +59,8 @@
     $lang->cmd_reset = '초기화';
     $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_publish = "발행";
+    $lang->cmd_layout_setup = '레이아웃 설정';
+    $lang->cmd_layout_edit = '레이아웃 편집';
 
     $lang->enable = 'Permettre';
     $lang->disable = 'Neutraliser';

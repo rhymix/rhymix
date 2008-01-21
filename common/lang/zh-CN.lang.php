@@ -60,6 +60,8 @@
     $lang->cmd_reset = '初始化';
     $lang->cmd_remake_cache = "重新生成缓冲文件";
     $lang->cmd_publish = "发表";
+    $lang->cmd_layout_setup = '布局设置';
+    $lang->cmd_layout_edit = '编辑布局';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
