@@ -36,11 +36,12 @@ Jeong, Chan Myeong 070601~070630
 .secretContent .content { padding:10px 0 10px 0; background-color:#FFFFFF; display:block; }
 
 /* blog Style Notice */
-.blogNotice { background:url("../images/common/notice.gif") no-repeat -2px 3px; padding:3px 0 3px 18px; border-top:1px solid #e0e1db; }
-.blogNotice .date { font-family:verdana; font-size:.9em;color:#AAAAAA; }
-.blogNotice a { text-decoration:none; color:#444444; }
-.blogNotice a:hover { text-decoration:underline}
-.blogNotice .replyAndTrackback { color:#AAAAAA; font-size:.9em; }
+.blogNotice { margin-bottom:10px; padding:5px; border:1px solid #e0e1db;}
+.blogNotice .item { background:url("../images/common/notice.gif") no-repeat -2px 3px; padding:3px 0 3px 18px; }
+.blogNotice .item .date { font-family:verdana; font-size:.9em;color:#AAAAAA; }
+.blogNotice .item a { text-decoration:none; color:#444444; }
+.blogNotice .item a:hover { text-decoration:underline}
+.blogNotice .item .replyAndTrackback { color:#AAAAAA; font-size:.9em; }
 
 /* boardRead */
 .viewDocument { border:1px solid #e0e1db; padding:10px; border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
