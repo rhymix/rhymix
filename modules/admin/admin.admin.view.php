@@ -28,10 +28,9 @@
             $oModuleModel = &getModel('module');
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
             Context::set('installed_module_list', $installed_module_list);
-             
 
             // 현재 실행중인 모듈을 구해 놓음
-            $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z]+)(.*)/', '\\2\\3', $this->act));
+            $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z0-9]+)(.*)/', '\\2\\3', $this->act));
             Context::set('running_module', $running_module);
 
             $db_info = Context::getDBInfo();
