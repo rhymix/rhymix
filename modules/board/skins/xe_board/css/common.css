@@ -267,8 +267,6 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite dl.option dd * { vertical-align:middle;}
 .boardWrite dl.option dd select { width:8em; font-size:.95em; }
 
-.boardWrite .editor { border-top:1px solid #e0e1db; margin-top:10px;}
-
 .boardWrite .tag { margin-top:10px; margin-left:10px; }
 .boardWrite .tag .inputTypeText { width:90%; background:#FFFFFF url(../images/common/iconTag.gif) no-repeat 5px 5px; padding-left:30px;}
 .boardWrite .tag .help { vertical-align:middle;}

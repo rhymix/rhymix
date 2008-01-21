@@ -1,0 +1,19 @@
+<!-- 스킨 css 로드 -->
+<!--%import("css/editor.css")-->
+
+<!-- 기본 js/언어파일 로드 -->
+<!--%import("../../tpl/js/editor_common.js")-->
+<!--%import("js/xe_interface.js")-->
+
+<!-- 에디터 활성화 -->
+<script type="text/javascript">//<![CDATA[
+	xAddEventListener(window,'load', function() { editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}"); });
+//]]></script>
+
+
+<!-- 에디터 -->
+<div class="xeTextareaEditor">
+    <textarea id="editor_{$editor_sequence}" class="inputTypeText" style="height:{$editor_height}px;" cols="40" rows="10"></textarea>
+</div>
+
+
