@@ -37,6 +37,7 @@
         <permission action="dispBoardTagList" target="manager" />
         <permission action="dispBoardWrite" target="manager" />
         <permission action="dispBoardDelete" target="manager" />
+        <permission action="dispBoardWriteComment" target="manager" />
         <permission action="dispBoardReplyComment" target="manager" />
         <permission action="dispBoardModifyComment" target="manager" />
         <permission action="dispBoardDeleteComment" target="manager" />
@@ -73,6 +74,7 @@
         <action name="dispBoardTagList" type="view" />
         <action name="dispBoardWrite" type="view" />
         <action name="dispBoardDelete" type="view" />
+        <action name="dispBoardWriteComment" type="view" />
         <action name="dispBoardReplyComment" type="view" />
         <action name="dispBoardModifyComment" type="view" />
         <action name="dispBoardDeleteComment" type="view" />

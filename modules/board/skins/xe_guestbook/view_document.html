@@ -1,0 +1,105 @@
+<!-- 글 내용 보여주기 -->
+<div class="boardRead">
+    <div class="originalContent">
+        <div class="readHeader">
+            <div class="contentInfo">
+
+                <!--@if($module_info->display_author!='N')-->
+                <div class="userInfo">
+                    <!--@if(!$oDocument->getMemberSrl())-->
+                        <div class="author">
+                        <!--@if($oDocument->isExistsHomepage())-->
+                            <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
+                        <!--@else-->
+                            {$oDocument->getNickName()}
+                        <!--@end-->
+                        </div>
+                    <!--@else-->
+                        <div class="author"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
+                    <!--@end-->
+                </div>
+                <!--@end-->
+
+                <div class="date" title="{$lang->regdate}">
+                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+        <!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
+        <table cellspacing="0" summary="" class="extraVarsList">
+        <col width="150" />
+        <col />
+        <!--@foreach($module_info->extra_vars as $key => $val)-->
+            <!--@if($val->name)-->
+        <tr>
+            <th scope="row">{$val->name}</th>
+            <td>
+                <!-- 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
+                <!--#include("./extra_var_value.html")-->
+            </td>
+        </tr>
+            <!--@end-->
+        <!--@end-->
+        </table>
+        <!--@end-->
+
+        <div class="readBody">
+            <div class="contentBody">
+
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    <!--%import("filter/input_password.xml")-->
+                    <div class="secretContent">
+                        <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                        <input type="hidden" name="mid" value="{$mid}" />
+                        <input type="hidden" name="page" value="{$page}" />
+                        <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+
+                            <div class="title">{$lang->msg_is_secret}</div>
+                            <div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+
+                        </form>
+                    </div>
+                <!--@else-->
+                    {$oDocument->getContent(false,false)}
+                <!--@end-->
+
+                <!--@if($grant->is_admin)-->
+                <div class="ipaddress">ipaddress : {$oDocument->get('ipaddress')}</div>
+                <!--@end-->
+            </div>
+        </div>
+
+        <!--@if($oDocument->hasUploadedFiles())-->
+        <div class="fileAttached">
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
+            <ul>
+                <!--@foreach($uploaded_list as $key => $file)-->
+                <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                <!--@end-->
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <!--@end-->
+    </div>
+
+    <!-- 목록, 수정/삭제 버튼 --> 
+    <div class="contentButton">
+        <a href="{getUrl('act','dispBoardWriteComment','document_srl',$oDocument->document_srl,'comment_srl','0')}" class="button"><span>{$lang->cmd_reply}</span></a>
+        <!--@if($oDocument->isEditable())-->
+        <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+        <!--@end-->
+    </div>
+
+    <!-- 댓글 -->
+    <a name="comment"></a>
+    <!--#include("./comment.html")-->
+
+</div>

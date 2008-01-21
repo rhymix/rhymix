@@ -299,6 +299,34 @@
         /**
          * @brief 댓글의 답글 화면 출력
          **/
+        function dispBoardWriteComment() {
+            $document_srl = Context::get('document_srl');
+
+            // 권한 체크
+            if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');
+
+            // 원본글을 구함
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+
+            // 해당 댓글를 찾아본다 (comment_form을 같이 쓰기 위해서 빈 객체 생성)
+            $oCommentModel = &getModel('comment');
+            $oSourceComment = $oComment = $oCommentModel->getComment(0);
+            $oComment->add('document_srl', $document_srl);
+            $oComment->add('module_srl', $this->module_srl);
+
+            // 필요한 정보들 세팅
+            Context::set('oDocument',$oDocument);
+            Context::set('oSourceComment',$oSourceComment);
+            Context::set('oComment',$oComment);
+
+            $this->setTemplateFile('comment_form');
+        }
+
+        /**
+         * @brief 댓글의 답글 화면 출력
+         **/
         function dispBoardReplyComment() {
             // 권한 체크
             if(!$this->grant->write_comment) return $this->dispBoardMessage('msg_not_permitted');

@@ -1,0 +1,40 @@
+<!-- header.html include -->
+    <!--#include("header.html")-->
+
+<!-- print tags -->
+
+<div class="tagsBox">
+    <h5><img src="./images/common/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /> {$lang->tag} ({count($tag_list)})</h5>
+    <div class="tags">
+        <!--@foreach($tag_list as $val)-->
+
+            <!--@if($val->count>5)-->
+                {@ $tag_class = "tagTypeA" }
+            <!--@elseif($val->count>3)-->
+                {@ $tag_class = "tagTypeB" }
+            <!--@elseif($val->count>2)-->
+                {@ $tag_class = "tagTypeC" }
+            <!--@elseif($val->count>1)-->
+                {@ $tag_class = "tagTypeD" }
+            <!--@else-->
+                {@ $tag_class = "tagTypeE" }
+            <!--@end-->
+
+            <div <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
+                <!--@if($layout_info->mid)-->
+                    <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
+                <!--@else-->
+                    <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a>
+                <!--@end-->
+            </div>
+        <!--@end-->
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="clear"></div>
+
+<div class="rightButtonBox gap1">
+    <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
+</div>
+
+<!--#include("footer.html")-->
