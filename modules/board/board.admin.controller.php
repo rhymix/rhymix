@@ -141,6 +141,7 @@
                     $obj = $modules[$i];
                     $extra_vars = unserialize($obj->extra_vars);
 
+                    $obj->module = 'board';
                     $obj->module_category_srl = $args->module_category_srl;
                     $obj->layout_srl = $args->layout_srl;
                     $obj->skin = $args->skin;
