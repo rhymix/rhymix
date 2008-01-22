@@ -96,7 +96,7 @@ Jeong, Chan Myeong 070601~070630
 
 
 .trackbackBox { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em; }
-.trackbackBox .trackbackUrl { color:#1F3DAE; font-size:.9em; background:url("../images/common/iconTrackback.gif") no-repeat left top; padding-left:18px; margin:0 0 3px 10px; }
+.trackbackBox .trackbackUrl { color:#1F3DAE; font-size:.9em; background:url("../images/common/iconTrackback.gif") no-repeat left top; padding-left:18px; margin:0 0 3px 10px; height:18px;}
 .trackbackBox .trackbackItem { background-color:#F3F3F3; padding:.6em .8em .6em .6em; line-height:1.25em; border-top:1px dotted #EEEEEE; list-style:none;}
 .trackbackBox p { display:inline; margin-bottom:1em;}
 .trackbackBox a { color:#666666; text-decoration:none;}
@@ -253,10 +253,10 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite { border:1px solid #e0e1db; padding-bottom:10px;}
 .boardWrite fieldset { border:none; }
 .boardWrite .userNameAndPw { margin:10px 10px 0 10px; }
-.boardWrite .userNameAndPw .userName {width:80px; margin-right:10px; }
-.boardWrite .userNameAndPw .userPw {width:80px; margin-right:10px; }
-.boardWrite .userNameAndPw .emailAddress {width:80px; margin-right:10px; }
-.boardWrite .userNameAndPw .homePage {width:80px; margin-right:10px; }
+.boardWrite .userNameAndPw .userName {width:60px; margin-right:10px; }
+.boardWrite .userNameAndPw .userPw {width:60px; margin-right:10px; }
+.boardWrite .userNameAndPw .emailAddress {width:60px; margin-right:10px; }
+.boardWrite .userNameAndPw .homePage {width:60px; margin-right:10px; }
 
 .boardWrite .title { margin-top:5px; }
 .boardWrite .title .category { margin-left:10px; }

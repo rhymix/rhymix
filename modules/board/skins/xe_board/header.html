@@ -50,7 +50,6 @@
     {$module_info->header_text}
 
 <!-- 블로그 스킨이 아닐 경우 스킨의 제목/간단한 설명 출력 -->
-<!--@if($module_info->default_style != 'blog')-->
     <!--@if($module_info->title)-->
     <div class="boardHeader">
         <div class="boardHeaderBorder">
@@ -65,10 +64,11 @@
     <!--@end-->
 
 <!-- 게시판 정보 -->
+<!--@if($module_info->display_login_info != 'N' || $module_info->display_setup_button != 'N')-->
     <div class="boardInformation">
 
         <!-- 게시물 수 -->
-        <!--@if($total_count)-->
+        <!--@if($total_count && $module_info->default_style != 'blog')-->
         <div class="articleNum">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
         <!--@end-->
 
@@ -79,23 +79,23 @@
         <!--@if($is_logged)-->
 
             <!-- 관리자이면 설정 버튼 출력 -->
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
             <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
             <!--@end-->
 
             <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
-            <!--@if($logged_info->is_admin == 'Y')-->
+            <!--@if($logged_info->is_admin == 'Y' && $module_info->display_setup_button != 'N')-->
             <li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
             <!--@end-->
 
-            <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
-            <!--@if(!$module_info->layout_srl)-->
+            <!-- 회원정보 버튼 출력 -->
+            <!--@if($module_info->display_login_info != 'N')-->
             <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
             <!--@end-->
 
         <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
-        <!--@elseif(!$is_logged && !$module_info->layout_srl)-->
+        <!--@elseif(!$is_logged && $module_info->display_login_info != 'N')-->
             <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
         <!--@end-->

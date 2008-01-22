@@ -252,7 +252,7 @@
             // 이 게시글을... 팝업메뉴를 출력할 경우
             if($add_popup_menu) {
                 $content = sprintf(
-                        '%s<div class="document_popup_menu"><span class="document_popup_menu document_%d">%s</span></div>',
+                        '%s<div class="document_popup_menu"><span class="document_%d">%s</span></div>',
                         $content, 
                         $this->document_srl, Context::getLang('cmd_document_do')
                 );

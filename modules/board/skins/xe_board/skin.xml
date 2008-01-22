@@ -116,6 +116,26 @@
             <default>asc</default>
             <default>desc</default>
         </var>
+        <var name="display_login_info" type="select">
+            <title xml:lang="ko">로그인 정보 출력</title>
+            <title xml:lang="zh-CN">登陆表单</title>
+            <title xml:lang="jp">ログイン情報表示</title>
+            <title xml:lang="en">Display Login Info</title>
+            <title xml:lang="es">Muestra la información de la conección</title>
+            <default>Y</default>
+            <default>N</default>
+            <description />
+        </var>
+        <var name="display_setup_button" type="select">
+            <title xml:lang="ko">설정 표시</title>
+            <title xml:lang="zh-CN">设置表单</title>
+            <title xml:lang="jp">ログイン設定</title>
+            <title xml:lang="en">Display Setup</title>
+            <title xml:lang="es">Muestra la información de la Configuración</title>
+            <default>Y</default>
+            <default>N</default>
+            <description />
+        </var>
         <var name="title" type="text">
             <title xml:lang="ko">게시판 제목</title>
             <title xml:lang="jp">掲示板タイトル</title>
