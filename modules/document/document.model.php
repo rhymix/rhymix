@@ -145,6 +145,14 @@
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
 
+            // 카테고리가 선택되어 있으면 하부 카테고리까지 모두 조건에 추가
+            if($args->category_srl) {
+                $category_list = $this->getCategoryList($args->module_srl);
+                $category_info = $category_list[$args->category_srl];
+                $category_info->childs[] = $args->category_srl;
+                $args->category_srl = implode(',',$category_info->childs);
+            }
+
             // 기본으로 사용할 query id 지정 (몇가지 검색 옵션에 따라 query id가 변경됨)
             $query_id = 'document.getDocumentList';
 
@@ -410,29 +418,26 @@
          **/
         function getCategoryList($module_srl) {
             // 한 페이지에서 여러번 호출될 경우를 대비해서 static var로 보관 (php4때문에 다른 방법으로 구현)
-            if(isset($this->category_list[$module_srl])) return $this->category_list[$module_srl];
+            if(!isset($this->category_list[$module_srl])) {
 
-            // php 캐싱된 파일의 유무를 체크하여 처리
-            $args->module_srl = $module_srl;
-            $args->sort_index = 'list_order';
-            $output = executeQuery('document.getCategoryList', $args);
+                // 대상 모듈의 카테고리 파일을 불러옴
+                $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-            // 대상 모듈의 카테고리 파일을 불러옴
-            $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
+                // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+                if(!file_exists($filename)) {
+                    $oDocumentController = &getController('document');
+                    if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
+                }
 
-            // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
-            if(!file_exists($filename)) {
-                $oDocumentController = &getController('document');
-                if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
+                @include($filename);
+
+                // 카테고리의 정리
+                $document_category = array();
+                $this->_arrangeCategory($document_category, $menu->list, 0);
+                $this->category_list[$module_srl] = $document_category;
             }
 
-            @include($filename);
-
-            // 카테고리의 정리
-            $document_category = array();
-            $this->_arrangeCategory($document_category, $menu->list, 0);
-
-            return $document_category;
+            return $this->category_list[$module_srl];
         }
 
         /**
