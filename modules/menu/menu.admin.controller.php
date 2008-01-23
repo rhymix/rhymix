@@ -280,7 +280,7 @@
 
             // 요건을 만족하고 업로드된 파일이면 지정된 위치로 이동
             } else {
-                $tmp_arr = explode('/',$target_file['type']);
+                $tmp_arr = explode('.',$target_file['name']);
                 $ext = $tmp_arr[count($tmp_arr)-1];
 
                 $path = sprintf('./files/attach/menu_button/%d/', $menu_srl);
@@ -415,9 +415,11 @@
                 $group_srls = $node->group_srls;
 
                 if($normal_btn) {
+                    if(preg_match('/\.png$/',$normal_btn)) $classname = 'class=&quot;iePngFix&quot;';
+                    else $classname = '';
                     if($hover_btn) $hover_str = sprintf('onmouseover=&quot;this.src=\'%s\'&quot;', $hover_btn); else $hover_str = '';
                     if($active_btn) $active_str = sprintf('onmousedown=&quot;this.src=\'%s\'&quot;', $active_btn); else $active_str = '';
-                    $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$_SESSION["lang_type"]]) ?>&quot; %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str);
+                    $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$_SESSION["lang_type"]]) ?>&quot; %s %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str, $classname);
                 } else {
                     $link = '<? print $_names[$_SESSION["lang_type"]]; ?>';
                 }
@@ -510,9 +512,11 @@
                 $group_srls = $node->group_srls;
 
                 if($normal_btn) {
+                    if(preg_match('/\.png$/',$normal_btn)) $classname = 'class=\"iePngFix\"';
+                    else $classname = '';
                     if($hover_btn) $hover_str = sprintf('onmouseover=\"this.src=\'%s\'\"', $hover_btn); else $hover_str = '';
                     if($active_btn) $active_str = sprintf('onmousedown=\"this.src=\'%s\'\"', $active_btn); else $active_str = '';
-                    $link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str);
+                    $link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str, $classname);
                 } else {
                     $link = sprintf('$_menu_names[%d][$lang_type]', $node->menu_item_srl);
                 }

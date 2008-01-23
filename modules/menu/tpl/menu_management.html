@@ -69,7 +69,7 @@
     <p class="gap1"><input type="checkbox" id="menu_enable_move" class="checkbox" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label></p>
 
     <div class="gap1">
-        <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item)" class="clear" enctype="multipart/form-data">
+        <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item)" class="clear" target="tmp_upload_iframe" enctype="multipart/form-data">
         <input type="hidden" name="title" value="{$menu_info->title}" />
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
         <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
@@ -92,3 +92,5 @@
     </div>
 
 </div>
+
+<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>

@@ -207,32 +207,12 @@ function doMenuUploadButton(obj) {
     // 이미지인지 체크
     if(!/\.(gif|jpg|jpeg|png)$/i.test(obj.value)) return alert(alertImageOnly);
 
-    // iframe 객체 생성 (있으면 있는것 이용)
-    if(!xGetElementById('tmp_upload_iframe')) {
-        if(xIE4Up) {
-            window.document.body.insertAdjacentHTML("afterEnd", "<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>");
-        } else {
-            var obj_iframe = xCreateElement('IFRAME');
-            obj_iframe.name = obj_iframe.id = 'tmp_upload_iframe';
-            obj_iframe.style.display = 'none';
-            obj_iframe.style.width = '1px';
-            obj_iframe.style.height = '1px';
-            obj_iframe.style.position = 'absolute';
-            obj_iframe.style.top = '-10px';
-            obj_iframe.style.left = '-10px';
-            window.document.body.appendChild(obj_iframe);
-        }
-    }
-   
-    // 현재 form의 target을 바꾸고 이미지 등록
-    obj.form.target = 'tmp_upload_iframe';
-
-    // submit
-    obj.form.act.value = "procMenuAdminUploadButton";
-    obj.form.target.value = obj.name;
-    obj.form.submit();
-    obj.form.act.value = "";
-    obj.form.target.value = "";
+    var fo_obj = xGetElementById("fo_menu");
+    fo_obj.act.value = "procMenuAdminUploadButton";
+    fo_obj.target.value = obj.name;
+    fo_obj.submit();
+    fo_obj.act.value = "";
+    fo_obj.target.value = "";
 }
 
 /* 메뉴 이미지 업로드 후처리 */
