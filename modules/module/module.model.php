@@ -73,6 +73,7 @@
          * @brief 여러개의 module_srl에 해당하는 모듈의 정보를 구함
          **/
         function getModulesInfo($module_srls) {
+            if(is_array($module_srls)) $module_srls = implode(',',$module_srls);
             $args->module_srls = $module_srls;
             $output = executeQueryArray('module.getModulesInfo', $args);
             if(!$output->toBool()) return;
