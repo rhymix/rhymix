@@ -201,3 +201,81 @@ function doInsertMid(mid, menu_id) {
     fo_obj.menu_url.value = mid;
     window.close();
 }
+
+/* 각 메뉴의 버튼 이미지 등록 */
+function doMenuUploadButton(obj) {
+    // 이미지인지 체크
+    if(!/\.(gif|jpg|jpeg|png)$/i.test(obj.value)) return alert(alertImageOnly);
+
+    // iframe 객체 생성 (있으면 있는것 이용)
+    if(!xGetElementById('tmp_upload_iframe')) {
+        if(xIE4Up) {
+            window.document.body.insertAdjacentHTML("afterEnd", "<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>");
+        } else {
+            var obj_iframe = xCreateElement('IFRAME');
+            obj_iframe.name = obj_iframe.id = 'tmp_upload_iframe';
+            obj_iframe.style.display = 'none';
+            obj_iframe.style.width = '1px';
+            obj_iframe.style.height = '1px';
+            obj_iframe.style.position = 'absolute';
+            obj_iframe.style.top = '-10px';
+            obj_iframe.style.left = '-10px';
+            window.document.body.appendChild(obj_iframe);
+        }
+    }
+   
+    // 현재 form의 target을 바꾸고 이미지 등록
+    obj.form.target = 'tmp_upload_iframe';
+
+    // submit
+    obj.form.act.value = "procMenuAdminUploadButton";
+    obj.form.target.value = obj.name;
+    obj.form.submit();
+    obj.form.act.value = "";
+    obj.form.target.value = "";
+}
+
+/* 메뉴 이미지 업로드 후처리 */
+function completeMenuUploadButton(target, filename) {
+    var column_name = target.replace(/^menu_/,'');
+    var fo_obj = xGetElementById("fo_menu");
+    var zone_obj = xGetElementById(target+'_zone');
+    var img_obj = xGetElementById(target+'_img');
+
+    fo_obj[column_name].value = filename;
+
+    var img = new Image();
+    img.src = filename;
+    img_obj.src = img.src;
+    zone_obj.style.display = "block";
+}
+
+/* 업로드된 메뉴 이미지 삭제 */
+function doDeleteButton(target) {
+    var fo_obj = xGetElementById("fo_menu");
+
+    var col_name = target.replace(/^menu_/,'');
+
+    var params = new Array();
+    params['target'] = target;
+    params['menu_srl'] = fo_obj.menu_srl.value;
+    params['menu_item_srl'] = fo_obj.menu_item_srl.value;
+    params['filename'] = fo_obj[col_name].value;
+
+    var response_tags = new Array('error','message', 'target');
+
+    exec_xml('menu','procMenuAdminDeleteButton', params, completeDeleteButton, response_tags);
+}
+
+function completeDeleteButton(ret_obj, response_tags) {
+    var target = ret_obj['target'];
+
+    var column_name = target.replace(/^menu_/,'');
+    var fo_obj = xGetElementById("fo_menu");
+    var zone_obj = xGetElementById(target+'_zone');
+    var img_obj = xGetElementById(target+'_img');
+    fo_obj[column_name].value = "";
+
+    img_obj.src = "";
+    zone_obj.style.display = "none";
+}

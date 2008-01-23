@@ -1,11 +1,11 @@
-<query id="getChildCategoryCount" action="select">
+<query id="getChildMenuCount" action="select">
     <tables>
-        <table name="document_categories" />
+        <table name="menu_item" />
     </tables>
     <columns>
         <column name="count(*)" alias="count" />
     </columns>
     <conditions>
-        <condition operation="equal" column="parent_srl" var="category_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="parent_srl" var="menu_item_srl" filter="number" notnull="notnull" />
     </conditions>
 </query>

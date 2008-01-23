@@ -59,6 +59,10 @@
                 }
             }
 
+            // 이미지 버튼 모두 삭제
+            $image_path = sprintf('./files/attach/menu_button/%s', $menu_srl);
+            FileHandler::removeDir($image_path);
+
             $args->menu_srl = $menu_srl;
 
             // 메뉴 메뉴 삭제
@@ -87,8 +91,14 @@
 
             // 메뉴 이름 체크
             $lang_supported = Context::get('lang_supported');
+            $name_inserted = false;
             foreach($lang_supported as $key => $val) {
                 $menu_name[$key] = $source_args->{"menu_name_".strtolower($key )};
+                if($menu_name[$key]) $name_inserted = true;
+            }
+            if(!$name_inserted) {
+                global $lang;
+                return new Object(-1, sprintf($lang->filter->isnull, $lang->menu_name));
             }
 
             // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
@@ -101,9 +111,9 @@
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
-            $args->normal_btn = $source_args->menu_normal_btn;
-            $args->hover_btn = $source_args->menu_hover_btn;
-            $args->active_btn = $source_args->menu_active_btn;
+            $args->normal_btn = $source_args->normal_btn;
+            $args->hover_btn = $source_args->hover_btn;
+            $args->active_btn = $source_args->active_btn;
             $args->group_srls = $source_args->group_srls;
 
             // 이미 존재하는지를 확인
@@ -185,6 +195,11 @@
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
+            // 이미지 버튼 모두 삭제
+            if($item_info->normal_btn) @unlink($item_info->normal_btn);
+            if($item_info->hover_btn) @unlink($item_info->hover_btn);
+            if($item_info->active_btn) @unlink($item_info->active_btn);
+
             $this->add('xml_file', $xml_file);
             $this->add('menu_title', $menu_title);
             $this->add('menu_item_srl', $parent_srl);
@@ -248,6 +263,51 @@
             // return 값 설정 
             $this->add('menu_title',$menu_title);
             $this->add('xml_file',$xml_file);
+        }
+
+        /**
+         * @brief 메뉴 이미지 버튼을 등록
+         **/
+        function procMenuAdminUploadButton() {
+            $menu_srl = Context::get('menu_srl');
+            $menu_item_srl = Context::get('menu_item_srl');
+            $target = Context::get('target');
+            $target_file = Context::get($target);
+
+            // 필수 요건이 없거나 업로드된 파일이 아니면 오류 발생
+            if(!$menu_srl || !$menu_item_srl || !$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)/i',$target_file['name'])) {
+                Context::get('error_messge', Context::getLang('msg_invalid_request'));
+
+            // 요건을 만족하고 업로드된 파일이면 지정된 위치로 이동
+            } else {
+                $tmp_arr = explode('/',$target_file['type']);
+                $ext = $tmp_arr[count($tmp_arr)-1];
+
+                $path = sprintf('./files/attach/menu_button/%d/', $menu_srl);
+                $filename = sprintf('%s%d.%s.%s', $path, $menu_item_srl, $target, $ext);
+
+                if(!is_dir($path)) FileHandler::makeDir($path);
+
+                move_uploaded_file($target_file['tmp_name'], $filename);
+                Context::set('filename', $filename);
+            }
+
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('menu_file_uploaded');
+        }
+
+        /**
+         * @brief 등록된 메뉴 이미지 제거
+         **/
+        function procMenuAdminDeleteButton() {
+            $menu_srl = Context::get('menu_srl');
+            $menu_item_srl = Context::get('menu_item_srl');
+            $target = Context::get('target');
+            $filename = Context::get('filename');
+            @unlink($filename);
+
+            $this->add('target', $target);
         }
 
         /**
@@ -341,16 +401,32 @@
                 else $href = $url;
                 $open_window = $node->open_window;
                 $expand = $node->expand;
-                $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
-                $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
-                $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn);
+
+                $normal_btn = $node->normal_btn;
+                if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+                else $normal_btn = '';
+                $hover_btn = $node->hover_btn;
+                if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+                else $hover_btn = '';
+                $active_btn = $node->active_btn;
+                if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+                else $active_btn = '';
+
                 $group_srls = $node->group_srls;
+
+                if($normal_btn) {
+                    if($hover_btn) $hover_str = sprintf('onmouseover=&quot;this.src=\'%s\'&quot;', $hover_btn); else $hover_str = '';
+                    if($active_btn) $active_str = sprintf('onmousedown=&quot;this.src=\'%s\'&quot;', $active_btn); else $active_str = '';
+                    $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$_SESSION["lang_type"]]) ?>&quot; %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str);
+                } else {
+                    $link = '<? print $_names[$_SESSION["lang_type"]]; ?>';
+                }
 
                 // node->group_srls값이 있으면 
                 if($group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
-                    'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" ',
+                    'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?}?>"',
                     $menu_item_srl,
                     $node->parent_srl,
                     $group_check_code,
@@ -363,7 +439,9 @@
                     $expand,
                     $normal_btn,
                     $hover_btn,
-                    $active_btn
+                    $active_btn,
+                    $group_check_code,
+                    $link
                 );
                 
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
@@ -417,9 +495,31 @@
                 $child_buff = $child_output['buff'];
                 $expand = $node->expand;
 
+                $normal_btn = $node->normal_btn;
+                if($normal_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$normal_btn)) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+                else $normal_btn = '';
+
+                $hover_btn = $node->hover_btn;
+                if($hover_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$hover_btn)) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+                else $hover_btn = '';
+
+                $active_btn = $node->active_btn;
+                if($active_btn && preg_match('/^\.\/files\/attach\/menu_button/i',$active_btn)) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+                else $active_btn = '';
+
+                $group_srls = $node->group_srls;
+
+                if($normal_btn) {
+                    if($hover_btn) $hover_str = sprintf('onmouseover=\"this.src=\'%s\'\"', $hover_btn); else $hover_str = '';
+                    if($active_btn) $active_str = sprintf('onmousedown=\"this.src=\'%s\'\"', $active_btn); else $active_str = '';
+                    $link = sprintf('"<img src=\"%s\" onmouseout=\"this.src=\'%s\'\" alt=\"".$_menu_names[%d][$lang_type]."\" %s %s />"', $normal_btn, $normal_btn, $node->menu_item_srl, $hover_str, $active_str);
+                } else {
+                    $link = sprintf('$_menu_names[%d][$lang_type]', $node->menu_item_srl);
+                }
+
                 // 속성을 생성한다 ( url_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                    '"node_srl"=>"%s","parent_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s)',
+                    '"node_srl"=>"%s","parent_srl"=>"%s","text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?"%s":""),"url"=>(%s?"%s":""),"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s?%s:""),',
                     $node->menu_item_srl,
                     $node->parent_srl,
                     $group_check_code,
@@ -435,7 +535,9 @@
                     $selected,
                     $selected,
                     $expand,
-                    $child_buff
+                    $child_buff,
+                    $group_check_code,
+                    $link
                 );
                 
                 // buff 데이터를 생성한다

@@ -1,0 +1,10 @@
+<!--@if($error_message)-->
+<script type="text/javascript">
+    alert("{$error_message}");
+</script>
+<!--@else-->
+<script type="text/javascript">
+    top.completeMenuUploadButton("{$target}", "{$filename}");
+</script>
+<!--@end-->
+

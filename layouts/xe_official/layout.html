@@ -36,12 +36,12 @@
 		<!--GNB-->
 		<ul id="gnb">
             <!-- main_menu 1차 시작 -->
-            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['link'])-->
                 <!--@if($val['selected'])-->
                     {@ $menu_1st = $val }
                 <!--@end-->
 
-                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
 
             <!--@end--><!--@end-->
             <!-- main_menu 1차 끝 -->
@@ -94,14 +94,14 @@
             <!--@if($menu_1st)-->
 			<ol id="lnb">
                 {@ $idx = 1 }
-                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['text'])-->
-				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a>
+                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['link'])-->
+				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
 
                     <!-- main_menu 3차 시작 -->
                     <!--@if($val['list'])-->
 					<ul>
-                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
-						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['text']}</a></li>
+                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['link'])-->
+						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
                     <!--@end--><!--@end-->
 					</ul>
                     <!--@end-->
@@ -127,7 +127,7 @@
 		</li>
 
         <!--@foreach($bottom_menu->list as $key => $val)-->
-		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
         <!--@end-->
 	</ul>
 </div>

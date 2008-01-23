@@ -48,4 +48,6 @@
     $lang->about_menu_group_srls = 'Si tu selecciona el grupo, sólo los usuarios del grupo pueden ver el menú. (Si el archivo xml es abierto directamente, lo mostrará.)';
 
     $lang->about_menu = "Módulo del menú te ayudara a crear un sitio completo a través de un conveniente manejo del menú que ordena los módulos creados y conecta con el diseño sin ningún otro trabajo.\nEl menú no es un manejador del sitio, sino que permite conectar los módulos con el diseño y a través del diseño puede expresar variados estilos del menú.";
+
+    $lang->alert_image_only = "이미지 파일만 등록가능합니다.";
 ?>

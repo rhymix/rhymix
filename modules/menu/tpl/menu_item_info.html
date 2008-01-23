@@ -1,5 +1,8 @@
 <input type="hidden" name="menu_item_srl" value="{$item_info->menu_item_srl}" />
 <input type="hidden" name="parent_srl" value="{$item_info->parent_srl}" />
+<input type="hidden" name="normal_btn" value="{$item_info->normal_btn}" />
+<input type="hidden" name="hover_btn" value="{$item_info->hover_btn}" />
+<input type="hidden" name="active_btn" value="{$item_info->active_btn}" />
 
 <table cellspacing="0" class="adminTable">
 <col width="80" />
@@ -49,15 +52,33 @@
 </tr>
 <tr>
     <th scope="row" colspan="2">{$lang->menu_normal_btn}</th>
-    <td><input type="text" name="menu_normal_btn" value="{htmlspecialchars($item_info->normal_btn)}" class="inputTypeText" /></td>
+    <td>
+        <div id="menu_normal_btn_zone" <!--@if(!$item_info->normal_btn)-->style="display:none;"<!--@end-->>
+            <img src="{$item_info->normal_btn}" alt="" id="menu_normal_btn_img" /><br />
+            <a href="#" onclick="doDeleteButton('menu_normal_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        </div>
+        <input type="file" name="menu_normal_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+    </td>
 </tr>
 <tr>
     <th scope="row" colspan="2">{$lang->menu_hover_btn}</th>
-    <td><input type="text" name="menu_hover_btn" value="{htmlspecialchars($item_info->hover_btn)}" class="inputTypeText" /></td>
+    <td>
+        <div id="menu_hover_btn_zone") <!--@if(!$item_info->hover_btn)-->style="display:none;"<!--@end-->>
+            <img src="{$item_info->hover_btn}" alt="" id="menu_hover_btn_img" /><br />
+            <a href="#" onclick="doDeleteButton('menu_hover_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        </div>
+        <input type="file" name="menu_hover_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+    </td>
 </tr>
 <tr>
     <th scope="row" colspan="2">{$lang->menu_active_btn}</th>
-    <td><input type="text" name="menu_active_btn" value="{htmlspecialchars($item_info->active_btn)}" class="inputTypeText" /></td>
+    <td>
+        <div id="menu_active_btn_zone" <!--@if(!$item_info->active_btn)-->style="display:none;"<!--@end-->>
+            <img src="{$item_info->active_btn}" alt="" id="menu_active_btn_img" /><br />
+            <a href="#" onclick="doDeleteButton('menu_active_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+        </div>
+        <input type="file" name="menu_active_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+    </td>
 </tr>
 <tr>
     <th scope="row" colspan="2">{$lang->menu_group_srls}</th>
