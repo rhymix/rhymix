@@ -12,7 +12,7 @@
 .accountNavigation li.myInfo a { background:url(../images/white/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
 
 /* boardRead */
-.boardRead .fileAttached li a { background:url(../images/white/iconFile.gif) no-repeat left top;}
+.boardRead .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left 2px;}
 
 /* style.list */
 .boardList th { background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom; }
@@ -26,4 +26,4 @@
 /* replyAndTrackback */
 .buttonBox .replyAndTrackback a strong { color:#ff6600;}
 
-.replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
+.replyBox .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left 2px;}
