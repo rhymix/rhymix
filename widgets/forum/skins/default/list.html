@@ -19,7 +19,7 @@
         </tr>
         <!--@foreach($widget_info->modules as $val)-->
         <tr class="content">
-            <td class="icon"><img src="./images/icon.gif" alt="icon" /></td>
+            <td class="icon"><img src="./images/icon<!--@if($val->is_new)-->_new<!--@end-->.gif" alt="icon" /></td>
             <td class="title">
                 <strong><a href="{getUrl('','mid',$val->mid)}">{$val->title}</a></strong>
                 <p>{$val->description}</p>
@@ -27,12 +27,12 @@
             <td class="topic">{number_format($val->document_count)}</td>
             <td class="replies">{number_format($val->comment_count)}</td>
             <td class="last_post">
-                <!--@if($val->last_comment)-->
+                <!--@if($val->last_item)-->
                     <div class="author">
-                        <span class="member_{$val->last_comment->member_srl}">{$val->last_comment->nick_name}</span>
-                        <a href="{getUrl('','document_srl',$val->last_comment->document_srl)}#comment_{$val->last_comment->comment_srl}"><img src="./images/replies.gif" alt="go" /></a>
+                        <span class="member_{$val->last_item->member_srl}">{$val->last_item->nick_name}</span>
+                        <a href="{getUrl('','document_srl',$val->last_item->document_srl)}<!--@if($val->last_item->comment_srl)-->#comment_{$val->last_item->comment_srl}<!--@end-->"><img src="./images/replies.gif" alt="go" /></a>
                     </div>
-                    <div class="date">{zdate($val->last_comment->regdate,"Y-m-d H:i")}</div>
+                    <div class="date">{zdate($val->last_item->regdate,"Y-m-d H:i")}</div>
                 <!--@else-->
                     &nbsp;
                 <!--@end-->

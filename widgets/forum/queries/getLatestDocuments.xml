@@ -1,0 +1,14 @@
+<query id="getLatestDocuments" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+        <list_count var="list_count" default="1" />
+        <page_count var="page_count" default="1" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

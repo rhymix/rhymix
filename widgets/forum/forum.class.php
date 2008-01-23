@@ -45,13 +45,32 @@
                 $modules[$module->module_srl]->document_count = 0;
                 $modules[$module->module_srl]->comment_count = 0;
 
-                // 최근 수정된 댓글의 정보
+                // 최근 등록된 댓글의 정보
+                $last_comment = null;
                 $last_args = null;
                 $last_args->module_srl = $module->module_srl;
                 $output = executeQuery('widgets.forum.getLatestComments', $last_args);
+                if(is_array($output->data)) $last_comment = array_pop($output->data);
 
-                if(is_array($output->data)) $modules[$module->module_srl]->last_comment = array_pop($output->data);
-                else $modules[$module->module_srl]->last_comment = null;
+                // 최근 등록된 글의 정보
+                $last_document = null;
+                $last_args = null;
+                $last_args->module_srl = $module->module_srl;
+                $output = executeQuery('widgets.forum.getLatestDocuments', $last_args);
+                if(is_array($output->data)) $last_document = array_pop($output->data);
+
+                $last_item = null;
+                if($last_comment && $last_document) {
+                    if($last_document->regdate > $last_comment->regdate) $last_item = $last_document;
+                    else $last_item = $last_comment;
+                } elseif($last_document) {
+                    $last_item = $last_document;
+                } elseif($last_comment) {
+                    $last_item = $last_comment;
+                }
+                $modules[$module->module_srl]->last_item = $last_item;
+
+                if($last_item && $last_item->regdate > date("YmdHis",time()-$duration_new*60*60)) $modules[$module->module_srl]->is_new = true;
             }
 
             // 각 모듈별 전체글을 구함

@@ -16,7 +16,7 @@
 
 .xeForum table td.title a { text-decoration:none; color:#3A3947; font-size:9pt;}
 .xeForum table td.title p { margin-top:5px; font-weight:normal; text-decoration:none; color:#838383; font-size:9pt;}
-.xeForum table td.title p a { font-weight:normal; text-decoration:none; color:#838383; font-size:9pt;}
+.xeForum table td.title p a { font-weight:normal; text-decoration:underline; color:#838383; font-size:9pt;}
 
 .xeForum table td.topic, .xeForum td.replies, .xeForum td.last_post { background:#EFEFEF url("../images/div.gif") no-repeat left 3px; }
 
