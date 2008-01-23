@@ -2,6 +2,7 @@ RewriteEngine On
 
 # image...
 RewriteRule ^(.+)/files/attach/images/(.*) ./files/attach/images/$2 [L]
+RewriteRule ^(.+)/files/attach/menu_button/(.*) ./files/attach/images/$2 [L]
 RewriteRule ^(.+)/files/member_extra_info/(.*) ./files/member_extra_info/$2 [L]
 RewriteRule ^(.+)/files/cache/(.*) ./files/cache/$2 [L]
 RewriteRule ^(.+)/modules/(.*) ./modules/$2 [L]
