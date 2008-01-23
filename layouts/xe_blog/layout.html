@@ -50,12 +50,14 @@
                 <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 
             <!--@end-->
-                                                                                                                                                                                                                     <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+
+            <!--@if($mid == $layout_info->target_mid)-->
+                <li class="skin_info"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;"><img src="./images/common/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
                 <!--@if($rss_url)-->
                     <li class="rss"><a href="{$rss_url}"><img src="./images/common/iconRss.gif" alt="rss" width="13" height="13" /></a></li>
                 <!--@end-->
                 <li class="tag_info"><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/common/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
-
+            <!--@end-->
         </ul>
 
 
