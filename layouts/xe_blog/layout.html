@@ -76,8 +76,8 @@
 
         <!-- top_menu 시작 -->
         <ul id="globalNavigation">
-            <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['text'])-->
-            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+            <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['link'])-->
+            <li <!--@if($val['selected'])--> class="on" <!--@end--> ><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
             <!--@end--><!--@end-->
         </ul>
     </div>
