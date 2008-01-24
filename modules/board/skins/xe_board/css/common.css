@@ -45,7 +45,7 @@ Jeong, Chan Myeong 070601~070630
 
 /* boardRead */
 .viewDocument { border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
-.boardRead { margin:0 0 10px 0; }
+.boardRead { margin:10px  0 10px 0; }
 
 .boardRead .titleAndUser { overflow:hidden; border-bottom:1px solid #e0e1db; }
 
@@ -290,8 +290,8 @@ Jeong, Chan Myeong 070601~070630
 
 
 /* 게시물의 팝업 메뉴 */
-.comment_popup_menu, .document_popup_menu { text-align:right; background:url(../images/common/document_menu.gif) no-repeat right top; padding-right:16px; }
-.comment_popup_menu span, .document_popup_menu span { cursor:pointer; display:inline; background:none; padding:0 0 0 0; margin:0 0 0 0; }
+.comment_popup_menu, .document_popup_menu { text-align:right; background:none; background:url(../images/common/document_menu.gif) no-repeat right top; padding:0 15px; 0 0; }
+.comment_popup_menu span, .document_popup_menu span { cursor:pointer; display:inline; }
 
 /* tag list */
 .tagsBox { border:1px solid #EEEEEE; padding:10px; overflow:hidden;}
