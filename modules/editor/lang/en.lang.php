@@ -28,23 +28,23 @@
     $lang->cmd_disable = "Inactive";
     $lang->cmd_enable = "Active";
 
-    $lang->editor_skin = '에디터 스킨';
-    $lang->upload_file_grant = '파일 첨부 권한'; 
-    $lang->enable_default_component_grant = '기본 컴포넌트 사용 권한';
-    $lang->enable_component_grant = '컴포넌트 사용 권한';
-    $lang->enable_html_grant = 'HTML편집 권한';
-    $lang->enable_autosave = '자동저장 사용';
-    $lang->height_resizable = '높이 조절 가능';
-    $lang->editor_height = '에디터 높이';
+    $lang->editor_skin = 'Editor Skin';
+    $lang->upload_file_grant = 'Permission for uploading'; 
+    $lang->enable_default_component_grant = 'Permission of using default components';
+    $lang->enable_component_grant = 'Permission of using components';
+    $lang->enable_html_grant = 'Permission of using HTML';
+    $lang->enable_autosave = 'Use auto-save';
+    $lang->height_resizable = 'Height Resizable';
+    $lang->editor_height = 'Height of Editor';
 
-    $lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
-    $lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다 (모두 해제시 아무나 첨부 가능합니다)';
-    $lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
-    $lang->about_component_grant = '기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
-    $lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다';
-    $lang->about_editor_height_resizable = '에디터의 높이를 직접 변경할 수 있도록 허용합니다';
-    $lang->about_enable_html_grant = 'HTML편집 권한을 부여할 수 있습니다.';
-    $lang->about_enable_autosave = '글작성시 자동 저장 기능을 활성화 시킬 수 있습니다';
+    $lang->about_editor_skin = 'You may select the skin of editor.';
+    $lang->about_upload_file_grant = 'You may set the permission of file attaching. (Everyone would have permission if nothing checked)';
+    $lang->about_default_component_grant = 'You may set the permission of using default components of editor. (Everyone would have permission if nothing checked)';
+    $lang->about_component_grant = 'You may set the permission of using expanded components of editor. (Everyone would have permission if nothing checked)';
+    $lang->about_editor_height = 'You may set the height of editor.';
+    $lang->about_editor_height_resizable = 'Permit to resize the height of editor.';
+    $lang->about_enable_html_grant = 'You may give the permission of using HTML';
+    $lang->about_enable_autosave = 'You may enable the auto-save function while writing articles.';
 
     $lang->edit->fontname = 'Font';
     $lang->edit->fontsize = 'Size';
