@@ -105,6 +105,19 @@
                 <!--@if($grant->is_admin)-->
                 <div class="ipaddress">ipaddress : {$oDocument->get('ipaddress')}</div>
                 <!--@end-->
+
+                <!-- 서명 / 프로필 이미지 출력 -->
+                <!--@if($oDocument->getProfileImage() || $oDocument->getSignature())-->
+                    <div class="memberSignature">
+                    <!--@if($oDocument->getProfileImage())-->
+                        <div class="profile"><img src="{$oDocument->getProfileImage()}" alt="profile" /></div>
+                    <!--@end-->
+                    <!--@if($oDocument->getSignature())-->
+                        <div class="signature">{$oDocument->getSignature()}</div>
+                    <!--@end-->
+                        <div class="clear"></div>
+                    </div>
+                <!--@end-->
             </div>
         </div>
 

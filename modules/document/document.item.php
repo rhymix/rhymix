@@ -579,5 +579,27 @@
             $oEditorModel = &getModel('editor');
             return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
         }
+
+        /**
+         * @brief 작성자의 프로필 이미지를 return
+         **/
+        function getProfileImage() {
+            if(!$this->isExists() || !$this->get('member_srl')) return;
+            $oMemberModel = &getModel('member');
+            $profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
+            if(!$profile_info) return;
+
+            return $profile_info->src;
+        }
+
+        /**
+         * @brief 작성자의 서명을 return
+         **/
+        function getSignature() {
+            if(!$this->isExists() || !$this->get('member_srl')) return;
+            $oMemberModel = &getModel('member');
+            $signature = $oMemberModel->getSignature($this->get('member_srl'));
+            return $signature;
+        }
     }
 ?>

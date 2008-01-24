@@ -63,8 +63,12 @@
                         </form>
                     </div>
                 <!--@else-->
+                    <!--@if($comment->getProfileImage())-->
+                        <img src="{$comment->getProfileImage()}" align="left" class="commentProfileImage"/>
+                    <!--@end-->
                     {$comment->getContent(true)}
                 <!--@end-->
+                <div class="clear"></div>
             </div>
 
             <!--@if($comment->hasUploadedFIles())-->

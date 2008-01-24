@@ -406,59 +406,75 @@
          * @brief 프로필 이미지의 정보를 구함 
          **/
         function getProfileImage($member_srl) {
-            $exts = array('gif','jpg','png');
-            for($i=0;$i<3;$i++) {
-                $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
-                if(file_exists($image_name_file)) {
-                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-                    $info->width = $width;
-                    $info->height = $height;
-                    $info->src = Context::getRequestUri().$image_name_file;
-                    $info->file = './'.$image_name_file;
-                    return $info;
+            if(!isset($GLOBALS['__member_info__']['profile_image'][$member_srl])) {
+                $GLOBALS['__member_info__']['profile_image'][$member_srl] = null;
+                $exts = array('gif','jpg','png');
+                for($i=0;$i<3;$i++) {
+                    $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
+                    if(file_exists($image_name_file)) {
+                        list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                        $info->width = $width;
+                        $info->height = $height;
+                        $info->src = Context::getRequestUri().$image_name_file;
+                        $info->file = './'.$image_name_file;
+                        $GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
+                        break;
+                    }
                 }
             }
-            return;
+
+            return $GLOBALS['__member_info__']['profile_image'][$member_srl];
         }
 
         /**
          * @brief 이미지이름의 정보를 구함
          **/
         function getImageName($member_srl) {
-            $image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_name_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_name_file;
-            $info->file = './'.$image_name_file;
-            return $info;
+            if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl])) {
+                $image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_name_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                    $info->width = $width;
+                    $info->height = $height;
+                    $info->src = Context::getRequestUri().$image_name_file;
+                    $info->file = './'.$image_name_file;
+                    $GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
+                } else $GLOBALS['__member_info__']['image_name'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['image_name'][$member_srl];
         }
 
         /**
          * @brief 이미지마크의 정보를 구함
          **/
         function getImageMark($member_srl) {
-            $image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_mark_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_mark_file;
-            $info->file = './'.$image_mark_file;
-            return $info;
+            if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl])) {
+                $image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_mark_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
+                    $info->width = $width;
+                    $info->height = $height;
+                    $info->src = Context::getRequestUri().$image_mark_file;
+                    $info->file = './'.$image_mark_file;
+                    $GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
+                } else $GLOBALS['__member_info__']['image_mark'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['image_mark'][$member_srl];
         }
 
         /**
          * @brief 사용자의 signature를 구함
          **/
         function getSignature($member_srl) {
-            $filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($filename)) return '';
-
-            $buff = FileHandler::readFile($filename);
-            $signature = trim(substr($buff, 40));
-            return $signature;
+            if(!isset($GLOBALS['__member_info__']['signature'][$member_srl])) {
+                $filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($filename)) {
+                    $buff = FileHandler::readFile($filename);
+                    $signature = trim(substr($buff, 40));
+                    $GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
+                } else $GLOBALS['__member_info__']['signature'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['signature'][$member_srl];
         }
 
         /**

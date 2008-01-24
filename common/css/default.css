@@ -87,8 +87,6 @@ a.bold { font-weight:bold; }
 .folder_area { display: none; }
 
 .zbxe_widget_output { background:url(../tpl/images/widget_text.gif) no-repeat center bottom; display:block;}
-.member_signature { margin-top:10px; border:1px solid #DDDDDD; padding:10px; overflow:hidden;}
-.member_profile_image { float:left; margin-right:10px; }
 
 /* xe content */
 div.xe_content { line-height:140%;  !important}

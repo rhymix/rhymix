@@ -53,6 +53,9 @@
                         </div>
                         </form>
                     <!--@else-->
+                        <!--@if($comment->getProfileImage())-->
+                            <img src="{$comment->getProfileImage()}" align="left" class="commentProfileImage"/>
+                        <!--@end-->
                         {$comment->getContent(true)}
                     <!--@end-->
                 </td>
