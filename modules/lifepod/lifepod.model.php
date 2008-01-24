@@ -31,15 +31,15 @@
             return $oReqeust;
         }
 
-	function getURL($address, $start, $end) {
-	    return sprintf("%s&start=%s&end=%s", $address, $start, $end);
+	function getURL($address, $start, $end, $pageNumber) {
+	    return sprintf("%s&start=%s&end=%s&page=%d", $address, $start, $end, $pageNumber);
 	}
 
         /**
          * @brief lifepod 페이지 정보 가져오기
 	 * @remarks 한해씩 끊어서 페이지를 가져옵니다. 아직 50개 이상의 calendar info가 있는 경우 앞에 것만 가져오는 문제가 있습니다.
          **/
-        function getPage($address, $year) {
+        function getPage($address, $year, $pageNumber) {
 	    if($year == null)
 	    {
 		$year = date("Y");		
@@ -48,7 +48,7 @@
 	    $start = sprintf("%s-01-01",$year);
 	    $end = sprintf("%s-01-01",$year+1);
 
-            $url = $this->getURL($address, $start, $end);
+            $url = $this->getURL($address, $start, $end, $pageNumber);
             $oReqeust = $this->getRequest($url);
             $oResponse = $oReqeust->sendRequest();
 
@@ -77,6 +77,9 @@
 		$page->data[] = $data;
 	    }
 	    $page->color = $xmldoc->childNodes["feed"]->childNodes["color"]->body;
+	    $page->total = intval($xmldoc->childNodes["feed"]->childNodes["opensearch:totalresults"]->body);
+	    $page->start = intval($xmldoc->childNodes["feed"]->childNodes["opensearch:startindex"]->body);
+	    $page->perpage = intval($xmldoc->childNodes["feed"]->childNodes["opensearch:itemsperpage"]->body);
 
             return $page;
         }

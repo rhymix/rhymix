@@ -53,28 +53,35 @@
            
 	    foreach($caladdresses as $key=>$val)
 	    {
-		$page = $oLifepodModel->getPage($val, $cYear, $cMonth, $cDay);
-		for($j=0;$j<count($page->data);$j++)
-		{
-		    $data = &$page->data[$j];
-		    if($data->childNodes["date-start"])
+		$shouldGetMore = false;
+		$pageNumber = 1;
+		$page = null;
+		do {
+		    $page = $oLifepodModel->getPage($val, $cYear, $pageNumber);
+		    if(!$page) break;
+		    for($j=0;$j<count($page->data);$j++)
 		    {
-			$data->childNodes["date-start"]->body = $this->dateFormatChange($data->childNodes["date-start"]->body);
-		    }
+			$data = &$page->data[$j];
+			if($data->childNodes["date-start"])
+			{
+			    $data->childNodes["date-start"]->body = $this->dateFormatChange($data->childNodes["date-start"]->body);
+			}
 
-		    if($data->childNodes["date-end"])
-		    {
-			$plus = 0;
-			if($data->childNodes["type"]->body == "daylong")
-			    $plus = -1;
-			$data->childNodes["date-end"]->body = $this->dateFormatChange($data->childNodes["date-end"]->body, $plus);
-		    }
+			if($data->childNodes["date-end"])
+			{
+			    $plus = 0;
+			    if($data->childNodes["type"]->body == "daylong")
+				$plus = -1;
+			    $data->childNodes["date-end"]->body = $this->dateFormatChange($data->childNodes["date-end"]->body, $plus);
+			}
 
-		    $data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
-		    $data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
-		    $data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
-		}
-		$calendars[] = $page;
+			$data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
+			$data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
+			$data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
+		    }
+		    $calendars[] = $page;
+		    $pageNumber++;
+		} while ( $page->start + $page->perpage - 1 < $page->total );
 	    }
 
             Context::set('calendars', $calendars);
