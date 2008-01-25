@@ -28,23 +28,23 @@
     $lang->cmd_disable = "非激活";
     $lang->cmd_enable = "激活";
 
-    $lang->editor_skin = '에디터 스킨';
-    $lang->upload_file_grant = '파일 첨부 권한'; 
-    $lang->enable_default_component_grant = '기본 컴포넌트 사용 권한';
-    $lang->enable_component_grant = '컴포넌트 사용 권한';
-    $lang->enable_html_grant = 'HTML편집 권한';
-    $lang->enable_autosave = '자동저장 사용';
-    $lang->height_resizable = '높이 조절 가능';
-    $lang->editor_height = '에디터 높이';
+    $lang->editor_skin = '编辑器皮肤';
+    $lang->upload_file_grant = '文件上传权限'; 
+    $lang->enable_default_component_grant = '基本组件使用权限';
+    $lang->enable_component_grant = '组件使用权限';
+    $lang->enable_html_grant = 'HTML编辑权限';
+    $lang->enable_autosave = '使用自动保存';
+    $lang->height_resizable = '使用高度调整';
+    $lang->editor_height = '编辑器高度';
 
-    $lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
-    $lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다 (모두 해제시 아무나 첨부 가능합니다)';
-    $lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
-    $lang->about_component_grant = '기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
-    $lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다';
-    $lang->about_editor_height_resizable = '에디터의 높이를 직접 변경할 수 있도록 허용합니다';
-    $lang->about_enable_html_grant = 'HTML편집 권한을 부여할 수 있습니다.';
-    $lang->about_enable_autosave = '글작성시 자동 저장 기능을 활성화 시킬 수 있습니다';
+    $lang->about_editor_skin = '可以选择编辑器皮肤。';
+    $lang->about_upload_file_grant = '可以设置上传文件的权限。 (全部解除时任何用户都可以上传文件)';
+    $lang->about_default_component_grant = '可以指定在编辑器基本组件的使用权限。 (全部解除时任何用户都可以使用)';
+    $lang->about_component_grant = '可以指定除了基本组件外的扩展组件使用的权限。 (全部解除时任何用户都可以使用)';
+    $lang->about_editor_height = '可以指定编辑器的基本高度。';
+    $lang->about_editor_height_resizable = '允许直接变更编辑器的高度。';
+    $lang->about_enable_html_grant = '用HTML代码编辑的权限。';
+    $lang->about_enable_autosave = '发表主题时激活自动保存内容的功能。';
 
     $lang->edit->fontname = '字体';
     $lang->edit->fontsize = '大小';
