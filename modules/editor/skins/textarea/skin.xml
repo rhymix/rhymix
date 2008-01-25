@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">제로보드XE textarea 에디터 스킨</title>
+  <title xml:lang="zh-CN">zeroboard XE textarea 编辑器皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 1. 21">
     <name xml:lang="ko">zero</name>
+	<name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         위지윅에디터가 아닌 가벼운 글 편집을 원할 경우 사용되는 스킨입니다.
         에디터컴포넌트나 파일첨부등의 기능이 모두 되지 않고 단순히 글로 된 컨텐츠만 사용할 수 있습니다.
         개발 : zero (http://www.zeroboard.com) 
+    </description>
+	<description xml:lang="ko">
+        适用于纯文本形式输入内容时使用的皮肤。
+        不支持编辑器组件和上传文件的功能，可使用在纯文本形式的内容。
+        开发 : zero (http://www.zeroboard.com) 
     </description>
   </maker>
 </skin>
