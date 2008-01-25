@@ -10,7 +10,7 @@
         에디터컴포넌트나 파일첨부등의 기능이 모두 되지 않고 단순히 글로 된 컨텐츠만 사용할 수 있습니다.
         개발 : zero (http://www.zeroboard.com) 
     </description>
-	<description xml:lang="ko">
+	<description xml:lang="zh-CN">
         适用于纯文本形式输入内容时使用的皮肤。
         不支持编辑器组件和上传文件的功能，可使用在纯文本形式的内容。
         开发 : zero (http://www.zeroboard.com) 
