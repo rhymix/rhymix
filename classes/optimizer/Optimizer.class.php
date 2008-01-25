@@ -42,7 +42,7 @@
             foreach($source_files as $file) {
                 if(!$file) continue;
                 $file = str_replace("\\","/",$file);
-                if(substr($file,7)=='http://' || $file == './common/css/button.css') $files[] = $file;
+                if(preg_match('/^http:\/\//i', $file) || $file == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
 

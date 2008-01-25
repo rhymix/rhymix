@@ -713,8 +713,7 @@
          **/
         function _addJsFile($file) {
             if(in_array($file, $this->js_files)) return;
-
-            if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = $file;
         }
 
@@ -749,7 +748,7 @@
         function _addCSSFile($file) {
             if(in_array($file, $this->css_files)) return;
 
-            if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = $file;
         }
 
