@@ -172,13 +172,13 @@ EndOfLicense;
 
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 
-    $lang->success_installed = 'Installation Complete';
-    $lang->success_updated = 'Update Complete';
+    $lang->success_installed = 'Installation has been completed';
+    $lang->success_updated = 'Update has been completed';
 
-    $lang->msg_cannot_proc = 'Unabled to execute the request because installation environment is not provided';
+    $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
     $lang->msg_already_installed = 'Zeroboard is already installed';
     $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
     $lang->msg_table_is_exists = "Table is already created in the DB.\nConfig file is recreated";
-    $lang->msg_install_completed = "Installation complete.\nThank you for choosing ZeroboardXE";
-    $lang->msg_install_failed = "Error has occurred while creating installation file.";
+    $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing Zeroboard XE";
+    $lang->msg_install_failed = "An error has occurred while creating installation file.";
 ?>
