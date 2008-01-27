@@ -421,14 +421,14 @@
                     if($active_btn) $active_str = sprintf('onmousedown=&quot;this.src=\'%s\'&quot;', $active_btn); else $active_str = '';
                     $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$_SESSION["lang_type"]]) ?>&quot; %s %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str, $classname);
                 } else {
-                    $link = '<? print $_names[$_SESSION["lang_type"]]; ?>';
+                    $link = '<?php print $_names[$_SESSION["lang_type"]]; ?>';
                 }
 
                 // node->group_srls값이 있으면 
                 if($group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
-                    'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?}?>"',
+                    'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
                     $menu_item_srl,
                     $node->parent_srl,
                     $group_check_code,
