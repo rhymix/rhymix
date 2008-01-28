@@ -89,11 +89,7 @@
 
                     $widget_content = $oWidget->proc($args);
 
-                    if(!is_string($widget_content)) {
-                        if(is_object($widget_content) && (is_a($widget_content, 'Object')||is_subclass_of($widget_content, 'Object'))) {
-                            $widget_content = $widget_content->getMessage();
-                        } else $widget_content = '';
-                    }
+                    if(is_object($widget_content) && (is_a($widget_content, 'Object')||is_subclass_of($widget_content, 'Object'))) $widget_content = $widget_content->getMessage();
                 }
 
                 // 위젯의 캐시값과 위젯 sequence가 있을 경우 캐시 파일에 저장
