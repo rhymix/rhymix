@@ -12,32 +12,51 @@
         /**
          * @brief 위젯 캐시 처리
          **/
-        function getCache($sequence, $cache) {
-            // 위젯 캐시는 캐시 번호와 캐시 시간이 없으면 캐시하지 않는 것으로 처리함
-            if(!$sequence || !$cache) return;
+        function getCache($widget, $args) {
 
-            // 캐시 디렉토리가 없으면 생성하고 return
-            $cache_path = './files/cache/widget_cache/';
-            if(!is_dir($cache_path)) {
-                FileHandler::makeDir($cache_path);
-                return;
+            // widget, 캐시 번호와 캐시값이 설정되어 있는지 확인
+            $widget_sequence = $args->widget_sequence;
+            $widget_cache = $args->widget_cache;
+
+            /**
+             * 캐시 번호와 캐시 값이 아예 없으면 바로 데이터를 추출해서 리턴
+             **/
+            if(!$widget_cache || !$widget_sequence) {
+                $oWidget = WidgetHandler::getObject($widget);
+                if(!$oWidget) return;
+
+                return $oWidget->proc($args);
             }
 
-            // 캐시파일명을 구해서 해당 파일이 없으면 return
-            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, Context::getLangType());
-            if(!file_exists($cache_file)) return;
+            /**
+             * 캐시 번호와 캐시값이 설정되어 있으면 캐시 파일을 불러오도록 함
+             **/
+            
+            // 캐시 디렉토리가 없으면 생성
+            $cache_path = './files/cache/widget_cache/';
+            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
-            $filemtime = filemtime($cache_file);
+            // 캐시파일명을 구함
+            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $widget_sequence, Context::getLangType());
 
-            // 만약 캐시파일이 widgetHandler보다 이전에 생성된 파일이면 새로 캐시해야 함
-            if($filemtime < filemtime('./classes/widget/WidgetHandler.class.php')) return;
+            // 캐시 파일이 존재하면 해당 파일의 유효성 검사
+            if(file_exists($cache_file)) {
+                $filemtime = filemtime($cache_file);
 
-            // 캐시 파일의 수정일이 캐시시간보다 크면 새로 만들기 위해서 return
-            if($filemtime + $cache*60 < time()) return;
+                // 수정 시간을 비교해서 캐싱중이어야 하거나 WidgetHandler.class.php 파일보다 나중에 만들어 졌다면 캐시값을 return
+                if($filemtime + $widget_cache*60 > time() && $filemtime > filemtime('./classes/widget/WidgetHandler.class.php')) {
+                    return FileHandler::readFile($cache_file);
+                }
+            }
 
-            // 캐시 파일 내용을 읽어서 return
-            $output = FileHandler::readFile($cache_file);
-            return $output;
+            // 캐시를 새로 해야 할 경우임
+            $oWidget = WidgetHandler::getObject($widget);
+            if(!$oWidget) return;
+
+            $widget_content = $oWidget->proc($args);
+            WidgetHandler::writeCache($widget_sequence, $widget_content);
+
+            return $widget_content;
         }
 
         /**
@@ -75,25 +94,7 @@
                 if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
                 // 위젯의 내용을 담을 변수
-                $widget_content = '';
-
-                // 캐시된 코드가 있는지 확인
-                $widget_sequence = $args->widget_sequence;
-                $widget_cache = $args->widget_cache;
-                if($widget_cache && $widget_sequence) $widget_content = WidgetHandler::getCache($widget_sequence, $widget_cache);
-
-                // 캐시된 코드가 없을 경우 코드 생성
-                if(!$widget_content) {
-                    $oWidget = WidgetHandler::getObject($widget);
-                    if(!$oWidget) return;
-
-                    $widget_content = $oWidget->proc($args);
-
-                    if(is_object($widget_content) && (is_a($widget_content, 'Object')||is_subclass_of($widget_content, 'Object'))) $widget_content = $widget_content->getMessage();
-                }
-
-                // 위젯의 캐시값과 위젯 sequence가 있을 경우 캐시 파일에 저장
-                if($widget_cache && $widget_sequence) WidgetHandler::writeCache($widget_sequence, $widget_content);
+                $widget_content = WidgetHandler::getCache($widget, $args);
             }
 
             /**
