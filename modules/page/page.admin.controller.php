@@ -98,10 +98,11 @@
             $oFileController->setFilesValid($module_info->module_srl);
 
             // 캐시파일 재생성
-            $this->procPageAdminRemoveWidgetCache();
+            //$this->procPageAdminRemoveWidgetCache();
 
             $this->add("module_srl", $module_info->module_srl);
             $this->add("page", Context::get('page'));
+            $this->add("mid", $module_info->mid);
             $this->setMessage($msg_code);
         }
 

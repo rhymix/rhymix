@@ -32,8 +32,9 @@ function completeInsertPageContent(ret_obj) {
 
     var page = ret_obj['page'];
     var module_srl = ret_obj['module_srl'];
+    var mid = ret_obj['mid'];
 
-    location.href = current_url.setQuery('act','');
+    location.href = current_url.setQuery('mid',mid).setQuery('act','');
 }
 
 /* 수정한 페이지 컨텐츠를 저장 */

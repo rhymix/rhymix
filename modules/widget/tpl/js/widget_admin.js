@@ -102,7 +102,10 @@ function doFillWidgetVars() {
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
-                    if(val) node.value = val;
+                    if(!val) continue;
+                    var unescaped_val = unescape(val);
+                    if(!unescaped_val) node.value = val;
+                    else node.value = unescaped_val;
                 break;
             case "checkbox" :
                     if(selected_node.getAttribute(name)) {

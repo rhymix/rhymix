@@ -49,7 +49,7 @@ function getPadding(obj, direct) {
 }
 
 
-/* 위젯 배치 시작을 함 */
+/* 위젯 핸들링 시작 */
 var zonePageObj = null;
 var zoneModuleSrl = 0;
 function doStartPageModify(zoneID, module_srl) {
@@ -155,8 +155,7 @@ function getWidgetCode(childObj, widget) {
         var value = childObj.attributes[i].nodeValue;
         if(!value) continue;
 
-        if(value && typeof(value)=="string") value = value.replace(/\"/ig,'&quot;');
-        attrs += name+'="'+value+'" ';
+        attrs += name+'="'+escape(value)+'" ';
     }
     var style = childObj.getAttribute("style");
     return '<img class="zbxe_widget_output" style="'+getStyle(childObj)+'" widget="'+widget+'" '+attrs+' />';
@@ -196,11 +195,28 @@ function doSyncPageContent() {
 }
 
 // 부모창에 위젯을 추가
-function completeAddContent(ret_obj) {
-    var tpl = ret_obj["tpl"];
+function completeAddContent(fo_obj) {
+    var editor_sequence = fo_obj.getAttribute('editor_sequence');
+    var content = editorGetContent(editor_sequence);
+
+    var tpl = ''+
+        '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" widget="widgetContent">'+
+        '<div class="widgetSetup"></div>'+
+        '<div class="widgetCopy"></div>'+
+        '<div class="widgetSize"></div>'+
+        '<div class="widgetRemove"></div>'+
+        '<div class="widgetResize"></div>'+
+        '<div class="widgetResizeLeft"></div>'+
+        '<div class="widgetBorder">'+
+        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px">'+
+        content+
+        '</div><div class="clear"></div>'+
+        '</div>'+
+        '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">'+Base64.encode(content)+'</div>'+
+        '</div>';
+
     opener.doAddWidgetCode(tpl);
     window.close();
-    return false;
 }
 
 /* 박스 위젯 추가 */
@@ -259,6 +275,7 @@ function doAddWidgetCode(widget_code) {
     var nodes = dummy.childNodes;
 
     var zoneObj = xGetElementById('zonePageContent');
+    zoneObj.style.visibility = 'hidden';
 
     if(selectedWidget  && selectedWidget.getAttribute("widget")) {
         while ( nodes.length ) {
@@ -273,7 +290,13 @@ function doAddWidgetCode(widget_code) {
         }
     }
 
-    doFitBorderSize();
+    // 위젯 추가후 페이지 리로딩
+    var tpl = getWidgetContent();
+
+    var fo_obj = xGetElementById('pageFo');
+    fo_obj.content.value = tpl;
+
+    fo_obj.submit();
 }
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리

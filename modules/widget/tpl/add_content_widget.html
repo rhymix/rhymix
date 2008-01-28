@@ -1,9 +1,8 @@
-<!--%import("filter/add_content.xml")-->
 <!--%import("js/widget.js")-->
 <!--%import("css/widget.css")-->
 
 <div class="pageAddContent"></div>
-<form action="./" method="get" onsubmit="return procFilter(this, add_content);" id="content_fo">
+<form action="./" method="get" onsubmit="return completeAddContent(this); return false;" id="content_fo">
 <input type="hidden" name="content" value="" />
 <input type="hidden" name="mid" value="{$module_info->mid}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
