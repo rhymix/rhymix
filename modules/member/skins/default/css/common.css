@@ -84,7 +84,7 @@
 .readMessage .messageHeader address em { font-size:1em; font-style:white; color:#333333; margin-right:.3em; float:left;}
 .readMessage .messageHeader address em a { color:#333333;}
 .readMessage .messageHeader address .date { font:.8em Tahoma; color:#999999; margin-left:10px;}
-.readMessage .messageBody { border:1px solid #e0e1db; margin:0 1.5em 1.5em 1.5em; padding:1em; position:relative; color:#666666;}
+.readMessage .messageBody { border:1px solid #e0e1db; margin:0 1.5em 1.5em 1.5em; padding:1em; color:#666666;}
 .readMessage .deleteOrKeep { padding:.5em 0; overflow:hidden; background:#f5f5f3; border-top:1px solid #eaebe7; _width:100%;}
 .instantMessage { float:right; overflow:hidden;}
 .instantMessage li { float:left; padding:0 .8em 0 .8em; margin-left:-1px; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left center; list-style:none; }
