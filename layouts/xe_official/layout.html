@@ -98,7 +98,7 @@
 				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
 
                     <!-- main_menu 3차 시작 -->
-                    <!--@if($val['list'])-->
+                    <!--@if($val['list'] && ($val['expand']=='Y'||$val['selected']) )-->
 					<ul>
                     <!--@foreach($val['list'] as $k => $v)--><!--@if($v['link'])-->
 						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
