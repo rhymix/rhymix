@@ -596,8 +596,8 @@ function displayPopupMenu(ret_obj, response_tags, params) {
 
                 if(!str || !func) continue;
 
-                if(icon) html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</span><br />";
-                else html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</span><br />";
+                if(icon) html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</div>";
+                else html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</div><br />";
             }
         } 
         loaded_popup_menu_list[menu_id] =  html;

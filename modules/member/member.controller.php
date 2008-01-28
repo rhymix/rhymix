@@ -167,11 +167,13 @@
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
 
-            // 받을 회원의 쪽지 수신여부 검사
-            if($receiver_member_info->allow_message == 'F') {
-                if(!$oMemberModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
-            } elseif($receiver_member_info->allow_messge == 'N') {
-                return new object(-1, 'msg_disallow_message');
+            // 받을 회원의 쪽지 수신여부 검사 (최고관리자이면 패스)
+            if($logged_info->is_admin != 'Y') {
+                if($receiver_member_info->allow_message == 'F') {
+                    if(!$oMemberModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
+                } elseif($receiver_member_info->allow_messge == 'N') {
+                    return new object(-1, 'msg_disallow_message');
+                }
             }
 
             // 쪽지 발송

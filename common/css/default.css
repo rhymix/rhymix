@@ -101,6 +101,6 @@ div.xe_content blockquote { margin-left:40px;  !important}
 #fororiginalimage { z-index:1002; }
 #closeOriginalImageBtn { position:absolute; right:8px; top:5px; cursor:pointer; width:50px; height:12px; z-index:1003; }
 #popup_menu_area { position:absolute; left:0px; top:0px; z-index:1003; visibility:hidden; border:2px solid #D9D9D9; background-color:#FFFFFF; padding:0; }
-#popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; line-height:22px;}
-#popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; height:22px;}
-#popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; height:22px; letter-spacing:-1px; white-space:nowrap;}
+#popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; }
+#popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; }
+#popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}

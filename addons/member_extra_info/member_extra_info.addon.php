@@ -85,9 +85,12 @@
             // 대상 회원의 정보를 가져옴
             $target_member_info = $this->getMemberInfoByMemberSrl($member_srl); 
             if(!$target_member_info->member_srl) return;
+
+            // 로그인된 사용자 정보를 구함
+            $logged_info = Context::get('logged_info');
             
             // 4. 쪽지 발송 메뉴를 만듬
-            if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
+            if( $logged_info->is_admin == 'Y' || $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
                 $menu_str = Context::getLang('cmd_send_message');
                 $menu_link = sprintf('%s?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','sendMessage')", Context::getRequestUri().'/modules/member/tpl/images/icon_write_message.gif', $menu_str, $menu_link);
