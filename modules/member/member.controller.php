@@ -1579,6 +1579,7 @@
             foreach($_SESSION as $key => $val) {
                 $_SESSION[$key] = '';
             }
+            session_destroy();
         }
     }
 ?>
