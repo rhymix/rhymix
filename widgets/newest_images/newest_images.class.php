@@ -72,15 +72,16 @@
             // 정해진 모듈에서 문서별 파일 목록을 구함
             $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
             $files_count = count($files_output->data);
-
             $document_srl_list = array();
-            for($i=0;$i<$files_count;$i++) $document_srl_list[] = $files_output->data[$i]->document_srl;
+            if($files_count>0) {
+                for($i=0;$i<$files_count;$i++) $document_srl_list[] = $files_output->data[$i]->document_srl;
 
-            $oDocumentModel = &getModel('document');
-            $tmp_document_list = $oDocumentModel->getDocuments($document_srl_list);
-            $document_list = array();
-            if(count($tmp_document_list)) {
-                foreach($tmp_document_list as $val) $document_list[] = $val;
+                $oDocumentModel = &getModel('document');
+                $tmp_document_list = $oDocumentModel->getDocuments($document_srl_list);
+                $document_list = array();
+                if(count($tmp_document_list)) {
+                    foreach($tmp_document_list as $val) $document_list[] = $val;
+                }
             }
 
             $document_count = count($document_list);
