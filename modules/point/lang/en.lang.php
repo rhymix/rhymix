@@ -34,8 +34,8 @@
     $lang->cmd_point_recal = 'Recalculate Point';
     $lang->about_cmd_point_recal = "This will check articles/comments/attached files and reset all members' point to preset point.";
 
-    $lang->point_link_group = '그룹 연동';
-    $lang->about_point_link_group = '그룹에 원하는 레벨을 지정하면 해당 레벨에 도달할때 그룹이 변경됩니다. 단 새로운 그룹으로 변경될때 이전에 자동 등록된 그룹은 제거됩니다.';
+    $lang->point_link_group = 'Group Change by Level';
+    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points. When new group is assigned, the user is removed from the former assigned group.';
 
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
