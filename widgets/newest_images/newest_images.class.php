@@ -69,23 +69,25 @@
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
 
+            $oDocumentModel = &getModel('document');
+
             // 정해진 모듈에서 문서별 파일 목록을 구함
             $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
             $files_count = count($files_output->data);
+
             $document_srl_list = array();
+            $document_list = array();
+
             if($files_count>0) {
                 for($i=0;$i<$files_count;$i++) $document_srl_list[] = $files_output->data[$i]->document_srl;
 
-                $oDocumentModel = &getModel('document');
                 $tmp_document_list = $oDocumentModel->getDocuments($document_srl_list);
-                $document_list = array();
                 if(count($tmp_document_list)) {
                     foreach($tmp_document_list as $val) $document_list[] = $val;
                 }
             }
 
             $document_count = count($document_list);
-
             $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
             for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
             $widget_info->document_list = $document_list;
