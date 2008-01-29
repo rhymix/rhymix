@@ -275,7 +275,11 @@ function doAddWidgetCode(widget_code) {
     var nodes = dummy.childNodes;
 
     var zoneObj = xGetElementById('zonePageContent');
-    zoneObj.style.visibility = 'hidden';
+
+    //zoneObj.style.visibility = 'hidden';
+    zoneObj.style.opacity = 0.2;
+    zoneObj.style.filter = "alpha(opacity=20)";
+
 
     if(selectedWidget  && selectedWidget.getAttribute("widget")) {
         while ( nodes.length ) {
