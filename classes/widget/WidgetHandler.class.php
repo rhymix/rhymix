@@ -83,7 +83,7 @@
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
                     if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right'))) continue;
-                    $args->{$key} = utf8RawUrlDecode(utf8RawUrlDecode($val));
+                    $args->{$key} = utf8RawUrlDecode($val);
                 }
             }
 

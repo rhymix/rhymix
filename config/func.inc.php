@@ -471,6 +471,11 @@
         return preg_replace('/index.php/i','',$_SERVER['SCRIPT_NAME']);
     }
 
+    /** 
+     * javascript의 escape의 php unescape 함수
+     * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8). 
+     * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
+     **/
     function utf8RawUrlDecode ($source) {
         $decodedStr = "";
         $pos = 0;
@@ -485,8 +490,7 @@
                     $pos++;
                     $unicodeHexVal = substr ($source, $pos, 4);
                     $unicode = hexdec ($unicodeHexVal);
-                    $entity = "&#". $unicode . ';';
-                    $decodedStr .= utf8_encode ($entity);
+                    $decodedStr .= _code2utf($unicode);
                     $pos += 4;
                 }
                 else {
@@ -501,5 +505,13 @@
             }
         }
         return $decodedStr;
+    }
+
+    function _code2utf($num){
+        if($num<128)return chr($num);
+        if($num<2048)return chr(($num>>6)+192).chr(($num&63)+128);
+        if($num<65536)return chr(($num>>12)+224).chr((($num>>6)&63)+128).chr(($num&63)+128);
+        if($num<2097152)return chr(($num>>18)+240).chr((($num>>12)&63)+128).chr((($num>>6)&63)+128) .chr(($num&63)+128);
+        return '';
     }
 ?>
