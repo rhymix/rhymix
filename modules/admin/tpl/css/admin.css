@@ -130,6 +130,6 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 #popFooter { width:620px; background:#f7f7f6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; }
 #popFooter .close { position:relative; left:50%; margin-left:-1em; float:left;}
 
-.layout_editor { width:100%; height:500px; border:0px; font-size:1em; }
+.layout_editor { width:99%; height:500px; border:0px; font-size:1em; }
 .layout_editor_box { padding:10px; border:1px solid #DDDDDD; }
 
