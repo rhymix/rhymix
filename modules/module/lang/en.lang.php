@@ -52,7 +52,7 @@
     $lang->about_skin = 'You may choose a module skin.';
     $lang->about_use_category = 'If checked, category function will be enabled.';
     $lang->about_list_count = 'You can set the number of limit to show article in a page.(default is 20)';
-    $lang->about_search_list_count = '검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)';
+	$lang->about_search_list_count = 'You may set the number of articles to be exposed when you use search or category function. (default is 20)';
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.\n You can enter multiple IDs using <br />,(comma) \n(but the module manager cannot access the site admin page.)';
     $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.'; 
