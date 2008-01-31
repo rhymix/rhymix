@@ -121,6 +121,7 @@
          **/
         function begin() {
             if(!$this->isConnected() || $this->transaction_started) return;
+            $this->transaction_started = true;
             $this->_query("begin");
         }
 
