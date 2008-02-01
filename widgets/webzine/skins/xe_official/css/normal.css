@@ -20,7 +20,7 @@
 .nw_box .thumbnailBox .titleBox { margin-top:8px; margin-bottom:5px;}
 
 .nw_box .thumbnailBox .titleBox .title { }
-.nw_box .thumbnailBox .titleBox .title strong { font-weight:bold; font-size:0.9em; color:#ed2a32; }
+.nw_box .thumbnailBox .titleBox .title strong { font-weight:normal; font-size:0.9em; color:#ed2a32; }
 .nw_box .thumbnailBox .titleBox .title a { color:#000000; text-decoration:none; }
 .nw_box .thumbnailBox .titleBox .title a:hover { text-decoration:underline; }
 

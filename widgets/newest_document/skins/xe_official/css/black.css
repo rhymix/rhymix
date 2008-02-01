@@ -6,8 +6,8 @@
 
 .latest_black ul li .title a { color:#818181; text-decoration:none; }
 .latest_black ul li .title a:hover { text-decoration:underline; }
-.latest_black ul li .title span.comment { color:#FE6700; font:.8em Tahoma; }
-.latest_black ul li .title span.comment a { color:#FE6700; font:.8em Tahoma; }
+.latest_black ul li .title span.comment { color:#FE6700; font:.9em Tahoma; }
+.latest_black ul li .title span.comment a { color:#FE6700; font:.9em Tahoma; }
 
 .latest_black ul li .date { color:#999999; font:.8em Tahoma; white-space:nowrap; margin-right:5px;}
 
