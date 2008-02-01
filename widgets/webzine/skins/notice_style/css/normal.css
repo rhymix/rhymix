@@ -1,0 +1,16 @@
+.noticeBox { padding-bottom:5px; overflow:hidden; }
+
+.noticeBox h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+
+.noticeBox .listTable { width:100%; table-layout:fixed; border:none;}
+
+.noticeBox .titleBox { margin-top:8px;border-bottom:2px solid #DDDDDD; padding-bottom:5px; margin-bottom:10px; }
+.noticeBox .titleBox .title { }
+.noticeBox .titleBox .title strong { font-weight:normal; font-size:0.9em; color:#ed2a32; }
+.noticeBox .titleBox .title a { font-weight:bold; font-size:1.4em; color:#444444; text-decoration:none; }
+.noticeBox .titleBox .title a:hover { font-weight:bold; font-size:1.4em; text-decoration:underline; }
+.noticeBox .titleBox .regdate { font-size:0.9em; color:#AAAAAA; }
+
+.noticeBox .contentbox { line-height:120%; }
+.noticeBox .contentbox img.thumbnail { padding:4px; border:1px solid #DEDEDE; margin:0 10px 10px 0;}
+.noticeBox .contentbox img.thumbnail:hover { border:1px solid #54564b; }

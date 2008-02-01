@@ -1,0 +1,49 @@
+<!-- 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
+
+<!--@if($colorset=="normal"||!$colorset)-->
+    <!--%import("css/normal.css")-->
+<!--@end-->
+
+<div class="noticeBox">
+    <!--@if($widget_info->title)-->
+        <h2>{$widget_info->title}</h2>
+    <!--@end-->
+
+    <!--@if(count($widget_info->document_list))-->
+    <div>
+        <table cellspacing="0" class="listTable">
+        {@ $count = 0; }
+        <!--@for($i=0;$i<$widget_info->rows_list_count;$i++)-->
+        <tr valign="top">
+            <!--@for($j=0;$j<$widget_info->cols_list_count;$j++)-->
+                {@ $oDocument = $widget_info->document_list[$i*$widget_info->cols_list_count + $j]}
+                {@ $_existsThumbnail = $oDocument->thumbnailExists($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type) }
+            <td><!--@if($oDocument->document_srl)-->
+
+                <div class="titleBox">
+
+                    <span class="title">
+                        <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a>
+                    </span>
+
+                    <!--@if($widget_info->display_regdate == 'Y')-->
+                    <span class="regdate">[{$oDocument->getRegdate("m-d")}]</span>
+                    <!--@end-->
+
+                </div>
+
+                <div class="contentbox">
+                    <!--@if($_existsThumbnail)--><a href="{getUrl('','document_srl',$oDocument->document_srl)}"><img src="{$oDocument->getThumbnail($widget_info->thumbnail_width,$widget_info->thumbnail_height,$widget_info->thumbnail_type)}" border="0" alt="" align="left" class="thumbnail"/></a><!--@end-->
+                    {$oDocument->getSummary($widget_info->content_cut_size)}
+                </div>
+
+            <!--@end--></td>
+            <!--@end-->
+            <!--@for($k=$j;$k<$widget_info->cols_list_count;$k++)--><td>&nbsp;</td><!--@end-->
+        </tr>
+        <!--@end-->
+        </table>
+    <!--@end-->
+    </div>
+
+</div>
