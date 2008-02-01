@@ -21,9 +21,9 @@
 .pageNavigation .current { color:#b1ae00; }
 
 /* boardRead */
-.boardRead .fileAttached li { background:url(../images/purple/iconFile.gif) no-repeat left 2px;}
+.boardRead .fileAttached li { background:url(../images/purple/iconFile.gif) no-repeat left top;}
 
 /* replyAndTrackback */
 .buttonBox .replyAndTrackback a strong { color:#b1ae00;}
 
-.replyBox .fileAttached li { background:url(../images/purple/iconFile.gif) no-repeat left 2px;}
+.replyBox .fileAttached li { background:url(../images/purple/iconFile.gif) no-repeat left top;}
