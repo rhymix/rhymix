@@ -116,8 +116,8 @@
     $lang->msg_cart_is_null = '対象を選択してください。';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
 
-    $lang->msg_find_account_title = 'IDどパスワードの情報';
-    $lang->msg_find_account_info = '要求されたアカウント情報は下記の通りです。';
+    $lang->msg_find_account_title = '会員IDどパスワードの情報';
+    $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。';
     $lang->msg_auth_mail_sended = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
