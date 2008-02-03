@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/member/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -41,7 +41,8 @@
     $lang->image_mark = 'イメージマーク';
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
-    $lang->enable_openid = 'OpenID使用';
+    $lang->signature_max_height = '署名の高さの制限';
+	$lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
@@ -187,6 +188,7 @@
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
     $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
+    $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
     $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。'; 
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
