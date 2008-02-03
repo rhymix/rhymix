@@ -82,11 +82,11 @@
             <title xml:lang="ko">기본 모듈</title>
             <title xml:lang="jp">기본 모듈</title>
             <title xml:lang="zh-CN">기본 모듈</title>
-            <title xml:lang="en">기본 모듈</title>
+            <title xml:lang="en">Basic module</title>
             <description xml:lang="ko">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="jp">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="zh-CN">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
-            <description xml:lang="en">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
+            <description xml:lang="en">The widgets that are being displayed in the layout will work properly if you select the basic module</description>
         </var>
         <var name="top_title" type="text">
             <title xml:lang="ko">상단 제목</title>
