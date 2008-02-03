@@ -41,7 +41,7 @@
     $lang->image_mark = 'イメージマーク';
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
-    $lang->signature_max_height = '署名の高さの制限';
+    $lang->signature_max_height = '署名欄の高さの制限';
 	$lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
