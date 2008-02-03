@@ -3,7 +3,7 @@
   <title xml:lang="ko">사용자 추가 정보 및 커뮤니케이션 기능 활성화</title>
   <title xml:lang="jp">会員情報・コミュニティアドオン</title>
   <title xml:lang="zh-CN">用户扩展信息</title>
-  <title xml:lang="en">Addon for enabling facilities for providing additional information about users and communicating</title>
+  <title xml:lang="en">Enabling additional information about users and the communication function.</title>
   <title xml:lang="es">Addon para activar la función de la Información addcional del usuario y  de la comunicación.</title>
   <title xml:lang="ru">Аддон для предоставления дополнительной информации о пользователях и коммуникации</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -45,12 +45,12 @@
     </description>
     <description xml:lang="en">
         Among other information about users, this addon displays image name, image mark, and signature.
-        In case of you not using this information, this stands apart from basic information so runtime can be reduced.
-        To expose image name, image mark, and signature, please turn on this addon.
-        1. Just before displaying user information, this will figure out unique key of member from the definition of "&amp;lt;div class="member_{unique key of member}"&amp;gt;....&amp;lt;/div&amp;gt;" and replace image name and/or image mark if they exsist.
-        2. Just before displaying, this is gonna locate the definition of "&amp;lt;div class="document_{unique key of document}"&amp;gt;...&amp;lt;/div&amp;gt;" and insert the signature below it.
-        3. When arrived a new slip, this will popup it.
-        4. This makes available to send a slip if the target is a member when MemberModel::getMemberMenu is called.
+		This addon is normally turned off to reduce loading time.
+		To display image name, image mark, and the signature, please turn on this addon.
+        1. Right before displaying, this addon will seek for the unique key of the member from &amp;lt;div class="member_{unique key of member}"&amp;gt;....&amp;lt;/div&amp;gt; and will replace the content with the image name and/or image mark if they exist.
+        2. Right before displaying, this addon will search for &amp;lt;div class="document_{unique key of document}"&amp;gt;...&amp;lt;/div&amp;gt; and will display the signature in the bottom of the article.
+        3. When a new msessage is arrived, this will display the message in the popup window.
+        4. This makes available to send a message if the target is a member when MemberModel::getMemberMenu is called.
         5. This adds a menu for registering as a friend when MemberModel::getMemberMenu is called.
     </description>
     <description xml:lang="es">
