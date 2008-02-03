@@ -27,7 +27,7 @@
     </description>
     <description xml:lang="en">
         This addon logs access information based on the basic counter module within Zeroboard XE.
-        It is necessary for aggregation of access information to turn on this addon.
+		The access information will be collected only if you turn on this addon.
     </description>
     <description xml:lang="es">
         Este addon contador básico de Zeroboard XE permite llevar la información de acceso a la página web de los visitantes.
