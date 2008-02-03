@@ -44,7 +44,7 @@
         5. 呼出MemberModel::getMemberMenu时，添加[加为好友]菜单。
     </description>
     <description xml:lang="en">
-        Among other information about users, this addon displays image name, image mark, and signature.
+		Among other information about users, this addon displays image name, image mark, and signature.
 		This addon is normally turned off to reduce loading time.
 		To display image name, image mark, and the signature, please turn on this addon.
         1. Right before displaying, this addon will seek for the unique key of the member from &amp;lt;div class="member_{unique key of member}"&amp;gt;....&amp;lt;/div&amp;gt; and will replace the content with the image name and/or image mark if they exist.
