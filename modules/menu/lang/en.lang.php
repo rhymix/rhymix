@@ -49,5 +49,5 @@
 
     $lang->about_menu = "Menu module will help you to create a complete site through the convenient menu management which arranges created modules and links to layouts without any manual works..\nMenu is not a site manager, but it just has information which can link to modules and layouts so you can express different types of menu.";
 
-    $lang->alert_image_only = "이미지 파일만 등록가능합니다.";
+    $lang->alert_image_only = "Only image files can be registered.";
 ?>

@@ -31,7 +31,6 @@
     $lang->about_category_group_srls = 'Only the selected group will be able to see current categories. (Manually open xml file to expose)';
     $lang->about_layout_setup = 'You can manually modify board layout code. Insert or manage the widget code anywhere you want';
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
-    $lang->about_except_notice = "목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.";
     $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
     $lang->about_board = "This module is for creating and managing boards.\nYou may select the module name from the list after creating one to configure specifically.\nPlease be careful with board's module name, since it will be the url. (ex : http://domain/zb/?mid=modulename)"; 
 ?>
