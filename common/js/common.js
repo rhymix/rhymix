@@ -177,7 +177,7 @@ function toggleDisplay(obj, opt) {
 /**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
-function displayMultimedia(src, width, height, auto_start) {
+function displayMultimedia(src, width, height, auto_start, flashvars) {
     if(src.indexOf('files')==0) src = request_uri+src;
     if(auto_start) auto_start = "true";
     else auto_start = "false";
@@ -186,15 +186,18 @@ function displayMultimedia(src, width, height, auto_start) {
     var codebase = "";
     var html = "";
 
+    if(typeof(flashvars)=="undefined") flashvars = "";
+
     if(/\.swf/i.test(src)) {
         clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = ""+
-            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" >"+
+            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\">"+
             "<param name=\"wmode\" value=\"transparent\" />"+
             "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
+            "<param name=\"flashvars\" value=\""+flashvars+"\" />"+
             "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
