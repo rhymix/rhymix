@@ -333,16 +333,21 @@
                 return false;
             }
 
-            // document의 작성자가 회원일때 조사
-            if($member_srl) {
-
-                // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
-                if($member_srl && $logged_info->member_srl == $member_srl) {
-                    $_SESSION['readed_document'][$document_srl] = true;
-                    return false;
-                }
+            // document의 작성자가 회원일때 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 판단후 세션 등록하고 패스
+            if($member_srl && $logged_info->member_srl == $member_srl) {
+                $_SESSION['readed_document'][$document_srl] = true;
+                return false;
             }
 
+            // 조회수 업데이트
+            $args->document_srl = $document_srl;
+            $output = executeQuery('document.updateReadedCount', $args);
+
+            // 세션 등록
+            $_SESSION['readed_document'][$document_srl] = true;
+
+            /**
+             * DB를 이용한 조회수 체크는 부하 문제로 일단 제거
             // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
             if($logged_info->member_srl) {
                 $args->member_srl = $logged_info->member_srl;
@@ -367,6 +372,7 @@
 
             // 세션 정보에 남김
             return $_SESSION['readed_document'][$document_srl] = true;
+            */
         }
 
         /**
