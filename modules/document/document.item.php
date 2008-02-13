@@ -268,6 +268,9 @@
                         $this->document_srl, $this->get('member_srl'), 
                         $this->document_srl, $this->get('member_srl')
                 );
+            // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
+            } else {
+                $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
 
             return $content;
