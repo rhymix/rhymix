@@ -84,7 +84,7 @@
     $lang->email_address = 'Email';
     $lang->homepage = 'Homepage';
     $lang->blog = 'Blog';
-    $lang->birthday = 'Birthdate';
+    $lang->birthday = 'Birthday';
     $lang->browser_title = 'Browser Title';
     $lang->title = 'Subject';
     $lang->title_content = 'Subject+Content';

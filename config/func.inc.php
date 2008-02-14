@@ -256,8 +256,8 @@
      * @brief 월이름을 return
      **/
     function getMonthName($month, $short = true) {
-        $short_month = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-        $long_month = array("January","February","March","April","May","June","July","August","September","October","November","December");
+        $short_month = array('','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+        $long_month = array('','January','February','March','April','May','June','July','August','September','October','November','December');
         return !$short?$long_month[$month]:$short_month[$month];
     }
 
