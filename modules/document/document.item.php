@@ -576,9 +576,22 @@
         }
 
         /**
+         * @brief 댓글을 달 수 있는지에 대한 권한 체크
+         * 게시글의 댓글 권한과 또 다른 부분
+         **/
+        function isEnableComment() {
+            // 권한이 없고 비밀글 or 댓글금지 or 댓글허용금지이면 return false
+            if(!$this->isGranted() && ( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) ) return false;
+
+            return true;
+        }
+
+        /**
          * @brief 댓글 에디터 html을 구해서 return
          **/
         function getCommentEditor() {
+            if(!$this->isEnableComment()) return;
+
             $oEditorModel = &getModel('editor');
             return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
         }
