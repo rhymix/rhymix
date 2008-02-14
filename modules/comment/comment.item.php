@@ -63,6 +63,10 @@
             $this->is_granted = true;
         }
 
+        function setAccessible() {
+            $_SESSION['accessibled_comment'][$this->comment_srl] = true;
+        }
+
         function isEditable() {
             if($this->isGranted() || !$this->get('member_srl')) return true;
             return false;
@@ -73,12 +77,19 @@
         }
 
         function isAccessible() {
-            if($this->isGranted()) return true;
-            if(!$this->isSecret()) return true;
+            if($_SESSION['accessibled_comment'][$this->comment_srl]) return true;
+
+            if($this->isGranted() || !$this->isSecret()) {
+                $this->setAccessible();
+                return true;
+            }
 
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
-            if($oDocument->isGranted()) return true;
+            if($oDocument->isGranted()) {
+                $this->setAccessible();
+                return true;
+            }
 
             return false;
         }

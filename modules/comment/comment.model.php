@@ -208,7 +208,7 @@
         /**
          * @brief 댓글을 계층형으로 재배치
          **/
-        function _arrangeComment(&$comment_list, $list, $depth) {
+        function _arrangeComment(&$comment_list, $list, $depth, $set_grant = false) {
             if(!count($list)) return;
             foreach($list as $key => $val) {
                 $oCommentItem = new commentItem();
@@ -219,13 +219,17 @@
                     $oCommentItem->setAttribute($tmp);
 
                     $comment_list[$tmp->comment_srl] = $oCommentItem;
-                    $this->_arrangeComment($comment_list,$val->child,$depth+1);
+                    if($set_grant) $oCommentItem->setAccessible();
+
+                    $this->_arrangeComment($comment_list,$val->child,$depth+1, $oCommentItem->isGranted());
                 } else {
                     $val->depth = $depth;
                     $oCommentItem->setAttribute($val);
 
+                    if($set_grant) $oCommentItem->setAccessible();
                     $comment_list[$val->comment_srl] = $oCommentItem;
                 }
+
             }
         }
 
