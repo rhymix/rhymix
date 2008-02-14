@@ -18,6 +18,7 @@
         <permission action="procPageAdminRemoveWidgetCache" target="manager" />
         <permission action="dispPageAdminContentModify" target="manager" />
         <permission action="procPageAdminInsert" target="manager" />
+        <permission action="procPageAdminInsertContent" target="manager" />
     </permissions>
     <actions>
         <action name="dispPageIndex" type="view" index="true" />
