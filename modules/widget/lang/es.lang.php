@@ -41,12 +41,12 @@
     $lang->about_widget_code_in_page = 'Luego de ingresar los valores requeridos, presiona el botón "Añadir" para insertar el código de widget dentro de la página.';
     $lang->about_widget = "Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.\n Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.\nSin la necesidad de utilizar los módulos de página o del diseño de Zeroboard XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].";
 
-    $lang->cmd_content_insert = "내용 직접 추가";
-    $lang->cmd_box_widget_insert = "상자 위젯 추가";
-    $lang->cmd_remove_all_widgets  = "내용 모두 지우기";
+    $lang->cmd_content_insert = "Introduzca contenido por ti mismo";
+    $lang->cmd_box_widget_insert = "Insertar cuadro de widget";
+    $lang->cmd_remove_all_widgets  = "Eliminar todos los reproductores";
 
-    $lang->cmd_widget_size = "위젯 크기";
-    $lang->cmd_widget_align = "위젯 정렬";
+    $lang->cmd_widget_size = "Tamaño artilugio";
+    $lang->cmd_widget_align = "Alinear Widget";
     $lang->cmd_widget_align_left = "왼쪽";
     $lang->cmd_widget_align_right = "오른쪽";
     $lang->cmd_widget_margin = "외부 여백";
