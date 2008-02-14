@@ -3,17 +3,20 @@
     <title xml:lang="ko">글, 댓글 랭킹 출력</title>
     <title xml:lang="jp">書き込み、コメントランキング出力</title>
 	<title xml:lang="en">Article, Comment Ranking</title>
+	<title xml:lang="es">El artículo, el comentario ranking</title>
 	<title xml:lang="zh-CN">会员各项活动排行榜</title>
 	<title xml:lang="ru">Рейтинг статей, комментариев</title>
     <author email_address="simulz@simulz.com" link="http://www.simulz.com" date="2007. 10. 07">
         <name xml:lang="ko">Simulz</name>
         <name xml:lang="jp">Simulz</name>
 		<name xml:lang="en">Simulz</name>
+		<name xml:lang="es">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
 		<name xml:lang="ru">Simulz</name>
         <description xml:lang="ko">글, 댓글 작성 순위를 출력합니다.</description>
         <description xml:lang="jp">書き込み、コメント作成順位を出力します。</description>
 		<description xml:lang="en">This widget displays articles and comments ranking.</description>
+		<description xml:lang="es">Este widget muestra de artículos y comentarios ranking.</description>
 		<description xml:lang="zh-CN">按发表主题/评论/附件/推荐/查看数显示会员排行的控件。</description>
 		<description xml:lang="ru">Этот виджет отображает рейтинг статей и комментариев.</description>
     </author>
@@ -23,12 +26,14 @@
             <name xml:lang="jp">タイトル</name>
 			<name xml:lang="zh-CN">栏目名</name>
             <name xml:lang="en">Title</name>
+			<name xml:lang="es">Título</name>
             <name xml:lang="ru">Заголовок</name>
             <type>text</type>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
             <description xml:lang="jp">ウィジェットのタイトルとして出力されます。</description>
 			<description xml:lang="zh-CN">显示为控件的栏目名。</description>
             <description xml:lang="en">It will be the title.</description>
+			<description xml:lang="es">Será el título.</description>
             <description xml:lang="ru">Это будет заголовком.</description>
         </var>
         <var id="list_count">
@@ -49,6 +54,9 @@
         </var>
         <var id="rankby">
             <name xml:lang="ko">순위 대상</name>
+			<name xml:lang="en">Rank target</name>
+			<name xml:lang="es">Rango meta</name>
+			<name xml:lang="ru">Место целевого</name>
             <name xml:lang="jp">順位対象</name>
 			<name xml:lang="zh-CN">排行对象</name>
             <type>select</type>
@@ -56,12 +64,14 @@
             <description xml:lang="jp">対象を選択してください。</description>
 			<description xml:lang="zh-CN">请选择排行对象。</description>
 			<description xml:lang="en">Rank by</description>
+			<description xml:lang="es">Rank por</description>
 			<description xml:lang="ru">Рейтинговать по</description>
             <options>
                 <name xml:lang="ko">글 작성</name>
                 <name xml:lang="jp">書き込み作成</name>
 				<name xml:lang="zh-CN">发表主题</name>
                 <name xml:lang="en">Article</name>
+				<name xml:lang="es">Artículo</name>
                 <name xml:lang="ru">Статья</name>
                 <value>document</value>
             </options>
@@ -70,6 +80,7 @@
                 <name xml:lang="jp">コメント作成</name>
 				<name xml:lang="zh-CN">发表评论</name>
                 <name xml:lang="en">Comment</name>
+				<name xml:lang="es">Comentario</name>
                 <name xml:lang="ru">Комментарий</name>
                 <value>comment</value>
             </options>
@@ -78,6 +89,7 @@
                 <name xml:lang="jp">ファイル添付</name>
 				<name xml:lang="zh-CN">附件</name>
                 <name xml:lang="en">Attach</name>
+				<name xml:lang="es">Adjuntar</name>
                 <name xml:lang="ru">Вложение</name>
                 <value>attach</value>
             </options>
@@ -86,6 +98,7 @@
                 <name xml:lang="jp">推薦数</name>
 				<name xml:lang="zh-CN">推荐</name>
                 <name xml:lang="en">Votes</name>
+				<name xml:lang="es">Votos</name>
                 <name xml:lang="ru">Голоса</name>
                 <value>vote</value>
             </options>
@@ -94,6 +107,7 @@
                 <name xml:lang="jp">照合数</name>
 				<name xml:lang="zh-CN">查看</name>
                 <name xml:lang="en">Reads</name>
+				<name xml:lang="es">Lecturas</name>
                 <name xml:lang="ru">Прочтения</name>
                 <value>read</value>
             </options>
@@ -103,18 +117,21 @@
             <name xml:lang="jp">管理者</name>
 			<name xml:lang="zh-CN">显示管理员</name>
             <name xml:lang="en">Without Admin</name>
+			<name xml:lang="es">Sin Admin</name>
             <name xml:lang="ru">Без админа</name>
             <type>select</type>
             <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
             <description xml:lang="jp">順位に管理者を含みます。</description>
 			<description xml:lang="zh-CN">选择排行榜是否要显示管理员。</description>
             <description xml:lang="en">Disables admins' ranking</description>
+			<description xml:lang="es">Desactiva admins' ranking</description>
 			<description xml:lang="ru">Отключает учет рейтинга админов</description>
             <options>
                 <name xml:lang="ko">포함</name>
                 <name xml:lang="jp">含む</name>
 				<name xml:lang="zh-CN">显示</name>
                 <name xml:lang="en">False</name>
+				<name xml:lang="es">Falso</name>
                 <name xml:lang="ru">Нет</name>
                 <value>false</value>
             </options>
@@ -123,6 +140,7 @@
                 <name xml:lang="jp">含まない</name>
 				<name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="en">True</name>
+				<name xml:lang="es">Verdadero</name>
                 <name xml:lang="ru">Да</name>
                 <value>true</value>
             </options>
@@ -132,12 +150,14 @@
             <name xml:lang="jp">グループを含む</name>
 			<name xml:lang="zh-CN">用户组</name>
             <name xml:lang="en">With Group</name>
+			<name xml:lang="es">Con Grupo</name>
             <name xml:lang="ru">С группой</name>
             <type>text</type>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
             <description xml:lang="jp">出力する会員グループ名を入力してください（例：準会員、正会員）。</description>
 			<description xml:lang="zh-CN">请输入要显示的会员组。例)准会员,正会员</description>
             <description xml:lang="en">Enables group's ranking</description>
+			<description xml:lang="es">Permite grupo de la clasificación</description>
 			<description xml:lang="ru">Включает учет рейтинга группы</description>
         </var>
         <var id="without_group">
@@ -145,12 +165,14 @@
             <name xml:lang="jp">グループ除外</name>
 			<name xml:lang="zh-CN">豁免用户组</name>
             <name xml:lang="en">Without Group</name>
+			<name xml:lang="es">Sin Grupo</name>
             <name xml:lang="ru">Без группы</name>
             <type>text</type>
             <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹</description>
             <description xml:lang="jp">除外するグループ名を入力してください（例：管理グループ）</description>
 			<description xml:lang="zh-CN">请输入豁免用户组名。例)管理组</description>
             <description xml:lang="en">Disables group's ranking</description>
+			<description xml:lang="es">Desactiva grupo de la clasificación</description>
 			<description xml:lang="ru">Выключает учет рейтинга группы</description>
         </var>
         <var id="regdate">
@@ -158,12 +180,14 @@
             <name xml:lang="jp">期間（日）</name>
 			<name xml:lang="zh-CN">期间(日期)</name>
             <name xml:lang="en">Registration Date</name>
+			<name xml:lang="es">Fecha de Registro</name>
             <name xml:lang="ru">Дата регистрации</name>
             <type>text</type>
             <description xml:lang="ko">설정 기간 내의 순위를 출력합니다.</description>
             <description xml:lang="jp">設定期間内の順位を出力します。</description>
 			<description xml:lang="zh-CN">显示设置期间内的会员排行。</description>
             <description xml:lang="en">Registration Date</description>
+			<description xml:lang="es">Fecha de Registro</description>
 			<description xml:lang="ru">Дата регистрации</description>
         </var>
     </extra_vars>
