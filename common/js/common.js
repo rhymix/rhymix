@@ -942,11 +942,22 @@ var Base64 = {
 }
 
 /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
+if(xIE4Up) {
     xAddEventListener(window, 'load', activateOptionDisabled);
 
     function activateOptionDisabled(evt) {
         var sels = xGetElementsByTagName('select');
         for(var i=0; i < sels.length; i++){
+            var disabled_exists = false;
+            for(var j=0; j < sels[i].options.length; j++) {
+                if(sels[i].options[j].disabled) {
+                    sels[i].options[j].style.color = '#CCCCCC';
+                    disabled_exists = true;
+                }
+            }
+
+            if(!disabled_exists) continue;
+            
             sels[i].onchange = function() {  
                 if(this.options[this.selectedIndex].disabled) {
                     if(this.options.length<=1) this.selectedIndex = -1;
@@ -957,8 +968,6 @@ var Base64 = {
 
             if(sels[i].selectedIndex >= 0 && sels[i].options[ sels[i].selectedIndex ].disabled) sels[i].onchange();
 
-            for(var j=0; j < sels[i].options.length; j++) {
-                if(sels[i].options[j].disabled) sels[i].options[j].style.color = '#CCCCCC';
-            }
         }
     }
+}
