@@ -25,8 +25,21 @@
             // 기본 모듈 정보들 설정 (list_count, page_count는 게시판 모듈 전용 정보이고 기본 값에 대한 처리를 함)
             if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
             if($this->module_info->search_list_count) $this->search_list_count = $this->module_info->search_list_count;
-            if($this->module_info->except_notice == 'N') $this->except_notice = false; else $this->except_notice = true;
             if($this->module_info->page_count) $this->page_count = $this->module_info->page_count;
+
+            // 일반 목록에서 공지사항을 제외하는 기능의 체크
+            if($this->module_info->except_notice == 'N') $this->except_notice = false; 
+            else $this->except_notice = true;
+
+            // 상담 기능 체크. 현재 게시판의 관리자이면 상담기능을 off시킴
+            if($this->module_info->consultation == 'Y' && !$this->grant->manager) {
+                $this->consultation = true; 
+
+                // 현재 사용자가 비로그인 사용자라면 글쓰기/댓글쓰기/목록보기/글보기 권한을 제거함
+                if(!Context::get('is_logged')) $this->grant->list = $this->grant->write_document = $this->grant->write_comment = $this->grant->view = false;
+            } else {
+                $this->consultation = false;
+            }
 
             /**
              * 스킨 경로를 미리 template_path 라는 변수로 설정함
@@ -93,6 +106,12 @@
 
                 // 글에 대한 정보를 구함
                 $oDocument->setDocument($document_srl);
+
+                // 상담 기능이 열려 있을 경우 현재 사용자의 글이 아니면 무시
+                if($oDocument->isExists() && $this->consultation) {
+                    $logged_info = Context::get('logged_info');
+                    if($oDocument->get('member_srl')!=$logged_info->member_srl) $oDocument = new DocumentItem();
+                }
 
                 // 글이 존재하지 않으면 글이 존재 하지 않는다는 오류 메세지 출력
                 if(!$oDocument->isExists()) {
@@ -161,6 +180,12 @@
 
             // 만약 카테고리가 있거나 검색어가 있으면list_count를 search_list_count 로 이용
             if($args->category_srl || $args->search_keyword) $args->list_count = $this->search_list_count;
+
+            // 상담 기능이 on되어 있으면 현재 로그인 사용자의 글만 나타나도록 옵션 변경
+            if($this->consultation) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            }
 
             // 일반 글을 구해서 context set
             $output = $oDocumentModel->getDocumentList($args, $this->except_notice);

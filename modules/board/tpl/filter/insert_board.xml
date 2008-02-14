@@ -17,6 +17,7 @@
         <param name="list_count" target="list_count" />
         <param name="search_list_count" target="search_list_count" />
         <param name="except_notice" target="except_notice" />
+        <param name="consultation" target="consultation" />
         <param name="page_count" target="page_count" />
         <param name="is_default" target="is_default" />
         <param name="description" target="description" />

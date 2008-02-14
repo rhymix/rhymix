@@ -21,6 +21,7 @@
     $lang->expand = 'Expandir';
     $lang->category_group_srls = 'Limitar el grupo';
     $lang->search_result = 'Resultado de la búsqueda';
+    $lang->consultation = '상담 기능';
 
     // Palabras utilizadas en los botones
     $lang->cmd_board_list = 'Lista del tableros';
@@ -35,4 +36,5 @@
     $lang->about_board_category = 'Puede crear las categorias de tableros.<br />Cuando no funciona la categoría de tableros, rehacer el archivo caché manualmente para solucionar.';
     $lang->about_except_notice = "목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.";
     $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que ese nombre va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
+    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
 ?>

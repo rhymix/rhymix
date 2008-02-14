@@ -19,6 +19,7 @@
     $lang->expand = '펼침';
     $lang->category_group_srls = '그룹제한';
     $lang->search_result = '검색결과';
+    $lang->consultation = '상담 기능';
 
     // 버튼에 사용되는 언어
     $lang->cmd_board_list = '게시판 목록';
@@ -33,4 +34,5 @@
     $lang->about_board_category = '분류를 만드실 수 있습니다.<br />분류가 오동작을 할 경우 캐시파일 재생성을 수동으로 해주시면 해결이 될 수 있습니다.';
     $lang->about_except_notice = "목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.";
     $lang->about_board = "게시판을 생성하고 관리할 수 있는 게시판 모듈입니다.\n생성하신 후 목록에서 모듈이름을 선택하시면 자세한 설정이 가능합니다.\n게시판의 모듈이름은 접속 url이 되므로 신중하게 입력해주세요. (ex : http://도메인/zb/?mid=모듈이름)";
+    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
 ?>

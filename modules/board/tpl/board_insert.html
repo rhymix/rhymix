@@ -113,6 +113,13 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->consultation}</th>
+        <td>
+            <input type="checkbox" name="consultation" value="Y" <!--@if($module_info->consultation=='Y')-->checked="checked"<!--@end--> />
+            <p>{nl2br($lang->about_consultation)}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->description}</th>
         <td>
             <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>

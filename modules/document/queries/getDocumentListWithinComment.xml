@@ -10,6 +10,7 @@
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
         <condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="documents.document_srl" default="comments.document_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="documents.list_order" var="division" pipe="and" />
             <condition operation="below" column="documents.list_order" var="last_division" pipe="and" />

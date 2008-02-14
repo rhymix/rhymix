@@ -52,6 +52,10 @@
     <td>{$module_info->except_notice=='N'?$lang->notuse:$lang->use}</td>
 </tr>
 <tr>
+    <th scope="row">{$lang->consultation}</th>
+    <td>{$module_info->consultation=='Y'?$lang->use:$lang->notuse}</td>
+</tr>
+<tr>
     <th scope="row">{$lang->description}</th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>

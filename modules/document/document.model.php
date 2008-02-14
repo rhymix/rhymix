@@ -144,6 +144,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
+            $args->member_srl = $obj->member_srl;
 
             // 카테고리가 선택되어 있으면 하부 카테고리까지 모두 조건에 추가
             if($args->category_srl) {

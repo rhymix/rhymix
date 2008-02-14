@@ -22,6 +22,7 @@
     $lang->expand = '展开';
     $lang->category_group_srls = '用户组';
     $lang->search_result = '搜索结果';
+    $lang->consultation = '상담 기능';
 
     // 按钮语言
     $lang->cmd_board_list = '版面目录';
@@ -37,4 +38,5 @@
     $lang->about_board_category = '可以添加/删除博客分类<br />博客分类有异常情况时，可以尝试重新生成缓冲文件。';
     $lang->about_except_notice = "设置一般目录下不显示公告。";
     $lang->about_board = "可生成，管理版面的模块。\n生成版面后，点击模块名即可对其详细设置。";
+    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
 ?>
