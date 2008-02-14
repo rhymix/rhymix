@@ -942,7 +942,6 @@ var Base64 = {
 }
 
 /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
-if(xIE4Up) {
     xAddEventListener(window, 'load', activateOptionDisabled);
 
     function activateOptionDisabled(evt) {
@@ -955,11 +954,11 @@ if(xIE4Up) {
                     else this.selectedIndex--;
                 }
             }
-            if(sels[i].options[sels[i].selectedIndex].disabled) sels[i].onchange();
+
+            if(sels[i].selectedIndex >= 0 && sels[i].options[ sels[i].selectedIndex ].disabled) sels[i].onchange();
 
             for(var j=0; j < sels[i].options.length; j++) {
-                if(sels[i].options[j].disabled) sels[i].options[j].style.color = '#CCC';
+                if(sels[i].options[j].disabled) sels[i].options[j].style.color = '#CCCCCC';
             }
         }
     }
-}
