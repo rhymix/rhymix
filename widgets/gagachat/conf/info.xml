@@ -40,21 +40,21 @@ Si los miembros del sistema no es necesario, basta con introducir el título.
             <type>text</type>
             <description xml:lang="ko">보안 채팅방 사용시에만 필요함. 보안 채팅방을 사용하지 않을 경우에는 빈 칸으로 놔두시길 바랍니다.</description>
 			<description xml:lang="en">Security Key is only necessary for secure chat rooms. In case of normal chat room, please leave it blank.</description>
-			<description xml:lang="es">Security Key is only necessary for secure chat rooms. In case of normal chat room, please leave it blank.</description>
+			<description xml:lang="es">Clave de seguridad sólo es necesario para garantizar las salas de chat. En caso de la sala de chat normal, por favor dejar en blanco.</description>
         </var>
         <var id="gagaadmin">
             <name xml:lang="ko">채팅방 관리자(선택사항)</name>
 			<name xml:lang="en">Chat Room Adminstrator (Optional)</name>
-			<name xml:lang="es">Chat Room Adminstrator (Optional)</name>
+			<name xml:lang="es">Sala de chat Administrador (Opcional)</name>
             <type>text</type>
             <description xml:lang="ko">보안 채팅방 사용시에만 적용됨. 강제 퇴장 기능 가능함. 아이디, 아이디2, 아이디3 처럼 채팅방 관리자들을 , 로 분리하시길 바랍니다.</description>
 			<description xml:lang="en">Adminstrators will be applied for secure chat rooms. Banning available. Please seperate each id with comma(,) like ID1, ID2, ID3.</description>
-			<description xml:lang="es">Adminstrators will be applied for secure chat rooms. Banning available. Please seperate each id with comma(,) like ID1, ID2, ID3.</description>
+			<description xml:lang="es">Adminstrators se aplicarán para garantizar las salas de chat. Se prohíben los disponibles. Por favor, separar cada id con una coma (,) como ID1, ID2, ID3.</description>
         </var>
         <var id="gposition">
             <name xml:lang="ko">채팅방 형태</name>
 			<name xml:lang="en">Form of Chat Room</name>
-			<name xml:lang="es">Form of Chat Room</name>
+			<name xml:lang="es">Forma de la sala de chat</name>
             <type>select</type>
             <description xml:lang="ko">세로형/가로형</description>
 			<description xml:lang="en">Vertical/Horizontal</description>
@@ -75,63 +75,63 @@ Si los miembros del sistema no es necesario, basta con introducir el título.
         <var id="gheight">
             <name xml:lang="ko">채팅방 높이(선택사항)</name>
 			<name xml:lang="en">Height of Chat Room (Optional)</name>
-			<name xml:lang="en">Height of Chat Room (Optional)</name>
+			<name xml:lang="es">Altura de la Sala de chat (Opcional)</name>
             <type>text</type>
             <description xml:lang="ko">채팅방 높이(기본값 450)</description>
 			<description xml:lang="en">Height of chat room (450 as default)</description>
-			<description xml:lang="en">Height of chat room (450 as default)</description>
+			<description xml:lang="es">Altura de la sala de chat (450 como valor por defecto)</description>
         </var>
         <var id="gfonttype">
             <name xml:lang="ko">글씨체(선택사항)</name>
 			<name xml:lang="en">Font (Optional)</name>
-			<name xml:lang="en">Font (Optional)</name>
+			<name xml:lang="es">Font (Opcional)</name>
             <type>text</type>
             <description xml:lang="ko">Font-family 예) 굴림체</description>
 			<description xml:lang="en">Font-family ex) Gulim</description>
-			<description xml:lang="en">Font-family ex) Gulim</description>
+			<description xml:lang="es">Font-family ex) Gulim</description>
         </var>
         <var id="gfontcolor">
             <name xml:lang="ko">글씨 색깔(선택사항)</name>
 			<name xml:lang="en">Font Color (Optional)</name>
-			<name xml:lang="en">Font Color (Optional)</name>
+			<name xml:lang="es">Font Color (Optional)</name>
             <type>text</type>
             <description xml:lang="ko"> 채팅방 글씨 색깔 예) white 또는 #FFFFFF</description>
 			<description xml:lang="en"> Font color of chat room ex) white or #FFFFFF</description>
-			<description xml:lang="en"> Font color of chat room ex) white or #FFFFFF</description>
+			<description xml:lang="es"> Font color de la ex sala de chat) o blanco # FFFFFF</description>
         </var>
         <var id="gbgcolor">
             <name xml:lang="ko">배경 색깔(선택사항)</name>
 			<name xml:lang="en">Background Color (Optional)</name>
-			<name xml:lang="en">Background Color (Optional)</name>
+			<name xml:lang="es">Color de fondo (Opcional)</name>
             <type>text</type>
             <description xml:lang="ko"> 채팅방 배경 색깔 예) black 또는 #000000</description>
 			<description xml:lang="en"> Background color of chat room ex) black or #000000</description>
-			<description xml:lang="en"> Background color of chat room ex) black or #000000</description>
+			<description xml:lang="es"> Color de fondo de la sala de chat ex) o negro # 000000</description>
         </var>
         <var id="fontlarge">
             <name xml:lang="ko">큰 글씨체</name>
 			<name xml:lang="en">Large Font</name>
-			<name xml:lang="en">Large Font</name>
+			<name xml:lang="es">Large Font</name>
             <type>select</type>
             <description xml:lang="ko">글씨체 크기</description>
 			<description xml:lang="en">Font size</description>
-			<description xml:lang="en">Font size</description>
+			<description xml:lang="es">Font size</description>
             <options>
                 <name xml:lang="ko">작은 글씨체</name>
 				<name xml:lang="en">Small Font</name>
-				<name xml:lang="en">Small Font</name>
+				<name xml:lang="es">Small Font</name>
                 <value>small</value>
             </options>
             <options>
                 <name xml:lang="ko">중간 글씨체</name>
 				<name xml:lang="en">Medium Font</name>
-				<name xml:lang="en">Medium Font</name>
+				<name xml:lang="es">Medium Font</name>
                 <value>medium</value>
             </options>
             <options>
                 <name xml:lang="ko">큰 글씨체</name>
 				<name xml:lang="en">Large Font</name>
-				<name xml:lang="en">Large Font</name>
+				<name xml:lang="es">Large Font</name>
                 <value>large</value>
             </options>
         </var>

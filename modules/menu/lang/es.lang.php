@@ -49,5 +49,5 @@
 
     $lang->about_menu = "Módulo del menú te ayudara a crear un sitio completo a través de un conveniente manejo del menú que ordena los módulos creados y conecta con el diseño sin ningún otro trabajo.\nEl menú no es un manejador del sitio, sino que permite conectar los módulos con el diseño y a través del diseño puede expresar variados estilos del menú.";
 
-    $lang->alert_image_only = "이미지 파일만 등록가능합니다.";
+    $lang->alert_image_only = "Sólo los archivos de imagen pueden ser registradas.";
 ?>

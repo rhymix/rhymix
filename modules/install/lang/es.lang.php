@@ -259,8 +259,8 @@ EndOfLicense;
     $lang->admin_title = 'Información del Administrator';
 
     $lang->env_title = 'Configuración';
-    $lang->use_optimizer = 'Optimizer 사용';
-    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/ JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다';
+    $lang->use_optimizer = 'Habilitar el optimizador';
+    $lang->about_optimizer = 'Si optimizador está habilitado, los usuarios pueden acceder rápidamente a este sitio, ya que hay múltiples CSS / JS archivos son comprimidos juntos y antes de la transmisión. <br /> No obstante, esta optimización podría ser problemáticas de acuerdo con CSS o JS. Si inhabilitarlo, que funciona correctamente a pesar de que sería más lento el trabajo.';
     $lang->use_rewrite = 'Usar rewrite mod';
     $lang->about_rewrite = "Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123";
     $lang->time_zone = 'La Hora por Zona';

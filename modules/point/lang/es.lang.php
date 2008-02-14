@@ -26,16 +26,16 @@
     $lang->disable_download = 'Prohibida la descarga';
     $lang->about_disable_download = "Se prohibe la descarga de archivos al tener los puntos insuficientes.. (Excepto los archivos de imagen)";
 
-    $lang->level_point_calc = '레벨별 포인트 계산';
-    $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
-    $lang->cmd_exp_calc = '계산';
-    $lang->cmd_exp_reset = '초기화';
+    $lang->level_point_calc = 'Punto por punto cálculo';
+    $lang->expression = 'Por favor, de entrada mediante el uso de Javascript fórmula nivel variable <b> i </ b>. Ex) Math.pow (i, 2) * 90';
+    $lang->cmd_exp_calc = 'Calcular';
+    $lang->cmd_exp_reset = 'Restablecer';
 
-    $lang->cmd_point_recal = '포인트 재계산';
-    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
+    $lang->cmd_point_recal = 'Punto Recalcular';
+    $lang->about_cmd_point_recal = 'Que se encargará de chequear los artículos / comentarios / archivos adjuntos y restablecer todos los miembros punto a punto preestablecido.';
 
-    $lang->point_link_group = '그룹 연동';
-    $lang->about_point_link_group = '그룹에 원하는 레벨을 지정하면 해당 레벨에 도달할때 그룹이 변경됩니다. 단 새로운 그룹으로 변경될때 이전에 자동 등록된 그룹은 제거됩니다.';
+    $lang->point_link_group = 'Grupo de cambio de nivel';
+    $lang->about_point_link_group = 'Si especifica nivel para un grupo específico, a los usuarios se les asigna en el grupo cuando se adavnce al nivel por conseguir puntos. Al nuevo grupo se le asigna, el usuario se retira del ex grupo asignado.';
 
     $lang->about_module_point = "Usted puede definir los puntos para cada módulo y los módulos que no tengan ningun valor usarán punto predefinido.<br />Todos los puntos serán restituidos al actuar en forma contraria.";
 
@@ -47,7 +47,7 @@
     $lang->point_upload_file = 'Al subri archivos';
     $lang->point_delete_file = 'Al borrar archivos';
     $lang->point_download_file = 'Al descargar archivos (Excepto imágenes)';
-    $lang->point_read_document = '게시글 조회';
+    $lang->point_read_document = 'El Reading';
 
 
     $lang->cmd_point_config = 'Configuración predefinida';
@@ -57,6 +57,6 @@
 
     $lang->msg_cannot_download = "No tiene puntos suficientes para descagar";
 
-    $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
-    $lang->point_recal_finished = '포인트 재계산이 모두 완료되었습니다';
+    $lang->point_recal_message = 'Ajuste de Punto. (%d / %d)';
+    $lang->point_recal_finished = 'Punto cálculo está acabado.';
 ?>
