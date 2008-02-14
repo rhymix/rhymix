@@ -365,7 +365,7 @@
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
-            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $lang_type = Context::getLangType(); %s; $menu->list = array(%s); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true; ?>', $php_output['name'], $php_output['buff']);
+            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true;  $lang_type = Context::getLangType(); %s; $menu->list = array(%s); ?>', $php_output['name'], $php_output['buff']);
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
