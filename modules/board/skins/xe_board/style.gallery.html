@@ -96,7 +96,7 @@
 
                 <div class="cell" style="width:{$module_info->thumbnail_width+30}px;height:{$height}px;">
                     <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
-                        <a href="{getUrl('','document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
+                        <a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" class="thumb"/></a>
                     <!--@else-->
                         <img src="./images/common/blank.gif" border="0" alt="" class="thumb" width="{$module_info->thumbnail_width}" height="{$module_info->thumbnail_height}" />
                     <!--@end-->
