@@ -5,26 +5,26 @@
      * @sumario  Paquete del idioma español (sólo los básicos)
      **/
 
-    $lang->admin_info = '관리자 정보';
-    $lang->admin_index = '관리자 초기 페이지';
+    $lang->admin_info = 'Administrador de Información';
+    $lang->admin_index = 'Índice de la página admin';
 
     $lang->module_category_title = array(
-        'service' => '서비스형 모듈',
-        'manager' => '관리형 모듈',
-        'utility' => '기능성 모듈',
-        'accessory' => '부가 모듈',
-        'base' => '기본 모듈',
+        'service' => 'Módulos de Servicio',
+        'manager' => 'La gestión de módulos',
+        'utility' => 'Utilidad de módulos',
+        'accessory' => 'Módulos adicionales',
+        'base' => 'Módulos por defecto',
     );
 
     $lang->newest_news = "Noticias recientes";
     
     $lang->env_setup = "Configuración";
 
-    $lang->env_information = "환경 정보";
-    $lang->current_version = "설치된 버전";
-    $lang->current_path = "설치된 경로";
-    $lang->released_version = "최신 버전";
-    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+    $lang->env_information = "Información Ambiental";
+    $lang->current_version = "Versión actual";
+    $lang->current_path = "Instalado Sendero";
+    $lang->released_version = "Versión más reciente";
+    $lang->about_download_link = "La versión más reciente de Zerboard XE está disponible. Para descargar la versión más reciente, haga clic en enlace de descarga.";
 	
     $lang->item_module = "Lista de Módulos";
     $lang->item_addon  = "Lista de Addons";
@@ -46,7 +46,7 @@
 	
     $lang->welcome_to_zeroboard_xe = 'Esta es la página del Administrador de Zeroboard XE';
     $lang->about_admin_page = "La página del Administrador aún está en desarrollo.";
-    $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
+    $lang->about_lang_env = "Para aplicar idioma seleccionado conjunto de los usuarios, como por defecto, haga clic en el botón [Guardar] el cambio.";
 
     $lang->zeroboard_xe_user_links = 'Enlaces para los usuarios ';
     $lang->zeroboard_xe_developer_links = 'Enlace para los desarrolladores';

@@ -47,19 +47,19 @@
 
     $lang->cmd_widget_size = "Tamaño artilugio";
     $lang->cmd_widget_align = "Alinear Widget";
-    $lang->cmd_widget_align_left = "왼쪽";
-    $lang->cmd_widget_align_right = "오른쪽";
-    $lang->cmd_widget_margin = "외부 여백";
-    $lang->cmd_widget_padding = "내부 여백";
-    $lang->cmd_widget_border = "위젯 테두리";
-    $lang->cmd_widget_border_solid = "실선";
-    $lang->cmd_widget_border_dotted = "점선";
-    $lang->cmd_widget_background_color = "배경색";
-    $lang->cmd_widget_background_image_url = "배경 이미지";
-    $lang->cmd_widget_background_image_repeat = "반복";
-    $lang->cmd_widget_background_image_no_repeat = "고정";
-    $lang->cmd_widget_background_image_x_repeat = "가로 반복";
-    $lang->cmd_widget_background_image_y_repeat = "세로 반복";
-    $lang->cmd_widget_background_image_x = "가로 위치";
-    $lang->cmd_widget_background_image_y = "세로 위치";
+    $lang->cmd_widget_align_left = "Izquierda";
+    $lang->cmd_widget_align_right = "Derecho";
+    $lang->cmd_widget_margin = "Margen";
+    $lang->cmd_widget_padding = "Relleno";
+    $lang->cmd_widget_border = "Frontera";
+    $lang->cmd_widget_border_solid = "Sólidos";
+    $lang->cmd_widget_border_dotted = "Salpicando";
+    $lang->cmd_widget_background_color = "Color de fondo";
+    $lang->cmd_widget_background_image_url = "Imagen de fondo";
+    $lang->cmd_widget_background_image_repeat = "Repita";
+    $lang->cmd_widget_background_image_no_repeat = "No Repetir";
+    $lang->cmd_widget_background_image_x_repeat = "Repita X";
+    $lang->cmd_widget_background_image_y_repeat = "Repita Y";
+    $lang->cmd_widget_background_image_x = "Posición X";
+    $lang->cmd_widget_background_image_y = "Posición Y";
 ?>
