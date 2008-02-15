@@ -612,9 +612,22 @@
          * @brief 작성자의 서명을 return
          **/
         function getSignature() {
+            // 존재하지 않는 글이면 패스~
             if(!$this->isExists() || !$this->get('member_srl')) return;
+
+            // 서명정보를 구함
             $oMemberModel = &getModel('member');
             $signature = $oMemberModel->getSignature($this->get('member_srl'));
+
+            // 회원모듈에서 서명 최고 높이 지정되었는지 검사
+            if(!isset($GLOBALS['__member_signature_max_height'])) {
+               $oModuleModel = &getModel('module');  
+               $member_config = $oModuleModel->getModuleConfig('member');
+               $GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
+            }
+            $max_signature_height = $GLOBALS['__member_signature_max_height'];
+            if($max_signature_height) $signature = sprintf('<div style="height:%dpx;overflow-y:auto;overflow-x:hidden;">%s</div>',$max_signature_height, $signature);
+
             return $signature;
         }
     }
