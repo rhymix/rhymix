@@ -4,7 +4,7 @@
     <title xml:lang="zh-CN">网络杂志型主题列表</title>
     <title xml:lang="jp">ウェブジンスタイル最新コンテンツ出力</title>
     <title xml:lang="en">Display Newest Articles with Webzine Style</title>
-    <title xml:lang="es">웹진 형태 최근 문서 출력</title>
+    <title xml:lang="es">Mostrar más nuevos artículos con el estilo Webzine</title>
     <title xml:lang="ru">Отображение последних статей в стиле webzine</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
@@ -16,7 +16,7 @@
         <description xml:lang="zh-CN">把最新主题显示为网络杂志类型的控件。</description>
         <description xml:lang="jp">最新コンテンツをウェブジンスタイルで出力するウィジェットです。</description>
         <description xml:lang="en">This widget displays newest articles with webzine style.</description>
-        <description xml:lang="es">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
+        <description xml:lang="es">Este widget muestra más reciente de artículos con webzine estilo.</description>
         <description xml:lang="ru">Этот виджет отображает последние статьи в стиле webzine.</description>
     </author>
     <extra_vars>
@@ -40,7 +40,7 @@
             <name xml:lang="zh-CN">排序对象</name>
             <name xml:lang="jp">ソート対象</name>
             <name xml:lang="en">Target to be sorted</name>
-			<name xml:lang="en">Objetivo para ser ordenados</name>
+			<name xml:lang="es">Objetivo para ser ordenados</name>
             <name xml:lang="ru">Назначение для сортировки</name>
             <type>select</type>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
@@ -96,7 +96,7 @@
                 <name xml:lang="zh-CN">升序</name>
                 <name xml:lang="jp">昇順</name>
                 <name xml:lang="en">Asending order</name>
-				<name xml:lang="en">Orden Acendente</name>
+				<name xml:lang="es">Orden Acendente</name>
                 <name xml:lang="ru">По возрастанию</name>
                 <value>asc</value>
             </options>
@@ -106,12 +106,14 @@
             <name xml:lang="zh-CN">new图标显示时间(hours)</name>
             <name xml:lang="jp">Newの表示時間 (Hours)</name>
             <name xml:lang="en">Duration of indication for new item</name>
+			<name xml:lang="es">Duración de la indicación para el nuevo tema</name>
             <name xml:lang="ru">Длительность индикации для новых объектов</name>
             <type>text</type>
             <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
 	        <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
         </var>
         <var id="subject_cut_size">
@@ -149,11 +151,13 @@
             <name xml:lang="jp">サムネール生成方法</name>
             <name xml:lang="zh-CN">缩略图生成方式</name>
             <name xml:lang="en">Thumbnail Type</name>
+			<name xml:lang="es">Thumbnail Type</name>
             <name xml:lang="ru">Тип миниатюры</name>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
             <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
 			<description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <description xml:lang="en">Thumbnail Type may be set here.</description>
+			<description xml:lang="es">Tipo de miniatura puede establecerse aquí.</description>
             <description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
             <type>select</type>
             <options>
@@ -161,6 +165,7 @@
                 <name xml:lang="jp">Crop (トリミング)</name>
                 <name xml:lang="zh-CN">Crop (裁减)</name>
                 <name xml:lang="en">Crop</name>
+				<name xml:lang="es">Cultivos</name>
                 <name xml:lang="ru">Crop (Обрезание)</name>
                 <value>crop</value>
             </options>
@@ -169,6 +174,7 @@
                 <name xml:lang="jp">Ratio (比率)</name>
                 <name xml:lang="zh-CN">Ratio (比例)</name>
                 <name xml:lang="en">Ratio</name>
+				<name xml:lang="es">Ratio</name>
                 <name xml:lang="ru">Ratio (Отношение)</name>
                 <value>ratio</value>
             </options>
@@ -193,11 +199,13 @@
             <name xml:lang="jp">イメージ縦幅</name>
             <name xml:lang="zh-CN">高度</name>
             <name xml:lang="en">Height of Image</name>
+			<name xml:lang="es">Altura de la imagen</name>
             <name xml:lang="ru">Высота изображения</name>
             <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 100px）</description>
             <description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
             <description xml:lang="en">You can set the height of image. (100 as default)</description>
+			<description xml:lang="es">Se puede establecer la altura de la imagen. (100 como valor por defecto)</description>
             <description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 100px)</description>
             <type>text</type>
         </var>
