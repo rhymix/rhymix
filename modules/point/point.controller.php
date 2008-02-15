@@ -331,6 +331,18 @@
             // 포인트를 구해옴
             $point = $config->module_point[$obj->get('module_srl')]['read_document'];
             if(!isset($point)) $point = $config->read_document;
+
+            // 조회 포인트가 없으면 패스
+            if(!$point) return new Object();
+
+            // 읽은 기록이 있는지 확인
+            $args->member_srl = $member_srl;
+            $args->document_srl = $obj->document_srl;
+            $output = executeQuery('document.getDocumentReadedLogInfo', $args);
+            if($output->data->count) return new Object();
+
+            // 읽은 기록이 없으면 기록 남김
+            $output = executeQuery('document.insertDocumentReadedLog', $args);
             
             // 포인트 증감
             $cur_point += $point;

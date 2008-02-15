@@ -324,6 +324,9 @@
             $member_srl = $oDocument->get('member_srl');
             $logged_info = Context::get('logged_info');
 
+            // 조회수 업데이트가 되면 trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
+            if(!$output->toBool()) return $output;
             // session에 정보로 조회수를 증가하였다고 생각하면 패스
             if($_SESSION['readed_document'][$document_srl]) return false;
 
@@ -345,34 +348,6 @@
 
             // 세션 등록
             $_SESSION['readed_document'][$document_srl] = true;
-
-            /**
-             * DB를 이용한 조회수 체크는 부하 문제로 일단 제거
-            // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
-            if($logged_info->member_srl) {
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-            $args->document_srl = $document_srl;
-            $output = executeQuery('document.getDocumentReadedLogInfo', $args);
-
-            // 로그 정보에 조회 로그가 있으면 세션 등록후 패스
-            if($output->data->count) return $_SESSION['readed_document'][$document_srl] = true;
-
-            // 조회수 업데이트
-            $output = executeQuery('document.updateReadedCount', $args);
-
-            // 로그 남기기
-            $output = executeQuery('document.insertDocumentReadedLog', $args);
-
-            // 조회수 업데이트가 되면 trigger 호출 (after)
-            $output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
-            if(!$output->toBool()) return $output;
-
-            // 세션 정보에 남김
-            return $_SESSION['readed_document'][$document_srl] = true;
-            */
         }
 
         /**
