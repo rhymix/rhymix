@@ -2,10 +2,10 @@
 <widget version="0.1">
     <title xml:lang="ko">포럼형 최근 게시물</title>
     <title xml:lang="zh-CN">论坛型最新主题列表</title>
-    <title xml:lang="jp">포럼형 최근 게시물</title>
-    <title xml:lang="en">Dispaly Forum Style Newest Articles</title>
-    <title xml:lang="es">포럼형 최근 게시물</title>
-    <title xml:lang="ru">포럼형 최근 게시물</title>
+    <title xml:lang="jp">フォーラムスタイルの最新の記事を表示</title>
+    <title xml:lang="en">Display Forum Style Newest Articles</title>
+    <title xml:lang="es">Pantalla Foro estilo más reciente de artículos</title>
+    <title xml:lang="ru">Дисплей стиле форума новейших статей</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 1. 23">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
@@ -22,16 +22,17 @@
             利用对象版面里设定的主题和说明显示。
         </description>
         <description xml:lang="jp">
-            한개 또는 여러개의 게시판을 포럼형식으로 정리하여 노출하는 위젯입니다.
-            대상 게시판에 설정되어 있는 제목과 설명을 이용하여 설명을 출력합니다.
+            このウィジェットの最新の記事を表示1つまたは複数の委員会からのフォーラムのスタイルです。説明が表示されるターゲットボードのタイトルと説明しています。
         </description>
         <description xml:lang="en">
             This widget displays newest articles from one or more board in forum style.
             Description will be displayed with target board's title and description.
         </description>
+		<description xml:lang="es">
+		Este widget muestra más reciente de artículos de uno o varios bordo de estilo en el foro. Descripción se mostrará con la meta bordo del título y la descripción.
+        </description>
         <description xml:lang="ru">
-            한개 또는 여러개의 게시판을 포럼형식으로 정리하여 노출하는 위젯입니다.
-            대상 게시판에 설정되어 있는 제목과 설명을 이용하여 설명을 출력합니다.
+            Этот виджет отображает новейшие изделия из одной или нескольких борту в стиле форума. Описание будет отображаться с целевыми борту название и описание.
         </description>
     </author>
     <extra_vars>
@@ -49,12 +50,14 @@
             <name xml:lang="zh-CN">new图标显示时间(hours)</name>
             <name xml:lang="jp">Newの表示時間 (Hours)</name>
             <name xml:lang="en">Duration of indication for new item</name>
+			<name xml:lang="es">Duration of indication for new item</name>
             <name xml:lang="ru">Длительность индикации для новых объектов</name>
             <type>text</type>
             <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
 	        <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
         </var>
         <var id="subject_cut_size">
