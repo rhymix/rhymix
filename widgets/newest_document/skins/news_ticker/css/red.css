@@ -1,7 +1,7 @@
 .news_ticker_red { height:25px; overflow:hidden; clear:both; background:#FFFFFF url("../images/red/bg.gif") repeat-x left top; white-space:nowrap; }
 
-.news_ticker_red table { width:100%; height:25px; margin:0; padding:0; table-layout:fixed;}
-.news_ticker_red table td { white-space:nowrap; overflow:hidden; height:25px; vertical-align:top; }
+.news_ticker_red table { width:100%; height:25px; margin:0; padding:0; table-layout:fixed; border-left:1px solid #000000; border-right:1px solid #000000;}
+.news_ticker_red table td { white-space:nowrap; overflow:hidden; height:25px; vertical-align:top; padding:0 6px 0 6px;}
 
 .news_ticker_red .tickerBox { height:25px; padding-top:6px; white-space:nowrap; overflow:hidden; }
 
