@@ -22,8 +22,8 @@
                 <span class="date"><strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}</span>
 
                 <!--@if($oDocument->isEditable())-->
-                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_modify}" /></a>
-                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
+                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_modify}" /></a>
+                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
                 <!--@end-->
             </div>
         </div>

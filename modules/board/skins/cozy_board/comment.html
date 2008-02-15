@@ -30,7 +30,7 @@
                         <!--@if($grant->is_admin)-->
                             ({$comment->get('ipaddress')})
                         <!--@end-->
-                        <!--@if($comment->is_granted || !$comment->member_srl || $grant->is_admin)-->
+                        <!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
                             <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" /></a>
                             <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}"><img src="./images/common/buttonModifyE.gif" alt="{$lang->cmd_modify}" /></a>
                         <!--@end-->
