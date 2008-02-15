@@ -4,17 +4,20 @@
     <title xml:lang="zh-CN">Flash数字时钟</title>
     <title xml:lang="jp">フラッシュデジタル時計</title>
     <title xml:lang="en">Flash digital Clock</title>
+	<title xml:lang="es">Reloj digital Flash</title>
     <title xml:lang="ru">Цифровые Flash часы</title>
     <author email_address="ac7614@empas.com" link="http://widz.inven.co.kr/2nd_xe/DroArc" date="2007. 8. 9">
         <name xml:lang="ko">드로아크 </name>
         <name xml:lang="zh-CN">DroArc</name>
         <name xml:lang="jp">DroArc </name>
         <name xml:lang="en">DroArc</name>
+		<name xml:lang="es">DroArc</name>
         <name xml:lang="ru">DroArc</name>
         <description xml:lang="ko">플래쉬로 된 디지털 시계를 출력합니다.</description>
         <description xml:lang="zh-CN">显示Flash数字时钟。</description>
         <description xml:lang="jp">フラッシュのデジタル時計を表示します。</description>
         <description xml:lang="en">It will display the digital clock created with flash.</description>
+		<description xml:lang="es">Se mostrará el reloj digital creado con flash.</description>
         <description xml:lang="ru">Это отображает цифровые часы, созданные flash.</description>
     </author>
     <extra_vars>
@@ -23,12 +26,14 @@
             <name xml:lang="zh-CN">宽度</name>
             <name xml:lang="jp">横幅</name>
             <name xml:lang="en">Width</name>
+			<name xml:lang="es">Ancho</name>
             <name xml:lang="ru">Ширина</name>
             <type>text</type>
             <description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 150px)</description>
             <description xml:lang="zh-CN">可以设置宽度大小。 (默认为 150px)</description>
             <description xml:lang="jp">横幅のサイズの指定ができます（デフォルト150px）。</description>
             <description xml:lang="en">It will be able to set the width. (default is 150px)</description>
+			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 150 px)</description>
             <description xml:lang="ru">Возможно установить ширину. (стандартное значение 150px)</description>
         </var>
         <var id="clock_height">
@@ -37,11 +42,13 @@
             <name xml:lang="jp">縦幅</name>
             <name xml:lang="ru">Высота</name>
             <name xml:lang="en">Height</name>
+			<name xml:lang="es">Altura</name>
             <type>text</type>
             <description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
             <description xml:lang="zh-CN">可以设置高度大小。(默认为 64px)</description>
             <description xml:lang="jp">縦幅のサイズの指定ができます（デフォルト64px）。</description>
             <description xml:lang="en">It will be able to set the width. (default is 64px)</description>
+			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 64px)</description>
             <description xml:lang="ru">Возможно установить высоту. (стандартное значение 64px)</description>
         </var>
     </extra_vars>
