@@ -25,6 +25,6 @@
     $lang->about_springnote_openid = "スプリングノートでページを作成したオープンIDを入力してください。";
     $lang->about_springnote_userkey = 'スプリングノートとの連動するためのユーザKeyを入力してください。<br />[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">ユーザーキー受信</a>]をクリックして入力して生成されるキーの値を入力してください。';
     $lang->about_springnote_pageid = '使用するスプリングノートの中の特定ページを出力したい場合、「pageid」の値を入力してください。';
-    $lang->about_springnote_pageid_setup = '設定することができます'選択されたページのみを表示（隠すリスト） ' 、 'ショーから選択されたページ（番組リスト） ' etcときにページ番号を設定します。';
-    $lang->about_springnote_domain = 'springnote他のドメインの設定をお勧めします。 （ドメインのみを入力してくださいフォームからの' http://domain.springnote.com ' ）';
+    $lang->about_springnote_pageid_setup = '設定することができます\'選択されたページのみを表示（隠すリスト） \' 、 \'ショーから選択されたページ（番組リスト） \' etcときにページ番号を設定します。';
+    $lang->about_springnote_domain = 'springnote他のドメインの設定をお勧めします。 （ドメインのみを入力してくださいフォームからの\' http://domain.springnote.com \' ）';
 ?>

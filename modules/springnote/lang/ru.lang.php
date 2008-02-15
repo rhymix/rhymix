@@ -25,6 +25,6 @@
     $lang->about_springnote_openid = "Пожалуйста, введите Ваш OpenID, который создал Springnote.";
     $lang->about_springnote_userkey = 'Ключ юзера нужен для того, чтобы включить Springnote модуль.<br />Пожалуйста, введите сгенерированный Ключ Юзера после ввода Вашего OpenID на [<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">Получить Ключ Юзера</a>] .';
     $lang->about_springnote_pageid = 'Пожалуйста, введите pageid, если вы хотите отобразить определенную страницу сначала.';
-    $lang->about_springnote_pageid_setup = 'Вы можете установить "Показать только выбранные страницы (скрыть список) ',' Показать с Отдельные страницы (показать список)" и т.д., когда вы установите номер страницы.';
-    $lang->about_springnote_domain = "Вы можете задать другие доменные springnote. (Введите только домен из формы "http://domain.springnote.com ' )";
+    $lang->about_springnote_pageid_setup = 'Вы можете установить "Показать только выбранные страницы (скрыть список) \',\' Показать с Отдельные страницы (показать список)" и т.д., когда вы установите номер страницы.';
+    $lang->about_springnote_domain = 'Вы можете задать другие доменные springnote. (Введите только домен из формы "http://domain.springnote.com \' )';
 ?>
