@@ -126,7 +126,7 @@
     $lang->document_count = 'Всего статей';
     $lang->page_count = 'Кол-во страниц';
     $lang->list_count = 'Кол-во списков';
-    $lang->search_list_count = '검색 목록 수';
+    $lang->search_list_count = 'Поиск Список кол';
     $lang->readed_count = 'Хиты';
     $lang->voted_count = 'Голоса';
     $lang->member_count = 'Кол-во пользователей';
