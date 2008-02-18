@@ -152,8 +152,8 @@
     $lang->notuse = 'Не использовать';
     $lang->not_exists = "Не существует";
 
-    $lang->public = 'public';
-    $lang->private = 'private';
+    $lang->public = 'общественности';
+    $lang->private = 'частный';
 
     $lang->unit_sec = 'сек.';
     $lang->unit_min = 'мин.';
