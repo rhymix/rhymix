@@ -287,7 +287,7 @@
             // message_srl이 있으면 내용 추출
             if($message_srl) {
                 $message = $oMemberModel->getSelectedMessage($message_srl);
-                if($message->message_srl == $message_srl) Context::set('message', $message);
+                if($message->message_srl == $message_srl && $message->receiver_srl == $logged_info->member_srl) Context::set('message', $message);
             }
 
             // 목록 추출
@@ -360,6 +360,7 @@
          **/
         function dispMemberSendMessage() {
             $this->setLayoutFile("popup_layout");
+            $oMemberModel = &getModel('member');
 
             // 로그인이 되어 있지 않으면 오류 표시
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
@@ -369,7 +370,17 @@
             $receiver_srl = Context::get('receiver_srl');
             if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) return $this->stop('msg_not_logged');
 
-            $oMemberModel = &getModel('member');
+            // 답글 쪽지일 경우 원본 메세지의 글번호를 구함
+            $message_srl = Context::get('message_srl');
+            if($message_srl) {
+                $source_message = $oMemberModel->getSelectedMessage($message_srl);
+                if($source_message->message_srl == $message_srl && $source_message->sender_srl == $receiver_srl) {
+                    $source_message->title = "[re] ".$source_message->title;
+                    $source_message->content = "\r\n<br />\r\n<br /><div style=\"padding-left:5px; border-left:5px solid #DDDDDD;\">".trim($source_message->content)."</div>";
+                    Context::set('source_message', $source_message);
+                }
+            }
+
             $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             Context::set('receiver_info', $receiver_info);
 

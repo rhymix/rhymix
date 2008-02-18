@@ -134,8 +134,9 @@ function completeSendMessage(ret_obj) {
     window.close();
 }
 
-function doSendMessage(member_srl) {
-    var url = current_url.setQuery('module','member').setQuery('act','dispMemberSendMessage').setQuery('receiver_srl',member_srl);
+function doSendMessage(member_srl, message_srl) {
+    if(typeof(message_srl)=='undefined') message_srl = 0;
+    var url = current_url.setQuery('module','member').setQuery('act','dispMemberSendMessage').setQuery('receiver_srl',member_srl).setQuery('message_srl',message_srl);
     popopen(url, 'sendMessage');
 }
 
