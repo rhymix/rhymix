@@ -213,7 +213,7 @@
             $obj->list_count = 10000;
             $output = $oTagModel->getTagList($obj);
 
-            // 내용을 랜던으로 정렬
+            // 내용을 랜덤으로 정렬
             if(count($output->data)) {
                 $numbers = array_keys($output->data);
                 shuffle($numbers);
