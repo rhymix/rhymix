@@ -291,7 +291,7 @@
             // message_srl이 있으면 내용 추출
             if($message_srl) {
                 $message = $oMemberModel->getSelectedMessage($message_srl);
-                if($message->message_srl == $message_srl && $message->receiver_srl == $logged_info->member_srl) Context::set('message', $message);
+                if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) Context::set('message', $message);
             }
 
             // 목록 추출
