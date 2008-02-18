@@ -152,6 +152,9 @@
     $lang->notuse = '미사용';
     $lang->not_exists = '없음';
 
+    $lang->public = '공개';
+    $lang->private = '비공개';
+
     $lang->unit_sec = '초';
     $lang->unit_min = '분';
     $lang->unit_hour = '시';

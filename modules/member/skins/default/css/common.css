@@ -99,27 +99,44 @@
 .memberInfoTable th, .memberInfoTable td { border-top:1px solid #eaebe7; padding:.5em;}
 .memberInfoTable th { background:#f5f5f3; text-align:left; padding:.5em 1em;}
 .memberInfoTable td { border-left:1px solid #eaebe7;}
-.memberInfoTable td input { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb; vertical-align:middle; float:left; margin-right:.5em; margin-bottom:.5em; color:#666666;}
+.memberInfoTable td input { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb; vertical-align:middle; margin-right:.5em; margin-bottom:.5em; color:#666666;}
 .memberInfoTable td input.radio, .memberInfoTable td input.check { border:none; padding:0; margin:0; background:none; margin-top:.4em;}
 .memberInfoTable td input.w4em { width:4em;}
 .memberInfoTable td input.w2em { width:2em;}
-.memberInfoTable td select { float:left; margin-right:.5em;}
+.memberInfoTable td select { margin-right:.5em;}
+.memberInfoTable td checkbox { border:0; }
 .memberInfoTable td .fl { margin-right:.5em;}
 .memberInfoTable td br { clear:both;}
-.memberInfoTable td p { float:left; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
-.memberInfoTable td label { float:left; color:#3f4040; padding-top:.3em; margin-right:.5em;}
+.memberInfoTable td p { font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
+.memberInfoTable td label { color:#3f4040; padding-top:.3em; margin-right:.5em;}
+.memberInfoTable td ul { list-style:none; }
 .memberInfoTable td .checkbox { border:none; }
+
+/* 아이디, 이름, 이메일 주소 중복 체크후 중복되면 출력되는 메세지의 className */
+.memberInfoTable td .checkValue { margin-top:5px; font-weight:bold; color:#444444; }
 
 /* modify/ insert member info */
 .memberImage { clear:both; }
 .memberImage .info { margin-bottom:1.5em; float:left; margin-right:1em;}
 .memberImage .form { float:left; }
 .memberImage .form input { height:1.5em; margin:0 .3em 0 0; padding:0;}
+
 .checkbox li {  float:left; margin-right:2em; }
 .checkbox li input {  border:none; } 
+
 .str_birthday { cursor:pointer; float:left; width:80px;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px 3px 3px 18px; margin-right:.3em;}
 .krZip .address2 { clear:both; margin-top:10px;}
+
 .extendDesc { clear:both; margin-top:0; font-size:.9em; color:#999999; }
+
+.extendPublic { clear:both; margin-top:5px; padding:0; font-size:.9em; color:#999999; }
+.extendPublic input { padding:0; margin:0; }
+
+.publicItem { display:block; margin-top:5px;}
+.publicItem input { margin:0; padding:0;}
+.publicItem label { font-weight:normal; margin:0; padding:0; color:#666666;}
+span.publicItem { display:inline; margin:0; font-weight:normal; color:#666666; }
+span.privateItem { display:inline; margin:0; font-weight:normal; color:#666666; }
 
 .agreementBox { border:1px solid #AAAAAA; margin:.5em 0 0 0; padding:1em; border-bottom:none; height:200px; overflow-y:scroll;}
 .agreementButton { background-color:#EEEEEE; padding:1em; border:1px solid #AAAAAA; border-top:none;}

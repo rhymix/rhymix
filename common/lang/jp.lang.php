@@ -152,6 +152,9 @@
     $lang->notuse = '未使用';
     $lang->not_exists = 'なし';
 
+    $lang->public = 'public';
+    $lang->private = 'private';
+
     $lang->unit_sec = '秒';
     $lang->unit_min = '分';
     $lang->unit_hour = '時';

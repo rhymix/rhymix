@@ -145,7 +145,7 @@
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-    <th scope="row">{htmlspecialchars($val->column_title)}</th>
+    <th scope="row">{htmlspecialchars($val->column_title)}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></th>
     <td>
         <!--@if($val->column_type=='tel')-->
             {htmlspecialchars($val->value[0])} 

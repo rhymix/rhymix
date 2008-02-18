@@ -41,23 +41,38 @@
     </tr>
     <tr>
         <th scope="row">{$lang->user_name} *</th>
-        <td><input type="text" name="user_name" value="" /> <p>{$lang->about_user_name}</p></td>
+        <td>
+            <input type="text" name="user_name" value="" /> 
+            <p>{$lang->about_user_name}</p>
+        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->nick_name} *</th>
-        <td><input type="text" name="nick_name" value="" /> <p>{$lang->about_nick_name}</p></td>
+        <td>
+            <input type="text" name="nick_name" value="" /> 
+            <p>{$lang->about_nick_name}</p>
+        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->email_address} *</th>
-        <td><input type="text" name="email_address" value="" /> <p>{$lang->about_email_address}</p></td>
+        <td>
+            <input type="text" name="email_address" value="" /> 
+            <p>{$lang->about_email_address}</p>
+        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->homepage}</th>
-        <td><input type="text" name="homepage" value="" /> <p>{$lang->about_homepage}</p></td>
+        <td>
+            <input type="text" name="homepage" value="" /> 
+            <p>{$lang->about_homepage}</p>
+        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->blog}</th>
-        <td><input type="text" name="blog" value="" /> <p>{$lang->about_blog_url}</p></td>
+        <td>
+            <input type="text" name="blog" value="" /> 
+            <p>{$lang->about_blog_url}</p>
+        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->birthday}</th>
@@ -70,7 +85,7 @@
     </tr>
     <tr>
         <th scope="row">{$lang->allow_mailing}</th>
-        <td><input type="checkbox" name="allow_mailing" value="Y" checked="checked" /> <p>{$lang->about_allow_mailing}</p></td>
+        <td><input type="checkbox" class="checkbox" name="allow_mailing" value="Y" checked="checked" /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
     </table>
 
@@ -86,6 +101,10 @@
         <th scope="row">
             {htmlspecialchars($val->column_title)}
             <!--@if($val->required=='Y')-->*<!--@end-->
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
         </th>
         <td>
             <!-- 일반 text -->

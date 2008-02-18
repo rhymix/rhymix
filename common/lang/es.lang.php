@@ -151,6 +151,9 @@
     $lang->notuse = 'No usar';
     $lang->not_exists = 'No existe';
 
+    $lang->public = 'public';
+    $lang->private = 'private';
+
     $lang->unit_sec = 'segundo';
     $lang->unit_min = 'minuto';
     $lang->unit_hour = 'hora';

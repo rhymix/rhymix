@@ -315,6 +315,12 @@
                     $obj->lang = $val->column_title;
                     $obj->required = $val->required=='Y'?true:false;
                     $filter_output[] = $obj;
+
+                    unset($open_obj);
+                    $open_obj->name = 'open_'.$val->column_name;
+                    $open_obj->required = false;
+                    $filter_output[] = $open_obj;
+
                 }
                 return $filter_output;
 
@@ -331,9 +337,17 @@
             $extend_form_list = $this->getJoinFormlist();
             if(!$extend_form_list) return;
 
+            // 관리자이거나 자기 자신이 아니면 비공개의 경우 무조건 패스해버림
+            $logged_info = Context::get('logged_info');
+
             foreach($extend_form_list as $srl => $item) {
                 $column_name = $item->column_name;
                 $value = $member_info->{$column_name};
+
+                if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_info->member_srl && $member_info->{'open_'.$column_name}!='Y') {
+                    $extend_form_list[$srl]->is_private = true;
+                    continue;
+                }
 
                 // 추가 확장폼의 종류에 따라 값을 변경
                 switch($item->column_type) {
@@ -351,6 +365,9 @@
                 }
 
                 $extend_form_list[$srl]->value = $value;
+
+                if($member_info->{'open_'.$column_name}=='Y') $extend_form_list[$srl]->is_opened = true;
+                else $extend_form_list[$srl]->is_opened = false;
             }
             return $extend_form_list;
         }

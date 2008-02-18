@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+.publicItem { display:block; margin-top:5px;}
+.publicItem input { margin:0; padding:0;}
+.publicItem label { font-weight:normal; margin:0; padding:0; color:#666666;}
+span.publicItem { display:inline; margin:0; font-weight:normal; color:#666666; }
+

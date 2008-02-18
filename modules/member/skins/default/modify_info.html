@@ -149,6 +149,10 @@
         <th scope="row">
             {htmlspecialchars($val->column_title)}
             <!--@if($val->required=='Y')-->*<!--@end-->
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
         </th>
         <td>
             <!-- 일반 text -->
