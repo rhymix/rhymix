@@ -1292,8 +1292,8 @@
                 $autologin_args->autologin_key = md5($user_id.$member_info->password.$_SERVER['REMOTE_ADDR']);
                 $autologin_args->member_srl = $member_info->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
-                $output = executeQuery('member.insertAutologin', $autologin_args);
-                if($output->toBool()) {
+                $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
+                if($autologin_output->toBool()) {
                     setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
                 }
             }
