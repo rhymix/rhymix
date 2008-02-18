@@ -30,6 +30,7 @@
             $oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
             $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
             $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
+            $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
@@ -83,6 +84,9 @@
 
             // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
             if(!$oDB->isIndexExists("documents","idx_module_notice")) return true;
+            
+            // 2008. 02. 18 게시글에 module_srl + document_srl 복합인덱스 만들기 (manian님 확인)
+            if(!$oDB->isIndexExists("documents","idx_module_document_srl")) return true;
 
             /**
              * 2007. 12. 03 : 확장변수(extra_vars) 컬럼이 없을 경우 추가
@@ -167,6 +171,11 @@
              * 2007. 12. 03 : 확장변수(extra_vars) 컬럼이 없을 경우 추가
              **/
             if(!$oDB->isColumnExists("documents","extra_vars")) $oDB->addColumn('documents','extra_vars','text');
+
+            /**
+             * 2008. 02. 18 게시글에 module_srl + document_srl 복합인덱스 만들기 (manian님 확인)
+             **/
+            if(!$oDB->isIndexExists("documents","idx_module_document_srl")) $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 
             return new Object(0,'success_updated');
         }
