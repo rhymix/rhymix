@@ -109,7 +109,7 @@
             $oMemberModel = &getModel('member');
 
             // 로그인되어 있지 않고 자동로그인 키값이 있으면 자동 로그인 체크
-            if(!$oMemberModel->isLogged() && $_COOKIE['xeak']) {
+            if(Context::isInstalled() && !$oMemberModel->isLogged() && $_COOKIE['xeak']) {
                 $oMemberController = &getController('member');
                 $oMemberController->doAutologin();
             }
