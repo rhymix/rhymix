@@ -19,7 +19,7 @@
     $lang->expand = 'Expand';
     $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search result';
-    $lang->consultation = '상담 기능';
+    $lang->consultation = 'Consultation';
 
     // words used in button
     $lang->cmd_board_list = 'Board list';
@@ -34,5 +34,5 @@
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
     $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
     $lang->about_board = "This module is for creating and managing boards.\nYou may select the module name from the list after creating one to configure specifically.\nPlease be careful with board's module name, since it will be the url. (ex : http://domain/zb/?mid=modulename)"; 
-    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
+	$lang->about_consultation = "Non-administrator members would see their own artocles.\nNon-members would not be able to write articles when using consultation.";
 ?>
