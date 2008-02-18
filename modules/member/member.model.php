@@ -430,6 +430,7 @@
                     $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
                     if(file_exists($image_name_file)) {
                         list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                        $info = null;
                         $info->width = $width;
                         $info->height = $height;
                         $info->src = Context::getRequestUri().$image_name_file;

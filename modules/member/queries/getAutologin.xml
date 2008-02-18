@@ -1,0 +1,15 @@
+<query id="getAutologin" action="select">
+    <tables>
+        <table name="member" alias="member"/>
+        <table name="member_autologin" alias="member_autologin" />
+    </tables>
+    <columns>
+        <column name="member.user_id" alias="user_id" />
+        <column name="member.password" alias="password" />
+        <column name="member_autologin.autologin_key" alias="autologin_key" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_autologin.autologin_key" var="autologin_key" notnull="notnull" />
+        <condition operation="equal" column="member.member_srl" var="member_autologin.member_srl" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -106,10 +106,20 @@
             $this->_setUploadedArgument();
 
             // 인증관련 데이터를 Context에 설정
-            $oMember = getModel('member');
-            if($oMember->isLogged()) {
+            $oMemberModel = &getModel('member');
+
+            // 로그인되어 있지 않고 자동로그인 키값이 있으면 자동 로그인 체크
+            if(!$oMemberModel->isLogged() && $_COOKIE['xeak']) {
+                $oMemberController = &getController('member');
+                $oMemberController->doAutologin();
+            }
+
+            // 로그인되어 있으면 로그인 정보 기록
+            if($oMemberModel->isLogged()) {
                 $this->_set('is_logged', true);
                 $this->_set('logged_info', $_SESSION['logged_info']);
+
+            // 로그인 되어 있지 않으면 먼저 자동 로그인을 체크 비로그인 상태 기록
             } else {
                 $this->_set('is_logged', false);
                 $this->_set('logged_info', NULL);

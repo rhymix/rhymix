@@ -11,6 +11,7 @@
     $lang->default_group_1 = "Usuario registrado";
     $lang->default_group_2 = "Usuario regular";
     $lang->admin_group = "Manejo del grupo";
+    $lang->keep_signed = 'Keep me signed in';
     $lang->remember_user_id = 'Guardar ID';
     $lang->already_logged = "Ya está conectado";
     $lang->denied_user_id = 'Este ID está prohibido.';
@@ -45,6 +46,8 @@
     $lang->enable_join = 'Permitir el registro del usuario';
     $lang->limit_day = 'Límite de la fecha temporal';
     $lang->limit_date = 'Límite de fecha';
+    $lang->after_login_url = '로그인 후 이동할 URL';
+    $lang->after_logout_url = '로그아웃 후 이동할 URL';
     $lang->redirect_url = 'URL luego del registro';
     $lang->agreement = 'Acuerdo del registro del usuario';
     $lang->accept_agreement = 'Acepto';
@@ -59,6 +62,7 @@
     $lang->webmaster_name = 'Nombre del Webmaster';
     $lang->webmaster_email = 'Correo electrónico Webmaster';
 
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
     $lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
     $lang->about_webmaster_email = 'Introduzca la dirección de correo electrónico webmaster.';
 
@@ -179,6 +183,8 @@
     $lang->about_enable_join = 'Debe seleccionar esta opción para permitir el registro de los usuarios';
     $lang->about_limit_day = 'Usted puede limitar la fecha de la certificación luego de registrar';
     $lang->about_limit_date = 'Usuario no podra conectarse hasta la fecha indicada';
+    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = 'Ingresar la URL que va a abrir luego de registrar los usuarios. Cuando esto esta vacío, se habrirá la página anterior a la del registro.';
     $lang->about_agreement = "Acuerdo del registro no será mostrado si esta vacío";
 

@@ -7,6 +7,11 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
+<script type="text/javascript">
+    var keep_signed_msg = "{$lang->about_keep_signed}";
+    xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
+</script>
+
 <div class="box_login fc_01" id="box_login">
   <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
       <div class="form_field">
@@ -20,8 +25,8 @@
 
       <div><input type="submit" value=" " class="submit" /></div>
       <ul class="option">
-        <li><input type="checkbox" name="remember_user_id" id="chk_remember_user_id" value="Y" class="checkbox" /></li>
-        <li><label for="chk_remember_user_id">{$lang->remember_user_id}</label></li>
+        <li><input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="return confirm(keep_signed_msg);"/></li>
+        <li><label for="keepid">{$lang->keep_signed}</label></li>
       </ul>
       <ul class="extra_option">
         <li><a href="{getUrl('act','dispMemberSignUpForm')}" class="fc_02 btn">{$lang->cmd_signup}</a></li>
@@ -29,10 +34,6 @@
       </ul>
   </form>
   <div class="clear"></div>
-
-  <script type="text/javascript">
-      xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
-  </script>
 </div>
 
 <!-- OpenID -->

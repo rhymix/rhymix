@@ -1,0 +1,8 @@
+<query id="deleteAutologin" action="delete">
+    <tables>
+        <table name="member_autologin" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="autologin_key" var="autologin_key" notnull="notnull" />
+    </conditions>
+</query>

@@ -11,6 +11,11 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
+<script type="text/javascript">
+    var keep_signed_msg = "{$lang->about_keep_signed}";
+    xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
+</script>
+
 <fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
 <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
@@ -23,8 +28,9 @@
         <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
     </div>
     <p class="save">
-        <input name="remember_user_id" id="chk_remember_user_id" type="checkbox" value="Y" />
-        <label for="chk_remember_user_id">{$lang->remember_user_id}</label>
+        <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="return confirm(keep_signed_msg);"/>
+        <label for="keepid">{$lang->keep_signed}</label>
+
 
         <!--@if($member_config->enable_openid=='Y')-->
         <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>

@@ -262,7 +262,11 @@
          * @brief 로그아웃 출력
          **/
         function dispMemberLogout() {
-            // 템플릿 파일 지정
+            $oMemberController = &getController('member');
+            $oMemberController->procMemberLogout();
+
+            Context::set('layout','none');
+            $this->setTemplatePath($this->module_path.'/tpl');
             $this->setTemplateFile('logout');
         }
 

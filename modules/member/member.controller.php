@@ -16,7 +16,7 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function procMemberLogin($user_id = null, $password = null, $remember_user_id = null) {
+        function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
             // 변수 정리
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
@@ -24,14 +24,19 @@
             if(!$password) $password = Context::get('password');
             $password = trim($password);
 
-            if($remember_user_id) $remember_user_id = Context::get('remember_user_id');
-            if($remember_user_id != 'Y') setcookie('user_id','');
+            if(!$keep_signed) $keep_signed = Context::get('keep_signed');
 
             // 아이디나 비밀번호가 없을때 오류 return
             if(!$user_id) return new Object(-1,'null_user_id');
             if(!$password) return new Object(-1,'null_password');
 
-            return $this->doLogin($user_id, $password);
+            $output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
+
+            return $output;
         }
 
         /**
@@ -137,8 +142,14 @@
             // 로그아웃 이후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
             if(!$trigger_output->toBool()) return $trigger_output;
-            
-            return new Object();
+
+            $output = new Object();
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->after_logout_url) Context::set('redirect_url', $config->after_logout_url);
+
+            return $output;
         }
 
         /**
@@ -1203,9 +1214,43 @@
         }
 
         /**
+         * @brief 자동 로그인 시킴
+         **/
+        function doAutologin() {
+            // 자동 로그인 키 값을 구함
+            $args->autologin_key = $_COOKIE['xeak'];
+
+            // 키값에 해당하는 정보 구함
+            $output = executeQuery('member.getAutologin', $args);
+
+            // 정보가 없으면 쿠키 삭제
+            if(!$output->toBool() || !$output->data) {
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+                return;
+            }
+
+            $user_id = $output->data->user_id;
+            $password = $output->data->password;
+            if(!$user_id || !$password) {
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+                return;
+            }
+
+            // 정보를 바탕으로 키값 비교
+            $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
+
+            if($key == $args->autologin_key) {
+                $output = $this->doLogin($user_id);
+            } else {
+                executeQuery('member.deleteAutologin', $args);
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+            }
+        }
+
+        /**
          * @brief 로그인 시킴
          **/
-        function doLogin($user_id, $password = '') {
+        function doLogin($user_id, $password = '', $keep_signed = false) {
             // 로그인 이전에 trigger 호출 (before)
             $trigger_obj->user_id = $user_id;
             $trigger_obj->password = $password;
@@ -1240,6 +1285,18 @@
             // 로그인 성공후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
             if(!$trigger_output->toBool()) return $trigger_output;
+
+            // 자동 로그인 사용시 정보 처리
+            if($keep_signed) {
+                // 자동 로그인 키 생성
+                $autologin_args->autologin_key = md5($user_id.$member_info->password.$_SERVER['REMOTE_ADDR']);
+                $autologin_args->member_srl = $member_info->member_srl;
+                executeQuery('member.deleteAutologin', $autologin_args);
+                $output = executeQuery('member.insertAutologin', $autologin_args);
+                if($output->toBool()) {
+                    setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
+                }
+            }
 
             $this->setSessionInfo($member_info);
 
@@ -1580,6 +1637,11 @@
                 $_SESSION[$key] = '';
             }
             session_destroy();
+
+            if($_COOKIE['xeak']) {
+                $args->autologin_key = $_COOKIE['xeak'];
+                executeQuery('member.deleteAutologin', $args);
+            }
         }
     }
 ?>

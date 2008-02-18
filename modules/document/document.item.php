@@ -625,8 +625,10 @@
                $member_config = $oModuleModel->getModuleConfig('member');
                $GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
             }
-            $max_signature_height = $GLOBALS['__member_signature_max_height'];
-            if($max_signature_height) $signature = sprintf('<div style="height:%dpx;overflow-y:auto;overflow-x:hidden;">%s</div>',$max_signature_height, $signature);
+            if($signature) {
+                $max_signature_height = $GLOBALS['__member_signature_max_height'];
+                if($max_signature_height) $signature = sprintf('<div style="height:%dpx;overflow-y:auto;overflow-x:hidden;">%s</div>',$max_signature_height, $signature);
+            }
 
             return $signature;
         }
