@@ -2,7 +2,7 @@
     <form>
         <node target="db_type" required="true" />
         <node target="db_hostname" required="true" minlength="1" maxlength="250" />
-        <node target="db_port" required="true" minlength="1" maxlength="250" />
+        <node target="db_port" minlength="1" maxlength="250" />
         <node target="db_userid" required="true" minlength="1" maxlength="250"/>
         <node target="db_password" required="true" minlength="1" maxlength="250" />
         <node target="db_database" required="true" minlength="1" maxlength="250" />

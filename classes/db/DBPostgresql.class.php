@@ -57,6 +57,7 @@
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
             $this->hostname = $db_info->db_hostname;
+            $this->port = $db_info->db_port;
             $this->userid   = $db_info->db_userid;
             $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;

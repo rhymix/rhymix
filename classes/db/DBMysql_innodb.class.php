@@ -57,6 +57,7 @@
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
             $this->hostname = $db_info->db_hostname;
+            $this->port = $db_info->db_port;
             $this->userid   = $db_info->db_userid;
             $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;
@@ -70,6 +71,8 @@
         function _connect() {
             // db 정보가 없으면 무시
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+
+            if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
 
             // 접속시도  
             $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
