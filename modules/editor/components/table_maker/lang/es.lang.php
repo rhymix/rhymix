@@ -5,20 +5,20 @@
      * @brief  editor module >  language pack of table_maker component
      **/
 
-     $ Lang-> table_attribute = "Cambiar el cuadro Attibution";
-     $ Lang-> cell_attribute = "Cambio de celda Atribucion";
+     $lang->table_attribute = "Cambiar el cuadro Attibution";
+     $lang->cell_attribute = "Cambio de celda Atribucion";
 
-     $ Lang-> table_width = "Ancho";
-     $ Lang-> table_cols_count = "Numero de columnas";
-     $ Lang-> table_rows_count = "Numero de filas";
-     $ Lang-> table_cellspacing = "Cellspacing";
-     $ Lang-> table_cellpadding = "Cellpadding";
-     $ Lang-> table_border = "Thicknes Frontera";
-     $ Lang-> table_inner_border = "Inner Grosor de linea";
+     $lang->table_width = "Ancho";
+     $lang->table_cols_count = "Numero de columnas";
+     $lang->table_rows_count = "Numero de filas";
+     $lang->table_cellspacing = "Cellspacing";
+     $lang->table_cellpadding = "Cellpadding";
+     $lang->table_border = "Thicknes Frontera";
+     $lang->table_inner_border = "Inner Grosor de linea";
 
-     $ Lang-> cell_width = "Ancho";
-     $ Lang-> cell_height = "Altura";
+     $lang->cell_width = "Ancho";
+     $lang->cell_height = "Altura";
 
-     $ Lang-> table_border_color = "Color del borde";
-     $ Lang-> table_bg_color = "Color de fondo";
+     $lang->table_border_color = "Color del borde";
+     $lang->table_bg_color = "Color de fondo";
 ?>

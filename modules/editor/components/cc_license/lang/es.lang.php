@@ -6,7 +6,7 @@
      **/
 
     $lang->ccl_default_title = 'Creative Commons Corea derechos de autor';
-    $lang->ccl_default_message = 'Este componente puede ser usado por <a rel = "licencia" href = "http://creativecommons.org/licenses/by% s% s% s% s" onclick = "winopen (this.href); retorno false;" >% S% s% s% s </ a> ";
+    $lang->ccl_default_message = 'Este componente puede ser usado por <a rel="licencia" href="http://creativecommons.org/licenses/by% s% s% s% s" onclick="winopen (this.href); retorno false;" >% S% s% s% s </ a> ';
 
     $lang->ccl_title = 'Titulo';
     $lang->ccl_use_mark = 'Utilice Mark';

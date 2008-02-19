@@ -5,25 +5,25 @@
      * @brief  editor module >  language pack of quotation component
      **/
 
-     $ Lang-> quotation_use_folder = "Usar Folding Funcion";
-     $ Lang-> quotation_opener = "Nombre del boton Abrir";
-     $ Lang-> quotation_closer = "Nombre del boton Cerrar";
-     $ Lang-> quotation_padding = "Relleno";
-     $ Lang-> quotation_margin = "Margen";
-     $ Lang-> quotation_border_color = "Color del borde";
-     $ Lang-> quotation_border_thickness = "Grosor de Fronteras";
+     $lang->quotation_use_folder = "Usar Folding Funcion";
+     $lang->quotation_opener = "Nombre del boton Abrir";
+     $lang->quotation_closer = "Nombre del boton Cerrar";
+     $lang->quotation_padding = "Relleno";
+     $lang->quotation_margin = "Margen";
+     $lang->quotation_border_color = "Color del borde";
+     $lang->quotation_border_thickness = "Grosor de Fronteras";
 
-     $ Lang-> folder_text_bold = "Texto audacia";
-     $ Lang-> about_folder_text_bold = "Hacer Link Text Bold";
+     $lang->folder_text_bold = "Texto audacia";
+     $lang->about_folder_text_bold = "Hacer Link Text Bold";
     
-     $ Lang-> folder_text_color = "Color de los vinculos";
-     $ Lang-> folder_text_color_blue = "Azul";
-     $ Lang-> folder_text_color_red = "Rojo";
-     $ Lang-> folder_text_color_yellow = "Amarillo";
-     $ Lang-> folder_text_color_green = "Verde";
+     $lang->folder_text_color = "Color de los vinculos";
+     $lang->folder_text_color_blue = "Azul";
+     $lang->folder_text_color_red = "Rojo";
+     $lang->folder_text_color_yellow = "Amarillo";
+     $lang->folder_text_color_green = "Verde";
 
-     $ Lang-> quotation_border_style = "Estilo de Fronteras";
-     $ Lang-> quotation_border_style_list = array (
+     $lang->quotation_border_style = "Estilo de Fronteras";
+     $lang->quotation_border_style_list = array (
        "Ninguno",
        "Solidos",
        "Salpicando",
@@ -31,10 +31,10 @@
        "Solidos de Derecho",
      );
 
-     $ Lang-> quotation_bg_color = "Color de fondo";
+     $lang->quotation_bg_color = "Color de fondo";
 
-     $ Lang-> quotation_opener = "Nombre de Open Link";
-     $ Lang-> quotation_opener = "Nombre del Link Cerrar";
-     $ Lang-> quotation_cmd_opener = "Mas ...";
-     $ Lang-> quotation_cmd_closer = "Cerrar";
+     $lang->quotation_opener = "Nombre de Open Link";
+     $lang->quotation_opener = "Nombre del Link Cerrar";
+     $lang->quotation_cmd_opener = "Mas ...";
+     $lang->quotation_cmd_closer = "Cerrar";
 ?>

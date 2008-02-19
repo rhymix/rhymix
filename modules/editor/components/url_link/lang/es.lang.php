@@ -5,17 +5,17 @@
      * @brief  editor module > language pack of url_link component
      **/
 
-     $ Lang-> urllink_title = "Titulo";
-     $ Lang-> urllink_url = "URL";
-     $ Lang-> urllink_open_window = "Abrir Nueva Ventana";
-     $ Lang-> urllink_bold = "Texto en negrita";
+     $lang->urllink_title = "Titulo";
+     $lang->urllink_url = "URL";
+     $lang->urllink_open_window = "Abrir Nueva Ventana";
+     $lang->urllink_bold = "Texto en negrita";
 
-     $ Lang-> urllink_color = "Color de los vinculos";
-     $ Lang-> urllink_color_blue = "Azul";
-     $ Lang-> urllink_color_red = "Rojo";
-     $ Lang-> urllink_color_yellow = "Amarillo";
-     $ Lang-> urllink_color_green = "Verde";
+     $lang->urllink_color = "Color de los vinculos";
+     $lang->urllink_color_blue = "Azul";
+     $lang->urllink_color_red = "Rojo";
+     $lang->urllink_color_yellow = "Amarillo";
+     $lang->urllink_color_green = "Verde";
 
-     $ Lang-> about_url_link_open_window = "Hacer el vinculo para abrir una nueva ventana";
-     $ Lang-> about_url_link_bold = "Hacer el link de texto en negrita";
+     $lang->about_url_link_open_window = "Hacer el vinculo para abrir una nueva ventana";
+     $lang->about_url_link_bold = "Hacer el link de texto en negrita";
 ?>

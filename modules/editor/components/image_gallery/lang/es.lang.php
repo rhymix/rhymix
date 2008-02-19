@@ -5,23 +5,23 @@
      * @brief  editor module > language pack of image_gallery component.
      **/
 
-     $ Lang-> image_gallery = "Haga Galeria de Imagenes";
-     $ Lang-> width = "Ancho";
-     $ Lang-> altura = "Altura";
-     $ Lang-> image_list = "Lista de imagenes";
-     $ Lang-> gallery_style = "Galeria de Estilo";
-     $ Lang-> gallery_slide_style = "Estilo de diapositivas";
-     $ Lang-> gallery_slide_align = "Alinear Estilo";
-     $ Lang-> gallery_slide_center = "Centro";
-     $ Lang-> gallery_slide_left = "Izquierda";
-     $ Lang-> gallery_slide_right = "Derecho";
-     $ Lang-> gallery_list_style = "Mostrar todos";
-     $ Lang-> gallery_border_color = "Color del borde";
-     $ Lang-> gallery_border_thickness = "Grosor de Fronteras";
-     $ Lang-> gallery_bg_color = "Color de fondo";
-     $ Lang-> about_image_list = "Seleccione archivo para anadir a la galeria de imagenes. Puede arrastrar despues de la seleccion o cambio + clic (para seleccionar ampliamente), ctrl + clic (para seleccionar individualmente)";
+     $lang->image_gallery = "Haga Galeria de Imagenes";
+     $lang->width = "Ancho";
+     $lang->altura = "Altura";
+     $lang->image_list = "Lista de imagenes";
+     $lang->gallery_style = "Galeria de Estilo";
+     $lang->gallery_slide_style = "Estilo de diapositivas";
+     $lang->gallery_slide_align = "Alinear Estilo";
+     $lang->gallery_slide_center = "Centro";
+     $lang->gallery_slide_left = "Izquierda";
+     $lang->gallery_slide_right = "Derecho";
+     $lang->gallery_list_style = "Mostrar todos";
+     $lang->gallery_border_color = "Color del borde";
+     $lang->gallery_border_thickness = "Grosor de Fronteras";
+     $lang->gallery_bg_color = "Color de fondo";
+     $lang->about_image_list = "Seleccione archivo para anadir a la galeria de imagenes. Puede arrastrar despues de la seleccion o cambio + clic (para seleccionar ampliamente), ctrl + clic (para seleccionar individualmente)";
 
-     $ Lang-> cmd_gallery_prev = "Imagen anterior";
-     $ Lang-> cmd_gallery_next = "Imagen siguiente";
-     $ Lang-> cmd_gallery_thumbnail = "Miniatura";
+     $lang->cmd_gallery_prev = "Imagen anterior";
+     $lang->cmd_gallery_next = "Imagen siguiente";
+     $lang->cmd_gallery_thumbnail = "Miniatura";
 ?>

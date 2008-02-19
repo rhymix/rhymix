@@ -5,15 +5,15 @@
      * @brief  editor module > language pack of poll_maker component
      **/
 
-     $ Lang-> poll_title = "Titulo";
-     $ Lang-> poll_item = "Temas";
-     $ Lang-> poll_stop_date = "Fecha de Expiracion";
-     $ Lang-> poll_chk_count = "Numero de Comprobacion de Partida";
+     $lang->poll_title = "Titulo";
+     $lang->poll_item = "Temas";
+     $lang->poll_stop_date = "Fecha de Expiracion";
+     $lang->poll_chk_count = "Numero de Comprobacion de Partida";
 
-     $ Lang-> cmd_add_poll = "Anadir Encuesta";
-     $ Lang-> cmd_del_poll = "Borrar encuesta";
-     $ Lang-> cmd_add_item = "Anadir Tema";
+     $lang->cmd_add_poll = "Anadir Encuesta";
+     $lang->cmd_del_poll = "Borrar encuesta";
+     $lang->cmd_add_item = "Anadir Tema";
 
-     $ Lang-> msg_poll_cannot_modify = "No se puede modificar la encuesta. Por lo que debe suprimirse para crear una nueva encuesta";
+     $lang->msg_poll_cannot_modify = "No se puede modificar la encuesta. Por lo que debe suprimirse para crear una nueva encuesta";
 	 
 ?>
