@@ -3,12 +3,14 @@
     <title xml:lang="ko">cozy</title>
     <title xml:lang="jp">Cozy</title>
     <title xml:lang="en">cozy</title>
+	<title xml:lang="es">cozy</title>
     <title xml:lang="zh-CN">Cozy</title>
     <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 11. 27">
         <name xml:lang="ko">(주)NHN</name>
         <name xml:lang="jp">（株）NHN</name>
         <name xml:lang="zh-CN">(株)NHN</name>
         <name xml:lang="en">NHN Corp</name>
+		<name xml:lang="es">NHN Corp</name>
         <description xml:lang="ko">
             cozy simple 스킨의 목록형입니다.
             디자인 : 서기정 (http://blog.naver.com/addcozy)
@@ -24,6 +26,11 @@
             Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
             HTML/CSS : Ji-Hun So
         </description>
+		<description xml:lang="es">
+            Esta es la lista de estilo acogedor simple junta de la piel.
+             Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
+             HTML / CSS: Ji-Hun So
+        </description>
         <description xml:lang="zh-CN">
             Cozy样式皮肤。
             设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
@@ -35,30 +42,35 @@
             <title xml:lang="ko">빨간색(기본)</title>
             <title xml:lang="jp">赤</title>
             <title xml:lang="en">Red (default)</title>
+			<title xml:lang="es">Roja (por defecto)</title>
             <title xml:lang="zh-CN">红色(默认)</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">녹색</title>
             <title xml:lang="jp">緑</title>
             <title xml:lang="en">Green</title>
+			<title xml:lang="es">Verde</title>
             <title xml:lang="zh-CN">绿色</title>
         </color>
         <color name="blue" src="screenshot/blue.gif">
             <title xml:lang="ko">파란색</title>
             <title xml:lang="jp">青</title>
             <title xml:lang="en">Blue</title>
+			<title xml:lang="es">Azul</title>
             <title xml:lang="zh-CN">蓝色</title>
         </color>
         <color name="pink" src="screenshot/pink.gif">
             <title xml:lang="ko">분홍색</title>
             <title xml:lang="jp">ピンク</title>
             <title xml:lang="en">Pink</title>
+			<title xml:lang="es">Pink</title>
             <title xml:lang="zh-CN">粉红色</title>
         </color>
         <color name="bluish_green" src="screenshot/bluish_green.gif">
             <title xml:lang="ko">청록색</title>
             <title xml:lang="jp">青緑</title>
             <title xml:lang="en">Cyan</title>
+			<title xml:lang="es">Cian</title>
             <title xml:lang="zh-CN">青绿色</title>
         </color>
     </colorset>
@@ -67,6 +79,7 @@
             <title xml:lang="ko">기본 형태</title>
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
+			<title xml:lang="es">Formulario por defecto</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
@@ -82,6 +95,10 @@
             <description xml:lang="en">
                 You may select default styles such as list style, webzine style or gallery style.
                 Align Target for forum style is required to be selected as 'updated'.
+            </description>
+			<description xml:lang="es">
+                Usted puede seleccionar por defecto los estilos como el estilo de lista, estilo o webzine Galería de estilo.
+				Alinear Meta para el foro estilo es necesaria para ser seleccionado como 'actualización'.
             </description>
             <default>list</default>
             <default>webzine</default>
