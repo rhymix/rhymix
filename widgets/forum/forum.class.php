@@ -50,14 +50,14 @@
                 $last_args = null;
                 $last_args->module_srl = $module->module_srl;
                 $output = executeQuery('widgets.forum.getLatestComments', $last_args);
-                if(is_array($output->data)) $last_comment = array_pop($output->data);
+                if($output->data && is_array($output->data)) $last_comment = array_pop($output->data);
 
                 // 최근 등록된 글의 정보
                 $last_document = null;
                 $last_args = null;
                 $last_args->module_srl = $module->module_srl;
                 $output = executeQuery('widgets.forum.getLatestDocuments', $last_args);
-                if(is_array($output->data)) $last_document = array_pop($output->data);
+                if($output->data && is_array($output->data)) $last_document = array_pop($output->data);
 
                 $last_item = null;
                 if($last_comment && $last_document) {
@@ -78,8 +78,10 @@
             $total_documents_args->module_srls = implode(',',$module_srls);
 
             $total_documents_output = executeQueryArray('widgets.forum.getTotalDocuments',$total_documents_args);
-            foreach($total_documents_output->data as $val) {
-                $modules[$val->module_srl]->document_count = $val->count;
+            if($total_documents_output->data) {
+                foreach($total_documents_output->data as $val) {
+                    $modules[$val->module_srl]->document_count = $val->count;
+                }
             }
 
             // 각 모듈별 댓글 수를 구함
@@ -87,8 +89,10 @@
             $total_comments_args->module_srls = implode(',',$module_srls);
 
             $total_comments_output = executeQueryArray('widgets.forum.getTotalComments',$total_comments_args);
-            foreach($total_comments_output->data as $val) {
-                $modules[$val->module_srl]->comment_count = $val->count;
+            if($total_comments_output->data) {
+                foreach($total_comments_output->data as $val) {
+                    $modules[$val->module_srl]->comment_count = $val->count;
+                }
             }
 
             $widget_info->title = $title;
