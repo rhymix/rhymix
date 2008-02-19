@@ -46,8 +46,8 @@
     $lang->enable_join = 'Allow Member Join';
     $lang->limit_day = 'Temporary Limit Date';
     $lang->limit_date = 'Limit Date';
-    $lang->after_login_url = '로그인 후 이동할 URL';
-    $lang->after_logout_url = '로그아웃 후 이동할 URL';
+    $lang->after_login_url = 'URL after login';
+    $lang->after_logout_url = 'URL after logout';
     $lang->redirect_url = 'URL after Join';
     $lang->agreement = 'Member Join Agreement';
     $lang->accept_agreement = 'Agree';
@@ -62,7 +62,7 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use auto-login in PC room, school, or other commons areas where your private information could be stolen.';
     $lang->about_webmaster_name = "Please input webmaster's name which will be used for authentication mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
@@ -185,8 +185,8 @@
     $lang->about_enable_join = 'Allow users to sign up';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
-    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
-    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
+    $lang->about_after_logout_url = 'You can set URL after logout. Blank means current page.';
     $lang->about_redirect_url = 'Please input URL where users will go after sign up. When this is empty, it will be set as the previous page of sign up page.';
     $lang->about_agreement = "Sign up agreement will only be displayed when it's not empty";
 
