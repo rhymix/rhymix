@@ -503,9 +503,10 @@
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
+            $oFileModel = &getModel('file');
+
             if($upload_target_srl) {
                 // file의 Model객체 생성
-                $oFileModel = &getModel('file');
 
                 // 첨부파일 목록을 구함
                 $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
