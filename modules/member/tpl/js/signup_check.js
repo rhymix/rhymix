@@ -59,9 +59,7 @@ function completeMemberCheckValue(ret_obj, response_tags, e) {
     if(! (dummy = xGetElementById(dummy_id)) ) {
         dummy = xCreateElement('DIV');
         dummy.id = dummy_id;
-        dummy.style.display = "none";
-        dummy.style.clear = 'both';
-        dummy.style.marginTop = '10px';
+        dummy.className = "checkValue";
         obj.parentNode.insertBefore(dummy, obj.lastChild);
     }
 

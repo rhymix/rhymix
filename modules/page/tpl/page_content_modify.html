@@ -1,13 +1,19 @@
 <!--%import("filter/insert_page_content.xml")-->
 <!--%import("js/page_admin.js")-->
 <!--%import("css/page.css")-->
+
+<!--%import("../../widget/tpl/js/widget.js")-->
+<!--%import("../../widget/tpl/css/widget.css")-->
+
 <div class="clear"></div>
 <div id="zonePageContent">{$page_content}</div>
 <div class="clear"></div>
 <div class="adminLayer">
-    <form action="./" id="pageFo" onsubmit="return doSubmitPageContent(this);">
+    <form action="./" method="post" id="pageFo" onsubmit="return doSubmitPageContent(this);">
+        <input type="hidden" name="module" value="page" />
+        <input type="hidden" name="act" value="dispPageAdminContentModify" />
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-        <input type="hidden" name="content" value="" />
+        <input type="hidden" name="content" value="{htmlspecialchars($content)}" />
 
         <div class="tCenter">
             <select name="widget_list">
@@ -19,9 +25,10 @@
             <span class="button"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->module_srl}'); return false;" /></span>
             <span class="button"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
         </div>
+
         <div class="tRight">
             <span class="button"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
-            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('act','');return false;"/></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('mid','{$module_info->mid}').setQuery('act','');return false;"/></span>
             <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
         </div>
     </form>
@@ -32,3 +39,4 @@
     xAddEventListener(window,"load",function() { doStartPageModify('zonePageContent', '{$module_info->module_srl}'); });
 </script>
 
+<!--#include("../../widget/tpl/widget_layer.html")-->

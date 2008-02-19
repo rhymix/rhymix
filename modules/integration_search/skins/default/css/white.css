@@ -1,5 +1,5 @@
 @charset "utf-8";
-#spot { border:8px solid #cecece; width:754px; height:64px; position:relative; margin:0 -15px 30px 0;}
+#spot { border:8px solid #cecece; height:64px; position:relative; margin-bottom:30px;}
 #spot h2 { position:absolute; top:24px; left:-8px;}
 #spot .search { text-align:center; position:relative; top:22px;}
 #spot .search * { vertical-align:middle;}
@@ -8,8 +8,7 @@
 #spot .search .submit {}
 
 #content { width:100%; overflow:hidden; position:relative;}
-#content h3.result { width:100%; height:23px; border-bottom:1px solid #cecece; _margin-top:-2px; margin-bottom:23px; margin-left:15px;}
-*:first-child+html #content h3.result { margin-top:-2px;}
+#content h3.result { width:100%; height:23px; border-bottom:1px solid #cecece; margin-bottom:23px; margin-left:15px;}
 #content h3.result strong { color:#ff1a00;}
 #content .sortBy { position:absolute; top:0; right:0; overflow:hidden;}
 #content .sortBy li { list-style:none; float:left; padding:0 6px; position:relative; right:-6px; background:url(../images/white/vrType2.gif) no-repeat right 1px;}
@@ -19,7 +18,7 @@
 .searchResult { margin-left:15px;}
 .searchResult li { width:100%; margin-bottom:29px; clear:both; overflow:hidden;list-style:none; }
 .searchResult li .thumb { display:block; float:left; margin-right:14px;}
-.searchResult li dl {}
+.searchResult li dl { margin:0; }
 .searchResult li dl dt { color:#d8d8d8; margin-bottom:1px;}
 .searchResult li dl dt a { color:#1a3588; text-decoration:underline;}
 .searchResult li dl dt .reply { color:#fe6700; font:.9em Tahoma;}

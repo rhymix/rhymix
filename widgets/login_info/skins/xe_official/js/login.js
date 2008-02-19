@@ -1,17 +1,12 @@
 /* 로그인 영역에 포커스 */
 function doFocusUserId(fo_id) {
+    if(xScrollTop()) return;
     var fo_obj = xGetElementById(fo_id);
-    if(xGetCookie('user_id')) {
-        fo_obj.user_id.value = xGetCookie('user_id');
-        fo_obj.remember_user_id.checked = true;
+    if(fo_obj.user_id) {
+        try{
+            fo_obj.user_id.focus();
+        } catch(e) {};
     }
-
-    try {
-        if(xScrollTop()) return;
-
-        if(fo_obj.user_id.value) fo_obj.password.focus();
-        else fo_obj.user_id.focus();
-    } catch(e) { }
 }
 
 /* 로그인 후 */

@@ -17,7 +17,7 @@
         <description xml:lang="zh-CN">对会员进行管理及相关设置的模块。</description>
         <description xml:lang="jp">会員管理及び会員関連設定などを行うモジュールです。</description>
         <description xml:lang="en">This module is for managing or configuring members.</description>
-		<description xml:lang="en">Este módulo es para el manejo y la configuración de los usuarios.</description>
+		<description xml:lang="es">Este módulo es para el manejo y la configuración de los usuarios.</description>
         <description xml:lang="ru">Этот модуль служит для управления и конфигурирования пользователей.</description>
     </author>
 </module>

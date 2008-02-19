@@ -36,12 +36,12 @@
 		<!--GNB-->
 		<ul id="gnb">
             <!-- main_menu 1차 시작 -->
-            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['text'])-->
+            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['link'])-->
                 <!--@if($val['selected'])-->
                     {@ $menu_1st = $val }
                 <!--@end-->
 
-                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
 
             <!--@end--><!--@end-->
             <!-- main_menu 1차 끝 -->
@@ -51,31 +51,7 @@
 		<form action="{getUrl()}" method="post" id="isSearch">
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="act" value="IS" />
-
-			<input name="search_target" type="radio" value="title" id="search_target" class="searchOrder" checked="checked" title="search option" />
-			<label for="search_target" class="checked" id="search_target_label" onclick="showHide('selectOrder'); return false">{$lang->title}</label>
-			<ul id="selectOrder">
-				<li>
-					<input type="radio" name="search_target" value="title" id="search_target1" />
-					<label for="search_target1" onclick="chkIsKind(1, '{$lang->title}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}</label>
-				</li>
-				<li>
-					<input type="radio" name="search_target" value="content" id="search_target2" />
-					<label for="search_target2" onclick="chkIsKind(2, '{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->content}</label>
-				</li>
-				<li>
-					<input type="radio" name="search_target" value="title_content" id="search_target3" />
-					<label for="search_target3" onclick="chkIsKind(3, '{$lang->title}+{$lang->content}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->title}+{$lang->content}</label>
-				</li>
-				<li>
-					<input type="radio" name="search_target" value="comment" id="search_target4" />
-					<label for="search_target4" onclick="chkIsKind(4, '{$lang->comment}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->comment}</label>
-				</li>
-				<li>
-					<input type="radio" name="search_target" value="tag" id="search_target5" />
-					<label for="search_target5" onclick="chkIsKind(5, '{$lang->tag}'); return false;" onmouseover="this.className='on'" onmouseout="this.style.background='none'">{$lang->tag}</label>
-				</li>
-			</ul>
+            <input type="hidden" name="search_target" value="title_content" />
 			<input name="is_keyword" type="text" class="inputText" title="keyword" />
 
 			<input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
@@ -94,14 +70,14 @@
             <!--@if($menu_1st)-->
 			<ol id="lnb">
                 {@ $idx = 1 }
-                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['text'])-->
-				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a>
+                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['link'])-->
+				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
 
                     <!-- main_menu 3차 시작 -->
-                    <!--@if($val['list'])-->
+                    <!--@if($val['list'] && ($val['expand']=='Y'||$val['selected']) )-->
 					<ul>
-                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['text'])-->
-						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['text']}</a></li>
+                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['link'])-->
+						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
                     <!--@end--><!--@end-->
 					</ul>
                     <!--@end-->
@@ -127,7 +103,7 @@
 		</li>
 
         <!--@foreach($bottom_menu->list as $key => $val)-->
-		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></li>
+		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
         <!--@end-->
 	</ul>
 </div>

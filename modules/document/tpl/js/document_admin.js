@@ -60,12 +60,19 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
     var category_list = categories.split("\n");
     for(var i=0;i<category_list.length;i++) {
         var item = category_list[i];
+
         var pos = item.indexOf(',');
         var category_srl = item.substr(0,pos);
+
+        var item = item.substr(pos+1, item.length);
+        var pos = item.indexOf(',');
+        var depth = item.substr(0,pos);
+
         var category_title = item.substr(pos+1,item.length);
         if(!category_srl || !category_title) continue;
 
         var opt = new Option(category_title, category_srl, false, false);
+        if(depth>0) opt.style.paddingLeft = (depth*15)+'px';
         obj.options[obj.options.length] = opt;
     }
 }

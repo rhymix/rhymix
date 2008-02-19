@@ -11,6 +11,7 @@
     $lang->default_group_1 = "Associate Member";
     $lang->default_group_2 = "Regular Member";
     $lang->admin_group = "Managing Group";
+    $lang->keep_signed = 'Keep me signed in';
     $lang->remember_user_id = 'Save ID';
     $lang->already_logged = "You're already logged on";
     $lang->denied_user_id = 'Entered ID is prohibited.';
@@ -45,6 +46,8 @@
     $lang->enable_join = 'Allow Member Join';
     $lang->limit_day = 'Temporary Limit Date';
     $lang->limit_date = 'Limit Date';
+    $lang->after_login_url = '로그인 후 이동할 URL';
+    $lang->after_logout_url = '로그아웃 후 이동할 URL';
     $lang->redirect_url = 'URL after Join';
     $lang->agreement = 'Member Join Agreement';
     $lang->accept_agreement = 'Agree';
@@ -59,6 +62,7 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
     $lang->about_webmaster_name = "Please input webmaster's name which will be used for authentication mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
@@ -143,6 +147,7 @@
     $lang->msg_allow_message_to_friend = "Failed to send because receiver only allows friends' messages";
     $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
     $lang->msg_insert_group_name = 'Please input name of group';
+    $lang->msg_check_group = 'Please select the group';
 
     $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
@@ -180,6 +185,8 @@
     $lang->about_enable_join = 'Allow users to sign up';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
+    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = 'Please input URL where users will go after sign up. When this is empty, it will be set as the previous page of sign up page.';
     $lang->about_agreement = "Sign up agreement will only be displayed when it's not empty";
 

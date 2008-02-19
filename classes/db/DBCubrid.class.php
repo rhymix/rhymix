@@ -415,7 +415,7 @@
         function _executeInsertAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$key.'"';
+                $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
             // 컬럼 정리 
@@ -456,7 +456,7 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = "\"".$this->prefix.$key."\" as ".$val;
+                $table_list[] = "\"".$this->prefix.$val."\" as ".$key;
             }
 
             // 컬럼 정리 
@@ -503,7 +503,7 @@
         function _executeDeleteAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$key.'"';
+                $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
             // 조건절 정리
@@ -524,7 +524,7 @@
             // 테이블 정리
             $table_list = array();
             foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$key.'" as '.$val;
+                $table_list[] = '"'.$this->prefix.$val.'" as '.$key;
             }
 
             if(!$output->columns) {
@@ -573,16 +573,16 @@
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
-                  $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
+                  $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                 }
                 else {
                   if (count($output->groups))
-                    $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count, $list_count);
+                    $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                   else {
                     if ($condition)
-                      $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count, $list_count);
+                      $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                     else 
-                      $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count, $list_count);
+                      $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                   }
                 }
 
@@ -668,9 +668,13 @@
 
             // 전체 개수를 구함
             $count_query = sprintf('select count(*) as "count" from %s %s', implode(',',$table_list), $condition);
-            $result = $this->_query($count_query);
-            $count_output = $this->_fetch($result);
-            $total_count = (int)$count_output->count;
+            $total_count = $this->getCountCache($output->tables, $condition);
+            if($total_count === false) {
+                $result = $this->_query($count_query);
+                $count_output = $this->_fetch($result);
+                $total_count = (int)$count_output->count;
+                $this->putCountCache($output->tables, $condition, $total_count);
+            }
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -696,16 +700,16 @@
                 $index_list[] = sprintf('%s %s', $val[0], $val[1]);
               }
               if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
-              $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count, $list_count);
+              $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
             }
             else {
               if (count($output->groups))
-                $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count, $list_count);
+                $query = sprintf('%s having groupby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
               else {
                 if ($condition)
-                  $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count, $list_count);
+                  $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                 else 
-                  $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count, $list_count);
+                  $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
               }
             }
 

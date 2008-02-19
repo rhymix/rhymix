@@ -28,6 +28,24 @@
     $lang->cmd_disable = "Inactive";
     $lang->cmd_enable = "Active";
 
+    $lang->editor_skin = 'Editor Skin';
+    $lang->upload_file_grant = 'Permission for uploading'; 
+    $lang->enable_default_component_grant = 'Permission of using default components';
+    $lang->enable_component_grant = 'Permission of using components';
+    $lang->enable_html_grant = 'Permission of using HTML';
+    $lang->enable_autosave = 'Use auto-save';
+    $lang->height_resizable = 'Height Resizable';
+    $lang->editor_height = 'Height of Editor';
+
+    $lang->about_editor_skin = 'You may select the skin of editor.';
+    $lang->about_upload_file_grant = 'You may set the permission of file attaching. (Everyone would have permission if nothing checked)';
+    $lang->about_default_component_grant = 'You may set the permission of using default components of editor. (Everyone would have permission if nothing checked)';
+    $lang->about_component_grant = 'You may set the permission of using expanded components of editor. (Everyone would have permission if nothing checked)';
+    $lang->about_editor_height = 'You may set the height of editor.';
+    $lang->about_editor_height_resizable = 'Permit to resize the height of editor.';
+    $lang->about_enable_html_grant = 'You may give the permission of using HTML';
+    $lang->about_enable_autosave = 'You may enable the auto-save function while writing articles.';
+
     $lang->edit->fontname = 'Font';
     $lang->edit->fontsize = 'Size';
     $lang->edit->use_paragraph = 'Paragraph Function';

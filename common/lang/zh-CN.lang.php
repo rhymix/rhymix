@@ -60,6 +60,8 @@
     $lang->cmd_reset = '初始化';
     $lang->cmd_remake_cache = "重新生成缓冲文件";
     $lang->cmd_publish = "发表";
+    $lang->cmd_layout_setup = '布局设置';
+    $lang->cmd_layout_edit = '编辑布局';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -124,6 +126,7 @@
     $lang->document_count = '帖子数';
     $lang->page_count = '页数';
     $lang->list_count = '目录数';
+    $lang->search_list_count = '搜索目录';
     $lang->readed_count = '查看';
     $lang->voted_count = '推荐';
     $lang->member_count = '会员数';
@@ -148,6 +151,9 @@
     $lang->use = '使用';
     $lang->notuse = '未使用';
     $lang->not_exists = '无';
+
+    $lang->public = 'public';
+    $lang->private = 'private';
 
     $lang->unit_sec = '秒';
     $lang->unit_min = '分';

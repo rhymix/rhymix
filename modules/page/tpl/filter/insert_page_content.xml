@@ -10,6 +10,7 @@
     <response callback_func="completeInsertPageContent">
         <tag name="error" />
         <tag name="message" />
+        <tag name="mid" />
         <tag name="module_srl" />
         <tag name="page" />
     </response>

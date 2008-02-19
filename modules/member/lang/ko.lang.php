@@ -8,9 +8,10 @@
     $lang->member = '회원';
     $lang->member_default_info = '기본 정보';
     $lang->member_extend_info = '추가 정보';
-    $lang->default_group_1 = "준회원";
-    $lang->default_group_2 = "정회원";
-    $lang->admin_group = "관리그룹";
+    $lang->default_group_1 = '준회원';
+    $lang->default_group_2 = '정회원';
+    $lang->admin_group = '관리그룹';
+    $lang->keep_signed = '로그인 유지';
     $lang->remember_user_id = '아이디 저장';
     $lang->already_logged = '이미 로그인되어 있습니다';
     $lang->denied_user_id = '사용금지된 아이디입니다';
@@ -46,6 +47,8 @@
     $lang->enable_join = '회원 가입 허가';
     $lang->limit_day = '임시 제한 일자';
     $lang->limit_date = '제한일';
+    $lang->after_login_url = '로그인 후 이동할 URL';
+    $lang->after_logout_url = '로그아웃 후 이동할 URL';
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
     $lang->accept_agreement = '약관동의';
@@ -60,6 +63,7 @@
     $lang->webmaster_name = '웹마스터 이름';
     $lang->webmaster_email = '웹마스터 메일주소';
 
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
     $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
     $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
 
@@ -144,6 +148,7 @@
     $lang->msg_allow_message_to_friend = '친구에게만 쪽지 수신을 허용한 사용자라서 쪽지 발송을 하지 못했습니다';
     $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다';
     $lang->msg_insert_group_name = '그룹명을 입력해 주세요';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_profile_image = '프로필 이미지를 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
@@ -181,6 +186,8 @@
     $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
     $lang->about_limit_day = '회원 가입후 정해진 일자동안 인증 제한을 할 수 있습니다';
     $lang->about_limit_date = '지정된 일자까지 해당 사용자는 로그인을 할 수 없습니다';
+    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = '회원 가입후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다';
     $lang->about_agreement = '회원가입약관이 없을 경우 표시되지 않습니다';
 

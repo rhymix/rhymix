@@ -2,7 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">레인보우 링크 애드온</title>
   <title xml:lang="zh-CN">Rainbow 链接</title>
-  <title xml:lang="en">Addon for rainbow links</title>
+  <title xml:lang="en">Rainbow Link Addon</title>
   <title xml:lang="es">Adición Enlace Arco Iris</title>
   <title xml:lang="jp">レインボーリンクアドオン</title>
   <title xml:lang="ru">Аддон для радужных ссылок</title>
@@ -22,7 +22,7 @@
         此插件的rainbow.js文件版权属于 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;
     </description>
     <description xml:lang="en">
-        This addon adds a file named &quot;rainbow.js&quot; to headers, then linked text will get chameleon(rainbow) color change effect.
+        This addon will insert the &quot;rainbow.js&quot; file to the header, which will make the linked text to get the chameleon(rainbow) color change effect.
         &quot;rainbow.js&quot; Copyrightⓒ2007 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;.
     </description>
     <description xml:lang="es">

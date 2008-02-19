@@ -183,7 +183,7 @@
                 $member_srl = $source_list[$i]->member_srl;
 
                 // OL/LI 태그를 위한 치환 처리
-                $source_list[$i]->content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$source_list[$i]->content);
+                //$source_list[$i]->content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$source_list[$i]->content);
 
                 // url에 대해서 정규표현식으로 치환
                 $source_list[$i]->content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$source_list[$i]->content);
@@ -208,7 +208,7 @@
         /**
          * @brief 댓글을 계층형으로 재배치
          **/
-        function _arrangeComment(&$comment_list, $list, $depth) {
+        function _arrangeComment(&$comment_list, $list, $depth, $set_grant = false) {
             if(!count($list)) return;
             foreach($list as $key => $val) {
                 $oCommentItem = new commentItem();
@@ -219,13 +219,17 @@
                     $oCommentItem->setAttribute($tmp);
 
                     $comment_list[$tmp->comment_srl] = $oCommentItem;
-                    $this->_arrangeComment($comment_list,$val->child,$depth+1);
+                    if($set_grant) $oCommentItem->setAccessible();
+
+                    $this->_arrangeComment($comment_list,$val->child,$depth+1, $oCommentItem->isGranted());
                 } else {
                     $val->depth = $depth;
                     $oCommentItem->setAttribute($val);
 
+                    if($set_grant) $oCommentItem->setAccessible();
                     $comment_list[$val->comment_srl] = $oCommentItem;
                 }
+
             }
         }
 

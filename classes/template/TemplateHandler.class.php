@@ -38,7 +38,7 @@
             if(__DEBUG__==3 ) $start = getMicroTime();
 
             // 변수 체크
-            $tpl_path = ereg_replace('(\/+)$', '', $tpl_path).'/';
+            if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
             if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
 
             // tpl_file 변수 생성
@@ -104,13 +104,13 @@
             //$buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
-            $buff = preg_replace_callback('!(img|input)([^>]*)src=[\'"]{1}(.*?)[\'"]{1}!is', array($this, '_compileImgPath'), $buff);
+            $buff = preg_replace_callback('/(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
-            $buff = preg_replace_callback('/\{[^@^ ]([^\}]+)\}/i', array($this, '_compileVarToContext'), $buff);
+            $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
 
             // 결과를 출력하지 않는 구문 변경
-            $buff = preg_replace_callback('/\{\@([^\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
+            $buff = preg_replace_callback('/\{\@([^\{\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
 
             // <!--@, --> 의 변경
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
@@ -145,7 +145,7 @@
             $str1 = $matches[0];
             $str2 = $path = $matches[3];
 
-            if(!eregi("^([a-z0-9\_\.])",$path)) return $str1;
+            if(!preg_match('/^([a-z0-9\_\.])/i',$path)) return $str1;
 
             $path = preg_replace('/^(\.\/|\/)/','',$path);
             $path = '<?php echo $this->tpl_path?>'.$path;
@@ -205,7 +205,7 @@
             $tmp_arr = explode("/", $arg);
             for($i=0;$i<count($tmp_arr);$i++) {
                 $item1 = trim($tmp_arr[$i]);
-                if($item1=='.'||eregi("\.html$",$item1)) continue;
+                if($item1=='.'||substr($item1,-5)=='.html') continue;
 
                 $tmp2_arr = explode(".",$item1);
                 for($j=0;$j<count($tmp2_arr);$j++) {
@@ -260,7 +260,7 @@
             if(!$given_file) return;
 
             // given_file이 lang으로 끝나게 되면 언어팩을 읽도록 함
-            if(ereg('lang$', $given_file)) {
+            if(substr($given_file, -4)=='lang') {
                 if(substr($given_file,0,2)=='./') $given_file = substr($given_file, 2);
                 $lang_dir = sprintf('%s%s', $this->tpl_path, $given_file);
                 if(is_dir($lang_dir)) $output = sprintf('<?php Context::loadLang("%s"); ?>', $lang_dir);
@@ -343,10 +343,7 @@
                 @include($compiled_tpl_file);
             }
 
-            $output = ob_get_contents();
-            ob_end_clean();
-
-            return $output;
+            return ob_get_clean();
         }
     }
 ?>

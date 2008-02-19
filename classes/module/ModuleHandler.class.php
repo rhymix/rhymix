@@ -57,9 +57,9 @@
             else $this->module_srl = (int)$module_srl;
 
             // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
-            if($this->module && !eregi("^([a-z0-9\_\-]+)$",$this->module)) die(Context::getLang("msg_invalid_request"));
-            if($this->mid && !eregi("^([a-z0-9\_\-]+)$",$this->mid)) die(Context::getLang("msg_invalid_request"));
-            if($this->act && !eregi("^([a-z0-9\_\-]+)$",$this->act)) die(Context::getLang("msg_invalid_request"));
+            if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
+            if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) die(Context::getLang("msg_invalid_request"));
+            if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->act)) die(Context::getLang("msg_invalid_request"));
 
             // 애드온 실행 (모듈 실행 전)
             $called_position = 'before_module_init';
@@ -73,7 +73,7 @@
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
-            // document_srl이 있으면 document_srl로 모듈과 모듈 정보를 구함
+            // document_srl만 있을 경우 document_srl로 모듈과 모듈 정보를 구함
             if($this->document_srl && !$this->mid && !$this->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
                 if($this->module && $module_info->module != $this->module) unset($module_info);
@@ -101,6 +101,10 @@
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
             }
+
+            // 모듈정보에 module과 mid를 강제로 지정
+            $this->module_info->module = $this->module;
+            $this->mid = $this->mid;
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
             if(!$this->module) $this->error = 'msg_module_is_not_exists';
@@ -142,14 +146,6 @@
                 $this->error = 'msg_module_is_not_exists';
                 return;
             }
-
-            // 설정된 mid가 없을 경우 요청된 act의 standalone 여부 체크
-            /*
-            if(!$this->mid && !$xml_info->action->{$this->act}->standalone) {
-                $this->error = 'msg_module_is_not_standalone';
-                return;
-            }
-            */
 
             // type, grant 값 구함
             $type = $xml_info->action->{$this->act}->type;
@@ -206,6 +202,7 @@
 
             // 해당 모듈에 layout_srl이 있는지 확인
             if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
+
                 // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
                 $oLayoutModel = &getModel('layout');
                 $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);

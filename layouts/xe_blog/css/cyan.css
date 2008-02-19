@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+.boxTypeB { position:relative; border:1px solid #e0e1db; background:url(../images/cyan/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em;}
+#bodyWrap #header #globalNavigation li.on a { color:#2895c0;}
+
+#bodyWrap #accountNavigation li { float:left; margin-right:-1px; background:url(../images/cyan/blogHeaderVr.gif) no-repeat right center;}
+#bodyWrap #header { clear:both; height:9.5em; margin:10px 10px .5em 10px; border:1px solid #e0e1dc; border-bottom:none; background:#fbfbfb url(../images/cyan/blogHeaderLine.gif) no-repeat left bottom; overflow:hidden;}
+
+/* account Navigation */
+#blogAccountNavigation li.join a { background:url(../images/cyan/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+#blogAccountNavigation li.myInfo a { background:url(../images/cyan/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+
+/* widget common css */
+.blog_widget_ { position:relative; border:1px solid #e0e1db; background:url(../images/cyan/bgBoxTypeB.gif) repeat-x left top; margin-bottom:.7em; }

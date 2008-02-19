@@ -5,15 +5,15 @@
      * @brief  Menu module's basic language pack
      **/
 
-    $lang->cmd_menu_insert = 'Create menu';
-    $lang->cmd_menu_management = 'Menu management';
+    $lang->cmd_menu_insert = 'Create Menu';
+    $lang->cmd_menu_management = 'Menu Management';
 
     $lang->menu = 'Menu'; 
     $lang->menu_count = 'No. of menu';
-    $lang->menu_management = 'Menu management';
+    $lang->menu_management = 'Menu Management';
     $lang->depth = 'Step';
     $lang->parent_menu_name = 'Parent menu name';
-    $lang->menu_name = 'Menu name';
+    $lang->menu_name = 'Menu Name';
     $lang->menu_srl = 'Menu SRL';
     $lang->menu_id = 'Menu ID';
     $lang->menu_url = 'Menu URL';
@@ -23,20 +23,20 @@
     $lang->menu_normal_btn = 'Normal';
     $lang->menu_hover_btn = 'Mouse over';
     $lang->menu_active_btn = 'When selected';
-    $lang->menu_group_srls = 'Accessable groups';
-    $lang->layout_maker = "Layout maker";
-    $lang->layout_history = "Update history ";
-    $lang->layout_info = "Layout info";
-    $lang->layout_list = 'Layout list';
-    $lang->downloaded_list = 'Downloaded list';
-    $lang->limit_menu_depth = 'Display enabled';
+    $lang->menu_group_srls = 'Accessable Groups';
+    $lang->layout_maker = "Layout Maker";
+    $lang->layout_history = "Update History ";
+    $lang->layout_info = "Layout Info";
+    $lang->layout_list = 'Layout List';
+    $lang->downloaded_list = 'Download List';
+    $lang->limit_menu_depth = 'Display Eenabled';
 
     $lang->cmd_make_child = 'Add a child menu';
     $lang->cmd_move_to_installed_list = "View created lists";
     $lang->cmd_enable_move_menu = "Move menu (Drag the top menu after selecting)";
     $lang->cmd_search_mid = "Search mid";
 
-    $lang->msg_cannot_delete_for_child = 'Cannot delete a menu having a child menu.';
+    $lang->msg_cannot_delete_for_child = 'A menu with child menus cannot be deleted.';
 
     $lang->about_title = 'Please input the title that is easy to verify when connecting to module.';
     $lang->about_menu_management = "Menu management enables you to consist menu in the selected layout.\nYou can create menu upto setted depth and can enter information in details by clicking the menu.\nMenu will be expanded by cliking the folder image.\nIf menu is not shown normally, refresh the information by clicking the button \"Re-create cache file\".\n* Menu created over the depth limit may not be shown properly.";
@@ -48,4 +48,6 @@
     $lang->about_menu_group_srls = 'If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be shown.)';
 
     $lang->about_menu = "Menu module will help you to create a complete site through the convenient menu management which arranges created modules and links to layouts without any manual works..\nMenu is not a site manager, but it just has information which can link to modules and layouts so you can express different types of menu.";
+
+    $lang->alert_image_only = "Only image files can be registered.";
 ?>

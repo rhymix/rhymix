@@ -80,7 +80,7 @@
                 list($lang_prefix, $lang_text) = explode(',',$val);
                 $lang_text = trim($lang_text);
                 $lang_supported[$lang_prefix] = $lang_text;
-                if(!$this->lang_type && ereg($lang_prefix, strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+                if(!$this->lang_type && preg_match('/'.$lang_prefix.'/i',$_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                     $this->lang_type = $lang_prefix;
                     setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
                 }
@@ -106,10 +106,20 @@
             $this->_setUploadedArgument();
 
             // 인증관련 데이터를 Context에 설정
-            $oMember = getModel('member');
-            if($oMember->isLogged()) {
+            $oMemberModel = &getModel('member');
+
+            // 로그인되어 있지 않고 자동로그인 키값이 있으면 자동 로그인 체크
+            if(Context::isInstalled() && !$oMemberModel->isLogged() && $_COOKIE['xeak']) {
+                $oMemberController = &getController('member');
+                $oMemberController->doAutologin();
+            }
+
+            // 로그인되어 있으면 로그인 정보 기록
+            if($oMemberModel->isLogged()) {
                 $this->_set('is_logged', true);
                 $this->_set('logged_info', $_SESSION['logged_info']);
+
+            // 로그인 되어 있지 않으면 먼저 자동 로그인을 체크 비로그인 상태 기록
             } else {
                 $this->_set('is_logged', false);
                 $this->_set('logged_info', NULL);
@@ -504,7 +514,7 @@
          **/
         function _setUploadedArgument() {
             if($this->_getRequestMethod() != 'POST') return;
-            if(!eregi("^multipart\/form-data", $_SERVER['CONTENT_TYPE'])) return;
+            if(!preg_match("/multipart\/form-data/i",$_SERVER['CONTENT_TYPE'])) return;
             if(!$_FILES) return;
 
             foreach($_FILES as $key => $val) {
@@ -575,7 +585,7 @@
                 } elseif($var_count == 2) {
                     asort($var_keys);
                     $target = implode('.',$var_keys);
-                    if($target=='act.mid' && !ereg('([A-Z]+)',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
+                    if($target=='act.mid' && !preg_match('/([A-Z]+)/',$get_vars['act'])) return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['act']);
                     elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$this->path,$get_vars['mid'],$get_vars['document_srl']);
                     elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$this->path,$get_vars['document_srl'],$get_vars['act']);
                     elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$this->path,$get_vars['mid'],$get_vars['page']);
@@ -609,11 +619,7 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri() {
-            $hostname = $_SERVER['HTTP_HOST'];
-            //$port = $_SERVER['SERVER_PORT'];
-            //if($port!=80) $hostname .= ":{$port}";
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
-            return sprintf("http://%s%s",$hostname,$path);
+            return sprintf("http://%s%s",$_SERVER['HTTP_HOST'], getScriptPath());
         }
 
         /**
@@ -717,8 +723,7 @@
          **/
         function _addJsFile($file) {
             if(in_array($file, $this->js_files)) return;
-
-            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = $file;
         }
 
@@ -753,7 +758,7 @@
         function _addCSSFile($file) {
             if(in_array($file, $this->css_files)) return;
 
-            if(!eregi("^http:\/\/",$file)) $file = str_replace(realpath("."), ".", realpath($file));
+            //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = $file;
         }
 
@@ -868,17 +873,8 @@
             // body 내의 <style ..></style>를 header로 이동
             $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
-            // <br> 코드 변환
-            $content = preg_replace('/<br([^>\/]*)(\/>|>)/i','<br$1 />', $content);
-
-            // 몇가지 대문자 태그를 소문자로 변경
-            //$content = preg_replace_callback('!<(\/){0,1}([A-Z]+)([^>]*?)>!s',array($this,'transTagToLowerCase'), $content);
-
-            // <img ...> 코드를 <img ... /> 코드로 변환
-            $content = preg_replace('/<img(.*?)(\/){0,1}>/i','<img$1 />', $content);
-
-            // blogapi tool에서 삽입된 코드 삭제
-            //$content = str_replace('atomicselection="true"','',$content);
+            // <img|br> 코드 변환
+            $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
 
             return $content;
         }
@@ -894,8 +890,8 @@
          * @brief <!--Meta:파일이름.(css|js)-->를 변경
          **/
         function transMeta($matches) {
-            if(eregi('\.css$', $matches[1])) $this->addCSSFile($matches[1]);
-            elseif(eregi('\.js$', $matches[1])) $this->addJSFile($matches[1]);
+            if(substr($matches[1],'-4')=='.css') $this->addCSSFile($matches[1]);
+            elseif(substr($matches[1],'-3')=='.js') $this->addJSFile($matches[1]);
         }
 
         /**

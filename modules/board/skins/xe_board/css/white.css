@@ -11,6 +11,9 @@
 .accountNavigation li.join a { background:url(../images/white/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
 .accountNavigation li.myInfo a { background:url(../images/white/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
 
+/* boardRead */
+.boardRead .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left top;}
+
 /* style.list */
 .boardList th { background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom; }
 .boardList td.recommend { color:#ff6600; }
@@ -18,12 +21,9 @@
 .buttonTypeGo { background:url(../images/white/buttonTypeInput24.gif) no-repeat; }
 
 /* pageNavigation */
-.pageNavigation .current { color:#ff6600; border-right:1px solid #CCCCCC; }
-
-/* boardRead */
-.boardRead .readFooter .fileAttached li a { background:url(../images/white/iconFile.gif) no-repeat left top;}
+.pageNavigation .current { color:#ff6600; }
 
 /* replyAndTrackback */
-.replyAndTrackback { background:url(../images/white/bgBoardListTh.gif) repeat-x left 0px; }
-.replyAndTrackback a strong { color:#ff6600;}
-.replyBox .fileAttached li { border:0px; display:inline; margin-right:.75em; line-height:1.5em; padding:.1em 0 .1em 1.5em; background:url(../images/white/iconFile.gif) no-repeat left;}
+.buttonBox .replyAndTrackback a strong { color:#ff6600;}
+
+.replyBox .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left top;}

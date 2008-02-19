@@ -256,8 +256,8 @@
      * @brief 월이름을 return
      **/
     function getMonthName($month, $short = true) {
-        $short_month = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-        $long_month = array("January","February","March","April","May","June","July","August","September","October","November","December");
+        $short_month = array('','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+        $long_month = array('','January','February','March','April','May','June','July','August','September','October','November','December');
         return !$short?$long_month[$month]:$short_month[$month];
     }
 
@@ -463,4 +463,55 @@
         return sprintf("%08lx%08lx", $nr, $nr2);
     }
 
+    /**
+     * 현재 요청받은 스크립트 경로를 return
+     **/
+    function getScriptPath() {
+        //if(function_exists('php_sapi_name') && php_sapi_name()=='cgi') return preg_replace('/index.php/i','',$_SERVER['PATH_INFO']);
+        return preg_replace('/index.php/i','',$_SERVER['SCRIPT_NAME']);
+    }
+
+    /** 
+     * javascript의 escape의 php unescape 함수
+     * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8). 
+     * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
+     **/
+    function utf8RawUrlDecode ($source) {
+        $decodedStr = "";
+        $pos = 0;
+        $len = strlen ($source);
+        while ($pos < $len) {
+            $charAt = substr ($source, $pos, 1);
+            if ($charAt == '%') {
+                $pos++;
+                $charAt = substr ($source, $pos, 1);
+                if ($charAt == 'u') {
+                    // we got a unicode character
+                    $pos++;
+                    $unicodeHexVal = substr ($source, $pos, 4);
+                    $unicode = hexdec ($unicodeHexVal);
+                    $decodedStr .= _code2utf($unicode);
+                    $pos += 4;
+                }
+                else {
+                    // we have an escaped ascii character
+                    $hexVal = substr ($source, $pos, 2);
+                    $decodedStr .= chr (hexdec ($hexVal));
+                    $pos += 2;
+                }
+            } else {
+                $decodedStr .= $charAt;
+                $pos++;
+            }
+        }
+        return $decodedStr;
+    }
+
+    function _code2utf($num){
+        if($num<128)return chr($num);
+        if($num<2048)return chr(($num>>6)+192).chr(($num&63)+128);
+        if($num<65536)return chr(($num>>12)+224).chr((($num>>6)&63)+128).chr(($num&63)+128);
+        if($num<2097152)return chr(($num>>18)+240).chr((($num>>12)&63)+128).chr((($num>>6)&63)+128) .chr(($num&63)+128);
+        return '';
+    }
 ?>

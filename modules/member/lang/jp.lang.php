@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/member/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -11,6 +11,7 @@
     $lang->default_group_1 = "準会員";
     $lang->default_group_2 = "正会員";
     $lang->admin_group = "管理グループ";
+    $lang->keep_signed = '로그인 유지';
     $lang->remember_user_id = 'ＩＤ保存';
     $lang->already_logged = '既にログインされています。';
     $lang->denied_user_id = '使用が禁じられているＩＤです。';
@@ -41,10 +42,13 @@
     $lang->image_mark = 'イメージマーク';
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
-    $lang->enable_openid = 'OpenID使用';
+    $lang->signature_max_height = '署名欄の高さの制限';
+	$lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
+    $lang->after_login_url = '로그인 후 이동할 URL';
+    $lang->after_logout_url = '로그아웃 후 이동할 URL';
     $lang->redirect_url = '加入後移動ページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
@@ -59,6 +63,7 @@
     $lang->webmaster_name = 'ウェブマスターの名前';
     $lang->webmaster_email = 'ウェブマスターのメール';
 
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
     $lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
@@ -115,8 +120,8 @@
     $lang->msg_cart_is_null = '対象を選択してください。';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
 
-    $lang->msg_find_account_title = 'IDどパスワードの情報';
-    $lang->msg_find_account_info = '要求されたアカウント情報は下記の通りです。';
+    $lang->msg_find_account_title = '会員IDどパスワードの情報';
+    $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。';
     $lang->msg_auth_mail_sended = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
@@ -143,6 +148,7 @@
     $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
+    $lang->msg_check_group = '그룹을 선택해 주세요';
 
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することができません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
@@ -180,12 +186,15 @@
     $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
     $lang->about_limit_day = '会員加入後一定の期間中、認証制限を行うことができます。';
     $lang->about_limit_date = '指定された期間まで該当ユーザはログインできなくします。';
+    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = '会員加入後、移動するＵＲＬを入力してください。空の場合は会員加入する前のページに戻ります。';
     $lang->about_agreement = '会員加入規約がない場合は表示されません。';
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
     $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
+    $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
     $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。'; 
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';

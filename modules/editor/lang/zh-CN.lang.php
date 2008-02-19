@@ -28,6 +28,24 @@
     $lang->cmd_disable = "非激活";
     $lang->cmd_enable = "激活";
 
+    $lang->editor_skin = '编辑器皮肤';
+    $lang->upload_file_grant = '文件上传权限'; 
+    $lang->enable_default_component_grant = '基本组件使用权限';
+    $lang->enable_component_grant = '组件使用权限';
+    $lang->enable_html_grant = 'HTML编辑权限';
+    $lang->enable_autosave = '使用自动保存';
+    $lang->height_resizable = '使用高度调整';
+    $lang->editor_height = '编辑器高度';
+
+    $lang->about_editor_skin = '可以选择编辑器皮肤。';
+    $lang->about_upload_file_grant = '可以设置上传文件的权限。 (全部解除时任何用户都可以上传文件)';
+    $lang->about_default_component_grant = '可以指定在编辑器基本组件的使用权限。 (全部解除时任何用户都可以使用)';
+    $lang->about_component_grant = '可以指定除了基本组件外的扩展组件使用的权限。 (全部解除时任何用户都可以使用)';
+    $lang->about_editor_height = '可以指定编辑器的基本高度。';
+    $lang->about_editor_height_resizable = '允许直接变更编辑器的高度。';
+    $lang->about_enable_html_grant = '用HTML代码编辑的权限。';
+    $lang->about_enable_autosave = '发表主题时激活自动保存内容的功能。';
+
     $lang->edit->fontname = '字体';
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';

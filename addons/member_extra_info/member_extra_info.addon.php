@@ -9,9 +9,6 @@
      * 1. 출력되기 직전 <div class="member_회원번호">....</div> 로 정의가 된 부분을 찾아 회원번호를 구해서 
      *    이미지이름, 이미지마크가 있는지를 확인하여 있으면 내용을 변경해버립니다.
      *
-     * 2. 출력되기 직전 <div class="document_회원번호">...</div>로 정의된 곳을 찾아 글의 내용이라 판단, 
-     *    하단에 서명을 추가합니다.
-     *
      * 3. 새로운 쪽지가 왔을 경우 팝업으로 띄움
      *
      * 4. MemberModel::getMemberMenu 호출시 대상이 회원일 경우 쪽지 보내기 기능 추가합니다.
@@ -26,14 +23,12 @@
      **/
     if($called_position == "before_display_content") {
 
-        // 기본적인 기능이라 MemberController 에 변경 코드가 있음
-        $oMemberController = &getController('member');
+        // 회원 이미지이름/ 마크/ 찾아서 대체할 함수를 담고 있는 파일을 include
+        require_once('./addons/member_extra_info/member_extra_info.lib.php');
 
         // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
-        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', array($oMemberController, 'transImageName'), $output);
+        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', 'memberTransImageName', $output);
 
-        // 2. 출력문서중에 <!--AfterDocument(문서번호,회원번호)--> 를 찾아서 member_controller::transSignature()를 이용해서 서명을 추가
-        $output = preg_replace_callback('/<!--AfterDocument\(([0-9]+),([0-9]+)\)-->/i', array($oMemberController, 'transSignature'), $output);
 
     /**
      * 3 기능 수행 : 시작할때 새쪽지가 왔는지 검사
@@ -90,9 +85,12 @@
             // 대상 회원의 정보를 가져옴
             $target_member_info = $this->getMemberInfoByMemberSrl($member_srl); 
             if(!$target_member_info->member_srl) return;
+
+            // 로그인된 사용자 정보를 구함
+            $logged_info = Context::get('logged_info');
             
             // 4. 쪽지 발송 메뉴를 만듬
-            if( $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
+            if( $logged_info->is_admin == 'Y' || $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $this->isFriend($member_srl))) {
                 $menu_str = Context::getLang('cmd_send_message');
                 $menu_link = sprintf('%s?module=member&amp;act=dispMemberSendMessage&amp;receiver_srl=%s',Context::getRequestUri(),$member_srl);
                 $menu_list .= sprintf("\n%s,%s,popopen('%s','sendMessage')", Context::getRequestUri().'/modules/member/tpl/images/icon_write_message.gif', $menu_str, $menu_link);

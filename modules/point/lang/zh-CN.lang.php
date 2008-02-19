@@ -34,6 +34,9 @@
     $lang->cmd_point_recal = '重新计算积分';
     $lang->about_cmd_point_recal = '文章/评论/附件等从新检查后按相应设置从新计算积分。';
 
+    $lang->point_link_group = '그룹 연동';
+    $lang->about_point_link_group = '그룹에 원하는 레벨을 지정하면 해당 레벨에 도달할때 그룹이 변경됩니다. 단 새로운 그룹으로 변경될때 이전에 자동 등록된 그룹은 제거됩니다.';
+
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
     $lang->point_signup = '注册';
@@ -44,6 +47,7 @@
     $lang->point_upload_file = '上传文件';
     $lang->point_delete_file = '删除文件';
     $lang->point_download_file = '下载文件 (图片除外)';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = '基本设置';

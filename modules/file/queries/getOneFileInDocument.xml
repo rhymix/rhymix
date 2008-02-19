@@ -4,7 +4,7 @@
         <table name="documents" alias="documents"/>
     </tables>
     <columns>
-        <column name="documents.*" />
+        <column name="files.upload_target_srl" alias="document_srl"/>
     </columns>
     <conditions>
         <condition operation="in" column="files.module_srl" var="module_srls" notnull="notnull" filter="numbers" />

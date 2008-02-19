@@ -50,29 +50,38 @@
 	    $cDay = Context::get('day');
 
 	    $calendars = array();
-            
-	    foreach($caladdresses as $key => $val)
+           
+	    foreach($caladdresses as $key=>$val)
 	    {
-		$page = $oLifepodModel->getPage($val, $cYear, $cMonth, $cDay);
-		foreach ($page->data as $key => $val)
-		{
-		    if($val->childNodes["date-start"])
+		$shouldGetMore = false;
+		$pageNumber = 1;
+		$page = null;
+		do {
+		    $page = $oLifepodModel->getPage($val, $cYear, $pageNumber);
+		    if(!$page) break;
+		    for($j=0;$j<count($page->data);$j++)
 		    {
-			$val->childNodes["date-start"]->body = $this->dateFormatChange($val->childNodes["date-start"]->body);
+			$data = &$page->data[$j];
+			if($data->childNodes["date-start"])
+			{
+			    $data->childNodes["date-start"]->body = $this->dateFormatChange($data->childNodes["date-start"]->body);
+			}
+
+			if($data->childNodes["date-end"])
+			{
+			    $plus = 0;
+			    if($data->childNodes["type"]->body == "daylong")
+				$plus = -1;
+			    $data->childNodes["date-end"]->body = $this->dateFormatChange($data->childNodes["date-end"]->body, $plus);
+			}
+
+			$data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
+			$data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
+			$data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
 		    }
-
-		    if($val->childNodes["date-end"])
-		    {
-			$plus = 0;
-			if($val->childNodes["type"]->body == "daylong")
-			    $plus = -1;
-			$val->childNodes["date-end"]->body = $this->dateFormatChange($val->childNodes["date-end"]->body, $plus);
-		    }
-
-		    $val->childNodes["description"]->body = str_replace("\n", "<BR />", $val->childNodes["description"]->body);
-		}
-		$calendars[] = $page;
-
+		    $calendars[] = $page;
+		    $pageNumber++;
+		} while ( $page->start + $page->perpage - 1 < $page->total );
 	    }
 
             Context::set('calendars', $calendars);

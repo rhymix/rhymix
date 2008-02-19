@@ -34,6 +34,9 @@
     $lang->cmd_point_recal = '포인트 재계산';
     $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
 
+    $lang->point_link_group = '그룹 연동';
+    $lang->about_point_link_group = '그룹에 원하는 레벨을 지정하면 해당 레벨에 도달할때 그룹이 변경됩니다. 단 새로운 그룹으로 변경될때 이전에 자동 등록된 그룹은 제거됩니다.';
+
     $lang->about_module_point = '모듈별로 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용하게 됩니다<br />모든 점수는 반대 행동을 하였을 경우 원상복귀 됩니다.';
 
     $lang->point_signup = '가입';
@@ -44,6 +47,7 @@
     $lang->point_upload_file = '파일 업로드';
     $lang->point_delete_file = '파일 삭제';
     $lang->point_download_file = '파일 다운로드 (이미지 제외)';
+    $lang->point_read_document = '게시글 조회';
 
 
     $lang->cmd_point_config = '기본 설정';

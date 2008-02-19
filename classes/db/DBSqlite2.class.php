@@ -382,7 +382,7 @@
         function _executeInsertAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = $this->prefix.$key;
+                $table_list[] = $this->prefix.$val;
             }
 
             // 컬럼 정리 
@@ -411,7 +411,7 @@
             // 대상 테이블이 1개일 경우
             if($table_count == 1) {
                 // 테이블 정리
-                list($target_table) = array_keys($output->tables);
+                list($target_table) = array_values($output->tables);
                 $target_table = $this->prefix.$target_table;
 
                 // 컬럼 정리 
@@ -437,7 +437,7 @@
             } elseif($table_count == 2) {
                 // 테이블 정리
                 foreach($output->tables as $key => $val) {
-                    $table_list[$val] = $this->prefix.$val;
+                    $table_list[$val] = $this->prefix.$key;
                 }
                 list($source_table, $target_table) = array_values($table_list);
 
@@ -474,7 +474,7 @@
         function _executeDeleteAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = $this->prefix.$key;
+                $table_list[] = $this->prefix.$val;
             }
 
             // 조건절 정리
@@ -495,7 +495,7 @@
             // 테이블 정리
             $table_list = array();
             foreach($output->tables as $key => $val) {
-                $table_list[] = $this->prefix.$key.' as '.$val;
+                $table_list[] = $this->prefix.$val.' as '.$key;
             }
 
             if(!$output->columns) {
@@ -568,9 +568,13 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
-            $result = $this->_query($count_query);
-            $count_output = $this->_fetch($result);
-            $total_count = (int)$count_output->count;
+            $total_count = $this->getCountCache($output->tables, $condition);
+            if($total_count === false) {
+                $result = $this->_query($count_query);
+                $count_output = $this->_fetch($result);
+                $total_count = (int)$count_output->count;
+                $this->putCountCache($output->tables, $condition, $total_count);
+            }
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;

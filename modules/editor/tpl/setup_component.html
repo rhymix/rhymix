@@ -34,6 +34,16 @@
             </td>
         </tr>
         <!--@end-->
+
+        <tr>
+            <th scope="row">{$lang->grant}</th>
+            <td>
+            <!--@foreach($group_list as $key => $val)-->
+                <div class="fl"><input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> <label for="group_{$key}">{$val->title}</label> &nbsp;</div>
+            <!--@end-->
+            </td>
+        </tr>
+
         </table>
     </div>
 

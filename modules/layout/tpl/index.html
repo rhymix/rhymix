@@ -96,13 +96,7 @@
         <td>
             <a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" class="blue">{$lang->cmd_layout_edit}</a>
         </td>
-        <td>
-            <!--@if(!$val->module_srl)-->
-                <a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" class="red">{$lang->cmd_delete}</a>
-            <!--@else-->
-                &nbsp;
-            <!--@end-->
-        </td>
+        <td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" class="red">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>

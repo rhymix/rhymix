@@ -57,6 +57,7 @@
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
             $this->hostname = $db_info->db_hostname;
+            $this->port = $db_info->db_port;
             $this->userid   = $db_info->db_userid;
             $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;
@@ -70,6 +71,8 @@
         function _connect() {
             // db 정보가 없으면 무시
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+
+            if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
 
             // 접속시도  
             $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
@@ -121,6 +124,7 @@
          **/
         function begin() {
             if(!$this->isConnected() || $this->transaction_started) return;
+            $this->transaction_started = true;
             $this->_query("begin");
         }
 
@@ -405,7 +409,7 @@
         function _executeInsertAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'`';
+                $table_list[] = '`'.$this->prefix.$val.'`';
             }
 
             // 컬럼 정리 
@@ -431,7 +435,7 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
+                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
             }
 
             // 컬럼 정리 
@@ -462,7 +466,7 @@
         function _executeDeleteAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'`';
+                $table_list[] = '`'.$this->prefix.$val.'`';
             }
 
             // 조건절 정리
@@ -483,7 +487,7 @@
             // 테이블 정리
             $table_list = array();
             foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$key.'` as '.$val;
+                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
             }
 
             if(!$output->columns) {
@@ -556,9 +560,13 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
-            $result = $this->_query($count_query);
-            $count_output = $this->_fetch($result);
-            $total_count = (int)$count_output->count;
+            $total_count = $this->getCountCache($output->tables, $condition);
+            if($total_count === false) {
+                $result = $this->_query($count_query);
+                $count_output = $this->_fetch($result);
+                $total_count = (int)$count_output->count;
+                $this->putCountCache($output->tables, $condition, $total_count);
+            }
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;

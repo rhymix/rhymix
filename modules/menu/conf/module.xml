@@ -15,5 +15,8 @@
         <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
         <action name="procMenuAdminMoveItem" type="controller" standalone="true" />
+
+        <action name="procMenuAdminUploadButton" type="controller" standalone="true" />
+        <action name="procMenuAdminDeleteButton" type="controller" standalone="true" />
     </actions>
 </module>

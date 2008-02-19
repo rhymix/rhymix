@@ -119,8 +119,21 @@
             // 파일 업로드
             case 'metaWeblog.newMediaObject' :
                     // 파일 업로드 권한 체크
-                    if(!$this->grant->fileupload) {
-                        printContent( getXmlRpcFailure(1, 'no permission') );
+                    $oFileModel = &getModel('file');
+                    $file_module_config = $oFileModel->getFileModuleConfig($this->module_srl);
+                    if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
+                        $logged_info = Context::get('logged_info');
+                        if($logged_info->is_admin != 'Y') {
+                            $is_permitted = false;
+                            for($i=0;$i<count($file_module_config->download_grant);$i++) {
+                                $group_srl = $file_module_config->download_grant[$i];
+                                if($logged_info->group_list[$group_srl]) {
+                                    $is_permitted = true;
+                                    break;
+                                }
+                            }
+                            if(!$is_permitted) printContent( getXmlRpcFailure(1, 'no permission') );
+                        }
                     }
 
                     $fileinfo = $params[3]->value->struct->member;

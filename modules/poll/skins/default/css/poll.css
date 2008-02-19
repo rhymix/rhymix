@@ -1,5 +1,6 @@
-.poll_table { table-layout:fixed; width:100%; }
+.poll_table { table-layout:fixed; width:100%; padding:0; border:none;}
 
+.poll_table td { padding:0; margin:0; }
 .poll_table td.h { background:url(../images/top_bg.png) repeat-x left top; }
 .poll_table td.title { height:28px; background:url(../images/top_title_bg.png) repeat-x left top; padding:0 20px 0 20px;color:#C3C3C4;}
 .poll_table td.title strong { color:#FFFFFF; font-weight:bold; }

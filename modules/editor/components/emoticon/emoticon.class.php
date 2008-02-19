@@ -18,7 +18,7 @@
         function emoticon($editor_sequence, $component_path) {
             $this->editor_sequence = $editor_sequence;
             $this->component_path = $component_path;
-            $this->emoticon_path = sprintf('%s%s/images',eregi_replace('^\.\/','',$this->component_path),'tpl','images');
+            $this->emoticon_path = sprintf('%s%s/images',preg_replace('/^\.\//i','',$this->component_path),'tpl','images');
         }
 
         /**
@@ -26,7 +26,7 @@
          **/
         function getEmoticonList() {
             $emoticon = Context::get('emoticon');
-            if(!$emoticon || !eregi("^([a-z0-9\_]+)$",$emoticon)) return new Object(-1,'msg_invalid_request');
+            if(!$emoticon || !preg_match("/^([a-z0-9\_]+)$/i",$emoticon)) return new Object(-1,'msg_invalid_request');
 
             $list = $this->getEmoticons($emoticon);
 
@@ -43,7 +43,7 @@
             $oDir = dir($emoticon_path);
             while($file = $oDir->read()) {
                 if(substr($file,0,1)=='.') continue;
-                if(eregi('\.(jpg|jpeg|gif|png)$',$file)) $output[] = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
+                if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) $output[] = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
             }
             $oDir->close();
             if(count($output)) asort($output);
@@ -91,7 +91,7 @@
             if($alt) {
                 $attr_output[] = "alt=\"".$alt."\"";
             }
-            if(eregi("\.png$",$src)) $attr_output[] = "class=\"iePngFix\"";
+            if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
 
             $code = sprintf("<img %s style=\"border:0px\" />", implode(" ",$attr_output));
 

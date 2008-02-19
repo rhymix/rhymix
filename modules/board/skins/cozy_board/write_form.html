@@ -2,7 +2,7 @@
 <!--#include("header.html")-->
 
 <div class="boardWrite bottomBorder">
-    <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" id="fo_write">
+    <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" class="boardEditor" id="fo_write">
         <fieldset class="bottomBorder">
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
@@ -31,7 +31,9 @@
                 <select name="category_srl" >
                     <option value="">{$lang->category}</option>
                     <!--@foreach($category_list as $val)-->
-                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl||$val->category_srl==$oDocument->get('category_srl'))-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                    <option <!--@if(!$val->grant)-->disabled="disabled"<!--@end--> value="{$val->category_srl}" <!--@if($val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl'))-->selected="selected"<!--@end-->>
+                        {str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
+                    </option>
                     <!--@end-->
                 </select>
                 <!--@end-->
@@ -82,7 +84,7 @@
                 <!--@end-->
             </dl>
 
-            <div>{$editor}</div>
+            <div>{$oDocument->getEditor()}</div>
 
             <div class="tag">
                 <label for="tag_input">{$lang->tag}</label>

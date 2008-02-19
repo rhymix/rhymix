@@ -153,7 +153,9 @@
             Context::set('module_info', $this->module_info);
 
             // 내용을 세팅
-            $content = $this->module_info->content;
+            $content = Context::get('content');
+            if(!$content) $content = $this->module_info->content;
+            Context::set('content', $content);
 
             // 내용중 위젯들을 변환
             $oWidgetController = &getController('widget');

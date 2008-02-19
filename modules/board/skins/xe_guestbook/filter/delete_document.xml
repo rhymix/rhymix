@@ -1,0 +1,16 @@
+<filter name="delete_document" module="board" act="procBoardDeleteDocument">
+  <form>
+    <node target="document_srl" required="true" />
+  </form>
+  <parameter>
+    <param name="mid" target="mid" />
+    <param name="page" target="page" />
+    <param name="document_srl" target="document_srl" />
+  </parameter>
+  <response callback_func="completeDeleteDocument">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="page" />
+  </response>
+</filter>

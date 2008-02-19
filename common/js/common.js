@@ -168,15 +168,16 @@ function move_url(url, open_wnidow) {
  **/
 function toggleDisplay(obj, opt) {
     obj = xGetElementById(obj);
+    if(!obj) return;
     if(typeof(opt)=="undefined") opt = "inline";
-    if(obj.style.display == "none") obj.style.display = opt;
-    else obj.style.display = "none";
+    if(!obj.style.display || obj.style.display == "block") obj.style.display = 'none';
+    else obj.style.display = opt;
 }
 
 /**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
-function displayMultimedia(src, width, height, auto_start) {
+function displayMultimedia(src, width, height, auto_start, flashvars) {
     if(src.indexOf('files')==0) src = request_uri+src;
     if(auto_start) auto_start = "true";
     else auto_start = "false";
@@ -185,15 +186,18 @@ function displayMultimedia(src, width, height, auto_start) {
     var codebase = "";
     var html = "";
 
+    if(typeof(flashvars)=="undefined") flashvars = "";
+
     if(/\.swf/i.test(src)) {
         clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = ""+
-            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" >"+
+            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\">"+
             "<param name=\"wmode\" value=\"transparent\" />"+
             "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
+            "<param name=\"flashvars\" value=\""+flashvars+"\" />"+
             "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
@@ -224,10 +228,10 @@ function resizeImageContents() {
         // 상위 node의 className이 document_ 또는 comment_ 로 시작하지 않으면 패스
         var parent = obj.parentNode;
         while(parent) {
-            if(parent.className && parent.className.search(/document_|comment_/i) != -1) break;
+            if(parent.className && parent.className.search(/xe_content|document_|comment_/i) != -1) break;
             parent = parent.parentNode;
         }
-        if (!parent || parent.className.search(/document_|comment_/i) < 0) continue;
+        if (!parent || parent.className.search(/xe_content|document_|comment_/i) < 0) continue;
 
         if(parent.parentNode) xWidth(parent, xWidth(parent.parentNode));
         parent.style.width = '100%';
@@ -595,8 +599,8 @@ function displayPopupMenu(ret_obj, response_tags, params) {
 
                 if(!str || !func) continue;
 
-                if(icon) html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</span><br />";
-                else html += "<span class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</span><br />";
+                if(icon) html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</div>";
+                else html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</div>";
             }
         } 
         loaded_popup_menu_list[menu_id] =  html;
@@ -935,4 +939,35 @@ var Base64 = {
         return string;
     }
 
+}
+
+/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
+if(xIE4Up) {
+    xAddEventListener(window, 'load', activateOptionDisabled);
+
+    function activateOptionDisabled(evt) {
+        var sels = xGetElementsByTagName('select');
+        for(var i=0; i < sels.length; i++){
+            var disabled_exists = false;
+            for(var j=0; j < sels[i].options.length; j++) {
+                if(sels[i].options[j].disabled) {
+                    sels[i].options[j].style.color = '#CCCCCC';
+                    disabled_exists = true;
+                }
+            }
+
+            if(!disabled_exists) continue;
+            
+            sels[i].onchange = function() {  
+                if(this.options[this.selectedIndex].disabled) {
+                    if(this.options.length<=1) this.selectedIndex = -1;
+                    else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
+                    else this.selectedIndex--;
+                }
+            }
+
+            if(sels[i].selectedIndex >= 0 && sels[i].options[ sels[i].selectedIndex ].disabled) sels[i].onchange();
+
+        }
+    }
 }

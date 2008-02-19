@@ -66,6 +66,7 @@ function _editorAutoSave() {
         editorAutoSaveObj.content = content;
 
         var obj = xGetElementById("editor_autosaved_message_"+editor_sequence);
+        obj.style.display = 'block';
         var oDate = new Date();
         html = oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg;
         xInnerHtml(obj, html);

@@ -1,0 +1,15 @@
+<query id="getTotalDocuments" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="module_srl" alias="module_srl"/>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srls" filter="numbers" notnull="notnull" />
+    </conditions>
+    <groups>
+        <group column="module_srl" />
+    </groups>
+</query>

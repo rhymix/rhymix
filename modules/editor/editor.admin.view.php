@@ -34,9 +34,15 @@
         function dispEditorAdminSetupComponent() {
             $component_name = Context::get('component_name');
 
+            // 에디터 컴포넌트의 정보를 구함
             $oEditorModel = &getModel('editor');
             $component = $oEditorModel->getComponent($component_name);
             Context::set('component', $component);
+
+            // 그룹 설정을 위한 그룹 목록을 구함
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
+            Context::set('group_list', $group_list);
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('setup_component');

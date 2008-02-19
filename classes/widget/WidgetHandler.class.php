@@ -12,23 +12,51 @@
         /**
          * @brief 위젯 캐시 처리
          **/
-        function getCache($sequence, $cache) {
-            if(!$sequence || !$cache) return;
+        function getCache($widget, $args) {
 
-            $cache_path = './files/cache/widget_cache/';
-            if(!is_dir($cache_path)) {
-                FileHandler::makeDir($cache_path);
-                return;
+            // widget, 캐시 번호와 캐시값이 설정되어 있는지 확인
+            $widget_sequence = $args->widget_sequence;
+            $widget_cache = $args->widget_cache;
+
+            /**
+             * 캐시 번호와 캐시 값이 아예 없으면 바로 데이터를 추출해서 리턴
+             **/
+            if(!$widget_cache || !$widget_sequence) {
+                $oWidget = WidgetHandler::getObject($widget);
+                if(!$oWidget) return;
+
+                return $oWidget->proc($args);
             }
 
-            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, Context::getLangType());
-            if(!file_exists($cache_file)) return;
+            /**
+             * 캐시 번호와 캐시값이 설정되어 있으면 캐시 파일을 불러오도록 함
+             **/
+            
+            // 캐시 디렉토리가 없으면 생성
+            $cache_path = './files/cache/widget_cache/';
+            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
-            $filemtime= filemtime($cache_file);
-            if($filemtime + $cache*60 < time()) return;
+            // 캐시파일명을 구함
+            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $widget_sequence, Context::getLangType());
 
-            $output = FileHandler::readFile($cache_file);
-            return $output;
+            // 캐시 파일이 존재하면 해당 파일의 유효성 검사
+            if(file_exists($cache_file)) {
+                $filemtime = filemtime($cache_file);
+
+                // 수정 시간을 비교해서 캐싱중이어야 하거나 WidgetHandler.class.php 파일보다 나중에 만들어 졌다면 캐시값을 return
+                if($filemtime + $widget_cache*60 > time() && $filemtime > filemtime('./classes/widget/WidgetHandler.class.php')) {
+                    return FileHandler::readFile($cache_file);
+                }
+            }
+
+            // 캐시를 새로 해야 할 경우임
+            $oWidget = WidgetHandler::getObject($widget);
+            if(!$oWidget) return;
+
+            $widget_content = $oWidget->proc($args);
+            WidgetHandler::writeCache($widget_sequence, $widget_content);
+
+            return $widget_content;
         }
 
         /**
@@ -42,128 +70,148 @@
 
         /**
          * @brief 위젯을 찾아서 실행하고 결과를 출력
-         * <div widget='위젯'...></div> 태그 사용 templateHandler에서 WidgetHandler::execute()를 실행하는 코드로 대체하게 된다
+         * 태그 사용 templateHandler에서 WidgetHandler::execute()를 실행하는 코드로 대체하게 된다
          *
-         * $include_info가 true일 경우 css 코드와 위젯핸들링을 위한 코드까지 포함하도록 한다
+         * $include_info가 true일 경우 페이지 수정시 위젯 핸들링을 위한 코드까지 포함함
          **/
         function execute($widget, $args, $include_info = false) {
             // 디버그를 위한 위젯 실행 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
 
-            // widget중 widgetContent 는 page 모듈에 종속적인 위젯으로 직접 page.admin.controller.php를 호출하여 처리를 해야 함 (차후 정리 필요)
-            if($widget == 'widgetContent') {
-                $style = $args->style;
-                $body = base64_decode($args->body);
-                $widget_padding_left = $args->widget_padding_left;
-                $widget_padding_right = $args->widget_padding_right;
-                $widget_padding_top = $args->widget_padding_top;
-                $widget_padding_bottom = $args->widget_padding_bottom;
-                if($include_info) {
-                    $oWidgetController = &getController('widget');
-                    $tpl = $oWidgetController->transEditorContent($body, $args);
-                } else {
-                    $tpl = sprintf('<div style="overflow:hidden;%s"><div style="padding:%s %s %s %s;">%s</div></div>', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $body);
+            // args값에서 urldecode를 해줌
+            $object_vars = get_object_vars($args);
+            if(count($object_vars)) {
+                foreach($object_vars as $key => $val) {
+                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right'))) continue;
+                    $args->{$key} = utf8RawUrlDecode($val);
                 }
-                return $tpl;
-            // widget Box일 경우 간단히 변경만 시도함
-            } else if($widget == 'widgetBox') {
-                $style = $args->style;
-                $widget_padding_left = $args->widget_padding_left;
-                $widget_padding_right = $args->widget_padding_right;
-                $widget_padding_top = $args->widget_padding_top;
-                $widget_padding_bottom = $args->widget_padding_bottom;
-                if($include_info) {
-                    $tpl = sprintf('<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s"><div class="widgetBoxCopy"></div><div class="widgetBoxSize"></div><div class="widgetBoxRemove"></div><div class="widgetBoxResize"></div><div class="widgetBoxResizeLeft"></div><div class="widgetBoxBorder"><div class="nullWidget" style="padding:%s %s %s %s;">', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
-                } else {
-                    $tpl = sprintf('<div style="overflow:hidden;%s;"><div style="padding:%s %s %s %s;"><div>%s', $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $body);
-                }
-                return $tpl;
             }
 
-            // 설치된 위젯들에 대한 처리
-            if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
+            /**
+             * 위젯이 widgetContent/ widgetBox가 아니라면 내용을 구함
+             **/
+            if($widget != 'widgetContent' && $widget != 'widgetBox') {
+                if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
-            $cache_path = './files/cache/widget_cache/';
-            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+                // 위젯의 내용을 담을 변수
+                $widget_content = WidgetHandler::getCache($widget, $args);
+            }
 
-            // $widget의 객체를 받음 
-            $oWidget = WidgetHandler::getObject($widget);
-            if(!$oWidget) return;
+            /**
+             * 관리자가 지정한 위젯의 style을 구함
+             **/
+            // 가끔 잘못된 코드인 background-image:url(none)이 들어 있을 수가 있는데 이럴 경우 none에 대한 url을 요청하므로 무조건 제거함
+            $style = preg_replace('/background\-image: url\(none\)/is','', $args->style);
 
-            // 위젯 output을 생성하기 위한 변수 설정
-            $widget_padding_top = $args->widget_padding_top;
-            $widget_padding_bottom = $args->widget_padding_bottom;
+            // 내부 여백을 둔 것을 구해서 style문으로 미리 변경해 놓음
             $widget_padding_left = $args->widget_padding_left;
             $widget_padding_right = $args->widget_padding_right;
-
+            $widget_padding_top = $args->widget_padding_top;
+            $widget_padding_bottom = $args->widget_padding_bottom;
             $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             /**
-             * 출력을 위해 위젯 내용을 div로 꾸밈
+             * 위젯 출력물을 구함
              **/
-            // 서비스에 사용하기 위해 위젯 정보를 포함하지 않을 경우
+            // 일반 페이지 호출일 경우 지정된 스타일만 꾸면서 바로 return 함
             if(!$include_info) {
+                switch($widget) {
+                    // 내용 직접 추가일 경우 
+                    case 'widgetContent' :
+                            $body = base64_decode($args->body);
+                            $output = sprintf('<div style="overflow:hidden;%s"><div style="%s" class="xe_content">%s</div></div>', $style, $inner_style, $body);
+                        break;
 
-                // 위젯 실행
-                $html = $oWidget->proc($args);
-                $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s">%s</div></div>', $args->style, $inner_style, $html);
+                    // 위젯 박스일 경우
+                    case 'widgetBox' :
+                            $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s"><div>', $style, $inner_style);
+                        break;
 
-                // 위젯 sequence가 있고 위젯의 캐싱을 지정하였고 위젯정보를 담지 않도록 하였을 경우 캐시 파일을 저장
-                if($args->widget_sequence && $args->widget_cache) WidgetHandler::writeCache($args->widget_sequence, $output);
+                    // 일반 위젯일 경우
+                    default :
+                            $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s">%s</div></div>', $style, $inner_style, $widget_content);
+                        break;
+                }
 
-            // 에디팅등에 사용하기 위한 목적으로 위젯 정보를 포함할 경우
+            // 페이지 수정시에 호출되었을 경우 위젯 핸들링을 위한 코드 추가
             } else {
-                // 위젯 실행
-                //if($args->widget_sequence && $args->widget_cache) $html = WidgetHandler::getCache($args->widget_sequence, $args->widget_cache);
-                //if(!$html) $html = $oWidget->proc($args);
-                $html = $oWidget->proc($args);
+                switch($widget) {
+                    // 내용 직접 추가일 경우 
+                    case 'widgetContent' :
+                            $body = base64_decode($args->body);
+                            $oWidgetController = &getController('widget');
 
-                // args 정리
-                $attribute = array();
-                if($args) {
-                    foreach($args as $key => $val) {
-                        if($key == 'class' || $key == 'style') continue;
-                        if(strpos($val,'|@|')>0) {
-                            $val = str_replace('|@|',',',$val);
-                        }
-                        $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
-                    }
+                            $output = sprintf(
+                                '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent">'.
+                                    '<div class="widgetSetup"></div>'.
+                                    '<div class="widgetCopy"></div>'.
+                                    '<div class="widgetSize"></div>'.
+                                    '<div class="widgetRemove"></div>'.
+                                    '<div class="widgetResize"></div>'.
+                                    '<div class="widgetResizeLeft"></div>'.
+                                    '<div class="widgetBorder">'.
+                                        '<div style="%s">'.
+                                            '%s'.
+                                        '</div><div class="clear"></div>'.
+                                    '</div>'.
+                                    '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
+                                '</div>',
+                                $style,
+                                $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
+                                $inner_style,
+                                $body,
+                                base64_encode($body)
+                            );
+                        break;
+
+                    // 위젯 박스일 경우
+                    case 'widgetBox' :
+                            $output = sprintf(
+                                '<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s">'.
+                                    '<div class="widgetBoxCopy"></div>'.
+                                    '<div class="widgetBoxSize"></div>'.
+                                    '<div class="widgetBoxRemove"></div>'.
+                                    '<div class="widgetBoxResize"></div>'.
+                                    '<div class="widgetBoxResizeLeft"></div>'.
+                                    '<div class="widgetBoxBorder">'.
+                                        '<div class="nullWidget" style="%s">', 
+                                    $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $inner_style);
+                        break;
+
+                    // 일반 위젯일 경우
+                    default :
+                            // args 정리
+                            $attribute = array();
+                            if($args) {
+                                foreach($args as $key => $val) {
+                                    if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget'))) continue;
+                                    if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
+                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                }
+                            }
+
+                            $output = sprintf(
+                                    '<div class="widgetOutput" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
+                                        '<div class="widgetSetup"></div>'.
+                                        '<div class="widgetCopy"></div>'.
+                                        '<div class="widgetSize"></div>'.
+                                        '<div class="widgetRemove"></div>'.
+                                        '<div class="widgetResize"></div>'.
+                                        '<div class="widgetResizeLeft"></div>'.
+                                        '<div class="widgetBorder">'.
+                                            '<div style="%s">'.
+                                                '%s'.
+                                            '</div><div class="clear"></div>'.
+                                        '</div>'.
+                                    '</div>', 
+                                    $style, 
+                                    $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
+                                    $widget, implode(' ',$attribute), 
+                                    $inner_style, 
+                                    $widget_content
+                            );
+                        break;
                 }
-
-                // 결과물에 있는 css Meta 목록을 구해와서 해당 css를 아예 읽어버림
-                require_once("./classes/optimizer/Optimizer.class.php");
-                $oOptimizer = new Optimizer();
-                preg_match_all('!<\!\-\-Meta:([^\-]*?)\-\->!is', $html, $matches);
-                $css_header = null;
-                for($i=0;$i<count($matches[1]);$i++) {
-                    $css_file = $matches[1][$i];
-                    $buff = FileHandler::readFile($css_file);
-                    $css_header .= $oOptimizer->replaceCssPath($css_file, $buff)."\n";
-                }
-
-                if(!$html) $html = '&nbsp;';
-                $output = sprintf(
-                        '<div class="widgetClass"><style type="text/css">%s</style></div>'.
-                        '<div class="widgetOutput" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
-                            '<div class="widgetSetup"></div>'.
-                            '<div class="widgetCopy"></div>'.
-                            '<div class="widgetSize"></div>'.
-                            '<div class="widgetRemove"></div>'.
-                            '<div class="widgetResize"></div>'.
-                            '<div class="widgetResizeLeft"></div>'.
-                            '<div class="widgetBorder">'.
-                                '<div style="%s">'.
-                                    '%s'.
-                                '</div><div class="clear"></div>'.
-                            '</div>'.
-                        '</div>', 
-                        $css_header, 
-                        $args->style, 
-                        $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
-                        $widget, implode(' ',$attribute), 
-                        $inner_style, 
-                        $html
-                );
             }
 
             // 위젯 결과물 생성 시간을 debug 정보에 추가

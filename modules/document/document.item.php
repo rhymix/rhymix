@@ -9,6 +9,8 @@
 
         var $document_srl = 0;
 
+        var $allow_trackback_status = null;
+
         function documentItem($document_srl = 0) {
             $this->document_srl = $document_srl;
             $this->_loadFromDB();
@@ -72,13 +74,39 @@
         }
 
         function allowComment() {
-            return $this->get('allow_comment') == 'Y' || !$this->isExists() ? true : false;
+            if(!$this->isExists()) return true;
+
+            return $this->get('allow_comment') == 'Y' ? true : false;
         }
 
         function allowTrackback() {
-            return $this->get('allow_trackback') == 'Y'  || !$this->isExists() ? true : false;
+            if(!$this->isExists()) return false;
+
+            // allowTrackback()의 경우 여러번 호출됨으로 자체 변수 설정후 사용
+            if(!isset($this->allow_trackback_status)) {
+
+                // 글쓴이가 허용하였으면 사용으로 체크
+                if($this->get('allow_trackback')=='Y') $this->allow_trackback_status = true;
+
+                // 글쓴이가 허용하였더라도 모듈 설정에서 허용이 아니라면 금지로 설정
+                if($this->allow_trackback_status) {
+                    $oModuleModel = &getModel('module');
+                    $trackback_config = $oModuleModel->getModuleConfig('trackback');
+
+                    // 전체 설정에서 엮인글 사용금지이면 모든 엮인글의 사용을 금지함
+                    if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+
+                    // 전체 설정에서 허용시 모듈별 설정을 체크
+                    else {
+                        $module_config = $trackback_config->module_config[$this->get('module_srl')];
+                        if(!$module_config || $module_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+                    }
+                }
+            }
+
+            return $this->allow_trackback_status;
         }
-        
+
         function isLocked() {
             return $this->get('lock_comment') == 'Y'  ? true : false;
         }
@@ -152,7 +180,7 @@
             $url = trim($this->get('homepage'));
             if(!$url) return;
 
-            if(!eregi("^http:\/\/",$url)) $url = "http://".$url;
+            if(!preg_match("/^http:\/\//i",$url)) $url = "http://".$url;
 
             return $url;
         }
@@ -209,7 +237,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_document_info = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
@@ -218,43 +246,48 @@
 
             $content = $this->get('content');
 
-
-            // OL/LI 태그를 위한 치환 처리
-            $content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$content);
-
             // url에 대해서 정규표현식으로 치환
             $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
 
-            // 추가 정보 출력을 하지 않는 경우 
-            if(!$add_document_info) {
+            // 이 게시글을... 팝업메뉴를 출력할 경우
+            if($add_popup_menu) {
                 $content = sprintf(
-                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><!--AfterDocument(%d,%d)-->', 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $this->document_srl, $this->get('member_srl'), 
+                        '%s<div class="document_popup_menu"><span class="document_%d">%s</span></div>',
                         $content, 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $this->document_srl, $this->get('member_srl')
-                );
-            // 추가 정보를 출력시 "이 게시물을..'이라는 메뉴 추가
-            } else {
-                $content = sprintf(
-                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d">%s</div><div class="document_popup_menu"><span class="document_popup_menu document_%d">%s</span></div><!--AfterDocument(%d,%d)-->', 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $content, 
-                        $this->document_srl, Context::getLang('cmd_document_do'),
-                        $this->document_srl, $this->get('member_srl'), 
-                        $this->document_srl, $this->get('member_srl')
+                        $this->document_srl, Context::getLang('cmd_document_do')
                 );
             }
+
+            // 컨텐츠에 대한 조작이 가능한 추가 정보를 설정하였을 경우
+            if($add_content_info) {
+                $content = sprintf(
+                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->', 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $content, 
+                        $this->document_srl, $this->get('member_srl'), 
+                        $this->document_srl, $this->get('member_srl')
+                );
+            // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
+            } else {
+                $content = sprintf('<div class="xe_content">%s</div>', $content);
+            }
+
             return $content;
         }
 
         function getSummary($str_size = 50) {
-            if(!$this->document_srl) return;
+            // 먼저 태그들을 제거함
+            $content = preg_replace('!<([^>]*?)>!is','', $this->getContent(false,false));
 
-            $content = htmlspecialchars(strip_tags(str_replace("&nbsp;"," ",$this->getContent(false))));
-            return cut_str($content, $str_size, '...');
+            // < , > , " 를 치환
+            $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
+
+            // 문자열을 자름
+            $content = cut_str($content, $str_size, '...');
+
+            // >, <, "를 다시 복구
+            return str_replace(array('<','>','"',' '),array('&lt;','&gt;','&quot;','&nbsp;'), $content);
         }
 
         function getRegdate($format = 'Y.m.d H:i:s') {
@@ -335,12 +368,11 @@
         }
 
         function getCommentCount() {
-            if(!$this->isGranted() && $this->isSecret()) return 0;
             return $this->get('comment_count');
         }
 
         function getComments() {
-            if(!$this->allowComment() || !$this->get('comment_count')) return;
+            if(!$this->allowComment() || !$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
 
             $oCommentModel = &getModel('comment');
@@ -412,7 +444,7 @@
             if(count($file_list)) {
                 foreach($file_list as $file) {
                     if($file->direct_download!='Y') continue;
-                    if(!eregi("(jpg|png|jpeg|gif)$",$file->source_filename)) continue;
+                    if(!preg_match("/(jpg|png|jpeg|gif)$/i",$file->source_filename)) continue;
 
                     $filename = $file->uploaded_filename;
                     if(!file_exists($filename)) continue;
@@ -429,7 +461,7 @@
             preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg)!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
                 $src = $matches[$i][0];
-                if(ereg('\/(common|modules|widgets|addons|layouts)\/', $src)) continue;
+                if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $src)) continue;
                 else {
                     $target_src = $src; 
                     break;
@@ -530,6 +562,75 @@
             $oFileModel = &getModel('file');
             $file_list = $oFileModel->getFiles($this->document_srl, $is_admin);
             return $file_list;
+        }
+
+        /**
+         * @brief 에디터 html을 구해서 return
+         **/
+        function getEditor() {
+            $module_srl = $this->get('module_srl');
+            if(!$module_srl) $module_srl = Context::get('module_srl');
+
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
+        }
+
+        /**
+         * @brief 댓글을 달 수 있는지에 대한 권한 체크
+         * 게시글의 댓글 권한과 또 다른 부분
+         **/
+        function isEnableComment() {
+            // 권한이 없고 비밀글 or 댓글금지 or 댓글허용금지이면 return false
+            if(!$this->isGranted() && ( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) ) return false;
+
+            return true;
+        }
+
+        /**
+         * @brief 댓글 에디터 html을 구해서 return
+         **/
+        function getCommentEditor() {
+            if(!$this->isEnableComment()) return;
+
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
+        }
+
+        /**
+         * @brief 작성자의 프로필 이미지를 return
+         **/
+        function getProfileImage() {
+            if(!$this->isExists() || !$this->get('member_srl')) return;
+            $oMemberModel = &getModel('member');
+            $profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
+            if(!$profile_info) return;
+
+            return $profile_info->src;
+        }
+
+        /**
+         * @brief 작성자의 서명을 return
+         **/
+        function getSignature() {
+            // 존재하지 않는 글이면 패스~
+            if(!$this->isExists() || !$this->get('member_srl')) return;
+
+            // 서명정보를 구함
+            $oMemberModel = &getModel('member');
+            $signature = $oMemberModel->getSignature($this->get('member_srl'));
+
+            // 회원모듈에서 서명 최고 높이 지정되었는지 검사
+            if(!isset($GLOBALS['__member_signature_max_height'])) {
+               $oModuleModel = &getModel('module');  
+               $member_config = $oModuleModel->getModuleConfig('member');
+               $GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
+            }
+            if($signature) {
+                $max_signature_height = $GLOBALS['__member_signature_max_height'];
+                if($max_signature_height) $signature = sprintf('<div style="height:%dpx;overflow-y:auto;overflow-x:hidden;">%s</div>',$max_signature_height, $signature);
+            }
+
+            return $signature;
         }
     }
 ?>

@@ -19,12 +19,14 @@
         <!--@if($module_info->display_number!='N')--><th>&nbsp;</th><!--@end-->
         <!--@if($grant->is_admin)--><th scope="col" ><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /></th><!--@end-->
         <!--@if($module_info->use_category == "Y")-->
-            <th><select name="select" id="board_category">
-                <option value="">{$lang->category}</option>
+            <th>
+                <select name="category" id="board_category" class="w100">
+                    <option value="">{$lang->category}</option>
                     <!--@foreach($category_list as $val)-->
-                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+                    <option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
                     <!--@end-->
-                </select><input type="button" name="go_button" id= "go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" /></th>
+                </select>
+                <input type="button" name="go_button" id= "go_button" value="GO" onclick="doChangeCategory(); return false;" class="buttonTypeGo" /></th>
         <!--@end-->
             <th scope="col" colspan="2" class="title"><img src="./images/common/txt_title.gif" alt="{$lang->title}" /></th>
             <!--@if($module_info->display_author!='N')--><th scope="col" class="author"><img src="./images/common/txt_name.gif" alt="{$lang->nick_name}" /></th><!--@end-->
@@ -85,7 +87,7 @@
                 <!--@if($module_info->use_category == "Y")--><td rowspan="2">{$category_list[$document->get('category_srl')]->title}</td><!--@end-->
 
                 <!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
-                <td rowspan="2" class="thumb"><a href="{getUrl('','document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" /></a></td>
+                <td rowspan="2" class="thumb"><a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle)}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" border="0" alt="" /></a></td>
                 <td class="title noline">
                 <!--@else-->
                 <td class="title noline" colspan="2">
@@ -120,7 +122,7 @@
             <tr class="bg{($no+1)%2+1}">
                 <td colspan="{$_col_count}" class="summary">
                     <!--@if($grant->view)-->
-                    <a href="{getUrl('','document_srl',$document->document_srl)}">{$document->getSummary(120)}</a>
+                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getSummary(120)}</a>
                     <!--@end-->
                     &nbsp;
                 </td>

@@ -93,11 +93,16 @@
             $output = $oModuleController->updateModule($module_info);
             if(!$output->toBool()) return $output;
 
+            // 해당 페이지에 첨부된 파일의 상태를 유효로 변경
+            $oFileController = &getController('file');
+            $oFileController->setFilesValid($module_info->module_srl);
+
             // 캐시파일 재생성
-            $this->procPageAdminRemoveWidgetCache();
+            //$this->procPageAdminRemoveWidgetCache();
 
             $this->add("module_srl", $module_info->module_srl);
             $this->add("page", Context::get('page'));
+            $this->add("mid", $module_info->mid);
             $this->setMessage($msg_code);
         }
 

@@ -1,0 +1,16 @@
+<filter name="insert" module="board" act="procBoardInsertDocument" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="nick_name" required="true" />
+    <node target="password" required="true" />
+    <node target="email_address" maxlength="250" />
+    <node target="homepage" maxlength="250"/>
+    <node target="content" required="true" />
+  </form>
+  <response callback_func="completeDocumentInserted">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="document_srl" />
+    <tag name="category_srl" />
+  </response>
+</filter>

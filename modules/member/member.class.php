@@ -51,50 +51,61 @@
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageName');
             $oModuleController->insertActionForward('member', 'controller', 'procMemberDeleteImageMark');
 
+            $oModuleModel = &getModel('module');
+            $args = $oModuleModel->getModuleConfig('member');
+
             // 기본 정보를 세팅
             $args->enable_join = 'Y';
-            $args->enable_openid = 'N';
-            $args->image_name = 'Y';
-            $args->image_mark = 'Y';
-            $args->profile_image = 'Y';
-            $args->image_name_max_width = '90';
-            $args->image_name_max_height = '20';
-            $args->image_mark_max_width = '20';
-            $args->image_mark_max_height = '20';
-            $args->profile_image_max_width = '80';
-            $args->profile_image_max_height = '80';
+            if(!$args->enable_openid) $args->enable_openid = 'N';
+            if(!$args->image_name) $args->image_name = 'Y';
+            if(!$args->image_mark) $args->image_mark = 'Y';
+            if(!$args->profile_image) $args->profile_image = 'Y';
+            if(!$args->image_name_max_width) $args->image_name_max_width = '90';
+            if(!$args->image_name_max_height) $args->image_name_max_height = '20';
+            if(!$args->image_mark_max_width) $args->image_mark_max_width = '20';
+            if(!$args->image_mark_max_height) $args->image_mark_max_height = '20';
+            if(!$args->profile_image_max_width) $args->profile_image_max_width = '80';
+            if(!$args->profile_image_max_height) $args->profile_image_max_height = '80';
             $oModuleController->insertModuleConfig('member',$args);
 
             // 멤버 컨트롤러 객체 생성
+            $oMemberModel = &getModel('member');
             $oMemberController = &getController('member');
             $oMemberAdminController = &getAdminController('member');
 
-            // 관리자, 정회원, 준회원 그룹을 입력
-            $group_args->title = Context::getLang('admin_group');
-            $group_args->is_default = 'N';
-            $group_args->is_admin = 'Y';
-            $output = $oMemberAdminController->insertGroup($group_args);
+            $groups = $oMemberModel->getGroups();
+            if(!count($groups)) {
+                // 관리자, 정회원, 준회원 그룹을 입력
+                $group_args->title = Context::getLang('admin_group');
+                $group_args->is_default = 'N';
+                $group_args->is_admin = 'Y';
+                $output = $oMemberAdminController->insertGroup($group_args);
 
-            unset($group_args);
-            $group_args->title = Context::getLang('default_group_1');
-            $group_args->is_default = 'Y';
-            $group_args->is_admin = 'N';
-            $output = $oMemberAdminController->insertGroup($group_args);
+                unset($group_args);
+                $group_args->title = Context::getLang('default_group_1');
+                $group_args->is_default = 'Y';
+                $group_args->is_admin = 'N';
+                $output = $oMemberAdminController->insertGroup($group_args);
 
-            unset($group_args);
-            $group_args->title = Context::getLang('default_group_2');
-            $group_args->is_default = 'N';
-            $group_args->is_admin = 'N';
-            $oMemberAdminController->insertGroup($group_args);
+                unset($group_args);
+                $group_args->title = Context::getLang('default_group_2');
+                $group_args->is_default = 'N';
+                $group_args->is_admin = 'N';
+                $oMemberAdminController->insertGroup($group_args);
+            }
 
             // 관리자 정보 세팅
-            $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
-            if($admin_info->user_id) {
-                // 관리자 정보 입력
-                $oMemberAdminController->insertAdmin($admin_info);
+            $admin_args->is_admin = 'Y';
+            $output = executeQuery('member.getMemberList', $admin_args);
+            if(!$output->data) {
+                $admin_info = Context::gets('user_id','password','nick_name','user_name', 'email_address');
+                if($admin_info->user_id) {
+                    // 관리자 정보 입력
+                    $oMemberAdminController->insertAdmin($admin_info);
 
-                // 로그인 처리시킴
-                $output = $oMemberController->doLogin($admin_info->user_id);
+                    // 로그인 처리시킴
+                    $output = $oMemberController->doLogin($admin_info->user_id);
+                }
             }
 
             // 금지 아이디 등록 (기본 + 모듈명)

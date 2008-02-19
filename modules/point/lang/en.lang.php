@@ -34,6 +34,9 @@
     $lang->cmd_point_recal = 'Recalculate Point';
     $lang->about_cmd_point_recal = "This will check articles/comments/attached files and reset all members' point to preset point.";
 
+    $lang->point_link_group = 'Group Change by Level';
+    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points. When new group is assigned, the user is removed from the former assigned group.';
+
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
     $lang->point_signup = 'Signup';
@@ -44,6 +47,7 @@
     $lang->point_upload_file = 'On Uploading';
     $lang->point_delete_file = 'On Deleting Files';
     $lang->point_download_file = 'On Downloading Files (Exclude images)';
+    $lang->point_read_document = 'On Reading';
 
 
     $lang->cmd_point_config = 'Default Setting';

@@ -1,5 +1,6 @@
 <!--#include("header.html")-->
 <!--%import("filter/insert.xml")-->
+<!--%import("css/member_admin.css")-->
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
     <input type="hidden" name="page" value="{$page}" />
@@ -150,23 +151,25 @@
         <!--@if($val->is_active=='Y')-->
     <tr>
         <th scope="row">
-            <!--@if($val->required=='Y')-->
-            *
-            <!--@end-->
-            {$val->column_title}
+            {htmlspecialchars($val->column_title)}
+            <!--@if($val->required=='Y')-->*<!--@end-->
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
         </th>
         <td>
             <!-- 일반 text -->
             <!--@if($val->column_type == 'text')--> 
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w100" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w100" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
@@ -199,26 +202,26 @@
             <!-- 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" class="inputTypeText "/>
+                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" class="inputTypeText w400"/>
                     <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" /></span>
                 </div>
                 <div id="zone_address_list_{$val->column_name}" style="display:none">
-                    <select name="_tmp_address_list_{$val->column_name}" style="width:240px;"></select>
+                    <select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
                     <span class="button"><input type="button" value="{$lang->cmd_select}" onclick="doSelectKrZip('{$val->column_name}'); return false;" /></span>
                     <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="doHideKrZipList('{$val->column_name}'); return false;" /></span>
                 </div>
                 <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-                    <input type="text" name="_tmp_address_search_{$val->column_name}" value="" class="inputTypeText" />
+                    <input type="text" name="_tmp_address_search_{$val->column_name}" value="" class="inputTypeText w400" />
                     <span class="button"><input type="button" value="{$lang->cmd_search}" onclick="doSearchKrZip('{$val->column_name}'); return false;" /></span>
                 </div>
 
                 <div>
-                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText" />
+                    <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText w400" />
                 </div>
 
             <!-- 일본 주소 검색 -->
             <!--@elseif($val->column_type == 'jp_zip')-->
-                <input type="text" name="{$val->column_name}" value="{$val->value}" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{$val->value}" class="inputTypeText w400" />
 
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->

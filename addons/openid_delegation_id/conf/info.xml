@@ -22,7 +22,7 @@
             必须在设置中输入openid provider相关值后再使用。
         </description>
         <description xml:lang="en">
-            This addon enables you to use your own domian name as an OpenID.
+            This addon enables you to use your own domain name as an OpenID.
             Just be sure to set the values related with openid provider before using.
         </description>
         <description xml:lang="es">

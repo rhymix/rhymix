@@ -85,7 +85,7 @@
 
         function _replaceSrc($matches) {
             $href = $matches[4];
-            if(eregi("^http", $href) || $href == '#' || eregi("javascript:",$href)) return $matches[0];
+            if(preg_match("/^http/i", $href) || $href == '#' || preg_match("/javascript:/i",$href)) return $matches[0];
 
             if(substr($href,0,1)=='/') $href = substr($href,1);
             $href = $this->target_path.$href;
@@ -96,7 +96,7 @@
 
         function _replaceBackgroundUrl($matches) {
             $href = $matches[1];
-            if(eregi("^http",$href) || $href == '#' || eregi("javascript:",$href)) return $matches[0];
+            if(preg_match("/^http/i",$href) || $href == '#' || preg_match("/javascript:/i",$href)) return $matches[0];
 
             if(substr($href,0,1)=='/') $href = substr($href,1);
             $href = $this->target_path.$href;

@@ -131,50 +131,17 @@
         }
 
         /**
-         * @brief 직접 내용 입력된 위젯의 처리
-         **/
-        function procWidgetAddContent() {
-            $content = Context::get('content');
-            $args = Context::getRequestVars('style','widget_padding_left','widget_padding_right','widget_padding_bottom','widget_padding_top');
-
-            $tpl = $this->transEditorContent($content, $args);
-
-            $this->add('tpl', $tpl);
-        }
-
-        /**
          * @breif 특정 content의 위젯 태그들을 변환하여 return
          **/
         function transWidgetCode($content, $include_info = false) {
-            $this->include_info = $include_info;
 
-            // 내용중 widget이 아닌 것들을 일단 분리
-            /*
-            $none_widget_code = preg_replace('!<img([^\>]*)widget=([^\>]*?)\>!is', '', $content);
-            $oPageAdminController = &getAdminController('page');
-            if(trim($none_widget_code)) {
-                $args->style = "float:left;overflow:hidden;padding:none;padding:none";
-                $args->widget_padding_left = $args->widget_padding_top = $args->widget_padding_right = $args->widget_padding_bottom = 0;
-                $none_widget_content = $oPageAdminController->transEditorContent($none_widget_code, $args);
-            }
-            */
+            $this->include_info = $include_info;
 
             // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
             $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             // 박스 위젯을 다시 구함
             $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>!is', array($this,'transWidgetBox'), $content);
-
-            // include_info, 즉 위젯의 수정일 경우 css와 js파일을 추가해 주고 위젯 수정용 레이어도 추가함
-            if($this->include_info) {
-                Context::addJsFile("./modules/widget/tpl/js/widget.js");
-                Context::addCSSFile("./modules/widget/tpl/css/widget.css");
-
-                $oTemplate = &TemplateHandler::getInstance();
-                $tpl = $oTemplate->compile($this->module_path.'tpl', 'widget_layer');
-                $content .= $tpl;
-
-            }
 
             return $content;
         }
@@ -183,10 +150,7 @@
          * @brief 위젯 코드를 실제 php코드로 변경
          **/
         function transWidget($matches) {
-            $oContext = &Context::getInstance();
             $buff = trim($matches[0]);
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($oContext, _fixQuotation), $buff);
-            $buff = str_replace("&","&amp;",$buff);
 
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse(trim($buff));
@@ -195,14 +159,6 @@
             else $vars = $xml_doc->attrs;
 
             if(!$vars->widget) return "";
-
-            // 캐시 체크
-            $widget_sequence = $vars->widget_sequence;
-            $widget_cache = $vars->widget_cache;
-            if($widget_cache && $widget_sequence && !$this->include_info)  {
-                $output = WidgetHandler::getCache($widget_sequence, $widget_cache);
-                if($output) return $output;
-            }
 
             // 위젯의 이름을 구함
             $widget = $vars->widget;
@@ -227,55 +183,6 @@
             // 위젯의 이름을 구함
             if(!$widget) return $matches[0];
             return WidgetHandler::execute($widget, $vars, $this->include_info);
-        }
-
-        /**
-         * @brief 에디터에서 생성한 컨텐츠를 페이지 수정시 사용할 수 있도록 코드 생성
-         **/
-        function transEditorContent($content, $args = null) {
-            // 에디터의 내용을 변환하여 visual한 영역과 원본 소스를 가지고 있는 code로 분리
-            $code = $content;
-
-            $oContext = &Context::getInstance();
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($oContext,'transEditorComponent'), $content);
-            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($oContext,'transEditorComponent'), $content);
-
-            // 결과물에 있는 css Meta 목록을 구해와서 해당 css를 아예 읽어버림
-            require_once("./classes/optimizer/Optimizer.class.php");
-            $oOptimizer = new Optimizer();
-            preg_match_all('!<\!\-\-Meta:([^\-]*?)\-\->!is', $content, $matches);
-            $css_header = null;
-            for($i=0;$i<count($matches[1]);$i++) {
-                $css_file = $matches[1][$i];
-                $buff = FileHandler::readFile($css_file);
-                $css_header .= $oOptimizer->replaceCssPath($css_file, $buff)."\n";
-            }
-
-            $tpl = sprintf(
-                    '<style type="text/css">%s</style>'.
-                    '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent">'.
-                        '<div class="widgetSetup"></div>'.
-                        '<div class="widgetCopy"></div>'.
-                        '<div class="widgetSize"></div>'.
-                        '<div class="widgetRemove"></div>'.
-                        '<div class="widgetResize"></div>'.
-                        '<div class="widgetResizeLeft"></div>'.
-                        '<div class="widgetBorder">'.
-                            '<div style="padding:%s %s %s %s;">'.
-                                '%s'.
-                            '</div><div class="clear"></div>'.
-                        '</div>'.
-                        '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
-                    '</div>',
-                    $css_header,
-                    $args->style,
-                    $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
-                    $args->widget_padding_top, $args->widget_padding_right, $args->widget_padding_bottom, $args->widget_padding_left,
-                    $content,
-                    base64_encode($code)
-            );
-
-            return $tpl;
         }
 
     }

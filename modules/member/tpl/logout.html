@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    <!--@if($redirect_url)-->
+    location.href = "{$redirect_url}";
+    <!--@else-->
+    location.href = current_url.setQuery('act','');
+    <!--@end-->
+</script>

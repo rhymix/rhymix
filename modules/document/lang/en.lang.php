@@ -14,7 +14,7 @@
     $lang->title_bold = 'Bold';
     $lang->title_color = 'Color';
 
-    $lang->cmd_search_next = '계속 검색';
+    $lang->cmd_search_next = 'Search Next';
 
     $lang->cmd_temp_save = 'Temporary Save';
 

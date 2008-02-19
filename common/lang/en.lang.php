@@ -60,6 +60,8 @@
     $lang->cmd_reset = 'Reset';
     $lang->cmd_remake_cache = "Re-create cache file";
     $lang->cmd_publish = "Publish";
+    $lang->cmd_layout_setup = 'Configure layout';
+    $lang->cmd_layout_edit = 'Edit layout';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
@@ -82,7 +84,7 @@
     $lang->email_address = 'Email';
     $lang->homepage = 'Homepage';
     $lang->blog = 'Blog';
-    $lang->birthday = 'Birthdate';
+    $lang->birthday = 'Birthday';
     $lang->browser_title = 'Browser Title';
     $lang->title = 'Subject';
     $lang->title_content = 'Subject+Content';
@@ -124,6 +126,7 @@
     $lang->document_count = 'Total Articles';
     $lang->page_count = 'Page Count';
     $lang->list_count = 'List Count';
+    $lang->search_list_count = 'Search List Count';
     $lang->readed_count = 'Views';
     $lang->voted_count = 'Votes';
     $lang->member_count = 'Member Count';
@@ -147,7 +150,10 @@
 
     $lang->use = 'Use';
     $lang->notuse = 'Not use';
-    $lang->not_exists = "Does not exist";
+    $lang->not_exists = "Doesn't exist";
+
+    $lang->public = 'public';
+    $lang->private = 'private';
 
     $lang->unit_sec = 'sec';
     $lang->unit_min = 'min';

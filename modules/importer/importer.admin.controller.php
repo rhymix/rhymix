@@ -55,7 +55,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 이제부터 데이터를 가져오면서 처리
             $fp = $this->getFilePoint($xml_file);
@@ -163,8 +163,8 @@
          **/
         function importMember($obj) {
             // homepage, blog의 url을 정확히 만듬
-            if($obj->homepage && !eregi("^http:\/\/",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
-            if($obj->blog && !eregi("^http:\/\/",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
+            if($obj->homepage && !preg_match("/^http:\/\//i",$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->blog && !preg_match("/^http:\/\//i",$obj->blog)) $obj->blog = 'http://'.$obj->blog;
 
             $obj->email_address = $obj->email;
             list($obj->email_id, $obj->email_host) = explode('@', $obj->email);
@@ -257,7 +257,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 이제부터 데이터를 가져오면서 처리
             $fp = $this->getFilePoint($xml_file);
@@ -398,7 +398,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 필요한 객체 미리 생성
             $this->oDocumentController = &getController('document');
@@ -813,7 +813,7 @@
          **/
         function getFilePoint($filename) {
             $fp = null;
-            if(eregi('^http:', $filename)) {
+            if(preg_match('/^http:/i', $filename)) {
                 $url_info = parse_url($filename);
                 if(!$url_info['port']) $url_info['port'] = 80;
                 if(!$url_info['path']) $url_info['path'] = '/';
@@ -902,7 +902,7 @@
             if(!$xml_file) return new Object(-1, 'msg_no_xml_file');
 
             // local 파일 지정인데 파일이 없으면 역시 에러~
-            if(!eregi('^http:',$xml_file) && (!eregi("\.xml$", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
+            if(!preg_match('/^http:/i',$xml_file) && (!preg_match("/\.xml$/i", $xml_file) || !file_exists($xml_file)) ) return new Object(-1,'msg_no_xml_file');
 
             // 필요한 객체 미리 생성
             $this->oDocumentController = &getController('document');
@@ -934,13 +934,16 @@
 
             $inserted_count = 0;
 
+            ob_start();
+
             $this->oXmlParser = new XmlParser();
 
             // 본문 데이터부터 처리 시작
             $i=0;
             $started = $category_started = $post_started = false;
             $category_buff = '';
-            while(!feof($fp)) {
+            $manual_break = false;
+            while(!$manual_break && !feof($fp)) {
                 $str = fgets($fp, 1024);
 
                 if(substr($str,0,7)=='</logs>') $str = substr($str,7);
@@ -964,114 +967,134 @@
                     $xml_doc = $this->oXmlParser->parse($post_buff);
                     $post = $xml_doc->post;
 
-                    $obj = null;
-                    $obj->module_srl = $module_srl;
-                    $obj->document_srl = getNextSequence();
-                    $obj->title = $post->title->body;
-                    $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$post->content->body);
-                    $obj->password = md5($post->password->body);
-                    $obj->allow_comment = $post->acceptcomment->body==1?'Y':'N';
-                    $obj->allow_trackback= $post->accepttrackback->body==1?'Y':'N';
-                    $obj->regdate = date("YmdHis",$post->created->body);
-                    $obj->last_update = date("YmdHis",$post->modified->body);
+                    if($post->visibility->body=='public') {
+                        $obj = null;
+                        $obj->module_srl = $module_srl;
+                        $obj->document_srl = getNextSequence();
+                        $obj->title = $post->title->body;
+                        $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$post->content->body);
+                        $obj->content = preg_replace_callback('!\[##_1C\|([^\|]*)\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTImgTag'), $obj->content);
+                        $obj->content = nl2br($obj->content);
+                        $obj->password = md5($post->password->body);
+                        $obj->allow_comment = $post->acceptcomment->body==1?'Y':'N';
+                        $obj->allow_trackback= $post->accepttrackback->body==1?'Y':'N';
+                        $obj->regdate = date("YmdHis",$post->created->body);
+                        $obj->last_update = date("YmdHis",$post->modified->body);
 
-                    $category = trim($post->category->body);
-                    if($category) {
-                        $tmp_category = explode('/',$category);
-                        if(count($tmp_category)>1) $category = $tmp_category[1];
-                        $obj->category_srl = (int)$category_titles[$category];
-                        if(!$obj->category_srl) {
-                            $tmp = array_values($category_titles);
-                            $obj->category_srl = (int)$tmp[0];
-                        }
-                    }
-                    $obj->user_id = $member_info->user_id;
-                    $obj->nick_name = $member_info->nick_name;
-                    $obj->user_name = $member_info->user_name;
-                    $obj->member_srl = $member_info->member_srl;
-
-                    // 댓글
-                    $obj->comments = $this->importTTComment($post->comment);
-
-                    // 꼬리표
-                    $tags = $post->tag;
-                    if(!is_array($tags)) $tags = array($tags);
-                    if(count($tags)) {
-                        $tag_list = array();
-                        foreach($tags as $key => $val) {
-                            $tag = trim($val->body);
-                            if(!$tag) continue;
-                            $tag_list[] = $tag;
-                        }
-                        if(count($tag_list)) $obj->tags = implode(',',$tag_list);
-                    }
-
-                    // 엮인글
-                    if($post->trackback) {
-                        $trackbacks = $post->trackback;
-                        if(!is_array($trackbacks)) $trackbacks = array($trackbacks);
-                        if(count($trackbacks)) {
-                            foreach($trackbacks as $key => $val) {
-                                $tobj = null;
-                                $tobj->url = $val->url->body;
-                                $tobj->title = $val->title->body;
-                                $tobj->blog_name = $val->site->body;
-                                $tobj->excerpt = $val->excerpt->body;
-                                $tobj->regdate = date("YmdHis",$val->received->body);
-                                $tobj->ipaddress = $val->ip->body;
-                                $obj->trackbacks[] = $tobj;
+                        $category = trim($post->category->body);
+                        if($category) {
+                            $tmp_category = explode('/',$category);
+                            if(count($tmp_category)>1) $category = $tmp_category[1];
+                            $obj->category_srl = (int)$category_titles[$category];
+                            if(!$obj->category_srl) {
+                                $tmp = array_values($category_titles);
+                                $obj->category_srl = (int)$tmp[0];
                             }
                         }
+                        $obj->user_id = $member_info->user_id;
+                        $obj->nick_name = $member_info->nick_name;
+                        $obj->user_name = $member_info->user_name;
+                        $obj->member_srl = $member_info->member_srl;
+
+                        // 댓글
+                        $obj->comments = $this->importTTComment($post->comment);
+
+                        // 꼬리표
+                        $tags = $post->tag;
+                        if(!is_array($tags)) $tags = array($tags);
+                        if(count($tags)) {
+                            $tag_list = array();
+                            foreach($tags as $key => $val) {
+                                $tag = trim($val->body);
+                                if(!$tag) continue;
+                                $tag_list[] = $tag;
+                            }
+                            if(count($tag_list)) $obj->tags = implode(',',$tag_list);
+                        }
+
+                        // 엮인글
+                        if($post->trackback) {
+                            $trackbacks = $post->trackback;
+                            if(!is_array($trackbacks)) $trackbacks = array($trackbacks);
+                            if(count($trackbacks)) {
+                                foreach($trackbacks as $key => $val) {
+                                    $tobj = null;
+                                    $tobj->url = $val->url->body;
+                                    $tobj->title = $val->title->body;
+                                    $tobj->blog_name = $val->site->body;
+                                    $tobj->excerpt = $val->excerpt->body;
+                                    $tobj->regdate = date("YmdHis",$val->received->body);
+                                    $tobj->ipaddress = $val->ip->body;
+                                    $obj->trackbacks[] = $tobj;
+                                }
+                            }
+                        }
+
+                        // 첨부파일
+                        $obj->attaches = $attaches;
+
+                        $total_count ++;
+                        if($this->importDocument($obj)) $success_count ++;
                     }
-
-                    // 첨부파일
-                    $obj->attaches = $attaches;
-
-                    $total_count ++;
-                    if($this->importDocument($obj)) $success_count ++;
 
                     // 새로운 게시글을 위한 처리
                     $post_started = false;
                     $obj = null;
                     $post_buff = '';
                     $attaches = array();
+
+                    // 만약 글입력후 <post로 시작하지 않으면 종료
+                    if(substr($str,0,6)!='<post ') $manual_break = true;
                 }
 
-                // <post가 나오면 새로운 게시글 버퍼링 시작, 만약 이전에 카테고리 버퍼링중이였다면 카테고리 처리
-                if(substr($str,0,6)=='<post ') {
+                if(!$manual_break) {
+                    // <post가 나오면 새로운 게시글 버퍼링 시작, 만약 이전에 카테고리 버퍼링중이였다면 카테고리 처리
+                    if(substr($str,0,6)=='<post ') {
 
-                    // 카테고리 버퍼링중이였다면 카테고리 처리
-                    if($category_started) {
-                        $category_started = false;
+                        // 카테고리 버퍼링중이였다면 카테고리 처리
+                        if($category_started) {
+                            $category_started = false;
+                            // 객체 변환후 카테고리 입력
+                            $xml_doc = $this->oXmlParser->parse('<categories>'.$category_buff.'</category_buff>');
 
-                        // 객체 변환후 카테고리 입력
-                        $xml_doc = $this->oXmlParser->parse('<categories>'.$category_buff.'</category_buff>');
-                        if($xml_doc->category) {
-                            $this->insertTTCategory($xml_doc, 0, $module_srl, $category_titles);
+                            if($xml_doc->category) {
+                                $this->insertTTCategory($xml_doc, 0, $module_srl, $category_titles);
 
-                            // 입력완료 후 카테고리 xml파일 재생성
-                            $this->oDocumentController->makeCategoryXmlFile($module_srl);
-                            $xml_doc = null;
+                                // 입력완료 후 카테고리 xml파일 재생성
+                                $this->oDocumentController->makeCategoryFile($module_srl);
+                                $xml_doc = null;
+                            }
+
+                            $category_buff = null;
                         }
 
-                        $category_buff = null;
+                        $post_started = true;
                     }
 
-                    $post_started = true;
-                }
-
-                // 게시글 버퍼링중일때 처리
-                if($post_started) {
-                    // 첨부파일의 경우 별도로 버퍼링을 하지 않고 직접 파일에 기록해야 함
-                    if(substr($str,0,12)=='<attachment ') $attaches[] = $this->importTTAttaches($fp, $str);
-                    else $post_buff .= $str;
+                    // 게시글 버퍼링중일때 처리
+                    if($post_started) {
+                        // 첨부파일의 경우 별도로 버퍼링을 하지 않고 직접 파일에 기록해야 함
+                        if(substr($str,0,12)=='<attachment ') $attaches[] = $this->importTTAttaches($fp, $str);
+                        else $post_buff .= $str;
+                    }
                 }
             }
-
             fclose($fp);
 
+            $output = ob_get_clean();
+
             $this->add('is_finished','1');
+            $this->add('total_count',$total_count);
+            $this->add('success_count',$success_count);
+            $this->add('readed_line',0);
             $this->setMessage(sprintf(Context::getLang('msg_import_finished'), $success_count, $total_count));
+        }
+
+        /**
+         * @brief ttxml의 자체 img 태그를 치환
+         **/
+        function _replaceTTImgTag($matches) {
+            return sprintf("<img src=\"%s\" alt=\"%s\" />", $matches[1], str_replace("\"","\\\"",$matches[3]));
         }
 
         /**

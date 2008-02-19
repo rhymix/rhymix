@@ -20,17 +20,27 @@
          * @brief RSS 모듈별 설정
          **/
         function procRssAdminInsertModuleConfig() {
-            // 필요한 변수를 받아옴
+            // 대상을 구함
             $module_srl = Context::get('target_module_srl');
+
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+           
             $open_rss = Context::get('open_rss');
             if(!$module_srl || !$open_rss) return new Object(-1, 'msg_invalid_request');
 
             if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
 
             // 설정 저장
-            $output = $this->setRssModuleConfig($module_srl, $open_rss);
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $output = $this->setRssModuleConfig($srl, $open_rss);
+            }
 
-            $this->setMessage('success_registed');
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
 
         /**

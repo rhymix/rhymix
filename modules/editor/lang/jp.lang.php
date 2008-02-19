@@ -28,6 +28,24 @@
     $lang->cmd_disable = "未使用";
     $lang->cmd_enable = "使用";
 
+    $lang->editor_skin = 'エディタースキン';
+    $lang->upload_file_grant = 'ファイル添付権限'; 
+    $lang->enable_default_component_grant = '基本コンポーネント使用権限';
+    $lang->enable_component_grant = 'コンポーネント使用権限';
+    $lang->enable_html_grant = 'HTML編集権限';
+    $lang->enable_autosave = '自動保存使用';
+    $lang->height_resizable = '高さの調節可能';
+    $lang->editor_height = 'エディターの高さ';
+
+    $lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';
+    $lang->about_upload_file_grant = 'ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)';
+    $lang->about_default_component_grant = 'エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
+    $lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
+    $lang->about_editor_height = 'エディターの基本高さを設定します。';
+    $lang->about_editor_height_resizable = 'エディターの高さを直接変更出来るようにします。';
+    $lang->about_enable_html_grant = 'HTML編集権限を付与します。';
+    $lang->about_enable_autosave = '書き込みのとき、自動保存機能をオンにします。';
+
     $lang->edit->fontname = 'フォント';
     $lang->edit->fontsize = 'フォントサイズ';
     $lang->edit->use_paragraph = '段落機能';

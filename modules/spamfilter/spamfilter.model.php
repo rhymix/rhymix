@@ -78,7 +78,7 @@
             $count = count($word_list);
             for($i=0;$i<$count;$i++) {
                 $word = $word_list[$i]->word;
-                if(eregi($word, $text)!==false) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+                if(preg_match('/'.$word.'/is', $text)) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
             }
 
             return new Object();
@@ -126,7 +126,7 @@
 
             $oTrackbackModel = &getModel('trackback');
             $count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
-            if($count>0) return Object(-1, 'msg_alert_trackback_denied');
+            if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
 
             return new Object();
         }

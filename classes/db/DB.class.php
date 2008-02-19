@@ -15,6 +15,8 @@
 
     class DB {
 
+        var $count_cache_path = './files/cache/db';
+
         var $cond_operation = array( ///< 조건문에서 조건을 등호로 표시하는 변수
             'equal' => '=',
             'more' => '>=',
@@ -83,7 +85,7 @@
             for($i=0;$i<count($supported_list);$i++) {
                 $db_type = $supported_list[$i];
 
-                if(version_compare(phpversion(), '5.0') < 0 && eregi('pdo',$db_type)) continue;
+                if(version_compare(phpversion(), '5.0') < 0 && preg_match('/pdo/i',$db_type)) continue;
 
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
                 $class_file = sprintf("./classes/db/%s.class.php", $class_name);
@@ -220,9 +222,11 @@
 
             // 일단 cache 파일을 찾아본다
             $cache_file = sprintf('%s%s.cache.php', $this->cache_file, $query_id);
+            if(file_exists($cache_file)) $cache_time = filemtime($cache_file);
+            else $cache_time = -1;
 
-            // 없으면 원본 쿼리 xml파일을 찾아서 파싱을 한다
-            if(!file_exists($cache_file)||filemtime($cache_file)<filemtime($xml_file)) {
+            // 캐시 파일이 없거나 시간 비교하여 최근것이 아니면 원본 쿼리 xml파일을 찾아서 파싱을 한다
+            if($cache_time<filemtime($xml_file) || $cache_time < filemtime('./classes/db/DB.class.php')) {
                 require_once('./classes/xml/XmlQueryParser.class.php');   
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
@@ -250,12 +254,15 @@
             // action값에 따라서 쿼리 생성으로 돌입
             switch($output->action) {
                 case 'insert' :
+                        $this->resetCountCache($output->tables);
                         $output = $this->_executeInsertAct($output);
                     break;
                 case 'update' :
+                        $this->resetCountCache($output->tables);
                         $output = $this->_executeUpdateAct($output);
                     break;
                 case 'delete' :
+                        $this->resetCountCache($output->tables);
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
@@ -278,24 +285,24 @@
             switch($filter_type) {
                 case 'email' :
                 case 'email_address' :
-                        if(!eregi('^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'homepage' :
-                        if(!eregi('^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'userid' :
                 case 'user_id' :
-                        if(!eregi('^[a-zA-Z]+([_0-9a-zA-Z]+)*$', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'number' :
                 case 'numbers' :
-                        if(!eregi('^[0-9,]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha' :
-                        if(!eregi('^[a-z]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha_number' :
-                        if(!eregi('^[0-9a-z]+$', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^[0-9a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
             }
 
@@ -413,7 +420,69 @@
             }
 
             return $conditions;
+        }
 
+        /**
+         * @brief 카운터 캐시 데이터 얻어오기
+         **/
+        function getCountCache($tables, $condition) {
+            if(!$tables) return false;
+            if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
+
+            $condition = md5($condition);
+
+            if(!is_array($tables)) $tables_str = $tables;
+            else $tables_str = implode('.',$tables);
+            
+            $cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
+            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+
+            $cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
+            if(!file_exists($cache_filename)) return false;
+
+            $cache_mtime = filemtime($cache_filename);
+
+            if(!is_array($tables)) $tables = array($tables);
+            foreach($tables as $alias => $table) {
+                $table_filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table) ;
+                if(file_exists($table_filename) && filemtime($table_filename) > $cache_mtime) return false;
+            }
+
+            $count = (int)FileHandler::readFile($cache_filename);
+            return $count;
+        }
+
+        /**
+         * @brief 카운터 캐시 데이터 저장
+         **/
+        function putCountCache($tables, $condition, $count = 0) {
+            if(!$tables) return false;
+            if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
+
+            $condition = md5($condition);
+
+            if(!is_array($tables)) $tables_str = $tables;
+            else $tables_str = implode('.',$tables);
+
+            $cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
+            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+
+            $cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
+
+            FileHandler::writeFile($cache_filename, $count);
+        }
+
+        /**
+         * @brief 카운터 캐시 리셋
+         **/
+        function resetCountCache($tables) {
+            if(!$tables) return false;
+            if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
+
+            if(!is_array($tables)) $tables = array($tables);
+            foreach($tables as $alias => $table) FileHandler::writeFile( sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table), '' );
+
+            return true;
         }
     }
 ?>

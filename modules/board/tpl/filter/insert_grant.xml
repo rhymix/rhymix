@@ -1,6 +1,6 @@
 <filter name="insert_grant" module="board" act="procBoardAdminInsertGrant" confirm_msg_code="confirm_submit">
     <form>
-        <node target="module_srl" required="true" filter="number" />
+        <node target="module_srl" required="true" />
     </form>
     <response callback_func="completeInsertGrant">
         <tag name="error" />

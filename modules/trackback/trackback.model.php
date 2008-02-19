@@ -95,6 +95,7 @@
                 $module_trackback_config->module_srl = $module_srl;
                 $module_trackback_config->enable_trackback = $trackback_config->enable_trackback=='Y'?'Y':'N';
             }
+
             return $module_trackback_config;
         }
 

@@ -5,7 +5,6 @@
     <!--@if(!$module_info->colorset)-->
         {@$module_info->colorset = "white"}
     <!--@end-->
-
 <!-- CSS 파일 로드 (컬러셋에 따라서) -->
     <!--%import("css/common.css")-->
 
@@ -36,7 +35,7 @@
     <!--@end-->
 
 <!-- 사용자가 선택한 게시판 형태에 따른 설정(포럼형은 적용 안됨) -->
-<!--@if($module_info->default_style != 'forum')-->
+<!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
     <!--@if($listStyle=='gallery')-->
         {@ $module_info->default_style = 'gallery'}
     <!--@elseif($listStyle=='webzine')-->
@@ -49,10 +48,12 @@
 <!-- 상단 텍스트 출력 -->
     {$module_info->header_text}
 
-<!-- 스킨의 제목/간단한 설명 출력 -->
+<!-- 블로그 스킨이 아닐 경우 스킨의 제목/간단한 설명 출력 -->
     <!--@if($module_info->title)-->
     <div class="boardHeader">
-        <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+        <div class="boardHeaderBorder">
+            <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+        </div>
     </div>
     <!--@end-->
 
@@ -62,10 +63,11 @@
     <!--@end-->
 
 <!-- 게시판 정보 -->
+<!--@if($module_info->display_login_info != 'N' || $module_info->display_setup_button != 'N')-->
     <div class="boardInformation">
 
         <!-- 게시물 수 -->
-        <!--@if($total_count)-->
+        <!--@if($total_count && $module_info->default_style != 'blog')-->
         <div class="articleNum">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
         <!--@end-->
 
@@ -76,23 +78,23 @@
         <!--@if($is_logged)-->
 
             <!-- 관리자이면 설정 버튼 출력 -->
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
             <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
             <!--@end-->
 
             <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
-            <!--@if($logged_info->is_admin == 'Y')-->
+            <!--@if($logged_info->is_admin == 'Y' && $module_info->display_setup_button != 'N')-->
             <li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
             <!--@end-->
 
-            <!-- 레이아웃이 없으면 회원정보 버튼 출력 -->
-            <!--@if(!$module_info->layout_srl)-->
+            <!-- 회원정보 버튼 출력 -->
+            <!--@if($module_info->display_login_info != 'N')-->
             <li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
             <!--@end-->
 
         <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
-        <!--@elseif(!$is_logged && !$module_info->layout_srl)-->
+        <!--@elseif(!$is_logged && $module_info->display_login_info != 'N')-->
             <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
         <!--@end-->
@@ -105,11 +107,13 @@
 
             <li class="tag_info"><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/common/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
 
-        <!-- 목록형태 (포럼형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
-            <!--@if($module_info->default_style != 'forum')-->
-            <li class="listType"><a href="{getUrl('listStyle','list','act','')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
-            <li class="listType"><a href="{getUrl('listStyle','webzine','act','')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
-            <li class="listType"><a href="{getUrl('listStyle','gallery','act','')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
+        <!-- 목록형태 (포럼형/ 블로그형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
+            <!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
+            <li class="listType"><a href="{getUrl('listStyle','list','act','','document_srl','')}"><img src="./images/common/typeList.gif" border="0" width="13" height="13" alt="List" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','webzine','act','','document_srl','')}"><img src="./images/common/typeWebzine.gif" border="0" width="13" height="13" alt="Webzine" /></a></li>
+            <li class="listType"><a href="{getUrl('listStyle','gallery','act','','document_srl','')}"><img src="./images/common/typeGallery.gif" border="0" width="13" height="13" alt="Gallery" /></a></li>
             <!--@end-->
         </ul>
+
     </div>
+<!--@end-->

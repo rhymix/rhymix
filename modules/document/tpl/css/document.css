@@ -3,3 +3,5 @@
 .document_list input { float:left; margin-right:10px; }
 .document_list address { float:left; width:100px; margin-right:10px; overflow:hidden; white-space:nowrap;}
 .document_list .document_title { }
+
+div.printContent { padding:20px; }

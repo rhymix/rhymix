@@ -200,7 +200,7 @@
                     }
 
                     // 이미지 파일이 아니어도 무시
-                    if(!eregi("\.(jpg|jpeg|gif|png)$", $image_obj['name'])) {
+                    if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) {
                         unset($obj->{$vars->name});
                         continue;
                     }

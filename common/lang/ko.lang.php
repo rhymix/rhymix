@@ -60,6 +60,8 @@
     $lang->cmd_reset = '초기화';
     $lang->cmd_remake_cache = "캐시파일 재생성";
     $lang->cmd_publish = "발행";
+    $lang->cmd_layout_setup = '레이아웃 설정';
+    $lang->cmd_layout_edit = '레이아웃 편집';
 
     $lang->enable = '가능';
     $lang->disable = '불가능';
@@ -124,6 +126,7 @@
     $lang->document_count = '글수';
     $lang->page_count = '페이지수';
     $lang->list_count = '목록 수';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = '조회수';
     $lang->voted_count = '추천수';
     $lang->member_count = '회원수';
@@ -148,6 +151,9 @@
     $lang->use = '사용';
     $lang->notuse = '미사용';
     $lang->not_exists = '없음';
+
+    $lang->public = '공개';
+    $lang->private = '비공개';
 
     $lang->unit_sec = '초';
     $lang->unit_min = '분';

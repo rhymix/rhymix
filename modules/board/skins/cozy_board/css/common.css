@@ -62,7 +62,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList td.title,
 .boardList td.title a { color:#444444; text-decoration:none; }
 .boardList td.title a:visited { color:#777777;}
-.boardList td.title .title_wrap { width:100%; overflow:hidden; white-space:nowrap;}
+.boardList td.title .title_wrap { width:100%; overflow:hidden; }
 .boardList td.author { padding:0 .5em 0 1.3em; color:#333333; font:.95em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}
 .boardList td.author a { font-size:1em; color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
@@ -243,6 +243,7 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:9.5em; white-space:nowrap;}
 .boardWrite div.title input#title { width:60%;}
 
+.boardWrite dl.option { margin:0; padding:5px; }
 .boardWrite .option dt { display:block; float:left; font-weight:bold; padding:.3em 0 0 1.5em; width:9.5em; white-space:nowrap;}
 .boardWrite .option dd { float:left; margin-right:1em; padding-top:.2em; _padding-top:.1em;}
 .boardWrite .option dd * { vertical-align:middle;}
@@ -585,3 +586,8 @@ Jeong, Chan Myeong 070601~070630
 
 .searchNextButton { border:1px solid #979797; border-left:1px solid #B1B1B1; border-top:1px solid #B1B1B1; color:#4F4F4F; height:21px; font-size:8pt; padding-left:5px; padding-right:5px; _padding-top:3px;}
 *:first-child+html .searchNextButton { padding-top:3px; }
+
+/* 회원 서명 및 프로필 이미지 출력 */
+.memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
+.memberSignature .profile { float:left; margin-right:20px; }
+img.commentProfileImage { margin:5px 10px 5px 0; }

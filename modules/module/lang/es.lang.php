@@ -51,7 +51,8 @@
     $lang->about_footer_text = 'El contenido se mostrará en la parte inferior del módulo.(tags de html permitido)';
     $lang->about_skin = 'Usted puede elegir un tema del módulo.';
     $lang->about_use_category = 'Si selecciona esta opción, la función de categoría sera activada.';
-    $lang->about_list_count = 'Usted puede definir el número límite de los documentos a mostrar en una página.(Predefinido es 1)';
+    $lang->about_list_count = 'Usted puede definir el número límite de los documentos a mostrar en una página.(Predefinido es 20)';
+    $lang->about_search_list_count = 'Usted puede configurar el número de artículos que se exponen cuando se utiliza la función de búsqueda o categoría. (Por defecto es 20)';
     $lang->about_page_count = 'Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 10)';
     $lang->about_admin_id = 'Usted puede definir el administrador de atribuciones superiores al módulo.\n Usted puede asignar múltiples IDs,<br />utilizando una ","(coma) \n(pero el administrador del módulo no puede acceder al sitio de la pógina del administrador.)';
     $lang->about_grant = 'Si usted desea desactivar a todos los objetos teniendo atribuciones especificas, incluso el usuario no conectado pueden tener atribuciones.';

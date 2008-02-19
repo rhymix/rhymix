@@ -1,6 +1,6 @@
-.login_black { border:2px solid #515151; width:196px; position:relative; _padding-top:2px; display:block;}
+.login_black { border:2px solid #515151; width:196px; position:relative; _padding-top:2px; display:block; display:none;}
 *:first-child+html body#black .login_black { padding-top:2px;}
-.login_black legend { display:block; width:0; height:0; overflow:hidden; font-size:0;}
+.login_black legend { display:none; width:0; height:0; overflow:hidden; font-size:0;}
 .login_black form { position:relative; border:1px solid #6b6b6b; padding:11px 11px 7px 11px; width:172px;}
 .login_black form .idpwWrap { overflow:hidden; clear:both; width:172px;}
 .login_black form .idpw { float:left; width:110px;}

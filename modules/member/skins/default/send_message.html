@@ -9,7 +9,7 @@
     </div>
 
     <form action="./" method="get" onsubmit="return procFilter(this, send_message)">
-    <input type="hidden" name="content" value="" />
+    <input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
     <input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 
         <div class="complex">
@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th scope="row">{$lang->title}</th>
-                <td><input type="text" name="title" id="message_title" class="inputTypeText w300" /></td>
+                <td><input type="text" name="title" id="message_title" class="inputTypeText w300" value="{$source_message->title}"/></td>
             </tr>
             <tr>
                 <th scope="row">{$lang->cmd_option}</th>

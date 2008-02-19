@@ -16,7 +16,7 @@
         /**
          * @brief user_id, password를 체크하여 로그인 시킴
          **/
-        function procMemberLogin($user_id = null, $password = null, $remember_user_id = null) {
+        function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
             // 변수 정리
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
@@ -24,14 +24,19 @@
             if(!$password) $password = Context::get('password');
             $password = trim($password);
 
-            if($remember_user_id) $remember_user_id = Context::get('remember_user_id');
-            if($remember_user_id != 'Y') setcookie('user_id','');
+            if(!$keep_signed) $keep_signed = Context::get('keep_signed');
 
             // 아이디나 비밀번호가 없을때 오류 return
             if(!$user_id) return new Object(-1,'null_user_id');
             if(!$password) return new Object(-1,'null_password');
 
-            return $this->doLogin($user_id, $password);
+            $output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
+
+            return $output;
         }
 
         /**
@@ -137,8 +142,14 @@
             // 로그아웃 이후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
             if(!$trigger_output->toBool()) return $trigger_output;
-            
-            return new Object();
+
+            $output = new Object();
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->after_logout_url) Context::set('redirect_url', $config->after_logout_url);
+
+            return $output;
         }
 
         /**
@@ -167,11 +178,13 @@
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
 
-            // 받을 회원의 쪽지 수신여부 검사
-            if($receiver_member_info->allow_message == 'F') {
-                if(!$oMemberModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
-            } elseif($receiver_member_info->allow_messge == 'N') {
-                return new object(-1, 'msg_disallow_message');
+            // 받을 회원의 쪽지 수신여부 검사 (최고관리자이면 패스)
+            if($logged_info->is_admin != 'Y') {
+                if($receiver_member_info->allow_message == 'F') {
+                    if(!$oMemberModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
+                } elseif($receiver_member_info->allow_messge == 'N') {
+                    return new object(-1, 'msg_disallow_message');
+                }
             }
 
             // 쪽지 발송
@@ -895,16 +908,19 @@
             if(!$max_height) $max_height = "20";
 
             // 저장할 위치 구함
-            $target_path = sprintf('files/member_extra_info/profile_image/%s/', getNumberingPath($member_srl));
+            $target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
-
-            $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
 
             // 파일 정보 구함
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
+            if($type == 3) $ext = 'png';
+            elseif($type == 2) $ext = 'jpg';
+            else $ext = 'gif';
+
+            $target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 
             // 지정된 사이즈보다 크거나 gif가 아니면 변환
-            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
+            if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
             else @copy($target_file, $target_filename);
         }
 
@@ -965,11 +981,14 @@
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(0,'success');
 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->profile_image == 'N') return new Object(0,'success');
-
             $logged_info = Context::get('logged_info');
+
+            if($logged_info->is_admin != 'Y') {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+                if($config->profile_image == 'N') return new Object(0,'success');
+            }
+
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
@@ -985,11 +1004,14 @@
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(0,'success');
 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->image_name == 'N') return new Object(0,'success');
-
             $logged_info = Context::get('logged_info');
+
+            if($logged_info->is_admin != 'Y') {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+                if($config->image_name == 'N') return new Object(0,'success');
+            }
+
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
@@ -1192,9 +1214,43 @@
         }
 
         /**
+         * @brief 자동 로그인 시킴
+         **/
+        function doAutologin() {
+            // 자동 로그인 키 값을 구함
+            $args->autologin_key = $_COOKIE['xeak'];
+
+            // 키값에 해당하는 정보 구함
+            $output = executeQuery('member.getAutologin', $args);
+
+            // 정보가 없으면 쿠키 삭제
+            if(!$output->toBool() || !$output->data) {
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+                return;
+            }
+
+            $user_id = $output->data->user_id;
+            $password = $output->data->password;
+            if(!$user_id || !$password) {
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+                return;
+            }
+
+            // 정보를 바탕으로 키값 비교
+            $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
+
+            if($key == $args->autologin_key) {
+                $output = $this->doLogin($user_id);
+            } else {
+                executeQuery('member.deleteAutologin', $args);
+                setCookie('xeak',null,time()+60*60*24*365, '/');
+            }
+        }
+
+        /**
          * @brief 로그인 시킴
          **/
-        function doLogin($user_id, $password = '') {
+        function doLogin($user_id, $password = '', $keep_signed = false) {
             // 로그인 이전에 trigger 호출 (before)
             $trigger_obj->user_id = $user_id;
             $trigger_obj->password = $password;
@@ -1230,6 +1286,18 @@
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
             if(!$trigger_output->toBool()) return $trigger_output;
 
+            // 자동 로그인 사용시 정보 처리
+            if($keep_signed) {
+                // 자동 로그인 키 생성
+                $autologin_args->autologin_key = md5($user_id.$member_info->password.$_SERVER['REMOTE_ADDR']);
+                $autologin_args->member_srl = $member_info->member_srl;
+                executeQuery('member.deleteAutologin', $autologin_args);
+                $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
+                if($autologin_output->toBool()) {
+                    setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
+                }
+            }
+
             $this->setSessionInfo($member_info);
 
             return $output;
@@ -1255,7 +1323,7 @@
             if(!$member_info->member_srl) return;
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
-            if(eregi("^([0-9a-z]+)$", $member_info->user_id)) $member_info->is_openid = false;
+            if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
 
             // 로그인 처리를 위한 세션 설정
@@ -1321,8 +1389,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^http:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^http:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
@@ -1408,6 +1476,7 @@
 
             // 수정하려는 대상의 원래 정보 가져오기
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            if(!$args->user_id) $args->user_id = $member_info->user_id;
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
@@ -1424,8 +1493,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !eregi("^http:\/\/",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !eregi("^http:\/\/",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^http:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^http:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 아이디, 닉네임, email address 의 중복 체크
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
@@ -1560,85 +1629,18 @@
         }
 
         /**
-         * @brief 최종 출력물에서 이미지 이름을 변경
-         * member_extra_info 애드온에서 요청이 됨
-         **/
-        function transImageName($matches) {
-            $member_srl = $matches[3];
-            if($member_srl<0) return $matches[5];
-
-            $text = $matches[5];
-            if(!$member_srl) return $matches[0];
-
-            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
-            if(!$GLOBALS['_transImageNameList'][$member_srl]) {
-                $oMemberModel = &getModel('member');
-
-                $GLOBALS['_transImageNameList'][$member_srl]['image_name'] = $oMemberModel->getImageName($member_srl);
-                $GLOBALS['_transImageNameList'][$member_srl]['image_mark'] = $oMemberModel->getImageMark($member_srl);
-            } 
-            $image_name = $GLOBALS['_transImageNameList'][$member_srl]['image_name'];
-            $image_mark = $GLOBALS['_transImageNameList'][$member_srl]['image_mark'];
-
-            // 이미지이름이나 마크가 없으면 원본 정보를 세팅
-            if(!$image_name && !$image_mark) return $matches[0];
-
-            if($image_name->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri().$image_name->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_name->width, $image_name->height);
-            }
-
-            if($image_mark->width) {
-                $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" width="%s" height="%s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri().$image_mark->file, htmlspecialchars(strip_tags($matches[5])), htmlspecialchars(strip_tags($matches[5])), $image_mark->width, $image_mark->height, $text);
-            }
-
-            return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);
-        }
-
-        /**
-         * @brief 최종 출력물에서 서명을 변경, 프로필 이미지도 같이 적용함
-         * member_extra_info 애드온에서 요청이 됨
-         **/
-        function transSignature($matches) {
-            $oModuleModel = &getModel('module');
-            $memberModuleConfig = $oModuleModel->getModuleConfig('member');
-            
-            $member_srl = $matches[2];
-            if(!$member_srl) return $matches[0];
-
-            // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
-            if(!isset($GLOBALS['_transSignatureList'][$member_srl])) {
-                $oMemberModel = &getModel('member');
-
-                // 서명을 구해옴
-                $signature = $oMemberModel->getSignature($member_srl);
-
-                // 프로필 이미지를 구해옴
-                $profile_image = $oMemberModel->getProfileImage($member_srl);
-                if($profile_image->src) $signature = sprintf('<img src="%s" width="%d" height="%d" alt="" class="member_profile_image" />%s', $profile_image->src, $profile_image->width, $profile_image->height, $signature);
-
-                // 서명이 있으면 반환
-                if($signature) {
-                    // 서명 높이 제한 값이 있으면 표시 높이 제한
-                    if($memberModuleConfig->signature_max_height) {
-                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature" style="max-height: %spx; overflow: auto; height: expression(this.scrollHeight > %s? \'%spx\': \'auto\');">%s<div class="clear"></div></div>', $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $memberModuleConfig->signature_max_height, $signature);
-                    } else {
-                        $GLOBALS['_transSignatureList'][$member_srl] = sprintf('<div class="member_signature">%s<div class="clear"></div></div>', $signature);
-                    }
-                } else {
-                    $GLOBALS['_transSignatureList'][$member_srl] = null;
-                }
-            }
-
-            return $GLOBALS['_transSignatureList'][$member_srl].$matches[0];
-        }
-
-        /**
          * @brief 모든 세션 정보 파기
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;
             foreach($_SESSION as $key => $val) {
                 $_SESSION[$key] = '';
+            }
+            session_destroy();
+
+            if($_COOKIE['xeak']) {
+                $args->autologin_key = $_COOKIE['xeak'];
+                executeQuery('member.deleteAutologin', $args);
             }
         }
     }

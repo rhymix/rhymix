@@ -1,0 +1,47 @@
+<!--%import("css/common.css")-->
+
+<div class="xeForum">
+    <img src="./images/lt.gif" alt="" class="fl" />
+    <img src="./images/rt.gif" alt="" class="fr" />
+
+    <div class="forumTable">
+        <table cellspacing="0" class="xeForum clear">
+        <col width="60" />
+        <col />
+        <col width="70" />
+        <col width="70" />
+        <col width="160" />
+        <tr class="top">
+            <th colspan="2" class="title"><!--@if($widget_info->title)-->{$widget_info->title}<!--@else-->&nbsp;<!--@end--></th>
+            <th class="topic">{$lang->topic}</th>
+            <th class="replies">{$lang->replies}</th>
+            <th class="last_post">{$lang->last_post}</th>
+        </tr>
+        <!--@foreach($widget_info->modules as $val)-->
+        <tr class="content">
+            <td class="icon"><img src="./images/icon<!--@if($val->is_new)-->_new<!--@end-->.gif" alt="icon" /></td>
+            <td class="title">
+                <strong><a href="{getUrl('','mid',$val->mid)}">{$val->title}</a></strong>
+                <p>{$val->description}</p>
+            </td>
+            <td class="topic">{number_format($val->document_count)}</td>
+            <td class="replies">{number_format($val->comment_count)}</td>
+            <td class="last_post">
+                <!--@if($val->last_item)-->
+                    <div class="author">
+                        <span class="member_{$val->last_item->member_srl}">{$val->last_item->nick_name}</span>
+                        <a href="{getUrl('','document_srl',$val->last_item->document_srl)}<!--@if($val->last_item->comment_srl)-->#comment_{$val->last_item->comment_srl}<!--@end-->"><img src="./images/replies.gif" alt="go" /></a>
+                    </div>
+                    <div class="date">{zdate($val->last_item->regdate,"Y-m-d H:i")}</div>
+                <!--@else-->
+                    &nbsp;
+                <!--@end-->
+            </td>
+        </tr>
+        <!--@end-->
+        </table>
+    </div>
+    <img src="./images/lb.gif" alt="" class="fl" />
+    <img src="./images/rb.gif" alt="" class="fr" />
+    <div class="clear"></div>
+</div>

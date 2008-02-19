@@ -22,11 +22,11 @@
             </address>
         </div>
 
-        <div class="messageBody">{$message->content}</div>
+        <div class="messageBody xe_content">{$message->content}</div>
 
         <div class="deleteOrKeep tCenter">
             <!--@if($message->message_type != "S" && $message->member_srl != $logged_info->member_srl)-->
-            <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply}</span></a>
+            <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_reply}</span></a>
             <!--@end-->
             <!--@if($message->message_type == "R")-->
             <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_store}</span></a>

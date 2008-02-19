@@ -121,19 +121,27 @@
     <!--@end-->
 
     <!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
+    <!--@if($html_mode || $enable_autosave)-->
     <div class="editor_info">
+        <!--@if($html_mode)-->
         <div class="editor_option">
             <input type="checkbox" id="use_html_{$editor_sequence}" value="Y" onclick="editorChangeMode(this, '{$editor_sequence}');" /> <label for="use_html_{$editor_sequence}">HTML</label>
         </div>
+        <!--@end-->
+        <!--@if($enable_autosave)-->
         <div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</div>
+        <!--@end-->
     </div>
+    <!--@end-->
 
     <!-- 에디터 출력 -->
     <div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" width="100%" height="{$editor_height}" style="background-color:transparent;"></iframe></div>
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->
+    <!--@if($enable_resizable)-->
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
+    <!--@end-->
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->
@@ -144,22 +152,24 @@
         editor_upload_init("{$editor_sequence}");
     //]]></script>
 
-    <div class="fileAttach">
-        <div class="preview iePngFix" id="preview_uploaded_{$editor_sequence}">
-            <img src="./images/blank.gif" alt="preview" width="100" height="100" />
-        </div>
-
-        <!-- 파일 업로드 영역 -->
-        <div class="fileListArea">
-            <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="7" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
-            <span class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</span>
-        </div>
-
-        <div class="fileUploadControl"><a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a></div>
-        <div class="fileUploadControl"><a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a></div>
-
-        <div class="clear"></div>
-    </div>
+    <table cellspacing="0" class="fileAttach">
+    <col width="120" />
+    <col width="100%" />
+    <tr valign="top">
+        <td width="120"><div class="preview" id="preview_uploaded_{$editor_sequence}"><img src="./images/blank.gif" alt="preview" width="100" height="100" /></div></td>
+        <td>
+            <!-- 파일 업로드 영역 -->
+            <div class="fileListArea">
+                <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
+            </div>
+            <div class="fileUploadControl">
+                <a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a>
+                <a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
+                <a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
+            </div>
+            <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+        </td>
+    </tr>
+    </table>
 <!--@end-->
 </div>

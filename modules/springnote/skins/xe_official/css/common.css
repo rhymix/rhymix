@@ -10,12 +10,11 @@
 
 /* account Navigation */
 .accountNavigation { float:right; }
-.accountNavigation li { float:left; margin-left:7px; list-style:none; padding-top:3px;}
+.accountNavigation li { float:left; margin-left:7px; list-style:none; }
 .accountNavigation li a { font-size:12px; white-space:nowrap; color:#666666; text-decoration:none;}
-.accountNavigation li.setup a { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
-.accountNavigation li.admin a { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
-.accountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 5px; padding-left:8px; _padding-top:5px;}
-*:first-child+html li.loginAndLogout { padding-top:5px; }
+.accountNavigation li.setup { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.admin { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
+.accountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left top; padding-left:8px; }
 
 .pageSearch { text-align:right; margin-bottom:10px; }
 .pageList { border:1px solid #E3E3E2; }

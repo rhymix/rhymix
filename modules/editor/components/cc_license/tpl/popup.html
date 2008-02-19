@@ -1,0 +1,43 @@
+<!--%import("popup.js")-->
+<!--%import("../lang")-->
+
+<div id="popHeadder">
+    <h3>{$component_info->title} ver. {$component_info->version}</h3>
+</div>
+
+<form action="./" method="get" onSubmit="return false" id="fo">
+    <div id="popBody">
+        <table cellspacing="0" class="adminTable">
+        <col width="120" />
+        <col />
+        <tr>
+            <th scope="row">{$lang->ccl_use_mark}</th>
+            <td>
+                <select name="ccl_use_mark"><option value="Y" selected="selected">{$lang->use}</option><option value="N">{$lang->notuse}</option></select>
+                <p>{$lang->about_ccl_use_mark}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->ccl_allow_commercial}</th>
+            <td>
+                <select name="ccl_allow_commercial"><option value="Y">{$lang->ccl_allow}</option><option value="N" selected="selected">{$lang->ccl_disallow}</option></select>
+                <p>{$lang->about_ccl_allow_commercial}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->ccl_allow_modification}</th>
+            <td>
+                <select name="ccl_allow_modification"><option value="Y">{$lang->ccl_allow}</option><option value="N">{$lang->ccl_disallow}</option><option value="SA" selected="selected">{$lang->ccl_sa}</option></select>
+                <p>{$lang->about_ccl_allow_modification}</p>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+    <div id="popFooter" class="tCenter">
+        <a href="#" onclick="insertCode()" class="button"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    </div>
+
+</form>

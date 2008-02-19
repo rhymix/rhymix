@@ -97,7 +97,7 @@
                 if($oDocument->isLocked()) return new Object(-1,'msg_invalid_request');
 
                 if($obj->password) $obj->password = md5($obj->password);
-                if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+                if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
                 // 로그인 된 회원일 경우 회원의 정보를 입력
                 if(Context::get('is_logged')) {
@@ -209,7 +209,7 @@
             if(!$is_admin && !$source_obj->isGranted()) return new Object(-1, 'msg_not_permitted');
 
             if($obj->password) $obj->password = md5($obj->password);
-            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
             // 로그인 되어 있고 작성자와 수정자가 동일하면 수정자의 정보를 세팅
             if(Context::get('is_logged')) {
@@ -338,7 +338,8 @@
             $oDocumentModel = &getModel('document');
 
             // 권한이 있는지 확인
-            if(!$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
             // 삭제
             $args->document_srl = $document_srl;

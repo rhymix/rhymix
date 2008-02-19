@@ -85,9 +85,23 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->after_login_url}</th>
+        <td>
+            <input type="text" name="after_login_url" value="{$config->after_login_url}" class="inputTypeText w400" />
+            <p>{$lang->about_after_login_url}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->after_logout_url}</th>
+        <td>
+            <input type="text" name="after_logout_url" value="{$config->after_logout_url}" class="inputTypeText w400" />
+            <p>{$lang->about_after_logout_url}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->redirect_url}</th>
         <td>
-            <input type="text" name="redirect_url" value="{$config->redirect_url}" class="inputTypeText w100" />
+            <input type="text" name="redirect_url" value="{$config->redirect_url}" class="inputTypeText w400" />
             <p>{$lang->about_redirect_url}</p>
         </td>
     </tr>

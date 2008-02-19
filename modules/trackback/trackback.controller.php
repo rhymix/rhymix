@@ -286,7 +286,7 @@
             // 결과를 기다림 (특정 서버의 경우 EOF가 떨어지지 않을 수가 있음
             while(!feof($fp)) {
                 $line = trim(fgets($fp, 4096));
-                if(eregi("^<error>",$line)) break;
+                if(preg_match("/^<error>/i",$line)) break;
             }
 
             // socket 닫음

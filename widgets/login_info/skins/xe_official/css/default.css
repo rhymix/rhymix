@@ -1,6 +1,6 @@
 .login_default { border:2px solid #d9d9d9; width:196px; position:relative; _padding-top:2px; display:block;}
 *:first-child+html body .login_default { padding-top:2px;}
-.login_default legend { display:block; width:0; height:0; overflow:hidden; font-size:0;}
+.login_default legend { display:none; width:0; height:0; overflow:hidden; font-size:0;}
 .login_default form { position:relative; border:1px solid #cacaca; padding:11px 11px 7px 11px; width:172px;}
 .login_default form .idpwWrap { overflow:hidden; clear:both; width:172px;}
 .login_default form .idpw { float:left; width:110px; }

@@ -45,6 +45,8 @@
             $obj->list_count = $list_count;
             $obj->is_admin = $args->without_admin == "true" ? "N" : "";
 
+            $output = new Object();
+
             if(count($target_group) || count($target_group_without)) {
                 // 그룹 목록을 구해옴
                 $group_list = $oMemberModel->getGroups();

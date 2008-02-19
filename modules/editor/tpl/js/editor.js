@@ -43,7 +43,6 @@ function editorGetContent_xe(editor_sequence) {
     return html;
 }
 
-
 // 에디터 내의 선택된 부분의 NODE를 return
 function editorGetSelectedNode(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -69,7 +68,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
     xWidth(iframe_obj.parentNode, '100%');
-    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-20);
+    xWidth(iframe_obj, xWidth(iframe_obj.parentNode)-2);
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
@@ -119,11 +118,10 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
 		//'<base href="'+request_uri+'" />'+
-        '<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
-        '<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
-        '<style style="text/css">'+
-        'body {font-size:9pt;margin:0px; height:'+editor_height+'px; background-color:transparent;}'+
-        'blockquote, ol, ul { margin-left:40px; }'+
+        //'<link rel="stylesheet" href="'+request_uri+'common/css/default.css" type="text/css" />'+
+        //'<link rel="stylesheet" href="'+request_uri+editor_path+'css/editor.css" type="text/css" />'+
+        '<style type="text/css">'+
+        'body {font-size:9pt;height:'+editor_height+'px; padding:5px; margin:0; background-color:transparent; line-height:140%;}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+

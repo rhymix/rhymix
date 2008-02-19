@@ -60,15 +60,24 @@
         function procTrackbackAdminInsertModuleConfig() {
             // 필요한 변수를 받아옴
             $module_srl = Context::get('target_module_srl');
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
             $enable_trackback = Context::get('enable_trackback');
             if(!in_array($enable_trackback, array('Y','N'))) $enable_trackback = 'N';
             
             if(!$module_srl || !$enable_trackback) return new Object(-1, 'msg_invalid_request');
 
             // 설정 저장
-            $output = $this->setTrackbackModuleConfig($module_srl, $enable_trackback);
+            // 설정 저장
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $output = $this->setTrackbackModuleConfig($srl, $enable_trackback);
+            }
 
-            $this->setMessage('success_registed');
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
 
         /**

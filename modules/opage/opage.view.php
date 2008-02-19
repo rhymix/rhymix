@@ -35,7 +35,7 @@
             $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
 
             // http 인지 내부 파일인지 점검
-            if(eregi("^http:\/\/",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
+            if(preg_match("/^http:\/\//i",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
             else $content = $this->executeFile($path, $caching_interval, $cache_file);
 
             Context::set('opage_content', $content);
@@ -97,7 +97,7 @@
             // 경로와 파일이름을 구함
             $tmp_path = explode('/',$cache_file);
             $filename = $tmp_path[count($tmp_path)-1];
-            $filepath = ereg_replace($filename."$","",$cache_file);
+            $filepath = preg_replace('/'.$filename."$/i","",$cache_file);
 
             // 캐시 검사
             if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path) ) {
@@ -106,8 +106,7 @@
                 // 일단 대상 파일을 읽어서 내용을 구함
                 ob_start();
                 @include($path);
-                $content = ob_get_contents();
-                ob_end_clean();
+                $content = ob_get_clean();
 
                 FileHandler::writeFile($cache_file, $content);
 
@@ -127,8 +126,7 @@
 
             ob_start();
             @include($cache_file);
-            $content = ob_get_contents();
-            ob_end_clean();
+            $content = ob_get_clean();
 
             return $content;
         }

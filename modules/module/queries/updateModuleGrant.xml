@@ -6,6 +6,6 @@
         <column name="grants" var="grants" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
     </conditions>
 </query>

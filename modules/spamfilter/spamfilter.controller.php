@@ -14,9 +14,18 @@
         }
 
         /**
+         * @brief 배치작업등을 할때 스팸필터의 사용을 중지 시킬 필요가 있을 경우 호출
+         **/
+        function setAvoidLog() {
+            $_SESSION['avoid_log'] = true;
+        }
+
+        /**
          * @brief 글 작성시 글 작성 시간 체크 및 금지 ip/단어 처리 루틴
          **/
         function triggerInsertDocument(&$obj) {
+            if($_SESSION['avoid_log']) return new Object();
+
             // 로그인 여부, 로그인 정보, 권한 유무 체크
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
@@ -53,6 +62,8 @@
          * @brief 댓글 작성 시간 및 금지 ip/ 단어 처리 루틴
          **/
         function triggerInsertComment(&$obj) {
+            if($_SESSION['avoid_log']) return new Object();
+
             // 로그인 여부, 로그인 정보, 권한 유무 체크
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
@@ -89,6 +100,8 @@
          * @brief 엮인글 작성시 시간 및 ip 검사
          **/
         function triggerInsertTrackback(&$obj) {
+            if($_SESSION['avoid_log']) return new Object();
+
             $oFilterModel = &getModel('spamfilter');
 
             // 해당 글에 엮인글을 한번 이상 추가하였는지를 확인

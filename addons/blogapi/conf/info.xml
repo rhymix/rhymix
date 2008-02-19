@@ -33,9 +33,9 @@
     </description>
     <description xml:lang="en">
         This blogApi addon supports metaWeblog.
-        Toggling this with use option lets RSD tag be exposed for each module.
+        By using this option, it lets the RSD tag to be exposed to each module.
         URL to the api is http://setup_path/module_name/api.
-        Only selecting use option enables RSD tag and api to behave.
+		RSD tag and the api will work only if u use this addon.
     </description>
     <description xml:lang="es">
         Este blogApi addon soporta el metaWeblog.

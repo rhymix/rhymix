@@ -28,7 +28,8 @@
             $this->_printHeader();
 
             // request method에 따른 처리
-            $content = $this->getContent($oModule);
+            if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
+            else $content = $this->_toHTMLDoc($oModule);
 
             // 요청방식에 따라 출력을 별도로
             if(Context::getResponseMethod()!="XMLRPC") {
@@ -86,34 +87,11 @@
         function display($content) {
             $content .= $this->_debugOutput();
 
-            $path = str_replace('index.php','',$_SERVER['SCRIPT_NAME']);
-
-            // commons/modules/files/widgets/layouts/addons 로 시작되는 src나 href의 값을 절대경로로 변경
-            $content = preg_replace('!(href|src)=("|\'){0,1}(commons|modules|widgets|layouts|addons|files)!is', '\\1=\\2'.$path.'\\3', $content);
-            $content = preg_replace('!(href|src)=("|\'){0,1}\.\/([a-zA-Z0-9\_^\/]+)\/!is', '\\1=\\2'.$path.'\\3/', $content);
-
             // 출력하기 전에 trigger 호출 (after)
             ModuleHandler::triggerCall('display', 'after', $content);
 
-
             if($this->gz_enabled) print ob_gzhandler($content, 5);
             else print $content;
-        }
-
-        /**
-         * @brief 모듈 객체의 content return
-         **/
-        function getContent(&$oModule) {
-            return $this->_toDoc($oModule);
-        }
-
-        /**
-         * @brief 모듈 객체의 content return
-         **/
-        function _toDoc(&$oModule) {
-            if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
-            else $content = $this->_toHTMLDoc($oModule);
-            return $content;
         }
 
         /**

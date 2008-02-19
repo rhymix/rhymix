@@ -3,7 +3,7 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
 <input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="module_srl" value="{$module_srl?$module_srl:$module_srls}" />
 
 <table cellspacing="0" class="adminTable">
 <col width="150" />
@@ -37,6 +37,7 @@
     <tr>
         <th scope="row" colspan="4" class="button">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
         </th>
     </tr>
 </tbody>

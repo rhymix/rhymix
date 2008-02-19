@@ -210,7 +210,7 @@
 .dp-xml {}
 .dp-xml .cdata { color: #ff1493; }
 .dp-xml .comments { color: green; }
-.dp-xml .tag { font-weight: bold; color: blue; }
+.dp-xml .tag { margin: 0; padding: 0; background: none; font-weight: bold; color: blue; }
 .dp-xml .tag-name { color: black; font-weight: bold; }
 .dp-xml .attribute { color: red; }
 .dp-xml .attribute-value { color: blue; }

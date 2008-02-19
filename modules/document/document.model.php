@@ -24,10 +24,15 @@
          * @brief 문서 가져오기
          **/
         function getDocument($document_srl=0, $is_admin = false) {
-            $oDocument = new documentItem($document_srl);
-            if($is_admin) $oDocument->setGrant();
+            if(!$document_srl) return new documentItem();
 
-            return $oDocument;
+            if(!$GLOBALS['__DocumentItem__'][$document_srl]) {
+                $oDocument = new documentItem($document_srl);
+                if($is_admin) $oDocument->setGrant();
+                $GLOBALS['__DocumentItem__'][$document_srl] = $oDocument;
+            }
+
+            return $GLOBALS['__DocumentItem__'][$document_srl];
        }
 
         /**
@@ -116,7 +121,7 @@
          **/
         function getDocumentList($obj, $except_notice = false) {
             // 정렬 대상과 순서 체크 
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count'))) $obj->sort_index = 'list_order'; 
+            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count'))) $obj->sort_index = 'list_order'; 
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
@@ -139,6 +144,15 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
+            $args->member_srl = $obj->member_srl;
+
+            // 카테고리가 선택되어 있으면 하부 카테고리까지 모두 조건에 추가
+            if($args->category_srl) {
+                $category_list = $this->getCategoryList($args->module_srl);
+                $category_info = $category_list[$args->category_srl];
+                $category_info->childs[] = $args->category_srl;
+                $args->category_srl = implode(',',$category_info->childs);
+            }
 
             // 기본으로 사용할 query id 지정 (몇가지 검색 옵션에 따라 query id가 변경됨)
             $query_id = 'document.getDocumentList';
@@ -152,13 +166,9 @@
             if($search_target && $search_keyword) {
                 switch($search_target) {
                     case 'title' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_title = $search_keyword;
-                            $use_division = true;
-                        break;
                     case 'content' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_content = $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                             $use_division = true;
                         break;
                     case 'title_content' :
@@ -172,66 +182,40 @@
                             $args->s_user_id = $search_keyword;
                             $args->sort_index = 'documents.'.$args->sort_index;
                         break;
-                    case 'member_srl' :
-                            $args->s_member_srl = (int)$search_keyword;
-                        break;
                     case 'user_name' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_user_name = $search_keyword;
-                        break;
                     case 'nick_name' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_nick_name = $search_keyword;
-                        break;
                     case 'email_address' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_email_address = $search_keyword;
-                        break;
                     case 'homepage' :
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_homepage = $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                         break;
                     case 'is_notice' :
-                            if($search_keyword=='Y') $args->s_is_notice = 'Y';
-                            else $args->s_is_notice = '';
-                        break;
                     case 'is_secret' :
-                            if($search_keyword=='Y') $args->s_is_secret = 'Y';
-                            else $args->s_is_secret = '';
+                            if($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            else $args->{"s_".$search_target} = '';
                         break;
-                    case 'tag' :
-                            $args->s_tags = str_replace(' ','%',$search_keyword);
-                            $query_id = 'document.getDocumentListWithinTag';
-                        break;
+                    case 'member_srl' :
                     case 'readed_count' :
-                            $args->s_readed_count = (int)$search_keyword;
-                        break;
                     case 'voted_count' :
-                            $args->s_voted_count = (int)$search_keyword;
-                        break;
                     case 'comment_count' :
-                            $args->s_comment_count = (int)$search_keyword;
-                        break;
                     case 'trackback_count' :
-                            $args->s_trackback_count = (int)$search_keyword;
-                        break;
                     case 'uploaded_count' :
-                            $args->s_uploaded_count = (int)$search_keyword;
+                            $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
                     case 'regdate' :
-                            $args->s_regdate = $search_keyword;
-                        break;
                     case 'last_update' :
-                            $args->s_last_upate = $search_keyword;
-                        break;
                     case 'ipaddress' :
-                            $args->s_ipaddress= $search_keyword;
+                            $args->{"s_".$search_target} = $search_keyword;
                         break;
                     case 'comment' :
                             $args->s_comment = $search_keyword;
                             $args->sort_index = 'documents.'.$args->sort_index;
                             $query_id = 'document.getDocumentListWithinComment';
                             $use_division = true;
+                        break;
+                    case 'tag' :
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
+                            $query_id = 'document.getDocumentListWithinTag';
                         break;
                     default :
                             preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
@@ -242,6 +226,11 @@
                         break;
                 }
             }
+
+            /**
+             * division은 list_order의 asc 정렬일때만 사용할 수 있음
+             **/
+            if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
 
             /**
              * 만약 use_division이 true일 경우 document division을 이용하도록 변경
@@ -407,7 +396,7 @@
             if($node->group_srls) {
                 $group_srls = explode(',',$node->group_srls);
                 unset($node->group_srls);
-                $node->group_srls = explode(',',$node->group_srls);
+                $node->group_srls = $group_srls;
             } else {
                 unset($node->group_srls);
                 $node->group_srls = array();
@@ -426,23 +415,84 @@
 
         /**
          * @brief 특정 모듈의 카테고리 목록을 가져옴
+         * 속도나 여러가지 상황을 고려해서 카테고리 목록은 php로 생성된 script를 include하여 사용하는 것을 원칙으로 함
          **/
         function getCategoryList($module_srl) {
-            $args->module_srl = $module_srl;
-            $args->sort_index = 'list_order';
-            $output = executeQuery('document.getCategoryList', $args);
+            // 한 페이지에서 여러번 호출될 경우를 대비해서 static var로 보관 (php4때문에 다른 방법으로 구현)
+            if(!isset($this->category_list[$module_srl])) {
 
-            $category_list = $output->data;
+                // 대상 모듈의 카테고리 파일을 불러옴
+                $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-            if(!$category_list) return NULL;
-            if(!is_array($category_list)) $category_list = array($category_list);
+                // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+                if(!file_exists($filename)) {
+                    $oDocumentController = &getController('document');
+                    if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
+                }
 
-            $category_count = count($category_list);
-            for($i=0;$i<$category_count;$i++) {
-                $category_srl = $category_list[$i]->category_srl;
-                $list[$category_srl] = $category_list[$i];
+                @include($filename);
+
+                // 카테고리의 정리
+                $document_category = array();
+                $this->_arrangeCategory($document_category, $menu->list, 0);
+                $this->category_list[$module_srl] = $document_category;
             }
-            return $list;
+
+            return $this->category_list[$module_srl];
+        }
+
+        /**
+         * @brief 카테고리를 1차 배열 형식으로 변경하는 내부 method
+         **/
+        function _arrangeCategory(&$document_category, $list, $depth) {
+            if(!count($list)) return;
+            $idx = 0;
+            $list_order = array();
+            foreach($list as $key => $val) {
+                $obj = null;
+                $obj->mid = $val['mid'];
+                $obj->module_srl = $val['module_srl'];
+                $obj->category_srl = $val['category_srl'];
+                $obj->parent_srl = $val['parent_srl'];
+                $obj->title = $obj->text = $val['text'];
+                $obj->expand = $val['expand']=='Y'?true:false;
+                $obj->document_count = $val['document_count'];
+                $obj->depth = $depth;
+                $obj->child_count = 0;
+                $obj->childs = array();
+                $obj->grant = $val['grant'];
+
+                if(Context::get('mid') == $obj->mid && Context::get('category') == $obj->category_srl) $selected = true;
+                else $selected = false;
+
+                $obj->selected = $selected;
+
+                $list_order[$idx++] = $obj->category_srl;
+
+                // 부모 카테고리가 있으면 자식노드들의 데이터를 적용
+                if($obj->parent_srl) {
+
+                    $parent_srl = $obj->parent_srl;
+                    $document_count = $obj->document_count;
+                    $expand = $obj->expand;
+                    if($selected) $expand = true;
+
+                    while($parent_srl) {
+                        $document_category[$parent_srl]->document_count += $document_count;
+                        $document_category[$parent_srl]->childs[] = $obj->category_srl;
+                        $document_category[$parent_srl]->child_count = count($document_category[$parent_srl]->childs);
+                        if($expand) $document_category[$parent_srl]->expand = $expand;
+
+                        $parent_srl = $document_category[$parent_srl]->parent_srl;
+                    }
+                }
+
+                $document_category[$key] = $obj;
+
+                if(count($val['list'])) $this->_arrangeCategory($document_category, $val['list'], $depth+1);
+            }
+            $document_category[$list_order[0]]->first = true;
+            $document_category[$list_order[count($list_order)-1]]->last = true;
         }
 
         /**
@@ -461,9 +511,21 @@
             $xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
             if(!file_exists($xml_file)) {
                 $oDocumentController = &getController('document');
-                $oDocumentController->makeCategoryXmlFile($module_srl);
+                $oDocumentController->makeCategoryFile($module_srl);
             }
             return $xml_file;
+        } 
+
+        /**
+         * @brief 문서 category정보의 php 캐시 파일을 return
+         **/
+        function getCategoryPhpFile($module_srl) {
+            $php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
+            if(!file_exists($php_file)) {
+                $oDocumentController = &getController('document');
+                $oDocumentController->makeCategoryFile($module_srl);
+            }
+            return $php_file;
         } 
 
         /**
@@ -521,7 +583,7 @@
 
             $output = '';
             foreach($categories as $category_srl => $category) {
-                $output .= sprintf("%d,%s\n",$category_srl, $category->title);
+                $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
             }
             $this->add('categories', $output);
         }

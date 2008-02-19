@@ -22,8 +22,8 @@
                 <span class="date"><strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}</span>
 
                 <!--@if($oDocument->isEditable())-->
-                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_modify}" /></a>
-                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl)}"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
+                <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}"><img src="./images/common/btn_modify.gif" alt="{$lang->cmd_modify}" /></a>
+                <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}"><img src="./images/common/btn_delete2.gif" alt="{$lang->cmd_delete}" /></a>
                 <!--@end-->
             </div>
         </div>
@@ -78,6 +78,19 @@
                     </form>
                 <!--@else-->
                     {$oDocument->getContent()}
+                <!--@end-->
+
+                <!-- 서명 / 프로필 이미지 출력 -->
+                <!--@if($oDocument->getProfileImage() || $oDocument->getSignature())-->
+                    <div class="memberSignature">
+                    <!--@if($oDocument->getProfileImage())-->
+                        <div class="profile"><img src="{$oDocument->getProfileImage()}" alt="profile" /></div>
+                    <!--@end-->
+                    <!--@if($oDocument->getSignature())-->
+                        <div class="signature">{$oDocument->getSignature()}</div>
+                    <!--@end-->
+                        <div class="clear"></div>
+                    </div>
                 <!--@end-->
             </div>
         </div>
@@ -143,11 +156,11 @@
     <!--@end-->
 
     <!-- 댓글 입력 폼 -->
-    <!--@if($grant->write_comment && !$oDocument->isLocked())-->
+    <!--@if($grant->write_comment && $oDocument->isEnableComment())-->
         <!--%import("filter/insert_comment.xml")-->
         <div class="boardWrite">
 
-            <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" <!--@if($grant->fileupload)-->enctype="multipart/form-data"<!--@end--> class="boardEditor" id="fo_comment_write" >
+            <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" id="fo_comment_write" >
                 <fieldset>
                     <input type="hidden" name="mid" value="{$mid}" />
                     <input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -176,7 +189,7 @@
                         <label for="is_secret">{$lang->secret}</label>
                     </div>
 
-                    <div>{$comment_editor}</div>
+                    <div>{$oDocument->getCommentEditor()}</div>
 
                     <div class="tCenter"><input type="image" src="./images/common/btn_reply2.gif" accesskey="s" /></div>
 

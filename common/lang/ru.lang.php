@@ -60,6 +60,8 @@
     $lang->cmd_reset = 'Сброс';
     $lang->cmd_remake_cache = "Пере-создать файл кэша";
     $lang->cmd_publish = "Опубликовать";
+    $lang->cmd_layout_setup = 'Конфигурировать лейаут';
+    $lang->cmd_layout_edit = 'Редактировать лейаут';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';
@@ -124,6 +126,7 @@
     $lang->document_count = 'Всего статей';
     $lang->page_count = 'Кол-во страниц';
     $lang->list_count = 'Кол-во списков';
+    $lang->search_list_count = 'Поиск Список кол';
     $lang->readed_count = 'Хиты';
     $lang->voted_count = 'Голоса';
     $lang->member_count = 'Кол-во пользователей';
@@ -148,6 +151,9 @@
     $lang->use = 'Использовать';
     $lang->notuse = 'Не использовать';
     $lang->not_exists = "Не существует";
+
+    $lang->public = 'общественности';
+    $lang->private = 'частный';
 
     $lang->unit_sec = 'сек.';
     $lang->unit_min = 'мин.';

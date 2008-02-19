@@ -146,7 +146,7 @@
             unset($info->extra_vars);
             if(!$extra_vars) return $info;
             foreach($extra_vars as $key => $val) {
-                if(eregi('\|\@\|', $val)) $val = explode('|@|', $val);
+                if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
                 if(!$info->{$key}) $info->{$key} = $val;
             }
             return $info;
@@ -280,6 +280,8 @@
                 if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
                 $join_form_count = count($join_form_list);
                 for($i=0;$i<$join_form_count;$i++) {
+                    $join_form_list[$i]->column_name = strtolower($join_form_list[$i]->column_name);
+
                     $member_join_form_srl = $join_form_list[$i]->member_join_form_srl;
                     $column_type = $join_form_list[$i]->column_type;
                     $column_name = $join_form_list[$i]->column_name;
@@ -313,6 +315,12 @@
                     $obj->lang = $val->column_title;
                     $obj->required = $val->required=='Y'?true:false;
                     $filter_output[] = $obj;
+
+                    unset($open_obj);
+                    $open_obj->name = 'open_'.$val->column_name;
+                    $open_obj->required = false;
+                    $filter_output[] = $open_obj;
+
                 }
                 return $filter_output;
 
@@ -329,9 +337,17 @@
             $extend_form_list = $this->getJoinFormlist();
             if(!$extend_form_list) return;
 
+            // 관리자이거나 자기 자신이 아니면 비공개의 경우 무조건 패스해버림
+            $logged_info = Context::get('logged_info');
+
             foreach($extend_form_list as $srl => $item) {
                 $column_name = $item->column_name;
                 $value = $member_info->{$column_name};
+
+                if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_info->member_srl && $member_info->{'open_'.$column_name}!='Y') {
+                    $extend_form_list[$srl]->is_private = true;
+                    continue;
+                }
 
                 // 추가 확장폼의 종류에 따라 값을 변경
                 switch($item->column_type) {
@@ -349,6 +365,9 @@
                 }
 
                 $extend_form_list[$srl]->value = $value;
+
+                if($member_info->{'open_'.$column_name}=='Y') $extend_form_list[$srl]->is_opened = true;
+                else $extend_form_list[$srl]->is_opened = false;
             }
             return $extend_form_list;
         }
@@ -404,54 +423,76 @@
          * @brief 프로필 이미지의 정보를 구함 
          **/
         function getProfileImage($member_srl) {
-            $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_name_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_name_file;
-            $info->file = './'.$image_name_file;
-            return $info;
+            if(!isset($GLOBALS['__member_info__']['profile_image'][$member_srl])) {
+                $GLOBALS['__member_info__']['profile_image'][$member_srl] = null;
+                $exts = array('gif','jpg','png');
+                for($i=0;$i<3;$i++) {
+                    $image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
+                    if(file_exists($image_name_file)) {
+                        list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                        $info = null;
+                        $info->width = $width;
+                        $info->height = $height;
+                        $info->src = Context::getRequestUri().$image_name_file;
+                        $info->file = './'.$image_name_file;
+                        $GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
+                        break;
+                    }
+                }
+            }
+
+            return $GLOBALS['__member_info__']['profile_image'][$member_srl];
         }
 
         /**
          * @brief 이미지이름의 정보를 구함
          **/
         function getImageName($member_srl) {
-            $image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_name_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_name_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_name_file;
-            $info->file = './'.$image_name_file;
-            return $info;
+            if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl])) {
+                $image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_name_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+                    $info->width = $width;
+                    $info->height = $height;
+                    $info->src = Context::getRequestUri().$image_name_file;
+                    $info->file = './'.$image_name_file;
+                    $GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
+                } else $GLOBALS['__member_info__']['image_name'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['image_name'][$member_srl];
         }
 
         /**
          * @brief 이미지마크의 정보를 구함
          **/
         function getImageMark($member_srl) {
-            $image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($image_mark_file)) return;
-            list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
-            $info->width = $width;
-            $info->height = $height;
-            $info->src = Context::getRequestUri().$image_mark_file;
-            $info->file = './'.$image_mark_file;
-            return $info;
+            if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl])) {
+                $image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($image_mark_file)) {
+                    list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
+                    $info->width = $width;
+                    $info->height = $height;
+                    $info->src = Context::getRequestUri().$image_mark_file;
+                    $info->file = './'.$image_mark_file;
+                    $GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
+                } else $GLOBALS['__member_info__']['image_mark'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['image_mark'][$member_srl];
         }
 
         /**
          * @brief 사용자의 signature를 구함
          **/
         function getSignature($member_srl) {
-            $filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
-            if(!file_exists($filename)) return '';
-
-            $buff = FileHandler::readFile($filename);
-            $signature = trim(substr($buff, 40));
-            return $signature;
+            if(!isset($GLOBALS['__member_info__']['signature'][$member_srl])) {
+                $filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
+                if(file_exists($filename)) {
+                    $buff = FileHandler::readFile($filename);
+                    $signature = trim(substr($buff, 40));
+                    $GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
+                } else $GLOBALS['__member_info__']['signature'][$member_srl] = null;
+            }
+            return $GLOBALS['__member_info__']['signature'][$member_srl];
         }
 
         /**

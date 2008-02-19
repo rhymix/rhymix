@@ -24,30 +24,48 @@
             // 변수 정리
             $args = Context::getRequestVars();
 
+            // 포인트 이름 체크
             $config->point_name = $args->point_name;
             if(!$config->point_name) $config->point_name = 'point';
 
+            // 기본 포인트 지정
             $config->signup_point = (int)$args->signup_point;
             $config->login_point = (int)$args->login_point;
             $config->insert_document = (int)$args->insert_document;
+            $config->read_document = (int)$args->read_document;
             $config->insert_comment = (int)$args->insert_comment;
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
 
+            // 최고 레벨
             $config->max_level = $args->max_level;
             if($config->max_level>1000) $config->max_level = 1000;
             if($config->max_level<1) $config->max_level = 1;
 
+            // 레벨 아이콘 설정
             $config->level_icon = $args->level_icon;
+
+            // 포인트 미달시 다운로드 금지 여부 체크
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
 
+            // 레벨별 그룹 설정
+            foreach($args as $key => $val) {
+                if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;
+                $group_srl = substr($key, strlen('point_group_'));
+                $level = $val;
+                if(!$level) unset($config->point_group[$group_srl]);
+                else $config->point_group[$group_srl] = $level;
+            }
+
+            // 레벨별 포인트 설정
             unset($config->level_step);
             for($i=1;$i<=$config->max_level;$i++) {
                 $key = "level_step_".$i;
                 $config->level_step[$i] = (int)$args->{$key};
             }
 
+            // 레벨별 포인트 계산 함수
             $config->expression = $args->expression;
 
             // 저장
@@ -71,7 +89,7 @@
             $args = Context::getRequestVars();
 
             foreach($args as $key => $val) {
-                preg_match("/^(insert_document|insert_comment|upload_file|download_file)_([0-9]+)$/", $key, $matches);
+                preg_match("/^(insert_document|insert_comment|upload_file|download_file|read_document)_([0-9]+)$/", $key, $matches);
                 if(!$matches[1]) continue;
                 $name = $matches[1];
                 $module_srl = $matches[2];
@@ -95,19 +113,30 @@
             $module_srl = Context::get('target_module_srl');
             if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
             // 설정 정보 가져오기
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
 
-            $config->module_point[$module_srl]['insert_document'] = (int)Context::get('insert_document');
-            $config->module_point[$module_srl]['insert_comment'] = (int)Context::get('insert_comment');
-            $config->module_point[$module_srl]['upload_file'] = (int)Context::get('upload_file');
-            $config->module_point[$module_srl]['download_file'] = (int)Context::get('download_file');
+            // 설정 저장
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $config->module_point[$srl]['insert_document'] = (int)Context::get('insert_document');
+                $config->module_point[$srl]['insert_comment'] = (int)Context::get('insert_comment');
+                $config->module_point[$srl]['upload_file'] = (int)Context::get('upload_file');
+                $config->module_point[$srl]['download_file'] = (int)Context::get('download_file');
+                $config->module_point[$srl]['read_document'] = (int)Context::get('read_document');
+            }
 
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);
 
-            return new Object(0, 'success_registed');
+            $this->setError(-1);
+            $this->setMessage('success_updated');
         }
 
         /**
@@ -168,7 +197,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->insert_document) $insert_point = $config->module_point[$val->module_srl]->insert_document;
+                    if($config->module_point[$val->module_srl]['insert_document']) $insert_point = $config->module_point[$val->module_srl]['insert_document'];
                     else $insert_point = $config->insert_document;
 
                     if(!$val->member_srl) continue;
@@ -184,7 +213,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->insert_comment) $insert_point = $config->module_point[$val->module_srl]->insert_comment;
+                    if($config->module_point[$val->module_srl]['insert_comment']) $insert_point = $config->module_point[$val->module_srl]['insert_comment'];
                     else $insert_point = $config->insert_comment;
 
                     if(!$val->member_srl) continue;
@@ -200,7 +229,7 @@
 
             if($output->data) {
                 foreach($output->data as $key => $val) {
-                    if($config->module_point[$val->module_srl]->upload_file) $insert_point = $config->module_point[$val->module_srl]->upload_file;
+                    if($config->module_point[$val->module_srl]['upload_file']) $insert_point = $config->module_point[$val->module_srl]['upload_file'];
                     else $insert_point = $config->upload_file;
 
                     if(!$val->member_srl) continue;

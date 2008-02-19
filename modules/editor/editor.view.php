@@ -66,23 +66,29 @@
          **/
         function triggerDispEditorAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
+            $current_module_srls = Context::get('module_srls');
 
-            if(!$current_module_srl) {
+            if(!$current_module_srl && !$current_module_srls) {
                 // 선택된 모듈의 정보를 가져옴
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
+                if(!$current_module_srl) return new Object();
             }
-
-            if(!$current_module_srl) return new Object();
 
             // 에디터 설정을 구함
             $oEditorModel = &getModel('editor');
-            $editor_skin = $oEditorModel->getEditorConfig($current_module_srl);
-            Context::set('editor_skin', $editor_skin);
+            $editor_config = $oEditorModel->getEditorConfig($current_module_srl);
+            Context::set('editor_config', $editor_config);
 
             // 에디터 스킨 목록을 구함
             $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
             Context::set('editor_skin_list', $editor_skin_list);
+            
+
+            // 그룹 목록을 구함
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups();
+            Context::set('group_list', $group_list);
 
             // 템플릿 파일 지정
             $oTemplate = &TemplateHandler::getInstance();

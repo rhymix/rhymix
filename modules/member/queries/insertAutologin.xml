@@ -1,0 +1,9 @@
+<query id="insertAutologin" action="insert">
+    <tables>
+        <table name="member_autologin" />
+    </tables>
+    <columns>
+        <column name="autologin_key" var="autologin_key" notnull="notnull" minlength="1" maxlength="60" />
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+    </columns>
+</query>

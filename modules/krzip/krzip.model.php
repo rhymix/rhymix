@@ -50,7 +50,7 @@
             $address_list = unserialize(base64_decode($buff));
             if(!$address_list) return new Object(-1, 'msg_no_result');
 
-            $this->add('address_list', implode("\n",$address_list));
+            $this->add('address_list', implode("\n",$address_list)."\n");
         }
     }
 ?>

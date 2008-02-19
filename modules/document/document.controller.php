@@ -90,7 +90,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 
             // $extra_vars를 serialize
@@ -182,7 +182,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-            if($obj->homepage &&  !eregi('^http:\/\/',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 
             // $extra_vars를 serialize
@@ -324,6 +324,9 @@
             $member_srl = $oDocument->get('member_srl');
             $logged_info = Context::get('logged_info');
 
+            // 조회수 업데이트가 되면 trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
+            if(!$output->toBool()) return $output;
             // session에 정보로 조회수를 증가하였다고 생각하면 패스
             if($_SESSION['readed_document'][$document_srl]) return false;
 
@@ -333,36 +336,18 @@
                 return false;
             }
 
-            // document의 작성자가 회원일때 조사
-            if($member_srl) {
-
-                // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
-                if($member_srl && $logged_info->member_srl == $member_srl) {
-                    $_SESSION['readed_document'][$document_srl] = true;
-                    return false;
-                }
+            // document의 작성자가 회원일때 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 판단후 세션 등록하고 패스
+            if($member_srl && $logged_info->member_srl == $member_srl) {
+                $_SESSION['readed_document'][$document_srl] = true;
+                return false;
             }
-
-            // 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
-            if($logged_info->member_srl) {
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-            $args->document_srl = $document_srl;
-            $output = executeQuery('document.getDocumentReadedLogInfo', $args);
-
-            // 로그 정보에 조회 로그가 있으면 세션 등록후 패스
-            if($output->data->count) return $_SESSION['readed_document'][$document_srl] = true;
 
             // 조회수 업데이트
+            $args->document_srl = $document_srl;
             $output = executeQuery('document.updateReadedCount', $args);
 
-            // 로그 남기기
-            $output = executeQuery('document.insertDocumentReadedLog', $args);
-
-            // 세션 정보에 남김
-            return $_SESSION['readed_document'][$document_srl] = true;
+            // 세션 등록
+            $_SESSION['readed_document'][$document_srl] = true;
         }
 
         /**
@@ -518,12 +503,34 @@
          * @brief 카테고리 추가
          **/
         function insertCategory($obj) {
-            $obj->list_order = $obj->category_srl = getNextSequence();
+            // 특정 카테고리의 하단으로 추가시 정렬순서 재정렬
+            if($obj->parent_srl) {
+                // 부모 카테고리 구함
+                $oDocumentModel = &getModel('document');
+                $parent_category = $oDocumentModel->getCategory($obj->parent_srl);
+                $obj->list_order = $parent_category->list_order;
+                $this->updateCategoryListOrder($parent_category->module_srl, $parent_category->list_order+1);
+                if(!$obj->category_srl) $obj->category_srl = getNextSequence();
+            } else {
+                $obj->list_order = $obj->category_srl = getNextSequence();
+            }
 
             $output = executeQuery('document.insertCategory', $obj);
-            if($output->toBool()) $output->add('category_srl', $obj->category_srl);
+            if($output->toBool()) {
+                $output->add('category_srl', $obj->category_srl);
+                $this->makeCategoryFile($obj->module_srl);
+            }
 
             return $output;
+        }
+
+        /**
+         * @brief 특정 카테고리 부터 list_count 증가
+         **/
+        function updateCategoryListOrder($module_srl, $list_order) {
+            $args->module_srl = $module_srl;
+            $args->list_order = $list_order;
+            return executeQuery('document.updateCategoryOrder', $args);
         }
 
         /**
@@ -537,7 +544,7 @@
             $args->category_srl = $category_srl;
             $args->document_count = $document_count;
             $output = executeQuery('document.updateCategoryCount', $args);
-            if($output->toBool()) $this->makeCategoryXmlFile($module_srl);
+            if($output->toBool()) $this->makeCategoryFile($module_srl);
 
             return $output;
         }
@@ -546,7 +553,9 @@
          * @brief 카테고리의 정보를 수정
          **/
         function updateCategory($obj) {
-            return executeQuery('document.updateCategory', $obj);
+            $output = executeQuery('document.updateCategory', $obj);
+            if($output->toBool()) $this->makeCategoryFile($obj->module_srl);
+            return $output;
         }
 
         /**
@@ -555,10 +564,19 @@
          **/
         function deleteCategory($category_srl) {
             $args->category_srl = $category_srl;
+            $oDocumentModel = &getModel('document');
+            $category_info = $oDocumentModel->getCategory($category_srl);
+
+            // 자식 카테고리가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
+            $output = executeQuery('document.getChildCategoryCount', $args);
+            if(!$output->toBool()) return $output;
+            if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
 
             // 카테고리 정보를 삭제
             $output = executeQuery('document.deleteCategory', $args);
             if(!$output->toBool()) return $output;
+
+            $this->makeCategoryFile($category_info->module_srl);
 
             // 현 카테고리 값을 가지는 문서들의 category_srl을 0 으로 세팅
             unset($args);
@@ -566,6 +584,7 @@
             $args->target_category_srl = 0;
             $args->source_category_srl = $category_srl;
             $output = executeQuery('document.updateDocumentCategory', $args);
+
             return $output;
         }
 
@@ -688,11 +707,11 @@
         }
 
         /**
-         * @brief 카테고리를 xml파일로 저장
+         * @brief 카테고리를 캐시 파일로 저장
          **/
-        function makeCategoryXmlFile($module_srl) {
-            // xml파일 생성시 필요한 정보가 없으면 그냥 return
-            if(!$module_srl) return;
+        function makeCategoryFile($module_srl) {
+            // 캐시 파일 생성시 필요한 정보가 없으면 그냥 return
+            if(!$module_srl) return false;
 
             // 모듈 정보를 가져옴 (mid를 구하기 위해)
             $oModuleModel = &getModel('module');
@@ -703,15 +722,30 @@
 
             // 캐시 파일의 이름을 지정
             $xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
+            $php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-            // DB에서 module_srl 에 해당하는 카테고리 목록을 listorder순으로 구해옴
-            $oDocumentModel = &getModel('document');
-            $list = $oDocumentModel->getCategoryList($module_srl);
+            // 카테고리 목록을 구함
+            $args->module_srl = $module_srl;
+            $args->sort_index = 'list_order';
+            $output = executeQuery('document.getCategoryList', $args);
+
+            $category_list = $output->data;
+
+            if(!$category_list) return false;
+            if(!is_array($category_list)) $category_list = array($category_list);
+
+            $category_count = count($category_list);
+            for($i=0;$i<$category_count;$i++) {
+                $category_srl = $category_list[$i]->category_srl;
+                if(!preg_match('/^[0-9,]+$/', $category_list[$i]->group_srls)) $category_list[$i]->group_srls = '';
+                $list[$category_srl] = $category_list[$i];
+            }
 
             // 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
             if(!$list) {
                 $xml_buff = "<root />";
                 FileHandler::writeFile($xml_file, $xml_buff);
+                FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
                 return $xml_file;
             }
 
@@ -739,8 +773,13 @@
             // xml 캐시 파일 생성
             $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
 
+            // php 캐시 파일 생성
+            $php_output = $this->getPhpCacheCode($tree[0], $tree, 0);
+            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); %s; $menu->list = array(%s); ?>', $php_output['category_title_str'], $php_output['buff']);
+
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
+            FileHandler::writeFile($php_file, $php_buff);
             return $xml_file;
         }
 
@@ -762,13 +801,18 @@
                 $title = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->title);
                 $expand = $node->expand;
                 $group_srls = $node->group_srls;
+                $mid = $node->mid;
+                $module_srl = $node->module_srl;
 
                 // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'node_srl="%s" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        'mid="%s" module_srl="%d" node_srl="%d" category_srl = "%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        $mid,
+                        $module_srl,
+                        $category_srl,
                         $category_srl,
                         $group_check_code,
                         $title,
@@ -782,5 +826,62 @@
             }
             return $buff;
         }
+
+        /**
+         * @brief array로 정렬된 노드들을 php code로 변경하여 return
+         * 메뉴에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
+         * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
+         * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
+         **/
+        function getPhpCacheCode($source_node, $tree) {
+            $output = array("buff"=>"", "category_srl_list"=>array());
+            if(!$source_node) return $output;
+
+            // 루프를 돌면서 1차 배열로 정리하고 include할 수 있는 php script 코드를 생성
+            foreach($source_node as $category_srl => $node) {
+
+                // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
+                if($category_srl&&$tree[$category_srl]) $child_output = $this->getPhpCacheCode($tree[$category_srl], $tree);
+                else $child_output = array("buff"=>"", "category_srl_list"=>array());
+
+                // 변수 정리 
+                $category_title_str = sprintf('$_category_title[%d] = "%s"; %s', $node->category_srl, $node->title, $child_output['category_title_str']);
+
+                // 현재 노드의 url값이 공란이 아니라면 category_srl_list 배열값에 입력
+                $child_output['category_srl_list'][] = $node->category_srl;
+                $output['category_srl_list'] = array_merge($output['category_srl_list'], $child_output['category_srl_list']);
+
+                // node->group_srls값이 있으면 
+                if($node->group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                else $group_check_code = "true";
+
+                // 변수 정리
+                $selected = '"'.implode('","',$child_output['category_srl_list']).'"';
+                $child_buff = $child_output['buff'];
+                $expand = $node->expand;
+
+                // 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
+                $attribute = sprintf(
+                    '"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_category_title[%d],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+                    $node->mid,
+                    $node->module_srl,
+                    $node->category_srl,
+                    $node->category_srl,
+                    $node->parent_srl,
+                    $node->category_srl,
+                    $selected,
+                    $expand,
+                    $child_buff,
+                    $node->document_count,
+                    $group_check_code
+                );
+                
+                // buff 데이터를 생성한다
+                $output['buff'] .=  sprintf('%s=>array(%s),', $node->category_srl, $attribute);
+                $output['category_title_str'] .= $category_title_str;
+            }
+            return $output;
+        }
+
     }
 ?>

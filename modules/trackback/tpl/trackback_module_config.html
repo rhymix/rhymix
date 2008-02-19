@@ -1,7 +1,7 @@
 <!--%import("filter/insert_trackback_module_config.xml")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_trackback_module_config)">
-<input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl}" />
+<input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl?$trackback_config->module_srl:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
     <col width="150" />

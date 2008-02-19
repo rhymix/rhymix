@@ -1,0 +1,28 @@
+.xeForum { background:url("../images/back.gif") repeat-x left top; padding:0; }
+
+.xeForum div.forumTable { padding:0 6px 0 6px; }
+.xeForum table { width:100%; border:0; table-layout:fixed; }
+
+.xeForum table tr.top { height:22px; }
+.xeForum table th { vertical-align:bottom; color:#ffffff; font-weight:normal; padding-bottom:5px; }
+.xeForum table th.title { font-weight:normal; text-align:left; padding-left:10px; }
+.xeForum table th.last_post { text-align:left; padding-left:15px; }
+
+.xeForum table tr.content { background:#EFEFEF; height:55px; }
+
+.xeForum table td.topic, .xeForum td.icon, .xeForum td.title, .xeForum td.topic, .xeForum td.replies , .xeForum td.last_post{ padding:5px 0 5px 0; border-top:1px solid #FFFFFF; }
+.xeForum table td.topic, .xeForum td.icon, .xeForum td.title, .xeForum td.topic, .xeForum td.replies , .xeForum td.last_post{ padding:5px 0 5px 0; border-bottom:1px solid #6E6E6E; }
+.xeForum table td.icon { text-align:center; }
+
+.xeForum table td.title a { text-decoration:none; color:#3A3947; font-size:9pt;}
+.xeForum table td.title p { margin-top:5px; font-weight:normal; text-decoration:none; color:#838383; font-size:9pt;}
+.xeForum table td.title p a { font-weight:normal; text-decoration:underline; color:#838383; font-size:9pt;}
+
+.xeForum table td.topic, .xeForum td.replies, .xeForum td.last_post { background:#EFEFEF url("../images/div.gif") no-repeat left 3px; }
+
+.xeForum table td.topic, .xeForum td.replies { text-align:center; color:#3A3947; font-family:tahoma; font-size:8pt; }
+
+.xeForum table td.last_post { text-align:left; color:#3A3947; font-family:tahoma; font-size:8pt; padding-left:15px; }
+.xeForum table td.last_post div.author img { vertical-align:middle; }
+.xeForum table td.last_post div.date { margin-top:5px; text-align:left; color:#3A3947; font-family:tahoma; font-size:8pt; }
+

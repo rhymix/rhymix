@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   en.lang.php
+     * @file   es.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  English Language Pack (Only Basic Things)
      **/
@@ -11,6 +11,7 @@
     $lang->default_group_1 = "Usuario registrado";
     $lang->default_group_2 = "Usuario regular";
     $lang->admin_group = "Manejo del grupo";
+    $lang->keep_signed = 'Keep me signed in';
     $lang->remember_user_id = 'Guardar ID';
     $lang->already_logged = "Ya está conectado";
     $lang->denied_user_id = 'Este ID está prohibido.';
@@ -32,9 +33,9 @@
     $lang->group_title = 'Nombre del grupo';
     $lang->group_srl = 'Número del grupo';
     $lang->signature = 'Firma';
-    $lang->profile_image = '프로필 사진';
-    $lang->profile_image_max_width = '가로 제한 크기';
-    $lang->profile_image_max_height = '세로 제한 크기';
+    $lang->profile_image = 'Perfil de Imagen';
+    $lang->profile_image_max_width = 'Max Anchura';
+    $lang->profile_image_max_height = 'Max Altura';
     $lang->image_name = 'Nombre de la imagen';
     $lang->image_name_max_width = 'Ancho Máximo';
     $lang->image_name_max_height = 'Altura Máxima';
@@ -45,6 +46,8 @@
     $lang->enable_join = 'Permitir el registro del usuario';
     $lang->limit_day = 'Límite de la fecha temporal';
     $lang->limit_date = 'Límite de fecha';
+    $lang->after_login_url = '로그인 후 이동할 URL';
+    $lang->after_logout_url = '로그아웃 후 이동할 URL';
     $lang->redirect_url = 'URL luego del registro';
     $lang->agreement = 'Acuerdo del registro del usuario';
     $lang->accept_agreement = 'Acepto';
@@ -56,11 +59,12 @@
     $lang->current_password = 'Contraseña actual';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '웹마스터 이름';
-    $lang->webmaster_email = '웹마스터 메일주소';
+    $lang->webmaster_name = 'Nombre del Webmaster';
+    $lang->webmaster_email = 'Correo electrónico Webmaster';
 
-    $lang->about_webmaster_name = '인증 메일이나 기타 사이트 관리시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)';
-    $lang->about_webmaster_email = '웹마스터의 메일 주소를 입력해주세요.';
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
+    $lang->about_webmaster_email = 'Introduzca la dirección de correo electrónico webmaster.';
 
     $lang->search_target_list = array(
         'user_id' => 'ID',
@@ -97,7 +101,7 @@
     $lang->cmd_manage_form = 'Manejo de forma del registro';
     $lang->cmd_view_own_document = 'Ver documentos escritos';
     $lang->cmd_view_scrapped_document = 'Ver Scraps';
-    $lang->cmd_view_saved_document = '저장함 보기';
+    $lang->cmd_view_saved_document = 'Ver artículos guardados';
     $lang->cmd_send_email = 'Enviar Email';
     $lang->cmd_send_message = 'Enviar Mensaje';
     $lang->cmd_reply_message = 'Responder el mensaje';
@@ -116,10 +120,10 @@
     $lang->msg_checked_file_is_deleted = '%d archivos adjuntos son eliminados';
 
     $lang->msg_find_account_title = 'Account Info';
-    $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
-    $lang->msg_find_account_comment = '아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.';
-    $lang->msg_auth_mail_sended = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
-    $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다. 꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
+    $lang->msg_find_account_info = 'Esto se solicita la información de la cuenta';
+    $lang->msg_find_account_comment = 'La contraseña se modificará para arriba al hacer clic en un enlace a continuación. <br /> Por favor, después de modificar la contraseña de acceso.';
+    $lang->msg_auth_mail_sended = 'La autenticación de correo ha sido enviado a% s. Por favor, compruebe su correo.';
+    $lang->msg_success_authed = 'Esto no es válido solicitud de autenticación. <br /> Por favor, inténtelo encontrar información de la cuenta o póngase en contacto con el administrador.';
 
     $lang->msg_no_message = 'No hay mensajes';
     $lang->message_received = 'Usted ha recibido un mensaje';
@@ -142,6 +146,7 @@
     $lang->msg_allow_message_to_friend = "Falló el envío por permitir sólo mensajes de sus amigos";
     $lang->msg_disallow_message = 'Falló el envío por ser usuario rechazado para recibir mensajes';
     $lang->msg_insert_group_name = 'Por favor ingresar el nombre del grupo';
+    $lang->msg_check_group = 'Introduce nombre de grupo';
 
     $lang->msg_not_uploaded_image_name = 'Imagen del nombre no puede ser registrado';
     $lang->msg_not_uploaded_image_mark = 'Imagen de marca no puede ser resistrado';
@@ -178,19 +183,21 @@
     $lang->about_enable_join = 'Debe seleccionar esta opción para permitir el registro de los usuarios';
     $lang->about_limit_day = 'Usted puede limitar la fecha de la certificación luego de registrar';
     $lang->about_limit_date = 'Usuario no podra conectarse hasta la fecha indicada';
+    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = 'Ingresar la URL que va a abrir luego de registrar los usuarios. Cuando esto esta vacío, se habrirá la página anterior a la del registro.';
     $lang->about_agreement = "Acuerdo del registro no será mostrado si esta vacío";
 
     $lang->about_image_name = "Permitir a los usuarios el uso de imagen del nombre en ves del nombre del usuario";
     $lang->about_image_mark = "Permitir a los usuarios el uso de imagen de marca delante de sus nombres";
-    $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
+    $lang->about_profile_image = 'Permitir a los usuarios a utilizar nombre de la imagen en lugar de texto nombre';
     $lang->about_accept_agreement = "Yo he leído todo el acuerdo y acepto"; 
 
     $lang->about_member_default = 'Al registrar se configura como grupo predefinido';
 
     $lang->about_openid = 'Cuando tu registra como OpenID, la información básica como ID o la dirección del email sera guardado en este sitio, pero la contraseña y la resolución de la certificación se hará en el servicio ofrecido por openID';
-    $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다';
+    $lang->about_openid_leave = 'La secesión de OpenID medios eliminación de su información de miembros de este sitio. <br /> Si se registra después de la secesión, se le reconocerá como un nuevo miembro, de modo que ya no tienen el permiso para que su ex-escrito artículos.';
 
     $lang->about_member = "Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.\n Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro";
-    $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다<br />가입할때 등록하신 메일 주소를 입력하시고 "아이디/ 비밀번호 찾기" 버튼을 클릭해주세요.<br />';
+    $lang->about_find_member_account = 'Su información de la cuenta será observado por dirección de correo electrónico registrada. <br /> Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />';
 ?>

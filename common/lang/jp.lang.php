@@ -60,6 +60,8 @@
     $lang->cmd_reset = '初期化';
     $lang->cmd_remake_cache = "キャッシュファイル再生成";
     $lang->cmd_publish = "発行";
+    $lang->cmd_layout_setup = 'レイアウト設定';
+    $lang->cmd_layout_edit = 'レイアウト編集';
 
     $lang->enable = '可能';
     $lang->disable = '不可';
@@ -124,6 +126,7 @@
     $lang->document_count = '書き込み数';
     $lang->page_count = 'ページ数';
     $lang->list_count = 'リスト数';
+    $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = '照合数';
     $lang->voted_count = '推薦数';
     $lang->member_count = '会員数';
@@ -148,6 +151,9 @@
     $lang->use = '使用';
     $lang->notuse = '未使用';
     $lang->not_exists = 'なし';
+
+    $lang->public = 'public';
+    $lang->private = 'private';
 
     $lang->unit_sec = '秒';
     $lang->unit_min = '分';

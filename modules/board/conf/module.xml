@@ -25,18 +25,6 @@
             <title xml:lang="jp">コメント作成</title>
             <title xml:lang="en">write comment</title>
         </grant>
-        <grant name="fileupload" default="guest">
-            <title xml:lang="ko">파일 첨부</title>
-			<title xml:lang="zh-CN">附件</title>
-            <title xml:lang="jp">ファイル添付</title>
-            <title xml:lang="en">file upload</title>
-        </grant>
-        <grant name="comment_fileupload" default="guest">
-            <title xml:lang="ko">댓글 파일 첨부</title>
-			<title xml:lang="zh-CN">评论附件</title>
-            <title xml:lang="jp">コメントファイル添付</title>
-            <title xml:lang="en">comment file upload</title>
-        </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
 			<title xml:lang="zh-CN">管理</title>
@@ -49,6 +37,7 @@
         <permission action="dispBoardTagList" target="manager" />
         <permission action="dispBoardWrite" target="manager" />
         <permission action="dispBoardDelete" target="manager" />
+        <permission action="dispBoardWriteComment" target="manager" />
         <permission action="dispBoardReplyComment" target="manager" />
         <permission action="dispBoardModifyComment" target="manager" />
         <permission action="dispBoardDeleteComment" target="manager" />
@@ -64,6 +53,8 @@
         <permission action="procBoardUploadFile" target="manager" />
         <permission action="procBoardDownloadFile" target="manager" />
 
+        <permission action="getBoardAdminCategoryTplInfo" target="manager" />
+
         <permission action="dispBoardAdminInsertBoard" target="manager" />
         <permission action="dispBoardAdminBoardInfo" target="manager" />
         <permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
@@ -74,12 +65,16 @@
         <permission action="procBoardAdminUpdateSkinInfo" target="manager" />
         <permission action="procBoardAdminInsertCategory" target="manager" />
         <permission action="procBoardAdminUpdateCategory" target="manager" />
+        <permission action="procBoardAdminDeleteCategory" target="manager" />
+        <permission action="procBoardAdminMakeXmlFile" target="manager" />
+        <permission action="procBoardAdminMoveCategory" target="manager" />
     </permissions>
     <actions>
         <action name="dispBoardContent" type="view" index="true" />
         <action name="dispBoardTagList" type="view" />
         <action name="dispBoardWrite" type="view" />
         <action name="dispBoardDelete" type="view" />
+        <action name="dispBoardWriteComment" type="view" />
         <action name="dispBoardReplyComment" type="view" />
         <action name="dispBoardModifyComment" type="view" />
         <action name="dispBoardDeleteComment" type="view" />
@@ -97,6 +92,8 @@
         <action name="procBoardUploadFile" type="controller" />
         <action name="procBoardDownloadFile" type="controller" />
 
+        <action name="getBoardAdminCategoryTplInfo" type="model" standalone="true" />
+
         <action name="dispBoardAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
         <action name="dispBoardAdminBoardAdditionSetup" type="view" standalone="true" />
@@ -112,5 +109,8 @@
         <action name="procBoardAdminDeleteBoard" type="controller" standalone="true" />
         <action name="procBoardAdminInsertCategory" type="controller" standalone="true" />
         <action name="procBoardAdminUpdateCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminDeleteCategory" type="controller" standalone="true" />
+        <action name="procBoardAdminMakeXmlFile" type="controller" standalone="true" />
+        <action name="procBoardAdminMoveCategory" type="controller" standalone="true" />
     </actions>
 </module>

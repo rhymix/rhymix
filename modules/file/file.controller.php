@@ -198,9 +198,7 @@
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) return;
-
-            if($file_srl) $output = $this->deleteFile($file_srl);
+            if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
             $this->printUploadedFileList($editor_sequence, $upload_target_srl);
@@ -339,7 +337,7 @@
             }
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
-            if(eregi("\.(jpg|jpeg|gif|png|wmv|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$", $file_info['name'])) {
+            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$/i", $file_info['name'])) {
                 $path = sprintf("./files/attach/images/%s/%s/", $module_srl,$upload_target_srl);
                 $filename = $path.$file_info['name'];
                 $direct_download = 'Y';
@@ -386,6 +384,7 @@
             $output->add('direct_download', $args->direct_download);
             $output->add('source_filename', $args->source_filename);
             $output->add('upload_target_srl', $upload_target_srl);
+            $output->add('uploaded_filename', $args->uploaded_filename);
             return $output;
         }
 
@@ -473,7 +472,7 @@
                 $old_file = $file_info->uploaded_filename;
 
                 // 이미지인지 기타 파일인지 체크하여 이동할 위치 정함
-                if(eregi("\.(jpg|jpeg|gif|png|wmv|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$", $file_info->source_filename)) {
+                if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi)$/i", $file_info->source_filename)) {
                     $path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
                     $new_file = $path.$file_info->source_filename;
                 } else {
@@ -504,21 +503,24 @@
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
-            // file의 Model객체 생성
             $oFileModel = &getModel('file');
 
-            // 첨부파일 목록을 구함
-            $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
-            $file_count = count($tmp_file_list);
+            if($upload_target_srl) {
+                // file의 Model객체 생성
 
-            // 루프를 돌면서 $buff 변수에 java script 코드를 생성
-            $buff = "";
-            for($i=0;$i<$file_count;$i++) {
-                $file_info = $tmp_file_list[$i];
-                if(!$file_info->file_srl) continue;
-                if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
-                $file_list[] = $file_info;
-                $attached_size += $file_info->file_size;
+                // 첨부파일 목록을 구함
+                $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
+                $file_count = count($tmp_file_list);
+
+                // 루프를 돌면서 $buff 변수에 java script 코드를 생성
+                $buff = "";
+                for($i=0;$i<$file_count;$i++) {
+                    $file_info = $tmp_file_list[$i];
+                    if(!$file_info->file_srl) continue;
+                    if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
+                    $file_list[] = $file_info;
+                    $attached_size += $file_info->file_size;
+                }
             }
 
             // 업로드 상태 표시 작성
@@ -530,6 +532,7 @@
             Context::set('upload_status', $upload_status);
 
             // 업로드 현황을 브라우저로 알리기 위한 javascript 코드 출력하는 템플릿 호출
+            Context::set('layout','none');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_uploaded_file_list');
         }

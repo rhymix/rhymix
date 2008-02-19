@@ -201,3 +201,61 @@ function doInsertMid(mid, menu_id) {
     fo_obj.menu_url.value = mid;
     window.close();
 }
+
+/* 각 메뉴의 버튼 이미지 등록 */
+function doMenuUploadButton(obj) {
+    // 이미지인지 체크
+    if(!/\.(gif|jpg|jpeg|png)$/i.test(obj.value)) return alert(alertImageOnly);
+
+    var fo_obj = xGetElementById("fo_menu");
+    fo_obj.act.value = "procMenuAdminUploadButton";
+    fo_obj.target.value = obj.name;
+    fo_obj.submit();
+    fo_obj.act.value = "";
+    fo_obj.target.value = "";
+}
+
+/* 메뉴 이미지 업로드 후처리 */
+function completeMenuUploadButton(target, filename) {
+    var column_name = target.replace(/^menu_/,'');
+    var fo_obj = xGetElementById("fo_menu");
+    var zone_obj = xGetElementById(target+'_zone');
+    var img_obj = xGetElementById(target+'_img');
+
+    fo_obj[column_name].value = filename;
+
+    var img = new Image();
+    img.src = filename;
+    img_obj.src = img.src;
+    zone_obj.style.display = "block";
+}
+
+/* 업로드된 메뉴 이미지 삭제 */
+function doDeleteButton(target) {
+    var fo_obj = xGetElementById("fo_menu");
+
+    var col_name = target.replace(/^menu_/,'');
+
+    var params = new Array();
+    params['target'] = target;
+    params['menu_srl'] = fo_obj.menu_srl.value;
+    params['menu_item_srl'] = fo_obj.menu_item_srl.value;
+    params['filename'] = fo_obj[col_name].value;
+
+    var response_tags = new Array('error','message', 'target');
+
+    exec_xml('menu','procMenuAdminDeleteButton', params, completeDeleteButton, response_tags);
+}
+
+function completeDeleteButton(ret_obj, response_tags) {
+    var target = ret_obj['target'];
+
+    var column_name = target.replace(/^menu_/,'');
+    var fo_obj = xGetElementById("fo_menu");
+    var zone_obj = xGetElementById(target+'_zone');
+    var img_obj = xGetElementById(target+'_img');
+    fo_obj[column_name].value = "";
+
+    img_obj.src = "";
+    zone_obj.style.display = "none";
+}

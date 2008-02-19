@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+    <title xml:lang="ko">방명록 기본 스킨</title>
+	<title xml:lang="zh-CN">留言本默认皮肤</title>
+    <title xml:lang="jp">ゲストブックのデフォルトスキン</title>
+	<title xml:lang="en">Zeroboard XE Basic Guestbook Skin</title>
+    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="jp">Zero</name>
+		<name xml:lang="en">Zero</name>
+        <description xml:lang="ko">board모듈의 default스킨</description>
+        <description xml:lang="zh-CN">留言本模块的默认皮肤。</description>
+        <description xml:lang="jp">ボード（board）モジュールのデフォルトスキンです。</description>
+		<description xml:lang="en">This is the basic guestbook skin of Zeroboard XE.</description>
+    </maker>
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="en">White (default)</title>
+        </color>
+        <color name="cyan" src="screenshot/cyan.gif">
+            <title xml:lang="ko">청록색</title>
+            <title xml:lang="jp">青緑</title>
+            <title xml:lang="zh-CN">青绿色</title>
+            <title xml:lang="en">Cyan</title>
+        </color>
+        <color name="green" src="screenshot/green.gif">
+            <title xml:lang="ko">초록색</title>
+            <title xml:lang="jp">緑</title>
+            <title xml:lang="zh-CN">绿色</title>
+            <title xml:lang="en">Green</title>
+        </color>
+        <color name="red" src="screenshot/red.gif">
+            <title xml:lang="ko">빨간색</title>
+            <title xml:lang="jp">赤</title>
+            <title xml:lang="zh-CN">红色</title>
+            <title xml:lang="en">Red</title>
+        </color>
+        <color name="purple" src="screenshot/purple.gif">
+            <title xml:lang="ko">보라색</title>
+            <title xml:lang="jp">紫</title>
+            <title xml:lang="zh-CN">紫色</title>
+            <title xml:lang="en">Purple</title>
+        </color>
+    </colorset>
+    <extra_vars>
+        <var name="title" type="text">
+            <title xml:lang="ko">제목</title>
+            <title xml:lang="zh-CN">标题</title>
+            <title xml:lang="jp">タイトル</title>
+			<title xml:lang="en">Title</title>
+            <description xml:lang="ko">방명록의 제목을 적어주세요.</description>
+            <description xml:lang="zh-CN">请输入留言本标题。</description>
+            <description xml:lang="jp">ゲストブックのタイトルを入力してください。</description>
+			<description xml:lang="en">Please input the title of guestbook.</description>
+        </var>
+        <var name="memo" type="textarea">
+            <title xml:lang="ko">방명록 설명</title>
+            <title xml:lang="zh-CN">留言本说明</title>
+            <title xml:lang="jp">ゲストブックの説明</title>
+			<title xml:lang="en">Description</title>
+            <description lang="ko">내용의 기본값</description>
+            <description lang="zh-CN">内容默认值</description>
+            <description lang="jp">内容のデフォルト値</description>
+			<description lang="en">Default value of content</description>
+        </var>
+    </extra_vars>
+</skin>

@@ -26,8 +26,8 @@
         レベルアイコンは、「モジュール&gt;ポイントシステム」で選択できます。
     </description>
     <description xml:lang="en">
-        This addon displays level icon in front of user name when point system is using.
-        You can choose level icon on Module &gt; Point System.
+        This addon displays level icon in front of the user name when you are using the point system.
+        You can choose the level icon on Module &gt; Point System.
     </description>
 	<description xml:lang="es">
         Este addon muestra el nivel del ícono delante del nombre del usuario cuando es usado el sistema de puntos.

@@ -14,10 +14,10 @@
          **/
         function readFile($file_name) {
             if(!file_exists($file_name)) return;
-
             $filesize = filesize($file_name);
-
             if($filesize<1) return;
+
+            if(function_exists('file_get_contents')) return file_get_contents($file_name);
 
             $fp = fopen($file_name, "r");
             $buff = '';
@@ -263,7 +263,7 @@
             }
 
             // 디렉토리 생성
-            $path = preg_replace('/\/([^\.^\/]*)\.(gif|png|jpeg|bmp|wbmp)$/i','',$target_file);
+            $path = preg_replace('/\/([^\.^\/]*)\.(gif|png|jpg|jpeg|bmp|wbmp)$/i','',$target_file);
             FileHandler::makeDir($path);
 
             // 원본 이미지의 크기를 조절해서 임시 이미지에 넣음
