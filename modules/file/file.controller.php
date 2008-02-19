@@ -198,9 +198,7 @@
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) return;
-
-            if($file_srl) $output = $this->deleteFile($file_srl);
+            if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
             $this->printUploadedFileList($editor_sequence, $upload_target_srl);
@@ -531,6 +529,7 @@
             Context::set('upload_status', $upload_status);
 
             // 업로드 현황을 브라우저로 알리기 위한 javascript 코드 출력하는 템플릿 호출
+            Context::set('layout','none');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('print_uploaded_file_list');
         }
