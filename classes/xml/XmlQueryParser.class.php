@@ -46,7 +46,7 @@
                 $alias = $val->attrs->alias;
                 if(!$alias) $alias = $table_name;
 
-                $output->tables[$table_name] = $alias;
+                $output->tables[$alias] = $table_name;
 
                 // 테이블을 찾아서 컬럼의 속성을 구함
                 $table_file = sprintf('./%s/%s/schemas/%s.xml', 'modules', $module, $table_name);

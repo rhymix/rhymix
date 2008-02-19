@@ -48,6 +48,9 @@
 
             // 트리거 정보가 있는 파일 모두 삭제
             FileHandler::removeFilesInDir("./files/cache/triggers");
+
+            // DB캐시 파일을 모두 삭제
+            FileHandler::removeFilesInDir("./files/cache/db");
         }
     }
 ?>
