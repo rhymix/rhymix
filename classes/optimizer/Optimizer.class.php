@@ -191,7 +191,7 @@ if(!$cached) {
 
         function _replaceCssPath($matches) {
             $path = str_replace(array('"',"'"),'',$matches[1]);
-            if(preg_match('/^http/i', $path) || preg_match('/\.htc$/i',$path) ) return $matches[0];
+            if(preg_match('/^http|^\//i', $path) || preg_match('/\.htc$/i',$path) ) return $matches[0];
 
             return 'url("../../../../'.$this->tmp_css_path.$path.'")';
         }
