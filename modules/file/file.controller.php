@@ -503,21 +503,23 @@
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
-            // file의 Model객체 생성
-            $oFileModel = &getModel('file');
+            if($upload_target_srl) {
+                // file의 Model객체 생성
+                $oFileModel = &getModel('file');
 
-            // 첨부파일 목록을 구함
-            $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
-            $file_count = count($tmp_file_list);
+                // 첨부파일 목록을 구함
+                $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
+                $file_count = count($tmp_file_list);
 
-            // 루프를 돌면서 $buff 변수에 java script 코드를 생성
-            $buff = "";
-            for($i=0;$i<$file_count;$i++) {
-                $file_info = $tmp_file_list[$i];
-                if(!$file_info->file_srl) continue;
-                if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
-                $file_list[] = $file_info;
-                $attached_size += $file_info->file_size;
+                // 루프를 돌면서 $buff 변수에 java script 코드를 생성
+                $buff = "";
+                for($i=0;$i<$file_count;$i++) {
+                    $file_info = $tmp_file_list[$i];
+                    if(!$file_info->file_srl) continue;
+                    if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
+                    $file_list[] = $file_info;
+                    $attached_size += $file_info->file_size;
+                }
             }
 
             // 업로드 상태 표시 작성
