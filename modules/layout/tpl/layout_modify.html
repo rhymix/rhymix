@@ -38,6 +38,13 @@
     <col width="150" />
     <col width="*" />
     <tr>
+        <th scope="row">{$lang->header_script}</th>
+        <td class="left">
+            <textarea name="header_script" class="inputTypeText">{htmlspecialchars($selected_layout->header_script)}</textarea>
+            <p>{$lang->about_header_script}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->title}</th>
         <td class="left">
             <input type="text" name="title" value="{htmlspecialchars($selected_layout->layout_title)}" class="inputTypeText w400" />

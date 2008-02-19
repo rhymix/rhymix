@@ -1,7 +1,0 @@
-div.commentBox { padding-bottom:1em;}
-div.commentBox .header { padding:7px 0 0 12px; height:21px; _height:20px; background:#f5f5f5; }
-*:first-child+html div.commentBox .header { height:20px; color:#ef2121;}
-
-div.commentBox ul { padding:.5em; overflow:hidden;}
-div.commentBox ul li { color:#a4a4a4; margin-right:.1em; line-height:1.5em; list-style:none; overflow:hidden; white-space:nowrap;}
-div.commentBox ul li a { color:#a4a4a4; text-decoration:none;}

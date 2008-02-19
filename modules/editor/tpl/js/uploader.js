@@ -18,8 +18,8 @@ var uploaded_files = new Array();
  * 이 함수는 editor.html 에서 파일 업로드 가능할 경우 호출됨
  **/
 // window.load 이벤트일 경우 && 문서 번호가 가상의 번호가 아니면 기존에 저장되어 있을지도 모르는 파일 목록을 가져옴
-function editor_upload_init(editor_sequence, el) {
-    xAddEventListener(window,'load',function() { editor_upload_start(editor_sequence, el);} );
+function editor_upload_init(editor_sequence, el, inserted_files_count) {
+    xAddEventListener(window,'load',function() { editor_upload_start(editor_sequence, el, inserted_files_count);} );
 }
 
 function editor_upload_get_target_srl(editor_sequence) {
@@ -32,7 +32,10 @@ function editor_upload_get_uploader_name(editor_sequence) {
 }
 
 // 파일 업로드를 위한 기본 준비를 함 
-function editor_upload_start(editor_sequence, fo_obj) {
+function editor_upload_start(editor_sequence, fo_obj, inserted_files_count) {
+    if(typeof(inserted_files_count)=='undefined' || !inserted_files_count) inserted_files_count = 0;
+    else inserted_files_count = parseInt(inserted_files_count, 10);
+
     // 캐시 삭제
     try { document.execCommand('BackgroundImageCache',false,true); } catch(e) { }
 
@@ -58,8 +61,7 @@ function editor_upload_start(editor_sequence, fo_obj) {
     if(!field_obj) return;
 
     // 에디터를 감싸는 form을 구해 submit target을 임시 iframe으로 변경
-    if(!fo_obj)
-	fo_obj = editorGetForm(editor_sequence);
+    if(!fo_obj) fo_obj = editorGetForm(editor_sequence);
     fo_obj.target = 'tmp_upload_iframe';
 
     // SWF uploader 생성
@@ -101,7 +103,7 @@ function editor_upload_start(editor_sequence, fo_obj) {
      * upload_target_srl값이 실제 문서 번호일 경우 이미 등록되 있을지도 모르는 첨부파일 목록을 로드 
      * procDeleteFile에 file_srl을 보내주지 않으면 삭제시도는 없이 목록만 갱신할 수 있음
      **/
-    editor_display_uploaded_file(editor_sequence);
+    if(inserted_files_count>0) editor_display_uploaded_file(editor_sequence);
 }
 
 // 파일 업로드 에러 핸들링
@@ -327,7 +329,7 @@ function editor_insert_file(editor_sequence) {
         } else {
             var mid = fo_obj.mid.value;
             var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
-            var text = "<a href=\""+url+"\">"+filename+"</a><br />\n";
+            var text = "<a href=\""+url+"\">"+filename+"</a>\n";
             editorReplaceHTML(iframe_obj, text);
         } 
     }

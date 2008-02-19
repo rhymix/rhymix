@@ -11,8 +11,12 @@ function doCheckAll(bToggle) {
 function doCancelDeclare() {
     var fo_obj = xGetElementById('fo_list');
     var comment_srl = new Array();
-    for(var i=0;i<fo_obj.cart.length;i++) {
-        if(fo_obj.cart[i].checked) comment_srl[comment_srl.length] = fo_obj.cart[i].value;
+    if(fo_obj.cart.length) {
+        for(var i=0;i<fo_obj.cart.length;i++) {
+            if(fo_obj.cart[i].checked) comment_srl[comment_srl.length] = fo_obj.cart[i].value;
+        }
+    } else {
+        if(fo_obj.cart.checked) comment_srl[comment_srl.length] = fo_obj.cart.value;
     }
     if(comment_srl.length<1) return;
 

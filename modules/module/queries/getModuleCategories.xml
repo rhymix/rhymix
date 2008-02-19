@@ -2,5 +2,7 @@
     <tables>
         <table name="module_categories" />
     </tables>
-    <columns />
+    <navigation>
+        <index var="sort_index" default="title" order="asc" />
+    </navigation>
 </query>

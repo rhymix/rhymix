@@ -70,7 +70,7 @@
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
-    $lang->category = 'カテゴリ';
+    $lang->category = $lang->category_srl = 'カテゴリ';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
     $lang->author = '作者';
@@ -108,7 +108,7 @@
     $lang->path = 'パス';
     $lang->cart = '選択項目';
     $lang->friend = '友達';
-    $lang->notify = 'アラット';
+    $lang->notify = 'アラート';
 
     $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';
@@ -126,7 +126,7 @@
     $lang->document_count = '書き込み数';
     $lang->page_count = 'ページ数';
     $lang->list_count = 'リスト数';
-    $lang->search_list_count = '검색 목록 수';
+    $lang->search_list_count = '検索リスト数';
     $lang->readed_count = '照合数';
     $lang->voted_count = '推薦数';
     $lang->member_count = '会員数';

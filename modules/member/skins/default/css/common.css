@@ -2,6 +2,7 @@
 
 /* common */
 .memberSmallBox { border:1px solid #e0e1db; margin:5em auto 1em auto;}
+.memberSmallBox fieldset { border:0; margin:0; }
 
 .memberSmallBox.w400 { width:400px;}
 .memberSmallBox.w500 { width:500px;}
@@ -59,18 +60,18 @@
 /* login */
 .memberSmallBox .login { border:none; padding:2em 0 1.5em 2em;}
 .memberSmallBox .login legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
-.memberSmallBox .login dl { overflow:hidden; float:left; margin-right:10px; width:250px;}
-.memberSmallBox .login dl dt { width:100px; clear:left; float:left; color:#54564b; height:24px; padding-top:3px;}
-.memberSmallBox .login dl dd { float:left; height:27px; width:150px; }
+.memberSmallBox .login dl { margin:0; padding:0; overflow:hidden; float:left; margin-right:10px; width:250px;}
+.memberSmallBox .login dl dt { margin:0; padding:0; width:100px; clear:left; float:left; color:#54564b; height:24px; padding-top:3px;}
+.memberSmallBox .login dl dd { margin:0; padding:0; float:left; height:27px; width:150px; }
 .memberSmallBox .login .keep { clear:both; white-space:nowrap; margin-left:100px;}
 .memberSmallBox .login .keep input { vertical-align:middle;}
-.memberSmallBox .login .keep label { font-size:11px; color:#999999;}
+.memberSmallBox .login .keep label { margin:0; padding:0; font-size:11px; color:#999999;}
 .memberSmallBox .openid_user_id { background: url(../images/openid_input_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; line-height:1em; vertical-align:middle; color:#666666; width:120px;}
 .memberSmallBox .help { background:#f5f5f3; color:#666666; border-top:1px solid #eaebe7; overflow:hidden; padding:1.1em; }
 
 /* logout */
 .memberSmallBox .text { color:#54564b; text-align:center; padding:4em 2em 5em 2em;}
-.memberSmallBox .text p { margin-bottom:.5em;}
+.memberSmallBox .text p { margin:0; padding:0; margin-bottom:.5em;}
 
 /* friend */
 .friendNum { float:left; background:url(../images/common/iconFriend.gif) no-repeat .5em .4em; padding:.4em 0 0 2em;}
@@ -79,7 +80,7 @@
 /* message */
 .readMessage { border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
 .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
-.readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
+.readMessage .messageHeader h4 { margin:0; padding:0; float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
 .readMessage .messageHeader address { float:right; white-space:nowrap;}
 .readMessage .messageHeader address em { font-size:1em; font-style:white; color:#333333; margin-right:.3em; float:left;}
 .readMessage .messageHeader address em a { color:#333333;}
@@ -107,7 +108,7 @@
 .memberInfoTable td checkbox { border:0; }
 .memberInfoTable td .fl { margin-right:.5em;}
 .memberInfoTable td br { clear:both;}
-.memberInfoTable td p { font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
+.memberInfoTable td p { margin:0; padding:0; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
 .memberInfoTable td label { color:#3f4040; padding-top:.3em; margin-right:.5em;}
 .memberInfoTable td ul { list-style:none; }
 .memberInfoTable td .checkbox { border:none; }
@@ -156,7 +157,7 @@ span.privateItem { display:inline; margin:0; font-weight:normal; color:#666666; 
 .memberSmallBox .pwModify legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
 .memberSmallBox .pwModify input { width:9em;}
 .memberSmallBox .pwModify br { display:block; margin-bottom:.2em}
-.memberSmallBox .pwModify p { text-align:center; margin-top:1em; color:#54564b;}
+.memberSmallBox .pwModify p { margin:0; padding:0; text-align:center; margin-top:1em; color:#54564b;}
 
 /* pageNavigation */
 .pageNavigation { position:relative; display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .8em Tahoma; }

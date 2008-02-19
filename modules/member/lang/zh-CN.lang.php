@@ -11,7 +11,7 @@
     $lang->default_group_1 = "准会员";
     $lang->default_group_2 = "正会员";
     $lang->admin_group = "管理组";
-    $lang->keep_signed = '로그인 유지';
+    $lang->keep_signed = '自动登录';
     $lang->remember_user_id = '保存ID';
     $lang->already_logged = '您已经登录！';
     $lang->denied_user_id = '被禁止的用户名。';
@@ -46,8 +46,8 @@
     $lang->enable_join = '允许会员注册';
     $lang->limit_day = '认证限制';
     $lang->limit_date = '限制日期';
-    $lang->after_login_url = '로그인 후 이동할 URL';
-    $lang->after_logout_url = '로그아웃 후 이동할 URL';
+    $lang->after_login_url = '登录后页面转向';
+    $lang->after_logout_url = '退出后页面转向';
     $lang->redirect_url = '注册会员后页面转向';
     $lang->agreement = '会员注册条款';
     $lang->accept_agreement = '同意条款';
@@ -62,7 +62,7 @@
     $lang->webmaster_name = '管理员名';
     $lang->webmaster_email = '管理员电子邮件';
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = '关闭浏览器后有可能维持登录状态。\n\n使用自动登录功能时下次访问网页不用再次输入用户名和密码。\n\n为防止个人信息的泄露，在网吧，学校等公共场所使用时请一定要退出登录。';
     $lang->about_webmaster_name = '请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)';
     $lang->about_webmaster_email = '请输入网站管理员的电子邮件地址。';
 
@@ -146,7 +146,7 @@
     $lang->msg_allow_message_to_friend = '因其为只允许接收好友短消息的用户，所以不能发送短消息。';
     $lang->msg_disallow_message = '因其为拒绝接收短消息的用户，所以不能发送短消息。';
     $lang->msg_insert_group_name = '请输入组名称';
-    $lang->msg_check_group = '그룹을 선택해 주세요';
+    $lang->msg_check_group = '请选择组';
 
     $lang->msg_not_uploaded_image_name = '不能登录昵称图像！';
     $lang->msg_not_uploaded_image_mark = '不能登录用户图标！';
@@ -183,8 +183,8 @@
     $lang->about_enable_join = '选择此项后用户才可以注册。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
-    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
-    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
+    $lang->about_after_login_url = '可以指定登录后的页面转向url。留空为返回当前页面。';
+    $lang->about_after_logout_url = '可以指定退出后的转向url。留空为返回当前页面。';
     $lang->about_redirect_url = '请输入注册会员后的页面转向 url。(留空为返回前页)';
     $lang->about_agreement = '没有会员条款时不显示。';
 

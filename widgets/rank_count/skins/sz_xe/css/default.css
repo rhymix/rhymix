@@ -1,6 +1,6 @@
 .szrank_count { width:100%; position:relative; }
-.szrank_count h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
-.szrank_count h5{ height:21px; padding:0 0 0 9px; font-size:1em;}
+.szrank_count h2 { margin:0; height:21px; padding:9px 0 0 9px; font-size:1em;}
+.szrank_count h5{ margin:0; height:21px; padding:0 0 0 9px; font-size:1em;}
 
 .szrank_count .left { cursor:pointer; height:20px; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
 

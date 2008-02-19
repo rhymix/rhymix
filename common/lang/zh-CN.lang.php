@@ -70,7 +70,7 @@
     $lang->no = '编号';
     $lang->notice = '公告';
     $lang->secret = '密帖';
-    $lang->category = '分类';
+    $lang->category = $lang->category_srl = '分类';
     $lang->document_srl = '文章编号';
     $lang->user_id = '用户名';
     $lang->author = '制作';

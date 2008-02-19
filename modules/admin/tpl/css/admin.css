@@ -15,7 +15,7 @@ IE7 Only
 
 */
 
-h3 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:11px 9px 7px 25px; color:#555555; }
+h3 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:11px 9px 7px 25px; color:#555555; margin:0; }
 h3 .gray { color:#9d9d9d;}
 
 .adminTable { width:100%;  border-left:1px solid #E3E3E2; border-top:1px solid #E3E3E2; margin-bottom:10px; table-layout:fixed;}
@@ -67,7 +67,7 @@ h3 .gray { color:#9d9d9d;}
 .adminTable td textarea { width:98%; height:120px; }
 .adminTable td a { color:#555555; text-decoration:none; }
 .adminTable td a:hover { text-decoration:underline; }
-.adminTable td p, .adminTable td label { color:#AAAAAA; font-size:.9em; margin-top:5px; }
+.adminTable td p, .adminTable td label { margin:0; padding:0;color:#AAAAAA; font-size:.9em; margin-top:5px; }
 .adminTable td p a, .adminTable td label a { text-decoration:underline; color:#999999; }
 
 .adminTable.counter th { font-size:.9em; text-align:center; padding:0;}
@@ -76,8 +76,9 @@ h3 .gray { color:#9d9d9d;}
 .adminTable td .graph .bar { width:100%; position:absolute; margin-top:4px;}
 .adminTable td .graph .num { position:relative; background:#ffffff; color:#636363; font:.9em Tahoma; padding-left:10px; white-space:nowrap;}
 
-.admin_news { width:540px; float:left; margin-right:10px; }
+.admin_news { width:470px; float:left; margin-right:10px; }
 .admin_link { width:300px; float:right; }
+.admin_link td, .admin_news td { height:18px; }
 select.time_zone { width:70%; position:relative; top:4px; }
 .gap1 { margin-top:.8em; }
 
@@ -93,7 +94,7 @@ select.time_zone { width:70%; position:relative; top:4px; }
 .header4 table.summary th .vr { color:#a3a39f; margin:0 4px; font-weight:normal;}
 .header4 table.summary td { border-top:1px solid #f2f2f2; border-bottom:1px solid #f2f2f2; font:.9em Tahoma; padding-left:17px;}
 
-h4 { font-size:1em; color:#f2250d; padding-left:10px; }
+h4 { font-size:1em; color:#f2250d; padding-left:10px; margin:0;}
 h4 .bracket { font-weight:normal; color:#9d9d9d;}
 h4 .vr { font-weight:normal; color:#d1d1d1;}
 h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:url(../images/iconView.gif) no-repeat right center; text-decoration:none; }
@@ -125,7 +126,7 @@ h4 .view { color:#158692; padding-right:.6em; font:bold .9em Tahoma; background:
 .buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; position:relative; top:-1px; font:.75em Tahoma; text-align:center; background:url(../images/buttonTypeInput24.gif) no-repeat; }
 
 #popHeadder { height:40px; background:url(../images/popupTopBg.png) repeat-x left top; padding:10px;}
-#popHeadder h1 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:9px; color:#555555; }
+#popHeadder h1 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:9px; color:#555555; margin:0; }
 #popBody { width:600px; padding:10px; background:#ffffff;}
 #popFooter { width:620px; background:#f7f7f6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; }
 #popFooter .close { position:relative; left:50%; margin-left:-1em; float:left;}

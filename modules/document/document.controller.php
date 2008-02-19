@@ -17,6 +17,8 @@
          * @breif 게시글의 추천을 처리하는 action (Up)
          **/
         function procDocumentVoteUp() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $document_srl = Context::get('target_srl');
             if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -28,6 +30,8 @@
          * @breif 게시글의 추천을 처리하는 action (Down)
          **/
         function procDocumentVoteDown() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $document_srl = Context::get('target_srl');
             if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -39,6 +43,8 @@
          * @brief 게시글이 신고될 경우 호출되는 action
          **/
         function procDocumentDeclare() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $document_srl = Context::get('target_srl');
             if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -731,7 +737,11 @@
 
             $category_list = $output->data;
 
-            if(!$category_list) return false;
+            if(!$category_list) {
+                @unlink($xml_file);
+                @unlink($php_file);
+                return false;
+            }
             if(!is_array($category_list)) $category_list = array($category_list);
 
             $category_count = count($category_list);

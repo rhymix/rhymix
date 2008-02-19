@@ -24,6 +24,9 @@
             // 2007. 10. 17 모듈이 삭제될때 등록된 댓글도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after');
 
+            // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
+            $oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
+
             return new Object();
         }
 
@@ -45,6 +48,9 @@
             if(!$oDB->isColumnExists("comments","notify_message")) return true;
 
             if(!$oModuleModel->getActionForward('dispCommentAdminDeclared')) return true;
+
+            // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
+            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) return true;
 
             return false;
         }
@@ -77,6 +83,10 @@
 
             if(!$oModuleModel->getActionForward('dispCommentAdminDeclared'))
                 $oModuleController->insertActionForward('comment', 'view', 'dispCommentAdminDeclared');
+
+            // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
+            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) 
+                $oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
 
             return new Object(0, 'success_updated');
         }

@@ -34,7 +34,7 @@
     $lang->enable_component_grant = 'コンポーネント使用権限';
     $lang->enable_html_grant = 'HTML編集権限';
     $lang->enable_autosave = '自動保存使用';
-    $lang->height_resizable = '高さの調節可能';
+    $lang->height_resizable = '高さの調節';
     $lang->editor_height = 'エディターの高さ';
 
     $lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';

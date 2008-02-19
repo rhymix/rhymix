@@ -2,7 +2,7 @@
 <widget version="0.1">
     <title xml:lang="ko">기본 카운터 위젯</title>
     <title xml:lang="jp">デフォルト接続カウンター</title>
-    <title xml:lang="en">Basic Counter Widget</title> 
+    <title xml:lang="en">Counter</title> 
     <title xml:lang="es">Widget de Contador Básico</title>
     <title xml:lang="zh-CN">计数器</title>
     <title xml:lang="ru">Базовый виджет счетчика</title> 

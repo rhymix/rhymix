@@ -161,7 +161,7 @@ function insertTable() {
           }
           text += "</tr>";
       }
-      text += "</table>\n<br />";
+      text += "</table><br />";
 
       opener.editorFocus(opener.editorPrevSrl);
       var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)

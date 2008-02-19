@@ -72,11 +72,18 @@
                 </select>
 
                 <!--@elseif($var->type == "mid_list")-->
-                    <!--@foreach($mid_list as $key => $val)-->
-                        <div class="widget_mid_list">
-                            <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
-                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-                        </div>
+
+                    <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                        <!--@if($modules->title)-->
+                            <div class="widget_title">{$modules->title}</div>
+                        <!--@end-->
+
+                        <!--@foreach($modules->list as $key => $val)-->
+                            <div class="widget_mid_list">
+                                <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" /> 
+                                <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                            </div>
+                        <!--@end-->
                     <!--@end-->
                 <!--@end-->
                 <p class="clear">{nl2br($var->description)}</p>

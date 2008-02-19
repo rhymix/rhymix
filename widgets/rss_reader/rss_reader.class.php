@@ -5,6 +5,10 @@
      * @brief RSS Reader
      **/
 
+    set_include_path("./libs/PEAR");
+    require_once('PEAR.php');
+    require_once('HTTP/Request.php');
+
     class rss_reader extends WidgetHandler {
         /**
          * @brief 위젯의 실행 부분
@@ -31,23 +35,20 @@
 
             if ($URL_parsed["query"] != "") $path .= "?".$URL_parsed["query"]; 
 
-            $out = "GET $path HTTP/1.0\r\nHost: $host\r\n\r\n"; 
+            $oReqeust = new HTTP_Request($args->rss_url);
+            $oReqeust->addHeader('Content-Type', 'application/xml');
+            $oReqeust->setMethod('GET');
 
-            $fp = @fsockopen($host, $port, $errno, $errstr, 30); 
-            if(!$fp) return new Object(-1, 'msg_fail_to_socket_open');
-            
-            fputs($fp, $out);
+            $user = $URL_parsed["user"];
+            $pass = $URL_parsed["pass"];
 
-            $buff = ''; 
+            if($user) $oReqeust->setBasicAuth($user, $pass);
 
-            while (!feof($fp)) { 
-                $str = fgets($fp, 1024); 
-                if ( $start ) $buff .= $str; 
-                if ( $str == "\r\n" ) $start = true;
-            } 
-
-            fclose($fp); 
-
+            $oResponse = $oReqeust->sendRequest();
+            if (PEAR::isError($oResponse)) {
+                return new Object(-1, 'msg_fail_to_request_open');
+            }
+            $buff = $oReqeust->getResponseBody();
             $encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
             if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = trim(iconv($matches[1]=="ks_c_5601-1987"?"EUC-KR":$matches[1], "UTF-8", $buff));
 

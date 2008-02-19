@@ -1,5 +1,7 @@
 .rss_reader_sz_xe { position:relative;}
-.rss_reader_sz_xe h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
+.rss_reader_sz_xe h2 { margin:0; padding;0; height:21px; padding:9px 0 0 0; font-size:1em;}
+
+.rss_reader_sz_xe ul { margin:0; padding:0; height:20px; overflow:hidden; list-style:none; white-space:nowrap; }
 
 .rss_reader_sz_xe ul li { height:20px; overflow:hidden; list-style:none; white-space:nowrap; }
 

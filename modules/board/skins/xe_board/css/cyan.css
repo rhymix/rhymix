@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* board Title */
-.boardHeader h3 { border-bottom:3px solid #2895c0; }
+.boardHeader h3 { margin:0; border-bottom:3px solid #2895c0; }
 
 /* board Information */
 .articleNum { float:left; background:url(../images/cyan/iconArticle.gif) no-repeat left top; }

@@ -69,7 +69,7 @@
     $lang->no = 'Nº';
     $lang->notice = 'Aviso';
     $lang->secret = 'Secreto';
-    $lang->category = 'Categoría';
+    $lang->category = $lang->category_srl = 'Categoría';
     $lang->document_srl = 'Número del documento';
     $lang->user_id = 'Usuario';
     $lang->author = 'Autor';

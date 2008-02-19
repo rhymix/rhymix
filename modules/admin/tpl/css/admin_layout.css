@@ -2,11 +2,11 @@
 
 body { background:url("../images/admin_background.gif") repeat-x left top; background-color:#DBD8D3; }
 
-#adminLayout { background:url("../images/admin_logo.gif") no-repeat left top; background-color:#F8F6F2; overflow:hidden; width:1050px; border-right:1px solid #B2B2B2; margin:5px 0 0 5px; }
+#adminLayout { background:url("../images/admin_logo.gif") no-repeat left top; background-color:#F8F6F2; overflow:hidden; width:980px; border-right:1px solid #B2B2B2; margin:5px 0 0 5px; }
 
-#adminContentBody { width:850px; float:left; background-color:#FFFFFF; padding:25px 10px 20px 10px; vertical-align:top; background:url(../images/admin_top_bg.gif) repeat-x left top; background-color:#FFFFFF; }
+#adminContentBody { width:780px; float:left; background-color:#FFFFFF; padding:25px 10px 20px 10px; vertical-align:top; background:url(../images/admin_top_bg.gif) repeat-x left top; background-color:#FFFFFF; }
 
-#adminLayoutBottom { background:url("../images/admin_bottom_bg.gif") repeat-x left top; height:3px; clear:both; overflow:hidden; width:1051px; margin:0 0 0 5px; }
+#adminLayoutBottom { background:url("../images/admin_bottom_bg.gif") repeat-x left top; height:3px; clear:both; overflow:hidden; width:981px; margin:0 0 0 5px; }
 
 #adminMenuContent { width:179px; float:left; margin-top:70px; padding-bottom:20px; vertical-align:top; background:none; overflow:hidden; border-right:1px solid #B2B2B2; }
 
@@ -26,7 +26,7 @@ body { background:url("../images/admin_background.gif") repeat-x left top; backg
 #adminMenuContent h3.accessory { background:url("../images/icon_accessory_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 #adminMenuContent h3.base { background:url("../images/icon_base_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 
-#adminMenuContent ul { width:170px; }
+#adminMenuContent ul { width:170px; margin:0; padding:0;}
 #adminMenuContent ul li { background-color:#F8F6F3; list-style:none; padding:5px 10px 3px 10px; margin-left:8px; white-space:nowrap; overflow:hidden; color:#888785; border-bottom:1px solid #E3E3E2; cursor:pointer; }
 #adminMenuContent ul li:hover { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
 #adminMenuContent li.on { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
@@ -35,6 +35,6 @@ body { background:url("../images/admin_background.gif") repeat-x left top; backg
 #adminMenuContent li.on a { color:#000000; }
 
 
-#adminLayoutCopyright { width:1000px; text-align:right; margin-top:10px; font-size:.8em; font-family:tahoma; color:#888888; padding-bottom:50px; }
+#adminLayoutCopyright { width:930px; text-align:right; margin-top:10px; font-size:.8em; font-family:tahoma; color:#888888; padding-bottom:50px; }
 #adminLayoutCopyright a { color:#666666; text-decoration:none; }
 #adminLayoutCopyright a span.red { color:#9A1827; }

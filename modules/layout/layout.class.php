@@ -44,6 +44,18 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
+            // 레이아웃 캐시 삭제 (수정본은 지우지 않음)
+            $path = './files/cache/layout';
+            if(!is_dir($path)) {
+                FileHandler::makeDir($path);
+                return;
+            }
+            $directory = dir($path);
+            while($entry = $directory->read()) {
+                if ($entry == "." || $entry == ".." || preg_match('/\.html$/i',$entry) ) continue;
+                @unlink($path."/".$entry);
+            }
+            $directory->close();
         }
 
         /**

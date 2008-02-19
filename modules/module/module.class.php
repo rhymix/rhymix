@@ -51,6 +51,9 @@
 
             // DB캐시 파일을 모두 삭제
             FileHandler::removeFilesInDir("./files/cache/db");
+
+            // 기타 캐시 삭제
+            FileHandler::removeFilesInDir("./files/cache/tmp");
         }
     }
 ?>

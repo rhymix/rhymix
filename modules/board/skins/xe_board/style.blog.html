@@ -26,7 +26,7 @@
                 <!--@foreach($notice_list as $no => $document)-->
                     <div class="item">
                         <span class="date">[{$document->getRegdate("Y-m-d")}]</span>
-                        <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getTitle()}</a>
+                        <a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle()}</a>
 
                         <!--@if($document->getCommentCount())-->
                             <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>

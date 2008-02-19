@@ -7,7 +7,7 @@
 
     $lang->board = "掲示板"; 
 
-    $lang->except_notice = "공지사항 제외";
+    $lang->except_notice = "お知らせの非表示機能";
 
     $lang->cmd_manage_menu = 'メニュー管理';
     $lang->cmd_make_child = '下位カテゴリ追加';
@@ -22,7 +22,7 @@
     $lang->expand = '拡張表示';
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';
-    $lang->consultation = '상담 기능';
+    $lang->consultation = '相談機能';
 
     // ボタンに使用する用語
     $lang->cmd_board_list = '掲示板リスト';
@@ -35,7 +35,7 @@
     $lang->about_category_group_srls = '選択したグループのみ現在のカテゴリが見えるようになります（XMLファイルを直接閲覧すると表示されます）。';
     $lang->about_layout_setup = 'ブログのレイアウトのコードを直接修正します。ウィジェットコードを好きなところに入力、又は管理して下さい。';
     $lang->about_board_category = 'ブログのカテゴリを作成します。<br />ブログのカテゴリが誤作動する場合、「キャッシュファイルの再生性」を手動で行うことで解決できます。';
-    $lang->about_except_notice = "목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.";
+    $lang->about_except_notice = "リストの上段に常に表示されるお知らせの書き込みを一般リストからお知らせの書き込みが表示されないようにします。";
     $lang->about_board = "掲示板の生成、および管理する掲示板モジュールです。\n生成後、リストからモジュール名を選択すると詳細な設定ができます。\n掲示板のモジュール名はURLになりますので注意してください。 (ex : http://ドメイン/zb/?mid=モジュール名)";
-    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
+    $lang->about_consultation = "相談機能は、管理権限がない会員は自分自身の書き込みのみ表示されるようにする機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動禁止されます。";
 ?>

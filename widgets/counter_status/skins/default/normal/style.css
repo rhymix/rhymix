@@ -7,4 +7,4 @@
     font-size:8pt;
 }
 
-.counter_widget ul { list-style:none; }
+.counter_widget ul { margin:0; padding:0; list-style:none; }

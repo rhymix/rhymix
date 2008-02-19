@@ -958,11 +958,14 @@ if(xIE4Up) {
 
             if(!disabled_exists) continue;
             
+            sels[i].oldonchange = sels[i].onchange;
             sels[i].onchange = function() {  
                 if(this.options[this.selectedIndex].disabled) {
                     if(this.options.length<=1) this.selectedIndex = -1;
                     else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
                     else this.selectedIndex--;
+                } else {
+                    this.oldonchange();
                 }
             }
 

@@ -64,7 +64,7 @@
                     </div>
                 <!--@else-->
                     <!--@if($comment->getProfileImage())-->
-                        <img src="{$comment->getProfileImage()}" align="left" class="commentProfileImage" alt="profile" />
+                    <div class="commentProfileImage"><img src="{$comment->getProfileImage()}" alt="profile" /></div>
                     <!--@end-->
                     {$comment->getContent(true)}
                 <!--@end-->
@@ -87,6 +87,21 @@
             </div>
             <!--@end-->
         </div>
+    <!--@end-->
+
+    <!-- 댓글 페이지 네비게이션 -->
+    <!--@if($oDocument->comment_page_navigation)-->
+    <div class="pageNavigation">
+        <a href="{getUrl('cpage',1)}#comment" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+        <!--@while($page_no = $oDocument->comment_page_navigation->getNextPage())-->
+            <!--@if($cpage == $page_no)-->
+                <span class="current">{$page_no}</span> 
+            <!--@else-->
+                <a href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a>
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('cpage',$oDocument->comment_page_navigation->last_page)}#comment" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    </div>
     <!--@end-->
 
 </div>

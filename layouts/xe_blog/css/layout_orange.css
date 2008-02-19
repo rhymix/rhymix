@@ -1,0 +1,62 @@
+@charset "utf-8";
+/*
+NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
+Kim, Ji Min 070809-20070903
+*/
+
+body {color:#999999; background:#181818 url(../images/orange/bg_blog.jpg) no-repeat center top;}
+
+/* Input Style Definition */
+.inputTypeText {border-color:#8b8b8b #d3d3d3 #d3d3d3 #8b8b8b; background:#ffffff;}
+.inputTypeText:hover,
+.inputTypeText:focus { background:#ffffff;}
+.inputTypeTextArea {border-color:#8b8b8b #d3d3d3 #d3d3d3 #8b8b8b !important; background:#ffffff;}
+
+/* Global Navigation */
+ul.blogMenu li {background:url(../images/orange/division_66.gif) no-repeat left .2em;}
+ul.blogMenu li a {color:#666666;}
+ul.blogMenu li a.on {color:#ff6f4a;}
+
+ul.blogGlobal li {background:url(../images/orange/division_66.gif) no-repeat left .2em;}
+ul.blogGlobal li a {color:#999999;}
+
+/* Profile */
+.blogProfile h1 {color:#ff6f4a;}
+.blogProfile ul.profileMenu li {background:url(../images/orange/division_66.gif) no-repeat left top;}
+.blogProfile ul.profileMenu li a {color:#999999;}
+
+/* title bg box */
+.blogTitleBox {background:url(../images/orange/box_blog_title.gif) no-repeat left top;}
+
+/* category */
+.blogCategory h2 {color:#ff6f4a;}
+.blogCategory h2 a {color:#ff6f4a;}
+.blogCategory ul.categoryList li {background:url(../images/orange/ico_category.gif) no-repeat .8em 0;}
+.blogCategory ul.categoryList li a {color:#999999;}
+
+/* Content Box */
+.contentBox .centerBg {background:url(../images/orange/box_blog_bg.gif) repeat-y left top;}
+.contentBox .topBg {background:url(../images/orange/box_blog_top.gif) no-repeat left top;}
+.contentBox .bottomBg {background:url(../images/orange/box_blog_bot.gif) no-repeat left top;}
+
+/* Widget */
+.blog_widget_ {background:url(../images/orange/box_blog_title.gif) no-repeat left top;}
+.blog_widget_ h2 {color:#ff6f4a;}
+.blog_widget_ .items li {background:url(../images/orange/bullet_3x3_1.gif) no-repeat 1em .35em;}
+.blog_widget_ .items li a {color:#999999;}
+
+/* Calender */
+.widget_calendar caption {color:#ff6f4a; background:url(../images/orange/box_blog_title.gif) no-repeat left top;}
+.widget_calendar caption em {color:#ff6f4a;}
+.widget_calendar caption .back {background:url("../images/orange/btn_back.gif") no-repeat left top; width:13px; height:13px;}
+.widget_calendar caption .next {background:url("../images/orange/btn_next.gif") no-repeat left top; width:13px; height:13px;}
+.widget_calendar th {color:#666666;}
+.widget_calendar th.sun {color:#ff6f4a;}
+.widget_calendar td {color:#666666;}
+.widget_calendar td a {color:#666666;}
+.widget_calendar td {color:#666666;}
+.widget_calendar td.sun a {color:#ff6f4a;}
+.widget_calendar td.sun {color:#ff6f4a;}
+.widget_calendar td.today a {color:#ff6f4a;}
+.widget_calendar td.today {color:#ff6f4a;}
+

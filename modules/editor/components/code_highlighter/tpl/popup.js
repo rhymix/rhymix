@@ -50,7 +50,7 @@ function insertCode() {
 
     if(!content) content = "&nbsp;";
 
-    var text = "\n"+'<div editor_component="code_highlighter" code_type="'+code_type+'" file_path="'+file_path+'" description="'+description+'" first_line="'+first_line+'" collapse="'+collapse+'" nogutter="'+nogutter+'" nocontrols="'+nocontrols+'" style="'+style+'">'+content+'</div>'+"\n<br />";
+    var text = '<div editor_component="code_highlighter" code_type="'+code_type+'" file_path="'+file_path+'" description="'+description+'" first_line="'+first_line+'" collapse="'+collapse+'" nogutter="'+nogutter+'" nocontrols="'+nocontrols+'" style="'+style+'">'+content+'</div>'+"<br />";
 
     if(selected_node) {
         selected_node.setAttribute('code_type', code_type);

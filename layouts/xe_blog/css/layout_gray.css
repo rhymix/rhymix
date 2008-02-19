@@ -1,0 +1,62 @@
+@charset "utf-8";
+/*
+NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
+Kim, Ji Min 070809-20070903
+*/
+
+body {color:#3a3a3a; background:#b9bcc3 url(../images/gray/bg_blog.jpg) no-repeat center top;}
+
+/* Input Style Definition */
+.inputTypeText {border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; background:#ffffff;}
+.inputTypeText:hover,
+.inputTypeText:focus { background:#f4f4f4;}
+.inputTypeTextArea {border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6 !important; background:#ffffff;}
+
+/* Global Navigation */
+ul.blogMenu li {background:url(../images/gray/division_95.gif) no-repeat left .2em;}
+ul.blogMenu li a {color:#666666;}
+ul.blogMenu li a.on {color:#181818;}
+
+ul.blogGlobal li {background:url(../images/gray/division_95.gif) no-repeat left .2em;}
+ul.blogGlobal li a {color:#666666;}
+
+/* Profile */
+.blogProfile h1 {color:#181818;}
+.blogProfile ul.profileMenu li {background:url(../images/gray/division_95.gif) no-repeat left top;}
+.blogProfile ul.profileMenu li a {color:#6a6a6a;;}
+
+/* title bg box */
+.blogTitleBox {background:url(../images/gray/box_blog_title.gif) no-repeat left top;}
+
+/* category */
+.blogCategory h2 {color:#181818;}
+.blogCategory h2 a {color:#181818;}
+.blogCategory ul.categoryList li {background:url(../images/gray/ico_category.gif) no-repeat .8em 0;}
+.blogCategory ul.categoryList li a {color:#3f4040;}
+
+/* Content Box */
+.contentBox .centerBg {background:url(../images/gray/box_blog_bg.gif) repeat-y left top;}
+.contentBox .topBg {background:url(../images/gray/box_blog_top.gif) no-repeat left top;}
+.contentBox .bottomBg {background:url(../images/gray/box_blog_bot.gif) no-repeat left top;}
+
+/* Widget */
+.blog_widget_ {background:url(../images/gray/box_blog_title.gif) no-repeat left top;}
+.blog_widget_ h2 {color:#181818;}
+.blog_widget_ .items li {background:url(../images/gray/bullet_3x3_1.gif) no-repeat 1em .35em;}
+.blog_widget_ .items li a {color:#3f4040;}
+
+/* Calender */
+.widget_calendar caption {color:#797b7e; background:url(../images/gray/box_blog_title.gif) no-repeat left top;}
+.widget_calendar caption em {color:#181818;}
+.widget_calendar caption .back {background:url("../images/gray/btn_back.gif") no-repeat left top; width:13px; height:13px;}
+.widget_calendar caption .next {background:url("../images/gray/btn_next.gif") no-repeat left top; width:13px; height:13px;}
+.widget_calendar th {color:#6a6a6a;}
+.widget_calendar th.sun {color:#181818;}
+.widget_calendar td {color:#6a6a6a;}
+.widget_calendar td a {color:#6a6a6a;}
+.widget_calendar td {color:#6a6a6a;}
+.widget_calendar td.sun a {color:#181818;}
+.widget_calendar td.sun {color:#181818;}
+.widget_calendar td.today a {color:#181818;}
+.widget_calendar td.today {color:#181818;}
+

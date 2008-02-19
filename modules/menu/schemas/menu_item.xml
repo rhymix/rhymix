@@ -2,7 +2,7 @@
     <column name="menu_item_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
     <column name="parent_srl" type="number" size="12" notnull="notnull" default="0" />
     <column name="menu_srl" type="number" size="12" notnull="notnull" index="idx_menu_srl" />
-    <column name="name" type="varchar" size="250" />
+    <column name="name" type="text" />
     <column name="url" type="varchar" size="250" />
     <column name="open_window" type="char" size="1" default="N" />
     <column name="expand" type="char" size="1" default="N" />

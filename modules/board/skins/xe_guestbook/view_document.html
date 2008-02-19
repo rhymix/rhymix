@@ -19,9 +19,19 @@
                     <!--@end-->
                 </div>
                 <!--@end-->
+                <div class="replyOption">
+                    <!--@if($oDocument->isEditable())-->
+                    <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl, 'comment_srl','')}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
+                    <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl, 'comment_srl','')}"><img src="./images/{$module_info->colorset}/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
+                    <!--@end-->
+                    <a href="{getUrl('act','dispBoardWriteComment','document_srl',$oDocument->document_srl, 'comment_srl',0)}"><img src="./images/{$module_info->colorset}/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="17" /></a> 
+                </div>
 
                 <div class="date" title="{$lang->regdate}">
                     <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
+                    <!--@if($grant->is_admin)-->
+                    ({$oDocument->get('ipaddress')})
+                    <!--@end-->
                 </div>
 
                 <div class="clear"></div>
@@ -52,6 +62,7 @@
 
         <div class="readBody">
             <div class="contentBody">
+                <a name="document_{$oDocument->document_srl}" />
 
                 <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
                     <!--%import("filter/input_password.xml")-->
@@ -69,10 +80,6 @@
                 <!--@else-->
                     {$oDocument->getContent(false,false)}
                 <!--@end-->
-
-                <!--@if($grant->is_admin)-->
-                <div class="ipaddress">ipaddress : {$oDocument->get('ipaddress')}</div>
-                <!--@end-->
             </div>
         </div>
 
@@ -88,18 +95,8 @@
         </div>
         <!--@end-->
     </div>
-
-    <!-- 목록, 수정/삭제 버튼 --> 
-    <div class="contentButton">
-        <a href="{getUrl('act','dispBoardWriteComment','document_srl',$oDocument->document_srl,'comment_srl','0')}" class="button"><span>{$lang->cmd_reply}</span></a>
-        <!--@if($oDocument->isEditable())-->
-        <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button"><span>{$lang->cmd_modify}</span></a>
-        <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button"><span>{$lang->cmd_delete}</span></a>
-        <!--@end-->
-    </div>
-
-    <!-- 댓글 -->
-    <a name="comment"></a>
-    <!--#include("./comment.html")-->
-
 </div>
+
+<!-- 댓글 -->
+<!--#include("./comment.html")-->
+

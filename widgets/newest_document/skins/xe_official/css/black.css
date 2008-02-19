@@ -1,7 +1,7 @@
 .latest_black { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
-.latest_black h2 { display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#ffffff; background:url(../images/black/lineNotice.gif) no-repeat left bottom; font-size:1em;}
+.latest_black h2 { margin:0; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#ffffff; background:url(../images/black/lineNotice.gif) no-repeat left bottom; font-size:1em;}
 
-.latest_black ul { }
+.latest_black ul { margin:0; padding:0; }
 .latest_black ul li { height:20px; background:url(../images/black/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; list-style:none; white-space:nowrap;}
 
 .latest_black ul li .title a { color:#818181; text-decoration:none; }

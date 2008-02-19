@@ -32,20 +32,25 @@
             // trigger 호출
             ModuleHandler::triggerCall('comment.getCommentMenu', 'before', $menu_list);
 
-            // 추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+            // 회원이어야만 가능한 기능
+            if($logged_info->member_srl) {
 
-            // 비추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote_down');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                // 추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
 
-            // 신고 기능 추가
-            $menu_str = Context::getLang('cmd_declare');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                // 비추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote_down');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+                // 신고 기능 추가
+                $menu_str = Context::getLang('cmd_declare');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+            }
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
@@ -158,13 +163,63 @@
         /** 
          * @brief document_srl에 해당하는 문서의 댓글 목록을 가져옴
          **/
-        function getCommentList($document_srl, $is_admin = false) {
+        function getCommentList($document_srl, $page = 0, $is_admin = false) {
+            // 해당 문서의 모듈에 해당하는 댓글 수를 구함
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+            // 문서가 존재하지 않으면 return~
+            if(!$oDocument->isExists()) return;
+
+            // 댓글수가 없으면 return~
+            if($oDocument->getCommentCount()<1) return;
+
+            // 정해진 댓글수에 따른 댓글 목록 구함
+            $module_srl = $oDocument->get('module_srl');
+            $comment_config = $this->getCommentConfig($module_srl);
+            $comment_count = $comment_config->comment_count;
+            if(!$comment_count) $comment_count = 50;
+
+            // 페이지가 없으면 제일 뒤 페이지를 구함
+            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                
+
+            // 정해진 수에 따라 목록을 구해옴
+            $args->document_srl = $document_srl;
+            $args->list_count = $comment_count;
+            $args->page = $page;
+            $args->page_count = 10;
+            $output = executeQueryArray('comment.getCommentPageList', $args);
+
+            // 쿼리 결과에서 오류가 생기면 그냥 return
+            if(!$output->toBool()) return;
+
+            // 만약 구해온 결과값이 저장된 댓글수와 다르다면 기존의 데이터로 판단하고 댓글 목록 테이블에 데이터 입력
+            if(!$output->data) {
+                $this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+                $output = executeQueryArray('comment.getCommentPageList', $args);
+                if(!$output->toBool()) return;
+            }
+
+            return $output;
+        }
+            
+        /**
+         * @brief document_srl에 해당하는 댓글 목록을 갱신
+         * 정식버전 이전에 사용되던 데이터를 위한 처리
+         **/
+        function fixCommentList($module_srl, $document_srl) {
+            // 일괄 작업이라서 lock 파일을 생성하여 중복 작업이 되지 않도록 한다
+            $lock_file = "./files/cache/tmp/lock.".$document_srl;
+            if(file_exists($lock_file) && filemtime($lock_file)+60*60*10<time()) return;
+            FileHandler::writeFile($lock_file, '');
+
+            // 목록을 구함
             $args->document_srl = $document_srl;
             $args->list_order = 'list_order';
             $output = executeQuery('comment.getCommentList', $args);
             if(!$output->toBool()) return $output;
 
-            $source_list= $output->data;
+            $source_list = $output->data;
             if(!is_array($source_list)) $source_list = array($source_list);
 
             // 댓글를 계층형 구조로 정렬
@@ -172,25 +227,17 @@
 
             $root = NULL;
             $list = NULL;
+            $comment_list = array();
 
             // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
             $logged_info = Context::get('logged_info');
+
 
             // loop를 돌면서 코멘트의 계층 구조 만듬 
             for($i=$comment_count-1;$i>=0;$i--) {
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
-                $member_srl = $source_list[$i]->member_srl;
-
-                // OL/LI 태그를 위한 치환 처리
-                //$source_list[$i]->content = preg_replace('!<(ol|ul|blockquote)>!is','<\\1 style="margin-left:40px;">',$source_list[$i]->content);
-
-                // url에 대해서 정규표현식으로 치환
-                $source_list[$i]->content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$source_list[$i]->content);
-            
                 if(!$comment_srl) continue;
-
-                //if($is_admin || $this->isGranted($comment_srl) || $member_srl == $logged_info->member_srl) $source_list[$i]->is_granted = true;
 
                 // 목록을 만듬
                 $list[$comment_srl] = $source_list[$i];
@@ -201,35 +248,48 @@
                     $root->child[] = &$list[$comment_srl];
                 }
             }
-            $this->_arrangeComment($comment_list, $root->child, 0);
-            return $comment_list;
+            $this->_arrangeComment($comment_list, $root->child, 0, null);
+
+            // 구해진 값을 db에 입력함
+            if(count($comment_list)) {
+                foreach($comment_list as $comment_srl => $item) {
+                    $comment_args = null;
+                    $comment_args->comment_srl = $comment_srl;
+                    $comment_args->document_srl = $document_srl;
+                    $comment_args->head = $item->head;
+                    $comment_args->arrange = $item->arrange;
+                    $comment_args->module_srl = $module_srl;
+                    $comment_args->regdate = $item->regdate;
+                    $comment_args->depth = $item->depth;
+
+                    executeQuery('comment.insertCommentList', $comment_args);
+                }
+            }
+
+            // 성공시 lock파일 제거
+            @unlink($lock_file);
         }
 
         /**
          * @brief 댓글을 계층형으로 재배치
          **/
-        function _arrangeComment(&$comment_list, $list, $depth, $set_grant = false) {
+        function _arrangeComment(&$comment_list, $list, $depth, $parent = null) {
             if(!count($list)) return;
             foreach($list as $key => $val) {
-                $oCommentItem = new commentItem();
+
+                if($parent) $val->head = $parent->head;
+                else $val->head = $val->comment_srl;
+                $val->arrange = count($comment_list)+1;
 
                 if($val->child) {
-                    $tmp = $val;
-                    $tmp->depth = $depth;
-                    $oCommentItem->setAttribute($tmp);
-
-                    $comment_list[$tmp->comment_srl] = $oCommentItem;
-                    if($set_grant) $oCommentItem->setAccessible();
-
-                    $this->_arrangeComment($comment_list,$val->child,$depth+1, $oCommentItem->isGranted());
+                    $val->depth = $depth;
+                    $comment_list[$val->comment_srl] = $val;
+                    $this->_arrangeComment($comment_list,$val->child,$depth+1, $val);
+                    unset($val->child);
                 } else {
                     $val->depth = $depth;
-                    $oCommentItem->setAttribute($val);
-
-                    if($set_grant) $oCommentItem->setAccessible();
-                    $comment_list[$val->comment_srl] = $oCommentItem;
+                    $comment_list[$val->comment_srl] = $val;
                 }
-
             }
         }
 
@@ -297,5 +357,25 @@
 
             return $output;
         }
+
+        /**
+         * @brief 모듈별 댓글 설정을 return
+         **/
+        function getCommentConfig($module_srl) {
+            if(!$GLOBLAS['__comment_module_config__']) {
+                // 선택된 모듈의 trackback설정을 가져옴
+                $oModuleModel = &getModel('module');
+                $GLOBLAS['__comment_module_config__'] = $oModuleModel->getModuleConfig('comment');
+            }
+
+            $comment_config = $GLOBLAS['__comment_module_config__']->module_config[$module_srl];
+
+            if(!is_object($comment_config)) $comment_config = null;
+
+            if(!isset($comment_config->comment_count)) $comment_count->comment_count = 50;
+
+            return $comment_config;
+        }
+
     }
 ?>

@@ -5,7 +5,7 @@
 
 .news_ticker_yellow .tickerBox { height:25px; padding-top:6px; white-space:nowrap; overflow:hidden; }
 
-.news_ticker_yellow ul { white-space:nowrap; overflow:hidden; }
+.news_ticker_yellow ul { margin:0; padding:0; white-space:nowrap; overflow:hidden; }
 .news_ticker_yellow li { list-style:none; height:25px; overflow:hidden; white-space:nowrap; font-size:9pt;}
 
 .news_ticker_yellow ul li .title a { color:#000000; text-decoration:none;  font-size:9pt;}

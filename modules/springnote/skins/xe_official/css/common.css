@@ -2,14 +2,14 @@
 
 /* board Title */
 .boardHeader { border:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden; _width:100%;}
-.boardHeader h3 { float:left; font-size:1.2em; padding:1em 2em .7em 1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+.boardHeader h3 { padding:0; margin:0; float:left; font-size:1.2em; padding:1em 2em .7em 1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* board Information */
 .boardInformation { width:100%; clear:both; margin:1em 0 .5em 0; overflow:hidden; color:#666666;}
 .articleNum { float:left; padding:0 0 0 15px; }
 
 /* account Navigation */
-.accountNavigation { float:right; }
+.accountNavigation { margin:0; padding:0; float:right; }
 .accountNavigation li { float:left; margin-left:7px; list-style:none; }
 .accountNavigation li a { font-size:12px; white-space:nowrap; color:#666666; text-decoration:none;}
 .accountNavigation li.setup { background:url(../images/common/iconSetup.gif) no-repeat left top; padding-left:14px; }
@@ -37,3 +37,4 @@
 { border:1px solid #CCCCCC; margin-bottom:10px; }
 .pageView { border:1px solid #E3E3E2; padding:20px; margin-bottom:10px; }
 .pageView .xhtmlEditorBody ol, .pageView .xhtmlEditorBody ul { margin-left:20px; }
+.pageView .xhtmlEditorBody { border: 0; }
