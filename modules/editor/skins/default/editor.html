@@ -5,16 +5,6 @@
 <!--%import("../../tpl/js/editor_common.js")-->
 <!--%import("../../tpl/js/editor.js")-->
 
-<!-- 에디터 활성화 -->
-<script type="text/javascript">//<![CDATA[
-    var editor_path = "{$editor_path}";
-    var auto_saved_msg = "{$lang->msg_auto_saved}";
-
-    <!--@if(!$editor_manual_start)-->
-    xAddEventListener(window, 'load', function() { editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' ) } );
-    <!--@end-->
-//]]></script>
-
 <!-- 자동저장용 폼 -->
 <!--@if($enable_autosave)-->
 <input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title)}" />
@@ -185,4 +175,14 @@
 <!--@end-->
 </div>
 
+
+<!-- 에디터 활성화 -->
+<script type="text/javascript">//<![CDATA[
+    var editor_path = "{$editor_path}";
+    var auto_saved_msg = "{$lang->msg_auto_saved}";
+
+    <!--@if(!$editor_manual_start)-->
+    editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' );
+    <!--@end-->
+//]]></script>
 

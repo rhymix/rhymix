@@ -379,6 +379,7 @@
                     if($val && iconv($charset,$charset,$val)!=$val) $flag = false;
                 }
                 if($flag == true) {
+                    if($charset == 'UTF-8') return $obj;
                     foreach($obj as $key => $val) $obj->{$key} = iconv($charset,'UTF-8',$val);
                     return $obj;
                 }

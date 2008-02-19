@@ -178,11 +178,10 @@ if(!$cached) {
          **/
         function replaceCssPath($file, $str) {
             // css 파일의 위치를 구함
-            $this->tmp_css_path = './'.preg_replace("/^\.\//is","",dirname($file))."/";
+            $this->tmp_css_path = preg_replace("/^\.\//is","",dirname($file))."/";
 
             // url() 로 되어 있는 css 파일의 경로를 변경
-            $str = preg_replace_callback('!url\(("|\')?([^\)]+)("|\')?\)!is', array($this, '_replaceCssPath'), $str);
-            $str = preg_replace('!\/([^\/]*)\/\.\.\/!is','/', $str);
+            $str = preg_replace_callback('/url\(([^\)]*)\)/is', array($this, '_replaceCssPath'), $str);
 
             // charset 지정 문구를 제거
             $str = preg_replace('!@charset([^;]*?);!is','',$str);
@@ -191,8 +190,10 @@ if(!$cached) {
         }
 
         function _replaceCssPath($matches) {
-            if(preg_match("/^(http|\/|\.\/common\/)/is",$matches[2])) return $matches[0];
-            return sprintf('url(%s%s)', $matches[1], $this->tmp_css_path.$matches[2]);
+            $path = str_replace(array('"',"'"),'',$matches[1]);
+            if(preg_match('/^http/i', $path) || preg_match('/\.htc$/i',$path) ) return $matches[0];
+
+            return 'url("../../../../'.$this->tmp_css_path.$path.'")';
         }
 
     }
