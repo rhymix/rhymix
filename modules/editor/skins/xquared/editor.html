@@ -10,16 +10,6 @@
 <!--%import("js/xquared-min.js")-->
 <!--%import("js/xe_interface.js")-->
 
-<!-- 에디터 활성화 -->
-<script type="text/javascript">//<![CDATA[
-    var auto_saved_msg = "{$lang->msg_auto_saved}";
-    var xed_{$editor_sequence};
-    xAddEventListener(window, 'load', function() { 
-	if(document.getElementById("comment_{$editor_sequence}") == null || document.getElementById("comment_{$editor_sequence}").style.display != 'none'){ 
-	editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}"); 
-	}});
-//]]></script>
-
 <!-- 자동저장용 폼 -->
 <!--@if($enable_autosave)-->
 <input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title)}" />
@@ -91,4 +81,13 @@
 <!--@end-->
 </div>
 
+
+<!-- 에디터 활성화 -->
+<script type="text/javascript">//<![CDATA[
+    var auto_saved_msg = "{$lang->msg_auto_saved}";
+    var xed_{$editor_sequence};
+	if(document.getElementById("comment_{$editor_sequence}") == null || document.getElementById("comment_{$editor_sequence}").style.display != 'none') { 
+        editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}"); 
+	}
+//]]></script>
 
