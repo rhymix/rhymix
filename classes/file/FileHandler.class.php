@@ -35,6 +35,10 @@
          * @brief $buff의 내용을 파일에 쓰기
          **/
         function writeFile($file_name, $buff, $mode = "w") {
+            $pathinfo = pathinfo($file_name);
+            $path = $pathinfo['dirname'];
+            if(!is_dir($path)) FileHandler::makeDir($path);
+
             $mode = strtolower($mode);
             if($mode != "a") $mode = "w";
             if(@!$fp = fopen($file_name,$mode)) return false;
