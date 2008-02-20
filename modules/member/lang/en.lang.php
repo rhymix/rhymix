@@ -13,15 +13,15 @@
     $lang->admin_group = "Managing Group";
     $lang->keep_signed = 'Keep me signed in';
     $lang->remember_user_id = 'Save ID';
-    $lang->already_logged = "You're already logged on";
-    $lang->denied_user_id = 'Entered ID is prohibited.';
-    $lang->null_user_id = 'Please input user ID';
+    $lang->already_logged = "You are already logged on";
+    $lang->denied_user_id = 'You have entered a prohibited ID.';
+    $lang->null_user_id = 'Please input ID';
     $lang->null_password = 'Please input password';
-    $lang->invalid_authorization = 'It is not certificated';
+    $lang->invalid_authorization = 'The account is not certificated.';
     $lang->invalid_user_id= "You have entered an invalid ID";
     $lang->invalid_password = 'You have entered an invalid password';
     $lang->allow_mailing = 'Join Mailing';
-    $lang->allow_message = 'Allow Message Reception';
+    $lang->allow_message = 'Receive Messages';
     $lang->allow_message_type = array(
              'Y' => 'Receive All',
              'N' => 'Reject All',
@@ -42,12 +42,13 @@
     $lang->image_mark = 'Image Mark';
     $lang->image_mark_max_width = 'Max Width';
     $lang->image_mark_max_height = 'Max Height';
+	$lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
     $lang->limit_day = 'Temporary Limit Date';
     $lang->limit_date = 'Limit Date';
-    $lang->after_login_url = 'URL after login';
-    $lang->after_logout_url = 'URL after logout';
+    $lang->after_login_url = 'URL after Login';
+    $lang->after_logout_url = 'URL after Logout';
     $lang->redirect_url = 'URL after Join';
     $lang->agreement = 'Member Join Agreement';
     $lang->accept_agreement = 'Agree';
@@ -62,8 +63,8 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use auto-login in PC room, school, or other commons areas where your private information could be stolen.';
-    $lang->about_webmaster_name = "Please input webmaster's name which will be used for authentication mails or other site administration. (default : webmaster)";
+    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use this function in PC room, school, or other commons areas where your private information could be stolen.';
+    $lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -88,45 +89,45 @@
     $lang->cmd_logout = 'Logout';
     $lang->cmd_signup = 'Join';
     $lang->cmd_modify_member_info = 'Modify Member Info';
-    $lang->cmd_modify_member_password = 'Change Password';
+    $lang->cmd_modify_member_password = 'Modify Password';
     $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
     $lang->cmd_find_member_account = 'Find Account Info';
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
-    $lang->cmd_member_group = 'Manage Group';
+    $lang->cmd_member_group = 'Manage Groups';
     $lang->cmd_send_mail = 'Send Mail';
-    $lang->cmd_manage_id = 'Manage Prohibited ID';
+    $lang->cmd_manage_id = 'Manage Prohibited IDs';
     $lang->cmd_manage_form = 'Manage Join Form';
-    $lang->cmd_view_own_document = 'View Written Articles';
+    $lang->cmd_view_own_document = 'Written Articles';
     $lang->cmd_view_scrapped_document = 'Scraps';
-    $lang->cmd_view_saved_document = 'View Saved Articles';
+    $lang->cmd_view_saved_document = 'Saved Articles';
     $lang->cmd_send_email = 'Send Mail';
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
     $lang->cmd_view_friend = 'Friends';
-    $lang->cmd_add_friend = 'Register as Friend';
+    $lang->cmd_add_friend = 'Add to Friends';
     $lang->cmd_view_message_box = 'Message Box';
     $lang->cmd_store = "Save";
     $lang->cmd_add_friend_group = 'Add Friend Group';
-    $lang->cmd_rename_friend_group = 'Change Name of Friend Group';
+    $lang->cmd_rename_friend_group = 'Modify Friend Group Name';
 
-    $lang->msg_email_not_exists = "Email address doesn't exists";
+    $lang->msg_email_not_exists = "You have entered an invalid email address";
 
     $lang->msg_alreay_scrapped = 'This article is already scrapped';
 
     $lang->msg_cart_is_null = 'Please select the target';
-    $lang->msg_checked_file_is_deleted = '%d attached files are deleted';
+    $lang->msg_checked_file_is_deleted = '%d attached file(s) is(are) deleted';
 
     $lang->msg_find_account_title = 'Account Info';
     $lang->msg_find_account_info = 'This is requested account info.';
-    $lang->msg_find_account_comment = 'The password will be modified to above one when you click below link.<br />Please modify the password after login.';
-    $lang->msg_auth_mail_sended = 'The authentication mail has been sent to %s. Please check your mail.';
-	$lang->msg_invalid_auth_key = 'This is an invalid request of authentication.<br />Please retry finding account info or contact to administrator.';
-    $lang->msg_success_authed = 'Your account has been successfully authenticated and logged on. Please modify the password to your own one with the password in the mail.';
+    $lang->msg_find_account_comment = 'The password will be modified as above one as you click below link.<br />Please modify the password after login.';
+    $lang->msg_auth_mail_sended = 'The certification mail has been sent to %s. Please check your mail.';
+	$lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_success_authed = 'Your account has been successfully certificated and logged on. Please modify the password to your own one with the password in the mail.';
 
-    $lang->msg_no_message = 'There are no messages';
+    $lang->msg_no_message = 'There is no message';
     $lang->message_received = 'You have a new message';
 
     $lang->msg_new_member = 'Add Member';
@@ -134,7 +135,7 @@
     $lang->msg_leave_member = 'Leave';
     $lang->msg_group_is_null = 'There is no registered group';
     $lang->msg_not_delete_default = 'Default items cannot be deleted';
-    $lang->msg_not_exists_member = "This member doesn't exist";
+    $lang->msg_not_exists_member = "Invalid member";
     $lang->msg_cannot_delete_admin = 'Admin ID cannot be deleted. Please remove the ID from administration and try again.';
     $lang->msg_exists_user_id = 'This ID already exists. Please try with another one.';
     $lang->msg_exists_email_address = 'This email address already exists. Please try with another one.';
@@ -142,11 +143,11 @@
     $lang->msg_signup_disabled = 'You are not able to sign up';
     $lang->msg_already_logged = 'You have already signed up';
     $lang->msg_not_logged = 'Please login first';
-    $lang->msg_title_is_null = 'Please input title of message';
-    $lang->msg_content_is_null = 'Please input content';
+    $lang->msg_title_is_null = 'Please input the title of message';
+    $lang->msg_content_is_null = 'Please input the content';
     $lang->msg_allow_message_to_friend = "Failed to send because receiver only allows friends' messages";
     $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
-    $lang->msg_insert_group_name = 'Please input name of group';
+    $lang->msg_insert_group_name = 'Please input the name of group';
     $lang->msg_check_group = 'Please select the group';
 
     $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
@@ -155,8 +156,8 @@
 
     $lang->msg_accept_agreement = 'You have to agree to the agreement'; 
 
-    $lang->msg_user_denied = 'Entered ID is prohibited';
-    $lang->msg_user_limited = 'Entered ID can be used after %s';
+    $lang->msg_user_denied = 'You have entered a prohibited ID';
+    $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
 
     $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
     $lang->about_password = 'Password should be 6~20 letters long';
@@ -193,7 +194,7 @@
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
     $lang->about_profile_image = 'Allow users to use profile images';
-    $lang->about_accept_agreement = "I have read the agreement all and agree"; 
+    $lang->about_accept_agreement = "I have read the agreement and agree"; 
 
     $lang->about_member_default = 'It will be set as default group on sign up';
 
