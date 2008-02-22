@@ -70,7 +70,7 @@
     $lang->no = 'No.';
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
-    $lang->category = 'Category';
+    $lang->category = $lang->category_srl = 'Category';
     $lang->document_srl = 'Doc. No.';
     $lang->user_id = 'User ID';
     $lang->author = 'Developer';

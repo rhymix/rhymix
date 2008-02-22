@@ -70,7 +70,7 @@
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
-    $lang->category = 'カテゴリ';
+    $lang->category = $lang->category_srl = 'カテゴリ';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
     $lang->author = '作者';
