@@ -98,6 +98,7 @@
             if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
                 $saved_doc = $this->getSavedDoc();
+                if($saved_doc->document_srl && !$upload_target_srl) $upload_target_srl = $saved_doc->document_srl;
 
                 // 자동 저장 데이터를 context setting
                 Context::set('saved_doc', $saved_doc);
@@ -116,6 +117,7 @@
             /**
              * 업로드 활성화시 내부적으로 file 모듈의 환경설정을 이용하여 설정
              **/
+            $files_count = 0;
             if($allow_fileupload) {
                 $oFileModel = &getModel('file');
 
@@ -133,7 +135,12 @@
                 // upload가능하다고 설정 (내부적으로 캐싱하여 처리)
                 $oFileController = &getController('file');
                 $oFileController->setUploadInfo($editor_sequence, $upload_target_srl);
+
+                // 이미 등록된 파일이 있는지 검사
+                if($upload_target_srl) $files_count = $oFileModel->getFilesCount($upload_target_srl);
             }
+            Context::set('files_count', (int)$files_count);
+
             Context::set('allow_fileupload', $allow_fileupload);
 
             // 에디터 동작을 위한 editor_sequence값 설정
