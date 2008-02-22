@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)
@@ -11,8 +11,8 @@
     $lang->cmd_delete = 'Supprimer';
     $lang->cmd_modify = 'Modifier';
     $lang->cmd_edit = 'Editer';
-    $lang->cmd_view = 'Regarder';
-    $lang->cmd_view_all = 'Regarder Tous';
+    $lang->cmd_view = 'Voir';
+    $lang->cmd_view_all = 'Voir Tout';
     $lang->cmd_list = 'Liste';
     $lang->cmd_prev = 'Précédent ';
     $lang->cmd_next = 'Après';
@@ -21,7 +21,7 @@
     $lang->cmd_comment_registration = 'Ajouter le Commentaire';
     $lang->cmd_insert = 'Insérer';
     $lang->cmd_save = 'Economiser';
-    $lang->cmd_load = '불러오기';
+    $lang->cmd_load = 'Télécharger';
     $lang->cmd_input = 'Entrer';
     $lang->cmd_search = 'Rechercher';
     $lang->cmd_cancel = 'Decommander';
