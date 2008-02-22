@@ -254,7 +254,7 @@
 
             // 아이디로 검색
             $menu_str = Context::getLang('cmd_view_own_document');
-            $menu_url = sprintf('./?mid=%s&amp;search_target=member_srl&amp;search_keyword=%s', $mid, $member_info->member_srl);
+            $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $member_info->user_id);
             $obj[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
 
             return new Object();
