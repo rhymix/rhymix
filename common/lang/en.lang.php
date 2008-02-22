@@ -176,7 +176,7 @@
     $lang->msg_invalid_document = 'Invalid Article Number';
     $lang->msg_invalid_request = 'Invalid Request';
     $lang->msg_invalid_password = 'Invalid Password';
-    $lang->msg_error_occured = 'Error has occured';
+    $lang->msg_error_occured = 'An error has occured';
     $lang->msg_not_founded = 'Target could not be found';
     $lang->msg_no_result = 'Nothing found';
 
