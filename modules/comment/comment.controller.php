@@ -14,7 +14,7 @@
         }
 
         /**
-         * @breif 댓글의 추천을 처리하는 action (Up)
+         * @brief 댓글의 추천을 처리하는 action (Up)
          **/
         function procCommentVoteUp() {
             $comment_srl = Context::get('target_srl');
@@ -25,7 +25,7 @@
         }
 
         /**
-         * @breif 댓글의 추천을 처리하는 action (Down)
+         * @brief 댓글의 추천을 처리하는 action (Down)
          **/
         function procCommentVoteDown() {
             $comment_srl = Context::get('target_srl');
