@@ -5,10 +5,10 @@
      * @brief  English language pack 
      **/
 
-    $lang->module_list = "Module List";
-    $lang->module_index = "Module List";
+    $lang->module_list = "Modules List";
+    $lang->module_index = "Modules List";
     $lang->module_category = "Module Category";
-    $lang->module_info = "Info";
+    $lang->module_info = "Module Info";
     $lang->add_shortcut = "Add Shortcuts";
     $lang->module_action = "Actions";
     $lang->module_maker = "Module Developer";
@@ -18,11 +18,11 @@
     $lang->footer_text = 'Footer Text';
     $lang->use_category = 'Enable Category';
     $lang->category_title = 'Category Title';
-    $lang->checked_count = 'Number of checked article';
+    $lang->checked_count = 'Number of Checked Articles';
     $lang->skin_default_info = 'Default Skin Info';
     $lang->skin_maker = 'Skin Developer';
     $lang->skin_maker_homepage = "Skin Developer's Homepage";
-    $lang->module_copy = "Copy module";
+    $lang->module_copy = "Duplicate Module";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";
@@ -34,9 +34,9 @@
 
     $lang->msg_new_module = "Create new module";
     $lang->msg_update_module = "Modify module";
-    $lang->msg_module_name_exists = "The name already exists. Please try other name.";
-    $lang->msg_category_is_null = 'No registered category exists.';
-    $lang->msg_grant_is_null = 'No list exists for grant.';
+    $lang->msg_module_name_exists = "The name already exists. Please try another name.";
+    $lang->msg_category_is_null = 'There is no registered category.';
+    $lang->msg_grant_is_null = 'There is no permission list.';
     $lang->msg_no_checked_document = 'No checked articles exist.';
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';

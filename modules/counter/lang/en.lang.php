@@ -6,7 +6,7 @@
      **/
 
     $lang->counter = "Counter";
-    $lang->cmd_select_date = 'Select date';
+    $lang->cmd_select_date = 'Select Date';
     $lang->cmd_select_counter_type = array(
         'hour' => 'By Hour',
         'day' => 'By Day',
@@ -15,7 +15,7 @@
     );
 
     $lang->total_counter = 'Total Status';
-    $lang->selected_day_counter = 'Selected day status';
+    $lang->selected_day_counter = 'Status of Selected Day';
 
     $lang->unique_visitor = 'Visitors';
     $lang->pageview = 'Pageview';

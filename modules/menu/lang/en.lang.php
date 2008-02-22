@@ -12,9 +12,9 @@
     $lang->menu_count = 'No. of menu';
     $lang->menu_management = 'Menu Management';
     $lang->depth = 'Step';
-    $lang->parent_menu_name = 'Parent menu name';
+    $lang->parent_menu_name = 'Parent Menu Name';
     $lang->menu_name = 'Menu Name';
-    $lang->menu_srl = 'Menu SRL';
+    $lang->menu_srl = 'Menu Serial Number';
     $lang->menu_id = 'Menu ID';
     $lang->menu_url = 'Menu URL';
     $lang->menu_open_window = 'Open a new window';
@@ -29,7 +29,7 @@
     $lang->layout_info = "Layout Info";
     $lang->layout_list = 'Layout List';
     $lang->downloaded_list = 'Download List';
-    $lang->limit_menu_depth = 'Display Eenabled';
+    $lang->limit_menu_depth = 'Display Enabled';
 
     $lang->cmd_make_child = 'Add a child menu';
     $lang->cmd_move_to_installed_list = "View created lists";
