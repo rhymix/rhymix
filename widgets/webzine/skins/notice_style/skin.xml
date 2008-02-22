@@ -2,7 +2,7 @@
 <skin>
   <title xml:lang="ko">공지사항 형태의 출력</title>
   <title xml:lang="jp">공지사항 형태의 출력</title>
-  <title xml:lang="zh-CN">공지사항 형태의 출력</title>
+  <title xml:lang="zh-CN">输出公告类型的最新主题控件</title>
   <title xml:lang="en">공지사항 형태의 출력</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 11. 22">
     <name xml:lang="ko">제로</name>
