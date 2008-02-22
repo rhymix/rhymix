@@ -3,7 +3,9 @@
         <table name="comments" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="comment_srl" />
+        <column name="parent_srl" />
+        <column name="regdate" />
     </columns>
     <conditions>
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />

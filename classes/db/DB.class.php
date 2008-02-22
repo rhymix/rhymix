@@ -445,7 +445,7 @@
             if(!is_array($tables)) $tables = array($tables);
             foreach($tables as $alias => $table) {
                 $table_filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table) ;
-                if(file_exists($table_filename) && filemtime($table_filename) > $cache_mtime) return false;
+                if(!file_exists($table_filename) || filemtime($table_filename) > $cache_mtime) return false;
             }
 
             $count = (int)FileHandler::readFile($cache_filename);
@@ -480,7 +480,11 @@
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
             if(!is_array($tables)) $tables = array($tables);
-            foreach($tables as $alias => $table) FileHandler::writeFile( sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table), '' );
+            foreach($tables as $alias => $table) {
+                $filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table);
+                @unlink($filename);
+                FileHandler::writeFile( $filename, '' );
+            }
 
             return true;
         }

@@ -10,5 +10,6 @@
         <action name="procCommentDeclare" type="controller" standalone="true" />
         <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procCommentAdminCancelDeclare" type="controller" standalone="true" />
+        <action name="procCommentAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
 </module>

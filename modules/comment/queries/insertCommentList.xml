@@ -1,0 +1,14 @@
+<query id="insertCommentList" action="insert">
+	<tables>
+		<table name="comments_list" />
+	</tables>
+	<columns>
+		<column name="comment_srl" var="comment_srl" notnull="notnull" />
+		<column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+		<column name="head" var="head" filter="number" />
+		<column name="arrange" var="arrange" filter="number" />
+		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+		<column name="regdate" var="regdate" />
+		<column name="depth" var="depth" filter="number" />
+    </columns>
+</query>

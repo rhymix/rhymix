@@ -456,7 +456,7 @@
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
-                if($key == "page" || substr($key,-3)=="srl") $val = (int)$val;
+                if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
                 if(is_array($val)) {
                     for($i=0;$i<count($val);$i++) {
                         if(get_magic_quotes_gpc()) $val[$i] = stripslashes($val[$i]);

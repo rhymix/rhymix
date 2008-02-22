@@ -375,9 +375,24 @@
             if(!$this->allowComment() || !$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
 
+            $cpage = Context::get('cpage');
+            if(!$cpage) $cpage = 1;
+
             $oCommentModel = &getModel('comment');
-            $output = $oCommentModel->getCommentList($this->document_srl, $is_admin);
-            return $output;
+            $output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
+            if(!$output->toBool() || !count($output->data)) return;
+
+            $oCommentModel = &getModel('comment');
+            foreach($output->data as $key => $val) {
+                $oCommentItem = new commentItem();
+                $oCommentItem->setAttribute($val);
+                $comment_list[$val->comment_srl] = $oCommentItem;
+            }
+
+            Context::set('comment_page_navigation', $output->page_navigation);
+            Context::set('cpage', $output->page_navigation->cur_page);
+
+            return $comment_list;
         }
 
         function getTrackbackCount() {

@@ -118,10 +118,10 @@
 
             // 내용에서 제로보드XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+            $obj->regdate = date("YmdHis");
 
             // 세션에서 최고 관리자가 아니면 iframe, script 제거
             if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
-
 
             if(!$obj->notify_message) $obj->notify_message = 'N';
             if(!$obj->is_secret) $obj->is_secret = 'N';
@@ -130,15 +130,48 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 댓글을 입력
-            $output = executeQuery('comment.insertComment', $obj);
+            // 댓글 목록 부분을 먼저 입력
+            $list_args->comment_srl = $obj->comment_srl;
+            $list_args->document_srl = $obj->document_srl;
+            $list_args->module_srl = $obj->module_srl;
+            $list_args->regdate = $obj->regdate;
 
-            // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
+            // 부모댓글이 없으면 바로 데이터를 설정
+            if(!$obj->parent_srl) {
+                $list_args->head = $list_args->arrange = $obj->comment_srl;
+                $list_args->depth = 0;
+
+            // 부모댓글이 있으면 부모글의 정보를 구해옴
+            } else {
+                // 부모댓글의 정보를 구함
+                $parent_args->comment_srl = $obj->parent_srl;
+                $parent_output = executeQuery('comment.getCommentListItem', $parent_args);
+
+                // 부모댓글이 존재하지 않으면 return
+                if(!$parent_output->toBool() || !$parent_output->data) return;
+                $parent = $parent_output->data;
+
+                $list_args->head = $parent->head;
+                $list_args->depth = $parent->depth+1;
+                if($list_args->depth<2) $list_args->arrange = $obj->comment_srl;
+                else {
+                    $list_args->arrange = $parent->arrange;
+                    $output = executeQuery('comment.updateCommentListArrange', $list_args);
+                    if(!$output->toBool()) return $output;
+                }
+            }
+
+            $output = executeQuery('comment.insertCommentList', $list_args);
+            if(!$output->toBool()) return $output;
+
+            // 댓글 본문을 입력
+            $output = executeQuery('comment.insertComment', $obj);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
 
+            // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
             if(!$manual_inserted) {
                 // comment model객체 생성
                 $oCommentModel = &getModel('comment');
@@ -155,6 +188,7 @@
                 // 댓글의 권한을 부여
                 $this->addGrant($obj->comment_srl);
             }
+            
 
             // trigger 호출 (after)
             if($output->toBool()) {
@@ -301,6 +335,8 @@
                 return $output;
             }
 
+            $output = executeQuery('comment.deleteCommentList', $args);
+
             // 댓글 수를 구해서 업데이트
             $comment_count = $oCommentModel->getCommentCount($document_srl);
 
@@ -341,9 +377,14 @@
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
-            // 삭제
+            // 댓글 본문 삭제
             $args->document_srl = $document_srl;
             $output = executeQuery('comment.deleteComments', $args);
+            if(!$output->toBool()) return $output;
+
+            // 댓글 목록 삭제
+            $output = executeQuery('comment.deleteCommentsList', $args);
+
             return $output;
         }
 

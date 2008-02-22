@@ -207,6 +207,12 @@
                 return $output;
             }
 
+            $output = executeQuery('comment.updateCommentListModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
             // 엮인글의 이동
             $output = executeQuery('trackback.updateTrackbackModule', $args);
             if(!$output->toBool()) {
