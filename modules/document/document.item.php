@@ -384,7 +384,6 @@
             if(!$output->toBool() || !count($output->data)) return;
 
             // 구해온 목록을 commentItem 객체로 만듬
-            $oCommentModel = &getModel('comment');
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
                 $oCommentItem->setAttribute($val);
