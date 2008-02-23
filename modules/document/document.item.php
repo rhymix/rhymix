@@ -375,13 +375,15 @@
             if(!$this->allowComment() || !$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
 
+            // cpage는 댓글페이지의 번호
             $cpage = Context::get('cpage');
-            if(!$cpage) $cpage = 1;
 
+            // 댓글 목록을 구해옴
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
             if(!$output->toBool() || !count($output->data)) return;
 
+            // 구해온 목록을 commentItem 객체로 만듬
             $oCommentModel = &getModel('comment');
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
@@ -389,8 +391,9 @@
                 $comment_list[$val->comment_srl] = $oCommentItem;
             }
 
-            Context::set('comment_page_navigation', $output->page_navigation);
+            // 스킨에서 출력하기 위한 변수 설정
             Context::set('cpage', $output->page_navigation->cur_page);
+            if($output->total_page>1) $this->comment_page_navigation = $output->page_navigation;
 
             return $comment_list;
         }
