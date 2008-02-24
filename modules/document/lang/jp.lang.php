@@ -11,7 +11,7 @@
     $lang->thumbnail_ratio = '比率に合わせる';
     $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
     $lang->title_bold = 'タイトル太字';
-    $lang->title_color = 'タイトル文字色';
+    $lang->title_color = 'タイトル色';
 
     $lang->cmd_search_next = '継続検索';
     
