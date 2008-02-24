@@ -148,7 +148,7 @@
         <var name="display_setup_button" type="select">
             <title xml:lang="ko">설정 표시</title>
             <title xml:lang="zh-CN">设置表单</title>
-            <title xml:lang="jp">ログイン設定</title>
+            <title xml:lang="jp">設定表示</title>
             <title xml:lang="en">Display Setup</title>
             <title xml:lang="es">Muestra la información de la Configuración</title>
             <default>Y</default>
