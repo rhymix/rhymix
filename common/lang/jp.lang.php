@@ -126,7 +126,7 @@
     $lang->document_count = '書き込み数';
     $lang->page_count = 'ページ数';
     $lang->list_count = 'リスト数';
-    $lang->search_list_count = '검색 목록 수';
+    $lang->search_list_count = '検索リスト数';
     $lang->readed_count = '照合数';
     $lang->voted_count = '推薦数';
     $lang->member_count = '会員数';
