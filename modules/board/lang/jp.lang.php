@@ -7,7 +7,7 @@
 
     $lang->board = "掲示板"; 
 
-    $lang->except_notice = "お知らせ非表示";
+    $lang->except_notice = "お知らせの非表示機能";
 
     $lang->cmd_manage_menu = 'メニュー管理';
     $lang->cmd_make_child = '下位カテゴリ追加';
