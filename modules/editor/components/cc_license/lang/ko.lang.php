@@ -19,7 +19,7 @@
 
     $lang->ccl_options = array(
         'ccl_allow_commercial' => array('Y'=>'-영리', 'N'=>'-비영리'),
-        'ccl_allow_modification' => array('Y'=>'-변경금지', 'N'=>'-변경금지', 'SA'=>'-동일조건변경허락'),
+        'ccl_allow_modification' => array('Y'=>'-변경허용', 'N'=>'-변경금지', 'SA'=>'-동일조건변경허락'),
     );
 
     $lang->about_ccl_title = '제목을 표시합니다. 비워져 있으면 기본 메세지가 출력됩니다.';
