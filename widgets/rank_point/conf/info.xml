@@ -2,7 +2,7 @@
 <widget version="1.0">
     <title xml:lang="ko">포인트 랭킹 출력</title>
     <title xml:lang="jp">ポイントランキング出力</title>
-	<title xml:lang="en">Display Point Ranking</title>
+	<title xml:lang="en">Point Ranking</title>
 	<title xml:lang="es">Pantalla punto ranking</title>
 	<title xml:lang="zh-CN">会员积分排行榜</title>
 	<title xml:lang="ru">Отображение рейтинга поинтов</title>

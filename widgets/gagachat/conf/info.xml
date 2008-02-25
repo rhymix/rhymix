@@ -11,7 +11,7 @@
 		<name xml:lang="es">Digirave</name>
         <description xml:lang="ko">실시간 채팅방을 생성합니다</description>
         <description xml:lang="jp">ライブチャットボックスを生成します。</description>
-		<description xml:lang="en">This widget created realtime chat room</description>
+		<description xml:lang="en">This widget creates realtime chat room</description>
 		<description xml:lang="es">Este artilugio creado sala de chat en tiempo real</description>
     </author>
     <extra_vars>
@@ -50,13 +50,13 @@ Si los miembros del sistema no es necesario, basta con introducir el título.
             <type>text</type>
             <description xml:lang="ko">보안 채팅방 사용시에만 필요함. 보안 채팅방을 사용하지 않을 경우에는 빈 칸으로 놔두시길 바랍니다.</description>
             <description xml:lang="jp">セキュリティチャットボックスを使用する時のみ必要です。使用しない場合は空欄のままにしてください。</description>
-			<description xml:lang="en">Security Key is only necessary for secure chat rooms. In case of normal chat room, please leave it blank.</description>
+			<description xml:lang="en">Security Key is necessary for secure chat rooms only. In case of normal chat rooms, please leave it blank.</description>
 			<description xml:lang="es">Clave de seguridad sólo es necesario para garantizar las salas de chat. En caso de la sala de chat normal, por favor dejar en blanco.</description>
         </var>
         <var id="gagaadmin">
             <name xml:lang="ko">채팅방 관리자(선택사항)</name>
             <name xml:lang="jp">チャットボックス管理者（オプション）</name>
-			<name xml:lang="en">Chat Room Adminstrator (Optional)</name>
+			<name xml:lang="en">Room Adminstrator (Optional)</name>
 			<name xml:lang="es">Sala de chat Administrador (Opcional)</name>
             <type>text</type>
             <description xml:lang="ko">보안 채팅방 사용시에만 적용됨. 강제 퇴장 기능 가능함. 아이디, 아이디2, 아이디3 처럼 채팅방 관리자들을 , 로 분리하시길 바랍니다.</description>
@@ -141,7 +141,7 @@ Si los miembros del sistema no es necesario, basta con introducir el título.
             <type>select</type>
             <description xml:lang="ko">글씨체 크기</description>
             <description xml:lang="jp">フォントの大きさ</description>
-			<description xml:lang="en">Font size</description>
+			<description xml:lang="en">Font Size</description>
 			<description xml:lang="es">Font size</description>
             <options>
                 <name xml:lang="ko">작은 글씨체</name>

@@ -29,7 +29,7 @@
     $lang->msg_not_permitted_download = 'You do not have permission to download';
     $lang->msg_cart_is_null = 'Please select file(s) to delete';
     $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted';
-    $lang->msg_exceeds_limit_size = 'File size of attachment is bigger than maximum size.';
+    $lang->msg_exceeds_limit_size = 'File size of attachment is bigger than allowed size.';
 
     $lang->search_target_list = array(
         'filename' => 'File Name',
