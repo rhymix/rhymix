@@ -112,7 +112,7 @@
 
     $lang->mid = 'Nom de Module';
     $lang->layout = 'Mise en Page';
-    $lang->widget = 'Widget';
+    $lang->widget = 'Gadget';
     $lang->module = 'Module';
     $lang->skin = 'Thème';
     $lang->colorset = 'Arrangement de couleur';
