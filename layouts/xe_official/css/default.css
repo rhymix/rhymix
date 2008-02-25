@@ -16,7 +16,7 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 
 /* Site Layout - Header */
 #header { position:relative; width:980px; height:120px; background:url(../images/default/bgHeader.jpg) no-repeat right top; margin-bottom:10px; z-index:99;}
-#header h1 { position:absolute; top:32px; left:25px;}
+#header h1 { margin:0; padding:0; position:absolute; top:32px; left:25px;}
 #language { position:absolute; top:18px; right:19px; z-index:100;}
 #language strong { color:#ffffff; font:.75em Tahoma; margin-right:3px;}
 #language a img { vertical-align:-5px;}
