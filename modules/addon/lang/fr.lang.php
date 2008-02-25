@@ -2,14 +2,16 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  Paquet Francais de Langue
+     * @brief  Paquet de la Langue francaise
      **/
 
-    $lang->addon = "Additions";
+    $lang->addon = "Compagnon";
 
-    $lang->addon_info = 'Un resume de ce additions';
-    $lang->addon_maker = 'Le createur de ce additions';
-    $lang->addon_history = 'L\'histoire de ce additions';
+    $lang->addon_info = 'Un résumé de la Compagnon';
+    $lang->addon_maker = 'L\'Auteur de la Compagnon';
+    $lang->addon_history = 'L\'histoire de la Compagnon';
 
-    $lang->about_addon = 'Les operations de service de additions plutot que le HTML reel results.<br/>Simply basculant n\'importe quel additions te permet en marche et en arret d\'employer les dispositifs utiles.';
+    $lang->about_addon = 'La Compagnon contrôle les actions plutôt d\'imprimer des résultats de HTML.<br/>Seulement par touche à bascule des compagnons que vous voulez faire marcher ou arrêter, vous pouvez appliquer les fonctions très utiles pour administrer votre site web.';
 ?>
+
+
