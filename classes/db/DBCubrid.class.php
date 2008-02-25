@@ -464,6 +464,10 @@
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
+								for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음 
+									if ($output->columns[$i]['name'] == $name) break;
+								}
+								if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') {
