@@ -37,3 +37,4 @@
 { border:1px solid #CCCCCC; margin-bottom:10px; }
 .pageView { border:1px solid #E3E3E2; padding:20px; margin-bottom:10px; }
 .pageView .xhtmlEditorBody ol, .pageView .xhtmlEditorBody ul { margin-left:20px; }
+.pageView .xhtmlEditorBody { border: 0; }
