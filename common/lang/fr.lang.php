@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)
@@ -112,7 +112,7 @@
 
     $lang->mid = 'Nom de Module';
     $lang->layout = 'Mise en Page';
-    $lang->widget = 'Gadget';
+    $lang->widget = 'Widget';
     $lang->module = 'Module';
     $lang->skin = 'Thème';
     $lang->colorset = 'Arrangement de couleur';
