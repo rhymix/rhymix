@@ -5,7 +5,7 @@
 
 .news_ticker_black .tickerBox { height:16px; margin:3px 0 3px 0; padding-top:3px; white-space:nowrap; overflow:hidden; }
 
-.news_ticker_black ul { white-space:nowrap; overflow:hidden; }
+.news_ticker_black ul { margin:0; padding:0; white-space:nowrap; overflow:hidden; }
 .news_ticker_black li { list-style:none; height:25px; overflow:hidden; white-space:nowrap; font-size:9pt;}
 
 .news_ticker_black ul li .title a { color:#FFFFFF; text-decoration:none;  font-size:9pt;}

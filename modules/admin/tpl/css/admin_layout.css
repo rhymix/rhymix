@@ -26,7 +26,7 @@ body { background:url("../images/admin_background.gif") repeat-x left top; backg
 #adminMenuContent h3.accessory { background:url("../images/icon_accessory_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 #adminMenuContent h3.base { background:url("../images/icon_base_module.gif") no-repeat 3px 5px; background-color:#FFFFFF;}
 
-#adminMenuContent ul { width:170px; }
+#adminMenuContent ul { width:170px; margin:0; padding:0;}
 #adminMenuContent ul li { background-color:#F8F6F3; list-style:none; padding:5px 10px 3px 10px; margin-left:8px; white-space:nowrap; overflow:hidden; color:#888785; border-bottom:1px solid #E3E3E2; cursor:pointer; }
 #adminMenuContent ul li:hover { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}
 #adminMenuContent li.on { background-color:#EFE6D3; border-left:1px solid #E3E3E2; border-right:1px solid #E3E3E2;}

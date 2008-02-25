@@ -1,5 +1,5 @@
 .sz_download { width:100%; position:relative;}
-.sz_download h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
+.sz_download h2 { margin:0; height:21px; padding:9px 0 0 9px; font-size:1em;}
 
 .sz_download .left { cursor:pointer; height:20px; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
 

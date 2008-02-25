@@ -119,7 +119,7 @@
                     // 내용 직접 추가일 경우 
                     case 'widgetContent' :
                             $body = base64_decode($args->body);
-                            $output = sprintf('<div style="overflow:hidden;%s"><div style="%s" class="xe_content">%s</div></div>', $style, $inner_style, $body);
+                            $output = sprintf('<div style="overflow:hidden;%s"><div style="%s">%s</div></div>', $style, $inner_style, $body);
                         break;
 
                     // 위젯 박스일 경우

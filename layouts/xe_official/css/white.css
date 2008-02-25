@@ -5,6 +5,10 @@ Jeong, Chan Myeong 070601~070630
 */
 
 /* White Skin - Start */
+#selectLang { margin:0; padding:0; }
+#gnb { margin:0; padding:0; }
+#lnb { margin:0; padding:0; }
+#lnb ul { margin:0; padding:0; }
 
 /* Site Layout - Body Wrap */
 body { background:#ffffff;}

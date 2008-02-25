@@ -5,7 +5,7 @@ Jeong, Chan Myeong 070601~070630
 */
 
 /* ----- List+Read+Write+Modify | Start ----- */
-.boardHeader h3 { float:left; clear:both; padding:1.9em 1.5em 1.8em 1.5em; font-size:1.2em; color:#FFFFFF;}
+.boardHeader h3 { margin:0; float:left; clear:both; padding:1.9em 1.5em 1.8em 1.5em; font-size:1.2em; color:#FFFFFF;}
 
 /* boardInformation */
 .boardInformation { width:100%; clear:both; margin:0 0 .5em 0; background:#EFEFEF; color:#8D8D8D; overflow:hidden;}
@@ -144,7 +144,7 @@ Jeong, Chan Myeong 070601~070630
 #blog .boardRead { position:relative; margin:0; _overflow:hidden;}
 .boardRead .originalContent { padding:2em 0 2em 0;}
 .boardRead .titleAndCategory { float:left;}
-.boardRead .titleAndCategory h4 { font-size:1.4em; display:inline; padding-left:.2em;}
+.boardRead .titleAndCategory h4 { margin:0; font-size:1.4em; display:inline; padding-left:.2em;}
 .boardRead .titleAndCategory .vr { font-size:.9em; margin:0 .3em; color:#c5c7c0;}
 .boardRead .titleAndCategory .category { font-size:.9em; color:#999999; white-space:nowrap;}
 
@@ -183,7 +183,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readFooter .tag .tagIcon { vertical-align:middle;}
 .boardRead .readFooter .fileAttached { padding:1em 1em .8em 0; position:relative; _width:100%; border-bottom:1px solid #dfdfdd; overflow:hidden; background:#f9f9f9;}
 .boardRead .readFooter .fileAttached h5 {}
-.boardRead .readFooter .fileAttached ul { margin-left:1.8em;}
+.boardRead .readFooter .fileAttached ul { margin:0 0 0 1.8em;}
 .boardRead .readFooter .fileAttached li { float:left; margin-right:.75em; line-height:1.6em; color:#888888; white-space:nowrap; list-style:none;}
 .boardRead .readFooter .fileAttached li a { font-size:.9em; padding:.1em 0 .1em .2em; white-space:nowrap; position:relative; color:#888888; text-decoration:none; }
 .boardRead .readFooter .fileAttached li a:visited { color:#777777;}
@@ -220,7 +220,7 @@ Jeong, Chan Myeong 070601~070630
 
 .boardRead .contentBox .fileAttached { position:relative; _width:100%; overflow:hidden; clear:both; }
 .boardRead .contentBox .fileAttached h5 {}
-.boardRead .contentBox .fileAttached ul { margin-bottom:.5em;}
+.boardRead .contentBox .fileAttached ul { margin:0 0 0 .5em;}
 .boardRead .contentBox .fileAttached li { float:left; margin-right:.75em; line-height:1.6em; color:#888888; white-space:nowrap; list-style:none;}
 .boardRead .contentBox .fileAttached li a { font-size:.9em; padding:.1em 0 .1em .2em; white-space:nowrap; position:relative; color:#888888; text-decoration:none; }
 .boardRead .contentBox .fileAttached li a:visited { color:#777777;}
@@ -378,7 +378,7 @@ Jeong, Chan Myeong 070601~070630
 /* ----- Member | Start ----- */
 
 .memberHeader { position:relative; _width:100%; background:#ED2027 url(../images/common/bg_top_title.gif) no-repeat 23px -6px; overflow:hidden;}
-.memberHeader h3 { float:left; clear:both; padding:1.2em 0 1em 1.7em; font-size:1.1em; color:#FFFFFF;}
+.memberHeader h3 { margin:0; float:left; clear:both; padding:1.2em 0 1em 1.7em; font-size:1.1em; color:#FFFFFF;}
 .memberInformation { width:100%; clear:both; margin:0 0 .5em 0; background:#EFEFEF; color:#8D8D8D; overflow:hidden;}
 .memberInformation .friendNum { float:left; padding:.7em 0 .7em 2em; background:url(../images/common/iconFriend.gif) no-repeat .5em .4em;}
 .memberInformation .friendNum strong { font:bold 11px Tahoma; color:#ec2127;}
@@ -415,7 +415,7 @@ Jeong, Chan Myeong 070601~070630
 .smallBox.w298 { width:298px;}
 .smallBox.w498 { width:498px;}
 .smallBox .header { position:relative; _width:100%; background:#ed2027; overflow:hidden;}
-.smallBox .header h3 { font-size:1.2em; color:#FFFFFF; padding:1em 2em .8em 1em;}
+.smallBox .header h3 { margin:0; font-size:1.2em; color:#FFFFFF; padding:1em 2em .8em 1em;}
 .smallBox .login { position:relative; border:none; padding:2.4em 0 2em 2.3em;}
 .smallBox .login legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
 .smallBox .login dl { overflow:hidden; width:162px; float:left;}
@@ -508,7 +508,7 @@ Jeong, Chan Myeong 070601~070630
 
 .readMessage { margin-bottom:2em;}
 .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
-.readMessage .messageHeader h4 { float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
+.readMessage .messageHeader h4 { margin:0; float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
 .readMessage .messageHeader address { float:right; white-space:nowrap;}
 .readMessage .messageHeader address em { font-size:.9em; font-style:normal; color:#333333; margin-right:.3em;}
 .readMessage .messageHeader address em a { color:#333333;}

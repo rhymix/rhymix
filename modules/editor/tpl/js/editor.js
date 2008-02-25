@@ -209,7 +209,7 @@ function editorKeyPress(evt) {
                     return;
                 break; 
             default :
-                    obj.pasteHTML("<br />\n");
+                    obj.pasteHTML("<br />");
                 break;
         }
         obj.select();

@@ -1,5 +1,5 @@
 .nw_box { padding-bottom:5px; overflow:hidden; }
-.nw_box h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+.nw_box h2 { margin:0; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
 
 .nw_box a.more { text-decoration:none;} 
 .nw_box a.more:hover { text-decoration:underline;} 

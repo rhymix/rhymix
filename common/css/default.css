@@ -11,6 +11,12 @@ IE7 & IE6 & Below
 * html #selector {}
 */
 
+/* default.css - Type Selector Definition */
+body { margin:0;padding:0; font-size:9pt; }
+img { border:none; }
+label { cursor:pointer; }
+form { margin:0; padding:0; }
+
 /* Special Class Selector */
 .fr { float:right; }
 .fl { float:left; }
@@ -21,15 +27,6 @@ IE7 & IE6 & Below
 .tLeft { text-align:left; }
 .gap1 { margin-top:.8em; }
 .nowrap { white-space:nowrap; }
-
-/* default.css - Type Selector Definition */
-body,p,div,ul,ol,li,dd,dt,span,fieldset,h1,h2,h3,h4,h5,h6 { margin:0; padding:0; }
-html { width:100%; }
-body { margin:0; font-size:.75em; _font-size:9pt; font-family:sans-serif;}
-*:first-child+html body { font-size:9pt; }
-img { border:none; }
-label { cursor:pointer; }
-form { margin:0; padding:0; }
 
 .iePngFix { behavior:url(./common/js/iePngFix.htc); } 
 .zbxe_info { vertical-align:middle; behavior:url(./common/js/iePngFix.htc); }
@@ -87,12 +84,6 @@ a.bold { font-weight:bold; }
 .folder_area { display: none; }
 
 .zbxe_widget_output { background:url(../tpl/images/widget_text.gif) no-repeat center bottom; display:block;}
-
-/* xe content */
-div.xe_content { line-height:140%;  !important}
-div.xe_content ol { margin-left:40px;  !important}
-div.xe_content ul { margin-left:40px;  !important}
-div.xe_content blockquote { margin-left:40px;  !important}
 
 /* xe layer */
 #waitingforserverresponse { display:inline; border:2px solid #444444; background-color:#FFFFFF; padding:15px 20px 13px 20px; font-weight:bold; color:#444444; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }

@@ -1,5 +1,5 @@
 .sz_point { width:100%; position:relative;}
-.sz_point h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
+.sz_point h2 { margin:0; height:21px; padding:9px 0 0 9px; font-size:1em;}
 
 .sz_point .left { cursor:pointer; height:20px; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
 

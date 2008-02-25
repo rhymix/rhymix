@@ -12,7 +12,7 @@ Jeong, Chan Myeong 070601~070630
 /* board Title */
 .boardHeader { border:1px solid #e1e1dd; border-bottom:0; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden;}
 .boardHeader .boardHeaderBorder { width:100%;}
-.boardHeader h3 { float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+.boardHeader h3 { margin:0; float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* board Description */
 .boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin-top:5px; background-color:#FFFFFF;}
@@ -63,6 +63,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readBody .contentBody .ipaddress { text-align:right; margin-top:10px; color:#bbbbbb; font-family:tahoma;}
 
 .boardRead .fileAttached { border:1px solid #EFEFEF; background-color:#F4F4F4; padding:5px; margin-top:10px;}
+.boardRead .fileAttached ul { margin:0; padding:0; }
 .boardRead .fileAttached h5 { font-weight:normal; color:#999999; font-size:1em; line-height:22px;}
 .boardRead .fileAttached li { display:inline; white-space:nowrap margin:3px 5px 0 3px; list-style:none; }
 .boardRead .fileAttached li a { text-decoration:none; font-size:.9em; padding:0 0 2px 17px; white-space:nowrap; color:#444444; }
@@ -99,6 +100,7 @@ Jeong, Chan Myeong 070601~070630
 .replyBox .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
 .replyBox .fileAttached { border:1px solid #EFEFEF; background-color:#F4F4F4; padding:5px; margin-top:10px;}
+.replyBox .fileAttached ul { margin:0; padding:0; }
 .replyBox .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; line-height:22px;}
 .replyBox .fileAttached li { display:inline; white-space:nowrap margin:3px 5px 0 3px; list-style:none; }
 .replyBox .fileAttached li a { text-decoration:none; font-size:.9em; white-space:nowrap; color:#444444; }
@@ -256,7 +258,7 @@ Jeong, Chan Myeong 070601~070630
 .smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
 .smallBox.w268 { width:268px;}
 .smallBox .header { position:relative; _width:100%; background:#ffffff url(../images/normal/bgH3.gif) no-repeat left bottom; overflow:hidden;}
-.smallBox .header h3 { clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
+.smallBox .header h3 { margin:0; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
 .smallBox .complex { padding:1.5em 2em 2em 2em;}
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}

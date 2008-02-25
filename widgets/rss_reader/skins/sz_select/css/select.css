@@ -1,5 +1,5 @@
 .rss_reader_sz_select { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
-.rss_reader_sz_select h2 { height:21px; padding:9px 0 0 9px; font-size:1em;}
+.rss_reader_sz_select h2 { margin:0; padding:0; height:21px; padding:9px 0 0 9px; font-size:1em;}
 .rss_reader_sz_select h2 a,
 .rss_reader_sz_select .tabcontent_rss a { text-decoration:none; color:#000000;} 
 .rss_reader_sz_select h2 a:hover,

@@ -1,4 +1,4 @@
 .mg { padding-bottom:15px; overflow:hidden; position:relative;}
 .mg h2 { font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:4px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
-.mg ul { overflow:hidden; width:100%;}
+.mg ul { margin:0; padding:0; overflow:hidden; width:100%;}
 .mg ul li { white-space:nowrap; padding:3px 0 3px 10px; overflow:hidden; border-bottom:1px dashed #EEEEEE; color:#54564b;}

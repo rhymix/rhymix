@@ -2,6 +2,6 @@ div.trackbackBox { padding-bottom:1em;}
 div.trackbackBox .header { padding:7px 0 0 12px; height:21px; _height:20px; background:#f5f5f5; }
 *:first-child+html div.trackbackBox .header { height:20px; color:#ef2121;}
 
-div.trackbackBox ul { padding:.5em; overflow:hidden;}
+div.trackbackBox ul { margin:0; padding:.5em; overflow:hidden;}
 div.trackbackBox ul li { color:#a4a4a4; margin-right:.1em; line-height:1.5em;list-style:none;overflow:hidden;white-space:nowrap;}
 div.trackbackBox ul li a { color:#a4a4a4;text-decoration:none;}
