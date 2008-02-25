@@ -31,10 +31,12 @@
     <!--@if($modules->title)-->
     <tr>
         <th rowspan="{count($modules->list)+1}">{$modules->title}</th>
+        <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@else-->
     <tr>
         <th rowspan="{count($modules->list)+1}">&nbsp;</th>
+        <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@end-->
     <!--@foreach($modules->list as $key => $val)-->
