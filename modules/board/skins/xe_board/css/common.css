@@ -82,6 +82,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .readBody { color:#555555; margin-top:20px; }
 .boardRead .readBody .contentBody .ipaddress { text-align:right; margin-top:10px; color:#bbbbbb; font-family:tahoma;}
 
+
 .boardRead .tag { background:#FFFFFF url(../images/common/iconTag.gif) no-repeat 3px 2px; padding-left:25px; margin:10px 0 0 0; }
 .boardRead .tag ul { margin:0; padding:0; }
 .boardRead .tag li { display:inline; list-style:none; }
@@ -267,6 +268,8 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardWrite .title label.title { margin:0 10px 0 10px; }
 .boardWrite .title input.title { width:60%;}
 
+.boardWrite dl { padding:0; margin:0; }
+.boardWrite dl dd { padding:0; margin:0; }
 .boardWrite dl.option { margin:10px 0 3px 10px; padding:0;}
 .boardWrite dl.option dd { display:inline; margin-right:5px; }
 .boardWrite dl.option dd * { vertical-align:middle;}
@@ -281,6 +284,9 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardWrite .extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
 .boardWrite .extraVarsList td { color:#555555; border-bottom:1px solid #e0e1db; padding:4px 0 4px 10px; }
 .boardWrite .extraVarsList td a { color:#555555; }
+
+.boardWrite .extraVarsList p { margin:5px 0 0 0; padding:0; }
+.boardWrite .extraVarsList ul { margin:0; padding:0; }
 
 .smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
 .smallBox.w268 { width:268px;}

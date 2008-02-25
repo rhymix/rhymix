@@ -36,7 +36,7 @@
 <!-- 다중 선택 -->
 <!--@elseif($val->type == 'checkbox')-->
     <!--@if($val->default)-->
-        <ul style="list-style:none;">
+        <ul style="padding:0;margin:0;list-style:none;">
         <!--@foreach($val->default as $v)-->
             <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/> {$v}</li>
         <!--@end-->

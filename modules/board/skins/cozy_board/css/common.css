@@ -253,6 +253,8 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite div.title label.title { display:block; float:left; font-weight:bold; padding:.4em 0 0 1.5em; width:9.5em; white-space:nowrap;}
 .boardWrite div.title input#title { width:60%;}
 
+.boardWrite dl { padding:0; margin:0; }
+.boardWrite dl dd { padding:0; margin:0; }
 .boardWrite dl.option { margin:0; padding:5px; }
 .boardWrite .option dt { display:block; float:left; font-weight:bold; padding:.3em 0 0 1.5em; width:9.5em; white-space:nowrap;}
 .boardWrite .option dd { float:left; margin-right:1em; padding-top:.2em; _padding-top:.1em;}
@@ -265,11 +267,14 @@ Jeong, Chan Myeong 070601~070630
 .boardWrite .tag label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
 .boardWrite .tag .inputTypeText { width:50%;}
 .boardWrite .tag .help { vertical-align:middle;}
-.boardWrite .tag .info { padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
+.boardWrite .tag .info { margin:0; padding:0; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
 .boardWrite .extra_vars { clear:both; border-top:1px solid #eff0ed; padding:.8em 0;}
 .boardWrite .extra_vars label { display:block; float:left; color:#333333; font-weight:bold; padding:.4em 0 0 1.5em; width:11em;}
 .boardWrite .extra_vars .info { clear:both; padding:.5em 0 0 .6em; margin-left:14em; font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center;}
 .boardWrite .extra_vars ul li { float:left; margin-right:1em; }
+
+.boardWrite .extra_vars p { margin:5px 0 0 0; padding:0; }
+.boardWrite .extra_vars ul { margin:0; padding:0; }
 
 /* ----- List+Read+Write+Modify | End ----- */
 
