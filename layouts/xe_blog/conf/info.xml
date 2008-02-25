@@ -132,20 +132,6 @@
 			<description xml:lang="es">Introduce el título que se mostrará en la parte superior de diseño.</description>
 			<description xml:lang="ru">Введите название, которое будет отображаться в верхней части формы.</description>
         </var>
-        <var name="sub_title" type="text">
-            <title xml:lang="ko">부제</title>
-            <title xml:lang="jp">サブタイトル</title>
-            <title xml:lang="zh-CN">副标题</title>
-            <title xml:lang="en">Subtitle</title>
-			<title xml:lang="es">Subtítulo</title>
-			<title xml:lang="ru">Подзаголовок</title>
-            <description xml:lang="ko">레이아웃의 상단에 큰 제목 아래 부제목을 입력하세요.</description>
-            <description xml:lang="jp">レイアウトの上段にメインタイトルの下のサブタイトルを入力してください。</description>
-            <description xml:lang="zh-CN">请输入副标题。</description>
-            <description xml:lang="en">Please input subtitle which will be displayed under the top title.</description>
-			<description xml:lang="es">Por favor, de entrada subtítulo que se mostrará bajo el título arriba.</description>
-			<description xml:lang="ru">Введите субтитров, которые будут отображаться в верхней заголовок.</description>
-        </var>
         <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
             <title xml:lang="jp">ロゴイメージ</title>

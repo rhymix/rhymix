@@ -44,7 +44,7 @@ a { text-decoration:none; }
 #bodyWrap #header h1 a { font-family:Tahoma; color:#53554a;}
 #bodyWrap #header #tagLine { position:relative; left:20px; top:30px; color:#7e7f77;} 
 
-#bodyWrap #header #globalNavigation { line-height:11pt; font-size:9pt; float:right; overflow:hidden; margin:45px 3px 0 0; }
+#bodyWrap #header #globalNavigation { font-size:9pt; float:right; overflow:hidden; margin:30px 3px 0 0; }
 #bodyWrap #header #globalNavigation li { float:left; margin-left:-1px; background:url(../images/common/blogHeaderVr.gif) no-repeat left center;}
 #bodyWrap #header #globalNavigation li a { display:block; float:left; padding:0 7px; font-weight:bold; color:#54564b; white-space:nowrap;}
 
