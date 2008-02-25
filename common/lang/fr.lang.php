@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)
