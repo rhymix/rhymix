@@ -74,7 +74,7 @@
 
                     <td class="topic">
 
-                        <strong>{$lang->notice} | <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
+                        <strong>{$lang->notice} | <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
                         {$document->printExtraImages(60*60*$module_info->duration_new)}
 
                         <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
@@ -114,7 +114,7 @@
 
                     <td class="topic">
 
-                        <strong><a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
+                        <strong><a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a></strong>
 
                         {$document->printExtraImages(60*60*$module_info->duration_new)}
 

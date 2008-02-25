@@ -55,7 +55,7 @@
                     <!--@if($module_info->use_category == "Y")--><td>{$category_list[$document->get('category_srl')]->title}</td><!--@end-->
                     <td class="title">
                         <div class="title_wrap">
-                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a>
+                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage', '')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                         
                             <!--@if($document->getCommentCount())-->
                                 <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[R<strong>{$document->getCommentCount()}</strong>]</span>
@@ -84,7 +84,7 @@
                     <!--@if($module_info->use_category == "Y")--><td>{$category_list[$document->get('category_srl')]->title}</td><!--@end-->
                     <td class="title">
                         <div class="title_wrap">
-                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle)}">{$document->getTitle($module_info->subject_cut_size)}</a>
+                            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage', '')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                         
                             <!--@if($document->getCommentCount())-->
                                 <span class="replyAndTrackback" title="Replies &amp; Trackbacks">[R<strong>{$document->getCommentCount()}</strong>]</span>
