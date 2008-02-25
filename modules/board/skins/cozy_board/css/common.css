@@ -605,4 +605,4 @@ Jeong, Chan Myeong 070601~070630
 /* 회원 서명 및 프로필 이미지 출력 */
 .memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
 .memberSignature .profile { float:left; margin-right:20px; }
-img.commentProfileImage { margin:5px 10px 5px 0; }
+.commentProfileImage { margin:0 0 10px 0; }

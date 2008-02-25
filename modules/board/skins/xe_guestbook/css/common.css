@@ -94,8 +94,6 @@ Jeong, Chan Myeong 070601~070630
 
 .replyBox .replyContent { clear:left; }
 .replyBox .replyContent p { display:block; }
-.replyBox .replyContent ul li { padding:0; border:none; line-height:1.25em; list-style:disc;}
-.replyBox .replyContent ol li { padding:0; border:none; line-height:1.25em; list-style:decimal;}
 .replyBox .reply { background-color:#F4F4F4; border-bottom:1px dotted #DDDDDD;}
 .replyBox .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 

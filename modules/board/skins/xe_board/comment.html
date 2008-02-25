@@ -64,7 +64,7 @@
                     </div>
                 <!--@else-->
                     <!--@if($comment->getProfileImage())-->
-                        <img src="{$comment->getProfileImage()}" align="left" class="commentProfileImage" alt="profile" />
+                    <div class="commentProfileImage"><img src="{$comment->getProfileImage()}" alt="profile" /></div>
                     <!--@end-->
                     {$comment->getContent(true)}
                 <!--@end-->

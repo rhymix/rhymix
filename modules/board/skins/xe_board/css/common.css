@@ -121,8 +121,6 @@ Jeong, Chan Myeong 070601~070630
 
 .replyBox .replyContent { clear:left; }
 .replyBox .replyContent p { display:block; }
-.replyBox .replyContent ul li { padding:0; border:none; line-height:1.25em; list-style:disc;}
-.replyBox .replyContent ol li { padding:0; border:none; line-height:1.25em; list-style:decimal;}
 .replyBox .reply { background-color:#F4F4F4; border-bottom:1px dotted #DDDDDD;}
 .replyBox .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
@@ -320,4 +318,4 @@ html:not([lang*=""]) .boardList th { height:33px; }
 /* 회원 서명 및 프로필 이미지 출력 */
 .memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
 .memberSignature .profile { float:left; margin-right:20px; }
-img.commentProfileImage { margin:5px 10px 5px 0; }
+.commentProfileImage { margin:0 0 10px 0; }
