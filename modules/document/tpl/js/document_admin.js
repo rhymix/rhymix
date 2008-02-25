@@ -80,8 +80,12 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
 function doCancelDeclare() {
     var fo_obj = xGetElementById('fo_list');
     var document_srl = new Array();
-    for(var i=0;i<fo_obj.cart.length;i++) {
-        if(fo_obj.cart[i].checked) document_srl[document_srl.length] = fo_obj.cart[i].value;
+    if(fo_obj.cart.length) {
+        for(var i=0;i<fo_obj.cart.length;i++) {
+            if(fo_obj.cart[i].checked) document_srl[document_srl.length] = fo_obj.cart[i].value;
+        }
+    } else {
+        if(fo_obj.cart.checked) document_srl[document_srl.length] = fo_obj.cart.value;
     }
     if(document_srl.length<1) return;
 
