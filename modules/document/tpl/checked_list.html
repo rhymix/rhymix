@@ -33,8 +33,15 @@
         <th scope="row">{$lang->move_target_module}</th>
         <td>
           <select id="target_module" name="target_module" class="w300" onchange="doGetCategoryFromModule(this); return false;">
-          <!--@foreach($module_list as $key => $val)-->
-              <option value="{$val->module_srl}">{$val->browser_title} ({$val->mid})</option>
+          <!--@foreach($module_list as $module_category_srl => $modules )-->
+              <!--@if($modules->title)-->
+                  <option disabled="disabled">{$modules->title}</option>
+              <!--@else-->
+                  <option disabled="disabled">&nbsp;</option>
+              <!--@end-->
+              <!--@foreach($modules->list as $key => $val)-->
+                  <option value="{$val->module_srl}">&nbsp; {$val->browser_title} ({$val->mid})</option>
+              <!--@end-->
           <!--@end-->
           </select>
         </td>

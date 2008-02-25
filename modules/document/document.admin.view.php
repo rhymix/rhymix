@@ -110,9 +110,13 @@
                 Context::set('document_list', $document_list);
             }
 
-            // 모듈의 목록을 가져옴
             $oModuleModel = &getModel('module');
-            $module_list = ($oModuleModel->getMidList());
+
+            // 모듈 카테고리 목록을 구함
+            $module_categories = $oModuleModel->getModuleCategories();
+
+            // 모듈의 목록을 가져옴
+            $module_list = $oModuleModel->getMidList();
 
             // 최고 관리자가 아닌 경우 자신의 관리 대상 모듈만 구해옴
             $logged_info = Context::get('logged_info');
@@ -140,7 +144,19 @@
                     }
                 }
             }
-            Context::set('module_list', $module_list);
+
+            // module_category와 module의 조합
+            if($module_categories) {
+                foreach($module_list as $module_srl => $module) {
+                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                }
+            } else {
+                $module_categories[0]->list = $module_list;
+            }
+
+
+            // 모듈 카테고리 목록과 모듈 목록의 조합
+            Context::set('module_list', $module_categories);
 
             // 팝업 레이아웃 선택
             $this->setLayoutPath('./common/tpl');

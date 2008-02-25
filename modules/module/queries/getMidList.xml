@@ -11,6 +11,6 @@
         <condition operation="in" column="module_srl" var="module_srls" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="mid" order="asc" />
+        <index var="sort_index" default="browser_title" order="asc" />
     </navigation>
 </query>
