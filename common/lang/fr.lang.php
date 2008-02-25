@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  Paquet de La Langue  Francaise(mots de base seulement) 
+     * @brief  Paquet de La Langue  Francaise (Mots de base seulement) 
      **/
 
     // 	verbes et mots de base decrivant des actions 
