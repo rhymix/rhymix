@@ -79,7 +79,7 @@
         'dispFileAdminList' => 'Arrangement des Rattachements',
         'dispPollAdminList' => 'Arrangement du Sondage',
         'dispSpamfilterAdminConfig' => 'Arrangement du Filtre contre Pourriel',
-        'dispCounterAdminIndex' => 'Journal de Compte',
+        'dispCounterAdminIndex' => 'Journal de Compteur',
 
     );
 
