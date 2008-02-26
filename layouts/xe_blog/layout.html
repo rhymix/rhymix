@@ -44,8 +44,9 @@
                 <li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
             <!--@end-->
 
-            <!--@if($mid == $layout_info->target_mid)-->
                 <li class="skin_info"><a href="{getUrl('','module','layout','act','dispLayoutInfo','selected_layout','xe_blog')}" onclick="popopen(this.href,'layoutSkinInfo'); return false;"><img src="./images/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
+
+            <!--@if($mid == $layout_info->target_mid)-->
                 <li><a href="{getUrl('act','dispBoardTagList')}"><img src="./images/iconAllTags.gif" alt="Tag list" width="13" height="13"/></a></li>
                 <!--@if($rss_url)-->
                     <li><a href="{$rss_url}"><img src="./images/{$layout_info->colorset}/btn_rss.gif" alt="rss" width="36" height="12" /></a></li>
