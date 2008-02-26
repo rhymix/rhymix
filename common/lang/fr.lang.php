@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/fr.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
      * @brief  Paquet de La Langue  Francaise (Mots de base seulement) 
      **/
 
@@ -68,7 +68,7 @@
 
     // Mots essentiels
     $lang->no = 'Numéro';
-    $lang->notice = 'Remarque';
+    $lang->notice = 'Notice';
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Catégorie';
     $lang->document_srl = 'Numéro du Document';
