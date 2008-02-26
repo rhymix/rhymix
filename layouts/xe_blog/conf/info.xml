@@ -16,32 +16,32 @@
         <description xml:lang="ko">
             제로보드XE 블로그 기본 스킨입니다.
             디자인 : 서기정 (http://blog.naver.com/addcozy)
-            HTML/CSS : 정찬명 (http://naradesign.net)
+            HTML/CSS : 소지훈
         </description>
         <description xml:lang="jp">
             ゼロボードXEブログの基本スキンです。
             デザイン：ソギジョン (http://blog.naver.com/addcozy) 
-            HTML/CSS：ジョンチャンミョン (http://naradesign.net)
+            HTML/CSS : Ju-Hoon So
         </description>
         <description xml:lang="zh-CN">
             Zeroboard XE博客默认皮肤。
             设计 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
-            HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+            HTML/CSS : Ju-Hoon So
         </description>
         <description xml:lang="en">
             This is default skin of Zeroboard XE blog.
             Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-            HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+            HTML/CSS : Ju-Hoon So
         </description>
 		<description xml:lang="es">
             Esto es por defecto de la piel Zeroboard XE blog.
              Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
-             HTML / CSS: Jeong Chan-Myung (http://naradesign.net)
+            HTML/CSS : Ju-Hoon So
         </description>
 		<description xml:lang="ru">
             Это умолчанию кожи Zeroboard XE блоге. 
              Дизайн: Ki-Jeong Seo (http://blog.naver.com/addcozy) 
-             HTML / CSS: Jeong Chan-Myung (http://naradesign.net)
+            HTML/CSS : Ju-Hoon So
         </description>
     </author>
     <extra_vars>
@@ -58,23 +58,41 @@
             <description xml:lang="en">Please select a colorset you want.</description>
 			<description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
-            <options name="white">
-                <title xml:lang="ko">하얀색(기본)</title>
-                <title xml:lang="jp">白色（基本）</title>
-                <title xml:lang="zh-CN">白色(默认)</title>
-                <title xml:lang="en">White (default)</title>
-				<title xml:lang="es">Blanco (por defecto)</title>
-				<title xml:lang="ru">Белые (по умолчанию)</title>
-                <value>white</value>
+            <options name="blue">
+                <title xml:lang="ko">파란색 (기본)</title>
+                <title xml:lang="jp">青 (default)</title>
+                <title xml:lang="zh-CN">蓝色 (default)</title>
+                <title xml:lang="en">Blue (default)</title>
+                <title xml:lang="es">Azul (default)</title>
+                <title xml:lang="ru">Blue (default)</title>
+                <value>blue</value>
             </options>
-            <options name="cyan">
-                <title xml:lang="ko">청록색</title>
-                <title xml:lang="jp">青緑</title>
-                <title xml:lang="zh-CN">青绿色</title>
-                <title xml:lang="en">Cyan</title>
-				<title xml:lang="es">Cian</title>
-				<title xml:lang="ru">Cyan</title>
-                <value>cyan</value>
+            <options name="gray">
+                <title xml:lang="ko">회색</title>
+                <title xml:lang="jp">灰色背景</title>
+                <title xml:lang="zh-CN">灰色背景</title>
+                <title xml:lang="en">Gray</title>
+                <title xml:lang="es">Gray</title>
+                <title xml:lang="ru">Gray</title>
+                <value>gray</value>
+            </options>
+            <options name="orange">
+                <title xml:lang="ko">오렌지</title>
+                <title xml:lang="jp">Orange</title>
+                <title xml:lang="zh-CN">Orange</title>
+                <title xml:lang="en">Orange</title>
+				<title xml:lang="es">Orange</title>
+				<title xml:lang="ru">Orange</title>
+                <value>orange</value>
+            </options>
+            <options name="violet">
+                <title xml:lang="ko">보라색</title>
+                <title xml:lang="jp">Violet</title>
+                <title xml:lang="zh-CN">Violet</title>
+                <title xml:lang="en">Violet</title>
+				<title xml:lang="es">Violet</title>
+				<title xml:lang="ru">Violet</title>
+                <value>violet</value>
             </options>
             <options name="green">
                 <title xml:lang="ko">초록색</title>
@@ -84,24 +102,6 @@
 				<title xml:lang="es">Verde</title>
 				<title xml:lang="ru">Green</title>
                 <value>green</value>
-            </options>
-            <options name="red">
-                <title xml:lang="ko">빨간색</title>
-                <title xml:lang="jp">赤</title>
-                <title xml:lang="zh-CN">红色</title>
-                <title xml:lang="en">Red</title>
-				<title xml:lang="es">Roja</title>
-				<title xml:lang="ru">Красный</title>
-                <value>red</value>
-            </options>
-            <options name="purple">
-                <title xml:lang="ko">보라색</title>
-                <title xml:lang="jp">紫</title>
-                <title xml:lang="zh-CN">紫色</title>
-                <title xml:lang="en">Purple</title>
-				<title xml:lang="es">Púrpura</title>
-				<title xml:lang="ru">Фиолетовый</title>
-                <value>purple</value>
             </options>
         </var>
         <var name="target_mid" type="text">
@@ -118,33 +118,19 @@
 			<description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
 			<description xml:lang="ru">В виджеты, которые отображаются в формате будет работать правильно, если вы выбираете основной модуль</description>
         </var>
-        <var name="top_title" type="text">
-            <title xml:lang="ko">상단 제목</title>
-            <title xml:lang="jp">上段タイトル</title>
-            <title xml:lang="zh-CN">博客标题</title>
-            <title xml:lang="en">Top Title</title>
-			<title xml:lang="es">Top Título</title>
-			<title xml:lang="ru">Рейтинг Название</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시할 제목을 입력하세요.</description>
-            <description xml:lang="jp">レイアウト上段に表示させるタイトルを入力してください。</description>
-            <description xml:lang="zh-CN">请输入博客主标题。</description>
-            <description xml:lang="en">Please input title which will be displayed on top of layout.</description>
-			<description xml:lang="es">Introduce el título que se mostrará en la parte superior de diseño.</description>
-			<description xml:lang="ru">Введите название, которое будет отображаться в верхней части формы.</description>
-        </var>
-        <var name="logo_image" type="image">
-            <title xml:lang="ko">로고이미지</title>
-            <title xml:lang="jp">ロゴイメージ</title>
-            <title xml:lang="zh-CN">LOGO图片</title>
-            <title xml:lang="en">Logo Image</title>
-			<title xml:lang="es">Imagen Logo</title>
-			<title xml:lang="ru">Изображения логотипа</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
-            <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力してください。</description>
-            <description xml:lang="zh-CN">上传博客LOGO图片。</description>
-            <description xml:lang="en">Please input logo image which will be displayed on top of layout.</description>
-			<description xml:lang="es">Introduce el logotipo imagen que se mostrará en la parte superior de diseño.</description>
-			<description xml:lang="ru">Введите логотипа изображение, которое будет отображаться в верхней части формы.</description>
+        <var name="background_image" type="image">
+            <title xml:lang="ko">배경 이미지</title>
+            <title xml:lang="jp">背景イメージ</title>
+            <title xml:lang="zh-CN">背景图片</title>
+            <title xml:lang="en">Background Image</title>
+			<title xml:lang="es">Imagen de fondo</title>
+			<title xml:lang="ru">Фоновое изображение</title>
+            <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
+            <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
+            <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
+            <description xml:lang="en">Please input if you want to use background image.</description>
+			<description xml:lang="es">Entre, por favor, si desea utilizar la imagen de fondo.</description>
+			<description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
         </var>
         <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
@@ -159,20 +145,6 @@
             <description xml:lang="en">Please input profile image (It is recommended to set width as 160px)</description>
 			<description xml:lang="es">Por favor, el perfil de entrada de imagen (Se recomienda configurar el ancho de 160px)</description>
 			<description xml:lang="ru">Введите профиля изображения (Рекомендуется устанавливать ширину, 160px)</description>
-        </var>
-        <var name="background_image" type="image">
-            <title xml:lang="ko">배경 이미지</title>
-            <title xml:lang="jp">背景イメージ</title>
-            <title xml:lang="zh-CN">背景图片</title>
-            <title xml:lang="en">Background Image</title>
-			<title xml:lang="es">Imagen de fondo</title>
-			<title xml:lang="ru">Фоновое изображение</title>
-            <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
-            <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
-            <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
-            <description xml:lang="en">Please input if you want to use background image.</description>
-			<description xml:lang="es">Entre, por favor, si desea utilizar la imagen de fondo.</description>
-			<description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
         </var>
         <var name="profile" type="textarea">
             <title xml:lang="ko">프로필</title>
