@@ -127,7 +127,7 @@
     $lang->page_count = 'Somme de Pages';
     $lang->list_count = 'Somme de Listes';
     $lang->search_list_count = 'Somme de Liste des recherches';
-    $lang->readed_count = 'Somme de Vues';
+    $lang->readed_count = ' Vues';
     $lang->voted_count = 'Somme de Recommandations';
     $lang->member_count = 'Somme de Membres';
     $lang->date = 'Jour';
