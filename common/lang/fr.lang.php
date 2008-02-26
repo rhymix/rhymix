@@ -91,11 +91,11 @@
     $lang->topic = 'Sujet';
     $lang->replies = 'Répondse';
     $lang->content = 'Contenu';
-    $lang->document = 'Article';
+    $lang->document = 'Document';
     $lang->comment = 'Commentaire';
     $lang->description = 'Description';
     $lang->trackback = 'Rétrolien';
-    $lang->tag = 'Balise';
+    $lang->tag = 'Tag';
     $lang->allow_comment = 'Permettre Commentaires';
     $lang->lock_comment = 'Bloquer Commentaires';
     $lang->allow_trackback = 'Permettre Rétrolien';
@@ -104,7 +104,7 @@
     $lang->target = 'Cible';
     $lang->total = 'Total';
     $lang->total_count = 'Somme';
-    $lang->ipaddress = 'Address IP';
+    $lang->ipaddress = 'Addresse IP';
     $lang->path = 'Chemin';
     $lang->cart = 'Article Choisi';
     $lang->friend = 'Les Amis';
@@ -123,7 +123,7 @@
     $lang->blog_name = 'Nom du Blogue';
     $lang->excerpt = 'Extrait';
 
-    $lang->document_count = 'Somme des Articles';
+    $lang->document_count = 'Somme des Documents';
     $lang->page_count = 'Somme de Pages';
     $lang->list_count = 'Somme de Listes';
     $lang->search_list_count = 'Somme de Liste des recherches';
@@ -142,7 +142,7 @@
     $lang->search_keyword = 'Mot-clé à Recherche';
     $lang->is_default = 'Par Défaut';
 
-    $lang->no_documents = 'Aucune Fiche';
+    $lang->no_documents = 'Aucun Document';
 
     $lang->board_manager = 'Arrangements des Panneau';
     $lang->member_manager = 'Arrangements des Membres';
@@ -173,7 +173,7 @@
     $lang->msg_invalid_queryid = 'La valeur spécifiée de query ID est invalide.';
     $lang->msg_not_permitted = 'Vous n\'avez pas le droit d\'accès.';
     $lang->msg_input_password = 'Veuillez entrer votre mot de passe.';
-    $lang->msg_invalid_document = 'Nombre invalide d\'affichage';
+    $lang->msg_invalid_document = 'Nombre de Document invalide';
     $lang->msg_invalid_request = 'Requête invalide';
     $lang->msg_invalid_password = 'Mot de passe invalide';
     $lang->msg_error_occured = 'Une erreur a lieu';
