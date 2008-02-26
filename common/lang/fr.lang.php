@@ -128,7 +128,7 @@
     $lang->list_count = 'Somme de Listes';
     $lang->search_list_count = 'Somme de Liste des recherches';
     $lang->readed_count = ' Vues';
-    $lang->voted_count = 'Somme de Recommandations';
+    $lang->voted_count = 'Recommandés';
     $lang->member_count = 'Somme de Membres';
     $lang->date = 'Jour';
     $lang->regdate = 'Jour d\'Enrégistrement';
