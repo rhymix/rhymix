@@ -48,7 +48,7 @@
     $lang->cmd_reload = 'Recharger';
     $lang->cmd_close = 'Fermer';
     $lang->cmd_open = 'Ouvrir';
-    $lang->cmd_setup = 'Configurer';
+    $lang->cmd_setup = 'Configuration';
     $lang->cmd_addition_setup = 'Configuration Additionnelle';
 	$lang->cmd_option = 'Option';
     $lang->cmd_apply = 'Appliquer';
