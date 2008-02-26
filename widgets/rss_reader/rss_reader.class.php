@@ -46,7 +46,6 @@
 
             $oResponse = $oReqeust->sendRequest();
             if (PEAR::isError($oResponse)) {
-                debugPrint("error");
                 return new Object(-1, 'msg_fail_to_request_open');
             }
             $buff = $oReqeust->getResponseBody();
