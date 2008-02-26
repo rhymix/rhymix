@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
+        <action name="dispLayoutInfo" type="view" standalone="true" />
         <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispLayoutAdminInsert" type="view" standalone="true" />
         <action name="dispLayoutAdminModify" type="view" standalone="true" />
