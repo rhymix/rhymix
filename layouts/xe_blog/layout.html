@@ -69,6 +69,9 @@
             <h1>{$layout_info->profile}</h1>
         <!--@end-->
 	</div>
+
+    <!-- 카테고리 -->
+    <!--@if($category_list)-->
 	<div class="blogCategory">
 		<div class="blogTitleBox">
 			<h2><a href="{getUrl('','mid',$layout_info->target_mid)}">category</a></h2>
@@ -78,8 +81,13 @@
 			<li <!--@if($val->depth)-->style="margin-left:{$val->depth*8}px;"<!--@end--> <!--@if($val->selected)-->class="on"<!--@end-->><a href="{getUrl('','mid',$val->mid,'category',$val->category_srl)}">{$val->title}</a><!--@if($val->document_count)--><span class="documentCount">({$val->document_count})</span><!--@end--></li>
         <!--@end-->
 		</ul>
-
 	</div>
+    <!--@else-->
+	<div class="widgetBox">
+        <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="layout" title="recent posts" list_count="7" mid_list="{$layout_info->target_mid}" />
+	</div>
+    <!--@end-->
+
     <!-- 최근댓글 출력 -->
 	<div class="widgetBox">
         <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="layout" title="recent comments" list_count="7" mid_list="{$layout_info->target_mid}" />

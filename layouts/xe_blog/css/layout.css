@@ -60,8 +60,8 @@ ul.blogGlobal li a {text-decoration:none; font-size:.9em; letter-spacing:-1px;}
 
 /* Widget */
 .blog_widget_ h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} 
-.blog_widget_ .items {list-style:none; padding:0; margin:0; margin-top:1.3em;}
-.blog_widget_ .items li {height:1.7em; padding-left:1.8em;}
+.blog_widget_ .items {list-style:none; padding:0; margin:0; margin-top:1.3em; overflow:hidden; width:165px;}
+.blog_widget_ .items li { white-space:nowrap; overflow:hidden; height:1.7em; padding-left:1.8em;}
 .blog_widget_ .items li a { text-decoration:none; font-size:1em; overflow:hidden; white-space:nowrap;}
 
 /* Calender */
