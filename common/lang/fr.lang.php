@@ -144,7 +144,7 @@
 
     $lang->no_documents = 'Aucune Fiche';
 
-    $lang->board_manager = 'Arrangements des Tableaux d\'Affichage';
+    $lang->board_manager = 'Arrangements des Panneau';
     $lang->member_manager = 'Arrangements des Membres';
     $lang->layout_manager = 'Arrangements de Mise en Page';
 
