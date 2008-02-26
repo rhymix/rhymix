@@ -9,9 +9,9 @@
     $lang->admin_index = 'Page de l\'indice pour l\'Administrateur';
 
     $lang->module_category_title = array(
-        'service' => 'Modules pour Service',
-        'manager' => 'Modules pour Sdministrer',
-        'utility' => 'Modules des Utilités',
+        'service' => 'Modules de Service',
+        'manager' => 'Modules Administratif',
+        'utility' => 'Modules d\'Utilité',
         'accessory' => 'Modules Additionnels',
         'base' => 'Modules par Défaut',
     );
