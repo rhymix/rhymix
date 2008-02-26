@@ -1,0 +1,91 @@
+@charset "utf-8";
+/*
+NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
+Kim, Ji Min 070809-20070903
+*/
+
+#blog {width:780px; margin:0 auto;}
+
+#content { width:100%; position:relative;}
+
+/* Global Navigation */
+.blogNavigation {width:780px; padding-bottom:6em;}
+ul.blogMenu {margin:0; padding:0; list-style:none; float:left; margin:1.2em 0 0 .9em; overflow:hidden;}
+ul.blogMenu li {float:left; margin-left:-1px; padding:0 .8em;}
+ul.blogMenu li a {text-decoration:none; font:bold .9em tahoma;}
+ul.blogMenu li a.on {}
+
+ul.blogGlobal {margin:0; padding:0; list-style:none; float:right; margin:1em .6em 0 0; overflow:hidden;}
+ul.blogGlobal li {float:left; margin-left:-1px; padding:0 .6em;}
+ul.blogGlobal li a {text-decoration:none; font-size:.9em; letter-spacing:-1px;}
+
+/* Profile */
+.blogProfile {float:left; width:170px; margin:0 0 0 19px; display:inline;}
+.blogProfile h1 {padding:0; margin:10px 0 8px 2px; font-size:1em; line-height:1.2em;}
+.blogProfile ul.profileMenu {float:left; margin-left:-4px; overflow:hidden;}
+.blogProfile ul.profileMenu li {float:left; margin-left:-1px; padding:0 .7em;}
+.blogProfile ul.profileMenu li a {text-decoration:none; font-size:.9em;}
+
+/* title bg box */
+.blogTitleBox {position:relative; width:170px; height:25px; margin-bottom:1.3em;}
+
+/* category */
+.blogCategory {float:left; width:170px; margin:0 0 0 21px;}
+.blogCategory h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} /*070917 �섏젙*/
+.blogCategory h2 a { text-decoration:none; }
+.blogCategory .categoryToggle {position:absolute; right:.3em; top:.5em;}
+.blogCategory .categoryToggle img {display:block; padding:5px; cursor:pointer;}
+.blogCategory ul.categoryList { list-style:none; margin:0; padding:0; }
+.blogCategory ul.categoryList li {height:1.7em; padding-left:2.1em;}
+.blogCategory ul.categoryList li a {text-decoration:none; font-size:1em;}
+.blogCategory ul.categoryList li.on a {font-weight:bold; }
+.blogCategory ul.categoryList li span.documentCount { font-size:.9em; margin-left:.3em;}
+
+/* Recent Comments */
+.widgetBox {float:left; width:170px; margin:0 0 0 21px;}
+
+/* search box */
+.blogSearch { margin-top:2em; }
+.blogSearch fieldset {padding:0; margin:0; border:none;}
+.blogSearch legend {display:none;}
+.blogSearch input {float:left; vertical-align:middle;}
+.blogSearch img {float:left; margin-left:2px; vertical-align:middle;}
+
+/* Content Box */
+.contentBox {clear:both; position:relative; width:780px; padding:.8em 0 3em 0;}
+.contentBox .centerBg {padding-top:1em;}
+.contentBox .topBg {width:100%; height:10px; font-size:0;}
+.contentBox .bottomBg {width:100%; height:10px; font-size:0;}
+.contentArea {width:740px; margin:0 auto;}
+
+/* Widget */
+.blog_widget_ h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} 
+.blog_widget_ .items {list-style:none; padding:0; margin:0; margin-top:1.3em;}
+.blog_widget_ .items li {height:1.7em; padding-left:1.8em;}
+.blog_widget_ .items li a { text-decoration:none; font-size:1em;}
+
+/* Calender */
+.widget_calendar {position:relative; float:left; width:170px; }
+.widget_calendar caption {width:170px; height:25px; padding-top:.3em; font:bold 1.1em tahoma;}
+.widget_calendar caption em {font:bold 1em tahoma; font-style:normal;}
+.widget_calendar caption .back {position:absolute; left:.6em; top:.6em;}
+.widget_calendar caption .next {position:absolute; right:.6em; top:.6em;}
+.widget_calendar table {padding:0; margin:0; width:170px; }
+
+.widget_calendar th {padding:1.3em 0 .5em 0; font-size:.9em; font-weight:normal;}
+.widget_calendar th.sun {color:#00afcf;}
+
+.widget_calendar td {height:1.5em; padding-right:.7em; text-align:right; font:.9em tahoma;}
+
+.widget_calendar td a {text-decoration:none; font:.9em tahoma;}
+.widget_calendar td {text-decoration:none; font:.9em tahoma;}
+
+.widget_calendar td.sun a {text-decoration:none; }
+.widget_calendar td.sun {text-decoration:none; }
+
+.widget_calendar td.today a {text-decoration:none; font-weight:bold;}
+.widget_calendar td.today {text-decoration:none; font-weight:bold; }
+
+.widget_calendar td.posted a {text-decoration:underline;}
+.widget_calendar td.posted {text-decoration:underline;}
+
