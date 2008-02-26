@@ -202,7 +202,7 @@
     $lang->failed_declared = 'N\'a pas pu accuser';
     $lang->fail_to_delete_have_children = 'Essayez encore après avoir suprimé les reponses, SVP';
 
-    $lang->confirm_submit = 'Vous voulez sûrement soumettre?';
+    $lang->confirm_submit = 'Vous voulez sûrement valider?';
     $lang->confirm_logout = 'Vous voulez sûrement fermer la session?';
     $lang->confirm_vote = 'Vous voulez recommander?';
     $lang->confirm_delete = 'Vous voulez sûrement supprimer?';
