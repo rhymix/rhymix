@@ -38,7 +38,7 @@
     <!--@if($val->default)-->
         <ul>
         <!--@foreach($val->default as $v)-->
-            <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/> {$v}</li>
+            <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if($v==$val->value||is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/> {$v}</li>
         <!--@end-->
         </ul>
     <!--@end-->
