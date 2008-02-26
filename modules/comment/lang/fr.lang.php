@@ -26,6 +26,6 @@
         'homepage' => 'Page d\'Accueil',
         'regdate' => 'Jour',
         'last_update' => 'Mise à Jour',
-        'ipaddress' => 'Address IP',
+        'ipaddress' => 'Addresse IP',
     );
 ?>
