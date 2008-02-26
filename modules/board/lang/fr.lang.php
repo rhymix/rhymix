@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   fr.lang.php
+     * @file  modules/board/lang/ fr.lang.php
      * @author zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
      * @brief  Paquet de la langue fondamental pour le module de Panneau d\'Affichage
      **/
