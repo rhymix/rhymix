@@ -35,22 +35,20 @@
 
             if ($URL_parsed["query"] != "") $path .= "?".$URL_parsed["query"]; 
 
-            $oReqeust = new HTTP_Request($path);
+            $oReqeust = new HTTP_Request($args->rss_url);
             $oReqeust->addHeader('Content-Type', 'application/xml');
             $oReqeust->setMethod('GET');
 
-	    $user = $URL_parsed["user"];
-	    $pass = $URL_parsed["pass"];
+            $user = $URL_parsed["user"];
+            $pass = $URL_parsed["pass"];
 
-	    if($user)
-		$oReqeust->setBasicAuth($user, $pass);
+            if($user) $oReqeust->setBasicAuth($user, $pass);
 
             $oResponse = $oReqeust->sendRequest();
-            if (PEAR::isError($oResponse)) 
-	    {
-		debugPrint("error");
-		return new Object(-1, 'msg_fail_to_request_open');
-	    }
+            if (PEAR::isError($oResponse)) {
+                debugPrint("error");
+                return new Object(-1, 'msg_fail_to_request_open');
+            }
             $buff = $oReqeust->getResponseBody();
             $encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
             if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = trim(iconv($matches[1]=="ks_c_5601-1987"?"EUC-KR":$matches[1], "UTF-8", $buff));
