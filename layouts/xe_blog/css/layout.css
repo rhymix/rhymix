@@ -9,7 +9,7 @@ Kim, Ji Min 070809-20070903
 #content { width:100%; position:relative;}
 
 /* Global Navigation */
-.blogNavigation {width:780px; padding-bottom:6em;}
+.blogNavigation {width:780px; padding-bottom:3em; overflow:hidden;}
 ul.blogMenu {margin:0; padding:0; list-style:none; float:left; margin:1.2em 0 0 .9em; overflow:hidden;}
 ul.blogMenu li {float:left; margin-left:-1px; padding:0 .8em;}
 ul.blogMenu li a {text-decoration:none; font:bold .9em tahoma;}
