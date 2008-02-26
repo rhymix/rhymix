@@ -63,8 +63,8 @@
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
 
-    $lang->enable = 'Valider';
-    $lang->disable = 'Invalider';
+    $lang->enable = 'Valide';
+    $lang->disable = 'Invalide';
 
     // Mots essentiels
     $lang->no = 'Numéro';
