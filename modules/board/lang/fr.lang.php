@@ -34,5 +34,5 @@
     $lang->about_board_category = 'Vous pouvez créer des catégories d\'affichage dans le tableau. Quand la catégorie d\'affichage est cassé, essayez manuellement rétablir la fichier cache.';
     $lang->about_except_notice = "L\'Article de Notice ne sera exposé sur la liste normale.";
     $lang->about_board = "Ce module se sert à créer et arranger des Tableaux d\'Affichage.\nAprès avoir créé un module, si vous cliquez le nom sur le leste, vous pouvez configurer specifiquement.\nFaites attention quand vous choisissez le nom du module du Tableaux d\'Affichage, car ce sera URL. (ex : http://domain/zb/?mid=nom_de_module)"; 
-	$lang->about_consultation = "Les membres non-administratifs verrons seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
+	$lang->about_consultation = "Les membres non-administratifs verront seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
 ?>
