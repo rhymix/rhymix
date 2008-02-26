@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   fr.lang.php
+     * @file   modules/admin/lang/fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
      * @brief  Paquet de la Langue française (Les Mots base seulement sont  inclus ici)
      **/
