@@ -207,7 +207,7 @@
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
             // 문자열을 자름
-            $content = cut_str($content, $str_size, '...');
+            $content = trim(cut_str($content, $str_size, '...'));
 
             // >, <, "를 다시 복구
             return str_replace(array('<','>','"',' '),array('&lt;','&gt;','&quot;','&nbsp;'), $content);
