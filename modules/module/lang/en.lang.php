@@ -24,8 +24,8 @@
     $lang->skin_maker_homepage = "Skin Developer's Homepage";
     $lang->module_copy = "Duplicate Module";
 
-    $lang->header_script = "헤더 스크립트";
-    $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
+    $lang->header_script = "Header Script";
+    $lang->about_header_script = "You can input the htmp script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tags";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";

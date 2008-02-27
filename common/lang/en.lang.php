@@ -230,13 +230,13 @@
     // Alert messages for Javascript using by XML filter
     $lang->filter->isnull = 'Please input a value for %s';
     $lang->filter->outofrange = 'Please align the text length of %s';
-    $lang->filter->equalto = "%s's value is invalid";
-    $lang->filter->invalid_email = "%s's format is invalid. ex) zbxe@zeroboard.com";
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s's format is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be English alphabet";
-    $lang->filter->invalid_homepage = "%s's format is invalid. ex) http://www.zeroboard.com";
-    $lang->filter->invalid_korean = "%s's format is invalid. Please input only Korean";
-    $lang->filter->invalid_korean_number = "%s's format is invalid. Please input Korean or numbers";
-    $lang->filter->invalid_alpha = "%s's format is invalid. Please input only alphabets";
-    $lang->filter->invalid_alpha_number = "%s's format is invalid. Please input alphabets or numbers";
-    $lang->filter->invalid_number = "%s's format is invalid. Please input only numbers";
+    $lang->filter->equalto = "The value of %s is invalid";
+    $lang->filter->invalid_email = "The format of %s is invalid. ex) zbxe@zeroboard.com";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "The format of %s is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet";
+    $lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://www.zeroboard.com";
+    $lang->filter->invalid_korean = "The format of %s is invalid. Please input Korean only";
+    $lang->filter->invalid_korean_number = "The format of %s is invalid. Please input Korean or numbers";
+    $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";
+    $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input alphabets or numbers";
+    $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
 ?>

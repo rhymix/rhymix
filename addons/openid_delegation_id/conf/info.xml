@@ -2,7 +2,7 @@
 <addon version="0.1">
     <title xml:lang="ko">OpenID delegation ID</title>
     <title xml:lang="zh-CN">OpenID</title>
-    <title xml:lang="en">Addon for delegating domain name to OpenID</title>
+    <title xml:lang="en">OpenID Delegation ID</title>
     <title xml:lang="es">Delegación ID para OpenID</title>
     <title xml:lang="jp">OpenIDアドオン</title>
     <title xml:lang="ru">Аддон для делигирования доменного имени к OpenID</title>
