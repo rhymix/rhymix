@@ -14,9 +14,9 @@ function completeDocumentInserted(ret_obj) {
 
     //alert(message);
 
-    var url = current_url.setQuery('mid',mid).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('document_srl','').setQuery('rnd',document_srl);
     if(category_srl) url = url.setQuery('category',category_srl);
-    location.href = url;
+    location.href = url+'#document_'+document_srl;
 }
 
 /* 글 삭제 */
@@ -62,7 +62,7 @@ function completeInsertComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var comment_srl = ret_obj['comment_srl'];
 
-    var url = current_url.setQuery('mid',mid).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('document_srl','');
     if(comment_srl) url = url.setQuery('rnd',comment_srl)+"#comment_"+comment_srl;
 
     //alert(message);
@@ -78,12 +78,12 @@ function completeDeleteComment(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl','').setQuery('act','').setQuery('rnd',document_srl);
     if(page) url = url.setQuery('page',page);
 
     //alert(message);
 
-    location.href = url;
+    location.href = url+'#document_'+document_srl;
 }
 
 /* 트랙백 삭제 */
@@ -94,7 +94,7 @@ function completeDeleteTrackback(ret_obj) {
     var document_srl = ret_obj['document_srl'];
     var page = ret_obj['page'];
 
-    var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+    var url = current_url.setQuery('mid',mid).setQuery('document_srl','').setQuery('act','');
     if(page) url = url.setQuery('page',page);
 
     //alert(message);

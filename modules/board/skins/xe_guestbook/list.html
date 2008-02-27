@@ -5,43 +5,31 @@
     <!--%import("filter/search.xml")-->
 
 <!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+    
+<!-- 글 쓰기 폼 출력 -->
+    <!--@if(!$oDocument->isExists())-->
+        <div class="listWrite">
+        <!--#include("write_form.html")-->
+        </div>
+    <!--@end-->
 
     <!--@if($grant->list)-->
         <!-- 공지사항 -->
         <!--@if($notice_list)-->
-            <div class="blogNotice">
-            <!--@foreach($notice_list as $no => $document)-->
-                <div class="item">
-                    <span class="date">[{$document->getRegdate("Y-m-d")}]</span>
-                    <a href="{getUrl('document_srl',$document->document_srl)}">{$document->getContentText(20)}</a>
-
-                    <!--@if($document->getCommentCount())-->
-                        <span class="replyAndTrackback" title="Replies"><img src="./images/common/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
-                    <!--@end-->
-
-                    <!--@if($document->getTrackbackCount())-->
-                        <span class="replyAndTrackback" title="Trackbacks"><img src="./images/common/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
-                    <!--@end-->
-
-                    {$document->printExtraImages(60*60*$module_info->duration_new)}
+            <!--@foreach($notice_list as $no => $oDocument)-->
+                <div class="viewDocument">
+                <!--#include("./view_document.html")-->
+                <div class="clear"></div>
                 </div>
             <!--@end-->
-            </div>
-        <!--@end-->
-
-        <!--@if($oDocument->isExists())-->
-        <div class="viewDocument">
-        <!--#include("./view_document.html")-->
-        </div>
         <!--@end-->
 
         <!-- 일반글 -->
         <!--@foreach($document_list as $no => $oDocument)-->
-            <!--@if($oDocument->document_srl != $document_srl)-->
-                <div class="viewDocument">
-                <!--#include("./view_document.html")-->
-                </div>
-            <!--@end-->
+            <div class="viewDocument">
+            <!--#include("./view_document.html")-->
+            <div class="clear"></div>
+            </div>
         <!--@end-->
     <!--@end-->
 

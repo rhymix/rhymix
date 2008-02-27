@@ -85,7 +85,7 @@
 
             $source_ftime = filemtime($tpl_file);
             $target_ftime = filemtime($compiled_tpl_file);
-            if($source_ftime>$target_ftime) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
+            if($source_ftime>$target_ftime || $target_ftime < filemtime('./classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
         }
 
         /**
@@ -157,6 +157,7 @@
          * @brief {@와 } 안의 @... 함수를 print func(..)로 변경
          **/
         function _compileVarToSilenceExecute($matches) {
+            if(strtolower(trim(str_replace(array(';',' '),'', $matches[1])))=='return') return '<?php return; ?>';
             return '<?php @'.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', trim($matches[1])).';?>';
         }
 
