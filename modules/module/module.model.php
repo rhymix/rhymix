@@ -553,6 +553,7 @@
             $searched_list = FileHandler::readDir('./modules');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
+            sort($searched_list);
 
             for($i=0;$i<$searched_count;$i++) {
                 // 모듈의 이름

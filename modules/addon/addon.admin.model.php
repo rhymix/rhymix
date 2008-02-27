@@ -33,6 +33,7 @@
             $searched_list = FileHandler::readDir('./addons');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
+            sort($searched_list);
 
             for($i=0;$i<$searched_count;$i++) {
                 // 애드온의 이름

@@ -33,6 +33,7 @@
             $searched_list = FileHandler::readDir('./widgets');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
+            sort($searched_list);
 
             // 찾아진 위젯 목록을 loop돌면서 필요한 정보를 간추려 return
             for($i=0;$i<$searched_count;$i++) {

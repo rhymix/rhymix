@@ -76,8 +76,9 @@ h3 .gray { color:#9d9d9d;}
 .adminTable td .graph .bar { width:100%; position:absolute; margin-top:4px;}
 .adminTable td .graph .num { position:relative; background:#ffffff; color:#636363; font:.9em Tahoma; padding-left:10px; white-space:nowrap;}
 
-.admin_news { width:540px; float:left; margin-right:10px; }
+.admin_news { width:470px; float:left; margin-right:10px; }
 .admin_link { width:300px; float:right; }
+.admin_link td, .admin_news td { height:18px; }
 select.time_zone { width:70%; position:relative; top:4px; }
 .gap1 { margin-top:.8em; }
 
