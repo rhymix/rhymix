@@ -734,6 +734,7 @@
             if(!$category_list) {
                 @unlink($xml_file);
                 @unlink($php_file);
+                return false;
             }
             if(!is_array($category_list)) $category_list = array($category_list);
 
