@@ -11,7 +11,7 @@
     $lang->module_category_title = array(
         'service' => 'Modules de Service',
         'manager' => 'Modules Administratif',
-        'utility' => 'Modules d\'Utilité',
+        'utility' => 'Modules d\'Utilité ',
         'accessory' => 'Modules Additionnels',
         'base' => 'Modules par Défaut',
     );
