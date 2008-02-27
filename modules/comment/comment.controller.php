@@ -17,6 +17,8 @@
          * @brief 댓글의 추천을 처리하는 action (Up)
          **/
         function procCommentVoteUp() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -28,6 +30,8 @@
          * @brief 댓글의 추천을 처리하는 action (Down)
          **/
         function procCommentVoteDown() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -39,6 +43,8 @@
          * @brief 댓글이 신고될 경우 호출되는 action
          **/
         function procCommentDeclare() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 

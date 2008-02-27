@@ -32,20 +32,25 @@
             // trigger 호출
             ModuleHandler::triggerCall('comment.getCommentMenu', 'before', $menu_list);
 
-            // 추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+            // 회원이어야만 가능한 기능
+            if($logged_info->member_srl) {
 
-            // 비추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote_down');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                // 추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
 
-            // 신고 기능 추가
-            $menu_str = Context::getLang('cmd_declare');
-            $menu_link = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                // 비추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote_down');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+                // 신고 기능 추가
+                $menu_str = Context::getLang('cmd_declare');
+                $menu_link = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+            }
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
