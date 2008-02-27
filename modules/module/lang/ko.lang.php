@@ -24,6 +24,9 @@
     $lang->skin_maker_homepage = '제작자 홈페이지';
     $lang->module_copy = "모듈 복사";
 
+    $lang->header_script = "헤더 스크립트";
+    $lang->about_header_script = "html의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
+
     $lang->cmd_add_shortcut = "바로가기 추가";
     $lang->cmd_install = "설치";
     $lang->cmd_update = "업데이트";

@@ -46,6 +46,7 @@
             unset($extra_vars->layout);
             unset($extra_vars->title);
             unset($extra_vars->apply_layout);
+            unset($extra_vars->header_script);
 
             $args = Context::gets('layout_srl','title');
 
@@ -109,6 +110,13 @@
                     $extra_vars->{$name} = $filename;
                 }
             }
+
+            // header script를 레이아웃 모듈의 config에 저장
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            $layout_config = $oModuleModel->getModuleConfig('layout');
+            $layout_config->header_script[$args->layout_srl] = Context::get('header_script');
+            $output = $oModuleController->insertModuleConfig('layout',$layout_config);
             
             // DB에 입력하기 위한 변수 설정 
             $args->extra_vars = serialize($extra_vars);

@@ -224,6 +224,9 @@
                         }
                     }
 
+                    // 레이아웃 정보중 header_script가 있으면 헤더 추가
+                    if($layout_info->header_script) Context::addHtmlHeader($layout_info->header_script);
+
                     // 레이아웃 정보를 Context::set
                     Context::set('layout_info', $layout_info);
 
