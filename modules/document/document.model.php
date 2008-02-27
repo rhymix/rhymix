@@ -59,23 +59,23 @@
             $menu_link = sprintf("%s?document_srl=%s&act=dispDocumentPrint",Context::getRequestUri(),$document_srl);
             $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", '' ,$menu_str, $menu_link);
 
-            // 추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote');
-            $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
-
-            // 비추천 버튼 추가
-            $menu_str = Context::getLang('cmd_vote_down');
-            $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
-
-            // 신고 기능 추가
-            $menu_str = Context::getLang('cmd_declare');
-            $menu_link = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-            $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
-
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
+
+                // 추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote');
+                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+                // 비추천 버튼 추가
+                $menu_str = Context::getLang('cmd_vote_down');
+                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+
+                // 신고 기능 추가
+                $menu_str = Context::getLang('cmd_declare');
+                $menu_link = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
+                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
 
                 // 스크랩 버튼 추가
                 $menu_str = Context::getLang('cmd_scrap');
