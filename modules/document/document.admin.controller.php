@@ -149,8 +149,8 @@
                 unset($obj);
                 $obj = $oDocument->getObjectVars();
 
-                // 첨부파일 이동
-                if($oDocument->hasUploadedFiles()) {
+                // 대상 모듈이 다를 경우 첨부파일 이동
+                if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles()) {
                     $oFileController = &getController('file');
 
                     $files = $oDocument->getUploadedFiles();

@@ -1,7 +1,6 @@
 <!--%import("filter/manage_checked_document.xml")-->
 <!--%import("js/document_admin.js")-->
 <!--%import("css/document.css")-->
-
 <div id="popHeadder">
     <h3>{$lang->cmd_manage_document}</h3>
 </div>
@@ -28,7 +27,7 @@
             <!--@end-->
         </td>
     </tr>
-    <!--@if(count($document_list) && count($module_list)>1)-->
+    <!--@if(count($document_list) && $module_list)-->
     <tr>
         <th scope="row">{$lang->move_target_module}</th>
         <td>

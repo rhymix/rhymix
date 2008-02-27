@@ -71,7 +71,7 @@
         <td>
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
-                <option value="{$key}" <!--@if($module_info->skin==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='xe_board'))-->selected="selected"<!--@end-->>{$val->title}</option>
                 <!--@end-->
             </select>
             <p>{$lang->about_skin}</p>

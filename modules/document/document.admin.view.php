@@ -156,7 +156,7 @@
 
 
             // 모듈 카테고리 목록과 모듈 목록의 조합
-            Context::set('module_list', $module_categories);
+            if(count($module_list)>1) Context::set('module_list', $module_categories);
 
             // 팝업 레이아웃 선택
             $this->setLayoutPath('./common/tpl');

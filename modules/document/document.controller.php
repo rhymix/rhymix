@@ -731,7 +731,10 @@
 
             $category_list = $output->data;
 
-            if(!$category_list) return false;
+            if(!$category_list) {
+                @unlink($xml_file);
+                @unlink($php_file);
+            }
             if(!is_array($category_list)) $category_list = array($category_list);
 
             $category_count = count($category_list);
