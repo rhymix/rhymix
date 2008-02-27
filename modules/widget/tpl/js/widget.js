@@ -189,7 +189,7 @@ function doSyncPageContent() {
     }
 
     editorStart(1, "module_srl", "content", false, 400 );
-    editor_upload_start(1);
+    //editor_upload_start(1);
 
     setFixedPopupSize();
 }
