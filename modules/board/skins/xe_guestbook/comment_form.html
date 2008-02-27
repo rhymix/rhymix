@@ -49,42 +49,44 @@
 
 <div class="boardWrite commentEditor">
 
-    <!--@if(!$is_logged)-->
-        <div class="inputItem">
-            <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
-            <label for="userName">{$lang->writer}</label>
-        </div>
-        <div class="inputItem">
-            <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
-            <label for="userPw">{$lang->password}</label>
-        </div>
-        <div class="inputItem">
-            <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
-            <label for="emailAddress">{$lang->email_address}</label>
-        </div>
-        <div class="inputItem">
-            <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
-            <label for="homePage">{$lang->homepage}</label>
-        </div>
-    <!--@end-->
-    <div class="inputItem">
-        <!--@if($is_logged)-->
-            <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
-            <label for="notify_message">{$lang->notify}</label>
-        <!--@end-->
-        <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
-        <label for="is_secret">{$lang->secret}</label>
-    </div>
+  <!--@if(!$is_logged)-->
+      <div class="inputItem">
+          <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
+          <label for="userName">{$lang->writer}</label>
+      </div>
+      <div class="inputItem">
+          <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
+          <label for="userPw">{$lang->password}</label>
+      </div>
+      <div class="inputItem">
+          <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
+          <label for="emailAddress">{$lang->email_address}</label>
+      </div>
+      <div class="inputItem">
+          <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
+          <label for="homePage">{$lang->homepage}</label>
+      </div>
+  <!--@end-->
+  <div class="inputItem">
+      <!--@if($is_logged)-->
+          <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
+          <label for="notify_message">{$lang->notify}</label>
+      <!--@end-->
+      <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
+      <label for="is_secret">{$lang->secret}</label>
+  </div>
 
-    <div class="editor">{$oComment->getEditor()}</div>
+  <div class="editor">{$oComment->getEditor()}</div>
 
-    <div class="commentButton tRight">
-        <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
-        <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-    </div>
+  <div class="commentButton tRight">
+      <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
+      <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+  </div>
 
 </div>
 <div class="clear"></div>
 </form>
+
+&nbsp;
 
 <!--#include("footer.html")-->
