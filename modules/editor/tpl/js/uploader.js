@@ -329,7 +329,7 @@ function editor_insert_file(editor_sequence) {
         } else {
             var mid = fo_obj.mid.value;
             var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
-            var text = "<a href=\""+url+"\">"+filename+"</a><br />\n";
+            var text = "<a href=\""+url+"\">"+filename+"</a>\n";
             editorReplaceHTML(iframe_obj, text);
         } 
     }
