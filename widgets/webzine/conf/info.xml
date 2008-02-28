@@ -105,14 +105,14 @@
             <name xml:lang="ko">new 표시 시간 (hours)</name>
             <name xml:lang="zh-CN">new图标显示时间(hours)</name>
             <name xml:lang="jp">Newの表示時間 (Hours)</name>
-            <name xml:lang="en">Duration of indication for new item</name>
+            <name xml:lang="en">Duration for indication of new item</name>
 			<name xml:lang="es">Duración de la indicación para el nuevo tema</name>
             <name xml:lang="ru">Длительность индикации для новых объектов</name>
             <type>text</type>
             <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
 	        <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
-            <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+            <description xml:lang="en">You may set the duration for indication of new item for newest article. (unit is hour)</description>
 			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
         </var>
@@ -213,7 +213,7 @@
             <name xml:lang="ko">가로 이미지 수</name>
             <name xml:lang="jp">イメージ数</name>
             <name xml:lang="zh-CN">横向图片数</name>
-            <name xml:lang="en">Number of Images</name>
+            <name xml:lang="en">Number of Images (Horizontal)</name>
 			<name xml:lang="es">Número de imágenes</name>
             <name xml:lang="ru">Число изображений (колонка)</name>
             <type>text</type>
@@ -228,7 +228,7 @@
             <name xml:lang="ko">세로 이미지 수</name>
             <name xml:lang="jp">イメージ数</name>
             <name xml:lang="zh-CN">纵向图片数</name>
-            <name xml:lang="en">Number of Images</name>
+            <name xml:lang="en">Number of Images (Vertical)</name>
 			<name xml:lang="es">Número de imágenes</name>
             <name xml:lang="ru">Число изображений (ряд)</name>
             <type>text</type>
