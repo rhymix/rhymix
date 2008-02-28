@@ -38,7 +38,7 @@
 
             // 포인트 증감
             $cur_point += $point;
-            $this->setPoint($member_srl,$cur_point);
+            $this->setPoint($member_srl,$cur_point, 'signup');
 
             return new Object();
         }
@@ -354,7 +354,7 @@
         /**
          * @brief 포인트 설정
          **/
-        function setPoint($member_srl, $point) {
+        function setPoint($member_srl, $point, $mode = null) {
             if($point < 0) $point = 0;
 
             // 설정 정보 가져오기
@@ -376,7 +376,7 @@
             if($oPointModel->isExistsPoint($member_srl)) {
                 executeQuery("point.updatePoint", $args);
             } else {
-                $args->point += (int)$config->signup_point;
+                if($mode != 'signup') $args->point += (int)$config->signup_point;
                 executeQuery("point.insertPoint", $args);
             }
 
