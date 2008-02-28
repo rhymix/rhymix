@@ -2,7 +2,7 @@ function insertEmoticon(obj) {
     if(typeof(opener)=='undefined') return;
 
     var url = obj.src.replace(request_uri,'');
-	var text = "<img editor_component=\"emoticon\" src=\""+url+"\" alt=\"emoticon\">";
+	var text = "<img src=\""+url+"\" alt=\"emoticon\">";
 	
     opener.editorFocus(opener.editorPrevSrl);
 
