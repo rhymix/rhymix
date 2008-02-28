@@ -28,9 +28,7 @@
 }
 
 .categoryWidget .item {
-    background:url("../images/page.gif") no-repeat left 2px;
-    padding-left:13px; 
-    height:18px;
+    margin-left:5px; 
 }
 
 
