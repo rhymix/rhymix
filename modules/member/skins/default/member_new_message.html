@@ -30,7 +30,7 @@
 
     <div class="tCenter help">
         <!--@if($message->member_srl != $logged_info->member_srl)-->
-            <a href="#" onclick="doSendMessage('{$message->sender_srl}');return false;" class="button"><span>{$lang->cmd_reply_message}</span></a>
+            <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_reply_message}</span></a>
         <!--@end-->
         <a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_store}</span></a>
