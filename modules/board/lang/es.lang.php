@@ -36,5 +36,5 @@
     $lang->about_board_category = 'Puede crear las categorias de tableros.<br />Cuando no funciona la categoría de tableros, rehacer el archivo caché manualmente para solucionar.';
     $lang->about_except_notice = "Aviso de los artículos no se mostrará en la lista normal.";
     $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que ese nombre va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
-    $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
+    $lang->about_consultation = "No administrador de los miembros que consideran que su propia artocles. \ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.";
 ?>
