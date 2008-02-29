@@ -63,7 +63,7 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use this function in PC room, school, or other commons areas where your private information could be stolen.';
+    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use this function in PC room, school, or other Public areas where your private information could be stolen.';
     $lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
@@ -154,7 +154,7 @@
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
 
-    $lang->msg_accept_agreement = 'You have to agree to the agreement'; 
+    $lang->msg_accept_agreement = 'You have to agree the agreement'; 
 
     $lang->msg_user_denied = 'You have entered a prohibited ID';
     $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
