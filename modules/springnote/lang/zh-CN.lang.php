@@ -10,8 +10,8 @@
     $lang->springnote_userkey = "用户Key";
     $lang->springnote_pageid = "页号";
     $lang->springnote_pageid_setup = '页号设置';
-    $lang->springnote_pageid_option_only = '只显示指定页面(不显示目录)';
-    $lang->springnote_pageid_option_list = '从指定页面开始显示 (显示目录)';
+    $lang->springnote_pageid_option_only = '只显示指定页面(不显示目录)。';
+    $lang->springnote_pageid_option_list = '从指定页面开始显示(显示目录)。';
     $lang->springnote_domain = "域名设置";
 
     $lang->page_url = "原始URL";

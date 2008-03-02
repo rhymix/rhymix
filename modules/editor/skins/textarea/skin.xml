@@ -12,7 +12,7 @@
     </description>
 	<description xml:lang="zh-CN">
         适用于编辑纯文本形式内容时使用的皮肤。
-        不支持编辑器组件和上传文件的功能，只能纯文本形式的内容。
+        不支持编辑器组件及上传文件功能，只能处理纯文本形式的内容。
         开发 : zero (http://www.zeroboard.com) 
     </description>
   </maker>

@@ -18,7 +18,7 @@
             대상 게시판에 설정되어 있는 제목과 설명을 이용하여 설명을 출력합니다.
         </description>
         <description xml:lang="zh-CN">
-            把一个或多个版面输出为论坛主界面形式的控件。
+            把一个或多个版面显示为论坛主界面样式的控件。
             论坛标题及说明参考各对象版面里设置的标题和说明。
         </description>
         <description xml:lang="jp">

@@ -7,7 +7,7 @@
 
     $lang->board = "版面"; 
 
-    $lang->except_notice = "不显示普通目录中的公告";
+    $lang->except_notice = "公告选项";
 
     $lang->cmd_manage_menu = '菜单管理';
     $lang->cmd_make_child = '添加下级分类';

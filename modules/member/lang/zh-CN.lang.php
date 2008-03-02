@@ -63,7 +63,7 @@
     $lang->webmaster_name = '管理员名';
     $lang->webmaster_email = '管理员电子邮件';
 
-    $lang->about_keep_signed = '关闭浏览器后也可以维持登录状态。\n\n使用自动登录功能，可以实现下一次的访问不用再次输入用户名和密码。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。';
+    $lang->about_keep_signed = '关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。';
     $lang->about_webmaster_name = '请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)';
     $lang->about_webmaster_email = '请输入网站管理员的电子邮件地址。';
 
@@ -186,15 +186,15 @@
     $lang->about_enable_join = '选择此项后用户才可以注册。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
-    $lang->about_after_login_url = '可以指定登录后的页面转向url。留空为当前页面。';
-    $lang->about_after_logout_url = '可以指定退出登录后的页面转向url。留空为当前页面。';
+    $lang->about_after_login_url = '可以指定登录后的页面转向url(留空为当前页面)。';
+    $lang->about_after_logout_url = '可以指定退出登录后的页面转向url(留空为当前页面)。';
     $lang->about_redirect_url = '请输入注册会员后的页面转向 url。(留空为返回前页)';
     $lang->about_agreement = '没有会员条款时不显示。';
 
     $lang->about_image_name = '用户昵称可以用小图片来替代显示。';
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
     $lang->about_profile_image = '可以使用签名图片。';
-    $lang->about_signature_max_height = '可以限制签名栏高度(0 或留空为不限制)。';
+    $lang->about_signature_max_height = '可以限制签名栏高度(0或留空为不限制)。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 
 
     $lang->about_member_default = '将成为注册会员时的默认用户组。';

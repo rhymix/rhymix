@@ -57,6 +57,6 @@
 
     $lang->msg_cannot_download = '积分不足无法下载！';
 
-    $lang->point_recal_message = '计算并应用中. (%d / %d)';
+    $lang->point_recal_message = '计算并应用中(%d / %d)。';
     $lang->point_recal_finished = '积分重新计算并应用完毕。';
 ?>
