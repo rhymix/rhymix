@@ -137,7 +137,7 @@
         </var>
         <var name="display_login_info" type="select">
             <title xml:lang="ko">로그인 정보 출력</title>
-            <title xml:lang="zh-CN">登陆表单</title>
+            <title xml:lang="zh-CN">显示会员信息组</title>
             <title xml:lang="jp">ログイン情報表示</title>
             <title xml:lang="en">Display Login Info</title>
             <title xml:lang="es">Muestra la información de la conección</title>
@@ -147,7 +147,7 @@
         </var>
         <var name="display_setup_button" type="select">
             <title xml:lang="ko">설정 표시</title>
-            <title xml:lang="zh-CN">设置表单</title>
+            <title xml:lang="zh-CN">显示管理设置组</title>
             <title xml:lang="jp">設定表示</title>
             <title xml:lang="en">Display Setup</title>
             <title xml:lang="es">Muestra la información de la Configuración</title>

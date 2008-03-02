@@ -32,7 +32,7 @@
     $lang->cmd_cancel_declare = '取消举报';
     $lang->cmd_declared_list = '举报目录';
     $lang->cmd_copy = '复制';
-    $lang->cmd_move = '查看';
+    $lang->cmd_move = '移动';
     $lang->cmd_move_up = '向上';
     $lang->cmd_move_down = '向下';
     $lang->cmd_add_indent = '拉长';
@@ -126,7 +126,7 @@
     $lang->document_count = '帖子数';
     $lang->page_count = '页数';
     $lang->list_count = '目录数';
-    $lang->search_list_count = '搜索目录';
+    $lang->search_list_count = '搜索目录数';
     $lang->readed_count = '查看';
     $lang->voted_count = '推荐';
     $lang->member_count = '会员数';
@@ -152,8 +152,8 @@
     $lang->notuse = '未使用';
     $lang->not_exists = '无';
 
-    $lang->public = 'public';
-    $lang->private = 'private';
+    $lang->public = '公开';
+    $lang->private = '不公开';
 
     $lang->unit_sec = '秒';
     $lang->unit_min = '分';
