@@ -295,67 +295,67 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Required] If PHP version is 5.2.2, zeroboard will not be installed because of bug',
-            'permission' => '[Required] Zeroboard installation path or ./files directory\'s permission must be 707',
-            'xml' => '[Required] XML Library is needed for XML communication',
-            'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for zeroboard to use the session',
-            'iconv' => 'Iconv should be installed in order to convert UTF-8 and other language set',
-            'gd' => 'GD Library should be installed in order to use image convert function',
+			'php_version' => '[Requis] Si la version de PHP est 5.2.2, zeroboard ne sera pas  installé à cause du bogue',
+            'permission' => '[Requis] Chemin de l\' installation de Zeroboard ou  la permission de  répertoire de ./files doit être 707',
+            'xml' => '[Requis] La bibliothèque de  XML est nécessaire pour la communication de XML',
+            'session' => '[Requis] \'Session.auto_start\' dans la fichier de configuration pour PHP  (php.ini) doit être égal à zéro car zeroboard utilise la session',
+            'iconv' => 'Iconv doit être installé afin de convertir UTF-8 et des autres assortiments des  langues',
+            'gd' => 'La bibliothèque de GD doit être installé afin d\'utiliser la fonction à convertir des images',
         );
 
-    $lang->install_checklist_xml = 'Install XML Library';
-    $lang->install_without_xml = 'XML Library is not installed';
-    $lang->install_checklist_gd = 'Install GD Library';
-    $lang->install_without_gd  = 'GD Library is not installed for image convertion';
-    $lang->install_checklist_gd = 'Intall GD Library';
-    $lang->install_without_iconv = 'Iconv Library is not installed for processing characters';
-    $lang->install_session_auto_start = 'Possible problems might occur due to the php setting. session.auto_start is equal to 1';
-    $lang->install_permission_denied = 'Installation path\'s permission doesn\'t equal to 707';
+    $lang->install_checklist_xml = 'Installation la bibliothèque de XML';
+    $lang->install_without_xml = 'La bibliothèque de XML n\'est pas installée';
+    $lang->install_checklist_gd = 'Installation la bibliothèque de  GD';
+    $lang->install_without_gd  = 'La bibliothèque de GD pour convertir des images n\'est pas installée';
+    $lang->install_checklist_iconv = 'Installation la bibliothèque de  Iconv';
+    $lang->install_without_iconv = 'La bibliothèque d\'Iconv pour traiter les caractères  n\'est pas installée';
+    $lang->install_session_auto_start = 'Des problèmes possibles peuvent avoir lieu car  session.auto_start est égale à 1 dans le la configuration de PHP';
+    $lang->install_permission_denied = 'La permission du chemin d\'installation n\'est pas égale à 707';
 
-    $lang->cmd_agree_license = 'I agree with the license';
-    $lang->cmd_install_fix_checklist = 'I have fixed the required conditions.';
-    $lang->cmd_install_next = 'Continue installation';
+    $lang->cmd_agree_license = 'Je suis d\'accord avec la license';
+    $lang->cmd_install_fix_checklist = 'J\'ai corrigé les condition requises.';
+    $lang->cmd_install_next = 'Continuer à  installer';
 
     $lang->db_desc = array(
-        'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',
-        'mysql_innodb' => 'Using innodb to use mysql DB.<br />Transaction is enabled for innodb',
-        'sqlite2' => 'Supporting sqlite2 which saves the data into the file.<br />When installing, DB file should be created at unreachable place from web.<br />(Never got tested on stabilization)',
-        'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
-        'cubrid' => 'Use CUBRID DB.',
-        'postgresql' => 'Use PostgreSql DB.',
+        'mysql' => 'Utilisera mysql*() function pour utiliser mysql DB.<br />La transaction sera invalidé parce que le fichier de DB est créé par myisam.',
+        'mysql_innodb' => 'Utilisera innodb pour utiliser mysql DB.<br />La transaction sera validé pour  innodb',
+        'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de DB dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
+        'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de DB dans une place que l\'on ne peut pas accéder par web.',
+        'cubrid' => 'Utiliser CUBRID DB.',
+        'postgresql' => 'Utiliser PostgreSql DB.',
     );
 
-    $lang->form_title = 'Please input DB &amp; Admin information';
-    $lang->db_title = 'Please input DB information';
-    $lang->db_type = 'DB Type';
-    $lang->select_db_type = 'Please select the DB you want to use.';
-    $lang->db_hostname = 'DB Hostname';
-    $lang->db_port = 'DB Port';
-    $lang->db_userid = 'DB ID';
-    $lang->db_password = 'DB Password';
-    $lang->db_database = 'DB Database';
-    $lang->db_database_file = 'DB Database file';
-    $lang->db_table_prefix = 'Table header';
+    $lang->form_title = 'Entrer des informations de  DB(Base de données) et Administrateur';
+    $lang->db_title = 'Entrez l\'information de DB, SVP.';
+    $lang->db_type = 'Type de DB';
+    $lang->select_db_type = 'Choisissez la DB que vous voulez utiliser.';
+    $lang->db_hostname = 'Hostname(Nom de l\'ordinateur central) de DB (localhost généralement)';
+    $lang->db_port = 'Port de DB';
+    $lang->db_userid = 'ID(compte) pour le DB';
+    $lang->db_password = 'Mot de passe pour le DB';
+    $lang->db_database = 'Nom de DB';
+    $lang->db_database_file = 'Fichier de DB';
+    $lang->db_table_prefix = 'En-tête de la table';
 
-    $lang->admin_title = 'Administrator Info';
+    $lang->admin_title = 'Informations d\'Administrateur';
 
     $lang->env_title = 'Configuration';
-    $lang->use_optimizer = 'Enable Optimizer';
-    $lang->about_optimizer = 'If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.';
-    $lang->use_rewrite = 'Use rewrite mod';
-    $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
-    $lang->time_zone = 'Time zone';
-    $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
+    $lang->use_optimizer = 'Valider Optimiseur';
+    $lang->about_optimizer = 'Si l\' optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et  comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalider, ça marchera correctement pourtant il marchera plus lentement.';
+    $lang->use_rewrite = 'Utiliser mode de  récrire(rewrite mod)';
+    $lang->about_rewrite = "Si le serveur de web pourvoit le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
+    $lang->time_zone = 'Fuseau horaire';
+    $lang->about_time_zone = "Si l\'heure de serveur et celle de votre emplacement ne s\'accordent pas,  vous pouvez remettre l\'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
 
-    $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
+    $lang->about_database_file = 'Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l\'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>';
 
-    $lang->success_installed = 'Installation has been completed';
-    $lang->success_updated = 'Update has been completed';
+    $lang->success_installed = 'Installation s\'est complété';
+    $lang->success_updated = 'Mise à Jour  s\'est complété';
 
-    $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
-    $lang->msg_already_installed = 'Zeroboard is already installed';
-    $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
-    $lang->msg_table_is_exists = "Table is already created in the DB.\nConfig file is recreated";
-    $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing Zeroboard XE";
-    $lang->msg_install_failed = "An error has occurred while creating installation file.";
+    $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas propre à procéder.';
+    $lang->msg_already_installed = 'Zeroboard est déjà installé';
+    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter DB.\nVérifiez encore une fois les informations sur DB, SVP.";
+    $lang->msg_table_is_exists = "La Table est déjà créée dans le DB.\nLe fichier de Configuration est recréé.";
+    $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir  Zeroboard XE";
+    $lang->msg_install_failed = "Une erreur a lieu en créant le fichier d\'installation.";
 ?>
