@@ -1,5 +1,5 @@
-.refererLeft { width:250px; float:left; margin-top:10px;}
+.refererLeft { width:230px; float:left; margin-top:10px;}
 
-.refererRight { width:580px; float:left; margin-left:20px;margin-top:10px; }
+.refererRight { width:530px; float:left; margin-left:20px;margin-top:10px; }
 .refererRight .refererList { table-layout:fixed; }
 .refererRight .refererList .refererUrl { white-space:nowrap; overflow:hidden; }
