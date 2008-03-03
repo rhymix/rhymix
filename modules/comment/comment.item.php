@@ -210,7 +210,7 @@
             $content = trim(cut_str($content, $str_size, '...'));
 
             // >, <, "를 다시 복구
-            return str_replace(array('<','>','"',' '),array('&lt;','&gt;','&quot;','&nbsp;'), $content);
+            return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
         }
 
         function getRegdate($format = 'Y.m.d H:i:s') {
