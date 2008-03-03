@@ -20,4 +20,3 @@
     $lang->unique_visitor = 'Visiteurs';
     $lang->pageview = 'Vues de la Page';
 ?>
- 
