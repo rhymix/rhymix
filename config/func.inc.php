@@ -57,7 +57,7 @@
         '+1200' => '[GMT +12:00] New Zealand Time, Fiji Time, Kamchatka Standard Time',
         '+1245' => '[GMT +12:45] Chatham Islands Time',
         '+1300' => '[GMT +13:00] Tonga Time, Phoenix Islands Time',
-        '+1400' => '[GMT +14:00] Line Island Time',
+        '+1400' => '[GMT +14:00] Line Island Time'
     ) ;
 
     /**
@@ -155,8 +155,8 @@
         $oDB = &DB::getInstance();
         $output = $oDB->executeQuery($query_id, $args);
         if(!is_array($output->data) && count($output->data) > 0){
-			$output->data = array($output->data);
-		}
+            $output->data = array($output->data);
+        }
         return $output;
     }
 
@@ -211,23 +211,22 @@
         return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0].$tail : $string; 
     }
 
-    function zgap()
-    {
-	$time_zone = $GLOBALS['_time_zone'];
-	if($time_zone<0) $to = -1; else $to = 1;
-	$t_hour = substr($time_zone,1,2)*$to;
-	$t_min = substr($time_zone,3,2)*$to;
+    function zgap() {
+        $time_zone = $GLOBALS['_time_zone'];
+        if($time_zone < 0) $to = -1; else $to = 1;
+        $t_hour = substr($time_zone, 1, 2) * $to;
+        $t_min = substr($time_zone, 3, 2) * $to;
 
-	$server_time_zone = date("O");
-	if($server_time_zone<0) $so = -1; else $so = 1;
-	$c_hour = substr($server_time_zone,1,2)*$so;
-	$c_min = substr($server_time_zone,3,2)*$so;
+        $server_time_zone = date("O");
+        if($server_time_zone < 0) $so = -1; else $so = 1;
+        $c_hour = substr($server_time_zone, 1, 2) * $so;
+        $c_min = substr($server_time_zone, 3, 2) * $so;
 
-	$g_min = $t_min - $c_min;
-	$g_hour = $t_hour - $c_hour;
+        $g_min = $t_min - $c_min;
+        $g_hour = $t_hour - $c_hour;
 
-	$gap = $g_min*60 + $g_hour*60*60;
-	return $gap;
+        $gap = $g_min*60 + $g_hour*60*60; //TODO : 연산 우선순위에 따라 코드를 묶어줄 필요가 있음
+        return $gap;
     }
 
     /**
@@ -246,7 +245,7 @@
         if(strlen($str) <= 8) {
             $gap = 0;
         } else {
-	    $gap = zgap();
+            $gap = zgap();
         }
 
         return mktime($hour, $min, $sec, $month?$month:1, $day?$day:1, $year)+$gap;
@@ -283,7 +282,7 @@
         }
 
         // 년도가 1970년 이전이면 별도 처리
-        if((int)substr($str,0,4)<1970) {
+        if((int)substr($str,0,4) < 1970) {
             $hour = (int)substr($str,8,2);
             $min = (int)substr($str,10,2);
             $sec = (int)substr($str,12,2);
@@ -291,8 +290,8 @@
             $month = (int)substr($str,4,2);
             $day = (int)substr($str,6,2);
             return str_replace(
-                        array("Y","m","d","H","h","i","s","a","M", "F"),
-                        array($year,$month,$day,$hour,$hour/12,$min,$sec,$hour<=12?"am":"pm",getMonthName($month), getMonthName($month,false)),
+                        array('Y','m','d','H','h','i','s','a','M', 'F'),
+                        array($year,$month,$day,$hour,$hour/12,$min,$sec,$hour<=12?'am':'pm',getMonthName($month), getMonthName($month,false)),
                         $format
                     );
         }
@@ -313,7 +312,7 @@
     function debugPrint($buff = null, $display_line = true) {
         //if(!$buff) return;
 
-        if(__DEBUG_OUTPUT__==1) {
+        if(__DEBUG_OUTPUT__ == 1) {
             print sprintf("<!--\n%s\n-->", print_r($buff,true));
         } else {
             $debug_file = "./files/_debug_message.php";
@@ -333,7 +332,7 @@
      **/
     function getMicroTime() {
         list($time1, $time2) = explode(' ', microtime());
-        return (float)$time1+(float)$time2;
+        return (float)$time1 + (float)$time2;
     }
 
     /** 
@@ -356,7 +355,7 @@
         $return_obj = NULL;
 
         $target_count = count($target);
-        for($i=0;$i<$target_count;$i++) {
+        for($i = 0; $i < $target_count; $i++) {
             $target_key = $target[$i];
             if(!in_array($target_key, $del)) $return_obj->{$target_key} = $target_obj->{$target_key};
         }
@@ -374,9 +373,9 @@
     function handleError($errno, $errstr, $file, $line) {
         if(!__DEBUG__) return;
         $errors = array(E_USER_ERROR, E_ERROR, E_PARSE);
-        if(!in_array($errno,$errors)) return;
+        if(!in_array($errno, $errors)) return;
 
-        $output  = sprintf("Fatal error : %s - %d", $file, $line);
+        $output = sprintf("Fatal error : %s - %d", $file, $line);
         $output .= sprintf("%d - %s", $errno, $errstr);
 
         debugPrint($output);
@@ -391,7 +390,7 @@
      * ex) 1234, 3 => 123/004/
      **/
     function getNumberingPath($no, $size=3) {
-        $mod = pow(10,$size);
+        $mod = pow(10, $size);
         $output = sprintf('%0'.$size.'d/', $no%$mod);
         if($no >= $mod) $output .= getNumberingPath((int)$no/$mod, $size);
         return $output;
@@ -409,16 +408,16 @@
      **/
     function removeHackTag($content) {
         // iframe 제거
-        $content = preg_replace("!<iframe(.*?)<\/iframe>!is","",$content);
+        $content = preg_replace("!<iframe(.*?)<\/iframe>!is", '', $content);
 
         // script code 제거
-        $content = preg_replace("!<script(.*?)<\/script>!is","",$content);
+        $content = preg_replace("!<script(.*?)<\/script>!is", '', $content);
 
         // meta 태그 제거
-        $content = preg_replace("!<meta(.*?)>!is","",$content);
+        $content = preg_replace("!<meta(.*?)>!is", '', $content);
 
         // style 태그 제거
-        $content = preg_replace("!<style(.*?)<\/style>!is","",$content);
+        $content = preg_replace("!<style(.*?)<\/style>!is", '', $content);
 
         return $content;
     }
@@ -428,9 +427,9 @@
         function hexrgb($hexstr) {
           $int = hexdec($hexstr);
 
-          return array("red" => 0xFF & ($int >> 0x10),
-                       "green" => 0xFF & ($int >> 0x8),
-                       "blue" => 0xFF & $int);
+          return array('red' => 0xFF & ($int >> 0x10),
+                       'green' => 0xFF & ($int >> 0x8),
+                       'blue' => 0xFF & $int);
         }
             
     }
@@ -477,7 +476,7 @@
      * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
      **/
     function utf8RawUrlDecode ($source) {
-        $decodedStr = "";
+        $decodedStr = '';
         $pos = 0;
         $len = strlen ($source);
         while ($pos < $len) {
