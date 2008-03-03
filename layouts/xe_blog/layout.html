@@ -98,11 +98,12 @@
         <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="layout" mid_list="{$layout_info->target_mid}" />
 
 		<div class="blogSearch">
-            <form action="" method="post">
+            <form action="./" method="post">
                 <fieldset>
                     <legend>{$lang->cmd_search}</legend>
                     <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
-					<input name="search_keyword" type="text" class="inputTypeText w110" value="<!--@if(!$search_target)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+                    <input type="hidden" name="search_target" value="title_content" />
+					<input name="search_keyword" type="text" class="inputTypeText w110" value="<!--@if($search_keyword)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
                     <a href="#"><img src="./images/{$layout_info->colorset}/btn_search.gif" alt="{$lang->cmd_search}" width="45" height="20" /></a>
                 </fieldset>
             </form>
