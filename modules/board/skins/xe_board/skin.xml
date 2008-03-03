@@ -112,12 +112,12 @@
             <title xml:lang="jp">ソート対象</title>
             <title xml:lang="zh-CN">排序对象</title>
             <title xml:lang="en">Align Target</title>
-			<title xml:lang="en">Align Target</title>
+			<title xml:lang="es">Alinear Meta</title>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
             <description xml:lang="jp">登録順、変更順にソートできます。</description>
             <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
             <description xml:lang="en">It can align articles as registered order or modified order.</description>
-			<description xml:lang="en">It can align articles as registered order or modified order.</description>
+			<description xml:lang="es">Puede alinear los artículos registrados como fin o modificar el orden.</description>
             <default>list_order</default>
             <default>update_order</default>
         </var>
