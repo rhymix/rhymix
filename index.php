@@ -1,7 +1,7 @@
 <?php
     /**
      * @file  index.php
-     * @author zero (zero@zeroboard.com)
+     * @author zero <zero@zeroboard.com>
      * @brief 시작 페이지
      *
      * zeroboard XE의 시작 페이지
@@ -44,14 +44,14 @@
     /**
      * @brief 필요한 설정 파일들을 include
      **/
-    require_once("./config/config.inc.php");
+    require_once('./config/config.inc.php');
 
-    /** 
+    /**
      * @brief Context 객체를 생성하여 초기화
      * 모든 Request Argument/ 환경변수등을 세팅
      **/
-    $oContext = &Context::getInstance(); 
-    $oContext->init(); 
+    $oContext = &Context::getInstance();
+    $oContext->init();
 
     /**
      * @brief ModuleHandler 객체를 생성/ 실행
