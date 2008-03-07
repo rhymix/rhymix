@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/member/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ、liahona
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -47,9 +47,9 @@
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
-    $lang->after_login_url = 'ログイン後に開くページのURL';
-    $lang->after_logout_url = 'ログアウト後に開くページのURL';
-    $lang->redirect_url = '加入後移動ページ';
+    $lang->after_login_url = 'ログイン後表示するページのURL';
+    $lang->after_logout_url = 'ログアウト後表示するページのURL';
+    $lang->redirect_url = '加入後表示するページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->sender = '送信者';
@@ -63,7 +63,7 @@
     $lang->webmaster_name = 'ウェブマスターの名前';
     $lang->webmaster_email = 'ウェブマスターのメール';
 
-    $lang->about_keep_signed = 'ブラウザーを閉じてもログインの状態が維持されます。.\n\n自動ログインを使用すると、次回からはログインする必要がありません。.\n\nただし、ネットカフェーや学校など公共の場では個人情報流出の恐れがありますので、必ずログアウトしてください。';
+    $lang->about_keep_signed = 'ブラウザーを閉じてもログインの状態が維持されます。.\n\n自動ログインを使用すると、次回からはログインする必要がありません。.\n\n但し、ネットカフェーや学校など公共の場では個人情報流出の恐れがありますので、必ずログアウトしてください。';
     $lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
@@ -148,7 +148,7 @@
     $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
-    $lang->msg_check_group = '그룹을 선택해 주세요';
+    $lang->msg_check_group = 'グループを選択してください。';
 
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することができません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
