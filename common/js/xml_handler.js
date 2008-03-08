@@ -35,8 +35,10 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
     if(!xmlDoc) return null;
 
     var waiting_obj = xGetElementById("waitingforserverresponse");
-    waiting_obj.style.visibility = "hidden";
-    xInnerHtml(waiting_obj, '');
+    if(waiting_obj) {
+        waiting_obj.style.visibility = "hidden";
+        xInnerHtml(waiting_obj, '');
+    }
 
     var ret_obj = oXml.toZMsgObject(xmlDoc, response_tags);
     if(ret_obj["error"]!=0) {
