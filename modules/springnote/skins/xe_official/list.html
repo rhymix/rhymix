@@ -65,7 +65,8 @@
     </div>
 
 <!--@if($page)-->
-<!-- 선택된 페이지가 있을 경우 -->
+
+
     <div class="pageInfo">
         <table cellspacing="0">
         <col width="160" />
@@ -91,6 +92,18 @@
         </table>
     </div>
 
+    <!--@if($page->prev || $page->next)-->
+    <ul class="prevNext">
+        <!--@if($page->prev)-->
+            <li class="prev"><a href="{getUrl('pageid',$page->prev->pageid)}">&lt;&lt; {$page->prev->title}</a></li>
+        <!--@end-->
+        <!--@if($page->next)-->
+            <li class="next"><a href="{getUrl('pageid',$page->next->pageid)}">{$page->next->title} &gt;&gt;</a></li>
+        <!--@end-->
+    </ul>
+    <div class="clear"></div>
+    <!--@end-->
+
     <div class="pageView">
         <!--BeforeDocument({$pageid},0)-->
         <div class="document_{$pageid}_0 xhtmlEditorBody background_no">
@@ -98,6 +111,19 @@
         </div>
         <!--AfterDocument({$pageid},0)-->
     </div>
+
+    <!--@if($page->prev || $page->next)-->
+    <ul class="prevNext">
+        <!--@if($page->prev)-->
+            <li class="prev"><a href="{getUrl('pageid',$page->prev->pageid)}">[{$lang->cmd_prev}] {$page->prev->title}</a></li>
+        <!--@end-->
+        <!--@if($page->next)-->
+            <li class="next"><a href="{getUrl('pageid',$page->next->pageid)}">{$page->next->title} [{$lang->cmd_next}]</a></li>
+        <!--@end-->
+    </ul>
+    <div class="clear"></div>
+    <!--@end-->
+
 <!--@end-->
 
 <!-- 전체 목록 -->
