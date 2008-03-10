@@ -6,7 +6,7 @@
     <!--@if($module_info->module)--><meta name="module" content="{$module_info->module}" />
     <!--@end--><!--@if($module_info->skin)--><meta name="module_skin" content="{$module_info->skin}" />
     <!--@end--><!--@if($layout_info->title)--><meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
-    <!--@end--><!--@if($layout->author)--><meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
+    <!--@end--><!--@if($layout_info->author)--><meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
     <!--@end--><meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
     <!--@foreach($js_files as $key => $js_file)--><script type="text/javascript" src="{$js_file}"></script>
