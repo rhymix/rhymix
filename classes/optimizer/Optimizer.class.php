@@ -23,30 +23,37 @@
         }
 
         /**
+         * @brief 파일 목록 배열에서 optimized 첨자를 제거한 후 return
+        **/
+        function _getOptimizedRemoved($files) {
+            foreach($files as $key => &$val) unset($key['optimized']);
+            return $files;
+        }
+
+        /**
          * @brief optimize 대상 파일을 받아서 처리 후 optimize 된 파일이름을 return
          **/
         function getOptimizedFiles($source_files, $type = "js") {
-			if(!is_array($source_files) || !count($source_files)) return;
+            if(!is_array($source_files) || !count($source_files)) return;
 
-			// $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
-			foreach($source_files as $key => $file) $source_files[$key] = str_replace("\\","/",$file);
+            // $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
+            foreach($source_files as $key => $file) $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
 
             // 관리자 설정시 설정이 되어 있지 않으면 패스
             $db_info = Context::getDBInfo();
-            if($db_info->use_optimizer == 'N') return $source_files;
+            if($db_info->use_optimizer == 'N') return $this->_getOptimizedRemoved($source_files);
 
             // 캐시 디렉토리가 없으면 실행하지 않음
-            if(!is_dir($this->cache_path)) return $source_files;
+            if(!is_dir($this->cache_path)) return $this->_getOptimizedRemoved($source_files);
 
             if(!count($source_files)) return;
             foreach($source_files as $file) {
-                if(!$file) continue;
-                $file = str_replace("\\","/",$file);
-                if(preg_match('/^http:\/\//i', $file) || $file == './common/css/button.css') $files[] = $file;
+                if(!$file || !$file['file']) continue;
+                if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) || $file['file'] == './common/css/button.css') $files[] = $file;
                 else $targets[] = $file;
             }
 
-            if(!count($targets)) return $files;
+            if(!count($targets)) return $this->_getOptimizedRemoved($files);
 
             $optimized_info = $this->getOptimizedInfo($targets);
 
@@ -55,10 +62,17 @@
 
             $this->doOptimizedFile($path, $filename, $targets, $type);
 
-            $files[] = $path.'/'.$filename;
+            $files[] = array('file' => $path.'/'.$filename, 'media' => 'all');
 
+            return $this->_getOptimizedRemoved($files);
+        }
+
+        /**
+         * @brief 파일 목록 배열에서 file을 제외한 나머지 첨자를 제거하여 return
+        **/
+        function _getOnlyFileList($files) {
+            foreach($files as $key => $val) $files[$key] = $val['file'];
             return $files;
-
         }
 
         /**
@@ -70,11 +84,11 @@
             $count = count($files);
             $last_modified = 0;
             for($i=0;$i<$count;$i++) {
-                $mtime = filemtime($files[$i]);
+                $mtime = filemtime($files[$i]['file']);
                 if($last_modified < $mtime) $last_modified = $mtime;
             }
 
-            $buff = implode("\n", $files);
+            $buff = implode("\n", $this->_getOnlyFileList($files));
 
             return array(md5($buff), $last_modified);
         }
@@ -102,16 +116,19 @@
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
             foreach($targets as $file) {
-                $str = FileHandler::readFile($file);
+                $str = FileHandler::readFile($file['file']);
 
                 $str = Context::convertEncodingStr($str);
 
-                // css 일경우 background:url() 변경
-                if($type == "css") $str = $this->replaceCssPath($file, $str);
+                // css 일경우 background:url() 변경 / media 적용
+                if($type == 'css') {
+                    $str = $this->replaceCssPath($file['file'], $str);
+                    if($file['media'] != 'all') $str = '@media '.$file['media'].' {'."\n".$str."\n".'}';
+                }
 
                 $content_buff .= $str."\n";
             }
-            if($type == "css") $content_buff = '@charset "utf-8";'."\n".$content_buff;
+            if($type == 'css') $content_buff = '@charset "UTF-8";'."\n".$content_buff;
 
             $content_filename = substr($filename, 0, -4);
             FileHandler::writeFile($path.'/'.$content_filename, $content_buff);
@@ -121,7 +138,7 @@
              **/
             // 확장자별 content-type 체크
             if($type == 'css') $content_type = 'text/css';
-            elseif($type == 'js') $content_type = 'application/x-javascript';
+            elseif($type == 'js') $content_type = 'text/javascript';
 
             // 캐시를 위한 처리 
             $unique = crc32($content_filename);
@@ -154,7 +171,7 @@ if( preg_match("/MSIE 6.0/i",$_SERVER["HTTP_USER_AGENT"]) || strpos($_SERVER["HT
     header("Content-Encoding: gzip");
 }
 
-header("Content-Type: '.$content_type.'; charset=utf-8");
+header("Content-Type: '.$content_type.'; charset=UTF-8");
 header("Date: '.substr(gmdate('r'), 0, -5).'GMT");
 header("Expires: '.substr(gmdate('r', strtotime('+1 MONTH')), 0, -5).'GMT");
 header("Cache-Control: private, max-age=2592000"); 
@@ -168,7 +185,6 @@ if(!$cached) {
         fpassthru($f);
     } else print $buff;
 }
-
 ?>';
             FileHandler::writeFile($path.'/'.$filename, $header_buff);
         }

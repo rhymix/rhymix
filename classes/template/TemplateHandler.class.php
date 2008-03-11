@@ -115,8 +115,8 @@
             // <!--@, --> 의 변경
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
 
-            // import xml filter/ css/ js/ 언어파일 <!--%filename-->
-            $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"\)-->!is', array($this, '_compileImportCode'), $buff);
+            // import xml filter/ css/ js/ 언어파일 <!--%import("filename"[,optimized=true|false[,media="media"]]--> (media는 css에만 적용)
+            $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false)(,media\=\"([^\"]*)\")?)?\)-->!is', array($this, '_compileImportCode'), $buff);
 
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
@@ -259,6 +259,10 @@
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
+			$optimized = strtolower(trim(@$matches[3]));
+			if(!$optimized) $optimized = 'true';
+			$media = trim(@$matches[5]);
+			if(!$media) $media = 'all';
 
             // given_file이 lang으로 끝나게 되면 언어팩을 읽도록 함
             if(substr($given_file, -4)=='lang') {
@@ -303,12 +307,12 @@
                     // css file
                     case 'css' :
                             $meta_file = sprintf('%s%s', $base_path, $filename);
-                            $output = sprintf('<?php Context::addCSSFile("%s%s"); ?>', $base_path, $filename);
+                            $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $media);
                         break;
                     // js file
                     case 'js' :
                             $meta_file = sprintf('%s%s', $base_path, $filename);
-                            $output = sprintf('<?php Context::addJsFile("%s%s"); ?>', $base_path, $filename);
+                            $output = sprintf('<?php Context::addJsFile("%s%s", %s); ?>', $base_path, $filename, $optimized);
                         break;
                 }
             }

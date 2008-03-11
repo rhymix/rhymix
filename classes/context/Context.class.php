@@ -714,18 +714,33 @@
         /**
          * @brief js file을 추가
          **/
-        function addJsFile($file) {
+        function addJsFile($file, $optimized = true) {
             $oContext = &Context::getInstance();
-            return $oContext->_addJsFile($file);
+            return $oContext->_addJsFile($file, $optimized);
         }
 
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file) {
+        function _addJsFile($file, $optimized) {
             if(in_array($file, $this->js_files)) return;
             //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->js_files[] = $file;
+            $this->js_files[] = array('file' => $file, 'optimized' => $optimized);
+        }
+
+        /**
+         * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
+         **/
+        function _getUniqueFileList($files) {
+            $filenames = array();
+            $size = count($files);
+            for($i = 0; $i < $size; ++ $i)
+            {
+                if(in_array($files[$i]['file'], $filenames))
+                    unset($files[$i]);
+                $filenames[] = $files[$i]['file'];
+            }
+            return $files;
         }
 
         /**
@@ -742,25 +757,25 @@
         function _getJsFile() {
             require_once("./classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles(array_unique($this->js_files), "js");
+            return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->js_files), "js");
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function addCSSFile($file) {
+        function addCSSFile($file, $optimized = true, $media = 'all') {
             $oContext = &Context::getInstance();
-            return $oContext->_addCSSFile($file);
+            return $oContext->_addCSSFile($file, $optimized, $media);
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function _addCSSFile($file) {
+        function _addCSSFile($file, $optimized, $media) {
             if(in_array($file, $this->css_files)) return;
 
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->css_files[] = $file;
+            $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media);
         }
 
         /**
@@ -777,7 +792,7 @@
         function _getCSSFile() {
             require_once("./classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles(array_unique($this->css_files), "css");
+            return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
         }
 
         /**
