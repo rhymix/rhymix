@@ -66,7 +66,7 @@
             if(!$this->database) return;
 
             // 데이터 베이스 파일 접속 시도
-            $this->fd = sqlite_open($this->database, 0666, &$error);
+            $this->fd = sqlite_open($this->database, 0666, $error);
             if(!file_exists($this->database) || $error) {
                 $this->setError(-1,$error);
                 $this->is_connected = false;
