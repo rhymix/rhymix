@@ -39,7 +39,7 @@
 .pageView .xhtmlEditorBody ol, .pageView .xhtmlEditorBody ul { margin-left:20px; }
 .pageView .xhtmlEditorBody { border: 0; }
 
-ul.prevNext { margin:10px 0 10px 0; padding:5px; border:1px solid #EFEFEF; list-style:none; overflow:hidden;}
+ul.prevNext { margin:10px 0 10px 0; padding:5px; border:1px solid #EFEFEF; list-style:none; overflow:hidden; height:1.2em;}
 ul.prevNext li.prev { float:left; }
 ul.prevNext li.next { float:right; }
 ul.prevNext li { color:#444444; }
