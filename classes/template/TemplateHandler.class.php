@@ -259,10 +259,12 @@
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
-			$optimized = strtolower(trim(@$matches[3]));
-			if(!$optimized) $optimized = 'true';
-			$media = trim(@$matches[5]);
-			if(!$media) $media = 'all';
+            if(isset($matches[3]))
+                $optimized = strtolower(trim($matches[3]));
+            if(!$optimized) $optimized = 'true';
+            if(isset($matches[5]))
+                $media = trim($matches[5]);
+            if(!$media) $media = 'all';
 
             // given_file이 lang으로 끝나게 되면 언어팩을 읽도록 함
             if(substr($given_file, -4)=='lang') {

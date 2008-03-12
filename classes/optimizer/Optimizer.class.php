@@ -26,7 +26,7 @@
          * @brief 파일 목록 배열에서 optimized 첨자를 제거한 후 return
         **/
         function _getOptimizedRemoved($files) {
-            foreach($files as $key => &$val) unset($key['optimized']);
+            foreach($files as $key => $val) unset($files[$key]['optimized']);
             return $files;
         }
 
