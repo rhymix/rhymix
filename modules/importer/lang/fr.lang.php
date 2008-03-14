@@ -10,30 +10,30 @@
     $lang->cmd_continue = 'Continuer';
 
     // items
-    $lang->importer = 'TransfÈrer des DonnÈes du Zeroboard';
+    $lang->importer = 'Transf√©rer des Donn√©es du Zeroboard';
     $lang->source_type = 'Sorte de Source';
-    $lang->type_member = 'DonnÈes des Membres';
-    $lang->type_message = 'DonnÈes des Messages';
+    $lang->type_member = 'Donn√©es des Membres';
+    $lang->type_message = 'Donn√©es des Messages';
     $lang->type_ttxml = 'TTXML';
-    $lang->type_module = 'DonnÈes des Articles';
-    $lang->type_syncmember = 'Synchroniser les DonnÈes des Membres';
+    $lang->type_module = 'Donn√©es des Articles';
+    $lang->type_syncmember = 'Synchroniser les Donn√©es des Membres';
     $lang->target_module = 'Module de cible ';
     $lang->xml_file = 'Fichier de XML';
 
     $lang->import_step_title = array(
-        1 => 'Step 1. Choisir cible ‡ transfÈrer',
+        1 => 'Step 1. Choisir cible √† transf√©rer',
         12 => 'Step 1-2. Choisir module de Cible',
         13 => 'Step 1-3. Choisir categorie de Cible',
-        2 => 'Step 2. TÈlÈcharger fichier XML',
-        3 => 'Step 2. Synchroniser donnÈes des membres et des articles',
+        2 => 'Step 2. T√©l√©charger fichier XML',
+        3 => 'Step 2. Synchroniser donn√©es des membres et des articles',
     );
 
     $lang->import_step_desc = array(
-        1 => 'SÈlectionnez la sorte du fichier de XML que vous voulez transfÈrer.',
-        12 => 'SÈlectionnez le module objectif dans lequel vous voulez tranfÈrer des donnÈes.',
-        13 => 'SÈlÈctionnez la categorie objective dans laquelle vous voulez transfÈrer des donnÈes.',
-        2 => "Entrez le chemin du fichier de XML pour transfÈrer des donnÈes.\nS\'il est localisÈ dans le mÍme compte, entrÈz le chemin absolute/relative. Sinon, entrez le URL commenÁant avec http://..",
-        3 => 'Les donnÈes des membres et ceux des articles ne peuvent pas corrects aprËs la transfËrement. Dans ce cas, synchronisez pour les rÈparer  fondÈ sur le compte d\'utilisateur.',
+        1 => 'S√©lectionnez la sorte du fichier de XML que vous voulez transf√©rer.',
+        12 => 'S√©lectionnez le module objectif dans lequel vous voulez tranf√©rer des donn√©es.',
+        13 => 'S√©l√©ctionnez la categorie objective dans laquelle vous voulez transf√©rer des donn√©es.',
+        2 => "Entrez le chemin du fichier de XML pour transf√©rer des donn√©es.\nS\'il est localis√© dans le m√™me compte, entr√©z le chemin absolute/relative. Sinon, entrez le URL commen√ßant avec http://..",
+        3 => 'Les donn√©es des membres et ceux des articles ne peuvent pas corrects apr√®s la transf√®rement. Dans ce cas, synchronisez pour les r√©parer  fond√© sur le compte d\'utilisateur.',
     );
 
     // guide/alert
