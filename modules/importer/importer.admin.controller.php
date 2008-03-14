@@ -188,7 +188,7 @@
                 // 닉네임 중복이라면 닉네임을 바꾸어서 입력
                 $nick_args->nick_name = $obj->nick_name;
                 $nick_output = executeQuery('member.getMemberSrl', $nick_args);
-                if($nick_ouptut->data->member_srl) {
+                if($nick_output->data->member_srl) {
                     $obj->nick_name .= rand(111,999);
                     $output = executeQuery('member.insertMember', $obj);
                 }
