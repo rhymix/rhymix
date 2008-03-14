@@ -84,7 +84,7 @@
 
             // 접속시도  
             $this->fd = @pg_connect($conn_string);
-            if(pg_connection_status($this->fd) != PGSQL_CONNECTION_OK) {
+            if(!$this->fd || pg_connection_status($this->fd) != PGSQL_CONNECTION_OK) {
                 $this->setError(-1, "CONNECTION FAILURE");
                 return;
             }
