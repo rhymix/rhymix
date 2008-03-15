@@ -39,8 +39,14 @@
         function dispMemberAdminList() {
 
             // member model 객체 생성후 목록을 구해옴
-            $oMemberModel = &getAdminModel('member');
-            $output = $oMemberModel->getMemberList();
+            $oMemberAdminModel = &getAdminModel('member');
+            $oMemberModel = &getModel('member');
+            $output = $oMemberAdminModel->getMemberList();
+
+            // 개인별로 그룹목록을 가져 옴
+            foreach($output->data as $key => $member) {
+                $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+            }
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
