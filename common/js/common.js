@@ -796,7 +796,7 @@ function transRGB2Hex(value) {
         if(color.length == 1) color = '0'+color;
         hex += color;
     }
-    return '#'+hex;
+    return hex;
 }
 
 /**
