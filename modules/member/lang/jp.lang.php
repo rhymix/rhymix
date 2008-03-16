@@ -11,7 +11,7 @@
     $lang->default_group_1 = "準会員";
     $lang->default_group_2 = "正会員";
     $lang->admin_group = "管理グループ";
-    $lang->keep_signed = '次回から次回からIDの入力を省略';
+    $lang->keep_signed = '次回からIDの入力を省略';
     $lang->remember_user_id = 'ＩＤ保存';
     $lang->already_logged = '既にログインされています。';
     $lang->denied_user_id = '使用が禁じられているＩＤです。';
