@@ -16,5 +16,6 @@
         <column name="member_srl" var="member_srl" default="0" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="isvalid" var="isvalid" default="N" />
     </columns>
 </query>

@@ -1,33 +1,34 @@
-<!--%import("js/importer_admin.js")-->
-<!--%import("css/importer.css")-->
+<!--#include("header.html")-->
 
-<h3>{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="infoText">{nl2br($lang->about_importer)}</div>
-
-<div>
-    <form action="./" method="get" onsubmit="return doImportMember(this)" id="fo_import">
-        <input type="hidden" name="total_count" value="0" />
-        <input type="hidden" name="success_count" value="0" />
-        <input type="hidden" name="readed_line" value="0" />
+<div id="importForm">
+    <form action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+        <input type="hidden" name="type" value="member" />
 
         <table cellspacing="0" class="adminTable">
         <caption>{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</caption>
         <tr>
             <td>
-                <input type="text" name="xml_file" value="./" class="inputTypeText w400" />
+                <input type="text" name="xml_file" value="./" class="inputTypeText w700" />
                 <p>ex1) ../member.xml</p>
                 <p>ex2) http://...../member.xml</p>
             </td>
         </tr>
         <tr>    
             <th class="button">
-                <div id="status_button_prev"><span class="button"><input type="submit" value="{$lang->cmd_next}" /></span></div>
-                <div id="status_button" style="display:none"><span class="button"><input type="submit" value="{$lang->cmd_continue}" /></span></div>
+                <select name="unit_count">
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300" selected="selected">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+                <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
             </th>
         </tr>
         </table>
-
-        <div id="status" style="display:none"></div>
     </form>
 </div>
+
+<!--#include("./process.html")-->

@@ -99,7 +99,8 @@
                     // 전체 설정에서 허용시 모듈별 설정을 체크
                     else {
                         $module_config = $trackback_config->module_config[$this->get('module_srl')];
-                        if(!$module_config || $module_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+                        if(!$module_config || $module_config->enable_trackback != 'N') $this->allow_trackback_status = true;
+                        else $this->allow_trackback_status = false;
                     }
                 }
             }

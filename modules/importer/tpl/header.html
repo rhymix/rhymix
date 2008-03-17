@@ -1,0 +1,18 @@
+<!--%import("js/importer_admin.js")-->
+<!--%import("css/importer.css")-->
+
+{@ $type_list = array('module'=>$lang->type_module, 'ttxml'=>$lang->type_ttxml, 'member'=>$lang->type_member, 'sync'=>$lang->type_syncmember, 'message'=>$lang->type_message) }
+
+<h3>{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!-- 설명 -->
+<div class="infoText">{nl2br($lang->about_importer)}</div>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <!--@foreach($type_list as $key => $val)-->
+        <li <!--@if($source_type==$key)-->class="on"<!--@end-->><a href="{getUrl('source_type',$key)}">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+

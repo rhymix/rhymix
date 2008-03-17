@@ -44,8 +44,10 @@
             $output = $oMemberAdminModel->getMemberList();
 
             // 개인별로 그룹목록을 가져 옴
-            foreach($output->data as $key => $member) {
-                $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+            if($output->data) {
+                foreach($output->data as $key => $member) {
+                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+                }
             }
 
             // 템플릿에 쓰기 위해서 context::set

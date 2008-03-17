@@ -50,6 +50,7 @@
                         $template_filename = "index";
                     break;
             }
+
             $this->setTemplateFile($template_filename);
         }
         

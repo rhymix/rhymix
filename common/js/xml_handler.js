@@ -55,6 +55,8 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
 
     callback_func(ret_obj, response_tags, callback_func_arg, fo_obj);
 
+    oXml.clear();
+
     return null;
 }
 
@@ -67,6 +69,7 @@ function xml_handler() {
     this.params = new Array();
 
     this.reset = xml_handlerReset;
+    this.clear = xml_handlerClear;
     this.getXmlHttp = zGetXmlHttp;
     this.request = xml_handlerRequest;
     this.setPath = xml_handlerSetPath;
@@ -121,6 +124,10 @@ function xml_handlerSetPath(path) {
 function xml_handlerReset() {
     this.obj_xmlHttp = this.getXmlHttp();
     this.params = new Array();
+}
+
+function xml_handlerClear() {
+    this.obj_xmlHttp = null;
 }
 
 function xml_handlerAddParam(key, val) {
