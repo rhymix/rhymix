@@ -773,22 +773,23 @@
 
                     // DB입력
                     unset($file_obj->file);
-                    $file_obj->uploaded_filename = $filename;
-                    $file_obj->file_size = filesize($filename);
-                    $file_obj->comment = NULL;
-                    $file_obj->member_srl = 0;
-                    $file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
-                    $file_obj->isvalid = 'Y';
-                    $output = executeQuery('file.insertFile', $file_obj);
-                    
-                    if($output->toBool()) {
-                        $uploaded_count++;
-                        $tmp_obj = null;
-                        $tmp_obj->source_filename = $file_obj->source_filename;
-                        if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
-                        else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                    if(file_exists($filename)) {
+                        $file_obj->uploaded_filename = $filename;
+                        $file_obj->file_size = filesize($filename);
+                        $file_obj->comment = NULL;
+                        $file_obj->member_srl = 0;
+                        $file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
+                        $file_obj->isvalid = 'Y';
+                        $output = executeQuery('file.insertFile', $file_obj);
+                        
+                        if($output->toBool()) {
+                            $uploaded_count++;
+                            $tmp_obj = null;
+                            $tmp_obj->source_filename = $file_obj->source_filename;
+                            if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
+                            else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                        }
                     }
-
                 }
             }
             return $uploaded_count;
