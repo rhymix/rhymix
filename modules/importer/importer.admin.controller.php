@@ -187,6 +187,7 @@
                 $obj->password = base64_decode($xmlObj->member->password->body);
                 $obj->user_name = base64_decode($xmlObj->member->user_name->body);
                 $obj->nick_name = base64_decode($xmlObj->member->nick_name->body);
+                if(!$obj->user_name) $obj->user_name = $obj->nick_name;
                 $obj->email = base64_decode($xmlObj->member->email->body);
                 $obj->homepage = base64_decode($xmlObj->member->homepage->body);
                 $obj->blog = base64_decode($xmlObj->member->blog->body);
