@@ -279,9 +279,11 @@
             <title xml:lang="ko">썸네일 생성 방법</title>
             <title xml:lang="jp">サムネール生成方法</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
+            <title xml:lang="en">Type of Thumbnail</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
             <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式(crop : 裁减, ratio : 比例)。</description>
+            <description xml:lang="en">Choose the type to create the thumnail. (crop / ratio)</description>
             <default>crop</default>
             <default>ratio</default>
         </var>
@@ -289,18 +291,22 @@
             <title xml:lang="ko">썸네일 가로크기</title>
             <title xml:lang="jp">サムネールの横幅</title>
             <title xml:lang="zh-CN">缩略图宽度</title>
+            <title xml:lang="en">Width of Thumbnail</title>
             <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの横幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图宽度(默认为 100px)。</description>
+            <description xml:lang="en">Set the width of thumbnail. Default is 100px.</description>
             <default>100</default>
         </var>
         <var name="thumbnail_height" type="text">
             <title xml:lang="ko">썸네일 세로크기</title>
             <title xml:lang="jp">サムネールの縦幅</title>
             <title xml:lang="zh-CN">缩略图高度</title>
+            <title xml:lang="en">Height of Thumbnail</title>
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの縦幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图高度(默认为 100px)。</description>
+             <description xml:lang="en">Set the height of thumbnail. Default is 100px.</description>
             <default>100</default>
         </var>
     </extra_vars>
