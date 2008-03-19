@@ -152,6 +152,7 @@
             if(!$fp) return;
 
             // 한글 파일이 있으면 한글파일 부분만 urlencode하여 처리 (iconv 필수)
+            /*
             $path = $url_info['path'];
             if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
                 $path_list = explode('/',$path);
@@ -162,8 +163,10 @@
                 $path = implode('/',$path_list);
                 $url_info['path'] = $path;
             }
+            */
 
-            $header = sprintf("GET %s?%s HTTP/1.0\r\nHost: %s\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query'], $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            $header = sprintf("GET %s%s HTTP/1.0\r\nHost: %s\r\nAccept-Charset: utf-8;q=0.7,*;q=0.7\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query']?'?'.$url_info['query']:'', $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            debugPrint($header);
 
             @fwrite($fp, $header);
 
