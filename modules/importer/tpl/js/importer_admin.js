@@ -31,6 +31,7 @@ function doPreProcessing(fo_obj) {
     xDisplay('importForm','none');
     xDisplay('process','block');
     xInnerHtml('status','');
+    prepared = false;
     setTimeout(doPrepareDot, 50);
 
     var params = new Array();
