@@ -4,6 +4,7 @@
   <title xml:lang="jp">接続カウンターアドオン</title>
   <title xml:lang="zh-CN">网站访问统计</title>
   <title xml:lang="en">Counter Addon</title>
+  <title xml:lang="ge">Counter Addon</title>
   <title xml:lang="es">Addon contador básico</title>
   <title xml:lang="ru">Аддон для базового счетчика</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -11,6 +12,7 @@
     <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
+	<name xml:lang="ge">zero</name>
     <name xml:lang="es">zero</name>
     <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
@@ -28,6 +30,10 @@
     <description xml:lang="en">
         This addon logs access information based on the basic counter module within Zeroboard XE.
 		The access information will be collected only if you turn on this addon.
+    </description>
+	<description xml:lang="ge">
+        Dieses Addon-Logs Zugriff auf Informationen basiert auf den grundlegenden Zähler-Modul innerhalb Zeroboard XE.
+        Der Zugang zu Informationen wird nur erhoben, wenn Sie über dieses Addon.
     </description>
     <description xml:lang="es">
         Este addon contador básico de Zeroboard XE permite llevar la información de acceso a la página web de los visitantes.
