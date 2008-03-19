@@ -466,8 +466,8 @@
      * 현재 요청받은 스크립트 경로를 return
      **/
     function getScriptPath() {
-        //if(function_exists('php_sapi_name') && php_sapi_name()=='cgi') return preg_replace('/index.php/i','',$_SERVER['PATH_INFO']);
-        return preg_replace('/index.php/i','',$_SERVER['SCRIPT_NAME']);
+        $url = $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF']:($_SERVER['REQUEST_URI']?$_SERVER['REQUEST_URI']:$_SERVER['URL']);
+        return preg_replace('/index.php/i','',$url);
     }
 
     /** 

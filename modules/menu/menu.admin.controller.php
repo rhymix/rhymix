@@ -397,8 +397,10 @@
                 $name_str = sprintf('$_names = array(%s); print $_names[$_SESSION["lang_type"]];', $name_arr_str);
 
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url)) $href = getUrl('','mid',$node->url);
-                else $href = $url;
+                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url)) {
+                    $href = getUrl('','mid',$node->url);
+                    $href = str_replace(Context::getRequestUri(),'/',$href);
+                } else $href = $url;
                 $open_window = $node->open_window;
                 $expand = $node->expand;
 
@@ -487,8 +489,10 @@
                 // 변수 정리
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url)) $href = getUrl('','mid',$node->url);
-                else $href = $url;
+                if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url)) {
+                    $href = getUrl('','mid',$node->url);
+                    $href = str_replace(Context::getRequestUri(),'/',$href);
+                } else $href = $url;
                 $open_window = $node->open_window;
                 $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
                 $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
