@@ -54,22 +54,28 @@
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayout($args->layout_srl);
             $menus = get_object_vars($layout_info->menu);
-            if(count($menus)) {
+            if(count($menus) ) {
                 foreach($menus as $menu_id => $val) {
                     $menu_srl = Context::get($menu_id);
                     if(!$menu_srl) continue;
                     $menu_srl_list[] = $menu_srl;
-                }
+                    if(Context::get('apply_layout')=='Y') {
+                        $menu_args = null;
+                        $menu_args->menu_srl = $menu_srl;
+                        $output = executeQueryArray('layout.getLayoutModules', $menu_args);
+                        if($output->data) {
+                            $modules = array();
+                            for($i=0;$i<count($output->data);$i++) {
+                                $modules[] = $output->data[$i]->module_srl;
+                            }
 
-                // 정해진 메뉴가 있으면 모듈 및 메뉴에 대한 레이아웃 연동
-                if(count($menu_srl_list) && Context::get('apply_layout')=='Y') {
-                    // 해당 메뉴와 레이아웃 값을 매핑
-                    $oMenuAdminController = &getAdminController('menu');
-                    $oMenuAdminController->updateMenuLayout($args->layout_srl, $menu_srl_list);
-
-                    // 해당 메뉴에 속한 mid의 layout값을 모두 변경
-                    $oModuleController = &getController('module');
-                    $oModuleController->updateModuleLayout($args->layout_srl, $menu_srl_list);
+                            if(count($modules)) {
+                                $update_args->module_srls = implode(',',$modules);
+                                $update_args->layout_srl = $args->layout_srl;
+                                $output = executeQuery('layout.updateModuleLayout', $update_args);
+                            }
+                        }
+                    }
                 }
             }
 

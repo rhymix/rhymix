@@ -1,0 +1,13 @@
+<query id="getLayoutModules" action="select">
+    <tables>
+        <table name="menu_item" alais="menu_item" />
+        <table name="modules" alias="modules" />
+    </tables>
+    <columns>
+        <column name="modules.module_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_item.menu_srl" var="menu_srl" notnull="notnull" />
+        <condition operation="equal" column="menu_item.url" default="modules.mid" notnull="notnull" pipe="and" />
+    </conditions>
+</query>
