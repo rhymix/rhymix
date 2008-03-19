@@ -238,7 +238,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
@@ -272,6 +272,11 @@
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
             } else {
                 $content = sprintf('<div class="xe_content">%s</div>', $content);
+            }
+
+            // resource_realpath가 true이면 내용내 이미지의 경로를 절대 경로로 변경
+            if($resource_realpath) {
+                $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
             }
 
             return $content;
@@ -649,6 +654,13 @@
             }
 
             return $signature;
+        }
+
+        /**
+         * @brief 내용내의 이미지 경로를 절대 경로로 변경
+         **/
+        function replaceResourceRealPath($matches) {
+            return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
     }
 ?>
