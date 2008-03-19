@@ -166,7 +166,6 @@
             */
 
             $header = sprintf("GET %s%s HTTP/1.0\r\nHost: %s\r\nAccept-Charset: utf-8;q=0.7,*;q=0.7\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query']?'?'.$url_info['query']:'', $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
-            debugPrint($header);
 
             @fwrite($fp, $header);
 
