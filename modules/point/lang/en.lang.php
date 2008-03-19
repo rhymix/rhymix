@@ -31,8 +31,8 @@
     $lang->cmd_exp_calc = 'Calculate';
     $lang->cmd_exp_reset = 'Reset';
 
-    $lang->cmd_point_recal = 'Recalculate Point';
-    $lang->about_cmd_point_recal = "This will check articles/comments/attached files and reset all members' point to preset point.";
+    $lang->cmd_point_recal = '포인트 초기화';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화 합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전등을 하여 포인트를 완전히 초기화 해야 할 경우에만 사용하세요.';
 
     $lang->point_link_group = 'Group Change by Level';
     $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points. When new group is assigned, the user is removed from the former assigned group.';

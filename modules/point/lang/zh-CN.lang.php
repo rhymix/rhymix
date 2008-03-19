@@ -31,8 +31,8 @@
     $lang->cmd_exp_calc = '计算';
     $lang->cmd_exp_reset = '初始化';
 
-    $lang->cmd_point_recal = '重新计算积分';
-    $lang->about_cmd_point_recal = '重新检查文章/评论/附件等积分项后，按设置的相应积分点重新计算积分。';
+    $lang->cmd_point_recal = '포인트 재계산';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일등을 모두 검사하여 설정된 포인트 설정에 맞게 모든 회원들의 포인트를 재계산합니다';
 
     $lang->point_link_group = '用户组绑定';
     $lang->about_point_link_group = '即级别绑定用户组。当级别达到指定级别时，会员所属用户组将自动更新为与其相对应的用户组。只是更新为新的用户组时，之前的默认用户组将自动被删除。';
