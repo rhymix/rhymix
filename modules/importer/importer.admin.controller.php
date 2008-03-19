@@ -56,9 +56,21 @@
                     break;
                 case 'ttxml' :
                         // 카테고리 정보를 먼저 구함
-                        $output = $oExtract->set($xml_file,'</setting>', '<post ', '<category><name>','</name>');
+                        $output = $oExtract->set($xml_file,'','<author', '<category>', '<post ');
                         if($output->toBool()) {
-                            $oExtract->mergeItems('category');
+                            // ttxml 카테고리는 별도로 구함
+                            $started = false;
+                            $buff = '';
+                            while(!feof($oExtract->fd)) {
+                                $str = fgets($oExtract->fd, 1024);
+                                if(substr($str,0,strlen('<category>'))=='<category>') $started = true;
+                                if(substr($str,0,strlen('<post '))=='<post ') break;
+                                if($started) $buff .= $str;
+                            }
+                            $buff = '<items>'.$buff.'</items>';
+                            $oExtract->closeFile();
+                            $category_filename = sprintf('%s/%s', $oExtract->cache_path, 'category');
+                            FileHandler::writeFile($category_filename, $buff);
 
                             // 개별 아이템 구함
                             $output = $oExtract->set($xml_file,'<blog', '</blog>', '<post ', '</post>');
@@ -67,7 +79,7 @@
                     break;
                 default :
                         // 카테고리 정보를 먼저 구함
-                        $output = $oExtract->set($xml_file,'<categories>', '</categories>', '<category>','</category>');
+                        $output = $oExtract->set($xml_file,'<categories>', '</categories>', '<category','</category>');
                         if($output->toBool()) {
                             $oExtract->mergeItems('category');
 
@@ -402,14 +414,21 @@
                 if($categories) {
                     if(!is_array($categories)) $categories = array($categories);
                     $oDocumentController = &getController('document');
+                    $match_sequence = array();
                     foreach($categories as $k => $v) {
                         $category = trim(base64_decode($v->body));
                         if(!$category || $category_titles[$category]) continue;
 
+                        $sequence = $v->attrs->sequence;
+                        $parent = $v->attrs->parent;
+
                         $obj = null;
                         $obj->title = $category;
                         $obj->module_srl = $module_srl; 
+                        if($parent) $obj->parent_srl = $match_sequence[$parent];
+
                         $output = $oDocumentController->insertCategory($obj);
+                        if($output->toBool()) $match_sequence[$sequence] = $output->get('category_srl');
                     }
                     $oDocumentController = &getController('document');
                     $oDocumentController->makeCategoryFile($module_srl);
@@ -755,40 +774,43 @@
                         }
                     }
 
-                    // 이미지인지 기타 파일인지 체크하여 upload path 지정
-                    if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_obj->source_filename)) {
-                        $path = sprintf("./files/attach/images/%s/%s/", $module_srl,$upload_target_srl);
-                        $filename = $path.$file_obj->source_filename;
-                        $file_obj->direct_download = 'Y';
-                    } else {
-                        $path = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
-                        $filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
-                        $file_obj->direct_download = 'N';
-                    }
+                    if(file_exists($file_obj->file)) {
 
-                    // 디렉토리 생성
-                    if(!FileHandler::makeDir($path)) continue;
+                        // 이미지인지 기타 파일인지 체크하여 upload path 지정
+                        if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_obj->source_filename)) {
+                            $path = sprintf("./files/attach/images/%s/%s/", $module_srl,$upload_target_srl);
+                            $filename = $path.$file_obj->source_filename;
+                            $file_obj->direct_download = 'Y';
+                        } else {
+                            $path = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
+                            $filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
+                            $file_obj->direct_download = 'N';
+                        }
 
-                    if(preg_match('/^\.\/files\/cache\/tmp/i',$file_obj->file)) @rename($file_obj->file, $filename);
-                    else @copy($file_obj->file, $filename);
+                        // 디렉토리 생성
+                        if(!FileHandler::makeDir($path)) continue;
 
-                    // DB입력
-                    unset($file_obj->file);
-                    if(file_exists($filename)) {
-                        $file_obj->uploaded_filename = $filename;
-                        $file_obj->file_size = filesize($filename);
-                        $file_obj->comment = NULL;
-                        $file_obj->member_srl = 0;
-                        $file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
-                        $file_obj->isvalid = 'Y';
-                        $output = executeQuery('file.insertFile', $file_obj);
-                        
-                        if($output->toBool()) {
-                            $uploaded_count++;
-                            $tmp_obj = null;
-                            $tmp_obj->source_filename = $file_obj->source_filename;
-                            if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
-                            else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                        if(preg_match('/^\.\/files\/cache\/tmp/i',$file_obj->file)) @rename($file_obj->file, $filename);
+                        else @copy($file_obj->file, $filename);
+
+                        // DB입력
+                        unset($file_obj->file);
+                        if(file_exists($filename)) {
+                            $file_obj->uploaded_filename = $filename;
+                            $file_obj->file_size = filesize($filename);
+                            $file_obj->comment = NULL;
+                            $file_obj->member_srl = 0;
+                            $file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
+                            $file_obj->isvalid = 'Y';
+                            $output = executeQuery('file.insertFile', $file_obj);
+                            
+                            if($output->toBool()) {
+                                $uploaded_count++;
+                                $tmp_obj = null;
+                                $tmp_obj->source_filename = $file_obj->source_filename;
+                                if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
+                                else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                            }
                         }
                     }
                 }

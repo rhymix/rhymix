@@ -33,25 +33,30 @@
                 // xmlParser객체 생성
                 $xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
 
-                $categories = $xmlDoc->items->category;
-                if($categories) {
-                    if(!is_array($categories)) $categories = array($categories);
+                // 카테고리 정보를 정리
+                if($xmlDoc->items->category) {
+                    $categories = array();
+                    $idx = 0;
+                    $this->arrangeCategory($xmlDoc->items, $categories, $idx, 0);
                     $oDocumentController = &getController('document');
+
+                    $match_sequence = array();
                     foreach($categories as $k => $v) {
-                        $category = $v->name->body;
+                        $category = $v->name;
                         if(!$category || $category_titles[$category]) continue;
 
                         $obj = null;
                         $obj->title = $category;
                         $obj->module_srl = $module_srl; 
+                        if($v->parent) $obj->parent_srl = $match_sequence[$v->parent];
                         $output = $oDocumentController->insertCategory($obj);
+
+                        if($output->toBool()) $match_sequence[$v->sequence] = $output->get('category_srl');
                     }
-                    $oDocumentController = &getController('document');
                     $oDocumentController->makeCategoryFile($module_srl);
                 }
                 @unlink($category_file);
             }
-
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
@@ -111,11 +116,14 @@
 
                 $xmlDoc = $this->oXmlParser->parse('<post>'.$buff);
                 
-                $category = $xmlDoc->post->category->body;
-                if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
+                if($xmlDoc->post->category->body) {
+                    $tmp_arr = explode('/',$xmlDoc->post->category->body);
+                    $category = trim($tmp_arr[count($tmp_arr)-1]);
+                    if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
+                }
 
                 $obj->is_notice = 'N';
-                $obj->is_secret = $xmlDoc->post->visibility->body=='syndicated'?'N':'Y';
+                $obj->is_secret = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?'N':'Y';
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
@@ -152,14 +160,16 @@
                 // content 정보 변경 (첨부파일)
                 $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$obj->content);
                 if(count($files)) {
-                    foreach($files as $label => $filename) {
-                        $obj->content = preg_replace_callback('!\[##_([a-z0-9]+)\|([^\|]*)\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTImgTag'), $obj->content);
+                    foreach($files as $key => $val) {
+                        $obj->content = preg_replace('/(src|href)\=(["\']?)'.preg_quote($key).'(["\']?)/i','$1="'.$val->url.'"',$obj->content);
                     }
                 }
+
+                $obj->content = preg_replace_callback('!\[##_Movie\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTMovie'), $obj->content);
+
                 if(count($files)) {
-                    foreach($files as $key => $val) {
-                        $obj->content = preg_replace('/(src|href)\=(["\']?)'.preg_quote($key).'(["\']?)/i','$1="'.$val.'"',$obj->content);
-                    }
+                    $this->files = $files;
+                    $obj->content = preg_replace_callback('!\[##_([a-z0-9]+)\|([^\|]*)\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTAttach'), $obj->content);
                 }
 
                 // 역인글 입력
@@ -262,14 +272,15 @@
 
                 $buff .= $str;
             }
+            if(!file_exists($file_obj->file)) return false;
 
             $buff .= '</attachment>';
 
             $xmlDoc = $this->oXmlParser->parse($buff);
 
-            $file_obj->source_filename = $xmlDoc->attachment->name->body;
+            $file_obj->source_filename = $xmlDoc->attachment->label->body;
             $file_obj->download_count = $xmlDoc->attachment->downloads->body;
-            $label = $xmlDoc->attachment->label->body;
+            $name = $xmlDoc->attachment->name->body;
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
             if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_obj->source_filename)) {
@@ -300,9 +311,10 @@
             if($output->toBool()) {
                 $uploaded_count++;
                 $tmp_obj = null;
-                $tmp_obj->source_filename = $file_obj->source_filename;
-                if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
-                else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                if($file_obj->direct_download == 'Y') $files[$name]->url = $file_obj->uploaded_filename; 
+                else $files[$name]->url = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
+                $files[$name]->direct_download = $file_obj->direct_download;
+                $files[$name]->source_filename = $file_obj->source_filename;
                 return true;
             }
 
@@ -344,8 +356,43 @@
         /**
          * @brief ttxml의 자체 img 태그를 치환
          **/
-        function _replaceTTImgTag($matches) {
-            return sprintf("<img src=\"%s\" alt=\"%s\" /><br /><br />", $matches[2], str_replace("\"","\\\"",$matches[4]));
+        function _replaceTTAttach($matches) {
+            $name = $matches[2];
+            if(!$name) return $matches[0];
+
+            $obj = $this->files[$name];
+
+            // 멀티미디어성 파일의 경우
+            if($obj->direct_download == 'Y') {
+                // 이미지의 경우
+                if(preg_match('/\.(jpg|gif|jpeg|png)$/i', $obj->source_filename)) {
+                    return sprintf('<img editor_component="image_link" src="%s" alt="%s" />', $obj->url, str_replace('"','\\"',$matches[4]));
+                // 이미지 외의 멀티미디어성 파일의 경우
+                } else {
+                   return sprintf('<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="%s" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" />', $obj->url);
+                }
+
+            // binary파일일 경우
+            } else {
+                return sprintf('<a href="%s">%s</a>', $obj->url, $obj->source_filename);
+            }
+        }
+
+        /**
+         * @brief ttxml의 동영상 변환
+         **/
+        function _replaceTTMovie($matches) {
+            $key = $matches[1];
+            if(!$key) return $matches[0];
+
+            return 
+                    '<object type="application/x-shockwave-flash" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="402">'.
+                    '<param name="movie" value="http://flvs.daum.net/flvPlayer.swf?vid='.urlencode($key).'"/>'.
+                    '<param name="allowScriptAccess" value="always"/>'.
+                    '<param name="allowFullScreen" value="true"/>'.
+                    '<param name="bgcolor" value="#000000"/>'.
+                    '<embed src="http://flvs.daum.net/flvPlayer.swf?vid='.urlencode($key).'" width="100%" height="402" allowscriptaccess="always" allowfullscreen="true" type="application/x-shockwave-flash" bgcolor="#000000"/>'.
+                    '</object>';
         }
 
         /**
@@ -408,6 +455,27 @@
                 if($output->toBool()) return $tobj->comment_srl;
             }
             return false;
+        }
+
+        // 카테고리 정리
+        function arrangeCategory($obj, &$category, &$idx, $parent = 0) {
+            if(!$obj->category) return;
+            if(!is_array($obj->category)) $c = array($obj->category);
+            else $c = $obj->category;
+            foreach($c as $val) {
+                $idx++;
+                $priority = $val->priority->body;
+                $name = $val->name->body;
+                $obj = null;
+                $obj->priority = $priority;
+                $obj->name = $name;
+                $obj->sequence = $idx;
+                $obj->parent = $parent;
+
+                $category[$priority] = $obj;
+
+                $this->arrangeCategory($val, $category, $idx, $idx);
+            }
         }
     }
 ?>
