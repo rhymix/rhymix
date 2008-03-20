@@ -18,6 +18,7 @@
 .boardList th { background:transparent url(../images/black/lineBoardListTh.gif) no-repeat left bottom; }
 .boardList td.recommend { color:#ff6600; }
 .boardList td .replyAndTrackback { color:#BBBBBB; }
+.boardList td.title strong.category { color:#BBBBBB; }
 .buttonTypeGo { background:url(../images/black/buttonTypeInput24.gif) no-repeat; }
 
 /* pageNavigation */
@@ -42,8 +43,9 @@
 .boardList th a { color:#999999; }
 .boardList td { border-top:1px solid #444444; padding:.5em;}
 .boardList th.num { border-left:0px solid #444444; }
+.boardList td.title, .boardList tr.notice { background-color:transparent; }
 
-#board_category { background-color:transparent; color:#AAAAAA; }
+#board_category { background-color:#444444; color:#AAAAAA; }
 #go_button { color:#AAAAAA; }
 
 .boardList tr.bg1, .boardList tr.bg2 { background-color:transparent; }
@@ -76,7 +78,7 @@
 .replyBox .date { color:#888888; }
 .trackbackBox .trackbackItem { background-color:transparent; }
 
-#fo_search select { background-color:transparent; color:#AAAAAA; }
+#fo_search select { background-color:#444444; color:#AAAAAA; }
 
 .inputTypeText { background-color:transparent; color:#AAAAAA; }
 .inputTypeText:hover, .inputTypeText:focus { background-color:transparent; color:#AAAAAA; }

@@ -76,6 +76,12 @@
             if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
+            if(!$config->editor_skin) $config->editor_skin = "default";
+
+            // 에디터 스킨 목록을 구함
+            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
+            Context::set('editor_skin_list', $editor_skin_list);
+
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함

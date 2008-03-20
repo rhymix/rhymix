@@ -85,6 +85,16 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->editor_skin}</th>
+        <td>
+            <select name="editor_skin">
+            <!--@foreach($editor_skin_list as $editor)-->
+            <option value="{$editor}" <!--@if($editor==$config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
+            <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->after_login_url}</th>
         <td>
             <input type="text" name="after_login_url" value="{$config->after_login_url}" class="inputTypeText w400" />

@@ -112,6 +112,7 @@
                 $option->resizable = false;
                 $option->disable_html = true;
                 $option->height = 200;
+                $option->skin = $this->member_config->editor_skin;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
@@ -399,6 +400,7 @@
             $option->resizable = false;
             $option->disable_html = true;
             $option->height = 300;
+            $option->skin = $this->member_config->editor_skin;
             $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);
 

@@ -3,7 +3,7 @@
 .xeEditor { }
 .xeEditor .optionABC { clear:both; width:100%; overflow:hidden; background:transparent;}
 .xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
-.xeEditor .optionABC .selectGroup select {background-color:transparent; color:#AAAAAA; }
+.xeEditor .optionABC .selectGroup select {background-color:#444444; color:#AAAAAA; }
 .xeEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}
 .xeEditor .optionABC .buttonGroup img { float:left; display:block; margin-left:-1px; cursor:pointer;}
 .xeEditor .optionA,
@@ -39,7 +39,7 @@
 .xeEditor .fileAttach .preview { padding:5px; border:1px solid #e1e1dd; width:100px; height:100px; margin-right:10px;}
 .xeEditor .fileAttach .preview img { width:100px; height:100px; }
 
-.xeEditor .fileAttach .fileListArea .fileList { background:transparent; overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:10px; font-size:11px;}
+.xeEditor .fileAttach .fileListArea .fileList { background:#444444; overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:10px; font-size:11px;}
 .xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em; color:#AAAAAA;}
 .xeEditor .fileAttach .fileUploadControl { float:left; }
 .xeEditor .fileAttach .file_attach_info { color:#AAAAAA; font-size:.9em; _font-size:8pt; text-align:right;}
