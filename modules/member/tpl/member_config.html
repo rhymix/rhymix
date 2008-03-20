@@ -149,5 +149,5 @@
 </form>
 
 <script type="text/javascript">
-    doGetSkinColorset("{$config->skin}");
+    xAddEventListener(window,'load', function() { doGetSkinColorset("{$config->skin}"); });
 </script>
