@@ -20,8 +20,28 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
     var waiting_obj = xGetElementById("waitingforserverresponse");
+    if(!waiting_obj) {
+        waiting_obj = xCreateElement('DIV');
+        waiting_obj.id = 'waitingforserverresponse';
+        waiting_obj.style.visibility = 'hidden';
+        document.body.appendChild(waiting_obj );
+    }
+
     if(show_waiting_message && waiting_obj) {
-        xInnerHtml(waiting_obj, wating_message);
+        var str = ''+
+            '<div style="float:left; width:80px; height:80px; overflow:hidden;">'+
+            '<object id="load_next" width="80" height="80" align="middle" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">'+
+            '<param value="sameDomain" name="allowScriptAccess"/>'+
+            '<param value="'+request_uri+'common/tpl/images/loading.swf" name="movie"/>'+
+            '<param value="high" name="quality"/>'+
+            '<param value="transparent" name="wmode"/>'+
+            '<param value="#ffffff" name="bgcolor"/>'+
+            '<embed width="80" height="80" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" name="load_next" bgcolor="#FFFFFF" quality="high" src="'+request_uri+'common/tpl/images/loading.swf"/>'+
+            '</object>'+
+            '</div>'+
+            '<div style="white-space:nowrap;z-index:1;float:left; padding:32px 20px 0 0; ">'+waiting_message+'</div>';
+
+        xInnerHtml(waiting_obj, str);
         xTop(waiting_obj, xScrollTop()+20);
         xLeft(waiting_obj, xScrollLeft()+20);
         waiting_obj.style.visibility = "visible";

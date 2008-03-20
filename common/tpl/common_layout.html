@@ -16,7 +16,7 @@
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
         var current_mid = "{$mid}";
-        var wating_message = "{$lang->msg_call_server}";
+        var waiting_message = "{$lang->msg_call_server}";
     //]]></script>
 
     {Context::getHtmlHeader()}
@@ -24,17 +24,6 @@
 </head>
 <body>
 {$zbxe_final_content}
-
-<div id="waitingforserverresponse" style="visibility:hidden"></div>
-<div id="fororiginalimagearea" style="visibility:hidden">
-  <div id="fororiginalimageareabg">
-      <img src="./images/blank.gif" alt="original image" border="0" id="fororiginalimage" />
-      <img src="./images/original_image_box_close.gif" alt="close original image" border="0" onclick="closeOriginalImage()" id="closeOriginalImageBtn"/>
-  </div>
-</div>
-<div id="popup_menu_area"></div>
-
 {Context::getHtmlFooter()}
-
 </body>
 </html>
