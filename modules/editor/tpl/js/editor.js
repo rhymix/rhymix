@@ -63,7 +63,9 @@ function editorGetSelectedNode(editor_sequence) {
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
-function editorStart(editor_sequence, primary_key, content_key, editor_height) {
+function editorStart(editor_sequence, primary_key, content_key, editor_height, font_color) {
+    if(typeof(font_color)=='undefined') font_color = '#000000';
+
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
@@ -118,7 +120,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height) {
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<style type="text/css">'+
-        'body {font-size:9pt;height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; }'+
+        'body {font-size:9pt;height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
