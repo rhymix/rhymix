@@ -53,6 +53,14 @@
             <title xml:lang="en">Purple</title>
 			<title xml:lang="es">Púrpura</title>
         </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="ru">Черного</title>
+            <title xml:lang="es">Negro</title>
+            <title xml:lang="zh-CN">黑色</title>
+        </color>
     </colorset>
     <extra_vars>
         <var name="title" type="text">
