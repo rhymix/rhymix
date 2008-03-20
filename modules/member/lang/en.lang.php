@@ -176,7 +176,7 @@
 
     $lang->about_column_type = 'Please set the format of additional sign up form';
     $lang->about_column_name = 'Please input English name that can be used in template (name as variable)';
-    $lang->about_column_title = 'This will be displayed on sign up or modifing/viewing member info form';
+    $lang->about_column_title = 'This will be displayed on sign up or modifying/viewing member info form';
     $lang->about_default_value = 'You can set default values';
     $lang->about_active = 'You have to check on active items to show on sign up form';
     $lang->about_form_description = 'If you input in description form, it will be displayed on sign up form';
@@ -201,6 +201,6 @@
     $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and certification management will be done on current OpenID offering service';
     $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
-    $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
+    $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
 ?>
