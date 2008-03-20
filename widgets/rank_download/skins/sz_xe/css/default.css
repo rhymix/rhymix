@@ -1,9 +1,11 @@
-.sz_download { width:100%; position:relative;}
 .sz_download h2 { margin:0; height:21px; padding:9px 0 0 9px; font-size:1em;}
 
-.sz_download .left { cursor:pointer; height:20px; background:url(../images/default/bullet.gif) no-repeat left; padding-left:15px; overflow:hidden; }
-
-.sz_download .center { text-align:right; padding-left:5px; }
+.sz_download ul { margin:0; padding:0; list-style:none; }
+.sz_download ul li { margin-bottom:5px; }
+.sz_download ul li div.title { background:url(../images/default/bullet.gif) no-repeat left top; padding-left:15px; }
+.sz_download ul li div.title { float:left; }
+.sz_download ul li div.count { float:right; white-space:nowrap;} 
+.sz_download ul li div.download { float:right; white-space:nowrap; margin-left:10px;} 
 
 .sz_download .sz_Box_000{border:solid 0;padding:0;}
 .sz_download .sz_Box_001{ margin:1px; border:solid 1px;border-color:#E7E7E7;padding:5px 5px 2px 5px;background-color:#F4F4F4;color:#696969;}
