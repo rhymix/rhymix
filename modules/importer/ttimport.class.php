@@ -20,6 +20,7 @@
             $this->oXmlParser = new XmlParser();
 
             // 타겟 모듈의 카테고리 정보 구함
+            $oDocumentController = &getController('document');
             $oDocumentModel = &getModel('document');
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
@@ -38,7 +39,6 @@
                     $categories = array();
                     $idx = 0;
                     $this->arrangeCategory($xmlDoc->items, $categories, $idx, 0);
-                    $oDocumentController = &getController('document');
 
                     $match_sequence = array();
                     foreach($categories as $k => $v) {
@@ -243,6 +243,8 @@
             }
 
             fclose($f);
+
+            if(count($category_list)) foreach($category_list as $key => $val) $oDocumentController->updateCategoryCount($module_srl, $val->category_srl);
 
             return $idx-1;
         }
