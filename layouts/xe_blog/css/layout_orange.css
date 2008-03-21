@@ -7,10 +7,10 @@ Kim, Ji Min 070809-20070903
 body {color:#999999; background:#181818 url(../images/orange/bg_blog.jpg) no-repeat center top;}
 
 /* Input Style Definition */
-.inputTypeText {border-color:#8b8b8b #d3d3d3 #d3d3d3 #8b8b8b; background:#ffffff;}
+.inputTypeText {border-color:#333333 #666666 #666666 #333333; background:transparent; color:#aaaaaa;}
 .inputTypeText:hover,
-.inputTypeText:focus { background:#ffffff;}
-.inputTypeTextArea {border-color:#8b8b8b #d3d3d3 #d3d3d3 #8b8b8b !important; background:#ffffff;}
+.inputTypeText:focus { background:#000000;}
+.inputTypeTextArea {border-color:#333333 #666666 #666666 #333333!important; background:transparent;}
 
 /* Global Navigation */
 ul.blogMenu li {background:url(../images/orange/division_66.gif) no-repeat left .2em;}

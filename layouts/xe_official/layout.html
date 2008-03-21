@@ -1,109 +1,81 @@
-<!-- js 파일 import -->
-<!--%import("js/xe_official.js")-->
+<!-- header.html include -->
+    <!--#include("header.html")-->
 
-<!-- 레이아웃과 연동될 css 파일 import -->
-<!--@if($layout_info->colorset == "white")-->
-    <!--%import("css/white.css")-->
-<!--@elseif($layout_info->colorset == "black")-->
-    <!--%import("css/black.css")-->
-<!--@else-->
-    <!--%import("css/default.css")-->
-<!--@end-->
+<!-- 검색을 위한 xml filter import-->
+    <!--%import("filter/search.xml")-->
 
-<!--@if($layout_info->background_image)-->
-<style type="text/css">
-    body {  background:#FFFFFF url({getUrl()}{$layout_info->background_image}) repeat-x left top; }
-</style>
-<!--@end-->
+<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+    <!--@if($oDocument->isExists() && $module_info->default_style != 'blog')-->
+    <div class="viewDocument">
+        <!--#include("./view_document.html")-->
+    </div>
+    <!--@end-->
 
-<!--@if(!$layout_info->colorset)-->
-	{@$layout_info->colorset = "default"}
-<!--@end-->
+<!-- 목록 출력 -->
+    <!--@if($module_info->default_style == 'webzine')-->
+        <!--#include("./style.webzine.html")-->
+    <!--@elseif($module_info->default_style == 'gallery')-->
+        <!--#include("./style.gallery.html")-->
+    <!--@elseif($module_info->default_style == 'forum')-->
+        <!--#include("./style.forum.html")-->
+    <!--@elseif($module_info->default_style == 'blog')-->
+        <!--#include("./style.blog.html")-->
+    <!--@else-->
+        <!--#include("./style.list.html")-->
+    <!--@end-->
 
-<div id="bodyWrap">
-	<div id="header">
-		<h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
+    <div class="boardBottom">
 
-		<div id="language">
-			<strong title="{$lang_type}">{$lang_supported[$lang_type]}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
-			<ul id="selectLang">
-                <!--@foreach($lang_supported as $key => $val)--><!--@if($key!= $lang_type)-->
-				<li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
-                <!--@end--><!--@end-->
-			</ul>
-		</div>
-
-		<!--GNB-->
-		<ul id="gnb">
-            <!-- main_menu 1차 시작 -->
-            <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['link'])-->
-                <!--@if($val['selected'])-->
-                    {@ $menu_1st = $val }
-                <!--@end-->
-
-                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
-
-            <!--@end--><!--@end-->
-            <!-- main_menu 1차 끝 -->
-		</ul>
-		<!--//GNB-->
-
-		<form action="{getUrl()}" method="post" id="isSearch">
-            <input type="hidden" name="mid" value="{$mid}" />
-            <input type="hidden" name="act" value="IS" />
-            <input type="hidden" name="search_target" value="title_content" />
-			<input name="is_keyword" type="text" class="inputText" title="keyword" />
-
-			<input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
-		</form>
-
-	</div>
-	<div id="contentBody">
-		<div id="columnLeft">
-
-            <!-- 로그인 위젯 -->
-            <img src="./images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="xe_official" colorset="{$layout_info->colorset}" />
-
-            <!-- 왼쪽 2차 메뉴 -->
-			<img src="./images/blank.gif" alt="" class="mask" />
-
-            <!--@if($menu_1st)-->
-			<ol id="lnb">
-                {@ $idx = 1 }
-                <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['link'])-->
-				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
-
-                    <!-- main_menu 3차 시작 -->
-                    <!--@if($val['list'] && ($val['expand']=='Y'||$val['selected']) )-->
-					<ul>
-                    <!--@foreach($val['list'] as $k => $v)--><!--@if($v['link'])-->
-						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
-                    <!--@end--><!--@end-->
-					</ul>
-                    <!--@end-->
-				</li>
-                {@$idx++}
-                <!--@end--><!--@end-->
-			</ol>
+    <!-- 글쓰기, 목록 버튼 -->
+        <div class="leftButtonBox">
+            <!--@if($grant->is_admin)-->
+                <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
             <!--@end-->
+            <!--@if($module_info->default_style != 'blog')-->
+            <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>
+            <!--@end-->
+        </div>
 
-		</div>
-		<div id="columnRight">
-            <!-- 컨텐츠 시작 -->
-            {$content}
+        <div class="rightButtonBox">
+            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button"><span>{$lang->cmd_write}</span></a>
+        </div>
 
-		</div>
-	</div>
-	<ul id="footer">
-		<li class="first-child">
-			<address>
-			<a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/{$layout_info->colorset}/powerdByZeroboard.gif" alt="Powered By ZeroBoard" width="106" height="5" /></a>
-			</address>
 
-		</li>
+    <!-- 페이지 네비게이션 -->
+        <div class="pageNavigation">
+            <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="goToFirst"><img src="./images/common/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <span class="current">{$page_no}</span> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="goToLast"><img src="./images/common/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+        </div>
 
-        <!--@foreach($bottom_menu->list as $key => $val)-->
-		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
+
+    <!-- 검색 -->
+        <!--@if($grant->view && $module_info->default_style != 'blog')-->
+        <div class="boardSearch">
+            <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search">
+                <input type="hidden" name="mid" value="{$mid}" />
+                <input type="hidden" name="category" value="{$category}" />
+
+                <select name="search_target">
+                    <!--@foreach($search_option as $key => $val)-->
+                    <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                    <!--@end-->
+                </select>
+                <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
+                <!--@if($last_division)-->
+                    <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+                <!--@end-->
+                <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a>
+                <a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+            </form>
+        </div>
         <!--@end-->
-	</ul>
-</div>
+    </div>
+
+<!--#include("footer.html")-->
