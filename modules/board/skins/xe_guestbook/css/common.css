@@ -220,11 +220,12 @@ Jeong, Chan Myeong 070601~070630
 
 .boardWrite { border:1px solid #e0e1db; padding-bottom:10px;}
 .boardWrite fieldset { border:none; }
-.boardWrite .inputItem { margin:10px 10px 0 10px; }
-.boardWrite .inputItem .userName {width:220px; margin-right:10px; }
-.boardWrite .inputItem .userPw {width:220px; margin-right:10px; }
-.boardWrite .inputItem .emailAddress {width:220px; margin-right:10px; }
-.boardWrite .inputItem .homePage {width:220px; margin-right:10px; }
+.boardWrite .inputItem { margin:10px 0 0 5px; float:left; }
+.boardWrite .inputItem label { margin:0 0 3px 0; padding;0; display:block; white-space:nowrap;}
+.boardWrite .inputItem .userName {width:100px; margin-right:10px; }
+.boardWrite .inputItem .userPw {width:100px; margin-right:10px; }
+.boardWrite .inputItem .emailAddress {width:100px; margin-right:10px; }
+.boardWrite .inputItem .homePage {width:100px; margin-right:10px; }
 
 .boardWrite .title { margin-top:5px; }
 .boardWrite .title .category { margin-left:10px; }

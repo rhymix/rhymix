@@ -10,21 +10,24 @@
 
     <div class="boardWrite">
         <!--@if(!$is_logged)-->
-        <div class="inputItem">
-            <input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="userName inputTypeText" id="userName"/>
-            <label for="userName">{$lang->writer}</label>
-        </div>
-        <div class="inputItem">
-            <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
-            <label for="userPw">{$lang->password}</label>
-        </div>
-        <div class="inputItem">
-            <input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
-            <label for="emailAddress">{$lang->email_address}</label>
-        </div>
-        <div class="inputItem">
-            <input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
-            <label for="homePage">{$lang->homepage}</label>
+        <div>
+          <div class="inputItem">
+              <label for="userName">{$lang->writer}</label>
+              <input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="userName inputTypeText" id="userName"/>
+          </div>
+          <div class="inputItem">
+              <label for="userPw">{$lang->password}</label>
+              <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
+          </div>
+          <div class="inputItem">
+              <label for="emailAddress">{$lang->email_address}</label>
+              <input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
+          </div>
+          <div class="inputItem">
+              <label for="homePage">{$lang->homepage}</label>
+              <input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
+          </div>
+          <div class="clear"></div>
         </div>
         <!--@end-->
 
