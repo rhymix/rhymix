@@ -103,3 +103,10 @@ a.button span, span.button button, span.button input, del.button span{
 }
 
 
+.trackbackBox {border:1px solid #444444; }
+.viewDocument { border:1px solid #444444; }
+.replyBox { border:none; }
+.replyBox .replyItem { border:none; border-top:1px dotted #444444;}
+.boardWrite { border:1px solid #555555; }
+.smallBox { border:1px solid #555555; }
+.smallBox .header { background-color:transparent; }

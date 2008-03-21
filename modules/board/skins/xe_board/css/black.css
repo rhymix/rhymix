@@ -13,6 +13,8 @@
 
 /* boardRead */
 .boardRead .fileAttached li { background:url(../images/black/iconFile.gif) no-repeat left top;}
+.boardRead .titleAndUser { border-bottom:1px solid #555555; }
+.boardRead .contentButton { border-top:1px solid #555555; }
 
 /* style.list */
 .boardList th { background:transparent url(../images/black/lineBoardListTh.gif) no-repeat left bottom; }
@@ -87,8 +89,10 @@
 .secretContent { border:1px solid #888888; width:240px; }
 .secretContent .title { background-color:#444444; color:#AAAAAA;}
 .secretContent .content { background-color:#222222; color:#888888; }
-.smallBox .messageBox { background-color:#444444; border-bottom:1px solid #888888; color:#AAAAAA;}
 .boardRead .readBody { color:#BBBBBB; }
+.smallBox { border:1px solid #555555; }
+.smallBox .messageBox { background-color:#444444; border-bottom:1px solid #888888; color:#AAAAAA;}
+.smallBox .header { background:transparent !important; }
 
 /* button */
 a.button, span.button, del.button,
