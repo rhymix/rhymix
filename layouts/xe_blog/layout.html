@@ -98,7 +98,7 @@
         <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="layout" mid_list="{$layout_info->target_mid}" />
 
 		<div class="blogSearch">
-            <form action="./" method="post">
+            <form action="{Context::getRequestUri()}" method="post">
                 <fieldset>
                     <legend>{$lang->cmd_search}</legend>
                     <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
