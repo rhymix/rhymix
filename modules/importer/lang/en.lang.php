@@ -8,7 +8,7 @@
     // words for button
     $lang->cmd_sync_member = 'Synchronize';
     $lang->cmd_continue = 'Continue';
-    $lang->preprocessing = 'A preprocess is being processed for transferation.';
+    $lang->preprocessing = 'It is preparing for transferring data.';
 
     // items
     $lang->importer = 'Transfer Zeroboard Data';
