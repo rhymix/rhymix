@@ -20,13 +20,11 @@ Mais quand le thème ajouté des éléments de design est inclus, l\'Auteur du t
 Version 2, Juin 1991
 --------------------------------------------------------------------------------
 
-Copyright © Free Software Foundation, Inc. 
-59 Temple Place, Suite 330, Boston, MA 02111-1307 
-Etats-Unis, 1989, 1991. 
-La copie et la distribution de copies exactes de ce document sont 
-autorisees, mais aucune modification n\'est permise.
-
+Copyright © Free Software Foundation, Inc.
+59 Temple Place, Suite 330, Boston, MA 02111-1307
+États-Unis, 1989, 1991.
 La copie et la distribution de copies exactes de ce document sont autorisées, mais aucune modification n\'est permise. 
+
 Préambule
 Les licences d\'utilisation de la plupart des programmes sont définies pour limiter ou supprimer toute liberté à l\'utilisateur. À l\'inverse, la Licence Publique Générale (General Public License) est destinée à vous garantir la liberté de partager et de modifier les logiciels libres, et de s\'assurer que ces logiciels sont effectivement accessibles à tout utilisateur.
 Cette Licence Publique Générale s\'applique à la plupart des programmes de la Free Software Foundation, comme à tout autre programme dont l\'auteur l\'aura décidé (d\'autres logiciels de la FSF sont couverts pour leur part par la Licence Publique Générale pour Bibliothèques GNU (LGPL)). Vous pouvez aussi appliquer les termes de cette Licence à vos propres programmes, si vous le désirez.
