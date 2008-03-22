@@ -160,7 +160,7 @@ FIN DES TERMES ET CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l\'installation, SVP.";
+    $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l'installation, SVP.";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'Version de PHP',
