@@ -37,7 +37,7 @@
     $lang->cmd_move_down = 'En bas';
     $lang->cmd_add_indent = 'Ajouter un Rentré';
     $lang->cmd_remove_indent = 'Enlever un Rentré';
-    $lang->cmd_management = 'Administration';
+    $lang->cmd_management = 'Gérer';
     $lang->cmd_make = 'Créer';
     $lang->cmd_select = 'Choisir';
     $lang->cmd_select_all = 'Choisir Tous';
