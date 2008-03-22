@@ -125,8 +125,8 @@
 
     $lang->document_count = ' Documents';
     $lang->page_count = 'Pages';
-    $lang->list_count = 'Listes';
-    $lang->search_list_count = 'Recherches';
+    $lang->list_count = 'Items';
+    $lang->search_list_count = 'Trouvés';
     $lang->readed_count = ' Vues';
     $lang->voted_count = 'Recommandés';
     $lang->member_count = 'Membres';
