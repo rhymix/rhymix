@@ -11,7 +11,7 @@
     $lang->cmd_delete_checked_comment = 'Delete selected item';
 
     $lang->comment_count = 'Number of Comments';
-	$lang->about_comment_count = 'If there are more comments, they will be moved to list.';
+	$lang->about_comment_count = 'Display the comments as much as user inputs the number and it will be moved to the List if the comments are over its number.';
 
     $lang->msg_cart_is_null = 'Please select an article to delete';
     $lang->msg_checked_comment_is_deleted = '%d comment(s) is(are) successfully deleted.'; 
