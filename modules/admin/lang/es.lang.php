@@ -63,7 +63,7 @@
     );
 
     $lang->xe_developer_links = array(
-        //'Manuales' => 'http://www.zeroboard.com/wiki/manual',
+        'Manuales' => 'http://www.zeroboard.com/manual',
         'Foro Abierto para los desarrolladores' => 'http://spring.zeroboard.com',
         'Huellas de distribuciones' => 'http://trac.zeroboard.com',
         'Repositorio de SVN' => 'http://svn.zeroboard.com',
