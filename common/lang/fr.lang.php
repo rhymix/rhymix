@@ -58,7 +58,7 @@
     $lang->cmd_scrap = 'Coupure';
     $lang->cmd_preview = 'Avant-première';
     $lang->cmd_reset = 'Restaurer';
-    $lang->cmd_remake_cache = "Recréer le Fichier cache";
+    $lang->cmd_remake_cache = "Recréer la Cachette du Fichier";
     $lang->cmd_publish = "Publier";
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
@@ -71,8 +71,8 @@
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Catégorie';
-    $lang->document_srl = 'Numéro du Document';
-    $lang->user_id = 'Compte d\'Utilisateur';
+    $lang->document_srl = 'Numéro de série du Document';
+    $lang->user_id = 'Compte';
     $lang->author = 'Auteur';
     $lang->password = 'Mot de Passe';
     $lang->password1 = 'Mot de Passe';
@@ -116,23 +116,23 @@
     $lang->module = 'Module';
     $lang->skin = 'Thème';
     $lang->colorset = 'Arrangement de couleur';
-    $lang->extra_vars = 'Variables Supplementaires';
+    $lang->extra_vars = 'Variables Supplémentaires';
 
     $lang->document_url = 'Document URL';
     $lang->trackback_url = 'Rétrolien URL';
     $lang->blog_name = 'Nom du Blogue';
     $lang->excerpt = 'Extrait';
 
-    $lang->document_count = 'Somme des Documents';
-    $lang->page_count = 'Somme de Pages';
-    $lang->list_count = 'Somme de Listes';
-    $lang->search_list_count = 'Somme de Liste des recherches';
+    $lang->document_count = ' Documents';
+    $lang->page_count = 'Pages';
+    $lang->list_count = 'Listes';
+    $lang->search_list_count = 'Liste des Recherches';
     $lang->readed_count = ' Vues';
     $lang->voted_count = 'Recommandés';
-    $lang->member_count = 'Somme de Membres';
+    $lang->member_count = 'Membres';
     $lang->date = 'Jour';
-    $lang->regdate = 'Jour d\'Enrégistrement';
-    $lang->last_update = 'La Dernière Mise à Jour';
+    $lang->regdate = 'Enrégistré';
+    $lang->last_update = 'Mise à Jour';
     $lang->last_post = 'Dernière Affichage';
     $lang->signup_date = 'Jour de s\'inscrire';
     $lang->last_login = 'Dernière connexion';
