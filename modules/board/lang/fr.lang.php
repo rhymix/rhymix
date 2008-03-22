@@ -32,7 +32,7 @@
     $lang->about_category_group_srls = 'Le groupe sélectionné seulement pourra voir ces catégories. (Ouvrir manuellement le fiche de xml, c\'est l\'exposer)';
     $lang->about_layout_setup = 'Vous pouvez manuellement modifier le code de Mise en Page du Panneau. Insérez ou arrangez le code de Widget n\'importe où vous voulez.';
     $lang->about_board_category = 'Vous pouvez créer des catégories d\'affichage dans le tableau. Quand la catégorie d\'affichage est cassé, essayez manuellement rétablir la cachette du fichier.';
-    $lang->about_except_notice = "L\'Article de Notice ne sera exposé sur la liste normale.";
+    $lang->about_except_notice = "L'Article de Notice ne sera exposé sur la liste normale.";
     $lang->about_board = "Ce module se sert à créer et arranger des Panneaux.\nAprés avoir créé un module, si vous cliquez le nom sur le liste, vous pouvez configurer spécifiquement.\nFaites attention quand vous nomer un module du Panneau, car ce sera URL. (ex : http://domain/zb/?mid=nom_de_module)"; 
 	$lang->about_consultation = "Les membres non-administratifs verront seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
 ?>
