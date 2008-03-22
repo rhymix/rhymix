@@ -222,7 +222,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Utiliser mode de  récrire(rewrite mod)';
     $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
     $lang->time_zone = 'Fuseau horaire';
-    $lang->about_time_zone = "Si l\'heure de serveur et celle de votre emplacement ne s\'accordent pas,  vous pouvez remettre l\'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
+    $lang->about_time_zone = "Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
 
     $lang->about_database_file = 'Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l\'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>';
 
