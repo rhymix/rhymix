@@ -149,7 +149,7 @@
     $lang->layout_manager = 'Arrangements de Mise en Page';
 
     $lang->use = 'Utiliser';
-    $lang->notuse = 'Ne Pas Utiliser';
+    $lang->notuse = 'Pas Utilisé';
     $lang->not_exists = 'Rien';
 
     $lang->public = 'public';
