@@ -220,7 +220,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Valider Optimiseur';
     $lang->about_optimizer = 'Si l\' optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et  comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalider, ça marchera correctement pourtant il marchera plus lentement.';
     $lang->use_rewrite = 'Utiliser mode de  récrire(rewrite mod)';
-    $lang->about_rewrite = "Si le serveur de web est capable d\'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
+    $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
     $lang->time_zone = 'Fuseau horaire';
     $lang->about_time_zone = "Si l\'heure de serveur et celle de votre emplacement ne s\'accordent pas,  vous pouvez remettre l\'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
 
