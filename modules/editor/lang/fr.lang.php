@@ -44,7 +44,7 @@
     $lang->about_editor_height = 'Vous pouvez configurer l\'hauteur de l\'Editeur.';
     $lang->about_editor_height_resizable = 'Autoriser à remettre l\'hauteur de l\'Editeur.';
     $lang->about_enable_html_grant = 'Vous pouvez autoriser à utiliser HTML';
-    $lang->about_enable_autosave = 'Vous pouvez valider la fonction  conserver automatiquement pendant écrire des articles.';
+    $lang->about_enable_autosave = 'Vous pouvez valider la fonction à conserver automatiquement pendant écrire des articles.';
 
     $lang->edit->fontname = 'Police de caractères';
     $lang->edit->fontsize = 'Mesure';
