@@ -46,7 +46,7 @@
 
     $lang->welcome_to_zeroboard_xe = 'Bienvenue sur la Page d\'Administration du Zeroboard XE';
     $lang->about_admin_page = "La Page d\'Administration est encore en train de développer,\nNous allons ajouter des contenus essentiels par accepter beauoup de bons suggestions pendant Béta Proche.";
-    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] audessous. Les visiteurs vont voir toutes les menus et les messages en la langue que vous choisissez.";
+    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir toutes les menus et les messages en la langue que vous choisissez.";
 
     $lang->zeroboard_xe_user_links = 'Liens pour les Utilisateurs';
     $lang->zeroboard_xe_developer_links = 'Liens pour les Développeur';
