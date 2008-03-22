@@ -110,7 +110,7 @@
     $lang->friend = 'Les Amis';
     $lang->notify = 'Annoncer';
 
-    $lang->mid = 'Nom de Module';
+    $lang->mid = 'Nom';
     $lang->layout = 'Mise en Page';
     $lang->widget = 'Widget';
     $lang->module = 'Module';
