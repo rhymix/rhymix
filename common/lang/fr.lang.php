@@ -76,7 +76,7 @@
     $lang->author = 'Auteur';
     $lang->password = 'Mot de Passe';
     $lang->password1 = 'Mot de Passe';
-    $lang->password2 = 'Confirmer le Mot de Passe';
+    $lang->password2 = 'Confirmer du Mot de Passe';
     $lang->admin_id = 'Compte d\'Administrateur';
     $lang->writer = 'Auteur';
     $lang->user_name = 'Nom d\'utilisateur';
@@ -126,13 +126,13 @@
     $lang->document_count = ' Documents';
     $lang->page_count = 'Pages';
     $lang->list_count = 'Listes';
-    $lang->search_list_count = 'Liste des Recherches';
+    $lang->search_list_count = 'Recherches';
     $lang->readed_count = ' Vues';
     $lang->voted_count = 'Recommandés';
     $lang->member_count = 'Membres';
     $lang->date = 'Jour';
     $lang->regdate = 'Enrégistré';
-    $lang->last_update = 'Mise à Jour';
+    $lang->last_update = 'Dernière Mise à Jour';
     $lang->last_post = 'Dernière Affichage';
     $lang->signup_date = 'Jour de s\'inscrire';
     $lang->last_login = 'Dernière connexion';
