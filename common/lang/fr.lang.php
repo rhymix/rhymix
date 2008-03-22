@@ -150,7 +150,7 @@
 
     $lang->use = 'Utiliser';
     $lang->notuse = 'Ne Pas Utiliser';
-    $lang->not_exists = 'n\'Existe Pas';
+    $lang->not_exists = 'Rien';
 
     $lang->public = 'public';
     $lang->private = 'privé';
