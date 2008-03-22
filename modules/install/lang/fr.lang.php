@@ -160,7 +160,7 @@ FIN DES TERMES ET CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "Vérifiez  les condition requises pour l\'installation, SVP.";
+    $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l\'installation, SVP.";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'Version de PHP',
@@ -172,10 +172,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Requis] Si la version de PHP est 5.2.2, zeroboard ne sera pas  installé à cause du bogue',
-            'permission' => '[Requis] Chemin de l\' installation de Zeroboard ou  la permission de  répertoire de ./files doit être 707',
-            'xml' => '[Requis] La bibliothèque de  XML est nécessaire pour la communication de XML',
-            'session' => '[Requis] \'Session.auto_start\' dans la fichier de configuration pour PHP  (php.ini) doit être égal à zéro car zeroboard utilise la session',
+			'php_version' => '[Obligatoire] Si la version de PHP est 5.2.2, zeroboard ne sera pas  installé à cause du bogue',
+            'permission' => '[Obligatoire] Chemin de l\' installation de Zeroboard ou  la permission de  répertoire de ./files doit être 707',
+            'xml' => '[Obligatoire] La bibliothèque de  XML est nécessaire pour la communication de XML',
+            'session' => '[Obligatoire] \'Session.auto_start\' dans la fichier de configuration pour PHP  (php.ini) doit être égal à zéro car zeroboard utilise la session',
             'iconv' => 'Iconv doit être installé afin de convertir UTF-8 et des autres assortiments des  langues',
             'gd' => 'La bibliothèque de GD doit être installé afin d\'utiliser la fonction à convertir des images',
         );
@@ -190,7 +190,7 @@ EndOfLicense;
     $lang->install_permission_denied = 'La permission du chemin d\'installation n\'est pas égale à 707';
 
     $lang->cmd_agree_license = 'Je suis d\'accord avec la license';
-    $lang->cmd_install_fix_checklist = 'J\'ai corrigé les condition requises.';
+    $lang->cmd_install_fix_checklist = 'J\'ai corrigé les conditions obligatoires.';
     $lang->cmd_install_next = 'Continuer à  installer';
 
     $lang->db_desc = array(
