@@ -2,7 +2,7 @@
     /**
      * @file   modules/counter/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue française (Contenu fondamental est seulement lesté)
+     * @brief  Paquet de la langue franÃ§aise (Contenu fondamental seulement)
      **/
 
     $lang->counter = "Coumpteur";
@@ -11,12 +11,12 @@
         'hour' => 'Par Heure',
         'day' => 'Par Jour',
         'month' => 'Par Mois',
-        'year' => 'Par An',
+        'year' => 'Par AnnÃ©e',
     );
 
     $lang->total_counter = 'Statut Total';
-    $lang->selected_day_counter = 'Statut du Jour Choisi';
+    $lang->selected_day_counter = 'Statut Journal';
 
     $lang->unique_visitor = 'Visiteurs';
-    $lang->pageview = 'Vues de la Page';
+    $lang->pageview = 'Vues';
 ?>

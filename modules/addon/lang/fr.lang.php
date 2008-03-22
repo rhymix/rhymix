@@ -7,11 +7,11 @@
 
     $lang->addon = "Compagnon";
 
-    $lang->addon_info = 'Le résumé de la Compagnon';
+    $lang->addon_info = 'Le rÃ©sumÃ© de la Compagnon';
     $lang->addon_maker = 'L\'Auteur de la Compagnon';
     $lang->addon_history = 'L\'Histoire de la Compagnon';
 
-    $lang->about_addon = 'La Compagnon contrôle les actions plutôt d\'imprimer des résultats de HTML.<br/>Seulement par touche à bascule des compagnons que vous voulez faire marcher ou arrêter, vous pouvez appliquer les fonctions très utiles pour administrer votre site web.';
+    $lang->about_addon = 'La Compagnon, c\'est pour contrÃ´ler les actions plutÃ´t d\'imprimer des rÃ©sultats de HTML.<br/>Par la Touche Ã  Bascule des compagnons que vous voulez faire marcher ou arrÃªter, vous pouvez appliquer les fonctions trÃ¨s utiles Ã  administrer votre site web.';
 ?>
 
 
