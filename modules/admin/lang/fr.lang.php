@@ -16,7 +16,7 @@
         'base' => 'Modules par Défaut',
     );
 
-    $lang->newest_news = "Nouvelles Dernières";
+    $lang->newest_news = "Dernières Nouvelles";
     
     $lang->env_setup = "Configuration";
 

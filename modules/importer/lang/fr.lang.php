@@ -25,7 +25,7 @@
         1 => 'Pas 1. Choisir cible à transférer',
         12 => 'Pas 1-2. Choisir module de Cible',
         13 => 'Pas 1-3. Choisir categorie de Cible',
-        2 => 'Pas 2. Télécharger fichier XML',
+        2 => 'Pas 2. Télécharger fichier de XML',
         3 => 'Pas 2. Synchroniser données des membres et des articles',
     );
 
@@ -33,7 +33,7 @@
         1 => 'Sélectionnez la sorte du fichier de XML que vous voulez transférer.',
         12 => 'Sélectionnez le module objectif dans lequel vous voulez tranférer les données.',
         13 => 'Séléctionnez la catégorie objective dans laquelle vous voulez transférer les données.',
-        2 => "Entrez le chemin du fichier de XML pour transférer les données.\nS\'il est localisé dans le même compte, entréz le chemin absolute/relative. Sinon, entrez le URL commençant avec http://..",
+        2 => "Entrez le chemin du fichier de XML pour transférer les données.\nS'il est localisé dans le même compte, entréz le chemin absolut ou relatif. Sinon, entrez l'URL commençant avec http://..",
         3 => 'Les données des membres et ceux des articles ne peuvent pas corrects après la transfèrement. Dans ce cas, synchronisez SVP. Ça arrangera les données en fondant sur le compte d\'utilisateur.',
     );
 

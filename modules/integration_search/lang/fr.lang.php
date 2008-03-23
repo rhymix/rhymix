@@ -2,30 +2,30 @@
     /**
      * @file   modules/integration_search/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue française  (Choses fondamentales seulement)
+     * @brief  Paquet de la langue franaise  (Choses fondamentales seulement)
      **/
 
-    $lang->integration_search = "Recherche Intégrée";
+    $lang->integration_search = "Recherche IntÃ©gre";
 
-    $lang->sample_code = "Code d\'échantillon";
-    $lang->about_target_module = "Les modules choisis seulement seront les cibles. Faites attention quand vous mettez la permission, SVP.";
-    $lang->about_sample_code = "Vous pouvez utiliser la Reherche Intégrée en ajoutant le code ci-dessus dans le Mise en Page ou d\'autres choses.";
-    $lang->msg_no_keyword = "Entrez le mot de clé à rechercher, SVP.";
+    $lang->sample_code = "Code d\'Ã©chantillon";
+    $lang->about_target_module = "Les modules choisis seulement seront les objectifs. Faites attention quand vous mettez la permission, SVP.";
+    $lang->about_sample_code = "Vous pouvez utiliser la Reherche IntÃ©gre en ajoutant le code au-dessus dans le Mise en Page ou d'autres choses.";
+    $lang->msg_no_keyword = "Entrez le mot de clÃ© Ã  rechercher, SVP.";
 
-    $lang->is_result_text = "Il y a <strong>%d</strong> résultat(s) pour <strong>'%s'</strong>";
+    $lang->is_result_text = "Il y a <strong>%d</strong> rÃ©sultat(s) pour <strong>'%s'</strong>";
 
     $lang->is_search_option = array(
         'title' => 'Titre',
         'content' => 'Contenu',
         'title_content' => 'Titre+Contenu',
         'comment' => 'Commentaire',
-        'tag' => 'Tags',
+        'tag' => 'Tag',
     );
 
     $lang->is_sort_option = array(
-        'regdate' => 'Enrégistré',
+        'regdate' => 'EnrÃ©gistrÃ©',
         'comment_count' => 'Commentaires',
         'readed_count' => 'Vues',
-        'voted_count' => 'Recommendés',
+        'voted_count' => 'RecommendÃ©s',
     );
 ?>
