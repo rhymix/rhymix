@@ -64,7 +64,7 @@
 
     $lang->xe_developer_links = array(
         'Manuel' => 'http://www.zeroboard.com/manual',
-        "Forum pour les Dveloppeurs" => 'http://spring.zeroboard.com',
+        //"Forum pour les Dveloppeurs" => 'http://spring.zeroboard.com',
         'Traque des Issues' => 'http://trac.zeroboard.com',
         'Réservoir de SVN' => 'http://svn.zeroboard.com',
         'Document de Doxygen' => 'http://doc.zeroboard.com',
