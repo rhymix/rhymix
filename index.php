@@ -20,9 +20,6 @@
      * - document            : http://doc.zeroboard.com
      * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
      * \n
-     * \n
-     * Copyright (C) 2007년 고영수(skklove@gmail.com) \n
-     * \n
      * "Zeroboard™ XE"는 자유 소프트웨어입니다. \n
      * 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 \n
      * 그 이후 판을 임의로 선택해서, 그 규정에 따라 프로그램을 개작하거나 재배포할 수 있습니다. \n
