@@ -11,7 +11,7 @@
 	$lang->cmd_toggle_checked_comment = 'Renverser les choisis';
     $lang->cmd_delete_checked_comment = 'Supprimer les choisis';
 
-    $lang->comment_count = 'Commentaires';
+    $lang->comment_count = 'Nombres de Commentaires';
 	$lang->about_comment_count = 'Quand il y a plus de commentaires, ils seront bougés sur le liste.';
 
     $lang->msg_cart_is_null = 'Choisissez un article à supprimer, SVP.';
