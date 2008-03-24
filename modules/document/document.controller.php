@@ -426,6 +426,7 @@
             $args->document_srl = $document_srl;
             $output = executeQuery('document.getDeclaredDocument', $args);
             if(!$output->toBool()) return $output;
+            $declared_count = $output->data->declared_count;
 
             // 문서 원본을 가져옴
             $oDocumentModel = &getModel('document');
@@ -466,7 +467,7 @@
             }
 
             // 신고글 추가
-            if($output->data->declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
+            if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
             else $output = executeQuery('document.insertDeclaredDocument', $args);
             if(!$output->toBool()) return $output;
 

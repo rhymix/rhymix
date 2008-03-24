@@ -38,7 +38,7 @@
     $lang->msg_widget_proc_is_null = '不能执行%s控件的 proc()！';
 
     $lang->about_widget_code = '输入被选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。';
-    $lang->about_widget_code_in_page = '输入下列各项必要值后，按『代码生成』按钮，即可把控件插入到页面当中。';
+    $lang->about_widget_code_in_page = '输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。';
     $lang->about_widget = "控件是在布局或页面模块中使用的一种小部件。\n不仅可以关联内部模块或外部open api，而且通过设置可以用在多种用途。\n即使不使用Zeroboard XE的页面模块或布局模块，也可以通过『代码生成』功能直接可以添加相应控件。";
 
     $lang->cmd_content_insert = "添加内容";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/member/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ、liahona
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -11,7 +11,7 @@
     $lang->default_group_1 = "準会員";
     $lang->default_group_2 = "正会員";
     $lang->admin_group = "管理グループ";
-    $lang->keep_signed = '로그인 유지';
+    $lang->keep_signed = '次回からIDの入力を省略';
     $lang->remember_user_id = 'ＩＤ保存';
     $lang->already_logged = '既にログインされています。';
     $lang->denied_user_id = '使用が禁じられているＩＤです。';
@@ -47,9 +47,9 @@
     $lang->enable_join = '会員加入を許可する';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
-    $lang->after_login_url = '로그인 후 이동할 URL';
-    $lang->after_logout_url = '로그아웃 후 이동할 URL';
-    $lang->redirect_url = '加入後移動ページ';
+    $lang->after_login_url = 'ログイン後表示するページのURL';
+    $lang->after_logout_url = 'ログアウト後表示するページのURL';
+    $lang->redirect_url = '加入後表示するページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->sender = '送信者';
@@ -63,7 +63,7 @@
     $lang->webmaster_name = 'ウェブマスターの名前';
     $lang->webmaster_email = 'ウェブマスターのメール';
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = 'ブラウザーを閉じてもログインの状態が維持されます。.\n\n自動ログインを使用すると、次回からはログインする必要がありません。.\n\n但し、ネットカフェーや学校など公共の場では個人情報流出の恐れがありますので、必ずログアウトしてください。';
     $lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
@@ -148,7 +148,7 @@
     $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
-    $lang->msg_check_group = '그룹을 선택해 주세요';
+    $lang->msg_check_group = 'グループを選択してください。';
 
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することができません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
@@ -186,9 +186,9 @@
     $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
     $lang->about_limit_day = '会員加入後一定の期間中、認証制限を行うことができます。';
     $lang->about_limit_date = '指定された期間まで該当ユーザはログインできなくします。';
-    $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
-    $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
-    $lang->about_redirect_url = '会員加入後、移動するＵＲＬを入力してください。空の場合は会員加入する前のページに戻ります。';
+    $lang->about_after_login_url = 'ログイン後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。';
+    $lang->about_after_logout_url = 'ログアウト後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。';
+    $lang->about_redirect_url = '会員加入後、表示されるページのURLを指定できます。指定のない場合は会員加入する前のページに戻ります。';
     $lang->about_agreement = '会員加入規約がない場合は表示されません。';
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <title xml:lang="ko">제로보드XE 검은 배경 기본 에디터</title>
+  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <name xml:lang="ko">zero</name>
+    <name xml:lang="zh-CN">Zero</name>
+    <name xml:lang="jp">Zero</name>
+    <description xml:lang="ko">
+        개발 : zero (http://www.zeroboard.com) 
+    </description>
+    <description xml:lang="zh-CN">
+        程序 : zero (http://www.zeroboard.com) 
+    </description>
+    <description xml:lang="jp">
+        開発 : Zero (http://www.zeroboard.com) 
+    </description>
+  </maker>
+</skin>

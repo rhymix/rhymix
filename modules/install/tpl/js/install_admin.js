@@ -3,5 +3,5 @@
  */
 function completeInstalled(ret_obj) {
     alert(ret_obj["message"]);
-    location.href = "./";
+    location.href = "./index.php?module=admin";
 }

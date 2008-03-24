@@ -16,7 +16,7 @@
 .accountNavigation li.admin { background:url(../images/common/iconAdmin.gif) no-repeat left top; padding-left:12px; }
 .accountNavigation li.loginAndLogout { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left top; padding-left:8px; }
 
-.pageSearch { text-align:right; margin-bottom:10px; }
+.pageSearch { text-align:right; margin:10px 0 10px 0; }
 .pageList { border:1px solid #E3E3E2; }
 .pageList .page { border-top:1px dotted #EFEFEF; padding:10px; }
 .pageList .selected { background-color:#EFEFEF; }
@@ -38,3 +38,10 @@
 .pageView { border:1px solid #E3E3E2; padding:20px; margin-bottom:10px; }
 .pageView .xhtmlEditorBody ol, .pageView .xhtmlEditorBody ul { margin-left:20px; }
 .pageView .xhtmlEditorBody { border: 0; }
+
+ul.prevNext { margin:10px 0 10px 0; padding:5px; border:1px solid #EFEFEF; list-style:none; overflow:hidden; height:1.2em;}
+ul.prevNext li.prev { float:left; }
+ul.prevNext li.next { float:right; }
+ul.prevNext li { color:#444444; }
+ul.prevNext li a { text-decoration:none; color:#568942; }
+ul.prevNext li a:hover { text-decoration:underline; }

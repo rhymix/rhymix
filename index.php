@@ -1,7 +1,7 @@
 <?php
     /**
      * @file  index.php
-     * @author zero (zero@zeroboard.com)
+     * @author zero <zero@zeroboard.com>
      * @brief 시작 페이지
      *
      * zeroboard XE의 시작 페이지
@@ -19,9 +19,6 @@
      * - SVN Repository      : http://svn.zeroboard.com/zeroboard_xe/trunk
      * - document            : http://doc.zeroboard.com
      * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
-     * \n
-     * \n
-     * Copyright (C) 2007년 고영수(skklove@gmail.com) \n
      * \n
      * "Zeroboard™ XE"는 자유 소프트웨어입니다. \n
      * 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 \n
@@ -44,14 +41,14 @@
     /**
      * @brief 필요한 설정 파일들을 include
      **/
-    require_once("./config/config.inc.php");
+    require_once('./config/config.inc.php');
 
-    /** 
+    /**
      * @brief Context 객체를 생성하여 초기화
      * 모든 Request Argument/ 환경변수등을 세팅
      **/
-    $oContext = &Context::getInstance(); 
-    $oContext->init(); 
+    $oContext = &Context::getInstance();
+    $oContext->init();
 
     /**
      * @brief ModuleHandler 객체를 생성/ 실행

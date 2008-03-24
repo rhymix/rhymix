@@ -63,7 +63,7 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use this function in PC room, school, or other commons areas where your private information could be stolen.';
+    $lang->about_keep_signed = 'Your login session will not be expired even browser is closed.\n\nYou would not have to login manually from next time.\n\nIt is strongly recommended not to use this function in PC room, school, or other Public areas where your private information could be stolen.';
     $lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
@@ -154,7 +154,7 @@
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
 
-    $lang->msg_accept_agreement = 'You have to agree to the agreement'; 
+    $lang->msg_accept_agreement = 'You have to agree the agreement'; 
 
     $lang->msg_user_denied = 'You have entered a prohibited ID';
     $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
@@ -176,7 +176,7 @@
 
     $lang->about_column_type = 'Please set the format of additional sign up form';
     $lang->about_column_name = 'Please input English name that can be used in template (name as variable)';
-    $lang->about_column_title = 'This will be displayed on sign up or modifing/viewing member info form';
+    $lang->about_column_title = 'This will be displayed on sign up or modifying/viewing member info form';
     $lang->about_default_value = 'You can set default values';
     $lang->about_active = 'You have to check on active items to show on sign up form';
     $lang->about_form_description = 'If you input in description form, it will be displayed on sign up form';
@@ -201,6 +201,6 @@
     $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and certification management will be done on current OpenID offering service';
     $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
-    $lang->about_member = "This is a module for creating/modifing/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
+    $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
 ?>

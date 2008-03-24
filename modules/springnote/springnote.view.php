@@ -62,9 +62,15 @@
             if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pages = null;
             else {
                 if($this->module_info->pageid && $this->module_info->pageid_option == 'list') $pages = $oSpringnoteModel->getPages($q, true, $this->module_info->pageid);
-                else $pages = $oSpringnoteModel->getPages($q, true);
+                else {
+                    $pages = $oSpringnoteModel->getPages($q, true);
+                }
             }
 
+            if($pageid) {
+                if($pages[$pageid]->prev) $page->prev = $pages[$pageid]->prev;
+                if($pages[$pageid]->next) $page->next = $pages[$pageid]->next;
+            }
             Context::set('page', $page);
             Context::set('pages', $pages);
 

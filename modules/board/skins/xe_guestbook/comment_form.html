@@ -50,31 +50,38 @@
 <div class="boardWrite commentEditor">
 
   <!--@if(!$is_logged)-->
+  <div>
       <div class="inputItem">
-          <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
           <label for="userName">{$lang->writer}</label>
+          <input type="text" name="nick_name" value="{$oComment->get('nick_name')}" class="userName inputTypeText" id="userName"/>
       </div>
       <div class="inputItem">
-          <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
           <label for="userPw">{$lang->password}</label>
+          <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
       </div>
       <div class="inputItem">
-          <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
           <label for="emailAddress">{$lang->email_address}</label>
+          <input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/>
       </div>
       <div class="inputItem">
-          <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
           <label for="homePage">{$lang->homepage}</label>
+          <input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="homePage inputTypeText"/>
       </div>
+      <div class="clear"></div>
+  </div>
   <!--@end-->
-  <div class="inputItem">
+  <dl class="option">
       <!--@if($is_logged)-->
+      <dd>
           <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
           <label for="notify_message">{$lang->notify}</label>
+      </dd>
       <!--@end-->
-      <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
-      <label for="is_secret">{$lang->secret}</label>
-  </div>
+      <dd>
+        <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
+        <label for="is_secret">{$lang->secret}</label>
+      </dd>
+  </dl>
 
   <div class="editor">{$oComment->getEditor()}</div>
 

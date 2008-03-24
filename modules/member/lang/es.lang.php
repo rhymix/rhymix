@@ -46,8 +46,8 @@
     $lang->enable_join = 'Permitir el registro del usuario';
     $lang->limit_day = 'Límite de la fecha temporal';
     $lang->limit_date = 'Límite de fecha';
-    $lang->after_login_url = '로그인 후 이동할 URL';
-    $lang->after_logout_url = '로그아웃 후 이동할 URL';
+    $lang->after_login_url = 'URL después del inicio de sesión';
+    $lang->after_logout_url = 'URL después de cerrar sesión';
     $lang->redirect_url = 'URL luego del registro';
     $lang->agreement = 'Acuerdo del registro del usuario';
     $lang->accept_agreement = 'Acepto';
@@ -62,7 +62,7 @@
     $lang->webmaster_name = 'Nombre del Webmaster';
     $lang->webmaster_email = 'Correo electrónico Webmaster';
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 게속 유지될 수 있습니다.\n\n로그인 유지시 사용시 다음 접속부터는 로그인을 하실필요가 없습니다.\n\n단, 게임방, 학교등 공공장소에서 이용시 개인정보가 유출될수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = 'Su nombre de usuario período de sesiones no será vencido incluso el navegador está cerrado. \ N \ nSe no tendría acceso manualmente a partir de la próxima vez. \ N \ nIt Se recomienda encarecidamente no utilizar esta función en la sala de PC, la escuela y otros ámbitos en los que su público Información privada podrían ser robados.';
     $lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
     $lang->about_webmaster_email = 'Introduzca la dirección de correo electrónico webmaster.';
 

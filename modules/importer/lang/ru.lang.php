@@ -8,6 +8,7 @@
     // слова для кнопок
     $lang->cmd_sync_member = 'Синхронизировать';
     $lang->cmd_continue = 'Продолжить';
+    $lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
 
     // объекты
     $lang->importer = 'Импортировать данные zeroboard';
@@ -51,7 +52,7 @@
     $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
     $lang->about_type_module = 'Если Вы импортируете информацию форума или статей, выберите эту опцию';
     $lang->about_type_syncmember = 'Если Вы пытаетесь синхронизировать информацию пользователей после импорта информации пользователей и статей, выберите эту опцию';
-    $lang->about_importer = "Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в ZeroboardXE.\nЧтобы импортировать, Вам следует использовать <a href=\"#\" onclick=\"winopen('');return false;\">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.";
+    $lang->about_importer = "Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в ZeroboardXE.\nЧтобы импортировать, Вам следует использовать <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.";
 
     $lang->about_target_path = "Чтобы получить вложения с Zeroboard4, пожалуйста, введите адрес, где установлена  Zeroboard4.\nЕсли она раположена на том же сервере, введите путь к Zeroboard4 как /home/USERID/public_html/bbs\nЕсли нет, введите адрес, где Zeroboard4 установлена. Например: http://Domain/bbs";
 ?>

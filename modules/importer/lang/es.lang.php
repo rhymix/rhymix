@@ -8,6 +8,7 @@
     // Palabras para los botones
     $lang->cmd_sync_member = 'Sincronizar';
     $lang->cmd_continue = 'Continuar';
+    $lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
 
     // Especificaciones
     $lang->importer = 'Transferir los datos de zeroboard';
@@ -51,7 +52,7 @@
     $lang->about_ttxml_user_id = 'Por favor, de entrada ID de usuario establecer como autor de la transferencia de TTXML. (Identificación de usuario debe ser firmado ya en marcha)';
     $lang->about_type_module = 'Seleccione esta opción si estas transfeririendo información del documento de los tableros';
     $lang->about_type_syncmember = 'Seleccione esta opción cuando tenga que sincronizar la información del usuario luego de haber transferido la información del usuario y del artículo.';
-    $lang->about_importer = "Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a ZeroBoardXE.\nPara la transferencia debe utilizar <a href=\"#\" onclick=\"winopen('');return false;\">Exportador XML</a> para transformar los datos en archivo XML, y luego subir ese archivo.";
+    $lang->about_importer = "Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a ZeroBoardXE.\nPara la transferencia debe utilizar <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.";
 
     $lang->about_target_path = "Para descargar los archivos adjuntos de ZeroBoard4, ingresa la ubicación de ZeroBoard4 instalado.\nSi esta en el mismo servidor escriba la ubicación de ZeroBoard4 como por ejemplo: /home/ID/public_html/bbs o si esta en otro servidor escriba la ubicación de ZeroBoard4 instalado como por ejemplo: http://dominio/bbs";
 ?>

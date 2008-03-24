@@ -24,8 +24,8 @@
     $lang->skin_maker_homepage = '作者主页';
     $lang->module_copy = "Copy Module";
 
-    $lang->header_script = "헤더 스크립트";
-    $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
+    $lang->header_script = "文件头部脚本";
+    $lang->about_header_script = "可以直接输入插入到html中&lt;head&gt;区的代码。<br />可使用&lt;script, &lt;style 或 &lt;meta 等标签。";
 
     $lang->cmd_add_shortcut = "添加到快捷菜单";
     $lang->cmd_install = "安装";
@@ -55,9 +55,9 @@
     $lang->about_skin = '可以选择模块皮肤。';
     $lang->about_use_category = '选择此项可以使用分类功能。';
     $lang->about_list_count = '可以指定每页显示的主题数。(默认为20个)';
-    $lang->about_search_list_count = '검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)';
-    $lang->about_page_count = '可以指定显示在目录下方的页面数。 (默认为10个)';
-    $lang->about_admin_id = '可以对该模块指定最高管理权限。<br />有多名管理员时，可以用,(逗号)来分隔。 (不能访问管理页面)';
+    $lang->about_search_list_count = '可以指定搜索或选择分类时每页要显示的帖子数(默认为20个)。';
+    $lang->about_page_count = '可以指定显示在目录下方的页面数(默认为10个)。 ';
+    $lang->about_admin_id = '可以对该模块指定最高管理权限。<br />有多名管理员时，可以用,(逗号)来分隔(不能访问管理页面)。 ';
     $lang->about_grant = '全部解除特定权限的对象时，没有登录的会员也将具有相关权限。';
     $lang->about_module = "除基本library以外Zeroboard XE全部由模块组成。\n模块管理中列出所有已安装的模块，因此易于管理。\n常用模块可以通过『添加到快捷菜单』来方便管理。";
 

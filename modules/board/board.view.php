@@ -107,8 +107,8 @@
                 // 글에 대한 정보를 구함
                 $oDocument->setDocument($document_srl);
 
-                // 상담 기능이 열려 있을 경우 현재 사용자의 글이 아니면 무시
-                if($oDocument->isExists() && $this->consultation) {
+                // 상담기능이 사용되고 공지사항이 아니고 사용자의 글도 아니면 무시
+                if($oDocument->isExists() && $this->consultation && !$oDocument->isNotice()) {
                     $logged_info = Context::get('logged_info');
                     if($oDocument->get('member_srl')!=$logged_info->member_srl) $oDocument = new DocumentItem();
                 }

@@ -39,8 +39,16 @@
         function dispMemberAdminList() {
 
             // member model 객체 생성후 목록을 구해옴
-            $oMemberModel = &getAdminModel('member');
-            $output = $oMemberModel->getMemberList();
+            $oMemberAdminModel = &getAdminModel('member');
+            $oMemberModel = &getModel('member');
+            $output = $oMemberAdminModel->getMemberList();
+
+            // 개인별로 그룹목록을 가져 옴
+            if($output->data) {
+                foreach($output->data as $key => $member) {
+                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+                }
+            }
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -68,6 +76,12 @@
             if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
+            if(!$config->editor_skin) $config->editor_skin = "default";
+
+            // 에디터 스킨 목록을 구함
+            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
+            Context::set('editor_skin_list', $editor_skin_list);
+
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함

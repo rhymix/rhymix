@@ -355,6 +355,14 @@ function showOriginalImage(evt) {
     var obj = e.target;
     var src = obj.src;
 
+    if(!xGetElementById("fororiginalimagearea")) {
+        var dummy = xCreateElement("div");
+        dummy.id = "fororiginalimagearea";
+        dummy.style.visibility = "hidden";
+        xInnerHtml(dummy, "<div id=\"fororiginalimageareabg\"><img src=\""+request_uri+"common/tpl/images/blank.gif\" alt=\"original image\" border=\"0\" id=\"fororiginalimage\" /><img src=\""+request_uri+"common/tpl/images/original_image_box_close.gif\" alt=\"close original image\" border=\"0\" onclick=\"closeOriginalImage()\" id=\"closeOriginalImageBtn\"/></div>");
+        document.body.appendChild(dummy);
+    }
+
     var orig_image = xGetElementById("fororiginalimage");
     var tmp_image = new Image();
     tmp_image.src = src;
@@ -506,7 +514,11 @@ var loaded_popup_menu_list = new Array();
 function chkPopupMenu(evt) {
     // 이전에 호출되었을지 모르는 팝업메뉴 숨김
     var area = xGetElementById("popup_menu_area");
-    if(!area) return;
+    if(!area) {
+        area = xCreateElement("div");
+        area.id = "popup_menu_area";
+        document.body.appendChild(area);
+    }
     if(area.style.visibility!="hidden") area.style.visibility="hidden";
 
     // 이벤트 대상이 없으면 무시
@@ -784,18 +796,19 @@ function doAddDocumentCart(obj) {
 /* ff의 rgb(a,b,c)를 #... 로 변경 */
 function transRGB2Hex(value) {
     if(!value) return value;
-    if(value.indexOf('#')>-1) return value.replace(/^#/,'');
+    if(value.indexOf('#') > -1) return value.replace(/^#/, '');
 
-    if(value.toLowerCase().indexOf('rgb')<0) return value;
-    value = value.replace(/^rgb\(/i,'').replace(/\)$/,'');
+    if(value.toLowerCase().indexOf('rgb') < 0) return value;
+    value = value.replace(/^rgb\(/i, '').replace(/\)$/, '');
     value_list = value.split(',');
 
     var hex = '';
-    for(var i=0;i<value_list.length;i++) {
-        var color = parseInt(value_list[i],10).toString(16);
+    for(var i = 0; i < value_list.length; i++) {
+        var color = parseInt(value_list[i], 10).toString(16);
+        if(color.length == 1) color = '0'+color;
         hex += color;
     }
-    return '#'+hex;
+    return hex;
 }
 
 /**

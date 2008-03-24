@@ -8,50 +8,51 @@
     // words for button
     $lang->cmd_sync_member = 'Synchroniser';
     $lang->cmd_continue = 'Continuer';
+    $lang->preprocessing = 'On est en train de préparer pour transférer les données.';
 
     // items
-    $lang->importer = 'Transf�rer des Donn�es du Zeroboard';
+    $lang->importer = 'Transférer les Données du Zeroboard';
     $lang->source_type = 'Sorte de Source';
-    $lang->type_member = 'Donn�es des Membres';
-    $lang->type_message = 'Donn�es des Messages';
+    $lang->type_member = 'Données des Membres';
+    $lang->type_message = 'Données des Messages';
     $lang->type_ttxml = 'TTXML';
-    $lang->type_module = 'Donn�es des Articles';
-    $lang->type_syncmember = 'Synchroniser les Donn�es des Membres';
-    $lang->target_module = 'Module de cible ';
+    $lang->type_module = 'Données des Articles';
+    $lang->type_syncmember = 'Synchroniser les Données des Membres';
+    $lang->target_module = 'Module objectif';
     $lang->xml_file = 'Fichier de XML';
 
     $lang->import_step_title = array(
-        1 => 'Step 1. Choisir cible � transf�rer',
-        12 => 'Step 1-2. Choisir module de Cible',
-        13 => 'Step 1-3. Choisir categorie de Cible',
-        2 => 'Step 2. T�l�charger fichier XML',
-        3 => 'Step 2. Synchroniser donn�es des membres et des articles',
+        1 => 'Pas 1. Choisir cible à transférer',
+        12 => 'Pas 1-2. Choisir module de Cible',
+        13 => 'Pas 1-3. Choisir categorie de Cible',
+        2 => 'Pas 2. Télécharger fichier de XML',
+        3 => 'Pas 2. Synchroniser données des membres et des articles',
     );
 
     $lang->import_step_desc = array(
-        1 => 'S�lectionnez la sorte du fichier de XML que vous voulez transf�rer.',
-        12 => 'S�lectionnez le module objectif dans lequel vous voulez tranf�rer des donn�es.',
-        13 => 'S�l�ctionnez la categorie objective dans laquelle vous voulez transf�rer des donn�es.',
-        2 => "Entrez le chemin du fichier de XML pour transf�rer des donn�es.\nS\'il est localis� dans le m�me compte, entr�z le chemin absolute/relative. Sinon, entrez le URL commen�ant avec http://..",
-        3 => 'Les donn�es des membres et ceux des articles ne peuvent pas corrects apr�s la transf�rement. Dans ce cas, synchronisez pour les r�parer  fond� sur le compte d\'utilisateur.',
+        1 => 'Sélectionnez la sorte du fichier de XML que vous voulez transférer.',
+        12 => 'Sélectionnez le module objectif dans lequel vous voulez tranférer les données.',
+        13 => 'Séléctionnez la catégorie objective dans laquelle vous voulez transférer les données.',
+        2 => "Entrez le chemin du fichier de XML pour transférer les données.\nS'il est localisé dans le même compte, entréz le chemin absolut ou relatif. Sinon, entrez l'URL commençant avec http://..",
+        3 => 'Les données des membres et ceux des articles ne peuvent pas corrects après la transfèrement. Dans ce cas, synchronisez SVP. Ça arrangera les données en fondant sur le compte d\'utilisateur.',
     );
 
     // guide/alert
-    $lang->msg_sync_member = 'Member and article data synchronization will begin by clicking the synchronize button.';
-    $lang->msg_no_xml_file = 'Could not find XML file. Please check the path again';
-    $lang->msg_invalid_xml_file = 'Invalid type of XML file.';
-    $lang->msg_importing = 'Writing %d datas of %d. (If it keeps being frozen, click the button "Continue")';
-    $lang->msg_import_finished = '%d/%d datas were inputted completely. Depending on the situation, there might be some datas which couldn\'t be inputted.';
-    $lang->msg_sync_completed = 'Completed synchronzing member article and comments.';
+    $lang->msg_sync_member = 'On commencera à synchroniser les données des membres et des articles quand vous cliquez le boutton de synchroniser.';
+    $lang->msg_no_xml_file = 'On ne peut pas trouver le fichier de XML. Vérifiez le chemin encore une fois, SVP.';
+    $lang->msg_invalid_xml_file = 'Ce fichier de XML est invalide.';
+    $lang->msg_importing = 'On écrit %d données sur %d. (Si c\'est arrêté, cliquez le boutton "Continuer")';
+    $lang->msg_import_finished = '%d/%d données sont insérées complètement. En dépendant sur la situation, il y aura quelques données qui n\'ont pas été insérées.';
+    $lang->msg_sync_completed = 'On a terminé de synchroniser les données des membres, des articles et des commentaires.';
 
     // blah blah..
-    $lang->about_type_member = 'If you are transfering the member information, select this option';
-    $lang->about_type_message = 'If you are transfering the message information, select this option';
-    $lang->about_type_ttxml = 'If you are transfering the TTXML(textcube) information, select this option';
-	$lang->about_ttxml_user_id = 'Please input user ID to set as author on transfering TTXML. (user ID must be already signed up)';
-    $lang->about_type_module = 'If you are transfering the board or articles information, select this option';
-    $lang->about_type_syncmember = 'If you are trying to synchronize the member information after transfering member and article information, select this option';
-    $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";
+    $lang->about_type_member = 'Sélectionnez cette option si vous voulez transférer les informations des membres';
+    $lang->about_type_message = 'Sélectionnez cette option si vous voulez transférer les informations des messages';
+    $lang->about_type_ttxml = 'Sélectionnez cette option si vous voulez transférer les informations des TTXML(textcube)';
+	$lang->about_ttxml_user_id = 'Insérez le compte d\'utilisateur pour déclarer comme l\'auteur. (Le compte d\'utilisateur doit être déjà inscrit)';
+    $lang->about_type_module = 'Sélectionnez cette option si vous voulez transférer les informations des panneaux ou des articles.';
+    $lang->about_type_syncmember = 'Sélectionnez cette option si vous voulez synchroniser les informations des membres après le trensfert des informations des membres et des articles.';
+    $lang->about_importer = "Vous pouvez transeférer les données de Zeroboard4, de Zeroboard5 Beta ou d\'autres logiciels en les données de ZeroboardXE.\nPour tranférer, vous devez utiliser <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.";
 
-    $lang->about_target_path = "To get attachments from Zeroboard4, please input the address where Zeroboard4 is installed.\nIf it is located in the same server, input Zeroboard4's path such as /home/USERID/public_html/bbs\nIf it is not located in the same server, input the address where Zeroboard4 is installed. ex. http://Domain/bbs";
+    $lang->about_target_path = "Pour obtenir les attachés de Zeroboard4, Insérez l\'addresse ou Zeroboard4 est installé.\nSi ça se trouve dans le même serveur, entrez le chemin comme \'/home/USERID/public_html/bbs\'\nSi ça ne se trouve pas dans le même serveur, entrez l\'address où Zeroboard4 est installé comme \'http://Domain/bbs\'";
 ?>

@@ -37,7 +37,7 @@
     $lang->cmd_move_down = 'En bas';
     $lang->cmd_add_indent = 'Ajouter un Rentré';
     $lang->cmd_remove_indent = 'Enlever un Rentré';
-    $lang->cmd_management = 'Administration';
+    $lang->cmd_management = 'Gérer';
     $lang->cmd_make = 'Créer';
     $lang->cmd_select = 'Choisir';
     $lang->cmd_select_all = 'Choisir Tous';
@@ -58,7 +58,7 @@
     $lang->cmd_scrap = 'Coupure';
     $lang->cmd_preview = 'Avant-première';
     $lang->cmd_reset = 'Restaurer';
-    $lang->cmd_remake_cache = "Recréer le Fichier cache";
+    $lang->cmd_remake_cache = "Recréer la Cachette du Fichier";
     $lang->cmd_publish = "Publier";
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
@@ -67,16 +67,16 @@
     $lang->disable = 'Invalide';
 
     // Mots essentiels
-    $lang->no = 'Numéro';
+    $lang->no = 'No';
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Catégorie';
-    $lang->document_srl = 'Numéro du Document';
-    $lang->user_id = 'Compte d\'Utilisateur';
+    $lang->document_srl = 'Numéro de série du Document';
+    $lang->user_id = 'Compte';
     $lang->author = 'Auteur';
     $lang->password = 'Mot de Passe';
     $lang->password1 = 'Mot de Passe';
-    $lang->password2 = 'Confirmer le Mot de Passe';
+    $lang->password2 = 'Confirmer du Mot de Passe';
     $lang->admin_id = 'Compte d\'Administrateur';
     $lang->writer = 'Auteur';
     $lang->user_name = 'Nom d\'utilisateur';
@@ -110,29 +110,29 @@
     $lang->friend = 'Les Amis';
     $lang->notify = 'Annoncer';
 
-    $lang->mid = 'Nom de Module';
+    $lang->mid = 'Nom';
     $lang->layout = 'Mise en Page';
     $lang->widget = 'Widget';
     $lang->module = 'Module';
     $lang->skin = 'Thème';
     $lang->colorset = 'Arrangement de couleur';
-    $lang->extra_vars = 'Variables Supplementaires';
+    $lang->extra_vars = 'Variables Supplémentaires';
 
     $lang->document_url = 'Document URL';
     $lang->trackback_url = 'Rétrolien URL';
     $lang->blog_name = 'Nom du Blogue';
     $lang->excerpt = 'Extrait';
 
-    $lang->document_count = 'Somme des Documents';
-    $lang->page_count = 'Somme de Pages';
-    $lang->list_count = 'Somme de Listes';
-    $lang->search_list_count = 'Somme de Liste des recherches';
+    $lang->document_count = ' Documents';
+    $lang->page_count = 'Pages';
+    $lang->list_count = 'Items';
+    $lang->search_list_count = 'Trouvés';
     $lang->readed_count = ' Vues';
     $lang->voted_count = 'Recommandés';
-    $lang->member_count = 'Somme de Membres';
+    $lang->member_count = 'Membres';
     $lang->date = 'Jour';
-    $lang->regdate = 'Jour d\'Enrégistrement';
-    $lang->last_update = 'La Dernière Mise à Jour';
+    $lang->regdate = 'Enrégistré';
+    $lang->last_update = 'Dernière Mise à Jour';
     $lang->last_post = 'Dernière Affichage';
     $lang->signup_date = 'Jour de s\'inscrire';
     $lang->last_login = 'Dernière connexion';
@@ -149,8 +149,8 @@
     $lang->layout_manager = 'Arrangements de Mise en Page';
 
     $lang->use = 'Utiliser';
-    $lang->notuse = 'Ne Pas Utiliser';
-    $lang->not_exists = 'n\'Existe Pas';
+    $lang->notuse = 'Pas Utilisé';
+    $lang->not_exists = 'Rien';
 
     $lang->public = 'public';
     $lang->private = 'privé';

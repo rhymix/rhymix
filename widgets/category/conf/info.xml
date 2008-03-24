@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">게시글 분류 출력기</title>
-	<title xml:lang="en">Article Categories</title>
+	<title xml:lang="en">Article Category</title>
 	<title xml:lang="es">게시글 분류 출력기</title>
 	<title xml:lang="ru">게시글 분류 출력기</title>
 	<title xml:lang="jp">書き込みのカテゴリ表示</title>
-	<title xml:lang="zh-CN">输出主题分类</title>
+	<title xml:lang="zh-CN">博客样式主题分类</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
         <name xml:lang="ko">제로</name>
 		<name xml:lang="en">zero</name>
@@ -14,11 +14,11 @@
 		<name xml:lang="jp">Zero</name>
 		<name xml:lang="zh-CN">zero</name>
         <description xml:lang="ko">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
-		<description xml:lang="en">This widgets displays categories of documents from modules which use category function.</description>
+		<description xml:lang="en">This widget displays categories of document from modules that enabled to use category function.</description>
 		<description xml:lang="es">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
 		<description xml:lang="ru">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
 		<description xml:lang="jp">掲示板など、ドキュメントモジュールのカテゴリを使用するモジュールでカテゴリを抽出してブログのカテゴリのように表示する機能です。</description>
-		<description xml:lang="zh-CN">把论坛等文本模块的分类在使用的模块里抽出分类后输出类似于博客分类的功能。</description>
+		<description xml:lang="zh-CN">把版面模块中的分类显示为类似于博客分类样式的功能。</description>
     </author>
     <extra_vars>
         <var id="mid_list">
@@ -30,11 +30,11 @@
 			<name xml:lang="zh-CN">对象模块</name>
             <type>mid_list</type>
             <description xml:lang="ko">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
-			<description xml:lang="en">Selected module will be target. Please select only 1 module.</description>
+			<description xml:lang="en">Selected module will be target. Please select only 1 (one) module.</description>
 			<description xml:lang="es">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
 			<description xml:lang="ru">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
 			<description xml:lang="jp">選択されたモジュールを対象とします。必ず一つのモジュールのみ選択してください。</description>
-			<description xml:lang="zh-CN">将把被选模块当中的主题作为对象。请选择一个模块。</description>
+			<description xml:lang="zh-CN">将把被选模块当中的主题作为对象。只能选一个模块。</description>
         </var>
     </extra_vars>
 </widget>

@@ -7,91 +7,89 @@
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
 <col width="50" />
-<col width="30" />
-<col />
-<col width="160" />
-<col />
-<col width="65" />
-<col width="80" />
 <col width="45" />
+<col />
+<col />
+<col />
+<col width="110" />
 
 <!--@else if($lang_type == 'en')-->
 <col width="50" />
-<col width="30" />
+<col width="55" />
 <col />
 <col width="160" />
 <col />
-<col width="80" />
-<col width="80" />
-<col width="55" />
+<col width="110" />
 
 <!--@else if($lang_type == 'zh-CN')-->
 <col width="50" />
-<col width="30" />
-<col />
-<col width="160" />
-<col />
-<col width="65" />
-<col width="65" />
 <col width="45" />
+<col />
+<col />
+<col />
+<col width="110" />
 
 <!--@else if($lang_type == 'jp')-->
 <col width="50" />
-<col width="30" />
-<col />
-<col width="160" />
-<col />
-<col width="70" />
-<col width="90" />
 <col width="45" />
+<col />
+<col />
+<col />
+<col width="110" />
 
 <!--@else if($lang_type == 'es')-->
 <col width="50" />
-<col width="30" />
-<col />
-<col width="160" />
-<col />
-<col width="80" />
-<col width="80" />
 <col width="70" />
+<col />
+<col />
+<col />
+<col width="110" />
 
 <!--@else if($lang_type == 'ru')-->
 <col width="50" />
-<col width="30" />
-<col />
-<col width="160" />
-<col />
-<col width="90" />
-<col width="85" />
 <col width="70" />
+<col />
+<col />
+<col />
+<col width="110" />
 <!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
+        <th scope="col" rowspan="2">{$lang->no}</th>
         <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;"/></th>
         <th scope="col">{$lang->user_id}</th>
         <th scope="col">{$lang->user_name}</th>
         <th scope="col">{$lang->nick_name}</th>
         <th scope="col">{$lang->signup_date}</th>
-        <th scope="col">{$lang->last_login}</th>
+    </tr>
+    <tr>
         <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col" colspan="2">{$lang->group}</th>
+        <th scope="col">{$lang->homepage}, {$lang->blog}</th>
+        <th scope="col">{$lang->last_login}</th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($member_list as $no => $val)-->
+    {@ $val->group_list = implode(', ', $val->group_list)}
     <tr>
-        <td class="tahoma">{$no}</td>
+        <td class="tahoma" rowspan="2">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->member_srl}"/></td>
         <td class="blue">
             <a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a>
-            <!--@if($val->denied == 'Y')--><span class="denied">{$lang->denied}</span><!--@end-->
-            <!--@if($val->limit_date)--><br /><span class="limit_date">{$lang->limit_date} : {zdate($val->limit_date,'Y.m.d')}</span><!--@end-->
         </td>
         <td>{htmlspecialchars($val->user_name)}</td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+    </tr>
+    <tr>
+        <td class="red"><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else--><img src="./images/icon_management.gif" title="{$lang->is_admin}" alt="{$lang->is_admin}" /><!--@end--></td>
+        <td colspan="2">{$val->group_list}</td>
+        <td>
+            <!--@if($val->homepage)--><a href="{$val->homepage}" class="homepage" onclick="window.open(this.href);return false;"><img src="./images/icon_homepage.gif" title="{$lang->homepage}" alt="{$lang->homepage}" /></a> <!--@end-->
+            <!--@if($val->blog)--><a href="{$val->blog}" class="blog" onclick="window.open(this.href);return false;"><img src="./images/icon_blog.gif" title="{$lang->blog}" alt="{$lang->blog}" /></a> <!--@end-->&nbsp;
+        </td>
         <td class="tahoma">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="red"><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>

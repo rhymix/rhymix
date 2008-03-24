@@ -11,8 +11,8 @@
     $lang->cmd_toggle_checked_comment = '反选';
     $lang->cmd_delete_checked_comment = '删除所选';
 
-    $lang->comment_count = '댓글 수';
-    $lang->about_comment_count = '댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.';
+    $lang->comment_count = '每页评论数';
+    $lang->about_comment_count = '可以指定要显示的每页评论数。';
 
     $lang->msg_cart_is_null = '请选择要删除的评论。';
     $lang->msg_checked_comment_is_deleted = '已删除%d个评论。';

@@ -25,7 +25,7 @@
     $lang->module_copy = "Duplicate Module";
 
     $lang->header_script = "Header Script";
-    $lang->about_header_script = "You can input the htmp script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tags";
+    $lang->about_header_script = "You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tag";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
     $lang->cmd_install = "Install";

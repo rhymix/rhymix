@@ -8,14 +8,14 @@
     $lang->cmd_comment_do = 'Vous voudriez...';
     
     $lang->comment_list = 'Liste des Commentaires';
-	$lang->cmd_toggle_checked_comment = 'Renverser item choisi';
-    $lang->cmd_delete_checked_comment = 'Supprimer item choisi';
+	$lang->cmd_toggle_checked_comment = 'Renverser les choisis';
+    $lang->cmd_delete_checked_comment = 'Supprimer les choisis';
 
-    $lang->comment_count = 'Somme de Commentaires';
-	$lang->about_comment_count = 'Quand il y a plus de commentaires, ils seront bougés sur le liste.';
+    $lang->comment_count = 'Commentaires';
+	$lang->about_comment_count = 'Quand il y a plus de commentaires, ils seront bougÃ©s sur le liste.';
 
-    $lang->msg_cart_is_null = 'Choisissez un article à supprimer, SVP.';
-    $lang->msg_checked_comment_is_deleted = '%d commentaire(s) est(sont) supprimé(s) avec succès.'; 
+    $lang->msg_cart_is_null = 'Choisissez un article Ã  supprimer, SVP.';
+    $lang->msg_checked_comment_is_deleted = '%d commentaire(s) est(sont) supprimÃ©(s) avec succÃ©s.'; 
 
     $lang->search_target_list = array(
         'content' => 'Contenu',
@@ -25,7 +25,7 @@
         'email_address' => 'Courriel',
         'homepage' => 'Page d\'Accueil',
         'regdate' => 'Jour',
-        'last_update' => 'Mise à Jour',
+        'last_update' => 'Mise Ã  Jour',
         'ipaddress' => 'Addresse IP',
     );
 ?>

@@ -32,9 +32,9 @@
             HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
         </description>
 		<description xml:lang="es">
-            This is the basic board skin of Zeroboard XE.
-            Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-            HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+            Esta es la base bordo de la piel de Zeroboard XE.
+            Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
+            HTML / CSS: Jeong Chan-Myung (http://naradesign.net)
         </description>
     </maker>
     <colorset>
@@ -43,35 +43,43 @@
             <title xml:lang="jp">白（デフォルト）</title>
             <title xml:lang="zh-CN">白色（基本）</title>
             <title xml:lang="en">White (default)</title>
-			<title xml:lang="es">White (default)</title>
+			<title xml:lang="es">Blanco (por defecto)</title>
         </color>
         <color name="cyan" src="screenshot/cyan.gif">
             <title xml:lang="ko">청록색</title>
             <title xml:lang="jp">青緑</title>
             <title xml:lang="zh-CN">青绿色</title>
             <title xml:lang="en">Cyan</title>
-			<title xml:lang="es">Cyan</title>
+			<title xml:lang="es">Cian</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">초록색</title>
             <title xml:lang="jp">緑</title>
             <title xml:lang="zh-CN">绿色</title>
             <title xml:lang="en">Green</title>
-			<title xml:lang="es">Green</title>
+			<title xml:lang="es">Verde</title>
         </color>
         <color name="red" src="screenshot/red.gif">
             <title xml:lang="ko">빨간색</title>
             <title xml:lang="jp">赤</title>
             <title xml:lang="zh-CN">红色</title>
             <title xml:lang="en">Red</title>
-			<title xml:lang="es">Red</title>
+			<title xml:lang="es">Roja</title>
         </color>
         <color name="purple" src="screenshot/purple.gif">
             <title xml:lang="ko">보라색</title>
             <title xml:lang="jp">紫</title>
             <title xml:lang="zh-CN">紫色</title>
             <title xml:lang="en">Purple</title>
-			<title xml:lang="es">Purple</title>
+			<title xml:lang="es">Púrpura</title>
+        </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="ru">Черного</title>
+            <title xml:lang="es">Negro</title>
+            <title xml:lang="zh-CN">黑色</title>
         </color>
     </colorset>
     <extra_vars>
@@ -80,7 +88,7 @@
             <title xml:lang="jp">デフォルトスタイル</title>
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
-			<title xml:lang="es">Default Form</title>
+			<title xml:lang="es">Formulario por defecto</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형, 포럼형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
@@ -97,9 +105,9 @@
                 You may select default styles such as list style, webzine style, gallery stylz or forum style.
                 Align Target for forum style is required to be selected as 'updated'.
             </description>
-			<description xml:lang="en">
-                You may select default styles such as list style, webzine style, gallery stylz or forum style.
-                Align Target for forum style is required to be selected as 'updated'.
+			<description xml:lang="es">
+                Usted puede seleccionar por defecto los estilos como el estilo de lista, estilo webzine, galería stylz o estilo foro.
+                Alinear Meta para el foro estilo es necesaria para ser seleccionado como 'actualización'.
             </description>
             <default>list</default>
             <default>webzine</default>
@@ -112,12 +120,12 @@
             <title xml:lang="jp">ソート対象</title>
             <title xml:lang="zh-CN">排序对象</title>
             <title xml:lang="en">Align Target</title>
-			<title xml:lang="en">Align Target</title>
+			<title xml:lang="es">Alinear Meta</title>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
             <description xml:lang="jp">登録順、変更順にソートできます。</description>
             <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
             <description xml:lang="en">It can align articles as registered order or modified order.</description>
-			<description xml:lang="en">It can align articles as registered order or modified order.</description>
+			<description xml:lang="es">Puede alinear los artículos registrados como fin o modificar el orden.</description>
             <default>list_order</default>
             <default>update_order</default>
         </var>
@@ -137,7 +145,7 @@
         </var>
         <var name="display_login_info" type="select">
             <title xml:lang="ko">로그인 정보 출력</title>
-            <title xml:lang="zh-CN">登陆表单</title>
+            <title xml:lang="zh-CN">显示会员信息组</title>
             <title xml:lang="jp">ログイン情報表示</title>
             <title xml:lang="en">Display Login Info</title>
             <title xml:lang="es">Muestra la información de la conección</title>
@@ -147,7 +155,7 @@
         </var>
         <var name="display_setup_button" type="select">
             <title xml:lang="ko">설정 표시</title>
-            <title xml:lang="zh-CN">设置表单</title>
+            <title xml:lang="zh-CN">显示管理设置组</title>
             <title xml:lang="jp">設定表示</title>
             <title xml:lang="en">Display Setup</title>
             <title xml:lang="es">Muestra la información de la Configuración</title>
@@ -279,9 +287,11 @@
             <title xml:lang="ko">썸네일 생성 방법</title>
             <title xml:lang="jp">サムネール生成方法</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
+            <title xml:lang="en">Type of Thumbnail</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
             <description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式(crop : 裁减, ratio : 比例)。</description>
+            <description xml:lang="en">Choose the type to create the thumnail. (crop / ratio)</description>
             <default>crop</default>
             <default>ratio</default>
         </var>
@@ -289,18 +299,22 @@
             <title xml:lang="ko">썸네일 가로크기</title>
             <title xml:lang="jp">サムネールの横幅</title>
             <title xml:lang="zh-CN">缩略图宽度</title>
+            <title xml:lang="en">Width of Thumbnail</title>
             <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの横幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图宽度(默认为 100px)。</description>
+            <description xml:lang="en">Set the width of thumbnail. Default is 100px.</description>
             <default>100</default>
         </var>
         <var name="thumbnail_height" type="text">
             <title xml:lang="ko">썸네일 세로크기</title>
             <title xml:lang="jp">サムネールの縦幅</title>
             <title xml:lang="zh-CN">缩略图高度</title>
+            <title xml:lang="en">Height of Thumbnail</title>
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの縦幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图高度(默认为 100px)。</description>
+             <description xml:lang="en">Set the height of thumbnail. Default is 100px.</description>
             <default>100</default>
         </var>
     </extra_vars>

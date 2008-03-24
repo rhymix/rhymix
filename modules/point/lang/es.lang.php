@@ -31,8 +31,8 @@
     $lang->cmd_exp_calc = 'Calcular';
     $lang->cmd_exp_reset = 'Restablecer';
 
-    $lang->cmd_point_recal = 'Punto Recalcular';
-    $lang->about_cmd_point_recal = 'Que se encargará de chequear los artículos / comentarios / archivos adjuntos y restablecer todos los miembros punto a punto preestablecido.';
+    $lang->cmd_point_recal = '포인트 초기화';
+    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화 합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전등을 하여 포인트를 완전히 초기화 해야 할 경우에만 사용하세요.';
 
     $lang->point_link_group = 'Grupo de cambio de nivel';
     $lang->about_point_link_group = 'Si especifica nivel para un grupo específico, a los usuarios se les asigna en el grupo cuando se adavnce al nivel por conseguir puntos. Al nuevo grupo se le asigna, el usuario se retira del ex grupo asignado.';

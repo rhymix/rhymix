@@ -3,18 +3,17 @@
         <table name="modules" />
     </tables>
     <columns>
-        <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40"/>
-        <column name="module" var="module" maxlength="80"/>
+        <column name="module" var="module" notnull="notnull" maxlength="80"/>
         <column name="module_category_srl" var="module_category_srl" />
+        <column name="layout_srl" var="layout_srl" />
+        <column name="menu_srl" var="menu_srl" filter="number" />
+        <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40"/>
         <column name="skin" var="skin" minlength="1" maxlength="250" />
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
-        <column name="layout_srl" var="layout_srl" />
         <column name="description" var="description" />
-        <column name="content" var="content" />
-        <column name="module" var="module" notnull="notnull" maxlength="80"/>
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
-        <column name="menu_srl" var="menu_srl" filter="number" />
         <column name="extra_vars" var="extra_vars" />
+        <column name="content" var="content" />
         <column name="admin_id" var="admin_id" maxlength="80" />
         <column name="open_rss" var="open_rss" default="Y" notnull="notnull" />
         <column name="header_text" var="header_text" />

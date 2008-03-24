@@ -14,6 +14,7 @@
     <navigation>
         <index var="sort_index" default="head" order="asc" />
         <index var="sort_index" default="arrange" order="asc" />
+        <index var="sort_index" default="comment_srl" order="asc" />
         <list_count var="list_count" default="list_count" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

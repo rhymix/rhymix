@@ -20,6 +20,7 @@
 		<column name="homepage" var="homepage" filter="homepage" maxlength="250" />
 		<column name="uploaded_count" var="uploaded_count" default="0" />
 		<column name="regdate" var="regdate" default="curdate()" />
+		<column name="last_update" var="last_update" default="curdate()" />
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 		<column name="list_order" var="list_order" default="0" />
 	</columns>

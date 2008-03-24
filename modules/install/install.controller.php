@@ -186,7 +186,7 @@
 
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
             foreach($db_info as $key => $val) {
-                $buff .= sprintf("\$db_info->%s = \"%s\";\n", $key, $val);
+                $buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
             }
             $buff .= "?>";
 

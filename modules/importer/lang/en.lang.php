@@ -8,6 +8,7 @@
     // words for button
     $lang->cmd_sync_member = 'Synchronize';
     $lang->cmd_continue = 'Continue';
+    $lang->preprocessing = 'It is preparing for transferring data.';
 
     // items
     $lang->importer = 'Transfer Zeroboard Data';
@@ -51,7 +52,7 @@
 	$lang->about_ttxml_user_id = 'Please input user ID to set as author on transfering TTXML. (user ID must be already signed up)';
     $lang->about_type_module = 'If you are transfering the board or articles information, select this option';
     $lang->about_type_syncmember = 'If you are trying to synchronize the member information after transfering member and article information, select this option';
-    $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";
+    $lang->about_importer = "You can transfer Zeroboard4, Zeroboard5 Beta or other program's data into ZeroboardXE's data.\nIn order to tranfer, you have to use <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a> to convert the data you want into XML File then upload it.";
 
     $lang->about_target_path = "To get attachments from Zeroboard4, please input the address where Zeroboard4 is installed.\nIf it is located in the same server, input Zeroboard4's path such as /home/USERID/public_html/bbs\nIf it is not located in the same server, input the address where Zeroboard4 is installed. ex. http://Domain/bbs";
 ?>

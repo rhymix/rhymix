@@ -324,6 +324,11 @@
             // 자동저장한 결과가 없으면 null값 return
             if(!$saved_doc) return;
 
+            // 자동저장된 값이 혹시 이미 등록된 글인지 확인
+            $oDocumentModel = &getModel('document');
+            $oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
+            if($oSaved->isExists()) return;
+
             // 자동저장 데이터에 문서번호가 있고 이 번호에 파일이 있다면 파일을 모두 이동하고
             // 해당 문서 번호를 editor_sequence로 세팅함
             if($saved_doc->document_srl) {

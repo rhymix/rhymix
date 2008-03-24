@@ -99,7 +99,8 @@
                     // 전체 설정에서 허용시 모듈별 설정을 체크
                     else {
                         $module_config = $trackback_config->module_config[$this->get('module_srl')];
-                        if(!$module_config || $module_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+                        if(!$module_config || $module_config->enable_trackback != 'N') $this->allow_trackback_status = true;
+                        else $this->allow_trackback_status = false;
                     }
                 }
             }
@@ -217,7 +218,7 @@
 
             $attrs = array();
             if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
-            if($this->get('title_color')) $attrs[] = "color:#".$this->get('title_color');
+            if($this->get('title_color')&&$this->get('title_color')!='N') $attrs[] = "color:#".$this->get('title_color');
 
             if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
             else return htmlspecialchars($title);
@@ -237,7 +238,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
@@ -273,6 +274,11 @@
                 $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
 
+            // resource_realpath가 true이면 내용내 이미지의 경로를 절대 경로로 변경
+            if($resource_realpath) {
+                $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
+            }
+
             return $content;
         }
 
@@ -287,7 +293,7 @@
             $content = trim(cut_str($content, $str_size, '...'));
 
             // >, <, "를 다시 복구
-            return str_replace(array('<','>','"',' '),array('&lt;','&gt;','&quot;','&nbsp;'), $content);
+            return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
         }
 
         function getRegdate($format = 'Y.m.d H:i:s') {
@@ -644,10 +650,17 @@
             }
             if($signature) {
                 $max_signature_height = $GLOBALS['__member_signature_max_height'];
-                if($max_signature_height) $signature = sprintf('<div style="height:%dpx;overflow-y:auto;overflow-x:hidden;">%s</div>',$max_signature_height, $signature);
+                if($max_signature_height) $signature = sprintf('<div style="max-height:%dpx;overflow:auto;overflow-x:hidden;height:expression(this.scrollHeight > %d ? \'%dpx\': \'auto\')">%s</div>', $max_signature_height, $max_signature_height, $max_signature_height, $signature);
             }
 
             return $signature;
+        }
+
+        /**
+         * @brief 내용내의 이미지 경로를 절대 경로로 변경
+         **/
+        function replaceResourceRealPath($matches) {
+            return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
     }
 ?>

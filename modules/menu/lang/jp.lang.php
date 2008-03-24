@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/menu/lang/ko.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、liahona
      * @brief  メニュー（menu）モジュールの基本言語パッケージ
      **/
 
@@ -49,5 +49,5 @@
 
     $lang->about_menu = "メニューモジュルは、生成されたモジュールを、便利なメニュー管理機能で、整理したりレイアウトをリンクしたりして煩わしい作業なしでサイトを構築できるようにします。メニューは、サイトを管理するというより、モジュールとレイアウトをリンクして様々なメニューを表示させる情報のみ保持します。";
 
-    $lang->alert_image_only = "이미지 파일만 등록가능합니다.";
+    $lang->alert_image_only = "イメージ(画像)ファイルのみ登録できます。";
 ?>

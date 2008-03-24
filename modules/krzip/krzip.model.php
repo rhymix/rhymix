@@ -21,9 +21,9 @@
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('krzip');
-            if($args->krzip_server_hostname) $this->hostname = $args->krzip_server_hostname;
-            if($args->krzip_server_port) $this->port = $args->krzip_server_port;
-            if($args->krzip_server_query) $this->query = $args->krzip_server_query;
+            if($config->krzip_server_hostname) $this->hostname = $config->krzip_server_hostname;
+            if($config->krzip_server_port) $this->port = $config->krzip_server_port;
+            if($config->krzip_server_query) $this->query = $config->krzip_server_query;
 
             // 동네 이름을 받음
             $addr = trim(Context::get('addr'));
@@ -32,7 +32,7 @@
             // 지정된 서버에 요청을 시도한다
             $query_string = $this->query.urlencode($addr);
 
-            $fp = fsockopen($this->hostname, $this->port, $errno, $errstr);
+            $fp = @fsockopen($this->hostname, $this->port, $errno, $errstr);
             if(!$fp) return new Object(-1, 'msg_fail_to_socket_open');
 
             fputs($fp, "GET {$query_string} HTTP/1.0\r\n");

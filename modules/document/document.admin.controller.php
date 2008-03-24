@@ -293,7 +293,8 @@
                 // 댓글 이전
                 if($oDocument->getCommentCount()) {
                     $oCommentModel = &getModel('comment');
-                    $comments = $oCommentModel->getCommentList($document_srl, true);
+                    $comment_output = $oCommentModel->getCommentList($document_srl, true);
+                    $comments = $comment_output->data;
                     if(count($comments)) {
                         $oCommentController = &getController('comment');
                         $success_count = 0;

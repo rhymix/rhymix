@@ -34,5 +34,5 @@
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
     $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
     $lang->about_board = "This module is for creating and managing boards.\nYou may select the module name from the list after creating one to configure specifically.\nPlease be careful with board's module name, since it will be the url. (ex : http://domain/zb/?mid=modulename)"; 
-	$lang->about_consultation = "Non-administrator members would see their own artocles.\nNon-members would not be able to write articles when using consultation.";
+	$lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
 ?>

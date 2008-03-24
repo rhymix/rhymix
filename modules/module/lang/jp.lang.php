@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、liahona
      * @brief  日本語言語パッケージ
      **/
 
@@ -24,8 +24,8 @@
     $lang->skin_maker_homepage = '作者ホームページ';
     $lang->module_copy = "モジュールコピー";
 
-    $lang->header_script = "헤더 스크립트";
-    $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
+    $lang->header_script = "ヘッダースクリプト";
+    $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用できます";
 
     $lang->cmd_add_shortcut = "ショットカット追加";
     $lang->cmd_install = "インストール";

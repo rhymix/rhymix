@@ -1,6 +1,6 @@
 .noticeBox { padding-bottom:5px; overflow:hidden; }
 
-.noticeBox h2 { margin:0; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+.noticeBox h2 { margin:0; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; }
 
 .noticeBox .listTable { width:100%; table-layout:fixed; border:none;}
 

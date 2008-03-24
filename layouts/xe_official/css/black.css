@@ -81,7 +81,7 @@ body { background:#3d3d3d url(../images/black/bgBody.gif) repeat-x;}
 #content { width:100%; overflow:hidden;}
 
 /* Site Layout - Footer */
-#footer { border-top:3px solid #424242; text-align:center; padding:2em 0 4em; clear:both;}
+#footer { margin:0; padding:0; border-top:3px solid #424242; text-align:center; padding:2em 0 4em; clear:both;}
 #footer li { display:inline; padding:0 .6em 0 1em; background:url(../images/black/vrType1.gif) no-repeat left center;}
 #footer li.first-child { background:none;}
 #footer li a { color:#818181; font:.9em "돋움", Dotum, "굴림", Gulim, AppleGothic, Sans-serif;}

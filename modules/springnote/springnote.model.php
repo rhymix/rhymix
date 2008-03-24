@@ -160,7 +160,8 @@
                 if($p_pageid) $this->getNodes($root->child, $p_pageid, $root);
 
                 $pages = array();
-                $this->arrangePages($pages, $root->child, 0);
+                $prev_pageid = 0;
+                $this->arrangePages($pages, $root->child, 0, $prev_pageid);
 
             }
 
@@ -185,7 +186,7 @@
         /**
          * @brief 스프링노트 서버에서 보내준 페이지를 정렬
          **/
-        function arrangePages(&$pages, $list, $depth) {
+        function arrangePages(&$pages, $list, $depth, &$prev_pageid) {
             if(!count($list)) return;
 
             foreach($list as $key => $val) {
@@ -196,7 +197,16 @@
                 $val->depth = $depth;
                 $pages[$val->pageid] = $val;
 
-                if($child) $this->arrangePages($pages, $child,$depth+1);
+                if($prev_pageid) {
+                    $pages[$prev_pageid]->next->pageid = $pages[$val->pageid]->pageid;
+                    $pages[$prev_pageid]->next->title = $pages[$val->pageid]->title;
+                    $pages[$val->pageid]->prev->pageid = $pages[$prev_pageid]->pageid;
+                    $pages[$val->pageid]->prev->title = $pages[$prev_pageid]->title;
+                }
+
+                $prev_pageid = $val->pageid;
+
+                if($child) $this->arrangePages($pages, $child,$depth+1, $prev_pageid);
             }
         }
 

@@ -8,6 +8,7 @@
     // 按钮上使用的语言
     $lang->cmd_sync_member = '同步';
     $lang->cmd_continue = '继续进行';
+    $lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
 
     // 项目
     $lang->importer = '数据导入';
@@ -47,11 +48,11 @@
     // 说明
     $lang->about_type_member = '数据导入对象为会员信息时请选择此项。';
     $lang->about_type_message = '数据导入对象为短信息(MemoBox)时请选择此项。';
-    $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요';
-    $lang->about_ttxml_user_id = 'TTXML이전시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다)';
+    $lang->about_type_ttxml = '数据导入对象为TTXML(textcube系列)时请选择此项。';
+    $lang->about_ttxml_user_id = '请输入导入TTXML数据时指定为主题发布者的ID(必须是已注册会员)。';
     $lang->about_type_module = '数据导入对象为版面主题时请选择此项。';
     $lang->about_type_syncmember = '导入会员信息和文章信息后需要同步会员信息时请选择此项。';
-    $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"#\" onclick=\"winopen('');return false;\">XML Exporter</a>生成XML文件后再上传。";
+    $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>生成XML文件后再上传。";
 
     $lang->about_target_path = "为了下载附件请输入Zeroboard 4的安装位置。\n位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。";
 ?>
