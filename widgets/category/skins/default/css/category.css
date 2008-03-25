@@ -2,7 +2,7 @@
 
 .categoryWidget .top {
     background:url("../images/top.gif") no-repeat left -1px; 
-    padding-left:14px; 
+    padding-left:19px; 
     height:18px;
 }
 
@@ -29,6 +29,7 @@
 
 .categoryWidget .item {
     margin-left:5px; 
+    height:18px;
 }
 
 

@@ -27,12 +27,7 @@ ul.blogGlobal li a {color:#999999;}
 
 /* title bg box */
 .blogTitleBox {background:url(../images/orange/box_blog_title.gif) no-repeat left top;}
-
-/* category */
-.blogCategory h2 {color:#ff6f4a;}
-.blogCategory h2 a {color:#ff6f4a;}
-.blogCategory ul.categoryList li {background:url(../images/orange/ico_category.gif) no-repeat .8em 0;}
-.blogCategory ul.categoryList li a {color:#999999;}
+.blogTitleBox h2 {color:#ff6f4a;}
 
 /* Content Box */
 .contentBox .centerBg {background:url(../images/orange/box_blog_bg.gif) repeat-y left top;}
@@ -42,7 +37,7 @@ ul.blogGlobal li a {color:#999999;}
 /* Widget */
 .blog_widget_ {background:url(../images/orange/box_blog_title.gif) no-repeat left top;}
 .blog_widget_ h2 {color:#ff6f4a;}
-.blog_widget_ .items li {background:url(../images/orange/bullet_3x3_1.gif) no-repeat 1em .35em;}
+.blog_widget_ .items li {background:url(../images/orange/bullet_3x3_1.gif) no-repeat 5px 5px;}
 .blog_widget_ .items li a {color:#999999;}
 
 /* Calender */

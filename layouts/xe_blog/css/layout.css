@@ -4,67 +4,60 @@ NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
 Kim, Ji Min 070809-20070903
 */
 
-#blog {width:780px; margin:0 auto;}
+#blog {margin:0 auto; width:970px;}
 
-#content { width:100%; position:relative;}
+#content { width:100%; }
 
 /* Global Navigation */
-.blogNavigation {width:780px; padding-bottom:3em; overflow:hidden;}
-ul.blogMenu {margin:0; padding:0; list-style:none; float:left; margin:1.2em 0 0 .9em; overflow:hidden;}
+.blogNavigation {overflow:hidden; width:780px;}
+
+ul.blogGlobal {padding:0; margin:0; list-style:none; overflow:hidden; float:right; margin:10px 0 10px 0; }
+ul.blogGlobal li {float:left; margin-left:-1px; padding:0 .6em;}
+ul.blogGlobal li a {text-decoration:none; font-size:.9em; letter-spacing:-1px;}
+
+ul.blogMenu {padding:0; list-style:none; overflow:hidden; float:right; margin:0 0 10px 0; }
 ul.blogMenu li {float:left; margin-left:-1px; padding:0 .8em;}
 ul.blogMenu li a {text-decoration:none; font:bold .9em tahoma;}
 ul.blogMenu li a.on {}
 
-ul.blogGlobal {margin:0; padding:0; list-style:none; float:right; margin:1em .6em 0 0; overflow:hidden;}
-ul.blogGlobal li {float:left; margin-left:-1px; padding:0 .6em;}
-ul.blogGlobal li a {text-decoration:none; font-size:.9em; letter-spacing:-1px;}
+/* Content Box */
+.contentBox { float:left; width:780px; }
+.contentBox .centerBg {padding-top:1em;}
+.contentBox .topBg {width:100%; height:10px; font-size:0;}
+.contentBox .bottomBg {width:100%; height:10px; font-size:0;}
+.contentArea {width:740px; margin:0 auto;}
+
+.blogWidgetAreaBox { width:190px; padding:0; margin:0; float:left; overflow:hidden;}
 
 /* Profile */
-.blogProfile {float:left; width:170px; margin:0 0 0 19px; display:inline;}
+.blogProfile {width:170px; margin:0 0 10px 10px; }
 .blogProfile h1 {padding:0; margin:10px 0 8px 2px; font-size:1em; line-height:1.2em;}
 .blogProfile ul.profileMenu {float:left; margin-left:-4px; overflow:hidden;}
 .blogProfile ul.profileMenu li {float:left; margin-left:-1px; padding:0 .7em;}
 .blogProfile ul.profileMenu li a {text-decoration:none; font-size:.9em;}
 
 /* title bg box */
-.blogTitleBox {position:relative; width:170px; height:25px; margin-bottom:1.3em;}
+.blogTitleBox {width:170px; height:25px; margin:0 0 5px 10px;}
+.blogTitleBox h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} 
+.blogTitleBox h2 a { text-decoration:none; }
 
 /* category */
-.blogCategory {float:left; width:170px; margin:0 0 0 21px;}
-.blogCategory h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} /*070917 �섏젙*/
-.blogCategory h2 a { text-decoration:none; }
-.blogCategory .categoryToggle {position:absolute; right:.3em; top:.5em;}
-.blogCategory .categoryToggle img {display:block; padding:5px; cursor:pointer;}
-.blogCategory ul.categoryList { list-style:none; margin:0; padding:0; }
-.blogCategory ul.categoryList li {height:1.7em; padding-left:2.1em;}
-.blogCategory ul.categoryList li a {text-decoration:none; font-size:1em;}
-.blogCategory ul.categoryList li.on a {font-weight:bold; }
-.blogCategory ul.categoryList li span.documentCount { font-size:.9em; margin-left:.3em;}
 
-/* Recent Comments */
-.widgetBox {float:left; width:170px; margin:0 0 0 21px;}
+/* widget Box */
+.widgetBox {width:170px; margin:0 0 10px 10px;}
 
 /* search box */
-.blogSearch { margin-top:2em; }
+.blogSearch { margin:0 auto; width:170px; }
 .blogSearch fieldset {padding:0; margin:0; border:none;}
 .blogSearch legend {display:none;}
 .blogSearch input {float:left; vertical-align:middle;}
 .blogSearch img {float:left; margin-left:2px; vertical-align:middle;}
 
-/* Content Box */
-.contentBox {clear:both; position:relative; width:780px; padding:.8em 0 3em 0;}
-.contentBox .centerBg {padding-top:1em;}
-.contentBox .topBg {width:100%; height:10px; font-size:0;}
-.contentBox .bottomBg {width:100%; height:10px; font-size:0;}
-.contentArea {width:740px; margin:0 auto;}
-
-.zbXE { text-align:center; margin:5px 0 10px 0;}
-
 /* Widget */
-.blog_widget_ h2 {margin:0; padding:5px 0 0 12px; font:bold .9em tahoma;} 
-.blog_widget_ .items {list-style:none; padding:0; margin:0; margin-top:1.3em; overflow:hidden; width:165px;}
-.blog_widget_ .items li { white-space:nowrap; overflow:hidden; height:1.7em; padding-left:1.8em;}
-.blog_widget_ .items li a { text-decoration:none; font-size:1em; overflow:hidden; white-space:nowrap;}
+.blog_widget_ h2 {margin:0 0 15px 0; padding:5px 0 0 12px; font:bold .9em tahoma;} 
+.blog_widget_ .items {list-style:none; padding:0; margin:0; margin-top:10px; overflow-x:hidden; width:170px;}
+.blog_widget_ .items li { padding:0 10px 0 14px; margin-bottom:5px; }
+.blog_widget_ .items li a { text-decoration:none; font-size:1em; }
 
 /* Calender */
 .widget_calendar {position:relative; float:left; width:170px; }
@@ -91,3 +84,5 @@ ul.blogGlobal li a {text-decoration:none; font-size:.9em; letter-spacing:-1px;}
 .widget_calendar td.posted a {text-decoration:underline;}
 .widget_calendar td.posted {text-decoration:underline;}
 
+
+.zbXE { width:960px; text-align:center; margin:20px auto 20px auto;}

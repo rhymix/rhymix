@@ -28,6 +28,10 @@
             $obj->sort_index = $order_target;
             $obj->list_count = $list_count;
 
+            // 제목 길이 자르기
+            $subject_cut_size = $args->subject_cut_size;
+            if(!$subject_cut_size) $subject_cut_size = 0;
+
             // comment 모듈의 model 객체를 받아서 getCommentList() method를 실행
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getNewestCommentList($obj);
@@ -37,6 +41,7 @@
             
             $widget_info->title = $title;
             $widget_info->comment_list = $output;
+            $widget_info->subject_cut_size = $subject_cut_size;
 
             Context::set('widget_info', $widget_info);
 
