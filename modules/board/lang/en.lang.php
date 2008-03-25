@@ -9,22 +9,22 @@
 
     $lang->except_notice = "Exclude Notices";
 
-    $lang->cmd_manage_menu = 'Menu management';
-    $lang->cmd_make_child = 'Add child category';
-    $lang->cmd_enable_move_category = "Change category position (Drag the top menu after selection)";
+    $lang->cmd_manage_menu = 'Manage Menus';
+    $lang->cmd_make_child = 'Add Child Category';
+    $lang->cmd_enable_move_category = "Change Category Position (Drag the top menu after selection)";
 
     // Item
-    $lang->parent_category_title = 'Parent category';
+    $lang->parent_category_title = 'Parent Category';
     $lang->category_title = 'Category';
     $lang->expand = 'Expand';
     $lang->category_group_srls = 'Accessable Group';
-    $lang->search_result = 'Search result';
+    $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
 
     // words used in button
-    $lang->cmd_board_list = 'Board list';
-    $lang->cmd_module_config = 'Common board setting';
-    $lang->cmd_view_info = 'Board info';
+    $lang->cmd_board_list = 'Boards List';
+    $lang->cmd_module_config = 'Common Board Setting';
+    $lang->cmd_view_info = 'Board Info';
 
     // blah blah..
     $lang->about_category_title = 'Please input category name';
