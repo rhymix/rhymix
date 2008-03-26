@@ -186,7 +186,7 @@
 
     $lang->success_registed = 'Enregistré avec succès';
     $lang->success_declared = 'Accusé avec succès';
-    $lang->success_updated = 'Mise a jour avec succès';
+    $lang->success_updated = 'Mise à jour avec succès';
     $lang->success_deleted = 'Supprimé avec succès';
     $lang->success_voted = 'Voté avec succès';
     $lang->success_moved = 'Bougé avec succès';
