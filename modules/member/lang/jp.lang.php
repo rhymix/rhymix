@@ -63,8 +63,8 @@
     $lang->webmaster_name = 'ウェブマスターの名前';
     $lang->webmaster_email = 'ウェブマスターのメール';
 
-    $lang->about_keep_signed = 'ブラウザーを閉じてもログインの状態が維持されます。.\n\n自動ログインを使用すると、次回からはログインする必要がありません。.\n\n但し、ネットカフェーや学校など公共の場では個人情報流出の恐れがありますので、必ずログアウトしてください。';
-    $lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
+    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';
+	$lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
     $lang->search_target_list = array(
