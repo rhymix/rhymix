@@ -8,7 +8,7 @@
     $lang->cmd_generate_code = 'Generate Code';
 
     $lang->widget_name = 'Widget Name';
-    $lang->widget_maker = 'Widget Developer';
+    $lang->widget_maker = 'Developer';
     $lang->widget_history = 'Update History';
     $lang->widget_info = 'Widget Info';
     $lang->widget_code = 'Code';
@@ -33,9 +33,9 @@
 
     $lang->generated_code = 'Generated Code';
 
-    $lang->msg_widget_is_not_exists = '%s widget does not exist.';
-    $lang->msg_widget_object_is_null = 'Object of %s widget cannot be created.';
-    $lang->msg_widget_proc_is_null = 'proc() of %s widget cannot be executed.';
+    $lang->msg_widget_is_not_exists = '%s does not exist.';
+    $lang->msg_widget_object_is_null = 'Object of %s could not be created.';
+    $lang->msg_widget_proc_is_null = 'proc() of %s could not be executed.';
 
     $lang->about_widget_code = 'Please input required value first, and click [Generate Code] button to generate code to add to the template file.';
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';
