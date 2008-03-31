@@ -88,8 +88,8 @@
         <th scope="row">{$lang->editor_skin}</th>
         <td>
             <select name="editor_skin">
-            <!--@foreach($editor_skin_list as $editor)-->
-            <option value="{$editor}" <!--@if($editor==$config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
+            <!--@foreach($editor_skin_list as $editor_skin)-->
+            <option value="{$editor_skin}" <!--@if($editor_skin==$config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
             <!--@end-->
             </select>
         </td>
