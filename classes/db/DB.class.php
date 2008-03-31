@@ -426,6 +426,7 @@
          * @brief 카운터 캐시 데이터 얻어오기
          **/
         function getCountCache($tables, $condition) {
+            return false;
             if(!$tables) return false;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
@@ -456,6 +457,7 @@
          * @brief 카운터 캐시 데이터 저장
          **/
         function putCountCache($tables, $condition, $count = 0) {
+            return false;
             if(!$tables) return false;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
@@ -476,6 +478,7 @@
          * @brief 카운터 캐시 리셋
          **/
         function resetCountCache($tables) {
+            return false;
             if(!$tables) return false;
             if(!is_dir($this->count_cache_path)) return FileHandler::makeDir($this->count_cache_path);
 
