@@ -159,17 +159,18 @@
                         $file_info['tmp_name'] = $val->uploaded_filename;
                         $file_info['name'] = $val->source_filename;
                         $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
+                        if($inserted_file && $inserted_file->toBool()) {
+                            // 이미지/동영상등일 경우
+                            if($val->direct_download == 'Y') {
+                                $source_filename = substr($val->uploaded_filename,2);
+                                $target_filename = substr($inserted_file->get('uploaded_filename'),2);
+                                $obj->content = str_replace($source_filename, $target_filename, $obj->content);
 
-                        // 이미지/동영상등일 경우
-                        if($val->direct_download == 'Y') {
-                            $source_filename = substr($val->uploaded_filename,2);
-                            $target_filename = substr($inserted_file->get('uploaded_filename'),2);
-                            $obj->content = str_replace($source_filename, $target_filename, $obj->content);
-
-                        // binary 파일일 경우
-                        } else {
-                            $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
-                            $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
+                            // binary 파일일 경우
+                            } else {
+                                $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
+                                $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
+                            }
                         }
 
                         // 기존 파일 삭제
