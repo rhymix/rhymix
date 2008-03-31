@@ -80,7 +80,7 @@
         </td>
         <td>{htmlspecialchars($val->user_name)}</td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
     </tr>
     <tr>
         <td class="red"><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else--><img src="./images/icon_management.gif" title="{$lang->is_admin}" alt="{$lang->is_admin}" /><!--@end--></td>

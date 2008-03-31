@@ -13,30 +13,29 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
+<thead>
 <!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,40,0,150,55,55,65)}
+{@ $col_width = array(50,0,150,55,55,65)}
 <!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,40,0,150,55,55,75)}
+{@ $col_width = array(50,0,150,55,55,75)}
 <!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,40,0,150,50,50,70)}
+{@ $col_width = array(50,0,150,50,50,70)}
 <!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,40,0,150,55,55,75)}
+{@ $col_width = array(50,0,150,55,55,75)}
 <!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,40,0,150,55,110,75)}
+{@ $col_width = array(50,0,150,55,110,75)}
 <!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,40,0,150,50,60,65)}
+{@ $col_width = array(50,0,150,50,60,65)}
 <!--@end-->
 
 <!--@foreach($col_width as $width)-->
 <col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
-
-<thead>
     <tr>
         <th scope="col">{$lang->no}</th>
-        <th scope="col"><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /></th>
         <th scope="col">
             <div class="nowrap">
+                <input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" />
                 <select name="module_srl" id="module_srl" class="w230">
                     <option value="">{$lang->module}</option>
                     <!--@foreach($mid_list as $key => $val)-->
@@ -55,13 +54,19 @@
 <tbody>
     <!--@foreach($document_list as $no => $oDocument)-->
     <tr>
-        <td class="tahoma">{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
-        <td class="left subject">
+        <td class="tahoma" rowspan="2">{$no}</td>
+        <td class="left"><!--@if($oDocument->get('module_srl')!=$oDocument->get('member_srl'))--><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" class="blue" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a><!--@else-->-<!--@end--></td>
+        <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
+        <td class="tahoma">{$oDocument->get('readed_count')}</td>
+        <td class="tahoma">{$oDocument->get('voted_count')}</td>
+        <td class="tahoma">{$oDocument->getRegdate("Y-m-d")} {$oDocument->getRegdate("H:i:s")}</td>
+    </tr>
+    <tr>
+        <td class="left subject" colspan="5">
+            <input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/>
             <!--@if($oDocument->get('module_srl')==$oDocument->get('member_srl'))-->
                 {$lang->cmd_save}
             <!--@else-->
-                <a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" class="blue" onclick="window.open(this.href);return false">[{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}]</a><br />
                 <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitle()}</a>
             <!--@end-->
 
@@ -73,10 +78,6 @@
                 [{$oDocument->getTrackbackCount()}]
             <!--@end-->
         </td>
-        <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
-        <td class="tahoma">{$oDocument->get('readed_count')}</td>
-        <td class="tahoma">{$oDocument->get('voted_count')}</td>
-        <td class="tahoma">{$oDocument->getRegdate("Y-m-d")}</td>
     </tr>
     <!--@end-->
 </tbody>
