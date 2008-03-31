@@ -18,10 +18,10 @@
 
 .pageSearch { text-align:right; margin:10px 0 10px 0; }
 .pageList { border:1px solid #E3E3E2; }
-.pageList .page { border-top:1px dotted #EFEFEF; padding:10px; }
+.pageList .page { border-top:1px dotted #EFEFEF; padding:0; }
 .pageList .selected { background-color:#EFEFEF; }
 .pageList .noline { border-top:none; }
-.pageList .page .title { background:url("../images/common/document.gif") no-repeat left top; padding-left:18px; }
+.pageList .page .pageTitle { background:url("../images/common/document.gif") no-repeat left 5px; padding:5px 0 3px 18px; }
 .pageList .page a { text-decoration:none; color:#666666; }
 .pageList .page a:hover { text-decoration:underline; color:#333333; }
 .pageList .page a:visited { text-decoration:none; color:#999999; }

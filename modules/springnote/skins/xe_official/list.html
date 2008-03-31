@@ -136,7 +136,7 @@
         {@ $_idx = 0 }
         <!--@foreach($pages as $key => $val)-->
             <div class="page <!--@if(!$_idx)-->noline<!--@end--> <!--@if($val->pageid == $pageid)-->selected<!--@end-->" style="padding-left:{($val->depth+1)*20}px;">
-                <div class="title"><a href="{getUrl('pageid',$key)}">{$val->title}</a></div>
+                <div class="pageTitle"><a href="{getUrl('pageid',$key)}">{$val->title}</a></div>
                 <!--@if($val->source)--><div class="desc">{$val->source}</div><!--@end-->
             </div>
             {@ $_idx++}
