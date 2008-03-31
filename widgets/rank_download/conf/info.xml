@@ -54,14 +54,14 @@
         <var id="attach_type">
             <name xml:lang="ko">파일 종류</name>
             <name xml:lang="jp">ファイルの種類</name>
-			<name xml:lang="en">File Type</name>
+			<name xml:lang="en">Type of File</name>
 			<name xml:lang="es">Tipo de archivo</name>
 			<name xml:lang="zh-CN">附件类型</name>
 			<name xml:lang="ru">Тип файла</name>
             <type>select</type>
             <description xml:lang="ko">순위에 포함할 파일 종류를 선택하세요.</description>
             <description xml:lang="jp">順位に含むファイルの種類を選択してください。</description>
-			<description xml:lang="en">Please select file type to include.</description>
+			<description xml:lang="en">Please select type of file to include.</description>
 			<description xml:lang="es">Por favor, seleccione el tipo de archivo a incluir.</description>
 			<description xml:lang="zh-CN">请选择要显示的附件类型。</description>
 			<description xml:lang="ru">Пожалуйста, выберите тип файла для включения.</description>
