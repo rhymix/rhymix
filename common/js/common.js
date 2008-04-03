@@ -48,7 +48,7 @@ String.prototype.setQuery = function(key, val) {
     } else {
         if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
-    uri = uri.replace(request_uri+'?',request_uri+'index.php?');
+    //uri = uri.replace(request_uri+'?',request_uri+'index.php?');
     return uri;
 }
 
