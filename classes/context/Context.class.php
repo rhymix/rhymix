@@ -892,6 +892,9 @@
             // <img|br> 코드 변환
             $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
 
+            // 주소/?mid등과 같은 index.php가 명시되지 않은 파일의 target 변경
+            $content = str_replace(Context::getRequestUri().'?',Context::getRequestUri().'index.php?',$content);
+
             return $content;
         }
 

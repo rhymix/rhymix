@@ -27,6 +27,7 @@ String.prototype.setQuery = function(key, val) {
     var idx = this.indexOf('?');
     var uri = this;
     uri = uri.replace(/#$/,'');
+
     if(idx != -1) {
         uri = this.substr(0, idx);
         var query_string = this.substr(idx+1, this.length);
@@ -43,11 +44,12 @@ String.prototype.setQuery = function(key, val) {
 
             q_list[q_list.length] = i+'='+arg;
         }
-        return uri+"?"+q_list.join("&");
+        uri = uri+"?"+q_list.join("&");
     } else {
-        if(val.toString().trim()) return uri+"?"+key+"="+val;
-        else return uri;
+        if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
+    uri = uri.replace(request_uri+'?',request_uri+'index.php?');
+    return uri;
 }
 
 /**
