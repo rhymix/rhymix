@@ -209,7 +209,6 @@
                         break;
                     case 'comment' :
                             $args->s_comment = $search_keyword;
-                            $args->sort_index = 'documents.'.$args->sort_index;
                             $query_id = 'document.getDocumentListWithinComment';
                             $use_division = true;
                         break;
@@ -288,7 +287,26 @@
             }
 
             // document.getDocumentList 쿼리 실행
-            $output = executeQueryArray($query_id, $args);
+            // 만약 query_id가 getDocumentListWithinComment 또는 getDocumentListWithinTag일 경우 group by 절 사용 때문에 쿼리를 한번더 수행
+            if(in_array($query_id, array('document.getDocumentListWithinComment', 'document.getDocumentListWithinTag'))) {
+                $group_args = clone($args);
+                $group_args->sort_index = 'documents.'.$args->sort_index;
+                $output = executeQueryArray($query_id, $group_args);
+                if(!$output->toBool()||!count($output->data)) return $output;
+
+                foreach($output->data as $key => $val) {
+                    if($val->document_srl) $target_srls[] = $val->document_srl;
+                }
+
+                $target_args->document_srls = implode(',',$target_srls);
+                $target_args->list_order = $args->sort_index;
+                $target_args->order = $args->order_type;
+                $target_args->list_count = $args->list_count;
+                $target_args->page = 1;
+                $output = executeQueryArray('document.getDocuments', $target_args);
+            } else {
+                $output = executeQueryArray($query_id, $args);
+            }
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;

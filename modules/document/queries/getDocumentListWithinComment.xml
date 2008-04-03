@@ -4,7 +4,7 @@
         <table name="comments" alias="comments"/>
     </tables>
     <columns>
-        <column name="documents.*" />
+        <column name="documents.document_srl" />
     </columns>
     <conditions>
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
