@@ -1184,10 +1184,12 @@
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
+
+            $check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature)));
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
 
-            if(!$signature || !strip_tags($signature)) return @unlink($filename);
+            if(!$check_signature) return @unlink($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
