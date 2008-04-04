@@ -42,6 +42,12 @@
             // 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
             $template_path = sprintf("%stpl/",$this->module_path);
             $this->setTemplatePath($template_path);
+
+            // 정렬 옵션을 세팅
+            foreach($this->order_target as $key) $order_target[$key] = Context::getLang($key);
+            $order_target['list_order'] = Context::getLang('document_srl');
+            $order_target['update_order'] = Context::getLang('last_update');
+            Context::set('order_target', $order_target);
         }
 
         /**

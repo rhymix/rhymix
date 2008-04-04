@@ -9,6 +9,8 @@
 
         var $search_option = array('title','content','title_content','comment','user_name','nick_name','user_id','tag'); ///< 검색 옵션
 
+        var $order_target = array('list_order', 'update_order', 'regdate', 'voted_count', 'readed_count', 'comment_count', 'title'); // 정렬 옵션
+
         var $skin = "default"; ///< 스킨 이름
         var $list_count = 20; ///< 한 페이지에 나타날 글의 수
         var $page_count = 10; ///< 페이지의 수

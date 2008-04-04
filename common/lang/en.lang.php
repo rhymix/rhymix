@@ -109,6 +109,10 @@
     $lang->cart = 'Selected Item';
     $lang->friend = 'Friends';
     $lang->notify = 'Notification';
+    $lang->order_target = 'Align Target';
+    $lang->order_type = 'Sorting Type';
+    $lang->order_asc = 'ascend';
+    $lang->order_desc = 'descend';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
@@ -129,6 +133,7 @@
     $lang->search_list_count = 'Search List Count';
     $lang->readed_count = 'Views';
     $lang->voted_count = 'Votes';
+    $lang->comment_count = 'Comments';
     $lang->member_count = 'Member Count';
     $lang->date = 'Date';
     $lang->regdate = 'Registered Date';

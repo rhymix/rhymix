@@ -108,6 +108,10 @@
     $lang->cart = 'Artículo Seleccionado';
     $lang->friend = 'Amigos';
     $lang->notify = 'Notificación';
+    $lang->order_target = 'Alinear Meta';
+    $lang->order_type = 'Tipo de ordenamiento';
+    $lang->order_asc = 'acendente';
+    $lang->order_desc = 'descendente';
 
     $lang->mid = 'Nombre del Módulo';
     $lang->layout = 'Diseño';
@@ -128,6 +132,7 @@
     $lang->search_list_count = 'Buscar lista Conde';
     $lang->readed_count = 'Leídos';
     $lang->voted_count = 'Recomendados';
+    $lang->comment_count = 'Commentarios';
     $lang->member_count = 'Cantidad de usuarios';
     $lang->date = 'Fecha';
     $lang->regdate = 'Fecha publicada';

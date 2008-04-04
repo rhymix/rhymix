@@ -164,12 +164,13 @@
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
+
             $args->sort_index = Context::get('sort_index');
             $args->order_type = Context::get('order_type');
 
             // 지정된 정렬값이 없다면 스킨에서 설정한 정렬 값을 이용함
-            if(!$args->sort_index) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
-            if(!$args->order_type) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
+            if(!in_array($args->sort_index, $this->order_target)) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
+            if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
             // 특정 문서의 permalink로 직접 접속할 경우 page값을 직접 구함
             if(count($_GET)==1 && isset($_GET['document_srl']) && $oDocument->isExists() && !$oDocument->isNotice()) {

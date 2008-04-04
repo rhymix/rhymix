@@ -14,6 +14,8 @@
         <param name="skin" target="skin" />
         <param name="browser_title" target="browser_title" />
         <param name="use_category" target="use_category" />
+        <param name="order_target" target="order_target" />
+        <param name="order_type" target="order_type" />
         <param name="list_count" target="list_count" />
         <param name="search_list_count" target="search_list_count" />
         <param name="except_notice" target="except_notice" />

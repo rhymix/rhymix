@@ -85,6 +85,26 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->order_target}</th>
+        <td>
+            <select name="order_target">
+                <!--@foreach($order_target as $key => $val)-->
+                <option value="{$key}" <!--@if($module_info->order_target == $key)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->order_type}</th>
+        <td>
+            <select name="order_type">
+                <option value="asc" <!--@if($module_info->order_type != 'desc')-->selected="selected"<!--@end-->>{$lang->order_asc}</option>
+                <option value="desc" <!--@if($module_info->order_type == 'desc')-->selected="selected"<!--@end-->>{$lang->order_desc}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->list_count}</th>
         <td>
             <input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}"  class="inputTypeText" />
