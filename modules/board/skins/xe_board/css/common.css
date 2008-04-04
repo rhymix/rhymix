@@ -319,3 +319,5 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
 .memberSignature .profile { float:left; margin-right:20px; }
 .commentProfileImage { margin:0 0 10px 0; }
+
+.display_date {  cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}

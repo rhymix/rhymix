@@ -1,8 +1,18 @@
-<!--#include("./common_header.html")-->
 <!--%import("../../tpl/js/signup_check.js")-->
+<!--%import("../../tpl/js/krzip_search.js")-->
 <!--%import("filter/signup.xml")-->
 
-<!--%import("../../tpl/js/krzip_search.js")-->
+<!-- calendar -->
+<!--%import("../../../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
+
+<!--#include("./common_header.html")-->
 
 	<div class="boardHeader">
 		<h3>{$lang->msg_new_member}</h3>
@@ -78,8 +88,7 @@
         <th scope="row">{$lang->birthday}</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">&nbsp;</div>
-            <a href="#" onclick="open_calendar('birthday','');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+            <div class="display_date" id="str_birthday"></div>
             <p>{$lang->about_birthday}</p>
         </td>
     </tr>
@@ -89,6 +98,9 @@
     </tr>
     </table>
 
+    <script type="text/javascript">
+        Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
+    </script>
 
     <!--@if($extend_form_list)-->
     <table cellspacing="0" class="memberInfoTable">
@@ -178,9 +190,11 @@
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <div class="str_birthday" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
-                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+                <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
 
+                <script type="text/javascript">
+                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                </script>
             <!--@end-->
 
             <div class="extendDesc">{$val->description}</div>

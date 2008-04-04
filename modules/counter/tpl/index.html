@@ -1,8 +1,31 @@
 <!--%import("js/counter_admin.js")-->
 
+<!-- calendar -->
+<!--%import("../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../common/css/calendar-system.css",optimized=false)-->
+
+<script type="text/javascript">
+    function moveDate() {
+        xGetElementById('fo_calendar').submit();
+        return true;
+    }
+</script>
+
+
 <h3>{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="header4 gap1">
+
+    <form action="./index.php" method="get" id="fo_calendar">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />
 
     <table cellspacing="0" class="summary">
     <col width="124" />
@@ -12,10 +35,18 @@
     <tr>
         <th scope="row">{$lang->total_counter}</th>
         <td>Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
-        <th scope="row">{zdate($selected_date, "Y-m-d")} <span class="vr">|</span> <a href="#" onclick="open_calendar(null, '{$selected_date}', 'changeSelectedDate');return false;"><img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" /></a></th>
+        <th scope="row">
+            <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span> 
+            <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
+            <script type="text/javascript">
+                Calendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
+            </script>
+        </th>
         <td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
     </tr>
     </table>
+
+    </form>
 
     <ul class="localNavigation">
         <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->

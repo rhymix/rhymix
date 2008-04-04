@@ -277,3 +277,5 @@ h5 { padding:2px; }
 
 
 .listWrite { margin-bottom:20px; }
+
+.display_date {  cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}

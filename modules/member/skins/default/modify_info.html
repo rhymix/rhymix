@@ -1,9 +1,9 @@
 {@ $member_title = $lang->msg_update_member}
 <!--#include("./common_header.html")-->
 <!--%import("../../tpl/js/signup_check.js")-->
+<!--%import("../../tpl/js/krzip_search.js")-->
 
 <!--%import("filter/modify_info.xml")-->
-
 <!--@if($member_config->profile_image == 'Y')-->
     <!--%import("filter/delete_profile_image.xml")-->
 <!--@end-->
@@ -16,7 +16,15 @@
     <!--%import("filter/delete_image_mark.xml")-->
 <!--@end-->
 
-<!--%import("../../tpl/js/krzip_search.js")-->
+<!-- calendar -->
+<!--%import("../../../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
 
     <form id="fo_insert_member" action="./" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
@@ -112,9 +120,12 @@
         <th scope="row">{$lang->birthday}</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
-            <div class="str_birthday" id="str_birthday" onclick="open_calendar('birthday','');return false;">{zdate($member_info->birthday,"Y-m-d")}</div>
-            <a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+            <div class="display_date" id="str_birthday">{zdate($member_info->birthday,"Y-m-d")}</div>
             <p>{$lang->about_birthday}</p>
+
+            <script type="text/javascript">
+                Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d" } );
+            </script>
         </td>
     </tr>
     <tr>
@@ -226,8 +237,11 @@
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <div class="str_birthday" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
-                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+                <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+
+                <script type="text/javascript">
+                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                </script>
 
             <!--@end-->
 
