@@ -1251,6 +1251,8 @@
          * @brief 로그인 시킴
          **/
         function doLogin($user_id, $password = '', $keep_signed = false) {
+            $user_id = strtolower($user_id);
+
             // 로그인 이전에 trigger 호출 (before)
             $trigger_obj->user_id = $user_id;
             $trigger_obj->password = $password;
