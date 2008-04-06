@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   en.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  basic language pack of external page module
      **/
