@@ -7,8 +7,9 @@
     
     <div class="tableSummaryType1">
         <table cellspacing="0" class="adminTable">
-        <col width="50" />
+        <col width="30" />
         <col />
+        <col width="50" />
         <col width="50" />
         <tbody>
 	<!--{$rank = 1}-->
@@ -17,6 +18,7 @@
             <td class="tahoma">{$rank} </td>
             <td class="tahoma">{$val->host}</td>
             <td class="tahoma">{$val->count}</td>
+            <td class="tahoma red"><a href="{getUrl('act','dispRefererAdminDeleteStat','host',$val->host)}">{$lang->cmd_delete}</a></td>
         </td>
 	<!--{$rank += 1} -->
         <!--@end-->

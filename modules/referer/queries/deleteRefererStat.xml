@@ -1,0 +1,8 @@
+<query id="deleteRefererStat" action="delete">
+    <tables>
+	<table name="referer_statistics" />
+    </tables>
+    <conditions>
+	<condition operation="equal" column="host" var="host" notnull="notnull" />
+    </conditions>
+</query>

@@ -22,6 +22,11 @@
             $this->dispRefererAdminList();
         }
 
+	function dispRefererAdminDeleteStat () {
+	    if(!Context::get('host')) return $this->dispRefererAdminIndex();
+	    $this->setTemplateFile('delete_stat');
+	}
+
         function dispRefererAdminList() {
 	    
             // 목록을 구하기 위한 옵션
