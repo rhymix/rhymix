@@ -6,7 +6,7 @@
      * @author zero (zero@nzeo.com)
      * @brief  기본적으로 사용하는 class파일의 include 및 환경 설정을 함
      **/
-  
+
     if(!defined('__ZBXE__')) exit();
 
     /**
@@ -26,7 +26,7 @@
     define('__DEBUG__', 0);
 
     /**
-     * @brief 디버그 메세지의 출력 장소 
+     * @brief 디버그 메세지의 출력 장소
      * 0 : files/_debug_message.php 에 연결하여 출력
      * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최상단에 주석으로 표시
      **/
@@ -58,7 +58,7 @@
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
      **/
-    require_once("./config/func.inc.php");
+    require_once('./config/func.inc.php');
 
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());
@@ -69,19 +69,19 @@
      * php5 기반으로 바꾸게 되면 _autoload를 이용할 수 있기에 제거 대상
      **/
     if(__DEBUG__) define('__ClassLosdStartTime__', getMicroTime());
-    require_once("./classes/object/Object.class.php");
-    require_once("./classes/handler/Handler.class.php");
-    require_once("./classes/xml/XmlParser.class.php");
-    require_once("./classes/context/Context.class.php");
-    require_once("./classes/db/DB.class.php");
-    require_once("./classes/file/FileHandler.class.php");
-    require_once("./classes/widget/WidgetHandler.class.php");
-    require_once("./classes/editor/EditorHandler.class.php");
-    require_once("./classes/module/ModuleObject.class.php");
-    require_once("./classes/module/ModuleHandler.class.php");
-    require_once("./classes/display/DisplayHandler.class.php");
-    require_once("./classes/template/TemplateHandler.class.php");
-    require_once("./classes/mail/Mail.class.php");
+    require_once('./classes/object/Object.class.php');
+    require_once('./classes/handler/Handler.class.php');
+    require_once('./classes/xml/XmlParser.class.php');
+    require_once('./classes/context/Context.class.php');
+    require_once('./classes/db/DB.class.php');
+    require_once('./classes/file/FileHandler.class.php');
+    require_once('./classes/widget/WidgetHandler.class.php');
+    require_once('./classes/editor/EditorHandler.class.php');
+    require_once('./classes/module/ModuleObject.class.php');
+    require_once('./classes/module/ModuleHandler.class.php');
+    require_once('./classes/display/DisplayHandler.class.php');
+    require_once('./classes/template/TemplateHandler.class.php');
+    require_once('./classes/mail/Mail.class.php');
     if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLosdStartTime__;
 
     /**
@@ -90,12 +90,12 @@
      **/
     if(!ini_get('session.auto_start')) {
         session_cache_limiter('no-cache, must-revalidate');
-        ini_set("session.gc_maxlifetime", "18000"); 
-        if(!is_dir("./files/sessions")) {
-            FileHandler::makeDir("./files/sessions");
-            @chmod("./files/sessions",  0777);
+        ini_set('session.gc_maxlifetime', '18000');
+        if(!is_dir('./files/sessions')) {
+            FileHandler::makeDir('./files/sessions');
+            @chmod('./files/sessions',  0777);
         }
-        if(is_dir("./files/sessions")) session_save_path(realpath('.')."/files/sessions/");
+        if(is_dir('./files/sessions')) session_save_path(realpath('.').'/files/sessions/');
         session_start();
     }
 ?>
