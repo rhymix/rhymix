@@ -144,7 +144,7 @@
          * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함\n
          **/
         function _debugOutput() {
-            if(!__DEBUG__ || Context::getResponseMethod()!='HTML' ) return;
+            if(!__DEBUG__) return;
 
             $end = getMicroTime();
 
@@ -189,9 +189,9 @@
             // 전체 실행 시간 작성
             $buff .= sprintf("\tTotal elapsed time \t\t: %0.5f sec", $end-__StartTime__);
 
-            if(__DEBUG_OUTPUT__==1) return $buff;
+            if(__DEBUG_OUTPUT__==1 && Context::getResponseMethod()=='HTML') return "<!--\r\n".$buff."\r\n-->";
             
-            debugPrint($buff, false);
+            if(__DEBUG_OUTPUT__==0) debugPrint($buff, false);
         }
 
         /**

@@ -310,20 +310,14 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        //if(!$buff) return;
+        $debug_file = "./files/_debug_message.php";
+        $buff = sprintf("%s\n",print_r($buff,true));
 
-        if(__DEBUG_OUTPUT__ == 1) {
-            print sprintf("<!--\n%s\n-->", print_r($buff,true));
-        } else {
-            $debug_file = "./files/_debug_message.php";
-            $buff = sprintf("%s\n",print_r($buff,true));
+        if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
-            if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
-
-            if(@!$fp = fopen($debug_file,"a")) return;
-            fwrite($fp, $buff);
-            fclose($fp);
-        }
+        if(@!$fp = fopen($debug_file,"a")) return;
+        fwrite($fp, $buff);
+        fclose($fp);
     }
 
     /**
