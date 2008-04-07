@@ -266,19 +266,21 @@
      * @param format php date()함수의 시간 포맷
      * @return string
      **/
-    function zdate($str, $format = "Y-m-d H:i:s") {
+    function zdate($str, $format = "Y-m-d H:i:s", $conversion=true) {
         // 대상 시간이 없으면 null return
         if(!$str) return;
 
         // 언어권에 따라서 지정된 날짜 포맷을 변경
-        switch(Context::getLangType()) {
-            case "en" :
-            case "es" :
-                    if($format == "Y-m-d") $format = "M d, Y";
-                    elseif($format == "Y-m-d H:i:s") $format = "M d, Y H:i:s";
-                    elseif($format == "Y-m-d H:i") $format = "M d, Y H:i";
-                break;
+        if($conversion == true) {
+            switch(Context::getLangType()) {
+                case "en" :
+                case "es" :
+                        if($format == "Y-m-d") $format = "M d, Y";
+                        elseif($format == "Y-m-d H:i:s") $format = "M d, Y H:i:s";
+                        elseif($format == "Y-m-d H:i") $format = "M d, Y H:i";
+                    break;
 
+            }
         }
 
         // 년도가 1970년 이전이면 별도 처리
