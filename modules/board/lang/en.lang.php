@@ -20,7 +20,7 @@
     $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
-    $lang->admin_mail = '관리자 메일';
+    $lang->admin_mail = "Administrator's Mail";
 
     // words used in button
     $lang->cmd_board_list = 'Boards List';
@@ -36,5 +36,5 @@
     $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
     $lang->about_board = "This module is for creating and managing boards.\nYou may select the module name from the list after creating one to configure specifically.\nPlease be careful with board's module name, since it will be the url. (ex : http://domain/zb/?mid=modulename)"; 
 	$lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
-    $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
+    $lang->about_admin_mail = 'A mail will be sent when an article or comment is submitted.<br />Multiple mails can be sent with commas(,).';
 ?>
