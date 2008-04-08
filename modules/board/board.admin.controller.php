@@ -155,6 +155,7 @@
                     $extra_vars->search_list_count = $args->search_list_count;
                     $extra_vars->except_notice = $args->except_notice!='Y'?'N':'Y';
                     $extra_vars->consultation = $args->consultation!='Y'?'N':'Y';
+                    $extra_vars->admin_mail = $args->admin_mail;
                     $extra_vars->page_count = $args->page_count;
 
                     $obj->extra_vars = serialize($extra_vars);

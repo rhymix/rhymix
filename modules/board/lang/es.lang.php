@@ -22,6 +22,7 @@
     $lang->category_group_srls = 'Limitar el grupo';
     $lang->search_result = 'Resultado de la búsqueda';
     $lang->consultation = '상담 기능';
+    $lang->admin_mail = '관리자 메일';
 
     // Palabras utilizadas en los botones
     $lang->cmd_board_list = 'Lista del tableros';
@@ -37,4 +38,5 @@
     $lang->about_except_notice = "Aviso de los artículos no se mostrará en la lista normal.";
     $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que ese nombre va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
     $lang->about_consultation = "No administrador de los miembros que consideran que su propia artocles. \ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.";
+    $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 ?>

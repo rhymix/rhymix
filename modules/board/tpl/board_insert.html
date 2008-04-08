@@ -140,6 +140,13 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->admin_mail}</th>
+        <td>
+            <input type="text" name="admin_mail" value="{$module_info->admin_mail}"  class="inputTypeText w400" />
+            <p>{$lang->about_admin_mail}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->description}</th>
         <td>
             <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>

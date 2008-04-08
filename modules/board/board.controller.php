@@ -52,6 +52,22 @@
                 $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
+
+                // 문제가 없고 모듈 설정에 관리자 메일이 등록되어 있으면 메일 발송
+                if($output->toBool() && $this->module_info->admin_mail) {
+                    $oMail = new Mail();
+                    $oMail->setTitle($obj->title);
+                    $oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getUrl('','document_srl',$obj->document_srl), getUrl('','document_srl',$obj->document_srl), $obj->content));
+                    $oMail->setSender($obj->user_name, $obj->email_address);
+
+                    $target_mail = explode(',',$this->module_info->admin_mail);
+                    for($i=0;$i<count($target_mail);$i++) {
+                        $email_address = trim($target_mail[$i]);
+                        if(!$email_address) continue;
+                        $oMail->setReceiptor($email_address, $email_address);
+                        $oMail->send();
+                    }
+                }
             }
 
             // 오류 발생시 멈춤
@@ -110,6 +126,11 @@
             $obj = Context::gets('document_srl','comment_srl','parent_srl','content','password','nick_name','nick_name','member_srl','email_address','homepage','is_secret','notify_message');
             $obj->module_srl = $this->module_srl;
 
+            // 원글이 존재하는지 체크
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl);
+            if(!$oDocument->isExists()) return new Object(-1,'msg_not_permitted');
+
             // comment 모듈의 model 객체 생성
             $oCommentModel = &getModel('comment');
 
@@ -137,6 +158,22 @@
                 // 없으면 신규
                 } else {
                     $output = $oCommentController->insertComment($obj);
+                }
+
+                // 문제가 없고 모듈 설정에 관리자 메일이 등록되어 있으면 메일 발송
+                if($output->toBool() && $this->module_info->admin_mail) {
+                    $oMail = new Mail();
+                    $oMail->setTitle($oDocument->getTitleText());
+                    $oMail->setContent( sprintf("From : <a href=\"%s#comment_%d\">%s#comment_%d</a><br/>\r\n%s", $oDocument->getPermanentUrl(), $obj->comment_srl, $oDocument->getPermanentUrl(), $obj->comment_srl, $obj->content));
+                    $oMail->setSender($obj->user_name, $obj->email_address);
+
+                    $target_mail = explode(',',$this->module_info->admin_mail);
+                    for($i=0;$i<count($target_mail);$i++) {
+                        $email_address = trim($target_mail[$i]);
+                        if(!$email_address) continue;
+                        $oMail->setReceiptor($email_address, $email_address);
+                        $oMail->send();
+                    }
                 }
 
             // comment_srl이 있으면 수정으로
