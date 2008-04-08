@@ -140,8 +140,8 @@
                         // 브라우저 타이틀에 글의 제목을 추가
                         Context::addBrowserTitle($oDocument->getTitleText());
 
-                        // 조회수 증가
-                        $oDocument->updateReadedCount();
+                        // 조회수 증가 (비밀글일 경우 권한 체크)
+                        if(!$oDocument->isSecret() || $oDocument->isGranted()) $oDocument->updateReadedCount();
                     }
                 }
             }
