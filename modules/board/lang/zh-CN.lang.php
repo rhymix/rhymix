@@ -23,7 +23,7 @@
     $lang->category_group_srls = '用户组';
     $lang->search_result = '搜索结果';
     $lang->consultation = '咨询功能';
-    $lang->admin_mail = '관리자 메일';
+    $lang->admin_mail = '管理员电子邮件';
 
     // 按钮语言
     $lang->cmd_board_list = '版面目录';
@@ -40,5 +40,5 @@
     $lang->about_except_notice = "设置公告目录项不再重复显示到普通目录当中。";
     $lang->about_board = "可生成，管理版面的模块。\n生成版面后，点击模块名即可对其详细设置。";
     $lang->about_consultation = "咨询功能是指除有管理权限的会员以外，其他会员只能浏览自己发表的主题。\n使用咨询功能时系统将自动禁止非会员的发表主题权限。";
-    $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
+    $lang->about_admin_mail = '有新的发表主题或评论时，将自动发电子邮件来通知管理员。<br />多数电子邮件由逗号(,)来分隔。';
 ?>
