@@ -714,18 +714,18 @@
         /**
          * @brief js file을 추가
          **/
-        function addJsFile($file, $optimized = true) {
+        function addJsFile($file, $optimized = true, $targetie = '') {
             $oContext = &Context::getInstance();
-            return $oContext->_addJsFile($file, $optimized);
+            return $oContext->_addJsFile($file, $optimized, $targetie);
         }
 
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file, $optimized) {
+        function _addJsFile($file, $optimized, $targetie) {
             if(in_array($file, $this->js_files)) return;
             //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->js_files[] = array('file' => $file, 'optimized' => $optimized);
+            $this->js_files[] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
         }
 
         /**
@@ -763,19 +763,19 @@
         /**
          * @brief CSS file 추가
          **/
-        function addCSSFile($file, $optimized = true, $media = 'all') {
+        function addCSSFile($file, $optimized = true, $media = 'all', $targetie = '') {
             $oContext = &Context::getInstance();
-            return $oContext->_addCSSFile($file, $optimized, $media);
+            return $oContext->_addCSSFile($file, $optimized, $media, $targetie);
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function _addCSSFile($file, $optimized, $media) {
+        function _addCSSFile($file, $optimized, $media, $targetie) {
             if(in_array($file, $this->css_files)) return;
 
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media);
+            $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
         }
 
         /**
