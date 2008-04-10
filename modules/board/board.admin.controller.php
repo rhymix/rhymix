@@ -182,7 +182,6 @@
             if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
             if($extra_var->except_notice!='Y') $extra_var->except_notice = 'N';
             if($extra_var->consultation!='Y') $extra_var->consultation = 'N';
-            if($extra_var->order_target) $extra_var->consultation = 'N';
             if(!in_array($extra_var->order_target,$this->order_target)) $extra_var->order_target = 'list_order';
             if(!in_array($extra_var->order_type,array('asc','desc'))) $extra_var->order_type = 'asc';
             unset($extra_var->act);
