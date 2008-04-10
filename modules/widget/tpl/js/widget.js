@@ -32,9 +32,9 @@ function getStyle(obj) {
 
 // float: 값을 구하는게 IE랑 그외가 다름
 function getFloat(obj) {
-    var float = xIE4Up?obj.style.styleFloat:obj.style.cssFloat;
-    if(!float) float = 'left';
-    return float;
+    var cssFloat = xIE4Up?obj.style.styleFloat:obj.style.cssFloat;
+    if(!cssFloat) cssFloat = 'left';
+    return cssFloat;
 }
 function setFloat(obj, fl) {
     if(xIE4Up) obj.style.styleFloat = fl;
@@ -724,15 +724,15 @@ function widgetDrag(tobj, dx, dy) {
 
     var pWidth = xWidth(tobj.parentNode);
 
-    var float = getFloat(tobj.parentNode);
-    if(!float) float = 'left';
+    var cssFloat = getFloat(tobj.parentNode);
+    if(!cssFloat) cssFloat = 'left';
 
     // 위젯 리사이즈 (우측)
     if(tobj.className == 'widgetResize' || tobj.className == 'widgetBoxResize') {
         if(nx < sx+minWidth) nx = sx+minWidth;
         if(nx > zoneRight) nx = zoneRight;
 
-        if(float == 'right') nx = sx + pWidth;
+        if(cssFloat == 'right') nx = sx + pWidth;
 
         var new_width = nx  - sx;
         if(new_width < minWidth) new_width = minWidth;
@@ -754,7 +754,7 @@ function widgetDrag(tobj, dx, dy) {
 
         if(nx < zoneLeft) nx = zoneLeft;
 
-        if(float == 'left') nx = sx;
+        if(cssFloat == 'left') nx = sx;
 
         var new_width = pWidth + (sx - nx);
         if(new_width < minWidth) new_width = minWidth;

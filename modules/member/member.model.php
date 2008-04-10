@@ -141,6 +141,7 @@
             $info->profile_image = $this->getProfileImage($info->member_srl);
             $info->image_name = $this->getImageName($info->member_srl);
             $info->image_mark = $this->getImageMark($info->member_srl);
+            $info->signature = $this->getSignature($info->member_srl);
 
             $extra_vars = unserialize($info->extra_vars);
             unset($info->extra_vars);

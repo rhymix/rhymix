@@ -60,11 +60,13 @@
             $rss->title = $xml_doc->rss->channel->title->body;
             $rss->link = $xml_doc->rss->channel->link->body;
 
-            if(!is_array($xml_doc->rss->channel->item)) return;
+            $items = $xml_doc->rss->channel->item;
+            if(!$items) return; 
+            if($items && !is_array($items)) $items = array($items);
 
             $rss_list = array();
 
-            foreach ($xml_doc->rss->channel->item as $key => $value) {
+            foreach ($items as $key => $value) {
                 if($key >= $PAGE_LIMIT) break;
 
                 unset($item);

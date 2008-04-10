@@ -16,7 +16,7 @@
 <col />
 <col width="150" />
 <col width="65" />
-<col width="85" />
+<col width="65" />
 <col width="90" />
 <col width="45" />
 
@@ -25,7 +25,7 @@
 <col />
 <col width="150" />
 <col width="75" />
-<col width="85" />
+<col width="75" />
 <col width="90" />
 <col width="45" />
 
@@ -43,7 +43,7 @@
 <col />
 <col width="150" />
 <col width="75" />
-<col width="85" />
+<col width="75" />
 <col width="90" />
 <col width="45" />
 
@@ -52,7 +52,7 @@
 <col />
 <col width="150" />
 <col width="75" />
-<col width="90" />
+<col width="75" />
 <col width="90" />
 <col width="50" />
 
@@ -61,7 +61,7 @@
 <col />
 <col width="150" />
 <col width="75" />
-<col width="85" />
+<col width="75" />
 <col width="90" />
 <col width="95" />
 <!--@end-->
@@ -92,8 +92,8 @@
         <td rowspan="2" class="tahoma">{$no}</td>
         <td class="blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a></td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma"><!--@if($val->last_update)-->{zdate($val->last_update, 'Y-m-d H:i:s')}<!--@else-->&nbsp;<!--@end--></td>
+        <td class="tahoma">{nl2br(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
+        <td class="tahoma"><!--@if($val->last_update)-->{nl2br(zdate($val->last_update, "Y-m-d\nH:i:s"))}<!--@else-->&nbsp;<!--@end--></td>
         <td class="tahoma">{$val->ipaddress}</td>
         <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>

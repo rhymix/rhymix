@@ -3,16 +3,42 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Generator" content="zeroboardXE {__ZBXE_VERSION__}" />
-    <!--@if($module_info->module)--><meta name="module" content="{$module_info->module}" />
-    <!--@end--><!--@if($module_info->skin)--><meta name="module_skin" content="{$module_info->skin}" />
-    <!--@end--><!--@if($layout_info->title)--><meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
-    <!--@end--><!--@if($layout_info->author)--><meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
-    <!--@end--><meta http-equiv="imagetoolbar" content="no" />
+<!--@if($module_info->module)-->
+    <meta name="module" content="{$module_info->module}" />
+<!--@end-->
+<!--@if($module_info->skin)-->
+    <meta name="module_skin" content="{$module_info->skin}" />
+<!--@end-->
+<!--@if($layout_info->title)-->
+    <meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
+<!--@end-->
+<!--@if($layout_info->author)-->
+    <meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
+<!--@end-->
+    <meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
-    <!--@foreach($js_files as $key => $js_file)--><script type="text/javascript" src="{$js_file['file']}"></script>
-    <!--@end--><!--@foreach($css_files as $key => $css_file)--><link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
-    <!--@end--><!--@if($rss_url)--><link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
-    <!--@end--><script type="text/javascript">//<![CDATA[
+<!--@foreach($js_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+<!--@foreach($css_files as $key => $css_file)-->
+<!--@if($css_file['targetie'])-->
+    <!--[if {$css_file['targetie']}]>
+<!--@end-->
+    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+<!--@if($css_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+<!--@if($rss_url)-->
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
+<!--@end-->
+    <script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
         var current_mid = "{$mid}";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/fr.lang.php
-     * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
      * @brief  Paquet de La Langue  Francaise (Mots de base seulement) 
      **/
 
@@ -109,6 +109,10 @@
     $lang->cart = 'Article Choisi';
     $lang->friend = 'Les Amis';
     $lang->notify = 'Annoncer';
+    $lang->order_target = 'Align Target';
+    $lang->order_type = 'Sorting Type';
+    $lang->order_asc = 'Ascend';
+    $lang->order_desc = 'Descendre';
 
     $lang->mid = 'Nom';
     $lang->layout = 'Mise en Page';
@@ -129,6 +133,7 @@
     $lang->search_list_count = 'Trouvés';
     $lang->readed_count = ' Vues';
     $lang->voted_count = 'Recommandés';
+    $lang->comment_count = 'Commentairesés';
     $lang->member_count = 'Membres';
     $lang->date = 'Jour';
     $lang->regdate = 'Enrégistré';
@@ -186,7 +191,7 @@
 
     $lang->success_registed = 'Enregistré avec succès';
     $lang->success_declared = 'Accusé avec succès';
-    $lang->success_updated = 'Mise a jour avec succès';
+    $lang->success_updated = 'Mise à jour avec succès';
     $lang->success_deleted = 'Supprimé avec succès';
     $lang->success_voted = 'Voté avec succès';
     $lang->success_moved = 'Bougé avec succès';

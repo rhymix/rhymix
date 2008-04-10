@@ -64,7 +64,7 @@
     $lang->webmaster_email = '管理员电子邮件';
 
     $lang->about_keep_signed = '关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。';
-    $lang->about_webmaster_name = '请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)';
+	$lang->about_webmaster_name = '请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)';
     $lang->about_webmaster_email = '请输入网站管理员的电子邮件地址。';
 
     $lang->search_target_list = array(

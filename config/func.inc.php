@@ -262,23 +262,26 @@
 
     /**
      * @brief YYYYMMDDHHIISS 형식의 시간값을 원하는 시간 포맷으로 변형
-     * @param str YYYYMMDDHHIISS 형식의 시간값
-     * @param format php date()함수의 시간 포맷
+     * @param string|int str YYYYMMDDHHIISS 형식의 시간 값
+     * @param string format php date()함수의 시간 포맷
+     * @param bool conversion 언어에 따라 날짜 포맷의 자동변환 여부
      * @return string
      **/
-    function zdate($str, $format = "Y-m-d H:i:s") {
+    function zdate($str, $format = 'Y-m-d H:i:s', $conversion=true) {
         // 대상 시간이 없으면 null return
         if(!$str) return;
 
         // 언어권에 따라서 지정된 날짜 포맷을 변경
-        switch(Context::getLangType()) {
-            case "en" :
-            case "es" :
-                    if($format == "Y-m-d") $format = "M d, Y";
-                    elseif($format == "Y-m-d H:i:s") $format = "M d, Y H:i:s";
-                    elseif($format == "Y-m-d H:i") $format = "M d, Y H:i";
-                break;
+        if($conversion == true) {
+            switch(Context::getLangType()) {
+                case 'en' :
+                case 'es' :
+                        if($format == 'Y-m-d') $format = 'M d, Y';
+                        elseif($format == 'Y-m-d H:i:s') $format = 'M d, Y H:i:s';
+                        elseif($format == 'Y-m-d H:i') $format = 'M d, Y H:i';
+                    break;
 
+            }
         }
 
         // 년도가 1970년 이전이면 별도 처리
@@ -291,7 +294,7 @@
             $day = (int)substr($str,6,2);
             return str_replace(
                         array('Y','m','d','H','h','i','s','a','M', 'F'),
-                        array($year,$month,$day,$hour,$hour/12,$min,$sec,$hour<=12?'am':'pm',getMonthName($month), getMonthName($month,false)),
+                        array($year,$month,$day,$hour,$hour/12,$min,$sec,($hour <= 12) ? 'am' : 'pm',getMonthName($month), getMonthName($month,false)),
                         $format
                     );
         }
@@ -310,20 +313,14 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        //if(!$buff) return;
+        $debug_file = "./files/_debug_message.php";
+        $buff = sprintf("%s\n",print_r($buff,true));
 
-        if(__DEBUG_OUTPUT__ == 1) {
-            print sprintf("<!--\n%s\n-->", print_r($buff,true));
-        } else {
-            $debug_file = "./files/_debug_message.php";
-            $buff = sprintf("%s\n",print_r($buff,true));
+        if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
-            if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
-
-            if(@!$fp = fopen($debug_file,"a")) return;
-            fwrite($fp, $buff);
-            fclose($fp);
-        }
+        if(@!$fp = fopen($debug_file,"a")) return;
+        fwrite($fp, $buff);
+        fclose($fp);
     }
 
     /**

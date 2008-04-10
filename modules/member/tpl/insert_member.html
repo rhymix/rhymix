@@ -2,6 +2,16 @@
 <!--%import("filter/insert.xml")-->
 <!--%import("css/member_admin.css")-->
 
+<!-- calendar -->
+<!--%import("../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../common/css/calendar-system.css",optimized=false)-->
+
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
     <input type="hidden" name="page" value="{$page}" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
@@ -69,10 +79,12 @@
         <th scope="row">{$lang->birthday}</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
+            <div class="display_date" id="str_birthday">{zdate($member_info->birthday,"Y-m-d")}</div>
+            <p>{$lang->about_birthday}</p>
 
-            <div id="str_birthday" class="inputTypeDate fl" >{zdate($member_info->birthday,"Y-m-d")}</div>
-            <a href="#" onclick="open_calendar('birthday','{$member_info->birthday}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
-            <p class="clear">{$lang->about_birthday}</p>
+            <script type="text/javascript">
+                Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d" } );
+            </script>
         </td>
     </tr>
     <tr>
@@ -110,8 +122,10 @@
         <th scope="row">{$lang->limit_date}</th>
         <td>
             <input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-            <div id="str_limit_date" class="inputTypeDate fl" >{zdate($member_info->limit_date,"Y-m-d")}</div>
-            <a  href="#" onclick="open_calendar('limit_date','{$member_info->limit_date}');return false;" class="button"><span>{$lang->cmd_open_calendar}<img src="../../admin/tpl/images/blank.gif" alt="" class="rightCap" /></span></a>
+            <div id="str_limit_date" class="display_date" >{zdate($member_info->limit_date,"Y-m-d")}</div>
+            <script type="text/javascript">
+                Calendar.setup( { firstDay : 0, inputField : "date_limit_date", ifFormat : "%Y%m%d", displayArea : "str_limit_date", daFormat : "%Y-%m-%d" } );
+            </script>
             <p class="clear">{$lang->about_limit_date}</p>
         </td>
     </tr>
@@ -225,9 +239,13 @@
 
             <!-- 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
-                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-                <div id="str_{$val->column_name}" class="inputTypeDate fl" >{zdate($val->value,"Y-m-d")}</div>
-                <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+                <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+
+                <script type="text/javascript">
+                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                </script>
+
 
             <!--@end-->
             <!--@if($val->description)--><p class="clear">{htmlspecialchars($val->description)}</p><!--@end-->

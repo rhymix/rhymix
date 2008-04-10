@@ -109,6 +109,10 @@
     $lang->cart = '選択項目';
     $lang->friend = '友達';
     $lang->notify = 'アラート';
+    $lang->order_target = 'ソート対象';
+    $lang->order_type = 'ソート方法';
+    $lang->order_asc = '昇る';
+    $lang->order_desc = '降下';
 
     $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';
@@ -129,6 +133,7 @@
     $lang->search_list_count = '検索リスト数';
     $lang->readed_count = '照合数';
     $lang->voted_count = '推薦数';
+    $lang->comment_count = 'コメント数';
     $lang->member_count = '会員数';
     $lang->date = '日付';
     $lang->regdate = '登録日';

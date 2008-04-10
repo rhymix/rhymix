@@ -36,6 +36,14 @@
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
 <tr>
+    <th scope="row">{$lang->order_target}</th>
+    <td>{$order_target[$module_info->order_target]}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->order_type}</th>
+    <td><!--@if($module_info->order_type=='asc')-->{$lang->order_asc}<!--@else-->{$lang->order_desc}<!--@end--></td>
+</tr>
+<tr>
     <th scope="row">{$lang->list_count}</th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
@@ -54,6 +62,10 @@
 <tr>
     <th scope="row">{$lang->consultation}</th>
     <td>{$module_info->consultation=='Y'?$lang->use:$lang->notuse}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->admin_mail}</th>
+    <td>{$module_info->admin_mail}</td>
 </tr>
 <tr>
     <th scope="row">{$lang->description}</th>

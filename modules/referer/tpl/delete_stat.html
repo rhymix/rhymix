@@ -1,0 +1,24 @@
+<!--%import("filter/delete_stat.xml")-->
+<!--%import("js/referer_admin.js")-->
+<!--%import("css/referer.css")-->
+
+<h3>{$lang->referer} <span class="gray">{$lang->cmd_management}</span></h3>
+<form action="./" method="get" onsubmit="return procFilter(this, delete_stat)">
+<input type="hidden" name="host" value="{$host}" />
+
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$lang->confirm_delete}</caption>
+    <tr>
+        <th scope="row">Host Name</th>
+        <td>{$host}</td>
+    </tr>
+    </table>
+
+    <div class="tRight gap1">
+        <a href="{getUrl('act','dispRefererAdminIndex')}" class="button"><span>{$lang->cmd_back}</span></a>
+        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+    </div>
+</form>
+

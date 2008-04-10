@@ -12,8 +12,8 @@
     $lang->component_link = "Lien";
     $lang->component_date = "Jour de Création";
     $lang->component_description = "Description";
-    $lang->component_extra_vars = "Variables d\'Option";
-    $lang->component_grant = "Configuration de l\'Autorisation"; 
+    $lang->component_extra_vars = "Variables d'Option";
+    $lang->component_grant = "Configuration de l'Autorisation"; 
 
     $lang->about_component = "Sur le Composant";
     $lang->about_component_grant = "Le groupe sélectionné peut seulement utiliser. (Tout le monde peut utiliser quand le mode est invalid)";

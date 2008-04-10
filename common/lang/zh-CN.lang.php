@@ -109,6 +109,10 @@
     $lang->cart = '选择项目';
     $lang->friend = '好友';
     $lang->notify = '通告';
+    $lang->order_target = '排序对象';
+    $lang->order_type = '排序方式';
+    $lang->order_asc = '继承皇位';
+    $lang->order_desc = '降临';
 
     $lang->mid = '模块名称';
     $lang->layout = '布局';
@@ -129,6 +133,7 @@
     $lang->search_list_count = '搜索目录数';
     $lang->readed_count = '查看';
     $lang->voted_count = '推荐';
+    $lang->comment_count = '评论';
     $lang->member_count = '会员数';
     $lang->date = '日期';
     $lang->regdate = '登录日期';

@@ -20,6 +20,7 @@
     $lang->category_group_srls = 'Groupe Accessible';
     $lang->search_result = 'Résultat de la Recherche';
     $lang->consultation = 'Consultation';
+    $lang->admin_mail = '관리자 메일';
 
     // Mots utiliss en bouton
     $lang->cmd_board_list = 'Liste des Panneaux';
@@ -35,4 +36,5 @@
     $lang->about_except_notice = "L'Article de Notice ne sera exposé sur la liste normale.";
     $lang->about_board = "Ce module se sert à créer et arranger des Panneaux.\nAprés avoir créé un module, si vous cliquez le nom sur le liste, vous pouvez configurer spécifiquement.\nFaites attention quand vous nomer un module du Panneau, car ce sera URL. (ex : http://domain/zb/?mid=nom_de_module)"; 
 	$lang->about_consultation = "Les membres non-administratifs verront seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
+    $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 ?>

@@ -1,5 +1,15 @@
 <!-- 이 파일은 extra_vars의 form을 출력하는 파일이며 다른 스킨에서 그대로 가져가서 css만 바꾸어 주면 된다 -->
 
+<!-- calendar -->
+<!--%import("../../../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
+
 <!-- type=select,checkbox이고 기본값이 , 로 연결되어 있으면 , 를 기준으로 explode하여 배열로 만든다 -->
 <!--@if(in_array($val->type,array('select','checkbox'))&&strpos($val->default,",")!==false)-->
     {@ $val->default = explode(',',$val->default) }
@@ -56,8 +66,11 @@
 <!-- 날짜 입력 -->
 <!--@elseif($val->type == 'date')-->
     <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-    <div class="fl inputTypeText w80" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
-    <a href="#" onclick="open_calendar('{$val->column_name}','{$val->value}');return false;" class="button"><span>{$lang->cmd_open_calendar}</span></a>
+    <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+
+    <script type="text/javascript">
+        Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+    </script>
 <!--@end-->
 
 <!--@if($val->desc)-->

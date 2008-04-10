@@ -27,12 +27,7 @@ ul.blogGlobal li a {color:#666666;}
 
 /* title bg box */
 .blogTitleBox {background:url(../images/gray/box_blog_title.gif) no-repeat left top;}
-
-/* category */
-.blogCategory h2 {color:#181818;}
-.blogCategory h2 a {color:#181818;}
-.blogCategory ul.categoryList li {background:url(../images/gray/ico_category.gif) no-repeat .8em 0;}
-.blogCategory ul.categoryList li a {color:#3f4040;}
+.blogTitleBox h2 {color:#181818;}
 
 /* Content Box */
 .contentBox .centerBg {background:url(../images/gray/box_blog_bg.gif) repeat-y left top;}
@@ -42,7 +37,7 @@ ul.blogGlobal li a {color:#666666;}
 /* Widget */
 .blog_widget_ {background:url(../images/gray/box_blog_title.gif) no-repeat left top;}
 .blog_widget_ h2 {color:#181818;}
-.blog_widget_ .items li {background:url(../images/gray/bullet_3x3_1.gif) no-repeat 1em .35em;}
+.blog_widget_ .items li {background:url(../images/gray/bullet_3x3_1.gif) no-repeat 5px 5px; }
 .blog_widget_ .items li a {color:#3f4040;}
 
 /* Calender */

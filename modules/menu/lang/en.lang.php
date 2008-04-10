@@ -27,13 +27,13 @@
     $lang->layout_maker = "Layout Maker";
     $lang->layout_history = "Update History ";
     $lang->layout_info = "Layout Info";
-    $lang->layout_list = 'Layout List';
-    $lang->downloaded_list = 'Download List';
+    $lang->layout_list = 'Layouts List';
+    $lang->downloaded_list = 'Downloads List';
     $lang->limit_menu_depth = 'Display Enabled';
 
-    $lang->cmd_make_child = 'Add a child menu';
-    $lang->cmd_move_to_installed_list = "View created lists";
-    $lang->cmd_enable_move_menu = "Move menu (Drag the top menu after selecting)";
+    $lang->cmd_make_child = 'Add a Child Menu';
+    $lang->cmd_move_to_installed_list = "View Created List";
+    $lang->cmd_enable_move_menu = "Move Menu (Drag the top menu after selecting)";
     $lang->cmd_search_mid = "Search mid";
 
     $lang->msg_cannot_delete_for_child = 'A menu with child menus cannot be deleted.';

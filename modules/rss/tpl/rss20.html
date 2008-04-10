@@ -20,7 +20,7 @@
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category>{$tag}</category>
+            <category><![CDATA[{$tag}]]></category>
             <!--@end-->
         </item>
         <!--@end-->

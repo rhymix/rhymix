@@ -24,7 +24,7 @@
     $lang->current_version = "Current Version";
     $lang->current_path = "Installed Path";
     $lang->released_version = "Latest Version";
-    $lang->about_download_link = "Newer version of Zerboard XE is available. To download the latest version, click download link.";
+    $lang->about_download_link = "New version of Zerboard XE is now available. To download the latest version, click the download link.";
     
     $lang->item_module = "Module List";
     $lang->item_addon  = "Addon List";

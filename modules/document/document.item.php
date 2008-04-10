@@ -80,27 +80,25 @@
         }
 
         function allowTrackback() {
-            if(!$this->isExists()) return false;
-
             // allowTrackback()의 경우 여러번 호출됨으로 자체 변수 설정후 사용
             if(!isset($this->allow_trackback_status)) {
 
-                // 글쓴이가 허용하였으면 사용으로 체크
-                if($this->get('allow_trackback')=='Y') $this->allow_trackback_status = true;
+                // 엮인글 관리 모듈의 사용금지 설정 상태이면 무조건 금지, 그렇지 않으면 개별 체크
+                $oModuleModel = &getModel('module');
+                $trackback_config = $oModuleModel->getModuleConfig('trackback');
 
-                // 글쓴이가 허용하였더라도 모듈 설정에서 허용이 아니라면 금지로 설정
-                if($this->allow_trackback_status) {
-                    $oModuleModel = &getModel('module');
-                    $trackback_config = $oModuleModel->getModuleConfig('trackback');
+                if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false; 
+                else {
+                    $module_srl = $this->get('module_srl');
+                    if(!$module_srl) $module_srl = Context::get('module_srl');
 
-                    // 전체 설정에서 엮인글 사용금지이면 모든 엮인글의 사용을 금지함
-                    if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false;
+                    // 모듈별 설정을 체크
+                    $module_config = $trackback_config->module_config[$module_srl];
 
-                    // 전체 설정에서 허용시 모듈별 설정을 체크
+                    if($module_config->enable_trackback == 'N') $this->allow_trackback_status = false;
                     else {
-                        $module_config = $trackback_config->module_config[$this->get('module_srl')];
-                        if(!$module_config || $module_config->enable_trackback != 'N') $this->allow_trackback_status = true;
-                        else $this->allow_trackback_status = false;
+                        // 글쓴이가 허용하였거나 원본 글이 없으면 허용
+                        if($this->get('allow_trackback')=='Y' || !$this->isExists()) $this->allow_trackback_status = true;
                     }
                 }
             }

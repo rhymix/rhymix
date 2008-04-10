@@ -95,7 +95,7 @@
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
-            $option->enable_component = false;
+            $option->enable_component = true;
             $option->resizable = true;
             $option->height = 300;
             $editor = $oEditorModel->getEditor(0, $option);

@@ -9,6 +9,6 @@
         <condition operation="equal" column="enabled" var="enabled" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="component_name" order="asc" />
+        <index var="sort_index" default="list_order" order="asc" />
     </navigation>
 </query>

@@ -115,34 +115,6 @@
             <default>blog</default>
             <default>forum</default>
         </var>
-        <var name="order_target" type="select">
-            <title xml:lang="ko">정렬 대상</title>
-            <title xml:lang="jp">ソート対象</title>
-            <title xml:lang="zh-CN">排序对象</title>
-            <title xml:lang="en">Align Target</title>
-			<title xml:lang="es">Alinear Meta</title>
-            <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-            <description xml:lang="jp">登録順、変更順にソートできます。</description>
-            <description xml:lang="zh-CN">可对主题按发表顺或最后更新顺进行排序。</description>
-            <description xml:lang="en">It can align articles as registered order or modified order.</description>
-			<description xml:lang="es">Puede alinear los artículos registrados como fin o modificar el orden.</description>
-            <default>list_order</default>
-            <default>update_order</default>
-        </var>
-        <var name="order_type" type="select">
-            <title xml:lang="ko">정렬 방법</title>
-            <title xml:lang="jp">ソート方法</title>
-            <title xml:lang="zh-CN">排序方式</title>
-            <title xml:lang="en">Sorting Type</title>
-			<title xml:lang="es">Tipo de ordenamiento</title>
-            <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
-            <description xml:lang="jp">ソート方法を、降順、昇順にできます。</description>
-            <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
-            <description xml:lang="en">You can sort target articles by asending or desending order.</description>
-			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
-            <default>asc</default>
-            <default>desc</default>
-        </var>
         <var name="display_login_info" type="select">
             <title xml:lang="ko">로그인 정보 출력</title>
             <title xml:lang="zh-CN">显示会员信息组</title>

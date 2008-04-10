@@ -35,18 +35,6 @@
 
     <div class="boardBottom">
 
-    <!-- 글쓰기, 목록 버튼 -->
-        <div class="leftButtonBox">
-            <!--@if($grant->is_admin)-->
-                <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
-            <!--@end-->
-            <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>
-        </div>
-
-        <div class="rightButtonBox">
-            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button"><span>{$lang->cmd_write}</span></a>
-        </div>
-
 
     <!-- 페이지 네비게이션 -->
         <div class="pageNavigation">

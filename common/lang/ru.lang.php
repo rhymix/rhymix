@@ -109,6 +109,10 @@
     $lang->cart = 'Выбранный объект';
     $lang->friend = 'Друзья';
     $lang->notify = 'Уведомление';
+    $lang->order_target = 'согласовать цели';
+    $lang->order_type = 'сортировки типа';
+    $lang->order_asc = 'взойти';
+    $lang->order_desc = 'спустится';
 
     $lang->mid = 'Имя Модуля';
     $lang->layout = 'Лейаут';
@@ -129,6 +133,7 @@
     $lang->search_list_count = 'Поиск Список кол';
     $lang->readed_count = 'Хиты';
     $lang->voted_count = 'Голоса';
+    $lang->comment_count = 'комментарии';
     $lang->member_count = 'Кол-во пользователей';
     $lang->date = 'Дата';
     $lang->regdate = 'Дата регистрации';

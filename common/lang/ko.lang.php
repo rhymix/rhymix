@@ -109,6 +109,10 @@
     $lang->cart = '선택항목';
     $lang->friend = '친구';
     $lang->notify = '알림';
+    $lang->order_target = '정렬대상';
+    $lang->order_type = '정렬방법';
+    $lang->order_asc = '올림차순';
+    $lang->order_desc = '내림차순';
 
     $lang->mid = '모듈이름';
     $lang->layout = '레이아웃';
@@ -129,6 +133,7 @@
     $lang->search_list_count = '검색 목록 수';
     $lang->readed_count = '조회수';
     $lang->voted_count = '추천수';
+    $lang->comment_count = '댓글수';
     $lang->member_count = '회원수';
     $lang->date = '날짜';
     $lang->regdate = '등록일';

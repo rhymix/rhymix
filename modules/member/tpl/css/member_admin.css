@@ -5,3 +5,4 @@
 .publicItem label { font-weight:normal; margin:0; padding:0; color:#666666;}
 span.publicItem { display:inline; margin:0; font-weight:normal; color:#666666; }
 
+.display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; }

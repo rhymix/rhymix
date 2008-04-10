@@ -108,7 +108,7 @@
 .memberInfoTable td checkbox { border:0; }
 .memberInfoTable td .fl { margin-right:.5em;}
 .memberInfoTable td br { clear:both;}
-.memberInfoTable td p { margin:0; padding:0; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
+.memberInfoTable td p { clear:both; margin:0; padding:0; font-size:.9em; color:#999999; padding-top:.5em; margin-right:.5em;}
 .memberInfoTable td label { color:#3f4040; padding-top:.3em; margin-right:.5em;}
 .memberInfoTable td ul { list-style:none; }
 .memberInfoTable td .checkbox { border:none; }
@@ -125,7 +125,8 @@
 .checkbox li {  float:left; margin-right:2em; }
 .checkbox li input {  border:none; } 
 
-.str_birthday { cursor:pointer; float:left; width:80px;  border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px 3px 3px 18px; margin-right:.3em;}
+.display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; }
+
 .krZip .address2 { clear:both; margin-top:10px;}
 
 .extendDesc { clear:both; margin-top:0; font-size:.9em; color:#999999; }

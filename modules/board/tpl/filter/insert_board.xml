@@ -14,10 +14,13 @@
         <param name="skin" target="skin" />
         <param name="browser_title" target="browser_title" />
         <param name="use_category" target="use_category" />
+        <param name="order_target" target="order_target" />
+        <param name="order_type" target="order_type" />
         <param name="list_count" target="list_count" />
         <param name="search_list_count" target="search_list_count" />
         <param name="except_notice" target="except_notice" />
         <param name="consultation" target="consultation" />
+        <param name="admin_mail" target="admin_mail" />
         <param name="page_count" target="page_count" />
         <param name="is_default" target="is_default" />
         <param name="description" target="description" />

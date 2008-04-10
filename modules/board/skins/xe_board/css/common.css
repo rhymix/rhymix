@@ -91,7 +91,7 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .fileAttached { border:1px solid #EFEFEF; background-color:#F4F4F4; padding:5px; margin-top:10px; overflow:hidden;}
 .boardRead .fileAttached h5 { font-weight:normal; color:#999999; font-size:1em; line-height:22px; }
 .boardRead .fileAttached ul { padding:0; margin:0; }
-.boardRead .fileAttached li { padding-left:15px; display:block; float:left; white-space:nowrap; list-style:none; margin-right:10px; height:18px;}
+.boardRead .fileAttached li { padding-left:15px; display:block; float:left; white-space:nowrap; list-style:none; margin:0 10px 5px 0; }
 .boardRead .fileAttached li a { text-decoration:none; font-size:.9em; white-space:nowrap; color:#444444; }
 .boardRead .fileAttached li a:visited { color:#777777;}
 
@@ -99,7 +99,7 @@ Jeong, Chan Myeong 070601~070630
 
 
 .trackbackBox { padding:.6em .6em; color:#666666; border:1px solid #e0e1db;;margin-top:.5em; }
-.trackbackBox .trackbackUrl { color:#1F3DAE; font-size:.9em; background:url("../images/common/iconTrackback.gif") no-repeat left top; padding-left:18px; margin:0 0 3px 10px; height:18px;}
+.trackbackBox .trackbackUrl { color:#1F3DAE; font-size:.9em; background:url("../images/common/iconTrackback.gif") no-repeat left top; padding-left:18px; margin:0; }
 .trackbackBox .trackbackItem { background-color:#F3F3F3; padding:.6em .8em .6em .6em; line-height:1.25em; border-top:1px dotted #EEEEEE; list-style:none;}
 .trackbackBox p { display:inline; margin-bottom:1em;}
 .trackbackBox a { color:#666666; text-decoration:none;}
@@ -125,9 +125,9 @@ Jeong, Chan Myeong 070601~070630
 .replyBox .replyIndent { background:url(../images/common/iconReplyArrow.gif) no-repeat .0em .3em; padding-left:1.3em;}
 
 .replyBox .fileAttached { border:1px solid #EFEFEF; background-color:#F4F4F4; padding:5px; margin-top:10px; overflow:hidden;}
-.replyBox .fileAttached ul { border:0; margin:0; }
-.replyBox .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; line-height:22px;}
-.replyBox .fileAttached li { padding-left:15px; display:block; float:left; white-space:nowrap; list-style:none; margin-right:10px; height:18px;}
+.replyBox .fileAttached ul { border:0; margin:0; padding:0;}
+.replyBox .fileAttached h5 { font-weight:normal; color:#999999; float:left; font-size:1em; }
+.replyBox .fileAttached li { padding-left:15px; display:block; float:left; white-space:nowrap; list-style:none; margin:0px 10px 5px 0; }
 .replyBox .fileAttached li a { text-decoration:none; font-size:.9em; white-space:nowrap; color:#444444; }
 .replyBox .fileAttached li a:visited { color:#777777;}
 
@@ -318,4 +318,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 /* 회원 서명 및 프로필 이미지 출력 */
 .memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
 .memberSignature .profile { float:left; margin-right:20px; }
-.commentProfileImage { margin:0 0 10px 0; }
+.commentProfileImage { margin:0 10px 10px 0; float:left; }
+.replyBox .xe_content { display:inline; }
+
+.display_date {  cursor:pointer; width:80px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}

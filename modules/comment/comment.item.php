@@ -174,7 +174,7 @@
             $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
 
             // 이 댓글을... 팝업메뉴를 출력할 경우
-            if($add_popup_menu) {
+            if($add_popup_menu && Context::get('is_logged') ) {
                 $content = sprintf(
                         '%s<div class="comment_popup_menu"><span class="comment_%d">%s</span></div>',
                         $content, 

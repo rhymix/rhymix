@@ -1184,10 +1184,12 @@
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
+
+            $check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature)));
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
 
-            if(!$signature || !strip_tags($signature)) return @unlink($filename);
+            if(!$check_signature) return @unlink($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
@@ -1251,6 +1253,8 @@
          * @brief 로그인 시킴
          **/
         function doLogin($user_id, $password = '', $keep_signed = false) {
+            $user_id = strtolower($user_id);
+
             // 로그인 이전에 trigger 호출 (before)
             $trigger_obj->user_id = $user_id;
             $trigger_obj->password = $password;
