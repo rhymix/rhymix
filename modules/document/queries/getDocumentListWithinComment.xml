@@ -5,6 +5,7 @@
     </tables>
     <columns>
         <column name="documents.document_srl" />
+        <column name="comments.list_order" />
     </columns>
     <conditions>
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
