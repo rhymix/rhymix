@@ -12,7 +12,7 @@
         {@$i=1}
         <select onchange="tab_menu_select({$tab_id}, {count($widget_info->rss_list)}, this.value, this);resize_rss_tabcontent('tab{$tab_id}',{$widget_info->rss_height})">
         <!--@foreach($widget_info->rss_list as $key => $item)-->
-        <option value="{$i}">{$item->title}</option>
+        <option value="{$i}">{htmlspecialchars($item->title)}</option>
         {@$i++}
         <!--@end-->
         </select>

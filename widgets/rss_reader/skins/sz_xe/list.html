@@ -9,7 +9,7 @@
         <!--@foreach($widget_info->rss_list as $key => $item)-->
         <li title="{strip_tags($item->description)}">
             <span class="date">{$item->date}</span>
-            <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{$item->title}</a></span>
+            <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{htmlspecialchars($item->title)}</a></span>
         </li>
         <!--@end-->
     </ul>
