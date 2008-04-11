@@ -21,5 +21,6 @@
     </navigation>
     <groups>
         <group column="documents.document_srl" />
+        <group column="documents.list_order" />
     </groups>
 </query>
