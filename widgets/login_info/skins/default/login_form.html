@@ -25,7 +25,7 @@
 
       <div><input type="submit" value=" " class="submit" /></div>
       <ul class="option">
-        <li><input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="return confirm(keep_signed_msg);"/></li>
+        <li><input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/></li>
         <li><label for="keepid">{$lang->keep_signed}</label></li>
       </ul>
       <ul class="extra_option">
