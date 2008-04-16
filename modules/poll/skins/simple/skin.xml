@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">설문조사 간단한 스킨</title>
+  <title xml:lang="zh-CN">投票系统简易皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 16">
     <name xml:lang="ko">제로</name>
+	<name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">설문조사 간단한 스킨</description>
+	<description xml:lang="zh-CN">投票系统简易皮肤。</description>
   </maker>
   <colorset>
     <color name="normal">
