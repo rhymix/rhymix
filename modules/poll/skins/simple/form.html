@@ -15,7 +15,7 @@
 
     <table cellspacing="0" class="simple_poll">
     <tr>
-        <td colspan="2">
+        <td>
             {@ $_key = 0}
             <!--@foreach($poll->poll as $poll_srl_index => $val)-->
             <div <!--@if($_key>0)-->class="itemDiv"<!--@end-->>
@@ -46,11 +46,13 @@
         </td>
     </tr>
     <tr>
-        <td class="poll_button">
-            <input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
-        </td>
         <td class="stopDate">
             ~<strong>{zdate($poll->stop_date, "Y-m-d")}</strong> (<a href="#" onclick="doPollViewResult('{$poll->poll_srl}','{$skin}'); return false;"/>{$lang->cmd_view_result}</a>)
+        </td>
+    </tr>
+    <tr>
+        <td class="poll_button">
+            <input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
         </td>
     </tr>
     </tr>

@@ -6,17 +6,20 @@
 .simple_poll td .itemDiv { border-top:1px solid #BBBBBB; margin-top:3px; padding:3px 0 3px 0; }
 .simple_poll td .title { color:#000000; font-weight:bold; }
 .simple_poll td .checkcount { color:#AAAAAA; }
+
 .simple_poll td .item { color:#636363; margin:3px 0 0 10px; }
 .simple_poll td .item input { margin:0; padding:0; }
 
-.simple_poll td .barBox { margin-left:10px; position:relative; height:20px; }
-.simple_poll td .barBox .bar { margin-right:100px; margin-top:7px; }
-.simple_poll td .barBox .status { position:absolute; right:0; top:0; }
+.simple_poll td .resultItem { color:#636363; margin:6px 0 0 10px; }
 
-.simple_poll td.stopDate { text-align:right; color:#AAAAAA; border-top:1px solid #BBBBBB; padding-top:3px;}
+.simple_poll td .barBox { margin-left:25px; }
+.simple_poll td .barBox .bar { margin:3px 0;}
+.simple_poll td .barBox .status {color:#AAAAAA; }
+
+.simple_poll td.stopDate { color:#AAAAAA; border-top:1px solid #BBBBBB; padding-top:3px;}
 .simple_poll td.stopDate a { color:#AAAAAA; text-decoration:none; }
 
-.simple_poll td.poll_button { text-align:left; border-top:1px solid #BBBBBB;  padding-top:3px;}
+.simple_poll td.poll_button { text-align:left; padding-top:3px;}
 .simple_poll td.poll_button .poll_button { border:1px solid #EEEEEE; background-color:#AAAAAA; color:#FFFFFF; font-weight:bold; padding:1px 3px 1px 3px; height:20px; }
 
 
