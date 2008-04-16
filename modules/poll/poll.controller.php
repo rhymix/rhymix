@@ -170,8 +170,11 @@
 
             $oDB->commit();
 
+            $skin = Context::get('skin'); 
+            if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
+
             // tpl 가져오기
-            $tpl = $oPollModel->getPollHtml($poll_srl);
+            $tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
 
             $this->add('poll_srl', $poll_srl);
             $this->add('tpl',$tpl);
@@ -183,6 +186,7 @@
          **/
         function procPollViewResult() {
             $poll_srl = Context::get('poll_srl'); 
+
             $skin = Context::get('skin'); 
             if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
 

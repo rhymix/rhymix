@@ -7,7 +7,7 @@
 .simple_poll td .title { color:#000000; font-weight:bold; }
 .simple_poll td .checkcount { color:#AAAAAA; }
 
-.simple_poll td .item { color:#636363; margin:3px 0 0 10px; }
+.simple_poll td .item { color:#636363; margin:10px 0 10px 10px; }
 .simple_poll td .item input { margin:0; padding:0; }
 
 .simple_poll td .resultItem { color:#636363; margin:6px 0 0 10px; }
