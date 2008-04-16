@@ -29,6 +29,13 @@
             $this->member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $this->member_config);
 
+            // ssl 사용시 현재 https접속상태인지에 대한 flag및 https url 생성
+            $ssl_mode = false;
+            if($this->member_config->enable_ssl == 'Y') {
+                if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
+            }
+            Context::set('ssl_mode',$ssl_mode);
+
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);

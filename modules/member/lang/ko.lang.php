@@ -45,6 +45,8 @@
     $lang->signature_max_height = '서명 높이 제한';
     $lang->enable_openid = 'OpenID 지원';
     $lang->enable_join = '회원 가입 허가';
+    $lang->enable_ssl = 'SSL 기능 사용';
+    $lang->security_sign_in = '보안로그인 사용';
     $lang->limit_day = '임시 제한 일자';
     $lang->limit_date = '제한일';
     $lang->after_login_url = '로그인 후 이동할 URL';
@@ -184,6 +186,7 @@
 
     $lang->about_enable_openid = 'OpenID 지원을 할 경우 체크하시면 됩니다';
     $lang->about_enable_join = '체크를 하셔야 사용자들이 회원가입을 할 수 있습니다';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = '회원 가입후 정해진 일자동안 인증 제한을 할 수 있습니다';
     $lang->about_limit_date = '지정된 일자까지 해당 사용자는 로그인을 할 수 없습니다';
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';

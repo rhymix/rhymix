@@ -44,6 +44,8 @@
     $lang->image_mark_max_height = 'Макс. высота';
     $lang->enable_openid = 'Включить открытый ID (OpenID)';
     $lang->enable_join = 'Позволить пользователям регистрироваться';
+    $lang->enable_ssl = 'SSL 기능 사용';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Временный лимит даты';
     $lang->limit_date = 'Дата лимита';
     $lang->after_login_url = '로그인 후 이동할 URL';
@@ -181,6 +183,7 @@
 
     $lang->about_enable_openid = 'Позволить пользователям регистрироваться как OpenID';
     $lang->about_enable_join = 'Позволить пользователям регистрироваться';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = 'Вы можете ограничить дату сертификации после регистрации';
     $lang->about_limit_date = 'Пользователь не может войти до указанной даты';
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';

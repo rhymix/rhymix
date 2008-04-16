@@ -18,7 +18,7 @@
 
 <fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
-<form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
+<form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
 
     <div class="idpwWrap">
         <div class="idpw">
@@ -27,10 +27,14 @@
         </div>
         <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
     </div>
+    <!--@if($member_config->enable_ssl=='Y')-->
+    <p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
+        <a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
+    </p>
+    <!--@end-->
     <p class="save">
         <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
         <label for="keepid">{$lang->keep_signed}</label>
-
 
         <!--@if($member_config->enable_openid=='Y')-->
         <br />

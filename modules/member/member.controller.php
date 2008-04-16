@@ -66,7 +66,7 @@
                 $this->setError(-1);
                 $this->setMessage($error['description']);
             } else {
-                $openid->SetApprovedURL( sprintf('%s?module=member&act=procMemberOpenIDValidate', Context::getRequestUri()) );
+                $openid->SetApprovedURL( sprintf('%s?module=member&act=procMemberOpenIDValidate', Context::getRequestUri(RELEASE_SSL)) );
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
             }

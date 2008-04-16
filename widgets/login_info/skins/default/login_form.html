@@ -12,40 +12,52 @@
     xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
 </script>
 
-<div class="box_login fc_01" id="box_login">
-  <form action="./" method="get" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
-      <div class="form_field">
-            <div>
-                <input name="user_id" type="text" class="input" id="login_form_user_id" />
-            </div>
-            <div>
-                <input name="password" type="password" class="input" />
-            </div>
-      </div>
+<div class="default_login" id="login">
+    <form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
 
-      <div><input type="submit" value=" " class="submit" /></div>
-      <ul class="option">
-        <li><input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/></li>
-        <li><label for="keepid">{$lang->keep_signed}</label></li>
-      </ul>
-      <ul class="extra_option">
-        <li><a href="{getUrl('act','dispMemberSignUpForm')}" class="fc_02 btn">{$lang->cmd_signup}</a></li>
-        <li><a href="{getUrl('act','dispMemberFindAccount')}" class="fc_02 btn">{$lang->cmd_find_member_account}</a></li>
-      </ul>
-  </form>
-  <div class="clear"></div>
+        <div class="form_field">
+            <input name="user_id" type="text" class="input" id="login_form_user_id" />
+            <input name="password" type="password" class="input" />
+        </div>
+        <input type="submit" value=" " class="submit" />
+
+        <!--@if($member_config->enable_ssl=='Y')-->
+        <p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
+            <a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
+        </p>
+        <!--@end-->
+
+        <p>
+            <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
+            <label for="keepid">{$lang->keep_signed}</label>
+        </p>
+
+        <!--@if($member_config->enable_openid=='Y')-->
+        <p>
+            <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>
+            <label for="use_open_id">Open ID</label>
+        </p>
+        <!--@end-->
+
+        <ul class="extra_option">
+            <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+            <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
+        </ul>
+    </form>
+    <div class="clear"></div>
 </div>
 
 <!-- OpenID -->
 <!--@if($member_config->enable_openid=='Y')-->
-<div class="openid_login fc_01" id="box_login">
-  <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" >
-      <div class="wButtonWrite">
-        <ul>
-          <li><input type="text" name="user_id" class="openid_user_id" /></li>
-          <li><span class="wButtonTypeA"><img src="./images/blank.gif" alt="" class="leftCap" /><input type="submit" value="{$lang->cmd_login}" accesskey="s" /><img src="./images/blank.gif" alt="" class="rightCap" /></span></li>
-        </ul>
-      </div>
+<div class="default_login openid_login" id="openid_login">
+    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" id="fo_openid_login_widget">
+        <div class="form_field">
+            <div class="openIDTitle">
+                OpenID <input name="use_open_id_2" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="true"/>
+            </div>
+            <input type="text" name="user_id" class="input" />
+        </div>
+        <input type="submit" value=" " class="submit" />
   </form>
 </div>
 <!--@end-->

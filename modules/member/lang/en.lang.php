@@ -45,6 +45,8 @@
 	$lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
+    $lang->enable_ssl = 'Enable SSL';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Temporary Limit Date';
     $lang->limit_date = 'Limit Date';
     $lang->after_login_url = 'URL after Login';
@@ -64,7 +66,7 @@
     $lang->webmaster_email = "Webmaster's Email";
 
     $lang->about_keep_signed = 'Though the browser is closed, you might be kept signed.\n\nIf you use this feature at the shared computer, your personal information might be accessed by others, thus do not use this feature at the shared computer. ';
-    $lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
+	$lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -184,6 +186,7 @@
 
     $lang->about_enable_openid = 'Allow users to sign up as OpenID';
     $lang->about_enable_join = 'Allow users to sign up';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';

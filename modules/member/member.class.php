@@ -8,6 +8,30 @@
     class member extends ModuleObject {
 
         /**
+         * @brief constructor
+         **/
+        function member() {
+            if(!Context::isInstalled()) return;
+
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+
+            // SSL 사용시 회원가입/정보/비밀번호등과 관련된 action에 대해 SSL 전송하도록 지정
+            if($member_config->enable_ssl == 'Y') {
+                Context::addSSLAction('dispMemberLoginForm');
+                Context::addSSLAction('dispMemberModifyPassword');
+                Context::addSSLAction('dispMemberSignUpForm');
+                Context::addSSLAction('dispMemberModifyInfo');
+                Context::addSSLAction('dispMemberOpenIDLogin');
+                Context::addSSLAction('procMemberLogin');
+                Context::addSSLAction('procMemberModifyPassword');
+                Context::addSSLAction('procMemberInsert');
+                Context::addSSLAction('procMemberModifyInfo');
+                Context::addSSLAction('procMemberOpenIDLogin');
+            }
+        }
+
+        /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {

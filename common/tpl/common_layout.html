@@ -1,4 +1,4 @@
-{@ $js_files = Context::getJsFile() }{@ $css_files = Context::getCssFile() }<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,6 +17,7 @@
 <!--@end-->
     <meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
+{@ $js_files = Context::getJsFile() }
 <!--@foreach($js_files as $key => $js_file)-->
 <!--@if($js_file['targetie'])-->
     <!--[if {$js_file['targetie']}]>
@@ -26,6 +27,8 @@
     <![endif]-->
 <!--@end-->
 <!--@end-->
+
+{@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
 <!--@if($css_file['targetie'])-->
     <!--[if {$css_file['targetie']}]>
@@ -38,11 +41,14 @@
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
 <!--@end-->
+
+{@ $ssl_actions = Context::getSSLActions() }
     <script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";
         var request_uri = "{$request_uri}";
         var current_mid = "{$mid}";
         var waiting_message = "{$lang->msg_call_server}";
+        var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
     //]]></script>
 
     {Context::getHtmlHeader()}

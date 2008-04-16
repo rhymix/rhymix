@@ -19,15 +19,6 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
-    var waiting_obj = xGetElementById("waitingforserverresponse");
-    if(show_waiting_message && waiting_obj) {
-        xInnerHtml(waiting_obj, waiting_message);
-
-        xTop(waiting_obj, xScrollTop()+20);
-        xLeft(waiting_obj, xScrollLeft()+20);
-        waiting_obj.style.visibility = "visible";
-    }
-
     oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg, fo_obj);
 }
 
@@ -95,7 +86,7 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
     +  "<params>\n"
 
     for (var key in this.params) {
-	if(!this.params.hasOwnProperty(key)) continue;
+        if(!this.params.hasOwnProperty(key)) continue;
         var val = this.params[key];
         rd += "<"+key+"><![CDATA["+val+"]]></"+key+">\n";
     }
@@ -103,12 +94,43 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
     rd += "</params>\n"
     +  "</methodCall>\n";
 
+    // ssl action
+    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && typeof(this.params['act'])!='undefined' && /^https:\/\//i.test(location.href) ) {
+        var action = this.params['act'];
+        for(i=0;i<ssl_actions.length;i++) {
+            if(ssl_actions[i]==action) {
+                this.xml_path = this.xml_path.replace(/^http:\/\//i,'https://');
+                break;
+            }
+        }
+    }
+
     if(this.obj_xmlHttp.readyState!=0) {
         this.obj_xmlHttp.abort();
         this.obj_xmlHttp = this.getXmlHttp();
     }
     this.obj_xmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj)};
-    this.obj_xmlHttp.open("POST", this.xml_path, true);
+
+    // 모든 xml데이터는 POST방식으로 전송. try-cacht문으로 오류 발생시 대처
+    try {
+
+        this.obj_xmlHttp.open("POST", this.xml_path, true);
+
+    } catch(e) {
+        alert(e);
+        return;
+    }
+
+    // ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
+    var waiting_obj = xGetElementById("waitingforserverresponse");
+    if(show_waiting_message && waiting_obj) {
+        xInnerHtml(waiting_obj, waiting_message);
+
+        xTop(waiting_obj, xScrollTop()+20);
+        xLeft(waiting_obj, xScrollLeft()+20);
+        waiting_obj.style.visibility = "visible";
+    }
+
     this.obj_xmlHttp.send(rd);
 }
 

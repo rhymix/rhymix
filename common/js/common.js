@@ -48,7 +48,17 @@ String.prototype.setQuery = function(key, val) {
     } else {
         if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
-    //uri = uri.replace(request_uri+'?',request_uri+'index.php?');
+
+    uri = uri.replace(/^https:\/\//i,'http://');
+    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
+        var act = uri.getQuery('act');
+        for(i=0;i<ssl_actions.length;i++) {
+            if(ssl_actions[i]==act) {
+                uri = uri.replace(/^http:\/\//i,'https://');
+                break;
+            }
+        }
+    }
     return uri;
 }
 
@@ -989,3 +999,13 @@ if(xIE4Up) {
         }
     }
 }
+
+
+/* 보안 로그인 모드로 전환 */
+function toggleSecuritySignIn() {
+    var href = location.href;
+    if(/https:\/\//i.test(href)) location.href = href.replace(/^https/i,'http');
+    else location.href = href.replace(/^http/i,'https');
+}   
+
+

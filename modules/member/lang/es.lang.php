@@ -44,6 +44,8 @@
     $lang->image_mark_max_height = 'Altura Máxima';
     $lang->enable_openid = 'Activar OpenID';
     $lang->enable_join = 'Permitir el registro del usuario';
+    $lang->enable_ssl = 'Activar SSL';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Límite de la fecha temporal';
     $lang->limit_date = 'Límite de fecha';
     $lang->after_login_url = 'URL después del inicio de sesión';
@@ -181,6 +183,7 @@
 
     $lang->about_enable_openid = 'Selecciona esta opción si activado OpenID';
     $lang->about_enable_join = 'Debe seleccionar esta opción para permitir el registro de los usuarios';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = 'Usted puede limitar la fecha de la certificación luego de registrar';
     $lang->about_limit_date = 'Usuario no podra conectarse hasta la fecha indicada';
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
