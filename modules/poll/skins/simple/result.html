@@ -13,14 +13,13 @@
 
                 <!--@foreach($val->item as $item_srl => $item)-->
                     {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
-                    <!--@if($per<1)-->{@$per = 1; }<!--@end-->
 
                     <div class="resultItem">
                         {$item->title} 
                     </div>
 
                     <div class="barBox">
-                        <div class="bar"><img src="./images/color_bar.png" style="width:{$per}%;height:6px;" alt="bar" /></div>
+                        <div class="bar"><img src="./images/color_bar.png" style="width:<!--@if($per<1)-->1<!--@else-->{$per}<!--@end-->%;height:6px;" alt="bar" /></div>
                         <div class="status">{$item->poll_count} ({$per}%)</div>
                     </div>
                     <div class="clear"></div>
