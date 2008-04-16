@@ -636,7 +636,7 @@
                         $use_ssl = false;
                     break;
             }
-            return sprintf("%s://%s%s",$use_ssl?'HTTPS':'HTTP',$_SERVER['HTTP_HOST'], getScriptPath());
+            return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
         }
 
         /**
