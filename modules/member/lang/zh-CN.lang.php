@@ -45,8 +45,8 @@
     $lang->signature_max_height = '签名高度限制';
     $lang->enable_openid = '支持OpenID';
     $lang->enable_join = '允许会员注册';
-    $lang->enable_ssl = 'SSL 기능 사용';
-    $lang->security_sign_in = 'Sign in using enhanced security';
+    $lang->enable_ssl = '使用SSL功能';
+    $lang->security_sign_in = '使用安全登录';
     $lang->limit_day = '认证限制';
     $lang->limit_date = '限制日期';
     $lang->after_login_url = '登录后页面转向';
@@ -186,7 +186,7 @@
 
     $lang->about_enable_openid = '要想网站支持OpenID时请勾选此项。';
     $lang->about_enable_join = '选择此项后用户才可以注册。';
-    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
+    $lang->about_enable_ssl = '如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
     $lang->about_after_login_url = '可以指定登录后的页面转向url(留空为当前页面)。';
